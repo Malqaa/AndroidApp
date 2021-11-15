@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="?actionBarSize"
+    tools:context=".botmnav_fragments.browse_market.BrowseMarketFragment">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_browsemarket"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentTop="true"
+        android:background="#339933"
+        app:popupTheme="@style/PopupOverlay">
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <include
+        android:id="@+id/browsemarket_card1"
+        layout="@layout/browsemarket_card1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar_browsemarket"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/browsemarket_card1"
+        android:orientation="vertical">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewmarket"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_below="@+id/browsemarket_card1"
+            android:layout_weight="1" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/category_filter"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/recyclerViewmarket"
+            android:layout_alignParentBottom="true"
+            android:background="@color/white">
+
+            <View
+                android:id="@+id/viewtopper"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#E8E9ED"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+
+                <Button
+                    android:id="@+id/btn1"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="@string/Category"
+                    android:textColor="@color/greenApp"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/viewtopper" />
+
+                <View
+                    android:id="@+id/v1"
+                    android:layout_width="2dp"
+                    android:layout_height="40dp"
+                    android:background="#E8E9ED"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/btn1"
+                    app:layout_constraintTop_toBottomOf="@+id/viewtopper" />
+
+                <Button
+                    android:id="@+id/btn2"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/REFINE"
+                    android:textColor="@color/greenApp"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/v1"
+                    app:layout_constraintTop_toBottomOf="@+id/viewtopper"
+                    tools:layout_editor_absoluteX="88dp" />
+
+                <View
+                    android:id="@+id/v2"
+                    android:layout_width="1dp"
+                    android:layout_height="40dp"
+                    android:background="#E8E9ED"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/btn2"
+                    app:layout_constraintTop_toBottomOf="@+id/viewtopper" />
+
+                <Button
+                    android:id="@+id/btn3"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/Location"
+                    android:textColor="@color/greenApp"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/v2"
+                    app:layout_constraintTop_toBottomOf="@+id/viewtopper" />
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

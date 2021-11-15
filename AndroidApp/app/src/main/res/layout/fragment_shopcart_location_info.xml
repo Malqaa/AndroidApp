@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/SilverBackground"
+    android:layout_marginBottom="?actionBarSize"
+    tools:context=".botmnav_fragments.shoppingcart5_location.ShopcartLocationInfo">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_cart_locationinfo"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#339933"
+        android:layout_alignParentTop="true"
+        app:popupTheme="@style/PopupOverlay"
+        />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar_cart_locationinfo"
+        android:layout_above="@+id/btn_cart_location">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tx_cart_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Location Information"
+                android:textSize="13sp"
+                android:textColor="@color/grayy"
+                android:layout_margin="15dp"
+                android:textAllCaps="true"
+            />
+
+            <RelativeLayout
+                android:id="@+id/cart_location_rl1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tx_cart_location"
+                android:background="@color/white"
+                android:layout_marginBottom="1dp">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="4dp"
+                    android:textSize="15sp"
+                    android:maxLines="3"
+                    android:text="Outside Zoom store, EPPCO station, Sheikh Zayed Road, after Dnata, Business Bay Dubai"
+                    android:layout_toStartOf="@+id/img_map"
+                    />
+
+                <ImageView
+                    android:id="@+id/img_map"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:layout_marginTop="13dp"
+                    android:layout_marginBottom="13dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/map_img"
+                    />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/cart_location_rl2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cart_location_rl1"
+                android:background="@color/white"
+                >
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tx_location_country"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="12dp"
+                    >
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Country"
+                        android:id="@+id/tx_location_countryy"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tx_location_region"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="12dp"
+                    android:layout_below="@+id/tx_location_country"
+                    >
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Region"
+                        android:id="@+id/tx_location_regionn"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tx_location_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="12dp"
+                    android:layout_below="@+id/tx_location_region"
+                    >
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Address"
+                        android:id="@+id/tx_location_addresss"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tx_location_city"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="12dp"
+                    android:layout_marginBottom="15dp"
+                    android:layout_below="@+id/tx_location_address"
+                    >
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="City"
+                        android:id="@+id/tx_location_cityy"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tx_location_personal_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Personal Information"
+                android:textSize="13sp"
+                android:textColor="@color/grayy"
+                android:layout_margin="15dp"
+                android:textAllCaps="true"
+                android:layout_below="@+id/cart_location_rl2"/>
+
+            <RelativeLayout
+                android:id="@+id/cart_location_rl3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tx_location_personal_info"
+                android:background="@color/white"
+                >
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tx_location_mobile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="12dp"
+                    >
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Mobile"
+                        android:id="@+id/tx_location_mobilee"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tx_location_firstname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="12dp"
+                    android:layout_below="@+id/tx_location_mobile"
+                    >
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="First Name"
+                        android:id="@+id/tx_location_firstnamee"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tx_location_lastname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="12dp"
+                    android:layout_below="@+id/tx_location_firstname"
+                    android:layout_marginBottom="20dp"
+                    >
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Last Name"
+                        android:id="@+id/tx_location_lastnamee"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btn_cart_location"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:textAllCaps="false"
+        android:textColor="#ffffff"
+        android:backgroundTint="@color/GoldenApp"
+        android:text="SAVE ADDRESS"
+        android:layout_alignParentBottom="true" />
+
+</RelativeLayout>

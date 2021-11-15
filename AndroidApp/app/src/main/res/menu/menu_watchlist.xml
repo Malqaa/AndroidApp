@@ -1,0 +1,20 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_dont_email"
+        android:title="Don't email me"
+        />
+    <item
+        android:id="@+id/menu_email_everyday"
+        android:title="Email me every day" />
+
+    <item
+        android:id="@+id/menu_email_3day"
+        android:title="Email me every 3rd day" />
+    <item
+        android:id="@+id/menu_email_once_a_week"
+        android:title="Email me once a week" />
+
+
+
+</menu>

@@ -1,0 +1,128 @@
+[
+  {
+    "id": "5b7e9bf4-0e56-4066-92dd-f92d5f3b71bc",
+    "name": "Car",
+    "key": "Car",
+    "sortorder": "1"
+  },
+  {
+    "id": "5f45dc91-f78a-44b1-8684-0c49054ecdf5",
+    "name": "Car parts",
+    "key": "Car",
+    "sortorder": "2"
+  },
+  {
+    "id": "581dfdc8-cd1f-4562-88d3-3be3f0021af5",
+    "name": "Wrecked car",
+    "key": "Wrecked",
+    "sortorder": "3"
+  },
+  {
+    "id": "149ebae2-5d5c-4dc1-a81f-03bd9046c87e",
+    "name": "Motorbike",
+    "key": "Motorbike",
+    "sortorder": "4"
+  },
+  {
+    "id": "de21f79e-ef2f-4e11-b020-3707da786d4c",
+    "name": "Motorbike parts",
+    "key": "Motorbike",
+    "sortorder": "5"
+  },
+  {
+    "id": "8f7853b2-7126-4a22-9017-8e29fb46a0f9",
+    "name": "Helmets & clothes",
+    "key": "Helmets",
+    "sortorder": "6"
+  },
+  {
+    "id": "4a1fabfd-c3f0-4674-b592-fd174569b5e7",
+    "name": "Bus",
+    "key": "Bus",
+    "sortorder": "7"
+  },
+  {
+    "id": "960eaaeb-bc4a-4231-92ff-b29fab6919c8",
+    "name": "Bus parts",
+    "key": "Bus",
+    "sortorder": "8"
+  },
+  {
+    "id": "a81fdd24-f289-41bf-a05b-e6f064c902cb",
+    "name": "Motorhomes",
+    "key": "Motorhomes",
+    "sortorder": "9"
+  },
+  {
+    "id": "0f198c58-076b-498f-a781-a9c405dac9fe",
+    "name": "Horse floats",
+    "key": "Horse ",
+    "sortorder": "10"
+  },
+  {
+    "id": "daf6a4ce-ecff-42d9-bbc7-de262b84c2e4",
+    "name": "Trailers",
+    "key": "Trailers",
+    "sortorder": "11"
+  },
+  {
+    "id": "09857d17-31d5-48f1-ab14-79dc85d214ba",
+    "name": "Trucks",
+    "key": "Trucks",
+    "sortorder": "12"
+  },
+  {
+    "id": "5ab65415-afbf-425d-b683-61130871c4f5",
+    "name": "Trucks parts",
+    "key": "Trucks ",
+    "sortorder": "13"
+  },
+  {
+    "id": "71ee6a24-d2e7-4825-bf31-711e5cf93936",
+    "name": "Diggers",
+    "key": "Diggers",
+    "sortorder": "14"
+  },
+  {
+    "id": "3adaa7be-84d6-4e5c-96f0-5d873fee1077",
+    "name": "Diggers parts",
+    "key": "Diggers",
+    "sortorder": "15"
+  },
+  {
+    "id": "e3188638-5502-4c1a-9c34-626fd85c9eb8",
+    "name": "Forklifts & pallet movers",
+    "key": "Forklifts",
+    "sortorder": "16"
+  },
+  {
+    "id": "3df4dbf4-f277-48c8-b31c-a2efe0b5fc70",
+    "name": " Forklifts & pallet movers parts",
+    "key": "Forklifts",
+    "sortorder": "17"
+  },
+  {
+    "id": "b3bb8eaf-c1c7-4547-8455-e9d86dea5203",
+    "name": "Agricultural equipment",
+    "key": "Agricultural",
+    "sortorder": 18
+  },
+  {
+    "id": "bd6680f1-cd87-4eac-824c-43755c50e9bf",
+    "name": "Motorhomes",
+    "key": "Motorhomes",
+    "sortorder": 19
+  },
+  {
+    "id": "d568401e-7bcc-4c58-b60f-633361febe82",
+    "name": "Horse floats",
+    "key": "Horse",
+    "sortorder": 20
+  },
+  {
+    "id": "adfff9db-6eeb-482f-bd56-b97bcce3c33c",
+    "name": "Trailers",
+    "key": "Trailers",
+    "sortorder": 21
+  }
+]

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".botmnav_fragments.selling_option.blacklist_member.BlacklistMenbers">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_blacklist"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#339933"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/PopupOverlay">
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <RelativeLayout
+        android:id="@+id/r2_sellingopt1"
+        android:layout_below="@+id/toolbar_blacklist"
+        android:layout_width="match_parent"
+        android:layout_height="90dp">
+
+
+        <ImageView
+            android:id="@+id/img_blacklist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tint="@color/greenApp"
+            android:layout_marginStart="12dp"
+            android:src="@drawable/ic_baseline_info_24"
+            android:layout_centerVertical="true"/>
+
+        <TextView
+            android:id="@+id/tx2sellopt"
+            android:layout_toEndOf="@+id/img_blacklist"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="10dp"
+            android:layout_width="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:layout_height="wrap_content"
+            android:text="Your blacklist is private. However, if a blacklisted member tries to participate in your auction, they will\n be told that they have been blacklisted"/>
+
+
+
+    </RelativeLayout>
+
+
+
+</RelativeLayout>

@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".botmnav_fragments.setting.setting_notification.SettingNotification">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_setting_notif"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#339933"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/PopupOverlay">
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <RelativeLayout
+        android:id="@+id/rl_setting_notif"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_below="@+id/toolbar_setting_notif">
+
+        <TextView
+            android:id="@+id/tx1setting_noti"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="20dp"
+            android:text="@string/Receivepushnotifications"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+
+
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="20dp" />
+        />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/r2_setting_notif"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_below="@+id/rl_setting_notif">
+
+        <TextView
+            android:id="@+id/tx2setting_noti"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="20dp"
+            android:text="@string/Vibrateforpushnotification"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+
+
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="20dp" />
+        />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/r3_setting_notif"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_below="@+id/r2_setting_notif">
+
+        <TextView
+            android:id="@+id/tx3setting_noti"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="20dp"
+            android:text="@string/Soundforpushnotifications"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+
+
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="20dp" />
+        />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/r4_setting_notif"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_below="@+id/r3_setting_notif">
+
+        <TextView
+            android:id="@+id/tx4setting_noti"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="20dp"
+            android:text="@string/Receivefavouritesnotifications"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+
+
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="20dp" />
+        />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/r5_setting_noti"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_below="@+id/r4_setting_notif">
+
+        <TextView
+            android:id="@+id/tx2sellopt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/Receiving14outof14notifications"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tx2sellopt"
+            android:layout_marginStart="20dp"
+            android:text="@string/Configurepushnotificationtype"
+            android:textSize="12sp"
+
+            />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/r6_setting_noti"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_below="@+id/r5_setting_noti">
+
+        <TextView
+            android:id="@+id/tx6sellopt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/Donotdisturb"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tx6sellopt"
+            android:layout_marginStart="20dp"
+            android:text="@string/Blockpushnotificationsonadailyschdule"
+            android:textSize="12sp"
+
+            />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/r7_setting_noti"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_below="@+id/r6_setting_noti">
+
+        <TextView
+            android:id="@+id/tx7sellopt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/Mutenotifications"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tx7sellopt"
+            android:layout_marginStart="20dp"
+            android:text="@string/Blockpushnotificationstemporarily"
+            android:textSize="12sp"
+
+            />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/r8_setting_noti"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_below="@+id/r7_setting_noti">
+
+        <TextView
+            android:id="@+id/tx8sellopt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/Sendtestpushnotification"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+
+
+    </RelativeLayout>
+
+</RelativeLayout>

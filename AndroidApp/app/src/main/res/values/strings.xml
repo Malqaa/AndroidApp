@@ -1,0 +1,2618 @@
+<resources>
+
+  <string name="Back_to_login">
+    Back to login
+  </string>
+
+    <string name="loggedoutsuccessfully">
+    Logged Out Successfully
+  </string>
+    <string name="City">
+    City
+  </string>
+    <string name="Confirm">
+    Confirm
+  </string>
+    <string name="Confirm_Password">
+    Confirm Password
+  </string>
+    <string name="Country">
+    Country
+  </string>
+    <string name="Create_your_personal_account">
+    Create a personal account
+  </string>
+    <string name="Date_of_Birth">
+    Date of Birth
+  </string>
+    <string name="Day">
+    Day
+  </string>
+    <string name="Didntget">
+    Didn\'t get?
+  </string>
+    <string name="District_Name">
+    District Name
+  </string>
+    <string name="Enter_New_Password">
+    Enter New Password
+  </string>
+    <string name="Enter_your_Email">
+    Enter your Email
+  </string>
+    <string name="Enter_your_email_address_and">
+    Enter your email address and
+  </string>
+    <string name="Female">
+    Female
+  </string>
+    <string name="First_Name">
+    First Name
+  </string>
+    <string name="Forgot_your_password">
+    Forgot your password?
+  </string>
+    <string name="Gender">
+    Gender
+  </string>
+
+    <string name="Sendinstructions">
+    Send instructions
+  </string>
+
+
+    <string name="Enteryouremailandwellsendpasswordresetinstructions">
+      Enter your email and we\'ll send password reset instructions
+  </string>
+
+
+    <string name="Keep_me_Sign_In">
+    Keep me Signed In
+  </string>
+    <string name="Last_Name">
+    Last Name
+  </string>
+    <string name="Login">
+    Login
+  </string>
+    <string name="Male">
+    Male
+  </string>
+    <string name="Month">
+    Month
+  </string>
+    <string name="NextStep">
+    Next Step
+  </string>
+    <string name="NotAMember">
+    Not a member?
+  </string>
+    <string name="P.OBox">
+    P.O Box
+  </string>
+    <string name="Password">
+    Password
+  </string>
+    <string name="Region">
+    Region
+  </string>
+    <string name="RegisterNow">
+    Register Now
+  </string>
+    <string name="Resend">
+    Resend
+  </string>
+    <string name="ResetPassword">
+    Reset Password
+  </string>
+    <string name="SendInstruction">
+    Send Instruction
+  </string>
+    <string name="Signin">
+    Sign In
+  </string>
+    <string name="Step">
+    Step
+  </string>
+    <string name="Username">
+    Username
+  </string>
+    <string name="wellsendpasswordresetinstructions.">
+    we\'ll send password reset instructions.
+  </string>
+    <string name="Year">
+    Year
+  </string>
+    <string name="ZipCode">
+    Zip Code
+  </string>
+    <string name="ChooseTitle">
+    Choose Title
+  </string>
+    <string name="Requiredfieldsareshownwithastar">
+    Required fields are shown with a star
+  </string>
+
+    <string name="Fieldcantbeempty">
+    Field can\'t be empty
+  </string>
+
+
+    <string name="Acceptedpaymentmethods">
+    Accepted payment methods
+  </string>
+    <string name="AddPhotos">
+    Add Photos
+  </string>
+
+    <string name="outof10photos"> %1$d out of 10 photos</string>
+    <string name="AddPost">
+    Add Post
+  </string>
+    <string name="AllowPurchasesfrom">
+    Allow Purchases from
+  </string>
+    <string name="BrandNewItem">
+    Brand New Item
+  </string>
+    <string name="Brandnewunuseditemwithoriginalmanualsandpackaging">
+    Brand new, unused item with original manuals and packaging
+  </string>
+    <string name="BuyNowPrice">
+    Buy Now Price
+  </string>
+    <string name="Cash">
+    Cash
+  </string>
+    <string name="Category">
+    Category
+  </string>
+    <string name="Chooseacategoryforyourlisting">
+    Choose a category for your listing
+  </string>
+    <string name="ChooseaCountry...">
+    Choose a Country...
+  </string>
+    <string name="Chooseapackagetostandoutinsearchresults">
+    Choose a package to stand out in search results
+  </string>
+    <string name="Chooseanendtime">
+    Choose an end time
+  </string>
+    <string name="an">
+    an
+  </string>
+    <string name="Confirmation">
+    Confirmation
+  </string>
+    <string name="Describewhatyoureselling">
+    Describe what you\'re selling
+  </string>
+    <string name="Description">
+    Description
+  </string>
+    <string name="Draft">
+    Draft
+  </string>
+    <string name="ExpiryDatetime">
+    Expiry Datetime
+  </string>
+    <string name="Extras">
+    Extras
+  </string>
+    <string name="FixedLenght">
+    Fixed Length
+  </string>
+    <string name="Home">
+    Home
+  </string>
+    <string name="ListingDetails">
+    Listing Details
+  </string>
+    <string name="ListingDuration">
+    Listing Duration
+  </string>
+    <string name="Listingtitle">
+    Listing title
+  </string>
+    <string name="OnlyForAuthenticatedUsers">
+    Only For Authenticated Users
+  </string>
+    <string name="Other">
+    Other
+  </string>
+    <string name="Payment">
+    Pricing and Payment
+  </string>
+    <string name="PaymentShipping">
+    Payment / Shipping
+  </string>
+    <string name="PaymentInstruction">
+    Payment Instruction
+  </string>
+    <string name="Phone">
+    Phone
+  </string>
+    <string name="postyourAd">
+    post your Ad
+  </string>
+    <string name="PricingandDuration">
+    Pricing and Duration
+  </string>
+    <string name="ProductCategory">
+    Product Category
+  </string>
+    <string name="Publish">
+    Publish
+  </string>
+    <string name="PublishDatetime">
+    Publish Date
+  </string>
+    <string name="PublishType">
+    Publish Type
+  </string>
+    <string name="QuantityAvailable">
+    Quantity Available
+  </string>
+    <string name="SAbankdeposit">
+    SA bank deposit
+  </string>
+    <string name="SecondCategory">
+    Second Category
+  </string>
+    <string name="Select">
+    Select
+  </string>
+    <string name="Subtitle">
+    Subtitle
+  </string>
+    <string name="Youdonthaveanypaymentinstructionsset.">
+    You don\'t have any payment instructions set.
+  </string>
+    <string name="Asuccessfeewillapplyiftheauctionmeetsthereserveprice">
+    A success fee will apply if the auction meets the reserve price,
+  </string>
+    <string name="AboutCompany">
+    About Company
+  </string>
+    <string name="Actualsize">
+    Actual size
+  </string>
+    <string name="Advertisement">
+    Advertisement
+  </string>
+    <string name="Afterpay">
+    Afterpay
+  </string>
+    <string name="all">
+    All
+  </string>
+    <string name="allregions">
+    all regions
+  </string>
+    <string name="Appearsinpremiumcarousel">
+    Appears in premium carousel
+  </string>
+    <string name="Auction">
+    Auction
+  </string>
+    <string name="Basic">
+    Basic
+  </string>
+    <string name="BuyNow">
+    Buy Now
+  </string>
+    <string name="CompleteProfile">
+    Complete Profile
+  </string>
+    <string name="Condition">
+    Condition
+  </string>
+    <string name="ContactUs">
+    Contact Us
+  </string>
+    <string name="Copyright">
+    Copyright © 2021 Malqaa.  All rights reserved.
+  </string>
+    <string name="Feature">
+    Feature
+  </string>
+    <string name="FeatureCombo">
+    Feature Combo
+  </string>
+    <string name="FeaturedAds">
+    Featured Ads
+  </string>
+    <string name="FeaturedinMotors">
+    Featured in Motors
+  </string>
+    <string name="FeaturedinProperties">
+    Featured in Properties
+  </string>
+    <string name="Feesmayapply">
+    Bank Fees may apply
+  </string>
+    <string name="Filter">
+    Filter
+  </string>
+    <string name="Followus">
+    Follow us
+  </string>
+    <string name="forlistingthisauction">
+    for listing this auction
+  </string>
+    <string name="FreeShipping">
+    Free Shipping
+  </string>
+    <string name="Gallery">
+    Gallery
+  </string>
+    <string name="Goodfor2relists">
+    Good for 2 relists (+$1.90)
+  </string>
+    <string name="Goodpositionincategory">
+    Good position in category
+  </string>
+    <string name="Hellowhatcanwehelpyoufind">
+    Hello, what can we help you find?
+  </string>
+    <string name="Highlightsyourlistinginsearchresults">
+    Highlights your listing in search results
+  </string>
+    <string name="Houses">
+    Houses
+  </string>
+    <string name="Jobs">
+    Jobs
+  </string>
+    <string name="largerimageinsearchresults">
+    2x larger image in search results
+  </string>
+    <string name="Listanitem">
+    List an item
+  </string>
+    <string name="listingatnoadditionalcost.">
+    listing at no additional cost.
+  </string>
+    <string name="Listingexample">
+    Listing example
+  </string>
+    <string name="Lowestpositionincategory">
+    Lowest position in category
+  </string>
+    <string name="LowestPrice">
+    Lowest Price
+  </string>
+    <string name="Marketplace">
+    Marketplace
+  </string>
+    <string name="MalqaaisthelargestinternetauctionwebsiteoperatinginSaudiaArabia">
+    Malqaa is the largest internet auction website operating in Saudia Arabia
+  </string>
+    <string name="Motocars">
+    Motocars
+  </string>
+    <string name="MyProfile">
+    My Profile
+  </string>
+    <string name="NarrowyoursearchforHomeliving">
+    Narrow your search for Home &amp; living
+  </string>
+    <string name="New">
+    new
+  </string>
+    <string name="NoReserve">
+    No Reserve
+  </string>
+    <string name="OnSale">
+    On Sale
+  </string>
+    <string name="orcontinuewitha">
+    or continue with a
+  </string>
+    <string name="orispurchasedusingbuynow">
+    or is purchased using buy now
+  </string>
+    <string name="Photos">
+    Photos
+  </string>
+    <string name="Pickups">
+    Select a Pick-up Option
+  </string>
+    <string name="PingPayNow">
+    Ping / Pay Now
+  </string>
+    <string name="PrivacyPolicy">
+    Privacy Policy
+  </string>
+    <string name="Register">
+    Register
+  </string>
+    <string name="Reservefee">
+    Reserve fee
+  </string>
+    <string name="resultssortedby">
+    results sorted by
+  </string>
+    <string name="Search">
+    Search
+  </string>
+    <string name="SearchFilters">
+    Search Filters
+  </string>
+    <string name="Secondcategoryfee">
+    Second category fee
+  </string>
+    <string name="Seelistings">
+    See listings
+  </string>
+    <string name="SelectCategory">
+    Select Category
+  </string>
+    <string name="Services">
+    Services
+  </string>
+    <string name="Shipping">
+    Shipping
+  </string>
+    <string name="Sort">
+    Sort
+  </string>
+    <string name="Subtitlefee">
+    Subtitle fee
+  </string>
+    <string name="SuperFeature">
+    Super Feature
+  </string>
+    <string name="TermsandConditions">
+    Terms and Conditions
+  </string>
+    <string name="Totalfees">
+    Total fees
+  </string>
+    <string name="used">
+    used
+  </string>
+    <string name="View">
+    View
+  </string>
+    <string name="Viewall">
+    View all
+  </string>
+    <string name="Watchlist">
+    Watchlist
+  </string>
+    <string name="AutoMobile">
+    Auto Mobile
+  </string>
+    <string name="General">
+    General
+  </string>
+    <string name="Getyourcarinfrontofbuyersdaily.">
+    Get your car in front of 250,000+ buyers daily.
+  </string>
+    <string name="Listforfreeonlypaywhenitsells">
+    List for free - only pay when it sells.
+  </string>
+    <string name="Property">
+    Property
+  </string>
+    <string name="untilsold">
+    $359 - $599 until sold. Rentals $99 - $189
+  </string>
+    <string name="Entercodehere">
+    Enter code here
+  </string>
+    <string name="Mobile">
+    Mobile
+  </string>
+    <string name="LoginSuccessfully">
+    Login Successfully
+  </string>
+
+    <string name="Youraccountisnotapproved">
+    Your account is not approved
+  </string>
+
+    <string name="InvalidUsernameorPassword">
+Invalid Username or Password
+  </string>
+
+
+    <string name="UserNameorPasswordiswrong">
+    UserName or Password is wrong
+  </string>
+    <string name="CheckYourEmailForPaswordResetLink">
+    Check Your Email For Pasword Reset Link
+  </string>
+    <string name="EmailExistTryAgainWithAnotherEmail">
+    Email Exist Try Again With Another Email
+  </string>
+    <string name="PasswordResetSuccessfully">
+    Password Reset Successfully
+  </string>
+    <string name="Somethingwentwrong">
+    Something went wrong
+  </string>
+    <string name="Codehasbeensendtouser">
+    Code has been send to user
+  </string>
+    <string name="verified">
+    Verified
+  </string>
+    <string name="YouHaveSuccessfullySignedUp">
+    You Have Successfully Signed Up
+  </string>
+    <string name="YourpasswordmustcontainatleastoneuppercaseNumber">
+    Your password must contain at least one uppercase,Number
+  </string>
+    <string name="ForHelpandSupportClickHere">
+    For Help and Support Click Here?
+  </string>
+    <string name="Closed">
+    Closed
+  </string>
+    <string name="homePagestatic">
+    A writer hired her to get some peace and quiet while she was working on a book.
+  </string>
+    <string name="LatestListing">
+    Latest Listing
+  </string>
+    <string name="Reserveauctions">
+    $1 Reserve Auction
+  </string>
+    <string name="ReserverAuctionstatic">
+    A writer hired her to get some peace and quiet while she was working on a book.
+  </string>
+    <string name="ClosingSoon">
+    Closing Soon
+  </string>
+    <string name="Deals">
+    Deals
+  </string>
+    <string name="Abouttheseller">
+    About the seller
+  </string>
+    <string name="AddtoWatchlist">
+    Add to Watchlist
+  </string>
+    <string name="AskaQuestion">
+    Ask a Question
+  </string>
+    <string name="Buyermustpickupfrom">
+    Buyer must pick-up from
+  </string>
+    <string name="Case">
+    Case
+  </string>
+    <string name="Closingtime">
+    Closing time
+  </string>
+    <string name="Destinationdescription">
+    Destination &amp; description
+  </string>
+    <string name="Email">
+    Email
+  </string>
+    <string name="Facebook">
+    Facebook
+  </string>
+    <string name="Feedbackonseller">
+    Feedback on seller
+  </string>
+    <string name="Free">
+    Free
+  </string>
+    <string name="Location">
+    Location
+  </string>
+    <string name="Membersince">
+    Member since
+  </string>
+    <string name="NZBankDeposit">
+    NZ Bank Deposit
+  </string>
+    <string name="PaymentOptions">
+    Payment Options
+  </string>
+    <string name="positivefeedback">
+    positive feedback
+  </string>
+    <string name="Price">
+    Price
+  </string>
+    <string name="Print">
+    Print
+  </string>
+    <string name="QuestionsAnswers">
+    Questions &amp; Answers
+  </string>
+    <string name="Sharethislisting">
+    Share this listing
+  </string>
+    <string name="Shippingpickupoptions">
+    Shipping &amp; pick-up options
+  </string>
+    <string name="Thereis1unansweredquestiononthislisting">
+    There is 1 unanswered question on this listing
+  </string>
+    <string name="ThissellerislocatedinPalmerstonNorthManawatu">
+    This seller is located in Palmerston North, Manawatu
+  </string>
+    <string name="Twitter">
+    Twitter
+  </string>
+    <string name="Viewsellersotherlistings">
+    View seller\'s other listings
+  </string>
+    <string name="BrowseMoreCategories">
+    Browse More Categories
+  </string>
+    <string name="ALLCategories">
+    All Categories
+  </string>
+    <string name="theshop">
+    The Shop
+  </string>
+    <string name="Addaddress">
+    Add address
+  </string>
+    <string name="Address">
+    Address
+  </string>
+    <string name="Chooseashippingoption">
+    Choose a shipping option
+  </string>
+    <string name="Confirmpurchase">
+    Confirm-purchase
+  </string>
+    <string name="Deliveryaddress">
+    Delivery address
+  </string>
+    <string name="DeliveryInstructions">
+    Delivery Instructions
+  </string>
+    <string name="Findoutwhetherimportchargesapply">
+    Find out whether import charges apply
+  </string>
+    <string name="FreeshippingwithinSaudiArabia">
+    Free shipping within Saudi Arabia
+  </string>
+    <string name="GSTincluded">
+    GST included
+  </string>
+    <string name="Name">
+    Name
+  </string>
+    <string name="optional">
+    optional
+  </string>
+    <string name="Payinstantlybycard">
+    Pay instantly by card
+  </string>
+    <string name="Selectanaddress">
+    Select an address
+  </string>
+    <string name="Totaltopay">
+    Total to pay
+  </string>
+    <string name="logout">
+    Logout
+  </string>
+    <string name="Loading">
+    Loading
+  </string>
+    <string name="Pleasewait">
+    Please wait...
+  </string>
+
+
+    <string name="Pleaseaddaphoto">
+    Please add a photo
+  </string>
+
+    <string name="Nomoreimages">
+    No more images...
+  </string>
+
+    <string name="Whilweareconfirmingyourpurchase">
+    While we are confirming your purchase
+  </string>
+    <string name="Whilewearecreatingyourad">
+    While we are creating your ad
+  </string>
+    <string name="Youradhasbeencreatedsuccessfully">
+    Your ad has been created successfully
+  </string>
+    <string name="ChooseAnotherCategory">
+    Choose Another Category
+  </string>
+    <string name="inallcategories">
+    in all categories.
+  </string>
+    <string name="Viewallcategories.">
+    View all categories.
+  </string>
+    <string name="Duration">
+    Duration and Shipping
+  </string>
+    <string name="Title">
+    Title
+  </string>
+    <string name="alertnote">
+    Note*: Click the checkbox to the make the current image as banner image.
+  </string>
+    <string name="Itemaddress">
+    Item Address
+  </string>
+    <string name="MustPickup">
+    Must Pick-up
+  </string>
+    <string name="NoPickup">
+    No Pick-up
+  </string>
+    <string name="PickupAvailable">
+    Pick-up Available
+  </string>
+    <string name="Selectashippingoption">
+    Select a shipping option
+  </string>
+    <string name="SpecifyShippingCost">
+    Specify Shipping Cost
+  </string>
+    <string name="TobeArranged">
+    To be Arranged
+  </string>
+    <string name="ShippingDescription">
+    Shipping Description
+  </string>
+    <string name="Non">
+    Non
+  </string>
+    <string name="ShippingNotAvailable">
+    Shipping Not Available
+  </string>
+    <string name="PackageName">
+    Package Name
+  </string>
+    <string name="AlreadyaMember">
+    Already a Member?
+  </string>
+    <string name="AddtoFavouriteSellers">
+    Add to Favourite Sellers
+  </string>
+    <string name="Details">
+    Details
+  </string>
+    <string name="Instagram">
+    Instagram
+  </string>
+    <string name="shippingandpickup">
+    Shipping &amp; pick-up options
+  </string>
+    <string name="Buying">
+    Buying
+  </string>
+    <string name="Categories">
+    Categories
+  </string>
+    <string name="CurrentListings">
+    Current Listings
+  </string>
+    <string name="Emailmeevery3rdday">
+    Email me every 3rd day
+  </string>
+    <string name="favourite">
+    Favourite
+  </string>
+    <string name="FavouriteSearches">
+    Favourite Searches
+  </string>
+    <string name="FavouriteSellers">
+    Favourite Sellers
+  </string>
+    <string name="Favourites">
+    Favourites
+  </string>
+    <string name="MyFavourites">
+    My Favourites
+  </string>
+    <string name="Remove">
+    Remove
+  </string>
+    <string name="Searches">
+    Searches
+  </string>
+    <string name="Selectall">
+    Select all
+  </string>
+    <string name="Sellers">
+    Sellers
+  </string>
+    <string name="UserNeedtobesignedinToAskaquestion">
+    User Need to be signed in To Ask a question
+  </string>
+    <string name="NoCategoryMarkedasFavourites">
+    No Category Marked as Favourites
+  </string>
+    <string name="NoSearchMarkedasFavourites">
+    No Search Marked as Favourites
+  </string>
+    <string name="NoSellerMarkedasFavourites">
+    No Seller Marked as Favourites
+  </string>
+    <string name="Profile">
+    Profile
+  </string>
+    <string name="Sold">
+    Sold
+  </string>
+    <string name="UnSold">
+    UnSold
+  </string>
+    <string name="Giveafeedback">
+    Give a feedback
+  </string>
+    <string name="hondacivic">
+    honda civic
+  </string>
+    <string name="Acceptthetermsandconditionsofthemalqa">
+    Accept the terms and conditions of the Malqaa
+  </string>
+    <string name="AddaNewCard">
+    Add a New Card
+  </string>
+    <string name="AddtoFavourite">
+    Add to Favourite
+  </string>
+    <string name="AED">
+    AED
+  </string>
+    <string name="Card02endingin5283">
+    Card 02 ending in 5283
+  </string>
+    <string name="Card1endingin1494">
+    Card 1 ending in 1494
+  </string>
+    <string name="CarsSearchallofTradeMeforHondacivic">
+    Cars. Search all of Trade Me for Honda civic
+  </string>
+    <string name="CharacterRemaining">
+    Character(s) Remaining
+  </string>
+    <string name="E.gIphone6plus">
+    E.g Iphone 6 plus
+  </string>
+    <string name="Emailmeeveryday">
+    Email me every day
+  </string>
+    <string name="Emailmeonceaweek">
+    Email me once a week
+  </string>
+    <string name="Feedback">
+    Feedback
+  </string>
+    <string name="Howdoyourateourproduct">
+    How do you rate our product?
+  </string>
+    <string name="InclusiveofVAT">
+    Inclusive of VAT
+  </string>
+    <string name="instead">
+    instead
+  </string>
+    <string name="Listingfee">
+    Listing fee
+  </string>
+    <string name="NaPickUp">
+    No Pick Up
+  </string>
+    <string name="Narrowyoursearchfor">
+    Narrow your search for
+  </string>
+    <string name="pleaseentertheCVVcode">
+    Please enter the CVV code
+  </string>
+    <string name="Positive">
+    Positive
+  </string>
+    <string name="QuestionCreatedSuccessfully">
+    Question Created Successfully
+  </string>
+    <string name="SAR">
+    SAR
+  </string>
+    <string name="Selectacard">
+    Select a card
+  </string>
+    <string name="SelectCountry">
+    Select Country
+  </string>
+    <string name="Showingresultin">
+    Showing result in
+  </string>
+    <string name="SoldProducts">
+    Sold Products
+  </string>
+    <string name="Submit">
+    Submit
+  </string>
+    <string name="Tax">
+    Tax
+  </string>
+    <string name="Thereare">
+    There are
+  </string>
+    <string name="Total">
+    Total
+  </string>
+    <string name="Totalnumberoflistings">
+    Total number of listings
+  </string>
+    <string name="Totalnumberofmembers">
+    Total number of members
+  </string>
+    <string name="TotalOnlineVisitors">
+    Total Online Visitors
+  </string>
+    <string name="Toyota">
+    Toyota
+  </string>
+    <string name="TradeMeMotors">
+    Trade Me Motors
+  </string>
+    <string name="UnAnsweredQuestionsofthisAdvertisement">
+    UnAnswered Questions of this Advertisement
+  </string>
+    <string name="UnsoldProducts">
+    Unsold Products
+  </string>
+    <string name="UsedCars">
+    Used Cars
+  </string>
+
+    <string name="Visitorstillnow">
+    Visitors till now
+  </string>
+
+    <string name="WanttoAddReminderofYourWatchListItems">
+    Want to Add Reminder of Your WatchList Items?
+  </string>
+
+    <string name="AddNewCard">
+      Add new Card
+    </string>
+
+    <string name="Welcome">
+    Welcome
+  </string>
+    <string name="yourListingCreatedSuccessfully">
+    your Listing Created Successfully
+  </string>
+    <string name="BidClosed">
+    Bid Closed
+  </string>
+    <string name="Closes">
+    Closes
+  </string>
+    <string name="CurrentBid">
+    Current Bid
+  </string>
+    <string name="Fri">
+    Fri
+  </string>
+
+    <string name="List">
+    List
+  </string>
+    <string name="Lost">
+    Lost
+  </string>
+    <string name="OfficialMarvelComicsTShirtClassicBoxedLogoDistressedVintagenewMens">
+    Official Marvel Comics T Shirt Classic Boxed Logo Distressed Vintage new Mens
+  </string>
+    <string name="PleaseLoginToAddFavorites">
+    Please Login To Add Favorites
+  </string>
+    <string name="Quantity">
+    Quantity
+  </string>
+
+    <string name="Language">
+    العربية
+  </string>
+
+
+    <string name="RemoveFromFavoriteSeller">
+    Remove From Favorite Seller
+  </string>
+    <string name="Reservemet">
+    Reserve met
+  </string>
+    <string name="Riyadh">
+    Riyadh
+  </string>
+    <string name="SellerlocatedinRiyadh">
+    Seller located in Riyadh
+  </string>
+    <string name="Slug">
+    Slug
+  </string>
+    <string name="Tags">
+    Tags
+  </string>
+    <string name="Won">
+    Won
+  </string>
+    <string name="Items">
+    Items
+  </string>
+    <string name="FeatureFee">
+    Feature Fee
+  </string>
+    <string name="Selling">
+    Selling
+  </string>
+    <string name="ReserveNotMet">
+    Reserve Not Met
+  </string>
+    <string name="Products">
+    Products
+  </string>
+    <string name="Wallet">
+    Wallet
+  </string>
+    <string name="Iphone11_black">
+    Iphone 11 black
+  </string>
+    <string name="Appliances">
+    Appliances
+  </string>
+    <string name="AudionicSpeakerBlack">
+    Audionic AD-7000 - Black
+  </string>
+    <string name="Baby_gear">
+    Baby gear
+  </string>
+    <string name="BoatsMarine">
+    Boats &amp; Marine
+  </string>
+    <string name="Books">
+    Books
+  </string>
+    <string name="BuildingRenovation">
+    Building &amp; renovation
+  </string>
+    <string name="double_bed">
+    Double bed
+  </string>
+    <string name="ElectronicsGames">
+    Electronics &amp; video games
+  </string>
+    <string name="Fashion">
+    Fashion
+  </string>
+    <string name="FurnituresFurnishings">
+    Furnitures &amp; Furnishings
+  </string>
+    <string name="HealthBeauty">
+    Health and beauty
+  </string>
+    <string name="House_at_500sq_feet">
+    House at 500 sqfeet
+  </string>
+    <string name="PetAnimals">
+    Pet &amp; Animals
+  </string>
+    <string name="sony_ps5">
+    Sony PS5
+  </string>
+    <string name="SportsOutdoors">
+    Sports and outdoors
+  </string>
+    <string name="ToyotaCorollaAltis">
+    Toyota Corolla Altis 2020
+  </string>
+    <string name="ToyotaCorollaBlue">
+    Toyota Corolla Blue
+  </string>
+    <string name="Toys">
+    Toys
+  </string>
+    <string name="PlateNumber">
+    Plate Number
+  </string>
+    <string name="Abdulrahman">
+    Abdulrahman
+  </string>
+
+    <string name="Arabic">
+    Arabic
+  </string>
+
+    <string name="Bathrooms">
+    Bathrooms
+  </string>
+    <string name="Bedrooms">
+    Bedrooms
+  </string>
+    <string name="Body">
+    Body
+  </string>
+    <string name="Brand">
+    Brand
+  </string>
+    <string name="burnerandhotplatenumber">
+    burnerandhotplatenumber
+  </string>
+    <string name="Cancel">
+    Cancel
+  </string>
+    <string name="Cash3367annuzhahMakkah">
+    Cash, 3367 an, nuzhah, Makkah
+  </string>
+    <string name="Color">
+    Color
+  </string>
+    <string name="completeyourpurchase">
+    complete your purchase
+  </string>
+    <string name="Cylinders">
+    Cylinders
+  </string>
+    <string name="DressesStyle">
+    DressesStyle
+  </string>
+    <string name="FloorArea">
+    Floor Area
+  </string>
+    <string name="Floorsnumber">
+    Floorsnumber
+  </string>
+    <string name="Friday20March2020">
+    Friday, 20 March 2020
+  </string>
+    <string name="Fuel">
+    Fuel
+  </string>
+    <string name="Iintendtopickup">
+    I intend to pick-up
+  </string>
+    <string name="Iwillarrangeshippingwiththeseller">
+    I will arrange shipping with the seller
+  </string>
+    <string name="Iwillintendtopickup">
+    I will intend to pick-up
+  </string>
+    <string name="Ifyouwinyouarelegallyobligatedto">
+    If you win, you are legally obligated to
+  </string>
+    <string name="Ignitiontype">
+    Ignitiontype
+  </string>
+    <string name="Imported">
+    Imported
+  </string>
+    <string name="InternalMemory">
+    Internal Memory
+  </string>
+    <string name="JeansStyle">
+    JeansStyle
+  </string>
+    <string name="JewelleryType">
+    JewelleryType
+  </string>
+    <string name="Landarea">
+    Landarea
+  </string>
+    <string name="LingerieType">
+    LingerieType
+  </string>
+    <string name="Make">
+    Make
+  </string>
+    <string name="Mileage">
+    Mileage
+  </string>
+    <string name="Model">
+    Model
+  </string>
+    <string name="MotorVehiclesPeriodicInspection">
+    Motor Vehicles Periodic Inspection
+  </string>
+    <string name="No">
+    No
+  </string>
+    <string name="NoDescriptionAvailable">
+    No Description Available
+  </string>
+    <string name="NumberofPassengers">
+    NumberofPassengers
+  </string>
+    <string name="Numberofpreviousowners">
+    Numberofpreviousowners
+  </string>
+    <string name="PlaceBid">
+    Place Bid
+  </string>
+    <string name="PleaseLoginToAddthisAdvertisementinWatchlist">
+    Please Login To Add this Advertisement in Watchlist
+  </string>
+    <string name="RefrigeratorCapacity">
+    RefrigeratorCapacity
+  </string>
+    <string name="Reminder">
+    Reminder
+  </string>
+    <string name="RemoveFromWatchlist">
+    Remove From Watchlist
+  </string>
+    <string name="SaudiArabia">
+    Saudi Arabia
+  </string>
+    <string name="Selleracceptspaymentby">
+    Seller accepts payment by
+  </string>
+    <string name="SellercannotAddhisownListinginwatchlist">
+    Seller can not Add his own Listing in watchlist
+  </string>
+    <string name="ShoesStyle">
+    ShoesStyle
+  </string>
+    <string name="SimCount">
+    Sim Count
+  </string>
+    <string name="Size">
+    Size
+  </string>
+    <string name="SkirtStyle">
+    SkirtStyle
+  </string>
+    <string name="SportswearType">
+    SportswearType
+  </string>
+    <string name="Style">
+    Style
+  </string>
+    <string name="Transmission">
+    Transmission
+  </string>
+    <string name="Type">
+    Type
+  </string>
+    <string name="Yes">
+    Yes
+  </string>
+    <string name="Yourbid">
+    Your bid
+  </string>
+    <string name="AboutSeller">
+    About Seller
+  </string>
+    <string name="Accountwiththecode">
+    Account with the code in your bank statement.
+  </string>
+    <string name="Addanewaddress">
+    Add a new address
+  </string>
+    <string name="Addcard">
+    Add card
+  </string>
+    <string name="AddcardtoPing">
+    Add card to Ping
+  </string>
+    <string name="arefromindividual">
+    are from individual members and count towards the final rating
+  </string>
+    <string name="AuctionFeedback">
+    Auction Feedback
+  </string>
+    <string name="Autogeneratedifleftblank">
+    Auto generated if left blank
+  </string>
+    <string name="bank">
+    bank
+  </string>
+    <string name="BankConnect">
+    Bank Connect
+  </string>
+    <string name="Barcode_GTIN">
+    Barcode / GTIN
+  </string>
+    <string name="Cardamounttotal">
+    Card amount total
+  </string>
+    <string name="Cardendingwith1949">
+    Card ending with 1949
+  </string>
+    <string name="Cardsubtotal">
+    Card subtotal
+  </string>
+    <string name="Cardno">
+    Card Number
+  </string>
+    <string name="CartNotFound">
+    Cart Not Found
+  </string>
+    <string name="Cashamount">
+    Cash amount
+  </string>
+    <string name="Cashsubtotal">
+    Cash subtotal
+  </string>
+    <string name="Choosehowtopay">
+    Choose how to pay the amount:
+  </string>
+
+    <string name="ChoosePictures">
+    Choose Pictures
+  </string>
+
+    <string name="ContinueShopping">
+    Continue Shopping
+  </string>
+    <string name="Createanewproduct">
+    Create a new product
+  </string>
+    <string name="Creditdebitbankaccount">
+    Credit, debit, bank account or Ping balance
+  </string>
+    <string name="CreditmyMalqaaaccount">
+    Credit my Malqaa account
+  </string>
+
+    <string name="MaximumImagesAllowedtoSelectare">
+    Maximum Images Allowed to Select are %1$d
+  </string>
+
+    <string name="ImageUploadedsuccessfully">
+    Image Uploaded successfully
+  </string>
+
+    <string name="FailedinImageUpload">
+    Failed in Image Upload
+  </string>
+
+
+    <string name="Imagehasbeenuploaded">
+      Image has been uploaded
+  </string>
+
+    <string name="YourBusinessAccounthasbeenCreated">
+    Your Business Account has been Created
+  </string>
+
+
+    <string name="ErrorOccur">
+   Error Occur
+  </string>
+
+    <string name="Current">
+    Current
+  </string>
+    <string name="Delete">
+    Delete
+  </string>
+    <string name="DeletecardfromPing">
+    Delete card from Ping?
+  </string>
+    <string name="deposit">
+    deposit
+  </string>
+    <string name="Donotemailme">
+    Don\'t email me
+  </string>
+    <string name="Edit">
+    Edit
+  </string>
+    <string name="EditUserprofile">
+    Edit User profile
+  </string>
+    <string name="Everyone">
+    Everyone
+  </string>
+    <string name="Extra">
+    Extra
+  </string>
+    <string name="FeedbackNotFound">
+    Feedback Not Found
+  </string>
+    <string name="Folder">
+    Folder
+  </string>
+    <string name="formsubmitionsucceded">
+    form submition succeded
+  </string>
+    <string name="FPO">
+    FPO
+  </string>
+    <string name="Help">
+    Help
+  </string>
+    <string name="Howwouldyouliketopay">
+    How would you like to pay?
+  </string>
+    <string name="Ifyourlisting">
+    If your listing has recently closed you can find it on either the
+  </string>
+    <string name="instantpayments">
+    instant payments
+  </string>
+    <string name="Instantpaymentsdirectlyfrom">
+    Instant payments directly from your bank account.
+  </string>
+    <string name="Internetorphonebanking">
+    Internet or phone banking
+  </string>
+    <string name="Invalidtopupamount">
+    Invalid top up amount
+  </string>
+    <string name="Landline">
+    Landline
+  </string>
+    <string name="Learnmore">
+    Learn more
+  </string>
+    <string name="LearnmoreaboutPing">
+    Learn more about Ping.
+  </string>
+    <string name="Listings">
+    Listings
+  </string>
+    <string name="Listingsfrom">
+    Listings from
+  </string>
+    <string name="Malqaabalancetopup">
+    Malqaa balance top up
+  </string>
+    <string name="Malqaacreditisusedfor">
+    Malqaa credit is used for listing fees and success fees. Funds in your Malqaa account can\'t be used to pay for items you\'ve bought.
+  </string>
+    <string name="Manufacturercode">
+    Manufacturer\'s Code
+  </string>
+    <string name="MemberOnly">
+    Member Only
+  </string>
+    <string name="MyProducts">
+    My Products
+  </string>
+    <string name="negativefeedback">
+    negative feedback
+  </string>
+    <string name="neutralfeedback">
+    neutral feedback
+  </string>
+    <string name="NoAuctionLostYet">
+    No Auction Lost Yet
+  </string>
+
+    <string name="NoImageSelected">
+    No Image Selected
+  </string>
+
+    <string name="NoAuctionWonYet">
+    No Auction Won Yet
+  </string>
+    <string name="Nolistingstodisplay">
+    No listings to display.
+  </string>
+    <string name="NoOne">
+    No One
+  </string>
+    <string name="onceyourorderisconfirmed">
+    once your order is confirmed
+  </string>
+    <string name="OneHour">
+    1 Hour
+  </string>
+    <string name="or">
+    or
+  </string>
+    <string name="Order">
+    Order
+  </string>
+    <string name="OrderCompletion">
+    Order Completion
+  </string>
+    <string name="OrderSummary">
+    Order Summary
+  </string>
+    <string name="Paidbycard">
+    Paid by card
+  </string>
+    <string name="PayCash">
+    Pay Cash
+  </string>
+    <string name="PaymentMethod">
+    Payment Method
+  </string>
+    <string name="Phoneno">
+    Phone number
+  </string>
+    <string name="Pingverificationcodeexample">
+    Ping verification code example
+  </string>
+    <string name="ProductInformation">
+    Product Information
+  </string>
+    <string name="ProductsOrdered">
+    Products Ordered
+  </string>
+    <string name="Reserve">
+    Reserve
+  </string>
+    <string name="Respondtothisfeedback">
+    Respond to this feedback
+  </string>
+    <string name="Selectshippingoptions">
+    Select shipping options
+  </string>
+    <string name="Sell">
+    Sell
+  </string>
+    <string name="Settings">
+    Settings
+  </string>
+    <string name="Shippingto">
+    Shipping to
+  </string>
+    <string name="ShippingAddress">
+    Shipping Address
+  </string>
+    <string name="ShippingOptions">
+    Shipping Options
+  </string>
+    <string name="shipto">
+    Ship to
+  </string>
+    <string name="Showmore">
+    Show more
+  </string>
+    <string name="Start">
+    Start
+  </string>
+    <string name="Status">
+    Status
+  </string>
+    <string name="Stock">
+    Stock
+  </string>
+    <string name="Subtotal">
+    Subtotal
+  </string>
+    <string name="Success">
+    Success
+  </string>
+    <string name="tab">
+    tab
+  </string>
+    <string name="taborthe">
+    tab or the
+  </string>
+    <string name="Thankyouforyourorder">
+    Thank you for your order
+  </string>
+    <string name="Thiscardwill">
+    This card will no longer be available.
+  </string>
+    <string name="Topupamount">
+    Top up amount
+  </string>
+    <string name="TwoHours">
+    2 Hours
+  </string>
+    <string name="Unlimited">
+    Unlimited
+  </string>
+    <string name="Useanewcard">
+    Use a new card
+  </string>
+    <string name="Useanothercard">
+    Use another card
+  </string>
+    <string name="UsethiscardforpurchasesonMalqaa">
+    Use this card for purchases on Malqaa for all listings that support Ping, or to add credit to your Malqaa account.
+  </string>
+    <string name="UserWatchListUpdated">
+    User WatchList Updated
+  </string>
+    <string name="Verify">
+    Verify
+  </string>
+    <string name="Verifybankaccount">
+    Verify bank account
+  </string>
+    <string name="Verifyyour">
+    Verify your
+  </string>
+    <string name="ViewProduct">
+    View Product
+  </string>
+    <string name="Visa">
+    Visa
+  </string>
+    <string name="WatchlistNotFound">
+    Watchlist Not Found
+  </string>
+    <string name="Weareapreassignedbiller">
+    We\'re a pre-assigned biller with all major SA banks, so you can credit your Malqaa account using internet or phone banking.
+  </string>
+    <string name="wemadetoyourbankaccount">
+    we made to your bank account
+  </string>
+    <string name="Whocanviewmyprofile">
+    Who can view my profile
+  </string>
+    <string name="Youwillfindtheverificationcode">
+    You\'ll find the verification code in the details of a
+  </string>
+    <string name="Youwillreceiveanemailat">
+    You will receive an email at
+  </string>
+    <string name="AcceptedPaymentTypes">
+    Accepted Payment Types
+  </string>
+    <string name="ActivateAutoListing">
+    Activate Auto-Listing
+  </string>
+    <string name="ActivateProduct">
+    Activate Product
+  </string>
+    <string name="ActualAddress">
+    Actual Address
+  </string>
+    <string name="AlternateEmail">
+    Alternate Email
+  </string>
+    <string name="Attributes">
+    Attributes
+  </string>
+    <string name="Bidnow">
+    Bid now
+  </string>
+    <string name="Browse">
+    Browse
+  </string>
+    <string name="BusinessPhoneNumber">
+    Business Phone Number
+  </string>
+    <string name="BussinessName">
+    Business Name
+  </string>
+    <string name="Close">
+    Close
+  </string>
+    <string name="Clothing_Fashion">
+    Clothing &amp; Fashion
+  </string>
+    <string name="Code">
+    Code
+  </string>
+    <string name="Create">
+    Create
+  </string>
+    <string name="Custom">
+    Custom
+  </string>
+    <string name="DeactivateProduct">
+    Deactivate Product
+  </string>
+    <string name="DragDropyourfiles">
+    Drag &amp; Drop your files
+  </string>
+    <string name="EightHours">
+    8 hours
+  </string>
+    <string name="ExpiryDate">
+    Expiry Date
+  </string>
+    <string name="ExtrasListingOffers">
+    Extras &amp; Listing Offers
+  </string>
+    <string name="Fixedpriceoffer">
+    Fixed price offer
+  </string>
+    <string name="Fixedpriceofferautomatically">
+    Fixed price offer – automatically offer this item each time a listing ends (sold and unsold)
+  </string>
+
+    <string name="ItemDetails">
+      Item Details
+  </string>
+
+    <string name="formsubmitionfailed">
+    form submition failed
+  </string>
+    <string name="FourHours">
+    4 hours
+  </string>
+    <string name="Friday">
+    Friday
+  </string>
+    <string name="GalleryPlus">
+    Gallery Plus
+  </string>
+    <string name="GoogleMapIntegration">
+    Google Map Integration
+  </string>
+    <string name="Height">
+    Height
+  </string>
+    <string name="Idonotknowtheshippingcostsyet">
+    I don\'t know the shipping costs yet
+  </string>
+    <string name="Id">
+    Id
+  </string>
+    <string name="Length">
+    Length
+  </string>
+    <string name="ListasAuction">
+    List as Auction
+  </string>
+    <string name="ListasBuyNow">
+    List as Buy Now
+  </string>
+    <string name="Listing_no">
+    Listing no:
+  </string>
+    <string name="Malqaa">
+    Malqaa
+  </string>
+    <string name="March">
+    March
+  </string>
+    <string name="Men">
+    Men
+  </string>
+    <string name="None">
+    None
+  </string>
+    <string name="OfferDuration">
+    Offer Duration
+  </string>
+    <string name="Offerto">
+    Offer to
+  </string>
+    <string name="Onlyallowbidsfrom">
+    Only allow bids from Authenticated members
+  </string>
+    <string name="PickUp">
+    Pick Up
+  </string>
+    <string name="Ping">
+    Ping
+  </string>
+    <string name="PricingandFixedPriceOffer">
+    Pricing and Fixed Price Offer
+  </string>
+    <string name="RegisterasBussinessUser">
+    Register as Bussiness User
+  </string>
+    <string name="RegisterasPersonalUser">
+    Register as Personal User
+  </string>
+    <string name="RegistrationNumber">
+    Registration Number
+  </string>
+    <string name="Saudiabankdeposit">
+    Saudia bank deposit
+  </string>
+    <string name="Save">
+    Save
+  </string>
+    <string name="SelectDate">
+    Select Date
+  </string>
+    <string name="Shoes">
+    Shoes
+  </string>
+    <string name="SixHours">
+    6 hours
+  </string>
+    <string name="SKU">
+    SKU
+  </string>
+    <string name="SpecifyEndTime">
+    Specify End Time
+  </string>
+    <string name="SpecifyReserve">
+    Specify Reserve (25c)
+  </string>
+    <string name="StartPrice">
+    Start Price
+  </string>
+    <string name="SuggestedValues">
+    Suggested Values
+  </string>
+    <string name="TenHours">
+    10 hours
+  </string>
+    <string name="UnsavedChanges">
+    Unsaved Changes
+  </string>
+    <string name="UnwantedChristmasgift">
+    Unwanted Christmas gift
+  </string>
+    <string name="UploadYourFiles">
+    Upload Your Files
+  </string>
+    <string name="UseBookaCouriershippingcosts">
+    Use \'Book a Courier\' shipping costs
+  </string>
+    <string name="Useshippingtemplate">
+    Use shipping template
+  </string>
+    <string name="Weight">
+    Weight
+  </string>
+    <string name="WeightDimensions">
+    Weight &amp; Dimensions
+  </string>
+    <string name="Width">
+    Width
+  </string>
+    <string name="accessories">
+    accessories
+  </string>
+    <string name="AddComment">
+    Add Comment
+  </string>
+    <string name="Addmore">
+    Add more
+  </string>
+    <string name="AddtoFavouriteSearches">
+    Add to Favourite Searches
+  </string>
+    <string name="afterDnata">
+    after Dnata
+  </string>
+    <string name="and">
+    and
+  </string>
+    <string name="Anyonewithaccesscanviewyourinvitedvisitors">
+    Anyone with access can view your invited visitors
+  </string>
+    <string name="Asia">
+    Asia
+  </string>
+    <string name="Babol">
+    Babol
+  </string>
+    <string name="Babruysk">
+    Babruysk
+  </string>
+    <string name="Bacabal">
+    Bacabal
+  </string>
+    <string name="BacktoAddresses">
+    Back to Addresses
+  </string>
+    <string name="BalkanPeninsula">
+    Balkan Peninsula
+  </string>
+    <string name="BusinessBayDubai">
+    Business Bay Dubai
+  </string>
+    <string name="c">
+    C
+  </string>
+    <string name="car">
+    car
+  </string>
+    <string name="Carparts">
+    Car parts
+  </string>
+    <string name="Card">
+    Card
+  </string>
+    <string name="Cardendingwith">
+    Card ending with
+  </string>
+    <string name="Cars">
+    Cars
+  </string>
+    <string name="Central">
+    Central
+  </string>
+    <string name="Confirmlocation">
+    Confirm location
+  </string>
+    <string name="Cost">
+    Cost
+  </string>
+    <string name="easypaisa">
+    easy paisa
+  </string>
+    <string name="EPPCOstation">
+    EPPCO station
+  </string>
+    <string name="from">
+    from
+  </string>
+    <string name="Givereplytothismessage">
+    Give reply to this message
+  </string>
+    <string name="ListingType">
+    Listing Type
+  </string>
+    <string name="LocationInformation">
+    Location Information
+  </string>
+    <string name="mins">
+    mins
+  </string>
+    <string name="MobileNumber">
+    Mobile Number
+  </string>
+    <string name="NorthernAfrica">
+    Northern Africa
+  </string>
+    <string name="OutsideZoomstore">
+    Outside Zoom store
+  </string>
+    <string name="Paypal">
+    Paypal
+  </string>
+    <string name="PersonalInformation">
+    Personal Information
+  </string>
+    <string name="SaveAddress">
+    Save Address
+  </string>
+    <string name="SellerComment">
+    Seller\'s Comment
+  </string>
+
+    <string name="Youremailwillremainconfidential">
+Your email will remain confidential
+  </string>
+
+    <string name="PrimaryContactPerson">
+  Primary Contact Person
+  </string>
+
+
+    <string name="SignUp">
+    Sign Up
+  </string>
+    <string name="SheikhZayedRoad">
+    Sheikh Zayed Road
+  </string>
+    <string name="South">
+    South
+  </string>
+    <string name="Timing">
+    Timing
+  </string>
+    <string name="wetransfer">
+    we transfer
+  </string>
+    <string name="English">
+    English
+  </string>
+    <string name="gobacktothehomepage">
+    go back to the home page
+  </string>
+    <string name="MalqaaWebApp">
+    MalqaaWebApp
+  </string>
+    <string name="Mar">
+    Mar
+  </string>
+    <string name="Oops">
+    Oops
+  </string>
+    <string name="orstartanewsearch">
+    or start a new search
+  </string>
+    <string name="Perhapsyoudliketo">
+    Perhaps you\'d like to
+  </string>
+    <string name="Privacy">
+    Privacy
+  </string>
+
+    <string name="Thepageyourequestedwasnotfound">
+    The page you requested was not found
+  </string>
+    <string name="thu">
+    thu
+  </string>
+    <string name="Usethispagetodetailyoursiteprivacypolicy">
+    Use this page to detail your site\'s privacy policy
+  </string>
+    <string name="RemovetoFavorite">
+    Remove to Favorite
+  </string>
+    <string name="incar">
+    in car
+  </string>
+    <string name="Autobid">
+    Auto Bid
+  </string>
+    <string name="BillingAddress">
+    Billing Address
+  </string>
+    <string name="PrimaryContactInformation">
+    Primary Contact Information
+  </string>
+
+    <string name="Information">
+    Information
+  </string>
+
+    <string name="MaxBidUpdated">
+    Max Bid Updated
+  </string>
+
+    <string name="EmptyBox">
+    Empty Box
+  </string>
+
+    <string name="NoRecordFound">
+    No Record Found
+  </string>
+
+    <string name="Subuser">
+    Sub User
+  </string>
+    <string name="AreyousureyouwanttodeleteyourItem">
+    Are you sure you want to delete your Item
+  </string>
+    <string name="Error">
+    Error
+  </string>
+    <string name="Item">
+    Item
+  </string>
+    <string name="Listing">
+    Listing
+  </string>
+    <string name="Makkah">
+    Makkah
+  </string>
+    <string name="Verificationcode">
+    Verification code
+  </string>
+    <string name="clickhere">
+    click here
+  </string>
+    <string name="Towatchthevideo">
+    To watch the video
+  </string>
+    <string name="Increment">
+    Increment
+  </string>
+    <string name="Range">
+    Range
+  </string>
+    <string name="Balance">
+    Balance
+  </string>
+    <string name="Remaining">
+    Remaining
+  </string>
+    <string name="Checkout">
+    Checkout
+  </string>
+    <string name="Views">
+    Views
+  </string>
+    <string name="Emailisrequired">
+    Email is required
+  </string>
+    <string name="Pleaseenteravalidemailaddress">
+    Please enter a valid email address
+  </string>
+
+    <string name="Usernamemusthaveatleast4characters">
+Username must have atleast 4 characters
+  </string>
+
+    <string name="BusinessDetails">
+ Business Details
+  </string>
+
+    <string name="Passworddoesnotmatch">
+      Password does not match
+  </string>
+
+    <string name="NoFile">
+      No File (Business Certificate)
+  </string>
+
+
+    <string name="UploadFile">
+      Upload File
+  </string>
+
+    <string name="Fileuploaded">
+      File uploaded
+  </string>
+
+    <string name="Pleaseuploadafile">
+        Please upload a file
+  </string>
+
+
+    <string name="AccountDetails">
+    Account Details
+    </string>
+
+
+    <string name="Businessnamemusthaveatleast3characters">
+Business name must have atleast 3 characters
+  </string>
+
+
+    <string name="Passwordisrequired">
+    Password is required
+  </string>
+
+    <string name="BusinessRegistration">
+   Business Registration
+  </string>
+
+    <string name="Pleasetypetheverificationcode">
+  Please type the verification code
+  </string>
+
+    <string name="Ididntreceiveacode">I didn\'t receive a code!</string>
+
+    <string name="RESEND">RESEND</string>
+
+    <string name="OTPwillexpirein">OTP will expire in</string>
+
+    <string name="CodeExpired">Code Expired</string>
+
+    <string name="NEXT">NEXT</string>
+
+    <string name="Greattohaveyouonboard">Great to have you on board!</string>
+
+    <string name="Tellusaboutyourself">Tell us about yourself</string>
+
+    <string name="FirstName">First Name</string>
+
+    <string name="EnterDateofBirth">Enter Date of Birth</string>
+
+    <string name="StreetNumber">Street Number</string>Area
+
+    <string name="Area">Area</string>Zip Code
+
+
+    <string name="MobileVerification">
+  Mobile Verification
+  </string>
+
+    <string name="WanttostartabusinessaccountCreateaBusinessAccount">
+Want to start a business account? Create a Business Account
+  </string>
+
+    <string name="PhoneNumber">
+    Phone Number
+  </string>
+
+
+    <string name="Passwordtooweak">
+ Password too weak
+  </string>
+
+    <string name="ShoppingCart">Shopping Cart</string>
+
+    <string name="PrimaryContact">Primary Contact</string>
+
+    <string name="BusinessName">Business Name</string>
+
+    <string name="UniqueTrades">9 UniqueTrades</string>
+
+
+    <string name="PermissionDenied">Permission denied</string>
+
+
+    <string name="UpdateProfilePicture">Update Profile Picture</string>
+
+
+    <string name="BusinessNumber">Business Number</string>
+
+
+    <string name="ItemsImSelling">Items I\'m Selling</string>
+
+    <string name="SellingOptions">Selling Options</string>
+
+    <string name="Profileinformationhasbeenupdated">Profile information has been updated</string>
+
+    <string name="TheProducthasbeenRestocked">The Product has been Restocked</string>
+
+    <string name="TheProducthasbeenrelisted">The Product has been Relisted</string>
+
+    <string name="Nocurrentoffers">No current offers</string>
+
+    <string name="AskSellerTomakefixedprice">Ask sellers to make a fixed price offer on listings that closed and did not sell</string>
+
+    <string name="NewProduct">New Product</string>
+
+    <string name="Notifications">Notifications</string>
+
+    <string name="EmailPreferences">Email Preferences</string>
+
+    <string name="PrivacyOptions">Privacy Options</string>
+
+    <string name="language">Language</string>
+
+    <string name="currentLanguage">English</string>
+
+    <string name="NotificationSettings">Notification Settings</string>
+
+    <string name="Receivepushnotifications">Receive push notifications</string>
+
+    <string name="Vibrateforpushnotification">Vibrate for push notification</string>
+
+    <string name="Soundforpushnotifications">Sound for push notifications</string>
+
+    <string name="Receivefavouritesnotifications">Receive favourites notifications</string>
+
+    <string name="Receiving14outof14notifications">Receiving 14 out of 14 notifications</string>
+
+    <string name="Configurepushnotificationtype">Configure push notification type</string>
+
+    <string name="Donotdisturb">Do not disturb</string>
+
+    <string name="Blockpushnotificationsonadailyschdule">Block push notifications on a daily schedule</string>
+
+    <string name="Addavideolink">Add a video link</string>
+
+    <string name="outofphotos">0 out of 10 photos</string>
+    <string name="Nosoldlistings">No sold listings</string>
+
+    <string name="itemView">%1$d View(s)</string>
+
+    <string name="currentimageabannerimage">Note*: Click the checkbox to make the current image a banner image.</string>
+
+    <string name="SelectedImages">Selected Image(s)</string>
+
+    <string name="SelectAnyoneCountry">Select Anyone Country</string>
+
+    <string name="SelectAnyoneRegion">Select Anyone Region</string>
+
+    <string name="SelectAnyoneCity">SelectAnyoneCity</string>
+
+    <string name="Brandnewunuseditemwithoriginal">Brand new, unused item with original manuals and packaging</string>
+
+
+    <string name="PricingandPayment">Pricing and Payment</string>
+
+    <string name="Selectanyoneoption">Select any one option</string>
+
+    <string name="Selectanyonepaymentmethod">Select any one payment method</string>
+    <string name="Startpriceshouldbesmaller">Start price should be smaller</string>
+
+    <string name="Buynowmaxlimitreached">Buy now max limit reached</string>
+
+    <string name="Reservemaxlimitreached">Reserve max limit reached</string>
+
+    <string name="StartPricemaxlimitreached">Start Price max limit reached</string>
+
+    <string name="BuyNowAndAuction">Buy Now And Auction</string>
+
+    <string name="ReservePrice">Reserve Price</string>
+
+    <string name="Choosealistingtype">Choose a listing type</string>
+
+    <string name="Youdonthaveanypaymentinstructionsset">You don\'t have any payment instructions set</string>
+
+    <string name="FixedLength">Fixed Length</string>
+
+    <string name="SelectTime">Select Time</string>
+
+    <string name="SelectaPickupOption">Select a Pick-up Option</string>
+
+    <string name="Promotional">Promotional</string>
+
+    <string name="Selectanyoneitem">Select any one item</string>
+
+    <string name="largerimage">8x larger image in search results Best position in category</string>
+
+    <string name="largerimageprice">$45.99</string>
+
+    <string name="Bestpositionincategory">4x larger image in search results Best position in category</string>
+
+    <string name="Bestpositionincategoryprice">$29.99</string>
+
+    <string name="featuretext">2x larger image in search results Best position in category</string>
+
+    <string name="featureprice">$33.99</string>
+
+    <string name="gallerytext">1x larger image in search results Best position in category</string>
+
+    <string name="galleryprice">$8.99</string>
+
+    <string name="basictext">Continue with a Basic listing at no additional cost</string>
+
+    <string name="ConfirmDetails">Confirm Details</string>
+
+    <string name="BankFeesmayapply">(Bank Fees may apply)</string>
+
+    <string name="DurationAndShipping">Duration And Shipping</string>
+    <string name="ShippingWithinSaudia">Shipping Within Saudia</string>
+    <string name="failed">Failed</string>
+
+
+    <string name="Mutenotifications">Mute notifications</string>
+
+    <string name="Blockpushnotificationstemporarily">Block push notifications temporarily</string>
+
+    <string name="Sendtestpushnotification">Send test push notification</string>
+
+    <string name="FeaturedinGeneral">Featured in General</string>
+
+    <string name="SEEALL">SEE ALL</string>
+
+    <string name="FeaturedinRecent">Featured in Recent</string>
+
+    <string name="ServiceError">Service Error</string>
+
+    <string name="NoCategoriesfound">No Categories found</string>
+    <string name="Nullbackresponse">Null-back response</string>
+    <string name="FailedResponse">Failed Response</string>
+
+    <string name="Hisaysomething">Hi say something</string>
+
+    <string name="REFINE">REFINE</string>
+
+    <string name="Failedtoaddfavorites">Failed to add favorites</string>
+
+    <string name="AddedtoFavorites">Added to Favorites</string>
+
+    <string name="Whatareyoulisting">What are you listing?</string>
+
+    <string name="FINDACATEGORY">FIND A CATEGORY</string>
+
+    <string name="TotalInclusiveofVAT">Total (Inclusive of VAT)</string>
+
+    <string name="Finish">Finish</string>
+
+    <string name="Continue">Continue</string>
+
+    <string name="Done">Done!</string>
+
+    <string name="mirror_degree">0</string>
+
+    <string name="PleaseenteravalidPhoneNumber">Please enter a valid Phone Number</string>
+
+    <string name="Passworddonotmatch">Password do not match</string>
+
+    <string name="Pleasewaituntilthecodeexpires">Please wait until the code expires</string>
+
+    <string name="VerificationSuccessful">Verification Successful</string>
+
+    <string name="VerificationFailed">Verification Failed!...Resend Code</string>
+
+    <string name="Seconds">%1$d Seconds</string>
+    <string name="seconds60">60 seconds</string>
+
+    <string name="Pleaseselectagender">Please select a gender</string>
+    <string name="Accounthasbeencreated">Account has been created</string>
+    <string name="NoResponse">No Response</string>
+    <string name="FeaturedGeneralAds">Featured General Ads</string>
+    <string name="SALESFOLDER">SALES FOLDER</string>
+    <string name="KEYWORD">KEYWORD</string>
+    <string name="Hereisthesharecontentbody">Here is the share content body</string>
+    <string name="SubjectHere">Subject Here</string>
+    <string name="Sharevia">Share via</string>
+    <string name="Registrationexpires">Registration expires</string>
+    <string name="AdID">Ad ID</string>
+    <string name="StartingbidNoreserve">Starting bid | No reserve</string>
+    <string name="questions0">0 questions</string>
+    <string name="Sellersotherlistings">Seller\'s other listings</string>
+    <string name="positive100">100% positive</string>
+    <string name="OtherOptions">Other Options</string>
+    <string name="Share">Share</string>
+    <string name="Report">Report</string>
+    <string name="PLACEBID">PLACE BID</string>
+    <string name="QuestionAnswers">Question/Answers</string>
+    <string name="Questionhasbeenpost">Question has been post</string>
+    <string name="FailedtopostQuestion">Failed to post Question</string>
+    <string name="Answerhasbeenposted">Answer has been posted</string>
+    <string name="CommenthasbeenPosted">Comment has been Posted</string>
+    <string name="Answerisalreadygiven">Answer is already given</string>
+    <string name="TypeYourAnswerBelowTextBoxAgainstTheSelectedQuestion">Type Your Answer Below Text-Box Against The Selected Question</string>
+    <string name="ReplyAnswer">Reply Answer</string>
+    <string name="TypeYourCommentBelowTextBoxAgainstTheSelectedQuestion">Type Your Comment Below Text-Box Against The Selected Question</string>
+
+    <string name="comment">Comment</string>
+    <string name="FirstGiveAnswerThenYouCanDoComment">First Give Answer Then You Can Do Comment</string>
+    <string name="RecentAccountActivity">Recent Account Activity</string>
+    <string name="LastLoggedIn">Last Logged In</string>
+    <string name="MemberListing">Member Listing</string>
+
+
+    <string name="questions">%1$d questions</string>
+    <string name="FailedtogetQuestions">Failed to get Questions</string>
+    <string name="SellerAddedtoFavorites">Seller Added to Favorites</string>
+    <string name="Failedtoaddfavorite">Failed to add favorite</string>
+
+
+    <!--    Old String Resources-->
+    <string name="title_activity_bottmmm" translatable="false">Bottmmm</string>
+    <string name="title_home">Home</string>
+    <string name="title_account">Account</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_watchlist">Watchlist</string>
+    <string name="title_about_seller">About The Seller</string>
+    <string name="something_went_wrong">Something went wrong</string>
+    <string name="listing"> %1$d Listing</string>
+    <string name="neutrals">Neutral(s)</string>
+    <string name="negatives">Negative(s)</string>
+    <string name="positive">Positive(s)</string>
+    <string name="recoverpass">Forgot Password? <font color='#339933'>Recover here</font></string>
+    <string name="signuptext">Dont have an account? <font color='339933'>Sign Up</font></string>
+    <string name="alreadyaccount">Already have an account? Sign In</string>
+    <string name="browsemarketnav">All Categories   >   Marketplace</string>
+    <string name="app_name">SamplePlayStore</string>
+    <string name="type_your_password_here">Type Your Password Here</string>
+    <string name="type_your_email_here">Type Your Email Here</string>
+
+    <string name="ThisEmailAddressDoesnotExist">This Email Address Does not Exist</string>
+    <string name="InternetIssue">Internet Issue</string>
+
+
+    <string-array name="countrylist">
+        <item> - - Select Country - - </item>
+        <item>Saudia Arabia</item>
+        <item>U.A.E</item>
+        <item>Bahrain</item>
+        <item>Oman</item>
+        <item>Kuwait</item>
+    </string-array>
+
+    <string-array name="bodylist">
+        <item> - - Select BodyType - - </item>
+        <item>Coupe</item>
+        <item>Hatchback</item>
+        <item>Pick Up</item>
+        <item>Sedan</item>
+        <item>Hard Top Convertible</item>
+        <item>Soft Top Convertible</item>
+        <item>Sports Car</item>
+        <item>RV / SUVs</item>
+        <item>Van</item>
+        <item>Wagon</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="carslist">
+        <item> - - Select Company - - </item>
+        <item>Alfa Romeo</item>
+        <item>Aston Martin</item>
+        <item>Audi</item>
+        <item>Bentley</item>
+        <item>BMW</item>
+        <item>BYD</item>
+        <item>Cadillac</item>
+        <item>Chery</item>
+        <item>Chevrolet</item>
+        <item>Chrysler</item>
+        <item>Citroën</item>
+        <item>Daewoo</item>
+        <item>Daihatsu</item>
+        <item>Dodge</item>
+        <item>Ferrari</item>
+        <item>Fiat</item>
+        <item>Ford</item>
+        <item>Foton</item>
+        <item>Geely</item>
+        <item>Genesis</item>
+        <item>GMC</item>
+        <item>Great Wall</item>
+        <item>Hover</item>
+        <item>Honda</item>
+        <item>Hummer</item>
+        <item>Hyundai</item>
+        <item>Isuzu</item>
+        <item>Jaguar</item>
+        <item>Jeep</item>
+        <item>Kia</item>
+        <item>Lamborghini</item>
+        <item>Land Rover</item>
+        <item>Lexus</item>
+        <item>Lotus</item>
+        <item>Maserati</item>
+        <item>Mazda</item>
+        <item>McLaren</item>
+        <item>Mercedes-Benz</item>
+        <item>MG</item>
+        <item>MINI</item>
+        <item>Mitsubishi</item>
+        <item>Nissan</item>
+        <item>Opel</item>
+        <item>Peugeot</item>
+        <item>Porsche</item>
+        <item>Renault</item>
+        <item>Rolls-Royc</item>
+        <item>Saab</item>
+        <item>Skoda</item>
+        <item>Smart</item>
+        <item>Ssangyong</item>
+        <item>Subaru</item>
+        <item>Suzuki</item>
+        <item>Tesla</item>
+        <item>Toyota</item>
+        <item>Volkswagen</item>
+        <item>TATA</item>
+        <item>Volvo</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="favsearch">
+        <item>Dont Email me</item>
+        <item>Email me daily</item>
+        <item>Email me every week</item>
+        <item>Email me every 3 days</item>
+        <item>Email me once a week</item>
+    </string-array>
+
+    <string-array name="regionlist">
+        <item> - - Select Region - - </item>
+        <item>Dubai</item>
+        <item>Abu Dhabi</item>
+        <item>Sharjah</item>
+        <item>Al Ain</item>
+        <item>Ajman</item>
+    </string-array>
+
+    <string-array name="citylist">
+        <item> - - Select City - - </item>
+        <item>Al Bahah</item>
+        <item>Al Aqiq</item>
+        <item>Al Karra </item>
+        <item>Al Mandaq </item>
+        <item>Baljurashi</item>
+    </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="motors_category" translatable="false">Motors Category</string>
+
+    <string-array name="quantity_list">
+        <item>Qty 1</item>
+        <item>Qty 2</item>
+        <item>Qty 3</item>
+        <item>Qty 4</item>
+        <item>Qty 5</item>
+        <item>Qty 6</item>
+        <item>Qty 7</item>
+        <item>Qty 8</item>
+        <item>Qty 9</item>
+        <item>Array Item Three</item>
+    </string-array>
+
+    <string-array name="quantity_number_list">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+    </string-array>
+
+
+    <string-array name="payment_method">
+        <item>Select payment</item>
+        <item>Cash</item>
+        <item>Card</item>
+
+    </string-array>
+
+    <string-array name="shipping_method">
+        <item>Select shipping</item>
+        <item>By Cargo</item>
+        <item>By Ship</item>
+
+    </string-array>
+
+
+</resources>

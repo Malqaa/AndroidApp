@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_createpg3"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#339933"
+        android:layout_alignParentTop="true"
+        app:popupTheme="@style/PopupOverlay">
+    </androidx.appcompat.widget.Toolbar>
+
+    <ScrollView android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/toolbar_createpg3"
+        android:layout_above="@+id/btn_productinfo2">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingBottom="20dp">
+
+            <TextView
+                android:id="@+id/text_createpg3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="23dp"
+                android:layout_marginTop="20dp"
+                android:text="Pricing &amp; Fixed Price Offer"
+                android:textColor="@color/GreenApp"
+                android:textSize="20sp" />
+
+
+            <RadioGroup
+                android:id="@+id/list_pricing"
+                android:layout_below="@+id/text_createpg3"
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp">
+
+                <RadioButton
+                    android:id="@+id/list_buynow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="List as Buy Now Only"
+                    android:layout_marginStart="2dp"/>
+
+                <RadioButton
+                    android:id="@+id/list_auction"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="List Auction"
+                    android:layout_marginStart="2dp"
+                    />
+
+            </RadioGroup>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/start_price_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginEnd="20dp"
+                android:layout_below="@+id/list_pricing"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:enabled="false"
+                    android:focusableInTouchMode="false"
+                    android:hint="Start Price"
+                    android:id="@+id/start_price_textt"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/specifyreserve_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
+                android:layout_below="@+id/start_price_text"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:enabled="false"
+                    android:focusableInTouchMode="false"
+                    android:hint="Specify Reserve (25c)"
+                    android:id="@+id/specifyreserve_textt"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/buynow_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
+                android:layout_below="@+id/specifyreserve_text"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Buy Now"
+                    android:id="@+id/buynow_textt"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <CheckBox
+                android:id="@+id/only_bids"
+                android:layout_marginTop="40dp"
+                android:layout_marginStart="20dp"
+                android:layout_width="wrap_content"
+                android:textSize="14sp"
+                android:textColor="@color/grayy"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/buynow_text"
+                android:text="Only allow bids from Authenticated Members"/>
+
+            <CheckBox
+                android:id="@+id/fixedprice_details"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="@color/grayy"
+                android:layout_below="@+id/only_bids"
+                android:text="Fixed price offer - automatically offer this item each time a listing ends (sold and unsold)"/>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/fixedprice_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginEnd="20dp"
+                android:layout_below="@+id/fixedprice_details"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Fixed Offer Price"
+                    android:id="@+id/fixedprice_textt"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/offer_duration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:layout_marginStart="23dp"
+                android:text="Offer Duration"
+                android:layout_below="@+id/fixedprice_text"/>
+
+            <RelativeLayout
+                android:id="@+id/offeduration_relatv3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/buttonradius"
+                android:layout_below="@+id/offer_duration"
+                >
+                <Spinner
+                    android:id="@+id/offerduartion_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/offer_to_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:layout_marginStart="23dp"
+                android:text="Offer to"
+                android:layout_below="@+id/offeduration_relatv3"/>
+
+            <RelativeLayout
+                android:id="@+id/offerto_relatv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/buttonradius"
+                android:layout_below="@+id/offer_to_text"
+                >
+                <Spinner
+                    android:id="@+id/offerto_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    />
+            </RelativeLayout>
+
+            <View
+                android:id="@+id/view_acceptedpayment"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginTop="35dp"
+                android:background="@color/SilverBackground"
+                android:layout_below="@+id/offerto_relatv"/>
+
+            <TextView
+                android:id="@+id/acceptedpayment_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Accepted Payment Types"
+                android:textColor="@color/GreenApp"
+                android:textSize="20sp"
+                android:layout_marginTop="25dp"
+                android:layout_marginStart="20dp"
+                android:layout_below="@+id/view_acceptedpayment"/>
+
+                <CheckBox
+                    android:id="@+id/cash_sadeposit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/acceptedpayment_title"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:text="SA bank deposit"/>
+
+                <CheckBox
+                    android:id="@+id/bank_ping"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/cash_sadeposit"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:text="Ping"/>
+            <CheckBox
+                android:id="@+id/bank_cash"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/bank_ping"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:text="Cash"/>
+            <CheckBox
+                android:id="@+id/bank_paypal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/bank_cash"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:text="PayPal"/>
+
+
+        </RelativeLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btn_productinfo2"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:textAllCaps="false"
+        android:textColor="#ffffff"
+        android:textSize="22sp"
+        android:background="@color/GoldenApp"
+        android:text="Next"
+        android:layout_alignParentBottom="true" />
+
+</RelativeLayout>

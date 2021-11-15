@@ -1,0 +1,3 @@
+keystore-PW = Malqaa@#$1234
+alias = malqaa
+alias-PW = Malqaa@#$1234

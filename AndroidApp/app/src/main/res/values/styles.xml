@@ -1,0 +1,116 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="QText" parent="Theme.MaterialComponents.Light.DarkActionBar">
+        <item name="android:layout_gravity">end</item>
+
+
+    </style>
+
+    <style name="AppTheme2" parent="Theme.MaterialComponents.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="NoActionBar" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="CustomTabText" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">13sp</item>
+    </style>
+
+
+
+
+<style
+        name="dialog">
+        <!-- title encapsulating main part (backgroud) of custom alertdialog -->
+        <item
+            name="android:windowFrame">@null</item>
+        <!-- turn off any drawable used to draw a frame on the window -->
+        <item
+            name="android:windowBackground">@null</item>
+        <!-- turn off any drawable used to draw a frame on the window -->
+        <item
+            name="android:windowIsFloating">true</item>
+        <!-- float the window so it does not fill the screen -->
+        <item
+            name="android:windowNoTitle">true</item>
+        <!-- remove the title bar we make our own-->
+        <item
+            name="android:windowContentOverlay">@null</item>
+        <!-- remove the shadow from under the title bar -->
+    </style>
+
+
+    <style name="color_checkbox" parent="Theme.MaterialComponents.Light">
+
+        <item name="colorAccent">#000000</item>
+        <item name="android:textColorSecondary">#adad85</item>
+    </style>
+    <!--is checkbox k color ko laagane k liye main ui main ANDRIOD:THEME pr style likhna -->
+
+    <color name="activedots">#fffafa</color>
+    <color name="in_activedots">#83878b</color>
+
+
+
+    <style name="MyButton" parent="Theme.MaterialComponents.Light">
+        <item name="colorControlHighlight">@color/teal_100</item>
+        <item name="colorButtonNormal">@color/teal_500</item>
+    </style>
+
+
+
+    <style name="MaterialSearchViewStyle">
+        <!-- Background for the search bar -->
+        <item name="searchBackground">@color/colorPrimary</item>
+
+        <!-- Change voice icon -->
+        <item name="searchVoiceIcon">@drawable/ic_action_voice_search_inverted</item>
+
+        <!-- Change clear text icon -->
+        <item name="searchCloseIcon">@drawable/ic_action_navigation_close_inverted</item>
+
+        <!-- Change up icon -->
+        <item name="searchBackIcon">@drawable/ic_action_navigation_arrow_back_inverted</item>
+
+        <!-- Change icon for the suggestions -->
+        <item name="searchSuggestionIcon">@drawable/ic_suggestion</item>
+
+        <!-- Change background for the suggestions list view -->
+        <item name="searchSuggestionBackground">@android:color/white</item>
+
+        <!-- Change text color for edit text. This will also be the color of the cursor -->
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+
+        <!-- Change hint text color for edit text -->
+        <item name="android:textColorHint">@color/gray_unselect_bottomnav</item>
+
+        <!-- Hint for edit text -->
+        <item name="android:hint">@string/search_hint</item>
+
+
+    </style>
+
+
+
+</resources>

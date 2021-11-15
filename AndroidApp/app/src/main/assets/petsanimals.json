@@ -1,0 +1,62 @@
+[
+  {
+    "id": "dce0fd69-8bae-441b-b39b-2f1d197aebf9",
+    "name": "Birds",
+    "key": "Birds",
+    "sortorder": 1
+  },
+  {
+    "id": "ade2544b-3750-41e8-b98a-df8302b9e500",
+    "name": "Cats",
+    "key": "Cats",
+    "sortorder": 2
+  },
+  {
+    "id": "36c6db02-f210-4d5c-bf8a-8bd481adc6c0",
+    "name": "Dogs",
+    "key": "Dogs",
+    "sortorder": 3
+  },
+  {
+    "id": "1fe10a6d-dc8f-4980-a63d-d7e9aeaa39a4",
+    "name": "Fish",
+    "key": "Fish",
+    "sortorder": 4
+  },
+  {
+    "id": "c08ce08c-3063-4502-b9a1-f120c1d7276e",
+    "name": "Camels",
+    "key": "Camels",
+    "sortorder": 5
+  },
+  {
+    "id": "eee8432d-bdf7-4192-be00-a011d9f91889",
+    "name": "Sheeps",
+    "key": "Sheeps",
+    "sortorder": 6
+  },
+  {
+    "id": "0da61717-3152-41f8-ad94-38ba10746ab5",
+    "name": "Rabbits",
+    "key": "Rabbits",
+    "sortorder": 7
+  },
+  {
+    "id": "f99090e9-1d0b-4537-8fa8-63701351c1b0",
+    "name": "Cows",
+    "key": "Cows",
+    "sortorder": 8
+  },
+  {
+    "id": "36cbaf6a-e1bf-4231-b667-a7e6f434f9bd",
+    "name": "Horses",
+    "key": "Horses",
+    "sortorder": 9
+  },
+  {
+    "id": "4164bae9-90f4-4b09-b54a-bddf054c2ecf",
+    "name": "Other",
+    "key": "Other",
+    "sortorder": 10
+  }
+]

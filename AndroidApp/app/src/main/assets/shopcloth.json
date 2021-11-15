@@ -1,0 +1,20 @@
+[
+  {
+    "id": "c1940d70-114a-48b2-be1f-b4f88a7d1c61",
+    "name": "Women",
+    "key": "Women",
+    "sortorder": 1
+  },
+  {
+    "id": "b7762f8c-cbcc-4cc7-869b-68c3bc90b277",
+    "name": "Men",
+    "key": "Men",
+    "sortorder": 2
+  },
+  {
+    "id": "7b9787f9-36b0-4a8d-b956-d744f34d578b",
+    "name": "Kids Clothing",
+    "key": "Kids",
+    "sortorder": 3
+  }
+]

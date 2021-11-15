@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="?actionBarSize">
+
+    <ScrollView
+        android:id="@+id/scroll_detail_page"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/card8"
+        android:layout_alignParentTop="true">
+
+        <RelativeLayout
+            android:id="@+id/carspeci"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:context=".botmnav_fragments.cardetail_page.CarSpecificsFragment">
+
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="230dp"
+                android:layout_alignParentTop="true" />
+
+            <LinearLayout
+                android:id="@+id/SliderDots"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="200dp"
+                android:gravity="center_vertical|center_horizontal"
+                android:orientation="horizontal" />
+
+
+            <ImageButton
+                android:id="@+id/bckscarpces"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/ic_chevron_left_black_24dp"
+                android:rotation="@string/mirror_degree"
+                android:backgroundTint="@color/white" />
+
+
+            <include
+                android:id="@+id/card1"
+                layout="@layout/carspec_card1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/viewPager" />
+
+            <include
+                android:id="@+id/card2"
+                layout="@layout/carspce_card2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/card1"
+                android:layout_marginTop="10dp" />
+
+            <include
+                android:id="@+id/card3"
+                layout="@layout/carspec_card3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/card2"
+                android:layout_marginTop="10dp" />
+
+
+            <include
+                android:id="@+id/card4"
+                layout="@layout/carsspec_card4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/card3"
+                android:layout_marginTop="10dp" />
+
+            <include
+                android:id="@+id/card5"
+                layout="@layout/carspec_card5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/card4"
+                android:layout_marginTop="10dp" />
+
+            <include
+                android:id="@+id/card6"
+                layout="@layout/carspec_card6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/card5"
+                android:layout_marginTop="10dp" />
+
+            <include
+                android:id="@+id/card7"
+                layout="@layout/carspecs_card7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/card6"
+                android:layout_marginTop="10dp" />
+
+        </RelativeLayout>
+    </ScrollView>
+
+    <include
+        android:id="@+id/card8"
+        layout="@layout/carspec_card8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="10dp" />
+</RelativeLayout>

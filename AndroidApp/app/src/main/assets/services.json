@@ -1,0 +1,115 @@
+[
+  {
+    "id": " 03698523-8926-4f4b-b681-2df9f6bbe8ad",
+    "name": "Automotive services",
+    "key": "Automotive",
+    "sortorder": "1"
+  },
+  {
+    "id": "67d876ec-413c-408f-a5b5-7cb802d6de97",
+    "name": "Real estate Services",
+    "key": "Real",
+    "sortorder": "2"
+  },
+  {
+    "id": "90728762-6ac6-4f14-b690-7c482e774698",
+    "name": "Transport services",
+    "key": "Transport",
+    "sortorder": "3"
+  },
+  {
+    "id": " 0079be74-f592-4bc5-93d1-13fa35dac3e4",
+    "name": "Technology services ",
+    "key": "Technology ",
+    "sortorder": "4"
+  },
+  {
+    "id": "de8e92d9-b5bb-4889-9b51-84559ce6b7ea",
+    "name": "Financial & legal services",
+    "key": "Financial",
+    "sortorder": "5"
+  },
+  {
+    "id": "  0a4efcfb-4d06-4fdc-a995-49651dbceac3",
+    "name": "Transaction Tracking Services",
+    "key": "Transaction",
+    "sortorder": "6"
+  },
+  {
+    "id": "0fb9f38d-9c03-4be6-8fe9-e909cec4f3b2",
+    "name": "Architecture & design services",
+    "key": "Architecture",
+    "sortorder": "7"
+  },
+  {
+    "id": "4288a152-8e6e-4ea9-89f0-d71d11db6000",
+    "name": "Building & construction services",
+    "key": "Building",
+    "sortorder": "8"
+  },
+  {
+    "id": "56cbc58f-efbe-4fa7-bf1d-a2c4aa0bfdab",
+    "name": "Electricity services",
+    "key": "Electricity",
+    "sortorder": "9"
+  },
+  {
+    "id": " ca331486-fd18-47a9-826c-8990a5733508",
+    "name": "Painting services",
+    "key": "Painting",
+    "sortorder": "10"
+  },
+  {
+    "id": "e1e6dc86-8a19-469f-803b-13c873051de4",
+    "name": "Plumbing services",
+    "key": "Plumbing",
+    "sortorder": "11"
+  },
+  {
+    "id": "  d5c47ddb-add8-4ea8-996c-3bd7ac62b577",
+    "name": "Cleaning services",
+    "key": "Cleaning",
+    "sortorder": "12"
+  },
+  {
+    "id": " a12b4b06-8e75-4908-a683-79992e2d42af",
+    "name": "Furniture moving services",
+    "key": "Furniture",
+    "sortorder": "13"
+  },
+  {
+    "id": "  72e8afc1-cbe2-4af6-b03c-1d372c3da013",
+    "name": "Heavy equipment Rental",
+    "key": "Heavy",
+    "sortorder": "14"
+  },
+  {
+    "id": "c07f8cb9-0a49-4281-ab4a-7f388cd2d101",
+    "name": "Coordinate farms and garden",
+    "sortorder": "15"
+  },
+  {
+    "id": " f4946008-fa65-4e76-bda4-30dc72a2887a",
+    "name": "Events & entertainment planner",
+    "key": "Events",
+    "sortorder": "16"
+  },
+  {
+    "id": "c87bb6bb-ace1-474d-928f-a8a1d969d31a",
+    "name": "Party rentals & supplies",
+    "key": "Party",
+    "sortorder": "17"
+  },
+  {
+    "id": "e7bc82ca-d593-4608-b2a7-2efce57d65bd",
+    "name": "Photography & video",
+    "key": "Photography",
+    "sortorder": "18"
+  },
+  {
+    "id": "  13a6deb8-fd87-4859-9e04-a2d2957af1e8",
+    "name": "Other services",
+    "key": "Other",
+    "sortorder": "19"
+  }
+]

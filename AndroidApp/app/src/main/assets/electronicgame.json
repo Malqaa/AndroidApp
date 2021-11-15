@@ -1,0 +1,56 @@
+[
+  {
+    "id": "cd351f61-8b8e-4e05-bc2f-2ee0615b811f",
+    "name": "TVs & Accessories",
+    "key": "TVs-en-US",
+    "sortorder": 1
+  },
+  {
+    "id": "ca41111d-61d1-430f-acd8-fa810b455453",
+    "name": "Audio",
+    "key": "Audio-en-US",
+    "sortorder": 2
+  },
+  {
+    "id": "069afbf1-009b-4dac-8fe5-b3ae7851afde",
+    "name": "Phones Tablets & iPad",
+    "key": "Phones-en-US",
+    "sortorder": 3
+  },
+  {
+    "id": "83fff9b4-75f2-4d11-8ac3-abd2b3cf8262",
+    "name": "Smart watch",
+    "key": "watch-en-US",
+    "sortorder": 4
+  },
+  {
+    "id": "57ae47b6-901b-4303-a395-080d62fcb577",
+    "name": "Computers",
+    "key": "Computers-en-US",
+    "sortorder": 5
+  },
+  {
+    "id": "263184cc-08eb-4006-bebc-24176d1f9913",
+    "name": "Gaming",
+    "key": "Gaming-en-US",
+    "sortorder": 6
+  },
+  {
+    "id": "9c851b6c-470c-4e8f-a71f-8b73b3124124",
+    "name": "Cameras",
+    "key": "Cameras-en-US",
+    "sortorder": 7
+  },
+  {
+    "id": "39960d1f-7a8e-482f-9d13-9c5105ff41ff",
+    "name": "Power banks",
+    "key": "Power",
+    "sortorder": 8
+  },
+  {
+    "id": "f4b38321-10b0-4915-9d60-1bc53d8cdee5",
+    "name": "External storage",
+    "key": "External",
+    "sortorder": 9
+  }
+]

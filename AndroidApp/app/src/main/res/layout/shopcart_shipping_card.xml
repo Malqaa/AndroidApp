@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <RadioButton
+        android:id="@+id/radio_btn_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="-5dp" />
+
+<Button
+    android:id="@+id/location_btn"
+    android:layout_width="wrap_content"
+    android:layout_height="33dp"
+    style="?android:attr/borderlessButtonStyle"
+    android:drawableStart="@drawable/location"
+    android:layout_toEndOf="@id/radio_btn_address"
+    android:text="Location"
+    android:drawablePadding="3dp"
+    android:textSize="12dp"
+    android:textAllCaps="false"
+    />
+
+    <Button
+        android:id="@+id/remove_btn"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="33dp"
+        android:layout_alignParentEnd="true"
+        android:drawableStart="@drawable/bin"
+        android:drawablePadding="3dp"
+        android:drawableTint="#ffffff"
+        android:text="Remove"
+        android:textAllCaps="false"
+        android:textColor="@color/graishhh"
+        android:textSize="12dp"
+        android:visibility="invisible" />
+
+    <ImageView
+        android:layout_width="17dp"
+        android:layout_height="17dp"
+        android:layout_alignStart="@+id/remove_btn"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/bin"
+        android:visibility="invisible" />
+
+
+    <Button
+        android:id="@+id/edit_btn"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="70dp"
+        android:layout_height="33dp"
+        android:layout_toStartOf="@+id/remove_btn"
+        android:drawableStart="@drawable/bin"
+        android:drawablePadding="3dp"
+        android:drawableTint="#ffffff"
+        android:text="Edit"
+        android:textAllCaps="false"
+        android:textSize="12dp"
+        android:visibility="invisible" />
+
+    <ImageView
+        android:layout_width="17dp"
+        android:layout_height="17dp"
+        android:layout_alignStart="@+id/edit_btn"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/edit"
+        android:tint="#616161"
+        android:visibility="invisible" />
+
+
+    <View
+        android:id="@+id/view_shipping_address"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginBottom="20dp"
+        android:background="@color/SilverBackground"
+        android:layout_below="@+id/location_btn"/>
+
+
+    <TextView
+        android:id="@+id/person_name_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Name"
+        android:textSize="12sp"
+        android:layout_marginStart="12dp"
+        android:layout_below="@+id/view_shipping_address"/>
+    
+    <TextView
+        android:id="@+id/person_name_cartshipping"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:text="Muhammad Saleh"
+        android:textSize="12sp"
+        android:layout_below="@id/view_shipping_address"
+        android:layout_toEndOf="@+id/person_name_text"/>
+
+    <TextView
+        android:id="@+id/address_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Address"
+        android:textSize="12sp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"
+        android:layout_below="@+id/person_name_text"/>
+
+    <TextView
+        android:id="@+id/address_shipping_cart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="3367 an, nuzhah, Makkah 24225 Saudi Arabia"
+        android:layout_below="@+id/person_name_cartshipping"
+        android:layout_toEndOf="@+id/person_name_text"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="100dp"
+        android:textSize="12sp"/>
+
+    <TextView
+        android:id="@+id/phonenum_shippingcart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Phone Number"
+        android:textSize="12sp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="20dp"
+        android:layout_below="@+id/address_text"/>
+
+    <TextView
+        android:id="@+id/phonenum_addressship"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="+966-55-5335285"
+        android:layout_below="@+id/address_shipping_cart"
+        android:layout_toEndOf="@+id/person_name_text"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="100dp"
+        android:textSize="12sp"/>
+
+
+</RelativeLayout>

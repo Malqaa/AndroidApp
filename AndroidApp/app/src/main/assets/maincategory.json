@@ -1,0 +1,62 @@
+[
+{
+"id":"5c8a35c7-044b-4887-b4c4-af642a2353e6",
+"name":"Vehicles",
+"key":"Vehicles",
+"sortorder":1
+},
+{
+"id":"7ccf69ae-e19a-4c82-9462-4ee675413b9f",
+"name":"Property",
+"key":"Property",
+"sortorder":2
+},
+{
+"id":"6c1ab3b5-3839-4538-bf11-9c0362092863",
+"name":"Boats & marine",
+"key":"Boats-en-US",
+"sortorder":3
+},
+{
+"id":"2b830d2b-530f-420b-89d8-ac79fdf85924",
+"name":"Services",
+"key":"Services-en-US",
+"sortorder":4
+},
+{
+"id":"61d6cbd6-37f4-4063-aa79-80355a8d9042",
+"name":"Electronics & Gaming",
+"key":"Electronics-en-US",
+"sortorder":5
+},
+{
+"id":"45147a0b-214a-4d25-bc25-ef969c05df6f",
+"name":"Pet & Animals",
+"key":"Pet-en-US",
+"sortorder":6
+},
+{
+"id":"aa2889a1-f165-4d7f-a248-5eb09882edf9",
+"name":"Furnitures & Furnishings",
+"key":"Furnitures-en-US",
+"sortorder":7
+},
+{
+"id":"a7ef9a8e-6e57-40f6-8ec7-c51afed52d00",
+"name":"Shop Clothing &, Jewellery",
+"key":"ShopClothing-en-US",
+"sortorder":8
+},
+{
+"id":"66c5aed4-6971-45d2-9a00-e273ec6459f9",
+"name":"Appliances",
+"key":"Appliances-en-US",
+"sortorder":9
+},
+{
+"id":"171f51db-2ac8-462d-aff1-af2b3e29f579",
+"name":"Health & Beauty",
+"key":"Health-en-US",
+"sortorder":10
+}
+]

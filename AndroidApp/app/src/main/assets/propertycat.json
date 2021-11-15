@@ -1,0 +1,20 @@
+[
+  {
+    "id": "89c53099-5067-4717-b1d7-ac85198e06de",
+    "name": "Residential",
+    "key": "Residential",
+    "sortorder": 1
+  },
+  {
+    "id": "416fe9d4-48f5-4764-8fb7-0017f583e6b6",
+    "name": "Commercial",
+    "key": "Commercial",
+    "sortorder": 2
+  },
+  {
+    "id": "76ced3e4-6f9c-4c96-82c7-0dfd9c6cdd13",
+    "name": "Agricultural",
+    "key": "Agricultural",
+    "sortorder": 3
+  }
+]

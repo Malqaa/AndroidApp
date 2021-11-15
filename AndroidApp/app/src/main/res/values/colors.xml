@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#43a047</color>
+    <color name="colorPrimaryDark">#1B701E</color>
+    <color name="colorAccent">#c8a32a</color>
+    <color name="Black">#404040</color>
+    <color name="white">#ffffff</color>
+    <color name="GreenApp">#43a047</color>
+    <color name="greenspan">#43a047</color>
+    <color name="GoldenApp">#c8a32a</color>
+    <color name="Silvr">#f6f7fb</color>
+    <color name="SilverBackground">#eeeeee</color>
+    <color name="greenApp">#339933 </color>
+    <color name="grayy">#4D4C4C</color>
+    <color name="gray_unselect_bottomnav">#C8C7CC</color>
+    <color name="graishhh">#B8B8B8</color>
+    <color name="Red">#d1395c</color>
+
+
+
+    <color name="teal_050">#e0f2f1</color> <!-- Use with black text -->
+    <color name="teal_100">#b2dfdb</color> <!-- Use with black text -->
+    <color name="teal_200">#80cbc4</color> <!-- Use with black text -->
+    <color name="teal_300">#4db6ac</color> <!-- Use with black text -->
+    <color name="teal_400">#26a69a</color> <!-- Use with black text -->
+    <color name="teal_500">#009688</color> <!-- Use with white text -->
+    <color name="teal_600">#00897b</color> <!-- Use with white text -->
+    <color name="teal_700">#00796b</color> <!-- Use with white text -->
+    <color name="teal_800">#00695c</color> <!-- Use with white text -->
+    <color name="teal_900">#004d40</color> <!-- Use with white text -->
+    <color name="teal_a100">#a7ffeb</color> <!-- Use with black text -->
+    <color name="teal_a200">#64ffda</color> <!-- Use with black text -->
+    <color name="teal_a400">#1de9b6</color> <!-- Use with black text -->
+    <color name="teal_a700">#00bfa5</color> <!-- Use with black text -->
+
+
+
+    <!-- dots inactive colors -->
+    <color name="dot_dark_screen1">#d1395c</color>
+    <color name="dot_dark_screen2">#14a895</color>
+    <color name="dot_dark_screen3">#2278d4</color>
+    <color name="dot_dark_screen4">#a854d4</color>
+
+    <!-- dots active colors -->
+    <color name="dot_light_screen1">#f98da5</color>
+    <color name="dot_light_screen2">#8cf9eb</color>
+    <color name="dot_light_screen3">#93c6fd</color>
+    <color name="dot_light_screen4">#e4b5fc</color>
+
+    <array name="array_dot_active">
+        <item>@color/greenApp</item>
+        <item>@color/greenApp</item>
+        <item>@color/greenApp</item>
+
+    </array>
+
+    <array name="array_dot_inactive">
+        <item>@color/graishhh</item>
+        <item>@color/graishhh</item>
+        <item>@color/graishhh</item>
+
+    </array>
+
+</resources>

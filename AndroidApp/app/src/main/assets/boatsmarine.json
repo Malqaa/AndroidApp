@@ -1,0 +1,44 @@
+[
+  {
+    "id": "36539837-4cdf-48c8-82ec-2eb7bc4b4b49",
+    "name": "Air Boats",
+    "key": "Boats",
+    "sortorder": "3"
+  },
+  {
+    "id": "b9ac782d-f0be-4b30-a661-bfa026e66ff4",
+    "name": "Boat parts",
+    "key": "Boat",
+    "sortorder": "4"
+  },
+  {
+    "id": "260d3957-a035-4150-a2a3-60ab235bfcc2",
+    "name": "Dinghies",
+    "key": "Dinghies",
+    "sortorder": "5"
+  },
+  {
+    "id": "e780662a-34c6-40f2-bc7f-59c3a2c81ffb",
+    "name": "Jetskis",
+    "key": "Jetskis",
+    "sortorder": "6"
+  },
+  {
+    "id": "01caacd9-6de7-4846-87af-63b59cf4c2df",
+    "name": "Jetskis parts",
+    "key": "Jetskis",
+    "sortorder": "7"
+  },
+  {
+    "id": "a56572b8-b768-4fe8-b9e4-041e2b716c36",
+    "name": "Marina berths",
+    "key": "Marina",
+    "sortorder": "8"
+  },
+  {
+    "id": " 0bc9ef9e-1b23-4884-b87a-7de9a4ac5432",
+    "name": "Other",
+    "key": "Other",
+    "sortorder": "9"
+  }
+]

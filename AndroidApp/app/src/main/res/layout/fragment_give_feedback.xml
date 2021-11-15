@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/SilverBackground">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_give_feedback"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentTop="true"
+        android:background="#339933"
+        app:popupTheme="@style/PopupOverlay">
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <TextView
+        android:id="@+id/feedback_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="How do you rate our product?"
+        android:layout_below="@+id/toolbar_give_feedback"
+        android:layout_margin="40dp"
+        android:textSize="20sp"
+        android:layout_centerHorizontal="true"
+        />
+
+
+    <RadioGroup
+        android:id="@+id/feedback_radio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/feedback_text"
+        android:layout_marginTop="50dp"
+        >
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_positive"
+            android:layout_margin="13dp"
+            android:text="Positive" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="14dp"
+            android:id="@+id/btn_neutral"
+            android:text="Neutral" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="14dp"
+            android:id="@+id/btn_negative"
+            android:text="Negative" />
+
+    </RadioGroup>
+
+    <EditText
+        android:id="@+id/feedback_description"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_below="@+id/feedback_radio"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/buttonradius"
+        android:gravity="top"
+        android:hint="Give a Feedback"
+        android:inputType="textPersonName"
+        android:padding="12dp" />
+
+
+    <Button
+        android:id="@+id/btn_confirm_feedback"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/GoldenApp"
+        android:text="Give Feedback"
+        android:textAllCaps="false"
+        android:textColor="#ffffff"
+        android:textSize="22sp" />
+
+</RelativeLayout>

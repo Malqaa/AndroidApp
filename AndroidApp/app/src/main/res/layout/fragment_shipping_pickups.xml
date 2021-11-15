@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        tools:context=".botmnav_fragments.create_ads.ShippingPickups">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_ship_pick"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="#339933"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:popupTheme="@style/PopupOverlay">
+
+        </androidx.appcompat.widget.Toolbar>
+
+
+        <TextView
+            android:id="@+id/pickup_option"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/SelectaPickupOption"
+            android:textColor="@color/GreenApp"
+            android:textSize="20sp"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar_ship_pick"
+            />
+
+    <RadioGroup
+        android:id="@+id/ship_pickup_radioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="15dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/pickup_option"
+        app:layout_constraintStart_toStartOf="parent"
+        >
+
+        <RadioButton
+            android:id="@+id/rb1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/NoPickup"
+            android:textColor="#4d4d33"
+            android:textSize="14sp" />
+
+
+        <RadioButton
+            android:id="@+id/rb2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/PickupAvailable"
+            android:textColor="#4d4d33"
+            android:textSize="14sp"
+            android:layout_marginTop="5dp"/>
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/rbtn_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FF0000"
+        android:textSize="11sp"
+        android:layout_marginStart="30dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ship_pickup_radioGroup"
+        />
+
+
+    <View
+        android:id="@+id/view_pricepay"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/SilverBackground"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="35dp"
+        app:layout_constraintTop_toBottomOf="@+id/ship_pickup_radioGroup"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="138dp" />
+
+        <TextView
+            android:id="@+id/pickup_option2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/SelectaPickupOption"
+            android:textColor="@color/GreenApp"
+            app:layout_constraintTop_toBottomOf="@+id/view_pricepay"
+            android:textSize="20sp"
+            android:layout_marginTop="35dp"
+            android:layout_marginStart="20dp"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+        <RadioGroup
+            android:id="@+id/pricepay_radioGroupp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="15dp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/pickup_option2"
+            app:layout_constraintStart_toStartOf="parent"
+            >
+
+            <RadioButton
+                android:id="@+id/rb2_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/FreeshippingwithinSaudiArabia"
+                android:textColor="#4d4d33"
+                android:textSize="14sp" />
+
+
+            <RadioButton
+                android:id="@+id/rb2_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ShippingNotAvailable"
+                android:textColor="#4d4d33"
+                android:textSize="14sp"
+                android:layout_marginTop="5dp"/>
+
+            <RadioButton
+                android:id="@+id/rb2_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/TobeArranged"
+                android:textColor="#4d4d33"
+                android:textSize="14sp"
+                android:layout_marginTop="5dp"/>
+            <RadioButton
+                android:id="@+id/rb2_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/SpecifyShippingCost"
+                android:textColor="#4d4d33"
+                android:textSize="14sp"
+                android:layout_marginTop="5dp"/>
+        </RadioGroup>
+
+    <TextView
+        android:id="@+id/rbtn_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FF0000"
+        android:textSize="11sp"
+        android:layout_marginStart="30dp"
+        app:layout_constraintTop_toBottomOf="@+id/pricepay_radioGroupp"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+
+
+        <Button
+            android:id="@+id/btn_shippickup"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:textAllCaps="false"
+            android:textColor="#ffffff"
+            android:textSize="22sp"
+            android:background="@color/GoldenApp"
+            android:text="@string/NEXT"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+

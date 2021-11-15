@@ -1,0 +1,74 @@
+[
+  {
+    "id": "6165ce22-1ee8-4480-9251-307b5f1cff39",
+    "name": "Bathroom",
+    "key": "Bathroom",
+    "sortorder": 1
+  },
+  {
+    "id": "cf6c9fbd-3cfe-41ba-a9ef-24e3447e1e00",
+    "name": "Bedding & towels",
+    "key": "Bedding",
+    "sortorder": 2
+  },
+  {
+    "id": "45cd12a8-144c-435c-b69a-50a025f0b874",
+    "name": "Bedroom furniture",
+    "key": "Bedroom",
+    "sortorder": 3
+  },
+  {
+    "id": "f4c25d00-3929-4a6b-90c3-42ac329d96c0",
+    "name": "Curtains & blinds",
+    "key": "Curtains",
+    "sortorder": 4
+  },
+  {
+    "id": "de1bebde-1768-4b4c-9d01-3b8c6786210c",
+    "name": "Home dufffdcor",
+    "key": "Home",
+    "sortorder": 5
+  },
+  {
+    "id": "95dd5f2d-7403-41b7-9296-82a0f50aaa34",
+    "name": "Kitchen",
+    "key": "Kitchen",
+    "sortorder": 6
+  },
+  {
+    "id": "fa8c9bb6-70e9-4aaa-a21b-4d4306974d91",
+    "name": "Laundry",
+    "key": "Laundry",
+    "sortorder": 7
+  },
+  {
+    "id": "ca1f97e5-8cff-47c6-9fe7-e0ac3c5cb93c",
+    "name": "Lounge dining &,hall",
+    "key": "Lounge",
+    "sortorder": 8
+  },
+  {
+    "id": "f2f75bcc-1e20-43e3-a802-595b1b58f372",
+    "name": "Luggage & travel accessories",
+    "key": "Luggage",
+    "sortorder": 9
+  },
+  {
+    "id": "65b0db49-a025-4c52-90c2-2f8f7a392a22",
+    "name": "Outdoor garden &, conservatory",
+    "key": "Outdoor",
+    "sortorder": 10
+  },
+  {
+    "id": "64848f32-0d6d-4cae-9a7b-f98eca841903",
+    "name": "Party & festive supplies",
+    "key": "Party",
+    "sortorder": 11
+  },
+  {
+    "id": "c710d359-7e7a-41e8-82d8-782d09e19b44",
+    "name": "Security locks & alarms",
+    "key": "Security",
+    "sortorder": 12
+  }
+]

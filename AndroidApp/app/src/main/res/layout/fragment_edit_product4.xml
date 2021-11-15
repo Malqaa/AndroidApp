@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_createpg4"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#339933"
+        android:layout_alignParentTop="true"
+        app:popupTheme="@style/PopupOverlay">
+    </androidx.appcompat.widget.Toolbar>
+
+    <ScrollView android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/toolbar_createpg4"
+        android:layout_above="@+id/btn_createproduct4">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingBottom="20dp"
+            >
+
+            <TextView
+                android:id="@+id/text_createpg4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="23dp"
+                android:layout_marginTop="20dp"
+                android:text="Shipping Options"
+                android:textColor="@color/GreenApp"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/shippingrate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:layout_marginStart="23dp"
+                android:text="Shipping Rate"
+                android:layout_below="@+id/text_createpg4"/>
+
+            <RelativeLayout
+                android:id="@+id/shippingrate_relatv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/buttonradius"
+                android:layout_below="@+id/shippingrate"
+                >
+                <Spinner
+                    android:id="@+id/shippingrate_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/pickup_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:layout_marginStart="23dp"
+                android:text="Pickup"
+                android:layout_below="@+id/shippingrate_relatv"/>
+
+            <RelativeLayout
+                android:id="@+id/pickup_relatv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/buttonradius"
+                android:layout_below="@+id/pickup_text"
+                >
+                <Spinner
+                    android:id="@+id/pickup_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    />
+            </RelativeLayout>
+
+            <RadioGroup
+                android:id="@+id/list_pickup"
+                android:layout_below="@+id/pickup_relatv"
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp">
+
+                <RadioButton
+                    android:id="@+id/dont_know"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="I don't know the shipping costs yet"
+                    android:layout_marginStart="2dp"/>
+
+                <RadioButton
+                    android:id="@+id/free_shipping"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Free shipping with in New Zealand"
+                    android:layout_marginStart="2dp"
+                    />
+
+                <RadioButton
+                    android:id="@+id/book_courier"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Use 'Book a Courier' shipping costs"
+                    android:layout_marginStart="2dp"
+                    />
+
+                <RadioButton
+                    android:id="@+id/specify_shippingcost"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Specify shipping costs"
+                    android:layout_marginStart="2dp"
+                    />
+
+
+            </RadioGroup>
+
+            <View
+                android:id="@+id/view_weightsdimension"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginTop="35dp"
+                android:background="@color/SilverBackground"
+                android:layout_below="@+id/list_pickup"/>
+
+            <TextView
+                android:id="@+id/weight_dimension_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:layout_marginStart="20dp"
+                android:text="Weight &amp; Dimensions"
+                android:layout_below="@+id/view_weightsdimension"/>
+
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/length_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_below="@+id/weight_dimension_text"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Length (cm)"
+                    android:id="@+id/length_textt"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/width_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_below="@+id/length_text"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Width (cm)"
+                    android:id="@+id/width_textt"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/height_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_below="@+id/width_text"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Height (cm)"
+                    android:id="@+id/height_textt"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/weight_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_below="@+id/height_text"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Weight (kg)"
+                    android:id="@+id/weight_textt"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+        </RelativeLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btn_createproduct4"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:textAllCaps="false"
+        android:textColor="#ffffff"
+        android:textSize="22sp"
+        android:background="@color/GoldenApp"
+        android:text="Next"
+        android:layout_alignParentBottom="true" />
+
+
+</RelativeLayout>

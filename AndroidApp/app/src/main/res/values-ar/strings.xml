@@ -1,0 +1,2466 @@
+<resources>
+
+    <string name="Back_to_login">العودة لتسجيل الدخول</string>
+
+    <string name="City">مدينة</string>
+
+    <string name="Confirm">تؤكد</string>
+
+    <string name="NoCategoryMarkedasFavourites">
+    لم يتم تمييز أي فئة كمفضلة
+  </string>
+    <string name="NoSearchMarkedasFavourites">
+    لم يتم وضع علامة على بحث كمفضلة
+  </string>
+    <string name="NoSellerMarkedasFavourites">
+    لم يتم وضع علامة على البائع كمفضلة
+  </string>
+
+    <string name="WanttostartabusinessaccountCreateaBusinessAccount">
+    تريد أن تبدأ حساب تجاري؟ قم بإنشاء حساب تجاري
+  </string>
+
+    <string name="MobileVerification">
+    التحقق من الهاتف المحمول
+  </string>
+
+    <string name="Pleasetypetheverificationcode">
+    الرجاء كتابة رمز التحقق
+  </string>
+
+    <string name="Ididntreceiveacode">
+       لم أتلق رمز!
+  </string>
+
+    <string name="BusinessRegistration">
+   تسجيل الأعمال التجارية
+  </string>
+
+    <string name="CodeExpired">انتهت صلاحية الرمز</string>
+
+    <string name="NEXT">التالي</string>
+
+    <string name="Greattohaveyouonboard">من الرائع أن تكون على متن الطائرة!</string>
+
+    <string name="Tellusaboutyourself">أخبرنا عن نفسك</string>
+
+    <string name="FirstName">الاسم الأول</string>
+
+    <string name="EnterDateofBirth">أدخل تاريخ الميلاد</string>
+
+
+    <string name="RESEND">إعادة إرسال</string>
+
+    <string name="OTPwillexpirein">ستنتهي صلاحية OTP في</string>
+
+
+    <string name="Confirm_Password">تأكيد كلمة المرور</string>
+    <string name="Country"> دولة</string>
+    <string name="Create_your_personal_account"> إنشاء حساب شخصي</string>
+    <string name="Date_of_Birth">تاريخ الميلاد</string>
+    <string name="Day">يوم</string>
+    <string name="Didntget">
+   لم تحصل؟
+  </string>
+
+    <string name="StreetNumber">رقم الشارع</string>
+
+    <string name="Area">منطقة</string>
+
+    <string name="District_Name">
+   اسم الحي
+  </string>
+
+
+    <string name="Enter_New_Password">
+    أدخل كلمة مرور جديدة
+  </string>
+    <string name="Enter_your_Email">
+    أدخل بريدك الالكتروني
+  </string>
+    <string name="Enter_your_email_address_and">
+    أدخل عنوان بريدك الإلكتروني و
+  </string>
+    <string name="Female">
+  أنثى
+  </string>
+    <string name="First_Name">
+الاسم الاول
+  </string>
+    <string name="Forgot_your_password">
+    نسيت رقمك السري؟
+  </string>
+
+    <string name="Sendinstructions">
+    أرسل التعليمات
+  </string>
+
+    <string name="Enteryouremailandwellsendpasswordresetinstructions">
+      أدخل بريدك الإلكتروني وسنرسل لك تعليمات إعادة تعيين كلمة المرور
+  </string>
+
+
+    <string name="Gender">
+جنس
+  </string>
+    <string name="Keep_me_Sign_In">
+ابقني مسجل
+  </string>
+    <string name="Last_Name">
+    الاسم الاخير
+  </string>
+    <string name="Login">
+    الدخول في
+  </string>
+    <string name="Male">
+    ذكر
+  </string>
+    <string name="Month">
+   شهر
+  </string>
+    <string name="NextStep">
+  الخطوة التالية
+  </string>
+    <string name="NotAMember">
+  لا تمتلك حساب؟
+  </string>
+    <string name="P.OBox">
+  صندوق بريد
+  </string>
+    <string name="Password">
+  كلمه السر
+  </string>
+    <string name="Region">
+    منطقة
+  </string>
+    <string name="RegisterNow">
+    سـجـل الأن
+  </string>
+    <string name="Resend">
+    إعادة إرسال
+  </string>
+    <string name="ResetPassword">
+    إعادة تعيين كلمة المرور
+  </string>
+    <string name="SendInstruction">
+    إرسال التعليمات
+  </string>
+    <string name="Signin">
+    تسجيل الدخول
+  </string>
+    <string name="Step">
+    خطوة
+  </string>
+    <string name="Username">
+    اسم المستخدم
+  </string>
+    <string name="wellsendpasswordresetinstructions.">
+    سنرسل تعليمات إعادة تعيين كلمة المرور.
+  </string>
+    <string name="Year">
+    عام
+  </string>
+    <string name="ZipCode">
+    الرمز البريدي
+  </string>
+    <string name="ChooseTitle">
+    اختيار العنوان
+  </string>
+    <string name="Requiredfieldsareshownwithastar">
+    يتم عرض الحقول المطلوبة بنجمة
+  </string>
+    <string name="Acceptedpaymentmethods">
+    طرق الدفع المقبولة
+  </string>
+    <string name="AddPhotos">
+    إضافة الصور
+  </string>
+    <string name="AddPost">
+    أضف منشورا
+  </string>
+    <string name="AllowPurchasesfrom">
+    السماح بالمشتريات من
+  </string>
+    <string name="BrandNewItem">
+    العلامة التجارية الجديدة البند
+  </string>
+    <string name="Brandnewunuseditemwithoriginalmanualsandpackaging">
+    العلامة التجارية الجديدة ، البند غير المستخدمة مع الكتيبات والتعبئة والتغليف الأصلي
+  </string>
+    <string name="BuyNowPrice">
+    إشتري الآن سعر
+  </string>
+    <string name="Cash">
+    السيولة النقدية
+  </string>
+    <string name="Category">
+    الفئة
+  </string>
+    <string name="Chooseacategoryforyourlisting">
+    اختر فئة لقائمتك
+  </string>
+    <string name="ChooseaCountry...">
+    اختر دولة ...
+  </string>
+    <string name="Chooseapackagetostandoutinsearchresults">
+    اختر حزمة لتبرز في نتائج البحث
+  </string>
+    <string name="Chooseanendtime">
+    اختيار وقت النهاية
+  </string>
+    <string name="Confirmation">
+    التأكيد
+  </string>
+    <string name="Describewhatyoureselling">
+    اوصف ما تبيعه
+  </string>
+    <string name="Description">
+    وصف
+  </string>
+    <string name="Draft">
+    مشروع
+  </string>
+    <string name="ExpiryDatetime">
+    تاريخ الانتهاء
+  </string>
+    <string name="Extras">
+    إضافات
+  </string>
+    <string name="FixedLenght">
+    طول ثابت
+  </string>
+    <string name="Home">
+    الصفحة الرئيسية
+  </string>
+    <string name="ListingDetails">
+    تفاصيل قائمة
+  </string>
+    <string name="ListingDuration">
+    قائمة مدة
+  </string>
+    <string name="Listingtitle">
+    عنوان السلعة
+  </string>
+    <string name="OnlyForAuthenticatedUsers">
+    فقط للمستخدمين المصادق عليهم
+  </string>
+    <string name="Other">
+    أخرى
+  </string>
+    <string name="Payment">
+    التسعير والدفع
+  </string>
+    <string name="PaymentShipping">
+    الدفع والشحن
+  </string>
+    <string name="PaymentInstruction">
+    تعليمات الدفع
+  </string>
+    <string name="Phone">
+    هاتف
+  </string>
+    <string name="postyourAd">
+    أضف إعلانك
+  </string>
+    <string name="PricingandDuration">
+    التسعير والمدة
+  </string>
+    <string name="ProductCategory">
+    فئة المنتج
+  </string>
+    <string name="Publish">
+    ينشر
+  </string>
+    <string name="PublishDatetime">
+    تاريخ النشر
+  </string>
+    <string name="PublishType">
+    نشر النوع
+  </string>
+    <string name="QuantityAvailable">
+    الكمية متاحة
+  </string>
+    <string name="SAbankdeposit">
+    الودائع المصرفية
+  </string>
+    <string name="SecondCategory">
+    الفئة الثانية
+  </string>
+    <string name="Select">
+    تحديد
+  </string>
+    <string name="Subtitle">
+    عنوان فرعي
+  </string>
+    <string name="Youdonthaveanypaymentinstructionsset.">
+    ليس لديك أي مجموعة تعليمات الدفع.
+  </string>
+    <string name="Asuccessfeewillapplyiftheauctionmeetsthereserveprice">
+    سيتم تطبيق رسوم نجاح إذا استوفى المزاد السعر الاحتياطي ،
+  </string>
+    <string name="AboutCompany">
+    عن الشركة
+  </string>
+    <string name="Actualsize">
+    الحجم الأصلي
+  </string>
+    <string name="Advertisement">
+    الإعلانات
+  </string>
+    <string name="Afterpay">
+    أفترباي
+  </string>
+    <string name="all">
+    الكل
+  </string>
+    <string name="allregions">
+    كل المناطق
+  </string>
+    <string name="Appearsinpremiumcarousel">
+    يظهر في دائري ممتاز
+  </string>
+    <string name="Auction">
+    مزاد علني
+  </string>
+    <string name="Basic">
+    الأساسي
+  </string>
+    <string name="BuyNow">
+    اشتري الآن
+  </string>
+    <string name="CompleteProfile">
+    الملف الشخصي الكامل
+  </string>
+    <string name="Condition">
+    شرط
+  </string>
+    <string name="ContactUs">
+    اتصل بنا
+  </string>
+    <string name="Copyright">
+    حقوق النشر © 2021 مزاد. كل الحقوق محفوظة.
+  </string>
+    <string name="Feature">
+    خاصية
+  </string>
+    <string name="FeatureCombo">
+    ميزة السرد
+  </string>
+    <string name="FeaturedAds">
+    إعلانات مميزة
+  </string>
+    <string name="FeaturedinMotors">
+    مميز في سيارات
+  </string>
+    <string name="FeaturedinProperties">
+    ظهرت في خصائص
+  </string>
+    <string name="Feesmayapply">
+    قد يتم تطبيق رسوم البنك
+  </string>
+    <string name="Filter">
+    منقي
+  </string>
+    <string name="Followus">
+    تابعنا
+  </string>
+    <string name="forlistingthisauction">
+    لإدراج هذا المزاد
+  </string>
+    <string name="FreeShipping">
+    الشحن مجانا
+  </string>
+    <string name="Gallery">
+صالة عرض  </string>
+    <string name="Goodfor2relists">
+    مناسب لشخصين (+ $ 1.90)
+  </string>
+    <string name="Goodpositionincategory">
+    موقف جيد في الفئة
+  </string>
+    <string name="Hellowhatcanwehelpyoufind">
+    مرحبًا ، ما الذي يمكننا مساعدتك في العثور عليه؟
+  </string>
+    <string name="Highlightsyourlistinginsearchresults">
+    يبرز قائمتك في نتائج البحث
+  </string>
+    <string name="Houses">
+    منازل
+  </string>
+    <string name="English">
+    الإنجليزية
+  </string>
+
+    <string name="Arabic">
+    العربية
+  </string>
+
+    <string name="Checkout">
+    الدفع
+  </string>
+
+    <string name="Jobs">
+    وظائف
+  </string>
+    <string name="largerimageinsearchresults">
+    2x صورة أكبر في نتائج البحث
+  </string>
+    <string name="Listanitem">
+    إدراج عنصر
+  </string>
+    <string name="listingatnoadditionalcost.">
+    الإدراج بدون أي تكلفة إضافية.
+  </string>
+    <string name="Listingexample">
+    مثال الإدراج
+  </string>
+    <string name="Lowestpositionincategory">
+    أدنى مرتبة في الفئة
+  </string>
+    <string name="LowestPrice">
+    أقل سعر
+  </string>
+    <string name="Marketplace">
+    المتجر
+  </string>
+    <string name="MalqaaisthelargestinternetauctionwebsiteoperatinginSaudiaArabia">
+     ملقا هو أكبر موقع مزاد على الإنترنت يعمل في المملكة العربية السعودية
+  </string>
+    <string name="Motocars">
+    موتوكارز
+  </string>
+    <string name="MyProfile">
+    ملفي
+  </string>
+    <string name="NarrowyoursearchforHomeliving">
+    ضاقت بحثك عن المنزل والمعيشة
+  </string>
+    <string name="New">
+    جديد
+  </string>
+    <string name="NoReserve">
+    لا الاحتياطي
+  </string>
+    <string name="OnSale">
+    للبيع
+  </string>
+    <string name="orcontinuewitha">
+    أو تواصل مع
+  </string>
+    <string name="orispurchasedusingbuynow">
+    أو يتم شراؤها باستخدام الشراء الآن
+  </string>
+    <string name="Photos">
+    الصور
+  </string>
+    <string name="Pickups">
+    حدد خيار الالتقاط
+  </string>
+    <string name="PingPayNow">
+    بينغ / ادفع الآن
+  </string>
+    <string name="PrivacyPolicy">
+    سياسة خاصة
+  </string>
+    <string name="Register">
+    تسجيل
+  </string>
+    <string name="Reservefee">
+    رسوم الاحتياطي
+  </string>
+    <string name="resultssortedby">
+    تم فرز النتائج حسب
+  </string>
+    <string name="Search">
+    بحث
+  </string>
+    <string name="SearchFilters">
+    مرشحات البحث
+  </string>
+    <string name="Secondcategoryfee">
+    رسوم الفئة الثانية
+  </string>
+    <string name="Seelistings">
+    انظر القوائم
+  </string>
+    <string name="SelectCategory">
+    اختر الفئة
+  </string>
+    <string name="Services">
+    خدمات
+  </string>
+    <string name="Shipping">
+    الشحن
+  </string>
+    <string name="Sort">
+    فرز
+  </string>
+    <string name="Subtitlefee">
+    رسوم الترجمة
+  </string>
+    <string name="SuperFeature">
+    ميزة سوبر
+  </string>
+    <string name="TermsandConditions">
+    الأحكام والشروط
+  </string>
+    <string name="Totalfees">
+    الرسوم الكلية
+  </string>
+    <string name="used">
+    مستخدم
+  </string>
+    <string name="View">
+    رأي
+  </string>
+    <string name="Viewall">
+    عرض الكل
+  </string>
+    <string name="Watchlist">
+    قائمة المراقبة
+  </string>
+    <string name="AutoMobile">
+    السيارات المتنقلة
+  </string>
+    <string name="General">
+    جنرال لواء
+  </string>
+    <string name="Getyourcarinfrontofbuyersdaily.">
+    ضع سيارتك أمام أكثر من 250.000 مشترٍ يوميًا.
+  </string>
+    <string name="Listforfreeonlypaywhenitsells">
+    قائمة مجانا - تدفع فقط عندما تبيع.
+  </string>
+    <string name="Property">
+    خاصية
+  </string>
+    <string name="untilsold">
+    359 دولارًا - 599 دولارًا حتى بيعها. الإيجارات 99 دولارًا - 189 دولارًا
+  </string>
+    <string name="Entercodehere">
+    أدخل رمز هنا
+  </string>
+    <string name="Mobile">
+    التليفون المحمول
+  </string>
+    <string name="LoginSuccessfully">
+    تسجيل الدخول بنجاح
+  </string>
+
+    <string name="InvalidUsernameorPassword">
+خطأ في اسم المستخدم أو كلمة مرور
+  </string>
+
+
+    <string name="Youraccountisnotapproved">
+  لم تتم الموافقة على حسابك
+  </string>
+    <string name="UserNameorPasswordiswrong">
+    اسم المستخدم أو كلمة السر غير صحيحة
+  </string>
+    <string name="CheckYourEmailForPaswordResetLink">
+    تحقق من بريدك الإلكتروني للحصول على رابط إعادة تعيين كلمة المرور
+  </string>
+    <string name="EmailExistTryAgainWithAnotherEmail">
+    البريد الإلكتروني موجود حاول مرة أخرى مع بريد إلكتروني آخر
+  </string>
+    <string name="PasswordResetSuccessfully">
+    إعادة تعيين كلمة المرور بنجاح
+  </string>
+    <string name="Somethingwentwrong">
+    هناك خطأ ما
+  </string>
+    <string name="Codehasbeensendtouser">
+    تم إرسال الرمز إلى المستخدم
+  </string>
+    <string name="verified">
+    تم التحقق
+  </string>
+    <string name="YouHaveSuccessfullySignedUp">
+    لقد سجلت بنجاح
+  </string>
+    <string name="YourpasswordmustcontainatleastoneuppercaseNumber">
+    يجب أن تحتوي كلمة المرور الخاصة بك على حرف كبير واحد على الأقل ، رقم
+  </string>
+    <string name="ForHelpandSupportClickHere">
+    للمساعدة والدعم اضغط هنا؟
+  </string>
+    <string name="Closed">
+    مغلق
+  </string>
+    <string name="homePagestatic">
+    استأجرتها كاتبة للحصول على بعض الهدوء والسكينة أثناء عملها على كتاب...
+  </string>
+    <string name="LatestListing">
+    أحدث قائمة
+  </string>
+    <string name="Reserveauctions">
+    مزاد احتياطي بقيمة 1 دولار
+  </string>
+    <string name="ReserverAuctionstatic">
+    استأجرتها كاتبة للحصول على بعض الهدوء والسكينة أثناء عملها على كتاب...
+  </string>
+    <string name="ClosingSoon">
+    سيغلق قريبا
+  </string>
+    <string name="Deals">
+    صفقات
+  </string>
+    <string name="Abouttheseller">
+    عن البائع
+  </string>
+    <string name="AddtoWatchlist">
+    أضافة إلى قائمة المشاهدة
+  </string>
+    <string name="AskaQuestion">
+    طرح سؤال
+  </string>
+    <string name="Buyermustpickupfrom">
+    يجب على المشتري الاستلام من
+  </string>
+    <string name="Case">
+    قضية
+  </string>
+    <string name="Closingtime">
+    وقت الإغلاق
+  </string>
+    <string name="Destinationdescription">
+    الوجهة والوصف
+  </string>
+    <string name="Email">
+    البريد الإلكتروني
+  </string>
+    <string name="Facebook">
+    الفيسبوك
+  </string>
+    <string name="Feedbackonseller">
+    ملاحظات على البائع
+  </string>
+    <string name="Free">
+    مجانا
+  </string>
+    <string name="Location">
+    موقعك
+  </string>
+    <string name="Membersince">
+    عضو منذ
+  </string>
+    <string name="NZBankDeposit">
+    الإيداع المصرفي في NZ
+  </string>
+    <string name="PaymentOptions">
+    خيارات الدفع
+  </string>
+    <string name="positivefeedback">
+    ردود الفعل الإيجابية
+  </string>
+    <string name="Price">
+    السعر
+  </string>
+    <string name="Print">
+    طباعة
+  </string>
+    <string name="QuestionsAnswers">
+    أسئلة و أجوبة
+  </string>
+    <string name="Sharethislisting">
+    شارك هذه القائمة
+  </string>
+    <string name="Shippingpickupoptions">
+    خيارات الشحن والتوصيل
+  </string>
+    <string name="Thereis1unansweredquestiononthislisting">
+    هناك سؤال واحد لم تتم الإجابة عليه في هذه القائمة
+  </string>
+    <string name="ThissellerislocatedinPalmerstonNorthManawatu">
+    يقع هذا البائع في بالمرستون نورث ، ماناواتو
+  </string>
+    <string name="Twitter">
+    تويتر
+  </string>
+    <string name="Viewsellersotherlistings">
+    عرض قوائم البائع الأخرى
+  </string>
+    <string name="BrowseMoreCategories">
+    تصفح المزيد من الفئات
+  </string>
+    <string name="theshop">
+    المتجر
+  </string>
+    <string name="ALLCategories">
+    جميع الفئات
+  </string>
+    <string name="Addaddress">
+    اضف عنوان
+  </string>
+    <string name="Address">
+    عنوان
+  </string>
+    <string name="Chooseashippingoption">
+    حدد خيار الشحن
+  </string>
+    <string name="Confirmpurchase">
+    تأكيد الشراء
+  </string>
+    <string name="Deliveryaddress">
+    عنوان التسليم
+  </string>
+    <string name="DeliveryInstructions">
+    تعليمات التوصيل
+  </string>
+    <string name="Findoutwhetherimportchargesapply">
+    معرفة ما إذا كانت رسوم الاستيراد تنطبق
+  </string>
+    <string name="FreeshippingwithinSaudiArabia">
+    شحن مجاني داخل المملكة العربية السعودية
+  </string>
+    <string name="GSTincluded">
+    تضمين ضريبة السلع والخدمات
+  </string>
+    <string name="Name">
+    اسم
+  </string>
+    <string name="optional">
+    اختياري
+  </string>
+    <string name="Payinstantlybycard">
+    ادفع على الفور بواسطة البطاقة
+  </string>
+    <string name="Selectanaddress">
+    حدد عنوانًا
+  </string>
+    <string name="Totaltopay">
+    إجمالي الدفع
+  </string>
+    <string name="logout">
+    تسجيل خروج
+  </string>
+    <string name="Loading">
+    جار التحميل
+  </string>
+    <string name="Pleasewait">
+    أرجو الإنتظار...
+  </string>
+    <string name="Whilweareconfirmingyourpurchase">
+    بينما نحن نؤكد شرائك
+  </string>
+    <string name="Whilewearecreatingyourad">
+    بينما نقوم بإنشاء إعلانك
+  </string>
+    <string name="Youradhasbeencreatedsuccessfully">
+    تم إنشاء إعلانك بنجاح
+  </string>
+    <string name="ChooseAnotherCategory">
+    اختر فئة أخرى
+  </string>
+    <string name="inallcategories">
+    في جميع الفئات.
+  </string>
+    <string name="Viewallcategories.">
+    عرض جميع الفئات.
+  </string>
+    <string name="Duration">
+    المدة والشحن
+  </string>
+    <string name="Title">
+    عنوان
+  </string>
+    <string name="alertnote">
+    ملاحظة *: انقر فوق مربع الاختيار لجعل الصورة الحالية كصورة بانر.
+  </string>
+    <string name="Itemaddress">
+    عنوان البند
+  </string>
+    <string name="MustPickup">
+    يجب الاستلام
+  </string>
+    <string name="NoPickup">
+    لا تلتقط
+  </string>
+    <string name="PickupAvailable">
+    الاستلام متاح
+  </string>
+    <string name="Selectashippingoption">
+    حدد خيار الشحن
+  </string>
+    <string name="SpecifyShippingCost">
+    تحديد تكلفة الشحن
+  </string>
+    <string name="TobeArranged">
+    يتم ترتيبها
+  </string>
+    <string name="ShippingDescription">
+    وصف الشحن
+  </string>
+    <string name="Non">
+    عدم
+  </string>
+    <string name="ShippingNotAvailable">
+    الشحن غير متوفر
+  </string>
+    <string name="PackageName">
+    اسم الحزمة
+  </string>
+    <string name="AlreadyaMember">
+    عضوا فعلا؟
+  </string>
+    <string name="AddtoFavouriteSellers">
+    أضف إلى البائعين المفضلة
+  </string>
+    <string name="Details">
+    تفاصيل
+  </string>
+    <string name="Instagram">
+    الانستقرام
+  </string>
+    <string name="shippingandpickup">
+    خيارات الشحن والتوصيل
+  </string>
+    <string name="Buying">
+    شراء
+  </string>
+    <string name="Categories">
+    التصنيفات
+  </string>
+    <string name="CurrentListings">
+    القوائم الحالية
+  </string>
+    <string name="Emailmeevery3rdday">
+    أرسل لي بريد إلكتروني كل يوم ثالث
+  </string>
+    <string name="favourite">
+    مفضل
+  </string>
+    <string name="FavouriteSearches">
+    عمليات البحث المفضلة
+  </string>
+    <string name="FavouriteSellers">
+    الباعة المفضلون
+  </string>
+    <string name="Favourites">
+    المفضلة
+  </string>
+    <string name="MyFavourites">
+    المفضلة
+  </string>
+    <string name="Remove">
+    إزالة
+  </string>
+    <string name="Searches">
+    عمليات البحث
+  </string>
+    <string name="Selectall">
+    اختر الكل
+  </string>
+    <string name="Sellers">
+    الباعة
+  </string>
+    <string name="UserNeedtobesignedinToAskaquestion">
+    يحتاج المستخدم إلى تسجيل الدخول لطرح سؤال
+  </string>
+    <string name="hondacivic">
+    \'سيارة هوندا سيفيك
+  </string>
+    <string name="Acceptthetermsandconditionsofthemalqa">
+    قبول شروط وأحكام الملقا
+  </string>
+    <string name="AddNewCard">
+    أضف بطاقة جديدة
+  </string>
+    <string name="AddtoFavourite">
+    أضف إلى المفضلة
+  </string>
+    <string name="AED">
+    درهم إماراتي
+  </string>
+    <string name="Card02endingin5283">
+    البطاقة 02 تنتهي بالرقم 5283
+  </string>
+    <string name="Card1endingin1494">
+    البطاقة 1 تنتهي في 1494
+  </string>
+    <string name="CarsSearchallofTradeMeforHondacivic">
+    سيارات ابحث في كل ما تريده عن "هوندا سيفيك"
+  </string>
+    <string name="CharacterRemaining">
+    الشخصية (ق) المتبقية
+  </string>
+    <string name="E.gIphone6plus">
+    على سبيل المثال ، آيفون 6 بلس
+  </string>
+    <string name="Emailmeeveryday">
+    راسلني كل يوم
+  </string>
+    <string name="Emailmeonceaweek">
+    راسلني مرة في الاسبوع
+  </string>
+    <string name="Feedback">
+    ردود الفعل
+  </string>
+    <string name="Giveafeedback">
+    قدم ملاحظاتك
+  </string>
+    <string name="Howdoyourateourproduct">
+    كيف تقيم منتجاتنا؟
+  </string>
+    <string name="InclusiveofVAT">
+    شامل ضريبة القيمة المضافة
+  </string>
+    <string name="instead">
+    في حين أن
+  </string>
+    <string name="Listingfee">
+    رسوم الإدراج
+  </string>
+    <string name="NaPickUp">
+    لا تلتقط
+  </string>
+    <string name="Narrowyoursearchfor">
+    تضييق نطاق البحث عن
+  </string>
+    <string name="pleaseentertheCVVcode">
+    الرجاء إدخال رمز CVV
+  </string>
+    <string name="Positive">
+    إيجابي
+  </string>
+    <string name="QuestionCreatedSuccessfully">
+    تم إنشاء السؤال بنجاح
+  </string>
+    <string name="SAR">
+    ر س
+  </string>
+    <string name="Selectacard">
+    اختر بطاقة
+  </string>
+    <string name="SelectCountry">
+    حدد الدولة
+  </string>
+    <string name="Showingresultin">
+    عرض النتيجة في
+  </string>
+    <string name="Sold">
+    تم البيع
+  </string>
+    <string name="SoldProducts">
+    المنتجات المباعة
+  </string>
+    <string name="Submit">
+    إرسال
+  </string>
+    <string name="Tax">
+    ضريبة
+  </string>
+    <string name="Thereare">
+    يوجد
+  </string>
+    <string name="Total">
+    مجموع
+  </string>
+    <string name="Totalnumberoflistings">
+    العدد الإجمالي للقوائم
+  </string>
+    <string name="Totalnumberofmembers">
+    إجمالي عدد الأعضاء
+  </string>
+    <string name="TotalOnlineVisitors">
+    إجمالي عدد الزوار عبر الإنترنت
+  </string>
+    <string name="Toyota">
+    تويوتا
+  </string>
+    <string name="TradeMeMotors">
+    تريد مي موتورز
+  </string>
+    <string name="UnAnsweredQuestionsofthisAdvertisement">
+    أسئلة لم يتم الإجابة عليها من هذا الإعلان
+  </string>
+    <string name="UnSold">
+    غير مباع
+  </string>
+    <string name="UnsoldProducts">
+    المنتجات غير المباعة
+  </string>
+    <string name="UsedCars">
+    السيارات المستعملة
+  </string>
+    <string name="Visitorstillnow">
+    الزوار حتى الآن
+  </string>
+    <string name="WanttoAddReminderofYourWatchListItems">
+    هل تريد إضافة تذكير بعناصر قائمة المراقبة الخاصة بك؟
+  </string>
+    <string name="Welcome">
+    أهلا بك
+  </string>
+    <string name="yourListingCreatedSuccessfully">
+    تم إنشاء قائمتك بنجاح
+  </string>
+    <string name="an">
+    يناير
+  </string>
+    <string name="BidClosed">
+    العطاء مغلق
+  </string>
+    <string name="Closes">
+    يغلق
+  </string>
+    <string name="CurrentBid">
+    مناقصه قائمة
+  </string>
+    <string name="Fri">
+    الجمعة
+  </string>
+    <string name="List">
+    قائمة
+  </string>
+    <string name="Lost">
+    ضائع
+  </string>
+    <string name="OfficialMarvelComicsTShirtClassicBoxedLogoDistressedVintagenewMens">
+    تي شيرت رسمي من Marvel Comics بشعار محاصر كلاسيكي محاصر للرجال
+  </string>
+    <string name="PleaseLoginToAddFavorites">
+    الرجاء تسجيل الدخول لإضافة المفضلة
+  </string>
+    <string name="Quantity">
+    كمية
+  </string>
+    <string name="RemoveFromFavoriteSeller">
+    إزالة من البائع المفضل
+  </string>
+    <string name="Reservemet">
+    التقى الاحتياطي
+  </string>
+    <string name="Riyadh">
+    مدينة الرياض
+  </string>
+    <string name="SellerlocatedinRiyadh">
+    بائع موجود في الرياض
+  </string>
+    <string name="Slug">
+    سبيكة
+  </string>
+    <string name="Tags">
+    العلامات
+  </string>
+    <string name="Won">
+    وون
+  </string>
+    <string name="Items">
+    العناصر
+  </string>
+    <string name="FeatureFee">
+    رسوم الميزات
+  </string>
+    <string name="Selling">
+    يبيع
+  </string>
+    <string name="ReserveNotMet">
+    الاحتياطي لا يكفي
+  </string>
+    <string name="Products">
+    منتجات
+  </string>
+    <string name="Wallet">
+    محفظة نقود
+  </string>
+    <string name="Iphone11_black">
+    ايفون 11 اسود
+  </string>
+    <string name="Appliances">
+    الأجهزة
+  </string>
+    <string name="AudionicSpeakerBlack">
+    Audionic AD-7000 - مكبر صوت هاي فاي - أسود
+  </string>
+    <string name="Baby_gear">
+    معدات أطفال
+  </string>
+    <string name="BoatsMarine">
+    القوارب والبحرية
+  </string>
+    <string name="Books">
+    كتب
+  </string>
+    <string name="BuildingRenovation">
+    بناء وتجديد
+  </string>
+    <string name="double_bed">
+    سرير مزدوج
+  </string>
+    <string name="ElectronicsGames">
+    الإلكترونيات وألعاب الفيديو
+  </string>
+    <string name="Fashion">
+    موضة
+  </string>
+    <string name="FurnituresFurnishings">
+    اثاث ومفروشات
+  </string>
+    <string name="HealthBeauty">
+    الصحة والجمال
+  </string>
+    <string name="House_at_500sq_feet">
+    منزل على مساحة 500 قدم مربع
+  </string>
+    <string name="PetAnimals">
+    الحيوانات الأليفة والحيوانات
+  </string>
+    <string name="Profile">
+    حساب تعريفي
+  </string>
+    <string name="sony_ps5">
+    سوني PS5
+  </string>
+    <string name="SportsOutdoors">
+    الرياضة والهواء الطلق
+  </string>
+    <string name="ToyotaCorollaAltis">
+    تويوتا كورولا ألتيس 2020
+  </string>
+    <string name="ToyotaCorollaBlue">
+    تويوتا كورولا ازرق
+  </string>
+    <string name="Toys">
+    ألعاب الأطفال
+  </string>
+    <string name="PlateNumber">
+    رقم لوحة
+  </string>
+    <string name="Abdulrahman">
+    عبدالرحمن
+  </string>
+    <string name="Bathrooms">
+    الحمامات
+  </string>
+    <string name="Bedrooms">
+    غرف نوم
+  </string>
+    <string name="Body">
+    نوع الجسم
+  </string>
+    <string name="Brand">
+    ماركة
+  </string>
+    <string name="burnerandhotplatenumber">
+    الموقد وصفيحة التسخين
+  </string>
+    <string name="Cancel">
+    يلغي
+  </string>
+    <string name="Cash3367annuzhahMakkah">
+    3367 ج، النزهة، مكة المكرمة
+  </string>
+    <string name="Color">
+    اللون
+  </string>
+    <string name="completeyourpurchase">
+    أكمل عملية الشراء
+  </string>
+    <string name="Cylinders">
+    كيلومترات
+  </string>
+    <string name="DressesStyle">
+    فساتين
+  </string>
+    <string name="FloorArea">
+    المساحة الأرضية
+  </string>
+    <string name="Floorsnumber">
+    عدد الطوابق
+  </string>
+    <string name="Friday20March2020">
+    الجمعة 20 مارس 2020
+  </string>
+    <string name="Fuel">
+    وقود
+  </string>
+    <string name="Iintendtopickup">
+    أنوي الاستلام
+  </string>
+    <string name="Iwillarrangeshippingwiththeseller">
+    سوف أرتب الشحن مع البائع
+  </string>
+    <string name="Iwillintendtopickup">
+    سوف أنوي التقاط
+  </string>
+    <string name="Ifyouwinyouarelegallyobligatedto">
+    إذا فزت ، فأنت ملزم قانونًا بذلك
+  </string>
+    <string name="Ignitiontype">
+    نوع الاشتعال
+  </string>
+    <string name="Imported">
+    وارد
+  </string>
+    <string name="InternalMemory">
+    الذاكرة الداخلية
+  </string>
+    <string name="JeansStyle">
+    جينز ستايل
+  </string>
+    <string name="JewelleryType">
+    نوع المجوهرات
+  </string>
+    <string name="Landarea">
+    مساحة الأرض
+  </string>
+    <string name="LingerieType">
+    النوع
+  </string>
+    <string name="Make">
+    الصـنــع
+  </string>
+    <string name="Mileage">
+    عدد الأميال
+  </string>
+    <string name="Model">
+    الــنـوع
+  </string>
+    <string name="MotorVehiclesPeriodicInspection">
+    محركمركباتدوريتفتيش
+  </string>
+    <string name="No">
+    لا
+  </string>
+    <string name="NoDescriptionAvailable">
+    لا يوجد وصف متاح
+  </string>
+    <string name="NumberofPassengers">
+    عدد الركاب
+  </string>
+    <string name="Numberofpreviousowners">
+    عدد المالكين السابقين
+  </string>
+    <string name="PlaceBid">
+    رَسّى
+  </string>
+    <string name="PleaseLoginToAddthisAdvertisementinWatchlist">
+    الرجاء تسجيل الدخول لإضافة هذا الإعلان في قائمة المراقبة
+  </string>
+    <string name="RefrigeratorCapacity">
+    سعة الثلاجة
+  </string>
+    <string name="Reminder">
+    تذكير
+  </string>
+    <string name="RemoveFromWatchlist">
+    إزالة من قائمة المراقبة
+  </string>
+    <string name="SaudiArabia">
+    المملكة العربية السعودية
+  </string>
+    <string name="Selleracceptspaymentby">
+    يقبل البائع الدفع عن طريق
+  </string>
+    <string name="SellercannotAddhisownListinginwatchlist">
+    لا يمكن للبائع إضافة قائمة خاصة به في قائمة المراقبة
+  </string>
+    <string name="ShoesStyle">
+    الأحذية
+  </string>
+    <string name="SimCount">
+    عدد سيم
+  </string>
+    <string name="Size">
+    مقاس
+  </string>
+    <string name="SkirtStyle">
+    التنورة
+  </string>
+    <string name="SportswearType">
+    النوع
+  </string>
+    <string name="Style">
+    أسلوب
+  </string>
+    <string name="Transmission">
+    ناقل الحركة
+  </string>
+    <string name="Type">
+    اكتب
+  </string>
+    <string name="Yes">
+    نعم
+  </string>
+    <string name="Yourbid">
+    رهان
+  </string>
+    <string name="accessories">
+    مستلزمات
+  </string>
+    <string name="ActualAddress">
+    العنوان الفعلي
+  </string>
+
+    <string name="Passworddoesnotmatch">
+      كلمة السر غير متطابقة
+  </string>
+
+    <string name="AccountDetails">
+    تفاصيل الحساب
+    </string>
+
+    <string name="NoFile">
+      لا يوجد ملف (شهادة عمل)
+  </string>
+
+
+    <string name="Addanewaddress">
+    + أضف عنوانًا جديدًا
+  </string>
+    <string name="AddComment">
+    أضف تعليق
+  </string>
+    <string name="Addmore">
+    أضف المزيد
+  </string>
+    <string name="AddtoFavouriteSearches">
+    أضف إلى عمليات البحث المفضلة
+  </string>
+    <string name="afterDnata">
+    بعد دناتا
+  </string>
+    <string name="AlternateEmail">
+    البريد الالكتروني البديل
+  </string>
+    <string name="and">
+    و
+  </string>
+    <string name="Anyonewithaccesscanviewyourinvitedvisitors">
+    يمكن لأي شخص لديه حق الوصول عرض الزوار المدعوين
+  </string>
+    <string name="Asia">
+    آسيا
+  </string>
+    <string name="Babol">
+    بابول
+  </string>
+    <string name="Babruysk">
+    بابرويسك
+  </string>
+    <string name="Bacabal">
+    باكابال
+  </string>
+    <string name="BacktoAddresses">
+    رجوع إلى العناوين
+  </string>
+    <string name="BalkanPeninsula">
+    شبه جزيرة البلقان
+  </string>
+    <string name="BusinessBayDubai">
+    الخليج التجاري دبي
+  </string>
+    <string name="BusinessPhoneNumber">
+    عدد الأعمال الهاتف
+  </string>
+
+    <string name="BussinessName">
+      الاسم التجاري
+    </string>
+
+    <string name="BusinessDetails">
+ تفاصيل العمل
+  </string>
+
+    <string name="Businessnamemusthaveatleast3characters">
+يجب أن يتكون اسم النشاط التجاري من 3 أحرف على الأقل
+  </string>
+
+    <string name="Usernamemusthaveatleast4characters">
+يجب أن يحتوي اسم المستخدم على 4 أحرف على الأقل
+  </string>
+
+    <string name="c">
+    ج
+  </string>
+    <string name="car">
+    جمل
+  </string>
+    <string name="Carparts">
+    أجزاء السيارة
+  </string>
+    <string name="Card">
+    بطاقة
+  </string>
+    <string name="Cardamounttotal">
+    إجمالي مبلغ البطاقة
+  </string>
+    <string name="Cardendingwith">
+    بطاقة تنتهي بـ
+  </string>
+    <string name="Cars">
+    سيارات
+  </string>
+    <string name="Cashamount">
+    مبلغ نقدي
+  </string>
+    <string name="Central">
+    وسط
+  </string>
+    <string name="Confirmlocation">
+    تأكيد الموقع
+  </string>
+    <string name="ContinueShopping">
+    مواصلة التسوق
+  </string>
+    <string name="Cost">
+    كلفة
+  </string>
+    <string name="easypaisa">
+    سهل البيزا
+  </string>
+    <string name="EPPCOstation">
+    محطة ايبكو
+  </string>
+    <string name="formsubmitionfailed">
+    فشل إرسال النموذج
+  </string>
+    <string name="formsubmitionsucceded">
+    نجح تقديم النموذج
+  </string>
+    <string name="from">
+    من
+  </string>
+    <string name="Givereplytothismessage">
+    رد على هذه الرسالة
+  </string>
+    <string name="GoogleMapIntegration">
+    تكامل خرائط جوجل
+  </string>
+    <string name="ListingType">
+    نوع القائمة
+  </string>
+    <string name="Listings">
+    القوائم
+  </string>
+    <string name="LocationInformation">
+    معلومات الموقع
+  </string>
+    <string name="Malqaa">
+    ملقا
+  </string>
+    <string name="mins">
+    دقيقة
+  </string>
+    <string name="MobileNumber">
+    رقم الهاتف المحمول
+  </string>
+    <string name="NorthernAfrica">
+    شمال أفريقيا
+  </string>
+    <string name="onceyourorderisconfirmed">
+    بمجرد تأكيد طلبك
+  </string>
+    <string name="Order">
+    ترتيب
+  </string>
+    <string name="OrderCompletion">
+    إتمام الطلب
+  </string>
+    <string name="OutsideZoomstore">
+    الخارج زووم متجر
+  </string>
+    <string name="Paidbycard">
+    الدفع بالبطاقة
+  </string>
+    <string name="PayCash">
+    ادفع نقدا
+  </string>
+    <string name="PaymentMethod">
+    طريقة الدفع او السداد
+  </string>
+    <string name="PersonalInformation">
+    معلومات شخصية
+  </string>
+    <string name="ProductsOrdered">
+    المنتجات المطلوبة
+  </string>
+    <string name="RegisterasBussinessUser">
+    سجل كمستخدم تجاري
+  </string>
+    <string name="RegisterasPersonalUser">
+    سجل كمستخدم شخصي
+  </string>
+
+    <string name="SignUp">
+    اشتراك
+  </string>
+
+    <string name="PhoneNumber">
+   رقم الهاتف
+  </string>
+
+    <string name="Youremailwillremainconfidential">
+سيبقى بريدك الإلكتروني سريًا
+  </string>
+
+    <string name="PrimaryContactPerson">
+الشخص المسؤول الرئيسي
+  </string>
+
+    <string name="RegistrationNumber">
+    رقم التسجيل
+  </string>
+    <string name="Reserve">
+    الاحتياطي
+  </string>
+    <string name="SaveAddress">
+    حفظ العنوان
+  </string>
+    <string name="SellerComment">
+    تعليق البائع
+  </string>
+    <string name="SheikhZayedRoad">
+    شارع الشيخ زايد
+  </string>
+    <string name="Shippingto">
+    يشحن إلى
+  </string>
+    <string name="South">
+    جنوب
+  </string>
+    <string name="Start">
+    بداية
+  </string>
+    <string name="Subtotal">
+    المجموع الفرعي
+  </string>
+    <string name="Success">
+    نجاح
+  </string>
+    <string name="Thankyouforyourorder">
+    شكرا لطلبك
+  </string>
+    <string name="Timing">
+    توقيت
+  </string>
+    <string name="UploadYourFiles">
+    ارفع ملفاتك
+  </string>
+
+    <string name="UploadFile">
+      رفع ملف
+  </string>
+
+    <string name="Fileuploaded">
+  ملف مرفوع
+  </string>
+
+    <string name="ErrorOccur">
+   حدث خطأ
+  </string>
+
+    <string name="YourBusinessAccounthasbeenCreated">
+    تم إنشاء حساب الأعمال الخاص بك
+  </string>
+
+    <string name="Imagehasbeenuploaded">
+      تم تحميل الصورة
+  </string>
+
+    <string name="Pleaseuploadafile">
+        الرجاء تحميل ملف
+  </string>
+
+
+    <string name="UserWatchListUpdated">
+    تم تحديث قائمة مراقبة المستخدم
+  </string>
+    <string name="Visa">
+    تأشيرة
+  </string>
+    <string name="wetransfer">
+    ننقل
+  </string>
+    <string name="gobacktothehomepage">
+    العودة إلى الصفحة الرئيسية
+  </string>
+    <string name="Help">
+    مساعدة
+  </string>
+    <string name="MalqaaWebApp">
+    تطبيق ويب ملقا
+  </string>
+    <string name="Mar">
+    مارس
+  </string>
+    <string name="MyProducts">
+    منتجاتي
+  </string>
+    <string name="Oops">
+    وجه الفتاة
+  </string>
+    <string name="orstartanewsearch">
+    أو ابدأ بحثًا جديدًا
+  </string>
+    <string name="Perhapsyoudliketo">
+    ربما ترغب في ذلك
+  </string>
+    <string name="Privacy">
+    خصوصية
+  </string>
+    <string name="Settings">
+    إعدادات
+  </string>
+    <string name="Thepageyourequestedwasnotfound">
+    الصفحة المطلوبة لم يتم العثور على
+  </string>
+    <string name="thu">
+    يوم الخميس
+  </string>
+    <string name="Usethispagetodetailyoursiteprivacypolicy">
+    استخدم هذه الصفحة لتفاصيل سياسة الخصوصية الخاصة بموقعك
+  </string>
+    <string name="RemovetoFavorite">
+    إزالة إلى المفضلة
+  </string>
+    <string name="incar">
+    في السيارة
+  </string>
+    <string name="AboutSeller">
+    عن البائع
+  </string>
+    <string name="Accountwiththecode">
+    الحساب بالرمز الموجود في كشف حسابك المصرفي.
+  </string>
+    <string name="AddaNewCard">
+    أضف عنوانا جديدا +
+  </string>
+    <string name="Addcard">
+    إضافة بطاقة
+  </string>
+    <string name="AddcardtoPing">
+    Ping أضف بطاقة إلى
+  </string>
+    <string name="arefromindividual">
+    من أعضاء فرديين ويتم احتسابهم في التصنيف النهائي
+  </string>
+    <string name="AuctionFeedback">
+    ملاحظات المزاد
+  </string>
+    <string name="Autogeneratedifleftblank">
+    يتم إنشاؤه تلقائيًا إذا ترك فارغًا
+  </string>
+    <string name="bank">
+    مصرف
+  </string>
+    <string name="BankConnect">
+    ربط البنك
+  </string>
+    <string name="Barcode_GTIN">
+    الباركود /  GTIN
+  </string>
+    <string name="Cardendingwith1949">
+    بطاقة تنتهي برقم 1949
+  </string>
+    <string name="Cardsubtotal">
+    المجموع الفرعي للبطاقة
+  </string>
+    <string name="Cardno">
+    رقم البطاقة
+  </string>
+    <string name="CartNotFound">
+    عربة التسوق غير موجودة
+  </string>
+    <string name="Cashsubtotal">
+    المجموع الفرعي للنقد
+  </string>
+    <string name="Choosehowtopay">
+    اختر طريقة دفع المبلغ:
+  </string>
+    <string name="Createanewproduct">
+    قم بإنشاء منتج جديد
+  </string>
+    <string name="Creditdebitbankaccount">
+    الائتمان أو الخصم أو الحساب المصرفي أو ائتمان Ping
+  </string>
+    <string name="CreditmyMalqaaaccount">
+    إضافة رصيد إلى حسابي في ملقا
+  </string>
+    <string name="Current">
+    الحالي
+  </string>
+    <string name="Delete">
+    حذف
+  </string>
+    <string name="DeletecardfromPing">
+    ؟Ping هل تريد حذف البطاقة من
+  </string>
+    <string name="deposit">
+    إيداع
+  </string>
+    <string name="Donotemailme">
+    لا ترسل لي البريد الإلكتروني
+  </string>
+    <string name="Edit">
+    يحرر
+  </string>
+    <string name="EditUserprofile">
+    تحرير ملف تعريف المستخدم
+  </string>
+
+
+  <string name="itemView">%1$d الآراء</string>
+
+  <string name="Profileinformationhasbeenupdated">تم تحديث معلومات الملف الشخصي</string>
+
+    <string name="TheProducthasbeenRestocked">تمت إعادة تخزين المنتج</string>
+
+    <string name="TheProducthasbeenrelisted">تمت إعادة إدراج المنتج</string>
+
+    <string name="Nocurrentoffers">لا توجد عروض حالية</string>
+
+    <string name="AskSellerTomakefixedprice">اطلب من البائعين تقديم عرض سعر ثابت على القوائم التي أغلقت ولم تبيع</string>
+
+    <string name="NewProduct">منتج جديد</string>
+
+    <string name="Notifications">إشعارات</string>
+
+    <string name="EmailPreferences">تفضيلات البريد الإلكتروني</string>
+
+    <string name="PrivacyOptions">خيارات الخصوصية</string>
+
+    <string name="FeaturedinGeneral">مميز بشكل عام</string>
+
+    <string name="SEEALL">اظهار الكل</string>
+
+    <string name="FeaturedinRecent">ظهرت في الآونة الأخيرة</string>
+
+    <string name="ServiceError">خطأ في الخدمة</string>
+
+    <string name="NoCategoriesfound">لم يتم العثور على فئات</string>
+
+    <string name="Nullbackresponse">استجابة لاغية</string>
+
+    <string name="FailedResponse">استجابة فاشلة</string>
+
+
+    <string name="language">لغة</string>
+
+    <string name="currentLanguage">العربية</string>
+
+    <string name="NotificationSettings">إعدادات الإشعار</string>
+
+    <string name="Receivepushnotifications">تلقي الإخطارات</string>
+
+    <string name="Vibrateforpushnotification">الاهتزاز لدفع الإخطار</string>
+
+    <string name="Soundforpushnotifications">صوت لدفع الإخطارات</string>
+
+    <string name="Receivefavouritesnotifications">تلقي الإخطارات المفضلة</string>
+
+    <string name="Receiving14outof14notifications">تلقي 14 من أصل 14 إشعارًا</string>
+
+    <string name="Configurepushnotificationtype">تكوين نوع إعلام الدفع</string>
+
+    <string name="Donotdisturb">لا تخل</string>
+
+    <string name="Blockpushnotificationsonadailyschdule">حظر دفع الإخطارات على جدول يومي</string>
+
+    <string name="Mutenotifications">كتم الإخطارات</string>
+
+    <string name="Blockpushnotificationstemporarily">حظر دفع الإخطارات مؤقتًا</string>
+
+    <string name="Sendtestpushnotification">إرسال إخطار دفع الاختبار</string>
+
+
+    <string name="Everyone">
+    الجميع
+  </string>
+    <string name="Extra">
+    إضافي
+  </string>
+    <string name="FeedbackNotFound">
+    التعليقات غير موجودة
+  </string>
+    <string name="Folder">
+    مجلد
+  </string>
+    <string name="FPO">
+    FPO
+  </string>
+    <string name="Howwouldyouliketopay">
+    كيف تريد الدفع؟
+  </string>
+    <string name="Ifyourlisting">
+    إذا تم إغلاق قائمتك مؤخرًا ، فيمكنك العثور عليها على أي منهما
+  </string>
+    <string name="instantpayments">
+    مدفوعات فورية
+  </string>
+    <string name="Instantpaymentsdirectlyfrom">
+    مدفوعات فورية مباشرة من حسابك المصرفي.
+  </string>
+    <string name="Internetorphonebanking">
+    الإنترنت أو الهاتف المصرفي
+  </string>
+    <string name="Invalidtopupamount">
+    مبلغ تعبئة غير صالح
+  </string>
+    <string name="Landline">
+    هاتف ارضي
+  </string>
+    <string name="Learnmore">
+    يتعلم أكثر
+  </string>
+    <string name="LearnmoreaboutPing">
+    Ping تعرف على المزيد حول
+  </string>
+    <string name="Listingsfrom">
+    القوائم من
+  </string>
+    <string name="Malqaabalancetopup">
+    تعبئة رصيد الملقا
+  </string>
+    <string name="Malqaacreditisusedfor">
+    يستخدم رصيد الملء في رسوم الإدراج ورسوم النجاح. لا يمكن استخدام الأموال الموجودة في حسابك في مرقعة لدفع ثمن العناصر التي اشتريتها.
+  </string>
+    <string name="Manufacturercode">
+    رقم المنتج
+  </string>
+    <string name="MemberOnly">
+    عضو فقط
+  </string>
+    <string name="negativefeedback">
+    negative feedback
+  </string>
+    <string name="neutralfeedback">
+    ردود فعل محايدة
+  </string>
+    <string name="NoAuctionLostYet">
+    لم تخسر أي مزاد حتى الآن
+  </string>
+    <string name="NoAuctionWonYet">
+    لم تفز بأي مزادات حتى الآن
+  </string>
+    <string name="Nolistingstodisplay">
+    لا توجد قوائم لعرضها
+  </string>
+    <string name="NoOne">
+    لا احد
+  </string>
+    <string name="OneHour">
+    1 ساعة
+  </string>
+    <string name="or">
+    أو
+  </string>
+    <string name="OrderSummary">
+    ملخص الطلب
+  </string>
+    <string name="Phoneno">
+    رقم التليفون
+  </string>
+    <string name="Pingverificationcodeexample">
+    Ping مثال على رمز التحقق
+  </string>
+    <string name="ProductInformation">
+    معلومات المنتج
+  </string>
+    <string name="Respondtothisfeedback">
+    رد على هذه التعليقات
+  </string>
+    <string name="Selectshippingoptions">
+    حدد خيارات الشحن
+  </string>
+    <string name="Sell">
+    باع
+  </string>
+    <string name="ShippingAddress">
+    عنوان الشحن
+  </string>
+    <string name="ShippingOptions">
+    خيارات الشحن
+  </string>
+    <string name="shipto">
+    شيبيتو
+  </string>
+    <string name="Showmore">
+    أظهر المزيد
+  </string>
+    <string name="Status">
+    الحالة
+  </string>
+    <string name="Stock">
+    المخزون
+  </string>
+    <string name="tab">
+    التبويب
+  </string>
+    <string name="taborthe">
+    علامة التبويب أو
+  </string>
+    <string name="Thiscardwill">
+    لن تكون هذه البطاقة متاحة بعد الآن.
+  </string>
+    <string name="Topupamount">
+    مبلغ التعبئة
+  </string>
+    <string name="TwoHours">
+    ساعاتين
+  </string>
+    <string name="Unlimited">
+    غير محدود
+  </string>
+    <string name="Useanewcard">
+    استخدم بطاقة جديدة
+  </string>
+    <string name="Useanothercard">
+    استخدم بطاقة أخرى
+  </string>
+    <string name="UsethiscardforpurchasesonMalqaa">
+    استخدم هذه البطاقة في عمليات الشراء على Malqaa لجميع القوائم التي تدعم Ping ، أو لإضافة رصيد إلى حساب Malqaa الخاص بك.
+  </string>
+    <string name="Verify">
+    أكد صحة شىء ما
+  </string>
+    <string name="Verifybankaccount">
+    تحقق من الحساب المصرفي
+  </string>
+    <string name="Verifyyour">
+    تحقق الخاص بك
+  </string>
+    <string name="ViewProduct">
+    عرض المنتج
+  </string>
+    <string name="WatchlistNotFound">
+    قائمة المراقبة غير موجودة
+  </string>
+    <string name="Weareapreassignedbiller">
+    لقد تم تخصيص فواتير لنا مسبقًا من جميع البنوك  السعودية الرئيسية ، بحيث يمكنك إضافة رصيد إلى حساب الملقا باستخدام الإنترنت أو الخدمات المصرفية عبر الهاتف.
+  </string>
+    <string name="wemadetoyourbankaccount">
+    قطعناها على حسابك المصرفي
+  </string>
+    <string name="Whocanviewmyprofile">
+    من يمكنه عرض ملف التعريف الخاص بي
+  </string>
+    <string name="Youwillfindtheverificationcode">
+    ستجد رمز التحقق في تفاصيل ملف
+  </string>
+    <string name="Youwillreceiveanemailat">
+    سوف تتلقى رسالة بريد إلكتروني على
+  </string>
+    <string name="AcceptedPaymentTypes">
+    أنواع الدفع المقبولة
+  </string>
+    <string name="ActivateAutoListing">
+    تنشيط الإدراج التلقائي
+  </string>
+    <string name="ActivateProduct">
+    تنشيط المنتج
+  </string>
+    <string name="Attributes">
+    الصفات
+  </string>
+    <string name="Bidnow">
+    المزايدة الآن
+  </string>
+    <string name="Browse">
+    تصفح
+  </string>
+    <string name="Close">
+    قريب
+  </string>
+    <string name="Clothing_Fashion">
+    الملابس والموضة
+  </string>
+    <string name="Code">
+    رمز
+  </string>
+
+    <string name="Fieldcantbeempty">
+    لا يمكن أن يكون الحقل فارغًا
+  </string>
+
+    <string name="Create">
+    خلق
+  </string>
+    <string name="Custom">
+    مخصص
+  </string>
+    <string name="DeactivateProduct">
+    قم بإلغاء تنشيط المنتج
+  </string>
+    <string name="DragDropyourfiles">
+    قم بسحب وإسقاط ملفاتك
+  </string>
+    <string name="EightHours">
+    8 ساعات
+  </string>
+    <string name="ExpiryDate">
+    تاريخ الانتهاء
+  </string>
+    <string name="ExtrasListingOffers">
+    إضافات وعروض الإدراج
+  </string>
+    <string name="Fixedpriceoffer">
+    عرض سعر ثابت
+  </string>
+    <string name="Fixedpriceofferautomatically">
+    عرض السعر الثابت - عرض هذا العنصر تلقائيًا في كل مرة تنتهي فيها القائمة (مباعة وغير مباعة)
+  </string>
+    <string name="FourHours">
+    4 ساعات
+  </string>
+    <string name="Friday">
+    جمعة
+  </string>
+    <string name="GalleryPlus">
+    معرض بلس
+  </string>
+    <string name="Height">
+    ارتفاع
+  </string>
+    <string name="Idonotknowtheshippingcostsyet">
+    أنا لا أعرف تكاليف الشحن بعد
+  </string>
+    <string name="Id">
+    رقم الهوية
+  </string>
+    <string name="Length">
+    طول
+  </string>
+    <string name="ListasAuction">
+    قائمة بالمزاد
+  </string>
+    <string name="ListasBuyNow">
+    قائمة بالشراء الآن
+  </string>
+    <string name="Listing_no">
+    :قائمة الارقام
+  </string>
+    <string name="March">
+    مارس
+  </string>
+    <string name="Men">
+    رجال
+  </string>
+    <string name="None">
+    لا أحد
+  </string>
+    <string name="OfferDuration">
+    مدة العرض
+  </string>
+    <string name="Offerto">
+    عرض ل
+  </string>
+    <string name="Onlyallowbidsfrom">
+    السماح فقط بالعطاءات من الأعضاء المصادق عليهم
+  </string>
+    <string name="Paypal">
+    باي بال
+  </string>
+    <string name="PickUp">
+    يلتقط
+  </string>
+    <string name="Ping">
+    بينغ
+  </string>
+    <string name="PricingandFixedPriceOffer">
+    التسعير وعرض السعر الثابت
+  </string>
+    <string name="Saudiabankdeposit">
+    وديعة بنك السعودية
+  </string>
+    <string name="Save">
+    يحفظ
+  </string>
+    <string name="SelectDate">
+    اختر التاريخ
+  </string>
+    <string name="Shoes">
+    أحذية
+  </string>
+    <string name="SixHours">
+    6 ساعات
+  </string>
+    <string name="SKU">
+    وحدة حفظ الأوراق المالية
+  </string>
+    <string name="loggedoutsuccessfully">
+    تم تسجيل الخروج بنجاح
+  </string>
+    <string name="outof10photos">  من أصل 10  %1$d </string>
+    <string name="SpecifyEndTime">
+    حدد وقت الانتهاء
+  </string>
+    <string name="Pleaseaddaphoto">
+    الرجاء إضافة صورة
+  </string>
+
+    <string name="Nomoreimages">
+    لا مزيد من الصور ...
+  </string>
+
+    <string name="Language">
+    English
+  </string>
+    <string name="MaxBidUpdated">
+    تم تحديث أقصى عطاء
+  </string>
+
+    <string name="EmptyBox">
+    Empty Box
+  </string>
+
+    <string name="NoRecordFound">
+    لا يوجد سجلات
+  </string>
+
+    <string name="Information">
+    معلومة
+  </string>
+
+    <string name="NoImageSelected">
+     لم يتم تحديد صورة
+  </string>
+
+    <string name="ItemDetails">
+      تفاصيل العنصر
+  </string>
+
+    <string name="MaximumImagesAllowedtoSelectare">
+   الحد الأقصى للصور المسموح بتحديدها هي   %1$d
+  </string>
+
+    <string name="ChoosePictures">
+    اختر الصور
+  </string>
+
+    <string name="SpecifyReserve">
+    حدد الاحتياطي (25 ج)
+  </string>
+    <string name="StartPrice">
+    السعر المبدئي
+  </string>
+    <string name="SuggestedValues">
+    القيم المقترحة
+  </string>
+    <string name="TenHours">
+    10 ساعات
+  </string>
+    <string name="UnsavedChanges">
+    التغييرات غير المحفوظة
+  </string>
+    <string name="UnwantedChristmasgift">
+    هدية عيد الميلاد غير المرغوب فيها
+  </string>
+    <string name="UseBookaCouriershippingcosts">
+    استخدم تكاليف الشحن "حجز ساعي"
+  </string>
+    <string name="Useshippingtemplate">
+    استخدم نموذج الشحن
+  </string>
+    <string name="Weight">
+    وزن
+  </string>
+    <string name="WeightDimensions">
+    الوزن والأبعاد
+  </string>
+    <string name="Width">
+    عرض
+  </string>
+    <string name="Autobid">
+    المزايدة التلقائية
+  </string>
+    <string name="BillingAddress">
+    عنوان وصول الفواتير
+  </string>
+    <string name="PrimaryContactInformation">
+    معلومات الاتصال الأساسية
+  </string>
+    <string name="Subuser">
+    مستخدم فرعي
+  </string>
+    <string name="AreyousureyouwanttodeleteyourItem">
+    هل أنت متأكد أنك تريد حذف العنصر الخاص بك
+  </string>
+    <string name="Error">
+    خطأ
+  </string>
+    <string name="Item">
+    العنصر
+  </string>
+    <string name="Listing">
+    قائمة
+  </string>
+    <string name="Makkah">
+    مكه
+  </string>
+    <string name="Verificationcode">
+    رمز التحقق
+  </string>
+    <string name="clickhere">
+    انقر هنا
+  </string>
+    <string name="Towatchthevideo">
+    لمشاهدة الفيديو
+  </string>
+    <string name="Increment">
+    زيادة راتب
+  </string>
+    <string name="Range">
+    نطاق
+  </string>
+    <string name="Balance">
+    الرصيد
+  </string>
+    <string name="Remaining">
+    متبقي
+  </string>
+    <string name="Views">
+    تمت رؤيته بواسطة
+  </string>
+
+    <string name="BusinessName">الاسم التجاري</string>
+
+    <string name="PrimaryContact">اتصال رئيسي</string>
+
+    <string name="BusinessNumber">عدد الأعمال</string>
+
+    <string name="Emailisrequired">
+    البريد الالكتروني مطلوب
+  </string>
+
+    <string name="Pleaseenteravalidemailaddress">
+    يرجى إدخال عنوان بريد إلكتروني صالح
+  </string>
+
+    <string name="Passwordisrequired">
+    كلمة المرور مطلوبة  </string>
+
+    <string name="Passwordtooweak">
+ كلمة مرور ضعيفة جدا
+  </string>
+
+    <string name="ItemsImSelling">العناصر التي أبيعها</string>
+
+    <string name="SellingOptions">بيع الخيارات</string>
+
+
+    <string name="ShoppingCart">عربة التسوق</string>
+
+    <string name="Hisaysomething">مرحبا قل شيئا</string>
+
+    <string name="REFINE">صقل</string>
+
+    <string name="Failedtoaddfavorites">فشل إضافة المفضلة</string>
+
+    <string name="AddedtoFavorites">تمت الإضافة إلى المفضلة</string>
+
+    <string name="FINDACATEGORY">ابحث عن فئة</string>
+
+    <string name="Whatareyoulisting">ماذا تسرد؟</string>
+
+
+    <!--  Old String Resources-->
+    <string name="title_home">الصفحة الرئيسية</string>
+    <string name="title_account">حساب</string>
+    <string name="title_notifications">إشعارات</string>
+    <string name="title_watchlist">قائمة المراقبة</string>
+    <string name="title_about_seller">عن البائع</string>
+
+    <string name="Addavideolink">أضف رابط فيديو</string>
+
+    <string name="outofphotos">0 من أصل 10 صور</string>
+
+    <string name="currentimageabannerimage">ملاحظة *: انقر فوق خانة الاختيار لجعل الصورة الحالية صورة لافتة.</string>
+
+    <string name="SelectedImages">الصورة (الصور) المحددة</string>
+
+    <string name="SelectAnyoneCountry">حدد أي بلد</string>
+
+    <string name="SelectAnyoneRegion">حدد أي منطقة</string>
+
+    <string name="SelectAnyoneCity">حدد أي مدينة</string>
+
+    <string name="Brandnewunuseditemwithoriginal">منتج جديد وغير مستخدم مع كتيبات أصلية وتغليف</string>
+
+    <string name="PricingandPayment">التسعير والدفع</string>
+
+    <string name="Selectanyoneoption">حدد أي خيار واحد</string>
+
+    <string name="Selectanyonepaymentmethod">حدد أي طريقة دفع واحدة</string>
+
+    <string name="Startpriceshouldbesmaller">يجب أن يكون سعر البداية أصغر</string>
+
+    <string name="Buynowmaxlimitreached">تم الوصول إلى الحد الأقصى للشراء الآن</string>
+
+    <string name="Reservemaxlimitreached">تم الوصول إلى الحد الأقصى للحجز</string>
+
+    <string name="StartPricemaxlimitreached">تم الوصول إلى الحد الأقصى لسعر البدء</string>
+
+    <string name="BuyNowAndAuction">شراء الآن والمزاد</string>
+
+    <string name="FeaturedGeneralAds">إعلانات عامة مميزة</string>
+
+    <string name="SALESFOLDER">مجلد المبيعات</string>
+
+    <string name="Hereisthesharecontentbody">هنا نص محتوى المشاركة</string>
+    <string name="Sharevia">شارك عبر</string>
+
+    <string name="AdID">معرّف الإعلان</string>
+    <string name="TypeYourCommentBelowTextBoxAgainstTheSelectedQuestion">اكتب تعليقك أدناه مربع نص مقابل السؤال المحدد</string>
+
+    <string name="comment">تعليق</string>
+
+    <string name="FirstGiveAnswerThenYouCanDoComment">أعط الجواب أولاً ثم يمكنك التعليق</string>
+    <string name="RecentAccountActivity">نشاط الحساب الأخير</string>
+    <string name="LastLoggedIn">آخر تسجيل دخول</string>
+    <string name="MemberListing">قائمة الأعضاء</string>
+
+    <string name="Answerisalreadygiven">تم إعطاء الإجابة بالفعل</string>
+
+    <string name="TypeYourAnswerBelowTextBoxAgainstTheSelectedQuestion">اكتب إجابتك أسفل مربع النص مقابل السؤال المحدد</string>
+    <string name="ReplyAnswer">الرد الإجابة</string>
+
+    <string name="Nosoldlistings">لا توجد قوائم مباعة</string>
+
+    <string name="questions">%1$d أسئلة</string>
+
+    <string name="SellerAddedtoFavorites">تمت إضافة البائع إلى المفضلة</string>
+    <string name="Failedtoaddfavorite">فشل إضافة المفضلة</string>
+    <string name="StartingbidNoreserve">بدء المزايدة | لا الاحتياطي</string>
+    <string name="CommenthasbeenPosted">تم نشر التعليق</string>
+
+    <string name="Answerhasbeenposted">تم نشر الإجابة</string>
+
+    <string name="Share">يشارك</string>
+    <string name="Report">تقرير</string>
+    <string name="PLACEBID">ضع العطاء</string>
+    <string name="QuestionAnswers">سؤال / أجوبة</string>
+    <string name="Questionhasbeenpost">تم السؤال آخر</string>
+    <string name="FailedtopostQuestion">فشل إرسال السؤال</string>
+
+
+    <string name="questions0">0 أسئلة</string>
+
+    <string name="OtherOptions">خيارات أخرى</string>
+
+    <string name="positive100">ايجابي٪ 100</string>
+
+
+    <string name="Sellersotherlistings">قوائم البائع الأخرى</string>
+
+
+    <string name="FailedtogetQuestions">فشل الحصول على الأسئلة</string>
+
+    <string name="Registrationexpires">ينتهي التسجيل</string>
+
+    <string name="SubjectHere">الموضوع هنا</string>
+
+    <string name="KEYWORD">الكلمة الرئيسية</string>
+
+    <string name="ReservePrice">سعر الاحتياطي</string>
+
+    <string name="Choosealistingtype">اختر نوع القائمة</string>
+
+    <string name="Youdonthaveanypaymentinstructionsset">لم يتم تعيين أي تعليمات دفع</string>
+
+    <string name="FixedLength">طول ثابت</string>
+
+    <string name="SelectTime">حدد الوقت</string>
+
+    <string name="SelectaPickupOption">حدد خيار التقاط</string>
+
+    <string name="Promotional">الترويجية</string>
+
+    <string name="Selectanyoneitem">حدد أي عنصر واحد</string>
+
+    <string name="largerimage">صورة أكبر 8 مرات في نتائج البحث أفضل موضع في الفئة</string>
+
+    <string name="largerimageprice"> 45.99 دولارًا</string>
+
+    <string name="Bestpositionincategory">4x صورة أكبر في نتائج البحث أفضل مكان في الفئة</string>
+
+    <string name="Bestpositionincategoryprice">29.99 دولارًا</string>
+
+    <string name="featuretext">صورة أكبر مرتين في نتائج البحث أفضل موضع في الفئة</string>
+
+    <string name="featureprice">33.99 دولارًا</string>
+
+    <string name="gallerytext">صورة أكبر 1x في نتائج البحث أفضل موضع في الفئة</string>
+
+    <string name="galleryprice">8.99 دولارًا</string>
+
+    <string name="basictext">تواصل مع القائمة الأساسية دون أي تكلفة إضافية</string>
+
+    <string name="ConfirmDetails">تأكيد التفاصيل</string>
+
+    <string name="BankFeesmayapply">(قد يتم تطبيق رسوم بنكية)</string>
+
+    <string name="DurationAndShipping">المدة والشحن</string>
+
+    <string name="ShippingWithinSaudia">الشحن داخل السعودية</string>
+
+
+    <string name="something_went_wrong">هناك خطأ ما</string>
+
+    <string name="listing"> %1$d Listing</string>
+
+    <string name="failed">باءت بالفشل</string>
+
+    <string name="TotalInclusiveofVAT">الإجمالي (شاملاً ضريبة القيمة المضافة)</string>
+
+    <string name="Finish">ينهي</string>
+
+    <string name="Continue">يكمل</string>
+
+    <string name="Done">منجز!</string>
+
+
+    <string name="UniqueTrades">9 صفقات فريدة</string>
+
+    <string name="PermissionDenied">طلب الاذن مرفوض</string>
+
+    <string name="UpdateProfilePicture">تحديث صورة الملف الشخصي</string>
+    <string name="ImageUploadedsuccessfully">
+    تم تحميل الصورة بنجاح
+  </string>
+
+    <string name="FailedinImageUpload">
+    فشل في تحميل الصورة
+  </string>
+
+    <string name="neutrals"> محايدون</string>
+    <string name="negatives"> السلبيات</string>
+    <string name="positive"> إيجابيات</string>
+    <string name="recoverpass">هل نسيت كلمة السر؟<font color='#339933'>تعافى هنا</font></string>
+    <string name="signuptext">ليس لديك حساب؟<font color='339933'>اشتراك</font></string>
+    <string name="alreadyaccount">هل لديك حساب؟ تسجيل الدخول</string>
+    <string name="browsemarketnav">All Categories   >   Marketplace</string>
+    <string name="app_name">SamplePlayStore</string>
+    <string name="type_your_password_here">كلمه السر</string>
+    <string name="type_your_email_here">اكتب بريدك الإلكتروني هنا</string>
+
+    <string name="PleaseenteravalidPhoneNumber">يرجى إدخال رقم هاتف صالح</string>
+
+    <string name="Passworddonotmatch">كلمة السر غير مطابقة</string>
+
+    <string name="Pleasewaituntilthecodeexpires">يرجى الانتظار حتى انتهاء صلاحية الرمز</string>
+
+    <string name="VerificationSuccessful">تم التحقق بنجاح</string>
+
+    <string name="VerificationFailed">فشل التحقق! ... إعادة إرسال الرمز</string>
+
+    <string name="Seconds">%1$d ثواني</string>
+
+    <string name="Pleaseselectagender">الرجاء تحديد الجنس</string>
+
+    <string name="NoResponse"></string>
+
+    <string name="Accounthasbeencreated">تم إنشاء الحساب</string>
+
+    <string name="seconds60">60 ثانية</string>
+
+    <string name="mirror_degree">180</string>
+
+    <string name="ThisEmailAddressDoesnotExist">عنوان البريد الإلكتروني هذا غير موجود</string>
+
+    <string name="InternetIssue">مشكلة الإنترنت</string>
+
+
+</resources>

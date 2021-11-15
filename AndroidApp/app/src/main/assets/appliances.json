@@ -1,0 +1,14 @@
+[
+  {
+    "id": "5743c495-74bf-4bce-9455-d071bfc0bb8f",
+    "name": "Kitchen Appliances",
+    "key": "Kitchen",
+    "sortorder": 1
+  },
+  {
+    "id": "3d873f9e-f6bf-4959-92b4-c4fdbb197fbd",
+    "name": "Air conditioning",
+    "key": "Air",
+    "sortorder": 2
+  }
+]

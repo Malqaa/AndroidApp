@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.malka.androidappp">
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:smallScreens="true"
+        android:xlargeScreens="true" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/malqa_iconn"
+        android:label="Malqaa"
+        android:roundIcon="@mipmap/malqa_iconn_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
+        tools:ignore="AllowBackup">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity
+            android:name=".botmnav_fragments.activities_main.business_signup.BusinessSignupPg3"
+            android:theme="@style/NoActionBar" />
+        <activity
+            android:name=".botmnav_fragments.activities_main.business_signup.BusinessSignupPg2"
+            android:theme="@style/NoActionBar" />
+        <activity
+            android:name=".botmnav_fragments.activities_main.business_signup.BusinessSignupPg1"
+            android:theme="@style/NoActionBar" />
+        <activity
+            android:name=".activities_main.onboarding_intro_slider.OnBoardingIntroSlider"
+            android:theme="@style/NoActionBar"/>
+        <activity
+            android:name=".botmnav_fragments.forgot_changepass_reset_activity.ForgotChangepassActivity"
+            android:theme="@style/NoActionBar"/>
+        <activity
+            android:name=".botmnav_fragments.forgotpass_otpactivity.ActivityForgotPassOtpcode"
+            android:theme="@style/NoActionBar" />
+        <activity
+            android:name=".activities_main.SplashActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities_main.Bottmmm"
+            android:label="Bottom Nav"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".activities_main.FeaturedCategory"
+            android:label="Featured Category" />
+        <activity
+            android:name=".activities_main.login.SignInActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities_main.login.SignupOptionsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities_main.signup_account.signup_pg1.SignupPg1"
+            android:theme="@style/NoActionBar"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name=".activities_main.signup_account.signup_pg2.SignupPg2"
+            android:theme="@style/NoActionBar" />
+        <activity
+            android:name=".activities_main.signup_account.SignupPg3"
+            android:theme="@style/NoActionBar" />
+        <activity
+            android:name=".activities_main.signup_account.signup_pg4.SignupPg4"
+            android:theme="@style/NoActionBar"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".botmnav_fragments.forgot_password.ForgotPasswordActivty"
+            android:theme="@style/NoActionBar" />
+        <activity
+            android:name=".activities_main.SignInPart2"
+            android:theme="@style/NoActionBar" />
+    </application>
+
+</manifest>

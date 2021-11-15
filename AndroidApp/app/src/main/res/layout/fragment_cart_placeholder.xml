@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginBottom="?actionBarSize"
+    android:background="@color/SilverBackground"
+    tools:context=".botmnav_fragments.shoppingcart7_placeholder.CartPlaceholder">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_cart_placeholder"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#339933"
+        android:layout_alignParentTop="true"
+        app:popupTheme="@style/PopupOverlay"
+        />
+
+    <Button
+        android:id="@+id/placeorder_btn2"
+        android:layout_width="match_parent"
+        android:backgroundTint="@color/GoldenApp"
+        android:layout_height="64dp"
+        android:layout_alignParentBottom="true"
+        android:text="PLACE ORDER"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar_cart_placeholder"
+        android:layout_above="@+id/placeorder_btn2">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+   <TextView
+       android:id="@+id/tx_placeholder_thanks"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="Thank you for your order Mohammed!"
+       android:textStyle="bold"
+       android:textSize="15sp"
+       android:layout_centerHorizontal="true"
+       android:layout_marginTop="15dp"/>
+
+    <TextView
+        android:id="@+id/emailnoti"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_below="@+id/tx_placeholder_thanks"
+        android:text="You'll receive an email at s5on@windoslive.com\nonce your order is confirmed."/>
+
+    <Button
+        android:id="@+id/btn_continue_ship"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/greenApp"
+        android:text="Continue Shopping"
+        android:layout_below="@+id/emailnoti"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/white"
+        android:textAllCaps="false"
+        android:padding="15dp"
+        android:textSize="12sp"
+        android:layout_marginTop="6dp"
+        />
+
+    <RelativeLayout
+        android:id="@+id/placeholder_relative"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_continue_ship"
+        android:layout_marginTop="25dp"
+        android:background="@color/white">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/graishhh"/>
+
+        <TextView
+            android:id="@+id/placeorder_order_tx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Order : "
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/placeorder_order_tx"
+            android:layout_alignTop="@+id/placeorder_order_tx"
+            android:text="NSAC60056562552"
+            android:textStyle="bold"/>
+
+        <View
+            android:id="@+id/view2_placeorder"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/placeorder_order_tx"
+            android:background="@color/graishhh"/>
+
+
+        <TextView
+            android:id="@+id/tx_paymentmethod"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:text="Payment Method"
+            android:textAllCaps="true"
+            android:layout_below="@+id/view2_placeorder"
+            android:layout_margin="13dp"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/card_end_digits"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="13dp"
+            android:layout_marginEnd="12dp"
+            android:layout_below="@+id/tx_paymentmethod"
+
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter 4 last digits"
+                android:drawableStart="@drawable/card_visa_24dp"
+                android:drawablePadding="15dp"
+                android:id="@+id/card_end_digitss"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <View
+            android:id="@+id/view3_placeorder"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/card_end_digits"
+            android:background="@color/graishhh"/>
+
+        <TextView
+            android:id="@+id/placeorder_ordersummary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Order Summary"
+            android:textAllCaps="true"
+            android:textStyle="bold"
+            android:textSize="13sp"
+            android:layout_below="@+id/view3_placeorder"
+            android:layout_margin="13dp"
+            />
+
+        <TextView
+            android:id="@+id/placeholder_cash_subtotal"
+            android:layout_width="wrap_content"
+            android:textSize="12sp"
+            android:layout_marginTop="2dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/placeorder_ordersummary"
+            android:layout_marginStart="15dp"
+            android:text="Subtotal (2 items)"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/placeholder_cash_subtotal"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="15dp"
+            android:text="AED 10.00"
+            android:textSize="12sp"
+            />
+
+        <View
+            android:id="@+id/view4_placeorder"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_below="@+id/placeholder_cash_subtotal"
+            android:background="@color/graishhh"/>
+
+        <TextView
+            android:id="@+id/placeholder_card_total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/view4_placeorder"
+            android:textColor="#757575"
+            android:textSize="13sp"
+            android:layout_marginStart="15dp"
+            android:text="Card amount total"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" (Inclusive of VAT)"
+            android:layout_toEndOf="@+id/placeholder_card_total"
+            android:layout_alignTop="@+id/placeholder_card_total"
+            android:textSize="13sp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/placeholder_card_total"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="15dp"
+            android:text="AED 10.00"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            />
+
+
+
+            </RelativeLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/placeholder_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/placeholder_relative"/>
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>
