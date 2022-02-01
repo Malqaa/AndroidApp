@@ -3,7 +3,7 @@ package com.malka.androidappp.network.constants
 object ApiConstants {
 
     const val HTTP_PROTOCOL = "http";
-    const val SERVER_LOCATION = "212.24.104.23";
+    const val SERVER_LOCATION = "89.40.10.168:81";
     const val API_FOLDER = "api";
     const val API_VERSION = "v1"
     const val IMAGE_FOLDER = "ImageFile";

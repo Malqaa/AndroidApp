@@ -3,8 +3,8 @@ package com.malka.androidappp.network.Retrofit
 import com.malka.androidappp.network.constants.ApiConstants
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.servicemodels.ConstantObjects
-import com.malka.androidappp.servicemodels.user.UserObject
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -12,18 +12,27 @@ import retrofit2.converter.gson.GsonConverterFactory
 class RetrofitBuilder {
     companion object {
         private val httpClient = OkHttpClient.Builder()
+        var builder: Retrofit.Builder? = null
 
         private fun GetRetrofitBuilder(Apiurl: String): Retrofit.Builder {
+            if (builder == null) {
+                val httpLoggingInterceptor = HttpLoggingInterceptor()
+                httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
 
-            var authToken: String = ConstantObjects.logged_authtoken
-            var interceptor: AuthenticationInterceptor = AuthenticationInterceptor(authToken);
-            if (!httpClient.interceptors().contains(interceptor)) {
-                httpClient.addInterceptor(interceptor);
+                val authToken: String = ConstantObjects.logged_authtoken
+                val authenticationInterceptor = AuthenticationInterceptor(authToken);
+                if (!httpClient.interceptors().contains(httpLoggingInterceptor)) {
+                    httpClient.addInterceptor(httpLoggingInterceptor);
+                }
+                if (!httpClient.interceptors().contains(authenticationInterceptor)) {
+                    httpClient.addInterceptor(authenticationInterceptor);
+                }
+                builder = Retrofit.Builder()
+                builder!!.baseUrl(Apiurl).addConverterFactory(GsonConverterFactory.create())
+                builder!!.client(httpClient.build());
             }
-            var builder: Retrofit.Builder = Retrofit.Builder()
-            builder.baseUrl(Apiurl).addConverterFactory(GsonConverterFactory.create())
-            builder.client(httpClient.build());
-            return builder
+            return builder!!
+
         }
 
         fun createInstance(): MalqaApiService {
@@ -132,6 +141,7 @@ class RetrofitBuilder {
             return GetRetrofitBuilder(ApiConstants.GET_SELLER_BASE_URL).build()
                 .create(MalqaApiService::class.java)
         }
+
         fun getAdSellerByID(id: String): MalqaApiService {
             return GetRetrofitBuilder(ApiConstants.GET_SELLER_BASE_URL).build()
                 .create(MalqaApiService::class.java)
@@ -190,7 +200,7 @@ class RetrofitBuilder {
                 .create(MalqaApiService::class.java)
         }
 
-        fun getAllCategoriesByTemplateID(categoryParentId:Int): MalqaApiService {
+        fun getAllCategoriesByTemplateID(categoryParentId: Int): MalqaApiService {
             return GetRetrofitBuilder(ApiConstants.GET_CATEGORY_TAGS_BASE_URL).build()
                 .create(MalqaApiService::class.java)
         }
@@ -199,10 +209,12 @@ class RetrofitBuilder {
             return GetRetrofitBuilder(ApiConstants.USERFAVOURITE_ENDPOINT).build()
                 .create(MalqaApiService::class.java)
         }
+
         fun addCatToFav(): MalqaApiService {
             return GetRetrofitBuilder(ApiConstants.USERFAVOURITE_ENDPOINT).build()
                 .create(MalqaApiService::class.java)
         }
+
         fun addSearchToFav(): MalqaApiService {
             return GetRetrofitBuilder(ApiConstants.USERFAVOURITE_ENDPOINT).build()
                 .create(MalqaApiService::class.java)
@@ -241,17 +253,17 @@ class RetrofitBuilder {
 
         fun getTotalOnlineUser(): MalqaApiService {
             return GetRetrofitBuilder(ApiConstants.HOME_TOTAL_ONLINEVISITS_BASEURL).build()
-                    .create(MalqaApiService::class.java)
+                .create(MalqaApiService::class.java)
         }
 
         fun getTotalMembers(): MalqaApiService {
             return GetRetrofitBuilder(ApiConstants.HOME_TOTAL_NUMBERS_OF_MEMBERS_BASEURL).build()
-                    .create(MalqaApiService::class.java)
+                .create(MalqaApiService::class.java)
         }
 
         fun createpropertyAdwaqar(): MalqaApiService {
             return GetRetrofitBuilder(ApiConstants.CREATE_ADV_BYWAQAR_TEST_SERVER_BASEURL).build()
-                    .create(MalqaApiService::class.java)
+                .create(MalqaApiService::class.java)
         }
 
         fun getBidingbyAdId(advId: String): MalqaApiService {
@@ -278,6 +290,7 @@ class RetrofitBuilder {
             return GetRetrofitBuilder(ApiConstants.CREATE_BUSINESS_PRODUCT_BASEURL).build()
                 .create(MalqaApiService::class.java)
         }
+
         fun giveFeedback(): MalqaApiService {
             return GetRetrofitBuilder(ApiConstants.USERFEEDBACK_ENDPOINT).build()
                 .create(MalqaApiService::class.java)
