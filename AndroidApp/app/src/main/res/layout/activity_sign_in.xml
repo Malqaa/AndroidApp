@@ -13,125 +13,87 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dp"
         android:gravity="center_horizontal"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="@dimen/_10sdp">
+
+
+        <com.malka.androidappp.helper.widgets.swicth.ToggleSwitch
+            android:id="@+id/language_toggle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:background="@drawable/tab_bg"
+            android:textSize="@dimen/_12sdp"
+            app:activeBgColor="@color/bg"
+            app:activeTextColor="@android:color/white"
+            app:cornerRadius="@dimen/_15sdp"
+            app:inactiveBgColor="@color/tab_bg"
+            app:inactiveTextColor="@android:color/black"
+            app:separatorColor="@color/gray_very_light"
+            app:textToggleLeft="EN"
+            app:textToggleRight="AR"
+            app:toggleWidth="@dimen/_50sdp" />
 
 
         <ImageView
             android:id="@+id/imageView8"
-            android:layout_width="180dp"
-            android:layout_height="81dp"
-            android:layout_marginTop="70dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_20sdp"
             android:background="@drawable/main_logo" />
 
         <TextView
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="10dp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:fontFamily="@font/madani_arabic_bold"
             android:text="@string/welcome_back"
-            android:textColor="@color/greenApp"
-            android:textSize="15dp"
-            android:textStyle="bold" />
+            android:textColor="@color/black"
+            android:textSize="@dimen/_16sdp" />
 
         <TextView
-
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="10dp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:fontFamily="@font/madani_arabic_light"
             android:text="@string/login_with_mobile"
-            android:textColor="@color/greenApp"
-            android:textSize="15dp"
-            android:textStyle="bold" />
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12sdp" />
 
 
-        <LinearLayout
-            android:id="@+id/message_language_tab"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/_30sdp"
-            android:orientation="horizontal"
-            android:background="@drawable/tab_bg"
-       >
+        <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+            android:id="@+id/email_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_25sdp"
+            android:hint="@string/type_your_email_here"
+            android:inputType="textEmailAddress"
+            app:startIcon="@drawable/ic_email" />
 
+        <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+            android:id="@+id/passwword_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:hint="@string/type_your_password_here"
+            android:inputType="textPassword"
+            app:lastfield="true"
+            app:enablePasswordToggle="true"
+            app:startIcon="@drawable/ic_email" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:enabled="true"
-                android:id="@+id/English"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/tab_bg_selector"
-                android:text="@string/en" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/Arabic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/tab_bg_selector"
-                android:enabled="false"
-                android:text="@string/ar" />
-        </LinearLayout>
 
         <TextView
-            android:id="@+id/changeLanguage"
+            android:id="@+id/Forgot_your_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="10dp"
-            android:text="@string/Language"
-            android:textColor="@color/greenApp"
-            android:textSize="15dp"
-            android:textStyle="bold" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textinput_edittext3"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="40dp"
-            android:layout_marginEnd="30dp"
-            app:boxBackgroundColor="@color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView8">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editText3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableStart="@drawable/symboledittext"
-                android:drawablePadding="8dp"
-                android:inputType="textPersonName"
-                android:padding="15dp"
-                android:textSize="15sp" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textinput_editText4"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="30dp"
-            app:boxBackgroundColor="@color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textinput_edittext3"
-            app:passwordToggleEnabled="true">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editText4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableStart="@drawable/symbolpass"
-                android:drawablePadding="8dp"
-                android:inputType="textPassword"
-                android:padding="15dp" />
-        </com.google.android.material.textfield.TextInputLayout>
-
+            android:layout_gravity="start"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:fontFamily="@font/madani_arabic_light"
+            android:text="@string/Forgot_your_password"
+            android:textColor="@color/bg"
+            android:textSize="@dimen/_12sdp" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button"
@@ -141,15 +103,36 @@
             android:layout_marginTop="40dp"
             android:layout_marginEnd="30dp"
             android:background="@drawable/round_btn"
+            android:fontFamily="@font/madani_arabic_semi_bold"
             android:onClick="confirmInput"
-            android:padding="12dp"
             android:text="@string/Login"
             android:textAllCaps="false"
             android:textColor="#ffffff"
-            android:textSize="22dp"
-            android:textStyle="bold" />
+            android:textSize="@dimen/_14sdp" />
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/madani_arabic_medium"
+                android:text="@string/don_t_have_an_account"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp" />
+
+            <TextView
+                android:id="@+id/new_registration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:fontFamily="@font/madani_arabic_medium"
+                android:text="@string/new_registration"
+                android:textColor="@color/bg"
+                android:textSize="@dimen/_12sdp" />
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>
 

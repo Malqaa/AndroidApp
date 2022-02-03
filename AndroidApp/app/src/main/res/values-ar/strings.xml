@@ -88,7 +88,7 @@
 الاسم الاول
   </string>
     <string name="Forgot_your_password">
-    نسيت رقمك السري؟
+   نسيت كلمة المرور؟
   </string>
 
     <string name="Sendinstructions">
@@ -2464,5 +2464,7 @@
 
   <string name="welcome_back">مرحبا بعودتك</string>
   <string name="login_with_mobile">قم بتسجيل الدخول برقم الجوال</string>
+  <string name="new_registration">تسجيل جديد</string>
+  <string name="don_t_have_an_account">ليس لديك حساب ؟</string>
 
 </resources>

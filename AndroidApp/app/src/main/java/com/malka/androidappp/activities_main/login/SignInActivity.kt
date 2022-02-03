@@ -5,23 +5,13 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.Configuration
-import android.graphics.Typeface
 import android.os.Bundle
-import android.text.SpannableString
-import android.text.Spanned
 import android.text.TextPaint
-import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
-import android.text.style.ForegroundColorSpan
-import android.text.style.StyleSpan
 import android.util.Patterns
 import android.view.View
-import android.widget.CompoundButton
-import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
 import com.google.gson.Gson
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.onboarding_intro_slider.OnBoardingIntroSlider
@@ -34,7 +24,6 @@ import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.servicemodels.ConstantObjects
 import kotlinx.android.synthetic.main.activity_sign_in.*
-import kotlinx.android.synthetic.main.fragment_promotional.*
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -50,8 +39,6 @@ open class SignInActivity : AppCompatActivity() {
     var calledfromsigninactivity = false
     var loginsuccessful = false
 
-    lateinit var email: TextInputLayout
-    lateinit var password: TextInputLayout
 
     var currentLanguage: String = Locale.getDefault().language
 
@@ -71,12 +58,9 @@ open class SignInActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_sign_in)
         supportActionBar?.hide()
-        textEmail = findViewById(R.id.editText3)
-        textPassword = findViewById(R.id.editText4)
 
         ///////////////save password part 2//////////////////
         updateViews()
-
 
 
         val clickspan = object : ClickableSpan() {
@@ -89,46 +73,19 @@ open class SignInActivity : AppCompatActivity() {
                 //Zack
                 //Date: 03/17/2021
                 //val intent = Intent(this@SignInActivity, SignupPg1::class.java)
-                val intent = Intent(this@SignInActivity, SignupOptionsActivity::class.java)
-                startActivity(intent)
+
             }
         }
-
-        val clickrecover = object : ClickableSpan() {
-
-            //It removes underline from clickablespan
-            override fun updateDrawState(ds: TextPaint) { // override updateDrawState
-                ds.isUnderlineText = false // set to false to remove underline
-            }
-
-            override fun onClick(view: View) {
-                val intent = Intent(this@SignInActivity, ForgotPasswordActivty::class.java)
-                startActivity(intent)
-            }
+        Forgot_your_password.setOnClickListener {
+            val intent = Intent(this@SignInActivity, ForgotPasswordActivty::class.java)
+            startActivity(intent)
         }
 
-        email = findViewById(R.id.textinput_edittext3)
-        password = findViewById(R.id.textinput_editText4)
-
-        email.hint = getString(R.string.type_your_email_here)
-        password.hint = getString(R.string.type_your_password_here)
 
 
-        changeLanguage.setOnClickListener() {
-
-            if (currentLanguage == "en") {
-
-                setLocate("ar")
-                email.hint = getString(R.string.type_your_email_here)
-                password.hint = getString(R.string.type_your_password_here)
-                recreate()
-
-            } else {
-                setLocate("en")
-                email.hint = getString(R.string.type_your_email_here)
-                password.hint = getString(R.string.type_your_password_here)
-                recreate()
-            }
+        new_registration.setOnClickListener {
+            val intent = Intent(this@SignInActivity, SignupOptionsActivity::class.java)
+            startActivity(intent)
         }
 
 
@@ -136,10 +93,33 @@ open class SignInActivity : AppCompatActivity() {
         val myId = getString(R.string.signuptext)
 
         // To get the current language and set span accordingly
-        val sharedPreferences = getSharedPreferences("Settings", Activity.MODE_PRIVATE)
-        val language = sharedPreferences.getString("My_Lang", "")
 
 
+
+        if (ConstantObjects.currentLanguage == "en") {
+            language_toggle.checkedTogglePosition = 0
+        } else {
+            language_toggle.checkedTogglePosition = 1
+        }
+
+        language_toggle.setOnToggleSwitchChangeListener { position, isChecked ->
+            when (position) {
+                0 -> {
+                    setLocate("en")
+                   // email.hint = getString(R.string.type_your_email_here)
+                   // password.hint = getString(R.string.type_your_password_here)
+                    recreate()
+                }
+                1 -> {
+                    setLocate("ar")
+                  //  email.hint = getString(R.string.type_your_email_here)
+                   // password.hint = getString(R.string.type_your_password_here)
+                    recreate()
+                }
+
+            }
+
+        }
 
     }
 
@@ -151,19 +131,18 @@ open class SignInActivity : AppCompatActivity() {
     }
 
 
-
     open fun saveData() {
         val sharedPreferences: SharedPreferences =
             getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE)
         val editor: SharedPreferences.Editor = sharedPreferences.edit()
-        editor.putString(TEXT, editText3.getText().toString())
-        editor.putString(TEXT2, editText4.getText().toString())
+        editor.putString(TEXT, email_tv.getText().toString())
+        editor.putString(TEXT2, passwword_tv.getText().toString())
         editor.apply()
     }
 
     fun clearData() {
-        editText3.setText("")
-        editText4.setText("")
+        email_tv.setText("")
+        passwword_tv.setText("")
         val sharedPreferences: SharedPreferences =
             getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE)
         val editor: SharedPreferences.Editor = sharedPreferences.edit()
@@ -187,8 +166,8 @@ open class SignInActivity : AppCompatActivity() {
 
 
     open fun updateViews() {
-        editText3.setText(text)
-        editText4.setText(text2)
+        email_tv.setText(text)
+        passwword_tv.setText(text2)
 
     }
 
@@ -209,35 +188,33 @@ open class SignInActivity : AppCompatActivity() {
     }
 
     ////////////////////////////////Data Validation///////////////////////////////////
-    private var textEmail: EditText? = null
-    private var textPassword: EditText? = null
 
 
     private fun validateEmail(): Boolean {
-        val emailInput = textEmail!!.text.toString().trim { it <= ' ' }
+        val emailInput = email_tv!!.text.toString().trim { it <= ' ' }
         return if (emailInput.isEmpty()) {
-            textinput_edittext3!!.error = getString(R.string.Emailisrequired)
+            email_tv!!.error = getString(R.string.Emailisrequired)
             false
         } else if (!Patterns.EMAIL_ADDRESS.matcher(emailInput).matches()) {
-            textinput_edittext3!!.error = getString(R.string.Pleaseenteravalidemailaddress)
+            email_tv!!.error = getString(R.string.Pleaseenteravalidemailaddress)
             false
         } else {
-            textinput_edittext3!!.error = null
+            email_tv!!.error = null
             true
         }
     }
 
 
     private fun validatePassword(): Boolean {
-        val passwordInput = textPassword!!.text.toString().trim { it <= ' ' }
+        val passwordInput = passwword_tv!!.text.toString().trim { it <= ' ' }
         return if (passwordInput.isEmpty()) {
-            textinput_editText4!!.error = getString(R.string.Passwordisrequired)
+            passwword_tv!!.error = getString(R.string.Passwordisrequired)
             false
         } else if (!PASSWORD_PATTERN.matcher(passwordInput).matches()) {
-            textinput_editText4!!.error = getString(R.string.Passwordtooweak)
+            passwword_tv!!.error = getString(R.string.Passwordtooweak)
             false
         } else {
-            textinput_editText4!!.error = null
+            passwword_tv!!.error = null
             true
         }
     }
@@ -346,8 +323,8 @@ open class SignInActivity : AppCompatActivity() {
 
     fun loginApiCall() {
         MakeLoginAPICall(
-            editText3.text.toString().trim(),
-            editText4.text.toString().trim(),
+            email_tv.text.toString().trim(),
+            passwword_tv.text.toString().trim(),
             this@SignInActivity,
             this
         )

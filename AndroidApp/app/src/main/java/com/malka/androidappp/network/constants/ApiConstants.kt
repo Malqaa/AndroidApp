@@ -2,11 +2,17 @@ package com.malka.androidappp.network.constants
 
 object ApiConstants {
 
-    const val HTTP_PROTOCOL = "http";
-    const val SERVER_LOCATION = "89.40.10.168:81";
-    const val API_FOLDER = "api";
-    const val API_VERSION = "v1"
-    const val IMAGE_FOLDER = "ImageFile";
+    private const val HTTP_PROTOCOL = "http"
+    private const val SERVER_LOCATION = "89.40.10.168:81"
+    private const val API_FOLDER = "api"
+    private const val API_VERSION = "v1"
+    private const val IMAGE_FOLDER = "ImageFile"
+
+//    const val HTTP_PROTOCOL = "http";
+//    const val SERVER_LOCATION = "212.24.104.23";
+//    const val API_FOLDER = "api";
+//    const val API_VERSION = "v1"
+//    const val IMAGE_FOLDER = "ImageFile";
 
 //    const val HTTP_PROTOCOL = "http"
 //    const val SERVER_LOCATION = "192.168.2.27"
@@ -17,10 +23,10 @@ object ApiConstants {
     const val api = "http:///Com.Techxcape.Mazad.Web.Services/swagger/index.html"
 
     const val API_BASE_URL =
-        HTTP_PROTOCOL + "://" + SERVER_LOCATION + "/" + API_FOLDER + "/" + API_VERSION + "/";
+        HTTP_PROTOCOL + "://" + SERVER_LOCATION + "/" + API_VERSION + "/";
 
     const val IMAGE_URL =
-        HTTP_PROTOCOL + "://" + SERVER_LOCATION + "/" + API_FOLDER + "/" + IMAGE_FOLDER + "/";
+        HTTP_PROTOCOL + "://" + SERVER_LOCATION + "/" + IMAGE_FOLDER + "/";
 
     const val HOME_URL = API_BASE_URL + "CarTemplate/"
     const val HOME_RECENT_URL = HOME_URL + "RecentListing/"
@@ -34,7 +40,7 @@ object ApiConstants {
     const val CREATE_USER_BASEURL = API_BASE_URL + "Accounts/"
     const val ALL_USER_ENDPOINT = "All"
     const val CREATE_ADVERTISEMENT_ENDPOINT = "Create"
-    const val LOGIN_ENDPOINT = "login"
+    const val LOGIN_ENDPOINT = "Accounts/login"
     const val ACCOUNT_BASE_URL = API_BASE_URL + "Accounts/"
     const val VERIFY_API_ENDPOINT = "verify"
     const val VERIFY_API_BASEURL = API_BASE_URL + "Accounts/"

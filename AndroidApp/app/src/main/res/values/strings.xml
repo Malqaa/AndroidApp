@@ -2614,9 +2614,11 @@ Want to start a business account? Create a Business Account
 
     </string-array>
 
-  <string name="welcome_back">welcome back</string>
+  <string name="welcome_back">Welcome back</string>
   <string name="login_with_mobile">Log in with your mobile number</string>
   <string name="ar">AR</string>
   <string name="en">EN</string>
+  <string name="new_registration">new registration</string>
+  <string name="don_t_have_an_account">Don\'t have an account?</string>
 
 </resources>
