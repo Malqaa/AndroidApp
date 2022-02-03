@@ -76,12 +76,9 @@ open class SignInActivity : AppCompatActivity() {
 
         ///////////////save password part 2//////////////////
         updateViews()
-        keepmesigneduncheck()
 
-        imageButton33.setOnClickListener() {
-            onBackPressed()
-            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
-        }
+
+
         val clickspan = object : ClickableSpan() {
             //It removes underline from clickablespan
             override fun updateDrawState(ds: TextPaint) { // override updateDrawState
@@ -137,67 +134,12 @@ open class SignInActivity : AppCompatActivity() {
 
         /////////////////////////ClickableSpan for Signup////////////////////////////////
         val myId = getString(R.string.signuptext)
-        val mSpannableString = SpannableString(myId)
 
         // To get the current language and set span accordingly
         val sharedPreferences = getSharedPreferences("Settings", Activity.MODE_PRIVATE)
         val language = sharedPreferences.getString("My_Lang", "")
 
-        if (language == "en") {
-            mSpannableString.setSpan(clickspan, 22, 29, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-            mSpannableString.setSpan(
-                ForegroundColorSpan(resources.getColor(R.color.greenspan)),
-                22,
-                29,
-                0
-            )
-            // make text bold
-            mSpannableString.setSpan(StyleSpan(Typeface.BOLD), 22, 29, 0)
-            textView33.movementMethod = LinkMovementMethod.getInstance()
-            textView33.text = mSpannableString
-        } else {
-            mSpannableString.setSpan(clickspan, 14, 20, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-            mSpannableString.setSpan(
-                ForegroundColorSpan(resources.getColor(R.color.greenspan)),
-                14,
-                20,
-                0
-            )
-            // make text bold
-            mSpannableString.setSpan(StyleSpan(Typeface.BOLD), 14, 20, 0)
-            textView33.movementMethod = LinkMovementMethod.getInstance()
-            textView33.text = mSpannableString
-        }
 
-
-        /////////////////////////ClickableSpan for RecoverPass////////////////////////////////
-        val mSpannablerecover = SpannableString(getString(R.string.recoverpass))
-
-        if (language == "en") {
-            mSpannablerecover.setSpan(clickrecover, 17, 29, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-            mSpannablerecover.setSpan(
-                ForegroundColorSpan(resources.getColor(R.color.greenspan)),
-                17,
-                29,
-                0
-            )
-            // make text bold
-            mSpannablerecover.setSpan(StyleSpan(Typeface.BOLD), 17, 29, 0)
-            textView12.movementMethod = LinkMovementMethod.getInstance()
-            textView12.text = mSpannablerecover
-        } else {
-            mSpannablerecover.setSpan(clickrecover, 18, 27, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-            mSpannablerecover.setSpan(
-                ForegroundColorSpan(resources.getColor(R.color.greenspan)),
-                18,
-                27,
-                0
-            )
-            // make text bold
-            mSpannablerecover.setSpan(StyleSpan(Typeface.BOLD), 18, 27, 0)
-            textView12.movementMethod = LinkMovementMethod.getInstance()
-            textView12.text = mSpannablerecover
-        }
 
     }
 
@@ -205,20 +147,10 @@ open class SignInActivity : AppCompatActivity() {
     private var text: String? = null
     private var text2: String? = null
     fun keepmesignedcheck() {
-        if (signin_checkbox.isChecked == true) {
-            saveData()
-        }
+        saveData()
     }
 
-    fun keepmesigneduncheck() {
-        signin_checkbox.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { compoundButton, b ->
-            if (b) {
-                //saveData()
-            } else {
-                //clearData()
-            }
-        })
-    }
+
 
     open fun saveData() {
         val sharedPreferences: SharedPreferences =
@@ -257,11 +189,7 @@ open class SignInActivity : AppCompatActivity() {
     open fun updateViews() {
         editText3.setText(text)
         editText4.setText(text2)
-        if (text!!.isEmpty() or text2!!.isEmpty()) {
-            signin_checkbox.setChecked(false)
-        } else {
-            signin_checkbox.setChecked(true)
-        }
+
     }
 
     ////////////////////////////////SignIn to homepage with parse data///////////////////////////////////////

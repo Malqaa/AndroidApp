@@ -110,7 +110,7 @@
     الاسم الاخير
   </string>
     <string name="Login">
-    الدخول في
+    تسجيل دخول
   </string>
     <string name="Male">
     ذكر
@@ -2462,5 +2462,7 @@
 
     <string name="InternetIssue">مشكلة الإنترنت</string>
 
+  <string name="welcome_back">مرحبا بعودتك</string>
+  <string name="login_with_mobile">قم بتسجيل الدخول برقم الجوال</string>
 
 </resources>
