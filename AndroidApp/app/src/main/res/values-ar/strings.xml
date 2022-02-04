@@ -2468,5 +2468,8 @@
   <string name="please_choose_an_account_type">من فضلك أختر نوع الحساب</string>
   <string name="already_have_an_account">لديك حساب بالفعل ؟</string>
   <string name="login"> تسجيل دخول</string>
+    <string name="invitation_code">كود الدعوة</string>
+  <string name="register_term">التسجيل في التطبيق يعنى انك توافق على </string>
+  <string name="term_condition">الشروط والاحكام</string>
 
 </resources>

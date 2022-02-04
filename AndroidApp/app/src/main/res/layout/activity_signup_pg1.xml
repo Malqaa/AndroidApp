@@ -1,246 +1,187 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/Silvr"
+    android:background="@color/white"
+
 
     tools:context=".activities_main.signup_account.signup_pg1.SignupPg1">
 
-
     <ScrollView
-        android:id="@+id/scroll1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        app:layout_constraintBottom_toTopOf="@+id/imageView2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="wrap_content">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/Silvr"
-            android:paddingBottom="30dp">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:padding="@dimen/_10sdp">
 
             <ImageButton
                 android:id="@+id/imageButton3"
-                android:layout_width="45dp"
-                android:layout_height="48dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/ic_chevron_left_black_24dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+
+                android:background="@drawable/ic_back"
                 android:onClick="signuppg1prev"
-                android:rotation="@string/mirror_degree"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:rotation="@string/mirror_degree" />
 
-            <TextView
-                android:id="@+id/textView2"
+            <com.malka.androidappp.helper.widgets.language_switch.ToggleSwitch
+                android:id="@+id/language_toggle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="80dp"
-                android:text="@string/SignUp"
-                android:textColor="#339933"
-                android:textSize="30dp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:background="@drawable/tab_bg"
+                android:textSize="@dimen/_12sdp"
+                app:activeBgColor="@color/bg"
+                app:activeTextColor="@android:color/white"
+                app:cornerRadius="@dimen/_15sdp"
+                app:inactiveBgColor="@color/tab_bg"
+                app:inactiveTextColor="@android:color/black"
+                app:separatorColor="@color/gray_very_light"
+                app:textToggleLeft="EN"
+                app:textToggleRight="AR"
+                app:toggleWidth="@dimen/_50sdp" />
 
-
-            <TextView
-                android:id="@+id/textView3"
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:text="@string/Youremailwillremainconfidential"
-                android:textSize="15dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView2" />
+                android:layout_marginTop="@dimen/_30sdp"
+                android:background="@drawable/main_logo" />
 
-            <EditText
-                android:id="@+id/editText1011"
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:fontFamily="@font/madani_arabic_bold"
+                android:text="@string/welcome_back"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_16sdp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:fontFamily="@font/madani_arabic_light"
+                android:text="@string/new_registration"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp" />
+
+
+            <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+                android:id="@+id/userNamee"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="40dp"
-                android:layout_marginEnd="30dp"
-                android:background="@drawable/buttonradius"
-                android:hint="@string/Email"
-                android:inputType="textEmailSubject"
-                android:padding="12dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView3" />
-
-            <EditText
-                android:id="@+id/editText14"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="30dp"
-                android:background="@drawable/buttonradius"
+                android:layout_marginTop="@dimen/_25sdp"
                 android:hint="@string/Username"
                 android:inputType="textPersonName"
-                android:padding="12dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText1011" />
+                app:startIcon="@drawable/ic_user" />
 
-            <TextView
-                android:id="@+id/phoneLabel"
+
+            <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+                android:id="@+id/textEmaill"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="35dp"
-                android:layout_marginTop="15dp"
-                android:text="@string/PhoneNumber"
-                android:textSize="12sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText14" />
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="@string/Email"
+                android:inputType="textEmailAddress"
+                app:startIcon="@drawable/ic_email" />
+
+            <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+                android:id="@+id/PhoneNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="@string/PhoneNumber"
+                android:inputType="phone"
+                app:viewType="spinner" />
+
+
+
+            <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+                android:id="@+id/textPass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="@string/Password"
+                android:inputType="textPassword"
+                app:enablePasswordToggle="true"
+                app:lastfield="true"
+                app:startIcon="@drawable/symbolpass" />
+
+            <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+                android:id="@+id/confirmPass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="@string/Confirm_Password"
+                android:inputType="textPassword"
+                app:enablePasswordToggle="true"
+                app:lastfield="true"
+                app:startIcon="@drawable/symbolpass" />
+
+
+            <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+                android:id="@+id/invitation_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="@string/invitation_code"
+                android:inputType="text"
+                app:startIcon="@drawable/ic_invitation" />
+
+            <com.malka.androidappp.helper.widgets.TermsnConditionsSwitch
+                android:layout_marginTop="@dimen/_10sdp"
+                android:id="@+id/switch_term_condition"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                app:textLink="@string/term_condition"
+                app:textSwitch="@string/register_term" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:background="@drawable/round_btn"
+                android:fontFamily="@font/madani_arabic_semi_bold"
+                android:onClick="SignuuPg1confirmInput"
+                android:text="@string/new_registration"
+                android:textAllCaps="false"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/_14sdp" />
 
             <LinearLayout
-                android:id="@+id/linearlayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginStart="30dp"
-                android:layout_marginEnd="30dp"
-                android:background="#f2f2f2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/phoneLabel">
-
-                <com.hbb20.CountryCodePicker
-                    android:id="@+id/cppfield"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="3"
-                    android:background="#f2f2f2"
-                    android:gravity="center"
-                    app:ccpDialog_allowSearch="false"
-                    app:ccp_customMasterCountries="BH,KW,OM,SA,AE"
-                    app:ccp_defaultNameCode="SA"
-                    app:ccp_showNameCode="true"
-                    app:ccp_textSize="16sp" />
-
-                <EditText
-                    android:id="@+id/editText11"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="3"
-                    android:background="@drawable/buttonradius"
-                    android:hint="0000 0000"
-                    android:inputType="phone"
-                    android:padding="12dp" />
-
-            </LinearLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textinput_editText12"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="30dp"
-                app:boxBackgroundColor="@color/white"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearlayout"
-                app:passwordToggleEnabled="true">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editText12"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/Password"
-                    android:inputType="textPassword"
-                    android:padding="15dp" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textinput_editText13"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="30dp"
-                android:backgroundTint="@color/white"
-                app:boxBackgroundColor="@color/white"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textinput_editText12"
-                app:passwordToggleEnabled="true">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editText13"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawablePadding="8dp"
-                    android:hint="@string/Confirm_Password"
-                    android:inputType="textPassword"
-                    android:padding="12dp"
-                    android:textSize="15sp" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <TextView
-                android:id="@+id/textbusiness"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="27dp"
-                android:gravity="center"
-                android:text="@string/WanttostartabusinessaccountCreateaBusinessAccount"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textinput_editText13" />
-
-            <TextView
-                android:id="@+id/textbusiness2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="40dp"
-                android:text="@string/BusinessRegistration"
-                android:textColor="@color/greenApp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textbusiness" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                android:layout_marginTop="@dimen/_10sdp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/madani_arabic_medium"
+                    android:text="@string/already_have_an_account"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12sdp" />
+
+                <TextView
+                    android:id="@+id/new_registration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:fontFamily="@font/madani_arabic_medium"
+                    android:text="@string/login"
+                    android:textColor="@color/bg"
+                    android:textSize="@dimen/_12sdp" />
+            </LinearLayout>
+        </LinearLayout>
     </ScrollView>
-
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="65dp"
-        android:layout_height="12dp"
-        android:layout_marginBottom="15dp"
-        android:background="@drawable/bsignup1"
-        android:rotation="@string/mirror_degree"
-        app:layout_constraintBottom_toTopOf="@id/button3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:background="#339933"
-        android:onClick="SignuuPg1confirmInput"
-        android:text="@string/NEXT"
-        android:textColor="#ffffff"
-        android:textSize="25dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

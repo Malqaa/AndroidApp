@@ -22,6 +22,19 @@
             android:layout_marginRight="@dimen/_10sdp"
             android:src="@drawable/ic_email" />
 
+
+        <com.hbb20.CountryCodePicker
+            android:id="@+id/cppfield"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            app:ccpDialog_allowSearch="false"
+            app:ccp_customMasterCountries="BH,KW,OM,SA,AE"
+            app:ccp_defaultNameCode="SA"
+            app:ccp_showNameCode="true"
+            app:ccp_textSize="16sp" />
+
         <View
             android:layout_width="@dimen/_1sdp"
             android:layout_height="match_parent"

@@ -2618,10 +2618,13 @@ Want to start a business account? Create a Business Account
   <string name="login_with_mobile">Log in with your mobile number</string>
   <string name="ar">AR</string>
   <string name="en">EN</string>
-  <string name="new_registration">new registration</string>
+  <string name="new_registration">New registration</string>
   <string name="don_t_have_an_account">Don\'t have an account?</string>
     <string name="please_choose_an_account_type">Please choose an account type</string>
   <string name="already_have_an_account">Already have an account?</string>
   <string name="login">Login</string>
+    <string name="invitation_code">Invitation Code</string>
+    <string name="register_term">Registering in the application means that you agree to</string>
+  <string name="term_condition">Terms and Conditions</string>
 
 </resources>

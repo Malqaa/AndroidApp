@@ -1,4 +1,4 @@
-package com.malka.androidappp.helper.widgets.swicth;
+package com.malka.androidappp.helper.widgets.language_switch;
 
 import android.content.Context;
 import android.util.AttributeSet;

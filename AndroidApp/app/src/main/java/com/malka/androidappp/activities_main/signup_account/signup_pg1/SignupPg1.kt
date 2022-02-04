@@ -4,13 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
 import android.view.View
-import android.widget.EditText
-import android.widget.Toast
 import com.google.gson.Gson
-import com.hbb20.CountryCodePicker
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.login.SignInActivity
-import com.malka.androidappp.botmnav_fragments.activities_main.business_signup.BusinessSignupPg1
 import com.malka.androidappp.activities_main.signup_account.signup_pg2.SignupPg2
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
@@ -31,25 +27,14 @@ class SignupPg1 : SignInActivity() {
         setContentView(R.layout.activity_signup_pg1)
         supportActionBar?.hide()
 
-        textEmaill = findViewById(R.id.editText1011)
-        textPass = findViewById(R.id.editText12)
-        textMobile = findViewById(R.id.editText11)
-        confirmPass = findViewById(R.id.editText13)
-        userNamee = findViewById(R.id.editText14)
 
-        textbusiness2.setOnClickListener() {
-            val intenttoBsignup = Intent(this@SignupPg1, BusinessSignupPg1::class.java)
-            startActivity(intenttoBsignup)
-        }
+//        textbusiness2.setOnClickListener() {
+//            val intenttoBsignup = Intent(this@SignupPg1, BusinessSignupPg1::class.java)
+//            startActivity(intenttoBsignup)
+//        }
     }
 
 
-    //Data Validation//
-    private var textEmaill: EditText? = null
-    private var textPass: EditText? = null
-    private var textMobile: EditText? = null
-    private var confirmPass: EditText? = null
-    private var userNamee: EditText? = null
 
     //Email Validation
     private fun validateSignupEmail(): Boolean {
@@ -71,13 +56,13 @@ class SignupPg1 : SignInActivity() {
     private fun validateSignupPassword(): Boolean {
         val passwordInput = textPass!!.text.toString().trim { it <= ' ' }
         return if (passwordInput.isEmpty()) {
-            textinput_editText12!!.error = getString(R.string.Fieldcantbeempty)
+            textPass!!.error = getString(R.string.Fieldcantbeempty)
             false
         } else if (!PASSWORD_PATTERN.matcher(passwordInput).matches()) {
-            textinput_editText12!!.error = getString(R.string.Passwordtooweak)
+            textPass!!.error = getString(R.string.Passwordtooweak)
             false
         } else {
-            textinput_editText12!!.error = null
+            textPass!!.error = null
             true
         }
     }
@@ -86,18 +71,18 @@ class SignupPg1 : SignInActivity() {
     //phone no validation///
     private fun validateNumber(): Boolean {
         val numberInput =
-            textMobile!!.text.toString().trim { it <= ' ' }
+            PhoneNumber!!.text.toString().trim { it <= ' ' }
         return if (numberInput.isEmpty()) {
-            textMobile!!.error = getString(R.string.Fieldcantbeempty)
+            PhoneNumber!!.error = getString(R.string.Fieldcantbeempty)
             false
         } else if (!Patterns.PHONE.matcher(numberInput).matches()) {
-            textMobile!!.error = getString(R.string.PleaseenteravalidPhoneNumber)
+            PhoneNumber!!.error = getString(R.string.PleaseenteravalidPhoneNumber)
             false
         } else if (numberInput.length < 9) {
-            textMobile!!.error = getString(R.string.PleaseenteravalidPhoneNumber)
+            PhoneNumber!!.error = getString(R.string.PleaseenteravalidPhoneNumber)
             false
         } else {
-            textMobile!!.error = null
+            PhoneNumber!!.error = null
             true
         }
     }
@@ -107,13 +92,13 @@ class SignupPg1 : SignInActivity() {
         val passwordInput = textPass!!.text.toString().trim { it <= ' ' }
         val confrmpassInput = confirmPass!!.text.toString().trim { it <= ' ' }
         return if (confrmpassInput.isEmpty()) {
-            textinput_editText13!!.error = getString(R.string.Fieldcantbeempty)
+            textPass!!.error = getString(R.string.Fieldcantbeempty)
             false
         } else if (confrmpassInput != passwordInput) {
-            textinput_editText13!!.error = getString(R.string.Passworddonotmatch)
+            textPass!!.error = getString(R.string.Passworddonotmatch)
             false
         } else {
-            textinput_editText13!!.error = null
+            textPass!!.error = null
             true
         }
     }
@@ -159,12 +144,12 @@ class SignupPg1 : SignInActivity() {
 
     fun apicallcreateuser() {
         val malqaa: MalqaApiService = RetrofitBuilder.createUserInstance()
-        val emailId = editText1011.text.toString().trim()
-        val mobilenum = editText11.text.toString().trim()
-        val countryCode = cppfield.selectedCountryCode
+        val emailId = textEmaill.text.toString().trim()
+        val mobilenum = PhoneNumber.text.toString().trim()
+        val countryCode = PhoneNumber.selectedCountryCode()
         val fullmobilenum = "+" + countryCode + mobilenum
-        val passcode = editText12.text.toString().trim()
-        val usernaam = editText14.text.toString().trim()
+        val passcode = textPass.text.toString().trim()
+        val usernaam = userNamee.text.toString().trim()
 //        val call: Call<ResponseBody> = malqaa.createuser(
 //            CreateUserDataModel(
 //                email = emailId,
@@ -222,11 +207,11 @@ class SignupPg1 : SignInActivity() {
     fun NextAcivityparsedata(data: RegisterData) {
         val datacode = data.code
         val dataUserId = data.data
-        val dataemail = editText1011.text.toString().trim()
-        val datapassword = editText12.text.toString().trim()
+        val dataemail = textEmaill.text.toString().trim()
+        val datapassword = textPass.text.toString().trim()
 
-        val datamobnum = editText11.text.toString().trim()
-        val countryCode = cppfield.selectedCountryCode
+        val datamobnum = PhoneNumber.text.toString().trim()
+        val countryCode = PhoneNumber.selectedCountryCode()
         val fullmobilenum = "+" + countryCode + datamobnum
         val intenttt = Intent(this, SignupPg2::class.java)
         intenttt.putExtra("datacode", datacode)

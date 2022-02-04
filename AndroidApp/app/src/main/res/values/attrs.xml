@@ -36,7 +36,6 @@
         <attr name="viewType">
             <enum name="edittext" value="0" />
             <enum name="spinner" value="1" />
-            <enum name="textview" value="2" />
         </attr>
 
         <attr name="textFontStyle">
@@ -64,4 +63,11 @@
             <enum name="ocrlabel" value="14"/>
         </attr>
     </declare-styleable>
-</resources>
+    <declare-styleable name="TermsnConditionsSwitch">
+
+
+        <attr name="android:checked" />
+        <attr name="textSwitch" format="string" />
+        <attr name="textLink" format="string" />
+
+    </declare-styleable></resources>
