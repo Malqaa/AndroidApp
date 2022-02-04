@@ -1478,11 +1478,10 @@
     المنتجات المطلوبة
   </string>
     <string name="RegisterasBussinessUser">
-    سجل كمستخدم تجاري
+    التسجيل كتاجر
   </string>
     <string name="RegisterasPersonalUser">
-    سجل كمستخدم شخصي
-  </string>
+    التسجيل كسمتخدم</string>
 
     <string name="SignUp">
     اشتراك
@@ -2466,5 +2465,8 @@
   <string name="login_with_mobile">قم بتسجيل الدخول برقم الجوال</string>
   <string name="new_registration">تسجيل جديد</string>
   <string name="don_t_have_an_account">ليس لديك حساب ؟</string>
+  <string name="please_choose_an_account_type">من فضلك أختر نوع الحساب</string>
+  <string name="already_have_an_account">لديك حساب بالفعل ؟</string>
+  <string name="login"> تسجيل دخول</string>
 
 </resources>
