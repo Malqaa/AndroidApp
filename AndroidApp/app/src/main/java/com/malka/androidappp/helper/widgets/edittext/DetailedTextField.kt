@@ -5,6 +5,7 @@ import android.content.res.TypedArray
 import android.text.Editable
 import android.text.InputFilter
 import android.text.InputFilter.LengthFilter
+import android.text.Selection
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -13,6 +14,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import com.google.android.material.textfield.TextInputEditText
@@ -21,12 +23,16 @@ import com.hbb20.CountryCodePicker
 import com.malka.androidappp.R
 import com.malka.androidappp.helper.hide
 import com.malka.androidappp.helper.show
+import tech.hibk.searchablespinnerlibrary.SearchableDialog
+import tech.hibk.searchablespinnerlibrary.SearchableItem
 
 class DetailedTextField : LinearLayout {
 
     private lateinit var etl_Field: TextInputLayout
     private lateinit var iv_info_icon: ImageView
     private lateinit var iv_start_icon: ImageView
+    private lateinit var iv_end_icon: ImageView
+    private lateinit var line: View
     private lateinit var cppfield: CountryCodePicker
     private lateinit var et_Field: TextInputEditText
 
@@ -37,6 +43,7 @@ class DetailedTextField : LinearLayout {
 
     private var enablePasswordToggle = false
     private var startIcon =0
+    private var endIcon =0
 
     private var isLastField = false
     var textHint: CharSequence? = null
@@ -45,8 +52,7 @@ class DetailedTextField : LinearLayout {
     private var textText: CharSequence? = null
     private var viewType = 0
 
-    private var textFontStyle = 0
-    private var textFontType = 0
+
     private var focusImpList = ArrayList<(View, Boolean) -> Unit>()
     val filterArray: ArrayList<InputFilter> = ArrayList()
 
@@ -95,6 +101,14 @@ class DetailedTextField : LinearLayout {
         iv_start_icon.id = DetailedTextFieldIdGenerator.viwId.getStartIconID(id)
 
 
+        iv_end_icon = findViewById(R.id.iv_end_icon)
+        iv_end_icon.id = DetailedTextFieldIdGenerator.viwId.getllllId(id)
+
+
+        line = findViewById(R.id.line)
+        line.id = DetailedTextFieldIdGenerator.viwId.getlllllId(id)
+
+
         cppfield = findViewById(R.id.cppfield)
         cppfield.id = DetailedTextFieldIdGenerator.viwId.getInfoIconID(id)
 
@@ -113,6 +127,7 @@ class DetailedTextField : LinearLayout {
         _setLastField(isLastField)
 //        _setDescriptionEnabled(enableDescription, arrayListOf(textDescription))
         _setStartIcon(startIcon)
+        _setEndIcon(endIcon)
         _setHint(textHint, true)
         _setInputType(inputType)
         _setMaxLength(maxLength)
@@ -161,6 +176,7 @@ class DetailedTextField : LinearLayout {
     public fun _setStartIcon(drawable: Int) {
         if(drawable!=0){
             iv_start_icon.show()
+            line.show()
 
             startIcon = drawable
 
@@ -168,6 +184,21 @@ class DetailedTextField : LinearLayout {
 
         }else{
             iv_start_icon.hide()
+            line.hide()
+        }
+
+    }
+
+    public fun _setEndIcon(drawable: Int) {
+        if(drawable!=0){
+            iv_end_icon.show()
+
+            endIcon = drawable
+
+            iv_end_icon.setImageDrawable(ContextCompat.getDrawable(context, drawable))
+
+        }else{
+            iv_end_icon.hide()
         }
 
     }
@@ -273,6 +304,17 @@ class DetailedTextField : LinearLayout {
         et_Field.setOnClickListener(listener)
     }
 
+    public fun showSpinner(items: List<SearchableItem>,title:String,selection: (SearchableItem) -> Unit) {
+
+        SearchableDialog(context,
+            items,
+            title,
+            {item, _ ->
+                selection.invoke(item)
+            },
+            cancelButtonColor = ContextCompat.getColor(context, R.color.bg),
+            onlyLightTheme = true).show()
+    }
     public fun _setOnLongClickListener(listener: OnLongClickListener) {
         et_Field.setOnLongClickListener(listener)
     }
@@ -373,9 +415,8 @@ class DetailedTextField : LinearLayout {
             viewType = getInt(R.styleable.DetailedTextField_viewType, 0)
 
             startIcon = getResourceId(R.styleable.DetailedTextField_startIcon, 0)
+            endIcon = getResourceId(R.styleable.DetailedTextField_endIcon, 0)
             isLastField = getBoolean(R.styleable.DetailedTextField_lastfield, false)
-            textFontStyle = getInt(R.styleable.DetailedTextField_textFontStyle, 1)
-            textFontType = getInt(R.styleable.DetailedTextField_textFontType, 8)
             enableTopLine = getBoolean(R.styleable.DetailedTextField_enableTopLine, true)
             enableBottomLine = getBoolean(R.styleable.DetailedTextField_enableBottomLine, true)
 
@@ -395,12 +436,22 @@ class DetailedTextField : LinearLayout {
         this.viewType = viewType
         when (viewType) {
             0 -> {
-                iv_start_icon.show()
                 cppfield.hide()
+                et_Field.isFocusable = true
+                et_Field.isFocusableInTouchMode = true
+                et_Field.isClickable = false
             }
             1 -> {
-                iv_start_icon.hide()
+                cppfield.hide()
+                et_Field.isFocusable = false
+                et_Field.isFocusableInTouchMode = false
+                et_Field.isClickable = true
+            }
+            2 -> {
                 cppfield.show()
+                et_Field.isFocusable = true
+                et_Field.isFocusableInTouchMode = true
+                et_Field.isClickable = false
             }
             else -> {
 

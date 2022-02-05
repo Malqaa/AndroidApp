@@ -7,18 +7,15 @@ import android.os.CountDownTimer
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.login.SignInActivity
-import com.malka.androidappp.activities_main.signup_account.signup_pg4.SignupPg4
+import com.malka.androidappp.activities_main.signup_account.signup_pg3.SignupPg3
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
 import kotlinx.android.synthetic.main.activity_signup_pg2.*
-import kotlinx.android.synthetic.main.carspec_card8.*
-import kotlinx.coroutines.NonCancellable.cancel
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -33,7 +30,6 @@ class SignupPg2 : AppCompatActivity() {
     lateinit var countdownTimer: TextView
     var counter = 60
     private var mTimeLeftInMillis = START_TIME_IN_MILLIS
-    lateinit var nextButton: Button
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,15 +40,13 @@ class SignupPg2 : AppCompatActivity() {
 
         // OTP expiry timer
         countdownTimer = findViewById(R.id.countdownTimer)
-        nextButton = findViewById(R.id.button4)
 
         //////////////////////Parse Mobile Num on textview/////////////////////////
-        val mobnum: String? = intent.getStringExtra("datamobnum")
-        //textView3.setText("+92"+mobnum)
-        textView3.text = mobnum
+
 
         //////////////////////Parse code Num on pinview/////////////////////////
-        val datacode: String? = intent.getStringExtra("datacode")
+      //  val datacode: String? = intent.getStringExtra("datacode")
+        val datacode="1234"
         pinview.value = datacode!!
 
 
@@ -65,7 +59,7 @@ class SignupPg2 : AppCompatActivity() {
             } else {
                 resendCodeApi()
                 startTimeCounter(View(this@SignupPg2))
-                nextButton.isEnabled = true
+                button3.isEnabled = true
             }
 
         }
@@ -77,6 +71,7 @@ class SignupPg2 : AppCompatActivity() {
     private fun validatePin(): Boolean {
         val inputtt = pinview.value
         return if (inputtt.length != 4) {
+            redmessage.visibility = View.VISIBLE
             redmessage.text = getString(R.string.Fieldcantbeempty)
             false
         } else {
@@ -134,7 +129,7 @@ class SignupPg2 : AppCompatActivity() {
     ////////////////////////////////Switch Activities/////////////////////////////////////////
     fun signup2next() {
         val userIdupdate: String? = intent.getStringExtra("userid")
-        val intent2 = Intent(this@SignupPg2, SignupPg4::class.java)
+        val intent2 = Intent(this@SignupPg2, SignupPg3::class.java)
         intent2.putExtra("useridupdate", userIdupdate)
         intent2.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         startActivity(intent2)
@@ -191,7 +186,6 @@ class SignupPg2 : AppCompatActivity() {
     fun startTimeCounter(view: View) {
 
         object : CountDownTimer(START_TIME_IN_MILLIS, 1000) {
-            @SuppressLint("SetTextI18n")
             override fun onTick(millisUntilFinished: Long) {
                 mTimeLeftInMillis = millisUntilFinished
                 var seconds = (mTimeLeftInMillis / 1000).toInt() % 60
@@ -202,7 +196,7 @@ class SignupPg2 : AppCompatActivity() {
 
             override fun onFinish() {
                 countdownTimer.text = getString(R.string.CodeExpired)
-                nextButton.isEnabled = false
+                button3.isEnabled = false
             }
 
         }.start()

@@ -5,7 +5,6 @@ import android.app.DatePickerDialog
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
@@ -18,17 +17,14 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.TextInputEditText
 import com.hbb20.CountryCodePicker
 import com.malka.androidappp.R
-import com.malka.androidappp.activities_main.signup_account.signup_pg4.UpdateuserSignup
+import com.malka.androidappp.activities_main.signup_account.signup_pg3.UpdateuserSignup
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.servicemodels.ConstantObjects
 import com.malka.androidappp.servicemodels.user.UserObject
 import com.malka.androidappp.servicemodels.user.UserProperties
-import kotlinx.android.synthetic.main.fragment_create_product.*
 import kotlinx.android.synthetic.main.fragment_edit_profile_details.*
-import kotlinx.android.synthetic.main.fragment_feedback.*
-import kotlinx.android.synthetic.main.fragment_my_product.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

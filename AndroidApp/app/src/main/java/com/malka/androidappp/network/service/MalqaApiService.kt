@@ -4,7 +4,7 @@ import com.malka.androidappp.activities_main.signup_account.signup_pg1.CreateUse
 import com.malka.androidappp.activities_main.login.LoginClass
 import com.malka.androidappp.activities_main.signup_account.signup_pg2.PostReqVerifyCode
 import com.malka.androidappp.activities_main.signup_account.signup_pg2.ResendCodeDataModel
-import com.malka.androidappp.activities_main.signup_account.signup_pg4.UpdateuserSignup
+import com.malka.androidappp.activities_main.signup_account.signup_pg3.UpdateuserSignup
 import com.malka.androidappp.botmnav_fragments.ForgotPassword.PostForgotpassModel
 import com.malka.androidappp.botmnav_fragments.UserImageResponseBack
 import com.malka.androidappp.botmnav_fragments.activities_main.business_signup.ModelBusinessRegistration

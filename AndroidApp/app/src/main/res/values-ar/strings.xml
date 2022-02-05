@@ -2445,7 +2445,7 @@
 
     <string name="VerificationFailed">فشل التحقق! ... إعادة إرسال الرمز</string>
 
-    <string name="Seconds">%1$d ثواني</string>
+    <string name="Seconds">إعادة ارسال الكود بعد :%1$d ثانية</string>
 
     <string name="Pleaseselectagender">الرجاء تحديد الجنس</string>
 
@@ -2471,5 +2471,13 @@
     <string name="invitation_code">كود الدعوة</string>
   <string name="register_term">التسجيل في التطبيق يعنى انك توافق على </string>
   <string name="term_condition">الشروط والاحكام</string>
+  <string name="activation">تفعيل</string>
+  <string name="confirm_mobile_number">تأكيد رقم الجوال</string>
+  <string name="sent_code">لقد ارسلنا كود التفعيل الى الهاتف الخاص بك</string>
+  <string name="one_step_left">!تبقت خطوة واحدة</string>
+  <string name="enter_your_address_name_and_age_details">ادخل تفاصيل عنوانك/ السم والعمر</string>
+  <string name="address_details">تفاصيل العنوان</string>
+  <string name="county_code">كود المحافظة</string>
+  <string name="district">الحى</string>
 
 </resources>

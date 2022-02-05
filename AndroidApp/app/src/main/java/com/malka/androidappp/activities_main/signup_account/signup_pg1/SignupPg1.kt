@@ -9,9 +9,13 @@ import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.login.SignInActivity
 import com.malka.androidappp.activities_main.signup_account.signup_pg2.SignupPg2
 import com.malka.androidappp.helper.HelpFunctions
+import com.malka.androidappp.helper.hideLoader
+import com.malka.androidappp.helper.showLoader
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
+import kotlinx.android.synthetic.main.activity_sign_in.*
 import kotlinx.android.synthetic.main.activity_signup_pg1.*
+import kotlinx.android.synthetic.main.activity_signup_pg1.loader
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -143,6 +147,8 @@ class SignupPg1 : SignInActivity() {
 
 
     fun apicallcreateuser() {
+        loader.showLoader()
+
         val malqaa: MalqaApiService = RetrofitBuilder.createUserInstance()
         val emailId = textEmaill.text.toString().trim()
         val mobilenum = PhoneNumber.text.toString().trim()
@@ -184,9 +190,13 @@ class SignupPg1 : SignInActivity() {
                     HelpFunctions.ShowLongToast(response.message(), this@SignupPg1)
 //                    Toast.makeText(this@SignupPg1, response.message(), Toast.LENGTH_LONG).show()
                 }
+                loader.hideLoader()
+
             }
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                loader.hideLoader()
+
                 t.message?.let { HelpFunctions.ShowLongToast(it, this@SignupPg1) }
 //                Toast.makeText(this@SignupPg1, t.message, Toast.LENGTH_LONG).show()
             }

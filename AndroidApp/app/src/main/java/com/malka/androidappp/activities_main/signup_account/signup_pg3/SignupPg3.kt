@@ -1,4 +1,4 @@
-package com.malka.androidappp.activities_main.signup_account.signup_pg4
+package com.malka.androidappp.activities_main.signup_account.signup_pg3
 
 import android.app.DatePickerDialog
 import android.content.Intent
@@ -6,78 +6,39 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
-import android.widget.*
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.hbb20.CountryCodePicker
+import androidx.core.view.isEmpty
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.login.SignInActivity
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
-import kotlinx.android.synthetic.main.activity_signup_pg1.*
-import kotlinx.android.synthetic.main.activity_signup_pg3.*
 import kotlinx.android.synthetic.main.activity_signup_pg4.*
-import kotlinx.android.synthetic.main.activity_signup_pg4.editText10
-import kotlinx.android.synthetic.main.activity_signup_pg4.editText1033
-import kotlinx.android.synthetic.main.activity_signup_pg4.editText11
-import kotlinx.android.synthetic.main.activity_signup_pg4.editText12
-import kotlinx.android.synthetic.main.activity_signup_pg4.editTextlastname
-import kotlinx.android.synthetic.main.activity_signup_pg4.radioGroup
-import kotlinx.android.synthetic.main.activity_signup_pg4.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import tech.hibk.searchablespinnerlibrary.SearchableItem
 import java.util.*
 
-class SignupPg4 : AppCompatActivity() {
-
+class SignupPg3 : AppCompatActivity() {
+    var gender4 = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signup_pg4)
         supportActionBar?.hide()
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
 
-        //Data Validation
 
-        country = findViewById(R.id.editText10)
-        districtName = findViewById(R.id.editTextdistrict)
-        streetNUmber = findViewById(R.id.editText14)
-        Area = findViewById(R.id.editText114)
-        poBox = findViewById(R.id.editText145)
-
-
-        //Data Validation
-        fullNamee = findViewById(R.id.editTextFirstName)
-        date = findViewById(R.id.editText1033)
-
-        /////////////////For Region Dropdown/Spinner/////////////////////
-        val spinner2: Spinner = findViewById(R.id.spinner21)
-        val adapter2 = ArrayAdapter.createFromResource(
-            this, R.array.regionlist, R.layout.support_simple_spinner_dropdown_item
-        )
-        adapter2.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
-        spinner2.adapter = adapter2
-
-
-        /////////////////For City Dropdown/Spinner/////////////////////
-        val spinner3: Spinner = findViewById(R.id.spinner22)
-        val adapter3 = ArrayAdapter.createFromResource(
-            this, R.array.citylist, R.layout.support_simple_spinner_dropdown_item
-        )
-        adapter3.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
-        spinner3.adapter = adapter3
-
-        ///////////Calender EditText///////////////
         val c = Calendar.getInstance()
         val year = c.get(Calendar.YEAR)
         val month = c.get(Calendar.MONTH)
         val day = c.get(Calendar.DAY_OF_MONTH)
-        ///////////////////////////////Hightlight Expiry Date////////////////////////////////////////////////////////
-        date!!.setOnClickListener() {
-            hidekeyboard()
+        date!!._setOnClickListener() {
             val dpd = DatePickerDialog(
                 this,
-                DatePickerDialog.OnDateSetListener { view, mYear, mMonth, mDay ->
+                { view, mYear, mMonth, mDay ->
                     val monthplus: Int = mMonth + 1
                     date!!.setText("" + mYear + "-" + monthplus + "-" + mDay)
                 },
@@ -88,22 +49,44 @@ class SignupPg4 : AppCompatActivity() {
             dpd.show()
         }
 
+        select_region._setOnClickListener {
+            val items = List(3) { i ->
+                SearchableItem(1, "Dubai")
+                SearchableItem(2, "Abu Dhabi")
+                SearchableItem(3, "Sharjah")
+            }
+            select_region.showSpinner(items, "Select Region") {
+                select_region.text = it.title
+            }
+
+        }
+        select_city._setOnClickListener {
+            val items = List(3) { i ->
+                SearchableItem(1, "Al Bahah")
+                SearchableItem(2, "Al Aqiq")
+            }
+            select_region.showSpinner(items, "Select District") {
+                select_city.text = it.title
+            }
+
+        }
+        radiomale._setOnClickListener {
+            radiomale._setCheck(!radiomale.getCheck())
+            radiofemale._setCheck(false)
+            gender4=radiomale.getText()
+        }
+        radiofemale._setOnClickListener {
+            radiofemale._setCheck(!radiofemale.getCheck())
+            radiomale._setCheck(false)
+            gender4=radiomale.getText()
+
+        }
     }
-
-    private var country: CountryCodePicker? = null
-    private var districtName: EditText? = null
-    private var streetNUmber: EditText? = null
-    private var Area: EditText? = null
-    private var poBox: EditText? = null
-
-    //Data Validation
-    private var fullNamee: EditText? = null
-    private var date: EditText? = null
 
 
     override fun onBackPressed() {
         super.onBackPressed()
-        val intent = Intent(this@SignupPg4, SignInActivity::class.java)
+        val intent = Intent(this@SignupPg3, SignInActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         startActivity(intent)
         finish()
@@ -114,9 +97,8 @@ class SignupPg4 : AppCompatActivity() {
     //Data Validation
     private fun validateRegion(): Boolean {
 
-        val regions4Spinner: Spinner = findViewById(R.id.spinner21)
         val errorregion_s4text = findViewById<TextView>(R.id.errorregion_s4)
-        return if (regions4Spinner.getSelectedItem().toString().trim() == "- - Select Region - -") {
+        return if (select_region.text!!.isEmpty()) {
             errorregion_s4text.visibility = View.VISIBLE
             false
         } else {
@@ -127,9 +109,8 @@ class SignupPg4 : AppCompatActivity() {
 
     private fun validateCity(): Boolean {
 
-        val citys4Spinner: Spinner = findViewById(R.id.spinner22)
         val errorregion_s4text = findViewById<TextView>(R.id.errorcity_s4)
-        return if (citys4Spinner.getSelectedItem().toString().trim() == "- - Select City - -") {
+        return if (select_city.isEmpty()) {
             errorregion_s4text.visibility = View.VISIBLE
             false
         } else {
@@ -138,18 +119,6 @@ class SignupPg4 : AppCompatActivity() {
         }
     }
 
-    //Data Validation
-    private fun validateSign4Districtname(): Boolean {
-        val InputDistrict = districtName!!.text.toString().trim { it <= ' ' }
-
-        return if (InputDistrict.isEmpty()) {
-            districtName!!.error = getString(R.string.Fieldcantbeempty)
-            false
-        } else {
-            districtName!!.error = null
-            true
-        }
-    }
 
     //Data Validation
     private fun validateSign4Streetnum(): Boolean {
@@ -179,13 +148,13 @@ class SignupPg4 : AppCompatActivity() {
 
     //Data Validation
     private fun validateSign4PoBox(): Boolean {
-        val InputPoBox = poBox!!.text.toString().trim { it <= ' ' }
+        val InputPoBox = county_code!!.text.toString().trim { it <= ' ' }
 
         return if (InputPoBox.isEmpty()) {
-            poBox!!.error = getString(R.string.Fieldcantbeempty)
+            county_code!!.error = getString(R.string.Fieldcantbeempty)
             false
         } else {
-            poBox!!.error = null
+            county_code!!.error = null
             true
         }
     }
@@ -193,7 +162,7 @@ class SignupPg4 : AppCompatActivity() {
 
     fun SignuuPg4confirmInput(v: View) {
 
-        if (!validateSign4Districtname() or !validateSign4Streetnum() or !validateSign4Area() or
+        if (!!validateSign4Streetnum() or !validateSign4Area() or
             !validateSign4PoBox() or !validateRegion() or !validateCity() or !validateSign3FullName() or !validateSign3Day() or !validateRadio()
         ) {
             return
@@ -217,26 +186,18 @@ class SignupPg4 : AppCompatActivity() {
 
     fun updateapicall() {
 
-        val selectedId: Int = radioGroup.checkedRadioButtonId
-        val radioSexButton = findViewById<View>(selectedId) as RadioButton
-        val str = radioSexButton.text.toString()
 
         val malqaa: MalqaApiService = RetrofitBuilder.updaateuserSignup()
-        val userId4 = intent.getStringExtra("useridupdate")
-        val gender4 = str
-        val fullnaam4 = editTextFirstName.text.toString().trim()
+        //  val userId4 = intent.getStringExtra("useridupdate")
+        val userId4 = "userId4"
+        val fullnaam4 = fullNamee.text.toString().trim()
         val lastName = editTextlastname.text.toString().trim()
-        val date4 = editText1033.text.toString().trim()
+        val date4 = date.text.toString().trim()
         val country = editText10.selectedCountryName
         //
-        val regionn: Spinner = findViewById(R.id.spinner21)
-        val region = regionn.selectedItem.toString().trim()
-        val cityy: Spinner = findViewById(R.id.spinner22)
-        val city = cityy.selectedItem.toString().trim()
+
         //
-        val distrtcname = editTextdistrict.text.toString().trim()
-        val areaa = editText114.text.toString().trim()
-        val poBox = editText145.text.toString().trim()
+        val areaa = Area.text.toString().trim()
 
         val call: Call<UpdateuserSignup> = malqaa.updateUserSiginup(
             UpdateuserSignup(
@@ -245,11 +206,11 @@ class SignupPg4 : AppCompatActivity() {
                 fullName = fullnaam4,
                 dateOfBirth = date4,
                 country = country,
-                region = region,
-                city = city,
-                distric = distrtcname,
+                region = select_region.text.toString(),
+                city = select_city.text.toString(),
+                distric = "",
                 area = areaa,
-                zipcode = poBox,
+                zipcode = county_code.text.toString(),
                 lastname = lastName
             )
         )
@@ -260,16 +221,19 @@ class SignupPg4 : AppCompatActivity() {
                 call: Call<UpdateuserSignup>, response: Response<UpdateuserSignup>
             ) {
                 if (response.isSuccessful) {
-                    HelpFunctions.ShowLongToast(getString(R.string.Accounthasbeencreated),this@SignupPg4)
+                    HelpFunctions.ShowLongToast(
+                        getString(R.string.Accounthasbeencreated),
+                        this@SignupPg3
+                    )
                     signInAfterSignUp()
                 } else {
-                    HelpFunctions.ShowLongToast(getString(R.string.NoResponse),this@SignupPg4)
+                    HelpFunctions.ShowLongToast(getString(R.string.NoResponse), this@SignupPg3)
 
                 }
             }
 
             override fun onFailure(call: Call<UpdateuserSignup>, t: Throwable) {
-                Toast.makeText(this@SignupPg4, t.message, Toast.LENGTH_LONG).show()
+                Toast.makeText(this@SignupPg3, t.message, Toast.LENGTH_LONG).show()
             }
         })
     }
@@ -318,8 +282,8 @@ class SignupPg4 : AppCompatActivity() {
 //            true
 //        }
 
-        return if (radioGroup.checkedRadioButtonId == -1) {
-            HelpFunctions.ShowLongToast(getString(R.string.Pleaseselectagender),applicationContext)
+        return if (gender4.isEmpty()) {
+            HelpFunctions.ShowLongToast(getString(R.string.Pleaseselectagender), applicationContext)
             return false
         } else {
             true

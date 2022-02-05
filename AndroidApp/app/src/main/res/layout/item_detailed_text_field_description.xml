@@ -25,10 +25,10 @@
 
         <com.hbb20.CountryCodePicker
             android:id="@+id/cppfield"
-            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
+            android:visibility="gone"
             app:ccpDialog_allowSearch="false"
             app:ccp_customMasterCountries="BH,KW,OM,SA,AE"
             app:ccp_defaultNameCode="SA"
@@ -36,29 +36,48 @@
             app:ccp_textSize="16sp" />
 
         <View
+            android:id="@+id/line"
             android:layout_width="@dimen/_1sdp"
             android:layout_height="match_parent"
             android:background="@color/line" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tvl_field"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:hint="@string/type_your_email_here"
-            app:boxBackgroundMode="none"
-            app:hintTextColor="@color/hint_color">
+            android:layout_height="wrap_content">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tv_field"
-                style="@style/addressCompoEditFieldTextStyle"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tvl_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:paddingTop="@dimen/_5sdp"
-                android:textAlignment="viewStart"
-                android:textSize="@dimen/_12sdp" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_toLeftOf="@+id/iv_end_icon"
+                android:hint="@string/type_your_email_here"
+                app:boxBackgroundMode="none"
+                app:hintTextColor="@color/hint_color">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tv_field"
+                    style="@style/addressCompoEditFieldTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:paddingTop="@dimen/_5sdp"
+                    android:textAlignment="viewStart"
+                    android:textSize="@dimen/_12sdp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <ImageView
+                android:id="@+id/iv_end_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:src="@drawable/ic_arrow_down" />
+
+        </RelativeLayout>
 
 
     </LinearLayout>
@@ -71,8 +90,6 @@
         android:paddingTop="@dimen/_2sdp"
         android:paddingBottom="@dimen/_2sdp"
         android:text="ERROR"
-        android:textColor="@color/Red"
-        app:textFontStyle="regular"
-        app:textFontType="caption" />
+        android:textColor="@color/Red" />
 
 </LinearLayout>

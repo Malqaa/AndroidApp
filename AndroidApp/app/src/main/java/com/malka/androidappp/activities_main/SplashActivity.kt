@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.activity_splash.*
 import java.lang.Exception
 import java.lang.reflect.Executable
 
-class SplashActivity : AppCompatActivity() {
+class SplashActivity : BaseActivity() {
 
     var datafound: Boolean = false;
     var email: String = "";
@@ -26,6 +26,8 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
+        hideSystemUI(mainContainer)
+
         GoToHomeScreen()
     }
 

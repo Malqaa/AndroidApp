@@ -1788,10 +1788,10 @@ Invalid Username or Password
     Pricing and Fixed Price Offer
   </string>
     <string name="RegisterasBussinessUser">
-    Register as Bussiness User
+   Register as a merchant
   </string>
     <string name="RegisterasPersonalUser">
-    Register as Personal User
+   Register as a user
   </string>
     <string name="RegistrationNumber">
     Registration Number
@@ -2389,7 +2389,7 @@ Want to start a business account? Create a Business Account
 
     <string name="VerificationFailed">Verification Failed!...Resend Code</string>
 
-    <string name="Seconds">%1$d Seconds</string>
+    <string name="Seconds">Resend the code after: %1$d seconds</string>
     <string name="seconds60">60 seconds</string>
 
     <string name="Pleaseselectagender">Please select a gender</string>
@@ -2554,7 +2554,6 @@ Want to start a business account? Create a Business Account
     </string-array>
 
     <string-array name="regionlist">
-        <item> - - Select Region - - </item>
         <item>Dubai</item>
         <item>Abu Dhabi</item>
         <item>Sharjah</item>
@@ -2626,5 +2625,13 @@ Want to start a business account? Create a Business Account
     <string name="invitation_code">Invitation Code</string>
     <string name="register_term">Registering in the application means that you agree to</string>
   <string name="term_condition">Terms and Conditions</string>
+    <string name="activation">Activation</string>
+    <string name="confirm_mobile_number">Confirm mobile number</string>
+  <string name="sent_code">We have sent the activation code to your phone</string>
+    <string name="one_step_left">One step left!</string>
+  <string name="enter_your_address_name_and_age_details">Enter your address/name and age details</string>
+    <string name="address_details">Address details</string>
+    <string name="county_code">County Code</string>
+  <string name="district">District</string>
 
 </resources>

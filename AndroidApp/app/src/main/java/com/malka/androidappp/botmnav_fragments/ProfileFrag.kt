@@ -4,7 +4,6 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
-import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
 import android.graphics.Color
@@ -16,14 +15,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.core.content.PermissionChecker
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.fragment.findNavController
 import com.malka.androidappp.R
-import com.malka.androidappp.activities_main.signup_account.signup_pg4.UpdateuserSignup
-import com.malka.androidappp.botmnav_fragments.edit_profile.SaveStaticGetUserData
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
@@ -35,8 +30,6 @@ import com.malka.androidappp.servicemodels.feedbacks.FeedbackProperties
 import com.malka.androidappp.servicemodels.user.UserObject
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.frag_profile.*
-import kotlinx.android.synthetic.main.fragment_add_photo.*
-import kotlinx.android.synthetic.main.fragment_shopcart.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -44,7 +37,6 @@ import java.io.FileNotFoundException
 import java.io.InputStream
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.util.*
 
 
 class ProfileFrag : Fragment() {

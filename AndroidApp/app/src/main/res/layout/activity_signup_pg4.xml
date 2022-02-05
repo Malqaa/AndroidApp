@@ -2,170 +2,123 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/Silvr">
+    android:layout_height="match_parent">
 
     <ScrollView
-        android:id="@+id/scrolll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/imageView9"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="30dp"
-        android:layout_marginBottom="8dp">
+        android:layout_alignParentTop="true">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/Silvr"
-            android:paddingBottom="30dp">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:padding="@dimen/_10sdp">
 
-            <TextView
-                android:id="@+id/textView2"
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginStart="2dp"
-                android:layout_marginTop="80dp"
-                android:layout_marginEnd="25dp"
-                android:text="@string/Greattohaveyouonboard"
-                android:textAlignment="center"
-                android:textColor="#339933"
-                android:textSize="30dp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_marginTop="@dimen/_30sdp"
+                android:background="@drawable/main_logo" />
 
             <TextView
-                android:id="@+id/textView3"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="2dp"
-                android:layout_marginTop="4dp"
-                android:text="@string/Tellusaboutyourself"
-                android:textSize="15dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.501"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView2" />
+                android:layout_marginTop="@dimen/_10sdp"
+                android:fontFamily="@font/madani_arabic_bold"
+                android:text="@string/one_step_left"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_16sdp" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:fontFamily="@font/madani_arabic_light"
+                android:text="@string/enter_your_address_name_and_age_details"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp" />
 
-            <EditText
-                android:id="@+id/editTextFirstName"
+            <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+                android:id="@+id/fullNamee"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginStart="2dp"
-                android:layout_marginTop="36dp"
-                android:layout_marginEnd="37dp"
-                android:background="@drawable/buttonradius"
-                android:drawablePadding="8dp"
+                android:layout_marginTop="@dimen/_25sdp"
                 android:hint="@string/First_Name"
                 android:inputType="textPersonName"
-                android:padding="12dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.493"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView3" />
+                app:startIcon="@drawable/ic_user" />
 
-            <EditText
+            <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
                 android:id="@+id/editTextlastname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginStart="2dp"
-                android:layout_marginTop="36dp"
-                android:layout_marginEnd="37dp"
-                android:background="@drawable/buttonradius"
-                android:drawablePadding="8dp"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:hint="@string/Last_Name"
                 android:inputType="textPersonName"
-                android:padding="12dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.493"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextFirstName" />
+                app:startIcon="@drawable/ic_user" />
 
-            <EditText
-                android:id="@+id/editText1033"
+            <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+                android:id="@+id/date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="2dp"
-                android:layout_marginTop="36dp"
-                android:layout_marginEnd="37dp"
-                android:background="@drawable/buttonradius"
-                android:clickable="true"
-                android:drawablePadding="8dp"
-                android:editable="false"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:hint="@string/EnterDateofBirth"
-                android:padding="12dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextlastname" />
+                android:inputType="textPersonName"
+                app:startIcon="@drawable/ic_calendar"
+                app:viewType="spinner" />
 
             <TextView
-                android:id="@+id/textView3884"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="2dp"
-                android:layout_marginTop="40dp"
+                android:layout_gravity="start"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:fontFamily="@font/madani_arabic_light"
                 android:text="@string/Gender"
-                android:textSize="20dp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText1033" />
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp" />
 
-            <RadioGroup
-                android:id="@+id/radioGroup"
-                android:layout_width="wrap_content"
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="2dp"
-                android:layout_marginTop="8dp"
-                android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView3884">
+                android:layout_marginTop="@dimen/_10sdp"
+                android:orientation="horizontal">
 
-                <RadioButton
+                <com.malka.androidappp.helper.widgets.CustomRadioButton
                     android:id="@+id/radiomale"
                     android:layout_width="wrap_content"
+
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="2dp"
-                    android:layout_marginLeft="35dp"
-                    android:text="@string/Male"
-                    android:textColor="#4d4d33"
-                    android:textSize="18dp" />
+                    android:checked="true"
+                    android:text="@string/Male" />
 
-
-                <RadioButton
+                <com.malka.androidappp.helper.widgets.CustomRadioButton
                     android:id="@+id/radiofemale"
                     android:layout_width="wrap_content"
+
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
-                    android:text="@string/Female"
-                    android:textColor="#4d4d33"
-                    android:textSize="18dp" />
-            </RadioGroup>
+                    android:checked="false"
+                    android:text="@string/Female" />
+
+
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/countryText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="30dp"
-                android:text="@string/Country"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/radioGroup" />
+                android:layout_gravity="start"
+                android:layout_marginTop="@dimen/_5sdp"
+
+                android:text="@string/address_details" />
 
             <com.hbb20.CountryCodePicker
                 android:id="@+id/editText10"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="2dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="37dp"
                 android:background="@drawable/buttonradius"
                 android:drawablePadding="8dp"
                 android:padding="7dp"
@@ -175,179 +128,110 @@
                 app:ccp_defaultNameCode="SA"
                 app:ccp_showFullName="true"
                 app:ccp_showNameCode="false"
-                app:ccp_showPhoneCode="false"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/countryText" />
+                app:ccp_showPhoneCode="false" />
 
-
-            <TextView
-                android:id="@+id/regionText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="20dp"
-                android:text="@string/Region"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/editText10" />
-
-            <RelativeLayout
-                android:id="@+id/editText11"
+            <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+                android:id="@+id/select_country"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="2dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="37dp"
-                android:background="@drawable/buttonradius"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/regionText">
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="@string/Country"
+                android:inputType="textPersonName"
+                app:endIcon="@drawable/ic_arrow_down"
+                app:startIcon="@drawable/ic_region"
+                app:viewType="spinner" />
 
-                <Spinner
-                    android:id="@+id/spinner21"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp" />
-            </RelativeLayout>
+            <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+                android:id="@+id/select_region"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="@string/Region"
+                android:inputType="textPersonName"
+                app:endIcon="@drawable/ic_arrow_down"
+                app:startIcon="@drawable/ic_region"
+                app:viewType="spinner" />
 
             <TextView
                 android:id="@+id/errorregion_s4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="40dp"
-                android:text="@string/SelectAnyoneRegion"
-                android:textColor="#FF0000"
-                android:textSize="12sp"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText11" />
-
-            <TextView
-                android:id="@+id/cityText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="20dp"
-                android:text="@string/City"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/editText11" />
-
-            <RelativeLayout
-                android:id="@+id/editText12"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="2dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="37dp"
-                android:background="@drawable/buttonradius"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cityText">
+                android:layout_marginTop="@dimen/_5sdp"
+                android:paddingTop="@dimen/_2sdp"
+                android:paddingBottom="@dimen/_2sdp"
+                android:text="ERROR"
+                android:textColor="@color/Red"
+                android:visibility="gone" />
 
-                <Spinner
-                    android:id="@+id/spinner22"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp" />
-            </RelativeLayout>
+
+            <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+                android:id="@+id/select_city"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="@string/district"
+                android:inputType="textPersonName"
+                app:endIcon="@drawable/ic_arrow_down"
+                app:startIcon="@drawable/ic_city"
+                app:viewType="spinner" />
 
             <TextView
                 android:id="@+id/errorcity_s4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="40dp"
-                android:text="@string/SelectAnyoneCity"
-                android:textColor="#FF0000"
-                android:textSize="12sp"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText12" />
-
-            <EditText
-                android:id="@+id/editTextdistrict"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginStart="2dp"
-                android:layout_marginTop="35dp"
-                android:layout_marginEnd="37dp"
-                android:background="@drawable/buttonradius"
-                android:drawablePadding="8dp"
-                android:hint="@string/District_Name"
-                android:inputType="text"
-                android:padding="12dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText12" />
+                android:layout_marginTop="@dimen/_5sdp"
+                android:paddingTop="@dimen/_2sdp"
+                android:paddingBottom="@dimen/_2sdp"
+                android:text="ERROR"
+                android:textColor="@color/Red"
+                android:visibility="gone" />
 
-            <EditText
-                android:id="@+id/editText14"
+
+            <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+                android:id="@+id/Area"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginStart="2dp"
-                android:layout_marginTop="35dp"
-                android:layout_marginEnd="37dp"
-                android:background="@drawable/buttonradius"
-                android:drawablePadding="8dp"
-                android:hint="@string/StreetNumber"
-                android:inputType="text"
-                android:padding="12dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextdistrict" />
-
-            <EditText
-                android:id="@+id/editText114"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginStart="2dp"
-                android:layout_marginTop="35dp"
-                android:layout_marginEnd="37dp"
-                android:background="@drawable/buttonradius"
-                android:drawablePadding="8dp"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:hint="@string/Area"
-                android:inputType="text"
-                android:padding="12dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText14" />
+                android:inputType="text" />
 
-            <EditText
-                android:id="@+id/editText145"
+
+            <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+                android:id="@+id/streetNUmber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginStart="2dp"
-                android:layout_marginTop="35dp"
-                android:layout_marginEnd="37dp"
-                android:background="@drawable/buttonradius"
-                android:drawablePadding="8dp"
-                android:hint="@string/ZipCode"
-                android:inputType="number"
-                android:padding="12dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText114" />
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="@string/StreetNumber"
+                android:inputType="text" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+                android:id="@+id/county_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="@string/county_code"
+                android:inputType="text"
+                app:lastfield="true" />
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:background="@drawable/round_btn"
+                android:fontFamily="@font/madani_arabic_semi_bold"
+                android:onClick="SignuuPg4confirmInput"
+
+                android:text="@string/SignUp"
+                android:textAllCaps="false"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/_14sdp" />
+
+        </LinearLayout>
+
+
     </ScrollView>
 
-    <ImageView
-        android:id="@+id/imageView9"
-        android:layout_width="65dp"
-        android:layout_height="12dp"
-        android:layout_above="@id/button8"
-        android:rotation="@string/mirror_degree"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="15dp"
-        android:background="@drawable/bsignup3" />
 
-    <Button
-        android:id="@+id/button8"
-        android:layout_width="match_parent"
-        android:layout_height="65dp"
-        android:layout_alignParentBottom="true"
-        android:background="#339933"
-        android:onClick="SignuuPg4confirmInput"
-        android:text="@string/Create"
-        android:textColor="#ffffff"
-        android:textSize="25dp" />
 </RelativeLayout>

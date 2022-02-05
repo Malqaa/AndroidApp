@@ -101,7 +101,7 @@
                 android:layout_marginTop="@dimen/_10sdp"
                 android:hint="@string/PhoneNumber"
                 android:inputType="phone"
-                app:viewType="spinner" />
+                app:viewType="phone" />
 
 
 
@@ -184,4 +184,10 @@
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
+
+    <include
+        android:visibility="gone"
+        android:id="@+id/loader"
+        layout="@layout/loader" />
+
 </RelativeLayout>

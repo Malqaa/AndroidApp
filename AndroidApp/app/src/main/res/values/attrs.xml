@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="ToggleSwitchOptions">
-        <attr name="toggleWidth"        format="dimension"/>
+        <attr name="toggleWidth" format="dimension" />
 
-        <attr name="textToggleCenter"   format="string" localization="suggested" />
-        <attr name="textToggleLeft"     format="string" localization="suggested" />
-        <attr name="textToggleRight"    format="string" localization="suggested" />
+        <attr name="textToggleCenter" format="string" localization="suggested" />
+        <attr name="textToggleLeft" format="string" localization="suggested" />
+        <attr name="textToggleRight" format="string" localization="suggested" />
 
-        <attr name="activeBgColor"      format="color"/>
-        <attr name="activeTextColor"    format="color"/>
-        <attr name="inactiveBgColor"    format="color"/>
-        <attr name="inactiveTextColor"  format="color"/>
-        <attr name="separatorColor"     format="color"/>
+        <attr name="activeBgColor" format="color" />
+        <attr name="activeTextColor" format="color" />
+        <attr name="inactiveBgColor" format="color" />
+        <attr name="inactiveTextColor" format="color" />
+        <attr name="separatorColor" format="color" />
 
-        <attr name="cornerRadius"       format="dimension"/>
+        <attr name="cornerRadius" format="dimension" />
 
-        <attr name="android:textSize"/>
+        <attr name="android:textSize" />
     </declare-styleable>
     <declare-styleable name="DetailedTextField">
         <attr name="enableTopLine" format="boolean" />
@@ -24,7 +24,7 @@
         <attr name="textDescription" format="string" />
 
         <attr name="startIcon" format="reference" />
-        <attr name="infoIcon" format="reference" />
+        <attr name="endIcon" format="reference" />
         <attr name="enablePasswordToggle" format="boolean" />
 
         <attr name="android:hint" />
@@ -36,32 +36,19 @@
         <attr name="viewType">
             <enum name="edittext" value="0" />
             <enum name="spinner" value="1" />
+            <enum name="phone" value="2" />
         </attr>
 
-        <attr name="textFontStyle">
-            <enum name="light" value="0" />
-            <enum name="regular" value="1" />
-            <enum name="bold" value="2" />
-            <enum name="ocr" value="3"/>
-        </attr>
 
-        <attr name="textFontType">
-            <enum name="largeTitle" value="0" />
-            <enum name="title1" value="1" />
-            <enum name="title2" value="2" />
-            <enum name="title3" value="3" />
-            <enum name="title4" value="4" />
-            <enum name="title5" value="5" />
-            <enum name="title6" value="6" />
-            <enum name="headline" value="7" />
-            <enum name="body" value="8" />
-            <enum name="callout" value="9" />
-            <enum name="labels" value="10" />
-            <enum name="subheadline" value="11" />
-            <enum name="footnote" value="12" />
-            <enum name="caption" value="13" />
-            <enum name="ocrlabel" value="14"/>
-        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="CustomRadioButton">
+
+
+        <attr name="android:checked" />
+        <attr name="android:text" />
+
+
     </declare-styleable>
     <declare-styleable name="TermsnConditionsSwitch">
 
@@ -70,4 +57,5 @@
         <attr name="textSwitch" format="string" />
         <attr name="textLink" format="string" />
 
-    </declare-styleable></resources>
+    </declare-styleable>
+</resources>
