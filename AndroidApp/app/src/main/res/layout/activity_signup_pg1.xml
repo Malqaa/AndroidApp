@@ -16,14 +16,13 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
             android:gravity="center_horizontal"
             android:orientation="vertical"
             android:padding="@dimen/_10sdp">
 
             <ImageButton
                 android:id="@+id/imageButton3"
-                android:layout_width="wrap_content"
+                android:layout_width="14dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
 
@@ -104,7 +103,6 @@
                 app:viewType="phone" />
 
 
-
             <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
                 android:id="@+id/textPass"
                 android:layout_width="match_parent"
@@ -113,7 +111,6 @@
                 android:hint="@string/Password"
                 android:inputType="textPassword"
                 app:enablePasswordToggle="true"
-                app:lastfield="true"
                 app:startIcon="@drawable/symbolpass" />
 
             <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
@@ -124,7 +121,6 @@
                 android:hint="@string/Confirm_Password"
                 android:inputType="textPassword"
                 app:enablePasswordToggle="true"
-                app:lastfield="true"
                 app:startIcon="@drawable/symbolpass" />
 
 
@@ -135,14 +131,15 @@
                 android:layout_marginTop="@dimen/_10sdp"
                 android:hint="@string/invitation_code"
                 android:inputType="text"
+                app:lastfield="true"
                 app:startIcon="@drawable/ic_invitation" />
 
             <com.malka.androidappp.helper.widgets.TermsnConditionsSwitch
-                android:layout_marginTop="@dimen/_10sdp"
                 android:id="@+id/switch_term_condition"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:layout_marginTop="@dimen/_10sdp"
                 app:textLink="@string/term_condition"
                 app:textSwitch="@string/register_term" />
 

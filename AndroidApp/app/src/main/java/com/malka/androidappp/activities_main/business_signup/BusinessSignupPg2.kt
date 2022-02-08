@@ -7,6 +7,8 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
 import com.malka.androidappp.R
+import com.malka.androidappp.helper.hide
+import com.malka.androidappp.helper.show
 import com.malka.androidappp.servicemodels.ConstantObjects
 import kotlinx.android.synthetic.main.activity_business_signup_pg1.*
 import kotlinx.android.synthetic.main.activity_business_signup_pg2.*
@@ -25,6 +27,22 @@ class BusinessSignupPg2 : AppCompatActivity() {
 
         business_signup2_button.setOnClickListener() {
             confirminputtBpg2()
+        }
+        ic_youtube_select.setOnClickListener() {
+           // ic_youtube_select.isSelected=!ic_youtube_select.isSelected
+            if(ic_youtube_select.isSelected){
+                ic_youtube.show()
+            }else{
+                ic_youtube.hide()
+            }
+        }
+        ic_twitter_select.setOnClickListener() {
+            ic_twitter_select.isSelected=!ic_twitter_select.isSelected
+            if(ic_twitter_select.isSelected){
+                ic_twitter.show()
+            }else{
+                ic_twitter.hide()
+            }
         }
     }
 

@@ -13,7 +13,6 @@ import com.malka.androidappp.helper.hideLoader
 import com.malka.androidappp.helper.showLoader
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
-import kotlinx.android.synthetic.main.activity_sign_in.*
 import kotlinx.android.synthetic.main.activity_signup_pg1.*
 import kotlinx.android.synthetic.main.activity_signup_pg1.loader
 import okhttp3.ResponseBody

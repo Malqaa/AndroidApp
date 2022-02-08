@@ -2633,5 +2633,16 @@ Want to start a business account? Create a Business Account
     <string name="address_details">Address details</string>
     <string name="county_code">County Code</string>
   <string name="district">District</string>
+    <string name="CompanyData">Company Data</string>
+  <string name="please_enter_company_information">Please enter company information</string>
+  <string name="the_company_s_name">The Company\'s name</string>
+    <string name="website">Website</string>
+  <string name="TaxNumber">Tax Number</string>
+  <string name="download_the_commercial_registry_file">Download the commercial registry file</string>
+  <string name="locating_the_company">Locating the company</string>
+    <string name="commercial_registration_no">Commercial Registration No</string>
+  <string name="type_of_employment">Type of employment</string>
+  <string name="expiry_date">Expiry date</string>
+    <string name="youtube">Youtube</string>
 
 </resources>

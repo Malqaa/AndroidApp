@@ -2479,5 +2479,16 @@
   <string name="address_details">تفاصيل العنوان</string>
   <string name="county_code">كود المحافظة</string>
   <string name="district">الحى</string>
+    <string name="CompanyData">بيانات الشركة</string>
+  <string name="please_enter_company_information">من فضلك أدخل بيانات الشركة</string>
+  <string name="the_company_s_name">اسم الشركة</string>
+  <string name="website">الموقع الالكترونى</string>
+  <string name="TaxNumber">الرقم الضريبى</string>>
+  <string name="download_the_commercial_registry_file">تحميل ملف السجل التجارى</string>
+  <string name="locating_the_company">تحديد موقع الشركة</string>
+    <string name="commercial_registration_no">رقم السجل التجاري</string>
+    <string name="type_of_employment">نوع العمل</string>
+  <string name="expiry_date">تاريخ الانتهاء</string>
+    <string name="youtube">یوٹیوب</string>
 
 </resources>

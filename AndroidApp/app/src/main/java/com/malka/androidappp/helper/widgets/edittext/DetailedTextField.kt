@@ -29,6 +29,7 @@ import tech.hibk.searchablespinnerlibrary.SearchableItem
 class DetailedTextField : LinearLayout {
 
     private lateinit var etl_Field: TextInputLayout
+    private lateinit var textView: TextView
     private lateinit var iv_info_icon: ImageView
     private lateinit var iv_start_icon: ImageView
     private lateinit var iv_end_icon: ImageView
@@ -96,28 +97,33 @@ class DetailedTextField : LinearLayout {
         // a real application your images should be in the
         // application package so they are always available.
         etl_Field = findViewById(R.id.tvl_field)
-        etl_Field.id = DetailedTextFieldIdGenerator.viwId.getlId(id)
+        etl_Field.id = DetailedTextFieldIdGenerator.viwId.getId(id)
+
         iv_start_icon = findViewById(R.id.iv_start_icon)
-        iv_start_icon.id = DetailedTextFieldIdGenerator.viwId.getStartIconID(id)
+        iv_start_icon.id = DetailedTextFieldIdGenerator.viwId.getlId(id)
 
 
         iv_end_icon = findViewById(R.id.iv_end_icon)
-        iv_end_icon.id = DetailedTextFieldIdGenerator.viwId.getllllId(id)
+        iv_end_icon.id = DetailedTextFieldIdGenerator.viwId.getllId(id)
 
 
         line = findViewById(R.id.line)
-        line.id = DetailedTextFieldIdGenerator.viwId.getlllllId(id)
+        line.id = DetailedTextFieldIdGenerator.viwId.getlllId(id)
 
 
         cppfield = findViewById(R.id.cppfield)
-        cppfield.id = DetailedTextFieldIdGenerator.viwId.getInfoIconID(id)
+        cppfield.id = DetailedTextFieldIdGenerator.viwId.getllllId(id)
 
 
         et_Field = findViewById(R.id.tv_field)
-        et_Field.id = DetailedTextFieldIdGenerator.viwId.getId(id)
+        et_Field.id = DetailedTextFieldIdGenerator.viwId.getlllllId(id)
 
         tv_Error = findViewById(R.id.tv_error)
-        tv_Error.id = DetailedTextFieldIdGenerator.viwId.getllId(id)
+        tv_Error.id = DetailedTextFieldIdGenerator.viwId.getllllllId(id)
+
+
+        textView = findViewById(R.id.textView)
+        textView.id = DetailedTextFieldIdGenerator.viwId.getInfoIconID(id)
 
         tv_Error.hide()
 
@@ -347,6 +353,7 @@ class DetailedTextField : LinearLayout {
         set(value) {
             textText = value
             et_Field.setText(value)
+            textView.setText(value)
         }
 
     fun selectedCountryCode():String{
@@ -449,11 +456,17 @@ class DetailedTextField : LinearLayout {
             }
             2 -> {
                 cppfield.show()
+                line.show()
                 et_Field.isFocusable = true
                 et_Field.isFocusableInTouchMode = true
                 et_Field.isClickable = false
             }
+            3 -> {
+                etl_Field.hide()
+                textView.show()
+            }
             else -> {
+
 
             }
         }

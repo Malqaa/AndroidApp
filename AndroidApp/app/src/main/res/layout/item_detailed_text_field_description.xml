@@ -45,37 +45,57 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tvl_field"
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:layout_toLeftOf="@+id/iv_end_icon"
-                android:hint="@string/type_your_email_here"
-                app:boxBackgroundMode="none"
-                app:hintTextColor="@color/hint_color">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tv_field"
-                    style="@style/addressCompoEditFieldTextStyle"
+                android:layout_alignParentLeft="true"
+                android:layout_toLeftOf="@+id/iv_end_icon">
+
+                <TextView
+                    android:id="@+id/textView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
-                    android:paddingTop="@dimen/_5sdp"
-                    android:textAlignment="viewStart"
-                    android:textSize="@dimen/_12sdp" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_gravity="center_vertical"
+                    android:fontFamily="@font/madani_arabic_medium"
+                    android:text="ERROR"
+                    android:padding="@dimen/_10sdp"
+
+                    android:textColor="@color/text_color"
+                    android:visibility="gone" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tvl_field"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:hint="@string/type_your_email_here"
+                    app:boxBackgroundMode="none"
+                    app:hintTextColor="@color/hint_color">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/tv_field"
+                        style="@style/addressCompoEditFieldTextStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName"
+                        android:paddingTop="@dimen/_5sdp"
+                        android:textAlignment="viewStart"
+                        android:textSize="@dimen/_12sdp" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </FrameLayout>
+
 
             <ImageView
                 android:id="@+id/iv_end_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/_14sdp"
+                android:layout_height="@dimen/_14sdp"
                 android:layout_alignParentRight="true"
                 android:layout_centerInParent="true"
                 android:layout_marginLeft="@dimen/_10sdp"
                 android:layout_marginRight="@dimen/_10sdp"
-                android:src="@drawable/ic_arrow_down" />
+                android:src="@drawable/ic_map_content" />
 
         </RelativeLayout>
 
