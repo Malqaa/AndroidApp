@@ -6,8 +6,9 @@
     android:layout_height="match_parent"
     android:background="@color/Silvr"
     tools:context=".botmnav_fragments.activities_main.business_signup.BusinessSignupPg3">
-
     <ScrollView
+        android:visibility="gone"
+
         android:id="@+id/scroll1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
