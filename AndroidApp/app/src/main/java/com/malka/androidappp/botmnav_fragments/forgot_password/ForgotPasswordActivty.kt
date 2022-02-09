@@ -14,6 +14,7 @@ import android.text.style.StyleSpan
 import android.util.Patterns
 import android.view.View
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.malka.androidappp.R
@@ -21,6 +22,7 @@ import com.malka.androidappp.botmnav_fragments.ForgotPassword.PostForgotpassMode
 import com.malka.androidappp.activities_main.login.SignInActivity
 import com.malka.androidappp.botmnav_fragments.forgotpass_otpactivity.ActivityForgotPassOtpcode
 import com.malka.androidappp.helper.HelpFunctions
+import com.malka.androidappp.helper.widgets.edittext.DetailedTextField
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
 import kotlinx.android.synthetic.main.activity_forgot_password.*
@@ -32,23 +34,22 @@ import java.util.*
 
 class ForgotPasswordActivty : AppCompatActivity() {
 
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_forgot_password)
 
-        val clicksignin = object : ClickableSpan() {
-            //It removes underline from clickablespan
-            override fun updateDrawState(ds: TextPaint) { // override updateDrawState
-                ds.isUnderlineText = false // set to false to remove underline
-            }
-
-            override fun onClick(view: View) {
-                val intent = Intent(this@ForgotPasswordActivty, SignInActivity::class.java)
-                startActivity(intent)
-                finish()
-
-            }
+        signin.setOnClickListener {
+            val intent = Intent(this@ForgotPasswordActivty, SignInActivity::class.java)
+            startActivity(intent)
+            finish()
         }
+
+
+
         /////////////////////////ClickableSpan for Alreadyaccount////////////////////////////////
 
         // To get the current language and set span accordingly
@@ -57,38 +58,12 @@ class ForgotPasswordActivty : AppCompatActivity() {
 
         val mSpannablerecover = SpannableString(getString(R.string.alreadyaccount))
 
-        if (language == "en") {
-            mSpannablerecover.setSpan(clicksignin, 25, 32, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-            mSpannablerecover.setSpan(
-                ForegroundColorSpan(getResources().getColor(R.color.greenspan)),
-                25,
-                32,
-                0
-            )
-            mSpannablerecover.setSpan(StyleSpan(Typeface.BOLD), 25, 32, 0)
-            textView23.movementMethod = LinkMovementMethod.getInstance()
-            textView23.setText(mSpannablerecover)
-
-        } else {
-
-            mSpannablerecover.setSpan(clicksignin, 14, 26, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-            mSpannablerecover.setSpan(
-                ForegroundColorSpan(getResources().getColor(R.color.greenspan)),
-                14,
-                26,
-                0
-            )
-            mSpannablerecover.setSpan(StyleSpan(Typeface.BOLD), 14, 26, 0)
-            textView23.movementMethod = LinkMovementMethod.getInstance()
-            textView23.setText(mSpannablerecover)
-        }
-
 
         //data Validation
         emailtextt = findViewById(R.id.editText4)
     }
 
-    private var emailtextt: EditText? = null
+    private var emailtextt: DetailedTextField? = null
 
     //Data Validation
     private fun validateforgot(): Boolean {

@@ -2490,5 +2490,6 @@
     <string name="type_of_employment">نوع العمل</string>
   <string name="expiry_date">تاريخ الانتهاء</string>
     <string name="youtube">یوٹیوب</string>
+    <string name="it_was_completed">تم</string>
 
 </resources>

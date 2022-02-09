@@ -31,11 +31,12 @@ class ActivityForgotPassOtpcode : AppCompatActivity() {
 
         val inputtt = pinview234.getValue()
         return if (inputtt.length != 4) {
-            redmessagee.setText("Field can't be empty")
+            redmessage.setText("Field can't be empty")
+            redmessage.setVisibility(View.VISIBLE)
             false
         } else {
-            redmessagee.error = null
-            redmessagee.setVisibility(View.GONE)
+            redmessage.error = null
+            redmessage.setVisibility(View.GONE)
             true
         }
     }

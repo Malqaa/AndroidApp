@@ -26,7 +26,7 @@ class BusinessSignupPg2 : AppCompatActivity() {
         }
 
         business_signup2_button.setOnClickListener() {
-            confirminputtBpg2()
+//            confirminputtBpg2()
         }
         ic_youtube_select.setOnClickListener() {
            // ic_youtube_select.isSelected=!ic_youtube_select.isSelected
@@ -56,29 +56,29 @@ class BusinessSignupPg2 : AppCompatActivity() {
         }
     }
 
-    fun confirminputtBpg2() {
-        if (!validateBActualAddress() or !validateBBillingAddress() or !validateBphoneNum()
-            or !validateBpass() or !validateBSignupConfrmPassword()
-        ) {
-            return
-        } else {
-            val Bactualadress = busi_signup2_edittext1.text.toString().trim()
-            StaticBusinessRegistration.bActualadress = Bactualadress
-            val Bbillingadress = busi_signup2_edittext2.text.toString().trim()
-            StaticBusinessRegistration.Bbillingadress = Bbillingadress
-            //
-            val Bphone = busi_signup2_edittext3.text.toString().trim()
-            val busicountryCode = cppfield2.selectedCountryCode
-            val busimobilenum = "+" + busicountryCode + Bphone
-            StaticBusinessRegistration.BphoneNo = busimobilenum
-            //
-            val Bcountry = busi_signup2_edittext4.selectedCountryName
-            StaticBusinessRegistration.Bcountryy = Bcountry
-            val Bpass = busi_signup2_inputedittext5b.text.toString().trim()
-            StaticBusinessRegistration.Bpassw = Bpass
-            BthirdPg()
-        }
-    }
+//    fun confirminputtBpg2() {
+//        if (!validateBActualAddress() or !validateBBillingAddress() or !validateBphoneNum()
+//            or !validateBpass() or !validateBSignupConfrmPassword()
+//        ) {
+//            return
+//        } else {
+//            val Bactualadress = busi_signup2_edittext1.text.toString().trim()
+//            StaticBusinessRegistration.bActualadress = Bactualadress
+//            val Bbillingadress = busi_signup2_edittext2.text.toString().trim()
+//            StaticBusinessRegistration.Bbillingadress = Bbillingadress
+//            //
+//            val Bphone = busi_signup2_edittext3.text.toString().trim()
+//            val busicountryCode = cppfield2.selectedCountryCode
+//            val busimobilenum = "+" + busicountryCode + Bphone
+//            StaticBusinessRegistration.BphoneNo = busimobilenum
+//            //
+//            val Bcountry = busi_signup2_edittext4.selectedCountryName
+//            StaticBusinessRegistration.Bcountryy = Bcountry
+//            val Bpass = busi_signup2_inputedittext5b.text.toString().trim()
+//            StaticBusinessRegistration.Bpassw = Bpass
+//            BthirdPg()
+//        }
+//    }
 
     private fun validateBActualAddress(): Boolean {
         val BactualAdress = busi_signup2_edittext1.text.toString().trim { it <= ' ' }
@@ -91,56 +91,56 @@ class BusinessSignupPg2 : AppCompatActivity() {
         }
     }
 
-
-    private fun validateBBillingAddress(): Boolean {
-        val BbillingAdress = busi_signup2_edittext2.text.toString().trim { it <= ' ' }
-        return if (BbillingAdress.isEmpty()) {
-            busi_signup2_edittext2.error = getString(R.string.Fieldcantbeempty)
-            false
-        } else {
-            busi_signup2_edittext2.error = null
-            true
-        }
-    }
-
-    private fun validateBphoneNum(): Boolean {
-        val bphoneNum = busi_signup2_edittext3.text.toString().trim { it <= ' ' }
-        return if (bphoneNum.isEmpty()) {
-            busi_signup2_edittext3.error = getString(R.string.Fieldcantbeempty)
-            false
-        } else {
-            busi_signup2_edittext3.error = null
-            true
-        }
-    }
-
-
-    private fun validateBpass(): Boolean {
-        val bpass = busi_signup2_inputedittext5b.text.toString().trim { it <= ' ' }
-        return if (bpass.isEmpty()) {
-            busi_signup2_inputedittext5b.error = getString(R.string.Fieldcantbeempty)
-            false
-        } else {
-            busi_signup2_inputedittext5b.error = null
-            true
-        }
-    }
-
-    //confirmpass validation
-    private fun validateBSignupConfrmPassword(): Boolean {
-        val passwordInput = busi_signup2_inputedittext5b.text.toString().trim { it <= ' ' }
-        val confrmpassInput = busi_signup2_inputedittext6b.text.toString().trim { it <= ' ' }
-        return if (confrmpassInput.isEmpty()) {
-            busi_signup2_inputedittext6b.error = getString(R.string.Fieldcantbeempty)
-            false
-        } else if (confrmpassInput != passwordInput) {
-            busi_signup2_inputedittext6b.error = getString(R.string.Passworddoesnotmatch)
-            false
-        } else {
-            busi_signup2_inputedittext6b.error = null
-            true
-        }
-    }
+//
+//    private fun validateBBillingAddress(): Boolean {
+//        val BbillingAdress = busi_signup2_edittext2.text.toString().trim { it <= ' ' }
+//        return if (BbillingAdress.isEmpty()) {
+//            busi_signup2_edittext2.error = getString(R.string.Fieldcantbeempty)
+//            false
+//        } else {
+//            busi_signup2_edittext2.error = null
+//            true
+//        }
+//    }
+//
+//    private fun validateBphoneNum(): Boolean {
+//        val bphoneNum = busi_signup2_edittext3.text.toString().trim { it <= ' ' }
+//        return if (bphoneNum.isEmpty()) {
+//            busi_signup2_edittext3.error = getString(R.string.Fieldcantbeempty)
+//            false
+//        } else {
+//            busi_signup2_edittext3.error = null
+//            true
+//        }
+//    }
+//
+//
+//    private fun validateBpass(): Boolean {
+//        val bpass = busi_signup2_inputedittext5b.text.toString().trim { it <= ' ' }
+//        return if (bpass.isEmpty()) {
+//            busi_signup2_inputedittext5b.error = getString(R.string.Fieldcantbeempty)
+//            false
+//        } else {
+//            busi_signup2_inputedittext5b.error = null
+//            true
+//        }
+//    }
+//
+//    //confirmpass validation
+//    private fun validateBSignupConfrmPassword(): Boolean {
+//        val passwordInput = busi_signup2_inputedittext5b.text.toString().trim { it <= ' ' }
+//        val confrmpassInput = busi_signup2_inputedittext6b.text.toString().trim { it <= ' ' }
+//        return if (confrmpassInput.isEmpty()) {
+//            busi_signup2_inputedittext6b.error = getString(R.string.Fieldcantbeempty)
+//            false
+//        } else if (confrmpassInput != passwordInput) {
+//            busi_signup2_inputedittext6b.error = getString(R.string.Passworddoesnotmatch)
+//            false
+//        } else {
+//            busi_signup2_inputedittext6b.error = null
+//            true
+//        }
+//    }
 
 
 }
