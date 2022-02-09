@@ -58,7 +58,13 @@
         <activity
             android:name=".activities_main.Bottmmm"
             android:label="Bottom Nav"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".activities_main.FeaturedCategory"
             android:label="Featured Category" />
@@ -86,11 +92,7 @@
             android:name=".activities_main.signup_account.signup_pg3.SignupPg3"
             android:theme="@style/NoActionBar"
             android:windowSoftInputMode="adjustPan">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
 
         </activity>
         <activity

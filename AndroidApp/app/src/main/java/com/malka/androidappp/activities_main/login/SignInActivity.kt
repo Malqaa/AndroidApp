@@ -11,12 +11,14 @@ import android.widget.Toast
 import com.google.gson.Gson
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.BaseActivity
-import com.malka.androidappp.activities_main.onboarding_intro_slider.OnBoardingIntroSlider
+import com.malka.androidappp.activities_main.Bottmmm
 import com.malka.androidappp.botmnav_fragments.forgot_password.ForgotPasswordActivty
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass.Companion.SHARED_PREFS
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass.Companion.TEXT
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass.Companion.TEXT2
-import com.malka.androidappp.helper.*
+import com.malka.androidappp.helper.HelpFunctions
+import com.malka.androidappp.helper.hideLoader
+import com.malka.androidappp.helper.showLoader
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.servicemodels.ConstantObjects
@@ -141,7 +143,7 @@ open class SignInActivity : BaseActivity() {
     ////////////////////////////////SignIn to homepage with parse data///////////////////////////////////////
     //fun signtohome()
     fun signtohome(context: Context, activity: Activity) {
-        val intentt = Intent(context, OnBoardingIntroSlider::class.java)
+        val intentt = Intent(context, Bottmmm::class.java)
         context.startActivity(intentt)
         finish()
         activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)

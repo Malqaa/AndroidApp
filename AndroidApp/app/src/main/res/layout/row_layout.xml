@@ -7,9 +7,13 @@
     app:cardCornerRadius="12dp"
     android:layout_margin="5dp">
 
+
+
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_height="230dp"
         android:layout_width="210dp"
+        android:visibility="gone"
         android:orientation="vertical"
         android:backgroundTint="@color/white"
         android:background="@drawable/imagcarradius"

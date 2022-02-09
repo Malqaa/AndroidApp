@@ -15,7 +15,7 @@ class RetrofitBuilder {
         var builder: Retrofit.Builder? = null
 
         private fun GetRetrofitBuilder(Apiurl: String): Retrofit.Builder {
-            if (builder == null) {
+          //  if (builder == null) {
                 val httpLoggingInterceptor = HttpLoggingInterceptor()
                 httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
 
@@ -30,7 +30,7 @@ class RetrofitBuilder {
                 builder = Retrofit.Builder()
                 builder!!.baseUrl(Apiurl).addConverterFactory(GsonConverterFactory.create())
                 builder!!.client(httpClient.build());
-            }
+         //   }
             return builder!!
 
         }

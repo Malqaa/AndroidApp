@@ -275,7 +275,7 @@ interface MalqaApiService {
     @GET(ALL_PRODUCTS_ENDPOINT + "?")
     fun getAllProducts(): Call<AllProductsResponseBack>
 
-    @GET(GET_ALL_CATEGORIES + "?")
+    @GET(GET_ALL_CATEGORIES)
     fun getAllCategories(): Call<AllCategoriesResponseBack>
 
     @GET("$GET_ALL_CATEGORIES_BY_ID?")
