@@ -25,25 +25,10 @@
                 android:layout_gravity="start"
 
                 android:background="@drawable/ic_back"
-                android:rotation="@string/mirror_degree" />
+                android:rotation="@string/mirror_degree"
+                tools:ignore="SpeakableTextPresentCheck" />
 
-            <com.malka.androidappp.helper.widgets.language_switch.ToggleSwitch
-                android:id="@+id/language_toggle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/_20sdp"
-                android:background="@drawable/tab_bg"
-                android:textSize="@dimen/_12sdp"
-                app:activeBgColor="@color/bg"
-                app:activeTextColor="@android:color/white"
-                app:cornerRadius="@dimen/_15sdp"
-                app:inactiveBgColor="@color/tab_bg"
-                app:inactiveTextColor="@android:color/black"
-                app:separatorColor="@color/gray_very_light"
-                app:textToggleLeft="EN"
-                app:textToggleRight="AR"
-                app:toggleWidth="@dimen/_50sdp" />
+
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -72,7 +57,7 @@
 
 
             <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
-                android:id="@+id/userNamee"
+                android:id="@+id/busi_signup2_edittext1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_25sdp"
@@ -81,7 +66,7 @@
                 app:startIcon="@drawable/ic_user" />
 
             <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
-                android:id="@+id/website"
+                android:id="@+id/busi_signup3_edittext2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
@@ -196,15 +181,6 @@
                 app:startIcon="@drawable/ic_tax" />
 
 
-            <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
-                android:id="@+id/locating_the_company"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:text="@string/locating_the_company"
-                app:endIcon="@drawable/ic_map_content"
-                app:startIcon="@drawable/ic_region"
-                app:viewType="text" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/download_the_commercial_registry_file"
@@ -218,99 +194,16 @@
                 android:textColor="@color/bg"
                 android:textSize="@dimen/_12sdp" />
 
-
-            <EditText
-                android:id="@+id/busi_signup2_edittext1"
+            <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+                android:id="@+id/locating_the_company"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="30dp"
-                android:background="@drawable/buttonradius"
-                android:hint="@string/ActualAddress"
-                android:inputType="textEmailSubject"
-                android:padding="12dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/busi_signup2_tx3" />
+                android:layout_marginTop="@dimen/_10sdp"
+                android:text="@string/locating_the_company"
+                app:endIcon="@drawable/ic_map_content"
+                app:startIcon="@drawable/ic_region"
+                app:viewType="text" />
 
-            <EditText
-                android:id="@+id/busi_signup2_edittext2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="30dp"
-                android:background="@drawable/buttonradius"
-                android:hint="@string/BillingAddress"
-                android:padding="12dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/busi_signup2_edittext1" />
-
-            <TextView
-                android:id="@+id/phoneLabel2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="35dp"
-                android:layout_marginTop="15dp"
-                android:text="@string/BusinessPhoneNumber"
-                android:textSize="12sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/busi_signup2_edittext2" />
-
-            <LinearLayout
-                android:id="@+id/linearlayout2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginStart="30dp"
-                android:layout_marginEnd="30dp"
-
-                android:background="#f2f2f2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/phoneLabel2">
-
-                <com.hbb20.CountryCodePicker
-                    android:id="@+id/cppfield2"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="3"
-                    android:background="#f2f2f2"
-                    android:gravity="center"
-                    app:ccpDialog_allowSearch="false"
-                    app:ccp_customMasterCountries="BH,KW,OM,SA,AE"
-                    app:ccp_defaultNameCode="SA"
-                    app:ccp_showNameCode="true"
-                    app:ccp_textSize="16sp" />
-
-                <EditText
-                    android:id="@+id/busi_signup2_edittext3"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="3"
-                    android:background="@drawable/buttonradius"
-                    android:hint="0000 0000"
-                    android:inputType="phone"
-                    android:padding="12dp" />
-            </LinearLayout>
-
-
-            <TextView
-                android:id="@+id/countryLabel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="35dp"
-                android:layout_marginTop="15dp"
-                android:text="@string/Country"
-                android:textSize="12sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearlayout2" />
 
             <com.hbb20.CountryCodePicker
                 android:id="@+id/busi_signup2_edittext4"
@@ -332,58 +225,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/countryLabel" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/busi_signup2_inputedittext5"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="30dp"
-                android:backgroundTint="@color/white"
-                app:boxBackgroundColor="@color/white"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/busi_signup2_edittext4"
-                app:passwordToggleEnabled="true">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/busi_signup2_inputedittext5b"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawablePadding="8dp"
-                    android:hint="@string/Password"
-                    android:inputType="textPassword"
-                    android:padding="12dp"
-                    android:textSize="15sp" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/busi_signup2_inputedittext6"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="30dp"
-                android:backgroundTint="@color/white"
-                app:boxBackgroundColor="@color/white"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/busi_signup2_inputedittext5"
-                app:passwordToggleEnabled="true">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/busi_signup2_inputedittext6b"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawablePadding="8dp"
-                    android:hint="@string/Confirm_Password"
-                    android:inputType="textPassword"
-                    android:padding="12dp"
-                    android:textSize="15sp" />
-            </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/business_signup2_button"

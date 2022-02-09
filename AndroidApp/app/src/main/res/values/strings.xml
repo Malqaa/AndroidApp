@@ -2644,5 +2644,11 @@ Want to start a business account? Create a Business Account
   <string name="type_of_employment">Type of employment</string>
   <string name="expiry_date">Expiry date</string>
     <string name="youtube">Youtube</string>
+  <string name="enter_your_personal_information">Enter your personal information</string>
+  <string name="sign_up">Sign Up</string>
+    <string name="it_was_completed">It was completed</string>
+  <string name="password_reset">Password Reset</string>
+  <string name="we_have_sent_the_activation_code_to_your_phone">We have sent the activation code to your phone</string>
+  <string name="resend_the_code_after_50_seconds">Resend the code after: 50 seconds</string>
 
 </resources>
