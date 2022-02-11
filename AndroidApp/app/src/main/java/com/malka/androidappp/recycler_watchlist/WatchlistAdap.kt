@@ -49,26 +49,26 @@ class WatchlistAdap(
         return WatchlistAdapViewHolder(view)
     }
 
-    override fun getItemCount() = watchlistposts.size
+    override fun getItemCount() = 12
 
     override fun onBindViewHolder(holder: WatchlistAdapViewHolder, position: Int) {
 
-        if (watchlistposts[position].watchlistprodimg != null && watchlistposts[position].watchlistprodimg!!.trim().length > 0)
-            Picasso.get()
-                .load(ApiConstants.IMAGE_URL + watchlistposts[position].watchlistprodimg)
-                .into(holder.watchlistimgg) else holder.watchlistimgg.setImageResource(R.drawable.cam)
-        if (watchlistposts[position].watchlistprodimg != null && watchlistposts[position].watchlistprodimg!!.trim().length > 0)
-            Picasso.get()
-                .load(ApiConstants.IMAGE_URL + watchlistposts[position].watchlistprodimg)
-                .into(holder.watchlistimgg) else holder.watchlistimgg.setImageResource(R.drawable.watchlist)
-        holder.watchlistprodnm.text = watchlistposts[position].watchlistprodname
-        holder.watchlistprodprice.text = watchlistposts[position].watchlistprice
-        holder.watchlistprodbuynow.text = watchlistposts[position].watchlistbuynow
-        holder.imgbtn_watchlist_remove.setOnClickListener() {
-            HelpFunctions.DeleteAdFromWatchlist(
-                watchlistposts[position].watchlistadvid!!,
-                context
-            );
-        }
+//        if (watchlistposts[position].watchlistprodimg != null && watchlistposts[position].watchlistprodimg!!.trim().length > 0)
+//            Picasso.get()
+//                .load(ApiConstants.IMAGE_URL + watchlistposts[position].watchlistprodimg)
+//                .into(holder.watchlistimgg) else holder.watchlistimgg.setImageResource(R.drawable.cam)
+//        if (watchlistposts[position].watchlistprodimg != null && watchlistposts[position].watchlistprodimg!!.trim().length > 0)
+//            Picasso.get()
+//                .load(ApiConstants.IMAGE_URL + watchlistposts[position].watchlistprodimg)
+//                .into(holder.watchlistimgg) else holder.watchlistimgg.setImageResource(R.drawable.watchlist)
+//        holder.watchlistprodnm.text = watchlistposts[position].watchlistprodname
+//        holder.watchlistprodprice.text = watchlistposts[position].watchlistprice
+//        holder.watchlistprodbuynow.text = watchlistposts[position].watchlistbuynow
+//        holder.imgbtn_watchlist_remove.setOnClickListener() {
+//            HelpFunctions.DeleteAdFromWatchlist(
+//                watchlistposts[position].watchlistadvid!!,
+//                context
+//            );
+//        }
     }
 }

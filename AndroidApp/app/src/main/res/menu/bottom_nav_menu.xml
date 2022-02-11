@@ -4,12 +4,12 @@
 
     <item
         android:id="@+id/navigation_home"
-        android:icon="@drawable/ic_home_black_24dp"
+        android:icon="@drawable/home"
         android:title="@string/title_home" />
 
     <item
         android:id="@+id/navigation_notifications"
-        android:icon="@drawable/ic_notifications_black_24dp"
+        android:icon="@drawable/notificationlog"
         android:title="@string/title_notifications" />
 
     <item
@@ -17,13 +17,13 @@
 
     <item
         android:id="@+id/navigation_watchlist"
-        android:icon="@drawable/watchlist_bottomnav"
+        android:icon="@drawable/startab"
         android:title="@string/title_watchlist" />
 
 
     <item
         android:id="@+id/navigation_account"
-        android:icon="@drawable/profileicon_bottomnav"
+        android:icon="@drawable/user"
         android:title="@string/title_account"
         />
 

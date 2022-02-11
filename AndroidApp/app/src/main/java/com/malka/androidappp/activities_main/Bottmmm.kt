@@ -67,15 +67,16 @@ class Bottmmm : AppCompatActivity() {
                     //}
                 }
                 R.id.navigation_watchlist -> {
-                    if (!HelpFunctions.IsUserLoggedIn()) {
-                        val intentt = Intent(this, SignInActivity::class.java)
-                        startActivity(intentt)
-                        finish()
-
-                        return@setOnNavigationItemSelectedListener false
-                    } else {
-                        findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_watchlist)
-                    }
+                    findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_watchlist)
+//                    if (!HelpFunctions.IsUserLoggedIn()) {
+//                        val intentt = Intent(this, SignInActivity::class.java)
+//                        startActivity(intentt)
+//                        finish()
+//
+//                        return@setOnNavigationItemSelectedListener false
+//                    } else {
+//                        findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_watchlist)
+//                    }
                 }
                 R.id.navigation_home -> {
                     findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_home)
