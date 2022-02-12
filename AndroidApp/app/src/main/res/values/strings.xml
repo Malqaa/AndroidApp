@@ -381,7 +381,7 @@
     Lowest position in category
   </string>
     <string name="LowestPrice">
-    Lowest Price
+    Lowest Price :
   </string>
     <string name="Marketplace">
     Marketplace
@@ -2650,5 +2650,7 @@ Want to start a business account? Create a Business Account
   <string name="password_reset">Password Reset</string>
   <string name="we_have_sent_the_activation_code_to_your_phone">We have sent the activation code to your phone</string>
   <string name="resend_the_code_after_50_seconds">Resend the code after: 50 seconds</string>
+  <string name="favorite">Favorite</string>
+  <string name="purchasing_price">Purchasing price : </string>
 
 </resources>

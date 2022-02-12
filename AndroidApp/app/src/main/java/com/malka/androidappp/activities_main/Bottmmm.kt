@@ -5,12 +5,10 @@ import android.os.Bundle
 import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.login.SignInActivity
 import com.malka.androidappp.helper.HelpFunctions
@@ -51,8 +49,6 @@ class Bottmmm : AppCompatActivity() {
                     if (!HelpFunctions.IsUserLoggedIn()) {
                         val intentt = Intent(this, SignInActivity::class.java)
                         startActivity(intentt)
-                        finish()
-
                         return@setOnNavigationItemSelectedListener false
                     } else {
                         findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_notifications)
@@ -94,14 +90,14 @@ class Bottmmm : AppCompatActivity() {
         }
 
         floatingActionButtonBottm.setOnClickListener() {
-            if (HelpFunctions.IsUserLoggedIn()) {
-                findNavController(R.id.nav_host_fragment).navigate(R.id.list_an_item)
-            } else {
-//                HelpFunctions.ShowAlert(this@Bottmmm, "Information", "Please Log In");
-                val intentt = Intent(this, SignInActivity::class.java)
-                startActivity(intentt)
-                finish()
-            }
+            findNavController(R.id.nav_host_fragment).navigate(R.id.list_an_item)
+
+//            if (HelpFunctions.IsUserLoggedIn()) {
+//                findNavController(R.id.nav_host_fragment).navigate(R.id.list_an_item)
+//            } else {
+//                val intentt = Intent(this, SignInActivity::class.java)
+//                startActivity(intentt)
+//            }
         }
     }
 

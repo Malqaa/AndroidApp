@@ -185,6 +185,6 @@
     <include
         android:visibility="gone"
         android:id="@+id/loader"
-        layout="@layout/loader" />
+        layout="@layout/loader_layout" />
 
 </RelativeLayout>

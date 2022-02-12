@@ -94,7 +94,7 @@ class HelpFunctions {
         }
 
         fun IsUserLoggedIn(): Boolean {
-            var RetVal: Boolean = false
+            var RetVal = false
             if (ConstantObjects.logged_userid != null && ConstantObjects.logged_userid.trim().length > 0) {
                 RetVal = true
             }

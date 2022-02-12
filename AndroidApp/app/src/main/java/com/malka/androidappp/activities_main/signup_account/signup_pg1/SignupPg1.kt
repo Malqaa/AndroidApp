@@ -14,7 +14,6 @@ import com.malka.androidappp.helper.showLoader
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
 import kotlinx.android.synthetic.main.activity_signup_pg1.*
-import kotlinx.android.synthetic.main.activity_signup_pg1.loader
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
