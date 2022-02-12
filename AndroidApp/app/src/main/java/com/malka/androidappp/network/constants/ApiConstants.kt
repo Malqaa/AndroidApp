@@ -40,7 +40,7 @@ object ApiConstants {
     const val CREATE_USER_BASEURL = API_BASE_URL + "Accounts/"
     const val ALL_USER_ENDPOINT = "All"
     const val CREATE_ADVERTISEMENT_ENDPOINT = "Create"
-    const val LOGIN_ENDPOINT = "Accounts/login"
+    const val LOGIN_ENDPOINT = "login"
     const val ACCOUNT_BASE_URL = API_BASE_URL + "Accounts/"
     const val VERIFY_API_ENDPOINT = "verify"
     const val VERIFY_API_BASEURL = API_BASE_URL + "Accounts/"
