@@ -45,7 +45,7 @@ class WatchlistAdap(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WatchlistAdapViewHolder {
         val view: View = LayoutInflater.from(parent.context)
-            .inflate(R.layout.itemselling_watchlist, parent, false)
+            .inflate(R.layout.product_item, parent, false)
         return WatchlistAdapViewHolder(view)
     }
 

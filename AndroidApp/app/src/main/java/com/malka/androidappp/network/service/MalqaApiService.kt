@@ -93,6 +93,7 @@ import com.malka.androidappp.servicemodels.addtocart.AddToCartResponseModel
 import com.malka.androidappp.servicemodels.addtocart.InsertToCartRequestModel
 import com.malka.androidappp.servicemodels.categorylistings.CategoryResponse
 import com.malka.androidappp.servicemodels.categorylistings.SearchRequestModel
+import com.malka.androidappp.servicemodels.categorylistings.SearchRespone
 import com.malka.androidappp.servicemodels.checkout.CheckoutRequestModel
 import com.malka.androidappp.servicemodels.creditcard.CreditCardRequestModel
 import com.malka.androidappp.servicemodels.creditcard.CreditCardResponse
@@ -188,7 +189,7 @@ interface MalqaApiService {
     fun loginUser(@Body info: LoginClass): Call<ResponseBody?>?
 
     @POST(GET_CATEGORY_LISTING_ENDPOINT)
-    fun categorylist(@Body creategeneralad: SearchRequestModel): Call<CategoryResponse>;
+    fun categorylist(@Body creategeneralad: SearchRequestModel): Call<SearchRespone>;
 
     @GET(GETUSER_ENDPOINT + "?")
     fun getuser(@Query("id") userid: String): Call<UserObject>;

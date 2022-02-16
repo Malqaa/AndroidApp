@@ -13,16 +13,17 @@ import com.malka.androidappp.R
 import com.malka.androidappp.botmnav_fragments.browse_market.BrowseMarketFragment
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.network.constants.ApiConstants
+import com.malka.androidappp.servicemodels.categorylistings.SearchRespone
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.browsemarket_carditems.view.*
 
 
 class BrowseMarketAdapter(
-    val marketposts: ArrayList<BrowseMarketModel>,
+    val marketposts: List<SearchRespone.Data>,
     var context: BrowseMarketFragment
 ) : RecyclerView.Adapter<BrowseMarketAdapter.BrowseMarketAdapterViewHolder>() {
 
-    var onItemClick: ((BrowseMarketModel) -> Unit)? = null
+    var onItemClick: ((SearchRespone.Data) -> Unit)? = null
 
     inner class BrowseMarketAdapterViewHolder(itemview: View) : RecyclerView.ViewHolder(itemview) {
         val marketimgg: ImageView = itemview.marketimgg
@@ -58,47 +59,47 @@ class BrowseMarketAdapter(
             Picasso.get()
                 .load(ApiConstants.IMAGE_URL + marketposts[position].marketprodimg[0])
                 .into(holder.marketimgg) else holder.marketimgg.setImageResource(R.drawable.cam)*/
-
-        if (marketposts[position].marketprodimg != null && marketposts[position].marketprodimg.trim().length > 0)
-            Picasso.get()
-                .load(ApiConstants.IMAGE_URL + marketposts[position].marketprodimg)
-                .into(holder.marketimgg) else holder.marketimgg.setImageResource(R.drawable.cam)
-        holder.marketwatchimg.setImageResource(R.drawable.watchlist)
-        //If already added, then call delete API
-
-        holder.marketwatchimg.setOnClickListener(View.OnClickListener {
-            if (HelpFunctions.IsUserLoggedIn()) {
-                marketposts[position].ItemInWatchlist =
-                    HelpFunctions.AdAlreadyAddedToWatchList(marketposts[position].advid)
-                if (marketposts[position].ItemInWatchlist) {
-                    HelpFunctions.DeleteAdFromWatchlist(
-                        marketposts[position].advid,
-                        context = context
-                    )
-                } else {
-
-                    watchListPopup(holder.marketwatchimg,marketposts[position].advid)
-
-//                    HelpFunctions.InsertAdToWatchlist(
+//
+//        if (marketposts[position].marketprodimg != null && marketposts[position].marketprodimg.trim().length > 0)
+//            Picasso.get()
+//                .load(ApiConstants.IMAGE_URL + marketposts[position].marketprodimg)
+//                .into(holder.marketimgg) else holder.marketimgg.setImageResource(R.drawable.cam)
+//        holder.marketwatchimg.setImageResource(R.drawable.watchlist)
+//        //If already added, then call delete API
+//
+//        holder.marketwatchimg.setOnClickListener(View.OnClickListener {
+//            if (HelpFunctions.IsUserLoggedIn()) {
+//                marketposts[position].ItemInWatchlist =
+//                    HelpFunctions.AdAlreadyAddedToWatchList(marketposts[position].advid)
+//                if (marketposts[position].ItemInWatchlist) {
+//                    HelpFunctions.DeleteAdFromWatchlist(
 //                        marketposts[position].advid,
-//                        0,
 //                        context = context
 //                    )
-                }
-            } else {
-                HelpFunctions.ShowAlert(
-                    context!!.requireContext(),
-                    "Information",
-                    "Please Log In"
-                );
-            }
-        })
-        holder.marketprodnm.text = marketposts[position].marketprodname
-        holder.marketproddess.text = marketposts[position].marketproddes
-        holder.marketresrvepricetxt.text = marketposts[position].marketresrvepricetext
-        holder.marketresrvepricee.text = marketposts[position].marketresrveprice
-        holder.marketbuynowtxt.text = marketposts[position].marketbuynowtext
-        holder.marketbuynowpricee.text = marketposts[position].marketbuynowprice
+//                } else {
+//
+//                    watchListPopup(holder.marketwatchimg,marketposts[position].advid)
+//
+////                    HelpFunctions.InsertAdToWatchlist(
+////                        marketposts[position].advid,
+////                        0,
+////                        context = context
+////                    )
+//                }
+//            } else {
+//                HelpFunctions.ShowAlert(
+//                    context!!.requireContext(),
+//                    "Information",
+//                    "Please Log In"
+//                );
+//            }
+//        })
+//        holder.marketprodnm.text = marketposts[position].marketprodname
+//        holder.marketproddess.text = marketposts[position].marketproddes
+//        holder.marketresrvepricetxt.text = marketposts[position].marketresrvepricetext
+//        holder.marketresrvepricee.text = marketposts[position].marketresrveprice
+//        holder.marketbuynowtxt.text = marketposts[position].marketbuynowtext
+//        holder.marketbuynowpricee.text = marketposts[position].marketbuynowprice
     }
 
     private fun watchListPopup(view: View, AdvId: String) {

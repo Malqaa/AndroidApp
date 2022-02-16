@@ -9,28 +9,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.navigation.fragment.findNavController
-import androidx.viewpager.widget.ViewPager
-import com.google.android.material.tabs.TabLayout
 import com.malka.androidappp.R
 import com.malka.androidappp.botmnav_fragments.favourite_frag.category_fav.CategoriesFav
 import com.malka.androidappp.botmnav_fragments.favourite_frag.search_fav.SearchFav
 import com.malka.androidappp.botmnav_fragments.favourite_frag.seller_fav.SellerFav
 import com.malka.androidappp.botmnav_fragments.feedback_frag.FeedbackFragment
 import com.malka.androidappp.helper.HelpFunctions
-import com.malka.androidappp.network.Retrofit.RetrofitBuilder
-import com.malka.androidappp.network.service.MalqaApiService
-import com.malka.androidappp.servicemodels.ConstantObjects
-import com.malka.androidappp.servicemodels.favourites.FavouriteObject
-import com.malka.androidappp.servicemodels.feedbacks.FeedbackObject
-import com.malka.androidappp.servicemodels.feedbacks.FeedbackProperties
-import com.malka.androidappp.servicemodels.user.UserObject
-import kotlinx.android.synthetic.main.frag_profile.*
 import kotlinx.android.synthetic.main.fragment_favourites.*
-import kotlinx.android.synthetic.main.fragment_unsold_business.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.util.ArrayList
 
 
 class MainFavouritesFrag : Fragment() {

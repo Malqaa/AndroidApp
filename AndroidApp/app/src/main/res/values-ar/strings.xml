@@ -2455,7 +2455,7 @@
 
     <string name="seconds60">60 ثانية</string>
 
-    <string name="mirror_degree">180</string>
+    <string name="mirror_degree">0</string>
 
     <string name="ThisEmailAddressDoesnotExist">عنوان البريد الإلكتروني هذا غير موجود</string>
 
@@ -2493,5 +2493,19 @@
     <string name="it_was_completed">تم</string>
     <string name="favorite">المفضلة</string>
   <string name="purchasing_price">سعر الشراء : </string>
+    <string name="want_to_search_for_a_commodity_or_an_auction">تريد ان تبحث عن سلعة او مزاد ؟</string>
+  <string name="search_by_name_auction_number_or_item">أبحث باسم /رقم المزاد او السلعة</string>
+    <string name="Browse_our_departments">تصفح اقسامنا</string>
+  <string name="lot_of_things">الكثير من المزادات والسلع بأنتظارك</string>
+  <string name="auctions">المزادات</string>
+  <string name="market_place">Market Place</string>
+  <string name="shopping">تسوق</string>
+  <string name="new_">جديد</string>
+  <string name="vehicles">مركبات</string>
+  <string name="electronics">الكترونيات</string>
+  <string name="real_estate">عقارات</string>
+  <string name="List_Auctions">مزادات قائمة</string>
+  <string name="List_Auctions_detail">أشترك في المزادات او اشترى بالسعر المعروض</string>
+  <string name="follow_news">متابعة كل جديد لهذا القسم</string>
 
 </resources>

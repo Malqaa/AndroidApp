@@ -50,6 +50,8 @@ import java.io.ByteArrayOutputStream
 import java.io.InputStream
 import java.io.PrintWriter
 import java.io.StringWriter
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
 import java.text.ParsePosition
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
@@ -81,6 +83,7 @@ class HelpFunctions {
         const val datetimeformat_24hrs: String = "yyyy-MM-dd'T'HH:mm:ss"
         const val datetimeformat_12hrs: String = "MM/dd/yyyy hh:mm:ss a"
         const val appName = "Malqaa";
+
 
 
         fun ShowLongToast(msg: String, context: Context?) {

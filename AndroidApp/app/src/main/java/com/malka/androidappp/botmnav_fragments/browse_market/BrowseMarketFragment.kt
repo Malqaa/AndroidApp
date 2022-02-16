@@ -1,39 +1,31 @@
 package com.malka.androidappp.botmnav_fragments.browse_market
 
-import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.gson.Gson
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.login.SignInActivity
 import com.malka.androidappp.botmnav_fragments.browse_market.popup_subcategories_list.ModelAddSearchFav
 import com.malka.androidappp.botmnav_fragments.browse_market.popup_subcategories_list.StaticGetSubcategoryByBrowseCateClick
 import com.malka.androidappp.botmnav_fragments.browse_market.popup_subcategories_list.SubcategoriesDialogFragment
-import com.malka.androidappp.botmnav_fragments.favourite_frag.search_fav.ModelSearchFav
-import com.malka.androidappp.botmnav_fragments.home_view_allcategories.ModelAddCatFav
-import com.malka.androidappp.servicemodels.categorylistings.PropertyModel
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
-import com.malka.androidappp.recycler_browsecat.BrowseMarketAdapter
-import com.malka.androidappp.recycler_browsecat.BrowseMarketModel
 import com.malka.androidappp.recycler_browsecat.BrowseMarketXLAdap
 import com.malka.androidappp.servicemodels.ConstantObjects
 import com.malka.androidappp.servicemodels.categorylistings.CategoryResponse
+import com.malka.androidappp.servicemodels.categorylistings.PropertyModel
 import com.malka.androidappp.servicemodels.categorylistings.SearchRequestModel
-import kotlinx.android.synthetic.main.browsemarket_card1.*
+import com.malka.androidappp.servicemodels.categorylistings.SearchRespone
 import kotlinx.android.synthetic.main.fragment_browse_market.*
-import kotlinx.android.synthetic.main.fragment_my_product.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -61,7 +53,7 @@ class BrowseMarketFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         toolbar_browsemarket.setNavigationIcon(R.drawable.nav_icon_back)
-        toolbar_browsemarket.setTitleTextColor(Color.WHITE)
+        toolbar_browsemarket.setTitleTextColor(Color.BLACK)
         toolbar_browsemarket.title = getString(R.string.Browse)
         toolbar_browsemarket.inflateMenu(R.menu.browse_category_menu)
         toolbar_browsemarket.navigationIcon?.isAutoMirrored = true
@@ -106,42 +98,34 @@ class BrowseMarketFragment : Fragment() {
             SetToolbarTitle("Search: " + SearchQuery)
             SearchCategories(SearchQuery)
         }
-        gridbtn.setOnClickListener(View.OnClickListener {
-            ShowGridLayout()
-        })
+//        gridbtn.setOnClickListener(View.OnClickListener {
+//            ShowGridLayout()
+//        })
     }
 
     var count = 1
-    val marketpost: ArrayList<BrowseMarketModel> = ArrayList()
+    var marketpost: List<SearchRespone.Data> = ArrayList()
     fun ShowGridLayout() {
         try {
-            recyclerViewmarket.layoutManager =
-                LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false)
+
             if (count == 0) {
-                var browadptxl: BrowseMarketXLAdap =
-                    BrowseMarketXLAdap(marketpost, this@BrowseMarketFragment)
-                recyclerViewmarket.adapter = browadptxl
-                browadptxl.onItemClick = { indobj ->
-                    HelpFunctions.ViewAdvertismentDetail(
-                        indobj.advid,
-                        CategoryDesc,
-                        this@BrowseMarketFragment
-                    )
-                }
-                gridbtn.setBackgroundResource(R.drawable.icon_list)
+                recyclerViewmarket.layoutManager =
+                    LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false)
+              //  gridbtn.setBackgroundResource(R.drawable.icon_list)
                 count++
             } else {
-                var browadpt: BrowseMarketAdapter =
-                    BrowseMarketAdapter(marketpost, this@BrowseMarketFragment)
-                recyclerViewmarket.adapter = browadpt
-                browadpt.onItemClick = { indobj ->
-                    HelpFunctions.ViewAdvertismentDetail(
-                        indobj.advid,
-                        CategoryDesc,
-                        this@BrowseMarketFragment
-                    )
-                }
+                recyclerViewmarket.layoutManager = GridLayoutManager(context, 2)
+               // gridbtn.setBackgroundResource(R.drawable.icon_grid)
                 count--
+            }
+            val browadptxl = BrowseMarketXLAdap(marketpost,requireContext() )
+            recyclerViewmarket.adapter = browadptxl
+            browadptxl.onItemClick = { indobj ->
+//                    HelpFunctions.ViewAdvertismentDetail(
+//                        indobj.advid,
+//                        CategoryDesc,
+//                        this@BrowseMarketFragment
+//                    )
             }
         } catch (ex: Exception) {
             HelpFunctions.ReportError(ex)
@@ -156,9 +140,9 @@ class BrowseMarketFragment : Fragment() {
                 SearchRequestModel(category, "", "", "", "", "", "", "")
 
             val malqa: MalqaApiService = RetrofitBuilder.getcategory()
-            val call: Call<CategoryResponse> = malqa.categorylist(requestbody)
-            call.enqueue(object : Callback<CategoryResponse> {
-                override fun onFailure(call: Call<CategoryResponse>, t: Throwable) {
+            val call: Call<SearchRespone> = malqa.categorylist(requestbody)
+            call.enqueue(object : Callback<SearchRespone> {
+                override fun onFailure(call: Call<SearchRespone>, t: Throwable) {
                     HelpFunctions.ShowAlert(
                         this@BrowseMarketFragment.context,
                         getString(R.string.Information),
@@ -167,32 +151,35 @@ class BrowseMarketFragment : Fragment() {
                 }
 
                 override fun onResponse(
-                    call: Call<CategoryResponse>,
-                    response: Response<CategoryResponse>
+                    call: Call<SearchRespone>,
+                    response: Response<SearchRespone>
                 ) {
                     if (response.isSuccessful) {
                         if (response.body() != null) {
-                            var resp: CategoryResponse = response.body()!!;
-                            var lists: List<PropertyModel> = resp.data;
-                            if (lists != null && lists.count() > 0) {
-                                for (IndProperty in lists) {
-                                    marketpost.add(
-                                        BrowseMarketModel(
-                                            if (IndProperty.title != null) IndProperty.title else "",
-                                            if (IndProperty.description != null) IndProperty.description else "",
-                                            "Reserve not met",
-                                            if (IndProperty.price != null) IndProperty.price else "0",
-                                            if (IndProperty.price != null) IndProperty.price else "0",
-                                            "Buy Now",
-                                            if (IndProperty.homepageImage != null) IndProperty.homepageImage else "",
-                                            "",
-                                            advid = IndProperty.id,
-                                            ItemInWatchlist = HelpFunctions.AdAlreadyAddedToWatchList(
-                                                IndProperty.id
-                                            )
-                                        )
-                                    )
-                                }
+                            var resp: SearchRespone = response.body()!!;
+                            marketpost = resp.data;
+                            if (marketpost != null && marketpost.count() > 0) {
+//                                for (IndProperty in lists) {
+//                                    IndProperty._source.run {
+//                                        marketpost.add(
+//                                            BrowseMarketModel(
+//                                                if (title != null) IndPropert else "",
+//                                                if (IndProperty.description != null) IndProperty.description else "",
+//                                                "Reserve not met",
+//                                                if (IndProperty.price != null) IndProperty.price else "0",
+//                                                if (IndProperty.price != null) IndProperty.price else "0",
+//                                                "Buy Now",
+//                                                if (IndProperty.homepageImage != null) IndProperty.homepageImage else "",
+//                                                "",
+//                                                advid = IndProperty.id,
+//                                                ItemInWatchlist = HelpFunctions.AdAlreadyAddedToWatchList(
+//                                                    IndProperty.id
+//                                                )
+//                                            )
+//                                        )
+//                                    }
+//
+//                                }
                                 ShowGridLayout()
 
                             } else {
@@ -237,34 +224,34 @@ class BrowseMarketFragment : Fragment() {
                         if (response.body() != null) {
                             var resp: CategoryResponse = response.body()!!;
                             var lists: List<PropertyModel> = resp.data;
-                            if (lists != null && lists.count() > 0) {
-                                for (IndProperty in lists) {
-                                    marketpost.add(
-                                        BrowseMarketModel(
-                                            if (IndProperty.title != null) IndProperty.title else "",
-                                            if (IndProperty.description != null) IndProperty.description else "",
-                                            "Reserve not met",
-                                            if (IndProperty.price != null) IndProperty.price else "0",
-                                            if (IndProperty.price != null) IndProperty.price else "0",
-                                            "Buy Now",
-                                            if (IndProperty.homepageImage != null) IndProperty.homepageImage else "",
-                                            "",
-                                            advid = IndProperty.referenceId,
-                                            ItemInWatchlist = HelpFunctions.AdAlreadyAddedToWatchList(
-                                                IndProperty.referenceId
-                                            )
-                                        )
-                                    )
-                                }
-                                ShowGridLayout()
-
-                            } else {
-                                HelpFunctions.ShowAlert(
-                                    this@BrowseMarketFragment.context,
-                                    getString(R.string.Information),
-                                    getString(R.string.NoRecordFound)
-                                )
-                            }
+//                            if (lists != null && lists.count() > 0) {
+//                                for (IndProperty in lists) {
+//                                    marketpost.add(
+//                                        BrowseMarketModel(
+//                                            if (IndProperty.title != null) IndProperty.title else "",
+//                                            if (IndProperty.description != null) IndProperty.description else "",
+//                                            "Reserve not met",
+//                                            if (IndProperty.price != null) IndProperty.price else "0",
+//                                            if (IndProperty.price != null) IndProperty.price else "0",
+//                                            "Buy Now",
+//                                            if (IndProperty.homepageImage != null) IndProperty.homepageImage else "",
+//                                            "",
+//                                            advid = IndProperty.referenceId,
+//                                            ItemInWatchlist = HelpFunctions.AdAlreadyAddedToWatchList(
+//                                                IndProperty.referenceId
+//                                            )
+//                                        )
+//                                    )
+//                                }
+//                                ShowGridLayout()
+//
+//                            } else {
+//                                HelpFunctions.ShowAlert(
+//                                    this@BrowseMarketFragment.context,
+//                                    getString(R.string.Information),
+//                                    getString(R.string.NoRecordFound)
+//                                )
+//                            }
                         }
                     } else {
                         HelpFunctions.ShowAlert(

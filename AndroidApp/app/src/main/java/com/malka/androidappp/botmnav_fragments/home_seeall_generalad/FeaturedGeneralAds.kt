@@ -2,20 +2,18 @@ package com.malka.androidappp.botmnav_fragments.home_seeall_generalad
 
 import android.graphics.Color
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
-import com.malka.androidappp.botmnav_fragments.home.adapter.GeneralAdvertisementAdapter
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.servicemodels.home.generalads
 import kotlinx.android.synthetic.main.fragment_featured_general_ads.*
-import kotlinx.android.synthetic.main.fragment_listan_item.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
