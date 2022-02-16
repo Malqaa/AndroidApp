@@ -418,7 +418,7 @@
     أدنى مرتبة في الفئة
   </string>
     <string name="LowestPrice">
-    أقل سعر
+    أقل سعر :
   </string>
     <string name="Marketplace">
     المتجر
@@ -1701,9 +1701,9 @@
   </string>
 
 
-  <string name="itemView">%1$d الآراء</string>
+    <string name="itemView">%1$d الآراء</string>
 
-  <string name="Profileinformationhasbeenupdated">تم تحديث معلومات الملف الشخصي</string>
+    <string name="Profileinformationhasbeenupdated">تم تحديث معلومات الملف الشخصي</string>
 
     <string name="TheProducthasbeenRestocked">تمت إعادة تخزين المنتج</string>
 
@@ -2455,44 +2455,57 @@
 
     <string name="seconds60">60 ثانية</string>
 
-    <string name="mirror_degree">180</string>
+    <string name="mirror_degree">0</string>
 
     <string name="ThisEmailAddressDoesnotExist">عنوان البريد الإلكتروني هذا غير موجود</string>
 
     <string name="InternetIssue">مشكلة الإنترنت</string>
 
-  <string name="welcome_back">مرحبا بعودتك</string>
-  <string name="login_with_mobile">قم بتسجيل الدخول برقم الجوال</string>
-  <string name="new_registration">تسجيل جديد</string>
-  <string name="don_t_have_an_account">ليس لديك حساب ؟</string>
-  <string name="please_choose_an_account_type">من فضلك أختر نوع الحساب</string>
-  <string name="already_have_an_account">لديك حساب بالفعل ؟</string>
-  <string name="login"> تسجيل دخول</string>
+    <string name="welcome_back">مرحبا بعودتك</string>
+    <string name="login_with_mobile">قم بتسجيل الدخول برقم الجوال</string>
+    <string name="new_registration">تسجيل جديد</string>
+    <string name="don_t_have_an_account">ليس لديك حساب ؟</string>
+    <string name="please_choose_an_account_type">من فضلك أختر نوع الحساب</string>
+    <string name="already_have_an_account">لديك حساب بالفعل ؟</string>
+    <string name="login"> تسجيل دخول</string>
     <string name="invitation_code">كود الدعوة</string>
-  <string name="register_term">التسجيل في التطبيق يعنى انك توافق على </string>
-  <string name="term_condition">الشروط والاحكام</string>
-  <string name="activation">تفعيل</string>
-  <string name="confirm_mobile_number">تأكيد رقم الجوال</string>
-  <string name="sent_code">لقد ارسلنا كود التفعيل الى الهاتف الخاص بك</string>
-  <string name="one_step_left">!تبقت خطوة واحدة</string>
-  <string name="enter_your_address_name_and_age_details">ادخل تفاصيل عنوانك/ السم والعمر</string>
-  <string name="address_details">تفاصيل العنوان</string>
-  <string name="county_code">كود المحافظة</string>
-  <string name="district">الحى</string>
+    <string name="register_term">التسجيل في التطبيق يعنى انك توافق على </string>
+    <string name="term_condition">الشروط والاحكام</string>
+    <string name="activation">تفعيل</string>
+    <string name="confirm_mobile_number">تأكيد رقم الجوال</string>
+    <string name="sent_code">لقد ارسلنا كود التفعيل الى الهاتف الخاص بك</string>
+    <string name="one_step_left">!تبقت خطوة واحدة</string>
+    <string name="enter_your_address_name_and_age_details">ادخل تفاصيل عنوانك/ السم والعمر</string>
+    <string name="address_details">تفاصيل العنوان</string>
+    <string name="county_code">كود المحافظة</string>
+    <string name="district">الحى</string>
     <string name="CompanyData">بيانات الشركة</string>
-  <string name="please_enter_company_information">من فضلك أدخل بيانات الشركة</string>
-  <string name="the_company_s_name">اسم الشركة</string>
-  <string name="website">الموقع الالكترونى</string>
-  <string name="TaxNumber">الرقم الضريبى</string>>
-  <string name="download_the_commercial_registry_file">تحميل ملف السجل التجارى</string>
-  <string name="locating_the_company">تحديد موقع الشركة</string>
+    <string name="please_enter_company_information">من فضلك أدخل بيانات الشركة</string>
+    <string name="the_company_s_name">اسم الشركة</string>
+    <string name="website">الموقع الالكترونى</string>
+    <string name="TaxNumber">الرقم الضريبى</string>>
+    <string name="download_the_commercial_registry_file">تحميل ملف السجل التجارى</string>
+    <string name="locating_the_company">تحديد موقع الشركة</string>
     <string name="commercial_registration_no">رقم السجل التجاري</string>
     <string name="type_of_employment">نوع العمل</string>
-  <string name="expiry_date">تاريخ الانتهاء</string>
+    <string name="expiry_date">تاريخ الانتهاء</string>
     <string name="youtube">یوٹیوب</string>
     <string name="it_was_completed">تم</string>
-    <string name="price_negotiation">التفاوض على الأسعار</string>
-    <string name="have_a_question">لدي سؤال؟</string>
-    <string name="merchant">تاجر</string>
+    <string name="favorite">المفضلة</string>
+  <string name="purchasing_price">سعر الشراء : </string>
+    <string name="want_to_search_for_a_commodity_or_an_auction">تريد ان تبحث عن سلعة او مزاد ؟</string>
+  <string name="search_by_name_auction_number_or_item">أبحث باسم /رقم المزاد او السلعة</string>
+    <string name="Browse_our_departments">تصفح اقسامنا</string>
+  <string name="lot_of_things">الكثير من المزادات والسلع بأنتظارك</string>
+  <string name="auctions">المزادات</string>
+  <string name="market_place">Market Place</string>
+  <string name="shopping">تسوق</string>
+  <string name="new_">جديد</string>
+  <string name="vehicles">مركبات</string>
+  <string name="electronics">الكترونيات</string>
+  <string name="real_estate">عقارات</string>
+  <string name="List_Auctions">مزادات قائمة</string>
+  <string name="List_Auctions_detail">أشترك في المزادات او اشترى بالسعر المعروض</string>
+  <string name="follow_news">متابعة كل جديد لهذا القسم</string>
 
 </resources>

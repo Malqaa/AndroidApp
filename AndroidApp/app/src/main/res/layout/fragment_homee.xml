@@ -4,8 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="52dp"
-    android:background="@color/greenApp"
     tools:context=".botmnav_fragments.home.view.HomeFragment">
 
 
@@ -13,51 +11,204 @@
         android:id="@+id/homeee"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="70dp"
 
 
         >
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:id="@+id/homelayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="#F6F7FB">
+            android:backgroundTint="#F6F7FB"
+            android:orientation="vertical"
+            android:padding="@dimen/_10sdp">
 
-            <HorizontalScrollView
-                android:id="@+id/hori"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="10dp"
-                android:background="@color/white"
-                app:layout_constraintBottom_toTopOf="@+id/constraintLayout3"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="MissingConstraints">
+                android:layout_height="wrap_content">
 
-                <RelativeLayout
-                    android:id="@+id/constraintLayout"
+                <ImageView
+                    android:layout_width="@dimen/_120sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/main_logo" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/ic_cart" />
+
+            </RelativeLayout>
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:fontFamily="@font/madani_arabic_semi_bold"
+                android:text="@string/want_to_search_for_a_commodity_or_an_auction"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@drawable/circle_bg"
+                android:backgroundTint="#F9F9F9"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/_5sdp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:src="@drawable/search_toolbar"
+                    app:tint="@color/gray_light" />
+
+                <EditText
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:background="@color/white"
-                    android:orientation="horizontal"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:background="@null"
+                    android:hint="@string/search_by_name_auction_number_or_item"
+                    android:maxLines="1"
+                    android:textSize="@dimen/_10sdp" />
+            </LinearLayout>
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/all_categories_recycler"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginEnd="5dp"
-                        android:orientation="horizontal"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+            <RelativeLayout
+                android:id="@+id/sliderLayout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_170sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:visibility="gone">
 
-                </RelativeLayout>
-            </HorizontalScrollView>
+                <com.malka.androidappp.helper.widgets.viewpager2.AutoScrollViewPager
+                    android:id="@+id/slider_home"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/SliderDots"
+                    android:layout_marginBottom="@dimen/_8sdp"
+                    app:cycle="true"
+                    app:slideDirection="right"
+                    app:slideInterval="5000"
+                    app:stopWhenTouch="true" />
+
+                <LinearLayout
+                    android:id="@+id/SliderDots"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:orientation="horizontal" />
+            </RelativeLayout>
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:fontFamily="@font/madani_arabic_medium"
+                android:text="@string/Browse_our_departments"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp" />
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/madani_arabic_extra_light"
+                android:text="@string/lot_of_things"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/all_categories_recycler"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_130sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    app:cardBackgroundColor="@color/bg"
+                    app:cardCornerRadius="@dimen/_10sdp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/market_place"
+                        android:orientation="vertical"
+                        android:padding="@dimen/_15sdp">
+
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/_30sdp"
+                            android:layout_alignParentBottom="true"
+                            android:background="@drawable/round_btn"
+                            android:backgroundTint="@color/white"
+                            android:fontFamily="@font/madani_arabic_semi_bold"
+                            android:text="@string/shopping"
+                            android:textAllCaps="false"
+                            android:textColor="@color/bg"
+                            android:textSize="@dimen/_12sdp" />
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:layout_marginEnd="@dimen/_10sdp"
+                            android:layout_marginBottom="@dimen/_10sdp"
+                            android:fontFamily="@font/madani_arabic_light"
+                            android:text="@string/market_place"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_12sdp" />
+
+
+                    </RelativeLayout>
+
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_25sdp"
+
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/round_market_place"
+                    android:fontFamily="@font/madani_arabic_semi_bold"
+                    android:text="@string/new_"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_12sdp" />
+
+
+            </RelativeLayout>
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/dynamic_product_rcv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
 
             <View
@@ -65,6 +216,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="10dp"
                 android:background="#F6F7FB"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/hori" />
@@ -74,6 +226,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
+
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
@@ -296,7 +450,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/viewpagerpiechart" />
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
     <com.arlib.floatingsearchview.FloatingSearchView
@@ -304,6 +458,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="2dp"
+        android:visibility="gone"
         app:floatingSearch_close_search_on_keyboard_dismiss="true"
         app:floatingSearch_dimBackground="true"
         app:floatingSearch_leftActionMode="showSearch"

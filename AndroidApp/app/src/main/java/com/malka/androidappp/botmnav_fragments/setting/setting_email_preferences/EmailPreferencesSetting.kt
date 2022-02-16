@@ -6,15 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.github.aakira.expandablelayout.ExpandableRelativeLayout
-import com.github.aakira.expandablelayout.ExpandableWeightLayout
 import com.malka.androidappp.R
-import com.malka.androidappp.recycler_browsecat.BrowseMarketAdapter
-import com.malka.androidappp.recycler_browsecat.BrowseMarketXLAdap
-import kotlinx.android.synthetic.main.browsemarket_card1.*
-import kotlinx.android.synthetic.main.fragment_browse_market.*
 import kotlinx.android.synthetic.main.fragment_email_preferences_setting.*
-import kotlinx.android.synthetic.main.fragment_listan_item.*
 
 
 class EmailPreferencesSetting : Fragment() {

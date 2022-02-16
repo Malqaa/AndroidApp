@@ -50,6 +50,8 @@ import java.io.ByteArrayOutputStream
 import java.io.InputStream
 import java.io.PrintWriter
 import java.io.StringWriter
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
 import java.text.ParsePosition
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
@@ -83,6 +85,7 @@ class HelpFunctions {
         const val appName = "Malqaa";
 
 
+
         fun ShowLongToast(msg: String, context: Context?) {
             if (context != null) {
                 Toast.makeText(
@@ -94,7 +97,7 @@ class HelpFunctions {
         }
 
         fun IsUserLoggedIn(): Boolean {
-            var RetVal: Boolean = false
+            var RetVal = false
             if (ConstantObjects.logged_userid != null && ConstantObjects.logged_userid.trim().length > 0) {
                 RetVal = true
             }

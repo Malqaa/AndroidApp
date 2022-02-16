@@ -29,23 +29,23 @@ class WatchlistAdap(
     var onItemClick: ((WatchlistModel) -> Unit)? = null
 
     inner class WatchlistAdapViewHolder(itemview: View) : RecyclerView.ViewHolder(itemview) {
-        val watchlistimgg: ImageView = itemview.productimg
-        val watchlistprodnm: TextView = itemview.textView18
-        val watchlistprodprice: TextView = itemview.textView17
-        val watchlistprodbuynow: TextView = itemview.itemsellbuynow
-        val imgbtn_watchlist_remove: ImageButton = itemview.imgbtn_watchlist_remove
-
-        init {
-            itemview.setOnClickListener {
-                onItemClick?.invoke(watchlistposts[adapterPosition])
-            }
-        }
+//        val watchlistimgg: ImageView = itemview.productimg
+//        val watchlistprodnm: TextView = itemview.textView18
+//        val watchlistprodprice: TextView = itemview.textView17
+//        val watchlistprodbuynow: TextView = itemview.itemsellbuynow
+//        val imgbtn_watchlist_remove: ImageButton = itemview.imgbtn_watchlist_remove
+//
+//        init {
+//            itemview.setOnClickListener {
+//                onItemClick?.invoke(watchlistposts[adapterPosition])
+//            }
+//        }
 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WatchlistAdapViewHolder {
         val view: View = LayoutInflater.from(parent.context)
-            .inflate(R.layout.itemselling_watchlist, parent, false)
+            .inflate(R.layout.product_item, parent, false)
         return WatchlistAdapViewHolder(view)
     }
 

@@ -11,16 +11,22 @@ import android.widget.Toast
 import com.google.gson.Gson
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.BaseActivity
-import com.malka.androidappp.activities_main.onboarding_intro_slider.OnBoardingIntroSlider
+import com.malka.androidappp.activities_main.Bottmmm
 import com.malka.androidappp.botmnav_fragments.forgot_password.ForgotPasswordActivty
+import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass.Companion.SHARED_PREFS
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass.Companion.TEXT
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass.Companion.TEXT2
-import com.malka.androidappp.helper.*
+import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass.Companion.islogin
+import com.malka.androidappp.helper.HelpFunctions
+import com.malka.androidappp.helper.hideLoader
+import com.malka.androidappp.helper.showLoader
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.servicemodels.ConstantObjects
+import io.paperdb.Paper
 import kotlinx.android.synthetic.main.activity_sign_in.*
+import kotlinx.android.synthetic.main.activity_sign_in.loader
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -33,16 +39,12 @@ import java.util.regex.Pattern
 open class SignInActivity : BaseActivity() {
     var datafound: Boolean = false
     var calledfromsigninactivity = false
-    var loginsuccessful = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         calledfromsigninactivity = true
         loadData()
-        if (datafound) {
-            loginApiCallwithSaveData()
-        }
 
         // To set language
 
@@ -93,9 +95,6 @@ open class SignInActivity : BaseActivity() {
     ///////////////////////////////////save id/password on checkbox all functions //////////calling on top and down///////////////////////////
     private var text: String? = null
     private var text2: String? = null
-    fun keepmesignedcheck() {
-        saveData()
-    }
 
 
     open fun saveData() {
@@ -141,7 +140,7 @@ open class SignInActivity : BaseActivity() {
     ////////////////////////////////SignIn to homepage with parse data///////////////////////////////////////
     //fun signtohome()
     fun signtohome(context: Context, activity: Activity) {
-        val intentt = Intent(context, OnBoardingIntroSlider::class.java)
+        val intentt = Intent(context, Bottmmm::class.java)
         context.startActivity(intentt)
         finish()
         activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
@@ -209,8 +208,10 @@ open class SignInActivity : BaseActivity() {
         )
     }
 
-    fun MakeLoginAPICall(email: String, password: String, context: Context, activity: Activity) {
-        loader.showLoader()
+    fun MakeLoginAPICall(email: String, password: String, context: Context,isFromLogin:Boolean=true) {
+        if(!isFromLogin){
+            loader.showLoader()
+        }
         val malqa: MalqaApiService = RetrofitBuilder.createAccountsInstance()
         val emaill = email.toString().trim()
         val passwordd = password.toString().trim()
@@ -220,7 +221,9 @@ open class SignInActivity : BaseActivity() {
         val call: Call<ResponseBody?>? = malqa.loginUser(login)
         call?.enqueue(object : Callback<ResponseBody?> {
             override fun onFailure(call: Call<ResponseBody?>?, t: Throwable) {
-                loader.hideLoader()
+                if(!isFromLogin){
+                    loader.hideLoader()
+                }
                 Toast.makeText(context, "${t.message}", Toast.LENGTH_LONG).show()
             }
 
@@ -243,46 +246,33 @@ open class SignInActivity : BaseActivity() {
                     }
                     // To check if user is approved user or not
                     if (data.data.isBusinessUser < 1 || data.data.isBusinessUser > 1) {
-                        loginsuccessful = true
                         val userId: String = data.data.id
                         ConstantObjects.logged_userid = userId
                         if (calledfromsigninactivity != null && calledfromsigninactivity) {
-//                            Toast.makeText(
-//                                this@SignInActivity,
-//                                "Login Successfully",
-//                                Toast.LENGTH_LONG
-//                            ).show()
                             HelpFunctions.ShowLongToast(
                                 getString(R.string.LoginSuccessfully),
                                 context
                             )
-                            keepmesignedcheck()
+                            Paper.book().write(islogin,true)
+                            Paper.book().write(SharedPreferencesStaticClass.userData,data.data)
+                            saveData()
                             GoToHome()
                         }
                     } else {
-                        loginsuccessful = false
-//                        Toast.makeText(
-//                            context,
-//                            "Your account is not approved",
-//                            Toast.LENGTH_LONG
-//                        ).show()
                         HelpFunctions.ShowLongToast(
                             getString(R.string.Youraccountisnotapproved),
                             context
                         )
                     }
                 } else {
-//                    Toast.makeText(
-//                        context,
-//                        "Invalid Username or Password",
-//                        Toast.LENGTH_LONG
-//                    ).show()
                     HelpFunctions.ShowLongToast(
                         getString(R.string.InvalidUsernameorPassword),
                         context
                     )
                 }
-                loader.hideLoader()
+                if(!isFromLogin){
+                    loader.hideLoader()
+                }
             }
         })
     }
@@ -296,14 +286,7 @@ open class SignInActivity : BaseActivity() {
         MakeLoginAPICall(
             email_tv.text.toString().trim(),
             passwword_tv.text.toString().trim(),
-            this@SignInActivity,
-            this
+            this@SignInActivity
         )
     }
-
-    fun loginApiCallwithSaveData() {
-        MakeLoginAPICall(text.toString().trim(), text2.toString().trim(), this@SignInActivity, this)
-    }
-
-
 }

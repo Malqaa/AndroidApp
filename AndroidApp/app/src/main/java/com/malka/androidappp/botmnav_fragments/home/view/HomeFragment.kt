@@ -2,58 +2,61 @@ package com.malka.androidappp.botmnav_fragments.home.view
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Parcel
 import android.os.Parcelable
 import android.speech.RecognizerIntent
-import android.view.*
+import android.view.LayoutInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.ViewPager2
+import androidx.viewpager.widget.ViewPager
 import com.arlib.floatingsearchview.FloatingSearchView
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.malka.androidappp.R
-import com.malka.androidappp.botmnav_fragments.home.adapter.CarAdvertisementAdapter
-import com.malka.androidappp.botmnav_fragments.home.adapter.GeneralAdvertisementAdapter
-import com.malka.androidappp.botmnav_fragments.home.adapter.PropertyAdvertisementAdapter
-import com.malka.androidappp.botmnav_fragments.home.adapter.RecentAdvertisementAdapter
+import com.malka.androidappp.botmnav_fragments.home.adapter.*
 import com.malka.androidappp.botmnav_fragments.home.model.AllCategoriesModel
 import com.malka.androidappp.botmnav_fragments.home.model.AllCategoriesResponseBack
+import com.malka.androidappp.botmnav_fragments.home.model.DynamicList
 import com.malka.androidappp.botmnav_fragments.home.view.viewpager_adapter_piechart.*
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.helper.HelpFunctions
+import com.malka.androidappp.helper.show
+import com.malka.androidappp.helper.widgets.viewpager2.AutoScrollViewPager
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.servicemodels.ConstantObjects
-import com.malka.androidappp.servicemodels.home.*
+import com.malka.androidappp.servicemodels.home.favouritecars
+import com.malka.androidappp.servicemodels.home.favouriteproperties
+import com.malka.androidappp.servicemodels.home.generalads
+import com.malka.androidappp.servicemodels.home.recentlisting
 import com.malka.androidappp.servicemodels.home.visitcount.visit_count_object
 import com.malka.myapplication.Model
 import com.malka.myapplication.PostsAdapter
-import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
-import kotlinx.android.synthetic.main.fragment_car_specifics.*
-import kotlinx.android.synthetic.main.fragment_choose_cate.*
 import kotlinx.android.synthetic.main.fragment_homee.*
-import kotlinx.android.synthetic.main.fragment_pie_chart_frag4.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class HomeFragment : Fragment(), PostsAdapter.OnPostItemClickListener,
     AdapterAllCategories.OnItemClickListener {
+    private var dotscount = 0
+    var dots: ArrayList<ImageView> = arrayListOf()
+    var sliderlist: ArrayList<Int> = ArrayList()
 
     private class SimpleSuggestions : SearchSuggestion {
         private val mData: String
@@ -101,15 +104,16 @@ class HomeFragment : Fragment(), PostsAdapter.OnPostItemClickListener,
         savedInstanceState: Bundle?
     ): View? {
         (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
-
-        HelpFunctions.startProgressBar(this.requireActivity())
+        sliderlist.add(R.drawable.slider_demo)
+        sliderlist.add(R.drawable.slider_demo)
+        sliderlist.add(R.drawable.slider_demo)
 
         allCategoryList.clear()
         loadLocate()
 
-        val navBar: BottomNavigationView = requireActivity().findViewById(R.id.nav_view)
-        navBar.getMenu().clear()
-        navBar.inflateMenu(R.menu.bottom_nav_menu)
+//        val navBar: BottomNavigationView = requireActivity().findViewById(R.id.nav_view)
+//        navBar.getMenu().clear()
+//        navBar.inflateMenu(R.menu.bottom_nav_menu)
 
         return LayoutInflater.from(container?.context)
             .inflate(R.layout.fragment_homee, container, false)
@@ -120,8 +124,8 @@ class HomeFragment : Fragment(), PostsAdapter.OnPostItemClickListener,
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val navBar: BottomNavigationView = requireActivity().findViewById(R.id.nav_view)
-        navBar.visibility = View.VISIBLE
+//        val navBar: BottomNavigationView = requireActivity().findViewById(R.id.nav_view)
+//        navBar.visibility = View.VISIBLE
 
 
         val callback = object : OnBackPressedCallback(true) {
@@ -131,8 +135,7 @@ class HomeFragment : Fragment(), PostsAdapter.OnPostItemClickListener,
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
 
-        val mSearchView: FloatingSearchView =
-            requireActivity().findViewById<FloatingSearchView>(R.id.floating_search_view)
+        val mSearchView = floating_search_view
 
 
         mSearchView.setOnQueryChangeListener { oldQuery, newQuery ->
@@ -174,11 +177,12 @@ class HomeFragment : Fragment(), PostsAdapter.OnPostItemClickListener,
             HelpFunctions.GetUserCreditCards(this@HomeFragment);
             HelpFunctions.GetUserShippingAddress(this@HomeFragment);
         }
-        BindFavouriteCarData()
-        BindGeneralAdsData()
-        BindFavouritePropertyData()
-        BindRecentAdsData()
-        BindTotalVisitCountData()
+
+//        BindFavouriteCarData()
+//        BindGeneralAdsData()
+//        BindFavouritePropertyData()
+//        BindRecentAdsData()
+//        BindTotalVisitCountData()
 
 //        homecat_motor.setOnClickListener() {
 //            NavigateToCategoryListing("Car");
@@ -207,6 +211,8 @@ class HomeFragment : Fragment(), PostsAdapter.OnPostItemClickListener,
 
         getAllCategories()
 //        setupLangReceiver()
+
+        setPagerDots(sliderlist)
     }
 
     //Zaack
@@ -230,8 +236,7 @@ class HomeFragment : Fragment(), PostsAdapter.OnPostItemClickListener,
     }
 
     fun BindFavouriteCarData() {
-        var recyclerCarfeatured: RecyclerView =
-            requireActivity().findViewById(R.id.reyclerviewcarfeature)
+        var recyclerCarfeatured = reyclerviewcarfeature
         try {
             val malqa: MalqaApiService = RetrofitBuilder.GetFeaturedMotorsAds()
             val call: Call<favouritecars> = malqa.GetFeaturedMotorsAds()
@@ -293,8 +298,7 @@ class HomeFragment : Fragment(), PostsAdapter.OnPostItemClickListener,
     }
 
     fun BindFavouritePropertyData() {
-        var recyclerProperty: RecyclerView =
-            requireActivity().findViewById(R.id.reyclerviewfeatureprop)
+        var recyclerProperty = reyclerviewfeatureprop
         try {
             val malqa: MalqaApiService = RetrofitBuilder.GetFeaturedPropertyAds()
             val call: Call<favouriteproperties> = malqa.GetFeaturedPropertyAds()
@@ -355,8 +359,7 @@ class HomeFragment : Fragment(), PostsAdapter.OnPostItemClickListener,
     }
 
     fun BindRecentAdsData() {
-        var reyclerviewrecent: RecyclerView =
-            requireActivity().findViewById(R.id.reyclerviewrecentads);
+        var reyclerviewrecent = reyclerviewrecentads
         try {
 
             val malqa: MalqaApiService = RetrofitBuilder.GetRecentAds()
@@ -419,8 +422,7 @@ class HomeFragment : Fragment(), PostsAdapter.OnPostItemClickListener,
     }
 
     fun BindGeneralAdsData() {
-        var reyclerviewgeneral: RecyclerView =
-            requireActivity().findViewById(R.id.reyclerviewgeneralads);
+        var reyclerviewgeneral = reyclerviewgeneralads
         try {
             val malqa: MalqaApiService = RetrofitBuilder.GetGeneralAds()
             val call: Call<generalads> = malqa.GetGeneralAds()
@@ -434,7 +436,7 @@ class HomeFragment : Fragment(), PostsAdapter.OnPostItemClickListener,
                             if (response.body() != null) {
                                 val _generals: generalads = response.body()!!;
                                 if (_generals != null && _generals.data != null && _generals.data.size > 0) {
-                                    var genadpt: GeneralAdvertisementAdapter =
+                                    var genadpt =
                                         GeneralAdvertisementAdapter(_generals.data)
 
                                     reyclerviewgeneral.layoutManager =
@@ -481,9 +483,8 @@ class HomeFragment : Fragment(), PostsAdapter.OnPostItemClickListener,
     }
 
     fun BindTotalVisitCountData() {
-        val wormDotsIndicator =
-            requireActivity().findViewById<WormDotsIndicator>(R.id.piechart_dots_indicator)
-        val viewPagerr = requireActivity().findViewById<ViewPager2>(R.id.viewpagerpiechart)
+        val wormDotsIndicator = piechart_dots_indicator
+        val viewPagerr = viewpagerpiechart
         val adapterr = PiechartUserNoAdapter(requireActivity())
 
         try {
@@ -585,6 +586,7 @@ class HomeFragment : Fragment(), PostsAdapter.OnPostItemClickListener,
     }
 
     fun getAllCategories() {
+        HelpFunctions.startProgressBar(this.requireActivity())
 
         val malqaa: MalqaApiService = RetrofitBuilder.getAllCategories()
         val call: Call<AllCategoriesResponseBack> = malqaa.getAllCategories()
@@ -595,6 +597,7 @@ class HomeFragment : Fragment(), PostsAdapter.OnPostItemClickListener,
                 call: Call<AllCategoriesResponseBack>,
                 response: Response<AllCategoriesResponseBack>
             ) {
+                HelpFunctions.dismissProgressBar()
 
                 if (response.isSuccessful) {
 
@@ -620,8 +623,7 @@ class HomeFragment : Fragment(), PostsAdapter.OnPostItemClickListener,
                                     )
                                 )
                             }
-                            val allCategoriesRecyclerView: RecyclerView =
-                                requireActivity().findViewById(R.id.all_categories_recycler)
+                            val allCategoriesRecyclerView = all_categories_recycler
 
                             allCategoriesRecyclerView.layoutManager =
                                 LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
@@ -632,26 +634,45 @@ class HomeFragment : Fragment(), PostsAdapter.OnPostItemClickListener,
                                     this@HomeFragment
                                 )
 
+                            val list: ArrayList<DynamicList> = ArrayList()
+                            list.add(DynamicList(getString(R.string.vehicles),R.drawable.ic_vechile, arrayListOf()))
+                            list.add(DynamicList(getString(R.string.electronics),R.drawable.ic_electronic, arrayListOf()))
+                            list.add(DynamicList(getString(R.string.real_estate),R.drawable.ic_real_estate, arrayListOf()))
+                            list.add(DynamicList(getString(R.string.List_Auctions),
+                                R.drawable.ic_vechile, arrayListOf(),"list",getString(R.string.List_Auctions_detail)))
+
+                            val genadpt = ParentCategoryAdaptor(list)
+
+
+                            dynamic_product_rcv.adapter = genadpt
+                            genadpt.onItemClick = { indobj ->
+                                HelpFunctions.ViewAdvertismentDetail(
+                                    indobj.referenceId,
+                                    indobj.template,
+                                    this@HomeFragment
+                                )
+                                SharedPreferencesStaticClass.ad_userid = indobj.user
+                            }
+
+
                         } else {
                             HelpFunctions.ShowLongToast(
                                 getString(R.string.NoCategoriesfound),
                                 context
                             )
-//                            Toast.makeText(context, "No Categories found", Toast.LENGTH_LONG).show()
                         }
                     }
 
                 } else {
                     HelpFunctions.ShowLongToast(getString(R.string.NoCategoriesfound), context)
 
-//                    Toast.makeText(context, "No Categories found", Toast.LENGTH_LONG).show()
                 }
             }
 
             override fun onFailure(call: Call<AllCategoriesResponseBack>, t: Throwable) {
                 t.message?.let { HelpFunctions.ShowLongToast(it, context) }
 
-//                Toast.makeText(activity, t.message, Toast.LENGTH_LONG).show()
+                HelpFunctions.dismissProgressBar()
             }
         })
     }
@@ -659,7 +680,9 @@ class HomeFragment : Fragment(), PostsAdapter.OnPostItemClickListener,
     override fun OnItemClick(position: Int) {
         super.OnItemClick(position)
 
-        allCategoryList[position].categoryName?.let { NavigateToCategoryListing(it) }
+        allCategoryList[position].categoryName?.let {
+            NavigateToCategoryListing(it)
+        }
     }
 
     //Methods For language
@@ -708,6 +731,84 @@ class HomeFragment : Fragment(), PostsAdapter.OnPostItemClickListener,
 //        return mLangReceiver
 //    }
 
+
+    private fun setPagerDots(list: List<Int>) {
+
+        if (list.size > 0) {
+            sliderLayout.show()
+            val viewPagerAdapter = SliderAdaptor(requireContext(), list)
+            slider_home.adapter = viewPagerAdapter
+            dotscount = viewPagerAdapter.getCount()
+            for (i in 0 until dotscount) {
+                dots.add(ImageView(requireContext()))
+            }
+            for (i in 0 until dotscount) {
+                dots[i] = ImageView(requireContext())
+                dots[i].setImageDrawable(
+                    ContextCompat.getDrawable(
+                        requireContext(),
+                        R.drawable.non_active_slider
+                    )
+                )
+                val params = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                )
+                params.setMargins(8, 0, 8, 0)
+                SliderDots!!.addView(dots[i], params)
+            }
+
+            dots[0].setImageDrawable(
+                ContextCompat.getDrawable(
+                    requireContext(),
+                    R.drawable.active_slider
+                )
+            )
+
+            slider_home.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+                override fun onPageScrolled(
+                    position: Int,
+                    positionOffset: Float,
+                    positionOffsetPixels: Int,
+                ) {
+                }
+
+                override fun onPageSelected(position: Int) {
+                    try {
+
+                        for (i in 0 until dotscount) {
+                            dots[i].setImageDrawable(
+                                ContextCompat.getDrawable(
+                                    requireContext(),
+                                    R.drawable.non_active_slider
+                                )
+                            )
+                        }
+                        dots[position].setImageDrawable(
+                            ContextCompat.getDrawable(
+                                requireContext(),
+                                R.drawable.active_slider
+                            )
+                        )
+                    } catch (error: Exception) {
+                        //  slider_home.stopAutoScroll()
+                    }
+
+
+                }
+
+                override fun onPageScrollStateChanged(state: Int) {}
+            })
+            slider_home_ = slider_home
+            slider_home.startAutoScroll()
+        }
+
+
+    }
+
+    companion object {
+        var slider_home_: AutoScrollViewPager? = null
+    }
 }
 
 

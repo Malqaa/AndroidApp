@@ -21,7 +21,7 @@
 
             <ImageButton
                 android:id="@+id/b_signuppg_1"
-                android:layout_width="14dp"
+                android:layout_width="7dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
 
@@ -169,7 +169,7 @@
 
     <include
         android:id="@+id/loader"
-        layout="@layout/loader"
+        layout="@layout/loader_layout"
         android:visibility="gone" />
 
 

@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.all_categories_cardview.view.*
 class AdapterAllCategories(
     val allCategories: ArrayList<AllCategoriesModel>,
     var context: HomeFragment,
-    val listener: AdapterAllCategories.OnItemClickListener
+    val listener: OnItemClickListener
 ) : RecyclerView.Adapter<AdapterAllCategories.AdapterAllCategoriesViewHolder>() {
 
     inner class AdapterAllCategoriesViewHolder(itemview: View) : RecyclerView.ViewHolder(itemview),
@@ -29,7 +29,7 @@ class AdapterAllCategories(
         override fun onClick(v: View?) {
             val position: Int = adapterPosition
             if (position != RecyclerView.NO_POSITION) {
-                listener.OnItemClick(position)
+               listener.OnItemClick(position)
             }
         }
     }
@@ -50,7 +50,7 @@ class AdapterAllCategories(
 
     override fun onBindViewHolder(holder: AdapterAllCategoriesViewHolder, position: Int) {
 
-        holder.categoryIcon.setImageResource(R.drawable.fashion)
+       // holder.categoryIcon.setImageResource(R.drawable.fashion)
         holder.categoryName.text = allCategories[position].categoryName
 
     }

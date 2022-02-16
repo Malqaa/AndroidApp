@@ -2,83 +2,48 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="@dimen/_60sdp"
-    android:layout_height="@dimen/_70sdp"
-    android:layout_marginStart="5dp"
-    android:orientation="vertical"
-    app:cardCornerRadius="12dp"
+    android:layout_width="@dimen/_90sdp"
+    android:layout_height="@dimen/_120sdp"
     android:layout_margin="5dp"
-    android:background="@drawable/product_attribute_bg2">
+    android:layout_marginStart="5dp"
+    android:background="@drawable/product_attribute_bg2"
+    android:orientation="vertical"
+    app:cardCornerRadius="12dp">
 
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/categorypic">
-
-
-    </LinearLayout>
 
     <ImageView
-        android:visibility="gone"
         android:id="@+id/category_icon"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="10dp"
-        android:src="@drawable/fashion"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="ContentDescription" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/categorypic" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="@dimen/_35sdp"
+        android:layout_height="@dimen/_16sdp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginEnd="@dimen/_5sdp"
+        android:layout_marginBottom="@dimen/_5sdp"
+        android:background="@drawable/round_btn"
+        android:fontFamily="@font/madani_arabic_light"
+        android:text="@string/View"
+        android:textAllCaps="false"
+        android:textColor="#ffffff"
+        android:textSize="@dimen/_10sdp" />
+
 
     <TextView
-        android:visibility="gone"
-        android:id="@+id/category_name"
-        android:gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="7dp"
-        android:maxLines="2"
-        android:text=""
-        android:textAllCaps="false"
-        android:textColor="@color/black"
-        android:textSize="10sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/category_icon" />
-
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_signup_normal"
-            android:layout_width="@dimen/_32sdp"
-            android:layout_height="15dp"
-            android:layout_marginStart="@dimen/_8sdp"
-            android:layout_marginTop="@dimen/_51sdp"
-            android:background="@drawable/round_btn"
-            android:fontFamily="@font/madani_arabic_semi_bold"
-            android:text="Auctions"
-            android:textAllCaps="false"
-            android:textColor="#ffffff"
-            android:textSize="@dimen/_4sdp" />
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_5sdp"
-            android:layout_marginTop="@dimen/_7sdp"
-            android:fontFamily="@font/madani_arabic_light"
-            android:text="Vehicles"
-            android:textColor="#1D223B"
-            android:textSize="@dimen/_6sdp" />
-
-    </RelativeLayout>
+        android:layout_marginStart="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:fontFamily="@font/madani_arabic_light"
+        android:text="Vehicles"
+        android:id="@+id/category_name"
+        android:textColor="#1D223B"
+        android:textSize="@dimen/_10sdp" />
 
 
 </RelativeLayout>

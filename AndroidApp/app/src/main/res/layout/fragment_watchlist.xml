@@ -1,34 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_marginBottom="?actionBarSize">
+    android:orientation="vertical">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_watchlist"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="#339933"
-        android:layout_alignParentTop="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:popupTheme="@style/PopupOverlay">
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/_10sdp">
 
-    </androidx.appcompat.widget.Toolbar>
+        <ImageButton
+            android:id="@+id/imageButton3"
+            android:layout_width="15dp"
+            android:layout_height="17dp"
+            android:background="@drawable/ic_back"
+            android:rotation="@string/mirror_degree" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:fontFamily="@font/madani_arabic_bold"
+            android:text="@string/favorite"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_16sdp" />
+
+
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView55"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar_watchlist"
-        android:layout_alignParentBottom="true"
-        tools:listitem="@layout/itemselling_watchlist" />
+        app:spanCount="2"
+        tools:listitem="@layout/itemselling_watchlist"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        android:layout_height="wrap_content" />
 
 
-</RelativeLayout>
+</LinearLayout>
 
 
 
