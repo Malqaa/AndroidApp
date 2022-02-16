@@ -2507,5 +2507,8 @@
   <string name="List_Auctions">مزادات قائمة</string>
   <string name="List_Auctions_detail">أشترك في المزادات او اشترى بالسعر المعروض</string>
   <string name="follow_news">متابعة كل جديد لهذا القسم</string>
+    <string name="price_negotiation">التفاوض على الأسعار</string>
+    <string name="have_a_question">لدي سؤال؟</string>
+    <string name="merchant">تاجر</string>
 
 </resources>

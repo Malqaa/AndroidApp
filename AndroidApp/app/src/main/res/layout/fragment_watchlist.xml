@@ -33,7 +33,7 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView55"
+        android:id="@+id/fav_rcv"
         android:layout_width="match_parent"
         app:spanCount="2"
         tools:listitem="@layout/itemselling_watchlist"

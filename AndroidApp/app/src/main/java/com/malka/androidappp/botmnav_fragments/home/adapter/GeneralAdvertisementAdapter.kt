@@ -1,11 +1,13 @@
 package com.malka.androidappp.botmnav_fragments.home.adapter
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
 import com.malka.androidappp.botmnav_fragments.home.model.Generaladvetisement
+import com.malka.androidappp.design.product_details
 import com.malka.androidappp.helper.BaseViewHolder
 import kotlinx.android.synthetic.main.product_item.view.*
 
@@ -26,11 +28,13 @@ class GeneralAdvertisementAdapter(
         holder.view.run {
 
             val params: ViewGroup.LayoutParams = fullview.layoutParams
-            params.width =    resources.getDimension(R.dimen._220sdp).toInt()
-            params.height =  params.height
+            params.width = resources.getDimension(R.dimen._220sdp).toInt()
+            params.height = params.height
             fullview.layoutParams = params
 
-
+            setOnClickListener {
+                context.startActivity(Intent(context, product_details::class.java))
+            }
 
 //            listCar.get(position).run {
 //                setOnClickListener {
@@ -90,7 +94,6 @@ class GeneralAdvertisementAdapter(
 //        }
 
     }
-
 
 
     override fun getItemCount(): Int {

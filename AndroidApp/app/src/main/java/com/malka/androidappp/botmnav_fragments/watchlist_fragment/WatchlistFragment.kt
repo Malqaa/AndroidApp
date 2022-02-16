@@ -25,11 +25,6 @@ class WatchlistFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        ////////////////////////////////////////////////////////////////////////
-        ////////////////////////////////////////////////////////////////////////
-        //Zack
-        //Date: 11/04/2020
         GetUserWatchList()
     }
 
@@ -69,8 +64,8 @@ class WatchlistFragment : Fragment() {
                 this@WatchlistFragment.context
             )
 
-            var browadptxl = WatchlistAdap(watchlistpost, this@WatchlistFragment)
-            recyclerView55.adapter = browadptxl
+            val browadptxl = WatchlistAdap(watchlistpost, this@WatchlistFragment)
+            fav_rcv.adapter = browadptxl
             browadptxl.onItemClick = { indobj ->
                 HelpFunctions.ViewAdvertismentDetail(
                     indobj.watchlistadvid!!,
