@@ -38,7 +38,7 @@
                     android:layout_width="@dimen/_60sdp"
                     android:layout_height="@dimen/_180sdp"
                     android:layout_gravity="center_vertical"
-                    android:background="@drawable/product_attribute_bg1"
+                    android:background="@drawable/product_attribute_bg4"
                     android:orientation="vertical">
 
                     <ImageView
@@ -312,7 +312,7 @@
                     android:layout_marginTop="15dp"
                     android:background="@drawable/round_btn1"
                     android:fontFamily="@font/madani_arabic_medium"
-                    android:text="@string/price_negotiation"
+                    android:text="Price Negotiation"
                     android:textAllCaps="false"
                     android:textColor="@color/bg"
                     android:textSize="@dimen/_14sdp" />
@@ -739,7 +739,7 @@
                         android:layout_weight="1"
                         android:background="@null"
                         android:fontFamily="@font/madani_arabic_light"
-                        android:hint="@string/have_a_question"
+                        android:hint="Have a question"
                         android:inputType="textEmailAddress"
                         android:textColor="#6D6C74"
                         android:textSize="@dimen/_13sdp" />
@@ -1022,7 +1022,7 @@
                                 android:background="@drawable/round_btn"
                                 android:fontFamily="@font/madani_arabic_semi_bold"
                                 android:gravity="center"
-                                android:text="@string/merchant"
+                                android:text="merchant"
                                 android:textAllCaps="false"
                                 android:textColor="#ffffff"
                                 android:textSize="@dimen/_6sdp" />

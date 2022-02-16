@@ -25,10 +25,11 @@
         android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup">
         <activity
+            android:name=".design.add_product1"
+            android:exported="false" />
+        <activity
             android:name=".design.product_details"
-            android:exported="true">
-
-        </activity>
+            android:exported="true"></activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -39,14 +40,10 @@
             android:theme="@style/NoActionBar" />
         <activity
             android:name=".botmnav_fragments.activities_main.business_signup.BusinessSignupPg2"
-            android:theme="@style/NoActionBar" >
-
-        </activity>
+            android:theme="@style/NoActionBar"></activity>
         <activity
             android:name=".botmnav_fragments.activities_main.business_signup.BusinessSignupPg1"
-            android:theme="@style/NoActionBar" >
-
-        </activity>
+            android:theme="@style/NoActionBar"></activity>
         <activity
             android:name=".activities_main.onboarding_intro_slider.OnBoardingIntroSlider"
             android:theme="@style/NoActionBar" />
@@ -60,7 +57,6 @@
             android:name=".activities_main.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -70,42 +66,27 @@
         <activity
             android:name=".activities_main.Bottmmm"
             android:label="Bottom Nav"
-            android:windowSoftInputMode="adjustPan"
-
-            >
-
-        </activity>
+            android:windowSoftInputMode="adjustPan"></activity>
         <activity
             android:name=".activities_main.FeaturedCategory"
             android:label="Featured Category" />
         <activity
             android:name=".activities_main.login.SignInActivity"
-            android:screenOrientation="portrait">
-
-
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".activities_main.login.SignupOptionsActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities_main.signup_account.signup_pg1.SignupPg1"
             android:theme="@style/NoActionBar"
-            android:windowSoftInputMode="adjustPan">
-
-        </activity>
+            android:windowSoftInputMode="adjustPan"></activity>
         <activity
             android:name=".activities_main.signup_account.signup_pg2.SignupPg2"
-            android:theme="@style/NoActionBar">
-
-        </activity>
-
+            android:theme="@style/NoActionBar"></activity>
         <activity
             android:name=".activities_main.signup_account.signup_pg3.SignupPg3"
             android:theme="@style/NoActionBar"
-            android:windowSoftInputMode="adjustPan">
-
-
-        </activity>
+            android:windowSoftInputMode="adjustPan"></activity>
         <activity
             android:name=".botmnav_fragments.forgot_password.ForgotPasswordActivty"
             android:theme="@style/NoActionBar" />
