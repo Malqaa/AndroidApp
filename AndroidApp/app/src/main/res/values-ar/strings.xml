@@ -2491,5 +2491,8 @@
   <string name="expiry_date">تاريخ الانتهاء</string>
     <string name="youtube">یوٹیوب</string>
     <string name="it_was_completed">تم</string>
+    <string name="price_negotiation">التفاوض على الأسعار</string>
+    <string name="have_a_question">لدي سؤال؟</string>
+    <string name="merchant">تاجر</string>
 
 </resources>
