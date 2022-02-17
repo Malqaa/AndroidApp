@@ -15,7 +15,7 @@
         android:id="@+id/category_icon"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/categorypic" />
+        android:src="@drawable/categorypic" />
 
 
     <androidx.appcompat.widget.AppCompatButton
@@ -29,19 +29,20 @@
         android:background="@drawable/round_btn"
         android:fontFamily="@font/madani_arabic_light"
         android:text="@string/View"
+        android:id="@+id/view_button"
         android:textAllCaps="false"
         android:textColor="#ffffff"
         android:textSize="@dimen/_10sdp" />
 
 
     <TextView
+        android:id="@+id/category_name_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_5sdp"
         android:layout_marginTop="@dimen/_5sdp"
         android:fontFamily="@font/madani_arabic_light"
         android:text="Vehicles"
-        android:id="@+id/category_name"
         android:textColor="#1D223B"
         android:textSize="@dimen/_10sdp" />
 

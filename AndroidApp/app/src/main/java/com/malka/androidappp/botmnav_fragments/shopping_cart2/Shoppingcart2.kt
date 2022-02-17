@@ -2,25 +2,17 @@ package com.malka.androidappp.botmnav_fragments.shopping_cart2
 
 import android.graphics.Color
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
 import com.malka.androidappp.helper.HelpFunctions
-import com.malka.androidappp.network.constants.ApiConstants
-import com.malka.androidappp.recycler_watchlist.WatchlistAdap
-import com.malka.androidappp.recycler_watchlist.WatchlistModel
 import com.malka.androidappp.servicemodels.ConstantObjects
-import com.malka.androidappp.servicemodels.checkout.CheckoutRequestModel
-import com.malka.androidappp.servicemodels.user.UserObject
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_shoppingcart2.*
-import kotlinx.android.synthetic.main.fragment_watchlist.*
-import java.lang.Exception
 
 
 class Shoppingcart2 : Fragment() {

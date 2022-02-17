@@ -10,5 +10,5 @@ data class AllCategoriesModel(
     val isActive: Boolean,
     val createdBy: String?,
     val createdOn: Any?,
-    val template: String?
+    val template: String?,
 )

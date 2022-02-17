@@ -1,14 +1,12 @@
-package com.malka.androidappp.design;
+package com.malka.androidappp.design
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import com.malka.androidappp.R
 
-import android.os.Bundle;
-
-public class add_product1 extends AppCompatActivity {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_product1);
+class add_product1 : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_add_product1)
     }
 }

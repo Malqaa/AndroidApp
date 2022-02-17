@@ -25,15 +25,23 @@
         android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup">
         <activity
+            android:theme="@style/NoActionBar"
             android:name=".design.add_product2"
-            android:exported="false" />
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
+            android:theme="@style/NoActionBar"
             android:name=".design.add_product1"
             android:exported="false" />
         <activity
             android:name=".design.product_details"
-            android:exported="true" />
-            android:theme="@style/NoActionBar"/>
+            android:exported="true"
+            android:theme="@style/NoActionBar" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -66,11 +74,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar">
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".activities_main.MainActivity"
