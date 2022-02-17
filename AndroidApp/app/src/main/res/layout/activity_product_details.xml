@@ -35,13 +35,10 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:id="@+id/back_button"
-
                     android:background="@drawable/circle_bg"
                     app:backgroundTint="@color/white"
-                    android:scaleType="center"
                     android:src="@drawable/ic_back"
                     app:maxImageSize="@dimen/_14sdp"
-
                     app:tint="@color/black"
 
                     />
