@@ -221,13 +221,16 @@
 
 
     </ScrollView>
+
     <androidx.appcompat.widget.AppCompatButton
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/_10sdp"
         android:id="@+id/business_signup2_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="@dimen/_15sdp"
         android:layout_marginTop="@dimen/_20sdp"
+        android:layout_marginEnd="@dimen/_15sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
         android:background="@drawable/round_btn"
         android:fontFamily="@font/madani_arabic_semi_bold"
         android:text="@string/the_next"

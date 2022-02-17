@@ -2673,8 +2673,8 @@ Want to start a business account? Create a Business Account
     <string name="what_is_lorem_ipsum">What is Lorem Ipsum?</string>
     <string name="enter_the_title_of_the_product_you_want_to_sell">Enter the title of the product you want to sell</string>
     <string name="phone">phone</string>
-  <string name="electronics_phones">Electronics Phones</string>
-  <string name="services_mobile_phone_services">Services - mobile phone services</string>
+    <string name="electronics_phones">Electronics Phones</string>
+    <string name="services_mobile_phone_services">Services - mobile phone services</string>
     <string name="choose_department">Choose Department</string>
     <string name="the_next">The Next</string>
 
