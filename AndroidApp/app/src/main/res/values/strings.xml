@@ -2647,22 +2647,22 @@ Want to start a business account? Create a Business Account
     <string name="enter_your_personal_information">Enter your personal information</string>
     <string name="sign_up">Sign Up</string>
     <string name="it_was_completed">It was completed</string>
-  <string name="price_negotiation">Price Negotiation</string>
+    <string name="price_negotiation">Price Negotiation</string>
     <string name="have_a_question">Have a question?</string>
     <string name="merchant">Merchant</string>
-  <string name="password_reset">Password Reset</string>
-  <string name="we_have_sent_the_activation_code_to_your_phone">We have sent the activation code to your phone</string>
-  <string name="resend_the_code_after_50_seconds">Resend the code after: 50 seconds</string>
-  <string name="favorite">Favorite</string>
-  <string name="purchasing_price">Purchasing price : </string>
-  <string name="want_to_search_for_a_commodity_or_an_auction">Want to search for a commodity or an auction?</string>
-  <string name="search_by_name_auction_number_or_item">Search by name / auction number or item</string>
+    <string name="password_reset">Password Reset</string>
+    <string name="we_have_sent_the_activation_code_to_your_phone">We have sent the activation code to your phone</string>
+    <string name="resend_the_code_after_50_seconds">Resend the code after: 50 seconds</string>
+    <string name="favorite">Favorite</string>
+    <string name="purchasing_price">Purchasing price : </string>
+    <string name="want_to_search_for_a_commodity_or_an_auction">Want to search for a commodity or an auction?</string>
+    <string name="search_by_name_auction_number_or_item">Search by name / auction number or item</string>
     <string name="Browse_our_departments">Browse our departments</string>
-  <string name="lot_of_things">Lots of auctions and goods are waiting for you</string>
-  <string name="auctions">Auctions</string>
-  <string name="market_place">Market Place</string>
-  <string name="shopping">Shopping</string>
-  <string name="new_">New</string>
+    <string name="lot_of_things">Lots of auctions and goods are waiting for you</string>
+    <string name="auctions">Auctions</string>
+    <string name="market_place">Market Place</string>
+    <string name="shopping">Shopping</string>
+    <string name="new_">New</string>
     <string name="vehicles">Vehicles</string>
     <string name="real_estate">Real Estate</string>
     <string name="electronics">Electronics</string>
@@ -2670,6 +2670,15 @@ Want to start a business account? Create a Business Account
     <string name="List_Auctions_detail">Participate in auctions or buy at the displayed price</string>
   <string name="follow_news">Follow all the news for this section</string>
   <string name="result">%s results</string>
+    <string name="follow_news">Follow all the news for this section</string>
+    <string name="add_product">Add product</string>
+    <string name="what_is_lorem_ipsum">What is Lorem Ipsum?</string>
+    <string name="enter_the_title_of_the_product_you_want_to_sell">Enter the title of the product you want to sell</string>
+    <string name="phone">phone</string>
+    <string name="electronics_phones">Electronics Phones</string>
+    <string name="services_mobile_phone_services">Services - mobile phone services</string>
+    <string name="choose_department">Choose Department</string>
+    <string name="the_next">The Next</string>
 
 
 </resources>

@@ -25,7 +25,14 @@
         android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup">
         <activity
+            android:name=".design.add_product2"
+            android:exported="false" />
+        <activity
+            android:name=".design.add_product1"
+            android:exported="false" />
+        <activity
             android:name=".design.product_details"
+            android:exported="true" />
             android:theme="@style/NoActionBar"/>
 
         <meta-data

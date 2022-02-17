@@ -2510,6 +2510,14 @@
     <string name="price_negotiation">التفاوض على الأسعار</string>
     <string name="have_a_question">لدي سؤال؟</string>
     <string name="merchant">تاجر</string>
+    <string name="add_product">إضافة منتج</string>
+  <string name="what_is_lorem_ipsum">ماذا تريد ان تبيع ؟</string>
+  <string name="enter_the_title_of_the_product_you_want_to_sell">أكتب عنوان المنتج الذى تريد بيعه</string>
+  <string name="phone">هاتف</string>
+  <string name="electronics_phones">هواتف الكترونية</string>
+  <string name="services_mobile_phone_services">الخدمات - خدمات الهاتف المحمول</string>
+  <string name="choose_department">أختر القسم</string>
+  <string name="the_next">التالى</string>
   <string name="result">%s results</string>
 
 </resources>
