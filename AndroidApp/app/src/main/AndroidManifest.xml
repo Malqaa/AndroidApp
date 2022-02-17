@@ -26,9 +26,7 @@
         tools:ignore="AllowBackup">
         <activity
             android:name=".design.product_details"
-            android:exported="true">
-
-        </activity>
+            android:theme="@style/NoActionBar"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -39,12 +37,12 @@
             android:theme="@style/NoActionBar" />
         <activity
             android:name=".botmnav_fragments.activities_main.business_signup.BusinessSignupPg2"
-            android:theme="@style/NoActionBar" >
+            android:theme="@style/NoActionBar">
 
         </activity>
         <activity
             android:name=".botmnav_fragments.activities_main.business_signup.BusinessSignupPg1"
-            android:theme="@style/NoActionBar" >
+            android:theme="@style/NoActionBar">
 
         </activity>
         <activity
@@ -68,7 +66,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities_main.Bottmmm"
+            android:name=".activities_main.MainActivity"
             android:label="Bottom Nav"
             android:windowSoftInputMode="adjustPan"
 

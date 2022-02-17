@@ -37,6 +37,8 @@
             android:layout_gravity="center"
             android:layout_marginBottom="2dp"
             android:backgroundTint="@color/bg"
+            android:background="@drawable/circle_bg"
+
             android:clickable="true"
             android:scaleType="center"
             android:src="@drawable/ic_baseline_add_24"

@@ -8,29 +8,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.malka.androidappp.R
 import com.malka.androidappp.botmnav_fragments.feedback_frag.all_feedback.AllFeedback
 import com.malka.androidappp.botmnav_fragments.feedback_frag.buying_feedback.BuyingFeedback
 import com.malka.androidappp.botmnav_fragments.feedback_frag.selling_feedback.SellingFeedback
-import com.malka.androidappp.helper.HelpFunctions
-import com.malka.androidappp.network.Retrofit.RetrofitBuilder
-import com.malka.androidappp.network.service.MalqaApiService
-import com.malka.androidappp.recycler_browsecat.BrowseMarketAdapter
-import com.malka.androidappp.recycler_browsecat.BrowseMarketModel
-import com.malka.androidappp.servicemodels.ConstantObjects
-import com.malka.androidappp.servicemodels.categorylistings.PropertyModel
-import com.malka.androidappp.servicemodels.feedbacks.FeedbackObject
-import com.malka.androidappp.servicemodels.feedbacks.FeedbackProperties
-import com.malka.androidappp.servicemodels.user.UserObject
-import kotlinx.android.synthetic.main.fragment_browse_market.*
 import kotlinx.android.synthetic.main.fragment_feedback.*
-import kotlinx.android.synthetic.main.fragment_item_im_selling.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.util.ArrayList
 
 
 class FeedbackFragment : Fragment() {

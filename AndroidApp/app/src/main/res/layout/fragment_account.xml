@@ -5,7 +5,7 @@
     android:id="@+id/fragment_account"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="?actionBarSize"
+
     android:background="@color/white"
     tools:context=".botmnav_fragments.account_fragment.AccountFragment">
 
@@ -28,8 +28,9 @@
                 android:padding="@dimen/_15sdp">
 
                 <ImageView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="@dimen/_60sdp"
+                    android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/_18sdp"
                     android:src="@drawable/profiledp" />
 
@@ -66,21 +67,22 @@
                     android:src="@drawable/rateicon" />
 
                 <LinearLayout
-                    android:layout_width="@dimen/_300sdp"
-                    android:layout_height="@dimen/_100sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:gravity="center"
                     android:layout_marginTop="@dimen/_5sdp"
-
+                    android:layout_weight="3"
                     android:orientation="horizontal">
 
                     <LinearLayout
-                        android:layout_width="@dimen/_85sdp"
-                        android:layout_height="@dimen/_90sdp"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginRight="@dimen/_5sdp"
+                        android:layout_weight="1"
                         android:background="@drawable/product_attribute_bg1"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:padding="@dimen/_5sdp">
 
                         <ImageView
                             android:layout_width="match_parent"
@@ -110,12 +112,15 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="@dimen/_85sdp"
-                        android:layout_height="@dimen/_90sdp"
+                        android:layout_width="0dp"
+
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginRight="@dimen/_5sdp"
+                        android:layout_weight="1"
                         android:background="@drawable/product_attribute_bg1"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:padding="@dimen/_5sdp">
 
                         <ImageView
                             android:layout_width="match_parent"
@@ -162,11 +167,14 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="@dimen/_85sdp"
-                        android:layout_height="@dimen/_90sdp"
+                        android:layout_width="0dp"
+
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:layout_weight="1"
                         android:background="@drawable/product_attribute_bg1"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:padding="@dimen/_5sdp">
 
                         <ImageView
                             android:layout_width="match_parent"
@@ -240,11 +248,11 @@
                         android:layout_marginTop="@dimen/_6sdp"
                         android:layout_marginEnd="@dimen/_5sdp"
                         android:layout_weight="1"
-                        android:textStyle="bold"
                         android:fontFamily="@font/madani_arabic_light"
                         android:text="News"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/_13sdp" />
+                        android:textSize="@dimen/_13sdp"
+                        android:textStyle="bold" />
 
                     <ImageView
                         android:layout_width="@dimen/_15sdp"
@@ -311,11 +319,11 @@
                         android:layout_marginTop="@dimen/_5sdp"
                         android:layout_marginEnd="@dimen/_5sdp"
                         android:layout_weight="1"
-                        android:textStyle="bold"
                         android:fontFamily="@font/madani_arabic_light"
                         android:text="My requests"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/_13sdp" />
+                        android:textSize="@dimen/_13sdp"
+                        android:textStyle="bold" />
 
                     <ImageView
                         android:layout_width="@dimen/_15sdp"
@@ -363,11 +371,11 @@
                         android:layout_marginTop="@dimen/_5sdp"
                         android:layout_marginEnd="@dimen/_5sdp"
                         android:layout_weight="1"
-                        android:textStyle="bold"
                         android:fontFamily="@font/madani_arabic_light"
                         android:text="My bids"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/_13sdp" />
+                        android:textSize="@dimen/_13sdp"
+                        android:textStyle="bold" />
 
                     <ImageView
                         android:layout_width="@dimen/_15sdp"
@@ -416,12 +424,12 @@
                         android:layout_marginStart="@dimen/_6sdp"
                         android:layout_marginTop="@dimen/_5sdp"
                         android:layout_marginEnd="@dimen/_5sdp"
-                        android:textStyle="bold"
                         android:layout_weight="1"
                         android:fontFamily="@font/madani_arabic_light"
                         android:text="Loser"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/_13sdp" />
+                        android:textSize="@dimen/_13sdp"
+                        android:textStyle="bold" />
 
 
                     <ImageView
@@ -469,11 +477,11 @@
                         android:layout_marginTop="@dimen/_5sdp"
                         android:layout_marginEnd="@dimen/_5sdp"
                         android:layout_weight="1"
-                        android:textStyle="bold"
                         android:fontFamily="@font/madani_arabic_light"
                         android:text="Shopping basket"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/_13sdp" />
+                        android:textSize="@dimen/_13sdp"
+                        android:textStyle="bold" />
 
                     <ImageView
                         android:layout_width="@dimen/_15sdp"
@@ -523,11 +531,11 @@
                         android:layout_marginTop="@dimen/_5sdp"
                         android:layout_marginEnd="@dimen/_5sdp"
                         android:layout_weight="1"
-                        android:textStyle="bold"
                         android:fontFamily="@font/madani_arabic_light"
                         android:text="Negotiation offers"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/_13sdp" />
+                        android:textSize="@dimen/_13sdp"
+                        android:textStyle="bold" />
 
                     <ImageView
                         android:layout_width="@dimen/_15sdp"
@@ -595,11 +603,11 @@
                         android:layout_marginTop="@dimen/_6sdp"
                         android:layout_marginEnd="@dimen/_5sdp"
                         android:layout_weight="1"
-                        android:textStyle="bold"
                         android:fontFamily="@font/madani_arabic_light"
                         android:text="Edit my data"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/_13sdp" />
+                        android:textSize="@dimen/_13sdp"
+                        android:textStyle="bold" />
 
                     <ImageView
                         android:layout_width="@dimen/_15sdp"
@@ -651,11 +659,11 @@
                         android:layout_marginTop="@dimen/_5sdp"
                         android:layout_marginEnd="@dimen/_5sdp"
                         android:layout_weight="1"
-                        android:textStyle="bold"
                         android:fontFamily="@font/madani_arabic_light"
                         android:text="Payment cards"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/_13sdp" />
+                        android:textSize="@dimen/_13sdp"
+                        android:textStyle="bold" />
 
                     <ImageView
                         android:layout_width="@dimen/_15sdp"
@@ -703,11 +711,11 @@
                         android:layout_marginTop="@dimen/_5sdp"
                         android:layout_marginEnd="@dimen/_5sdp"
                         android:layout_weight="1"
-                        android:textStyle="bold"
                         android:fontFamily="@font/madani_arabic_light"
                         android:text="My saved addresses"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/_13sdp" />
+                        android:textSize="@dimen/_13sdp"
+                        android:textStyle="bold" />
 
                     <ImageView
                         android:layout_width="@dimen/_15sdp"
@@ -757,11 +765,11 @@
                         android:layout_marginStart="@dimen/_6sdp"
                         android:layout_marginTop="@dimen/_5sdp"
                         android:layout_weight="1"
-                        android:textStyle="bold"
                         android:fontFamily="@font/madani_arabic_light"
                         android:text="Application settings"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/_13sdp" />
+                        android:textSize="@dimen/_13sdp"
+                        android:textStyle="bold" />
 
                     <ImageView
                         android:layout_width="@dimen/_15sdp"
@@ -811,11 +819,11 @@
                         android:layout_marginTop="@dimen/_5sdp"
                         android:layout_marginEnd="@dimen/_5sdp"
                         android:layout_weight="1"
-                        android:textStyle="bold"
                         android:fontFamily="@font/madani_arabic_light"
                         android:text="Help"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/_13sdp" />
+                        android:textSize="@dimen/_13sdp"
+                        android:textStyle="bold" />
 
                     <ImageView
                         android:layout_width="@dimen/_15sdp"
@@ -865,11 +873,11 @@
                         android:layout_marginTop="@dimen/_5sdp"
                         android:layout_marginEnd="@dimen/_5sdp"
                         android:layout_weight="1"
-                        android:textStyle="bold"
                         android:fontFamily="@font/madani_arabic_light"
                         android:text="Technical support"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/_13sdp" />
+                        android:textSize="@dimen/_13sdp"
+                        android:textStyle="bold" />
 
                     <ImageView
                         android:layout_width="@dimen/_15sdp"
@@ -916,11 +924,11 @@
                         android:layout_marginTop="@dimen/_5sdp"
                         android:layout_marginEnd="@dimen/_5sdp"
                         android:layout_weight="1"
-                        android:textStyle="bold"
                         android:fontFamily="@font/madani_arabic_light"
                         android:text="Log out"
                         android:textColor="@color/bg"
-                        android:textSize="@dimen/_13sdp" />
+                        android:textSize="@dimen/_13sdp"
+                        android:textStyle="bold" />
 
                     <ImageView
                         android:layout_width="@dimen/_15sdp"
@@ -949,11 +957,11 @@
 
 
     <androidx.appcompat.widget.Toolbar
-        android:visibility="gone"
         android:id="@+id/toolbar_account"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="#339933"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -965,11 +973,11 @@
 
 
     <ScrollView
-        android:visibility="gone"
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="?actionBarSize"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

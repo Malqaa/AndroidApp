@@ -210,7 +210,6 @@ class HomeFragment : Fragment(), PostsAdapter.OnPostItemClickListener,
         }
 
         getAllCategories()
-//        setupLangReceiver()
 
         setPagerDots(sliderlist)
     }
@@ -597,7 +596,6 @@ class HomeFragment : Fragment(), PostsAdapter.OnPostItemClickListener,
                 call: Call<AllCategoriesResponseBack>,
                 response: Response<AllCategoriesResponseBack>
             ) {
-                HelpFunctions.dismissProgressBar()
 
                 if (response.isSuccessful) {
 
@@ -667,6 +665,8 @@ class HomeFragment : Fragment(), PostsAdapter.OnPostItemClickListener,
                     HelpFunctions.ShowLongToast(getString(R.string.NoCategoriesfound), context)
 
                 }
+                HelpFunctions.dismissProgressBar()
+
             }
 
             override fun onFailure(call: Call<AllCategoriesResponseBack>, t: Throwable) {

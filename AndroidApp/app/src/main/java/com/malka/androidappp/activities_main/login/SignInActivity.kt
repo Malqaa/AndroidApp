@@ -11,7 +11,7 @@ import android.widget.Toast
 import com.google.gson.Gson
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.BaseActivity
-import com.malka.androidappp.activities_main.Bottmmm
+import com.malka.androidappp.activities_main.MainActivity
 import com.malka.androidappp.botmnav_fragments.forgot_password.ForgotPasswordActivty
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass.Companion.SHARED_PREFS
@@ -140,7 +140,7 @@ open class SignInActivity : BaseActivity() {
     ////////////////////////////////SignIn to homepage with parse data///////////////////////////////////////
     //fun signtohome()
     fun signtohome(context: Context, activity: Activity) {
-        val intentt = Intent(context, Bottmmm::class.java)
+        val intentt = Intent(context, MainActivity::class.java)
         context.startActivity(intentt)
         finish()
         activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)

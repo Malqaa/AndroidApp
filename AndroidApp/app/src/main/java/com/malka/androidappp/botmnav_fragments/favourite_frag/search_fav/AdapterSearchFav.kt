@@ -4,13 +4,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
-import com.malka.androidappp.botmnav_fragments.favourite_frag.seller_fav.ModelFavSeller
 import com.malka.androidappp.helper.HelpFunctions
-import com.malka.androidappp.recycler_browsecat.BrowseMarketModel
 import com.malka.androidappp.servicemodels.ConstantObjects
 import kotlinx.android.synthetic.main.favcard_searches_categories.view.*
 

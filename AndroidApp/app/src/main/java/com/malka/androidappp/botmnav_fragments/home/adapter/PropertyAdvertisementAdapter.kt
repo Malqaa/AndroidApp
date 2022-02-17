@@ -11,7 +11,6 @@ import com.malka.androidappp.botmnav_fragments.home.model.Propertyadvetisement
 import com.malka.androidappp.helper.hide
 import com.malka.androidappp.helper.show
 import com.malka.androidappp.network.constants.ApiConstants
-import com.malka.androidappp.recycler_browsecat.BrowseMarketModel
 import com.squareup.picasso.Picasso
 
 class PropertyAdvertisementAdapter(val listproperties: List<Propertyadvetisement>?) :

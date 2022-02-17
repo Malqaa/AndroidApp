@@ -31,7 +31,7 @@
         android:textColor="#ffffff"
         android:layout_alignParentBottom="true"
         android:textSize="22dp"
-        android:layout_marginBottom="?actionBarSize"/>
+        />
 </RelativeLayout>
 
 

@@ -4,40 +4,24 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.malka.androidappp.R
-import com.malka.androidappp.activities_main.login.Data
 import com.malka.androidappp.activities_main.login.SignInActivity
-import com.malka.androidappp.botmnav_fragments.create_ads.ListanItemFragment
-import com.malka.androidappp.botmnav_fragments.edit_profile.SaveStaticGetUserData
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.helper.HelpFunctions
-import com.malka.androidappp.network.Retrofit.RetrofitBuilder
-import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.servicemodels.ConstantObjects
-import com.malka.androidappp.servicemodels.user.UserObject
 import kotlinx.android.synthetic.main.fragment_account.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 
 class AccountFragment : Fragment() {
 
-    override fun onResume() {
-        super.onResume()
-        val navBar: BottomNavigationView = requireActivity().findViewById(R.id.nav_view)
-        navBar.visibility = View.VISIBLE
 
-    }
 
     fun disableenableoptions(enable: Boolean) {
         profilecardv.isEnabled = enable

@@ -1,32 +1,15 @@
 package com.malka.androidappp.botmnav_fragments.feedback_frag.all_feedback
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
-import com.malka.androidappp.botmnav_fragments.my_product.AdapterMyProduct
-import com.malka.androidappp.botmnav_fragments.my_product.AllProductsResponseBack
-import com.malka.androidappp.botmnav_fragments.my_product.ModelMyProduct
-import com.malka.androidappp.botmnav_fragments.my_product.MyProduct
 import com.malka.androidappp.helper.HelpFunctions
-import com.malka.androidappp.network.Retrofit.RetrofitBuilder
-import com.malka.androidappp.network.service.MalqaApiService
-import com.malka.androidappp.recycler_browsecat.BrowseMarketModel
 import com.malka.androidappp.servicemodels.ConstantObjects
-import com.malka.androidappp.servicemodels.feedbacks.FeedbackObject
-import com.malka.androidappp.servicemodels.feedbacks.FeedbackProperties
-import com.malka.androidappp.servicemodels.user.UserObject
-import kotlinx.android.synthetic.main.frag_profile.*
 import kotlinx.android.synthetic.main.fragment_feedback_frag_pager1.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 
 class AllFeedback : Fragment() {

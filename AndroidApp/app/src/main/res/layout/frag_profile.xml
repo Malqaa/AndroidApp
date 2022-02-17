@@ -5,7 +5,7 @@
     android:id="@+id/idd"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="?actionBarSize"
+
     android:background="#F6F7FB"
     tools:context=".botmnav_fragments.ProfileFrag">
 

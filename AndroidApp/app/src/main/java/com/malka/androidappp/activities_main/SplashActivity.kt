@@ -4,7 +4,6 @@ import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Bundle
 import com.malka.androidappp.R
-import com.malka.androidappp.activities_main.login.SignInActivity
 import com.malka.androidappp.helper.HelpFunctions
 import kotlinx.android.synthetic.main.activity_splash.*
 
@@ -26,7 +25,7 @@ class SplashActivity : BaseActivity() {
             splash_view.setOnCompletionListener(MediaPlayer.OnCompletionListener {
                 if (isFinishing) return@OnCompletionListener
                 else {
-                    val intentt = Intent(this@SplashActivity, Bottmmm::class.java)
+                    val intentt = Intent(this@SplashActivity, MainActivity::class.java)
                     this@SplashActivity.startActivity(intentt)
                     finish()
                     this.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)

@@ -2510,5 +2510,6 @@
     <string name="price_negotiation">التفاوض على الأسعار</string>
     <string name="have_a_question">لدي سؤال؟</string>
     <string name="merchant">تاجر</string>
+  <string name="result">%s results</string>
 
 </resources>

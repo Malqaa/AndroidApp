@@ -207,67 +207,156 @@
 
             </LinearLayout>
 
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <LinearLayout
                 android:layout_marginTop="@dimen/_5sdp"
-                android:orientation="horizontal">
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:fontFamily="@font/madani_arabic_light"
-                    android:text="@string/purchasing_price"
-                    android:textColor="@color/textColor2"
-                    android:textSize="@dimen/_7sdp" />
-
-
-                <TextView
-                    android:id="@+id/purchasing_price_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:fontFamily="@font/madani_arabic_bold"
-                    android:text="350 Rayal"
-                    android:textColor="@color/bg"
-                    android:textSize="@dimen/_9sdp"
-                    android:textStyle="bold" />
-
-
-            </RelativeLayout>
-
-            <RelativeLayout
+                android:id="@+id/lisView"
+                android:visibility="gone"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:weightSum="2">
 
-
-                <TextView
-                    android:layout_width="wrap_content"
-
+                <RelativeLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:fontFamily="@font/madani_arabic_light"
-                    android:text="@string/LowestPrice"
-                    android:textColor="@color/textColor2"
-                    android:textSize="@dimen/_7sdp" />
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
 
 
-                <TextView
-                    android:id="@+id/LowestPrice"
+                    <TextView
+                        android:layout_width="wrap_content"
+
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:fontFamily="@font/madani_arabic_light"
+                        android:text="@string/purchasing_price"
+                        android:textColor="@color/textColor2"
+                        android:textSize="@dimen/_7sdp" />
+
+
+                    <TextView
+                        android:id="@+id/purchasing_price_tv_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:fontFamily="@font/madani_arabic_bold"
+                        android:text="350 Rayal"
+
+                        android:textColor="@color/bg"
+                        android:textSize="@dimen/_9sdp"
+                        android:textStyle="bold" />
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:fontFamily="@font/madani_arabic_light"
+                        android:text="@string/LowestPrice"
+                        android:textColor="@color/textColor2"
+                        android:textSize="@dimen/_7sdp" />
+
+
+                    <TextView
+                        android:id="@+id/LowestPrice_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:fontFamily="@font/madani_arabic_bold"
+                        android:text="290 Rayal"
+                        android:textColor="@color/textColor2"
+                        android:textSize="@dimen/_9sdp"
+                        android:textStyle="bold" />
+
+
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/gridview"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:fontFamily="@font/madani_arabic_bold"
-                    android:text="290 Rayal"
-                    android:textColor="@color/textColor2"
-                    android:textSize="@dimen/_9sdp"
-                    android:textStyle="bold" />
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:orientation="horizontal">
 
 
-            </RelativeLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:fontFamily="@font/madani_arabic_light"
+                        android:text="@string/purchasing_price"
+                        android:textColor="@color/textColor2"
+                        android:textSize="@dimen/_7sdp" />
+
+
+                    <TextView
+                        android:id="@+id/purchasing_price_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:fontFamily="@font/madani_arabic_bold"
+                        android:text="350 Rayal"
+                        android:textColor="@color/bg"
+                        android:textSize="@dimen/_9sdp"
+                        android:textStyle="bold" />
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:fontFamily="@font/madani_arabic_light"
+                        android:text="@string/LowestPrice"
+                        android:textColor="@color/textColor2"
+                        android:textSize="@dimen/_7sdp" />
+
+
+                    <TextView
+                        android:id="@+id/LowestPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:fontFamily="@font/madani_arabic_bold"
+                        android:text="290 Rayal"
+                        android:textColor="@color/textColor2"
+                        android:textSize="@dimen/_9sdp"
+                        android:textStyle="bold" />
+
+
+                </RelativeLayout>
+            </LinearLayout>
+
+
         </LinearLayout>
 
 

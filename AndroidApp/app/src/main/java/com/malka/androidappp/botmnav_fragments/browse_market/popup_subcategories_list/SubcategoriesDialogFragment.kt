@@ -1,25 +1,22 @@
 package com.malka.androidappp.botmnav_fragments.browse_market.popup_subcategories_list
 
 import android.app.AlertDialog
-import com.malka.androidappp.R
 import android.app.Dialog
 import android.content.Context
-import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
-import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
+import com.malka.androidappp.R
 import com.malka.androidappp.botmnav_fragments.create_ads.categoriesmodel_jsons.Categories
 import com.malka.androidappp.botmnav_fragments.create_ads.categoriesmodel_jsons.CategoriesItem
 import com.malka.androidappp.botmnav_fragments.create_ads.categoriesmodel_jsons.JsonFileNames
-import org.w3c.dom.Text
 import java.io.InputStream
 
 

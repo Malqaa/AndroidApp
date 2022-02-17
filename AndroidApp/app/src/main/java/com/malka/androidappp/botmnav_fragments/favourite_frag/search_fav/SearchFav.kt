@@ -1,20 +1,14 @@
 package com.malka.androidappp.botmnav_fragments.favourite_frag.search_fav
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.Spinner
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.malka.androidappp.R
-import com.malka.androidappp.botmnav_fragments.feedback_frag.all_feedback.ModelAllFeedback
 import com.malka.androidappp.helper.HelpFunctions
-import com.malka.androidappp.recycler_browsecat.BrowseMarketAdapter
-import com.malka.androidappp.recycler_notic.NotificModel
 import com.malka.androidappp.servicemodels.ConstantObjects
-import kotlinx.android.synthetic.main.fragment_browse_market.*
 import kotlinx.android.synthetic.main.fragment_fav_frag_pager1.*
 
 class SearchFav : Fragment() {

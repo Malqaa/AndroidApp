@@ -15,8 +15,7 @@ import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import com.malka.androidappp.R
-import com.malka.androidappp.activities_main.Bottmmm
-import com.malka.androidappp.activities_main.login.SignInActivity
+import com.malka.androidappp.activities_main.MainActivity
 
 
 class OnBoardingIntroSlider : AppCompatActivity() {
@@ -105,7 +104,7 @@ class OnBoardingIntroSlider : AppCompatActivity() {
 
     private fun launchHomeScreen() {
         prefManager!!.isFirstTimeLaunch = false
-        startActivity(Intent(this@OnBoardingIntroSlider, Bottmmm::class.java))
+        startActivity(Intent(this@OnBoardingIntroSlider, MainActivity::class.java))
         finish()
     }
 

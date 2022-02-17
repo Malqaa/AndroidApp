@@ -2669,6 +2669,7 @@ Want to start a business account? Create a Business Account
     <string name="List_Auctions">List Auctions</string>
     <string name="List_Auctions_detail">Participate in auctions or buy at the displayed price</string>
   <string name="follow_news">Follow all the news for this section</string>
+  <string name="result">%s results</string>
 
 
 </resources>

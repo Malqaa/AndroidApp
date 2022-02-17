@@ -1,26 +1,21 @@
 package com.malka.androidappp.recycler_browsecat
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
-import com.malka.androidappp.Const
 import com.malka.androidappp.R
 import com.malka.androidappp.helper.BaseViewHolder
 import com.malka.androidappp.helper.GenericAdaptor
-import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.servicemodels.categorylistings.SearchRespone
-import kotlinx.android.synthetic.main.product_item.view.*
 
 
 class BrowseMarketXLAdap(
-    val marketposts: List<SearchRespone.Data>,
+    var marketposts: List<SearchRespone.Data>,
     var context: Context
 ) : RecyclerView.Adapter<BaseViewHolder>() {
-
+    var isGrid:Boolean=true
     var onItemClick: ((SearchRespone.Data) -> Unit)? = null
 
 
@@ -40,7 +35,7 @@ class BrowseMarketXLAdap(
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
 
 
-        GenericAdaptor().productAdaptor(marketposts.get(position)._source, context, holder)
+        GenericAdaptor().productAdaptor(marketposts.get(position)._source, context, holder,isGrid)
 
 
 //
@@ -134,4 +129,15 @@ class BrowseMarketXLAdap(
 //            popupMenu.show()
 //        }
 //    }
+
+
+    fun updateLayout(isGrid:Boolean){
+        this.isGrid=isGrid
+        notifyDataSetChanged()
+    }
+
+    fun updateData(marketposts:List<SearchRespone.Data>){
+        this.marketposts=marketposts
+        notifyDataSetChanged()
+    }
 }
