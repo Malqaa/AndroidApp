@@ -2519,5 +2519,16 @@
   <string name="choose_department">أختر القسم</string>
   <string name="the_next">التالى</string>
   <string name="result">%s results</string>
+    <string name="subsection">القسم الفرعى</string>
+    <string name="attach_pictures_of_the_item">أرفق صور السلعة</string>
+  <string name="item_details">تفاصيل السلعة</string>
+    <string name="attach_a_video_link_of_the_item">ارفق رابط فيديو للسلعة</string>
+    <string name="reviews">التقييمات</string>
+    <string name="sent">المرسلة</string>
+  <string name="received">المستلمة</string>
+  <string name="sent_to_buyers">مرسلة لمشترين</string>
+  <string name="_3_days_after_the_offer_ends">3 أيام على انتهاء العرض</string>
+  <string name="no_response_yet">لم يتم الرد بعد</string>
+    <string name="sent_to_sellers">مرسلة لبائعين</string>
 
 </resources>

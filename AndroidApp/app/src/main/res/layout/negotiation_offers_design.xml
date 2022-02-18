@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:background="@drawable/product_attribute_bg4"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_42sdp"
+            android:background="@color/bg">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:backgroundTint="@color/bg"
+                android:fontFamily="@font/madani_arabic_extra_light"
+                android:gravity="center"
+                android:text="@string/_3_days_after_the_offer_ends"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/product_image"
+                android:layout_width="@dimen/_110sdp"
+                android:layout_height="@dimen/_104sdp"
+                android:src="@drawable/detailpic1"
+                android:padding="@dimen/_5sdp"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/product_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/madani_arabic_extra_light"
+                    android:text="@string/electronics_phones"
+                    android:textSize="@dimen/_10sdp"
+                    android:textColor="#293241" />
+
+                <TextView
+                    android:id="@+id/product_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/madani_arabic_medium"
+                    android:text="RealMe 8 Pro Infinite "
+                    android:textSize="@dimen/_14sdp"
+                    android:textColor="#262626" />
+
+                <TextView
+                    android:id="@+id/product_city"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/madani_arabic_light"
+                    android:text="@string/Riyadh"
+                    android:textSize="@dimen/_12sdp"
+                    android:textColor="#6D6C74" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/product_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1643"
+                        android:fontFamily="@font/madani_arabic_medium"
+                        android:textColor="@color/bg"
+                        android:textSize="@dimen/_14sdp"/>
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="SAR"
+                        android:fontFamily="@font/madani_arabic_medium"
+                        android:textColor="@color/bg"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:textSize="@dimen/_14sdp"/>
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            android:background="@color/light_gray">
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:weightSum="3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/_5sdp"
+
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="@dimen/_70sdp"
+                android:layout_height="@dimen/_70sdp">
+
+                <ImageView
+                    android:id="@+id/person_dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/profiledp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/_10sdp"/>
+
+            </LinearLayout>
+
+
+
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/person_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/madani_arabic_medium"
+                    android:text="Ahmed Mohamed "
+                    android:textSize="@dimen/_14sdp"
+                    android:textColor="#262626" />
+
+                <TextView
+                    android:id="@+id/person_since"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/madani_arabic_light"
+                    android:text="Member since 2/21/2020"
+                    android:textSize="@dimen/_12sdp"
+                    android:textColor="#6D6C74" />
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="@dimen/_80sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="@dimen/_20sdp"
+                    android:layout_weight="1"
+                    android:background="@drawable/product_attribute_bg4"
+                    android:backgroundTint="@color/bg"
+                    android:fontFamily="@font/madani_arabic_semi_bold"
+                    android:gravity="center"
+                    android:text="@string/sent"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_12sdp" />
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</RelativeLayout>

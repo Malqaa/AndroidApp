@@ -2668,16 +2668,27 @@ Want to start a business account? Create a Business Account
     <string name="electronics">Electronics</string>
     <string name="List_Auctions">List Auctions</string>
     <string name="List_Auctions_detail">Participate in auctions or buy at the displayed price</string>
-  <string name="follow_news">Follow all the news for this section</string>
-  <string name="result">%s results</string>
+    <string name="follow_news">Follow all the news for this section</string>
+    <string name="result">%s results</string>
     <string name="add_product">Add product</string>
     <string name="what_is_lorem_ipsum">What is Lorem Ipsum?</string>
     <string name="enter_the_title_of_the_product_you_want_to_sell">Enter the title of the product you want to sell</string>
     <string name="phone">phone</string>
-    <string name="electronics_phones">Electronics Phones</string>
+    <string name="electronics_phones">Electronics - Phones</string>
     <string name="services_mobile_phone_services">Services - mobile phone services</string>
     <string name="choose_department">Choose Department</string>
     <string name="the_next">The Next</string>
+    <string name="subsection">Subsection</string>
+    <string name="attach_pictures_of_the_item">Attach pictures of the item</string>
+    <string name="item_details">Item details</string>
+    <string name="attach_a_video_link_of_the_item">Attach a video link of the item</string>
+    <string name="reviews">Reviews</string>
+    <string name="sent">Sent</string>
+    <string name="received">Received</string>
+    <string name="sent_to_buyers">Sent to buyers</string>
+    <string name="_3_days_after_the_offer_ends">3 days after the offer ends</string>
+    <string name="no_response_yet">No response yet</string>
+    <string name="sent_to_sellers">sent to sellers</string>
 
 
 </resources>
