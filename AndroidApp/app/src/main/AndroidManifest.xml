@@ -31,11 +31,7 @@
             android:name=".design.negotiation_offers1"
             android:exported="true"
             android:theme="@style/NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".design.product_reviews1"
@@ -51,11 +47,19 @@
         <activity
             android:name=".design.add_product3"
             android:exported="true"
-            android:theme="@style/NoActionBar" />
+            android:theme="@style/NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".design.add_product2"
             android:exported="true"
-            android:theme="@style/NoActionBar" />
+            android:theme="@style/NoActionBar" >
+
+        </activity>
         <activity
             android:name=".design.add_product1"
             android:exported="false"
