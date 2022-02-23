@@ -4,13 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".design.add_product1">
+    tools:context=".design.add_product5">
 
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -37,7 +36,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="@dimen/_7sdp"
                     android:fontFamily="@font/madani_arabic_medium"
-                    android:text="@string/add_product"
+                    android:text="@string/item_details"
                     android:textColor="#000000"
                     android:textSize="@dimen/_13sdp" />
 
@@ -53,7 +52,6 @@
 
             </LinearLayout>
 
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -61,126 +59,86 @@
                 android:layout_marginEnd="@dimen/_15sdp"
                 android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_15sdp"
-                    android:fontFamily="@font/madani_arabic_semi_bold"
-                    android:gravity="center"
-                    android:text="@string/what_is_lorem_ipsum"
-                    android:textColor="#000000"
-                    android:textSize="@dimen/_13sdp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_15sdp"
-                    android:fontFamily="@font/madani_arabic_semi_bold"
-                    android:text="@string/enter_the_title_of_the_product_you_want_to_sell"
-                    android:textColor="#000000"
-                    android:textSize="@dimen/_13sdp" />
-
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_40sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:background="@drawable/circle_bg"
-                    android:backgroundTint="#F9F9F9"
-                    android:gravity="center_vertical"
+                    android:layout_height="@dimen/_46sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:background="@drawable/add_product_attribte"
                     android:orientation="horizontal"
-                    android:padding="@dimen/_5sdp">
+                    android:backgroundTint="@color/bg">
 
-
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/_10sdp"
+                    <LinearLayout
                         android:layout_weight="1"
-                        android:background="@null"
-                        android:hint="@string/Phone"
-                        android:maxLines="1"
-                        android:textSize="@dimen/_10sdp" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_gravity="center_vertical">
+
+                        <TextView
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/madani_arabic_light"
+                            android:text="@string/car"
+                            android:textColor="@color/white"
+                            android:layout_marginStart="20dp"
+                            android:layout_gravity="center_vertical"
+                            android:textSize="@dimen/_12sdp" />
+
+                        <TextView
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/madani_arabic_light"
+                            android:text="-"
+                            android:textColor="@color/white"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_gravity="center_vertical"
+                            android:textSize="@dimen/_12sdp" />
+
+
+                        <TextView
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/madani_arabic_light"
+                            android:text="Hyundai"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:textColor="@color/white"
+                            android:layout_gravity="center_vertical"
+                            android:textSize="@dimen/_12sdp" />
+
+
+
+                    </LinearLayout>
+
 
 
                     <ImageView
-                        android:layout_width="@dimen/_15sdp"
-                        android:layout_height="@dimen/_15sdp"
-                        android:layout_marginLeft="@dimen/_10sdp"
-                        android:layout_marginEnd="@dimen/_10sdp"
-                        android:src="@drawable/search_icon"
-                        app:tint="@color/gray_light" />
+
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_10sdp"
+                        android:src="@drawable/vectorlog"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="@dimen/_20sdp"
+                        app:tint="@color/white" />
+
+
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:orientation="vertical">
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/madani_arabic_light"
-                            android:text="@string/electronics_phones"
-                            android:textColor="#000000"
-                            android:textSize="@dimen/_12sdp" />
-
-
-                        <RadioButton
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:checked="true" />
-
-                    </LinearLayout>
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/madani_arabic_light"
-                            android:text="@string/services_mobile_phone_services"
-                            android:textColor="#000000"
-                            android:textSize="@dimen/_12sdp" />
-
-
-                        <RadioButton
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:checked="false" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_20sdp"
-                    android:fontFamily="@font/madani_arabic_medium"
-                    android:text="@string/choose_department"
-                    android:textColor="#293241"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:fontFamily="@font/madani_arabic_semi_bold"
+                    android:text="@string/model_year"
+                    android:textColor="#000000"
                     android:textSize="@dimen/_12sdp" />
 
+
                 <LinearLayout
-                    android:id="@+id/choose_Department"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_46sdp"
                     android:layout_marginTop="@dimen/_15sdp"
@@ -211,8 +169,74 @@
                 </LinearLayout>
 
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:fontFamily="@font/madani_arabic_semi_bold"
+                    android:text="@string/motion_vector"
+                    android:textColor="#000000"
+                    android:textSize="@dimen/_12sdp" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_46sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:background="@drawable/add_product_attribte"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/madani_arabic_light"
+                        android:text="Cars, Real estate, Animals..."
+                        android:textColor="#45495E"
+                        android:layout_marginStart="20dp"
+                        android:layout_gravity="center_vertical"
+                        android:textSize="@dimen/_12sdp" />
+
+
+                    <ImageView
+
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_10sdp"
+                        android:src="@drawable/vectorlog"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="@dimen/_20sdp"/>
+
+
+                </LinearLayout>
+
+
+                <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:fontFamily="@font/madani_arabic_semi_bold"
+                android:text="@string/mileage"
+                android:textColor="#000000"
+                android:textSize="@dimen/_12sdp" />
+
+
+                 <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_46sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:background="@drawable/add_product_attribte"
+                    android:orientation="horizontal">
+
+
+                 </EditText>
+
+
+
+
+
 
             </LinearLayout>
+
 
 
 
@@ -224,7 +248,7 @@
     </ScrollView>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/add_prouct_button2"
+        android:id="@+id/add_product_button6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -238,7 +262,6 @@
         android:textAllCaps="false"
         android:textColor="#ffffff"
         android:textSize="@dimen/_14sdp" />
-
 
 
 </RelativeLayout>

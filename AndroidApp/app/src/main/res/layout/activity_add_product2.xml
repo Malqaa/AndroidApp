@@ -28,7 +28,7 @@
                     android:layout_width="@dimen/_15sdp"
                     android:layout_height="@dimen/_10sdp"
                     android:layout_gravity="center_vertical"
-                    android:src="@drawable/backarrow1"/>
+                    android:src="@drawable/backarrow1" />
 
 
                 <TextView
@@ -59,16 +59,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_10sdp"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:spanCount="3"
-                tools:listitem="@layout/all_categories_cardview"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager" />
+                tools:listitem="@layout/all_categories_cardview" />
 
         </LinearLayout>
     </ScrollView>
 
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/business_signup2_button"
+        android:id="@+id/add_product_button3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

@@ -1,5 +1,6 @@
 package com.malka.androidappp.design
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Filter
 import androidx.appcompat.app.AppCompatActivity
@@ -7,6 +8,9 @@ import com.malka.androidappp.R
 import com.malka.androidappp.helper.hide
 import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
 import kotlinx.android.synthetic.main.activity_add_product2.*
+import kotlinx.android.synthetic.main.activity_add_product2.add_product_button3
+import kotlinx.android.synthetic.main.activity_add_product2.category_rcv
+import kotlinx.android.synthetic.main.add_product4.*
 import kotlinx.android.synthetic.main.add_product_imgs.view.*
 import kotlinx.android.synthetic.main.all_categories_cardview.view.*
 import kotlinx.android.synthetic.main.all_categories_cardview.view.category_name_tv
@@ -17,6 +21,16 @@ class add_product4 : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.add_product4)
+
+
+        add_product_button5.setOnClickListener(){
+
+            val  intent = Intent(this@add_product4, add_product5::class.java)
+            startActivity(intent)
+        }
+
+
+
         list.add(DummyCategoryModel("Honda", R.drawable.car))
         list.add(DummyCategoryModel("Civic", R.drawable.car4))
         list.add(DummyCategoryModel("Suzuki", R.drawable.car2))

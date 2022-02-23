@@ -52,7 +52,7 @@
                 android:hint="@string/Password"
                 android:inputType="textPassword"
                 app:enablePasswordToggle="true"
-                app:startIcon="@drawable/symbolpass"/>
+                app:startIcon="@drawable/symbolpass" />
 
             <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
                 android:id="@+id/sdsdss"

@@ -4,18 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".design.add_product1">
+    tools:context=".design.add_product">
+
 
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -67,9 +68,10 @@
                     android:layout_marginTop="@dimen/_15sdp"
                     android:fontFamily="@font/madani_arabic_semi_bold"
                     android:gravity="center"
-                    android:text="@string/what_is_lorem_ipsum"
+                    android:text="@string/what_do_you_want_to_sell"
                     android:textColor="#000000"
-                    android:textSize="@dimen/_13sdp" />
+                    android:textSize="@dimen/_14sdp" />
+
 
                 <TextView
                     android:layout_width="match_parent"
@@ -78,10 +80,12 @@
                     android:fontFamily="@font/madani_arabic_semi_bold"
                     android:text="@string/enter_the_title_of_the_product_you_want_to_sell"
                     android:textColor="#000000"
-                    android:textSize="@dimen/_13sdp" />
+                    android:textSize="@dimen/_12sdp" />
+
 
 
                 <LinearLayout
+                    android:id="@+id/product_search_bar"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_40sdp"
                     android:layout_marginTop="@dimen/_10sdp"
@@ -98,7 +102,7 @@
                         android:layout_marginLeft="@dimen/_10sdp"
                         android:layout_weight="1"
                         android:background="@null"
-                        android:hint="@string/Phone"
+                        android:hint="@string/enter_the_name_of_the_product_you_want_to_sell"
                         android:maxLines="1"
                         android:textSize="@dimen/_10sdp" />
 
@@ -109,66 +113,10 @@
                         android:layout_marginLeft="@dimen/_10sdp"
                         android:layout_marginEnd="@dimen/_10sdp"
                         android:src="@drawable/search_icon"
-                        app:tint="@color/gray_light" />
+                        app:tint="@color/black" />
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:orientation="vertical">
 
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/madani_arabic_light"
-                            android:text="@string/electronics_phones"
-                            android:textColor="#000000"
-                            android:textSize="@dimen/_12sdp" />
-
-
-                        <RadioButton
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:checked="true" />
-
-                    </LinearLayout>
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/madani_arabic_light"
-                            android:text="@string/services_mobile_phone_services"
-                            android:textColor="#000000"
-                            android:textSize="@dimen/_12sdp" />
-
-
-                        <RadioButton
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:checked="false" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -211,10 +159,7 @@
                 </LinearLayout>
 
 
-
             </LinearLayout>
-
-
 
 
 
@@ -223,8 +168,9 @@
 
     </ScrollView>
 
+
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/add_prouct_button2"
+        android:id="@+id/business_signup2_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -238,7 +184,5 @@
         android:textAllCaps="false"
         android:textColor="#ffffff"
         android:textSize="@dimen/_14sdp" />
-
-
 
 </RelativeLayout>

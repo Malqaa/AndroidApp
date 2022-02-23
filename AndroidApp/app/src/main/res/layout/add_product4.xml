@@ -109,18 +109,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_46sdp"
                 android:layout_marginTop="@dimen/_12sdp"
-                android:background="@drawable/add_product_attribte">
+                android:background="@drawable/edittext_bg">
 
 
-                <TextView
+                <EditText
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="20dp"
                     android:fontFamily="@font/madani_arabic_light"
-                    android:text="@string/attach_a_video_link_of_the_item"
+                    android:hint="@string/attach_a_video_link_of_the_item"
                     android:textColor="#45495E"
+                    android:background="@null"
                     android:textSize="@dimen/_12sdp" />
 
             </LinearLayout>
@@ -131,7 +132,7 @@
                 android:layout_height="wrap_content">
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/business_signup2_button"
+                    android:id="@+id/add_product_button5"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_46sdp"
                     android:layout_alignParentBottom="true"
