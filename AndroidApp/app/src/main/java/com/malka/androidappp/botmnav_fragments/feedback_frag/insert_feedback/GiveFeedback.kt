@@ -50,7 +50,7 @@ class GiveFeedback : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val navBar: BottomNavigationView = requireActivity().findViewById(R.id.nav_view)
-        navBar.visibility = View.GONE
+        
 
         AdvId = arguments?.getString("AdvId").toString()
         // Inflate the layout for this fragment

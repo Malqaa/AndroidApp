@@ -124,7 +124,7 @@ class CarSpecificsFragment : Fragment(), BottomsheetDialogfragClass.BottomSheetL
         getcurrentbidingprice()
 
         // Seller Details
-        getSellerByID(SharedPreferencesStaticClass.ad_userid)
+      //  getSellerByID(SharedPreferencesStaticClass.ad_userid)
 
 
         val buttonOpenBottomSheet: Button = requireActivity().findViewById(R.id.placebid)

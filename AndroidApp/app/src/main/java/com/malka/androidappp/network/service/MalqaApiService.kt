@@ -215,7 +215,7 @@ interface MalqaApiService {
         @Query("loggedin") loggedin: String
     ): Call<SellerResponseBack>
 
-    @GET(GET_SELLER_ENDPOINT + "?")
+    @GET(GET_SELLER_ENDPOINT)
     fun getAdSellerByID(
         @Query("id") id: String
     ): Call<ModelSellerDetails>

@@ -4,19 +4,26 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import com.malka.androidappp.Const
 import com.malka.androidappp.R
-import com.malka.androidappp.botmnav_fragments.home.model.Generaladvetisement
+import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.design.product_details
 import com.malka.androidappp.helper.BaseViewHolder
+import com.malka.androidappp.helper.Extension.decimalNumberFormat
+import com.malka.androidappp.helper.HelpFunctions
+import com.malka.androidappp.network.constants.ApiConstants
+import com.malka.androidappp.servicemodels.home.GeneralProduct
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.product_item.view.*
 
 class GeneralAdvertisementAdapter(
-    val listCar: List<Generaladvetisement>
+    val listCar: List<GeneralProduct>,val currentfragment: Fragment
 ) :
     RecyclerView.Adapter<BaseViewHolder>() {
 
-    var onItemClick: ((Generaladvetisement) -> Unit)? = null
+    var onItemClick: ((GeneralProduct) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         val view: View =
@@ -32,72 +39,39 @@ class GeneralAdvertisementAdapter(
             params.height = params.height
             fullview.layoutParams = params
 
-            setOnClickListener {
-                context.startActivity(Intent(context, product_details::class.java))
-            }
+            listCar.get(position).run {
 
-//            listCar.get(position).run {
-//                setOnClickListener {
-//                    onItemClick?.invoke(listCar!!.get(position))
-//                }
-//            }
+
+                titlenamee.text = title
+                city_tv.text = city
+                LowestPrice.text = "${price.toDouble().decimalNumberFormat()} ${Const.currency}"
+                LowestPrice_2.text = "${price.toDouble().decimalNumberFormat()} ${Const.currency}"
+                setOnClickListener {
+                   // onItemClick?.invoke(listCar!!.get(position))
+
+                    HelpFunctions.ViewAdvertismentDetail(
+                        referenceId,
+                        template,
+                        currentfragment
+                    )
+                    SharedPreferencesStaticClass.ad_userid = user
+
+                   // context.startActivity(Intent(context, product_details::class.java))
+                }
+                val imageURL = ApiConstants.IMAGE_URL + homepageImage
+                Picasso.get()
+                    .load(imageURL).error(R.drawable.car1)
+                    .into(myimagee)
+
+            }
         }
 
-//        //It is ttname.text = listCar.name and similarly others
-//        ttname?.let {
-//            it.show()
-//            it.text = if (listCar.title != null) listCar.title else ""
-//        } ?: run {
-//            ttname!!.hide()
-//        }
-//        minutess?.let {
-//            it.show()
-//            it.text = if (listCar.subtitle != null) listCar.subtitle else ""
-//        } ?: run {
-//            minutess!!.hide()
-//
-//        }
-//        description?.let {
-//            it.show()
-//            it.text = if (listCar.city != null) listCar.city else ""
-//        } ?: run {
-//            description!!.hide()
-//        }
-//        adCountry?.let {
-//            it.show()
-//            it.text = if (listCar.country != null) listCar.country else ""
-//        } ?: run {
-//            adCountry!!.hide()
-//        }
-//        auction?.let {
-//            it.show()
-//            it.text = if (listCar.startingPrice != null) listCar.startingPrice else ""
-//        } ?: run {
-//            auction!!.hide()
-//        }
-//        pricee?.let {
-//            it.text = if (listCar.price != null) listCar.price else ""
-//        } ?: run {
-//            pricee!!.hide()
-//        }
-//        myimg?.let {
-//            it.show()
-//            //When Url is available in payload  use this line
-//            //  Picasso.get().load(listCar.image).into(it);
-//            if (listCar.homepageImage != null) Picasso.get()
-//                .load(ApiConstants.IMAGE_URL + listCar.homepageImage)
-//                .into(it);
-//            else it.setImageResource(R.drawable.car)
-//        } ?: run {
-//            myimg!!.hide()
-//
-//        }
 
     }
 
 
     override fun getItemCount(): Int {
-        return 4
+        return listCar.size
     }
 
 }

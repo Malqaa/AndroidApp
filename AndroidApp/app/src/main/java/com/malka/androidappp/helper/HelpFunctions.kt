@@ -6,7 +6,6 @@ import android.app.AlertDialog
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color
-import android.graphics.drawable.AnimationDrawable
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.StrictMode
@@ -16,13 +15,14 @@ import android.util.Log
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
-import android.view.Window
-import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import com.malka.androidappp.R
+import com.malka.androidappp.activities_main.login.LoginData
+import com.malka.androidappp.activities_main.login.LoginResponseBack
+import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.botmnav_fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ModelShipAddresses
 import com.malka.androidappp.botmnav_fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ShippingAddressessData
 import com.malka.androidappp.botmnav_fragments.watchlist_fragment.WatchlistFragment
@@ -42,6 +42,7 @@ import com.malka.androidappp.servicemodels.favourites.FavouriteObject
 import com.malka.androidappp.servicemodels.favourites.favouriteadd
 import com.malka.androidappp.servicemodels.watchlist.watchlistadd
 import com.malka.androidappp.servicemodels.watchlist.watchlistobject
+import io.paperdb.Paper
 import kotlinx.android.synthetic.main.alertpopup.view.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -50,8 +51,6 @@ import java.io.ByteArrayOutputStream
 import java.io.InputStream
 import java.io.PrintWriter
 import java.io.StringWriter
-import java.text.DecimalFormat
-import java.text.DecimalFormatSymbols
 import java.text.ParsePosition
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
@@ -61,6 +60,7 @@ import java.util.concurrent.TimeUnit
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 import kotlin.collections.ArrayList
+import kotlin.Boolean as Boolean1
 
 
 interface ListRefreshed {
@@ -96,12 +96,14 @@ class HelpFunctions {
             }
         }
 
-        fun IsUserLoggedIn(): Boolean {
-            var RetVal = false
-            if (ConstantObjects.logged_userid != null && ConstantObjects.logged_userid.trim().length > 0) {
-                RetVal = true
+        fun IsUserLoggedIn(): Boolean1 {
+            val islogin= Paper.book().read(SharedPreferencesStaticClass.islogin,false)?:false
+            if(islogin){
+                val `data`= Paper.book().read<LoginData>(SharedPreferencesStaticClass.userData)!!
+                ConstantObjects.logged_userid = data.id
+                ConstantObjects.isBusinessUser = data.isBusinessUser > 0
             }
-            return RetVal;
+            return islogin
         }
 
         fun ShowShortToast(msg: String, context: Context?) {
@@ -210,7 +212,7 @@ class HelpFunctions {
             return Secure.getString(context.contentResolver, Secure.ANDROID_ID)
         }
 
-        fun isEmailValid(email: String): Boolean {
+        fun isEmailValid(email: String): Boolean1 {
             var isValid = false
             val expression = "^[\\w.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$"
             val inputStr: CharSequence = email
@@ -222,7 +224,7 @@ class HelpFunctions {
             return isValid
         }
 
-        fun isPhoneNumberValid(number: String): Boolean {
+        fun isPhoneNumberValid(number: String): Boolean1 {
             return Patterns.PHONE.matcher(number).matches()
         }
 
@@ -274,8 +276,8 @@ class HelpFunctions {
             NavHostFragment.findNavController(currentfragment).navigate(R.id.carspicification, args)
         }
 
-        fun AdAlreadyAddedToWatchList(adreferenceId: String): Boolean {
-            var RetVal: Boolean = false;
+        fun AdAlreadyAddedToWatchList(adreferenceId: String): Boolean1 {
+            var RetVal: Boolean1 = false;
             try {
                 if (adreferenceId != null && adreferenceId.trim().length > 0) {
                     if (ConstantObjects.userwatchlist != null && ConstantObjects.userwatchlist!!.data != null && ConstantObjects.userwatchlist!!.data.size > 0) {
@@ -410,8 +412,8 @@ class HelpFunctions {
             }
         }
 
-        fun InsertAdToWatchlist(AdsId: String, reminderType: Int, context: Fragment): Boolean {
-            var RetVal: Boolean = false
+        fun InsertAdToWatchlist(AdsId: String, reminderType: Int, context: Fragment): Boolean1 {
+            var RetVal: Boolean1 = false
             try {
                 var ad: watchlistadd = watchlistadd(
                     ConstantObjects.logged_userid,
@@ -466,8 +468,8 @@ class HelpFunctions {
             return RetVal
         }
 
-        fun DeleteAdFromWatchlist(AdsId: String, context: Fragment): Boolean {
-            var RetVal: Boolean = false;
+        fun DeleteAdFromWatchlist(AdsId: String, context: Fragment): Boolean1 {
+            var RetVal: Boolean1 = false;
             try {
                 val malqa: MalqaApiService = RetrofitBuilder.DeleteAdFromUserWatchlist()
                 val call: Call<Basicresponse> =
@@ -528,8 +530,8 @@ class HelpFunctions {
             categoryName: String,
             searchQuery: String,
             context: Fragment
-        ): Boolean {
-            var RetVal: Boolean = false
+        ): Boolean1 {
+            var RetVal: Boolean1 = false
             try {
                 var ad: favouriteadd = favouriteadd(
                     sellerId = sellerId,
@@ -608,8 +610,8 @@ class HelpFunctions {
             sellerid: String,
             category: String,
             query: String, context: Fragment
-        ): Boolean {
-            var RetVal: Boolean = false
+        ): Boolean1 {
+            var RetVal: Boolean1 = false
             try {
                 var ad: favouriteadd = favouriteadd(
                     sellerId = "",
@@ -730,8 +732,8 @@ class HelpFunctions {
             }
         }
 
-        fun InsertUserCreditCard(cardinfo: CreditCardRequestModel, context: Fragment): Boolean {
-            var RetVal: Boolean = false
+        fun InsertUserCreditCard(cardinfo: CreditCardRequestModel, context: Fragment): Boolean1 {
+            var RetVal: Boolean1 = false
             try {
                 val malqa: MalqaApiService = RetrofitBuilder.InsertUserCreditCard()
                 val call: Call<Basicresponse> = malqa.InsertUserCreditCard(cardinfo)
@@ -765,8 +767,8 @@ class HelpFunctions {
             return RetVal
         }
 
-        fun DeleteUserCreditCard(CardId: String, context: Fragment): Boolean {
-            var RetVal: Boolean = false;
+        fun DeleteUserCreditCard(CardId: String, context: Fragment): Boolean1 {
+            var RetVal: Boolean1 = false;
             try {
                 val malqa: MalqaApiService = RetrofitBuilder.DeleteUserCreditCard()
                 val call: Call<Basicresponse> = malqa.DeleteUserCreditCard(CardId)
@@ -840,8 +842,8 @@ class HelpFunctions {
             }
         }
 
-        fun AddToUserCart(cartiteminfo: InsertToCartRequestModel, context: Fragment): Boolean {
-            var RetVal: Boolean = false
+        fun AddToUserCart(cartiteminfo: InsertToCartRequestModel, context: Fragment): Boolean1 {
+            var RetVal: Boolean1 = false
             try {
                 val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
                 StrictMode.setThreadPolicy(policy)
@@ -877,8 +879,8 @@ class HelpFunctions {
             return RetVal
         }
 
-        fun DeleteFromUserCart(CartId: String, context: Fragment): Boolean {
-            var RetVal: Boolean = false;
+        fun DeleteFromUserCart(CartId: String, context: Fragment): Boolean1 {
+            var RetVal: Boolean1 = false;
             try {
                 val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
                 StrictMode.setThreadPolicy(policy)
@@ -919,8 +921,8 @@ class HelpFunctions {
             return RetVal
         }
 
-        fun PostUserCheckOut(checkoutinfo: CheckoutRequestModel, context: Fragment): Boolean {
-            var RetVal: Boolean = false
+        fun PostUserCheckOut(checkoutinfo: CheckoutRequestModel, context: Fragment): Boolean1 {
+            var RetVal: Boolean1 = false
             try {
                 val malqa: MalqaApiService = RetrofitBuilder.PostUserCheckOut()
                 val call: Call<Basicresponse> = malqa.PostUserCheckOut(checkoutinfo)
@@ -957,8 +959,8 @@ class HelpFunctions {
         fun AddNewShippingAddress(
             shippingaddress: ShippingAddressessData,
             context: Fragment
-        ): Boolean {
-            var RetVal: Boolean = false
+        ): Boolean1 {
+            var RetVal: Boolean1 = false
             try {
                 val malqa: MalqaApiService = RetrofitBuilder.AddNewShippingAddress()
                 val call: Call<Basicresponse> = malqa.AddNewShippingAddress(shippingaddress)

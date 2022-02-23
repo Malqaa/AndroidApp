@@ -1,5 +1,6 @@
 package com.malka.androidappp.botmnav_fragments.home.view
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,8 +11,8 @@ import com.malka.androidappp.helper.BaseViewHolder
 import kotlinx.android.synthetic.main.all_categories_cardview.view.*
 
 class AdapterAllCategories(
-    val allCategories: ArrayList<AllCategoriesModel>,
-    var context: HomeFragment,
+    val allCategories: List<AllCategoriesModel>,
+    var context: Context,
     val listener: OnItemClickListener
 ) : RecyclerView.Adapter<BaseViewHolder>() {
 

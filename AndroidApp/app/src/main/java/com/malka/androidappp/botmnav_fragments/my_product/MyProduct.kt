@@ -34,7 +34,7 @@ class MyProduct : Fragment(), AdapterMyProduct.OnItemClickListener {
     ): View? {
 
         val navBar: BottomNavigationView = requireActivity().findViewById(R.id.nav_view)
-        navBar.visibility = View.GONE
+        
 
         HelpFunctions.startProgressBar(requireActivity())
         myProductPosts.clear()

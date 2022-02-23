@@ -1,6 +1,6 @@
 package com.malka.androidappp.activities_main.login
 
-data class Data(
+data class LoginData(
     val firstName: String,
     val id: String,
     val jwtToken: String,

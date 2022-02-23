@@ -18,11 +18,7 @@ import com.google.gson.Gson
 import com.malka.androidappp.R
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.servicemodels.ConstantObjects
-import kotlinx.android.synthetic.main.fragment_commercial_workshops.*
-import kotlinx.android.synthetic.main.fragment_commerical_warehouses.*
 import kotlinx.android.synthetic.main.fragment_dynamic_template.*
-import kotlinx.android.synthetic.main.fragment_residential__lands.*
-import kotlinx.android.synthetic.main.fragment_residential_apartments.*
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -45,7 +41,7 @@ class FragmentDynamicTemplate : Fragment() {
     ): View? {
 
         val navBar: BottomNavigationView = requireActivity().findViewById(R.id.nav_view)
-        navBar.visibility = View.GONE
+        
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_dynamic_template, container, false)

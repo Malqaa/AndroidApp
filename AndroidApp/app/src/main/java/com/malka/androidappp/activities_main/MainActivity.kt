@@ -55,24 +55,23 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 R.id.navigation_account -> {
-                    /*if (!HelpFunctions.IsUserLoggedIn()) {
-                        HelpFunctions.ShowAlert(this@Bottmmm, "Information", "Please Log In");
+                    if (!HelpFunctions.IsUserLoggedIn()) {
+                        HelpFunctions.ShowAlert(this, "Information", "Please Log In");
                         return@setOnNavigationItemSelectedListener false
-                    } else {*/
+                    } else {
                     findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_account)
-                    //}
+                    }
                 }
                 R.id.navigation_watchlist -> {
-                    findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_watchlist)
-//                    if (!HelpFunctions.IsUserLoggedIn()) {
-//                        val intentt = Intent(this, SignInActivity::class.java)
-//                        startActivity(intentt)
-//                        finish()
-//
-//                        return@setOnNavigationItemSelectedListener false
-//                    } else {
-//                        findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_watchlist)
-//                    }
+                    if (!HelpFunctions.IsUserLoggedIn()) {
+                        val intentt = Intent(this, SignInActivity::class.java)
+                        startActivity(intentt)
+                        finish()
+
+                        return@setOnNavigationItemSelectedListener false
+                    } else {
+                        findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_watchlist)
+                    }
                 }
                 R.id.navigation_home -> {
                     findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_home)
@@ -90,14 +89,13 @@ class MainActivity : AppCompatActivity() {
         }
 
         floatingActionButtonBottm.setOnClickListener() {
-            findNavController(R.id.nav_host_fragment).navigate(R.id.list_an_item)
 
-//            if (HelpFunctions.IsUserLoggedIn()) {
-//                findNavController(R.id.nav_host_fragment).navigate(R.id.list_an_item)
-//            } else {
-//                val intentt = Intent(this, SignInActivity::class.java)
-//                startActivity(intentt)
-//            }
+            if (HelpFunctions.IsUserLoggedIn()) {
+                findNavController(R.id.nav_host_fragment).navigate(R.id.list_an_item)
+            } else {
+                val intentt = Intent(this, SignInActivity::class.java)
+                startActivity(intentt)
+            }
         }
     }
 
