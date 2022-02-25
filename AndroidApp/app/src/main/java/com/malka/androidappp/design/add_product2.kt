@@ -70,7 +70,6 @@ class add_product2 : AppCompatActivity() {
 
             override fun onFailure(call: Call<AllCategoriesResponseBack>, t: Throwable) {
                 t.message?.let { HelpFunctions.ShowLongToast(it, this@add_product2) }
-
                 HelpFunctions.dismissProgressBar()
             }
         })

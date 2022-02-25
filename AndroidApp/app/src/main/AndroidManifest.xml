@@ -25,6 +25,24 @@
         android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup">
         <activity
+            android:name=".design.cart"
+            android:exported="true"
+            android:theme="@style/NoActionBar"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+        <activity
+            android:name=".design.Notification"
+            android:exported="true"
+            android:theme="@style/NoActionBar">
+
+        </activity>
+        <activity
             android:name=".design.add_item_Details3"
             android:exported="false" />
         <activity
@@ -36,7 +54,7 @@
         <activity
             android:name=".design.add_item_checkout"
             android:exported="true"
-            android:theme="@style/NoActionBar"></activity>
+            android:theme="@style/NoActionBar" />
         <activity
             android:name=".design.add_item_details2"
             android:exported="true"
@@ -56,8 +74,7 @@
         <activity
             android:name=".design.add_product"
             android:exported="true"
-            android:theme="@style/NoActionBar">
-        </activity>
+            android:theme="@style/NoActionBar" />
         <activity
             android:name=".design.order_done"
             android:exported="false" />
@@ -118,14 +135,7 @@
         <activity
             android:name=".activities_main.SplashActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/NoActionBar" >
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/NoActionBar"></activity>
         <activity
             android:name=".activities_main.MainActivity"
             android:label="Bottom Nav"

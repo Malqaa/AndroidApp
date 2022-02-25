@@ -2734,6 +2734,16 @@ Want to start a business account? Create a Business Account
     <string name="total">Total</string>
     <string name="complete_the_order">Complete the order</string>
     <string name="auction_options">Auction Options</string>
+    <string name="your_order_is_now_being_delivered">Your order is now being delivered!</string>
+    <string name="order_number">Order number</string>
+  <string name="order_status">Order status</string>
+    <string name="waiting_for_confirmation">Waiting for confirmation</string>
+    <string name="sar" translatable="false">SAR</string>
+  <string name="shopping_basket">Shopping basket</string>
+  <string name="subtotal">Subtotal</string>
+  <string name="no_thank_you">No thank you</string>
+  <string name="your_favorite_merchant_added_a_product">Your favorite merchant added a product</string>
+  <string name="new_product_has_been_added">New product has been added</string>
 
 
 </resources>

@@ -2575,5 +2575,15 @@
   <string name="total">الاجمالى</string>
   <string name="complete_the_order">إتمام الطلب</string>
     <string name="auction_options">خيارات المزاد</string>
+    <string name="your_order_is_now_being_delivered">طلبك قيد التوصيل الان !</string>
+  <string name="order_number">رقم الطلب</string>
+  <string name="order_status">حالة الطلب</string>
+  <string name="waiting_for_confirmation">بأنتظار التأكيد</string>
+  <string name="sar">ر.س</string>
+  <string name="shopping_basket">سلة التسوق</string>
+  <string name="subtotal">الجمموع الفرعى</string>
+  <string name="no_thank_you">لا، شكرا</string>
+  <string name="your_favorite_merchant_added_a_product">أضاف التاجر المفضل لديك منتجًا</string>
+  <string name="new_product_has_been_added">تمت إضافة منتج جديد</string>
 
 </resources>
