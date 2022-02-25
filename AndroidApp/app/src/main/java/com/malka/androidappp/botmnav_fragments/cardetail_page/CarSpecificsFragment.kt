@@ -84,7 +84,7 @@ class CarSpecificsFragment : Fragment(), BottomsheetDialogfragClass.BottomSheetL
     ): View? {
 
         val navBar: BottomNavigationView = requireActivity().findViewById(R.id.nav_view)
-        navBar.visibility = View.VISIBLE
+        
 
         AdvId = arguments?.getString("AdvId").toString()
         template = arguments?.getString("Template").toString()

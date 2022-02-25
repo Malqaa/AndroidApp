@@ -125,7 +125,7 @@ class HomeFragment : Fragment(), PostsAdapter.OnPostItemClickListener,
         super.onViewCreated(view, savedInstanceState)
 
 //        val navBar: BottomNavigationView = requireActivity().findViewById(R.id.nav_view)
-//        navBar.visibility = View.VISIBLE
+//        
 
 
         val callback = object : OnBackPressedCallback(true) {

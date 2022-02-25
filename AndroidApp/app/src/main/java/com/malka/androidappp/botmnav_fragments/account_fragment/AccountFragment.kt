@@ -1,8 +1,6 @@
 package com.malka.androidappp.botmnav_fragments.account_fragment
 
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +8,6 @@ import android.view.ViewGroup
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.login.SignInActivity
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
@@ -52,8 +49,7 @@ class AccountFragment : Fragment() {
     ): View? {
         //(activity as AppCompatActivity?)!!.supportActionBar!!.show()
         //(activity as AppCompatActivity?)!!.supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        val navBar: BottomNavigationView = requireActivity().findViewById(R.id.nav_view)
-        navBar.visibility = View.VISIBLE
+
 
         return LayoutInflater.from(container?.context).inflate(
             R.layout.fragment_account,
@@ -167,11 +163,10 @@ class AccountFragment : Fragment() {
 
     fun userType() {
 
-        val productCard: CardView = requireActivity().findViewById(R.id.productview)
         if (!ConstantObjects.isBusinessUser) {
-            productCard.visibility = View.GONE
+            productview.visibility = View.GONE
         } else {
-            productCard.visibility = View.VISIBLE
+            productview.visibility = View.VISIBLE
         }
     }
 
