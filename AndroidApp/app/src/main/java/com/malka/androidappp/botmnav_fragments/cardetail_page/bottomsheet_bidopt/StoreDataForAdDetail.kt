@@ -6,6 +6,6 @@ class StoreDataForAdDetail {
         /////////
         var saveAdvIdforAdDetailBiding = ""
         var saveAdvstartPriceForAdDetailBiding = ""
-        var maxlastbidPrice= ""
+        var maxlastbidPrice= "0"
     }
 }

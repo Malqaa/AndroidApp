@@ -1,6 +1,6 @@
 package com.malka.androidappp.servicemodels.home
 
-data class Caradvetisement(
+data class GeneralProduct(
     val address: String,
     val brand_new_item: String,
     val city: String,

@@ -26,11 +26,13 @@ import androidx.viewpager.widget.ViewPager
 import com.arlib.floatingsearchview.FloatingSearchView
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion
 import com.malka.androidappp.R
-import com.malka.androidappp.botmnav_fragments.home.adapter.*
+import com.malka.androidappp.botmnav_fragments.home.adapter.CarAdvertisementAdapter
+import com.malka.androidappp.botmnav_fragments.home.adapter.ParentCategoryAdaptor
+import com.malka.androidappp.botmnav_fragments.home.adapter.PropertyAdvertisementAdapter
+import com.malka.androidappp.botmnav_fragments.home.adapter.RecentAdvertisementAdapter
 import com.malka.androidappp.botmnav_fragments.home.model.AllCategoriesModel
 import com.malka.androidappp.botmnav_fragments.home.model.AllCategoriesResponseBack
 import com.malka.androidappp.botmnav_fragments.home.model.DynamicList
-import com.malka.androidappp.botmnav_fragments.home.view.viewpager_adapter_piechart.*
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.helper.show
@@ -38,11 +40,10 @@ import com.malka.androidappp.helper.widgets.viewpager2.AutoScrollViewPager
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.servicemodels.ConstantObjects
+import com.malka.androidappp.servicemodels.home.GetAllAds
 import com.malka.androidappp.servicemodels.home.favouritecars
 import com.malka.androidappp.servicemodels.home.favouriteproperties
-import com.malka.androidappp.servicemodels.home.generalads
 import com.malka.androidappp.servicemodels.home.recentlisting
-import com.malka.androidappp.servicemodels.home.visitcount.visit_count_object
 import com.malka.myapplication.Model
 import com.malka.myapplication.PostsAdapter
 import kotlinx.android.synthetic.main.fragment_homee.*
@@ -96,7 +97,7 @@ class HomeFragment : Fragment(), PostsAdapter.OnPostItemClickListener,
         }
     }
 
-    val allCategoryList: ArrayList<AllCategoriesModel> = ArrayList()
+    var allCategoryList: List<AllCategoriesModel> = ArrayList()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -108,7 +109,6 @@ class HomeFragment : Fragment(), PostsAdapter.OnPostItemClickListener,
         sliderlist.add(R.drawable.slider_demo)
         sliderlist.add(R.drawable.slider_demo)
 
-        allCategoryList.clear()
         loadLocate()
 
 //        val navBar: BottomNavigationView = requireActivity().findViewById(R.id.nav_view)
@@ -125,7 +125,7 @@ class HomeFragment : Fragment(), PostsAdapter.OnPostItemClickListener,
         super.onViewCreated(view, savedInstanceState)
 
 //        val navBar: BottomNavigationView = requireActivity().findViewById(R.id.nav_view)
-//        navBar.visibility = View.VISIBLE
+//        
 
 
         val callback = object : OnBackPressedCallback(true) {
@@ -420,139 +420,139 @@ class HomeFragment : Fragment(), PostsAdapter.OnPostItemClickListener,
         }
     }
 
-    fun BindGeneralAdsData() {
-        var reyclerviewgeneral = reyclerviewgeneralads
-        try {
-            val malqa: MalqaApiService = RetrofitBuilder.GetGeneralAds()
-            val call: Call<generalads> = malqa.GetGeneralAds()
-            try {
-                call.enqueue(object : Callback<generalads> {
-                    override fun onResponse(
-                        call: Call<generalads>,
-                        response: Response<generalads>
-                    ) {
-                        if (response.isSuccessful) {
-                            if (response.body() != null) {
-                                val _generals: generalads = response.body()!!;
-                                if (_generals != null && _generals.data != null && _generals.data.size > 0) {
-                                    var genadpt =
-                                        GeneralAdvertisementAdapter(_generals.data)
-
-                                    reyclerviewgeneral.layoutManager =
-                                        LinearLayoutManager(
-                                            activity,
-                                            LinearLayoutManager.HORIZONTAL,
-                                            false
-                                        )
-                                    reyclerviewgeneral.adapter = genadpt
-                                    genadpt.onItemClick = { indobj ->
-                                        HelpFunctions.ViewAdvertismentDetail(
-                                            indobj.referenceId,
-                                            indobj.template,
-                                            this@HomeFragment
-                                        )
-                                        SharedPreferencesStaticClass.ad_userid = indobj.user
-                                    }
-                                }
-                            } else {
-                                reyclerviewgeneral.adapter = null
-                            }
-                        } else {
-                            reyclerviewgeneral.adapter = null
-                        }
-                    }
-
-                    override fun onFailure(call: Call<generalads>, t: Throwable) {
-                        reyclerviewgeneral.adapter = null
-                        //HelpFunctions.ShowLongToast(t.message.toString(), requireActivity())
-                    }
-                })
-            } catch (e: Exception) {
-                reyclerviewgeneral.adapter = null
-                HelpFunctions.ShowLongToast(
-                    getString(R.string.Somethingwentwrong),
-                    requireActivity()
-                )
-            }
-
-        } catch (ex: Exception) {
-            reyclerviewgeneral.adapter = null
-            HelpFunctions.ReportError(ex)
-        }
-    }
-
-    fun BindTotalVisitCountData() {
-        val wormDotsIndicator = piechart_dots_indicator
-        val viewPagerr = viewpagerpiechart
-        val adapterr = PiechartUserNoAdapter(requireActivity())
-
-        try {
-            //
-            val malqa: MalqaApiService = RetrofitBuilder.GetTotalVisitCount()
-            val call: Call<visit_count_object> = malqa.GetTotalVisitCount()
-            try {
-                call.enqueue(object : Callback<visit_count_object> {
-                    override fun onResponse(
-                        call: Call<visit_count_object>,
-                        response: Response<visit_count_object>
-                    ) {
-                        if (response.isSuccessful) {
-                            if (response.body() != null) {
-                                val _visitcount: visit_count_object = response.body()!!;
-                                var visiter_chart: PieChartFrag1 = PieChartFrag1()
-
-                                var lbl_title: String = "Total Visit Count"
-                                var visit_count = 0
-
-                                if (_visitcount != null && _visitcount.data != null) {
-                                    visit_count = _visitcount.data.totalVisitortillNow
-                                    lbl_title = getString(R.string.Visitorstillnow)
-                                } else {
-                                    lbl_title = getString(R.string.ServiceError)
-                                }
-                                PieChartFrag1.lbl_legend_text = lbl_title
-                                if (visit_count > 999) {
-                                    var count = visit_count.toDouble() / 1000
-                                    val rounded = "%.1f".format(count)
-                                    PieChartFrag1.lbl_count = rounded + "K"
-                                } else {
-                                    PieChartFrag1.lbl_count = visit_count.toString()
-                                }
-
-                                adapterr.addFragment(visiter_chart, lbl_title)
-                                adapterr.addFragment(PieChartFrag2(), "Fragment 2")
-                                adapterr.addFragment(PieChartFrag3(), "Fragment 3")
-                                adapterr.addFragment(PieChartFrag4(), "Fragment 4")
-                                viewPagerr.adapter = adapterr
-                                wormDotsIndicator.setViewPager2(viewPagerr)
-                                //visiter_chart.BindValues(visit_count, lbl_title)
-                                HelpFunctions.dismissProgressBar()
-                            } else {
-                                HelpFunctions.dismissProgressBar()
-                                viewPagerr.adapter = null
-                            }
-                        } else {
-                            HelpFunctions.dismissProgressBar()
-                            viewPagerr.adapter = null
-                        }
-                    }
-
-                    override fun onFailure(call: Call<visit_count_object>, t: Throwable) {
-                        HelpFunctions.dismissProgressBar()
-                        viewPagerr.adapter = null
-                        //HelpFunctions.ShowLongToast(t.message.toString(), requireActivity())
-                    }
-                })
-            } catch (e: Exception) {
-                viewPagerr.adapter = null
-                //HelpFunctions.ShowLongToast("Something Went Wrong.Please Try Again Later ", requireActivity())
-            }
-
-        } catch (ex: Exception) {
-            viewPagerr.adapter = null
-            HelpFunctions.ReportError(ex)
-        }
-    }
+//    fun BindGeneralAdsData() {
+//        var reyclerviewgeneral = reyclerviewgeneralads
+//        try {
+//            val malqa: MalqaApiService = RetrofitBuilder.GetGeneralAds()
+//            val call: Call<generalads> = malqa.GetGeneralAds()
+//            try {
+//                call.enqueue(object : Callback<generalads> {
+//                    override fun onResponse(
+//                        call: Call<generalads>,
+//                        response: Response<generalads>
+//                    ) {
+//                        if (response.isSuccessful) {
+//                            if (response.body() != null) {
+//                                val _generals: generalads = response.body()!!;
+//                                if (_generals != null && _generals.data != null && _generals.data.size > 0) {
+//                                    var genadpt =
+//                                        GeneralAdvertisementAdapter(_generals.data)
+//
+//                                    reyclerviewgeneral.layoutManager =
+//                                        LinearLayoutManager(
+//                                            activity,
+//                                            LinearLayoutManager.HORIZONTAL,
+//                                            false
+//                                        )
+//                                    reyclerviewgeneral.adapter = genadpt
+//                                    genadpt.onItemClick = { indobj ->
+//                                        HelpFunctions.ViewAdvertismentDetail(
+//                                            indobj.referenceId,
+//                                            indobj.template,
+//                                            this@HomeFragment
+//                                        )
+//                                        SharedPreferencesStaticClass.ad_userid = indobj.user
+//                                    }
+//                                }
+//                            } else {
+//                                reyclerviewgeneral.adapter = null
+//                            }
+//                        } else {
+//                            reyclerviewgeneral.adapter = null
+//                        }
+//                    }
+//
+//                    override fun onFailure(call: Call<generalads>, t: Throwable) {
+//                        reyclerviewgeneral.adapter = null
+//                        //HelpFunctions.ShowLongToast(t.message.toString(), requireActivity())
+//                    }
+//                })
+//            } catch (e: Exception) {
+//                reyclerviewgeneral.adapter = null
+//                HelpFunctions.ShowLongToast(
+//                    getString(R.string.Somethingwentwrong),
+//                    requireActivity()
+//                )
+//            }
+//
+//        } catch (ex: Exception) {
+//            reyclerviewgeneral.adapter = null
+//            HelpFunctions.ReportError(ex)
+//        }
+//    }
+//
+//    fun BindTotalVisitCountData() {
+//        val wormDotsIndicator = piechart_dots_indicator
+//        val viewPagerr = viewpagerpiechart
+//        val adapterr = PiechartUserNoAdapter(requireActivity())
+//
+//        try {
+//            //
+//            val malqa: MalqaApiService = RetrofitBuilder.GetTotalVisitCount()
+//            val call: Call<visit_count_object> = malqa.GetTotalVisitCount()
+//            try {
+//                call.enqueue(object : Callback<visit_count_object> {
+//                    override fun onResponse(
+//                        call: Call<visit_count_object>,
+//                        response: Response<visit_count_object>
+//                    ) {
+//                        if (response.isSuccessful) {
+//                            if (response.body() != null) {
+//                                val _visitcount: visit_count_object = response.body()!!;
+//                                var visiter_chart: PieChartFrag1 = PieChartFrag1()
+//
+//                                var lbl_title: String = "Total Visit Count"
+//                                var visit_count = 0
+//
+//                                if (_visitcount != null && _visitcount.data != null) {
+//                                    visit_count = _visitcount.data.totalVisitortillNow
+//                                    lbl_title = getString(R.string.Visitorstillnow)
+//                                } else {
+//                                    lbl_title = getString(R.string.ServiceError)
+//                                }
+//                                PieChartFrag1.lbl_legend_text = lbl_title
+//                                if (visit_count > 999) {
+//                                    var count = visit_count.toDouble() / 1000
+//                                    val rounded = "%.1f".format(count)
+//                                    PieChartFrag1.lbl_count = rounded + "K"
+//                                } else {
+//                                    PieChartFrag1.lbl_count = visit_count.toString()
+//                                }
+//
+//                                adapterr.addFragment(visiter_chart, lbl_title)
+//                                adapterr.addFragment(PieChartFrag2(), "Fragment 2")
+//                                adapterr.addFragment(PieChartFrag3(), "Fragment 3")
+//                                adapterr.addFragment(PieChartFrag4(), "Fragment 4")
+//                                viewPagerr.adapter = adapterr
+//                                wormDotsIndicator.setViewPager2(viewPagerr)
+//                                //visiter_chart.BindValues(visit_count, lbl_title)
+//                                HelpFunctions.dismissProgressBar()
+//                            } else {
+//                                HelpFunctions.dismissProgressBar()
+//                                viewPagerr.adapter = null
+//                            }
+//                        } else {
+//                            HelpFunctions.dismissProgressBar()
+//                            viewPagerr.adapter = null
+//                        }
+//                    }
+//
+//                    override fun onFailure(call: Call<visit_count_object>, t: Throwable) {
+//                        HelpFunctions.dismissProgressBar()
+//                        viewPagerr.adapter = null
+//                        //HelpFunctions.ShowLongToast(t.message.toString(), requireActivity())
+//                    }
+//                })
+//            } catch (e: Exception) {
+//                viewPagerr.adapter = null
+//                //HelpFunctions.ShowLongToast("Something Went Wrong.Please Try Again Later ", requireActivity())
+//            }
+//
+//        } catch (ex: Exception) {
+//            viewPagerr.adapter = null
+//            HelpFunctions.ReportError(ex)
+//        }
+//    }
 
     // Functions to handle Search Mic events
     val REQUEST_CODE_SPEECH_INPUT = 100
@@ -601,56 +601,21 @@ class HomeFragment : Fragment(), PostsAdapter.OnPostItemClickListener,
 
                     if (response.body() != null) {
 
-                        var resp: AllCategoriesResponseBack = response.body()!!
-                        var lists: List<AllCategoriesModel> = resp.data
+                        val resp: AllCategoriesResponseBack = response.body()!!
+                        allCategoryList = resp.data
 
-                        if (lists != null && lists.count() > 0) {
-                            for (IndCategories in lists) {
-                                allCategoryList.add(
-                                    AllCategoriesModel(
-                                        IndCategories.id ?: "0",
-                                        IndCategories.categoryid ?: 0,
-                                        IndCategories.categoryName ?: "",
-                                        IndCategories.categoryKey ?: "0",
-                                        IndCategories.categoryParentId ?: 0,
-                                        IndCategories.isCategory,
-                                        IndCategories.isActive,
-                                        IndCategories.createdBy ?: "0",
-                                        IndCategories.createdOn ?: "0",
-                                        IndCategories.template ?: ""
-                                    )
-                                )
-                            }
-                            val allCategoriesRecyclerView = all_categories_recycler
-
-                            allCategoriesRecyclerView.layoutManager =
+                        if (allCategoryList.count() > 0) {
+                            all_categories_recycler.layoutManager =
                                 LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-                            allCategoriesRecyclerView.adapter =
+                            all_categories_recycler.adapter =
                                 AdapterAllCategories(
                                     allCategoryList,
-                                    HomeFragment(),
+                                    requireContext(),
                                     this@HomeFragment
                                 )
 
-                            val list: ArrayList<DynamicList> = ArrayList()
-                            list.add(DynamicList(getString(R.string.vehicles),R.drawable.ic_vechile, arrayListOf()))
-                            list.add(DynamicList(getString(R.string.electronics),R.drawable.ic_electronic, arrayListOf()))
-                            list.add(DynamicList(getString(R.string.real_estate),R.drawable.ic_real_estate, arrayListOf()))
-                            list.add(DynamicList(getString(R.string.List_Auctions),
-                                R.drawable.ic_vechile, arrayListOf(),"list",getString(R.string.List_Auctions_detail)))
+                            getAllAdsData()
 
-                            val genadpt = ParentCategoryAdaptor(list)
-
-
-                            dynamic_product_rcv.adapter = genadpt
-                            genadpt.onItemClick = { indobj ->
-                                HelpFunctions.ViewAdvertismentDetail(
-                                    indobj.referenceId,
-                                    indobj.template,
-                                    this@HomeFragment
-                                )
-                                SharedPreferencesStaticClass.ad_userid = indobj.user
-                            }
 
 
                         } else {
@@ -658,14 +623,16 @@ class HomeFragment : Fragment(), PostsAdapter.OnPostItemClickListener,
                                 getString(R.string.NoCategoriesfound),
                                 context
                             )
+                            HelpFunctions.dismissProgressBar()
+
                         }
                     }
 
                 } else {
                     HelpFunctions.ShowLongToast(getString(R.string.NoCategoriesfound), context)
+                    HelpFunctions.dismissProgressBar()
 
                 }
-                HelpFunctions.dismissProgressBar()
 
             }
 
@@ -677,6 +644,86 @@ class HomeFragment : Fragment(), PostsAdapter.OnPostItemClickListener,
         })
     }
 
+
+    fun getAllAdsData() {
+
+        val malqa: MalqaApiService = RetrofitBuilder.GetAllAds()
+        val call: Call<GetAllAds> = malqa.GetAllAds()
+
+        call.enqueue(object : Callback<GetAllAds> {
+            override fun onResponse(
+                call: Call<GetAllAds>,
+                response: Response<GetAllAds>
+            ) {
+                if (response.isSuccessful) {
+                    if (response.body() != null) {
+                        response.body()!!.data.run {
+                            val list: ArrayList<DynamicList> = ArrayList()
+
+                            list.add(
+                                DynamicList(
+                                    getString(R.string.vehicles),
+                                    R.drawable.ic_vechile,
+                                    caradvetisement
+                                )
+                            )
+                            list.add(
+                                DynamicList(
+                                    getString(R.string.electronics),
+                                    R.drawable.ic_electronic,
+                                    generaladvetisement
+                                )
+                            )
+                            list.add(
+                                DynamicList(
+                                    getString(R.string.real_estate),
+                                    R.drawable.ic_real_estate,
+                                    propertyadvetisement
+                                )
+                            )
+                            list.add(
+                                DynamicList(
+                                    getString(R.string.List_Auctions),
+                                    R.drawable.ic_vechile,
+                                    recentadvetisement,
+                                    "list",
+                                    getString(R.string.List_Auctions_detail)
+                                )
+                            )
+
+                            val genadpt = ParentCategoryAdaptor(list,this@HomeFragment)
+
+
+                            dynamic_product_rcv.adapter = genadpt
+                            genadpt.onItemClick = { indobj ->
+                                HelpFunctions.ViewAdvertismentDetail(
+                                    indobj.referenceId,
+                                    indobj.template,
+                                    this@HomeFragment
+                                )
+                                SharedPreferencesStaticClass.ad_userid = indobj.user
+                            }
+                        }
+
+
+                    } else {
+                        HelpFunctions.ShowLongToast(getString(R.string.Error), context)
+                    }
+                } else {
+                    HelpFunctions.ShowLongToast(getString(R.string.Error), context)
+                }
+                HelpFunctions.dismissProgressBar()
+
+            }
+
+            override fun onFailure(call: Call<GetAllAds>, t: Throwable) {
+                HelpFunctions.ShowLongToast(t.message.toString(), requireActivity())
+                HelpFunctions.dismissProgressBar()
+
+            }
+        })
+
+    }
     override fun OnItemClick(position: Int) {
         super.OnItemClick(position)
 

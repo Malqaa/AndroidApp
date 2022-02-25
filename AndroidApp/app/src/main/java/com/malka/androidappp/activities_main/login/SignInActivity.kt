@@ -3,7 +3,6 @@ package com.malka.androidappp.activities_main.login
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Patterns
 import android.view.View
@@ -14,9 +13,6 @@ import com.malka.androidappp.activities_main.BaseActivity
 import com.malka.androidappp.activities_main.MainActivity
 import com.malka.androidappp.botmnav_fragments.forgot_password.ForgotPasswordActivty
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
-import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass.Companion.SHARED_PREFS
-import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass.Companion.TEXT
-import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass.Companion.TEXT2
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass.Companion.islogin
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.helper.hideLoader
@@ -26,7 +22,6 @@ import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.servicemodels.ConstantObjects
 import io.paperdb.Paper
 import kotlinx.android.synthetic.main.activity_sign_in.*
-import kotlinx.android.synthetic.main.activity_sign_in.loader
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -36,15 +31,13 @@ import java.io.Reader
 import java.util.regex.Pattern
 
 
-open class SignInActivity : BaseActivity() {
-    var datafound: Boolean = false
+ open class SignInActivity : BaseActivity() {
     var calledfromsigninactivity = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         calledfromsigninactivity = true
-        loadData()
 
         // To set language
 
@@ -97,38 +90,7 @@ open class SignInActivity : BaseActivity() {
     private var text2: String? = null
 
 
-    open fun saveData() {
-        val sharedPreferences: SharedPreferences =
-            getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE)
-        val editor: SharedPreferences.Editor = sharedPreferences.edit()
-        editor.putString(TEXT, email_tv.getText().toString())
-        editor.putString(TEXT2, passwword_tv.getText().toString())
-        editor.apply()
-    }
 
-    fun clearData() {
-        email_tv.setText("")
-        passwword_tv.setText("")
-        val sharedPreferences: SharedPreferences =
-            getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE)
-        val editor: SharedPreferences.Editor = sharedPreferences.edit()
-        editor.putString(TEXT, "")
-        editor.putString(TEXT2, "")
-        editor.apply()
-    }
-
-    open fun loadData() {
-        val sharedPreferences: SharedPreferences =
-            getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE)
-        text = sharedPreferences.getString(TEXT, "")
-        text2 = sharedPreferences.getString(TEXT2, "")
-
-        if ((text != null && text.toString().trim().length > 0) &&
-            (text2 != null && text2.toString().trim().length > 0)
-        ) {
-            datafound = true
-        }
-    }
 
 
     open fun updateViews() {
@@ -236,14 +198,7 @@ open class SignInActivity : BaseActivity() {
                     //Zack
                     //Date: 11/04/2020
                     ConstantObjects.logged_userid = data.data.id
-                    ConstantObjects.isBusinessUser = false
-                    if (data.data.isBusinessUser > 0) {
-                        isBusinessUser = true
-                        ConstantObjects.isBusinessUser = true
-                    } else {
-                        isBusinessUser = false
-                        ConstantObjects.isBusinessUser = false
-                    }
+                    ConstantObjects.isBusinessUser = data.data.isBusinessUser > 0
                     // To check if user is approved user or not
                     if (data.data.isBusinessUser < 1 || data.data.isBusinessUser > 1) {
                         val userId: String = data.data.id
@@ -255,7 +210,6 @@ open class SignInActivity : BaseActivity() {
                             )
                             Paper.book().write(islogin,true)
                             Paper.book().write(SharedPreferencesStaticClass.userData,data.data)
-                            saveData()
                             GoToHome()
                         }
                     } else {

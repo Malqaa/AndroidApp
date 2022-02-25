@@ -24,7 +24,7 @@ class CreateProduct3 : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val navBar: BottomNavigationView = requireActivity().findViewById(R.id.nav_view)
-        navBar.visibility = View.GONE
+        
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_create_product_pg3, container, false)
     }

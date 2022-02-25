@@ -5,16 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.malka.androidappp.R
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
-import com.malka.androidappp.servicemodels.home.Caradvetisement
+import com.malka.androidappp.servicemodels.home.GeneralProduct
 import com.malka.androidappp.servicemodels.home.Generaladvetisement
 import com.malka.androidappp.servicemodels.home.GetAllAds
-import com.malka.androidappp.servicemodels.total_members.ModelGetTotalMembers
-import kotlinx.android.synthetic.main.fragment_pie_chart_frag3.*
 import kotlinx.android.synthetic.main.fragment_pie_chart_frag4.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -51,8 +48,8 @@ class PieChartFrag4 : Fragment() {
             ) {
                 if (response.isSuccessful) {
                     if (response.body() != null) {
-                        val car: List<Caradvetisement> = response.body()!!.data.caradvetisement
-                        val general: List<Generaladvetisement> =
+                        val car: List<GeneralProduct> = response.body()!!.data.generaladvetisement
+                        val general: List<GeneralProduct> =
                             response.body()!!.data.generaladvetisement
                         val totatlAd: Int = car.size + general.size
                         number_of_totallisting.text = "$totatlAd"

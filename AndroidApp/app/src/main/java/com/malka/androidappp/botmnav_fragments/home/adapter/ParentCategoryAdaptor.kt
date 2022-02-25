@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
 import com.malka.androidappp.botmnav_fragments.home.model.DynamicList
@@ -15,7 +16,7 @@ import com.malka.androidappp.helper.show
 
 
 class ParentCategoryAdaptor(
-    val listCar: List<DynamicList>?
+    val listCar: List<DynamicList>?,val currentfragment: Fragment
 ) :
     RecyclerView.Adapter<ParentCategoryAdaptor.CarViewHolder>() {
 
@@ -44,7 +45,7 @@ class ParentCategoryAdaptor(
                 detail_tv!!.text=detail
                 category_name_tv!!.text=category_name
                 category_name_tv_2!!.text=category_name
-                product_rcv!!.adapter =  GeneralAdvertisementAdapter(product)
+                product_rcv!!.adapter =  GeneralAdvertisementAdapter(product,currentfragment)
                 category_icon_iv!!.setImageResource(category_icon)
             }
         }

@@ -1,8 +1,6 @@
 package com.malka.androidappp.botmnav_fragments.account_fragment
 
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,12 +8,12 @@ import android.view.ViewGroup
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.login.SignInActivity
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.servicemodels.ConstantObjects
+import io.paperdb.Paper
 import kotlinx.android.synthetic.main.fragment_account.*
 
 
@@ -51,8 +49,7 @@ class AccountFragment : Fragment() {
     ): View? {
         //(activity as AppCompatActivity?)!!.supportActionBar!!.show()
         //(activity as AppCompatActivity?)!!.supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        val navBar: BottomNavigationView = requireActivity().findViewById(R.id.nav_view)
-        navBar.visibility = View.VISIBLE
+
 
         return LayoutInflater.from(container?.context).inflate(
             R.layout.fragment_account,
@@ -148,32 +145,14 @@ class AccountFragment : Fragment() {
         }
 
         logout_signin.setOnClickListener() {
-
-            val sharedPreferences: SharedPreferences = requireActivity().getSharedPreferences(
-                SharedPreferencesStaticClass.SHARED_PREFS,
-                Context.MODE_PRIVATE
-            )
-            val editor: SharedPreferences.Editor = sharedPreferences.edit()
-            editor.putString(SharedPreferencesStaticClass.TEXT2, "")
-
-            editor.clear()
-            editor.apply()
-
+            Paper.book().write(SharedPreferencesStaticClass.islogin,false)
             ConstantObjects.logged_userid = ""
 
             HelpFunctions.ShowLongToast(getString(R.string.loggedoutsuccessfully), context)
-
             findNavController().navigate(R.id.logout_to_home)
         }
 
         btn_signin.setOnClickListener() {
-            val sharedPreferences: SharedPreferences = requireActivity().getSharedPreferences(
-                SharedPreferencesStaticClass.SHARED_PREFS,
-                Context.MODE_PRIVATE
-            )
-            val editor: SharedPreferences.Editor = sharedPreferences.edit()
-            editor.putString(SharedPreferencesStaticClass.TEXT2, "")
-            editor.apply()
             val intentt = Intent(this.activity, SignInActivity::class.java)
             startActivity(intentt)
             requireActivity().finish()
@@ -184,11 +163,10 @@ class AccountFragment : Fragment() {
 
     fun userType() {
 
-        val productCard: CardView = requireActivity().findViewById(R.id.productview)
         if (!ConstantObjects.isBusinessUser) {
-            productCard.visibility = View.GONE
+            productview.visibility = View.GONE
         } else {
-            productCard.visibility = View.VISIBLE
+            productview.visibility = View.VISIBLE
         }
     }
 

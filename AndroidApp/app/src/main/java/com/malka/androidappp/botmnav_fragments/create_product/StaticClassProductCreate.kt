@@ -1,8 +1,6 @@
 package com.malka.androidappp.botmnav_fragments.create_product
 
-import com.google.gson.annotations.SerializedName
 import com.malka.androidappp.servicemodels.ConstantObjects
-import org.joda.time.DateTime
 
 class StaticClassProductCreate {
     companion object {

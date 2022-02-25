@@ -10,9 +10,7 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageSwitcher
@@ -20,17 +18,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.appcompat.widget.Toolbar
 import androidx.core.content.PermissionChecker.checkSelfPermission
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.TextInputEditText
 import com.malka.androidappp.R
-import com.malka.androidappp.activities_main.login.SignInActivity
 import com.malka.androidappp.helper.HelpFunctions
-import com.malka.androidappp.helper.URIPathHelper
 import kotlinx.android.synthetic.main.fragment_add_photo.*
-import java.io.File
 import java.io.FileNotFoundException
 import java.io.InputStream
 
@@ -97,7 +91,7 @@ open class AddPhotoFragment : Fragment() {
     ): View? {
 
         Title = arguments?.getString("Title").toString()
-        file_name = arguments?.getString("file_name").toString()
+        file_name = arguments?.getString("file_name")?:"CarCare-en-US".toString()
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_add_photo, container, false)
@@ -466,7 +460,7 @@ open class AddPhotoFragment : Fragment() {
 
     private fun categoryTemplate() {
         val args = Bundle()
-        val file_name = "$file_name.js"
+        val file_name = "$file_name.json"
         val Title = Title
         args.putString("file_name", file_name)
         args.putString("Title", Title)

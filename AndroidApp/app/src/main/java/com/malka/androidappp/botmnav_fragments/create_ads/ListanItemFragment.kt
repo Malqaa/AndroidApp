@@ -7,24 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.textfield.TextInputEditText
 import com.malka.androidappp.R
-import com.malka.androidappp.botmnav_fragments.question_ans_comnt.adapter_ques_ans.AdapterQuesAns
-import com.malka.androidappp.botmnav_fragments.question_ans_comnt.get_models_quesans.ModelQuesAnswr
-import com.malka.androidappp.network.Retrofit.RetrofitBuilder
-import com.malka.androidappp.network.service.MalqaApiService
-import com.malka.androidappp.servicemodels.ConstantObjects
 import kotlinx.android.synthetic.main.fragment_listan_item.*
-import kotlinx.android.synthetic.main.fragment_setting.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 
 class ListanItemFragment : Fragment() {
@@ -35,8 +22,7 @@ class ListanItemFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val navBar: BottomNavigationView = requireActivity().findViewById(R.id.nav_view)
-        navBar.visibility = View.GONE
+
         //navBar.setVisibility(View.INVISIBLE)
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_listan_item, container, false)

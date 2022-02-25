@@ -23,8 +23,8 @@
                 android:id="@+id/myimagee"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:src="@drawable/car1" />
+                android:background="@color/gray_light"
+                android:scaleType="centerCrop" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -208,13 +208,13 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_marginTop="@dimen/_5sdp"
                 android:id="@+id/lisView"
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
+                android:visibility="gone"
                 android:weightSum="2">
 
                 <RelativeLayout
@@ -253,9 +253,9 @@
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:layout_marginLeft="@dimen/_10sdp"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_10sdp"
                     android:layout_weight="1">
 
 
