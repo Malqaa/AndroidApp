@@ -33,14 +33,6 @@ class add_product4 : AppCompatActivity() {
 
         list.add(DummyCategoryModel("Honda", R.drawable.car))
         list.add(DummyCategoryModel("Civic", R.drawable.car4))
-        list.add(DummyCategoryModel("Suzuki", R.drawable.car2))
-        list.add(DummyCategoryModel("Ferrari", R.drawable.car3))
-        list.add(DummyCategoryModel("Suzuki", R.drawable.car2))
-        list.add(DummyCategoryModel("Changan", R.drawable.car4))
-        list.add(DummyCategoryModel("Ferrari", R.drawable.car3))
-        list.add(DummyCategoryModel("Changan", R.drawable.car4))
-        list.add(DummyCategoryModel("Kia", R.drawable.car5))
-
         setCategoryAdaptor(list)
 
 

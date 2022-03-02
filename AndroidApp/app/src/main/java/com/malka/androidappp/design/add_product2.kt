@@ -83,7 +83,6 @@ class add_product2 : AppCompatActivity() {
                     element.run {
                         category_name_tv.text=categoryName
 //                        category_icon.setImageResource(categoryImage)
-                        view_button.hide()
                     }
                 }
             }
@@ -99,25 +98,4 @@ class add_product2 : AppCompatActivity() {
         }
     }
 
-    private fun dummyAdaptor(list: ArrayList<String>) {
-        category_rcv.adapter = object : GenericListAdapter<String>(
-            R.layout.all_categories_cardview,
-            bind = { element, holder, itemCount, position ->
-                holder.view.run {
-                    element.run {
-
-                    }
-                }
-            }
-        ) {
-            override fun getFilter(): Filter {
-                TODO("Not yet implemented")
-            }
-
-        }.apply {
-            submitList(
-                list
-            )
-        }
-    }
 }

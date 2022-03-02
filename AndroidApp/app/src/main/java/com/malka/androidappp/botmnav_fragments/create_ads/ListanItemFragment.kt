@@ -33,25 +33,20 @@ class ListanItemFragment : Fragment() {
 
         //supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         //setSupportActionBar(toolbar_listitem)
-        toolbar_listitem.setNavigationIcon(R.drawable.nav_icon_back)
-        toolbar_listitem.title = getString(R.string.Listanitem)
-        toolbar_listitem.navigationIcon?.isAutoMirrored = true
-        toolbar_listitem.setTitleTextColor(Color.WHITE)
-        toolbar_listitem.setNavigationOnClickListener {
-            requireActivity().onBackPressed()
-            //finish()
-        }
+
+
 
         button2.setOnClickListener() {
 
             confirmListItem(view)
         }
 
+        button_2.setOnClickListener() {
 
-        constraintLayout4.setOnClickListener() {
-            textInputLayout11.clearFocus()
-            clearingfocus()
+            button2.performClick()
         }
+
+
 
 
     }
@@ -61,7 +56,7 @@ class ListanItemFragment : Fragment() {
             return
         } else {
 
-            val producttitle: String = itemtext.getText().toString()
+            val producttitle: String = textInputLayout11.getText().toString()
             StaticClassAdCreate.producttitle = producttitle
             findNavController().navigate(R.id.lisitem_choosecate)
 
@@ -70,13 +65,13 @@ class ListanItemFragment : Fragment() {
     }
 
     private fun validateitem(): Boolean {
-        val textName = requireActivity().findViewById(R.id.itemtext) as TextInputEditText
-        val Inputname = textName.text.toString().trim { it <= ' ' }
+
+        val Inputname = textInputLayout11.text.toString().trim { it <= ' ' }
         return if (Inputname.isEmpty()) {
-            textName.error = getString(R.string.Fieldcantbeempty)
+            textInputLayout11.error = getString(R.string.Fieldcantbeempty)
             false
         } else {
-            textName.error = null
+            textInputLayout11.error = null
             true
         }
     }

@@ -11,16 +11,16 @@ class add_product : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.add_product)
 
-       choose_Department.setOnClickListener(){
-
-         val  intent = Intent(this@add_product, add_product2::class.java)
-           startActivity(intent)
-       }
-
-        product_search_bar.setOnClickListener(){
-            val intent = Intent (this@add_product, add_product1::class.java)
-            startActivity(intent)
-        }
+//       choose_Department.setOnClickListener(){
+//
+//         val  intent = Intent(this@add_product, add_product2::class.java)
+//           startActivity(intent)
+//       }
+//
+//        product_search_bar.setOnClickListener(){
+//            val intent = Intent (this@add_product, add_product1::class.java)
+//            startActivity(intent)
+//        }
 
     }
 }

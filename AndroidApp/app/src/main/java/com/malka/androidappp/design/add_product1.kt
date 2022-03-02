@@ -6,7 +6,7 @@ import android.os.Bundle
 import com.malka.androidappp.R
 import kotlinx.android.synthetic.main.activity_add_product1.*
 import kotlinx.android.synthetic.main.add_product.*
-import kotlinx.android.synthetic.main.add_product.choose_Department
+
 
 class add_product1 : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

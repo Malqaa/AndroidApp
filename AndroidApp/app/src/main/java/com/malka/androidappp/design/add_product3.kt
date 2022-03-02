@@ -16,7 +16,6 @@ import kotlinx.android.synthetic.main.activity_add_product2.category_rcv
 import kotlinx.android.synthetic.main.activity_add_product3.*
 import kotlinx.android.synthetic.main.activity_selection_product.view.*
 import kotlinx.android.synthetic.main.add_product.*
-import kotlinx.android.synthetic.main.add_product.choose_Department
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

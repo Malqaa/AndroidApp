@@ -29,12 +29,6 @@
             android:exported="true"
             android:theme="@style/NoActionBar"
             >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
         </activity>
         <activity
             android:name=".design.Notification"
@@ -89,7 +83,9 @@
         <activity
             android:name=".design.add_product4"
             android:exported="true"
-            android:theme="@style/NoActionBar" />
+            android:theme="@style/NoActionBar" >
+
+        </activity>
         <activity
             android:name=".design.selection_product"
             android:exported="false" />
@@ -100,7 +96,9 @@
         <activity
             android:name=".design.add_product2"
             android:exported="true"
-            android:theme="@style/NoActionBar" />
+            android:theme="@style/NoActionBar" >
+
+        </activity>
         <activity
             android:name=".design.add_product1"
             android:exported="false"
@@ -135,11 +133,20 @@
         <activity
             android:name=".activities_main.SplashActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/NoActionBar"></activity>
+            android:theme="@style/NoActionBar">
+
+
+        </activity>
         <activity
             android:name=".activities_main.MainActivity"
             android:label="Bottom Nav"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".activities_main.FeaturedCategory"
             android:label="Featured Category" />

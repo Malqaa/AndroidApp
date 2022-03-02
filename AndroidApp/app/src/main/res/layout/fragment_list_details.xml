@@ -154,10 +154,9 @@
                     android:backgroundTint="@color/white"
                     android:inputType="number"
                     android:paddingTop="12dp"
-                    android:paddingBottom="12dp"
                     android:paddingEnd="12dp"
-                    android:textSize="14sp"
-                    />
+                    android:paddingBottom="12dp"
+                    android:textSize="14sp" />
 
 
             </RelativeLayout>
@@ -184,11 +183,11 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/country"
                 >
+
                 <Spinner
                     android:id="@+id/spinner1"
                     android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    />
+                    android:layout_height="48dp" />
             </RelativeLayout>
 
             <TextView
@@ -224,11 +223,11 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/region"
                 >
+
                 <Spinner
                     android:id="@+id/spinner2"
                     android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    />
+                    android:layout_height="48dp" />
             </RelativeLayout>
 
             <TextView

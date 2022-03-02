@@ -1,19 +1,13 @@
 package com.malka.androidappp.botmnav_fragments.my_product
 
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
-import com.malka.androidappp.botmnav_fragments.create_ads.CategoryTagsModel
 import com.malka.androidappp.botmnav_fragments.create_ads.ChooseCateFragment
 import com.malka.androidappp.botmnav_fragments.create_ads.Data
-import com.malka.androidappp.network.constants.ApiConstants
-import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.my_product_cardview.view.*
 import kotlinx.android.synthetic.main.suggested_categories.view.*
 
 
@@ -25,21 +19,10 @@ class AdapterSuggestedCategories(
 
 
     inner class AdapterSuggestedCategoriesViewHolder(itemview: View) :
-        RecyclerView.ViewHolder(itemview),
-        View.OnClickListener {
+        RecyclerView.ViewHolder(itemview){
         val suggestedCategoriesTitle: TextView = itemview.suggested_category_title
         val suggestedCategoriesPath: TextView = itemview.category_path
 
-        init {
-            itemview.setOnClickListener(this)
-        }
-
-        override fun onClick(v: View?) {
-            val position: Int = adapterPosition
-            if (position != RecyclerView.NO_POSITION) {
-                listener.OnItemClick(position)
-            }
-        }
     }
 
     override fun onCreateViewHolder(

@@ -26,30 +26,30 @@ open class AddPhotoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        toolbar_addphoto.setNavigationIcon(R.drawable.nav_icon_back)
-        toolbar_addphoto.title = getString(R.string.AddPhotos)
-        toolbar_addphoto.setTitleTextColor(Color.WHITE)
-        toolbar_addphoto.inflateMenu(R.menu.adcreation_close_btn)
-        toolbar_addphoto.setNavigationOnClickListener {
-            requireActivity().onBackPressed()
-
-        }
-        toolbar_addphoto.setOnMenuItemClickListener { item ->
-            if (item.itemId == R.id.action_close) {
-                findNavController().navigate(R.id.close_addphoto)
-                //closefragment()
-
-            } else {
-                // do something
-            }
-            false
-        }
+//        toolbar_addphoto.setNavigationIcon(R.drawable.nav_icon_back)
+//        toolbar_addphoto.title = getString(R.string.AddPhotos)
+//        toolbar_addphoto.setTitleTextColor(Color.WHITE)
+//        toolbar_addphoto.inflateMenu(R.menu.adcreation_close_btn)
+//        toolbar_addphoto.setNavigationOnClickListener {
+//            requireActivity().onBackPressed()
+//
+//        }
+//        toolbar_addphoto.setOnMenuItemClickListener { item ->
+//            if (item.itemId == R.id.action_close) {
+//                findNavController().navigate(R.id.close_addphoto)
+//                //closefragment()
+//
+//            } else {
+//                // do something
+//            }
+//            false
+//        }
 
 
         ///////////////////////////////////////////
-        butt555.setOnClickListener() {
-            findNavController().navigate(R.id.addphoto_otherlistdeta)
-        }
+//        butt555.setOnClickListener() {
+//            findNavController().navigate(R.id.addphoto_otherlistdeta)
+//        }
 
     }
 

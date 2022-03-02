@@ -2,6 +2,7 @@ package com.malka.androidappp.botmnav_fragments.create_ads
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -21,6 +22,7 @@ import com.malka.androidappp.botmnav_fragments.create_ads.item_detail.all_catego
 import com.malka.androidappp.botmnav_fragments.home.model.AllCategoriesModel
 import com.malka.androidappp.botmnav_fragments.home.model.AllCategoriesResponseBack
 import com.malka.androidappp.botmnav_fragments.my_product.*
+import com.malka.androidappp.design.add_product4
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
@@ -33,11 +35,10 @@ import retrofit2.Response
 class ChooseCateFragment : Fragment(), AdapterSuggestedCategories.OnItemClickListener,
     AdapterAllCategories.OnItemClickListener {
 
+
     val suggestedCategories: ArrayList<Data> = ArrayList()
     lateinit var suggestedCategoryText: TextView
     val allCategoryList: ArrayList<AllCategoriesModel> = ArrayList()
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -48,11 +49,46 @@ class ChooseCateFragment : Fragment(), AdapterSuggestedCategories.OnItemClickLis
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_choose_cate, container, false)
+
+
+
     }
+
+
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
+
+        add_product_button4.setOnClickListener(){
+            if (!allCategoryList[position].isCategory) {
+
+                StaticClassAdCreate.subCategoryPath.add(allCategoryList[position].categoryName.toString())
+
+                val args = Bundle()
+                args.putString("Title", allCategoryList[position].categoryName.toString())
+
+                var templateName = truncateString(allCategoryList[position].template.toString())
+                StaticClassAdCreate.template = templateName
+
+//            StaticClassAdCreate.subcat = allCategoryList[position].categoryKey.toString()
+                findNavController().navigate(R.id.all_cat_to_add_photo, args)
+
+            } else {
+
+                StaticClassAdCreate.subCategoryPath.add(allCategoryList[position].categoryName.toString())
+
+                val args = Bundle()
+                args.putString("categoryid", allCategoryList[position].categoryid.toString())
+                args.putString("categoryName", allCategoryList[position].categoryName.toString())
+                NavHostFragment.findNavController(this@ChooseCateFragment)
+                    .navigate(R.id.all_cat_to_sub_cat, args)
+            }
+
+        }
+
+
 
         hidekeyboard()
 
@@ -78,6 +114,8 @@ class ChooseCateFragment : Fragment(), AdapterSuggestedCategories.OnItemClickLis
             }
             true
         }
+
+
         /////////////////Select Template/////////////////////////////
 
 
@@ -222,12 +260,7 @@ class ChooseCateFragment : Fragment(), AdapterSuggestedCategories.OnItemClickLis
                                 val suggestedCategoriesRecycler: RecyclerView =
                                     requireActivity().findViewById(R.id.recycler_suggested_category)
 
-                                suggestedCategoriesRecycler.layoutManager =
-                                    LinearLayoutManager(
-                                        activity,
-                                        LinearLayoutManager.VERTICAL,
-                                        false
-                                    )
+
                                 suggestedCategoriesRecycler.adapter =
                                     AdapterSuggestedCategories(
                                         suggestedCategories,
@@ -309,12 +342,10 @@ class ChooseCateFragment : Fragment(), AdapterSuggestedCategories.OnItemClickLis
                                     val allCategoriesRecyclerView: RecyclerView =
                                         requireActivity().findViewById(R.id.recycler_all_category)
 
-                                    allCategoriesRecyclerView.layoutManager =
-                                        LinearLayoutManager(
-                                            activity,
-                                            LinearLayoutManager.VERTICAL,
-                                            false
-                                        )
+                                   if(allCategoryList.size>0){
+
+                                       allCategoryList.get(0).is_select=true
+                                   }
                                     allCategoriesRecyclerView.adapter =
                                         AdapterAllCategories(
                                             allCategoryList,
@@ -347,29 +378,7 @@ class ChooseCateFragment : Fragment(), AdapterSuggestedCategories.OnItemClickLis
 
     override fun OnItemClickHandler(position: Int) {
         super.OnItemClickHandler(position)
-        if (!allCategoryList[position].isCategory) {
 
-            StaticClassAdCreate.subCategoryPath.add(allCategoryList[position].categoryName.toString())
-
-            val args = Bundle()
-            args.putString("Title", allCategoryList[position].categoryName.toString())
-
-            var templateName = truncateString(allCategoryList[position].template.toString())
-            StaticClassAdCreate.template = templateName
-
-//            StaticClassAdCreate.subcat = allCategoryList[position].categoryKey.toString()
-            findNavController().navigate(R.id.all_cat_to_add_photo, args)
-
-        } else {
-
-            StaticClassAdCreate.subCategoryPath.add(allCategoryList[position].categoryName.toString())
-
-            val args = Bundle()
-            args.putString("categoryid", allCategoryList[position].categoryid.toString())
-            args.putString("categoryName", allCategoryList[position].categoryName.toString())
-            NavHostFragment.findNavController(this@ChooseCateFragment)
-                .navigate(R.id.all_cat_to_sub_cat, args)
-        }
 
     }
 
@@ -380,6 +389,9 @@ class ChooseCateFragment : Fragment(), AdapterSuggestedCategories.OnItemClickLis
     }
 
     companion object {
+
+        var position=0
+
         fun truncateString(str: String): String {
             var res = ""
             for (i in str.indices) {
@@ -393,5 +405,6 @@ class ChooseCateFragment : Fragment(), AdapterSuggestedCategories.OnItemClickLis
             return res
         }
     }
+
 
 }

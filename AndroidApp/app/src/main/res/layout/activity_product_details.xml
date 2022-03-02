@@ -1222,7 +1222,6 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/_30sdp"
             android:layout_marginTop="@dimen/_250sdp"
-
             android:orientation="horizontal">
 
 
@@ -1235,7 +1234,6 @@
                 android:scaleType="center"
                 android:src="@drawable/share"
                 app:maxImageSize="@dimen/_14sdp"
-
                 app:tint="@color/black"
 
                 />
@@ -1249,7 +1247,6 @@
                 android:scaleType="center"
                 android:src="@drawable/star"
                 app:maxImageSize="@dimen/_14sdp"
-
                 app:tint="@color/black"
 
                 />

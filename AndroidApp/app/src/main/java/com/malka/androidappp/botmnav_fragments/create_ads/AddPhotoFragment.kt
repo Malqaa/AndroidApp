@@ -13,20 +13,34 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageSwitcher
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.PermissionChecker.checkSelfPermission
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputEditText
 import com.malka.androidappp.R
+import com.malka.androidappp.botmnav_fragments.home.adapter.ParentCategoryAdaptor
+import com.malka.androidappp.design.DummyCategoryModel
+import com.malka.androidappp.design.Models.itemDetailmodel
 import com.malka.androidappp.helper.HelpFunctions
+import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
+import kotlinx.android.synthetic.main.activity_add_product2.*
+import kotlinx.android.synthetic.main.add_product_imgs.*
+import kotlinx.android.synthetic.main.add_product_imgs.view.*
 import kotlinx.android.synthetic.main.fragment_add_photo.*
+import kotlinx.android.synthetic.main.fragment_add_photo.category_rcv
+import kotlinx.android.synthetic.main.fragment_edit_product2.*
+import kotlinx.android.synthetic.main.fragment_edit_product5.view.*
+import kotlinx.android.synthetic.main.item_details2_desgin.view.*
+import kotlinx.android.synthetic.main.pager_layout.*
+import kotlinx.android.synthetic.main.pager_layout.view.*
+import kotlinx.android.synthetic.main.product_item.*
+import kotlinx.android.synthetic.main.product_item.view.*
 import java.io.FileNotFoundException
 import java.io.InputStream
+import java.net.URI
 
 
 open class AddPhotoFragment : Fragment() {
@@ -39,17 +53,11 @@ open class AddPhotoFragment : Fragment() {
 
     var finalImageCount: Int = 0
 
-    lateinit var videoLink: TextInputEditText
+    lateinit var videoLink:EditText
 
-    lateinit var textImageCount: TextView
-    lateinit var selectedImageView: ImageSwitcher
-    lateinit var selectedImageText: TextView
-    lateinit var nextImage: ImageView
-    lateinit var previousImage: ImageView
-    lateinit var imageInitial: ImageView
 
     //store uris of picked images
-    private val selectedImagesURI: ArrayList<Uri?> = ArrayList()
+    private val selectedImagesURI: ArrayList<ImageSelectModel> = ArrayList()
 
     //current position/index of selected images
     private var imagePosition = 0
@@ -100,15 +108,15 @@ open class AddPhotoFragment : Fragment() {
     @SuppressLint("WrongConstant")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        toolbar_addphoto.setNavigationIcon(R.drawable.nav_icon_back)
-        toolbar_addphoto.title = getString(R.string.AddPhotos)
-        toolbar_addphoto.setTitleTextColor(Color.WHITE)
-        toolbar_addphoto.inflateMenu(R.menu.adcreation_close_btn)
-        toolbar_addphoto.setNavigationOnClickListener {
-            clearPath()
-            findNavController().navigate(R.id.back_to_cat)
-
-        }
+//        toolbar_addphoto.setNavigationIcon(R.drawable.nav_icon_back)
+//        toolbar_addphoto.title = getString(R.string.AddPhotos)
+//        toolbar_addphoto.setTitleTextColor(Color.WHITE)
+//        toolbar_addphoto.inflateMenu(R.menu.adcreation_close_btn)
+//        toolbar_addphoto.setNavigationOnClickListener {
+//            clearPath()
+//            findNavController().navigate(R.id.back_to_cat)
+//
+//        }
 
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -125,46 +133,41 @@ open class AddPhotoFragment : Fragment() {
 
         videoLink = requireActivity().findViewById(R.id.addvideo)
 
-        textImageCount = requireActivity().findViewById(R.id.txv2)
+//        textImageCount = requireActivity().findViewById(R.id.txv2)
 //        textImageCount.text = "$finalImageCount out of 10 photos"
 //        textImageCount.text = "${selectedImagesURI.size} out of 10 photos"
-        textImageCount.text = getString(R.string.outof10photos, selectedImagesURI.size)
+//        textImageCount.text = getString(R.string.outof10photos, selectedImagesURI.size)
 
-        selectedImageText = requireActivity().findViewById(R.id.selectedImages)
-        selectedImageView = requireActivity().findViewById(R.id.imageView3)
 
-        nextImage = requireActivity().findViewById(R.id.forwardSelectedImage)
-        previousImage = requireActivity().findViewById(R.id.backSelectedImage)
 
         //setup image switcher
-        selectedImageView.setFactory { ImageView(requireContext()) }
-        imageInitial = requireActivity().findViewById(R.id.imageInitial)
 
         storePath()
 
+
         if (selectedImagesURI.size > 0) {
             //set first image from list to image switcher
-            selectedImageView.setImageURI(selectedImagesURI[imagePosition])
 
-            nextImage.visibility = View.VISIBLE
-            previousImage.visibility = View.VISIBLE
-            imageInitial.visibility = View.GONE
-            selectedImageText.visibility = View.VISIBLE
+
+
+
+
+
         }
 
 
-        toolbar_addphoto.setOnMenuItemClickListener { item ->
-            if (item.itemId == R.id.action_close) {
-                findNavController().navigate(R.id.close_addphoto)
-
-                StaticClassAdCreate.subCategoryPath.clear()
-
-                //closefragment()
-            } else {
-                // do something
-            }
-            false
-        }
+//        toolbar_addphoto.setOnMenuItemClickListener { item ->
+//            if (item.itemId == R.id.action_close) {
+//                findNavController().navigate(R.id.close_addphoto)
+//
+//                StaticClassAdCreate.subCategoryPath.clear()
+//
+//                //closefragment()
+//            } else {
+//                // do something
+//            }
+//            false
+//        }
 
         ///////////////////////////////////////////
         butt555.setOnClickListener() {
@@ -200,28 +203,12 @@ open class AddPhotoFragment : Fragment() {
                 //system OS is < Marshmallow
                 pickImageFromGallery();
             }
+
+            addcamera.setOnClickListener(){
+                floatingActionButton.performClick()
+            }
         }
 
-        nextImage.setOnClickListener {
-            if (imagePosition < selectedImagesURI!!.size - 1) {
-                imagePosition++
-                selectedImageView.setImageURI(selectedImagesURI!![imagePosition])
-            } else {
-                //no more images
-                HelpFunctions.ShowLongToast(getString(R.string.Nomoreimages), context)
-//                Toast.makeText(context, "No more images...", Toast.LENGTH_SHORT).show()
-            }
-        }
-        previousImage.setOnClickListener {
-            if (imagePosition > 0) {
-                imagePosition--
-                selectedImageView.setImageURI(selectedImagesURI!![imagePosition])
-            } else {
-                //no more images
-                HelpFunctions.ShowLongToast(getString(R.string.Nomoreimages), context)
-//                Toast.makeText(context, "No more images...", Toast.LENGTH_SHORT).show()
-            }
-        }
 
 
     }
@@ -380,7 +367,7 @@ open class AddPhotoFragment : Fragment() {
                                 val uri: Uri = item.uri
 
                                 // Storing Selected Images URI
-                                selectedImagesURI!!.add(uri)
+                                selectedImagesURI!!.add(ImageSelectModel(uri))
 
                                 var base64 = ""
                                 var imageStream: InputStream? = null
@@ -395,8 +382,10 @@ open class AddPhotoFragment : Fragment() {
                                 base64 = HelpFunctions.EncodeToBase64(yourSelectedImage)!!
                                 StaticClassAdCreate.images!!.add(base64)
                             }
+
+
+                            setCategoryAdaptor(selectedImagesURI)
                             //set first image from list to image switcher
-                            selectedImageView.setImageURI(selectedImagesURI!![0])
                             imagePosition = 0
                             //
                         } else {
@@ -414,8 +403,7 @@ open class AddPhotoFragment : Fragment() {
                         val uri: Uri = data.data!!
 
                         //picked single image set image to image switcher
-                        selectedImagesURI.add(uri)
-                        selectedImageView.setImageURI(uri)
+                        selectedImagesURI.add(ImageSelectModel(uri))
                         imagePosition = 0
                         //
                         var base64 = ""
@@ -430,6 +418,8 @@ open class AddPhotoFragment : Fragment() {
                         val yourSelectedImage = BitmapFactory.decodeStream(imageStream)
                         base64 = HelpFunctions.EncodeToBase64(yourSelectedImage)!!
                         StaticClassAdCreate.images!!.add(base64)
+
+                        setCategoryAdaptor(selectedImagesURI)
                     }
                 } else {
 //                    Toast.makeText(
@@ -443,15 +433,11 @@ open class AddPhotoFragment : Fragment() {
                     )
                 }
                 if (StaticClassAdCreate.images != null && StaticClassAdCreate.images!!.size > 0) {
-//                    decisionbyCatandSubCat()
+                    decisionbyCatandSubCat()
 //                    textImageCount.text = "${selectedImagesURI.size} out of 10 photos"
-                    textImageCount.text = getString(R.string.outof10photos, selectedImagesURI.size)
+//                    textImageCount.image = getImage(R.string.outof10photos, selectedImagesURI.size)
 
 
-                    nextImage.visibility = View.VISIBLE
-                    previousImage.visibility = View.VISIBLE
-                    imageInitial.visibility = View.GONE
-                    selectedImageText.visibility = View.VISIBLE
                 }
             }
         }
@@ -499,6 +485,32 @@ open class AddPhotoFragment : Fragment() {
             }
         }
     }
+
+
+    private fun setCategoryAdaptor(list: List<ImageSelectModel>) {
+        category_rcv.adapter = object : GenericListAdapter<ImageSelectModel>(
+            R.layout.add_product_imgs,
+            bind = { element, holder, itemCount, position ->
+                holder.view.run {
+                    element.run {
+                        add_img_ic.setImageURI(uri)
+                        is_select_cb.isChecked=is_select
+                    }
+                }
+            }
+        ) {
+            override fun getFilter(): Filter {
+                TODO("Not yet implemented")
+            }
+
+        }.apply {
+            submitList(
+                list
+            )
+        }
+    }
+
+
 
 
 }

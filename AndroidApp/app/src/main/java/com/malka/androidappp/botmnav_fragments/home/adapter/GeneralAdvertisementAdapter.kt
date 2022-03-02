@@ -44,8 +44,20 @@ class GeneralAdvertisementAdapter(
 
                 titlenamee.text = title
                 city_tv.text = city
-                LowestPrice.text = "${price.toDouble().decimalNumberFormat()} ${Const.currency}"
-                LowestPrice_2.text = "${price.toDouble().decimalNumberFormat()} ${Const.currency}"
+                if(!price.isNullOrEmpty()){
+                    LowestPrice.text = "${price.toDouble().decimalNumberFormat()} ${Const.currency}"
+                }else{
+                    LowestPrice.text = Const.currency
+
+                }
+
+                if (!price.isNullOrEmpty()){
+
+                    LowestPrice_2.text = "${price.toDouble().decimalNumberFormat()} ${Const.currency}"
+
+                }else{
+                    LowestPrice.text = Const.currency
+                }
                 setOnClickListener {
                    // onItemClick?.invoke(listCar!!.get(position))
 
