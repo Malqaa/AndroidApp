@@ -281,7 +281,8 @@ interface MalqaApiService {
 
     @GET("$GET_ALL_CATEGORIES_BY_ID?")
     fun getAllCategoriesByTemplateID(
-        @Query("categoryParentId") categoryParentId: Int
+        @Query("categoryKey") categoryParentId: String,
+        @Query("culture") culture: String
     ): Call<AllCategoriesResponseBack>
 
     @POST(INSERT_FAVOURITE_SELLER_ENDPOINT)

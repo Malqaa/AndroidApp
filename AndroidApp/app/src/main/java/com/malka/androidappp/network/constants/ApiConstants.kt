@@ -158,7 +158,7 @@ object ApiConstants {
     const val GET_CATEGORY_TAGS_BASE_URL = API_BASE_URL + "Category/"
     const val GET_CATEGORY_TAGS_ENDPOINT = "Tags"
     const val GET_ALL_CATEGORIES = "getAllCategory"
-    const val GET_ALL_CATEGORIES_BY_ID = "getAllCategoryByTemplateId"
+    const val GET_ALL_CATEGORIES_BY_ID = "getAllCategoryByTemplateName"
 
 
     const val CREATE_BUSINESS_PRODUCT_BASEURL = API_BASE_URL + "BussinessProduct/"
