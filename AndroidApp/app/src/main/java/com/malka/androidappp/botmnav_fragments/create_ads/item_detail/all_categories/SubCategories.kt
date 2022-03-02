@@ -70,17 +70,17 @@ class SubCategories : Fragment(), AdapterSubCategories.OnItemClickListener {
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
 
-        getSubCategoriesByTemplateID(categoryid.toInt())
+        getSubCategoriesByTemplateID(categoryid)
 
     }
 
-    private fun getSubCategoriesByTemplateID(categoryParentId: Int) {
+    private fun getSubCategoriesByTemplateID(categoryKey: String) {
         try {
             val malqaa: MalqaApiService =
-                RetrofitBuilder.getAllCategoriesByTemplateID(categoryParentId)
+                RetrofitBuilder.getAllCategoriesByTemplateID()
 
             val call: Call<AllCategoriesResponseBack> =
-                malqaa.getAllCategoriesByTemplateID(categoryParentId)
+                malqaa.getAllCategoriesByTemplateID(categoryKey,"en")
 
             call.enqueue(object : Callback<AllCategoriesResponseBack> {
                 @SuppressLint("UseRequireInsteadOfGet")
@@ -169,7 +169,7 @@ class SubCategories : Fragment(), AdapterSubCategories.OnItemClickListener {
                 StaticClassAdCreate.subCategoryPath.add(allCategoryList[position].categoryName.toString())
 
                 HelpFunctions.startProgressBar(requireActivity())
-                getSubCategoriesByTemplateID(allCategoryList[position].categoryid!!.toInt())
+                getSubCategoriesByTemplateID(allCategoryList[position].categoryKey!!)
                 toolbar_sub_cats.title = allCategoryList[position].categoryName
                 allCategoryList.clear()
 

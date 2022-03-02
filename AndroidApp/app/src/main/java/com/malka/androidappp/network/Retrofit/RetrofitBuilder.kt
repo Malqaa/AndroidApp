@@ -200,7 +200,7 @@ class RetrofitBuilder {
                 .create(MalqaApiService::class.java)
         }
 
-        fun getAllCategoriesByTemplateID(categoryParentId: Int): MalqaApiService {
+        fun getAllCategoriesByTemplateID(): MalqaApiService {
             return GetRetrofitBuilder(ApiConstants.GET_CATEGORY_TAGS_BASE_URL).build()
                 .create(MalqaApiService::class.java)
         }

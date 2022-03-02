@@ -39,6 +39,8 @@ class ChooseCateFragment : Fragment(), AdapterSuggestedCategories.OnItemClickLis
     val suggestedCategories: ArrayList<Data> = ArrayList()
     lateinit var suggestedCategoryText: TextView
     val allCategoryList: ArrayList<AllCategoriesModel> = ArrayList()
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
