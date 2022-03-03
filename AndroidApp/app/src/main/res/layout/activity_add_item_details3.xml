@@ -218,13 +218,14 @@
                     android:orientation="horizontal"
                     >
 
-                    <TextView
+                    <EditText
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center_vertical"
                         android:layout_marginEnd="@dimen/_10sdp"
                         android:layout_weight="1"
                         android:text="5"
+                        android:background="@null"
                         android:gravity="center"
                         android:src="@drawable/vectorlog" />
 
@@ -293,13 +294,14 @@
                     android:orientation="horizontal"
                     >
 
-                    <TextView
+                    <EditText
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center_vertical"
                         android:layout_marginEnd="@dimen/_10sdp"
                         android:layout_weight="1"
                         android:text="5"
+                        android:background="@null"
                         android:gravity="center"
                         android:src="@drawable/vectorlog" />
 
@@ -362,13 +364,14 @@
                     android:orientation="horizontal"
                     >
 
-                    <TextView
+                    <EditText
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center_vertical"
                         android:layout_marginEnd="@dimen/_10sdp"
                         android:layout_weight="1"
                         android:text="5"
+                        android:background="@null"
                         android:gravity="center"
                         android:src="@drawable/vectorlog" />
 

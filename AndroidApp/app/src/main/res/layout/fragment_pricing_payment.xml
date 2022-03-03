@@ -7,77 +7,214 @@
     android:background="@color/white"
     tools:context=".botmnav_fragments.create_ads.PricingPayment">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_pricepayment"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_alignParentTop="true"
-        android:background="#339933"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:popupTheme="@style/PopupOverlay">
 
-    </androidx.appcompat.widget.Toolbar>
+
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/btnnn"
-        android:layout_below="@+id/toolbar_pricepayment">
+        android:layout_above="@+id/btnnn">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+
+
+
+
+
+
+
+
+
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar_pricepayment">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/listing_type"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:text="@string/ListingType"
-                android:textColor="@color/GreenApp"
-                android:textSize="20sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
 
-            <RadioGroup
-                android:id="@+id/listingtype_radioGroup"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="25dp"
-                android:orientation="vertical"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/listing_type">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                <RadioButton
-                    android:id="@+id/listingtyp_rb1"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@+id/toolbar_pricepayment"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/BuyNow"
-                    android:textColor="#4d4d33"
-                    android:textSize="14sp" />
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/_15sdp"
+                        android:layout_height="@dimen/_10sdp"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/backarrow1" />
 
 
-                <RadioButton
-                    android:id="@+id/listingtyp_rb2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text="@string/Auction"
-                    android:textColor="#4d4d33"
-                    android:textSize="14sp" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/_7sdp"
+                        android:fontFamily="@font/madani_arabic_medium"
+                        android:text="@string/sale_details"
+                        android:textColor="#000000"
+                        android:textSize="@dimen/_13sdp" />
 
-                <RadioButton
-                    android:id="@+id/listingtyp_rb3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text="@string/BuyNowAndAuction"
-                    android:textColor="#4d4d33"
-                    android:textSize="14sp" />
-            </RadioGroup>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_1sdp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/light_gray">
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:orientation="vertical">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+
+                        <TextView
+                            android:id="@+id/listing_type"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:fontFamily="@font/madani_arabic_medium"
+                            android:text="@string/sale_type"
+                            android:textColor="#293241"
+                            android:textSize="@dimen/_14sdp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_2sdp"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:fontFamily="@font/madani_arabic_medium"
+                            android:text="*"
+                            android:textColor="@color/Red"
+                            android:textSize="@dimen/_14sdp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_46sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:background="@drawable/product_attribute_bg_linebg"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="20dp"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/madani_arabic_light"
+                            android:text="@string/fixed_price_sale"
+                            android:textColor="@color/bg"
+                            android:textSize="@dimen/_12sdp" />
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/listingtyp_rb1"
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_10sdp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginEnd="@dimen/_10sdp"
+                            android:layout_weight="1"
+                            android:src="@drawable/vectorlog" />
+
+
+                    </LinearLayout>
+
+
+
+                    <LinearLayout
+                        android:id="@+id/auction_option"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_46sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:background="@drawable/add_product_attribte"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="20dp"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/madani_arabic_light"
+                            android:text="@string/Auction"
+                            android:textColor="#45495E"
+                            android:textSize="@dimen/_12sdp" />
+
+                        <Switch
+                            android:id="@+id/listingtyp_rb2"
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_10sdp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginEnd="@dimen/_10sdp"
+                            android:layout_weight="1"
+                            android:src="@drawable/vectorlog" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_46sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:background="@drawable/add_product_attribte"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="20dp"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/madani_arabic_light"
+                            android:text="@string/tender"
+                            android:textColor="#45495E"
+                            android:textSize="@dimen/_12sdp" />
+
+                        <Switch
+                            android:id="@+id/listingtyp_rb3"
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_10sdp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginEnd="@dimen/_10sdp"
+                            android:layout_weight="1"
+                            android:src="@drawable/vectorlog" />
+
+
+                    </LinearLayout>
+
+
+
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+
 
             <TextView
                 android:id="@+id/listingtype_rbtn_1_errortxt"
@@ -85,21 +222,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
                 android:textColor="#FF0000"
-                android:textSize="11sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/listingtype_radioGroup" />
-
-
-            <View
-                android:id="@+id/view_listingtyp"
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_marginTop="15dp"
-                android:background="@color/SilverBackground"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/listingtype_rbtn_1_errortxt"
-                tools:layout_editor_absoluteY="138dp" />
+                android:textSize="11sp" />
 
 
             <TextView
@@ -110,9 +233,9 @@
                 android:layout_marginTop="20dp"
                 android:text="@string/Price"
                 android:textColor="@color/GreenApp"
-                android:textSize="20sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view_listingtyp" />
+                android:textSize="20sp" />
+
+
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/pricepayment_inputlay"
@@ -121,10 +244,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textview_price">
+            >
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/buynowprice"
@@ -141,10 +261,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/pricepayment_inputlay">
+                android:visibility="gone">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/startprice"
@@ -182,8 +299,8 @@
                 android:layout_marginTop="20dp"
                 android:text="@string/Choosealistingtype"
                 android:textSize="15sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toTopOf="@+id/view_pricepay" />
+                app:layout_constraintBottom_toTopOf="@+id/view_pricepay"
+                app:layout_constraintStart_toStartOf="parent" />
 
             <View
                 android:id="@+id/view_pricepay"
@@ -277,18 +394,22 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textpayment_method" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
     </ScrollView>
 
-    <Button
+
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnnn"
         android:layout_width="match_parent"
-        android:layout_height="64dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/GoldenApp"
-        android:text="@string/NEXT"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:background="@drawable/round_btn"
+        android:fontFamily="@font/madani_arabic_semi_bold"
+        android:text="@string/add_product"
         android:textAllCaps="false"
         android:textColor="#ffffff"
-        android:textSize="22sp" />
+        android:textSize="@dimen/_14sdp" />
 
 </RelativeLayout>

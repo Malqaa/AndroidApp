@@ -236,10 +236,10 @@
         android:id="@+id/btnother_general"
         android:layout_width="match_parent"
         android:layout_height="64dp"
-        android:textAllCaps="false"
-        android:textColor="#ffffff"
-        android:textSize="22sp"
+        android:layout_alignParentBottom="true"
         android:background="@color/GoldenApp"
         android:text="Next"
-        android:layout_alignParentBottom="true" />
+        android:textAllCaps="false"
+        android:textColor="#ffffff"
+        android:textSize="22sp" />
 </RelativeLayout>

@@ -15,7 +15,6 @@ import com.google.android.material.textfield.TextInputEditText
 import com.malka.androidappp.R
 import kotlinx.android.synthetic.main.fragment_confirmation.*
 import kotlinx.android.synthetic.main.fragment_list_details.*
-import kotlinx.android.synthetic.main.fragment_list_details.toolbar_listdetails
 
 class Confirmation : Fragment() {
 

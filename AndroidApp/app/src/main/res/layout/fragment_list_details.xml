@@ -5,42 +5,346 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".botmnav_fragments.create_ads.ListingDetailsFragment">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_listdetails"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="#339933"
-        android:layout_alignParentTop="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:popupTheme="@style/PopupOverlay">
+        android:layout_height="match_parent">
 
-    </androidx.appcompat.widget.Toolbar>
-
-    <ScrollView android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:layout_below="@+id/toolbar_listdetails"
-        android:layout_above="@+id/btnotherr">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/white"
-            android:paddingBottom="20dp"
-            >
+            android:orientation="vertical">
 
-
-            <TextView
-                android:id="@+id/textView42"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="23dp"
-                android:layout_marginTop="10dp"
-                android:text="@string/Category"
-                android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_10sdp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/backarrow1"/>
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/_7sdp"
+                    android:fontFamily="@font/madani_arabic_medium"
+                    android:text="@string/item_details"
+                    android:textColor="#000000"
+                    android:textSize="@dimen/_14sdp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+                android:background="@color/light_gray">
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:fontFamily="@font/madani_arabic_medium"
+                        android:text="@string/model_year"
+                        android:textColor="#293241"
+                        android:textSize="@dimen/_14sdp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_2sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:fontFamily="@font/madani_arabic_medium"
+                        android:text="*"
+                        android:textColor="@color/Red"
+                        android:textSize="@dimen/_14sdp" />
+
+                </LinearLayout>
+
+
+                <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:hint="@string/type_the_item_s_title"
+                    android:inputType="textPersonName" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:fontFamily="@font/madani_arabic_medium"
+                    android:text="@string/sub_address"
+                    android:textColor="#293241"
+                    android:textSize="@dimen/_14sdp" />
+
+
+                <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:hint="@string/type_the_item_s_title"
+                    android:inputType="textPersonName" />
+
+
+                <TextView
+                    android:id="@+id/descriptn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:fontFamily="@font/madani_arabic_medium"
+                    android:text="@string/item_details"
+                    android:textColor="#293241"
+                    android:textSize="@dimen/_14sdp" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_100sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:background="@drawable/edittext_bg">
+
+                    <EditText
+                        android:id="@+id/descriptionedit"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_100sdp"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:fontFamily="@font/madani_arabic_light"
+                        android:gravity="top"
+                        android:inputType="text|textMultiLine|textCapSentences"
+                        android:padding="@dimen/_7sdp"
+                        android:singleLine="false"
+                        android:textColor="#6D6C74"
+                        android:textSize="@dimen/_13sdp" />
+                </LinearLayout>
+
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:fontFamily="@font/madani_arabic_medium"
+                    android:text="@string/item_condition"
+                    android:textColor="#293241"
+                    android:textSize="@dimen/_14sdp" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="@dimen/_70sdp"
+                        android:layout_height="@dimen/_35sdp"
+                        android:background="@drawable/edittext_bg">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="@string/New"
+                            android:textSize="@dimen/_10sdp" />
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="@dimen/_100sdp"
+                        android:layout_height="@dimen/_35sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:background="@drawable/edittext_bg">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="@string/used"
+                            android:textSize="@dimen/_10sdp" />
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_45sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:background="@drawable/edittext_bg">
+
+
+                    <LinearLayout
+                        android:layout_width="@dimen/_50sdp"
+                        android:layout_height="match_parent"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/substract" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="@dimen/_1sdp"
+                        android:layout_height="match_parent"
+                        android:background="@color/line">
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="@dimen/_50sdp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/light_gray"
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="1" />
+
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="@dimen/_1sdp"
+                        android:layout_height="match_parent"
+                        android:background="@color/line">
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="@dimen/_50sdp"
+                        android:layout_height="match_parent"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/add" />
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+                <com.hbb20.CountryCodePicker
+                    android:id="@+id/country_code"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:background="@drawable/edittext_bg"
+                    android:drawablePadding="8dp"
+                    android:padding="7dp"
+                    android:paddingEnd="16dp"
+                    app:ccpDialog_allowSearch="false"
+                    app:ccp_customMasterCountries="BH,KW,OM,SA,AE"
+                    app:ccp_defaultNameCode="SA"
+                    app:ccp_showFullName="true"
+                    app:ccp_showNameCode="false"
+                    app:ccp_showPhoneCode="false" />
+
+                <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+                    android:id="@+id/spinner2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:hint="@string/Country"
+                    android:inputType="textPersonName"
+                    app:endIcon="@drawable/ic_arrow_down"
+                    app:startIcon="@drawable/ic_region"
+                    app:viewType="spinner" />
+
+                <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:hint="@string/district"
+                    android:inputType="textPersonName"
+                    app:endIcon="@drawable/ic_arrow_down"
+                    app:startIcon="@drawable/ic_city"
+                    app:viewType="spinner" />
+
+
+
+                <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+                    android:id="@+id/PhoneNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:hint="@string/PhoneNumber"
+                    android:inputType="phone"
+                    app:viewType="phone" />
+
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnotherr"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:background="@drawable/round_btn"
+                    android:fontFamily="@font/madani_arabic_semi_bold"
+                    android:text="@string/the_next"
+                    android:textAllCaps="false"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/_14sdp" />
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
+
+
+
+        <LinearLayout
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/_50sdp"
+            android:orientation="vertical"
+            android:background="@color/white"
+            android:paddingBottom="20dp">
+
 
             <TextView
                 android:id="@+id/textView49"
@@ -49,12 +353,10 @@
                 android:layout_marginStart="23dp"
                 android:layout_marginTop="10dp"
                 android:text=""
-                android:textSize="14sp"
                 android:textColor="@color/GoldenApp"
-                app:layout_constraintTop_toBottomOf="@+id/textView42"
+                android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:layout_editor_absoluteY="20dp" />
-
 
 
             <com.google.android.material.textfield.TextInputLayout
@@ -66,14 +368,14 @@
                 android:layout_marginEnd="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView49"
-                >
+                app:layout_constraintTop_toBottomOf="@+id/textView49">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/title"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/Title"
-                    android:id="@+id/title"/>
+                    android:hint="@string/Title" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -85,14 +387,14 @@
                 android:layout_marginEnd="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/othername"
-                >
+                app:layout_constraintTop_toBottomOf="@+id/othername">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/subtitle"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/Subtitle"
-                    android:id="@+id/subtitle"/>
+                    android:hint="@string/Subtitle" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -104,15 +406,15 @@
                 android:layout_marginEnd="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/othernamee"
-                >
+                app:layout_constraintTop_toBottomOf="@+id/othernamee">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/quantityavail"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
-                    android:inputType="number"
                     android:layout_height="wrap_content"
-                    android:hint="@string/QuantityAvailable" />
+                    android:hint="@string/QuantityAvailable"
+                    android:inputType="number" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
@@ -130,8 +432,8 @@
                 android:id="@+id/idrelatv"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:layout_marginTop="15dp"
                 android:layout_marginStart="20dp"
+                android:layout_marginTop="15dp"
                 android:layout_marginEnd="20dp"
                 android:background="@drawable/buttonradius"
                 app:layout_constraintStart_toStartOf="parent"
@@ -143,8 +445,7 @@
                     android:id="@+id/dropdown"
                     android:layout_width="130dp"
                     android:layout_height="match_parent"
-                    android:paddingStart="10dp"
-                    />
+                    android:paddingStart="10dp" />
 
                 <EditText
                     android:id="@+id/phonetext"
@@ -165,109 +466,71 @@
                 android:id="@+id/country"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:layout_marginStart="23dp"
+                android:layout_marginTop="20dp"
                 android:text="@string/Country"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/idrelatv" />
 
 
-            <RelativeLayout
-                android:id="@+id/idrelatv2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:background="@drawable/buttonradius"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/country"
-                >
 
-                <Spinner
-                    android:id="@+id/spinner1"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp" />
-            </RelativeLayout>
 
             <TextView
-                app:layout_constraintTop_toBottomOf="@+id/idrelatv2"
                 android:id="@+id/errorcountry"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/SelectAnyoneCountry"
-                app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginEnd="22dp"
+                android:text="@string/SelectAnyoneCountry"
                 android:textColor="#FF0000"
                 android:textSize="12sp"
-                android:visibility="gone"/>
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent" />
 
             <TextView
                 android:id="@+id/region"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:layout_marginStart="23dp"
+                android:layout_marginTop="20dp"
                 android:text="@string/Region"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/idrelatv2"/>
+                app:layout_constraintStart_toStartOf="parent" />
 
-            <RelativeLayout
-                android:id="@+id/idrelatv3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:background="@drawable/buttonradius"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/region"
-                >
-
-                <Spinner
-                    android:id="@+id/spinner2"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp" />
-            </RelativeLayout>
 
             <TextView
-                app:layout_constraintTop_toBottomOf="@+id/idrelatv3"
                 android:id="@+id/errorregion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/SelectAnyoneRegion"
-                app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginEnd="22dp"
+                android:text="@string/SelectAnyoneRegion"
                 android:textColor="#FF0000"
                 android:textSize="12sp"
-                android:visibility="gone"/>
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent" />
 
             <TextView
                 android:id="@+id/city"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:layout_marginStart="23dp"
+                android:layout_marginTop="20dp"
                 android:text="@string/City"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/idrelatv3"/>
+                app:layout_constraintStart_toStartOf="parent" />
 
             <RelativeLayout
                 android:id="@+id/idrelatv4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
                 android:layout_marginStart="20dp"
+                android:layout_marginTop="15dp"
                 android:layout_marginEnd="20dp"
                 android:background="@drawable/buttonradius"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/city"
-                >
+                app:layout_constraintTop_toBottomOf="@id/city">
+
                 <Spinner
                     android:id="@+id/spinner3"
                     android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    />
+                    android:layout_height="48dp" />
             </RelativeLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -279,49 +542,47 @@
                 android:layout_marginEnd="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/idrelatv4"
-                >
+                app:layout_constraintTop_toBottomOf="@+id/idrelatv4">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/itemAddress2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/Address"
-                    android:id="@+id/itemAddress2"/>
+                    android:hint="@string/Address" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
-                app:layout_constraintTop_toBottomOf="@+id/idrelatv4"
                 android:id="@+id/errorcity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/SelectAnyoneCity"
-                app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginEnd="22dp"
+                android:text="@string/SelectAnyoneCity"
                 android:textColor="#FF0000"
                 android:textSize="12sp"
-                android:visibility="gone"/>
-
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/idrelatv4" />
 
 
             <TextView
                 android:id="@+id/brandnewitem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
                 android:layout_marginStart="23dp"
+                android:layout_marginTop="30dp"
                 android:text="@string/BrandNewItem"
-                android:textSize="18sp"
                 android:textColor="@color/GreenApp"
+                android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/itemAddress"/>
+                app:layout_constraintTop_toBottomOf="@id/itemAddress" />
 
             <CheckBox
                 android:id="@+id/brandcheckbox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="23dp"
-                android:layout_marginEnd="40dp"
                 android:layout_marginTop="5dp"
+                android:layout_marginEnd="40dp"
                 android:button="@drawable/detailpg_checbox_selector"
                 android:padding="10dp"
                 android:text="@string/Brandnewunuseditemwithoriginal"
@@ -331,42 +592,33 @@
                 app:layout_constraintTop_toBottomOf="@+id/brandnewitem" />
 
             <TextView
-                android:id="@+id/descriptn"
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:layout_marginStart="23dp"
+                android:layout_marginTop="20dp"
                 android:text="@string/Description"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/brandcheckbox"/>
+                app:layout_constraintTop_toBottomOf="@id/brandcheckbox" />
 
             <EditText
-                android:id="@+id/descriptionedit"
+              android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:gravity="top"
                 android:layout_centerHorizontal="true"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="20dp"
                 android:background="@drawable/buttonradius"
+                android:gravity="top"
                 android:inputType="textPersonName"
                 android:padding="12dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/descriptn" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
 
-    </ScrollView>
 
-    <Button
-        android:id="@+id/btnotherr"
-        android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:textAllCaps="false"
-        android:textColor="#ffffff"
-        android:textSize="22sp"
-        android:background="@color/GoldenApp"
-        android:text="@string/NEXT"
-        android:layout_alignParentBottom="true" />
+
+
 </RelativeLayout>

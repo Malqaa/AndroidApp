@@ -27,9 +27,9 @@ class PricingPayment : Fragment() {
     lateinit var cashCheckBox: CheckBox
     lateinit var saPaymentCheckBox: CheckBox
     lateinit var paymentError: TextView
-    lateinit var radioBuyNow: RadioButton
-    lateinit var radioAuction: RadioButton
-    lateinit var radioBoth: RadioButton
+    lateinit var switchBuynow: Switch
+    lateinit var radioAuction: Switch
+    lateinit var radioBoth: Switch
     lateinit var editTextBuyNow: TextInputEditText
     lateinit var editTextStartPrice: TextInputEditText
     lateinit var editTextReservePrice: TextInputEditText
@@ -47,18 +47,11 @@ class PricingPayment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        toolbar_pricepayment.setNavigationIcon(R.drawable.nav_icon_back)
-        toolbar_pricepayment.title = getString(R.string.PricingandPayment)
-        toolbar_pricepayment.setTitleTextColor(Color.WHITE)
-        toolbar_pricepayment.inflateMenu(R.menu.adcreation_close_btn)
-        toolbar_pricepayment.setNavigationOnClickListener {
-            requireActivity().onBackPressed()
-        }
 
         cashCheckBox = requireActivity().findViewById(R.id.cash)
         saPaymentCheckBox = requireActivity().findViewById(R.id.bank)
         paymentError = requireActivity().findViewById(R.id.error_payment_radionbtn)
-        radioBuyNow = requireActivity().findViewById(R.id.listingtyp_rb1)
+        switchBuynow = requireActivity().findViewById(R.id.listingtyp_rb1)
         radioAuction = requireActivity().findViewById(R.id.listingtyp_rb2)
         radioBoth = requireActivity().findViewById(R.id.listingtyp_rb3)
         editTextBuyNow = requireActivity().findViewById(R.id.buynowprice)
@@ -67,15 +60,6 @@ class PricingPayment : Fragment() {
 
 
 
-        toolbar_pricepayment.setOnMenuItemClickListener { item ->
-            if (item.itemId == R.id.action_close) {
-                findNavController().navigate(R.id.close_pricepayment)
-                //closefrag()
-            } else {
-                // do something
-            }
-            false
-        }
         //////////////////////////////////////////
         btnnn.setOnClickListener() {
             confirmPricePaymentFrag(view)
@@ -196,7 +180,7 @@ class PricingPayment : Fragment() {
 
     private fun checkValidation(): Boolean {
         when {
-            radioBuyNow.isChecked -> {
+            switchBuynow.isChecked -> {
                 if (!validateCheckPriceBox() or !limitBuyNowPrice()) {
                     return false
                 }
@@ -225,7 +209,7 @@ class PricingPayment : Fragment() {
 
         var chooseOptionText: TextView = requireActivity().findViewById(R.id.chooseOption)
 
-        radioBuyNow.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { _, b ->
+        switchBuynow.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { _, b ->
             if (b) {
                 editTextStartPrice.isEnabled = false
                 editTextStartPrice.isFocusableInTouchMode = false

@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
@@ -18,9 +19,13 @@ import com.malka.androidappp.botmnav_fragments.create_ads.StaticClassAdCreate
 import com.malka.androidappp.botmnav_fragments.home.model.AllCategoriesModel
 import com.malka.androidappp.botmnav_fragments.home.model.AllCategoriesResponseBack
 import com.malka.androidappp.helper.HelpFunctions
+import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
+import kotlinx.android.synthetic.main.activity_add_product2.*
+import kotlinx.android.synthetic.main.all_categories_cardview.view.*
 import kotlinx.android.synthetic.main.fragment_sub_categories.*
+import kotlinx.android.synthetic.main.fragment_sub_categories.category_rcv
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -111,7 +116,7 @@ class SubCategories : Fragment(), AdapterSubCategories.OnItemClickListener {
                                     )
                                 }
                                 val allCategoriesRecyclerView: RecyclerView =
-                                    requireActivity().findViewById(R.id.recycler_sub_category)
+                                    requireActivity().findViewById(R.id.category_rcv)
 
                                 allCategoriesRecyclerView.layoutManager =
                                     LinearLayoutManager(
@@ -125,6 +130,7 @@ class SubCategories : Fragment(), AdapterSubCategories.OnItemClickListener {
                                         SubCategories(),
                                         this@SubCategories
                                     )
+
                                 HelpFunctions.dismissProgressBar()
                             } else {
                                 HelpFunctions.dismissProgressBar()
@@ -176,4 +182,8 @@ class SubCategories : Fragment(), AdapterSubCategories.OnItemClickListener {
             }
         }
     }
+
+
+
+
 }

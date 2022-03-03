@@ -16,8 +16,10 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import com.hbb20.CountryCodePicker
 import com.malka.androidappp.R
 import com.malka.androidappp.servicemodels.ConstantObjects
+import kotlinx.android.synthetic.main.fragment_confirmation.view.*
 import kotlinx.android.synthetic.main.fragment_list_details.*
 import kotlinx.android.synthetic.main.fragment_listing_duration.*
 import org.w3c.dom.Text
@@ -42,13 +44,13 @@ class ListingDetailsFragment : Fragment() {
 
 
         ////////////////////////////////////////////////////////
-        toolbar_listdetails.setNavigationIcon(R.drawable.nav_icon_back)
-        toolbar_listdetails.title = getString(R.string.ListingDetails)
-        toolbar_listdetails.setTitleTextColor(Color.WHITE)
-        toolbar_listdetails.inflateMenu(R.menu.adcreation_close_btn)
-        toolbar_listdetails.setNavigationOnClickListener() {
-            requireActivity().onBackPressed()
-        }
+//        toolbar_listdetails.setNavigationIcon(R.drawable.nav_icon_back)
+//        toolbar_listdetails.title = getString(R.string.ListingDetails)
+//        toolbar_listdetails.setTitleTextColor(Color.WHITE)
+//        toolbar_listdetails.inflateMenu(R.menu.adcreation_close_btn)
+//        toolbar_listdetails.setNavigationOnClickListener() {
+//            requireActivity().onBackPressed()
+//        }
 
         itemTitle = requireActivity().findViewById(R.id.title)
         itemTitle.setText(StaticClassAdCreate.producttitle)
@@ -57,44 +59,39 @@ class ListingDetailsFragment : Fragment() {
 
         quantityTextField = requireActivity().findViewById(R.id.othernameee)
 
-        toolbar_listdetails.setOnMenuItemClickListener { item ->
-            if (item.itemId == R.id.action_close) {
-                findNavController().navigate(R.id.close_listingdetails)
-                //closefrag()
-            } else {
-                // do something
-            }
-            false
-        }
+//        toolbar_listdetails.setOnMenuItemClickListener { item ->
+//            if (item.itemId == R.id.action_close) {
+//                findNavController().navigate(R.id.close_listingdetails)
+//                //closefrag()
+//            } else {
+//                // do something
+//            }
+//            false
+//        }
         /////////////////CodingFlow For Country textDropdown/Spiner/////////////////////
-        val spinner: Spinner = requireActivity().findViewById(R.id.spinner1)
-        val adapter = ArrayAdapter.createFromResource(
-            this.requireActivity(),
-            R.array.countrylist,
-            R.layout.support_simple_spinner_dropdown_item
-        )
-        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
-        spinner.adapter = adapter
+        val spinner: CountryCodePicker = requireActivity().findViewById(R.id.country_code)
 
 
         /////////////////For Region Dropdown/Spinner/////////////////////
-        val spinner2: Spinner = requireActivity().findViewById(R.id.spinner2)
-        val adapter2 = ArrayAdapter.createFromResource(
-            this.requireActivity(),
-            R.array.regionlist,
-            R.layout.support_simple_spinner_dropdown_item
-        )
-        adapter2.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
-        spinner2.adapter = adapter2
+
+//        val spinner2: Spinner = requireActivity().findViewById(R.id.spinner2)
+//        val adapter2 = ArrayAdapter.createFromResource(
+//            this.requireActivity(),
+//            R.array.regionlist,
+//            R.layout.support_simple_spinner_dropdown_item
+//        )
+//        adapter2.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
+//        spinner2.adapter = adapter2
 
 
         /////////////////For City Dropdown/Spinner/////////////////////
-        val spinner3: Spinner = requireActivity().findViewById(R.id.spinner3)
-        val adapter3 = ArrayAdapter.createFromResource(
-            this.requireActivity(), R.array.citylist, R.layout.support_simple_spinner_dropdown_item
-        )
-        adapter3.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
-        spinner3.adapter = adapter3
+
+//        val spinner3: Spinner = requireActivity().findViewById(R.id.spinner3)
+//        val adapter3 = ArrayAdapter.createFromResource(
+//            this.requireActivity(), R.array.citylist, R.layout.support_simple_spinner_dropdown_item
+//        )
+//        adapter3.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
+//        spinner3.adapter = adapter3
 
 
         //////////////////////////Image N Text DropdownSpinner for Phonenum country//////////////////////////
@@ -108,8 +105,8 @@ class ListingDetailsFragment : Fragment() {
         /////////////////////////////////Activity Switching to promtional///////////////////////////////
         btnotherr.setOnClickListener() { ListDetailsconfirmInput() }
 
-        userType()
-        setCategoryPath()
+//        userType()
+//        setCategoryPath()
 
     }
 
@@ -170,46 +167,46 @@ class ListingDetailsFragment : Fragment() {
     }
 
     ///////////////////////////Spinners Validation////////////////////////////////////////////
-    private fun validateCountry(): Boolean {
-        var textcountry: Spinner = requireActivity().findViewById<Spinner>(R.id.spinner1)
-        val errorcountryid = requireActivity().findViewById<TextView>(R.id.errorcountry)
-
-        return if (textcountry.selectedItem.toString().trim() == "- - Select Country - -") {
-            errorcountryid.visibility = View.VISIBLE
-            false
-        } else {
-            errorcountryid.visibility = View.GONE
-            true
-        }
-    }
-
-    ///////////////////////////Spinners Validation////////////////////////////////////////////
-    private fun validateRegion(): Boolean {
-        var textregion: Spinner = requireActivity().findViewById<Spinner>(R.id.spinner2)
-        val errorRegionid = requireActivity().findViewById<TextView>(R.id.errorregion)
-
-        return if (textregion.selectedItem.toString().trim() == "- - Select Region - -") {
-            errorRegionid.visibility = View.VISIBLE
-            false
-        } else {
-            errorRegionid.visibility = View.GONE
-            true
-        }
-    }
+//    private fun validateCountry(): Boolean {
+//        var textcountry: Spinner = requireActivity().findViewById<Spinner>(R.id.country_code)
+//        val errorcountryid = requireActivity().findViewById<TextView>(R.id.errorcountry)
+//
+//        return if (textcountry.selectedItem.toString().trim() == "- - Select Country - -") {
+//            errorcountryid.visibility = View.VISIBLE
+//            false
+//        } else {
+//            errorcountryid.visibility = View.GONE
+//            true
+//        }
+//    }
 
     ///////////////////////////Spinners Validation////////////////////////////////////////////
-    private fun ValidateCity(): Boolean {
-        var textCity: Spinner = requireActivity().findViewById<Spinner>(R.id.spinner3)
-        val errorCity = requireActivity().findViewById<TextView>(R.id.errorcity)
+//    private fun validateRegion(): Boolean {
+//        var textregion: Spinner = requireActivity().findViewById<Spinner>(R.id.spinner2)
+//        val errorRegionid = requireActivity().findViewById<TextView>(R.id.errorregion)
+//
+//        return if (textregion.selectedItem.toString().trim() == "- - Select Region - -") {
+//            errorRegionid.visibility = View.VISIBLE
+//            false
+//        } else {
+//            errorRegionid.visibility = View.GONE
+//            true
+//        }
+//    }
 
-        return if (textCity.selectedItem.toString().trim() == "- - Select City - -") {
-            errorCity.visibility = View.VISIBLE
-            false
-        } else {
-            errorCity.visibility = View.GONE
-            true
-        }
-    }
+    ///////////////////////////Spinners Validation////////////////////////////////////////////
+//    private fun ValidateCity(): Boolean {
+//        var textCity: Spinner = requireActivity().findViewById<Spinner>(R.id.spinner3)
+//        val errorCity = requireActivity().findViewById<TextView>(R.id.errorcity)
+//
+//        return if (textCity.selectedItem.toString().trim() == "- - Select City - -") {
+//            errorCity.visibility = View.VISIBLE
+//            false
+//        } else {
+//            errorCity.visibility = View.GONE
+//            true
+//        }
+//    }
 
     fun confirmBrandNewitem() {
         if (brandcheckbox.isChecked) {
@@ -221,28 +218,28 @@ class ListingDetailsFragment : Fragment() {
 
 
     fun ListDetailsconfirmInput() {
-        if (!validateTitle() or !validatephoneNum()
-            or !validateCountry() or !validateRegion() or !ValidateCity()
-        ) {
-            return
-        } else {
-
-            val titlee: String = title.text.toString()
-            StaticClassAdCreate.title = titlee
-            val subtitlee: String = subtitle.text.toString()
-            StaticClassAdCreate.subtitle = subtitlee
-            val quantityavaill: String = quantityavail.text.toString()
-            StaticClassAdCreate.quantity = quantityavaill
-            val country: String = spinner1.selectedItem.toString()
-            StaticClassAdCreate.country = country
-            val regionn: String = spinner2.selectedItem.toString()
-            StaticClassAdCreate.region = regionn
-            val cityy: String = spinner3.selectedItem.toString()
-            StaticClassAdCreate.city = cityy
-            val description: String = descriptionedit.text.toString()
-            StaticClassAdCreate.description = description
-            val address: String = itemAddress2.text.toString()
-            StaticClassAdCreate.address = address
+//        if (!validateTitle() or !validatephoneNum()
+////            or !validateCountry() or !validateRegion() or !ValidateCity()
+//        ) {
+//            return
+//        } else {
+//
+//            val titlee: String = title.text.toString()
+//            StaticClassAdCreate.title = titlee
+//            val subtitlee: String = subtitle.text.toString()
+//            StaticClassAdCreate.subtitle = subtitlee
+//            val quantityavaill: String = quantityavail.text.toString()
+//            StaticClassAdCreate.quantity = quantityavaill
+//            val country: String = country_code.selectedImages.toString()
+//            StaticClassAdCreate.country = country
+//            val regionn: String = spinner2.selectedItem.toString()
+//            StaticClassAdCreate.region = regionn
+//            val cityy: String = spinner3.selectedItem.toString()
+//            StaticClassAdCreate.city = cityy
+//            val description: String = descriptionedit.text.toString()
+//            StaticClassAdCreate.description = description
+//            val address: String = itemAddress2.text.toString()
+//            StaticClassAdCreate.address = address
 
 
             //zeeshanbhailine
@@ -305,20 +302,20 @@ class ListingDetailsFragment : Fragment() {
         }
     }
 
-    private fun userType() {
+//    private fun userType() {
+//
+//        if (!ConstantObjects.isBusinessUser) {
+//            quantityTextField.visibility = View.GONE
+//        } else {
+//            quantityTextField.visibility = View.VISIBLE
+//        }
+//    }
+//
+//    @SuppressLint("SetTextI18n")
+//    private fun setCategoryPath(){
+//        for (i in 0 until StaticClassAdCreate.subCategoryPath.size){
+//            category.text = StaticClassAdCreate.subCategoryPath[i]
+//        }
+//    }
 
-        if (!ConstantObjects.isBusinessUser) {
-            quantityTextField.visibility = View.GONE
-        } else {
-            quantityTextField.visibility = View.VISIBLE
-        }
-    }
-
-    @SuppressLint("SetTextI18n")
-    private fun setCategoryPath(){
-        for (i in 0 until StaticClassAdCreate.subCategoryPath.size){
-            category.text = StaticClassAdCreate.subCategoryPath[i]
-        }
-    }
-}
 

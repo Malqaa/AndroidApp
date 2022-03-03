@@ -28,6 +28,10 @@ import tech.hibk.searchablespinnerlibrary.SearchableItem
 
 class DetailedTextField : LinearLayout {
 
+    val selectedItem: Any
+        get() {
+            TODO()
+        }
     private lateinit var etl_Field: TextInputLayout
     private lateinit var textView: TextView
     private lateinit var iv_info_icon: ImageView

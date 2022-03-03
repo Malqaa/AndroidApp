@@ -77,7 +77,7 @@ class add_product2 : AppCompatActivity() {
 
     private fun setCategoryAdaptor(list: List<AllCategoriesModel>) {
         category_rcv.adapter = object : GenericListAdapter<AllCategoriesModel>(
-            R.layout.all_categories_cardview,
+            R.layout.all_categories_card,
             bind = { element, holder, itemCount, position ->
                 holder.view.run {
                     element.run {

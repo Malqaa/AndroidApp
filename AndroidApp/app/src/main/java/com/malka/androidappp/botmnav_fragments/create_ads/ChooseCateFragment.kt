@@ -77,12 +77,12 @@ class ChooseCateFragment : Fragment(), AdapterSuggestedCategories.OnItemClickLis
 //            StaticClassAdCreate.subcat = allCategoryList[position].categoryKey.toString()
                 findNavController().navigate(R.id.all_cat_to_add_photo, args)
 
-            } else {
+            }else {
 
                 StaticClassAdCreate.subCategoryPath.add(allCategoryList[position].categoryName.toString())
 
                 val args = Bundle()
-                args.putString("categoryid", allCategoryList[position].categoryid.toString())
+                args.putString("categoryid", allCategoryList[position].categoryKey.toString())
                 args.putString("categoryName", allCategoryList[position].categoryName.toString())
                 NavHostFragment.findNavController(this@ChooseCateFragment)
                     .navigate(R.id.all_cat_to_sub_cat, args)

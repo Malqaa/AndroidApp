@@ -8,17 +8,55 @@
     tools:context=".botmnav_fragments.create_ads.ChooseCateFragment">
 
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/choose_nested"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/toolbar_addphoto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/_15sdp"
+                android:layout_height="@dimen/_10sdp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/backarrow1" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/_7sdp"
+                android:fontFamily="@font/madani_arabic_medium"
+                android:text="@string/choose_department"
+                android:textColor="#000000"
+                android:textSize="@dimen/_13sdp" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/choose_nested"
+        android:layout_above="@+id/add_product_button4"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_marginTop="55dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
 
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/SilverBackground">
+            android:layout_height="match_parent">
 
 
             <TextView
@@ -63,11 +101,12 @@
                 android:id="@+id/recycler_all_category"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:spanCount="3"
-                app:layout_constraintTop_toBottomOf="@+id/textView38" />
+                app:layout_constraintTop_toBottomOf="@+id/textView38"
+                app:spanCount="3" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -80,6 +119,7 @@
         android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.Toolbar
+            android:visibility="gone"
             android:id="@+id/toolbar_choosecat"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
