@@ -8,21 +8,10 @@
     tools:context=".botmnav_fragments.create_ads.PricingPayment">
 
 
-
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/btnnn">
-
-
-
-
-
-
-
-
-
 
 
         <LinearLayout
@@ -110,14 +99,17 @@
                     </LinearLayout>
 
                     <LinearLayout
+
+                        android:id="@+id/fix_Price_l"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_46sdp"
                         android:layout_marginTop="@dimen/_10sdp"
-                        android:background="@drawable/product_attribute_bg_linebg"
+                        android:background="@drawable/add_product_attribte"
                         android:orientation="horizontal"
                         android:weightSum="2">
 
                         <TextView
+                            android:id="@+id/fixed_price_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
@@ -125,7 +117,7 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/madani_arabic_light"
                             android:text="@string/fixed_price_sale"
-                            android:textColor="@color/bg"
+                            android:textColor="#45495E"
                             android:textSize="@dimen/_12sdp" />
 
                         <androidx.appcompat.widget.SwitchCompat
@@ -135,11 +127,11 @@
                             android:layout_gravity="center_vertical"
                             android:layout_marginEnd="@dimen/_10sdp"
                             android:layout_weight="1"
+                            android:isScrollContainer="false"
                             android:src="@drawable/vectorlog" />
 
 
                     </LinearLayout>
-
 
 
                     <LinearLayout
@@ -152,6 +144,7 @@
                         android:weightSum="2">
 
                         <TextView
+                            android:id="@+id/Auction_price_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
@@ -162,7 +155,7 @@
                             android:textColor="#45495E"
                             android:textSize="@dimen/_12sdp" />
 
-                        <Switch
+                        <androidx.appcompat.widget.SwitchCompat
                             android:id="@+id/listingtyp_rb2"
                             android:layout_width="@dimen/_20sdp"
                             android:layout_height="@dimen/_10sdp"
@@ -174,7 +167,9 @@
 
                     </LinearLayout>
 
+
                     <LinearLayout
+                        android:id="@+id/Tender_l"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_46sdp"
                         android:layout_marginTop="@dimen/_10sdp"
@@ -183,6 +178,7 @@
                         android:weightSum="2">
 
                         <TextView
+                            android:id="@+id/Tender_price_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
@@ -193,7 +189,7 @@
                             android:textColor="#45495E"
                             android:textSize="@dimen/_12sdp" />
 
-                        <Switch
+                        <androidx.appcompat.widget.SwitchCompat
                             android:id="@+id/listingtyp_rb3"
                             android:layout_width="@dimen/_20sdp"
                             android:layout_height="@dimen/_10sdp"
@@ -205,15 +201,480 @@
 
                     </LinearLayout>
 
+                    <LinearLayout
+                        android:id="@+id/textview_price"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:orientation="horizontal">
 
 
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:fontFamily="@font/madani_arabic_medium"
+                            android:text="@string/purchasing_price_"
+                            android:textColor="#293241"
+                            android:textSize="@dimen/_14sdp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_2sdp"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:fontFamily="@font/madani_arabic_medium"
+                            android:text="*"
+                            android:textColor="@color/Red"
+                            android:textSize="@dimen/_14sdp" />
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:id="@+id/Buy_now_l"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_46sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:background="@drawable/add_product_attribte"
+                        android:orientation="horizontal">
+
+                        <EditText
+                            android:id="@+id/buynowprice"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginEnd="@dimen/_10sdp"
+                            android:layout_weight="1"
+                            android:background="@null"
+                            android:gravity="center"
+                            android:src="@drawable/vectorlog"
+                            android:text="5" />
+
+
+                        <LinearLayout
+                            android:layout_width="@dimen/_60sdp"
+                            android:layout_height="match_parent"
+                            android:background="@color/light_gray"
+                            android:gravity="center">
+
+                            <TextView
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:fontFamily="@font/madani_arabic_light"
+                                android:text="@string/rial"
+                                android:textColor="@color/bg"
+                                android:textSize="@dimen/_10sdp" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
+                    <TextView
+                        android:id="@+id/auction_opt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:fontFamily="@font/madani_arabic_light"
+                        android:text="@string/auction_options"
+                        android:textColor="#293241"
+                        android:textSize="@dimen/_12sdp" />
+
+                    <LinearLayout
+                        android:id="@+id/Auction_price"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_2sdp"
+                            android:fontFamily="@font/madani_arabic_medium"
+                            android:text="@string/auction_start_price"
+                            android:textColor="#293241"
+                            android:textSize="@dimen/_14sdp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_2sdp"
+                            android:fontFamily="@font/madani_arabic_medium"
+                            android:text="*"
+                            android:textColor="@color/Red"
+                            android:textSize="@dimen/_14sdp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/Buy_Auctino_l"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_46sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:background="@drawable/add_product_attribte"
+                        android:orientation="horizontal">
+
+                        <EditText
+                            android:id="@+id/startprice"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginEnd="@dimen/_10sdp"
+                            android:layout_weight="1"
+                            android:background="@null"
+                            android:gravity="center"
+                            android:src="@drawable/vectorlog"
+                            android:text="5" />
+
+
+                        <LinearLayout
+                            android:layout_width="@dimen/_60sdp"
+                            android:layout_height="match_parent"
+                            android:background="@color/light_gray"
+                            android:gravity="center">
+
+                            <TextView
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:fontFamily="@font/madani_arabic_light"
+                                android:text="@string/rial"
+                                android:textColor="@color/bg"
+                                android:textSize="@dimen/_10sdp" />
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/textview_minimum_p"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:orientation="horizontal">
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_2sdp"
+                            android:fontFamily="@font/madani_arabic_medium"
+                            android:text="@string/minimum_price"
+                            android:textColor="#293241"
+                            android:textSize="@dimen/_14sdp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_2sdp"
+                            android:fontFamily="@font/madani_arabic_medium"
+                            android:text="*"
+                            android:textColor="@color/Red"
+                            android:textSize="@dimen/_14sdp" />
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:id="@+id/minimum_price_l"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_46sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:background="@drawable/add_product_attribte"
+                        android:orientation="horizontal">
+
+                        <EditText
+                            android:id="@+id/reserveprice"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginEnd="@dimen/_10sdp"
+                            android:layout_weight="1"
+                            android:background="@null"
+                            android:gravity="center"
+                            android:src="@drawable/vectorlog"
+                            android:text="5" />
+
+
+                        <LinearLayout
+                            android:layout_width="@dimen/_60sdp"
+                            android:layout_height="match_parent"
+                            android:background="@color/light_gray"
+                            android:gravity="center">
+
+                            <TextView
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:fontFamily="@font/madani_arabic_light"
+                                android:text="@string/rial"
+                                android:textColor="@color/bg"
+                                android:textSize="@dimen/_10sdp" />
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/chooseOption"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:orientation="horizontal">
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:fontFamily="@font/madani_arabic_medium"
+                            android:text="@string/payment_options"
+                            android:textColor="#293241"
+                            android:textSize="@dimen/_14sdp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_2sdp"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:fontFamily="@font/madani_arabic_medium"
+                            android:text="*"
+                            android:textColor="@color/Red"
+                            android:textSize="@dimen/_14sdp" />
+
+                    </LinearLayout>
+
+
+
+
+                    <LinearLayout
+
+                        android:id="@+id/saudi_bank_auction"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_42sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:background="@drawable/add_product_attribte"
+                        android:orientation="horizontal">
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="@dimen/_20sdp"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/madani_arabic_medium"
+                            android:gravity="center_vertical"
+                            android:text="Saudi bank deposit"
+                            android:textColor="@color/bg"
+                            android:textSize="@dimen/_10sdp" />
+
+
+                        <Switch
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_10sdp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginEnd="@dimen/_15sdp"
+                            android:layout_weight="1"
+                            android:src="@drawable/vectorlog" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/saudi_bank_option"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_200sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:background="@drawable/product_attribute_bg_linebg"
+                        android:orientation="vertical">
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:layout_marginEnd="@dimen/_10sdp"
+                            android:weightSum="2">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/madani_arabic_light"
+                                android:text="Saudi bank deposit"
+                                android:textColor="@color/bg"
+                                android:textSize="@dimen/_10sdp" />
+
+                            <Switch
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="@dimen/_10sdp"
+                                android:layout_weight="1" />
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_90sdp"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:layout_marginEnd="@dimen/_10sdp"
+                            android:background="@drawable/product_attribute_bg4"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginStart="@dimen/_10sdp"
+                                android:layout_marginTop="@dimen/_12sdp"
+                                android:layout_marginEnd="@dimen/_10sdp"
+                                android:gravity="center_vertical"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:orientation="horizontal"
+                                    android:weightSum="2">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:fontFamily="@font/madani_arabic_medium"
+                                        android:text="@string/saudi_national_bank"
+                                        android:textColor="#293241"
+                                        android:textSize="@dimen/_10sdp" />
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="@dimen/_25sdp"
+                                        android:layout_weight="1"
+                                        android:gravity="end">
+
+                                        <RadioButton
+                                            android:id="@+id/bank"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:gravity="end" />
+
+
+                                    </LinearLayout>
+
+                                </LinearLayout>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:fontFamily="@font/madani_arabic_medium"
+                                    android:text="164***************"
+                                    android:textColor="#293241"
+                                    android:textSize="@dimen/_10sdp" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/_5sdp"
+                                    android:orientation="horizontal"
+                                    android:weightSum="2">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:fontFamily="@font/madani_arabic_medium"
+                                        android:text="Mohammed"
+                                        android:textColor="#293241"
+                                        android:textSize="@dimen/_10sdp" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:fontFamily="@font/madani_arabic_medium"
+                                        android:text="169dgd464979"
+                                        android:textColor="#293241"
+                                        android:textSize="@dimen/_10sdp" />
+
+
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_38sdp"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:layout_marginEnd="@dimen/_10sdp"
+                            android:background="@drawable/product_attribute_bg4"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/madani_arabic_medium"
+                                android:gravity="center_vertical"
+                                android:text="@string/add_a_new_account"
+                                android:textColor="#293241"
+                                android:textSize="@dimen/_10sdp" />
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_42sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:background="@drawable/add_product_attribte"
+                        android:orientation="horizontal">
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="@dimen/_20sdp"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/madani_arabic_medium"
+                            android:gravity="center_vertical"
+                            android:text="@string/visa_mastercard"
+                            android:textColor="#293241"
+                            android:textSize="@dimen/_10sdp" />
+
+
+                        <Switch
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_10sdp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginEnd="@dimen/_15sdp"
+                            android:layout_weight="1"
+                            android:src="@drawable/vectorlog" />
+
+                    </LinearLayout>
 
 
                 </LinearLayout>
 
             </LinearLayout>
-
-
 
 
             <TextView
@@ -224,187 +685,6 @@
                 android:textColor="#FF0000"
                 android:textSize="11sp" />
 
-
-            <LinearLayout
-                android:id="@+id/textview_price"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:orientation="horizontal">
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:fontFamily="@font/madani_arabic_medium"
-                    android:text="@string/purchasing_price_"
-                    android:textColor="#293241"
-                    android:textSize="@dimen/_14sdp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_2sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:fontFamily="@font/madani_arabic_medium"
-                    android:text="*"
-                    android:textColor="@color/Red"
-                    android:textSize="@dimen/_14sdp" />
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_46sdp"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:background="@drawable/add_product_attribte"
-                android:orientation="horizontal"
-                >
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginEnd="@dimen/_10sdp"
-                    android:layout_weight="1"
-                    android:text="5"
-                    android:id="@+id/buynowprice"
-                    android:background="@null"
-                    android:gravity="center"
-                    android:src="@drawable/vectorlog" />
-
-
-                <LinearLayout
-                    android:layout_width="@dimen/_60sdp"
-                    android:layout_height="match_parent"
-                    android:background="@color/light_gray"
-                    android:gravity="center">
-
-                    <TextView
-
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:fontFamily="@font/madani_arabic_light"
-                        android:text="@string/rial"
-                        android:textColor="@color/bg"
-                        android:textSize="@dimen/_10sdp" />
-                </LinearLayout>
-
-
-
-            </LinearLayout>
-
-
-
-
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/startprice_inputlay"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
-                android:visibility="gone">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/startprice"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/StartPrice"
-                    android:inputType="number" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/reserveprice_inputlay"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/startprice_inputlay">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/reserveprice"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/ReservePrice"
-                    android:inputType="number" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <TextView
-                android:id="@+id/chooseOption"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:text="@string/Choosealistingtype"
-                android:textSize="15sp"
-                app:layout_constraintBottom_toTopOf="@+id/view_pricepay"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <View
-                android:id="@+id/view_pricepay"
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_marginTop="35dp"
-                android:background="@color/SilverBackground"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/reserveprice_inputlay" />
-
-            <TextView
-                android:id="@+id/pricepay_shippment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="35dp"
-                android:text="@string/PaymentShipping"
-                android:textColor="@color/GreenApp"
-                android:textSize="20sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view_pricepay" />
-
-
-            <TextView
-                android:id="@+id/payment_method"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="40dp"
-                android:text="@string/Acceptedpaymentmethods"
-                android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/pricepay_shippment" />
-
-
-            <CheckBox
-                android:id="@+id/cash"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="15dp"
-                android:text="@string/Cash"
-                android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/payment_method" />
-
-            <CheckBox
-                android:id="@+id/bank"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="64dp"
-                android:layout_marginTop="15dp"
-                android:text="@string/SAbankdeposit"
-                android:textSize="16sp"
-                app:layout_constraintStart_toEndOf="@+id/cash"
-                app:layout_constraintTop_toBottomOf="@+id/payment_method" />
 
             <TextView
                 android:id="@+id/error_payment_radionbtn"
@@ -417,30 +697,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/bank" />
 
 
-            <TextView
-                android:id="@+id/textpayment_method"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="35dp"
-                android:text="@string/Acceptedpaymentmethods"
-                android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/bank" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginBottom="15dp"
-                android:text="@string/Youdonthaveanypaymentinstructionsset"
-                android:textColor="#4d4d33"
-                android:textSize="18sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textpayment_method" />
         </LinearLayout>
     </ScrollView>
 
@@ -450,7 +706,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_marginStart="@dimen/_15sdp"
         android:layout_marginTop="@dimen/_15sdp"
+        android:layout_marginEnd="@dimen/_15sdp"
         android:layout_marginBottom="@dimen/_10sdp"
         android:background="@drawable/round_btn"
         android:fontFamily="@font/madani_arabic_semi_bold"

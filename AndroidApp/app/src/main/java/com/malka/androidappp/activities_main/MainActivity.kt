@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 R.id.navigation_home -> {
-                    findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_home)
+                    findNavController(R.id.nav_host_fragment).navigate(R.id.pricepayment_frag)
                     //Zack
                     //Date: 04/08/2021
 //                    val args = Bundle()

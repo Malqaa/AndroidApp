@@ -2,37 +2,46 @@ package com.malka.androidappp.botmnav_fragments.create_ads
 
 import android.graphics.Color
 import android.os.Bundle
-import android.text.InputType
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.appcompat.widget.Toolbar
-import androidx.core.view.isVisible
+import android.widget.CompoundButton
+import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.malka.androidappp.R
 import com.malka.androidappp.helper.HelpFunctions
+import kotlinx.android.synthetic.main.activity_add_item_details3.*
+import kotlinx.android.synthetic.main.all_categories_cardview.*
+import kotlinx.android.synthetic.main.fragment_about_the_seller.*
+import kotlinx.android.synthetic.main.fragment_browse_market.*
 import kotlinx.android.synthetic.main.fragment_listing_duration.*
+import kotlinx.android.synthetic.main.fragment_other_details.view.*
+import kotlinx.android.synthetic.main.fragment_pie_chart_frag1.*
 import kotlinx.android.synthetic.main.fragment_pricing_payment.*
 import kotlinx.android.synthetic.main.fragment_shipping_pickups.*
-import java.lang.NumberFormatException
 
 
 class PricingPayment : Fragment() {
     lateinit var cashCheckBox: CheckBox
-    lateinit var saPaymentCheckBox: CheckBox
     lateinit var paymentError: TextView
-    lateinit var switchBuynow: Switch
-    lateinit var radioAuction: Switch
-    lateinit var radioBoth: Switch
-    lateinit var editTextBuyNow: TextInputEditText
-    lateinit var editTextStartPrice: TextInputEditText
-    lateinit var editTextReservePrice: TextInputEditText
+    lateinit var switchBuynow: SwitchCompat
+    lateinit var SwitchAuction: SwitchCompat
+    lateinit var switchResrvepri: SwitchCompat
+    lateinit var buynowlayout: LinearLayout
+    lateinit var auctionlayout: LinearLayout
+    lateinit var auctionPriceTV: LinearLayout
+    lateinit var auctionOption: TextView
+    lateinit var minimumPriceTV: LinearLayout
+    lateinit var minimumlayout: LinearLayout
+    lateinit var minimumEdittext: EditText
+    lateinit var textviewbuynow: LinearLayout
+    lateinit var editTextBuyNow: EditText
+    lateinit var editTextAuctionPri: EditText
+    lateinit var editTextReservePrice: EditText
 
 
     override fun onCreateView(
@@ -48,14 +57,19 @@ class PricingPayment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-        cashCheckBox = requireActivity().findViewById(R.id.cash)
-        saPaymentCheckBox = requireActivity().findViewById(R.id.bank)
-        paymentError = requireActivity().findViewById(R.id.error_payment_radionbtn)
+        buynowlayout= requireActivity().findViewById(R.id.Buy_now_l)
+        auctionlayout=  requireActivity().findViewById(R.id.Buy_Auctino_l)
+        auctionPriceTV= requireActivity().findViewById(R.id.Auction_price)
+        auctionOption = requireActivity().findViewById(R.id.auction_opt)
+        minimumlayout= requireActivity().findViewById(R.id.minimum_price_l)
+        minimumPriceTV= requireActivity().findViewById(R.id.textview_minimum_p)
+        minimumEdittext= requireActivity().findViewById(R.id.reserveprice)
+        textviewbuynow = requireActivity().findViewById(R.id.textview_price)
         switchBuynow = requireActivity().findViewById(R.id.listingtyp_rb1)
-        radioAuction = requireActivity().findViewById(R.id.listingtyp_rb2)
-        radioBoth = requireActivity().findViewById(R.id.listingtyp_rb3)
+        SwitchAuction = requireActivity().findViewById(R.id.listingtyp_rb2)
+        switchResrvepri = requireActivity().findViewById(R.id.listingtyp_rb3)
         editTextBuyNow = requireActivity().findViewById(R.id.buynowprice)
-        editTextStartPrice = requireActivity().findViewById(R.id.startprice)
+        editTextAuctionPri = requireActivity().findViewById(R.id.startprice)
         editTextReservePrice = requireActivity().findViewById(R.id.reserveprice)
 
 
@@ -113,7 +127,7 @@ class PricingPayment : Fragment() {
     }
 
     private fun validateStartPriceBox(): Boolean {
-        val textStartPrice = requireActivity().findViewById(R.id.startprice) as TextInputEditText
+        val textStartPrice = requireActivity().findViewById(R.id.startprice) as EditText
         val InputStartPrice = textStartPrice.text.toString().trim { it <= ' ' }
         return if (InputStartPrice.isEmpty()) {
             textStartPrice.error = getString(R.string.Fieldcantbeempty)
@@ -126,7 +140,7 @@ class PricingPayment : Fragment() {
 
     private fun validateReservePriceBox(): Boolean {
         val textReservePrice =
-            requireActivity().findViewById(R.id.reserveprice) as TextInputEditText
+            requireActivity().findViewById(R.id.reserveprice) as EditText
         val InputReservePrice = textReservePrice.text.toString().trim { it <= ' ' }
         return if (InputReservePrice.isEmpty()) {
             textReservePrice.error = getString(R.string.Fieldcantbeempty)
@@ -138,7 +152,7 @@ class PricingPayment : Fragment() {
     }
 
     private fun validateradiobutton(): Boolean {
-        return if (cashCheckBox.isChecked or saPaymentCheckBox.isChecked) {
+        return if (cashCheckBox.isChecked or bank.isChecked) {
             paymentError.visibility = View.GONE
             true
         } else {
@@ -165,7 +179,7 @@ class PricingPayment : Fragment() {
             if (cashCheckBox.isChecked) {
                 StaticClassAdCreate.iscashpaid = "Cash"
             }
-            if (saPaymentCheckBox.isChecked) {
+            if (bank.isChecked) {
                 StaticClassAdCreate.isbankpaid = "SA bank deposit"
             }
 
@@ -185,11 +199,11 @@ class PricingPayment : Fragment() {
                     return false
                 }
             }
-            radioAuction.isChecked -> {
+            SwitchAuction.isChecked -> {
                 if (!validateStartPriceBox() or !validateReservePriceBox() or !validAmount() or !limitReservePrice() or !limitStartPrice())
                     return false
             }
-            radioBoth.isChecked -> {
+            switchResrvepri.isChecked -> {
                 if (!validateCheckPriceBox() or !validateStartPriceBox() or !validateReservePriceBox()
                     or !validAmount() or !limitBuyNowPrice() or !limitReservePrice()
                     or !limitStartPrice()
@@ -202,38 +216,82 @@ class PricingPayment : Fragment() {
 
     private fun disableTextFields(v: View) {
         var buyNowView: EditText = requireActivity().findViewById(R.id.buynowprice)
-        var startPriceView: TextInputLayout =
-            requireActivity().findViewById(R.id.startprice_inputlay)
-        var reservePriceView: TextInputLayout =
-            requireActivity().findViewById(R.id.reserveprice_inputlay)
+        var startPriceView: EditText = requireActivity().findViewById(R.id.startprice)
+        var reservePriceView: EditText = requireActivity().findViewById(R.id.reserveprice)
 
-        var chooseOptionText: TextView = requireActivity().findViewById(R.id.chooseOption)
+        var chooseOptionText: LinearLayout = requireActivity().findViewById(R.id.chooseOption)
+
+
+
 
         switchBuynow.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { _, b ->
             if (b) {
-                editTextStartPrice.isEnabled = false
-                editTextStartPrice.isFocusableInTouchMode = false
-                editTextStartPrice.setText("")
+                editTextAuctionPri.isEnabled = false
+                editTextAuctionPri.isFocusableInTouchMode = false
+                editTextAuctionPri.setText("")
 
                 editTextReservePrice.isEnabled = false
                 editTextReservePrice.isFocusableInTouchMode = false
                 editTextReservePrice.setText("")
 
+                fix_Price_l.setBackgroundResource(R.drawable.product_attribute_bg_linebg)
+
                 editTextBuyNow.isEnabled = true
                 editTextBuyNow.isFocusableInTouchMode = true
 
+                saudi_bank_auction.visibility = View.GONE
+                saudi_bank_option.visibility = View.VISIBLE
+
+
+                listingtyp_rb2.isChecked = false
+                listingtyp_rb3.isChecked = false
+
                 buyNowView.visibility = View.VISIBLE
+                buynowlayout.visibility = View.VISIBLE
+                textviewbuynow.visibility = View.VISIBLE
+                auctionlayout.visibility = View.GONE
+                auctionPriceTV.visibility = View.GONE
+                auctionOption.visibility = View.GONE
+                minimumPriceTV.visibility = View.GONE
+                minimumlayout.visibility = View.GONE
                 startPriceView.visibility = View.GONE
                 reservePriceView.visibility = View.GONE
+                chooseOptionText.visibility = View.VISIBLE
+
+            }else{
+
+                buyNowView.visibility = View.VISIBLE
+                buynowlayout.visibility = View.GONE
+                auctionlayout.visibility = View.GONE
+                minimumlayout.visibility = View.GONE
+                startPriceView.visibility = View.GONE
+                textviewbuynow.visibility = View.GONE
+                minimumEdittext.visibility = View.GONE
+                reservePriceView.visibility = View.GONE
                 chooseOptionText.visibility = View.GONE
+                auctionlayout.visibility = View.GONE
+                editTextAuctionPri.visibility = View.GONE
+                auctionPriceTV.visibility = View.GONE
+                chooseOption.visibility = View.VISIBLE
+                auctionOption.visibility = View.GONE
+                minimumPriceTV.visibility = View.GONE
+                fix_Price_l.setBackgroundResource(R.drawable.add_product_attribte)
+                minimumEdittext.visibility = View.GONE
+                minimumlayout.visibility = View.GONE
+
+
+                editTextBuyNow.isEnabled = true
+                editTextBuyNow.isFocusableInTouchMode = true
+
 
             }
         })
 
-        radioAuction.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { _, b ->
+
+        SwitchAuction.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { _, b ->
             if (b) {
-                editTextStartPrice.isEnabled = true
-                editTextStartPrice.isFocusableInTouchMode = true
+                editTextAuctionPri.isEnabled = true
+                editTextAuctionPri.isFocusableInTouchMode = true
 
                 editTextReservePrice.isEnabled = true
                 editTextReservePrice.isFocusableInTouchMode = true
@@ -242,28 +300,104 @@ class PricingPayment : Fragment() {
                 editTextBuyNow.isFocusableInTouchMode = false
                 editTextBuyNow.setText("")
 
+                saudi_bank_option.visibility = View.GONE
+
+                saudi_bank_auction.visibility = View.VISIBLE
+
+                auction_option.setBackgroundResource(R.drawable.product_attribute_bg_linebg)
+
+
+
+
+                listingtyp_rb1.isChecked = false
+                listingtyp_rb3.isChecked = false
+
+
+
                 buyNowView.visibility = View.GONE
-                startPriceView.visibility = View.VISIBLE
-                reservePriceView.visibility = View.VISIBLE
+                buynowlayout.visibility = View.GONE
+                textviewbuynow.visibility = View.GONE
+                auctionlayout.visibility = View.VISIBLE
+                editTextAuctionPri.visibility = View.VISIBLE
+                auctionPriceTV.visibility = View.VISIBLE
+                auctionOption.visibility = View.VISIBLE
+                minimumEdittext.visibility = View.VISIBLE
+                minimumPriceTV.visibility = View.VISIBLE
+                minimumlayout.visibility = View.VISIBLE
+                chooseOptionText.visibility = View.VISIBLE
+
+            }else{
+
+                buyNowView.visibility = View.GONE
+                startPriceView.visibility = View.GONE
+                reservePriceView.visibility = View.GONE
                 chooseOptionText.visibility = View.GONE
+                auctionlayout.visibility = View.GONE
+                editTextAuctionPri.visibility = View.GONE
+                auctionPriceTV.visibility = View.GONE
+                auctionOption.visibility = View.GONE
+                minimumPriceTV.visibility = View.GONE
+                minimumEdittext.visibility = View.GONE
+                minimumlayout.visibility = View.GONE
+                saudi_bank_option.visibility = View.VISIBLE
+                saudi_bank_auction.visibility = View.GONE
+                chooseOption.visibility = View.VISIBLE
+                auction_option.setBackgroundResource(R.drawable.add_product_attribte)
+
+
 
             }
         })
-        radioBoth.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { _, b ->
+        switchResrvepri.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { _, b ->
             if (b) {
-                editTextStartPrice.isEnabled = true
-                editTextStartPrice.isFocusableInTouchMode = true
+                editTextAuctionPri.isEnabled = true
+                editTextAuctionPri.isFocusableInTouchMode = true
 
                 editTextReservePrice.isEnabled = true
                 editTextReservePrice.isFocusableInTouchMode = true
 
+                Tender_l.setBackgroundResource(R.drawable.product_attribute_bg_linebg)
+
                 editTextBuyNow.isEnabled = true
                 editTextBuyNow.isFocusableInTouchMode = true
 
-                buyNowView.visibility = View.VISIBLE
-                startPriceView.visibility = View.VISIBLE
-                reservePriceView.visibility = View.VISIBLE
-                chooseOptionText.visibility = View.GONE
+                saudi_bank_auction.visibility = View.GONE
+                saudi_bank_option.visibility = View.VISIBLE
+
+                buynowlayout.visibility = View.VISIBLE
+                textviewbuynow.visibility = View.VISIBLE
+                auctionlayout.visibility = View.VISIBLE
+                editTextAuctionPri.visibility = View.VISIBLE
+                auctionPriceTV.visibility = View.VISIBLE
+                auctionOption.visibility = View.VISIBLE
+                minimumPriceTV.visibility = View.VISIBLE
+                minimumlayout.visibility = View.VISIBLE
+                minimumEdittext.visibility = View.VISIBLE
+                chooseOptionText.visibility = View.VISIBLE
+                editTextBuyNow.visibility = View.VISIBLE
+
+
+                listingtyp_rb1.isChecked = false
+                listingtyp_rb2.isChecked = false
+
+
+            }else{
+
+                buyNowView.visibility = View.GONE
+                buynowlayout.visibility = View.GONE
+                textviewbuynow.visibility = View.GONE
+                auctionlayout.visibility = View.GONE
+                editTextAuctionPri.visibility = View.GONE
+                auctionPriceTV.visibility = View.GONE
+                auctionOption.visibility = View.GONE
+                Tender_l.setBackgroundResource(R.drawable.add_product_attribte)
+                minimumPriceTV.visibility = View.GONE
+                minimumlayout.visibility = View.GONE
+                chooseOptionText.visibility = View.VISIBLE
+                minimumEdittext.visibility = View.GONE
+                chooseOption.visibility = View.VISIBLE
+
+
 
             }
         })
@@ -271,9 +405,9 @@ class PricingPayment : Fragment() {
 
     private fun validAmount(): Boolean {
         return if (editTextReservePrice.text.toString().trim()
-                .isNotEmpty() && editTextStartPrice.text.toString().trim().isNotEmpty()
+                .isNotEmpty() && editTextAuctionPri.text.toString().trim().isNotEmpty()
         ) {
-            if (editTextStartPrice.text.toString()
+            if (editTextAuctionPri.text.toString()
                     .toBigInteger() < editTextReservePrice.text.toString()
                     .toBigInteger()
             ) {
@@ -318,8 +452,8 @@ class PricingPayment : Fragment() {
     }
 
     private fun limitStartPrice(): Boolean {
-        return if (editTextStartPrice.text.toString().trim().isNotEmpty()) {
-            if (editTextStartPrice.text.toString()
+        return if (editTextAuctionPri.text.toString().trim().isNotEmpty()) {
+            if (editTextAuctionPri.text.toString()
                     .toBigInteger() <= 70000000.toBigInteger()
             ) {
                 true
