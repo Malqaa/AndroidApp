@@ -101,7 +101,7 @@ class PricingPayment : Fragment() {
 
 
     private fun validateCheckPriceBox(): Boolean {
-        val textName = requireActivity().findViewById(R.id.buynowprice) as TextInputEditText
+        val textName = requireActivity().findViewById(R.id.buynowprice) as EditText
         val Inputname = textName.text.toString().trim { it <= ' ' }
         return if (Inputname.isEmpty()) {
             textName.error = getString(R.string.Fieldcantbeempty)
@@ -201,7 +201,7 @@ class PricingPayment : Fragment() {
     }
 
     private fun disableTextFields(v: View) {
-        var buyNowView: TextInputLayout = requireActivity().findViewById(R.id.pricepayment_inputlay)
+        var buyNowView: EditText = requireActivity().findViewById(R.id.buynowprice)
         var startPriceView: TextInputLayout =
             requireActivity().findViewById(R.id.startprice_inputlay)
         var reservePriceView: TextInputLayout =

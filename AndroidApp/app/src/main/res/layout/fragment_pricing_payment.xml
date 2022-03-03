@@ -225,34 +225,81 @@
                 android:textSize="11sp" />
 
 
-            <TextView
+            <LinearLayout
                 android:id="@+id/textview_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:text="@string/Price"
-                android:textColor="@color/GreenApp"
-                android:textSize="20sp" />
-
-
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/pricepayment_inputlay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
-            >
+                android:layout_marginTop="@dimen/_10sdp"
+                android:orientation="horizontal">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/buynowprice"
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:fontFamily="@font/madani_arabic_medium"
+                    android:text="@string/purchasing_price_"
+                    android:textColor="#293241"
+                    android:textSize="@dimen/_14sdp" />
+
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/BuyNowPrice"
-                    android:inputType="number" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_marginStart="@dimen/_2sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:fontFamily="@font/madani_arabic_medium"
+                    android:text="*"
+                    android:textColor="@color/Red"
+                    android:textSize="@dimen/_14sdp" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_46sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:background="@drawable/add_product_attribte"
+                android:orientation="horizontal"
+                >
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_weight="1"
+                    android:text="5"
+                    android:id="@+id/buynowprice"
+                    android:background="@null"
+                    android:gravity="center"
+                    android:src="@drawable/vectorlog" />
+
+
+                <LinearLayout
+                    android:layout_width="@dimen/_60sdp"
+                    android:layout_height="match_parent"
+                    android:background="@color/light_gray"
+                    android:gravity="center">
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:fontFamily="@font/madani_arabic_light"
+                        android:text="@string/rial"
+                        android:textColor="@color/bg"
+                        android:textSize="@dimen/_10sdp" />
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+
+
+
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/startprice_inputlay"
