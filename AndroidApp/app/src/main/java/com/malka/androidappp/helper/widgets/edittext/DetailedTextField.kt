@@ -40,6 +40,7 @@ class DetailedTextField : LinearLayout {
     private lateinit var cppfield: CountryCodePicker
     private lateinit var et_Field: TextInputEditText
     private lateinit var itemLayout: LinearLayout
+    private lateinit var end_text_tv: TextView
 
 
     private var enableTopLine = true
@@ -55,6 +56,7 @@ class DetailedTextField : LinearLayout {
     private var inputType = EditorInfo.TYPE_CLASS_TEXT
     private var maxLength: Int? = null
     private var textText: CharSequence? = null
+    private var endText: CharSequence? = null
     private var backgroundTint: Int=0
     private var viewType = 0
 
@@ -138,6 +140,10 @@ class DetailedTextField : LinearLayout {
         itemLayout = findViewById(R.id.itemLayout)
         itemLayout.id = DetailedTextFieldIdGenerator.viwId.getStartIconIDD(id)
 
+
+        end_text_tv = findViewById(R.id.end_text_tv)
+        end_text_tv.id = DetailedTextFieldIdGenerator.viwId.getStartIconIDDD(id)
+
         tv_Error.hide()
 
 
@@ -150,6 +156,7 @@ class DetailedTextField : LinearLayout {
         _setHint(textHint, true)
         _setInputType(inputType)
         _setMaxLength(maxLength)
+        _setEndText(endText)
         text = textText
         _setPasswordToggle(enablePasswordToggle)
 
@@ -234,6 +241,15 @@ class DetailedTextField : LinearLayout {
         }
     }
 
+    public fun _setEndText(endText: CharSequence?) {
+        if(endText!=null){
+            end_text_tv.text=endText
+            iv_end_icon.hide()
+        }else{
+            end_text_tv.hide()
+        }
+    }
+
     public fun _setHint(textHint: CharSequence?, initialisation: Boolean = false) {
         this.textHint = textHint
 
@@ -241,6 +257,8 @@ class DetailedTextField : LinearLayout {
             etl_Field.hint = textHint
         else
             et_Field.hint = textHint
+
+        edittext.hint = textHint
 
         if (!initialisation)
             checkHint()
@@ -324,7 +342,7 @@ class DetailedTextField : LinearLayout {
     }
 
     public fun _setOnClickListener(listener: OnClickListener) {
-        et_Field.setOnClickListener(listener)
+        itemLayout.setOnClickListener(listener)
     }
 
     public fun showSpinner(items: List<SearchableItem>,title:String,selection: (SearchableItem) -> Unit) {
@@ -446,6 +464,7 @@ class DetailedTextField : LinearLayout {
             textText = getText(R.styleable.DetailedTextField_android_text)
             backgroundTint = getColor(R.styleable.DetailedTextField_android_backgroundTint,0)
             viewType = getInt(R.styleable.DetailedTextField_viewType, 0)
+            endText = getString(R.styleable.DetailedTextField_endText)
 
             startIcon = getResourceId(R.styleable.DetailedTextField_startIcon, 0)
             endIcon = getResourceId(R.styleable.DetailedTextField_endIcon, 0)

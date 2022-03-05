@@ -38,6 +38,7 @@
     <color name="gray_light">#BBBBBB</color>
     <color name="gray_very_light">#DDDDDD</color>
     <color name="line">#CECECE</color>
+    <color name="gray_2">#E3E3E3</color>
 
     <array name="array_dot_active">
         <item>@color/greenApp</item>

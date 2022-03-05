@@ -25,6 +25,7 @@
 
         <attr name="startIcon" format="reference" />
         <attr name="endIcon" format="reference" />
+        <attr name="endText" format="string" />
         <attr name="enablePasswordToggle" format="boolean" />
 
         <attr name="android:hint" />
@@ -71,5 +72,14 @@
         <attr name="stopWhenTouch" format="boolean" />
         <attr name="cycle" format="boolean" />
         <attr name="slideDuration" format="integer" />
+    </declare-styleable>
+    <declare-styleable name="ElegantNumberButton">
+
+        <attr name="backGroundColor" format="color" />
+        <attr name="initialNumber" format="integer" />
+        <attr name="finalNumber" format="integer" />
+        <attr name="textColor" format="color" />
+        <attr name="textSize" format="dimension" />
+        <attr name="backgroundDrawable" format="reference" />
     </declare-styleable>
 </resources>

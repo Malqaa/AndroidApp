@@ -1,47 +1,19 @@
 package com.malka.androidappp.botmnav_fragments.create_ads
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import android.widget.CompoundButton
-import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
 import com.malka.androidappp.R
 import com.malka.androidappp.helper.HelpFunctions
-import kotlinx.android.synthetic.main.activity_add_item_details3.*
-import kotlinx.android.synthetic.main.all_categories_cardview.*
-import kotlinx.android.synthetic.main.fragment_about_the_seller.*
-import kotlinx.android.synthetic.main.fragment_browse_market.*
-import kotlinx.android.synthetic.main.fragment_listing_duration.*
-import kotlinx.android.synthetic.main.fragment_other_details.view.*
-import kotlinx.android.synthetic.main.fragment_pie_chart_frag1.*
 import kotlinx.android.synthetic.main.fragment_pricing_payment.*
-import kotlinx.android.synthetic.main.fragment_shipping_pickups.*
 
 
 class PricingPayment : Fragment() {
-    lateinit var cashCheckBox: CheckBox
-    lateinit var paymentError: TextView
-    lateinit var switchBuynow: SwitchCompat
-    lateinit var SwitchAuction: SwitchCompat
-    lateinit var switchResrvepri: SwitchCompat
-    lateinit var buynowlayout: LinearLayout
-    lateinit var auctionlayout: LinearLayout
-    lateinit var auctionPriceTV: LinearLayout
-    lateinit var auctionOption: TextView
-    lateinit var minimumPriceTV: LinearLayout
-    lateinit var minimumlayout: LinearLayout
-    lateinit var minimumEdittext: EditText
-    lateinit var textviewbuynow: LinearLayout
-    lateinit var editTextBuyNow: EditText
-    lateinit var editTextAuctionPri: EditText
-    lateinit var editTextReservePrice: EditText
+
 
 
     override fun onCreateView(
@@ -57,20 +29,7 @@ class PricingPayment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-        buynowlayout= requireActivity().findViewById(R.id.Buy_now_l)
-        auctionlayout=  requireActivity().findViewById(R.id.Buy_Auctino_l)
-        auctionPriceTV= requireActivity().findViewById(R.id.Auction_price)
-        auctionOption = requireActivity().findViewById(R.id.auction_opt)
-        minimumlayout= requireActivity().findViewById(R.id.minimum_price_l)
-        minimumPriceTV= requireActivity().findViewById(R.id.textview_minimum_p)
-        minimumEdittext= requireActivity().findViewById(R.id.reserveprice)
-        textviewbuynow = requireActivity().findViewById(R.id.textview_price)
-        switchBuynow = requireActivity().findViewById(R.id.listingtyp_rb1)
-        SwitchAuction = requireActivity().findViewById(R.id.listingtyp_rb2)
-        switchResrvepri = requireActivity().findViewById(R.id.listingtyp_rb3)
-        editTextBuyNow = requireActivity().findViewById(R.id.buynowprice)
-        editTextAuctionPri = requireActivity().findViewById(R.id.startprice)
-        editTextReservePrice = requireActivity().findViewById(R.id.reserveprice)
+
 
 
 
@@ -84,11 +43,10 @@ class PricingPayment : Fragment() {
 
     private fun validaterListingTypeRadiobutton(): Boolean {
         return if (listingtyp_rb1.isChecked or listingtyp_rb2.isChecked or listingtyp_rb3.isChecked) {
-            listingtype_rbtn_1_errortxt.visibility = View.GONE
+
             true
         } else {
-            listingtype_rbtn_1_errortxt.visibility = View.VISIBLE
-            listingtype_rbtn_1_errortxt.text = getString(R.string.Selectanyoneoption)
+
             false
         }
     }
@@ -152,14 +110,15 @@ class PricingPayment : Fragment() {
     }
 
     private fun validateradiobutton(): Boolean {
-        return if (cashCheckBox.isChecked or bank.isChecked) {
-            paymentError.visibility = View.GONE
-            true
-        } else {
-            paymentError.visibility = View.VISIBLE
-            paymentError.text = getString(R.string.Selectanyonepaymentmethod)
-            false
-        }
+//        return if (cashCheckBox.isChecked or bank.isChecked) {
+//            paymentError.visibility = View.GONE
+//            true
+//        } else {
+//            paymentError.visibility = View.VISIBLE
+//            paymentError.text = getString(R.string.Selectanyonepaymentmethod)
+//            false
+//        }
+        return false
     }
 
     fun confirmPricePaymentFrag(v: View) {
@@ -176,12 +135,12 @@ class PricingPayment : Fragment() {
             StaticClassAdCreate.reservedPrice = reservedPrice
             StaticClassAdCreate.startingPrice = startPrice
 
-            if (cashCheckBox.isChecked) {
-                StaticClassAdCreate.iscashpaid = "Cash"
-            }
-            if (bank.isChecked) {
-                StaticClassAdCreate.isbankpaid = "SA bank deposit"
-            }
+//            if (cashCheckBox.isChecked) {
+//                StaticClassAdCreate.iscashpaid = "Cash"
+//            }
+//            if (bank.isChecked) {
+//                StaticClassAdCreate.isbankpaid = "SA bank deposit"
+//            }
 
             // To save the listing type
             confirmListingType(v)
@@ -194,16 +153,16 @@ class PricingPayment : Fragment() {
 
     private fun checkValidation(): Boolean {
         when {
-            switchBuynow.isChecked -> {
+            listingtyp_rb1.isChecked -> {
                 if (!validateCheckPriceBox() or !limitBuyNowPrice()) {
                     return false
                 }
             }
-            SwitchAuction.isChecked -> {
+            listingtyp_rb2.isChecked -> {
                 if (!validateStartPriceBox() or !validateReservePriceBox() or !validAmount() or !limitReservePrice() or !limitStartPrice())
                     return false
             }
-            switchResrvepri.isChecked -> {
+            listingtyp_rb3.isChecked -> {
                 if (!validateCheckPriceBox() or !validateStartPriceBox() or !validateReservePriceBox()
                     or !validAmount() or !limitBuyNowPrice() or !limitReservePrice()
                     or !limitStartPrice()
@@ -224,20 +183,20 @@ class PricingPayment : Fragment() {
 
 
 
-        switchBuynow.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { _, b ->
+        listingtyp_rb1.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { _, b ->
             if (b) {
-                editTextAuctionPri.isEnabled = false
-                editTextAuctionPri.isFocusableInTouchMode = false
-                editTextAuctionPri.setText("")
+                startprice.isEnabled = false
+                startprice.isFocusableInTouchMode = false
+                startprice.setText("")
 
-                editTextReservePrice.isEnabled = false
-                editTextReservePrice.isFocusableInTouchMode = false
-                editTextReservePrice.setText("")
+                reserveprice.isEnabled = false
+                reserveprice.isFocusableInTouchMode = false
+                reserveprice.setText("")
 
                 fix_Price_l.setBackgroundResource(R.drawable.product_attribute_bg_linebg)
 
-                editTextBuyNow.isEnabled = true
-                editTextBuyNow.isFocusableInTouchMode = true
+                buynowprice.isEnabled = true
+                buynowprice.isFocusableInTouchMode = true
 
                 saudi_bank_auction.visibility = View.GONE
                 saudi_bank_option.visibility = View.VISIBLE
@@ -247,13 +206,13 @@ class PricingPayment : Fragment() {
                 listingtyp_rb3.isChecked = false
 
                 buyNowView.visibility = View.VISIBLE
-                buynowlayout.visibility = View.VISIBLE
-                textviewbuynow.visibility = View.VISIBLE
-                auctionlayout.visibility = View.GONE
-                auctionPriceTV.visibility = View.GONE
-                auctionOption.visibility = View.GONE
-                minimumPriceTV.visibility = View.GONE
-                minimumlayout.visibility = View.GONE
+                Buy_now_l.visibility = View.VISIBLE
+                textview_price.visibility = View.VISIBLE
+                Buy_Auctino_l.visibility = View.GONE
+                Auction_price.visibility = View.GONE
+                auction_opt.visibility = View.GONE
+                textview_minimum_p.visibility = View.GONE
+                minimum_price_l.visibility = View.GONE
                 startPriceView.visibility = View.GONE
                 reservePriceView.visibility = View.GONE
                 chooseOptionText.visibility = View.VISIBLE
@@ -261,44 +220,44 @@ class PricingPayment : Fragment() {
             }else{
 
                 buyNowView.visibility = View.VISIBLE
-                buynowlayout.visibility = View.GONE
-                auctionlayout.visibility = View.GONE
-                minimumlayout.visibility = View.GONE
+                Buy_now_l.visibility = View.GONE
+                Buy_Auctino_l.visibility = View.GONE
+                minimum_price_l.visibility = View.GONE
                 startPriceView.visibility = View.GONE
-                textviewbuynow.visibility = View.GONE
-                minimumEdittext.visibility = View.GONE
+                textview_price.visibility = View.GONE
+                reserveprice.visibility = View.GONE
                 reservePriceView.visibility = View.GONE
                 chooseOptionText.visibility = View.GONE
-                auctionlayout.visibility = View.GONE
-                editTextAuctionPri.visibility = View.GONE
-                auctionPriceTV.visibility = View.GONE
+                Buy_Auctino_l.visibility = View.GONE
+                startprice.visibility = View.GONE
+                Auction_price.visibility = View.GONE
                 chooseOption.visibility = View.VISIBLE
-                auctionOption.visibility = View.GONE
-                minimumPriceTV.visibility = View.GONE
+                auction_opt.visibility = View.GONE
+                textview_minimum_p.visibility = View.GONE
                 fix_Price_l.setBackgroundResource(R.drawable.add_product_attribte)
-                minimumEdittext.visibility = View.GONE
-                minimumlayout.visibility = View.GONE
+                reserveprice.visibility = View.GONE
+                minimum_price_l.visibility = View.GONE
 
 
-                editTextBuyNow.isEnabled = true
-                editTextBuyNow.isFocusableInTouchMode = true
+                buynowprice.isEnabled = true
+                buynowprice.isFocusableInTouchMode = true
 
 
             }
         })
 
 
-        SwitchAuction.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { _, b ->
+        listingtyp_rb2.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { _, b ->
             if (b) {
-                editTextAuctionPri.isEnabled = true
-                editTextAuctionPri.isFocusableInTouchMode = true
+                startprice.isEnabled = true
+                startprice.isFocusableInTouchMode = true
 
-                editTextReservePrice.isEnabled = true
-                editTextReservePrice.isFocusableInTouchMode = true
+                reserveprice.isEnabled = true
+                reserveprice.isFocusableInTouchMode = true
 
-                editTextBuyNow.isEnabled = false
-                editTextBuyNow.isFocusableInTouchMode = false
-                editTextBuyNow.setText("")
+                buynowprice.isEnabled = false
+                buynowprice.isFocusableInTouchMode = false
+                buynowprice.setText("")
 
                 saudi_bank_option.visibility = View.GONE
 
@@ -315,15 +274,15 @@ class PricingPayment : Fragment() {
 
 
                 buyNowView.visibility = View.GONE
-                buynowlayout.visibility = View.GONE
-                textviewbuynow.visibility = View.GONE
-                auctionlayout.visibility = View.VISIBLE
-                editTextAuctionPri.visibility = View.VISIBLE
-                auctionPriceTV.visibility = View.VISIBLE
-                auctionOption.visibility = View.VISIBLE
-                minimumEdittext.visibility = View.VISIBLE
-                minimumPriceTV.visibility = View.VISIBLE
-                minimumlayout.visibility = View.VISIBLE
+                Buy_now_l.visibility = View.GONE
+                textview_price.visibility = View.GONE
+                Buy_Auctino_l.visibility = View.VISIBLE
+                startprice.visibility = View.VISIBLE
+                Auction_price.visibility = View.VISIBLE
+                auction_opt.visibility = View.VISIBLE
+                reserveprice.visibility = View.VISIBLE
+                textview_minimum_p.visibility = View.VISIBLE
+                minimum_price_l.visibility = View.VISIBLE
                 chooseOptionText.visibility = View.VISIBLE
 
             }else{
@@ -332,13 +291,13 @@ class PricingPayment : Fragment() {
                 startPriceView.visibility = View.GONE
                 reservePriceView.visibility = View.GONE
                 chooseOptionText.visibility = View.GONE
-                auctionlayout.visibility = View.GONE
-                editTextAuctionPri.visibility = View.GONE
-                auctionPriceTV.visibility = View.GONE
-                auctionOption.visibility = View.GONE
-                minimumPriceTV.visibility = View.GONE
-                minimumEdittext.visibility = View.GONE
-                minimumlayout.visibility = View.GONE
+                Buy_Auctino_l.visibility = View.GONE
+                startprice.visibility = View.GONE
+                Auction_price.visibility = View.GONE
+                auction_opt.visibility = View.GONE
+                textview_minimum_p.visibility = View.GONE
+                reserveprice.visibility = View.GONE
+                minimum_price_l.visibility = View.GONE
                 saudi_bank_option.visibility = View.VISIBLE
                 saudi_bank_auction.visibility = View.GONE
                 chooseOption.visibility = View.VISIBLE
@@ -348,33 +307,33 @@ class PricingPayment : Fragment() {
 
             }
         })
-        switchResrvepri.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { _, b ->
+        listingtyp_rb3.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { _, b ->
             if (b) {
-                editTextAuctionPri.isEnabled = true
-                editTextAuctionPri.isFocusableInTouchMode = true
+                startprice.isEnabled = true
+                startprice.isFocusableInTouchMode = true
 
-                editTextReservePrice.isEnabled = true
-                editTextReservePrice.isFocusableInTouchMode = true
+                reserveprice.isEnabled = true
+                reserveprice.isFocusableInTouchMode = true
 
                 Tender_l.setBackgroundResource(R.drawable.product_attribute_bg_linebg)
 
-                editTextBuyNow.isEnabled = true
-                editTextBuyNow.isFocusableInTouchMode = true
+                buynowprice.isEnabled = true
+                buynowprice.isFocusableInTouchMode = true
 
                 saudi_bank_auction.visibility = View.GONE
                 saudi_bank_option.visibility = View.VISIBLE
 
-                buynowlayout.visibility = View.VISIBLE
-                textviewbuynow.visibility = View.VISIBLE
-                auctionlayout.visibility = View.VISIBLE
-                editTextAuctionPri.visibility = View.VISIBLE
-                auctionPriceTV.visibility = View.VISIBLE
-                auctionOption.visibility = View.VISIBLE
-                minimumPriceTV.visibility = View.VISIBLE
-                minimumlayout.visibility = View.VISIBLE
-                minimumEdittext.visibility = View.VISIBLE
+                Buy_now_l.visibility = View.VISIBLE
+                textview_price.visibility = View.VISIBLE
+                Buy_Auctino_l.visibility = View.VISIBLE
+                startprice.visibility = View.VISIBLE
+                Auction_price.visibility = View.VISIBLE
+                auction_opt.visibility = View.VISIBLE
+                textview_minimum_p.visibility = View.VISIBLE
+                minimum_price_l.visibility = View.VISIBLE
+                reserveprice.visibility = View.VISIBLE
                 chooseOptionText.visibility = View.VISIBLE
-                editTextBuyNow.visibility = View.VISIBLE
+                buynowprice.visibility = View.VISIBLE
 
 
                 listingtyp_rb1.isChecked = false
@@ -384,17 +343,17 @@ class PricingPayment : Fragment() {
             }else{
 
                 buyNowView.visibility = View.GONE
-                buynowlayout.visibility = View.GONE
-                textviewbuynow.visibility = View.GONE
-                auctionlayout.visibility = View.GONE
-                editTextAuctionPri.visibility = View.GONE
-                auctionPriceTV.visibility = View.GONE
-                auctionOption.visibility = View.GONE
+                Buy_now_l.visibility = View.GONE
+                textview_price.visibility = View.GONE
+                Buy_Auctino_l.visibility = View.GONE
+                startprice.visibility = View.GONE
+                Auction_price.visibility = View.GONE
+                auction_opt.visibility = View.GONE
                 Tender_l.setBackgroundResource(R.drawable.add_product_attribte)
-                minimumPriceTV.visibility = View.GONE
-                minimumlayout.visibility = View.GONE
+                textview_minimum_p.visibility = View.GONE
+                minimum_price_l.visibility = View.GONE
                 chooseOptionText.visibility = View.VISIBLE
-                minimumEdittext.visibility = View.GONE
+                reserveprice.visibility = View.GONE
                 chooseOption.visibility = View.VISIBLE
 
 
@@ -404,11 +363,11 @@ class PricingPayment : Fragment() {
     }
 
     private fun validAmount(): Boolean {
-        return if (editTextReservePrice.text.toString().trim()
-                .isNotEmpty() && editTextAuctionPri.text.toString().trim().isNotEmpty()
+        return if (reserveprice.text.toString().trim()
+                .isNotEmpty() && startprice.text.toString().trim().isNotEmpty()
         ) {
-            if (editTextAuctionPri.text.toString()
-                    .toBigInteger() < editTextReservePrice.text.toString()
+            if (startprice.text.toString()
+                    .toBigInteger() < reserveprice.text.toString()
                     .toBigInteger()
             ) {
                 true
@@ -423,8 +382,8 @@ class PricingPayment : Fragment() {
     }
 
     private fun limitBuyNowPrice(): Boolean {
-        return if (editTextBuyNow.text.toString().trim().isNotEmpty()) {
-            if (editTextBuyNow.text.toString().toBigInteger() <= 99999999.toBigInteger()) {
+        return if (buynowprice.text.toString().trim().isNotEmpty()) {
+            if (buynowprice.text.toString().toBigInteger() <= 99999999.toBigInteger()) {
                 true
             } else {
                 HelpFunctions.ShowLongToast(getString(R.string.Buynowmaxlimitreached),context)
@@ -438,8 +397,8 @@ class PricingPayment : Fragment() {
     }
 
     private fun limitReservePrice(): Boolean {
-        return if (editTextReservePrice.text.toString().trim().isNotEmpty()) {
-            if (editTextReservePrice.text.toString().toBigInteger() <= 99999999.toBigInteger()) {
+        return if (reserveprice.text.toString().trim().isNotEmpty()) {
+            if (reserveprice.text.toString().toBigInteger() <= 99999999.toBigInteger()) {
                 true
             } else {
                 HelpFunctions.ShowLongToast(getString(R.string.Reservemaxlimitreached),context)
@@ -452,8 +411,8 @@ class PricingPayment : Fragment() {
     }
 
     private fun limitStartPrice(): Boolean {
-        return if (editTextAuctionPri.text.toString().trim().isNotEmpty()) {
-            if (editTextAuctionPri.text.toString()
+        return if (startprice.text.toString().trim().isNotEmpty()) {
+            if (startprice.text.toString()
                     .toBigInteger() <= 70000000.toBigInteger()
             ) {
                 true

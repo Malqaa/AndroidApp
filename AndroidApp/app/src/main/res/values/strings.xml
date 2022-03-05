@@ -399,7 +399,7 @@
     Narrow your search for Home &amp; living
   </string>
     <string name="New">
-    new
+    New
   </string>
     <string name="NoReserve">
     No Reserve
@@ -2677,7 +2677,7 @@ Want to start a business account? Create a Business Account
     <string name="electronics_phones">Electronics - Phones</string>
     <string name="services_mobile_phone_services">Services - mobile phone services</string>
     <string name="choose_department">Choose Department</string>
-    <string name="the_next">The Next</string>
+    <string name="the_next">Next</string>
     <string name="subsection">Subsection</string>
     <string name="attach_pictures_of_the_item">Attach pictures of the item</string>
     <string name="item_details">Item details</string>
@@ -2695,6 +2695,7 @@ Want to start a business account? Create a Business Account
     <string name="motion_vector">Motion vector</string>
     <string name="mileage">Mileage</string>
     <string name="type_the_item_s_title">Type the item\'s title</string>
+    <string name="type_the_item_s_subtitle">Type the item\'s subtitle</string>
     <string name="sub_address">Sub-address</string>
     <string name="item_condition">Item Condition</string>
     <string name="sale_type">Sale type</string>
@@ -2739,11 +2740,22 @@ Want to start a business account? Create a Business Account
   <string name="order_status">Order status</string>
     <string name="waiting_for_confirmation">Waiting for confirmation</string>
     <string name="sar" translatable="false">SAR</string>
+    <string name="Rayal" >Rayal</string>
   <string name="shopping_basket">Shopping basket</string>
   <string name="subtotal">Subtotal</string>
   <string name="no_thank_you">No thank you</string>
   <string name="your_favorite_merchant_added_a_product">Your favorite merchant added a product</string>
   <string name="new_product_has_been_added">New product has been added</string>
+    <string name="item_title">Item Title</string>
+  <string name="sub_title">Item Subtitle</string>
+    <string name="saudi_bank_deposit" translatable="false">Saudi bank deposit</string>
+  <string name="dismiss">Dismiss</string>
+  <string name="account_holder_s_name">Account Holder\'s Name</string>
+  <string name="bank_name">Bank name</string>
+  <string name="account_number">Account number</string>
+  <string name="iban">Iban</string>
+  <string name="save_later">Save for later use</string>
+  <string name="add_account">Add account</string>
 
 
 </resources>

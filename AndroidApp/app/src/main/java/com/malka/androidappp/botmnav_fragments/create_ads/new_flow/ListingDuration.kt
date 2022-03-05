@@ -1,62 +1,35 @@
-package com.malka.androidappp.botmnav_fragments.create_ads
+package com.malka.androidappp.botmnav_fragments.create_ads.new_flow
 
-import android.annotation.SuppressLint
-import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
-import android.graphics.Color
+import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
-import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.*
-import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.malka.androidappp.R
+import com.malka.androidappp.activities_main.BaseActivity
+import com.malka.androidappp.botmnav_fragments.create_ads.StaticClassAdCreate
 import kotlinx.android.synthetic.main.fragment_listing_duration.*
+import kotlinx.android.synthetic.main.toolbar_main.*
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
 
-class ListingDuration : Fragment() {
+class ListingDuration : BaseActivity() {
 
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_listing_duration, container, false)
-    }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.fragment_listing_duration)
 
-    @SuppressLint("ClickableViewAccessibility", "SetTextI18n")
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        ///////////////////////Toolbar Work////////////////////////////////////
-        toolbar_listduration.setNavigationIcon(R.drawable.nav_icon_back)
-        toolbar_listduration.title = getString(R.string.ListingDuration)
-        toolbar_listduration.setTitleTextColor(Color.WHITE)
-        toolbar_listduration.inflateMenu(R.menu.adcreation_close_btn)
-        toolbar_listduration.setNavigationOnClickListener {
-            requireActivity().onBackPressed()
-            //finish()
-        }
 
-        toolbar_listduration.setOnMenuItemClickListener { item ->
-            if (item.itemId == R.id.action_close) {
-                findNavController().navigate(R.id.close_listduration)
-                //closefrag()
-            } else {
-                // do something
-            }
-            false
+        toolbar_title.text = getString(R.string.ListingDuration)
+        back_btn.setOnClickListener {
+            finish()
         }
 
 
@@ -88,9 +61,9 @@ class ListingDuration : Fragment() {
         )
 
         /////////////////For Duration Dropdown/Spinner/////////////////////
-        val spinner: Spinner = requireActivity().findViewById(R.id.select_dur)
+        val spinner: Spinner = findViewById(R.id.select_dur)
         spinner.adapter = ArrayAdapter<String>(
-            requireActivity(),
+            this,
             android.R.layout.simple_list_item_1,
             allWeeks
         )
@@ -103,7 +76,7 @@ class ListingDuration : Fragment() {
             hidekeyboard()
             val dpd = DatePickerDialog(
 
-                this.requireContext(),
+                this,
                 DatePickerDialog.OnDateSetListener { view, mYear, mMonth, mDay ->
 //                    val monthplus: Int = mMonth + 1
 //                    select_date.setText("" + mDay + "/" + month_name + "/" + mYear)
@@ -125,7 +98,7 @@ class ListingDuration : Fragment() {
         select_time_btn1.setOnClickListener() {
             hidekeyboard()
             val tpd = TimePickerDialog(
-                this.requireContext(),
+                this,
                 TimePickerDialog.OnTimeSetListener { view, selectedHour, selectedMinute ->
                     select_time_btn1.setText(
                         String.format(
@@ -148,7 +121,7 @@ class ListingDuration : Fragment() {
         select_time2.setOnClickListener() {
             hidekeyboard()
             val tpd = TimePickerDialog(
-                this.requireContext(),
+                this,
                 TimePickerDialog.OnTimeSetListener { view, selectedHour, selectedMinute ->
                     select_time2.setText(String.format("%02d:%02d", selectedHour, selectedMinute))
                 },
@@ -162,14 +135,14 @@ class ListingDuration : Fragment() {
 
 
         var fixedLengthSpinner: RelativeLayout =
-            requireActivity().findViewById(R.id.textInputlist_duration)
+            findViewById(R.id.textInputlist_duration)
         var fixedLengthTime: TextInputLayout =
-            requireActivity().findViewById(R.id.textInputlist_duration1)
+            findViewById(R.id.textInputlist_duration1)
 
         var endTimeDate: TextInputLayout =
-            requireActivity().findViewById(R.id.textInputlist_duration3)
+            findViewById(R.id.textInputlist_duration3)
         var endTimeTime: TextInputLayout =
-            requireActivity().findViewById(R.id.textInputlist_duration4)
+            findViewById(R.id.textInputlist_duration4)
 
         //////////////////////////////////////Activity Work///////////////////////////////////////////
         radiobtn1.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { compoundButton, b ->
@@ -242,25 +215,26 @@ class ListingDuration : Fragment() {
 
 
         /////////////////////Next Button Validation//////////////////////////
-        btn_listduration.setOnClickListener() {
-            confirmListDuration(view)
+        btn_listduration.setOnClickListener {
+            confirmListDuration(it)
         }
+
 
     }
 
 
     ///////////////////////////////////////RadioButton if/else Clicking//////////////////////////////////////////
     private fun validateListDuration(): Boolean {
-        var duration: Spinner = requireActivity().findViewById<Spinner>(R.id.select_dur)
+        var duration: Spinner = findViewById<Spinner>(R.id.select_dur)
         val Inputduration = duration.selectedItem.toString().trim { it <= ' ' }
         //
-        val time1 = requireActivity().findViewById(R.id.select_time_btn1) as TextInputEditText
+        val time1 = findViewById(R.id.select_time_btn1) as TextInputEditText
         val Inputtime1 = time1.text.toString().trim { it <= ' ' }
         //
-        val datee = requireActivity().findViewById(R.id.select_date) as TextInputEditText
+        val datee = findViewById(R.id.select_date) as TextInputEditText
         val Inputdate = datee.text.toString().trim { it <= ' ' }
         //
-        val time2 = requireActivity().findViewById(R.id.select_time2) as TextInputEditText
+        val time2 = findViewById(R.id.select_time2) as TextInputEditText
         val Inputtime2 = time2.text.toString().trim { it <= ' ' }
 
 
@@ -355,8 +329,9 @@ class ListingDuration : Fragment() {
                 StaticClassAdCreate.endtime = datetext
                 StaticClassAdCreate.duration = ""
             }
+            startActivity(Intent(this, ShippingPickups::class.java).apply {
+            })
 
-            findNavController().navigate(R.id.listdur_pickupship)
 
         }
 
@@ -405,9 +380,7 @@ class ListingDuration : Fragment() {
     }
 
     fun hidekeyboard() {
-        val inputMethodManager =
-            requireContext().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.hideSoftInputFromWindow(requireView().windowToken, 0)
+
     }
 
     fun addDay(oldDate: String?, numberOfDays: Int): String? {

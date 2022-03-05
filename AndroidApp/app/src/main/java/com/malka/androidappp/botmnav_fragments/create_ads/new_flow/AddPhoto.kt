@@ -9,15 +9,12 @@ import android.os.Build
 import android.os.Bundle
 import android.widget.Filter
 import androidx.core.content.PermissionChecker
-import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.BaseActivity
 import com.malka.androidappp.botmnav_fragments.create_ads.ImageSelectModel
 import com.malka.androidappp.botmnav_fragments.create_ads.StaticClassAdCreate
 import com.malka.androidappp.helper.HelpFunctions
-import com.malka.androidappp.helper.hide
 import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
 import kotlinx.android.synthetic.main.add_product_imgs.view.*
 import kotlinx.android.synthetic.main.fragment_add_photo.*
@@ -219,7 +216,7 @@ class AddPhoto:  BaseActivity()  {
     }
 
 
-    open fun pickImageFromGallery() {
+    fun pickImageFromGallery() {
         if (Build.VERSION.SDK_INT < 19) {
             var intent = Intent()
             intent.type = "image/*"
@@ -333,7 +330,7 @@ class AddPhoto:  BaseActivity()  {
                     )
                 }
                 if (StaticClassAdCreate.images != null && StaticClassAdCreate.images!!.size > 0) {
-                    decisionbyCatandSubCat()
+                    //decisionbyCatandSubCat()
 //                    textImageCount.text = "${selectedImagesURI.size} out of 10 photos"
 //                    textImageCount.image = getImage(R.string.outof10photos, selectedImagesURI.size)
 
@@ -346,11 +343,15 @@ class AddPhoto:  BaseActivity()  {
 
     private fun categoryTemplate() {
         val args = Bundle()
-        val file_name = "$file_name.json"
+        val file_name = "$file_name.js"
         val Title = Title
         args.putString("file_name", file_name)
         args.putString("Title", Title)
-        findNavController(R.id.nav_host_fragment).navigate(R.id.fragment_dynamic_template, args)
+
+        startActivity(Intent(this, DynamicTemplate::class.java).apply {
+            putExtra("file_name",file_name)
+            putExtra("Title", Title)
+        })
     }
 
     private fun storePath() {

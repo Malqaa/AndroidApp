@@ -141,11 +141,7 @@
             android:name=".activities_main.MainActivity"
             android:label="Bottom Nav"
             android:windowSoftInputMode="adjustPan" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".activities_main.FeaturedCategory"
@@ -166,7 +162,9 @@
         <activity
             android:name=".activities_main.signup_account.signup_pg3.SignupPg3"
             android:theme="@style/NoActionBar"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan" >
+
+        </activity>
         <activity
             android:name=".botmnav_fragments.forgot_password.ForgotPasswordActivty"
             android:theme="@style/NoActionBar" />
@@ -188,6 +186,46 @@
         <activity
             android:name=".botmnav_fragments.create_ads.new_flow.AddPhoto"
             android:theme="@style/NoActionBar" />
+
+        <activity
+            android:name=".botmnav_fragments.create_ads.new_flow.DynamicTemplate"
+            android:theme="@style/NoActionBar" />
+        <activity
+            android:name=".botmnav_fragments.create_ads.new_flow.ListingDetails"
+            android:theme="@style/NoActionBar" >
+        </activity>
+
+        <activity
+            android:name=".botmnav_fragments.create_ads.new_flow.PricingActivity"
+            android:theme="@style/NoActionBar" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".botmnav_fragments.create_ads.new_flow.ListingDuration"
+            android:theme="@style/NoActionBar" />
+
+        <activity
+            android:name=".botmnav_fragments.create_ads.new_flow.ShippingPickups"
+            android:theme="@style/NoActionBar" />
+
+        <activity
+            android:name=".botmnav_fragments.create_ads.new_flow.PromotionalFragment"
+            android:theme="@style/NoActionBar" />
+
+        <activity
+            android:name=".botmnav_fragments.create_ads.new_flow.Confirmation"
+            android:theme="@style/NoActionBar" />
+        <activity
+            android:name=".botmnav_fragments.create_ads.new_flow.ListingFee"
+            android:theme="@style/NoActionBar" />
+        <activity
+            android:name=".botmnav_fragments.create_ads.new_flow.ContinueFragment"
+            android:theme="@style/NoActionBar"/>
     </application>
 
 </manifest>

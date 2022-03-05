@@ -418,7 +418,7 @@ open class AddPhotoFragment : Fragment() {
                     )
                 }
                 if (StaticClassAdCreate.images != null && StaticClassAdCreate.images!!.size > 0) {
-                    decisionbyCatandSubCat()
+                   // decisionbyCatandSubCat()
 //                    textImageCount.text = "${selectedImagesURI.size} out of 10 photos"
 //                    textImageCount.image = getImage(R.string.outof10photos, selectedImagesURI.size)
 
@@ -435,7 +435,7 @@ open class AddPhotoFragment : Fragment() {
         val Title = Title
         args.putString("file_name", file_name)
         args.putString("Title", Title)
-        findNavController().navigate(R.id.fragment_dynamic_template, args)
+
     }
 
     private fun storePath() {

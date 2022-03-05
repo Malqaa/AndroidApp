@@ -2536,6 +2536,7 @@
   <string name="motion_vector">ناقل الحركة</string>
   <string name="mileage">عدد الكيلومترات</string>
     <string name="type_the_item_s_title">اكتب عنوان السلعة</string>
+    <string name="type_the_item_s_subtitle">اكتب العنوان الفرعي للعنصر</string>
   <string name="sub_address">عنوان فرعى</string>
   <string name="item_condition">حالة السلعة</string>
     <string name="sale_type">نوع البيع</string>
@@ -2585,5 +2586,16 @@
   <string name="no_thank_you">لا، شكرا</string>
   <string name="your_favorite_merchant_added_a_product">أضاف التاجر المفضل لديك منتجًا</string>
   <string name="new_product_has_been_added">تمت إضافة منتج جديد</string>
+    <string name="item_title">عنوان السلعة</string>
+  <string name="sub_title">العنوان الفرعي للعنصر</string>
+    <string name="dismiss">رفض</string>
+    <string name="account_holder_s_name">اسم صاحب الحساب</string>
+  <string name="bank_name">
+اسم البنك</string>
+  <string name="account_number">رقم الحساب</string>
+  <string name="iban">الايبان</string>
+  <string name="save_later">حفظ للأستخدام في وقت لاحق</string>
+  <string name="add_account">اضافة الحساب</string>
+  <string name="Rayal">ريال</string>
 
 </resources>

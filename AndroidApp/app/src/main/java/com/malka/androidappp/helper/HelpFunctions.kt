@@ -1008,21 +1008,21 @@ class HelpFunctions {
         }
 
         fun GetTemplatesJson(context: Context, fileName: String): String? {
-//            var input: InputStream? = null
-//            var jsonString: String = ""
-//            try {
-//                val folder_name: String = "json_templates";
-//                input = context.assets.open(folder_name + "/" + fileName)
-//                val size = input.available()
-//                val buffer = ByteArray(size)
-//                input.read(buffer)
-//                jsonString = String(buffer)
-//            } catch (ex: Exception) {
-//                ReportError(ex)
-//            } finally {
-//                input?.close()
-//            }
-            return ""
+            var input: InputStream? = null
+            var jsonString: String = ""
+            try {
+                val folder_name: String = "json_templates";
+                input = context.assets.open(folder_name + "/" + fileName)
+                val size = input.available()
+                val buffer = ByteArray(size)
+                input.read(buffer)
+                jsonString = String(buffer)
+            } catch (ex: Exception) {
+                ReportError(ex)
+            } finally {
+                input?.close()
+            }
+            return jsonString
         }
 
 

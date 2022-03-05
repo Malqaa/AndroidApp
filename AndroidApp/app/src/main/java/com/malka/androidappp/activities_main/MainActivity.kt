@@ -74,13 +74,13 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 R.id.navigation_home -> {
-                    findNavController(R.id.nav_host_fragment).navigate(R.id.pricepayment_frag)
+                  //  findNavController(R.id.nav_host_fragment).navigate(R.id.ho,)
                     //Zack
                     //Date: 04/08/2021
 //                    val args = Bundle()
-//                    val FileName : String = "Car-en-US.js";
+//                    val FileName : String = "Bed-en-US.js";
 //                    val Title : String = "Title Here";
-//                    args.putString("FileName", FileName);
+//                    args.putString("file_name", FileName);
 //                    args.putString("Title", Title);
 //                    findNavController(R.id.nav_host_fragment).navigate(R.id.fragment_dynamic_template, args)
                 }

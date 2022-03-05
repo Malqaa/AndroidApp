@@ -36,20 +36,7 @@
         android:label="@string/title_watchlist"
         tools:layout="@layout/fragment_watchlist" />
 
-    <fragment
-        android:id="@+id/fragment_dynamic_template"
-        android:name="com.malka.androidappp.botmnav_fragments.dynamic_template.FragmentDynamicTemplate"
-        tools:layout="@layout/fragment_dynamic_template">
 
-        <action
-            android:id="@+id/fragment_dynamic_to_listing"
-            app:destination="@+id/list_details"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-
-    </fragment>
 
     <fragment
         android:id="@+id/navigation_notifications"
@@ -596,7 +583,7 @@
 
     <fragment
         android:id="@+id/promotional_frag"
-        android:name="com.malka.androidappp.botmnav_fragments.create_ads.PromotionalFragment"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.new_flow.PromotionalFragment"
         android:label="Promotional"
         tools:layout="@layout/fragment_promotional">
 
@@ -619,7 +606,7 @@
 
     <fragment
         android:id="@+id/confirmation"
-        android:name="com.malka.androidappp.botmnav_fragments.create_ads.Confirmation"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.new_flow.Confirmation"
         android:label="Confirmation"
         tools:layout="@layout/fragment_confirmation">
 
@@ -635,7 +622,7 @@
 
     <fragment
         android:id="@+id/listing_fee"
-        android:name="com.malka.androidappp.botmnav_fragments.create_ads.ListingFee"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.new_flow.ListingFee"
         android:label="Listing Fee"
         tools:layout="@layout/fragment_listing_fee">
 
@@ -651,7 +638,7 @@
 
     <fragment
         android:id="@+id/continue_frag"
-        android:name="com.malka.androidappp.botmnav_fragments.create_ads.ContinueFragment"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.new_flow.ContinueFragment"
         android:label="Continue"
         tools:layout="@layout/fragment_continue">
 
@@ -683,7 +670,7 @@
 
     <fragment
         android:id="@+id/listduration_frag"
-        android:name="com.malka.androidappp.botmnav_fragments.create_ads.ListingDuration"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.new_flow.ListingDuration"
         android:label="List Duration"
         tools:layout="@layout/fragment_listing_duration">
         <action
@@ -728,7 +715,7 @@
 
     <fragment
         android:id="@+id/ship_pickup_frag"
-        android:name="com.malka.androidappp.botmnav_fragments.create_ads.ShippingPickups"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.new_flow.ShippingPickups"
         android:label="Shipping And pick-up options"
         tools:layout="@layout/fragment_shipping_pickups">
 

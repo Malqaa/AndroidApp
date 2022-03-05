@@ -454,7 +454,7 @@
                         android:textSize="@dimen/_10sdp" />
 
 
-                    <Switch
+                    <androidx.appcompat.widget.SwitchCompat
                         android:layout_width="@dimen/_20sdp"
                         android:layout_height="@dimen/_10sdp"
                         android:layout_gravity="center_vertical"
