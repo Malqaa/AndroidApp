@@ -31,6 +31,7 @@
         <attr name="android:inputType" />
         <attr name="android:maxLength" />
         <attr name="android:text" />
+        <attr name="android:backgroundTint" />
         <attr name="android:digits" />
         <attr name="lastfield" format="boolean" />
         <attr name="viewType">
@@ -38,6 +39,7 @@
             <enum name="spinner" value="1" />
             <enum name="phone" value="2" />
             <enum name="text" value="3" />
+            <enum name="edittext2" value="4" />
         </attr>
 
 

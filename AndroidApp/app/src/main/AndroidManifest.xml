@@ -173,6 +173,21 @@
         <activity
             android:name=".activities_main.SignInPart2"
             android:theme="@style/NoActionBar" />
+
+        <activity
+            android:name=".botmnav_fragments.create_ads.new_flow.ListanItem"
+            android:theme="@style/NoActionBar" />
+        <activity
+            android:name=".botmnav_fragments.create_ads.new_flow.ChooseCategory"
+            android:theme="@style/NoActionBar" />
+
+        <activity
+            android:name=".botmnav_fragments.create_ads.new_flow.all_categories.SubCategories"
+            android:theme="@style/NoActionBar" />
+
+        <activity
+            android:name=".botmnav_fragments.create_ads.new_flow.AddPhoto"
+            android:theme="@style/NoActionBar" />
     </application>
 
 </manifest>

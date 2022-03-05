@@ -1,4 +1,4 @@
-package com.malka.androidappp.botmnav_fragments.create_ads.item_detail.all_categories
+package com.malka.androidappp.botmnav_fragments.create_ads.new_flow.all_categories
 
 import android.view.LayoutInflater
 import android.view.View
@@ -11,9 +11,9 @@ import com.malka.androidappp.botmnav_fragments.home.model.AllCategoriesModel
 import kotlinx.android.synthetic.main.all_categories_card.view.*
 
 class AdapterSubCategories(
-    private val allSubCategories: ArrayList<AllCategoriesModel>,
+    private val allSubCategories: List<AllCategoriesModel>,
     var context: SubCategories,
-    val listener: AdapterSubCategories.OnItemClickListener
+    val listener: OnItemClickListener
 ) : RecyclerView.Adapter<AdapterSubCategories.AdapterSubCategoriesViewHolder>() {
 
     inner class AdapterSubCategoriesViewHolder(itemview: View) : RecyclerView.ViewHolder(itemview),

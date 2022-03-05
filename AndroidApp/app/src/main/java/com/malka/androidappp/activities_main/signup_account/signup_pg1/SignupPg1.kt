@@ -29,11 +29,6 @@ class SignupPg1 : SignInActivity() {
         setContentView(R.layout.activity_signup_pg1)
         supportActionBar?.hide()
 
-
-//        textbusiness2.setOnClickListener() {
-//            val intenttoBsignup = Intent(this@SignupPg1, BusinessSignupPg1::class.java)
-//            startActivity(intenttoBsignup)
-//        }
     }
 
 

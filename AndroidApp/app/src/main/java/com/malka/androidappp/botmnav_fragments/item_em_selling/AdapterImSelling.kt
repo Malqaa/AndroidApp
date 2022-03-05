@@ -7,12 +7,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
-import com.malka.androidappp.botmnav_fragments.create_ads.item_detail.all_categories.AdapterSubCategories
 import com.malka.androidappp.network.constants.ApiConstants
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.all_categories_card.view.*
 import kotlinx.android.synthetic.main.item_im_selling_card.view.*
-import kotlinx.android.synthetic.main.unsold_business_card.view.*
 
 class AdapterImSelling(
     val itemImSellingPost: ArrayList<ModelImSelling>,

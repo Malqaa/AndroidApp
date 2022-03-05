@@ -1,6 +1,7 @@
 package com.malka.androidappp.helper.widgets.edittext
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.content.res.TypedArray
 import android.text.Editable
 import android.text.InputFilter
@@ -11,12 +12,10 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.hbb20.CountryCodePicker
@@ -34,12 +33,13 @@ class DetailedTextField : LinearLayout {
         }
     private lateinit var etl_Field: TextInputLayout
     private lateinit var textView: TextView
-    private lateinit var iv_info_icon: ImageView
+    private lateinit var edittext: EditText
     private lateinit var iv_start_icon: ImageView
     private lateinit var iv_end_icon: ImageView
     private lateinit var line: View
     private lateinit var cppfield: CountryCodePicker
     private lateinit var et_Field: TextInputEditText
+    private lateinit var itemLayout: LinearLayout
 
 
     private var enableTopLine = true
@@ -55,6 +55,7 @@ class DetailedTextField : LinearLayout {
     private var inputType = EditorInfo.TYPE_CLASS_TEXT
     private var maxLength: Int? = null
     private var textText: CharSequence? = null
+    private var backgroundTint: Int=0
     private var viewType = 0
 
 
@@ -129,6 +130,14 @@ class DetailedTextField : LinearLayout {
         textView = findViewById(R.id.textView)
         textView.id = DetailedTextFieldIdGenerator.viwId.getInfoIconID(id)
 
+
+        edittext = findViewById(R.id.edittext)
+        edittext.id = DetailedTextFieldIdGenerator.viwId.getStartIconID(id)
+
+
+        itemLayout = findViewById(R.id.itemLayout)
+        itemLayout.id = DetailedTextFieldIdGenerator.viwId.getStartIconIDD(id)
+
         tv_Error.hide()
 
 
@@ -146,6 +155,9 @@ class DetailedTextField : LinearLayout {
 
         addFocusImplementations { view, b ->
 //            rv_Description.visibility = if (b && enableDescription) View.VISIBLE else View.GONE
+        }
+        if(backgroundTint!=0){
+            itemLayout.backgroundTintList = ColorStateList.valueOf(backgroundTint)
         }
 
         setupOnFocusChangeListener()
@@ -260,6 +272,7 @@ class DetailedTextField : LinearLayout {
     public fun _setLastField(isLastField: Boolean) {
         this.isLastField = isLastField
         et_Field.imeOptions = if (isLastField) EditorInfo.IME_ACTION_DONE else EditorInfo.IME_ACTION_NEXT
+        edittext.imeOptions = if (isLastField) EditorInfo.IME_ACTION_DONE else EditorInfo.IME_ACTION_NEXT
     }
 
     fun checkHint() {
@@ -302,8 +315,8 @@ class DetailedTextField : LinearLayout {
     }
 
 
-    public fun _attachInfoClickListener(listener: OnClickListener?) {
-        iv_info_icon.setOnClickListener(listener)
+    public fun _attachInfoClickListener(listener: OnClickListener) {
+        iv_end_icon.setOnClickListener(listener)
     }
 
     public fun view_parentInputLayout(): TextInputLayout {
@@ -394,10 +407,18 @@ class DetailedTextField : LinearLayout {
 
 
     public fun getText(): String {
-        return et_Field.text.toString()
+        if(viewType==4){
+            return edittext.text.toString()
+        }else{
+            return et_Field.text.toString()
+        }
     }
     public fun setText(text:String?) {
-        et_Field.setText(text?:"")
+        if(viewType==4){
+            edittext.setText(text?:"")
+        }else{
+            et_Field.setText(text?:"")
+        }
     }
 /*    public fun showError(text: String) {
         tv_Error.text = text
@@ -423,6 +444,7 @@ class DetailedTextField : LinearLayout {
             inputType = getInt(R.styleable.DetailedTextField_android_inputType, EditorInfo.TYPE_CLASS_TEXT)
             maxLength = getInt(R.styleable.DetailedTextField_android_maxLength, -1)
             textText = getText(R.styleable.DetailedTextField_android_text)
+            backgroundTint = getColor(R.styleable.DetailedTextField_android_backgroundTint,0)
             viewType = getInt(R.styleable.DetailedTextField_viewType, 0)
 
             startIcon = getResourceId(R.styleable.DetailedTextField_startIcon, 0)
@@ -464,10 +486,19 @@ class DetailedTextField : LinearLayout {
                 et_Field.isFocusable = true
                 et_Field.isFocusableInTouchMode = true
                 et_Field.isClickable = false
+                edittext.hide()
+
             }
             3 -> {
                 etl_Field.hide()
                 textView.show()
+                edittext.hide()
+
+            }
+            4 -> {
+                etl_Field.hide()
+                textView.hide()
+                edittext.show()
             }
             else -> {
 

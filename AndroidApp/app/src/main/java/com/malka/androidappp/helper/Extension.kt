@@ -1,5 +1,6 @@
 package com.malka.androidappp.helper
 
+import com.malka.androidappp.botmnav_fragments.create_ads.StaticClassAdCreate
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.*
@@ -33,4 +34,40 @@ object Extension {
         }
         return aNumber
     }
+
+    fun truncateString(str: String): String {
+        var res = ""
+        for (i in str.indices) {
+            if (str[i].toString() == "-") {
+                res = str.removeRange(i, str.length)
+                break
+            } else {
+                res = str[i].toString()
+            }
+        }
+        return res
+    }
+
+    fun clearPath() {
+        StaticClassAdCreate.subCategoryPath.clear()
+
+        StaticClassAdCreate.subcatone = ""
+        StaticClassAdCreate.subcatonekey = ""
+
+        StaticClassAdCreate.subcattwo = ""
+        StaticClassAdCreate.subcattwokey = ""
+
+        StaticClassAdCreate.subcatthree = ""
+        StaticClassAdCreate.subcatthreekey = ""
+
+        StaticClassAdCreate.subcatfour = ""
+        StaticClassAdCreate.subcatfourkey = ""
+
+        StaticClassAdCreate.subcatfive = ""
+        StaticClassAdCreate.subcatfivekey = ""
+
+        StaticClassAdCreate.subcatsix = ""
+        StaticClassAdCreate.subcatsixkey = ""
+    }
+
 }

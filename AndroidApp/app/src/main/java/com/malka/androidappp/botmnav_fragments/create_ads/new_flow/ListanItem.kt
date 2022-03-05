@@ -1,0 +1,144 @@
+package com.malka.androidappp.botmnav_fragments.create_ads.new_flow
+
+import android.content.Intent
+import android.os.Bundle
+import android.view.View
+import android.widget.Filter
+import android.widget.Toast
+import com.malka.androidappp.R
+import com.malka.androidappp.activities_main.BaseActivity
+import com.malka.androidappp.botmnav_fragments.create_ads.CategoryTagsModel
+import com.malka.androidappp.botmnav_fragments.create_ads.Data
+import com.malka.androidappp.botmnav_fragments.create_ads.StaticClassAdCreate
+import com.malka.androidappp.helper.HelpFunctions
+import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
+import com.malka.androidappp.network.Retrofit.RetrofitBuilder
+import com.malka.androidappp.network.service.MalqaApiService
+import kotlinx.android.synthetic.main.fragment_listan_item.*
+import kotlinx.android.synthetic.main.suggested_categories.view.*
+import kotlinx.android.synthetic.main.toolbar_main.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+
+
+class ListanItem : BaseActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.fragment_listan_item)
+        toolbar_title.text=getString(R.string.add_product)
+        back_btn.setOnClickListener {
+           finish()
+        }
+
+        button2.setOnClickListener {
+
+            confirmListItem()
+        }
+
+
+        button_2.setOnClickListener {
+
+            button2.performClick()
+        }
+        textInputLayout11._attachInfoClickListener{
+            if (validateitem()) {
+               getCategoryTags(textInputLayout11.getText())
+            }
+        }
+    }
+
+
+    fun confirmListItem() {
+        if (!validateitem()) {
+            return
+        } else {
+            val producttitle: String = textInputLayout11.getText()
+            StaticClassAdCreate.producttitle = producttitle
+            startActivity(Intent(this, ChooseCategory::class.java))
+        }
+
+    }
+
+    private fun validateitem(): Boolean {
+
+        val Inputname = textInputLayout11.getText().trim { it <= ' ' }
+        return if (Inputname.isEmpty()) {
+            textInputLayout11.error = getString(R.string.Fieldcantbeempty)
+            false
+        } else {
+            textInputLayout11.error = null
+            true
+        }
+    }
+
+    // To get suggested categories
+    fun getCategoryTags(category: String) {
+        HelpFunctions.startProgressBar(this)
+
+        try {
+            val malqaa: MalqaApiService = RetrofitBuilder.getCategoryTags(category)
+
+            val call: Call<CategoryTagsModel> = malqaa.getCategoryTags(category)
+
+            call.enqueue(object : Callback<CategoryTagsModel> {
+                override fun onResponse(
+                    call: Call<CategoryTagsModel>, response: Response<CategoryTagsModel>
+                ) {
+                    if (response.isSuccessful) {
+
+                        if (response.body() != null) {
+
+                            val resp: CategoryTagsModel = response.body()!!
+                            val lists: List<Data> = resp.data
+
+                            if (lists.count() > 0) {
+                                setCategoryAdaptor(lists)
+
+                            } else {
+                                recycler_suggested_category.visibility = View.GONE
+                            }
+                        }
+
+
+                    } else {
+                        Toast.makeText(this@ListanItem, "Failed to get tags", Toast.LENGTH_LONG).show()
+                    }
+                    HelpFunctions.dismissProgressBar()
+
+                }
+
+                override fun onFailure(call: Call<CategoryTagsModel>, t: Throwable) {
+                    Toast.makeText(this@ListanItem, t.message, Toast.LENGTH_LONG).show()
+                    HelpFunctions.dismissProgressBar()
+
+                }
+            })
+        } catch (ex: Exception) {
+            throw ex
+        }
+    }
+    private fun setCategoryAdaptor(list: List<Data>) {
+        recycler_suggested_category.adapter = object : GenericListAdapter<Data>(
+            R.layout.suggested_categories,
+            bind = { element, holder, itemCount, position ->
+                holder.view.run {
+                    element.run {
+                        category_name_tv.text=name
+                    }
+                }
+            }
+        ) {
+            override fun getFilter(): Filter {
+                TODO("Not yet implemented")
+            }
+
+        }.apply {
+            submitList(
+                list
+            )
+        }
+    }
+
+}

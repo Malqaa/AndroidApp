@@ -7,11 +7,11 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/itemLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/edittext_bg"
         android:gravity="center_vertical"
-
         android:orientation="horizontal">
 
         <ImageView
@@ -52,30 +52,45 @@
                 android:layout_alignParentLeft="true"
                 android:layout_toLeftOf="@+id/iv_end_icon">
 
+                <EditText
+                    android:id="@+id/edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:background="@null"
+                    android:maxLines="1"
+android:visibility="gone"
+                    android:fontFamily="@font/madani_arabic_medium"
+                    android:hint="@string/enter_the_name_of_the_product_you_want_to_sell"
+                    android:padding="@dimen/_10sdp"
+                    android:textSize="@dimen/_10sdp" />
+
                 <TextView
                     android:id="@+id/textView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:fontFamily="@font/madani_arabic_medium"
-                    android:text="ERROR"
                     android:padding="@dimen/_10sdp"
+                    android:text="ERROR"
 
                     android:textColor="@color/text_color"
                     android:visibility="gone" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tvl_field"
-
                     android:layout_width="match_parent"
+
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:hint="@string/type_your_email_here"
+                    android:visibility="gone"
                     app:boxBackgroundMode="none"
                     app:hintTextColor="@color/hint_color">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/tv_field"
+                        android:maxLines="1"
                         style="@style/addressCompoEditFieldTextStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

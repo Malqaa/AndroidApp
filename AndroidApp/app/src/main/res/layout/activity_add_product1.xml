@@ -203,7 +203,7 @@
 
                         android:layout_width="@dimen/_20sdp"
                         android:layout_height="@dimen/_10sdp"
-                        android:src="@drawable/vectorlog"
+                        android:src="@drawable/right_arrow"
                         android:layout_gravity="center_vertical"
                         android:layout_marginEnd="@dimen/_20sdp"/>
 

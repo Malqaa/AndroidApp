@@ -311,7 +311,7 @@
 
     <fragment
         android:id="@+id/list_an_item"
-        android:name="com.malka.androidappp.botmnav_fragments.create_ads.ListanItemFragment"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.new_flow.ListanItem"
         android:label="List An Item"
         tools:layout="@layout/fragment_listan_item">
 
@@ -327,7 +327,7 @@
 
     <fragment
         android:id="@+id/subcategories"
-        android:name="com.malka.androidappp.botmnav_fragments.create_ads.item_detail.all_categories.SubCategories"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.new_flow.all_categories.SubCategories"
         android:label="Sub Categories"
         tools:layout="@layout/fragment_sub_categories">
 
@@ -371,86 +371,6 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
 
-        <action
-            android:id="@+id/choosecat_appliances"
-            app:destination="@id/appliances_frag"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-
-        <action
-            android:id="@+id/choosecat_shopcloth"
-            app:destination="@id/shopcloth_frag"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-
-        <action
-            android:id="@+id/choosecat_futniturecat"
-            app:destination="@id/furniture_frag"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-
-        <action
-            android:id="@+id/choosecat_petsanimcat"
-            app:destination="@id/petsanimal_frag"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-
-        <action
-            android:id="@+id/choosecat_propertycat"
-            app:destination="@id/property_frag"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-
-        <action
-            android:id="@+id/choosecat_electronicgamecat"
-            app:destination="@id/elecgamecat_frag"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-
-        <action
-            android:id="@+id/choosecat_servicecat"
-            app:destination="@id/servicecat_frag"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-
-
-        <action
-            android:id="@+id/choosecat_boatsmarine"
-            app:destination="@id/boatsmarine_frag"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-
-        <action
-            android:id="@+id/choosecat_addphoto"
-            app:destination="@id/add_photo"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-
-        <action
-            android:id="@+id/chosecat_vehiclecat"
-            app:destination="@+id/vehicle_cat"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
 
     </fragment>
 
@@ -625,21 +545,6 @@
             app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
-    <fragment
-        android:id="@+id/vehicle_cat"
-        android:name="com.malka.androidappp.botmnav_fragments.create_ads.categoriesmodel_jsons.vehiclecateegory.VehicleCategory"
-        android:label="Vehicle Category"
-        tools:layout="@layout/fragment_all_cate">
-
-        <action
-            android:id="@+id/vehiclecat_addphoto"
-            app:destination="@+id/add_photo"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-
-    </fragment>
 
     <fragment
         android:id="@+id/other_detailgeneral"
@@ -853,103 +758,15 @@
     </fragment>
 
 
-    <fragment
-        android:id="@+id/property_frag"
-        android:name="com.malka.androidappp.botmnav_fragments.create_ads.categoriesmodel_jsons.propertycategory.PropertyFragment"
-        android:label="Property Category"
-        tools:layout="@layout/fragment_property">
 
 
-        <action
-            android:id="@+id/property_sy_commercial"
-            app:destination="@+id/property_commercial_subcat_a" />
-
-        <action
-            android:id="@+id/property_residentialagriculture"
-            app:destination="@+id/property_residential_subcat_a" />
-        <action
-            android:id="@+id/property_residential"
-            app:destination="@+id/property_residential_subcat" />
 
 
-    </fragment>
 
 
-    <fragment
-        android:id="@+id/boatsmarine_frag"
-        android:name="com.malka.androidappp.botmnav_fragments.create_ads.categoriesmodel_jsons.boatmarine_category.BoatsMarineFragment"
-        android:label="Boats and Marine"
-        tools:layout="@layout/fragment_boats_marine">
-
-        <action
-            android:id="@+id/boatsmarine_addphoto"
-            app:destination="@+id/add_photo"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/servicecat_frag"
-        android:name="com.malka.androidappp.botmnav_fragments.create_ads.categoriesmodel_jsons.service_category.ServicesCategoryFragment"
-        android:label="Service Category"
-        tools:layout="@layout/fragment_services_category">
-
-        <action
-            android:id="@+id/servicecat_addphoto"
-            app:destination="@+id/add_photo"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/elecgamecat_frag"
-        android:name="com.malka.androidappp.botmnav_fragments.create_ads.categoriesmodel_jsons.electronicgame_category.ElectronicGameCatFragment"
-        android:label="Electronic And Game Category"
-        tools:layout="@layout/fragment_electronic_game_cat">
-
-        <action
-            android:id="@+id/elecgame_addphoto"
-            app:destination="@+id/add_photo"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/petsanimal_frag"
-        android:name="com.malka.androidappp.botmnav_fragments.create_ads.categoriesmodel_jsons.pets_animals_category.PetsAnimFragment"
-        android:label="Pets And Animals Category"
-        tools:layout="@layout/fragment_pets_anim">
-
-        <action
-            android:id="@+id/petanimal_addphoto"
-            app:destination="@+id/add_photo"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-    </fragment>
 
 
-    <fragment
-        android:id="@+id/furniture_frag"
-        android:name="com.malka.androidappp.botmnav_fragments.create_ads.categoriesmodel_jsons.furniture_furnish_category.FurnitureFragment"
-        android:label="Furniture And Furnish Category"
-        tools:layout="@layout/fragment_furniture">
 
-        <action
-            android:id="@+id/furniturecat_addphoto"
-            app:destination="@+id/add_photo"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-    </fragment>
 
     <fragment
         android:id="@+id/shopcloth_frag"
@@ -966,19 +783,7 @@
             app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
-    <fragment
-        android:id="@+id/appliances_frag"
-        android:name="com.malka.androidappp.botmnav_fragments.create_ads.categoriesmodel_jsons.appliances_category.AppliancesFragment"
-        tools:layout="@layout/fragment_appliances">
 
-        <action
-            android:id="@+id/appliancescat_addphoto"
-            app:destination="@+id/add_photo"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-    </fragment>
 
     <fragment
         android:id="@+id/sellingopt_frag"

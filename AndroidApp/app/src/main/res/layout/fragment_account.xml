@@ -262,7 +262,7 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="@dimen/_4sdp"
                         android:layout_marginEnd="@dimen/_6sdp"
-                        android:src="@drawable/vectorlog" />
+                        android:src="@drawable/right_arrow" />
 
 
                 </LinearLayout>
@@ -333,7 +333,7 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="@dimen/_4sdp"
                         android:layout_marginEnd="@dimen/_6sdp"
-                        android:src="@drawable/vectorlog" />
+                        android:src="@drawable/right_arrow" />
 
 
                 </LinearLayout>
@@ -385,7 +385,7 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="@dimen/_4sdp"
                         android:layout_marginEnd="@dimen/_6sdp"
-                        android:src="@drawable/vectorlog" />
+                        android:src="@drawable/right_arrow" />
 
 
                 </LinearLayout>
@@ -440,7 +440,7 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="@dimen/_2sdp"
                         android:layout_marginEnd="@dimen/_6sdp"
-                        android:src="@drawable/vectorlog" />
+                        android:src="@drawable/right_arrow" />
 
                 </LinearLayout>
 
@@ -491,7 +491,7 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="@dimen/_2sdp"
                         android:layout_marginEnd="@dimen/_6sdp"
-                        android:src="@drawable/vectorlog" />
+                        android:src="@drawable/right_arrow" />
 
 
                 </LinearLayout>
@@ -545,7 +545,7 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="@dimen/_4sdp"
                         android:layout_marginEnd="@dimen/_6sdp"
-                        android:src="@drawable/vectorlog" />
+                        android:src="@drawable/right_arrow" />
 
 
                 </LinearLayout>
@@ -617,7 +617,7 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="@dimen/_4sdp"
                         android:layout_marginEnd="@dimen/_6sdp"
-                        android:src="@drawable/vectorlog" />
+                        android:src="@drawable/right_arrow" />
 
 
                 </LinearLayout>
@@ -673,7 +673,7 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="@dimen/_4sdp"
                         android:layout_marginEnd="@dimen/_6sdp"
-                        android:src="@drawable/vectorlog" />
+                        android:src="@drawable/right_arrow" />
 
                 </LinearLayout>
 
@@ -725,7 +725,7 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="@dimen/_4sdp"
                         android:layout_marginEnd="@dimen/_6sdp"
-                        android:src="@drawable/vectorlog" />
+                        android:src="@drawable/right_arrow" />
 
 
                 </LinearLayout>
@@ -779,7 +779,7 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="@dimen/_2sdp"
                         android:layout_marginEnd="@dimen/_6sdp"
-                        android:src="@drawable/vectorlog" />
+                        android:src="@drawable/right_arrow" />
 
                 </LinearLayout>
 
@@ -833,7 +833,7 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="@dimen/_4sdp"
                         android:layout_marginEnd="@dimen/_6sdp"
-                        android:src="@drawable/vectorlog" />
+                        android:src="@drawable/right_arrow" />
 
 
                 </LinearLayout>
@@ -887,7 +887,7 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="@dimen/_4sdp"
                         android:layout_marginEnd="@dimen/_6sdp"
-                        android:src="@drawable/vectorlog" />
+                        android:src="@drawable/right_arrow" />
 
                 </LinearLayout>
 

@@ -1,30 +1,17 @@
 package com.malka.androidappp.botmnav_fragments.create_ads.item_details.vehicle
 
-import android.annotation.SuppressLint
-import android.app.Activity
-import android.app.DatePickerDialog
 import android.graphics.Color
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.FragmentTransaction
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.textfield.TextInputEditText
 import com.malka.androidappp.R
-import com.malka.androidappp.botmnav_fragments.create_ads.ListingDetailsFragment
 import com.malka.androidappp.botmnav_fragments.create_ads.StaticClassAdCreate
 import kotlinx.android.synthetic.main.fragment_bus_sub_cat.*
-import kotlinx.android.synthetic.main.fragment_car_subcat.*
-import kotlinx.android.synthetic.main.fragment_other_details.*
-import kotlinx.android.synthetic.main.fragment_other_details_auto_mobile.*
-import kotlinx.android.synthetic.main.fragment_other_details_auto_mobile.toolbar_otherdetailsautombile
-import java.util.*
 
 
 class BusSubCat : Fragment() {

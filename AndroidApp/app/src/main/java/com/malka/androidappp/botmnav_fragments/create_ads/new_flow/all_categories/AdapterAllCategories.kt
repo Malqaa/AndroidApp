@@ -1,9 +1,8 @@
-package com.malka.androidappp.botmnav_fragments.create_ads.item_detail.all_categories
+package com.malka.androidappp.botmnav_fragments.create_ads.new_flow.all_categories
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -12,31 +11,19 @@ import com.malka.androidappp.botmnav_fragments.create_ads.ChooseCateFragment
 import com.malka.androidappp.botmnav_fragments.home.model.AllCategoriesModel
 import com.malka.androidappp.helper.hide
 import com.malka.androidappp.helper.show
-import kotlinx.android.synthetic.main.all_categories_card.view.*
 import kotlinx.android.synthetic.main.all_categories_cardview.view.*
 
 class AdapterAllCategories(
-    private val allCategories: ArrayList<AllCategoriesModel>,
+    private val allCategories: List<AllCategoriesModel>,
     var context: ChooseCateFragment,
-    val listener: AdapterAllCategories.OnItemClickListener
+    var onItemClick: (position:Int) -> Unit
 ) : RecyclerView.Adapter<AdapterAllCategories.AdapterAllCategoriesViewHolder>() {
 
-    inner class AdapterAllCategoriesViewHolder(itemview: View) : RecyclerView.ViewHolder(itemview),
-        View.OnClickListener {
+    inner class AdapterAllCategoriesViewHolder(itemview: View) : RecyclerView.ViewHolder(itemview){
         val categoryName: TextView = itemview.category_name_tv
         val bgline: LinearLayout = itemview.bgline
         val is_selectimage: LinearLayout = itemview.is_selectimage
 
-
-        init {
-          //  itemview.setOnClickListener(this)
-        }
-
-        override fun onClick(v: View?) {
-            val position: Int = adapterPosition
-            listener.OnItemClickHandler(position)
-
-        }
     }
 
 
@@ -70,20 +57,10 @@ class AdapterAllCategories(
             }
             allCategories.get(position).is_select=true
             notifyDataSetChanged()
-            ChooseCateFragment.position=position
+            onItemClick.invoke(position)
         }
-
-//        if (!allCategories[position].isCategory) {
-//            holder.categoryIcon.setImageResource(R.drawable.ic_block)
-//        } else {
-//            holder.categoryIcon.setImageResource(R.drawable.arrow_right_black_24dp)
-//        }
-
-
     }
 
-    interface OnItemClickListener {
-        fun OnItemClickHandler(position: Int) {}
-    }
+
 
 }

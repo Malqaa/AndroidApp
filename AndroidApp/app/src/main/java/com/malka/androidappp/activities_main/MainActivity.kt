@@ -11,6 +11,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.login.SignInActivity
+import com.malka.androidappp.botmnav_fragments.create_ads.new_flow.ListanItem
 import com.malka.androidappp.helper.HelpFunctions
 import kotlinx.android.synthetic.main.activity_bottmmm.*
 
@@ -36,8 +37,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_home,
                 R.id.navigation_notifications,
                 R.id.navigation_account,
-                R.id.navigation_watchlist,
-                R.id.list_an_item
+                R.id.navigation_watchlist
             )
         )
         navView.setupWithNavController(navController)
@@ -91,7 +91,7 @@ class MainActivity : AppCompatActivity() {
         floatingActionButtonBottm.setOnClickListener() {
 
             if (HelpFunctions.IsUserLoggedIn()) {
-                findNavController(R.id.nav_host_fragment).navigate(R.id.list_an_item)
+                startActivity(Intent(this, ListanItem::class.java))
             } else {
                 val intentt = Intent(this, SignInActivity::class.java)
                 startActivity(intentt)
