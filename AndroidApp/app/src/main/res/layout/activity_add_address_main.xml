@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".design.add_address_main">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:orientation="vertical">
+
+
+            <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+                android:id="@+id/firstname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_25sdp"
+                android:hint="@string/First_Name"
+                android:inputType="textPersonName"
+                app:startIcon="@drawable/ic_user" />
+
+
+            <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+                android:id="@+id/lastname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="@string/Last_Name"
+                android:inputType="textPersonName"
+                app:startIcon="@drawable/ic_user" />
+
+            <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+                android:id="@+id/PhoneNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="@string/PhoneNumber"
+                android:inputType="phone"
+                app:viewType="phone" />
+
+
+            <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+                android:id="@+id/select_country"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="@string/Country"
+                android:inputType="textPersonName"
+                app:endIcon="@drawable/ic_arrow_down"
+                app:startIcon="@drawable/ic_region"
+                app:viewType="spinner" />
+
+
+            <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+                android:id="@+id/select_region"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="@string/Region"
+                android:inputType="textPersonName"
+                app:endIcon="@drawable/ic_arrow_down"
+                app:startIcon="@drawable/ic_region"
+                app:viewType="spinner" />
+
+
+            <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+                android:id="@+id/select_city"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="@string/City"
+                android:inputType="textPersonName"
+                app:endIcon="@drawable/ic_arrow_down"
+                app:startIcon="@drawable/ic_city"
+                app:viewType="spinner" />
+
+
+            <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+                android:id="@+id/address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="@string/Area"
+                android:inputType="text" />
+
+
+            <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+                android:id="@+id/streetnumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="@string/StreetNumber"
+                android:inputType="text" />
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/add_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:background="@drawable/round_btn"
+                android:fontFamily="@font/madani_arabic_semi_bold"
+                android:onClick="addressconfirmInput"
+                android:text="ADD"
+                android:textAllCaps="false"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/_14sdp" />
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+
+    <include
+        android:visibility="gone"
+        android:id="@+id/loader"
+        layout="@layout/loader_layout" />
+
+
+</RelativeLayout>

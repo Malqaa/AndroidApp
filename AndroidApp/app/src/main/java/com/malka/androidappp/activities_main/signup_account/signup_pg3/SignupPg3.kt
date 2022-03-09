@@ -160,7 +160,7 @@ class SignupPg3 : AppCompatActivity() {
     }
 
 
-    fun SignuuPg4confirmInput(v: View) {
+    fun AddAddressconfirmInput(v: View) {
 
         if (!!validateSign4Streetnum() or !validateSign4Area() or
             !validateSign4PoBox() or !validateRegion() or !validateCity() or !validateSign3FullName() or !validateSign3Day() or !validateRadio()

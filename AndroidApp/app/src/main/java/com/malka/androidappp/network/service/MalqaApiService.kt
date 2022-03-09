@@ -2,6 +2,7 @@ package com.malka.androidappp.network.service
 
 import com.malka.androidappp.activities_main.signup_account.signup_pg1.CreateUserDataModel
 import com.malka.androidappp.activities_main.login.LoginClass
+import com.malka.androidappp.activities_main.login.LoginResponseBack
 import com.malka.androidappp.activities_main.signup_account.signup_pg2.PostReqVerifyCode
 import com.malka.androidappp.activities_main.signup_account.signup_pg2.ResendCodeDataModel
 import com.malka.androidappp.activities_main.signup_account.signup_pg3.UpdateuserSignup
@@ -38,7 +39,9 @@ import com.malka.androidappp.botmnav_fragments.shoppingcart3_shippingaddress.shi
 import com.malka.androidappp.botmnav_fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ShippingAddressessData
 import com.malka.androidappp.botmnav_fragments.sold_business.ModelSoldUnsold
 import com.malka.androidappp.botmnav_fragments.won_n_loss.model_wonloss.ModelWonLost
+import com.malka.androidappp.design.Models.GetAddressResponse
 import com.malka.androidappp.network.constants.ApiConstants
+import com.malka.androidappp.network.constants.ApiConstants.ADDRESS_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.ADD_TO_CART_DELETE_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.ADD_TO_CART_INSERT_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.ADD_TO_CART_USER_LIST_ENDPOINT
@@ -58,6 +61,7 @@ import com.malka.androidappp.network.constants.ApiConstants.FAVOURITE_PARAMETER
 import com.malka.androidappp.network.constants.ApiConstants.FEEDBACK_PARAMETER
 import com.malka.androidappp.network.constants.ApiConstants.FORGOTPASS_EMAIL_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.GETUSER_ENDPOINT
+import com.malka.androidappp.network.constants.ApiConstants.GET_ADDRESS_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.GET_ALL_CATEGORIES
 import com.malka.androidappp.network.constants.ApiConstants.GET_ALL_CATEGORIES_BY_ID
 import com.malka.androidappp.network.constants.ApiConstants.GET_CATEGORY_LISTING_ENDPOINT
@@ -186,7 +190,13 @@ interface MalqaApiService {
     fun creategeneralAd(@Body creategeneralad: CreateAdvgeneralModel): Call<CreateAdvResponseBack>
 
     @POST(LOGIN_ENDPOINT)
-    fun loginUser(@Body info: LoginClass): Call<ResponseBody?>?
+    fun loginUser(@Body info: LoginClass): Call<LoginResponseBack?>?
+
+    @POST(ADDRESS_ENDPOINT)
+    fun insertAddress(@Body info: GetAddressResponse.AddressModel): Call<insertAddressResponseBack>
+
+    @GET(GET_ADDRESS_ENDPOINT)
+    fun getAddress(@Query("loginId") loginId: String): Call<GetAddressResponse>
 
     @POST(GET_CATEGORY_LISTING_ENDPOINT)
     fun categorylist(@Body creategeneralad: SearchRequestModel): Call<SearchRespone>;

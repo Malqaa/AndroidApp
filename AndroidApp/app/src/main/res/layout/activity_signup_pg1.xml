@@ -83,7 +83,6 @@
                 android:inputType="textPersonName"
                 app:startIcon="@drawable/ic_user" />
 
-
             <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
                 android:id="@+id/textEmaill"
                 android:layout_width="match_parent"

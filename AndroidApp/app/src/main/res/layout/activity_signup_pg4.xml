@@ -220,7 +220,6 @@
                 android:background="@drawable/round_btn"
                 android:fontFamily="@font/madani_arabic_semi_bold"
                 android:onClick="SignuuPg4confirmInput"
-
                 android:text="@string/SignUp"
                 android:textAllCaps="false"
                 android:textColor="#ffffff"

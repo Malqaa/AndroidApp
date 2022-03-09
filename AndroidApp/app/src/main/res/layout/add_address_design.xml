@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_10sdp"
+            android:background="@drawable/product_attribute_bg4"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_25sdp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/delivery_to_my_current_address"
+                    android:fontFamily="@font/madani_arabic_medium"
+                    android:gravity="center_vertical"
+                    android:textColor="#45495E"
+                    android:textSize="@dimen/_10sdp"/>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="end">
+                    <ImageView
+                        android:layout_width="@dimen/_30sdp"
+                        android:layout_height="@dimen/_25sdp"
+                        android:src="@drawable/edit_button"
+                        android:layout_gravity="bottom"/>
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_30sdp"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:id="@+id/first_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/madani_arabic_light"
+                    android:gravity="center_vertical"
+                    android:text="First honored"
+                    android:textColor="#000000"
+                    android:textSize="@dimen/_10sdp" />
+
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="-"
+                    android:fontFamily="@font/madani_arabic_light"
+                    android:gravity="center_vertical"
+                    android:layout_marginStart="@dimen/_3sdp"
+                    android:textColor="#000000"
+                    android:textSize="@dimen/_10sdp"/>
+
+
+                <TextView
+                    android:id="@+id/lastname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Nasr City"
+                    android:fontFamily="@font/madani_arabic_light"
+                    android:gravity="center_vertical"
+                    android:layout_marginStart="@dimen/_3sdp"
+                    android:textColor="#000000"
+                    android:textSize="@dimen/_10sdp"/>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="-"
+                    android:fontFamily="@font/madani_arabic_light"
+                    android:gravity="center_vertical"
+                    android:layout_marginStart="@dimen/_3sdp"
+                    android:textColor="#000000"
+                    android:textSize="@dimen/_10sdp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Cairo"
+                    android:fontFamily="@font/madani_arabic_light"
+                    android:gravity="center_vertical"
+                    android:layout_marginStart="@dimen/_3sdp"
+                    android:textColor="#000000"
+                    android:textSize="@dimen/_10sdp"/>
+
+
+            </LinearLayout>
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:layout_marginStart="@dimen/_30sdp"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:id="@+id/house_no"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="B134679"
+                    android:fontFamily="@font/madani_arabic_light"
+                    android:gravity="center_vertical"
+                    android:textColor="#000000"
+                    android:textSize="@dimen/_10sdp"/>
+
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="-"
+                    android:fontFamily="@font/madani_arabic_light"
+                    android:gravity="center_vertical"
+                    android:layout_marginStart="@dimen/_3sdp"
+                    android:textColor="#000000"
+                    android:textSize="@dimen/_10sdp"/>
+
+
+                <TextView
+                    android:id="@+id/adress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Cairo Building 22"
+                    android:fontFamily="@font/madani_arabic_light"
+                    android:gravity="center_vertical"
+                    android:layout_marginStart="@dimen/_3sdp"
+                    android:textColor="#000000"
+                    android:textSize="@dimen/_10sdp"/>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="-"
+                    android:fontFamily="@font/madani_arabic_light"
+                    android:gravity="center_vertical"
+                    android:layout_marginStart="@dimen/_3sdp"
+                    android:textColor="#000000"
+                    android:textSize="@dimen/_10sdp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Fourth Floor"
+                    android:fontFamily="@font/madani_arabic_light"
+                    android:gravity="center_vertical"
+                    android:layout_marginStart="@dimen/_3sdp"
+                    android:textColor="#000000"
+                    android:textSize="@dimen/_10sdp"/>
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_30sdp"
+                android:orientation="horizontal">
+
+
+
+                <TextView
+                    android:id="@+id/phonenum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="+966 49 979 4979"
+                    android:fontFamily="@font/madani_arabic_light"
+                    android:gravity="center_vertical"
+                    android:layout_marginStart="@dimen/_3sdp"
+                    android:textColor="#000000"
+                    android:textSize="@dimen/_10sdp"/>
+
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+
+
+
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -33,9 +33,7 @@ class add_product2 : AppCompatActivity() {
             startActivity(intent)
         }
 
-
         getAllCategories()
-
 
     }
 

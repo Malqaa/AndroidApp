@@ -175,33 +175,27 @@ import java.util.regex.Pattern
             loader.showLoader()
         }
         val malqa: MalqaApiService = RetrofitBuilder.createAccountsInstance()
-        val emaill = email.toString().trim()
-        val passwordd = password.toString().trim()
-        val login = LoginClass(emaill, passwordd)
+        val login = LoginClass(email, password)
 
-        //val call: Call<LoginClass?>? = malqa.loginUser(LoginClass(emaill, passwordd))
-        val call: Call<ResponseBody?>? = malqa.loginUser(login)
-        call?.enqueue(object : Callback<ResponseBody?> {
-            override fun onFailure(call: Call<ResponseBody?>?, t: Throwable) {
+        val call: Call<LoginResponseBack?>? = malqa.loginUser(login)
+        call?.enqueue(object : Callback<LoginResponseBack?> {
+            override fun onFailure(call: Call<LoginResponseBack?>?, t: Throwable) {
                 if(!isFromLogin){
                     loader.hideLoader()
                 }
                 Toast.makeText(context, "${t.message}", Toast.LENGTH_LONG).show()
             }
 
-            var isBusinessUser: Boolean = false
-            override fun onResponse(call: Call<ResponseBody?>, response: Response<ResponseBody?>) {
+            override fun onResponse(call: Call<LoginResponseBack?>, response: Response<LoginResponseBack?>) {
                 if (response.isSuccessful) {
 
-                    val reader: Reader = InputStreamReader(response.body()?.byteStream(), "UTF-8")
-                    val data = Gson().fromJson(reader, LoginResponseBack::class.java)
                     //Zack
                     //Date: 11/04/2020
-                    ConstantObjects.logged_userid = data.data.id
-                    ConstantObjects.isBusinessUser = data.data.isBusinessUser > 0
+                    ConstantObjects.logged_userid = response.body()!!.data.id
+                    ConstantObjects.isBusinessUser = response.body()!!.data.isBusinessUser > 0
                     // To check if user is approved user or not
-                    if (data.data.isBusinessUser < 1 || data.data.isBusinessUser > 1) {
-                        val userId: String = data.data.id
+                    if (response.body()!!.data.isBusinessUser < 1 || response.body()!!.data.isBusinessUser > 1) {
+                        val userId: String = response.body()!!.data.id
                         ConstantObjects.logged_userid = userId
                         if (calledfromsigninactivity != null && calledfromsigninactivity) {
                             HelpFunctions.ShowLongToast(
@@ -209,7 +203,7 @@ import java.util.regex.Pattern
                                 context
                             )
                             Paper.book().write(islogin,true)
-                            Paper.book().write(SharedPreferencesStaticClass.userData,data.data)
+                            Paper.book().write(SharedPreferencesStaticClass.userData,response.body()!!.data)
                             GoToHome()
                         }
                     } else {

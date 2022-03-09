@@ -351,5 +351,6 @@ class RetrofitBuilder {
                 .create(MalqaApiService::class.java)
         }
 
+
     }
 }
