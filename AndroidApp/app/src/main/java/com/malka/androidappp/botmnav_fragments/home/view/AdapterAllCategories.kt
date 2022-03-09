@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
 import com.malka.androidappp.botmnav_fragments.home.model.AllCategoriesModel
 import com.malka.androidappp.helper.BaseViewHolder
+import com.malka.androidappp.helper.hide
 import kotlinx.android.synthetic.main.all_categories_cardview.view.*
 
 class AdapterAllCategories(
@@ -34,6 +35,12 @@ class AdapterAllCategories(
 
         holder.view.run {
             allCategories.get(position).run {
+                val params: ViewGroup.LayoutParams = fullview.layoutParams
+                params.width = resources.getDimension(R.dimen._90sdp).toInt()
+                params.height = params.height
+                fullview.layoutParams = params
+                bgline.hide()
+                is_selectimage.hide()
                 category_name_tv.text = categoryName
                 setOnClickListener {
                     listener.OnItemClick(position)

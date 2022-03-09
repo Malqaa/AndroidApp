@@ -1,27 +1,33 @@
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_dynamic_text"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/card_dynamic_text"
-    android:orientation="vertical"
-    app:cardElevation="4dp"
-    app:cardUseCompatPadding="true">
 
-    <com.google.android.material.textfield.TextInputLayout
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_marginTop="@dimen/_10sdp"
+
         android:id="@+id/dynamic_text_field"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/cairo_semibold"
+        android:text="@string/welcome_back"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_14sdp" />
+
+    <EditText
+        android:id="@+id/txt_dynamic_text_field"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_marginTop="@dimen/_5sdp"
+        android:background="@drawable/edittext_bg"
+        android:fontFamily="@font/cairo_regular"
+        android:inputType="text"
+        android:padding="@dimen/_10sdp"
+        android:textSize="@dimen/_10sdp" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/txt_dynamic_text_field"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint=""
-            android:inputType="text" />
-    </com.google.android.material.textfield.TextInputLayout>
 
-</androidx.cardview.widget.CardView>
+</LinearLayout>
+

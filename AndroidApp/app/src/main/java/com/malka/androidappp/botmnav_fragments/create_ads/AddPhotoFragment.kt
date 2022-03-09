@@ -6,41 +6,26 @@ import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
-import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.EditText
+import android.widget.Filter
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.PermissionChecker.checkSelfPermission
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.textfield.TextInputEditText
 import com.malka.androidappp.R
-import com.malka.androidappp.botmnav_fragments.home.adapter.ParentCategoryAdaptor
-import com.malka.androidappp.design.DummyCategoryModel
-import com.malka.androidappp.design.Models.itemDetailmodel
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
-import kotlinx.android.synthetic.main.activity_add_product2.*
-import kotlinx.android.synthetic.main.add_product_imgs.*
 import kotlinx.android.synthetic.main.add_product_imgs.view.*
 import kotlinx.android.synthetic.main.fragment_add_photo.*
-import kotlinx.android.synthetic.main.fragment_add_photo.category_rcv
-import kotlinx.android.synthetic.main.fragment_edit_product2.*
-import kotlinx.android.synthetic.main.fragment_edit_product5.view.*
-import kotlinx.android.synthetic.main.item_details2_desgin.view.*
-import kotlinx.android.synthetic.main.pager_layout.*
-import kotlinx.android.synthetic.main.pager_layout.view.*
-import kotlinx.android.synthetic.main.product_item.*
-import kotlinx.android.synthetic.main.product_item.view.*
 import java.io.FileNotFoundException
 import java.io.InputStream
-import java.net.URI
 
 
 open class AddPhotoFragment : Fragment() {
@@ -433,7 +418,7 @@ open class AddPhotoFragment : Fragment() {
                     )
                 }
                 if (StaticClassAdCreate.images != null && StaticClassAdCreate.images!!.size > 0) {
-                    decisionbyCatandSubCat()
+                   // decisionbyCatandSubCat()
 //                    textImageCount.text = "${selectedImagesURI.size} out of 10 photos"
 //                    textImageCount.image = getImage(R.string.outof10photos, selectedImagesURI.size)
 
@@ -450,7 +435,7 @@ open class AddPhotoFragment : Fragment() {
         val Title = Title
         args.putString("file_name", file_name)
         args.putString("Title", Title)
-        findNavController().navigate(R.id.fragment_dynamic_template, args)
+
     }
 
     private fun storePath() {

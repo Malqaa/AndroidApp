@@ -1,6 +1,5 @@
 package com.malka.androidappp.botmnav_fragments.create_ads
 
-import android.graphics.drawable.Drawable
 import com.google.gson.annotations.SerializedName
 
 data class ModelDataCreateGeneralAd(

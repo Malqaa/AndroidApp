@@ -1,64 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:layout_height="match_parent"
-    android:layout_width="match_parent" xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     tools:context=".botmnav_fragments.create_ads.ListingDetailsFragment">
+
+    <include
+        android:id="@+id/toolbar_main"
+        layout="@layout/toolbar_main" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar_main">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_12sdp"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="@dimen/_15sdp"
-                    android:layout_height="@dimen/_10sdp"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/backarrow1"/>
-
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="@dimen/_7sdp"
-                    android:fontFamily="@font/madani_arabic_medium"
-                    android:text="@string/item_details"
-                    android:textColor="#000000"
-                    android:textSize="@dimen/_14sdp" />
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_1sdp"
-                android:layout_gravity="center"
-                android:layout_marginTop="15dp"
-                android:background="@color/light_gray">
-
-            </LinearLayout>
+            android:orientation="vertical"
+            android:padding="@dimen/_15sdp">
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/_15sdp"
-                android:layout_marginEnd="@dimen/_15sdp"
                 android:orientation="vertical">
 
                 <LinearLayout
+                    android:gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -66,10 +36,9 @@
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_height="match_parent"
                         android:fontFamily="@font/madani_arabic_medium"
-                        android:text="@string/model_year"
+                        android:text="@string/item_title"
                         android:textColor="#293241"
                         android:textSize="@dimen/_14sdp" />
 
@@ -77,7 +46,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_2sdp"
-                        android:layout_marginTop="@dimen/_15sdp"
                         android:fontFamily="@font/madani_arabic_medium"
                         android:text="*"
                         android:textColor="@color/Red"
@@ -87,11 +55,13 @@
 
 
                 <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+                    android:id="@+id/title_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:hint="@string/type_the_item_s_title"
-                    android:inputType="textPersonName" />
+                    android:inputType="textPersonName"
+                    app:viewType="edittext2" />
 
 
                 <TextView
@@ -99,17 +69,19 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:fontFamily="@font/madani_arabic_medium"
-                    android:text="@string/sub_address"
+                    android:text="@string/sub_title"
                     android:textColor="#293241"
                     android:textSize="@dimen/_14sdp" />
 
-
                 <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+                    android:id="@+id/subtitle"
                     android:layout_width="match_parent"
+
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:hint="@string/type_the_item_s_title"
-                    android:inputType="textPersonName" />
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:hint="@string/type_the_item_s_subtitle"
+                    android:inputType="textPersonName"
+                    app:viewType="edittext2" />
 
 
                 <TextView
@@ -126,24 +98,23 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_100sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:background="@drawable/edittext_bg">
 
                     <EditText
-                        android:id="@+id/descriptionedit"
+                        android:id="@+id/itemAddress2"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_100sdp"
-                        android:layout_weight="1"
                         android:background="@null"
                         android:fontFamily="@font/madani_arabic_light"
                         android:gravity="top"
                         android:inputType="text|textMultiLine|textCapSentences"
                         android:padding="@dimen/_7sdp"
+                        android:scrollbars="vertical"
                         android:singleLine="false"
                         android:textColor="#6D6C74"
                         android:textSize="@dimen/_13sdp" />
                 </LinearLayout>
-
 
 
                 <TextView
@@ -158,160 +129,121 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/_35sdp"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:orientation="horizontal">
 
-                    <LinearLayout
-                        android:layout_width="@dimen/_70sdp"
-                        android:layout_height="@dimen/_35sdp"
-                        android:background="@drawable/edittext_bg">
+                    <TextView
+                        android:id="@+id/tv_New"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/field_selection_bg"
+                        android:enabled="false"
+                        android:gravity="center"
+                        android:paddingLeft="@dimen/_30sdp"
+                        android:paddingRight="@dimen/_30sdp"
+                        android:text="@string/New"
+                        android:textColor="@drawable/field_selection_color"
+                        android:textSize="@dimen/_10sdp" />
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:text="@string/New"
-                            android:textSize="@dimen/_10sdp" />
 
-                    </LinearLayout>
-
-
-                    <LinearLayout
-                        android:layout_width="@dimen/_100sdp"
-                        android:layout_height="@dimen/_35sdp"
+                    <TextView
+                        android:id="@+id/tv_used"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_marginStart="@dimen/_10sdp"
-                        android:background="@drawable/edittext_bg">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:text="@string/used"
-                            android:textSize="@dimen/_10sdp" />
-
-                    </LinearLayout>
+                        android:background="@drawable/field_selection_bg"
+                        android:enabled="false"
+                        android:gravity="center"
+                        android:paddingLeft="@dimen/_30sdp"
+                        android:paddingRight="@dimen/_30sdp"
+                        android:text="@string/used"
+                        android:textColor="@drawable/field_selection_color"
+                        android:textSize="@dimen/_10sdp" />
 
 
                 </LinearLayout>
-
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_45sdp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:background="@drawable/edittext_bg">
+                    android:gravity="center">
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/madani_arabic_medium"
+                        android:text="@string/QuantityAvailable"
+                        android:textColor="#293241"
+                        android:textSize="@dimen/_14sdp" />
 
-                    <LinearLayout
-                        android:layout_width="@dimen/_50sdp"
-                        android:layout_height="match_parent"
-                        android:gravity="center">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/substract" />
-
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="@dimen/_1sdp"
-                        android:layout_height="match_parent"
-                        android:background="@color/line">
-
-                    </LinearLayout>
-
-
-                    <LinearLayout
-                        android:layout_width="@dimen/_50sdp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:backgroundTint="@color/light_gray"
-                        android:gravity="center">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="1" />
-
-
-                    </LinearLayout>
-
-
-                    <LinearLayout
-                        android:layout_width="@dimen/_1sdp"
-                        android:layout_height="match_parent"
-                        android:background="@color/line">
-
-                    </LinearLayout>
-
-
-                    <LinearLayout
-                        android:layout_width="@dimen/_50sdp"
-                        android:layout_height="match_parent"
-                        android:gravity="center">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/add" />
-
-
-                    </LinearLayout>
-
-
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_2sdp"
+                        android:fontFamily="@font/madani_arabic_medium"
+                        android:text="*"
+                        android:textColor="@color/Red"
+                        android:textSize="@dimen/_14sdp" />
                 </LinearLayout>
 
 
-                <com.hbb20.CountryCodePicker
-                    android:id="@+id/country_code"
+                <com.malka.androidappp.helper.widgets.ElegantNumberButton
+                    android:id="@+id/quantityavail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:background="@drawable/edittext_bg"
-                    android:drawablePadding="8dp"
-                    android:padding="7dp"
-                    android:paddingEnd="16dp"
-                    app:ccpDialog_allowSearch="false"
-                    app:ccp_customMasterCountries="BH,KW,OM,SA,AE"
-                    app:ccp_defaultNameCode="SA"
-                    app:ccp_showFullName="true"
-                    app:ccp_showNameCode="false"
-                    app:ccp_showPhoneCode="false" />
+                    android:fontFamily="@font/madani_arabic_light"
+                    android:text="@string/address_details"
+                    android:textColor="#293241"
+                    android:textSize="@dimen/_14sdp" />
 
                 <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
-                    android:id="@+id/spinner2"
+                    android:id="@+id/select_country"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:hint="@string/Country"
-                    android:inputType="textPersonName"
+                    app:endIcon="@drawable/ic_arrow_down"
+                    app:startIcon="@drawable/ic_country"
+                    app:viewType="spinner" />
+
+                <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+                    android:id="@+id/select_region"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:hint="@string/Region"
                     app:endIcon="@drawable/ic_arrow_down"
                     app:startIcon="@drawable/ic_region"
                     app:viewType="spinner" />
 
+
                 <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+                    android:id="@+id/select_city"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:hint="@string/district"
-                    android:inputType="textPersonName"
                     app:endIcon="@drawable/ic_arrow_down"
                     app:startIcon="@drawable/ic_city"
                     app:viewType="spinner" />
 
-
-
                 <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
-                    android:id="@+id/PhoneNumber"
+                    android:id="@+id/phone_number_edittext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:hint="@string/PhoneNumber"
                     android:inputType="phone"
-                    app:viewType="phone" />
+                    app:endText="+965"
+                    app:startIcon="@drawable/ic_phone" />
 
 
                 <androidx.appcompat.widget.AppCompatButton
@@ -333,292 +265,5 @@
 
 
     </androidx.core.widget.NestedScrollView>
-
-
-
-        <LinearLayout
-            android:visibility="gone"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/_50sdp"
-            android:orientation="vertical"
-            android:background="@color/white"
-            android:paddingBottom="20dp">
-
-
-            <TextView
-                android:id="@+id/textView49"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="23dp"
-                android:layout_marginTop="10dp"
-                android:text=""
-                android:textColor="@color/GoldenApp"
-                android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:layout_editor_absoluteY="20dp" />
-
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/othername"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="50dp"
-                android:layout_marginEnd="20dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView49">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/title"
-                    android:visibility="gone"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/Title" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/othernamee"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="20dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/othername">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/subtitle"
-                    android:visibility="gone"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/Subtitle" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/othernameee"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="20dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/othernamee">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/quantityavail"
-                    android:visibility="gone"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/QuantityAvailable"
-                    android:inputType="number" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <TextView
-                android:id="@+id/textViewother4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="23dp"
-                android:layout_marginTop="30dp"
-                android:text="@string/Phone"
-                android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/othernameee" />
-
-            <RelativeLayout
-                android:id="@+id/idrelatv"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="20dp"
-                android:background="@drawable/buttonradius"
-                app:layout_constraintStart_toStartOf="parent"
-
-                app:layout_constraintTop_toBottomOf="@+id/textViewother4">
-
-
-                <Spinner
-                    android:id="@+id/dropdown"
-                    android:layout_width="130dp"
-                    android:layout_height="match_parent"
-                    android:paddingStart="10dp" />
-
-                <EditText
-                    android:id="@+id/phonetext"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_toEndOf="@id/dropdown"
-                    android:backgroundTint="@color/white"
-                    android:inputType="number"
-                    android:paddingTop="12dp"
-                    android:paddingEnd="12dp"
-                    android:paddingBottom="12dp"
-                    android:textSize="14sp" />
-
-
-            </RelativeLayout>
-
-            <TextView
-                android:id="@+id/country"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="23dp"
-                android:layout_marginTop="20dp"
-                android:text="@string/Country"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/idrelatv" />
-
-
-
-
-            <TextView
-                android:id="@+id/errorcountry"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="22dp"
-                android:text="@string/SelectAnyoneCountry"
-                android:textColor="#FF0000"
-                android:textSize="12sp"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent" />
-
-            <TextView
-                android:id="@+id/region"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="23dp"
-                android:layout_marginTop="20dp"
-                android:text="@string/Region"
-                app:layout_constraintStart_toStartOf="parent" />
-
-
-            <TextView
-                android:id="@+id/errorregion"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="22dp"
-                android:text="@string/SelectAnyoneRegion"
-                android:textColor="#FF0000"
-                android:textSize="12sp"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent" />
-
-            <TextView
-                android:id="@+id/city"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="23dp"
-                android:layout_marginTop="20dp"
-                android:text="@string/City"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <RelativeLayout
-                android:id="@+id/idrelatv4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="20dp"
-                android:background="@drawable/buttonradius"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/city">
-
-                <Spinner
-                    android:id="@+id/spinner3"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp" />
-            </RelativeLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/itemAddress"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="50dp"
-                android:layout_marginEnd="20dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/idrelatv4">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/itemAddress2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/Address" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <TextView
-                android:id="@+id/errorcity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="22dp"
-                android:text="@string/SelectAnyoneCity"
-                android:textColor="#FF0000"
-                android:textSize="12sp"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/idrelatv4" />
-
-
-            <TextView
-                android:id="@+id/brandnewitem"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="23dp"
-                android:layout_marginTop="30dp"
-                android:text="@string/BrandNewItem"
-                android:textColor="@color/GreenApp"
-                android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/itemAddress" />
-
-            <CheckBox
-                android:id="@+id/brandcheckbox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="23dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="40dp"
-                android:button="@drawable/detailpg_checbox_selector"
-                android:padding="10dp"
-                android:text="@string/Brandnewunuseditemwithoriginal"
-                android:textColor="@color/grayy"
-                android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/brandnewitem" />
-
-            <TextView
-                android:visibility="gone"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="23dp"
-                android:layout_marginTop="20dp"
-                android:text="@string/Description"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/brandcheckbox" />
-
-            <EditText
-              android:visibility="gone"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_centerHorizontal="true"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="20dp"
-                android:background="@drawable/buttonradius"
-                android:gravity="top"
-                android:inputType="textPersonName"
-                android:padding="12dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/descriptn" />
-        </LinearLayout>
-
-
-
 
 </RelativeLayout>

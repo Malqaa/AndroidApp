@@ -5,19 +5,17 @@
         android:layout_height="match_parent"
         android:background="@color/white"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        tools:context=".botmnav_fragments.create_ads.ShippingPickups">
+        tools:context=".botmnav_fragments.create_ads.new_flow.ShippingPickups">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_ship_pick"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="#339933"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:popupTheme="@style/PopupOverlay">
 
-        </androidx.appcompat.widget.Toolbar>
+    <include
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/toolbar_ship_pick"
+        layout="@layout/toolbar_main" />
+
+
 
 
         <TextView
@@ -25,7 +23,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/SelectaPickupOption"
-            android:textColor="@color/GreenApp"
+            android:textColor="@color/textColor"
+            android:fontFamily="@font/madani_arabic_medium"
             android:textSize="20sp"
             android:layout_marginTop="20dp"
             android:layout_marginStart="20dp"
@@ -82,6 +81,7 @@
         android:background="@color/SilverBackground"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="35dp"
+        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@+id/ship_pickup_radioGroup"
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="138dp" />
@@ -91,7 +91,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/SelectaPickupOption"
-            android:textColor="@color/GreenApp"
+            android:textColor="@color/textColor"
+            android:fontFamily="@font/madani_arabic_medium"
             app:layout_constraintTop_toBottomOf="@+id/view_pricepay"
             android:textSize="20sp"
             android:layout_marginTop="35dp"
@@ -164,12 +165,17 @@
         <Button
             android:id="@+id/btn_shippickup"
             android:layout_width="match_parent"
-            android:layout_height="64dp"
+            android:layout_height="wrap_content"
             android:textAllCaps="false"
             android:textColor="#ffffff"
             android:textSize="22sp"
-            android:background="@color/GoldenApp"
+            android:background="@drawable/round_btn"
+            android:fontFamily="@font/madani_arabic_semi_bold"
             android:text="@string/NEXT"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent" />

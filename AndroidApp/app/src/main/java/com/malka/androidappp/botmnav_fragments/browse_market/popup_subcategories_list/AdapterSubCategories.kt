@@ -3,11 +3,10 @@ package com.malka.androidappp.botmnav_fragments.browse_market.popup_subcategorie
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
-import com.malka.androidappp.botmnav_fragments.create_ads.categoriesmodel_jsons.Categories
 import com.malka.androidappp.botmnav_fragments.create_ads.categoriesmodel_jsons.CategoriesItem
 import kotlinx.android.synthetic.main.alert_subcategories_cardview.view.*
 

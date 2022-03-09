@@ -1,5 +1,6 @@
 package com.malka.androidappp.servicemodels
 
+import com.malka.androidappp.botmnav_fragments.home.model.AllCategoriesModel
 import com.malka.androidappp.botmnav_fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ShippingAddressessData
 import com.malka.androidappp.servicemodels.addtocart.CartItemModel
 import com.malka.androidappp.servicemodels.creditcard.CreditCardResponseModel
@@ -8,6 +9,7 @@ import com.malka.androidappp.servicemodels.feedbacks.FeedbackObject
 import com.malka.androidappp.servicemodels.user.UserObject
 import com.malka.androidappp.servicemodels.watchlist.watchlistobject
 import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 class ConstantObjects() {
@@ -36,6 +38,7 @@ class ConstantObjects() {
         var dynamic_json_dictionary: HashMap<String, String> = HashMap<String, String>()
 
         var currentLanguage: String = ""
+        var categoryList: List<AllCategoriesModel> = ArrayList()
 
     }
 }

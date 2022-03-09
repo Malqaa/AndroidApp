@@ -32,11 +32,6 @@ class add_item_details2 : AppCompatActivity() {
         }
 
 
-        list.add(itemDetailmodel("Golden Package","170 Rial","Your product will be displayed on the home page", "Your product will be displayed on the home page1","Your product will be displayed on the home page3"))
-        list.add(itemDetailmodel("Siver Package","190 Rial","Your product will be displayed on the home page", "Your product will be displayed on the home page1","Your product will be displayed on the home page3"))
-        list.add(itemDetailmodel("Platinum Package","180 Rial","Your product will be displayed on the home page", "Your product will be displayed on the home page1","Your product will be displayed on the home page3"))
-        list.add(itemDetailmodel("Siver Package","190 Rial","Your product will be displayed on the home page", "Your product will be displayed on the home page1","Your product will be displayed on the home page3"))
-
 
         setCategoryAdaptor(list)
     }
@@ -53,8 +48,6 @@ class add_item_details2 : AppCompatActivity() {
                         pkg_name.text=packagename
                         pkg_price.text=packageprice
                         pkg_service1.text=packageservice1
-                        pkg_service2.text=packageservice2
-                        pkg_service3.text=packageservice3
                     }
                 }
             }

@@ -7,11 +7,11 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/itemLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/edittext_bg"
         android:gravity="center_vertical"
-
         android:orientation="horizontal">
 
         <ImageView
@@ -49,8 +49,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
-                android:layout_alignParentLeft="true"
-                android:layout_toLeftOf="@+id/iv_end_icon">
+                android:layout_alignParentStart="true"
+                android:layout_toStartOf="@+id/right_session">
+
+                <EditText
+                    android:id="@+id/edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:background="@null"
+                    android:fontFamily="@font/madani_arabic_medium"
+                    android:hint="@string/enter_the_name_of_the_product_you_want_to_sell"
+                    android:maxLines="1"
+                    android:padding="@dimen/_10sdp"
+                    android:textSize="@dimen/_10sdp"
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/textView"
@@ -58,16 +71,16 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:fontFamily="@font/madani_arabic_medium"
-                    android:text="ERROR"
                     android:padding="@dimen/_10sdp"
+                    android:text="ERROR"
 
                     android:textColor="@color/text_color"
                     android:visibility="gone" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tvl_field"
-
                     android:layout_width="match_parent"
+
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:hint="@string/type_your_email_here"
@@ -80,22 +93,39 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textPersonName"
+                        android:maxLines="1"
                         android:paddingTop="@dimen/_5sdp"
                         android:textAlignment="viewStart"
                         android:textSize="@dimen/_12sdp" />
                 </com.google.android.material.textfield.TextInputLayout>
             </FrameLayout>
 
-
-            <ImageView
-                android:id="@+id/iv_end_icon"
-                android:layout_width="@dimen/_14sdp"
-                android:layout_height="@dimen/_14sdp"
+            <FrameLayout
+                android:id="@+id/right_session"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_centerInParent="true"
-                android:layout_marginLeft="@dimen/_10sdp"
-                android:layout_marginRight="@dimen/_10sdp"
-                android:src="@drawable/ic_map_content" />
+                android:layout_centerInParent="true">
+
+                <TextView
+                    android:id="@+id/end_text_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:fontFamily="@font/madani_arabic_medium"
+                    android:padding="@dimen/_10sdp"
+                    android:text="ERROR"
+                    android:textColor="@color/text_color" />
+
+                <ImageView
+                    android:id="@+id/iv_end_icon"
+                    android:layout_width="@dimen/_14sdp"
+                    android:layout_height="@dimen/_14sdp"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:src="@drawable/ic_map_content" />
+            </FrameLayout>
+
 
         </RelativeLayout>
 

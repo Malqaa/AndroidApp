@@ -6,17 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".botmnav_fragments.create_ads.ListingDetailsFragment">
 
-    <androidx.appcompat.widget.Toolbar
+
+
+    <include
         android:id="@+id/toolbar_listing_fee"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        layout="@layout/toolbar_main"
         android:layout_alignParentTop="true"
-        android:background="#339933"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:popupTheme="@style/PopupOverlay" />
-
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -328,9 +328,14 @@
     <Button
         android:id="@+id/btn_finish"
         android:layout_width="match_parent"
-        android:layout_height="64dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/GoldenApp"
+        android:background="@drawable/round_btn"
+        android:fontFamily="@font/madani_arabic_semi_bold"
+        android:layout_marginStart="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_marginEnd="@dimen/_15sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
         android:text="@string/Finish"
         android:textAllCaps="false"
         android:textColor="#ffffff"

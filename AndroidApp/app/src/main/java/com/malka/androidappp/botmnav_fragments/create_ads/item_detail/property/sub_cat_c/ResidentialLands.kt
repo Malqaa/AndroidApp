@@ -2,20 +2,16 @@ package com.malka.androidappp.botmnav_fragments.create_ads.item_detail.property.
 
 import android.graphics.Color
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.malka.androidappp.R
 import com.malka.androidappp.botmnav_fragments.create_ads.StaticClassAdCreate
-import kotlinx.android.synthetic.main.fragment_bus_sub_cat.*
-import kotlinx.android.synthetic.main.fragment_bus_sub_cat.toolbar_busitemdetail
 import kotlinx.android.synthetic.main.fragment_residential__lands.*
-import kotlinx.android.synthetic.main.fragment_residential__lands.toolbar_propertyitemdetail
-import kotlinx.android.synthetic.main.fragment_residential_holiday_house.*
 
 
 class ResidentialLands : Fragment() {

@@ -603,8 +603,9 @@ class HomeFragment : Fragment(), PostsAdapter.OnPostItemClickListener,
 
                         val resp: AllCategoriesResponseBack = response.body()!!
                         allCategoryList = resp.data
-
                         if (allCategoryList.count() > 0) {
+                            ConstantObjects.categoryList=allCategoryList
+
                             all_categories_recycler.layoutManager =
                                 LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
                             all_categories_recycler.adapter =
@@ -615,7 +616,6 @@ class HomeFragment : Fragment(), PostsAdapter.OnPostItemClickListener,
                                 )
 
                             getAllAdsData()
-
 
 
                         } else {
@@ -691,7 +691,7 @@ class HomeFragment : Fragment(), PostsAdapter.OnPostItemClickListener,
                                 )
                             )
 
-                            val genadpt = ParentCategoryAdaptor(list,this@HomeFragment)
+                            val genadpt = ParentCategoryAdaptor(list, this@HomeFragment)
 
 
                             dynamic_product_rcv.adapter = genadpt
@@ -724,6 +724,7 @@ class HomeFragment : Fragment(), PostsAdapter.OnPostItemClickListener,
         })
 
     }
+
     override fun OnItemClick(position: Int) {
         super.OnItemClick(position)
 

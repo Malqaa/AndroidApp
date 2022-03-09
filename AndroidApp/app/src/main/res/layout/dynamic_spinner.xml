@@ -1,28 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card_dynamic_spinner"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="20dp"
-    android:layout_marginStart="20dp"
-    android:layout_marginEnd="20dp"
-    app:cardCornerRadius="8dp">
+
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/lbl_dynamic_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Title"
-        android:gravity="center"
-        android:textColor="@color/GreenApp"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        android:layout_marginTop="@dimen/_10sdp"
 
-    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/cairo_semibold"
+        android:text="@string/welcome_back"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_16sdp" />
+
+    <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
         android:id="@+id/spinner_dynamic"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:layout_marginStart="5dp"
-        android:drawSelectorOnTop="true" />
-</androidx.cardview.widget.CardView>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        app:endIcon="@drawable/right_arrow"
+        app:viewType="text" />
+
+
+</LinearLayout>

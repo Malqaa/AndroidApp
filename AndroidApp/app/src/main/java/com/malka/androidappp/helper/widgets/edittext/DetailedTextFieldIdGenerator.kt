@@ -10,6 +10,8 @@ class DetailedTextFieldIdGenerator {
     var viewlllllIdstatic = 10313
     var viewllllllIdstatic = 12313
     var startIconStatic = 14313
+    var startIconStatic2 = 14314
+    var startIconStatic3 = 14315
     var infoIconStatic = 16319
     var views = hashMapOf<Int, Int>()
     var viewsl = hashMapOf<Int, Int>()
@@ -20,6 +22,8 @@ class DetailedTextFieldIdGenerator {
     var viewsllllll = hashMapOf<Int, Int>()
     var infoIconView = hashMapOf<Int, Int>()
     var startIconView = hashMapOf<Int, Int>()
+    var startIconView2 = hashMapOf<Int, Int>()
+    var startIconView3 = hashMapOf<Int, Int>()
     companion object {
         var viwId = DetailedTextFieldIdGenerator()
     }
@@ -121,5 +125,28 @@ class DetailedTextFieldIdGenerator {
         startIconStatic++
         startIconView[parentId] = startIconStatic
         return startIconStatic
+    }
+
+
+    fun getStartIconIDD(parentId: Int): Int {
+
+        startIconView2[parentId]?.let {
+            return it
+        }
+
+        startIconStatic2++
+        startIconView2[parentId] = startIconStatic2
+        return startIconStatic2
+    }
+
+    fun getStartIconIDDD(parentId: Int): Int {
+
+        startIconView3[parentId]?.let {
+            return it
+        }
+
+        startIconStatic3++
+        startIconView3[parentId] = startIconStatic3
+        return startIconStatic3
     }
 }

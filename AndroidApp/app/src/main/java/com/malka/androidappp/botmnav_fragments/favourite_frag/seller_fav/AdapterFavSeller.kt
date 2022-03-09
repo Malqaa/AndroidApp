@@ -8,17 +8,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
-import com.malka.androidappp.botmnav_fragments.favourite_frag.category_fav.ModelFavCat
-import com.malka.androidappp.botmnav_fragments.nofication_fragments.NotificationsFragment
 import com.malka.androidappp.helper.HelpFunctions
-import com.malka.androidappp.recycler_notic.NotifAdapter
-import com.malka.androidappp.recycler_notic.NotificModel
-import com.malka.androidappp.recycler_watchlist.WatchlistModel
 import com.malka.androidappp.servicemodels.ConstantObjects
-import kotlinx.android.synthetic.main.favcard_searches_categories.view.*
 import kotlinx.android.synthetic.main.favcard_seller.view.*
-import kotlinx.android.synthetic.main.favcard_seller.view.textView10
-import kotlinx.android.synthetic.main.favcard_seller.view.textView13
 
 
 class AdapterFavSeller(

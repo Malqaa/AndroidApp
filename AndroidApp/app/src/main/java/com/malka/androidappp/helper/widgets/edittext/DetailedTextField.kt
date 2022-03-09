@@ -1,20 +1,18 @@
 package com.malka.androidappp.helper.widgets.edittext
 
+import android.app.Activity
 import android.content.Context
+import android.content.res.ColorStateList
 import android.content.res.TypedArray
 import android.text.Editable
 import android.text.InputFilter
 import android.text.InputFilter.LengthFilter
-import android.text.Selection
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import com.google.android.material.textfield.TextInputEditText
@@ -23,8 +21,9 @@ import com.hbb20.CountryCodePicker
 import com.malka.androidappp.R
 import com.malka.androidappp.helper.hide
 import com.malka.androidappp.helper.show
-import tech.hibk.searchablespinnerlibrary.SearchableDialog
-import tech.hibk.searchablespinnerlibrary.SearchableItem
+import com.malka.androidappp.helper.widgets.searchdialog.OnSearchItemSelected
+import com.malka.androidappp.helper.widgets.searchdialog.SearchListItem
+import com.malka.androidappp.helper.widgets.searchdialog.SearchableDialog
 
 class DetailedTextField : LinearLayout {
 
@@ -34,12 +33,14 @@ class DetailedTextField : LinearLayout {
         }
     private lateinit var etl_Field: TextInputLayout
     private lateinit var textView: TextView
-    private lateinit var iv_info_icon: ImageView
+    private lateinit var edittext: EditText
     private lateinit var iv_start_icon: ImageView
     private lateinit var iv_end_icon: ImageView
     private lateinit var line: View
     private lateinit var cppfield: CountryCodePicker
     private lateinit var et_Field: TextInputEditText
+    private lateinit var itemLayout: LinearLayout
+    private lateinit var end_text_tv: TextView
 
 
     private var enableTopLine = true
@@ -47,14 +48,16 @@ class DetailedTextField : LinearLayout {
 
 
     private var enablePasswordToggle = false
-    private var startIcon =0
-    private var endIcon =0
+    private var startIcon = 0
+    private var endIcon = 0
 
     private var isLastField = false
     var textHint: CharSequence? = null
     private var inputType = EditorInfo.TYPE_CLASS_TEXT
     private var maxLength: Int? = null
     private var textText: CharSequence? = null
+    private var endText: CharSequence? = null
+    private var backgroundTint: Int = 0
     private var viewType = 0
 
 
@@ -129,6 +132,18 @@ class DetailedTextField : LinearLayout {
         textView = findViewById(R.id.textView)
         textView.id = DetailedTextFieldIdGenerator.viwId.getInfoIconID(id)
 
+
+        edittext = findViewById(R.id.edittext)
+        edittext.id = DetailedTextFieldIdGenerator.viwId.getStartIconID(id)
+
+
+        itemLayout = findViewById(R.id.itemLayout)
+        itemLayout.id = DetailedTextFieldIdGenerator.viwId.getStartIconIDD(id)
+
+
+        end_text_tv = findViewById(R.id.end_text_tv)
+        end_text_tv.id = DetailedTextFieldIdGenerator.viwId.getStartIconIDDD(id)
+
         tv_Error.hide()
 
 
@@ -141,11 +156,15 @@ class DetailedTextField : LinearLayout {
         _setHint(textHint, true)
         _setInputType(inputType)
         _setMaxLength(maxLength)
+        _setEndText(endText)
         text = textText
         _setPasswordToggle(enablePasswordToggle)
 
         addFocusImplementations { view, b ->
 //            rv_Description.visibility = if (b && enableDescription) View.VISIBLE else View.GONE
+        }
+        if (backgroundTint != 0) {
+            itemLayout.backgroundTintList = ColorStateList.valueOf(backgroundTint)
         }
 
         setupOnFocusChangeListener()
@@ -157,14 +176,13 @@ class DetailedTextField : LinearLayout {
     var error: String?
         get() = tv_Error.text.toString()
         set(value) {
-            if(value==null){
+            if (value == null) {
                 tv_Error.hide()
-            }else{
+            } else {
                 tv_Error.show()
             }
             tv_Error.text = value
         }
-
 
 
     public fun hideError() {
@@ -172,19 +190,23 @@ class DetailedTextField : LinearLayout {
     }
 
 
-
     public fun _setPasswordToggle(enabled: Boolean) {
         enablePasswordToggle = enabled
         if (enabled) {
             etl_Field.setEndIconMode(TextInputLayout.END_ICON_PASSWORD_TOGGLE)
-            etl_Field.setPasswordVisibilityToggleTintList(AppCompatResources.getColorStateList(context, R.color.line));
+            etl_Field.setPasswordVisibilityToggleTintList(
+                AppCompatResources.getColorStateList(
+                    context,
+                    R.color.line
+                )
+            );
 
         }
 
     }
 
     public fun _setStartIcon(drawable: Int) {
-        if(drawable!=0){
+        if (drawable != 0) {
             iv_start_icon.show()
             line.show()
 
@@ -192,7 +214,7 @@ class DetailedTextField : LinearLayout {
 
             iv_start_icon.setImageDrawable(ContextCompat.getDrawable(context, drawable))
 
-        }else{
+        } else {
             iv_start_icon.hide()
             line.hide()
         }
@@ -200,14 +222,14 @@ class DetailedTextField : LinearLayout {
     }
 
     public fun _setEndIcon(drawable: Int) {
-        if(drawable!=0){
+        if (drawable != 0) {
             iv_end_icon.show()
 
             endIcon = drawable
 
             iv_end_icon.setImageDrawable(ContextCompat.getDrawable(context, drawable))
 
-        }else{
+        } else {
             iv_end_icon.hide()
         }
 
@@ -222,6 +244,15 @@ class DetailedTextField : LinearLayout {
         }
     }
 
+    public fun _setEndText(endText: CharSequence?) {
+        if (endText != null) {
+            end_text_tv.text = endText
+            iv_end_icon.hide()
+        } else {
+            end_text_tv.hide()
+        }
+    }
+
     public fun _setHint(textHint: CharSequence?, initialisation: Boolean = false) {
         this.textHint = textHint
 
@@ -229,6 +260,8 @@ class DetailedTextField : LinearLayout {
             etl_Field.hint = textHint
         else
             et_Field.hint = textHint
+
+        edittext.hint = textHint
 
         if (!initialisation)
             checkHint()
@@ -253,13 +286,16 @@ class DetailedTextField : LinearLayout {
         et_Field.inputType = inputType
         // 8194 fixed ID for Decimal Input Type
         if (et_Field.inputType == 8194) {
-         //   filterArray.add(DecimalDigitsInputFilter(3))
+            //   filterArray.add(DecimalDigitsInputFilter(3))
         }
     }
 
     public fun _setLastField(isLastField: Boolean) {
         this.isLastField = isLastField
-        et_Field.imeOptions = if (isLastField) EditorInfo.IME_ACTION_DONE else EditorInfo.IME_ACTION_NEXT
+        et_Field.imeOptions =
+            if (isLastField) EditorInfo.IME_ACTION_DONE else EditorInfo.IME_ACTION_NEXT
+        edittext.imeOptions =
+            if (isLastField) EditorInfo.IME_ACTION_DONE else EditorInfo.IME_ACTION_NEXT
     }
 
     fun checkHint() {
@@ -302,8 +338,8 @@ class DetailedTextField : LinearLayout {
     }
 
 
-    public fun _attachInfoClickListener(listener: OnClickListener?) {
-        iv_info_icon.setOnClickListener(listener)
+    public fun _attachInfoClickListener(listener: OnClickListener) {
+        iv_end_icon.setOnClickListener(listener)
     }
 
     public fun view_parentInputLayout(): TextInputLayout {
@@ -311,20 +347,32 @@ class DetailedTextField : LinearLayout {
     }
 
     public fun _setOnClickListener(listener: OnClickListener) {
-        et_Field.setOnClickListener(listener)
+        itemLayout.setOnClickListener(listener)
     }
 
-    public fun showSpinner(items: List<SearchableItem>,title:String,selection: (SearchableItem) -> Unit) {
 
-        SearchableDialog(context,
-            items,
-            title,
-            {item, _ ->
-                selection.invoke(item)
-            },
-            cancelButtonColor = ContextCompat.getColor(context, R.color.bg),
-            onlyLightTheme = true).show()
+    public fun showSpinner(
+        activity: Activity,
+        items: List<SearchListItem>,
+        title: String,
+        selection: (SearchListItem) -> Unit
+    ) {
+        try {
+            val searchableDialog = SearchableDialog(activity, items, title)
+
+            searchableDialog.setOnItemSelected(object : OnSearchItemSelected {
+                override fun onClick(position: Int, searchListItem: SearchListItem?) {
+                    selection.invoke(searchListItem!!)
+                }
+            })
+            searchableDialog.show();
+        } catch (error: Exception) {
+            print(error)
+        }
+
+
     }
+
     public fun _setOnLongClickListener(listener: OnLongClickListener) {
         et_Field.setOnLongClickListener(listener)
     }
@@ -360,7 +408,7 @@ class DetailedTextField : LinearLayout {
             textView.setText(value)
         }
 
-    fun selectedCountryCode():String{
+    fun selectedCountryCode(): String {
         return cppfield.selectedCountryCode
     }
 
@@ -394,10 +442,19 @@ class DetailedTextField : LinearLayout {
 
 
     public fun getText(): String {
-        return et_Field.text.toString()
+        if (viewType == 4) {
+            return edittext.text.toString()
+        } else {
+            return et_Field.text.toString()
+        }
     }
-    public fun setText(text:String?) {
-        et_Field.setText(text?:"")
+
+    public fun setText(text: String?) {
+        if (viewType == 4) {
+            edittext.setText(text ?: "")
+        } else {
+            et_Field.setText(text ?: "")
+        }
     }
 /*    public fun showError(text: String) {
         tv_Error.text = text
@@ -418,12 +475,16 @@ class DetailedTextField : LinearLayout {
         a.run {
 //            textDescription = DetailedTextDescription(DetailedTextDescriptionType.Normal, getString(R.styleable.DetailedTextField_textDescription) ?: "Lorem Ipsum")
 //            enableDescription = getBoolean(R.styleable.DetailedTextField_enableDescription, false)
-            enablePasswordToggle = getBoolean(R.styleable.DetailedTextField_enablePasswordToggle, false)
+            enablePasswordToggle =
+                getBoolean(R.styleable.DetailedTextField_enablePasswordToggle, false)
             textHint = getText(R.styleable.DetailedTextField_android_hint)
-            inputType = getInt(R.styleable.DetailedTextField_android_inputType, EditorInfo.TYPE_CLASS_TEXT)
+            inputType =
+                getInt(R.styleable.DetailedTextField_android_inputType, EditorInfo.TYPE_CLASS_TEXT)
             maxLength = getInt(R.styleable.DetailedTextField_android_maxLength, -1)
             textText = getText(R.styleable.DetailedTextField_android_text)
+            backgroundTint = getColor(R.styleable.DetailedTextField_android_backgroundTint, 0)
             viewType = getInt(R.styleable.DetailedTextField_viewType, 0)
+            endText = getString(R.styleable.DetailedTextField_endText)
 
             startIcon = getResourceId(R.styleable.DetailedTextField_startIcon, 0)
             endIcon = getResourceId(R.styleable.DetailedTextField_endIcon, 0)
@@ -437,6 +498,7 @@ class DetailedTextField : LinearLayout {
 //        a.recycle()
         return a
     }
+
     public fun _setViewType(viewType: Int, initialisation: Boolean = false) {
 
         if (this.viewType == viewType) {
@@ -464,10 +526,19 @@ class DetailedTextField : LinearLayout {
                 et_Field.isFocusable = true
                 et_Field.isFocusableInTouchMode = true
                 et_Field.isClickable = false
+                edittext.hide()
+
             }
             3 -> {
                 etl_Field.hide()
                 textView.show()
+                edittext.hide()
+
+            }
+            4 -> {
+                etl_Field.hide()
+                textView.hide()
+                edittext.show()
             }
             else -> {
 

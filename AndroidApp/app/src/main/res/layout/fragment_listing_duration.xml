@@ -5,20 +5,14 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".botmnav_fragments.create_ads.ListingDuration">
+    tools:context=".botmnav_fragments.create_ads.new_flow.ListingDuration">
 
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_listduration"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="#339933"
+    <include
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:popupTheme="@style/PopupOverlay">
-
-    </androidx.appcompat.widget.Toolbar>
+        android:id="@+id/toolbar_listduration"
+        layout="@layout/toolbar_main" />
 
 
 
@@ -34,14 +28,14 @@
 
 
     <RelativeLayout
+        android:visibility="gone"
         android:id="@+id/textInputlist_duration"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="10dp"
-        android:visibility="gone"
-        android:background="@drawable/buttonradius"
+        android:background="@drawable/edittext_bg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/radiobtn1"
@@ -53,14 +47,19 @@
             android:layout_height="55dp" />
     </RelativeLayout>
 
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputlist_duration1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         android:layout_marginStart="10dp"
         android:layout_marginTop="15dp"
+        android:visibility="gone"
+
         android:layout_marginEnd="10dp"
+        android:background="@drawable/edittext_bg"
+        app:boxBackgroundMode="none"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputlist_duration"
@@ -96,8 +95,11 @@
         android:layout_marginTop="15dp"
         android:layout_marginEnd="10dp"
         android:visibility="gone"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/edittext_bg"
+        app:boxBackgroundMode="none"
         app:layout_constraintTop_toBottomOf="@+id/radiobtn2"
         >
 
@@ -115,9 +117,12 @@
         android:id="@+id/textInputlist_duration4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         android:layout_marginStart="10dp"
+        android:visibility="gone"
+
         android:layout_marginTop="15dp"
+        android:background="@drawable/edittext_bg"
+        app:boxBackgroundMode="none"
         android:layout_marginEnd="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -147,14 +152,20 @@
     <Button
         android:id="@+id/btn_listduration"
         android:layout_width="match_parent"
-        android:layout_height="64dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/round_btn"
+        android:fontFamily="@font/madani_arabic_semi_bold"
+        android:text="@string/NEXT"
         android:textAllCaps="false"
+        android:layout_marginStart="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_marginEnd="@dimen/_15sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
         android:textColor="#ffffff"
         android:textSize="22sp"
-        android:background="@color/GoldenApp"
-        android:text="@string/NEXT"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

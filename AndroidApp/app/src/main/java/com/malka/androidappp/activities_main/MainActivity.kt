@@ -11,6 +11,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.login.SignInActivity
+import com.malka.androidappp.botmnav_fragments.create_ads.new_flow.ListanItem
 import com.malka.androidappp.helper.HelpFunctions
 import kotlinx.android.synthetic.main.activity_bottmmm.*
 
@@ -36,8 +37,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_home,
                 R.id.navigation_notifications,
                 R.id.navigation_account,
-                R.id.navigation_watchlist,
-                R.id.list_an_item
+                R.id.navigation_watchlist
             )
         )
         navView.setupWithNavController(navController)
@@ -74,13 +74,13 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 R.id.navigation_home -> {
-                    findNavController(R.id.nav_host_fragment).navigate(R.id.pricepayment_frag)
+                  //  findNavController(R.id.nav_host_fragment).navigate(R.id.ho,)
                     //Zack
                     //Date: 04/08/2021
 //                    val args = Bundle()
-//                    val FileName : String = "Car-en-US.js";
+//                    val FileName : String = "Bed-en-US.js";
 //                    val Title : String = "Title Here";
-//                    args.putString("FileName", FileName);
+//                    args.putString("file_name", FileName);
 //                    args.putString("Title", Title);
 //                    findNavController(R.id.nav_host_fragment).navigate(R.id.fragment_dynamic_template, args)
                 }
@@ -91,7 +91,7 @@ class MainActivity : AppCompatActivity() {
         floatingActionButtonBottm.setOnClickListener() {
 
             if (HelpFunctions.IsUserLoggedIn()) {
-                findNavController(R.id.nav_host_fragment).navigate(R.id.list_an_item)
+                startActivity(Intent(this, ListanItem::class.java))
             } else {
                 val intentt = Intent(this, SignInActivity::class.java)
                 startActivity(intentt)

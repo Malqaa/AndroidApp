@@ -1,35 +1,24 @@
 package com.malka.androidappp.botmnav_fragments.create_ads
 
-import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.appcompat.widget.Toolbar
-import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.hbb20.CountryCodePicker
 import com.malka.androidappp.R
-import com.malka.androidappp.servicemodels.ConstantObjects
-import kotlinx.android.synthetic.main.fragment_confirmation.view.*
 import kotlinx.android.synthetic.main.fragment_list_details.*
-import kotlinx.android.synthetic.main.fragment_listing_duration.*
-import org.w3c.dom.Text
 
 
 class ListingDetailsFragment : Fragment() {
 
     lateinit var itemTitle: TextInputEditText
     lateinit var quantityTextField: TextInputLayout
-    lateinit var category : TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,7 +44,6 @@ class ListingDetailsFragment : Fragment() {
         itemTitle = requireActivity().findViewById(R.id.title)
         itemTitle.setText(StaticClassAdCreate.producttitle)
 
-        category = requireActivity().findViewById(R.id.textView49)
 
         quantityTextField = requireActivity().findViewById(R.id.othernameee)
 
@@ -209,11 +197,11 @@ class ListingDetailsFragment : Fragment() {
 //    }
 
     fun confirmBrandNewitem() {
-        if (brandcheckbox.isChecked) {
-            StaticClassAdCreate.brand_new_item = "on"
-        } else {
-            StaticClassAdCreate.brand_new_item = "Off"
-        }
+//        if (brandcheckbox.isChecked) {
+//            StaticClassAdCreate.brand_new_item = "on"
+//        } else {
+//            StaticClassAdCreate.brand_new_item = "Off"
+//        }
     }
 
 
@@ -246,9 +234,9 @@ class ListingDetailsFragment : Fragment() {
             //val phonenum:String = dropdown.getItemAtPosition(dropdown.selectedItemPosition).toString()
 
             ///////Binding Phone Num (dropdoenspinner and edittext)////////////
-            val phonenum: String =
-                dropdown.selectedItem.toString() + phonetext.text.toString()
-            StaticClassAdCreate.phone = phonenum
+//            val phonenum: String =
+//                dropdown.selectedItem.toString() + phonetext.text.toString()
+//            StaticClassAdCreate.phone = phonenum
 
             //////////////////To get Checkbox value and save it on static class////////////////
 //            val brandcheckbox: Boolean = brandcheckbox.isChecked

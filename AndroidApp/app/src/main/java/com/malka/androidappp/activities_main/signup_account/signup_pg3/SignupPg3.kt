@@ -13,13 +13,13 @@ import androidx.core.view.isEmpty
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.login.SignInActivity
 import com.malka.androidappp.helper.HelpFunctions
+import com.malka.androidappp.helper.widgets.searchdialog.SearchListItem
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
 import kotlinx.android.synthetic.main.activity_signup_pg4.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import tech.hibk.searchablespinnerlibrary.SearchableItem
 import java.util.*
 
 class SignupPg3 : AppCompatActivity() {
@@ -51,21 +51,21 @@ class SignupPg3 : AppCompatActivity() {
 
         select_region._setOnClickListener {
             val items = List(3) { i ->
-                SearchableItem(1, "Dubai")
-                SearchableItem(2, "Abu Dhabi")
-                SearchableItem(3, "Sharjah")
+                SearchListItem(1, "Dubai")
+                SearchListItem(2, "Abu Dhabi")
+                SearchListItem(3, "Sharjah")
             }
-            select_region.showSpinner(items, "Select Region") {
+            select_region.showSpinner(this,items, "Select Region") {
                 select_region.text = it.title
             }
 
         }
         select_city._setOnClickListener {
             val items = List(3) { i ->
-                SearchableItem(1, "Al Bahah")
-                SearchableItem(2, "Al Aqiq")
+                SearchListItem(1, "Al Bahah")
+                SearchListItem(2, "Al Aqiq")
             }
-            select_region.showSpinner(items, "Select District") {
+            select_region.showSpinner(this,items, "Select District") {
                 select_city.text = it.title
             }
 
