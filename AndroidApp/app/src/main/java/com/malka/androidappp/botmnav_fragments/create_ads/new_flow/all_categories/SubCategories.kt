@@ -76,7 +76,6 @@ class SubCategories :  BaseActivity() , AdapterSubCategories.OnItemClickListener
                                 allCategoriesRecyclerView.adapter =
                                     AdapterSubCategories(
                                         allCategoryList,
-                                        SubCategories(),
                                         this@SubCategories
                                     )
 
@@ -110,7 +109,7 @@ class SubCategories :  BaseActivity() , AdapterSubCategories.OnItemClickListener
 
             StaticClassAdCreate.subCategoryPath.add(allCategoryList[position].categoryName.toString())
 
-            var templateName =
+            val templateName =
                 truncateString(allCategoryList[position].template.toString())
             StaticClassAdCreate.template = templateName
             startActivity(Intent(this, AddPhoto::class.java).apply {

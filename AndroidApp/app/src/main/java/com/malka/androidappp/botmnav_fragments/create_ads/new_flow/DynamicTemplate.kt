@@ -11,14 +11,16 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.BaseActivity
+import com.malka.androidappp.botmnav_fragments.create_ads.StaticClassAdCreate
+import com.malka.androidappp.botmnav_fragments.create_ads.new_flow.all_categories.SubCategories
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+import com.malka.androidappp.helper.widgets.searchdialog.SearchListItem
 import com.malka.androidappp.servicemodels.ConstantObjects
 import kotlinx.android.synthetic.main.fragment_dynamic_template.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 import org.json.JSONArray
 import org.json.JSONObject
-import tech.hibk.searchablespinnerlibrary.SearchableItem
 
 class DynamicTemplate : BaseActivity() {
 
@@ -49,8 +51,23 @@ class DynamicTemplate : BaseActivity() {
         file_name = intent?.getStringExtra("file_name").toString()
         Title = intent?.getStringExtra("Title").toString()
         CreateControlsFromJson()
-    }
 
+        var name = ""
+        StaticClassAdCreate.subCategoryPath.forEach {
+            name = name + it + " - "
+        }
+        if (name.length > 2) {
+            name = name.dropLast(3)
+        }
+
+        cetgory_name.text = name
+        sub_catgeory.setOnClickListener {
+//            startActivity(Intent(this, SubCategories::class.java).apply {
+//                putExtra("categoryid", allCategoryList[position].categoryKey.toString())
+//                putExtra("categoryName", allCategoryList[position].categoryName.toString())
+//            })
+        }
+    }
 
 
     fun CreateControlsFromJson() {
@@ -96,7 +113,8 @@ class DynamicTemplate : BaseActivity() {
                             json_key_placeholder
                         ) else ""
 
-                    val txt_dynamic_text_field: EditText = _view.findViewById(R.id.txt_dynamic_text_field)
+                    val txt_dynamic_text_field: EditText =
+                        _view.findViewById(R.id.txt_dynamic_text_field)
 
                     txt_dynamic_text_field.tag =
                         if (IndControl.has(json_key_id)) IndControl.getString(json_key_id) else ""
@@ -117,11 +135,11 @@ class DynamicTemplate : BaseActivity() {
                         spin_dynamic.tag =
                             if (IndControl.has(json_key_id)) IndControl.getString(json_key_id) else ""
                         spin_dynamic._setOnClickListener {
-                            val items :ArrayList<SearchableItem> = ArrayList()
-                            spinner_values.forEachIndexed{index,item->
-                                items.add( SearchableItem(index.toLong(), item))
+                            val items: ArrayList<SearchListItem> = ArrayList()
+                            spinner_values.forEachIndexed { index, item ->
+                                items.add(SearchListItem(index, item))
                             }
-                            spin_dynamic.showSpinner(items, "Select ${lbl_dynamic.text}") {
+                            spin_dynamic.showSpinner(this,items, "Select ${lbl_dynamic.text}") {
                                 spin_dynamic.text = it.title
                             }
 
@@ -167,7 +185,6 @@ class DynamicTemplate : BaseActivity() {
             HelpFunctions.ReportError(ex);
         }
     }
-
 
 
 }

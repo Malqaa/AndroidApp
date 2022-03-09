@@ -8,11 +8,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
 import com.malka.androidappp.botmnav_fragments.home.model.AllCategoriesModel
+import com.malka.androidappp.helper.hide
+import com.malka.androidappp.helper.show
 import kotlinx.android.synthetic.main.all_categories_card.view.*
 
 class AdapterSubCategories(
     private val allSubCategories: List<AllCategoriesModel>,
-    var context: SubCategories,
     val listener: OnItemClickListener
 ) : RecyclerView.Adapter<AdapterSubCategories.AdapterSubCategoriesViewHolder>() {
 
@@ -20,6 +21,7 @@ class AdapterSubCategories(
         View.OnClickListener {
         val categoryName: TextView = itemview.categoryName
         val categoryIcon: ImageView = itemview.arrowimgmobile
+        val not_category_iv: ImageView = itemview.not_category_iv
 
         init {
             itemview.setOnClickListener(this)
@@ -51,10 +53,12 @@ class AdapterSubCategories(
 
         holder.categoryName.text = allSubCategories[position].categoryName
 
-        if (!allSubCategories[position].isCategory) {
-            holder.categoryIcon.setImageResource(R.drawable.ic_block)
+        if (allSubCategories[position].isCategory) {
+            holder.categoryIcon.show()
+            holder.not_category_iv.hide()
         } else {
-            holder.categoryIcon.setImageResource(R.drawable.arrow_right_black_24dp)
+            holder.categoryIcon.hide()
+            holder.not_category_iv.show()
         }
     }
 

@@ -1045,7 +1045,9 @@ class HelpFunctions {
         }
 
         fun dismissProgressBar() {
-            isdialog.dismiss()
+            if(isdialog!=null){
+                isdialog.dismiss()
+            }
         }
     }
 }

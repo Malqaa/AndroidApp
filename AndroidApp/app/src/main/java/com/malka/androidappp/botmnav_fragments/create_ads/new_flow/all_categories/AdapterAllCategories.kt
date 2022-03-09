@@ -15,7 +15,6 @@ import kotlinx.android.synthetic.main.all_categories_cardview.view.*
 
 class AdapterAllCategories(
     private val allCategories: List<AllCategoriesModel>,
-    var context: ChooseCateFragment,
     var onItemClick: (position:Int) -> Unit
 ) : RecyclerView.Adapter<AdapterAllCategories.AdapterAllCategoriesViewHolder>() {
 

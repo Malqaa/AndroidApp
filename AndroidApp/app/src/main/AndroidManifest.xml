@@ -134,7 +134,11 @@
             android:name=".activities_main.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
         </activity>
         <activity
@@ -174,7 +178,9 @@
 
         <activity
             android:name=".botmnav_fragments.create_ads.new_flow.ListanItem"
-            android:theme="@style/NoActionBar" />
+            android:theme="@style/NoActionBar" >
+
+        </activity>
         <activity
             android:name=".botmnav_fragments.create_ads.new_flow.ChooseCategory"
             android:theme="@style/NoActionBar" />
@@ -198,11 +204,7 @@
         <activity
             android:name=".botmnav_fragments.create_ads.new_flow.PricingActivity"
             android:theme="@style/NoActionBar" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <activity
