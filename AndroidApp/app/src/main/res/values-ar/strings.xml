@@ -2578,10 +2578,7 @@
     <string name="auction_options">خيارات المزاد</string>
     <string name="your_order_is_now_being_delivered">طلبك قيد التوصيل الان !</string>
     <string name="order_number">رقم الطلب</string>
-    <string name="order_status">حالة الطلب</string>
     <string name="waiting_for_confirmation">بأنتظار التأكيد</string>
-    <string name="sar">ر.س</string>
-    <string name="shopping_basket">سلة التسوق</string>
     <string name="subtotal">الجمموع الفرعى</string>
     <string name="no_thank_you">لا، شكرا</string>
     <string name="your_favorite_merchant_added_a_product">أضاف التاجر المفضل لديك منتجًا</string>
@@ -2597,17 +2594,11 @@
     <string name="add_account">اضافة الحساب</string>
     <string name="Rayal">ريال</string>
     <string name="Please_choose_catgeory">الرجاء اختيار الفئة</string>
-  <string name="order_number">رقم الطلب</string>
-  <string name="order_status">حالة الطلب</string>
-  <string name="waiting_for_confirmation">بأنتظار التأكيد</string>
-  <string name="sar">ر.س</string>
-  <string name="shopping_basket">سلة التسوق</string>
-  <string name="subtotal">الجمموع الفرعى</string>
-  <string name="no_thank_you">لا، شكرا</string>
-  <string name="your_favorite_merchant_added_a_product">أضاف التاجر المفضل لديك منتجًا</string>
-  <string name="new_product_has_been_added">تمت إضافة منتج جديد</string>
+    <string name="order_status">حالة الطلب</string>
+    <string name="sar">ر.س</string>
+    <string name="shopping_basket">سلة التسوق</string>
     <string name="my_saved_addresses">عناوينى المحفوظة</string>
-  <string name="delivery_to_my_current_address">التوصيل الى عنوانى الحالى</string>
-  <string name="add_a_new_title">اضافة عنوان جديد</string>
+    <string name="delivery_to_my_current_address">التوصيل الى عنوانى الحالى</string>
+    <string name="add_a_new_title">اضافة عنوان جديد</string>
 
 </resources>

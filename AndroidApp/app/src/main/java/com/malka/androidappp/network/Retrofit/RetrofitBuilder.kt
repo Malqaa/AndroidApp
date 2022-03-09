@@ -85,6 +85,11 @@ class RetrofitBuilder {
                 .create(MalqaApiService::class.java)
         }
 
+        fun addBankAccountInstance(): MalqaApiService {
+            return GetRetrofitBuilder(ApiConstants.ADDBANK_BASEURL).build()
+                .create(MalqaApiService::class.java)
+        }
+
         fun verifyotpcodeInstance(): MalqaApiService {
             return GetRetrofitBuilder(ApiConstants.VERIFY_API_BASEURL).build()
                 .create(MalqaApiService::class.java)

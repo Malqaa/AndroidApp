@@ -34,12 +34,6 @@
             android:name=".design.add_address"
             android:exported="true"
             android:theme="@style/NoActionBar">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".design.cart"
@@ -82,6 +76,7 @@
             android:name=".design.add_product"
             android:exported="true"
             android:theme="@style/NoActionBar" />
+
         <activity
             android:name=".design.order_done"
             android:exported="false" />
@@ -96,7 +91,9 @@
         <activity
             android:name=".design.add_product4"
             android:exported="true"
-            android:theme="@style/NoActionBar" />
+            android:theme="@style/NoActionBar" >
+
+        </activity>
         <activity
             android:name=".design.selection_product"
             android:exported="false" />
@@ -204,6 +201,12 @@
         <activity
             android:name=".botmnav_fragments.create_ads.new_flow.PricingActivity"
             android:theme="@style/NoActionBar" >
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
         </activity>
 

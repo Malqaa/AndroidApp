@@ -2742,8 +2742,7 @@ Want to start a business account? Create a Business Account
     <string name="sar" translatable="false">SAR</string>
     <string name="Rayal">Rayal</string>
     <string name="shopping_basket">Shopping basket</string>
-    <string name="subtotal">Subtotal</string>
-    <string name="no_thank_you">No thank you</string>
+
     <string name="your_favorite_merchant_added_a_product">Your favorite merchant added a product</string>
     <string name="new_product_has_been_added">New product has been added</string>
     <string name="item_title">Item Title</string>
@@ -2759,11 +2758,9 @@ Want to start a business account? Create a Business Account
     <string name="Please_choose_catgeory">Please choose category</string>
     <string name="select_or_search">Select or Search</string>
     <string name="close">Close</string>
-    <string name="shopping_basket">Shopping basket</string>
     <string name="subtotal">Subtotal</string>
     <string name="no_thank_you">No thank you</string>
-    <string name="your_favorite_merchant_added_a_product">Your favorite merchant added a product</string>
-    <string name="new_product_has_been_added">New product has been added</string>
+
     <string name="my_saved_addresses">My saved addresses</string>
     <string name="delivery_to_my_current_address">Delivery to my current address</string>
     <string name="add_a_new_title">Add a new title</string>

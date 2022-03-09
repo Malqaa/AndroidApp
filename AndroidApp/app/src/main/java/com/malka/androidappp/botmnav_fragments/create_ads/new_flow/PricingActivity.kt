@@ -5,13 +5,28 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
+import android.widget.Filter
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.BaseActivity
 import com.malka.androidappp.botmnav_fragments.create_ads.StaticClassAdCreate
+import com.malka.androidappp.design.Models.get_add_bank_detail
 import com.malka.androidappp.helper.HelpFunctions
+import com.malka.androidappp.helper.hideLoader
+import com.malka.androidappp.helper.showLoader
+import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
+import com.malka.androidappp.network.Retrofit.RetrofitBuilder
+import com.malka.androidappp.network.service.MalqaApiService
+import com.malka.androidappp.network.service.addBankAccountResponseBack
+import kotlinx.android.synthetic.main.activity_add_address.*
+import kotlinx.android.synthetic.main.activity_add_address.loader
+import kotlinx.android.synthetic.main.activity_add_address_main.*
+import kotlinx.android.synthetic.main.activity_add_product2.*
 import kotlinx.android.synthetic.main.add_account_layout.*
+import kotlinx.android.synthetic.main.add_bank_layout.view.*
+import kotlinx.android.synthetic.main.all_categories_cardview.view.*
 import kotlinx.android.synthetic.main.fragment_pricing_payment.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 
@@ -21,6 +36,9 @@ class PricingActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_pricing_payment)
+
+
+        getBankAccount()
 
 
         toolbar_title.text = getString(R.string.sale_details)
@@ -43,7 +61,8 @@ class PricingActivity : BaseActivity() {
         val bottomSheetDialog = BottomSheetDialog(this)
         bottomSheetDialog.setContentView(R.layout.add_account_layout)
         bottomSheetDialog.add_account_btn.setOnClickListener {
-            bottomSheetDialog.dismiss()
+//            bottomSheetDialog.dismiss()
+            addBankAccount(bottomSheetDialog)
         }
         bottomSheetDialog.getWindow()!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         bottomSheetDialog.show()
@@ -92,7 +111,7 @@ class PricingActivity : BaseActivity() {
     }
 
     private fun validateradiobutton(): Boolean {
-        return if (swicth_visa_mastercard.isChecked or bank.isChecked) {
+        return if (swicth_visa_mastercard.isChecked) {
             true
         } else {
             showError(getString(R.string.Selectanyonepaymentmethod))
@@ -116,9 +135,7 @@ class PricingActivity : BaseActivity() {
                     if (swicth_visa_mastercard.isChecked) {
                         StaticClassAdCreate.iscashpaid = "Cash"
                     }
-                    if (bank.isChecked) {
-                        StaticClassAdCreate.isbankpaid = "SA bank deposit"
-                    }
+
 
                     if (listingtyp_rb1.isChecked) {
 
@@ -443,6 +460,157 @@ class PricingActivity : BaseActivity() {
             }
         } else {
             true
+        }
+    }
+
+
+
+
+    fun addBankAccount(bottomSheetDialog:BottomSheetDialog) {
+
+        loader.showLoader()
+
+        val malqa: MalqaApiService = RetrofitBuilder.addBankAccountInstance()
+
+        val holder_name = bottomSheetDialog.account_holder_name.text.toString()
+        val nameBank = bottomSheetDialog.bank_name.text.toString()
+        val account_no = bottomSheetDialog.account_number.text.toString()
+        val iban_no = bottomSheetDialog.iban_number.text.toString()
+
+        val addBankAccount = get_add_bank_detail.add_bank_Detail(
+
+            userBank_Name = holder_name,
+            userBankAccount_Title = nameBank,
+            userBankAccount_No = account_no,
+            userBankAccount_IBN_Number = iban_no,
+            userID ="1234"
+
+        )
+        val call: retrofit2.Call<addBankAccountResponseBack> = malqa.addbankaccount(addBankAccount)
+
+        call?.enqueue(object : retrofit2.Callback<addBankAccountResponseBack?> {
+            override fun onFailure(
+                call: retrofit2.Call<addBankAccountResponseBack?>?,
+                t: Throwable
+            ) {
+                loader.hideLoader()
+
+                Toast.makeText(this@PricingActivity, "${t.message}", Toast.LENGTH_LONG).show()
+            }
+
+            override fun onResponse(
+                call: retrofit2.Call<addBankAccountResponseBack?>,
+                response: retrofit2.Response<addBankAccountResponseBack?>
+            ) {
+                if (response.isSuccessful) {
+
+                    if (response.body() != null) {
+
+                        val respone: addBankAccountResponseBack = response.body()!!
+                        if (respone.status_code.equals("200")) {
+
+
+                            Toast.makeText(
+                                this@PricingActivity,
+                                respone.message,
+                                Toast.LENGTH_LONG
+                            ).show()
+
+                        } else {
+
+                            Toast.makeText(
+                                this@PricingActivity,
+                                respone.message,
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                    }
+
+                }
+                loader.hideLoader()
+            }
+        })
+
+    }
+
+
+
+
+
+
+    fun getBankAccount() {
+
+        loader.showLoader()
+
+        val malqa: MalqaApiService = RetrofitBuilder.addBankAccountInstance()
+        val call = malqa.getBankDetail("1234")
+
+
+
+        call?.enqueue(object : retrofit2.Callback<get_add_bank_detail?> {
+            override fun onFailure(call: retrofit2.Call<get_add_bank_detail?>?, t: Throwable) {
+                loader.hideLoader()
+
+                Toast.makeText(this@PricingActivity, "${t.message}", Toast.LENGTH_LONG).show()
+            }
+
+            override fun onResponse(call: retrofit2.Call<get_add_bank_detail?>, response: retrofit2.Response<get_add_bank_detail?>) {
+                if (response.isSuccessful) {
+
+                    if (response.body() != null) {
+                        val respone: get_add_bank_detail = response.body()!!
+                        if (respone.status_code==200){
+
+                            addBankAdaptor(respone.data)
+
+                            Toast.makeText(this@PricingActivity, respone.message ,Toast.LENGTH_LONG).show()
+
+                        }else{
+
+                            Toast.makeText(this@PricingActivity, respone.message ,Toast.LENGTH_LONG).show()
+                        }
+                    }
+
+                }
+                loader.hideLoader()
+            }
+        })
+
+
+
+    }
+
+    private fun addBankAdaptor(list: List<get_add_bank_detail.add_bank_Detail>) {
+        addbank_rcv.adapter = object : GenericListAdapter<get_add_bank_detail.add_bank_Detail>(
+            R.layout.add_bank_layout,
+            bind = { element, holder, itemCount, position ->
+                holder.view.run {
+                    element.run {
+
+                        bank_name.text=userBankAccount_Title
+                        account_number.text=userBankAccount_No
+                        user_name.text=userBank_Name
+                        iban_number.text=userBankAccount_IBN_Number
+
+
+                        if (bank.isChecked) {
+                            StaticClassAdCreate.isbankpaid = "SA bank deposit"
+                        }
+
+
+
+                    }
+                }
+            }
+        ) {
+            override fun getFilter(): Filter {
+                TODO("Not yet implemented")
+            }
+
+        }.apply {
+            submitList(
+                list
+            )
         }
     }
 

@@ -40,7 +40,9 @@ import com.malka.androidappp.botmnav_fragments.shoppingcart3_shippingaddress.shi
 import com.malka.androidappp.botmnav_fragments.sold_business.ModelSoldUnsold
 import com.malka.androidappp.botmnav_fragments.won_n_loss.model_wonloss.ModelWonLost
 import com.malka.androidappp.design.Models.GetAddressResponse
+import com.malka.androidappp.design.Models.get_add_bank_detail
 import com.malka.androidappp.network.constants.ApiConstants
+import com.malka.androidappp.network.constants.ApiConstants.ADDBANK_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.ADDRESS_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.ADD_TO_CART_DELETE_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.ADD_TO_CART_INSERT_ENDPOINT
@@ -64,6 +66,7 @@ import com.malka.androidappp.network.constants.ApiConstants.GETUSER_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.GET_ADDRESS_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.GET_ALL_CATEGORIES
 import com.malka.androidappp.network.constants.ApiConstants.GET_ALL_CATEGORIES_BY_ID
+import com.malka.androidappp.network.constants.ApiConstants.GET_BANK__ACCOUNT_DETAIL
 import com.malka.androidappp.network.constants.ApiConstants.GET_CATEGORY_LISTING_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.GET_CATEGORY_TAGS_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.GET_QUES_ANS_COMMENT_ENDPOINT
@@ -195,8 +198,14 @@ interface MalqaApiService {
     @POST(ADDRESS_ENDPOINT)
     fun insertAddress(@Body info: GetAddressResponse.AddressModel): Call<insertAddressResponseBack>
 
+    @POST(ADDBANK_ENDPOINT)
+    fun addbankaccount(@Body info: get_add_bank_detail.add_bank_Detail): Call<addBankAccountResponseBack>
+
     @GET(GET_ADDRESS_ENDPOINT)
     fun getAddress(@Query("loginId") loginId: String): Call<GetAddressResponse>
+
+    @GET(GET_BANK__ACCOUNT_DETAIL)
+    fun getBankDetail(@Query("loginId") loginId: String): Call<get_add_bank_detail>
 
     @POST(GET_CATEGORY_LISTING_ENDPOINT)
     fun categorylist(@Body creategeneralad: SearchRequestModel): Call<SearchRespone>;

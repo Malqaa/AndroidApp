@@ -34,6 +34,7 @@
                 android:textSize="@dimen/_14sdp" />
 
             <EditText
+                android:id="@+id/account_holder_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp"
@@ -54,6 +55,7 @@
                 android:textSize="@dimen/_14sdp" />
 
             <EditText
+                android:id="@+id/bank_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp"
@@ -74,6 +76,7 @@
                 android:textSize="@dimen/_14sdp" />
 
             <EditText
+                android:id="@+id/account_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp"
@@ -94,6 +97,7 @@
                 android:textSize="@dimen/_14sdp" />
 
             <EditText
+                android:id="@+id/iban_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp"

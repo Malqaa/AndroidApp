@@ -17,11 +17,7 @@ import kotlinx.android.synthetic.main.activity_add_address.*
 import kotlinx.android.synthetic.main.activity_add_address.loader
 import kotlinx.android.synthetic.main.activity_add_address_main.*
 import kotlinx.android.synthetic.main.activity_add_address_main.PhoneNumber
-import kotlinx.android.synthetic.main.activity_sign_in.*
-import kotlinx.android.synthetic.main.activity_signup_pg1.*
-import kotlinx.android.synthetic.main.activity_signup_pg4.*
 import kotlinx.android.synthetic.main.add_address_design.view.*
-import tech.hibk.searchablespinnerlibrary.SearchableItem
 import java.io.InputStreamReader
 import java.io.Reader
 import kotlinx.android.synthetic.main.activity_add_address_main.select_region as select_region
@@ -57,17 +53,17 @@ class add_address_main : AppCompatActivity() {
 //        }
 
 
-        select_region._setOnClickListener {
-            val items = List(3) { i ->
-                SearchableItem(1, "Dubai")
-                SearchableItem(2, "Abu Dhabi")
-                SearchableItem(3, "Sharjah")
-            }
-            select_region.showSpinner(items, "Select Region") {
-                select_region.text = it.title
-            }
-
-        }
+//        select_region._setOnClickListener {
+//            val items = List(3) { i ->
+//                SearchableItem(1, "Dubai")
+//                SearchableItem(2, "Abu Dhabi")
+//                SearchableItem(3, "Sharjah")
+//            }
+//            select_region.showSpinner(items, "Select Region") {
+//                select_region.text = it.title
+//            }
+//
+//        }
 
 
 //        select_city._setOnClickListener {
