@@ -11,5 +11,6 @@ data class get_add_bank_detail(
         val userBankAccount_Title: String,
         val userBank_Name: String,
         val userID: String,
+        var isSelect: Boolean=false,
     )
 }

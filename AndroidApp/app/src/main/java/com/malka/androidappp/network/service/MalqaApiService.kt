@@ -205,7 +205,7 @@ interface MalqaApiService {
     fun getAddress(@Query("loginId") loginId: String): Call<GetAddressResponse>
 
     @GET(GET_BANK__ACCOUNT_DETAIL)
-    fun getBankDetail(@Query("loginId") loginId: String): Call<get_add_bank_detail>
+    fun getBankDetail(@Query("UserID") loginId: String): Call<get_add_bank_detail>
 
     @POST(GET_CATEGORY_LISTING_ENDPOINT)
     fun categorylist(@Body creategeneralad: SearchRequestModel): Call<SearchRespone>;

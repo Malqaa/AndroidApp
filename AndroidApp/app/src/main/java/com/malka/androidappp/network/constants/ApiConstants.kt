@@ -45,7 +45,7 @@ object ApiConstants {
     const val ADDBANK_ENDPOINT = "AddUserBankAccount"
     const val ADDBANK_BASEURL = API_BASE_URL + "UserBankAccount/"
     const val GET_ADDRESS_ENDPOINT = "getaddresses"
-    const val GET_BANK__ACCOUNT_DETAIL = "UserBankAccounts"
+    const val GET_BANK__ACCOUNT_DETAIL = "UserBankAccountsById"
     const val ACCOUNT_BASE_URL = API_BASE_URL + "Accounts/"
     const val VERIFY_API_ENDPOINT = "verify"
     const val VERIFY_API_BASEURL = API_BASE_URL + "Accounts/"

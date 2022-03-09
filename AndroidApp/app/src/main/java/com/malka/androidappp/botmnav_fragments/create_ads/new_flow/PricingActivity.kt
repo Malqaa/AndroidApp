@@ -20,13 +20,9 @@ import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.network.service.addBankAccountResponseBack
-import kotlinx.android.synthetic.main.activity_add_address.*
-import kotlinx.android.synthetic.main.activity_add_address.loader
-import kotlinx.android.synthetic.main.activity_add_address_main.*
-import kotlinx.android.synthetic.main.activity_add_product2.*
+import com.malka.androidappp.servicemodels.ConstantObjects
 import kotlinx.android.synthetic.main.add_account_layout.*
 import kotlinx.android.synthetic.main.add_bank_layout.view.*
-import kotlinx.android.synthetic.main.all_categories_cardview.view.*
 import kotlinx.android.synthetic.main.fragment_pricing_payment.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 
@@ -483,7 +479,7 @@ class PricingActivity : BaseActivity() {
             userBankAccount_Title = nameBank,
             userBankAccount_No = account_no,
             userBankAccount_IBN_Number = iban_no,
-            userID ="1234"
+            userID = ConstantObjects.logged_userid
 
         )
         val call: retrofit2.Call<addBankAccountResponseBack> = malqa.addbankaccount(addBankAccount)
@@ -508,8 +504,8 @@ class PricingActivity : BaseActivity() {
 
                         val respone: addBankAccountResponseBack = response.body()!!
                         if (respone.status_code.equals("200")) {
-
-
+                            bottomSheetDialog.dismiss()
+                            getBankAccount()
                             Toast.makeText(
                                 this@PricingActivity,
                                 respone.message,
@@ -543,7 +539,7 @@ class PricingActivity : BaseActivity() {
         loader.showLoader()
 
         val malqa: MalqaApiService = RetrofitBuilder.addBankAccountInstance()
-        val call = malqa.getBankDetail("1234")
+        val call = malqa.getBankDetail( ConstantObjects.logged_userid)
 
 
 
@@ -563,11 +559,9 @@ class PricingActivity : BaseActivity() {
 
                             addBankAdaptor(respone.data)
 
-                            Toast.makeText(this@PricingActivity, respone.message ,Toast.LENGTH_LONG).show()
 
                         }else{
 
-                            Toast.makeText(this@PricingActivity, respone.message ,Toast.LENGTH_LONG).show()
                         }
                     }
 
@@ -591,13 +585,18 @@ class PricingActivity : BaseActivity() {
                         account_number.text=userBankAccount_No
                         user_name.text=userBank_Name
                         iban_number.text=userBankAccount_IBN_Number
+                        bank.isChecked=isSelect
 
+                        bank.setOnCheckedChangeListener { buttonView, isChecked ->
+                            if(isChecked){
+                                list.forEachIndexed { index, addBankDetail ->
+                                    addBankDetail.isSelect = index == position
+                                }
+                                addbank_rcv.adapter!!.notifyDataSetChanged()
+                                StaticClassAdCreate.isbankpaid = "SA bank deposit"
 
-                        if (bank.isChecked) {
-                            StaticClassAdCreate.isbankpaid = "SA bank deposit"
+                            }
                         }
-
-
 
                     }
                 }

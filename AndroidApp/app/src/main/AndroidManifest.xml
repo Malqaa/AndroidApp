@@ -139,11 +139,20 @@
         <activity
             android:name=".activities_main.SplashActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/NoActionBar" />
+            android:theme="@style/NoActionBar" >
+
+
+        </activity>
         <activity
             android:name=".activities_main.MainActivity"
             android:label="Bottom Nav"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".activities_main.FeaturedCategory"
             android:label="Featured Category" />
@@ -202,11 +211,6 @@
             android:name=".botmnav_fragments.create_ads.new_flow.PricingActivity"
             android:theme="@style/NoActionBar" >
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
 
         </activity>
 

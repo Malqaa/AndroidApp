@@ -12,7 +12,7 @@
         layout="@layout/toolbar_main" />
 
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/btnnn"
@@ -24,14 +24,6 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="@dimen/_15sdp">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/addbank_rcv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_10sdp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/add_bank_layout" />
 
 
             <LinearLayout
@@ -224,8 +216,8 @@
                             android:background="@null"
                             android:gravity="center_vertical"
                             android:inputType="number"
-                            android:textSize="@dimen/_10sdp"
-                            android:maxLength="10" />
+                            android:maxLength="10"
+                            android:textSize="@dimen/_10sdp" />
 
                         <LinearLayout
                             android:id="@+id/buynowprice_price"
@@ -291,7 +283,6 @@
                     </LinearLayout>
 
 
-
                     <RelativeLayout
                         android:id="@+id/Buy_Auctino_l"
                         android:layout_width="match_parent"
@@ -311,9 +302,9 @@
                             android:layout_toLeftOf="@+id/startprice_price"
                             android:background="@null"
                             android:gravity="center_vertical"
-                            android:textSize="@dimen/_10sdp"
                             android:inputType="number"
-                            android:maxLength="10" />
+                            android:maxLength="10"
+                            android:textSize="@dimen/_10sdp" />
 
                         <LinearLayout
                             android:id="@+id/startprice_price"
@@ -336,7 +327,6 @@
                         </LinearLayout>
 
                     </RelativeLayout>
-
 
 
                     <LinearLayout
@@ -387,10 +377,10 @@
                             android:layout_marginLeft="@dimen/_20sdp"
                             android:layout_toLeftOf="@+id/reserveprice_price"
                             android:background="@null"
-                            android:textSize="@dimen/_10sdp"
                             android:gravity="center_vertical"
                             android:inputType="number"
-                            android:maxLength="10" />
+                            android:maxLength="10"
+                            android:textSize="@dimen/_10sdp" />
 
                         <LinearLayout
                             android:id="@+id/reserveprice_price"
@@ -477,13 +467,14 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:visibility="gone"
                         android:id="@+id/saudi_bank_option"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_5sdp"
                         android:background="@drawable/product_attribute_bg_linebg"
                         android:orientation="vertical"
-                      >
+                       >
 
 
                         <LinearLayout
@@ -513,9 +504,14 @@
                         </LinearLayout>
 
 
-
-
-
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/addbank_rcv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/_5sdp"
+                            tools:listitem="@layout/add_bank_layout"
+                            android:nestedScrollingEnabled="false"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
 
                         <LinearLayout
@@ -596,7 +592,7 @@
 
 
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 
     <androidx.appcompat.widget.AppCompatButton
@@ -616,8 +612,8 @@
         android:textSize="@dimen/_14sdp" />
 
     <include
-        android:visibility="gone"
         android:id="@+id/loader"
-        layout="@layout/loader_layout" />
+        layout="@layout/loader_layout"
+        android:visibility="gone" />
 
 </RelativeLayout>
