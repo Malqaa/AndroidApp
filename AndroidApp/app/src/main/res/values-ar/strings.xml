@@ -2432,7 +2432,6 @@
     <string name="signuptext">ليس لديك حساب؟<font color='339933'>اشتراك</font></string>
     <string name="alreadyaccount">هل لديك حساب؟ تسجيل الدخول</string>
     <string name="browsemarketnav">All Categories   >   Marketplace</string>
-    <string name="app_name">SamplePlayStore</string>
     <string name="type_your_password_here">كلمه السر</string>
     <string name="type_your_email_here">اكتب بريدك الإلكتروني هنا</string>
 
@@ -2611,5 +2610,9 @@
   <string name="Standard_Package">الباقة العادية</string>
   <string name="your_product_will_be_displayed_on_the_home_page">Your product will be displayed on the home page</string>
   <string name="common">شائع</string>
+    <string name="choose_your_payment_method">اختر طريقة الدفع</string>
+    <string name="your_product_has_been_successfully_added">تم اضافة منتجك بنجاح</string>
+  <string name="view_the_product">الاطلاع على المنتج</string>
+  <string name="back_to_main">الرجوع للرئيسية</string>
 
 </resources>

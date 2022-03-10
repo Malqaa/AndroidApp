@@ -1,4 +1,5 @@
 <resources>
+  <string name="app_name" translatable="false">Onruf</string>
 
   <string name="Back_to_login">
     Back to login
@@ -2450,7 +2451,6 @@ Want to start a business account? Create a Business Account
     <string name="signuptext">Dont have an account? <font color='339933'>Sign Up</font></string>
     <string name="alreadyaccount">Already have an account? Sign In</string>
     <string name="browsemarketnav">All Categories   >   Marketplace</string>
-    <string name="app_name">SamplePlayStore</string>
     <string name="type_your_password_here">Type Your Password Here</string>
     <string name="type_your_email_here">Type Your Email Here</string>
 
@@ -2713,7 +2713,7 @@ Want to start a business account? Create a Business Account
     <string name="and_get_many_advantages_of_displaying_your_product">And get many advantages of displaying your product</string>
     <string name="distinguish_your_product">Distinguish your product</string>
     <string name="item_specification">Item specification</string>
-    <string name="amendment">Amendment</string>
+    <string name="amendment">Edit</string>
     <string name="it_has_no_scratches">It has no scratches</string>
     <string name="quantity">Quantity</string>
     <string name="one_piece">One piece</string>
@@ -2774,5 +2774,9 @@ Want to start a business account? Create a Business Account
   <string name="Standard_Package">Standard Package</string>
   <string name="your_product_will_be_displayed_on_the_home_page">Your product will be displayed on the home page</string>
   <string name="common">Common</string>
+    <string name="choose_your_payment_method">Choose your payment method</string>
+  <string name="your_product_has_been_successfully_added">Your product has been successfully added</string>
+  <string name="view_the_product">View the product</string>
+  <string name="back_to_main">Back to main</string>
 
 </resources>

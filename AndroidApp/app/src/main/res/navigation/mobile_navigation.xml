@@ -358,7 +358,7 @@
 
     <fragment
         android:id="@+id/continue_frag"
-        android:name="com.malka.androidappp.botmnav_fragments.create_ads.new_flow.ContinueFragment"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.new_flow.ContinueActivity"
         android:label="Continue"
         tools:layout="@layout/fragment_continue">
 

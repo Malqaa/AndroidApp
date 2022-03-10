@@ -39,7 +39,7 @@ import com.malka.androidappp.botmnav_fragments.shoppingcart3_shippingaddress.shi
 import com.malka.androidappp.botmnav_fragments.sold_business.ModelSoldUnsold
 import com.malka.androidappp.botmnav_fragments.won_n_loss.model_wonloss.ModelWonLost
 import com.malka.androidappp.design.Models.GetAddressResponse
-import com.malka.androidappp.design.Models.get_add_bank_detail
+import com.malka.androidappp.design.Models.BankListRespone
 import com.malka.androidappp.network.constants.ApiConstants
 import com.malka.androidappp.network.constants.ApiConstants.ADDBANK_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.ADDRESS_ENDPOINT
@@ -149,13 +149,13 @@ interface MalqaApiService {
     fun insertAddress(@Body info: GetAddressResponse.AddressModel): Call<insertAddressResponseBack>
 
     @POST(ADDBANK_ENDPOINT)
-    fun addbankaccount(@Body info: get_add_bank_detail.add_bank_Detail): Call<addBankAccountResponseBack>
+    fun addbankaccount(@Body info: BankListRespone.BankDetail): Call<addBankAccountResponseBack>
 
     @GET(GET_ADDRESS_ENDPOINT)
     fun getAddress(@Query("loginId") loginId: String): Call<GetAddressResponse>
 
     @GET(GET_BANK__ACCOUNT_DETAIL)
-    fun getBankDetail(@Query("UserID") loginId: String): Call<get_add_bank_detail>
+    fun getBankDetail(@Query("UserID") loginId: String): Call<BankListRespone>
 
     @GET("Country/GetAllCountryFrmSql")
     fun getCountry(@Query("culture") culture: String): Call<CountryRespone>

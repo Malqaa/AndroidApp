@@ -1,34 +1,33 @@
 package com.malka.androidappp.botmnav_fragments.create_ads.new_flow
 
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.widget.ImageView
-import android.widget.TextView
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.gson.Gson
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.BaseActivity
+import com.malka.androidappp.botmnav_fragments.create_ads.CreateAdvResponseBack
 import com.malka.androidappp.botmnav_fragments.create_ads.StaticClassAdCreate
+import com.malka.androidappp.helper.Extension
+import com.malka.androidappp.helper.HelpFunctions
+import com.malka.androidappp.helper.show
+import com.malka.androidappp.network.Retrofit.RetrofitBuilder
+import com.malka.androidappp.network.service.MalqaApiService
+import com.malka.androidappp.servicemodels.ConstantObjects
+import com.malka.androidappp.servicemodels.CreateAdvMainModel
+import kotlinx.android.synthetic.main.bottom_sheet1.*
+import kotlinx.android.synthetic.main.bottom_sheet2.*
 import kotlinx.android.synthetic.main.fragment_confirmation.*
 import kotlinx.android.synthetic.main.toolbar_main.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class Confirmation : BaseActivity() {
 
-    lateinit var categoryData: TextView
-    lateinit var titleData: TextView
-    lateinit var subTitleData: TextView
-    lateinit var quantityData: TextView
-    lateinit var regionData: TextView
-    lateinit var cityData: TextView
-    lateinit var buyNowData: TextView
-    lateinit var acceptedPaymentData: TextView
-    lateinit var pickUpData: TextView
-    lateinit var durationShippingData: TextView
-    lateinit var timingData: TextView
-    lateinit var shippingData: TextView
-    lateinit var packageData: TextView
-    lateinit var subtitleFeeData: TextView
-    lateinit var listingFeeData: TextView
-    lateinit var featureFeeData: TextView
-    lateinit var selectedImages: ImageView
+
 
 
 
@@ -36,59 +35,193 @@ class Confirmation : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_confirmation)
 
-        toolbar_title.text = getString(R.string.ConfirmDetails)
+        toolbar_title.text = getString(R.string.distinguish_your_product)
         back_btn.setOnClickListener {
             finish()
         }
-        categoryData = findViewById(R.id.categoryData)
-        titleData = findViewById(R.id.TitleData)
-        subTitleData = findViewById(R.id.subTitleData)
-        quantityData = findViewById(R.id.quantityData)
-        regionData = findViewById(R.id.RegionData)
-        cityData = findViewById(R.id.cityData)
-        buyNowData = findViewById(R.id.buyNowData)
-        acceptedPaymentData = findViewById(R.id.acceptedPaymentData)
-        pickUpData = findViewById(R.id.PickupOptionData)
-        durationShippingData = findViewById(R.id.DurationShippingData)
-        timingData = findViewById(R.id.timingData)
-        shippingData = findViewById(R.id.shippingData)
-        packageData = findViewById(R.id.PackageNameData)
-        subtitleFeeData = findViewById(R.id.subtitleFeeData)
-        listingFeeData = findViewById(R.id.listingFeeData)
-        featureFeeData = findViewById(R.id.featureFeeData)
-        selectedImages = findViewById(R.id.selectedImages)
 
         setData()
 
 
-        btn_confirm_details.setOnClickListener() {
-            startActivity(Intent(this, ListingFee::class.java).apply {
-            })
+        btn_confirm_details.setOnClickListener {
+            showBottomSheetDialog()
         }
 
     }
 
+    private fun showBottomSheetDialog() {
+        val bottomSheetDialog = BottomSheetDialog(this)
+        bottomSheetDialog.setContentView(R.layout.bottom_sheet1)
+        bottomSheetDialog.bottom_sheet_btn1.setOnClickListener {
+            showBottomShee2tDialog()
+        }
+        bottomSheetDialog.getWindow()!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        bottomSheetDialog.show()
+    }
+    private fun showBottomShee2tDialog() {
+        val bottomSheetDialog = BottomSheetDialog(this)
+        bottomSheetDialog.setContentView(R.layout.bottom_sheet2)
+        bottomSheetDialog.bottom_sheet_btn2.setOnClickListener {
+            mainModelToJSON()
+        }
+        bottomSheetDialog.getWindow()!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        bottomSheetDialog.show()
+    }
 
+
+    // Methods to handle dynamic ad creation
+    private fun mainModelToJSON() {
+        val mainModel = CreateAdvMainModel(
+            Id = null,
+            City = StaticClassAdCreate.city,
+            Country = StaticClassAdCreate.country,
+            name = StaticClassAdCreate.name,
+            slug = StaticClassAdCreate.slug,
+            Template = StaticClassAdCreate.template,
+            Region = StaticClassAdCreate.region,
+            Urgentexpirydate = StaticClassAdCreate.urgentexpirydate,
+            Title = StaticClassAdCreate.title,
+            Price = StaticClassAdCreate.price,
+            user = ConstantObjects.logged_userid,
+            StartingPrice = StaticClassAdCreate.startingPrice,
+            ReservePrice = StaticClassAdCreate.reservedPrice,
+            Duration = StaticClassAdCreate.duration,
+            EndTime = StaticClassAdCreate.endtime,
+            FixLength = StaticClassAdCreate.fixLength,
+            Timepicker = StaticClassAdCreate.timepicker,
+            DateTime = StaticClassAdCreate.endtime,
+            isActive = false,
+            isWatching = StaticClassAdCreate.iswatching,
+            Isuserfavorite = false,
+            listingType = StaticClassAdCreate.listingType,
+            quantity = StaticClassAdCreate.quantity,
+            featureexpirydate = StaticClassAdCreate.featureexpirydate,
+            highlightexpirydate = StaticClassAdCreate.highlightexpirydate,
+            phone = StaticClassAdCreate.phone,
+            address = StaticClassAdCreate.address,
+            pickupOption = StaticClassAdCreate.pickup_option,
+            shippingOption = StaticClassAdCreate.shipping_option,
+            pack4 = StaticClassAdCreate.pack4,
+            description = StaticClassAdCreate.description,
+            subtitle = StaticClassAdCreate.subtitle,
+            producttitle = StaticClassAdCreate.producttitle,
+            brand_new_item = StaticClassAdCreate.brand_new_item,
+            enddate = StaticClassAdCreate.endtime,
+            Images = StaticClassAdCreate.images,
+            platform = "Android",
+            iscashpaid = StaticClassAdCreate.iscashpaid,
+            isbankpaid = StaticClassAdCreate.isbankpaid,
+            subcatone = StaticClassAdCreate.subcatone,
+            subcattwo = StaticClassAdCreate.subcattwo,
+            subcatthree = StaticClassAdCreate.subcatthree,
+            subcatfour = StaticClassAdCreate.subcatfour,
+            subcatfive = StaticClassAdCreate.subcatfive,
+            subcatsix = StaticClassAdCreate.subcatsix,
+            subcatonekey = StaticClassAdCreate.subcatonekey,
+            subcattwokey = StaticClassAdCreate.subcattwokey,
+            subcatthreekey = StaticClassAdCreate.subcatthreekey,
+            subcatfourkey = StaticClassAdCreate.subcatfourkey,
+            subcatfivekey = StaticClassAdCreate.subcatfivekey,
+            subcatsixkey = StaticClassAdCreate.subcatsixkey,
+            category = StaticClassAdCreate.subCategoryPath[0],
+            Video = StaticClassAdCreate.video
+        )
+
+        // Model Class to JSON String
+        val jsonString = Gson().toJson(mainModel)
+
+        // JSON String HashMap
+        var map: Map<String, String> = HashMap()
+        map = Gson().fromJson(jsonString, map.javaClass)
+
+        // Merging both HashMaps
+        ConstantObjects.dynamic_json_dictionary.putAll(map)
+
+        createAllAds(ConstantObjects.dynamic_json_dictionary)
+
+    }
+    private fun createAllAds(data: HashMap<String, String>) {
+
+        val malqaa: MalqaApiService = RetrofitBuilder.createAd()
+
+        val call: Call<CreateAdvResponseBack> = malqaa.createAllAd(data)
+        call.enqueue(object : Callback<CreateAdvResponseBack> {
+
+            override fun onResponse(
+                call: Call<CreateAdvResponseBack>, response: Response<CreateAdvResponseBack>
+            ) {
+                if (response.isSuccessful) {
+                    val importAdId = response.body()!!.data
+
+                    HelpFunctions.dismissProgressBar()
+                    HelpFunctions.ShowLongToast(
+                        importAdId + " " + getString(R.string.Youradhasbeencreatedsuccessfully),
+                        this@Confirmation
+                    )
+                    startActivity(Intent(this@Confirmation, ContinueActivity::class.java).apply {
+                        putExtra("AdvId",importAdId)
+                        putExtra("Template",StaticClassAdCreate.template)
+                        putExtra("sellerID",ConstantObjects.logged_userid)
+                    })
+                    Extension.clearPath()
+
+                } else {
+                    HelpFunctions.dismissProgressBar()
+                    HelpFunctions.ShowLongToast(getString(R.string.something_went_wrong), this@Confirmation)
+                }
+            }
+
+            override fun onFailure(call: Call<CreateAdvResponseBack>, t: Throwable) {
+                HelpFunctions.dismissProgressBar()
+                HelpFunctions.ShowLongToast(t.message + " " + getString(R.string.failed), this@Confirmation)
+            }
+        })
+    }
     fun setData() {
-        categoryData.text = StaticClassAdCreate.mainCategory
-        titleData.text = StaticClassAdCreate.producttitle
+        product_type.text = StaticClassAdCreate.mainCategory
+        item_condition.text = StaticClassAdCreate.brand_new_item
+        TitleData.text = StaticClassAdCreate.producttitle
+        product_detail.text = StaticClassAdCreate.producttitle
         subTitleData.text = StaticClassAdCreate.subtitle
         quantityData.text = StaticClassAdCreate.quantity
-        regionData.text = StaticClassAdCreate.region
-        cityData.text = StaticClassAdCreate.city
-        buyNowData.text = StaticClassAdCreate.price
-        acceptedPaymentData.text =
-            StaticClassAdCreate.iscashpaid + " " + StaticClassAdCreate.isbankpaid
-        pickUpData.text = StaticClassAdCreate.pickup_option
-        durationShippingData.text = StaticClassAdCreate.duration
-        timingData.text = StaticClassAdCreate.timepicker
-        shippingData.text = StaticClassAdCreate.shipping_option
-        packageData.text = "No Pick up"
-        subtitleFeeData.text = "12"
-        listingFeeData.text = "123"
-        featureFeeData.text = "56"
 
-//        selectedImages = findViewById(R.id.selectedImages)
+
+        when(StaticClassAdCreate.listingType){
+            "1"->{
+                fixed_price.show()
+                purchasing_price_.show()
+                purchasing_price_tv.text=StaticClassAdCreate.price
+            }
+            "2"->{
+                Auction.show()
+                auction_start_price.show()
+                minimum_price.show()
+                auction_start_price_tv.text=StaticClassAdCreate.reservedPrice
+                minimum_price_tv.text=StaticClassAdCreate.startingPrice
+
+            }
+            "3"->{
+                Auction.show()
+                purchasing_price_.show()
+                auction_start_price.show()
+                minimum_price.show()
+                purchasing_price_tv.text=StaticClassAdCreate.price
+                auction_start_price_tv.text=StaticClassAdCreate.reservedPrice
+                minimum_price_tv.text=StaticClassAdCreate.startingPrice
+            }
+        }
+
+        if(!StaticClassAdCreate.isbankpaid.isEmpty()){
+            saudi_bank_deposit.show()
+        }
+        if(!StaticClassAdCreate.isvisaPaid.isEmpty()){
+            Visa.show()
+        }
+
+
+        timingData.text = StaticClassAdCreate.timepicker
+        package_name_tv.text = StaticClassAdCreate.selectPromotiion!!.packagename
+        package_price_tv.text = "${StaticClassAdCreate.selectPromotiion!!.packageprice} ${getString(R.string.rial)}"
 
     }
 }

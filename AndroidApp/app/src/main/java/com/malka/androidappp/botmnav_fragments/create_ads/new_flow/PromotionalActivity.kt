@@ -92,15 +92,16 @@ class PromotionalActivity : BaseActivity() {
                 holder.view.run {
                     element.run {
                         pkg_name.text = packagename
-                        pkg_price.text = "${getString(R.string.Rayal)} $packageprice"
+                        pkg_price.text = "$packageprice ${getString(R.string.Rayal)}"
 
                         promotion_sub_rcv.adapter = object : GenericListAdapter<String>(
                             R.layout.promotion_item,
                             bind = { element, holder, itemCount, position ->
                                 holder.view.pkg_service1.text = element
-                                setOnClickListener {
-                                    packageSelection(list,parent_position)
-                                }
+//                                holder.view.main_layout.setOnClickListener {
+//                                    print("dsfdfg")
+//                                    //packageSelection(arrayListOf(), 0)
+//                                }
                             }
                         ) {
                             override fun getFilter(): Filter {
@@ -119,15 +120,17 @@ class PromotionalActivity : BaseActivity() {
 
                         } else {
                             bgline.setBackgroundResource(R.drawable.product_attribute_bg4)
-
                             is_selectimage.hide()
                         }
 
                         if (is_common) {
                             common.show()
+                            is_selectimage.setImageResource(R.drawable.ic_check_black)
                             item_bg.setBackgroundColor(ContextCompat.getColor(this@PromotionalActivity, R.color.bg))
                         } else {
                             common.hide()
+                            is_selectimage.setImageResource(R.drawable.ic_check)
+
                             item_bg.setBackgroundColor(ContextCompat.getColor(this@PromotionalActivity, R.color.textColor))
 
                         }
@@ -184,6 +187,7 @@ class PromotionalActivity : BaseActivity() {
         }
         list.forEach {
             StaticClassAdCreate.pack4 = it.packageprice
+            StaticClassAdCreate.selectPromotiion = it
         }
     }
 

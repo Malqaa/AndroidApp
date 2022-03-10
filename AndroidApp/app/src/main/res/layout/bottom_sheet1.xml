@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".design.bottom_sheet1">
 
 
@@ -35,7 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/madani_arabic_medium"
-                android:text="Ahmed Mohamed "
+                android:text="@string/choose_your_payment_method"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:textSize="@dimen/_14sdp"
                 android:gravity="center"
@@ -50,15 +50,16 @@
                 android:layout_marginTop="@dimen/_15sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:gravity="center"
-                android:background="@drawable/edittext_bg">
+                android:background="@drawable/field_selection_bg"
+                >
 
                 <TextView
                     android:layout_weight="1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/madani_arabic_light"
-                    android:text="Saudi bank deposit"
-                    android:textColor="@color/bg"
+                    android:text="@string/saudi_bank_deposit"
+                    android:textColor="@drawable/field_selection_color"
                     android:layout_marginStart="@dimen/_15sdp"
                     android:textSize="@dimen/_10sdp" />
 
@@ -84,15 +85,17 @@
                 android:layout_marginTop="@dimen/_15sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:gravity="center"
-                android:background="@drawable/edittext_bg">
+                android:background="@drawable/field_selection_bg"
+
+                >
 
                 <TextView
                     android:layout_weight="1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/madani_arabic_light"
-                    android:text="Saudi bank deposit"
-                    android:textColor="#45495E"
+                    android:text="@string/visa_mastercard"
+                    android:textColor="@drawable/field_selection_color"
                     android:layout_marginStart="@dimen/_15sdp"
                     android:textSize="@dimen/_10sdp" />
 

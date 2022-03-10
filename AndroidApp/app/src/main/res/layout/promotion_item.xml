@@ -4,6 +4,8 @@
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/_5sdp"
     android:gravity="center_vertical"
+    android:clickable="false"
+    android:id="@+id/main_layout"
     android:orientation="horizontal">
 
 

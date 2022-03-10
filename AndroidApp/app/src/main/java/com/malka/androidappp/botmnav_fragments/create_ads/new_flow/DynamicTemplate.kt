@@ -43,9 +43,10 @@ class DynamicTemplate : BaseActivity() {
         }
 
         btn_dynamic_next.setOnClickListener() {
+            GetDataFromDynamicControl()
             startActivity(Intent(this, ListingDetails::class.java).apply {
             })
-            GetDataFromDynamicControl()
+
         }
 
         file_name = intent?.getStringExtra("file_name").toString()

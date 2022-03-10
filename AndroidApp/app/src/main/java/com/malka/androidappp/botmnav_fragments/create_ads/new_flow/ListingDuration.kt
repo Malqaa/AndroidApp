@@ -37,6 +37,7 @@ class ListingDuration : BaseActivity(), DatePickerFragment.DatePickerListener,
     override fun onTimeSet(hourOfDay: Int, minute: Int) {
         selectTime = "$hourOfDay:$minute"
         own_time_tv.text="$selectdate - $selectTime"
+        radiobtn2.isChecked=true
 
     }
 
@@ -191,10 +192,7 @@ class ListingDuration : BaseActivity(), DatePickerFragment.DatePickerListener,
 
             } else if (radiobtn2.isChecked) {
                 StaticClassAdCreate.fixLength = "end_time"
-
-
                 StaticClassAdCreate.timepicker = selectTime
-
                 StaticClassAdCreate.endtime = own_time_tv.text.toString()
                 StaticClassAdCreate.duration = ""
             }
@@ -255,6 +253,7 @@ class ListingDuration : BaseActivity(), DatePickerFragment.DatePickerListener,
                             }
                             fix_lenght_rcv.adapter!!.notifyDataSetChanged()
                             fixlenghtselected = element
+                            radiobtn1.isChecked=true
                         }
 
 

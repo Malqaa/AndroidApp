@@ -2,16 +2,13 @@ package com.malka.androidappp.botmnav_fragments.create_product
 
 import android.graphics.Color
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import com.malka.androidappp.R
 import com.malka.androidappp.helper.HelpFunctions
-import kotlinx.android.synthetic.main.fragment_continue.*
-import kotlinx.android.synthetic.main.fragment_continue.textView42
-import kotlinx.android.synthetic.main.fragment_continue.toolbar_continue
 import kotlinx.android.synthetic.main.fragment_continue_product.*
 
 class ContinueProduct : Fragment() {

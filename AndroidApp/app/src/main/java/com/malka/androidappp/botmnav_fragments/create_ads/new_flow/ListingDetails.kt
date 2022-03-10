@@ -179,6 +179,8 @@ class ListingDetails : BaseActivity() {
     fun ListDetailsconfirmInput() {
         if (validateTitle()) {
             StaticClassAdCreate.phone = phone_number_edittext.text.toString()
+            StaticClassAdCreate.item_description = item_description.text.toString()
+            StaticClassAdCreate.subtitle = subtitle.text.toString()
             startActivity(Intent(this, PricingActivity::class.java).apply {
             })
         }

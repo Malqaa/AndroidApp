@@ -1,6 +1,7 @@
 package com.malka.androidappp.botmnav_fragments.create_ads
 
 import com.google.gson.annotations.SerializedName
+import com.malka.androidappp.design.Models.PromotionModel
 import kotlinx.android.parcel.Parcelize
 
 class StaticClassAdCreate {
@@ -24,6 +25,7 @@ class StaticClassAdCreate {
         var subtitle = ""
         var quantity = ""
         var phone = ""
+        var item_description = ""
         var country = ""
         var region = ""
         var city = ""
@@ -37,6 +39,7 @@ class StaticClassAdCreate {
         var brand_new_item = ""
         var price = ""
         var iscashpaid = ""
+        var isvisaPaid = ""
         var isbankpaid = ""
 
         var fixLength = ""
@@ -59,28 +62,12 @@ class StaticClassAdCreate {
         @SerializedName("cost-desc")
         var cost_desc = ""
         var pack4 = ""
+        var selectPromotiion: PromotionModel?=null
         var iswatching: Boolean? = false
         var selectasmain = ""
         var isnogotiable: Boolean? = false
 
-        //////////////////////////////////
-        var subcat = ""
 
-        //////////////Vehicle Additional Fields////////////////////
-        var year = ""
-        var platenumber = ""
-        var body = ""
-        var model = ""
-        var make = ""
-        var kilometers = ""
-        var fuel = ""
-        var squencenumber = ""
-        var cylinders = ""
-        var sellertype = ""
-        var noofpreviousowners = ""
-        var motorvehiclesperiodicinspection = ""
-        var transmission = ""
-        var isimported: Boolean? = false
 
 
         /////////////////////////Property Additional Fields////////////////////

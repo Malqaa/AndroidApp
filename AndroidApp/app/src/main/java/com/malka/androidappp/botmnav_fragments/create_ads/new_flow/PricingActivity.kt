@@ -12,7 +12,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.BaseActivity
 import com.malka.androidappp.botmnav_fragments.create_ads.StaticClassAdCreate
-import com.malka.androidappp.design.Models.get_add_bank_detail
+import com.malka.androidappp.design.Models.BankListRespone
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.helper.hideLoader
 import com.malka.androidappp.helper.showLoader
@@ -28,6 +28,7 @@ import kotlinx.android.synthetic.main.toolbar_main.*
 
 
 class PricingActivity : BaseActivity() {
+    var bankList: List<BankListRespone.BankDetail> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,7 +58,6 @@ class PricingActivity : BaseActivity() {
         val bottomSheetDialog = BottomSheetDialog(this)
         bottomSheetDialog.setContentView(R.layout.add_account_layout)
         bottomSheetDialog.add_account_btn.setOnClickListener {
-//            bottomSheetDialog.dismiss()
             addBankAccount(bottomSheetDialog)
         }
         bottomSheetDialog.getWindow()!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -129,12 +129,12 @@ class PricingActivity : BaseActivity() {
                     StaticClassAdCreate.startingPrice = startPrice
 
                     if (swicth_visa_mastercard.isChecked) {
-                        StaticClassAdCreate.iscashpaid = "Cash"
+                        StaticClassAdCreate.isvisaPaid = "visa"
                     }
 
 
-                    if (listingtyp_rb1.isChecked) {
 
+                    if (listingtyp_rb1.isChecked) {
                         StaticClassAdCreate.listingType = "1"
                     } else if (listingtyp_rb2.isChecked) {
                         StaticClassAdCreate.listingType = "2"
@@ -460,9 +460,7 @@ class PricingActivity : BaseActivity() {
     }
 
 
-
-
-    fun addBankAccount(bottomSheetDialog:BottomSheetDialog) {
+    fun addBankAccount(bottomSheetDialog: BottomSheetDialog) {
 
         loader.showLoader()
 
@@ -473,7 +471,7 @@ class PricingActivity : BaseActivity() {
         val account_no = bottomSheetDialog.account_number.text.toString()
         val iban_no = bottomSheetDialog.iban_number.text.toString()
 
-        val addBankAccount = get_add_bank_detail.add_bank_Detail(
+        val addBankAccount = BankListRespone.BankDetail(
 
             userBank_Name = holder_name,
             userBankAccount_Title = nameBank,
@@ -530,37 +528,36 @@ class PricingActivity : BaseActivity() {
     }
 
 
-
-
-
-
     fun getBankAccount() {
 
         loader.showLoader()
 
         val malqa: MalqaApiService = RetrofitBuilder.addBankAccountInstance()
-        val call = malqa.getBankDetail( ConstantObjects.logged_userid)
+        val call = malqa.getBankDetail(ConstantObjects.logged_userid)
 
 
 
-        call?.enqueue(object : retrofit2.Callback<get_add_bank_detail?> {
-            override fun onFailure(call: retrofit2.Call<get_add_bank_detail?>?, t: Throwable) {
+        call?.enqueue(object : retrofit2.Callback<BankListRespone?> {
+            override fun onFailure(call: retrofit2.Call<BankListRespone?>?, t: Throwable) {
                 loader.hideLoader()
 
                 Toast.makeText(this@PricingActivity, "${t.message}", Toast.LENGTH_LONG).show()
             }
 
-            override fun onResponse(call: retrofit2.Call<get_add_bank_detail?>, response: retrofit2.Response<get_add_bank_detail?>) {
+            override fun onResponse(
+                call: retrofit2.Call<BankListRespone?>,
+                response: retrofit2.Response<BankListRespone?>
+            ) {
                 if (response.isSuccessful) {
 
                     if (response.body() != null) {
-                        val respone: get_add_bank_detail = response.body()!!
-                        if (respone.status_code==200){
-
+                        val respone: BankListRespone = response.body()!!
+                        if (respone.status_code == 200) {
+                            bankList = respone.data
                             addBankAdaptor(respone.data)
 
 
-                        }else{
+                        } else {
 
                         }
                     }
@@ -571,24 +568,23 @@ class PricingActivity : BaseActivity() {
         })
 
 
-
     }
 
-    private fun addBankAdaptor(list: List<get_add_bank_detail.add_bank_Detail>) {
-        addbank_rcv.adapter = object : GenericListAdapter<get_add_bank_detail.add_bank_Detail>(
+    private fun addBankAdaptor(list: List<BankListRespone.BankDetail>) {
+        addbank_rcv.adapter = object : GenericListAdapter<BankListRespone.BankDetail>(
             R.layout.add_bank_layout,
             bind = { element, holder, itemCount, position ->
                 holder.view.run {
                     element.run {
 
-                        bank_name.text=userBankAccount_Title
-                        account_number.text=userBankAccount_No
-                        user_name.text=userBank_Name
-                        iban_number.text=userBankAccount_IBN_Number
-                        bank.isChecked=isSelect
+                        bank_name.text = userBankAccount_Title
+                        account_number.text = userBankAccount_No
+                        user_name.text = userBank_Name
+                        iban_number.text = userBankAccount_IBN_Number
+                        bank.isChecked = isSelect
 
                         bank.setOnCheckedChangeListener { buttonView, isChecked ->
-                            if(isChecked){
+                            if (isChecked) {
                                 list.forEachIndexed { index, addBankDetail ->
                                     addBankDetail.isSelect = index == position
                                 }

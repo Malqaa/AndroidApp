@@ -68,7 +68,7 @@ class GeneralAdvertisementAdapter(
                     )
                     SharedPreferencesStaticClass.ad_userid = user
 
-                   // context.startActivity(Intent(context, product_details::class.java))
+                     context.startActivity(Intent(context, product_details::class.java))
                 }
                 val imageURL = ApiConstants.IMAGE_URL + homepageImage
                 Picasso.get()
