@@ -1,6 +1,7 @@
 package com.malka.androidappp.botmnav_fragments.create_ads
 
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
 class StaticClassAdCreate {
 

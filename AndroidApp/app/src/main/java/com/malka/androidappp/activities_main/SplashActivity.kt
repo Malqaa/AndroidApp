@@ -5,6 +5,10 @@ import android.media.MediaPlayer
 import android.os.Bundle
 import com.malka.androidappp.R
 import com.malka.androidappp.helper.HelpFunctions
+import com.malka.androidappp.network.Retrofit.RetrofitBuilder
+import com.malka.androidappp.network.service.MalqaApiService
+import com.malka.androidappp.servicemodels.ConstantObjects
+import com.malka.androidappp.servicemodels.CountryRespone
 import kotlinx.android.synthetic.main.activity_splash.*
 
 class SplashActivity : BaseActivity() {
@@ -16,7 +20,10 @@ class SplashActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
         hideSystemUI(mainContainer)
+        getCountry("en-US")
+
         GoToHomeScreen()
+        //   getCountry("ar")
     }
 
     fun GoToHomeScreen() {
@@ -36,5 +43,36 @@ class SplashActivity : BaseActivity() {
             HelpFunctions.ReportError(ex);
         }
     }
+
+    fun getCountry(culture: String) {
+
+
+        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder2()
+        val call = malqa.getCountry(culture)
+        call.enqueue(object : retrofit2.Callback<CountryRespone?> {
+            override fun onFailure(call: retrofit2.Call<CountryRespone?>?, t: Throwable) {
+
+            }
+
+            override fun onResponse(
+                call: retrofit2.Call<CountryRespone?>,
+                response: retrofit2.Response<CountryRespone?>
+            ) {
+                if (response.isSuccessful) {
+
+                    if (response.body() != null) {
+                        val respone: CountryRespone = response.body()!!
+                        if (respone.status_code == 200) {
+                            ConstantObjects.countryList = respone.data
+                        }
+                    }
+
+                }
+            }
+        })
+
+
+    }
+
 }
 

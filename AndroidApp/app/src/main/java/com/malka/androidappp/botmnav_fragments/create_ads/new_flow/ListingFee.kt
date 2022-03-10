@@ -8,7 +8,7 @@ import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.BaseActivity
 import com.malka.androidappp.botmnav_fragments.create_ads.CreateAdvResponseBack
 import com.malka.androidappp.botmnav_fragments.create_ads.StaticClassAdCreate
-import com.malka.androidappp.botmnav_fragments.create_adv_models.CreateAdvMainModel
+import com.malka.androidappp.servicemodels.CreateAdvMainModel
 import com.malka.androidappp.helper.Extension.clearPath
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder

@@ -1,15 +1,13 @@
 package com.malka.androidappp.design
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Filter
+import androidx.appcompat.app.AppCompatActivity
 import com.malka.androidappp.R
 import com.malka.androidappp.design.Models.reviewmodel
 import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
-import kotlinx.android.synthetic.main.activity_add_product2.*
-import kotlinx.android.synthetic.main.add_product_imgs.view.*
-import kotlinx.android.synthetic.main.add_product_imgs.view.add_product_ctv
 import kotlinx.android.synthetic.main.product_review_design.view.*
+import kotlinx.android.synthetic.main.product_reviews1.*
 
 class product_reviews1 : AppCompatActivity() {
 

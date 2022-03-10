@@ -16,7 +16,6 @@ import com.malka.androidappp.botmnav_fragments.cardetail_page.ModelSellerDetails
 import com.malka.androidappp.botmnav_fragments.cardetail_page.bottomsheet_bidopt.getbidModel.ModelBidingResponse
 import com.malka.androidappp.botmnav_fragments.cardetail_page.bottomsheet_bidopt.post_bidprice.ModelPostBidPrice
 import com.malka.androidappp.botmnav_fragments.create_ads.*
-import com.malka.androidappp.botmnav_fragments.create_adv_models.*
 import com.malka.androidappp.botmnav_fragments.create_product.CreateProductResponseBack
 import com.malka.androidappp.botmnav_fragments.create_product.ModelCreateProduct
 import com.malka.androidappp.botmnav_fragments.create_product.ProductResponseBack
@@ -96,6 +95,7 @@ import com.malka.androidappp.network.constants.ApiConstants.UPDATEUSER_SIGNUP_EN
 import com.malka.androidappp.network.constants.ApiConstants.VERIFY_API_ENDPOINT
 import com.malka.androidappp.servicemodels.BasicResponseInt
 import com.malka.androidappp.servicemodels.Basicresponse
+import com.malka.androidappp.servicemodels.CountryRespone
 import com.malka.androidappp.servicemodels.addtocart.AddToCartResponseModel
 import com.malka.androidappp.servicemodels.addtocart.InsertToCartRequestModel
 import com.malka.androidappp.servicemodels.categorylistings.CategoryResponse
@@ -134,63 +134,13 @@ interface MalqaApiService {
     @POST(RESEND_OTPCODE_API_ENDPOINT)
     fun resendcode(@Body resendotpcode: ResendCodeDataModel): Call<ResponseBody>
 
-    //@Headers("Content-Type: application/json")
-    //@POST(CREATE_ADVERTISEMENT_ENDPOINT)
-    //fun createadd(@Body createAdvertisement:CarTemplate): Call<CarTemplate?>?
-
-    @POST(CREATE_GENERAL_ADVERTISEMENT_ENDPOINTT)
-    fun createAdss(@Body createad: ModelDataCreateGeneralAd): Call<ModelDataCreateGeneralAd>
-
-    ////////////////////CREATE PROPERTY AD/////////////////////
-    @POST(CREATE_GENERAL_ADVERTISEMENT_ENDPOINTT)
-    fun createPropertyAd(@Body createpropertyad: CreateAdvPropertyModel): Call<CreateAdvPropertyModel>
-
-    @POST(CREATE_GENERAL_ADVERTISEMENT_ENDPOINTT)
-    fun createCarAd(@Body createcarad: CreateAdvCarModel): Call<CreateAdvResponseBack>
 
 
     @POST(CREATE_GENERAL_ADVERTISEMENT_ENDPOINTT)
     fun createAllAd(@Body data: HashMap<String, String>): Call<CreateAdvResponseBack>
 
-    @POST(CREATE_GENERAL_ADVERTISEMENT_ENDPOINTT)
-    fun createbusAd(@Body createcarad: CreateAdvBusModel): Call<CreateAdvResponseBack>
-
-    @POST(CREATE_GENERAL_ADVERTISEMENT_ENDPOINTT)
-    fun createbikeAd(@Body createcarad: CreateAdvMotorbikeModel): Call<CreateAdvResponseBack>
-
-    @POST(CREATE_GENERAL_ADVERTISEMENT_ENDPOINTT)
-    fun createTrailersAd(@Body createcarad: CreateAdvWreckedCarTrucksDiggersForkliftsModel): Call<CreateAdvResponseBack>
-
-    @POST(CREATE_GENERAL_ADVERTISEMENT_ENDPOINTT)
-    fun creatediggerAd(@Body createcarad: CreateAdvWreckedCarTrucksDiggersForkliftsModel): Call<CreateAdvResponseBack>
 
 
-    @POST(CREATE_GENERAL_ADVERTISEMENT_ENDPOINTT)
-    fun createForkliftsAndPalletMoversAd(@Body createcarad: CreateAdvWreckedCarTrucksDiggersForkliftsModel): Call<CreateAdvResponseBack>
-
-    @POST(CREATE_GENERAL_ADVERTISEMENT_ENDPOINTT)
-    fun createTrucksAd(@Body createcarad: CreateAdvWreckedCarTrucksDiggersForkliftsModel): Call<CreateAdvResponseBack>
-
-    @POST(CREATE_GENERAL_ADVERTISEMENT_ENDPOINTT)
-    fun createWreckedCarAd(@Body createcarad: CreateAdvWreckedCarTrucksDiggersForkliftsModel): Call<CreateAdvResponseBack>
-
-    @POST(CREATE_GENERAL_ADVERTISEMENT_ENDPOINTT)
-    fun createLSOWWFASARAd(@Body createcarad: CreateAdvLSOWWFASARModel): Call<CreateAdvResponseBack>
-
-    @POST(CREATE_GENERAL_ADVERTISEMENT_ENDPOINTT)
-    fun createCommercialHotelAd(@Body createcarad: CreateAdvCommercialHotelModel): Call<CreateAdvResponseBack>
-
-    @POST(CREATE_GENERAL_ADVERTISEMENT_ENDPOINTT)
-    fun createResidentialApartmentsAd(@Body createcarad: CreateAdvRApartmentsModel): Call<CreateAdvResponseBack>
-
-    @POST(CREATE_GENERAL_ADVERTISEMENT_ENDPOINTT)
-    fun createResidentialBuildingsAd(@Body createcarad: CreateAdvRBuildingsModel): Call<CreateAdvResponseBack>
-
-    @POST(CREATE_GENERAL_ADVERTISEMENT_ENDPOINTT)
-    fun createRHHRVAd(@Body createcarad: CreateAdvRHHRVModel): Call<CreateAdvResponseBack>
-
-    @POST(CREATE_GENERAL_ADVERTISEMENT_ENDPOINTT)
-    fun creategeneralAd(@Body creategeneralad: CreateAdvgeneralModel): Call<CreateAdvResponseBack>
 
     @POST(LOGIN_ENDPOINT)
     fun loginUser(@Body info: LoginClass): Call<LoginResponseBack?>?
@@ -206,6 +156,18 @@ interface MalqaApiService {
 
     @GET(GET_BANK__ACCOUNT_DETAIL)
     fun getBankDetail(@Query("UserID") loginId: String): Call<get_add_bank_detail>
+
+    @GET("Country/GetAllCountryFrmSql")
+    fun getCountry(@Query("culture") culture: String): Call<CountryRespone>
+
+    @GET("Country/GetRegionFrmSqlbyKey")
+    fun getRegion(@Query("key") Id: String,@Query("culture") culture: String): Call<CountryRespone>
+
+
+ @GET("Country/City")
+    fun getCity(@Query("Id") Id: String): Call<CountryRespone>
+
+
 
     @POST(GET_CATEGORY_LISTING_ENDPOINT)
     fun categorylist(@Body creategeneralad: SearchRequestModel): Call<SearchRespone>;

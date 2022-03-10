@@ -2,38 +2,24 @@ package com.malka.androidappp.botmnav_fragments.create_product
 
 import android.graphics.Color
 import android.os.Bundle
-import android.text.InputType
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.malka.androidappp.R
-import com.malka.androidappp.botmnav_fragments.create_ads.CreateAdvCarModel
-import com.malka.androidappp.botmnav_fragments.create_ads.CreateAdvResponseBack
-import com.malka.androidappp.botmnav_fragments.create_ads.StaticClassAdCreate
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
-import kotlinx.android.synthetic.main.fragment_create_product.*
-import kotlinx.android.synthetic.main.fragment_create_product.toolbar_product
-import kotlinx.android.synthetic.main.fragment_create_product_pg3.*
-import kotlinx.android.synthetic.main.fragment_create_product_pg4.*
 import kotlinx.android.synthetic.main.fragment_create_product_pg5.*
-import org.joda.time.DateTime
-import org.joda.time.LocalDateTime
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
-import java.time.DayOfWeek.of
-import java.time.LocalDateTime.of
 import java.util.*
-import java.util.List.of
 
 class CreateProduct5 : Fragment() {
     override fun onCreateView(

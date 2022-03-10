@@ -34,7 +34,26 @@ class RetrofitBuilder {
             return builder!!
 
         }
+        fun GetRetrofitBuilder2(): MalqaApiService{
+            //  if (builder == null) {
+            val httpLoggingInterceptor = HttpLoggingInterceptor()
+            httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
 
+            val authToken: String = ConstantObjects.logged_authtoken
+            val authenticationInterceptor = AuthenticationInterceptor(authToken);
+            if (!httpClient.interceptors().contains(httpLoggingInterceptor)) {
+                httpClient.addInterceptor(httpLoggingInterceptor);
+            }
+            if (!httpClient.interceptors().contains(authenticationInterceptor)) {
+                httpClient.addInterceptor(authenticationInterceptor);
+            }
+            builder = Retrofit.Builder()
+            builder!!.baseUrl(ApiConstants.API_BASE_URL).addConverterFactory(GsonConverterFactory.create())
+            builder!!.client(httpClient.build());
+            //   }
+            return builder!!.build() .create(MalqaApiService::class.java)
+
+        }
         fun createInstance(): MalqaApiService {
             return GetRetrofitBuilder(ApiConstants.HOME_URL).build()
                 .create(MalqaApiService::class.java)

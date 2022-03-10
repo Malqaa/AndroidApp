@@ -91,7 +91,8 @@
         android:layout_marginTop="30dp"
         android:layout_marginEnd="50dp"
         android:layout_marginBottom="20dp"
-        android:backgroundTint="@color/GoldenApp"
+          android:layout_margin="@dimen/_15sdp"
+        android:background="@drawable/round_btn"
         android:text="Place Bid"
         android:layout_marginStart="40dp"
         android:layout_toEndOf="@+id/buttoncancel"/>

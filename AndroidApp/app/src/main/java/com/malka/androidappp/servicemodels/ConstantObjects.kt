@@ -39,6 +39,7 @@ class ConstantObjects() {
 
         var currentLanguage: String = ""
         var categoryList: List<AllCategoriesModel> = ArrayList()
+        var countryList: List<CountryRespone.Country> = ArrayList()
 
     }
 }

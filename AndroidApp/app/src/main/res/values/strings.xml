@@ -260,10 +260,10 @@
     <string name="SecondCategory">
     Second Category
   </string>
-    <string name="Select">
-    Select
-  </string>
-    <string name="Subtitle">
+    <string name="Select" formatted="true">Select %s</string>
+    <string name="Please_select" formatted="true">Select select %s</string>
+
+  <string name="Subtitle">
     Subtitle
   </string>
     <string name="Youdonthaveanypaymentinstructionsset.">
@@ -2764,6 +2764,15 @@ Want to start a business account? Create a Business Account
     <string name="my_saved_addresses">My saved addresses</string>
     <string name="delivery_to_my_current_address">Delivery to my current address</string>
     <string name="add_a_new_title">Add a new title</string>
-
+    <string name="close_time">Auction closing time</string>
+    <string name="without_additional_expenses">Without additional expenses</string>
+    <string name="set_your_own_time_and_time">Set your own date and time</string>
+  <string name="_20_riyals">+20 riyals</string>
+  <string name="Golden_Package">Golden Package</string>
+  <string name="Silver_Package">Silver Package</string>
+  <string name="Bronze_Package">Bronze Package</string>
+  <string name="Standard_Package">Standard Package</string>
+  <string name="your_product_will_be_displayed_on_the_home_page">Your product will be displayed on the home page</string>
+  <string name="common">Common</string>
 
 </resources>

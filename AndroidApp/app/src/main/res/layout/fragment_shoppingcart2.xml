@@ -52,7 +52,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_toStartOf="@+id/apply_button"
                                 android:background="@color/white"
-                                android:layout_margin="1dp"
+
                                 android:padding="14dp"
                                 android:hint="Coupon Code or Gift Card"
                                 android:layout_height="wrap_content"
@@ -194,7 +194,8 @@
                                 android:layout_marginEnd="10dp"
                                 android:text="CHECK OUT"
                                 android:textColor="@color/white"
-                                android:backgroundTint="@color/GoldenApp"
+                                  android:layout_margin="@dimen/_15sdp"
+        android:background="@drawable/round_btn"
                                 android:textStyle="bold"
                                 android:layout_centerVertical="true"/>
 

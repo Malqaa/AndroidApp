@@ -15,7 +15,7 @@
         android:layout_alignParentTop="true" />
 
 
-    <ScrollView
+    <LinearLayout
         android:id="@+id/scroll_promotional"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -57,12 +57,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:spanCount="1"
                 tools:listitem="@layout/item_details2_desgin" />
 
 
         </LinearLayout>
-    </ScrollView>
+    </LinearLayout>
 
 
     <LinearLayout
@@ -81,7 +80,6 @@
             android:layout_marginStart="@dimen/_15sdp"
             android:layout_marginTop="@dimen/_15sdp"
             android:layout_marginEnd="@dimen/_15sdp"
-            android:layout_marginBottom="@dimen/_10sdp"
             android:background="@drawable/round_btn"
             android:fontFamily="@font/madani_arabic_semi_bold"
             android:text="@string/the_next"

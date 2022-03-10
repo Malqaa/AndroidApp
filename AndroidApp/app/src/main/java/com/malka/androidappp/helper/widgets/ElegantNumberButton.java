@@ -51,7 +51,7 @@ public class ElegantNumberButton extends RelativeLayout {
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ElegantNumberButton, styleAttr, 0);
 
-        initialNumber = a.getInt(R.styleable.ElegantNumberButton_initialNumber, 0);
+        initialNumber = a.getInt(R.styleable.ElegantNumberButton_initialNumber, 1);
         finalNumber = a.getInt(R.styleable.ElegantNumberButton_finalNumber, Integer.MAX_VALUE);
 
         subtractBtn =  findViewById(R.id.subtract_btn);

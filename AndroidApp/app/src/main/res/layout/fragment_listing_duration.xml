@@ -1,171 +1,263 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".botmnav_fragments.create_ads.new_flow.ListingDuration">
 
     <include
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/toolbar_listduration"
         layout="@layout/toolbar_main" />
 
 
-
-    <RadioButton
-        android:id="@+id/radiobtn1"
-        android:text="@string/FixedLength"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_listduration"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"/>
-
-
-    <RelativeLayout
-        android:visibility="gone"
-        android:id="@+id/textInputlist_duration"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="10dp"
-        android:background="@drawable/edittext_bg"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radiobtn1"
-        >
+        android:layout_above="@+id/btn_listduration"
+        android:layout_below="@+id/toolbar_listduration"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="20dp"
+        android:orientation="vertical"
+        android:padding="@dimen/_15sdp">
 
-        <Spinner
-            android:id="@+id/select_dur"
-            android:layout_width="match_parent"
-            android:layout_height="55dp" />
-    </RelativeLayout>
-
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputlist_duration1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="15dp"
-        android:visibility="gone"
-
-        android:layout_marginEnd="10dp"
-        android:background="@drawable/edittext_bg"
-        app:boxBackgroundMode="none"
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputlist_duration"
-        >
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/select_time_btn1"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/SelectTime"
-            android:clickable="true"
-            android:editable="false"/>
-    </com.google.android.material.textfield.TextInputLayout>
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:id="@+id/listing_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/madani_arabic_medium"
+                    android:text="@string/close_time"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/_14sdp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_2sdp"
+                    android:fontFamily="@font/madani_arabic_medium"
+                    android:text="*"
+                    android:textColor="@color/Red"
+                    android:textSize="@dimen/_14sdp" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/option_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:background="@drawable/field_selection_border"
+                android:orientation="vertical"
+                android:padding="@dimen/_10sdp">
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/FixedLength"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:fontFamily="@font/madani_arabic_medium"
+                        android:text="@string/FixedLength"
+                        android:textColor="@drawable/field_selection_color"
+                        android:textSize="@dimen/_10sdp" />
+
+                    <RadioButton
+                        android:id="@+id/radiobtn1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true" />
+                </RelativeLayout>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/madani_arabic_light"
+                    android:text="@string/without_additional_expenses"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/_10sdp" />
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/fix_lenght_rcv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/_5sdp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/selection_item" />
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/option_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:background="@drawable/field_selection_border"
+                android:orientation="vertical">
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/_10sdp"
+                    android:paddingRight="@dimen/_10sdp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:fontFamily="@font/madani_arabic_medium"
+                        android:text="@string/set_your_own_time_and_time"
+                        android:textColor="@drawable/field_selection_color"
+                        android:textSize="@dimen/_10sdp" />
+
+                    <RadioButton
+                        android:id="@+id/radiobtn2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true" />
+                </RelativeLayout>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/madani_arabic_light"
+                    android:paddingLeft="@dimen/_10sdp"
+                    android:paddingRight="@dimen/_10sdp"
+                    android:text="@string/_20_riyals"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/_10sdp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_1sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:background="@color/line" />
+
+                <TextView
+                    android:id="@+id/own_time_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_10sdp"
+                    android:background="@drawable/edittext_bg"
+                    android:drawablePadding="@dimen/_15sdp"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/_10sdp"
+                    android:text="@string/SelectTime"
+                    app:drawableStartCompat="@drawable/ic_calendar" />
+
+            </LinearLayout>
 
 
 
-    <RadioButton
-        android:id="@+id/radiobtn2"
-        android:text="@string/Chooseanendtime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/textInputlist_duration1"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="40dp"/>
 
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputlist_duration3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="10dp"
-        android:visibility="gone"
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:background="@drawable/edittext_bg"
-        app:boxBackgroundMode="none"
-        app:layout_constraintTop_toBottomOf="@+id/radiobtn2"
-        >
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/select_date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/SelectDate"
-            android:clickable="true"
-            android:editable="false"
-            />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputlist_duration4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:visibility="gone"
-
-        android:layout_marginTop="15dp"
-        android:background="@drawable/edittext_bg"
-        app:boxBackgroundMode="none"
-        android:layout_marginEnd="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputlist_duration3"
-        >
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/select_time2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/SelectTime"
-            android:clickable="true"
-            android:editable="false"/>
-    </com.google.android.material.textfield.TextInputLayout>
 
 
-    <TextView
-        android:id="@+id/error_radiobtn_check"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="#FF0000"
-        android:layout_marginBottom="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/btn_listduration"/>
 
-    <Button
+                <TextView
+                    android:id="@+id/pickup_option2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:fontFamily="@font/madani_arabic_medium"
+                    android:text="@string/Selectashippingoption"
+                    android:textColor="@color/textColor"
+                    android:textSize="20sp"
+                   />
+
+
+                <RadioGroup
+                    android:id="@+id/pricepay_radioGroupp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:orientation="vertical"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/pickup_option2">
+
+                    <RadioButton
+                        android:id="@+id/rb2_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/FreeshippingwithinSaudiArabia"
+                        android:textColor="#4d4d33"
+                        android:textSize="14sp" />
+
+
+                    <RadioButton
+                        android:id="@+id/rb2_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="@string/ShippingNotAvailable"
+                        android:textColor="#4d4d33"
+                        android:textSize="14sp" />
+
+                    <RadioButton
+                        android:id="@+id/rb2_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="@string/TobeArranged"
+                        android:textColor="#4d4d33"
+                        android:textSize="14sp" />
+
+                    <RadioButton
+                        android:id="@+id/rb2_4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="@string/SpecifyShippingCost"
+                        android:textColor="#4d4d33"
+                        android:textSize="14sp" />
+                </RadioGroup>
+
+
+
+
+        </LinearLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
+
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_listduration"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/_15sdp"
         android:background="@drawable/round_btn"
         android:fontFamily="@font/madani_arabic_semi_bold"
-        android:text="@string/NEXT"
+        android:text="@string/the_next"
         android:textAllCaps="false"
-        android:layout_marginStart="@dimen/_15sdp"
-        android:layout_marginTop="@dimen/_15sdp"
-        android:layout_marginEnd="@dimen/_15sdp"
-        android:layout_marginBottom="@dimen/_10sdp"
         android:textColor="#ffffff"
-        android:textSize="22sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:textSize="@dimen/_14sdp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

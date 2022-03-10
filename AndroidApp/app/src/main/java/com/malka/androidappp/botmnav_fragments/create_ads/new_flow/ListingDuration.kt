@@ -1,45 +1,74 @@
 package com.malka.androidappp.botmnav_fragments.create_ads.new_flow
 
-import android.app.DatePickerDialog
-import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
-import android.text.InputType
-import android.view.View
-import android.widget.*
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
+import android.widget.Filter
+import android.widget.RadioButton
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentManager
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.BaseActivity
 import com.malka.androidappp.botmnav_fragments.create_ads.StaticClassAdCreate
+import com.malka.androidappp.helper.widgets.DatePickerFragment
+import com.malka.androidappp.helper.widgets.TimePickerFragment
+import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
+import com.malka.androidappp.servicemodels.ItemSelection
 import kotlinx.android.synthetic.main.fragment_listing_duration.*
+import kotlinx.android.synthetic.main.selection_item.view.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
 
-class ListingDuration : BaseActivity() {
+class ListingDuration : BaseActivity(), DatePickerFragment.DatePickerListener,
+    TimePickerFragment.TimePickerListener {
+    var fixlenghtselected: ItemSelection? = null
+    var selectdate = ""
+    var selectTime = ""
+    var fm: FragmentManager? = null
+    var isSelectShipping=false
+    override fun onDateSet(year: Int, month: Int, day: Int) {
+        val timeDialog = TimePickerFragment()
+        timeDialog.show(fm!!, "fragment_time")
+        selectdate = "$day/${month+1}/$year"
+    }
 
+    override fun onTimeSet(hourOfDay: Int, minute: Int) {
+        selectTime = "$hourOfDay:$minute"
+        own_time_tv.text="$selectdate - $selectTime"
+
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_listing_duration)
 
 
-        toolbar_title.text = getString(R.string.ListingDuration)
+        toolbar_title.text = getString(R.string.shipping_options)
         back_btn.setOnClickListener {
             finish()
         }
 
+        option_1.setOnClickListener {
+            option_1.background= ContextCompat.getDrawable(this,R.drawable.field_selection_border_enable)
+            FixedLength.setTextColor(ContextCompat.getColor(this, R.color.bg))
 
-        ///////////Calender EditText///////////////
+            option_2.setSelected(false)
+            radiobtn1.isChecked=true
+            radiobtn2.isChecked=false
+        }
+        option_2.setOnClickListener {
+            option_2.setSelected(true)
+            option_1.background= ContextCompat.getDrawable(this,R.drawable.edittext_bg)
+            FixedLength.setTextColor(ContextCompat.getColor(this, R.color.text_color))
+
+            radiobtn1.isChecked=false
+            radiobtn2.isChecked=true
+        }
+
         val c = Calendar.getInstance()
-        val year = c.get(Calendar.YEAR)
-        val month = c.get(Calendar.MONTH)
         val day = c.get(Calendar.DAY_OF_MONTH)
-        val minute = c.get(Calendar.MINUTE)
-        val hour = c.get(Calendar.HOUR_OF_DAY)
 
 
         // Variables to get weeks from the current date
@@ -52,230 +81,75 @@ class ListingDuration : BaseActivity() {
         val week3 = addDay(day.toString(), 21)
         val week4 = addDay(day.toString(), 28)
 
-        val allWeeks: Array<String> = arrayOf(
-            "- - Select Duration - -",
-            "1 week ($thisDate - $week1)",
-            "2 week ($thisDate - $week2)",
-            "3 week ($thisDate - $week3)",
-            "4 week ($thisDate - $week4)",
-        )
 
-        /////////////////For Duration Dropdown/Spinner/////////////////////
-        val spinner: Spinner = findViewById(R.id.select_dur)
-        spinner.adapter = ArrayAdapter<String>(
-            this,
-            android.R.layout.simple_list_item_1,
-            allWeeks
-        )
+        val allWeeks: ArrayList<ItemSelection> = ArrayList()
+        allWeeks.apply {
+//            add(ItemSelection("1 week ($thisDate - $week1)"))
+//            add(ItemSelection("2 week ($thisDate - $week2)"))
+//            add(ItemSelection("3 week ($thisDate - $week3)"))
+//            add(ItemSelection("4 week ($thisDate - $week4)"))
 
-
-        ///////////////////////////////Hightlight Expiry Date////////////////////////////////////////////////////////
-
-
-        select_date.setOnClickListener() {
-            hidekeyboard()
-            val dpd = DatePickerDialog(
-
-                this,
-                DatePickerDialog.OnDateSetListener { view, mYear, mMonth, mDay ->
-//                    val monthplus: Int = mMonth + 1
-//                    select_date.setText("" + mDay + "/" + month_name + "/" + mYear)
-
-                    // To get month in alphabets
-//                    val monthInLetters = SimpleDateFormat("MMM")
-//                    val month_name = monthInLetters.format(c.time)
-
-                    select_date.setText("$mDay/${dateInAlpha(mMonth + 1)}/$mYear")
-
-                }, year, month, day
-            )
-            dpd.datePicker.minDate = System.currentTimeMillis() - 1000;
-            dpd.show()
-
+            add(ItemSelection("1 week"))
+            add(ItemSelection("2 week"))
+            add(ItemSelection("3 week"))
+            add(ItemSelection("4 week"))
         }
+        fixLenghtAdaptor(allWeeks)
 
-////////////////////////////////////////////TimePicker #1/////////////////////////////////
-        select_time_btn1.setOnClickListener() {
-            hidekeyboard()
-            val tpd = TimePickerDialog(
-                this,
-                TimePickerDialog.OnTimeSetListener { view, selectedHour, selectedMinute ->
-                    select_time_btn1.setText(
-                        String.format(
-                            "%02d:%02d",
-                            selectedHour,
-                            selectedMinute
-                        )
-                    )
-                },
 
-                hour,
-                minute,
-                true
-            )
-            tpd.show()
 
-        }
+        own_time_tv.setOnClickListener() {
+            fm = supportFragmentManager
 
-/////////////////////////////////////TimePicker #2/////////////////////////////////
-        select_time2.setOnClickListener() {
-            hidekeyboard()
-            val tpd = TimePickerDialog(
-                this,
-                TimePickerDialog.OnTimeSetListener { view, selectedHour, selectedMinute ->
-                    select_time2.setText(String.format("%02d:%02d", selectedHour, selectedMinute))
-                },
-
-                hour,
-                minute,
-                true
-            )
-            tpd.show()
+            val dateDialog =
+                DatePickerFragment()
+            dateDialog.show(fm!!, "fragment_date")
         }
 
 
-        var fixedLengthSpinner: RelativeLayout =
-            findViewById(R.id.textInputlist_duration)
-        var fixedLengthTime: TextInputLayout =
-            findViewById(R.id.textInputlist_duration1)
 
-        var endTimeDate: TextInputLayout =
-            findViewById(R.id.textInputlist_duration3)
-        var endTimeTime: TextInputLayout =
-            findViewById(R.id.textInputlist_duration4)
 
-        //////////////////////////////////////Activity Work///////////////////////////////////////////
-        radiobtn1.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { compoundButton, b ->
+        radiobtn1.setOnCheckedChangeListener { compoundButton, b ->
             if (b) {
-                radiobtn2.isChecked = false
-                select_date.isEnabled = false
-                select_date.setText("")
-                select_date.inputType = InputType.TYPE_NULL
-                select_date.isFocusableInTouchMode = false
-
-                select_time2.isEnabled = false
-                select_time2.setText("")
-                select_time2.inputType = InputType.TYPE_NULL;
-                select_time2.isFocusableInTouchMode = false
-
-                select_dur.isEnabled = true
-//                select_dur.setInputType(InputType.TYPE_CLASS_TEXT)
-                select_dur.isFocusableInTouchMode = true
-                select_dur.requestFocus()
-
-                select_time_btn1.isEnabled = true
-                //select_time_btn1.setInputType(InputType.TYPE_CLASS_DATETIME)
-                select_time_btn1.isFocusableInTouchMode = true
-
-                select_date.error = null
-                select_time2.error = null
-
-                endTimeDate.visibility = View.GONE
-                endTimeTime.visibility = View.GONE
-                fixedLengthSpinner.visibility = View.VISIBLE
-                fixedLengthTime.visibility = View.VISIBLE
-
-                error_radiobtn_check.visibility = View.GONE
+                option_1.performClick()
             }
-        })
-        radiobtn2.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { compoundButton, b ->
+        }
+        radiobtn2.setOnCheckedChangeListener { compoundButton, b ->
             if (b) {
-                radiobtn1.isChecked = false
-                select_dur.isEnabled = false
-//                select_dur.setInputType(InputType.TYPE_NULL)
-//                select_dur.setText("")
-                select_dur.isFocusableInTouchMode = false
-
-                select_time_btn1.isEnabled = false;
-                select_time_btn1.inputType = InputType.TYPE_NULL;
-                select_time_btn1.setText("")
-                select_time_btn1.isFocusableInTouchMode = false
-
-                select_date.isEnabled = true
-                //select_date.setInputType(InputType.TYPE_CLASS_DATETIME)
-                select_date.isFocusableInTouchMode = true
-                select_date.requestFocus()
-
-                select_time2.isEnabled = true
-                //select_time2.setInputType(InputType.TYPE_CLASS_DATETIME)
-                select_time2.isFocusableInTouchMode = true
-
-//                select_dur.error = null
-                select_time_btn1.error = null
-
-                endTimeDate.visibility = View.VISIBLE
-                endTimeTime.visibility = View.VISIBLE
-                fixedLengthSpinner.visibility = View.GONE
-                fixedLengthTime.visibility = View.GONE
-
-                error_radiobtn_check.visibility = View.GONE
-
+                option_2.performClick()
             }
-        })
+        }
 
 
-        /////////////////////Next Button Validation//////////////////////////
         btn_listduration.setOnClickListener {
-            confirmListDuration(it)
+            confirmListDuration()
         }
 
-
+        pricepay_radioGroupp.setOnCheckedChangeListener { group, checkedId ->
+            isSelectShipping=true
+        }
     }
 
 
-    ///////////////////////////////////////RadioButton if/else Clicking//////////////////////////////////////////
     private fun validateListDuration(): Boolean {
-        var duration: Spinner = findViewById<Spinner>(R.id.select_dur)
-        val Inputduration = duration.selectedItem.toString().trim { it <= ' ' }
-        //
-        val time1 = findViewById(R.id.select_time_btn1) as TextInputEditText
-        val Inputtime1 = time1.text.toString().trim { it <= ' ' }
-        //
-        val datee = findViewById(R.id.select_date) as TextInputEditText
-        val Inputdate = datee.text.toString().trim { it <= ' ' }
-        //
-        val time2 = findViewById(R.id.select_time2) as TextInputEditText
-        val Inputtime2 = time2.text.toString().trim { it <= ' ' }
 
 
         return if (radiobtn1.isChecked) {
-            if (Inputduration == "- - Select Country - -" && Inputtime1.isEmpty()) {
-//                duration.error = "Field can't be empty"
-                time1.error = getString(R.string.Fieldcantbeempty)
-                false
-            } else if (Inputtime1.isEmpty()) {
-                time1.error = getString(R.string.Fieldcantbeempty)
-//                 duration.error = null
-                false
-            } else if (Inputduration == "- - Select Country - -") {
-//                duration.error = "Field can't be empty"
-                time1.error = null
-                false
+            if (fixlenghtselected == null) {
+                showError(getString(R.string.Please_select, getString(R.string.close_time)))
+                return false
             } else {
-                time1.error = null
-//                duration.error = null
-                true
+                return true
             }
         }
         ////////////////////////////////////////////////////
         else if (radiobtn2.isChecked) {
 
-            if (Inputdate.isEmpty() and Inputtime2.isEmpty()) {
-                datee.error = getString(R.string.Fieldcantbeempty)
-                time2.error = getString(R.string.Fieldcantbeempty)
-                false
-            } else if (Inputdate.isEmpty()) {
-                datee.error = getString(R.string.Fieldcantbeempty)
-                time2.error = null
-                false
-            } else if (Inputtime2.isEmpty()) {
-                time2.error = getString(R.string.Fieldcantbeempty)
-                datee.error = null
-                false
+            if (own_time_tv.text.toString().isEmpty()) {
+                showError(getString(R.string.Please_select, getString(R.string.close_time)))
+                return false
             } else {
-                datee.error = null
-                time2.error = null
-                true
+                return true
             }
 
         } else {
@@ -289,99 +163,63 @@ class ListingDuration : BaseActivity() {
         return if (radiobtn1.isChecked or radiobtn2.isChecked) {
             true
         } else {
-            error_radiobtn_check.visibility = View.VISIBLE
-            error_radiobtn_check.text = getString(R.string.Selectanyoneoption)
+            showError(getString(R.string.Selectanyoneoption))
             false
         }
     }
 
-    fun confirmListDuration(v: View) {
-        if (!validateListDuration() or !ValidateRadiobtmchecked()) {
+    //////////////////////////////////////////////////////////
+    private  fun validaterShippingRadiobutton(): Boolean {
+       return isSelectShipping
+    }
+
+
+    fun confirmListDuration() {
+        if (!validateListDuration() or !ValidateRadiobtmchecked() or !validaterShippingRadiobutton()) {
             return
         } else {
 
             if (radiobtn1.isChecked) {
-                //lalalalalalala
-                val durationtext: String = select_dur.selectedItem.toString()
                 StaticClassAdCreate.fixLength = "fixed_length"
+                val sdf = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
+                StaticClassAdCreate.timepicker = sdf.format(Date())
 
-                val timetxt: String = select_time_btn1.text.toString()
-                var hour = timetxt.substring(0, 2)
-                var minute = timetxt.substring(3, 5)
-                var time = "$hour : $minute : 00"
 
-                StaticClassAdCreate.timepicker = time
 
-                StaticClassAdCreate.duration = durationtext.take(6)
+                StaticClassAdCreate.duration = fixlenghtselected!!.text
                 StaticClassAdCreate.endtime = ""
 
             } else if (radiobtn2.isChecked) {
-                val datetext: String = select_date.text.toString()
                 StaticClassAdCreate.fixLength = "end_time"
 
-                val timetxt2: String = select_time2.text.toString()
 
-                var hour2 = timetxt2.substring(0, 2)
-                var minute2 = timetxt2.substring(3, 5)
-                var time2 = "$hour2 : $minute2 : 00"
-                StaticClassAdCreate.timepicker = time2
+                StaticClassAdCreate.timepicker = selectTime
 
-                StaticClassAdCreate.endtime = datetext
+                StaticClassAdCreate.endtime = own_time_tv.text.toString()
                 StaticClassAdCreate.duration = ""
             }
-            startActivity(Intent(this, ShippingPickups::class.java).apply {
+
+
+
+            ///////get value of radiobtn pickup opt1 to static class/////////////
+            val selectedId: Int = pricepay_radioGroupp.checkedRadioButtonId
+            val pickupopt1 : RadioButton = findViewById(selectedId)
+            val pickupoptRadiobtnnn1 : String = pickupopt1.text.toString()
+            StaticClassAdCreate.pickup_option = pickupoptRadiobtnnn1
+
+            ///////get value of radiobtn pickup opt2 to static class/////////////
+            val selectedId2 : Int = pricepay_radioGroupp.checkedRadioButtonId
+            val pickupopt2 : RadioButton =findViewById(selectedId2)
+            val pickupoptRadiobtnnn2 : String = pickupopt2.text.toString()
+            StaticClassAdCreate.shipping_option = pickupoptRadiobtnnn2
+
+            startActivity(Intent(this, PromotionalActivity::class.java).apply {
             })
 
-
         }
 
     }
 
-    private fun dateInAlpha(monthNumber: Int): String {
-        when (monthNumber) {
-            1 -> {
-                return "Jan"
-            }
-            2 -> {
-                return "Feb"
-            }
-            3 -> {
-                return "Mar"
-            }
-            4 -> {
-                return "Apr"
-            }
-            5 -> {
-                return "May"
-            }
-            6 -> {
-                return "Jun"
-            }
-            7 -> {
-                return "Jul"
-            }
-            8 -> {
-                return "Aug"
-            }
-            9 -> {
-                return "Sep"
-            }
-            10 -> {
-                return "Oct"
-            }
-            11 -> {
-                return "Nov"
-            }
-            12 -> {
-                return "Dec"
-            }
-            else -> return ""
-        }
-    }
-
-    fun hidekeyboard() {
-
-    }
 
     fun addDay(oldDate: String?, numberOfDays: Int): String? {
         var dateFormat = SimpleDateFormat("yyyy-MM-dd")
@@ -392,9 +230,47 @@ class ListingDuration : BaseActivity() {
             e.printStackTrace()
         }
         c.add(Calendar.DAY_OF_YEAR, numberOfDays)
-        dateFormat = SimpleDateFormat("dd/MM/YYYY")
+        dateFormat = SimpleDateFormat("dd/MM/yyyy")
         val newDate = Date(c.timeInMillis)
         return dateFormat.format(newDate)
+    }
+
+
+    private fun fixLenghtAdaptor(list: ArrayList<ItemSelection>) {
+        fix_lenght_rcv.adapter = object : GenericListAdapter<ItemSelection>(
+            R.layout.selection_item,
+            bind = { element, holder, itemCount, position ->
+                holder.view.run {
+                    element.run {
+
+                        selection_tv.text = text
+                        if (isSelect) {
+                            selection_tv.setSelected(true)
+                        } else {
+                            selection_tv.setSelected(false)
+                        }
+                        setOnClickListener {
+                            list.forEachIndexed { index, addBankDetail ->
+                                addBankDetail.isSelect = index == position
+                            }
+                            fix_lenght_rcv.adapter!!.notifyDataSetChanged()
+                            fixlenghtselected = element
+                        }
+
+
+                    }
+                }
+            }
+        ) {
+            override fun getFilter(): Filter {
+                TODO("Not yet implemented")
+            }
+
+        }.apply {
+            submitList(
+                list
+            )
+        }
     }
 }
 

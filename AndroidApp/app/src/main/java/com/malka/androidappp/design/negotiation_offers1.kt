@@ -1,13 +1,12 @@
 package com.malka.androidappp.design
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Filter
+import androidx.appcompat.app.AppCompatActivity
 import com.malka.androidappp.R
 import com.malka.androidappp.design.Models.negotiationmodel
-import com.malka.androidappp.design.Models.reviewmodel
 import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
-import kotlinx.android.synthetic.main.activity_add_product2.*
+import kotlinx.android.synthetic.main.negotiation_offers1.*
 import kotlinx.android.synthetic.main.negotiation_offers_design.view.*
 import kotlinx.android.synthetic.main.product_review_design.view.*
 

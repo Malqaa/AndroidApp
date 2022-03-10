@@ -6,7 +6,7 @@ import android.widget.Filter
 import com.malka.androidappp.R
 import com.malka.androidappp.design.Models.cartmdel
 import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
-import kotlinx.android.synthetic.main.activity_add_product2.*
+import kotlinx.android.synthetic.main.activity_cart.*
 import kotlinx.android.synthetic.main.cart_design.view.*
 
 class cart : AppCompatActivity() {

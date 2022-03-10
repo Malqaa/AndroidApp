@@ -103,7 +103,8 @@
     <Button
         android:id="@+id/save_card"
         android:layout_width="match_parent"
-        android:backgroundTint="@color/GoldenApp"
+          android:layout_margin="@dimen/_15sdp"
+        android:background="@drawable/round_btn"
         android:layout_height="64dp"
         android:layout_alignParentBottom="true"
         android:text="Save"

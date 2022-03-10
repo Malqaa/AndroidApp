@@ -111,7 +111,6 @@
                         android:inputType="text|textMultiLine|textCapSentences"
                         android:padding="@dimen/_7sdp"
                         android:scrollbars="vertical"
-                        android:singleLine="false"
                         android:textColor="#6D6C74"
                         android:textSize="@dimen/_13sdp" />
                 </LinearLayout>
@@ -138,7 +137,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:background="@drawable/field_selection_bg"
-                        android:enabled="false"
                         android:gravity="center"
                         android:paddingLeft="@dimen/_30sdp"
                         android:paddingRight="@dimen/_30sdp"
@@ -153,7 +151,6 @@
                         android:layout_height="match_parent"
                         android:layout_marginStart="@dimen/_10sdp"
                         android:background="@drawable/field_selection_bg"
-                        android:enabled="false"
                         android:gravity="center"
                         android:paddingLeft="@dimen/_30sdp"
                         android:paddingRight="@dimen/_30sdp"
@@ -203,6 +200,7 @@
                     android:text="@string/address_details"
                     android:textColor="#293241"
                     android:textSize="@dimen/_14sdp" />
+
 
                 <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
                     android:id="@+id/select_country"
