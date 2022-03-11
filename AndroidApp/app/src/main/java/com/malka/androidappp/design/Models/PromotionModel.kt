@@ -1,5 +1,6 @@
 package com.malka.androidappp.design.Models
- class PromotionModel(
+
+class PromotionModel(
     val packagename: String,
     val packageprice: String,
     val packageservice: List<String>,

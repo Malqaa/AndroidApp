@@ -14,8 +14,8 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/btn_dynamic_next"
         android:layout_below="@+id/toolbar_main"
-        android:layout_marginLeft="@dimen/_10sdp"
-        android:layout_marginRight="@dimen/_10sdp"
+        android:paddingRight="@dimen/_10sdp"
+        android:paddingLeft="@dimen/_10sdp"
         android:background="@color/white">
 
 

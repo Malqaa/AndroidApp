@@ -1,8 +1,11 @@
 package com.malka.androidappp.botmnav_fragments.create_ads.new_flow
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.widget.Filter
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.BaseActivity
@@ -13,7 +16,6 @@ import com.malka.androidappp.helper.show
 import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
 import kotlinx.android.synthetic.main.fragment_promotional.*
 import kotlinx.android.synthetic.main.item_details2_desgin.view.*
-import kotlinx.android.synthetic.main.promotion_item.view.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 
 
@@ -85,7 +87,11 @@ class PromotionalActivity : BaseActivity() {
     }
 
 
-    private fun setCategoryAdaptor(list: List<PromotionModel>) {
+    private fun setCategoryAdaptor(
+        list: List<PromotionModel>
+    ) {
+        val inflater =
+            getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         category_rcv.adapter = object : GenericListAdapter<PromotionModel>(
             R.layout.item_details2_desgin,
             bind = { element, holder, itemCount, parent_position ->
@@ -93,27 +99,13 @@ class PromotionalActivity : BaseActivity() {
                     element.run {
                         pkg_name.text = packagename
                         pkg_price.text = "$packageprice ${getString(R.string.Rayal)}"
-
-                        promotion_sub_rcv.adapter = object : GenericListAdapter<String>(
-                            R.layout.promotion_item,
-                            bind = { element, holder, itemCount, position ->
-                                holder.view.pkg_service1.text = element
-//                                holder.view.main_layout.setOnClickListener {
-//                                    print("dsfdfg")
-//                                    //packageSelection(arrayListOf(), 0)
-//                                }
-                            }
-                        ) {
-                            override fun getFilter(): Filter {
-                                TODO("Not yet implemented")
-                            }
-
-                        }.apply {
-                            submitList(
-                                packageservice
-                            )
+                        parent_layout.removeAllViews()
+                        packageservice.forEach {
+                            val _view = inflater.inflate(R.layout.promotion_item, null)
+                            val pkg_service1: TextView = _view.findViewById(R.id.pkg_service1)
+                            pkg_service1.text = it
+                            parent_layout.addView(_view)
                         }
-
                         if (is_select) {
                             bgline.setBackgroundResource(R.drawable.product_attribute_linebg)
                             is_selectimage.show()
@@ -126,16 +118,26 @@ class PromotionalActivity : BaseActivity() {
                         if (is_common) {
                             common.show()
                             is_selectimage.setImageResource(R.drawable.ic_check_black)
-                            item_bg.setBackgroundColor(ContextCompat.getColor(this@PromotionalActivity, R.color.bg))
+                            item_bg.setBackgroundColor(
+                                ContextCompat.getColor(
+                                    this@PromotionalActivity,
+                                    R.color.bg
+                                )
+                            )
                         } else {
                             common.hide()
                             is_selectimage.setImageResource(R.drawable.ic_check)
 
-                            item_bg.setBackgroundColor(ContextCompat.getColor(this@PromotionalActivity, R.color.textColor))
+                            item_bg.setBackgroundColor(
+                                ContextCompat.getColor(
+                                    this@PromotionalActivity,
+                                    R.color.textColor
+                                )
+                            )
 
                         }
-                        setOnClickListener {
-                           packageSelection(list,parent_position)
+                        main_layout.setOnClickListener {
+                            packageSelection(list, parent_position)
                         }
                     }
                 }
@@ -152,7 +154,7 @@ class PromotionalActivity : BaseActivity() {
         }
     }
 
-    private fun packageSelection(list:List<PromotionModel>,position:Int) {
+    private fun packageSelection(list: List<PromotionModel>, position: Int) {
         list.forEach {
             it.is_select = false
         }
@@ -171,7 +173,7 @@ class PromotionalActivity : BaseActivity() {
 
     fun confirmpromotion() {
         if (!validatepromotion()) {
-           showError(getString(R.string.choose_one_of_our_special_packages))
+            showError(getString(R.string.choose_one_of_our_special_packages))
         } else {
             saveSelectedcheckbox()
             startActivity(Intent(this, Confirmation::class.java).apply {

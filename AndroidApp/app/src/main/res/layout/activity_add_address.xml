@@ -91,7 +91,7 @@
                             android:fontFamily="@font/madani_arabic_medium"
                             android:gravity="center"
                             android:text="@string/add_a_new_title"
-                            android:textColor="#45495E"
+                            android:textColor="@color/grey"
                             android:textSize="@dimen/_10sdp" />
 
                     </LinearLayout>

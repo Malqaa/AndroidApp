@@ -164,8 +164,8 @@ interface MalqaApiService {
     fun getRegion(@Query("key") Id: String,@Query("culture") culture: String): Call<CountryRespone>
 
 
- @GET("Country/City")
-    fun getCity(@Query("Id") Id: String): Call<CountryRespone>
+ @GET("Country/GetCityFrmSqlbyKey")
+    fun getCity(@Query("key") Id: String,@Query("culture") culture: String): Call<CountryRespone>
 
 
 

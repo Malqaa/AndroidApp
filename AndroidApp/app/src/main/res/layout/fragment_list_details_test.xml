@@ -66,7 +66,7 @@
                 </LinearLayout>
 
 
-                <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+                <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
                     android:id="@+id/title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -84,7 +84,7 @@
                     android:textColor="#293241"
                     android:textSize="@dimen/_14sdp" />
 
-                <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+                <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
                     android:id="@+id/subtitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -199,7 +199,7 @@
                     app:ccp_showNameCode="false"
                     app:ccp_showPhoneCode="false" />
 
-                <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+                <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
                     android:id="@+id/spinner2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -210,7 +210,7 @@
                     app:startIcon="@drawable/ic_region"
                     app:viewType="spinner" />
 
-                <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+                <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
@@ -221,7 +221,7 @@
                     app:viewType="spinner" />
 
 
-                <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+                <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
                     android:id="@+id/PhoneNumber"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

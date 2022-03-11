@@ -1,26 +1,20 @@
 package com.malka.androidappp.design
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Patterns
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.malka.androidappp.R
 import com.malka.androidappp.design.Models.GetAddressResponse
-import com.malka.androidappp.helper.hideLoader
-import com.malka.androidappp.helper.showLoader
+import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.network.service.insertAddressResponseBack
 import kotlinx.android.synthetic.main.activity_add_address.*
-import kotlinx.android.synthetic.main.activity_add_address.loader
 import kotlinx.android.synthetic.main.activity_add_address_main.*
-import kotlinx.android.synthetic.main.activity_add_address_main.PhoneNumber
 import kotlinx.android.synthetic.main.add_address_design.view.*
-import java.io.InputStreamReader
-import java.io.Reader
-import kotlinx.android.synthetic.main.activity_add_address_main.select_region as select_region
 
 class add_address_main : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -137,7 +131,7 @@ class add_address_main : AppCompatActivity() {
 
     fun insertAddress() {
 
-        loader.showLoader()
+        HelpFunctions.startProgressBar(this)
 
         val malqa: MalqaApiService = RetrofitBuilder.createAccountsInstance()
 
@@ -162,7 +156,7 @@ class add_address_main : AppCompatActivity() {
                 call: retrofit2.Call<insertAddressResponseBack?>?,
                 t: Throwable
             ) {
-                loader.hideLoader()
+                HelpFunctions.dismissProgressBar()
 
                 Toast.makeText(this@add_address_main, "${t.message}", Toast.LENGTH_LONG).show()
             }
@@ -196,7 +190,7 @@ class add_address_main : AppCompatActivity() {
                     }
 
                 }
-                loader.hideLoader()
+                HelpFunctions.dismissProgressBar()
             }
         })
 

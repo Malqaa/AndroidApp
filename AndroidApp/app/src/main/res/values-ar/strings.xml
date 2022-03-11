@@ -287,10 +287,11 @@
     الفئة الثانية
     </string>
 
-  <string name="Select" formatted="true">تحديد %s</string>
-  <string name="Please_select" formatted="true">حدد اختيار %s</string>
+    <string name="Select" formatted="true">تحديد %s</string>
+    <string name="Please_select" formatted="true">حدد اختيار %s</string>
+    <string name="Please_enter" formatted="true">الرجاء إدخال %s</string>
 
-  <string name="Subtitle">
+    <string name="Subtitle">
     عنوان فرعي
   </string>
     <string name="Youdonthaveanypaymentinstructionsset.">
@@ -2600,19 +2601,23 @@
     <string name="my_saved_addresses">عناوينى المحفوظة</string>
     <string name="delivery_to_my_current_address">التوصيل الى عنوانى الحالى</string>
     <string name="add_a_new_title">اضافة عنوان جديد</string>
-  <string name="close_time">وقت اغلاف المزاد</string>
-  <string name="without_additional_expenses">بدون مصاريف اضافية</string>
-  <string name="set_your_own_time_and_time">حدد التاريخ والوقت الخاصين بك</string>
-  <string name="_20_riyals">+20 ريال</string>
-  <string name="Golden_Package">الباقة الذهبية</string>
-  <string name="Silver_Package">الباقة الفضية</string>
-  <string name="Bronze_Package">الباقة البرونزية</string>
-  <string name="Standard_Package">الباقة العادية</string>
-  <string name="your_product_will_be_displayed_on_the_home_page">Your product will be displayed on the home page</string>
-  <string name="common">شائع</string>
+    <string name="close_time">وقت اغلاف المزاد</string>
+    <string name="without_additional_expenses">بدون مصاريف اضافية</string>
+    <string name="set_your_own_time_and_time">حدد التاريخ والوقت الخاصين بك</string>
+    <string name="_20_riyals">+20 ريال</string>
+    <string name="Golden_Package">الباقة الذهبية</string>
+    <string name="Silver_Package">الباقة الفضية</string>
+    <string name="Bronze_Package">الباقة البرونزية</string>
+    <string name="Standard_Package">الباقة العادية</string>
+    <string name="your_product_will_be_displayed_on_the_home_page">Your product will be displayed on the home page</string>
+    <string name="common">شائع</string>
     <string name="choose_your_payment_method">اختر طريقة الدفع</string>
     <string name="your_product_has_been_successfully_added">تم اضافة منتجك بنجاح</string>
-  <string name="view_the_product">الاطلاع على المنتج</string>
-  <string name="back_to_main">الرجوع للرئيسية</string>
+    <string name="view_the_product">الاطلاع على المنتج</string>
+    <string name="back_to_main">الرجوع للرئيسية</string>
+    <string name="main_photo">الصورة الرئيسية</string>
+    <string name="PM">مساء</string>
+    <string name="AM">صباحا</string>
+    <string name="mark_main_photo">يرجى وضع علامة على الصورة الرئيسية</string>
 
 </resources>

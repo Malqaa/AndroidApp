@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
-    android:layout_height="@dimen/_120sdp">
-
+    android:layout_height="@dimen/_120sdp"
+    android:layout_margin="@dimen/_10sdp"
+    app:cardCornerRadius="@dimen/_10sdp">
 
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:layout_margin="@dimen/_5sdp"
-        android:background="@drawable/product_attribute_bg4">
+        android:layout_height="wrap_content">
 
 
         <RelativeLayout
@@ -21,14 +20,13 @@
                 android:id="@+id/add_img_ic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
-                android:src="@drawable/car" />
+                android:scaleType="centerCrop" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/_25sdp"
                 android:layout_alignParentBottom="true"
-                android:background="@color/light_gray"
+                android:background="@color/gray_light"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -47,7 +45,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:fontFamily="@font/madani_arabic_medium"
-                    android:text="ABC"
+                    android:text="@string/main_photo"
                     android:textColor="#000000" />
 
 
@@ -58,4 +56,4 @@
 
     </LinearLayout>
 
-</RelativeLayout>
+</androidx.cardview.widget.CardView>

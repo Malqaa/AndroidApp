@@ -25,7 +25,7 @@ import com.malka.androidappp.helper.widgets.searchdialog.OnSearchItemSelected
 import com.malka.androidappp.helper.widgets.searchdialog.SearchListItem
 import com.malka.androidappp.helper.widgets.searchdialog.SearchableDialog
 
-class DetailedTextField : LinearLayout {
+class TextFieldComponent : LinearLayout {
 
     val selectedItem: Any
         get() {
@@ -51,7 +51,6 @@ class DetailedTextField : LinearLayout {
     private var startIcon = 0
     private var endIcon = 0
 
-    private var isLastField = false
     var textHint: CharSequence? = null
     private var inputType = EditorInfo.TYPE_CLASS_TEXT
     private var maxLength: Int? = null
@@ -59,6 +58,7 @@ class DetailedTextField : LinearLayout {
     private var endText: CharSequence? = null
     private var backgroundTint: Int = 0
     private var viewType = 0
+    private var imeOptions = 0
 
 
     private var focusImpList = ArrayList<(View, Boolean) -> Unit>()
@@ -104,52 +104,52 @@ class DetailedTextField : LinearLayout {
         // a real application your images should be in the
         // application package so they are always available.
         etl_Field = findViewById(R.id.tvl_field)
-        etl_Field.id = DetailedTextFieldIdGenerator.viwId.getId(id)
+        etl_Field.id = TextFieldIdGenerator.viwId.getId(id)
 
         iv_start_icon = findViewById(R.id.iv_start_icon)
-        iv_start_icon.id = DetailedTextFieldIdGenerator.viwId.getlId(id)
+        iv_start_icon.id = TextFieldIdGenerator.viwId.getlId(id)
 
 
         iv_end_icon = findViewById(R.id.iv_end_icon)
-        iv_end_icon.id = DetailedTextFieldIdGenerator.viwId.getllId(id)
+        iv_end_icon.id = TextFieldIdGenerator.viwId.getllId(id)
 
 
         line = findViewById(R.id.line)
-        line.id = DetailedTextFieldIdGenerator.viwId.getlllId(id)
+        line.id = TextFieldIdGenerator.viwId.getlllId(id)
 
 
         cppfield = findViewById(R.id.cppfield)
-        cppfield.id = DetailedTextFieldIdGenerator.viwId.getllllId(id)
+        cppfield.id = TextFieldIdGenerator.viwId.getllllId(id)
 
 
         et_Field = findViewById(R.id.tv_field)
-        et_Field.id = DetailedTextFieldIdGenerator.viwId.getlllllId(id)
+        et_Field.id = TextFieldIdGenerator.viwId.getlllllId(id)
 
         tv_Error = findViewById(R.id.tv_error)
-        tv_Error.id = DetailedTextFieldIdGenerator.viwId.getllllllId(id)
+        tv_Error.id = TextFieldIdGenerator.viwId.getllllllId(id)
 
 
         textView = findViewById(R.id.textView)
-        textView.id = DetailedTextFieldIdGenerator.viwId.getInfoIconID(id)
+        textView.id = TextFieldIdGenerator.viwId.getInfoIconID(id)
 
 
         edittext = findViewById(R.id.edittext)
-        edittext.id = DetailedTextFieldIdGenerator.viwId.getStartIconID(id)
+        edittext.id = TextFieldIdGenerator.viwId.getStartIconID(id)
 
 
         itemLayout = findViewById(R.id.itemLayout)
-        itemLayout.id = DetailedTextFieldIdGenerator.viwId.getStartIconIDD(id)
+        itemLayout.id = TextFieldIdGenerator.viwId.getStartIconIDD(id)
 
 
         end_text_tv = findViewById(R.id.end_text_tv)
-        end_text_tv.id = DetailedTextFieldIdGenerator.viwId.getStartIconIDDD(id)
+        end_text_tv.id = TextFieldIdGenerator.viwId.getStartIconIDDD(id)
 
         tv_Error.hide()
 
 
         _setViewType(viewType, true)
 
-        _setLastField(isLastField)
+        _setLastField(imeOptions)
 //        _setDescriptionEnabled(enableDescription, arrayListOf(textDescription))
         _setStartIcon(startIcon)
         _setEndIcon(endIcon)
@@ -247,6 +247,7 @@ class DetailedTextField : LinearLayout {
     public fun _setEndText(endText: CharSequence?) {
         if (endText != null) {
             end_text_tv.text = endText
+            end_text_tv.show()
             iv_end_icon.hide()
         } else {
             end_text_tv.hide()
@@ -284,18 +285,28 @@ class DetailedTextField : LinearLayout {
     public fun _setInputType(inputType: Int) {
         this.inputType = inputType
         et_Field.inputType = inputType
+        edittext.inputType = inputType
         // 8194 fixed ID for Decimal Input Type
         if (et_Field.inputType == 8194) {
-            //   filterArray.add(DecimalDigitsInputFilter(3))
+            // filterArray.add(DecimalDigitsInputFilter(3))
         }
     }
 
-    public fun _setLastField(isLastField: Boolean) {
-        this.isLastField = isLastField
-        et_Field.imeOptions =
-            if (isLastField) EditorInfo.IME_ACTION_DONE else EditorInfo.IME_ACTION_NEXT
-        edittext.imeOptions =
-            if (isLastField) EditorInfo.IME_ACTION_DONE else EditorInfo.IME_ACTION_NEXT
+    public fun _setLastField(imeOptions: Int) {
+        when (imeOptions) {
+            0 -> {
+                et_Field.imeOptions=EditorInfo.IME_ACTION_NEXT
+                edittext.imeOptions=EditorInfo.IME_ACTION_NEXT
+            }
+            1 -> {
+                et_Field.imeOptions=EditorInfo.IME_ACTION_DONE
+                edittext.imeOptions=EditorInfo.IME_ACTION_DONE
+            }
+            2 -> {
+                et_Field.imeOptions=EditorInfo.IME_ACTION_SEARCH
+                edittext.imeOptions=EditorInfo.IME_ACTION_SEARCH
+            }
+        }
     }
 
     fun checkHint() {
@@ -348,6 +359,10 @@ class DetailedTextField : LinearLayout {
 
     public fun _setOnClickListener(listener: OnClickListener) {
         itemLayout.setOnClickListener(listener)
+        etl_Field.setOnClickListener(listener)
+        et_Field.setOnClickListener(listener)
+        edittext.setOnClickListener(listener)
+
     }
 
 
@@ -440,6 +455,9 @@ class DetailedTextField : LinearLayout {
         return et_Field
     }
 
+    public fun _view2(): EditText {
+        return edittext
+    }
 
     public fun getText(): String {
         if (viewType == 4) {
@@ -484,11 +502,11 @@ class DetailedTextField : LinearLayout {
             textText = getText(R.styleable.DetailedTextField_android_text)
             backgroundTint = getColor(R.styleable.DetailedTextField_android_backgroundTint, 0)
             viewType = getInt(R.styleable.DetailedTextField_viewType, 0)
+            imeOptions = getInt(R.styleable.DetailedTextField_imeOptions, 0)
             endText = getString(R.styleable.DetailedTextField_endText)
 
             startIcon = getResourceId(R.styleable.DetailedTextField_startIcon, 0)
             endIcon = getResourceId(R.styleable.DetailedTextField_endIcon, 0)
-            isLastField = getBoolean(R.styleable.DetailedTextField_lastfield, false)
             enableTopLine = getBoolean(R.styleable.DetailedTextField_enableTopLine, true)
             enableBottomLine = getBoolean(R.styleable.DetailedTextField_enableBottomLine, true)
 

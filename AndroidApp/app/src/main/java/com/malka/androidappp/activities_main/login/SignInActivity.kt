@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.util.Patterns
 import android.view.View
 import android.widget.Toast
-import com.google.gson.Gson
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.BaseActivity
 import com.malka.androidappp.activities_main.MainActivity
@@ -15,23 +14,18 @@ import com.malka.androidappp.botmnav_fragments.forgot_password.ForgotPasswordAct
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass.Companion.islogin
 import com.malka.androidappp.helper.HelpFunctions
-import com.malka.androidappp.helper.hideLoader
-import com.malka.androidappp.helper.showLoader
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.servicemodels.ConstantObjects
 import io.paperdb.Paper
 import kotlinx.android.synthetic.main.activity_sign_in.*
-import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.InputStreamReader
-import java.io.Reader
 import java.util.regex.Pattern
 
 
- open class SignInActivity : BaseActivity() {
+open class SignInActivity : BaseActivity() {
     var calledfromsigninactivity = false
 
 
@@ -172,7 +166,7 @@ import java.util.regex.Pattern
 
     fun MakeLoginAPICall(email: String, password: String, context: Context,isFromLogin:Boolean=true) {
         if(!isFromLogin){
-            loader.showLoader()
+            HelpFunctions.startProgressBar(this)
         }
         val malqa: MalqaApiService = RetrofitBuilder.createAccountsInstance()
         val login = LoginClass(email, password)
@@ -181,7 +175,7 @@ import java.util.regex.Pattern
         call?.enqueue(object : Callback<LoginResponseBack?> {
             override fun onFailure(call: Call<LoginResponseBack?>?, t: Throwable) {
                 if(!isFromLogin){
-                    loader.hideLoader()
+                    HelpFunctions.dismissProgressBar()
                 }
                 Toast.makeText(context, "${t.message}", Toast.LENGTH_LONG).show()
             }
@@ -219,7 +213,7 @@ import java.util.regex.Pattern
                     )
                 }
                 if(!isFromLogin){
-                    loader.hideLoader()
+                    HelpFunctions.dismissProgressBar()
                 }
             }
         })

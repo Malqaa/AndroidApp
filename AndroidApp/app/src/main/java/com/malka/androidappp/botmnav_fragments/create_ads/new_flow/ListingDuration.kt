@@ -12,7 +12,7 @@ import com.malka.androidappp.botmnav_fragments.create_ads.StaticClassAdCreate
 import com.malka.androidappp.helper.widgets.DatePickerFragment
 import com.malka.androidappp.helper.widgets.TimePickerFragment
 import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
-import com.malka.androidappp.servicemodels.ItemSelection
+import com.malka.androidappp.servicemodels.TimeSelection
 import kotlinx.android.synthetic.main.fragment_listing_duration.*
 import kotlinx.android.synthetic.main.selection_item.view.*
 import kotlinx.android.synthetic.main.toolbar_main.*
@@ -21,25 +21,13 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class ListingDuration : BaseActivity(), DatePickerFragment.DatePickerListener,
-    TimePickerFragment.TimePickerListener {
-    var fixlenghtselected: ItemSelection? = null
+class ListingDuration : BaseActivity() {
+    var fixlenghtselected: TimeSelection? = null
     var selectdate = ""
     var selectTime = ""
     var fm: FragmentManager? = null
-    var isSelectShipping=false
-    override fun onDateSet(year: Int, month: Int, day: Int) {
-        val timeDialog = TimePickerFragment()
-        timeDialog.show(fm!!, "fragment_time")
-        selectdate = "$day/${month+1}/$year"
-    }
+    var isSelectShipping = false
 
-    override fun onTimeSet(hourOfDay: Int, minute: Int) {
-        selectTime = "$hourOfDay:$minute"
-        own_time_tv.text="$selectdate - $selectTime"
-        radiobtn2.isChecked=true
-
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,20 +40,21 @@ class ListingDuration : BaseActivity(), DatePickerFragment.DatePickerListener,
         }
 
         option_1.setOnClickListener {
-            option_1.background= ContextCompat.getDrawable(this,R.drawable.field_selection_border_enable)
+            option_1.background =
+                ContextCompat.getDrawable(this, R.drawable.field_selection_border_enable)
             FixedLength.setTextColor(ContextCompat.getColor(this, R.color.bg))
 
             option_2.setSelected(false)
-            radiobtn1.isChecked=true
-            radiobtn2.isChecked=false
+            radiobtn1.isChecked = true
+            radiobtn2.isChecked = false
         }
         option_2.setOnClickListener {
             option_2.setSelected(true)
-            option_1.background= ContextCompat.getDrawable(this,R.drawable.edittext_bg)
+            option_1.background = ContextCompat.getDrawable(this, R.drawable.edittext_bg)
             FixedLength.setTextColor(ContextCompat.getColor(this, R.color.text_color))
 
-            radiobtn1.isChecked=false
-            radiobtn2.isChecked=true
+            radiobtn1.isChecked = false
+            radiobtn2.isChecked = true
         }
 
         val c = Calendar.getInstance()
@@ -83,28 +72,30 @@ class ListingDuration : BaseActivity(), DatePickerFragment.DatePickerListener,
         val week4 = addDay(day.toString(), 28)
 
 
-        val allWeeks: ArrayList<ItemSelection> = ArrayList()
+        val allWeeks: ArrayList<TimeSelection> = ArrayList()
         allWeeks.apply {
-//            add(ItemSelection("1 week ($thisDate - $week1)"))
-//            add(ItemSelection("2 week ($thisDate - $week2)"))
-//            add(ItemSelection("3 week ($thisDate - $week3)"))
-//            add(ItemSelection("4 week ($thisDate - $week4)"))
-
-            add(ItemSelection("1 week"))
-            add(ItemSelection("2 week"))
-            add(ItemSelection("3 week"))
-            add(ItemSelection("4 week"))
+            add(TimeSelection("1 week", week1))
+            add(TimeSelection("2 week", week2))
+            add(TimeSelection("3 week", week3))
+            add(TimeSelection("4 week", week4))
         }
         fixLenghtAdaptor(allWeeks)
 
 
 
-        own_time_tv.setOnClickListener() {
+        own_time_tv.setOnClickListener {
             fm = supportFragmentManager
+            val dateDialog = DatePickerFragment(false, true) { selectdate_ ->
+                val timeDialog = TimePickerFragment { selectTime_ ->
+                    selectTime = selectTime_
+                    own_time_tv.text = "$selectdate_ - $selectTime"
+                    radiobtn2.isChecked = true
+                }
+                timeDialog.show(fm!!, "")
+                selectdate = selectdate_
 
-            val dateDialog =
-                DatePickerFragment()
-            dateDialog.show(fm!!, "fragment_date")
+            }
+            dateDialog.show(fm!!, "")
         }
 
 
@@ -127,7 +118,7 @@ class ListingDuration : BaseActivity(), DatePickerFragment.DatePickerListener,
         }
 
         pricepay_radioGroupp.setOnCheckedChangeListener { group, checkedId ->
-            isSelectShipping=true
+            isSelectShipping = true
         }
     }
 
@@ -170,8 +161,8 @@ class ListingDuration : BaseActivity(), DatePickerFragment.DatePickerListener,
     }
 
     //////////////////////////////////////////////////////////
-    private  fun validaterShippingRadiobutton(): Boolean {
-       return isSelectShipping
+    private fun validaterShippingRadiobutton(): Boolean {
+        return isSelectShipping
     }
 
 
@@ -184,31 +175,27 @@ class ListingDuration : BaseActivity(), DatePickerFragment.DatePickerListener,
                 StaticClassAdCreate.fixLength = "fixed_length"
                 val sdf = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
                 StaticClassAdCreate.timepicker = sdf.format(Date())
-
-
-
                 StaticClassAdCreate.duration = fixlenghtselected!!.text
-                StaticClassAdCreate.endtime = ""
+                StaticClassAdCreate.endtime = fixlenghtselected!!.endTime
 
             } else if (radiobtn2.isChecked) {
                 StaticClassAdCreate.fixLength = "end_time"
                 StaticClassAdCreate.timepicker = selectTime
-                StaticClassAdCreate.endtime = own_time_tv.text.toString()
                 StaticClassAdCreate.duration = ""
+                StaticClassAdCreate.endtime = selectdate
             }
-
 
 
             ///////get value of radiobtn pickup opt1 to static class/////////////
             val selectedId: Int = pricepay_radioGroupp.checkedRadioButtonId
-            val pickupopt1 : RadioButton = findViewById(selectedId)
-            val pickupoptRadiobtnnn1 : String = pickupopt1.text.toString()
+            val pickupopt1: RadioButton = findViewById(selectedId)
+            val pickupoptRadiobtnnn1: String = pickupopt1.text.toString()
             StaticClassAdCreate.pickup_option = pickupoptRadiobtnnn1
 
             ///////get value of radiobtn pickup opt2 to static class/////////////
-            val selectedId2 : Int = pricepay_radioGroupp.checkedRadioButtonId
-            val pickupopt2 : RadioButton =findViewById(selectedId2)
-            val pickupoptRadiobtnnn2 : String = pickupopt2.text.toString()
+            val selectedId2: Int = pricepay_radioGroupp.checkedRadioButtonId
+            val pickupopt2: RadioButton = findViewById(selectedId2)
+            val pickupoptRadiobtnnn2: String = pickupopt2.text.toString()
             StaticClassAdCreate.shipping_option = pickupoptRadiobtnnn2
 
             startActivity(Intent(this, PromotionalActivity::class.java).apply {
@@ -219,8 +206,8 @@ class ListingDuration : BaseActivity(), DatePickerFragment.DatePickerListener,
     }
 
 
-    fun addDay(oldDate: String?, numberOfDays: Int): String? {
-        var dateFormat = SimpleDateFormat("yyyy-MM-dd")
+    fun addDay(oldDate: String?, numberOfDays: Int): String {
+        var dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
         val c = Calendar.getInstance()
         try {
             c.time = dateFormat.parse(oldDate)
@@ -234,8 +221,8 @@ class ListingDuration : BaseActivity(), DatePickerFragment.DatePickerListener,
     }
 
 
-    private fun fixLenghtAdaptor(list: ArrayList<ItemSelection>) {
-        fix_lenght_rcv.adapter = object : GenericListAdapter<ItemSelection>(
+    private fun fixLenghtAdaptor(list: ArrayList<TimeSelection>) {
+        fix_lenght_rcv.adapter = object : GenericListAdapter<TimeSelection>(
             R.layout.selection_item,
             bind = { element, holder, itemCount, position ->
                 holder.view.run {
@@ -253,7 +240,7 @@ class ListingDuration : BaseActivity(), DatePickerFragment.DatePickerListener,
                             }
                             fix_lenght_rcv.adapter!!.notifyDataSetChanged()
                             fixlenghtselected = element
-                            radiobtn1.isChecked=true
+                            radiobtn1.isChecked = true
                         }
 
 

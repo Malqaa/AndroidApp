@@ -60,7 +60,7 @@
 
 
         <activity
-            android:name=".design.product_details"
+            android:name=".design.ProductDetails"
             android:exported="true"
             android:theme="@style/NoActionBar" />
 
@@ -95,7 +95,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".activities_main.MainActivity"
@@ -151,7 +150,9 @@
 
         <activity
             android:name=".botmnav_fragments.create_ads.new_flow.DynamicTemplate"
-            android:theme="@style/NoActionBar" />
+            android:theme="@style/NoActionBar" >
+
+        </activity>
         <activity
             android:name=".botmnav_fragments.create_ads.new_flow.ListingDetails"
             android:theme="@style/NoActionBar" >
@@ -175,7 +176,10 @@
 
         <activity
             android:name=".botmnav_fragments.create_ads.new_flow.PromotionalActivity"
-            android:theme="@style/NoActionBar" />
+            android:theme="@style/NoActionBar" >
+
+
+        </activity>
 
         <activity
             android:name=".botmnav_fragments.create_ads.new_flow.Confirmation"

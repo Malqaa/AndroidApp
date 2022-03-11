@@ -1,18 +1,16 @@
 package com.malka.androidappp.design
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Filter
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.malka.androidappp.R
 import com.malka.androidappp.design.Models.GetAddressResponse
-import com.malka.androidappp.helper.hideLoader
-import com.malka.androidappp.helper.showLoader
+import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
-import com.malka.androidappp.network.service.insertAddressResponseBack
 import kotlinx.android.synthetic.main.activity_add_address.*
 import kotlinx.android.synthetic.main.add_address_design.view.*
 
@@ -42,7 +40,7 @@ class add_address : AppCompatActivity() {
 
     fun getAddress() {
 
-        loader.showLoader()
+        HelpFunctions.startProgressBar(this)
 
         val malqa: MalqaApiService = RetrofitBuilder.createAccountsInstance()
         val call = malqa.getAddress("1234")
@@ -51,7 +49,7 @@ class add_address : AppCompatActivity() {
 
         call?.enqueue(object : retrofit2.Callback<GetAddressResponse?> {
             override fun onFailure(call: retrofit2.Call<GetAddressResponse?>?, t: Throwable) {
-                loader.hideLoader()
+                HelpFunctions.dismissProgressBar()
 
                 Toast.makeText(this@add_address, "${t.message}", Toast.LENGTH_LONG).show()
             }
@@ -74,7 +72,7 @@ class add_address : AppCompatActivity() {
                     }
 
                 }
-                loader.hideLoader()
+                HelpFunctions.dismissProgressBar()
             }
         })
 

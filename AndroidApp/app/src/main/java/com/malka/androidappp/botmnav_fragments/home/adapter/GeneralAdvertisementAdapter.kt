@@ -6,10 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
-import com.malka.androidappp.Const
 import com.malka.androidappp.R
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
-import com.malka.androidappp.design.product_details
+import com.malka.androidappp.design.ProductDetails
 import com.malka.androidappp.helper.BaseViewHolder
 import com.malka.androidappp.helper.Extension.decimalNumberFormat
 import com.malka.androidappp.helper.HelpFunctions
@@ -61,14 +60,14 @@ class GeneralAdvertisementAdapter(
                 setOnClickListener {
                    // onItemClick?.invoke(listCar!!.get(position))
 
-                    HelpFunctions.ViewAdvertismentDetail(
-                        referenceId,
-                        template,
-                        currentfragment
-                    )
-                    SharedPreferencesStaticClass.ad_userid = user
+//                    HelpFunctions.ViewAdvertismentDetail(
+//                        referenceId,
+//                        template,
+//                        currentfragment
+//                    )
+//                    SharedPreferencesStaticClass.ad_userid = user
 
-                     context.startActivity(Intent(context, product_details::class.java))
+                    context.startActivity(Intent(context, ProductDetails::class.java))
                 }
                 val imageURL = ApiConstants.IMAGE_URL + homepageImage
                 Picasso.get()

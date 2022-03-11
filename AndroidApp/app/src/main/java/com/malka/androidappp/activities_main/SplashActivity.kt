@@ -20,7 +20,7 @@ class SplashActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
         hideSystemUI(mainContainer)
-        getCountry("en-US")
+        getCountry(culture())
 
         GoToHomeScreen()
         //   getCountry("ar")

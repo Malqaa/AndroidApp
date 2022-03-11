@@ -12,20 +12,25 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import com.malka.androidappp.R
+import com.malka.androidappp.botmnav_fragments.create_ads.StaticClassAdCreate
 import java.util.*
 
 
 abstract class BaseActivity : AppCompatActivity() {
 
 
+    fun culture():String{
+        return "en-US"
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         loadLocate()
     }
 
-    fun getLanguage():String {
+    fun getLanguage(): String {
         val sharedPreferences = getSharedPreferences("Settings", Activity.MODE_PRIVATE)
-        val language = sharedPreferences.getString("My_Lang", Locale.getDefault().language)?:Locale.getDefault().language
+        val language = sharedPreferences.getString("My_Lang", Locale.getDefault().language)
+            ?: Locale.getDefault().language
         return language!!
     }
 
@@ -53,17 +58,21 @@ abstract class BaseActivity : AppCompatActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         WindowInsetsControllerCompat(window, mainContainer).let { controller ->
             controller.hide(WindowInsetsCompat.Type.systemBars())
-            controller.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+            controller.systemBarsBehavior =
+                WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         }
     }
 
     fun showSystemUI(mainContainer: View) {
         WindowCompat.setDecorFitsSystemWindows(window, true)
-        WindowInsetsControllerCompat(window, mainContainer).show(WindowInsetsCompat.Type.systemBars())
+        WindowInsetsControllerCompat(
+            window,
+            mainContainer
+        ).show(WindowInsetsCompat.Type.systemBars())
     }
 
-    fun showError(error:String){
-        var alertDialog: AlertDialog?=null
+    fun showError(error: String) {
+        var alertDialog: AlertDialog? = null
         val dialogBuilder: AlertDialog.Builder = AlertDialog.Builder(this)
         val inflater = this.layoutInflater
         val dialogView: View = inflater.inflate(R.layout.error_layout, null)
@@ -81,5 +90,17 @@ abstract class BaseActivity : AppCompatActivity() {
         alertDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
         alertDialog.show()
+    }
+
+    fun getCategortList(): String {
+
+        var name = ""
+        StaticClassAdCreate.subCategoryPath.forEach {
+            name = name + it + " - "
+        }
+        if (name.length > 2) {
+            name = name.dropLast(3)
+        }
+        return name
     }
 }

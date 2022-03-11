@@ -8,9 +8,3 @@ fun View.hide(){
 fun View.show(){
     this.visibility = View.VISIBLE
 }
-fun View.hideLoader(){
-    this.visibility = View.GONE
-}
-fun View.showLoader(){
-    this.visibility = View.VISIBLE
-}

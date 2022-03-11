@@ -2,12 +2,11 @@ package com.malka.androidappp.botmnav_fragments.create_ads
 
 import com.google.gson.annotations.SerializedName
 import com.malka.androidappp.design.Models.PromotionModel
-import kotlinx.android.parcel.Parcelize
 
 class StaticClassAdCreate {
 
     companion object {
-        var images: MutableList<String>? = null
+        var images: MutableList<ImageSelectModel> =  mutableListOf()
         var id = ""
         var name = ""
         var slug = ""
@@ -89,8 +88,6 @@ class StaticClassAdCreate {
         var proertySubCatA = ""
         var propertySubCatB = ""
 
-        // To Save main category
-        var mainCategory = ""
 
         var platform = ""
 

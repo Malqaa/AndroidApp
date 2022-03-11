@@ -45,7 +45,7 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/_12sdp" />
 
-            <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
                 android:inputType="textPersonName"
                 app:startIcon="@drawable/ic_user" />
 
-            <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -63,7 +63,7 @@
                 android:inputType="textPersonName"
                 app:startIcon="@drawable/ic_user" />
 
-            <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -74,7 +74,7 @@
                 app:viewType="spinner" />
 
 
-            <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/textEmaill"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

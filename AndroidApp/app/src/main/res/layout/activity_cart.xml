@@ -89,7 +89,7 @@
                     android:layout_weight="1"
                     android:fontFamily="@font/madani_arabic_light"
                     android:text="@string/subtotal"
-                    android:textColor="#45495E"
+                    android:textColor="@color/grey"
                     android:textSize="@dimen/_10sdp" />
 
                 <LinearLayout
@@ -111,7 +111,7 @@
                             android:fontFamily="@font/madani_arabic_semi_bold"
                             android:gravity="end"
                             android:text="1643"
-                            android:textColor="#45495E"
+                            android:textColor="@color/grey"
                             android:textSize="@dimen/_12sdp" />
 
                         <TextView
@@ -121,7 +121,7 @@
                             android:fontFamily="@font/madani_arabic_semi_bold"
                             android:gravity="end"
                             android:text="@string/sar"
-                            android:textColor="#45495E"
+                            android:textColor="@color/grey"
                             android:textSize="@dimen/_12sdp" />
 
                     </LinearLayout>

@@ -10,7 +10,7 @@ import android.widget.RadioButton
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.malka.androidappp.R
-import com.malka.androidappp.helper.widgets.edittext.DetailedTextFieldIdGenerator
+import com.malka.androidappp.helper.widgets.edittext.TextFieldIdGenerator
 
 class CustomRadioButton : LinearLayout {
 
@@ -71,15 +71,15 @@ class CustomRadioButton : LinearLayout {
 
 
         radio_button = findViewById(R.id.radio_button)
-        radio_button.id = DetailedTextFieldIdGenerator.viwId.getId(id)
+        radio_button.id = TextFieldIdGenerator.viwId.getId(id)
 
 
         radio_text = findViewById(R.id.radio_text)
-        radio_text.id = DetailedTextFieldIdGenerator.viwId.getlId(id)
+        radio_text.id = TextFieldIdGenerator.viwId.getlId(id)
 
 
         radio_bg = findViewById(R.id.radio_bg)
-        radio_bg.id = DetailedTextFieldIdGenerator.viwId.getllId(id)
+        radio_bg.id = TextFieldIdGenerator.viwId.getllId(id)
         _setText(textText.toString())
         _setCheck(isChecked)
     }

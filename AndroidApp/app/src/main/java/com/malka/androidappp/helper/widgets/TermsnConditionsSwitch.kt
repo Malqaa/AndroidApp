@@ -16,7 +16,7 @@ import android.widget.TextView
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.content.ContextCompat
 import com.malka.androidappp.R
-import com.malka.androidappp.helper.widgets.edittext.DetailedTextFieldIdGenerator
+import com.malka.androidappp.helper.widgets.edittext.TextFieldIdGenerator
 
 
 class TermsnConditionsSwitch : LinearLayout {
@@ -69,13 +69,13 @@ class TermsnConditionsSwitch : LinearLayout {
         // application package so they are always available.
 
         tv_Switch = findViewById(R.id.tv_switch)
-        tv_Switch.id = DetailedTextFieldIdGenerator.viwId.getllllllId(id)
+        tv_Switch.id = TextFieldIdGenerator.viwId.getllllllId(id)
 
 //        ctv_Text = findViewById(R.id.ctv_text)
 //        ctv_Text.id = DetailedTextFieldIdGenerator.viwId.getStartIconID(id)
 
         ctv_Link = findViewById(R.id.ctv_link)
-        ctv_Link.id = DetailedTextFieldIdGenerator.viwId.getStartIconID(id)
+        ctv_Link.id = TextFieldIdGenerator.viwId.getStartIconID(id)
 
         _setChecked(isChecked)
         text = textSwitch

@@ -55,8 +55,9 @@
                     android:id="@+id/category_rcv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/_10sdp"
+                    android:layout_margin="@dimen/_5sdp"
                     android:nestedScrollingEnabled="false"
+                    tools:listitem="@layout/add_product_imgs"
                     app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                     app:spanCount="2" />
 
@@ -125,9 +126,10 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="20dp"
                     android:background="@null"
+                    android:inputType="textUri"
                     android:fontFamily="@font/madani_arabic_light"
                     android:hint="@string/attach_a_video_link_of_the_item"
-                    android:textColor="#45495E"
+                    android:textColor="@color/grey"
                     android:textSize="@dimen/_12sdp" />
 
             </LinearLayout>

@@ -34,7 +34,12 @@
         <attr name="android:text" />
         <attr name="android:backgroundTint" />
         <attr name="android:digits" />
-        <attr name="lastfield" format="boolean" />
+
+        <attr name="imeOptions">
+            <enum name="next" value="0" />
+            <enum name="done" value="1" />
+            <enum name="search" value="2" />
+        </attr>
         <attr name="viewType">
             <enum name="edittext" value="0" />
             <enum name="spinner" value="1" />

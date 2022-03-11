@@ -35,8 +35,6 @@ class ChooseCategory : BaseActivity() {
                 if (!allCategoryList[position].isCategory) {
 
                     StaticClassAdCreate.subCategoryPath.add(allCategoryList[position].categoryName.toString())
-
-
                     val templateName =
                         truncateString(allCategoryList[position].template.toString())
                     StaticClassAdCreate.template = templateName

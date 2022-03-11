@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".design.product_details">
+    tools:context=".design.ProductDetails">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -708,7 +708,7 @@
                                 android:layout_gravity="center_vertical"
                                 android:fontFamily="@font/madani_arabic_light"
                                 android:text="Is the phone defective?"
-                                android:textColor="#45495E"
+                                android:textColor="@color/grey"
                                 android:textSize="@dimen/_13sdp" />
 
                         </LinearLayout>

@@ -75,7 +75,7 @@
                 android:textSize="@dimen/_12sdp" />
 
 
-            <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/userNamee"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -84,7 +84,7 @@
                 android:inputType="textPersonName"
                 app:startIcon="@drawable/ic_user" />
 
-            <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/textEmaill"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -93,7 +93,7 @@
                 android:inputType="textEmailAddress"
                 app:startIcon="@drawable/ic_email" />
 
-            <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/textPass"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -103,7 +103,7 @@
                 app:enablePasswordToggle="true"
                 app:startIcon="@drawable/symbolpass" />
 
-            <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/confirmPass"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -114,14 +114,14 @@
                 app:startIcon="@drawable/symbolpass" />
 
 
-            <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/invitation_code"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:hint="@string/invitation_code"
                 android:inputType="text"
-                app:lastfield="true"
+                app:imeOptions="done"
 
                 app:startIcon="@drawable/ic_invitation" />
 

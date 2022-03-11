@@ -1,6 +1,6 @@
 package com.malka.androidappp.helper.widgets.edittext
 
-class DetailedTextFieldIdGenerator {
+class TextFieldIdGenerator {
 
     var viewIdstatic = 313
     var viewlIdstatic = 2313
@@ -25,7 +25,7 @@ class DetailedTextFieldIdGenerator {
     var startIconView2 = hashMapOf<Int, Int>()
     var startIconView3 = hashMapOf<Int, Int>()
     companion object {
-        var viwId = DetailedTextFieldIdGenerator()
+        var viwId = TextFieldIdGenerator()
     }
 
     fun getId(parentId: Int): Int {

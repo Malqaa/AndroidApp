@@ -2,19 +2,10 @@ package com.malka.androidappp.botmnav_fragments.forgot_password
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Typeface
 import android.os.Bundle
 import android.text.SpannableString
-import android.text.Spanned
-import android.text.TextPaint
-import android.text.method.LinkMovementMethod
-import android.text.style.ClickableSpan
-import android.text.style.ForegroundColorSpan
-import android.text.style.StyleSpan
 import android.util.Patterns
 import android.view.View
-import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.malka.androidappp.R
@@ -22,14 +13,13 @@ import com.malka.androidappp.botmnav_fragments.ForgotPassword.PostForgotpassMode
 import com.malka.androidappp.activities_main.login.SignInActivity
 import com.malka.androidappp.botmnav_fragments.forgotpass_otpactivity.ActivityForgotPassOtpcode
 import com.malka.androidappp.helper.HelpFunctions
-import com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+import com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
 import kotlinx.android.synthetic.main.activity_forgot_password.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.*
 
 
 class ForgotPasswordActivty : AppCompatActivity() {
@@ -63,7 +53,7 @@ class ForgotPasswordActivty : AppCompatActivity() {
         emailtextt = findViewById(R.id.editText4)
     }
 
-    private var emailtextt: DetailedTextField? = null
+    private var emailtextt: TextFieldComponent? = null
 
     //Data Validation
     private fun validateforgot(): Boolean {

@@ -2,10 +2,10 @@ package com.malka.androidappp.botmnav_fragments.create_ads.new_flow
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.core.view.isEmpty
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.BaseActivity
 import com.malka.androidappp.botmnav_fragments.create_ads.StaticClassAdCreate
+import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.helper.widgets.searchdialog.SearchListItem
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
@@ -17,6 +17,7 @@ import kotlinx.android.synthetic.main.toolbar_main.*
 class ListingDetails : BaseActivity() {
     var selectedCountry: SearchListItem? = null
     var selectedRegion: SearchListItem? = null
+    var selectedCity: SearchListItem? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,14 +33,13 @@ class ListingDetails : BaseActivity() {
         tv_New.setOnClickListener {
             tv_New.setSelected(true)
             tv_used.setSelected(false)
-            StaticClassAdCreate.brand_new_item = "on"
-
+            StaticClassAdCreate.brand_new_item = tv_New.text.toString()
         }
 
         tv_used.setOnClickListener {
             tv_New.setSelected(false)
             tv_used.setSelected(true)
-            StaticClassAdCreate.brand_new_item = "Off"
+            StaticClassAdCreate.brand_new_item = tv_New.text.toString()
 
         }
         select_country._setOnClickListener {
@@ -54,6 +54,10 @@ class ListingDetails : BaseActivity() {
             ) {
                 select_country.text = it.title
                 selectedCountry = it
+
+
+                select_region.text = ""
+                selectedRegion = null
             }
 
         }
@@ -61,7 +65,7 @@ class ListingDetails : BaseActivity() {
             if (select_country.text.toString().isEmpty()) {
                 showError(getString(R.string.Please_select, getString(R.string.Country)))
             } else {
-                getRegion(selectedCountry!!.key,"en-US")
+                getRegion(selectedCountry!!.key, culture())
             }
 
         }
@@ -72,21 +76,21 @@ class ListingDetails : BaseActivity() {
             } else {
                 getCity(selectedRegion!!.key)
             }
-
-
         }
         title_tv.setText(StaticClassAdCreate.producttitle)
-        btnotherr.setOnClickListener() { ListDetailsconfirmInput() }
+        btnotherr.setOnClickListener { ListDetailsconfirmInput() }
 
     }
 
     fun getCity(key: String) {
+        HelpFunctions.startProgressBar(this)
 
 
         val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder2()
-        val call = malqa.getCity(key)
+        val call = malqa.getCity(key, culture())
         call.enqueue(object : retrofit2.Callback<CountryRespone?> {
             override fun onFailure(call: retrofit2.Call<CountryRespone?>?, t: Throwable) {
+                HelpFunctions.dismissProgressBar()
 
             }
 
@@ -109,11 +113,14 @@ class ListingDetails : BaseActivity() {
                                 getString(R.string.Select, getString(R.string.district))
                             ) {
                                 select_city.text = it.title
+                                selectedCity = it
                             }
                         }
                     }
 
                 }
+                HelpFunctions.dismissProgressBar()
+
             }
         })
 
@@ -121,12 +128,14 @@ class ListingDetails : BaseActivity() {
     }
 
     fun getRegion(key: String, culture: String) {
+        HelpFunctions.startProgressBar(this)
 
 
         val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder2()
         val call = malqa.getRegion(key, culture)
         call.enqueue(object : retrofit2.Callback<CountryRespone?> {
             override fun onFailure(call: retrofit2.Call<CountryRespone?>?, t: Throwable) {
+                HelpFunctions.dismissProgressBar()
 
             }
 
@@ -151,36 +160,48 @@ class ListingDetails : BaseActivity() {
                                 select_region.text = it.title
                                 selectedRegion = it
 
+
+                                select_city.text = ""
+                                selectedCity = null
+
                             }
                         }
                     }
 
                 }
+                HelpFunctions.dismissProgressBar()
+
             }
         })
 
 
     }
 
-    //Data Validation
-    private fun validateTitle(): Boolean {
-        val InputTitle = title_tv.getText().trim { it <= ' ' }
-
-        return if (InputTitle.isEmpty()) {
-            title_tv.error = getString(R.string.Fieldcantbeempty)
-            false
-        } else {
-            title_tv.error = null
-            true
-        }
-    }
-
 
     fun ListDetailsconfirmInput() {
-        if (validateTitle()) {
+        if (title_tv.getText().isEmpty()) {
+            showError(getString(R.string.Please_enter, getString(R.string.item_title)))
+        } else if (subtitle.getText().isEmpty()) {
+            showError(getString(R.string.Please_enter, getString(R.string.sub_title)))
+        } else if (item_description.getText().toString().isEmpty()) {
+            showError(getString(R.string.Please_enter, getString(R.string.item_details)))
+        } else if (StaticClassAdCreate.brand_new_item.isEmpty()) {
+            showError(getString(R.string.Please_select, getString(R.string.item_condition)))
+        } else if (select_city.text.toString().isEmpty()) {
+            showError(getString(R.string.Please_select, getString(R.string.district)))
+        } else if (phone_number_edittext.text.toString().isEmpty()) {
+            showError(getString(R.string.Please_enter, getString(R.string.PhoneNumber)))
+        } else {
+
+            StaticClassAdCreate.producttitle = title_tv.getText()
+            StaticClassAdCreate.subtitle = subtitle.getText()
+            StaticClassAdCreate.item_description = item_description.getText().toString()
             StaticClassAdCreate.phone = phone_number_edittext.text.toString()
-            StaticClassAdCreate.item_description = item_description.text.toString()
-            StaticClassAdCreate.subtitle = subtitle.text.toString()
+            StaticClassAdCreate.quantity = quantityavail.number.toString()
+            StaticClassAdCreate.country = selectedCountry!!.key
+            StaticClassAdCreate.region = selectedRegion!!.key
+            StaticClassAdCreate.city = selectedCity!!.key
+
             startActivity(Intent(this, PricingActivity::class.java).apply {
             })
         }

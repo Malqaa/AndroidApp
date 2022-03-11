@@ -54,7 +54,7 @@
                 </LinearLayout>
 
 
-                <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+                <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
                     android:id="@+id/title_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -73,10 +73,9 @@
                     android:textColor="#293241"
                     android:textSize="@dimen/_14sdp" />
 
-                <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+                <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
                     android:id="@+id/subtitle"
                     android:layout_width="match_parent"
-
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:hint="@string/type_the_item_s_subtitle"
@@ -202,7 +201,7 @@
                     android:textSize="@dimen/_14sdp" />
 
 
-                <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+                <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
                     android:id="@+id/select_country"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -212,7 +211,7 @@
                     app:startIcon="@drawable/ic_country"
                     app:viewType="spinner" />
 
-                <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+                <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
                     android:id="@+id/select_region"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -223,7 +222,7 @@
                     app:viewType="spinner" />
 
 
-                <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+                <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
                     android:id="@+id/select_city"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -233,7 +232,7 @@
                     app:startIcon="@drawable/ic_city"
                     app:viewType="spinner" />
 
-                <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+                <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
                     android:id="@+id/phone_number_edittext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -241,6 +240,7 @@
                     android:hint="@string/PhoneNumber"
                     android:inputType="phone"
                     app:endText="+965"
+                    app:imeOptions="done"
                     app:startIcon="@drawable/ic_phone" />
 
 

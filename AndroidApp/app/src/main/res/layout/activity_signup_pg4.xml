@@ -41,7 +41,7 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/_12sdp" />
 
-            <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/fullNamee"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -50,7 +50,7 @@
                 android:inputType="textPersonName"
                 app:startIcon="@drawable/ic_user" />
 
-            <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/editTextlastname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -59,7 +59,7 @@
                 android:inputType="textPersonName"
                 app:startIcon="@drawable/ic_user" />
 
-            <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -128,7 +128,7 @@
                 app:ccp_showNameCode="false"
                 app:ccp_showPhoneCode="false" />
 
-            <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/select_country"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -139,7 +139,7 @@
                 app:startIcon="@drawable/ic_country"
                 app:viewType="spinner" />
 
-            <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/select_region"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -162,7 +162,7 @@
                 android:visibility="gone" />
 
 
-            <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/select_city"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -185,7 +185,7 @@
                 android:visibility="gone" />
 
 
-            <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/Area"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -194,7 +194,7 @@
                 android:inputType="text" />
 
 
-            <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/streetNUmber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -202,14 +202,14 @@
                 android:hint="@string/StreetNumber"
                 android:inputType="text" />
 
-            <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/county_code"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:hint="@string/county_code"
                 android:inputType="text"
-                app:lastfield="true" />
+                app:imeOptions="done" />
 
 
             <androidx.appcompat.widget.AppCompatButton

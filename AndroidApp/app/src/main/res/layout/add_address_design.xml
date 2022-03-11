@@ -33,7 +33,7 @@
                     android:text="@string/delivery_to_my_current_address"
                     android:fontFamily="@font/madani_arabic_medium"
                     android:gravity="center_vertical"
-                    android:textColor="#45495E"
+                    android:textColor="@color/grey"
                     android:textSize="@dimen/_10sdp"/>
 
 

@@ -14,8 +14,6 @@ import com.malka.androidappp.activities_main.BaseActivity
 import com.malka.androidappp.botmnav_fragments.create_ads.StaticClassAdCreate
 import com.malka.androidappp.design.Models.BankListRespone
 import com.malka.androidappp.helper.HelpFunctions
-import com.malka.androidappp.helper.hideLoader
-import com.malka.androidappp.helper.showLoader
 import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
@@ -462,7 +460,7 @@ class PricingActivity : BaseActivity() {
 
     fun addBankAccount(bottomSheetDialog: BottomSheetDialog) {
 
-        loader.showLoader()
+        HelpFunctions.startProgressBar(this)
 
         val malqa: MalqaApiService = RetrofitBuilder.addBankAccountInstance()
 
@@ -487,7 +485,7 @@ class PricingActivity : BaseActivity() {
                 call: retrofit2.Call<addBankAccountResponseBack?>?,
                 t: Throwable
             ) {
-                loader.hideLoader()
+                HelpFunctions.dismissProgressBar()
 
                 Toast.makeText(this@PricingActivity, "${t.message}", Toast.LENGTH_LONG).show()
             }
@@ -521,7 +519,7 @@ class PricingActivity : BaseActivity() {
                     }
 
                 }
-                loader.hideLoader()
+                HelpFunctions.dismissProgressBar()
             }
         })
 
@@ -530,7 +528,7 @@ class PricingActivity : BaseActivity() {
 
     fun getBankAccount() {
 
-        loader.showLoader()
+        HelpFunctions.startProgressBar(this)
 
         val malqa: MalqaApiService = RetrofitBuilder.addBankAccountInstance()
         val call = malqa.getBankDetail(ConstantObjects.logged_userid)
@@ -539,7 +537,7 @@ class PricingActivity : BaseActivity() {
 
         call?.enqueue(object : retrofit2.Callback<BankListRespone?> {
             override fun onFailure(call: retrofit2.Call<BankListRespone?>?, t: Throwable) {
-                loader.hideLoader()
+                HelpFunctions.dismissProgressBar()
 
                 Toast.makeText(this@PricingActivity, "${t.message}", Toast.LENGTH_LONG).show()
             }
@@ -563,7 +561,7 @@ class PricingActivity : BaseActivity() {
                     }
 
                 }
-                loader.hideLoader()
+                HelpFunctions.dismissProgressBar()
             }
         })
 

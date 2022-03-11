@@ -87,7 +87,7 @@
                             android:fontFamily="@font/madani_arabic_semi_bold"
                             android:gravity="center"
                             android:text="@string/received"
-                            android:textColor="#45495E"
+                            android:textColor="@color/grey"
                             android:textSize="@dimen/_12sdp" />
 
                     </LinearLayout>

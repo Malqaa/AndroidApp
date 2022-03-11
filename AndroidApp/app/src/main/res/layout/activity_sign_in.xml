@@ -70,7 +70,7 @@
                 android:textSize="@dimen/_12sdp" />
 
 
-            <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/email_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -79,7 +79,7 @@
                 android:inputType="textEmailAddress"
                 app:startIcon="@drawable/ic_email" />
 
-            <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/passwword_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -87,7 +87,7 @@
                 android:hint="@string/type_your_password_here"
                 android:inputType="textPassword"
                 app:enablePasswordToggle="true"
-                app:lastfield="true"
+                app:imeOptions="done"
                 app:startIcon="@drawable/symbolpass" />
 
 

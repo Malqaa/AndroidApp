@@ -18,7 +18,7 @@
         android:textColor="@color/black"
         android:textSize="@dimen/_16sdp" />
 
-    <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+    <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
         android:id="@+id/spinner_dynamic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

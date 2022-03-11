@@ -135,7 +135,7 @@
                     android:background="@null"
                     android:fontFamily="@font/madani_arabic_light"
                     android:hint="@string/attach_a_video_link_of_the_item"
-                    android:textColor="#45495E"
+                    android:textColor="@color/grey"
                     android:textSize="@dimen/_12sdp" />
 
             </LinearLayout>

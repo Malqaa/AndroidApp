@@ -56,7 +56,7 @@
                 android:textSize="@dimen/_12sdp" />
 
 
-            <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/busi_signup2_edittext1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -65,7 +65,7 @@
                 android:inputType="textPersonName"
                 app:startIcon="@drawable/ic_user" />
 
-            <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/busi_signup3_edittext2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -75,7 +75,7 @@
                 app:startIcon="@drawable/ic_website" />
 
 
-            <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/Facebook"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -84,7 +84,7 @@
                 android:inputType="textPersonName"
                 app:startIcon="@drawable/ic_facebook" />
 
-            <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/Instagram"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -119,7 +119,7 @@
                     android:src="@drawable/ic_twitter" />
             </LinearLayout>
 
-            <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/ic_youtube"
                 android:layout_width="match_parent"
                 android:visibility="gone"
@@ -129,7 +129,7 @@
                 android:inputType="textPersonName"
                 app:startIcon="@drawable/ic_youtube" />
 
-            <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/ic_twitter"
                 android:visibility="gone"
                 android:layout_width="match_parent"
@@ -139,7 +139,7 @@
                 android:inputType="textWebEmailAddress"
                 app:startIcon="@drawable/ic_twitter" />
 
-            <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
 
 
                 android:id="@+id/ic_office_building"
@@ -150,7 +150,7 @@
                 android:inputType="textPersonName"
                 app:startIcon="@drawable/ic_office_building" />
 
-            <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
 
 
                 android:id="@+id/commercial_registration_no"
@@ -161,7 +161,7 @@
                 android:inputType="textPersonName"
                 app:startIcon="@drawable/ic_office_building" />
 
-            <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -170,14 +170,14 @@
                 android:inputType="textPersonName"
                 app:startIcon="@drawable/ic_calendar"
                 app:viewType="spinner" />
-            <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/TaxNumber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:hint="@string/TaxNumber"
                 android:inputType="textPersonName"
-                app:lastfield="true"
+                app:imeOptions="done"
                 app:startIcon="@drawable/ic_tax" />
 
 
@@ -194,7 +194,7 @@
                 android:textColor="@color/bg"
                 android:textSize="@dimen/_12sdp" />
 
-            <com.malka.androidappp.helper.widgets.edittext.DetailedTextField
+            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/locating_the_company"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

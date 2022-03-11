@@ -54,32 +54,19 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/_12sdp" />
 
-            <LinearLayout
+
+
+            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
+                android:id="@+id/textInputLayout11"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:background="@drawable/circle_bg"
                 android:backgroundTint="#F9F9F9"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="@dimen/_5sdp">
+                android:hint="@string/search_by_name_auction_number_or_item"
+                app:endIcon="@drawable/search_icon"
+                app:imeOptions="search"
+                app:viewType="edittext2" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/_10sdp"
-                    android:src="@drawable/search_toolbar"
-                    app:tint="@color/gray_light" />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/_10sdp"
-                    android:background="@null"
-                    android:hint="@string/search_by_name_auction_number_or_item"
-                    android:maxLines="1"
-                    android:textSize="@dimen/_10sdp" />
-            </LinearLayout>
 
             <RelativeLayout
                 android:id="@+id/sliderLayout"

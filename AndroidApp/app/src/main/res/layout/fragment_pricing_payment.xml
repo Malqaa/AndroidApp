@@ -84,7 +84,7 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/madani_arabic_light"
                             android:text="@string/fixed_price_sale"
-                            android:textColor="#45495E"
+                            android:textColor="@color/grey"
                             android:textSize="@dimen/_12sdp" />
 
                         <androidx.appcompat.widget.SwitchCompat
@@ -118,7 +118,7 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/madani_arabic_light"
                             android:text="@string/Auction"
-                            android:textColor="#45495E"
+                            android:textColor="@color/grey"
                             android:textSize="@dimen/_12sdp" />
 
                         <androidx.appcompat.widget.SwitchCompat
@@ -151,7 +151,7 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/madani_arabic_light"
                             android:text="@string/tender"
-                            android:textColor="#45495E"
+                            android:textColor="@color/grey"
                             android:textSize="@dimen/_12sdp" />
 
                         <androidx.appcompat.widget.SwitchCompat

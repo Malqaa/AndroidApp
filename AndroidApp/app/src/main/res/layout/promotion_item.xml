@@ -4,29 +4,35 @@
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/_5sdp"
     android:gravity="center_vertical"
-    android:clickable="false"
-    android:id="@+id/main_layout"
     android:orientation="horizontal">
 
-
-    <ImageView
-        android:layout_width="@dimen/_15sdp"
-        android:layout_height="@dimen/_20sdp"
-        android:src="@drawable/star_shine" />
-
-
-    <TextView
-
-        android:id="@+id/pkg_service1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
+    <LinearLayout
+        android:layout_marginTop="@dimen/_5sdp"
         android:layout_marginLeft="@dimen/_10sdp"
-        android:layout_weight="1"
-        android:fontFamily="@font/madani_arabic_medium"
-        android:text="@string/your_product_will_be_displayed_on_the_home_page"
-        android:textColor="#45495E"
-        android:textSize="@dimen/_10sdp" />
+        android:layout_marginRight="@dimen/_10sdp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="@dimen/_15sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:src="@drawable/star_shine" />
+
+
+        <TextView
+
+            android:id="@+id/pkg_service1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_weight="1"
+            android:fontFamily="@font/madani_arabic_medium"
+            android:text="@string/your_product_will_be_displayed_on_the_home_page"
+            android:textColor="@color/grey"
+            android:textSize="@dimen/_10sdp" />
+
+    </LinearLayout>
+
 
 
 </LinearLayout>

@@ -1,7 +1,7 @@
 <resources>
-  <string name="app_name" translatable="false">Onruf</string>
+    <string name="app_name" translatable="false">Onruf</string>
 
-  <string name="Back_to_login">
+    <string name="Back_to_login">
     Back to login
   </string>
 
@@ -262,9 +262,10 @@
     Second Category
   </string>
     <string name="Select" formatted="true">Select %s</string>
-    <string name="Please_select" formatted="true">Select select %s</string>
+    <string name="Please_select" formatted="true">Please select %s</string>
+    <string name="Please_enter" formatted="true">Please enter %s</string>
 
-  <string name="Subtitle">
+    <string name="Subtitle">
     Subtitle
   </string>
     <string name="Youdonthaveanypaymentinstructionsset.">
@@ -2767,16 +2768,20 @@ Want to start a business account? Create a Business Account
     <string name="close_time">Auction closing time</string>
     <string name="without_additional_expenses">Without additional expenses</string>
     <string name="set_your_own_time_and_time">Set your own date and time</string>
-  <string name="_20_riyals">+20 riyals</string>
-  <string name="Golden_Package">Golden Package</string>
-  <string name="Silver_Package">Silver Package</string>
-  <string name="Bronze_Package">Bronze Package</string>
-  <string name="Standard_Package">Standard Package</string>
-  <string name="your_product_will_be_displayed_on_the_home_page">Your product will be displayed on the home page</string>
-  <string name="common">Common</string>
+    <string name="_20_riyals">+20 riyals</string>
+    <string name="Golden_Package">Golden Package</string>
+    <string name="Silver_Package">Silver Package</string>
+    <string name="Bronze_Package">Bronze Package</string>
+    <string name="Standard_Package">Standard Package</string>
+    <string name="your_product_will_be_displayed_on_the_home_page">Your product will be displayed on the home page</string>
+    <string name="common">Common</string>
     <string name="choose_your_payment_method">Choose your payment method</string>
-  <string name="your_product_has_been_successfully_added">Your product has been successfully added</string>
-  <string name="view_the_product">View the product</string>
-  <string name="back_to_main">Back to main</string>
-
+    <string name="your_product_has_been_successfully_added">Your product has been successfully added</string>
+    <string name="view_the_product">View the product</string>
+    <string name="back_to_main">Back to main</string>
+    <string name="no_tag_found">No tags found</string>
+    <string name="main_photo">Main photo</string>
+    <string name="PM">PM</string>
+    <string name="AM">AM</string>
+    <string name="mark_main_photo">Please mark main photo</string>
 </resources>

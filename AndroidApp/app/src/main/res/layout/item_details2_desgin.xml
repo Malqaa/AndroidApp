@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:id="@+id/main_layout"
     android:layout_margin="@dimen/_10sdp"
     android:orientation="vertical">
 
@@ -60,12 +61,17 @@
 
             </FrameLayout>
 
-
+            <LinearLayout
+                android:id="@+id/parent_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/promotion_sub_rcv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:visibility="gone"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
               />
 

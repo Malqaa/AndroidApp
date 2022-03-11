@@ -4,9 +4,11 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.StrictMode
 import android.provider.Settings.Secure
@@ -19,7 +21,9 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
+import com.bumptech.glide.Glide
 import com.malka.androidappp.R
+import com.malka.androidappp.activities_main.MainActivity
 import com.malka.androidappp.activities_main.login.LoginData
 import com.malka.androidappp.activities_main.login.LoginResponseBack
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
@@ -43,7 +47,9 @@ import com.malka.androidappp.servicemodels.favourites.favouriteadd
 import com.malka.androidappp.servicemodels.watchlist.watchlistadd
 import com.malka.androidappp.servicemodels.watchlist.watchlistobject
 import io.paperdb.Paper
+import kotlinx.android.synthetic.main.activity_splash.*
 import kotlinx.android.synthetic.main.alertpopup.view.*
+import kotlinx.android.synthetic.main.progress_bar.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -1030,15 +1036,11 @@ class HelpFunctions {
 
         fun startProgressBar(mActivity: Activity) {
             val infalter = mActivity.layoutInflater
-
             val dialogView = infalter.inflate(R.layout.progress_bar, null)
-
-
+            Glide.with(mActivity).asGif().load(R.raw.loader).into(dialogView.splash_view)
             val bulider = AlertDialog.Builder(mActivity)
-
             bulider.setView(dialogView)
             bulider.setCancelable(false)
-
             isdialog = bulider.create()
             isdialog.show()
             isdialog.window!!.setBackgroundDrawableResource(R.color.transparent)
