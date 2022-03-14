@@ -262,7 +262,7 @@ class HomeFragment : Fragment(), PostsAdapter.OnPostItemClickListener,
                                         HelpFunctions.ViewAdvertismentDetail(
                                             indobj.referenceId,
                                             indobj.template,
-                                            this@HomeFragment
+                                            requireContext()
                                         )
                                         SharedPreferencesStaticClass.ad_userid = indobj.user
                                     }
@@ -323,7 +323,7 @@ class HomeFragment : Fragment(), PostsAdapter.OnPostItemClickListener,
                                         HelpFunctions.ViewAdvertismentDetail(
                                             indobj.referenceId,
                                             indobj.template,
-                                            this@HomeFragment
+                                            requireContext()
                                         )
                                         SharedPreferencesStaticClass.ad_userid = indobj.user
                                     }
@@ -388,7 +388,7 @@ class HomeFragment : Fragment(), PostsAdapter.OnPostItemClickListener,
                                         HelpFunctions.ViewAdvertismentDetail(
                                             indobj.referenceId,
                                             indobj.template,
-                                            this@HomeFragment
+                                            requireContext()
                                         )
                                         SharedPreferencesStaticClass.ad_userid = indobj.user
                                     }
@@ -699,7 +699,7 @@ class HomeFragment : Fragment(), PostsAdapter.OnPostItemClickListener,
                                 HelpFunctions.ViewAdvertismentDetail(
                                     indobj.referenceId,
                                     indobj.template,
-                                    this@HomeFragment
+                                    requireContext()
                                 )
                                 SharedPreferencesStaticClass.ad_userid = indobj.user
                             }

@@ -70,7 +70,7 @@ class WatchlistFragment : Fragment() {
                 HelpFunctions.ViewAdvertismentDetail(
                     indobj.watchlistadvid!!,
                     indobj.watchlistadvtemplate!!,
-                    this@WatchlistFragment
+                    requireContext()
                 )
             }
             browadptxl.notifyDataSetChanged()

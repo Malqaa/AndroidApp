@@ -30,6 +30,7 @@ import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferen
 import com.malka.androidappp.botmnav_fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ModelShipAddresses
 import com.malka.androidappp.botmnav_fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ShippingAddressessData
 import com.malka.androidappp.botmnav_fragments.watchlist_fragment.WatchlistFragment
+import com.malka.androidappp.design.ProductDetails
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.constants.ApiConstants
 import com.malka.androidappp.network.service.MalqaApiService
@@ -275,11 +276,14 @@ class HelpFunctions {
             return RetVal
         }
 
-        fun ViewAdvertismentDetail(AdvId: String, Category: String, currentfragment: Fragment) {
+        fun ViewAdvertismentDetail(AdvId: String, Category: String, context: Context) {
             val args = Bundle()
             args.putString("AdvId", AdvId);
             args.putString("Template", Category);
-            NavHostFragment.findNavController(currentfragment).navigate(R.id.carspicification, args)
+
+            context.startActivity(Intent(context, ProductDetails::class.java))
+
+         //   NavHostFragment.findNavController(currentfragment).navigate(R.id.carspicification, args)
         }
 
         fun AdAlreadyAddedToWatchList(adreferenceId: String): Boolean1 {
@@ -421,7 +425,7 @@ class HelpFunctions {
         fun InsertAdToWatchlist(AdsId: String, reminderType: Int, context: Fragment): Boolean1 {
             var RetVal: Boolean1 = false
             try {
-                var ad: watchlistadd = watchlistadd(
+                val ad = watchlistadd(
                     ConstantObjects.logged_userid,
                     AdsId,
                     reminderType

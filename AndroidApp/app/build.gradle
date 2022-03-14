@@ -27,6 +27,20 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        applicationVariants.all { variant ->
+            variant.outputs.all { output ->
+                def project = "Onruf"
+                def SEP = "_"
+                //def flavor = variant.productFlavors[0].name
+                def buildType = variant.buildType.name
+                def version = "V" + variant.versionName
+                def date = new Date()
+                def formattedDate = date.format('dd-MMM-yy')
+
+                def newApkName = project + SEP + buildType + SEP + version + SEP + formattedDate + ".apk"
+                outputFileName = new File(newApkName)
+            }
+        }
     }
 
     buildFeatures {

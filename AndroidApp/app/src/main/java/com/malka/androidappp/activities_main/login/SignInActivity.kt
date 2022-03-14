@@ -164,19 +164,17 @@ open class SignInActivity : BaseActivity() {
         )
     }
 
-    fun MakeLoginAPICall(email: String, password: String, context: Context,isFromLogin:Boolean=true) {
-        if(!isFromLogin){
-            HelpFunctions.startProgressBar(this)
-        }
+    fun MakeLoginAPICall(email: String, password: String, context: Context) {
+        HelpFunctions.startProgressBar(this)
+
         val malqa: MalqaApiService = RetrofitBuilder.createAccountsInstance()
         val login = LoginClass(email, password)
 
         val call: Call<LoginResponseBack?>? = malqa.loginUser(login)
         call?.enqueue(object : Callback<LoginResponseBack?> {
             override fun onFailure(call: Call<LoginResponseBack?>?, t: Throwable) {
-                if(!isFromLogin){
-                    HelpFunctions.dismissProgressBar()
-                }
+                HelpFunctions.dismissProgressBar()
+
                 Toast.makeText(context, "${t.message}", Toast.LENGTH_LONG).show()
             }
 
@@ -212,9 +210,8 @@ open class SignInActivity : BaseActivity() {
                         context
                     )
                 }
-                if(!isFromLogin){
-                    HelpFunctions.dismissProgressBar()
-                }
+                HelpFunctions.dismissProgressBar()
+
             }
         })
     }

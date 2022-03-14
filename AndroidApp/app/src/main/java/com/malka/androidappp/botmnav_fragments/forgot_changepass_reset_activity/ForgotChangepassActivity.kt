@@ -1,20 +1,14 @@
 package com.malka.androidappp.botmnav_fragments.forgot_changepass_reset_activity
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.malka.androidappp.R
-import com.malka.androidappp.botmnav_fragments.ForgotPassword.PostForgotpassModel
 import com.malka.androidappp.activities_main.login.SignInActivity
-import com.malka.androidappp.botmnav_fragments.forgot_password.ForgotPassResponseModel
-import com.malka.androidappp.botmnav_fragments.forgotpass_otpactivity.ActivityForgotPassOtpcode
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
-import kotlinx.android.synthetic.main.activity_forgot_password.*
 import kotlinx.android.synthetic.main.activity_forgotpass_reset.*
-import kotlinx.android.synthetic.main.activity_signup_pg1.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

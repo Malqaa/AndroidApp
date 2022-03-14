@@ -60,14 +60,13 @@ class GeneralAdvertisementAdapter(
                 setOnClickListener {
                    // onItemClick?.invoke(listCar!!.get(position))
 
-//                    HelpFunctions.ViewAdvertismentDetail(
-//                        referenceId,
-//                        template,
-//                        currentfragment
-//                    )
-//                    SharedPreferencesStaticClass.ad_userid = user
+                    HelpFunctions.ViewAdvertismentDetail(
+                        referenceId,
+                        template,
+                        context
+                    )
+                    SharedPreferencesStaticClass.ad_userid = user
 
-                    context.startActivity(Intent(context, ProductDetails::class.java))
                 }
                 val imageURL = ApiConstants.IMAGE_URL + homepageImage
                 Picasso.get()
