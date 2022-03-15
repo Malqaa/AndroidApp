@@ -112,21 +112,6 @@
 
                 android:text="@string/address_details" />
 
-            <com.hbb20.CountryCodePicker
-                android:id="@+id/editText10"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/buttonradius"
-                android:drawablePadding="8dp"
-                android:padding="7dp"
-                android:paddingEnd="16dp"
-                app:ccpDialog_allowSearch="false"
-                app:ccp_customMasterCountries="BH,KW,OM,SA,AE"
-                app:ccp_defaultNameCode="SA"
-                app:ccp_showFullName="true"
-                app:ccp_showNameCode="false"
-                app:ccp_showPhoneCode="false" />
 
             <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/select_country"
@@ -213,13 +198,12 @@
 
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/button8"
+                android:id="@+id/confirm_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_20sdp"
                 android:background="@drawable/round_btn"
                 android:fontFamily="@font/madani_arabic_semi_bold"
-                android:onClick="SignuuPg4confirmInput"
                 android:text="@string/SignUp"
                 android:textAllCaps="false"
                 android:textColor="#ffffff"

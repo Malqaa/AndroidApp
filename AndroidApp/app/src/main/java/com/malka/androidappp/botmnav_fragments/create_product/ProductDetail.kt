@@ -736,6 +736,15 @@ class ProductDetail : Fragment(), BottomsheetDialogfragClass.BottomSheetListener
         })
     }
 
+
+
+
+
+
+
+
+
+
 }
 
 

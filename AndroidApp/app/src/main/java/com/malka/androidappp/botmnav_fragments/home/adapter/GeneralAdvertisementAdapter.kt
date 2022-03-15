@@ -1,14 +1,11 @@
 package com.malka.androidappp.botmnav_fragments.home.adapter
 
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
-import com.malka.androidappp.design.ProductDetails
 import com.malka.androidappp.helper.BaseViewHolder
 import com.malka.androidappp.helper.Extension.decimalNumberFormat
 import com.malka.androidappp.helper.HelpFunctions
@@ -18,7 +15,7 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.product_item.view.*
 
 class GeneralAdvertisementAdapter(
-    val listCar: List<GeneralProduct>,val currentfragment: Fragment
+    val listCar: List<GeneralProduct>
 ) :
     RecyclerView.Adapter<BaseViewHolder>() {
 
@@ -71,7 +68,7 @@ class GeneralAdvertisementAdapter(
                 val imageURL = ApiConstants.IMAGE_URL + homepageImage
                 Picasso.get()
                     .load(imageURL).error(R.drawable.car1)
-                    .into(myimagee)
+                    .into(productimg)
 
             }
         }

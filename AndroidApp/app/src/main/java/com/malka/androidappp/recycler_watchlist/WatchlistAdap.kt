@@ -3,29 +3,36 @@ package com.malka.androidappp.recycler_watchlist
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
 import com.malka.androidappp.botmnav_fragments.watchlist_fragment.WatchlistFragment
+import com.malka.androidappp.network.constants.ApiConstants
+import com.malka.androidappp.servicemodels.watchlist.watchlistproperties
+import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.product_item.view.*
 
 
 class WatchlistAdap(
-    val watchlistposts: ArrayList<WatchlistModel>,
+    val watchlistposts: List<watchlistproperties>,
     var context: WatchlistFragment
 ) : RecyclerView.Adapter<WatchlistAdap.WatchlistAdapViewHolder>() {
-    var onItemClick: ((WatchlistModel) -> Unit)? = null
+    var onItemClick: ((watchlistproperties) -> Unit)? = null
 
     inner class WatchlistAdapViewHolder(itemview: View) : RecyclerView.ViewHolder(itemview) {
-//        val watchlistimgg: ImageView = itemview.productimg
-//        val watchlistprodnm: TextView = itemview.textView18
-//        val watchlistprodprice: TextView = itemview.textView17
-//        val watchlistprodbuynow: TextView = itemview.itemsellbuynow
+        val watchlistimgg: ImageView = itemview.productimg
+        val watchlistprodnm: TextView = itemview.titlenamee
+        val watchlistprodprice: TextView = itemview.product_price
+        val watchlistprodbuynow: TextView = itemview.LowestPrice
 //        val imgbtn_watchlist_remove: ImageButton = itemview.imgbtn_watchlist_remove
-//
-//        init {
-//            itemview.setOnClickListener {
-//                onItemClick?.invoke(watchlistposts[adapterPosition])
-//            }
-//        }
+
+        init {
+            itemview.setOnClickListener {
+                onItemClick?.invoke(watchlistposts[adapterPosition])
+            }
+        }
 
     }
 
@@ -35,26 +42,12 @@ class WatchlistAdap(
         return WatchlistAdapViewHolder(view)
     }
 
-    override fun getItemCount() = 12
+    override fun getItemCount() = watchlistposts.size
 
     override fun onBindViewHolder(holder: WatchlistAdapViewHolder, position: Int) {
 
-//        if (watchlistposts[position].watchlistprodimg != null && watchlistposts[position].watchlistprodimg!!.trim().length > 0)
-//            Picasso.get()
-//                .load(ApiConstants.IMAGE_URL + watchlistposts[position].watchlistprodimg)
-//                .into(holder.watchlistimgg) else holder.watchlistimgg.setImageResource(R.drawable.cam)
-//        if (watchlistposts[position].watchlistprodimg != null && watchlistposts[position].watchlistprodimg!!.trim().length > 0)
-//            Picasso.get()
-//                .load(ApiConstants.IMAGE_URL + watchlistposts[position].watchlistprodimg)
-//                .into(holder.watchlistimgg) else holder.watchlistimgg.setImageResource(R.drawable.watchlist)
-//        holder.watchlistprodnm.text = watchlistposts[position].watchlistprodname
-//        holder.watchlistprodprice.text = watchlistposts[position].watchlistprice
-//        holder.watchlistprodbuynow.text = watchlistposts[position].watchlistbuynow
-//        holder.imgbtn_watchlist_remove.setOnClickListener() {
-//            HelpFunctions.DeleteAdFromWatchlist(
-//                watchlistposts[position].watchlistadvid!!,
-//                context
-//            );
-//        }
+
+
+
     }
 }

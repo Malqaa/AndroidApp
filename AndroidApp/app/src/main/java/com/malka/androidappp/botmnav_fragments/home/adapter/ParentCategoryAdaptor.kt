@@ -45,7 +45,7 @@ class ParentCategoryAdaptor(
                 detail_tv!!.text=detail
                 category_name_tv!!.text=category_name
                 category_name_tv_2!!.text=category_name
-                product_rcv!!.adapter =  GeneralAdvertisementAdapter(product,currentfragment)
+                product_rcv!!.adapter =  GeneralAdvertisementAdapter(product)
                 category_icon_iv!!.setImageResource(category_icon)
             }
         }

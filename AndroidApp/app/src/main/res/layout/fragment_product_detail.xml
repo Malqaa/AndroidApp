@@ -48,7 +48,8 @@
                 layout="@layout/carspec_card1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/viewPagerProduct" />
+                android:layout_below="@+id/viewPagerProduct"
+                android:layout_marginTop="-2dp" />
 
             <include
                 android:id="@+id/card2Product"

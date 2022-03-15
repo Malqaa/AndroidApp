@@ -6,10 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.malka.androidappp.R
+import com.malka.androidappp.botmnav_fragments.home.adapter.GeneralAdvertisementAdapter
 import com.malka.androidappp.helper.HelpFunctions
-import com.malka.androidappp.recycler_watchlist.WatchlistAdap
-import com.malka.androidappp.recycler_watchlist.WatchlistModel
 import com.malka.androidappp.servicemodels.ConstantObjects
+import com.malka.androidappp.servicemodels.home.GeneralProduct
 import kotlinx.android.synthetic.main.fragment_watchlist.*
 
 class WatchlistFragment : Fragment() {
@@ -22,6 +22,7 @@ class WatchlistFragment : Fragment() {
         return LayoutInflater.from(container?.context)
             .inflate(R.layout.fragment_watchlist, container, false)
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -39,42 +40,24 @@ class WatchlistFragment : Fragment() {
 
     fun BindUserWatchlist() {
 
-        val watchlistpost: ArrayList<WatchlistModel> = ArrayList()
-        if (ConstantObjects.userwatchlist != null && ConstantObjects.userwatchlist!!.data != null && ConstantObjects.userwatchlist!!.data.size > 0) {
-            for (IndWatch in ConstantObjects.userwatchlist!!.data) {
-                if (IndWatch.advertisement != null) {
-                    watchlistpost.add(
-                        WatchlistModel(
-                            IndWatch.advertisement.title,
-                            IndWatch.advertisement.enddate,
-                            IndWatch.advertisement.price,
-                            getString(R.string.BuyNow),
-                            IndWatch.advertisement.homepageImage,
-                            IndWatch.advertisement.referenceId,
-                            IndWatch.advertisement.template
-                        )
-                    )
-                }
-            }
 
-        }
-        if (watchlistpost == null || watchlistpost.size == 0) {
+        if (ConstantObjects.userwatchlist != null && ConstantObjects.userwatchlist!!.data != null && ConstantObjects.userwatchlist!!.data.size > 0) {
+            val watchlistpost = ConstantObjects.userwatchlist!!.data!!
+            val list: ArrayList<GeneralProduct> = ArrayList()
+
+            ConstantObjects.userwatchlist!!.data!!.forEach {
+                list.add(it.advertisement)
+            }
+            fav_rcv!!.adapter = GeneralAdvertisementAdapter(list)
+
+
+        } else {
+
             HelpFunctions.ShowLongToast(
                 getString(R.string.NoRecordFound),
                 this@WatchlistFragment.context
             )
-
-            val browadptxl = WatchlistAdap(watchlistpost, this@WatchlistFragment)
-            fav_rcv.adapter = browadptxl
-            browadptxl.onItemClick = { indobj ->
-                HelpFunctions.ViewAdvertismentDetail(
-                    indobj.watchlistadvid!!,
-                    indobj.watchlistadvtemplate!!,
-                    requireContext()
-                )
-            }
-            browadptxl.notifyDataSetChanged()
-
         }
+
     }
 }

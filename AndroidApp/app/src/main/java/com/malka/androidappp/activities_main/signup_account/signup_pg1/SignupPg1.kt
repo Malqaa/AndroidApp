@@ -173,7 +173,7 @@ class SignupPg1 : SignInActivity() {
                     if (data.status_code == 200) {
                         NextAcivityparsedata(data)
 //                              signuppg1ParseNnext()
-                    } else if (data.status_code == 400) {
+                    } else {
                         HelpFunctions.ShowLongToast(data.message, this@SignupPg1)
 //                        Toast.makeText(this@SignupPg1, data.message, Toast.LENGTH_LONG).show()
                     }

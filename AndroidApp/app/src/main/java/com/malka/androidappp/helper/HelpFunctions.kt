@@ -281,7 +281,9 @@ class HelpFunctions {
             args.putString("AdvId", AdvId);
             args.putString("Template", Category);
 
-            context.startActivity(Intent(context, ProductDetails::class.java))
+            context.startActivity(Intent(context, ProductDetails::class.java).apply {
+                putExtra(ConstantObjects.productDetails, AdvId)
+            })
 
          //   NavHostFragment.findNavController(currentfragment).navigate(R.id.carspicification, args)
         }
@@ -326,27 +328,7 @@ class HelpFunctions {
                         if (response.isSuccessful) {
                             if (response.body() != null) {
                                 var watchlistinfo: watchlistobject = response.body()!!;
-                                if (watchlistinfo != null && watchlistinfo.data != null && watchlistinfo.data.size > 0) {
-                                    val watchlistpost: ArrayList<WatchlistModel> = ArrayList()
-                                    for (IndWatch in watchlistinfo.data) {
-                                        if (IndWatch.advertisement != null) {
-                                            watchlistpost.add(
-                                                WatchlistModel(
-                                                    IndWatch.advertisement.title,
-                                                    IndWatch.advertisement.enddate,
-                                                    IndWatch.advertisement.price,
-                                                    "Buy now",
-                                                    IndWatch.advertisement.homepageImage,
-                                                    IndWatch.advertisement.referenceId,
-                                                    IndWatch.advertisement.template
-                                                )
-                                            )
-                                        }
-                                    }
-                                    ConstantObjects.userwatchlist = watchlistinfo
-                                } else {
-                                    ConstantObjects.userwatchlist = watchlistinfo
-                                }
+                                ConstantObjects.userwatchlist = watchlistinfo
                                 if (context is WatchlistFragment) {
                                     (context as WatchlistFragment).BindUserWatchlist()
                                 }
@@ -385,11 +367,6 @@ class HelpFunctions {
                 val call: Call<FavouriteObject> =
                     malqa.getuserfavourites(ConstantObjects.logged_userid)
                 call.enqueue(object : Callback<FavouriteObject> {
-                    override fun onFailure(call: Call<FavouriteObject>, t: Throwable) {
-                        ShowLongToast(
-                            "No Record Found", context.requireContext()
-                        )
-                    }
 
                     override fun onResponse(
                         call: Call<FavouriteObject>,
@@ -415,6 +392,12 @@ class HelpFunctions {
                                 "No Record Found", context.requireContext()
                             )
                         }
+                    }
+
+                    override fun onFailure(call: Call<FavouriteObject>, t: Throwable) {
+                        ShowLongToast(
+                            "No Record Found", context.requireContext()
+                        )
                     }
                 })
             } catch (ex: Exception) {

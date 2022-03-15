@@ -22,9 +22,9 @@ class GenericAdaptor {
                 titlenamee.text=title
               //  city_tv.text=city
                 date_tv.text="26/6/2021"
-                purchasing_price_tv.text="${price.toDouble().decimalNumberFormat()} ${context.getString(
+                product_price.text="${price.toDouble().decimalNumberFormat()} ${context.getString(
                     R.string.Rayal)}"
-                purchasing_price_tv_2.text="${price.toDouble().decimalNumberFormat()} ${context.getString(R.string.Rayal)}"
+                LowestPrice.text="${price.toDouble().decimalNumberFormat()} ${context.getString(R.string.Rayal)}"
 
 
                 LowestPrice.text="${price.toDouble().decimalNumberFormat()} ${context.getString(R.string.Rayal)}"

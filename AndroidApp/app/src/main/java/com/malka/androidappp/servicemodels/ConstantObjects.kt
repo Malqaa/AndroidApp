@@ -22,6 +22,7 @@ class ConstantObjects() {
         val subcategory_5_key: String = "subcategory_5_key";
         val subcategory_6_key: String = "subcategory_6_key";
         var category_template_file_Name: String = "";
+        var productDetails: String = "productDetails";
 
         var userobj: UserObject? = null;
         var userfeedback: FeedbackObject? = null;

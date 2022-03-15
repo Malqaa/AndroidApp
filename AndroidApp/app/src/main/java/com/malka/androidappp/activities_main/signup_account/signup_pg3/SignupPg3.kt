@@ -11,24 +11,36 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isEmpty
 import com.malka.androidappp.R
+import com.malka.androidappp.activities_main.BaseActivity
 import com.malka.androidappp.activities_main.login.SignInActivity
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.helper.widgets.searchdialog.SearchListItem
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
+import com.malka.androidappp.servicemodels.ConstantObjects
+import com.malka.androidappp.servicemodels.CountryRespone
 import kotlinx.android.synthetic.main.activity_signup_pg4.*
+import kotlinx.android.synthetic.main.activity_signup_pg4.select_city
+import kotlinx.android.synthetic.main.activity_signup_pg4.select_country
+import kotlinx.android.synthetic.main.activity_signup_pg4.select_region
+import kotlinx.android.synthetic.main.fragment_list_details.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
 
-class SignupPg3 : AppCompatActivity() {
+class SignupPg3 : BaseActivity() {
+
+    var selectedCountry: SearchListItem? = null
+    var selectedRegion: SearchListItem? = null
+    var selectedCity: SearchListItem? = null
     var gender4 = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signup_pg4)
         supportActionBar?.hide()
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
+
 
 
         val c = Calendar.getInstance()
@@ -49,27 +61,43 @@ class SignupPg3 : AppCompatActivity() {
             dpd.show()
         }
 
-        select_region._setOnClickListener {
-            val items = List(3) { i ->
-                SearchListItem(1, "Dubai")
-                SearchListItem(2, "Abu Dhabi")
-                SearchListItem(3, "Sharjah")
+        select_country._setOnClickListener {
+            val list: ArrayList<SearchListItem> = ArrayList()
+            ConstantObjects.countryList.forEachIndexed { index, country ->
+                list.add(SearchListItem(country.key, country.name))
             }
-            select_region.showSpinner(this,items, "Select Region") {
-                select_region.text = it.title
+            select_country.showSpinner(
+                this,
+                list,
+                getString(R.string.Select, getString(R.string.Country))
+            ) {
+                select_country.text = it.title
+                selectedCountry = it
+
+
+                select_region.text = ""
+                selectedRegion = null
+            }
+
+        }
+        select_region._setOnClickListener {
+            if (select_country.text.toString().isEmpty()) {
+                showError(getString(R.string.Please_select, getString(R.string.Country)))
+            } else {
+                getRegion(selectedCountry!!.key, culture())
             }
 
         }
         select_city._setOnClickListener {
-            val items = List(3) { i ->
-                SearchListItem(1, "Al Bahah")
-                SearchListItem(2, "Al Aqiq")
-            }
-            select_region.showSpinner(this,items, "Select District") {
-                select_city.text = it.title
-            }
 
+            if (select_region.text.toString().isEmpty()) {
+                showError(getString(R.string.Please_select, getString(R.string.Region)))
+            } else {
+                getCity(selectedRegion!!.key)
+            }
         }
+
+//
         radiomale._setOnClickListener {
             radiomale._setCheck(!radiomale.getCheck())
             radiofemale._setCheck(false)
@@ -81,6 +109,107 @@ class SignupPg3 : AppCompatActivity() {
             gender4=radiomale.getText()
 
         }
+
+        confirm_button.setOnClickListener {
+            SignupApi()
+        }
+    }
+
+
+    fun getRegion(key: String, culture: String) {
+        HelpFunctions.startProgressBar(this)
+
+
+        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder2()
+        val call = malqa.getRegion(key, culture)
+        call.enqueue(object : retrofit2.Callback<CountryRespone?> {
+            override fun onFailure(call: retrofit2.Call<CountryRespone?>?, t: Throwable) {
+                HelpFunctions.dismissProgressBar()
+
+            }
+
+            override fun onResponse(
+                call: retrofit2.Call<CountryRespone?>,
+                response: retrofit2.Response<CountryRespone?>
+            ) {
+                if (response.isSuccessful) {
+
+                    if (response.body() != null) {
+                        val respone: CountryRespone = response.body()!!
+                        if (respone.status_code == 200) {
+                            val list: ArrayList<SearchListItem> = ArrayList()
+                            respone.data.forEachIndexed { index, country ->
+                                list.add(SearchListItem(country.key, country.name))
+                            }
+                            select_region.showSpinner(
+                                this@SignupPg3,
+                                list,
+                                getString(R.string.Select, getString(R.string.Region))
+                            ) {
+                                select_region.text = it.title
+                                selectedRegion = it
+
+
+                                select_city.text = ""
+                                selectedCity = null
+
+                            }
+                        }
+                    }
+
+                }
+                HelpFunctions.dismissProgressBar()
+
+            }
+        })
+
+
+    }
+
+
+    fun getCity(key: String, ) {
+        HelpFunctions.startProgressBar(this)
+
+
+        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder2()
+        val call = malqa.getCity(key, culture())
+        call.enqueue(object : retrofit2.Callback<CountryRespone?> {
+            override fun onFailure(call: retrofit2.Call<CountryRespone?>?, t: Throwable) {
+                HelpFunctions.dismissProgressBar()
+
+            }
+
+            override fun onResponse(
+                call: retrofit2.Call<CountryRespone?>,
+                response: retrofit2.Response<CountryRespone?>
+            ) {
+                if (response.isSuccessful) {
+
+                    if (response.body() != null) {
+                        val respone: CountryRespone = response.body()!!
+                        if (respone.status_code == 200) {
+                            val list: ArrayList<SearchListItem> = ArrayList()
+                            respone.data.forEachIndexed { index, country ->
+                                list.add(SearchListItem(country.key, country.name))
+                            }
+                            select_city.showSpinner(
+                                this@SignupPg3,
+                                list,
+                                getString(R.string.Select, getString(R.string.district))
+                            ) {
+                                select_city.text = it.title
+                                selectedCity = it
+                            }
+                        }
+                    }
+
+                }
+                HelpFunctions.dismissProgressBar()
+
+            }
+        })
+
+
     }
 
 
@@ -125,10 +254,9 @@ class SignupPg3 : AppCompatActivity() {
         val InputStreet = streetNUmber!!.text.toString().trim { it <= ' ' }
 
         return if (InputStreet.isEmpty()) {
-            streetNUmber!!.error = getString(R.string.Fieldcantbeempty)
+            showError(getString(R.string.Please_enter, getString(R.string.StreetNumber)))
             false
         } else {
-            streetNUmber!!.error = null
             true
         }
     }
@@ -160,13 +288,11 @@ class SignupPg3 : AppCompatActivity() {
     }
 
 
-    fun AddAddressconfirmInput(v: View) {
+    fun SignupApi() {
 
-        if (!!validateSign4Streetnum() or !validateSign4Area() or
-            !validateSign4PoBox() or !validateRegion() or !validateCity() or !validateSign3FullName() or !validateSign3Day() or !validateRadio()
+        if (validateSign4Streetnum() && validateSign4Area() &&
+            validateSign4PoBox() && validateCity() && validateSign3FullName() && validateSign3Day() && validateRadio()
         ) {
-            return
-        } else {
 
             updateapicall()
         }
@@ -193,7 +319,7 @@ class SignupPg3 : AppCompatActivity() {
         val fullnaam4 = fullNamee.text.toString().trim()
         val lastName = editTextlastname.text.toString().trim()
         val date4 = date.text.toString().trim()
-        val country = editText10.selectedCountryName
+        val country = select_country.text.toString()
         //
 
         //
