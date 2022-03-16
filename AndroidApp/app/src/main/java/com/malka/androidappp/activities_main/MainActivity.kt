@@ -89,14 +89,14 @@ class MainActivity : AppCompatActivity() {
         }
 
         floatingActionButtonBottm.setOnClickListener() {
-            startActivity(Intent(this, ListanItem::class.java))
+           // startActivity(Intent(this, ListanItem::class.java))
 
-//            if (HelpFunctions.IsUserLoggedIn()) {
-//                startActivity(Intent(this, ListanItem::class.java))
-//            } else {
-//                val intentt = Intent(this, SignInActivity::class.java)
-//                startActivity(intentt)
-//            }
+            if (HelpFunctions.IsUserLoggedIn()) {
+                startActivity(Intent(this, ListanItem::class.java))
+            } else {
+                val intentt = Intent(this, SignInActivity::class.java)
+                startActivity(intentt)
+            }
         }
     }
 

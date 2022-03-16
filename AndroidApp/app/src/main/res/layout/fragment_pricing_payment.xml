@@ -611,9 +611,6 @@
         android:textColor="#ffffff"
         android:textSize="@dimen/_14sdp" />
 
-    <include
-        android:id="@+id/loader"
-        layout="@layout/loader_layout"
-        android:visibility="gone" />
+
 
 </RelativeLayout>

@@ -159,7 +159,7 @@ class Confirmation : BaseActivity() {
                 imageList.add(it.base64)
             }
         }
-       // mainModel.Images = imageList
+       mainModel.Images = imageList
 
         // Model Class to JSON String
         val jsonString = Gson().toJson(mainModel)
@@ -172,11 +172,11 @@ class Confirmation : BaseActivity() {
         ConstantObjects.dynamic_json_dictionary.putAll(map)
         print(ConstantObjects.dynamic_json_dictionary)
 
-        startActivity(Intent(this@Confirmation, ContinueActivity::class.java).apply {
+//        startActivity(Intent(this@Confirmation, ContinueActivity::class.java).apply {
+//
+//        })
 
-        })
-
-        //createAllAds(ConstantObjects.dynamic_json_dictionary)
+        createAllAds(ConstantObjects.dynamic_json_dictionary)
 
     }
 

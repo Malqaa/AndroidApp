@@ -28,6 +28,7 @@ import retrofit2.Response
 
 class ListanItem : BaseActivity() {
     var selectTag: Tags? = null
+    var lists: List<Tags> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +48,7 @@ class ListanItem : BaseActivity() {
 
             if (validateitem()) {
 
-                if (selectTag != null) {
+                if (lists.size>0&&selectTag != null) {
                     selectTag!!.run {
                         ConstantObjects.categoryList.filter {
                             it.categoryid == categoryid
@@ -142,9 +143,8 @@ class ListanItem : BaseActivity() {
                     if (response.isSuccessful) {
 
                         if (response.body() != null) {
-
                             val resp: CategoryTagsModel = response.body()!!
-                            val lists: List<Tags> = resp.data
+                             lists = resp.data
                             if (lists.count() > 0) {
                                 recycler_suggested_category.visibility = View.VISIBLE
                                 setCategoryAdaptor(lists)

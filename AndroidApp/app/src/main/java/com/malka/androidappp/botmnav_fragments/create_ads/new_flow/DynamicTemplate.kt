@@ -216,23 +216,20 @@ class DynamicTemplate : BaseActivity() {
                 num_child_views = num_child_views - 1
             for (i in 0..num_child_views) {
                 val indcontol: View = parent_layout.getChildAt(i);
-                if (indcontol is CardView) {
-                    //Text Field
-                    if (indcontol.id == R.id.card_dynamic_text) {
-                        val txtfield: EditText =
-                            indcontol.findViewById(R.id.txt_dynamic_text_field)
-                        if (txtfield.tag != null && txtfield.tag.toString().length > 0) {
-                            ConstantObjects.dynamic_json_dictionary[txtfield.tag.toString()] =
-                                txtfield.text.toString()
-                        }
+                if (indcontol.id == R.id.card_dynamic_text) {
+                    val txtfield: EditText =
+                        indcontol.findViewById(R.id.txt_dynamic_text_field)
+                    if (txtfield.tag != null && txtfield.tag.toString().length > 0) {
+                        ConstantObjects.dynamic_json_dictionary[txtfield.tag.toString()] =
+                            txtfield.text.toString()
                     }
-                    //Spinner
-                    else if (indcontol.id == R.id.card_dynamic_spinner) {
-                        val _spinner: Spinner = indcontol.findViewById(R.id.spinner_dynamic)
-                        if (_spinner.tag != null && _spinner.tag.toString().length > 0) {
-                            ConstantObjects.dynamic_json_dictionary[_spinner.tag.toString()] =
-                                _spinner.selectedItem.toString()
-                        }
+                }
+                //Spinner
+                else if (indcontol.id == R.id.card_dynamic_spinner) {
+                    val _spinner: Spinner = indcontol.findViewById(R.id.spinner_dynamic)
+                    if (_spinner.tag != null && _spinner.tag.toString().length > 0) {
+                        ConstantObjects.dynamic_json_dictionary[_spinner.tag.toString()] =
+                            _spinner.selectedItem.toString()
                     }
                 }
             }

@@ -27,7 +27,7 @@
 
 
 
-    <EditText
+    <TextView
         android:id="@+id/number_counter"
         android:layout_width="@dimen/_50sdp"
         android:layout_height="match_parent"
@@ -38,8 +38,6 @@
         android:layout_marginTop="@dimen/_1sdp"
         android:layout_marginBottom="@dimen/_1sdp"
         android:text="1"
-        android:imeOptions="actionDone"
-        android:inputType="number"
         android:textColor="@color/bg" />
 
 

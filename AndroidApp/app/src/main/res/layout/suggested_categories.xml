@@ -19,6 +19,7 @@
 
 
     <RadioButton
+        android:layout_marginRight="@dimen/_minus15sdp"
         android:text=""
         android:id="@+id/is_select"
         android:layout_width="wrap_content"

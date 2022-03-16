@@ -127,8 +127,9 @@ dependencies {
     implementation "androidx.room:room-ktx:$room_version"
     implementation 'com.hbb20:ccp:2.4.5'
     implementation 'com.intuit.sdp:sdp-android:1.0.6'
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.2.1'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.1'
     implementation 'com.github.mukeshsolanki:android-otpview-pinview:2.1.2'
     implementation 'io.github.pilgr:paperdb:2.7.2'
+    implementation 'androidx.work:work-runtime-ktx:2.7.1'
 
 }

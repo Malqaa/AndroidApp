@@ -105,7 +105,7 @@ class PricingActivity : BaseActivity() {
     }
 
     private fun validateradiobutton(): Boolean {
-        return if (swicth_visa_mastercard.isChecked) {
+        return if (swicth_visa_mastercard.isChecked||!StaticClassAdCreate.isbankpaid.isEmpty()) {
             true
         } else {
             showError(getString(R.string.Selectanyonepaymentmethod))

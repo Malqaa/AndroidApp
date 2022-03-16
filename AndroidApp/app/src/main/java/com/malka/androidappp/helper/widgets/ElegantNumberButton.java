@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.malka.androidappp.R;
 
@@ -20,7 +21,7 @@ public class ElegantNumberButton extends RelativeLayout {
     private int lastNumber;
     private int currentNumber;
     private int finalNumber;
-    private EditText textView;
+    private TextView textView;
     private LinearLayout addBtn, subtractBtn;
     private OnValueChangeListener
             mOnValueChangeListener;

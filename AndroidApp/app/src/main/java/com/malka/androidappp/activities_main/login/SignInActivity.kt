@@ -196,7 +196,7 @@ open class SignInActivity : BaseActivity() {
                             )
                             Paper.book().write(islogin,true)
                             Paper.book().write(SharedPreferencesStaticClass.userData,response.body()!!.data)
-                            GoToHome()
+                           finish()
                         }
                     } else {
                         HelpFunctions.ShowLongToast(
@@ -216,9 +216,6 @@ open class SignInActivity : BaseActivity() {
         })
     }
 
-    fun GoToHome() {
-        signtohome(this@SignInActivity, this)
-    }
 
     fun loginApiCall() {
 

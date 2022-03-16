@@ -179,6 +179,8 @@ class ListingDetails : BaseActivity() {
 
 
     fun ListDetailsconfirmInput() {
+        StaticClassAdCreate.quantity = quantityavail.number.toString()
+
         if (title_tv.getText().isEmpty()) {
             showError(getString(R.string.Please_enter, getString(R.string.item_title)))
         } else if (subtitle.getText().isEmpty()) {
@@ -187,6 +189,10 @@ class ListingDetails : BaseActivity() {
             showError(getString(R.string.Please_enter, getString(R.string.item_details)))
         } else if (StaticClassAdCreate.brand_new_item.isEmpty()) {
             showError(getString(R.string.Please_select, getString(R.string.item_condition)))
+        }else if (StaticClassAdCreate.quantity.isEmpty()) {
+            showError(getString(R.string.Please_select, getString(R.string.QuantityAvailable)))
+        }else if (StaticClassAdCreate.quantity.toInt()<=0) {
+            showError(getString(R.string.Please_select, getString(R.string.QuantityAvailable)))
         } else if (select_city.text.toString().isEmpty()) {
             showError(getString(R.string.Please_select, getString(R.string.district)))
         } else if (phone_number_edittext.text.toString().isEmpty()) {
@@ -197,7 +203,6 @@ class ListingDetails : BaseActivity() {
             StaticClassAdCreate.subtitle = subtitle.getText()
             StaticClassAdCreate.item_description = item_description.getText().toString()
             StaticClassAdCreate.phone = phone_number_edittext.text.toString()
-            StaticClassAdCreate.quantity = quantityavail.number.toString()
             StaticClassAdCreate.country = selectedCountry!!.key
             StaticClassAdCreate.region = selectedRegion!!.key
             StaticClassAdCreate.city = selectedCity!!.key
