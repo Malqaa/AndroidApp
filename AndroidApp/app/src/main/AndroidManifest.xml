@@ -131,9 +131,7 @@
         <activity
             android:name=".botmnav_fragments.forgot_password.ForgotPasswordActivty"
             android:theme="@style/NoActionBar" />
-        <activity
-            android:name=".activities_main.SignInPart2"
-            android:theme="@style/NoActionBar" />
+
 
         <activity
             android:name=".botmnav_fragments.create_ads.new_flow.ListanItem"
