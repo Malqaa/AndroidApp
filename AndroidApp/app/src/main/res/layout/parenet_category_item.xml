@@ -28,7 +28,7 @@
             android:id="@+id/category_name_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_10sdp"
             android:fontFamily="@font/madani_arabic_light"
             android:text="@string/vehicles"
             android:textColor="@color/black"
@@ -66,8 +66,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:paddingLeft="@dimen/_minus5sdp"
-        android:paddingRight="@dimen/_minus5sdp"
+        android:paddingStart="@dimen/_minus5sdp"
+        android:paddingEnd="@dimen/_minus5sdp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/product_item" />
 

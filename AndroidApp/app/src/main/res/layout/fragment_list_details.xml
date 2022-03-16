@@ -137,8 +137,8 @@
                         android:layout_height="match_parent"
                         android:background="@drawable/field_selection_bg"
                         android:gravity="center"
-                        android:paddingLeft="@dimen/_30sdp"
-                        android:paddingRight="@dimen/_30sdp"
+                        android:paddingStart="@dimen/_30sdp"
+                        android:paddingEnd="@dimen/_30sdp"
                         android:text="@string/New"
                         android:textColor="@drawable/field_selection_color"
                         android:textSize="@dimen/_10sdp" />
@@ -151,8 +151,8 @@
                         android:layout_marginStart="@dimen/_10sdp"
                         android:background="@drawable/field_selection_bg"
                         android:gravity="center"
-                        android:paddingLeft="@dimen/_30sdp"
-                        android:paddingRight="@dimen/_30sdp"
+                        android:paddingStart="@dimen/_30sdp"
+                        android:paddingEnd="@dimen/_30sdp"
                         android:text="@string/used"
                         android:textColor="@drawable/field_selection_color"
                         android:textSize="@dimen/_10sdp" />

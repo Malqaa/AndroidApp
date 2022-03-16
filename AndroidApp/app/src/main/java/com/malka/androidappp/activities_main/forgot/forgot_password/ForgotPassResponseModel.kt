@@ -1,4 +1,4 @@
-package com.malka.androidappp.botmnav_fragments.forgot_password
+package com.malka.androidappp.activities_main.forgot.forgot_password
 
 data class ForgotPassResponseModel(
     val `data`: String,

@@ -1,4 +1,4 @@
-package com.malka.androidappp.botmnav_fragments.forgotpass_otpactivity
+package com.malka.androidappp.activities_main.forgot.forgotpass_otpactivity
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.view.View
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.signup_account.signup_pg2.PostReqVerifyCode
-import com.malka.androidappp.botmnav_fragments.forgot_changepass_reset_activity.ForgotChangepassActivity
+import com.malka.androidappp.activities_main.forgot.forgot_changepass_reset_activity.ForgotChangepassActivity
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService

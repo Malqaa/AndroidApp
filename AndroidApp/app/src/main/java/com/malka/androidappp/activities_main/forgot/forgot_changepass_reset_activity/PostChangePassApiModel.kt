@@ -1,4 +1,4 @@
-package com.malka.androidappp.botmnav_fragments.forgot_changepass_reset_activity
+package com.malka.androidappp.activities_main.forgot.forgot_changepass_reset_activity
 
 data class PostChangePassApiModel(
     val code: String,

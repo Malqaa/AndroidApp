@@ -1,4 +1,4 @@
-package com.malka.androidappp.botmnav_fragments.forgot_password
+package com.malka.androidappp.activities_main.forgot.forgot_password
 
 import android.app.Activity
 import android.content.Intent
@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.malka.androidappp.R
 import com.malka.androidappp.botmnav_fragments.ForgotPassword.PostForgotpassModel
 import com.malka.androidappp.activities_main.login.SignInActivity
-import com.malka.androidappp.botmnav_fragments.forgotpass_otpactivity.ActivityForgotPassOtpcode
+import com.malka.androidappp.activities_main.forgot.forgotpass_otpactivity.ActivityForgotPassOtpcode
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder

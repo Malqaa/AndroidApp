@@ -8,7 +8,6 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.StrictMode
 import android.provider.Settings.Secure
@@ -20,12 +19,9 @@ import android.view.View
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.NavHostFragment
 import com.bumptech.glide.Glide
 import com.malka.androidappp.R
-import com.malka.androidappp.activities_main.MainActivity
 import com.malka.androidappp.activities_main.login.LoginData
-import com.malka.androidappp.activities_main.login.LoginResponseBack
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.botmnav_fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ModelShipAddresses
 import com.malka.androidappp.botmnav_fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ShippingAddressessData
@@ -34,7 +30,6 @@ import com.malka.androidappp.design.ProductDetails
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.constants.ApiConstants
 import com.malka.androidappp.network.service.MalqaApiService
-import com.malka.androidappp.recycler_watchlist.WatchlistModel
 import com.malka.androidappp.servicemodels.BasicResponseInt
 import com.malka.androidappp.servicemodels.Basicresponse
 import com.malka.androidappp.servicemodels.ConstantObjects
@@ -48,7 +43,6 @@ import com.malka.androidappp.servicemodels.favourites.favouriteadd
 import com.malka.androidappp.servicemodels.watchlist.watchlistadd
 import com.malka.androidappp.servicemodels.watchlist.watchlistobject
 import io.paperdb.Paper
-import kotlinx.android.synthetic.main.activity_splash.*
 import kotlinx.android.synthetic.main.alertpopup.view.*
 import kotlinx.android.synthetic.main.progress_bar.view.*
 import retrofit2.Call
@@ -66,7 +60,6 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 import java.util.regex.Matcher
 import java.util.regex.Pattern
-import kotlin.collections.ArrayList
 import kotlin.Boolean as Boolean1
 
 

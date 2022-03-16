@@ -19,9 +19,7 @@
             android:id="@+id/home_browsemarket"
             app:destination="@+id/browsemarket_frag" />
 
-        <action
-            android:id="@+id/home_viewallcategories"
-            app:destination="@+id/viewall_categories_frag" />
+
 
         <action
             android:id="@+id/home_seeall_generalfeaturedads"
@@ -822,15 +820,7 @@
 
     </fragment>
 
-    <fragment
-        android:id="@+id/viewall_categories_frag"
-        android:name="com.malka.androidappp.botmnav_fragments.home_view_allcategories.ViewAllCategories"
-        tools:layout="@layout/fragment_view_all_categories">
 
-        <action
-            android:id="@+id/totalcategoies_browsecate"
-            app:destination="@+id/browsemarket_frag" />
-    </fragment>
 
     <fragment
         android:id="@+id/seelall_generalfeaturedads_frag"

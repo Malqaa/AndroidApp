@@ -13,8 +13,8 @@
         android:clickable="true"
         android:gravity="center"
         android:paddingBottom="@dimen/space.small"
-        android:paddingLeft="@dimen/space.medium"
-        android:paddingRight="@dimen/space.medium"
+        android:paddingStart="@dimen/space.medium"
+        android:paddingEnd="@dimen/space.medium"
         android:paddingTop="@dimen/space.small" />
 
     <View

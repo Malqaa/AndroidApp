@@ -57,7 +57,6 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/_5sdp"
                     android:nestedScrollingEnabled="false"
-                    tools:listitem="@layout/add_product_imgs"
                     app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                     app:spanCount="2" />
 
@@ -122,7 +121,7 @@
                     android:id="@+id/addvideo"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="20dp"
                     android:background="@null"

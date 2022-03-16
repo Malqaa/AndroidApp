@@ -1,7 +1,6 @@
 package com.malka.androidappp.helper
 
 import android.content.Context
-import com.malka.androidappp.Const
 import com.malka.androidappp.R
 import com.malka.androidappp.helper.Extension.decimalNumberFormat
 import com.malka.androidappp.servicemodels.categorylistings.SearchRespone

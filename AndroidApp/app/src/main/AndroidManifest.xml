@@ -77,14 +77,12 @@
         <activity
             android:name=".botmnav_fragments.activities_main.business_signup.BusinessSignupPg1"
             android:theme="@style/NoActionBar" />
+
         <activity
-            android:name=".activities_main.onboarding_intro_slider.OnBoardingIntroSlider"
+            android:name="com.malka.androidappp.activities_main.forgot.forgot_changepass_reset_activity.ForgotChangepassActivity"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name=".botmnav_fragments.forgot_changepass_reset_activity.ForgotChangepassActivity"
-            android:theme="@style/NoActionBar" />
-        <activity
-            android:name=".botmnav_fragments.forgotpass_otpactivity.ActivityForgotPassOtpcode"
+            android:name="com.malka.androidappp.activities_main.forgot.forgotpass_otpactivity.ActivityForgotPassOtpcode"
             android:theme="@style/NoActionBar" />
         <activity
             android:name=".activities_main.SplashActivity"
@@ -103,9 +101,7 @@
             android:windowSoftInputMode="adjustPan">
 
         </activity>
-        <activity
-            android:name=".activities_main.FeaturedCategory"
-            android:label="Featured Category" />
+
         <activity
             android:name=".activities_main.login.SignInActivity"
             android:screenOrientation="portrait" />
@@ -129,7 +125,7 @@
 
         </activity>
         <activity
-            android:name=".botmnav_fragments.forgot_password.ForgotPasswordActivty"
+            android:name="com.malka.androidappp.activities_main.forgot.forgot_password.ForgotPasswordActivty"
             android:theme="@style/NoActionBar" />
 
 

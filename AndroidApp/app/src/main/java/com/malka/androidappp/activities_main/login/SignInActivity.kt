@@ -10,7 +10,7 @@ import android.widget.Toast
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.BaseActivity
 import com.malka.androidappp.activities_main.MainActivity
-import com.malka.androidappp.botmnav_fragments.forgot_password.ForgotPasswordActivty
+import com.malka.androidappp.activities_main.forgot.forgot_password.ForgotPasswordActivty
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass.Companion.islogin
 import com.malka.androidappp.helper.HelpFunctions

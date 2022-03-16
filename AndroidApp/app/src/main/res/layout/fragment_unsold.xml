@@ -22,16 +22,16 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar_unsold"
         android:layout_above="@id/button238"/>
+
     <Button
         android:id="@+id/button238"
         android:layout_width="match_parent"
         android:layout_height="64dp"
+        android:layout_alignParentBottom="true"
         android:background="@color/GoldenApp"
         android:text="REFINE"
         android:textColor="#ffffff"
-        android:layout_alignParentBottom="true"
-        android:textSize="22dp"
-        />
+        android:textSize="22dp" />
 </RelativeLayout>
 
 

@@ -21,8 +21,8 @@ import com.malka.androidappp.botmnav_fragments.create_product.ModelCreateProduct
 import com.malka.androidappp.botmnav_fragments.create_product.ProductResponseBack
 import com.malka.androidappp.botmnav_fragments.feedback_frag.insert_feedback.GiveFeedbackResponseBack
 import com.malka.androidappp.botmnav_fragments.feedback_frag.insert_feedback.ModelGiveFeedBack
-import com.malka.androidappp.botmnav_fragments.forgot_changepass_reset_activity.PostChangePassApiModel
-import com.malka.androidappp.botmnav_fragments.forgot_password.ForgotPassResponseModel
+import com.malka.androidappp.activities_main.forgot.forgot_changepass_reset_activity.PostChangePassApiModel
+import com.malka.androidappp.activities_main.forgot.forgot_password.ForgotPassResponseModel
 import com.malka.androidappp.botmnav_fragments.home.model.AllCategoriesResponseBack
 import com.malka.androidappp.botmnav_fragments.home.model.CarTemplate
 import com.malka.androidappp.botmnav_fragments.home_view_allcategories.ModelAddCatFav
