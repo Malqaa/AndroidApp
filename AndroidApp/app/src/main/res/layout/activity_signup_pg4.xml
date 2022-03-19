@@ -121,7 +121,7 @@
                 android:hint="@string/Country"
                 android:inputType="textPersonName"
                 app:endIcon="@drawable/ic_arrow_down"
-                app:startIcon="@drawable/ic_country"
+                app:startIcon="@drawable/ic_region"
                 app:viewType="spinner" />
 
             <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
@@ -192,7 +192,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:hint="@string/county_code"
+                android:hint="@string/ZipCode"
                 android:inputType="text"
                 app:imeOptions="done" />
 

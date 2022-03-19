@@ -19,12 +19,24 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/_130sdp">
 
-            <ImageView
-                android:id="@+id/productimg"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/gray_light"
-                android:scaleType="centerCrop" />
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/productimg"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/gray_light"
+                    android:scaleType="centerCrop" />
+
+                <ProgressBar
+                    android:id="@+id/loader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true" />
+
+            </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"

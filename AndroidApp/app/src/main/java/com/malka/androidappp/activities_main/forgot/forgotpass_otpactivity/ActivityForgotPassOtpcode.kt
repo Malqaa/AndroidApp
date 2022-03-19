@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import com.malka.androidappp.BuildConfig
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.signup_account.signup_pg2.PostReqVerifyCode
 import com.malka.androidappp.activities_main.forgot.forgot_changepass_reset_activity.ForgotChangepassActivity
@@ -23,12 +24,14 @@ class ActivityForgotPassOtpcode : AppCompatActivity() {
 
 
         val getcodee:String? = intent.getStringExtra("getcode")
-        pinview234.setValue(getcodee!!)
+        if(BuildConfig.DEBUG){
+            pinview234.setValue(getcodee!!)
+        }
 
 
 
 
-        button4.setOnClickListener(){
+        button4.setOnClickListener {
             changepassotpconfirmInput()
         }
     }
@@ -61,7 +64,7 @@ class ActivityForgotPassOtpcode : AppCompatActivity() {
 
     //////////////////////////////////////Api Post Verify//////////////////////////////////////////////////
     fun verifyotpcode() {
-        val malqa: MalqaApiService = RetrofitBuilder.verifyotpcodeInstance()
+        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder2()
         val userId: String? = intent.getStringExtra("userid")
         val otpcode: String = pinview234.getValue().toString().trim()
         val call: Call<PostReqVerifyCode> = malqa.verifycode(PostReqVerifyCode(userId!!, otpcode))

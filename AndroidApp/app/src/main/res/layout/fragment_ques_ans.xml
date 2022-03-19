@@ -8,19 +8,19 @@
 
     >
 
-    <androidx.appcompat.widget.Toolbar
+    <include
         android:id="@+id/toolbar_quesans"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="#339933"
-        android:layout_alignParentTop="true"/>
+        layout="@layout/toolbar_main" />
+
+
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/quesAns_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/askques_bottom"
-        android:layout_below="@+id/toolbar_quesans"/>
+        android:layout_below="@+id/toolbar_quesans" />
 
 <RelativeLayout
     android:id="@+id/askques_bottom"
@@ -29,20 +29,19 @@
     android:layout_height="?actionBarSize"
     android:background="@color/SilverBackground">
 
-<EditText
-    android:id="@+id/editTextques"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/white"
-    android:padding="10dp"
-    android:hint="@string/AskaQuestion"
-    android:layout_marginStart="10dp"
-    android:layout_marginTop="10dp"
-    android:layout_marginBottom="10dp"
-    android:layout_centerVertical="true"
-    android:layout_toStartOf="@+id/imageView39"
-    android:textSize="16sp"
-     />
+    <EditText
+        android:id="@+id/editTextques"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_toStartOf="@+id/imageView39"
+        android:background="@color/white"
+        android:hint="@string/AskaQuestion"
+        android:padding="10dp"
+        android:textSize="16sp" />
 
     <ImageView
         android:id="@+id/imageView39"

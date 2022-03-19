@@ -2,25 +2,19 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fullview"
     android:layout_width="match_parent"
     android:layout_height="@dimen/_120sdp"
     android:layout_margin="5dp"
-    android:id="@+id/fullview"
     app:cardCornerRadius="12dp">
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:layout_marginTop="@dimen/_5sdp"
         android:background="@drawable/product_attribute_bg2"
-        android:layout_marginTop="@dimen/_5sdp">
+        android:orientation="vertical">
 
-
-        <ImageView
-            android:id="@+id/category_icon"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/categorypic" />
 
         <LinearLayout
             android:id="@+id/bgline"
@@ -30,20 +24,32 @@
             android:orientation="horizontal">
 
 
-
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/category_name_tv"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:padding="@dimen/_5sdp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_5sdp"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:fontFamily="@font/madani_arabic_light"
-            android:text="Vehicles"
-            android:textColor="#1D223B"
-            android:textSize="@dimen/_10sdp" />
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/category_name_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:fontFamily="@font/madani_arabic_light"
+                android:text="Vehicles"
+                android:textColor="#1D223B"
+                android:textSize="@dimen/_10sdp" />
+            <ImageView
+                android:id="@+id/category_icon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/car3" />
+        </LinearLayout>
+
+
     </FrameLayout>
+
 
 
     <LinearLayout
@@ -54,9 +60,9 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_check"
             android:layout_marginStart="@dimen/_15sdp"
-            android:layout_marginBottom="@dimen/_10sdp"/>
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:src="@drawable/ic_check" />
 
     </LinearLayout>
 

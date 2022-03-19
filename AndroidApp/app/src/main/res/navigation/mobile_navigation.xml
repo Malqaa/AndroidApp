@@ -324,7 +324,7 @@
 
     <fragment
         android:id="@+id/confirmation"
-        android:name="com.malka.androidappp.botmnav_fragments.create_ads.new_flow.Confirmation"
+        android:name="com.malka.androidappp.activities_main.new_flow.Confirmation"
         android:label="Confirmation"
         tools:layout="@layout/fragment_confirmation">
 
@@ -340,7 +340,7 @@
 
     <fragment
         android:id="@+id/listing_fee"
-        android:name="com.malka.androidappp.botmnav_fragments.create_ads.new_flow.ListingFee"
+        android:name="com.malka.androidappp.activities_main.new_flow.ListingFee"
         android:label="Listing Fee"
         tools:layout="@layout/fragment_listing_fee">
 
@@ -356,7 +356,7 @@
 
     <fragment
         android:id="@+id/continue_frag"
-        android:name="com.malka.androidappp.botmnav_fragments.create_ads.new_flow.ContinueActivity"
+        android:name="com.malka.androidappp.activities_main.new_flow.ContinueActivity"
         android:label="Continue"
         tools:layout="@layout/fragment_continue">
 
@@ -388,7 +388,7 @@
 
     <fragment
         android:id="@+id/listduration_frag"
-        android:name="com.malka.androidappp.botmnav_fragments.create_ads.new_flow.ListingDuration"
+        android:name="com.malka.androidappp.activities_main.new_flow.ListingDuration"
         android:label="List Duration"
         tools:layout="@layout/fragment_listing_duration">
 
@@ -402,28 +402,7 @@
             app:popUpToInclusive="true" />
     </fragment>
 
-    <fragment
-        android:id="@+id/pricepayment_frag"
-        android:name="com.malka.androidappp.botmnav_fragments.create_ads.PricingPayment"
-        android:label="Pricing And Payment"
-        tools:layout="@layout/fragment_pricing_payment">
 
-        <action
-            android:id="@+id/pricepay_listduration"
-            app:destination="@+id/listduration_frag"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-
-        <action
-            android:id="@+id/close_pricepayment"
-            app:destination="@+id/navigation_account"
-            app:popEnterAnim="@anim/slide_down_in"
-            app:popExitAnim="@anim/no_anim"
-            app:popUpTo="@id/navigation_account"
-            app:popUpToInclusive="true" />
-    </fragment>
 
 
 

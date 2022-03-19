@@ -42,7 +42,7 @@ class add_address : AppCompatActivity() {
 
         HelpFunctions.startProgressBar(this)
 
-        val malqa: MalqaApiService = RetrofitBuilder.createAccountsInstance()
+        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder2()
         val call = malqa.getAddress("1234")
 
 

@@ -15,7 +15,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager.widget.ViewPager
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.login.SignInActivity
 import com.malka.androidappp.botmnav_fragments.cardetail_page.bottomsheet_bidopt.BottomsheetDialogfragClass
@@ -70,11 +69,15 @@ class CarSpecificsFragment : Fragment(), BottomsheetDialogfragClass.BottomSheetL
         savedInstanceState: Bundle?
     ): View? {
 
-        val navBar: BottomNavigationView = requireActivity().findViewById(R.id.nav_view)
-        
+
 
         AdvId = arguments?.getString("AdvId").toString()
         template = arguments?.getString("Template").toString()
+//        AdvId="sfyf9907LV"
+//        template="WreckedCar"
+
+        AdvId="mbuf8809HD"
+        template="HobsAndOvens"
 
         StoreDataForAdDetail.saveAdvIdforAdDetailBiding = AdvId
 
@@ -94,19 +97,19 @@ class CarSpecificsFragment : Fragment(), BottomsheetDialogfragClass.BottomSheetL
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewPager = requireActivity().findViewById<View>(R.id.viewPager) as ViewPager
-        sliderDotspanel = requireActivity().findViewById<View>(R.id.SliderDots) as LinearLayout
+        viewPager = view.findViewById<View>(R.id.viewPager) as ViewPager
+        sliderDotspanel = view.findViewById<View>(R.id.SliderDots) as LinearLayout
 
-        watchlistButton = requireActivity().findViewById(R.id.watchbutton)
-        giveFeedback = requireActivity().findViewById(R.id.btn_give_feedback)
-        addToFavorites = requireActivity().findViewById(R.id.add_seller_fav)
+        watchlistButton = view.findViewById(R.id.watchbutton)
+        giveFeedback = view.findViewById(R.id.btn_give_feedback)
+        addToFavorites = view.findViewById(R.id.add_seller_fav)
 
-        sellerImage = requireActivity().findViewById(R.id.textView201)
-        sellerEmail = requireActivity().findViewById(R.id.textView25)
-        sellerName = requireActivity().findViewById(R.id.text555)
-        sellerLocation = requireActivity().findViewById(R.id.tex6666)
-        sellerMobile = requireActivity().findViewById(R.id.textView24)
-        itemView = requireActivity().findViewById(R.id.itemViews)
+        sellerImage = view.findViewById(R.id.textView201)
+        sellerEmail = view.findViewById(R.id.textView25)
+        sellerName = view.findViewById(R.id.text555)
+        sellerLocation = view.findViewById(R.id.tex6666)
+        sellerMobile = view.findViewById(R.id.textView24)
+        itemView = view.findViewById(R.id.itemViews)
         getadbyidapi(AdvId, template)
         getcurrentbidingprice()
 
@@ -114,7 +117,7 @@ class CarSpecificsFragment : Fragment(), BottomsheetDialogfragClass.BottomSheetL
       //  getSellerByID(SharedPreferencesStaticClass.ad_userid)
 
 
-        val buttonOpenBottomSheet: Button = requireActivity().findViewById(R.id.placebid)
+        val buttonOpenBottomSheet: Button = view.findViewById(R.id.placebid)
         buttonOpenBottomSheet.setOnClickListener {
             if (HelpFunctions.IsUserLoggedIn()) {
                 val bottomSheet = BottomsheetDialogfragClass()
@@ -168,7 +171,7 @@ class CarSpecificsFragment : Fragment(), BottomsheetDialogfragClass.BottomSheetL
                 if (alreadyadded) {
                     HelpFunctions.DeleteAdFromWatchlist(
                         AdvId,
-                        this@CarSpecificsFragment
+                        requireContext()
                     )
                     watchbutton.setImageResource(R.drawable.watch_carspecs)
 
@@ -388,201 +391,197 @@ class CarSpecificsFragment : Fragment(), BottomsheetDialogfragClass.BottomSheetL
     }
 
     fun getadbyidapi(advid: String, template: String) {
-        var cardViewboth: CardView = requireActivity().findViewById(R.id.card8)
-        var buynowButton: Button = requireActivity().findViewById(R.id.buynow_advdetail2)
-        var textlabel: TextView = requireActivity().findViewById(R.id.textView14)
 
-        val malqa: MalqaApiService = RetrofitBuilder.getAdDetailById(advid, template)
-        val call: Call<AdDetailModel> = malqa.getAdDetailById(advid, template)
-
-        call.enqueue(object : Callback<AdDetailModel> {
-            @SuppressLint("UseRequireInsteadOfGet", "SetTextI18n")
-            override fun onResponse(
-                call: Call<AdDetailModel>,
-                response: Response<AdDetailModel>
-            ) {
-                if (response.isSuccessful) {
-                    val adUserId: String = response.body()!!.user.toString()
-                    SharedPreferencesStaticClass.ad_userid = adUserId
-                    val details: AdDetailModel = response.body()!!
-                    if (details != null) {
-                        if (SharedPreferencesStaticClass.ad_userid == ConstantObjects.logged_userid) {
-                            watchlistButton.isClickable = false
-                            giveFeedback.visibility = View.GONE
-                            addToFavorites.visibility = View.GONE
-                        }
-
-                        val producttile: String = details.producttitle.toString()
-                        textView7.text = producttile
-
-                        val title: String = details.title.toString()
-                        textView9.text = title
-
-
-                        val location1: String = details.address.toString()
-                        val location2: String = details.city.toString()
-                        val location3: String = details.country.toString()
-                        txt_car_location.text = location1 + " " + location2 + " " + location3
-
-                        val pricee: String = response.body()!!.price.toString()
-
-                        textView14.text = pricee
-//                        buynowpriceText.setText(pricee)
-
-
-                        //Setting view according to the Listing type
-                        val listingType: String? = details.listingType
-                        RunCountDownTimer(
-                            listingType,
-                            details.endTime,
-                            details.timepicker,
-                            details.duration,
-                            details.createdOn
-                        )
-
-                        when (listingType) {
-                            "1" -> {
-                                placebid.isEnabled = false
-                                textView15.text = ""
-                                textView19.text = ""
-                            }
-                            "2" -> {
-                                textView14.text = ""
-                                buynow_advdetail2.isEnabled = false
-                            }
-                        }
-                        val quantiy: String? = details.quantity
-                        text1.text = getString(R.string.Quantity) + ":" + quantiy
-
-                        val starting: String? = details.startingPrice
-                        text2.text = getString(R.string.StartPrice) + ":" + starting
-
-                        val brandNewItem: String? = details.brandNewItem.toString()
-                        text3.text = getString(R.string.BrandNewItem) + ":" + brandNewItem
-
-                        val listingT: String? = details.listingType
-                        var listingText = ""
-                        when (listingT) {
-                            "1" -> {
-                                listingText = "Buy now"
-                            }
-                            "2" -> {
-                                listingText = "Auction"
-                            }
-                            "3" -> {
-                                listingText = "Buynow & Auction"
-                            }
-                        }
-                        text4.text = getString(R.string.ListingType) + ":" + listingText
-
-                        val timepicker: String? = details.timepicker.toString()
-                        text5.text = getString(R.string.Registrationexpires) + ":" + timepicker
-
-                        val region: String? = details.region.toString()
-                        text6.text = getString(R.string.Region) + ":" + region
-
-                        val shippingOption: String? = details.shippingOption
-                        text7.text = getString(R.string.Shipping) + ":" + shippingOption
-
-                        val adid: String? = details.id
-                        text8.text = getString(R.string.AdID) + adid
-
-                        val reservePrice: String? = details.reservePrice
-                        text9.text = getString(R.string.ReservePrice) + ":" + reservePrice
-
-                        val description: String = details.description.toString()
-                        txt_car_description.setText(description)
-
-                        itemView.text =
-                            getString(R.string.itemView, details.itemviews.toString().toInt())
-
-                        if (details.startingPrice != null) {
-                            StoreDataForAdDetail.saveAdvstartPriceForAdDetailBiding =
-                                details.startingPrice.toString()
-                        } else {
-                            StoreDataForAdDetail.saveAdvstartPriceForAdDetailBiding = "0"
-                        }
-
-                        val viewPagerAdapter =
-                            ViewPagerAdapter(this@CarSpecificsFragment.context!!, details.images!!)
-                        viewPager!!.adapter = viewPagerAdapter
-                        dotscount = viewPagerAdapter.count
-
-                        dots = arrayOfNulls(dotscount)
-                        for (i in 0 until dotscount) {
-                            dots[i] = ImageView(this@CarSpecificsFragment.context)
-                            dots[i]!!.setImageDrawable(
-                                ContextCompat.getDrawable(
-                                    requireContext(),
-                                    R.drawable.non_active_dot
-                                )
-                            )
-                            val params = LinearLayout.LayoutParams(
-                                LinearLayout.LayoutParams.WRAP_CONTENT,
-                                LinearLayout.LayoutParams.WRAP_CONTENT
-                            )
-                            params.setMargins(2, 0, 2, 0)
-                            sliderDotspanel!!.addView(dots[i], params)
-                        }
-
-                        if (dots != null && dots.size > 0) {
-                            dots[0]!!.setImageDrawable(
-                                ContextCompat.getDrawable(
-                                    requireContext(),
-                                    R.drawable.active_dot
-                                )
-                            )
-                        }
-                        viewPager!!.addOnPageChangeListener(object :
-                            ViewPager.OnPageChangeListener {
-                            override fun onPageScrolled(
-                                position: Int,
-                                positionOffset: Float,
-                                positionOffsetPixels: Int
-                            ) {
-                            }
-
-                            override fun onPageSelected(position: Int) {
-                                for (i in 0 until dotscount) {
-                                    dots[i]!!.setImageDrawable(
-                                        ContextCompat.getDrawable(
-                                            requireContext(),
-                                            R.drawable.non_active_dot
-                                        )
-                                    )
-                                }
-                                dots[position]!!.setImageDrawable(
-                                    ContextCompat.getDrawable(
-                                        requireContext(),
-                                        R.drawable.active_dot
-                                    )
-                                )
-                            }
-
-                            override fun onPageScrollStateChanged(state: Int) {}
-                        })
-
-
-                    } else {
-                        HelpFunctions.ShowAlert(
-                            this@CarSpecificsFragment.context,
-                            getString(R.string.Information),
-                            getString(R.string.NoRecordFound)
-                        )
-                    }
-                } else {
-                    HelpFunctions.ShowAlert(
-                        this@CarSpecificsFragment.context,
-                        getString(R.string.Information),
-                        getString(R.string.NoRecordFound)
-                    )
-                }
-            }
-
-            override fun onFailure(call: Call<AdDetailModel>, t: Throwable) {
-                HelpFunctions.ShowLongToast(t.message!!, this@CarSpecificsFragment.context)
-            }
-        })
+//        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder2()
+//        val call: Call<AdDetailModel> = malqa.getAdDetailById(advid, template)
+//
+//        call.enqueue(object : Callback<AdDetailModel> {
+//            @SuppressLint("UseRequireInsteadOfGet", "SetTextI18n")
+//            override fun onResponse(
+//                call: Call<AdDetailModel>,
+//                response: Response<AdDetailModel>
+//            ) {
+//                if (response.isSuccessful) {
+//                    val adUserId: String = response.body()!!.user.toString()
+//                    SharedPreferencesStaticClass.ad_userid = adUserId
+//                    val details: AdDetailModel = response.body()!!
+//                    if (details != null) {
+//                        if (SharedPreferencesStaticClass.ad_userid == ConstantObjects.logged_userid) {
+//                            watchlistButton.isClickable = false
+//                            giveFeedback.visibility = View.GONE
+//                            addToFavorites.visibility = View.GONE
+//                        }
+//
+//                        val producttile: String = details.producttitle.toString()
+//                        textView7.text = producttile
+//
+//                        val title: String = details.title.toString()
+//                        textView9.text = title
+//
+//
+//                        val location1: String = details.address.toString()
+//                        val location2: String = details.city.toString()
+//                        val location3: String = details.country.toString()
+//                        txt_car_location.text = location1 + " " + location2 + " " + location3
+//
+//                        val pricee: String = response.body()!!.price.toString()
+//
+//                        textView14.text = pricee
+////                        buynowpriceText.setText(pricee)
+//
+//
+//                        //Setting view according to the Listing type
+//                        val listingType: String? = details.listingType
+//                        RunCountDownTimer(
+//                            listingType,
+//                            details.endTime,
+//                            details.timepicker,
+//                            details.duration,
+//                            details.createdOn
+//                        )
+//
+//                        when (listingType) {
+//                            "1" -> {
+//                                placebid.isEnabled = false
+//                                textView15.text = ""
+//                                textView19.text = ""
+//                            }
+//                            "2" -> {
+//                                textView14.text = ""
+//                                buynow_advdetail2.isEnabled = false
+//                            }
+//                        }
+//                        val quantiy: String? = details.quantity
+//                        text1.text = getString(R.string.Quantity) + ":" + quantiy
+//
+//                        val starting: String? = details.startingPrice
+//                        text2.text = getString(R.string.StartPrice) + ":" + starting
+//
+//                        val brandNewItem: String? = details.brandNewItem.toString()
+//                        text3.text = getString(R.string.BrandNewItem) + ":" + brandNewItem
+//
+//                        val listingT: String? = details.listingType
+//                        var listingText = ""
+//                        when (listingT) {
+//                            "1" -> {
+//                                listingText = "Buy now"
+//                            }
+//                            "2" -> {
+//                                listingText = "Auction"
+//                            }
+//                            "3" -> {
+//                                listingText = "Buynow & Auction"
+//                            }
+//                        }
+//                        text4.text = getString(R.string.ListingType) + ":" + listingText
+//
+//                        val timepicker: String? = details.timepicker.toString()
+//                        text5.text = getString(R.string.Registrationexpires) + ":" + timepicker
+//
+//                        val region: String? = details.region.toString()
+//                        text6.text = getString(R.string.Region) + ":" + region
+//
+//                        val shippingOption: String? = details.shippingOption
+//                        text7.text = getString(R.string.Shipping) + ":" + shippingOption
+//
+//                        val adid: String? = details.id
+//                        text8.text = getString(R.string.AdID) + adid
+//
+//                        val reservePrice: String? = details.reservePrice
+//                        text9.text = getString(R.string.ReservePrice) + ":" + reservePrice
+//
+//                        val description: String = details.description.toString()
+//                        txt_car_description.setText(description)
+//
+//
+//
+//                        if (details.startingPrice != null) {
+//                            StoreDataForAdDetail.saveAdvstartPriceForAdDetailBiding =
+//                                details.startingPrice.toString()
+//                        } else {
+//                            StoreDataForAdDetail.saveAdvstartPriceForAdDetailBiding = "0"
+//                        }
+//
+//                        val viewPagerAdapter =
+//                            ViewPagerAdapter(this@CarSpecificsFragment.context!!, details.images!!)
+//                        viewPager!!.adapter = viewPagerAdapter
+//                        dotscount = viewPagerAdapter.count
+//
+//                        dots = arrayOfNulls(dotscount)
+//                        for (i in 0 until dotscount) {
+//                            dots[i] = ImageView(this@CarSpecificsFragment.context)
+//                            dots[i]!!.setImageDrawable(
+//                                ContextCompat.getDrawable(
+//                                    requireContext(),
+//                                    R.drawable.non_active_dot
+//                                )
+//                            )
+//                            val params = LinearLayout.LayoutParams(
+//                                LinearLayout.LayoutParams.WRAP_CONTENT,
+//                                LinearLayout.LayoutParams.WRAP_CONTENT
+//                            )
+//                            params.setMargins(2, 0, 2, 0)
+//                            sliderDotspanel!!.addView(dots[i], params)
+//                        }
+//
+//                        if (dots != null && dots.size > 0) {
+//                            dots[0]!!.setImageDrawable(
+//                                ContextCompat.getDrawable(
+//                                    requireContext(),
+//                                    R.drawable.active_dot
+//                                )
+//                            )
+//                        }
+//                        viewPager!!.addOnPageChangeListener(object :
+//                            ViewPager.OnPageChangeListener {
+//                            override fun onPageScrolled(
+//                                position: Int,
+//                                positionOffset: Float,
+//                                positionOffsetPixels: Int
+//                            ) {
+//                            }
+//
+//                            override fun onPageSelected(position: Int) {
+//                                for (i in 0 until dotscount) {
+//                                    dots[i]!!.setImageDrawable(
+//                                        ContextCompat.getDrawable(
+//                                            requireContext(),
+//                                            R.drawable.non_active_dot
+//                                        )
+//                                    )
+//                                }
+//                                dots[position]!!.setImageDrawable(
+//                                    ContextCompat.getDrawable(
+//                                        requireContext(),
+//                                        R.drawable.active_dot
+//                                    )
+//                                )
+//                            }
+//
+//                            override fun onPageScrollStateChanged(state: Int) {}
+//                        })
+//
+//
+//                    } else {
+//                        HelpFunctions.ShowAlert(
+//                            this@CarSpecificsFragment.context,
+//                            getString(R.string.Information),
+//                            getString(R.string.NoRecordFound)
+//                        )
+//                    }
+//                } else {
+//                    HelpFunctions.ShowAlert(
+//                        this@CarSpecificsFragment.context,
+//                        getString(R.string.Information),
+//                        getString(R.string.NoRecordFound)
+//                    )
+//                }
+//            }
+//
+//            override fun onFailure(call: Call<AdDetailModel>, t: Throwable) {
+//                HelpFunctions.ShowLongToast(t.message!!, this@CarSpecificsFragment.context)
+//            }
+//        })
 
     }
 
@@ -707,7 +706,7 @@ class CarSpecificsFragment : Fragment(), BottomsheetDialogfragClass.BottomSheetL
                 R.id.menu_dont_email -> {
                     HelpFunctions.InsertAdToWatchlist(
                         AdvId, 0,
-                        this@CarSpecificsFragment
+                        requireContext()
                     )
                     watchbutton.setImageResource(R.drawable.removewatchlist)
                     true
@@ -715,7 +714,7 @@ class CarSpecificsFragment : Fragment(), BottomsheetDialogfragClass.BottomSheetL
                 R.id.menu_email_everyday -> {
                     HelpFunctions.InsertAdToWatchlist(
                         AdvId, 1,
-                        this@CarSpecificsFragment
+                        requireContext()
                     )
                     watchbutton.setImageResource(R.drawable.removewatchlist)
                     true
@@ -723,7 +722,7 @@ class CarSpecificsFragment : Fragment(), BottomsheetDialogfragClass.BottomSheetL
                 R.id.menu_email_3day -> {
                     HelpFunctions.InsertAdToWatchlist(
                         AdvId, 3,
-                        this@CarSpecificsFragment
+                        requireContext()
                     )
                     watchbutton.setImageResource(R.drawable.removewatchlist)
                     true
@@ -731,7 +730,7 @@ class CarSpecificsFragment : Fragment(), BottomsheetDialogfragClass.BottomSheetL
                 R.id.menu_email_once_a_week -> {
                     HelpFunctions.InsertAdToWatchlist(
                         AdvId, 7,
-                        this@CarSpecificsFragment
+                        requireContext()
                     )
                     watchbutton.setImageResource(R.drawable.removewatchlist)
                     true

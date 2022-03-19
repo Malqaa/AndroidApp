@@ -2,34 +2,20 @@ package com.malka.androidappp.botmnav_fragments.shoppingcart3_shippingaddress
 
 import android.graphics.Color
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
 import com.malka.androidappp.botmnav_fragments.shopping_cart2.AdapterShoppingCart2
 import com.malka.androidappp.botmnav_fragments.shopping_cart2.ModelShoppingcart2
-import com.malka.androidappp.botmnav_fragments.shoppingcart3_shippingaddress.shipping_addresslist.ModelCartShippingAddress
-import com.malka.androidappp.botmnav_fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ModelShipAddresses
 import com.malka.androidappp.botmnav_fragments.shoppingcart3_shippingaddress.shipping_addresslist.adapter_shippingaddress.AdapterCartShipppingAdress
-import com.malka.androidappp.botmnav_fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ShippingAddressessData
-import com.malka.androidappp.botmnav_fragments.shoppingcart3_shippingaddress.shipping_productlist.AdapterShippingProductlist
-import com.malka.androidappp.botmnav_fragments.shoppingcart3_shippingaddress.shipping_productlist.ModelShippingProductlist
 import com.malka.androidappp.helper.HelpFunctions
-import com.malka.androidappp.network.Retrofit.RetrofitBuilder
-import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.servicemodels.ConstantObjects
-import com.malka.androidappp.servicemodels.user.UserObject
 import kotlinx.android.synthetic.main.fragment_shipping_address.*
-import kotlinx.android.synthetic.main.fragment_shoppingcart2.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.lang.Exception
 
 
 class ShippingAddress : Fragment() {
@@ -114,7 +100,7 @@ class ShippingAddress : Fragment() {
             shoppingCartRecycler.layoutManager =
                 LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
             var browadpt: AdapterShoppingCart2 =
-                AdapterShoppingCart2(shoppingCartposts, this@ShippingAddress)
+                AdapterShoppingCart2(shoppingCartposts, this@ShippingAddress,requireContext())
             shoppingCartRecycler.adapter = browadpt
         } catch (ex: Exception) {
             HelpFunctions.ReportError(ex)

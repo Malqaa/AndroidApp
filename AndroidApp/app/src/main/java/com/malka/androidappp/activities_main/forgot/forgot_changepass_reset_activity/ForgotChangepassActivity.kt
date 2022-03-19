@@ -65,7 +65,7 @@ class ForgotChangepassActivity : AppCompatActivity() {
         val getdata = intent.getStringExtra("getidd").toString()
         val getdata2 = intent.getStringExtra("getcodee").toString()
         val postdatachangepass = PostChangePassApiModel(getdata2, getdata, getnewpasscode)
-        val malqaa: MalqaApiService = RetrofitBuilder.changePass()
+        val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder2()
         val call: Call<PostChangePassApiModel> = malqaa.changepass(postdatachangepass)
 
         call.enqueue(object : Callback<PostChangePassApiModel> {

@@ -9,6 +9,8 @@ import com.malka.androidappp.R
 import com.malka.androidappp.botmnav_fragments.home.model.AllCategoriesModel
 import com.malka.androidappp.helper.BaseViewHolder
 import com.malka.androidappp.helper.hide
+import com.malka.androidappp.network.constants.ApiConstants
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.all_categories_cardview.view.*
 
 class AdapterAllCategories(
@@ -42,9 +44,16 @@ class AdapterAllCategories(
                 bgline.hide()
                 is_selectimage.hide()
                 category_name_tv.text = categoryName
+                if(imagePath.isNullOrEmpty()){
+                    category_icon.setImageResource(R.drawable.product_attribute_bg2)
+                }else{
+                    Picasso.get()
+                        .load(ApiConstants.IMAGE_URL + imagePath)
+                        .into(category_icon)
+                }
+
                 setOnClickListener {
                     listener.OnItemClick(position)
-
                 }
             }
         }

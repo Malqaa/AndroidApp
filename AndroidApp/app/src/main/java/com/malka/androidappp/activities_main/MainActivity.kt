@@ -11,37 +11,23 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.login.SignInActivity
-import com.malka.androidappp.botmnav_fragments.create_ads.new_flow.ListanItem
+import com.malka.androidappp.activities_main.new_flow.ListanItem
 import com.malka.androidappp.helper.HelpFunctions
 import kotlinx.android.synthetic.main.activity_bottmmm.*
 
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var appBarConfiguration: AppBarConfiguration
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_bottmmm)
-        //supportActionBar?.setTitle("Home")
-        supportActionBar?.hide()
 
-        ///////////////////////////////////////////////////////////////////////////////////
+
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.nav_host_fragment)
-        //////////////////////////////////////////////////////////////////////////////////
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.navigation_home,
-                R.id.navigation_notifications,
-                R.id.navigation_account,
-                R.id.navigation_watchlist
-            )
-        )
+
         navView.setupWithNavController(navController)
-        setupActionBarWithNavController(navController, appBarConfiguration)
 
         navView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
@@ -74,15 +60,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 R.id.navigation_home -> {
-                  //  findNavController(R.id.nav_host_fragment).navigate(R.id.ho,)
-                    //Zack
-                    //Date: 04/08/2021
-//                    val args = Bundle()
-//                    val FileName : String = "Bed-en-US.js";
-//                    val Title : String = "Title Here";
-//                    args.putString("file_name", FileName);
-//                    args.putString("Title", Title);
-//                    findNavController(R.id.nav_host_fragment).navigate(R.id.fragment_dynamic_template, args)
+                   findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_home)
                 }
             }
             return@setOnNavigationItemSelectedListener false

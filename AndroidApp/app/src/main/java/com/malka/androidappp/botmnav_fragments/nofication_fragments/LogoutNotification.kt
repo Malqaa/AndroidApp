@@ -11,15 +11,13 @@ import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.signup_account.signup_pg1.SignupPg1
-import kotlinx.android.synthetic.main.activity_sign_in.*
 import kotlinx.android.synthetic.main.fragment_logout_notification.*
-import kotlinx.android.synthetic.main.fragment_notifications.*
 
 
 class LogoutNotification : Fragment() {

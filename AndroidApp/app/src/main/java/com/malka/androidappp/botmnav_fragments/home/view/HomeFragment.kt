@@ -9,15 +9,12 @@ import android.os.Bundle
 import android.os.Parcel
 import android.os.Parcelable
 import android.speech.RecognizerIntent
-import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -34,6 +31,7 @@ import com.malka.androidappp.botmnav_fragments.home.model.AllCategoriesModel
 import com.malka.androidappp.botmnav_fragments.home.model.AllCategoriesResponseBack
 import com.malka.androidappp.botmnav_fragments.home.model.DynamicList
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
+import com.malka.androidappp.design.CartActivity
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.helper.show
 import com.malka.androidappp.helper.widgets.viewpager2.AutoScrollViewPager
@@ -53,11 +51,12 @@ import retrofit2.Response
 import java.util.*
 
 
-class HomeFragment : Fragment(), PostsAdapter.OnPostItemClickListener,
+class HomeFragment : Fragment(R.layout.fragment_homee), PostsAdapter.OnPostItemClickListener,
     AdapterAllCategories.OnItemClickListener {
     private var dotscount = 0
     var dots: ArrayList<ImageView> = arrayListOf()
     var sliderlist: ArrayList<Int> = ArrayList()
+    var slider_home_: AutoScrollViewPager? = null
 
     private class SimpleSuggestions : SearchSuggestion {
         private val mData: String
@@ -99,33 +98,16 @@ class HomeFragment : Fragment(), PostsAdapter.OnPostItemClickListener,
 
     var allCategoryList: List<AllCategoriesModel> = ArrayList()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         sliderlist.add(R.drawable.slider_demo)
         sliderlist.add(R.drawable.slider_demo)
         sliderlist.add(R.drawable.slider_demo)
 
         loadLocate()
-
-//        val navBar: BottomNavigationView = requireActivity().findViewById(R.id.nav_view)
-//        navBar.getMenu().clear()
-//        navBar.inflateMenu(R.menu.bottom_nav_menu)
-
-        return LayoutInflater.from(container?.context)
-            .inflate(R.layout.fragment_homee, container, false)
-
-
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-//        val navBar: BottomNavigationView = requireActivity().findViewById(R.id.nav_view)
-//        
 
 
         val callback = object : OnBackPressedCallback(true) {
@@ -168,14 +150,14 @@ class HomeFragment : Fragment(), PostsAdapter.OnPostItemClickListener,
         //Zack
         //Date: 03/14/2021
         //If user has logged in
-        if (ConstantObjects.logged_userid != null && ConstantObjects.logged_userid.trim().length > 0) {
+        if (ConstantObjects.logged_userid.trim().length > 0) {
             //Zaack
             //Date: 10/29/2020
-            HelpFunctions.GetUserWatchlist(this@HomeFragment);
-            HelpFunctions.GetUserFavourites(this@HomeFragment);
-            HelpFunctions.GetUsersCartList(this@HomeFragment);
-            HelpFunctions.GetUserCreditCards(this@HomeFragment);
-            HelpFunctions.GetUserShippingAddress(this@HomeFragment);
+               HelpFunctions.GetUserWatchlist();
+//            HelpFunctions.GetUserFavourites(this@HomeFragment);
+//            HelpFunctions.GetUsersCartList(this@HomeFragment);
+//            HelpFunctions.GetUserCreditCards(this@HomeFragment);
+//            HelpFunctions.GetUserShippingAddress(this@HomeFragment);
         }
 
 //        BindFavouriteCarData()
@@ -205,8 +187,14 @@ class HomeFragment : Fragment(), PostsAdapter.OnPostItemClickListener,
 //            findNavController().navigate(R.id.home_viewallcategories)
 //        }
 
-        switchtofeatrcat.setOnClickListener() {
+        switchtofeatrcat.setOnClickListener {
             findNavController().navigate(R.id.home_seeall_generalfeaturedads)
+        }
+
+        ic_cart.setOnClickListener {
+            val  intent = Intent(requireActivity(), CartActivity::class.java)
+            startActivity(intent)
+
         }
 
         getAllCategories()
@@ -262,7 +250,7 @@ class HomeFragment : Fragment(), PostsAdapter.OnPostItemClickListener,
                                         HelpFunctions.ViewAdvertismentDetail(
                                             indobj.referenceId,
                                             indobj.template,
-                                            requireContext()
+                                            requireContext(),HomeFragment()
                                         )
                                         SharedPreferencesStaticClass.ad_userid = indobj.user
                                     }
@@ -323,7 +311,7 @@ class HomeFragment : Fragment(), PostsAdapter.OnPostItemClickListener,
                                         HelpFunctions.ViewAdvertismentDetail(
                                             indobj.referenceId,
                                             indobj.template,
-                                            requireContext()
+                                            requireContext(),HomeFragment()
                                         )
                                         SharedPreferencesStaticClass.ad_userid = indobj.user
                                     }
@@ -388,7 +376,7 @@ class HomeFragment : Fragment(), PostsAdapter.OnPostItemClickListener,
                                         HelpFunctions.ViewAdvertismentDetail(
                                             indobj.referenceId,
                                             indobj.template,
-                                            requireContext()
+                                            requireContext(),HomeFragment()
                                         )
                                         SharedPreferencesStaticClass.ad_userid = indobj.user
                                     }
@@ -587,7 +575,8 @@ class HomeFragment : Fragment(), PostsAdapter.OnPostItemClickListener,
     fun getAllCategories() {
         HelpFunctions.startProgressBar(this.requireActivity())
 
-        val malqaa: MalqaApiService = RetrofitBuilder.getAllCategories()
+
+        val malqaa = RetrofitBuilder.GetRetrofitBuilder2()
         val call: Call<AllCategoriesResponseBack> = malqaa.getAllCategories()
 
         call.enqueue(object : Callback<AllCategoriesResponseBack> {
@@ -649,7 +638,6 @@ class HomeFragment : Fragment(), PostsAdapter.OnPostItemClickListener,
 
         val malqa: MalqaApiService = RetrofitBuilder.GetAllAds()
         val call: Call<GetAllAds> = malqa.GetAllAds()
-
         call.enqueue(object : Callback<GetAllAds> {
             override fun onResponse(
                 call: Call<GetAllAds>,
@@ -691,7 +679,7 @@ class HomeFragment : Fragment(), PostsAdapter.OnPostItemClickListener,
                                 )
                             )
 
-                            val genadpt = ParentCategoryAdaptor(list, this@HomeFragment)
+                            val genadpt = ParentCategoryAdaptor(list, this@HomeFragment,requireContext())
 
 
                             dynamic_product_rcv.adapter = genadpt
@@ -699,7 +687,7 @@ class HomeFragment : Fragment(), PostsAdapter.OnPostItemClickListener,
                                 HelpFunctions.ViewAdvertismentDetail(
                                     indobj.referenceId,
                                     indobj.template,
-                                    requireContext()
+                                    requireContext(),HomeFragment()
                                 )
                                 SharedPreferencesStaticClass.ad_userid = indobj.user
                             }
@@ -854,9 +842,7 @@ class HomeFragment : Fragment(), PostsAdapter.OnPostItemClickListener,
 
     }
 
-    companion object {
-        var slider_home_: AutoScrollViewPager? = null
-    }
+
 }
 
 

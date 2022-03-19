@@ -1,16 +1,15 @@
 package com.malka.androidappp.botmnav_fragments.home.view.viewpager_adapter_piechart
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.malka.androidappp.R
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
-import com.malka.androidappp.servicemodels.home.GeneralProduct
-import com.malka.androidappp.servicemodels.home.Generaladvetisement
+import com.malka.androidappp.servicemodels.AdDetailModel
 import com.malka.androidappp.servicemodels.home.GetAllAds
 import kotlinx.android.synthetic.main.fragment_pie_chart_frag4.*
 import retrofit2.Call
@@ -48,8 +47,8 @@ class PieChartFrag4 : Fragment() {
             ) {
                 if (response.isSuccessful) {
                     if (response.body() != null) {
-                        val car: List<GeneralProduct> = response.body()!!.data.generaladvetisement
-                        val general: List<GeneralProduct> =
+                        val car: List<AdDetailModel> = response.body()!!.data.generaladvetisement
+                        val general: List<AdDetailModel> =
                             response.body()!!.data.generaladvetisement
                         val totatlAd: Int = car.size + general.size
                         number_of_totallisting.text = "$totatlAd"

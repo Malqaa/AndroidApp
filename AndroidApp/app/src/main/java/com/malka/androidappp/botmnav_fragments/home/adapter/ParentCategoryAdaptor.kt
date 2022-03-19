@@ -1,5 +1,6 @@
 package com.malka.androidappp.botmnav_fragments.home.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +17,7 @@ import com.malka.androidappp.helper.show
 
 
 class ParentCategoryAdaptor(
-    val listCar: List<DynamicList>?,val currentfragment: Fragment
+    val listCar: List<DynamicList>?,val currentfragment: Fragment,val mcontext: Context
 ) :
     RecyclerView.Adapter<ParentCategoryAdaptor.CarViewHolder>() {
 
@@ -45,7 +46,7 @@ class ParentCategoryAdaptor(
                 detail_tv!!.text=detail
                 category_name_tv!!.text=category_name
                 category_name_tv_2!!.text=category_name
-                product_rcv!!.adapter =  GeneralAdvertisementAdapter(product)
+                product_rcv!!.adapter =  GeneralAdvertisementAdapter(product, currentfragment ,mcontext)
                 category_icon_iv!!.setImageResource(category_icon)
             }
         }

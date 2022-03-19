@@ -6,6 +6,8 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <supports-screens
         android:anyDensity="true"
@@ -17,33 +19,34 @@
     <application
         android:name=".App"
         android:allowBackup="true"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/malqa_iconn"
         android:label="@string/app_name"
+        android:largeHeap="true"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/malqa_iconn_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup">
         <activity
+            android:name=".activities_main.FullImageActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities_main.PlayActivity"
+            android:exported="false" />
+        <activity
             android:name=".design.add_address_main"
             android:exported="true"
-            android:theme="@style/NoActionBar">
-
-        </activity>
+            android:theme="@style/NoActionBar" />
         <activity
             android:name=".design.add_address"
             android:exported="true"
-            android:theme="@style/NoActionBar">
-        </activity>
-        <activity
-            android:name=".design.cart"
-            android:exported="true"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name=".design.Notification"
+            android:name=".design.CartActivity"
             android:exported="true"
             android:theme="@style/NoActionBar" />
-
 
         <activity
             android:name=".design.order_done"
@@ -53,16 +56,17 @@
             android:exported="true"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name=".design.product_reviews1"
+            android:name=".design.ProductReviews"
             android:exported="true"
             android:theme="@style/NoActionBar" />
-
-
-
         <activity
-            android:name=".design.ProductDetails"
+            android:name=".activities_main.ProductDetails"
             android:exported="true"
-            android:theme="@style/NoActionBar" />
+            android:theme="@style/NoActionBar">
+
+        </activity>
+
+
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -77,18 +81,16 @@
         <activity
             android:name=".botmnav_fragments.activities_main.business_signup.BusinessSignupPg1"
             android:theme="@style/NoActionBar" />
-
         <activity
-            android:name="com.malka.androidappp.activities_main.forgot.forgot_changepass_reset_activity.ForgotChangepassActivity"
+            android:name=".activities_main.forgot.forgot_changepass_reset_activity.ForgotChangepassActivity"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name="com.malka.androidappp.activities_main.forgot.forgotpass_otpactivity.ActivityForgotPassOtpcode"
+            android:name=".activities_main.forgot.forgotpass_otpactivity.ActivityForgotPassOtpcode"
             android:theme="@style/NoActionBar" />
         <activity
             android:name=".activities_main.SplashActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/NoActionBar" >
-
+            android:theme="@style/NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -98,10 +100,7 @@
         <activity
             android:name=".activities_main.MainActivity"
             android:label="Bottom Nav"
-            android:windowSoftInputMode="adjustPan">
-
-        </activity>
-
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activities_main.login.SignInActivity"
             android:screenOrientation="portrait" />
@@ -115,80 +114,56 @@
         <activity
             android:name=".activities_main.signup_account.signup_pg2.SignupPg2"
             android:theme="@style/NoActionBar" />
-
         <activity
             android:name=".activities_main.signup_account.signup_pg3.SignupPg3"
             android:theme="@style/NoActionBar"
-            android:windowSoftInputMode="adjustPan" >
-
-
-
-        </activity>
+            android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name="com.malka.androidappp.activities_main.forgot.forgot_password.ForgotPasswordActivty"
+            android:name=".activities_main.forgot.forgot_password.ForgotPasswordActivty"
             android:theme="@style/NoActionBar" />
-
-
         <activity
-            android:name=".botmnav_fragments.create_ads.new_flow.ListanItem"
-            android:theme="@style/NoActionBar" >
-
-        </activity>
-        <activity
-            android:name=".botmnav_fragments.create_ads.new_flow.ChooseCategory"
+            android:name="com.malka.androidappp.activities_main.new_flow.ListanItem"
             android:theme="@style/NoActionBar" />
-
         <activity
-            android:name=".botmnav_fragments.create_ads.new_flow.all_categories.SubCategories"
+            android:name="com.malka.androidappp.activities_main.new_flow.ChooseCategory"
             android:theme="@style/NoActionBar" />
-
         <activity
-            android:name=".botmnav_fragments.create_ads.new_flow.AddPhoto"
+            android:name="com.malka.androidappp.activities_main.new_flow.all_categories.SubCategories"
             android:theme="@style/NoActionBar" />
-
         <activity
-            android:name=".botmnav_fragments.create_ads.new_flow.DynamicTemplate"
-            android:theme="@style/NoActionBar" >
+            android:name="com.malka.androidappp.activities_main.new_flow.AddPhoto"
+            android:theme="@style/NoActionBar">
 
         </activity>
         <activity
-            android:name=".botmnav_fragments.create_ads.new_flow.ListingDetails"
-            android:theme="@style/NoActionBar" >
-
-
-
-        </activity>
-
+            android:name="com.malka.androidappp.activities_main.new_flow.DynamicTemplate"
+            android:theme="@style/NoActionBar" />
         <activity
-            android:name=".botmnav_fragments.create_ads.new_flow.PricingActivity"
-            android:theme="@style/NoActionBar" >
-
-
-        </activity>
-
+            android:name="com.malka.androidappp.activities_main.new_flow.ListingDetails"
+            android:theme="@style/NoActionBar" />
         <activity
-            android:name=".botmnav_fragments.create_ads.new_flow.ListingDuration"
-            android:theme="@style/NoActionBar" >
-
-
-        </activity>
-
-
-
+            android:name="com.malka.androidappp.activities_main.new_flow.PricingActivity"
+            android:theme="@style/NoActionBar" />
         <activity
-            android:name=".botmnav_fragments.create_ads.new_flow.PromotionalActivity"
-            android:theme="@style/NoActionBar" >
-
-
-        </activity>
-
+            android:name="com.malka.androidappp.activities_main.new_flow.ListingDuration"
+            android:theme="@style/NoActionBar" />
         <activity
-            android:name=".botmnav_fragments.create_ads.new_flow.Confirmation"
+            android:name="com.malka.androidappp.activities_main.new_flow.PromotionalActivity"
+            android:theme="@style/NoActionBar" />
+        <activity
+            android:name="com.malka.androidappp.activities_main.new_flow.Confirmation"
+            android:theme="@style/NoActionBar" />
+        <activity
+            android:name="com.malka.androidappp.activities_main.new_flow.ContinueActivity"
             android:theme="@style/NoActionBar" />
 
         <activity
-            android:name=".botmnav_fragments.create_ads.new_flow.ContinueActivity"
-            android:theme="@style/NoActionBar"/>
+            android:name="com.malka.androidappp.botmnav_fragments.question_ans_comnt.QuesAnsFragment"
+            android:theme="@style/NoActionBar" />
+        <activity
+            android:name="com.zfdang.multiple_images_selector.ImagesSelectorActivity"
+            android:configChanges="orientation|screenSize"
+            android:hardwareAccelerated="false" />
     </application>
 
 </manifest>

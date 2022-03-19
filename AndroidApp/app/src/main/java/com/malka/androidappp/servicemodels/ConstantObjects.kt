@@ -15,6 +15,8 @@ import kotlin.collections.HashMap
 class ConstantObjects() {
     companion object {
 
+        val defaltCountry: String = "KSA-en-US";
+        val isSuccess: String = "isSuccess";
         val subcategory_1_key: String = "subcategory_1_key";
         val subcategory_2_key: String = "subcategory_2_key";
         val subcategory_3_key: String = "subcategory_3_key";

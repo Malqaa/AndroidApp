@@ -95,7 +95,7 @@ class Shoppingcart2 : Fragment() {
             shoppingCartRecycler.layoutManager =
                 LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
             var browadpt: AdapterShoppingCart2 =
-                AdapterShoppingCart2(shoppingCartposts, this@Shoppingcart2)
+                AdapterShoppingCart2(shoppingCartposts, this@Shoppingcart2,requireContext())
             shoppingCartRecycler.adapter = browadpt
         } catch (ex: Exception) {
             HelpFunctions.ReportError(ex)

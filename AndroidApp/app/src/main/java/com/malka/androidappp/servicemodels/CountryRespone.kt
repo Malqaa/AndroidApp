@@ -13,6 +13,8 @@ data class CountryRespone(
         val isActive: Boolean,
         val isDetail: Boolean,
         val key: String,
-        val name: String
+        val name: String,
+        val flagimglink: String?=null,
+        val countryCode: String?=null,
     )
 }

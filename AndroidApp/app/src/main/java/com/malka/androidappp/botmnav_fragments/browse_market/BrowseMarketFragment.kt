@@ -15,6 +15,7 @@ import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.recycler_browsecat.BrowseMarketXLAdap
+import com.malka.androidappp.servicemodels.AdDetailModel
 import com.malka.androidappp.servicemodels.ConstantObjects
 import com.malka.androidappp.servicemodels.categorylistings.CategoryResponse
 import com.malka.androidappp.servicemodels.categorylistings.PropertyModel
@@ -66,13 +67,7 @@ class BrowseMarketFragment : Fragment() {
 
         browadptxl = BrowseMarketXLAdap(marketpost, requireContext())
         recyclerViewmarket.adapter = browadptxl
-        browadptxl!!.onItemClick = { indobj ->
-//                    HelpFunctions.ViewAdvertismentDetail(
-//                        indobj.advid,
-//                        CategoryDesc,
-//                        this@BrowseMarketFragment
-//                    )
-        }
+
 
         icon_list.setOnClickListener {
             browadptxl!!.updateLayout(false)
@@ -104,7 +99,7 @@ class BrowseMarketFragment : Fragment() {
         }
     }
 
-    var marketpost: List<SearchRespone.Data> = ArrayList()
+    var marketpost: ArrayList<AdDetailModel> = ArrayList()
 
 
     //Zack
@@ -116,7 +111,7 @@ class BrowseMarketFragment : Fragment() {
         val requestbody: SearchRequestModel =
             SearchRequestModel(category, "", "", "", "", "", "", "")
 
-        val malqa: MalqaApiService = RetrofitBuilder.getcategory()
+        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder2()
         val call: Call<SearchRespone> = malqa.categorylist(requestbody)
         call.enqueue(object : Callback<SearchRespone> {
             override fun onFailure(call: Call<SearchRespone>, t: Throwable) {
@@ -136,7 +131,9 @@ class BrowseMarketFragment : Fragment() {
                 if (response.isSuccessful) {
                     if (response.body() != null) {
                         val resp: SearchRespone = response.body()!!
-                        marketpost = resp.data;
+                        resp.data.forEach {
+                            marketpost.add(it._source)
+                        }
                         if (marketpost.count() > 0) {
                             browadptxl!!.updateData(marketpost)
                             total_result_tv.text =
@@ -167,7 +164,7 @@ class BrowseMarketFragment : Fragment() {
         HelpFunctions.startProgressBar(this.requireActivity())
 
 
-        val malqa: MalqaApiService = RetrofitBuilder.searchcategorylist()
+        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder2()
         val call: Call<CategoryResponse> = malqa.searchcategorylist(searchquery)
         call.enqueue(object : Callback<CategoryResponse> {
             override fun onFailure(call: Call<CategoryResponse>, t: Throwable) {
@@ -248,7 +245,7 @@ class BrowseMarketFragment : Fragment() {
     fun addSearchQueryFav(searchQuery: String) {
         try {
 
-            val malqaa: MalqaApiService = RetrofitBuilder.addSearchToFav()
+            val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder2()
 
             val call: Call<ModelAddSearchFav> = malqaa.addSearchFav(
                 ModelAddSearchFav(

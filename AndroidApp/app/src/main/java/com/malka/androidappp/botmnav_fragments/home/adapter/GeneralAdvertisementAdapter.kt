@@ -1,25 +1,23 @@
 package com.malka.androidappp.botmnav_fragments.home.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
-import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.helper.BaseViewHolder
-import com.malka.androidappp.helper.Extension.decimalNumberFormat
-import com.malka.androidappp.helper.HelpFunctions
-import com.malka.androidappp.network.constants.ApiConstants
-import com.malka.androidappp.servicemodels.home.GeneralProduct
-import com.squareup.picasso.Picasso
+import com.malka.androidappp.helper.GenericAdaptor
+import com.malka.androidappp.servicemodels.AdDetailModel
 import kotlinx.android.synthetic.main.product_item.view.*
 
 class GeneralAdvertisementAdapter(
-    val listCar: List<GeneralProduct>
+    val listCar: List<AdDetailModel>, val fragment: Fragment, val mcontext: Context
 ) :
     RecyclerView.Adapter<BaseViewHolder>() {
 
-    var onItemClick: ((GeneralProduct) -> Unit)? = null
+    var onItemClick: ((AdDetailModel) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         val view: View =
@@ -34,43 +32,7 @@ class GeneralAdvertisementAdapter(
             params.width = resources.getDimension(R.dimen._220sdp).toInt()
             params.height = params.height
             fullview.layoutParams = params
-
-            listCar.get(position).run {
-
-
-                titlenamee.text = title
-                city_tv.text = city
-                if(!price.isNullOrEmpty()){
-                    LowestPrice.text = "${price.toDouble().decimalNumberFormat()} ${context.getString(R.string.Rayal)}"
-                }else{
-                    LowestPrice.text = context.getString(R.string.Rayal)
-
-                }
-
-                if (!price.isNullOrEmpty()){
-
-                    LowestPrice_2.text = "${price.toDouble().decimalNumberFormat()} ${context.getString(R.string.Rayal)}"
-
-                }else{
-                    LowestPrice.text = context.getString(R.string.Rayal)
-                }
-                setOnClickListener {
-                   // onItemClick?.invoke(listCar!!.get(position))
-
-                    HelpFunctions.ViewAdvertismentDetail(
-                        referenceId,
-                        template,
-                        context
-                    )
-                    SharedPreferencesStaticClass.ad_userid = user
-
-                }
-                val imageURL = ApiConstants.IMAGE_URL + homepageImage
-                Picasso.get()
-                    .load(imageURL).error(R.drawable.car1)
-                    .into(productimg)
-
-            }
+            GenericAdaptor().productAdaptor(listCar.get(position), context, holder,true)
         }
 
 

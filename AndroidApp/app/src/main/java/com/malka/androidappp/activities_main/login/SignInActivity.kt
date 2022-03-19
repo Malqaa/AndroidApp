@@ -8,7 +8,7 @@ import android.util.Patterns
 import android.view.View
 import android.widget.Toast
 import com.malka.androidappp.R
-import com.malka.androidappp.activities_main.BaseActivity
+import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.activities_main.MainActivity
 import com.malka.androidappp.activities_main.forgot.forgot_password.ForgotPasswordActivty
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
@@ -167,7 +167,7 @@ open class SignInActivity : BaseActivity() {
     fun MakeLoginAPICall(email: String, password: String, context: Context) {
         HelpFunctions.startProgressBar(this)
 
-        val malqa: MalqaApiService = RetrofitBuilder.createAccountsInstance()
+        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder2()
         val login = LoginClass(email, password)
 
         val call: Call<LoginResponseBack?>? = malqa.loginUser(login)

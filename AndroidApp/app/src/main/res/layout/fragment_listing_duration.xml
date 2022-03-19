@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".botmnav_fragments.create_ads.new_flow.ListingDuration">
+    tools:context=".activities_main.new_flow.ListingDuration">
 
     <include
         android:id="@+id/toolbar_listduration"

@@ -2784,4 +2784,7 @@ Want to start a business account? Create a Business Account
     <string name="PM">PM</string>
     <string name="AM">AM</string>
     <string name="mark_main_photo">Please mark main photo</string>
+    <string name="video_link">Video link is not valid</string>
+    <string name="it_will_end">it will end</string>
+    <string name="all_reviews">All reviews</string>
 </resources>

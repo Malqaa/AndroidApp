@@ -8,15 +8,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
 import com.malka.androidappp.helper.BaseViewHolder
 import com.malka.androidappp.helper.GenericAdaptor
-import com.malka.androidappp.servicemodels.categorylistings.SearchRespone
+import com.malka.androidappp.servicemodels.AdDetailModel
 
 
 class BrowseMarketXLAdap(
-    var marketposts: List<SearchRespone.Data>,
+    var marketposts: List<AdDetailModel>,
     var context: Context
 ) : RecyclerView.Adapter<BaseViewHolder>() {
     var isGrid:Boolean=true
-    var onItemClick: ((SearchRespone.Data) -> Unit)? = null
 
 
 
@@ -35,7 +34,7 @@ class BrowseMarketXLAdap(
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
 
 
-        GenericAdaptor().productAdaptor(marketposts.get(position)._source, context, holder,isGrid)
+        GenericAdaptor().productAdaptor(marketposts.get(position), context, holder,isGrid)
 
 
 //
@@ -136,7 +135,7 @@ class BrowseMarketXLAdap(
         notifyDataSetChanged()
     }
 
-    fun updateData(marketposts:List<SearchRespone.Data>){
+    fun updateData(marketposts:List<AdDetailModel>){
         this.marketposts=marketposts
         notifyDataSetChanged()
     }

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/_5sdp"
+    android:id="@+id/main_layout"
+    android:background="@drawable/product_attribute_bg"
+
+   >
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="@dimen/_15sdp"
+        android:id="@+id/key_tv"
+        android:fontFamily="@font/madani_arabic_light"
+        android:text="Brand"
+        android:layout_alignParentStart="true"
+        android:textColor="#6D6C74"
+        android:textSize="@dimen/_12sdp" />
+
+
+    <TextView
+        android:layout_toEndOf="@+id/key_tv"
+        android:layout_alignParentEnd="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginEnd="@dimen/_15sdp"
+        android:fontFamily="@font/madani_arabic_light"
+        android:gravity="end"
+        android:text="Iphone"
+        android:id="@+id/value_tv"
+        android:textColor="#6D6C74"
+        android:textSize="@dimen/_12sdp" />
+
+
+</RelativeLayout>

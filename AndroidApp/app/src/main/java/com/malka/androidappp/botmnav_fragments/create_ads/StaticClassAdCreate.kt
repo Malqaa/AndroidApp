@@ -2,6 +2,7 @@ package com.malka.androidappp.botmnav_fragments.create_ads
 
 import com.google.gson.annotations.SerializedName
 import com.malka.androidappp.design.Models.PromotionModel
+import com.malka.androidappp.servicemodels.ImageSelectModel
 
 class StaticClassAdCreate {
 
@@ -29,7 +30,6 @@ class StaticClassAdCreate {
         var region = ""
         var city = ""
         var address = ""
-        var description = ""
         var reservedPrice = ""
         var startingPrice = ""
 

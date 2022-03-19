@@ -6,10 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.malka.androidappp.R
-import com.malka.androidappp.botmnav_fragments.home.adapter.GeneralAdvertisementAdapter
 import com.malka.androidappp.helper.HelpFunctions
+import com.malka.androidappp.recycler_browsecat.BrowseMarketXLAdap
+import com.malka.androidappp.servicemodels.AdDetailModel
 import com.malka.androidappp.servicemodels.ConstantObjects
-import com.malka.androidappp.servicemodels.home.GeneralProduct
 import kotlinx.android.synthetic.main.fragment_watchlist.*
 
 class WatchlistFragment : Fragment() {
@@ -26,29 +26,22 @@ class WatchlistFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        GetUserWatchList()
+        BindUserWatchlist()
     }
 
-    fun GetUserWatchList() {
-        try {
-            HelpFunctions.GetUserWatchlist(this@WatchlistFragment);
-            BindUserWatchlist();
-        } catch (ex: Exception) {
-            HelpFunctions.ReportError(ex)
-        }
-    }
+
 
     fun BindUserWatchlist() {
 
 
-        if (ConstantObjects.userwatchlist != null && ConstantObjects.userwatchlist!!.data != null && ConstantObjects.userwatchlist!!.data.size > 0) {
-            val watchlistpost = ConstantObjects.userwatchlist!!.data!!
-            val list: ArrayList<GeneralProduct> = ArrayList()
+        if (ConstantObjects.userwatchlist != null && ConstantObjects.userwatchlist!!.data.size > 0) {
+            ConstantObjects.userwatchlist!!.data
+            val list: ArrayList<AdDetailModel> = ArrayList()
 
-            ConstantObjects.userwatchlist!!.data!!.forEach {
+            ConstantObjects.userwatchlist!!.data.forEach {
                 list.add(it.advertisement)
             }
-            fav_rcv!!.adapter = GeneralAdvertisementAdapter(list)
+            fav_rcv!!.adapter = BrowseMarketXLAdap(list,requireContext())
 
 
         } else {

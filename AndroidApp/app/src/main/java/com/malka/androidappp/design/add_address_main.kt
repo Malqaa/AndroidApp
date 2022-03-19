@@ -133,7 +133,7 @@ class add_address_main : AppCompatActivity() {
 
         HelpFunctions.startProgressBar(this)
 
-        val malqa: MalqaApiService = RetrofitBuilder.createAccountsInstance()
+        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder2()
 
         val ftname = firstname.text.toString()
         val ltname = lastname.text.toString()

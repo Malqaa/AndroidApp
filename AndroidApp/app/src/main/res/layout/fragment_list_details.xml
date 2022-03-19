@@ -208,7 +208,7 @@
                     android:layout_marginTop="@dimen/_10sdp"
                     android:hint="@string/Country"
                     app:endIcon="@drawable/ic_arrow_down"
-                    app:startIcon="@drawable/ic_country"
+                    app:startIcon="@drawable/ic_region"
                     app:viewType="spinner" />
 
                 <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
@@ -239,7 +239,7 @@
                     android:layout_marginTop="@dimen/_10sdp"
                     android:hint="@string/PhoneNumber"
                     android:inputType="phone"
-                    app:endText="+965"
+                    app:endText=""
                     app:imeOptions="done"
                     app:startIcon="@drawable/ic_phone" />
 

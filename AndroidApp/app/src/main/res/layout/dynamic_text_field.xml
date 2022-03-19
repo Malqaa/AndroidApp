@@ -30,7 +30,6 @@
             android:fontFamily="@font/cairo_regular"
             android:inputType="text"
             android:padding="@dimen/_10sdp"
-
             android:textSize="@dimen/_10sdp" />
 
         <ImageView

@@ -6,6 +6,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -25,8 +26,7 @@ import com.malka.androidappp.activities_main.login.LoginData
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.botmnav_fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ModelShipAddresses
 import com.malka.androidappp.botmnav_fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ShippingAddressessData
-import com.malka.androidappp.botmnav_fragments.watchlist_fragment.WatchlistFragment
-import com.malka.androidappp.design.ProductDetails
+import com.malka.androidappp.activities_main.ProductDetails
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.constants.ApiConstants
 import com.malka.androidappp.network.service.MalqaApiService
@@ -48,10 +48,7 @@ import kotlinx.android.synthetic.main.progress_bar.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.ByteArrayOutputStream
-import java.io.InputStream
-import java.io.PrintWriter
-import java.io.StringWriter
+import java.io.*
 import java.text.ParsePosition
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
@@ -269,16 +266,17 @@ class HelpFunctions {
             return RetVal
         }
 
-        fun ViewAdvertismentDetail(AdvId: String, Category: String, context: Context) {
+        fun ViewAdvertismentDetail(AdvId: String, Category: String, context: Context,fragment: Fragment) {
             val args = Bundle()
             args.putString("AdvId", AdvId);
             args.putString("Template", Category);
 
             context.startActivity(Intent(context, ProductDetails::class.java).apply {
-                putExtra(ConstantObjects.productDetails, AdvId)
+                putExtra("AdvId", AdvId)
+                putExtra("Template", Category)
             })
 
-         //   NavHostFragment.findNavController(currentfragment).navigate(R.id.carspicification, args)
+        // NavHostFragment.findNavController(fragment).navigate(R.id.carspicification, args)
         }
 
         fun AdAlreadyAddedToWatchList(adreferenceId: String): Boolean1 {
@@ -288,7 +286,7 @@ class HelpFunctions {
                     if (ConstantObjects.userwatchlist != null && ConstantObjects.userwatchlist!!.data != null && ConstantObjects.userwatchlist!!.data.size > 0) {
                         for (IndWatch in ConstantObjects.userwatchlist!!.data) {
                             if (IndWatch.advertisement != null) {
-                                if (IndWatch.advertisement.referenceId.trim().toUpperCase()
+                                if (IndWatch.advertisement.referenceId!!.trim().toUpperCase()
                                         .equals(adreferenceId.trim().toUpperCase())
                                 ) {
                                     RetVal = true
@@ -307,10 +305,10 @@ class HelpFunctions {
             return RetVal
         }
 
-        fun GetUserWatchlist(context: Fragment) {
+        fun GetUserWatchlist() {
             try {
                 val malqa: MalqaApiService =
-                    RetrofitBuilder.getUserWatchlist(ConstantObjects.logged_userid)
+                    RetrofitBuilder.GetRetrofitBuilder2()
                 val call: Call<watchlistobject> =
                     malqa.getUserWatchlist(ConstantObjects.logged_userid)
                 call.enqueue(object : Callback<watchlistobject> {
@@ -320,30 +318,14 @@ class HelpFunctions {
                     ) {
                         if (response.isSuccessful) {
                             if (response.body() != null) {
-                                var watchlistinfo: watchlistobject = response.body()!!;
+                                val watchlistinfo: watchlistobject = response.body()!!;
                                 ConstantObjects.userwatchlist = watchlistinfo
-                                if (context is WatchlistFragment) {
-                                    (context as WatchlistFragment).BindUserWatchlist()
-                                }
-                            } else {
-                                ShowLongToast(
-                                    "No Record Found",
-                                    context.requireContext()
-                                );
                             }
-                        } else {
-                            ShowLongToast(
-                                "No Record Found",
-                                context.requireContext()
-                            );
                         }
                     }
 
                     override fun onFailure(call: Call<watchlistobject>, t: Throwable) {
-                        ShowLongToast(
-                            "No Record Found",
-                            context.requireContext()
-                        );
+
                     }
                 })
             } catch (ex: Exception) {
@@ -398,8 +380,10 @@ class HelpFunctions {
             }
         }
 
-        fun InsertAdToWatchlist(AdsId: String, reminderType: Int, context: Fragment): Boolean1 {
-            var RetVal: Boolean1 = false
+        fun InsertAdToWatchlist(AdsId: String, reminderType: Int, context: Context): Boolean1 {
+            startProgressBar(context as Activity)
+
+            var RetVal = false
             try {
                 val ad = watchlistadd(
                     ConstantObjects.logged_userid,
@@ -415,27 +399,34 @@ class HelpFunctions {
                     ) {
                         if (response.isSuccessful) {
                             if (response.body() != null) {
-                                var resp: Basicresponse = response.body()!!;
+                                val resp: Basicresponse = response.body()!!;
                                 if (resp.status_code == 200 && (resp.data == true || resp.data == 1 || resp.data == 1.0)) {
                                     RetVal = true
-                                    GetUserWatchlist(context)
+                                    GetUserWatchlist()
                                     ShowLongToast(
-                                        "Added Successfully",
-                                        context.requireContext()
-                                    );
+                                        resp.message,
+                                        context
+                                    )
+                                }else{
+                                    ShowLongToast(
+                                        resp.message,
+                                        context
+                                    )
                                 }
                             } else {
                                 ShowLongToast(
-                                    "Error During Addition",
-                                    context.requireContext()
+                                    "Error",
+                                    context
                                 );
                             }
                         } else {
                             ShowLongToast(
-                                "Error During Addition",
-                                context.requireContext()
+                                "Error",
+                                context
                             );
                         }
+                        HelpFunctions.dismissProgressBar()
+
                     }
 
                     override fun onFailure(
@@ -443,9 +434,11 @@ class HelpFunctions {
                         t: Throwable
                     ) {
                         ShowLongToast(
-                            "Error During Addition",
-                            context.requireContext()
+                            "Error",
+                            context
                         );
+                        HelpFunctions.dismissProgressBar()
+
                     }
                 })
             } catch (ex: Exception) {
@@ -454,7 +447,7 @@ class HelpFunctions {
             return RetVal
         }
 
-        fun DeleteAdFromWatchlist(AdsId: String, context: Fragment): Boolean1 {
+        fun DeleteAdFromWatchlist(AdsId: String, context: Context): Boolean1 {
             var RetVal: Boolean1 = false;
             try {
                 val malqa: MalqaApiService = RetrofitBuilder.DeleteAdFromUserWatchlist()
@@ -470,27 +463,27 @@ class HelpFunctions {
                                 var resp: Basicresponse = response.body()!!;
                                 if (resp.status_code == 200 && (resp.data == true || resp.data == 1 || resp.data == 1.0)) {
                                     RetVal = true;
-                                    GetUserWatchlist(context)
+                                    GetUserWatchlist()
                                     ShowLongToast(
                                         "Removed Successfully",
-                                        context.requireContext()
+                                        context
                                     );
                                 } else {
                                     ShowLongToast(
                                         resp.message,
-                                        context.requireContext()
+                                        context
                                     );
                                 }
                             } else {
                                 ShowLongToast(
                                     "Error During Deletion",
-                                    context.requireContext()
+                                    context
                                 );
                             }
                         } else {
                             ShowLongToast(
                                 "Error During Deletion",
-                                context.requireContext()
+                                context
                             );
                         }
                     }
@@ -501,7 +494,7 @@ class HelpFunctions {
                     ) {
                         ShowLongToast(
                             "Error During Deletion",
-                            context.requireContext()
+                            context
                         );
                     }
                 })
@@ -686,6 +679,18 @@ class HelpFunctions {
             return imageEncoded
         }
 
+        fun encodeImage(path: String): String? {
+            val imagefile = File(path)
+            var fis: FileInputStream? = null
+            fis = FileInputStream(imagefile)
+
+            val bm = BitmapFactory.decodeStream(fis)
+            val baos = ByteArrayOutputStream()
+            bm.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+            val b = baos.toByteArray()
+            //Base64.de
+            return Base64.encodeToString(b, Base64.DEFAULT)
+        }
         fun GetUserCreditCards(context: Fragment) {
             try {
                 val malqa: MalqaApiService = RetrofitBuilder.GetUserCreditCards()

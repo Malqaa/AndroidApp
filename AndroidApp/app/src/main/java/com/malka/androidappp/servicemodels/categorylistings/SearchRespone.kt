@@ -1,5 +1,7 @@
 package com.malka.androidappp.servicemodels.categorylistings
 
+import com.malka.androidappp.servicemodels.AdDetailModel
+
 data class SearchRespone(
     val `data`: List<Data>,
     val message: String,
@@ -9,66 +11,11 @@ data class SearchRespone(
         val _id: String,
         val _index: String,
         val _score: Double,
-        val _source: Source,
+        val _source: AdDetailModel,
         val _type: String,
         val hits: Any,
         val max_score: Any,
         val sort: Any,
         val total: Any
-    ) {
-        data class Source(
-            val address: String,
-            val brand_new_item: String,
-            val category: String,
-            val city: String,
-            val country: String,
-            val createdBy: String,
-            val createdOn: String,
-            val description: String,
-            val duration: String,
-            val endTime: Any,
-            val enddate: String,
-            val featureexpirydate: Any,
-            val fixLength: String,
-            val highlightexpirydate: Any,
-            val homepageImage: String,
-            val id: String,
-            val isActive: Boolean,
-            val isWatching: Boolean,
-            val isbankpaid: String,
-            val iscashpaid: String,
-            val issold: Boolean,
-            val isuserfavorite: Boolean,
-            val itemviews: Int,
-            val listingtype: String,
-            val name: Any,
-            val pickupOption: String,
-            val platform: String,
-            val price: String,
-            val quantity: Any,
-            val referenceId: String,
-            val region: String,
-            val reservePrice: Any,
-            val shippingOption: String,
-            val slug: Any,
-            val startingPrice: Any,
-            val subcatfive: String,
-            val subcatfivekey: String,
-            val subcatfour: String,
-            val subcatfourkey: String,
-            val subcatone: String,
-            val subcatonekey: String,
-            val subcatsix: String,
-            val subcatsixkey: String,
-            val subcatthree: String,
-            val subcatthreekey: String,
-            val subcattwo: String,
-            val subcattwokey: String,
-            val template: String,
-            val title: String,
-            val urgentexpirydate: Any,
-            val user: String,
-            val video: String
-        )
-    }
+    )
 }

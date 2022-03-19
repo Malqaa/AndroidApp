@@ -1,5 +1,6 @@
 package com.malka.androidappp.botmnav_fragments.shopping_cart2
 
+import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -18,7 +19,7 @@ import kotlinx.android.synthetic.main.shoppingcart2_card.view.*
 
 class AdapterShoppingCart2(
     val shoppingcartProductposts: ArrayList<ModelShoppingcart2>,
-    var context: Fragment
+    var context: Fragment,val mcontext: Context
 ) : RecyclerView.Adapter<AdapterShoppingCart2.AdapterShoppingCart2ViewHolder>() {
 
     class AdapterShoppingCart2ViewHolder(itemview: View) : RecyclerView.ViewHolder(itemview) {
@@ -61,7 +62,7 @@ class AdapterShoppingCart2(
             if (shoppingcartProductposts[position].ItemInWatchlist) {
                 HelpFunctions.DeleteAdFromWatchlist(
                     shoppingcartProductposts[position].advid,
-                    context = context
+                    context = mcontext
                 )
             } else {
                 watchListPopup(holder.wishlistBtn, shoppingcartProductposts[position].advid)
@@ -118,28 +119,28 @@ class AdapterShoppingCart2(
                 R.id.menu_dont_email -> {
                     HelpFunctions.InsertAdToWatchlist(
                         AdvId, 0,
-                        context = context
+                        context = mcontext
                     )
                     true
                 }
                 R.id.menu_email_everyday -> {
                     HelpFunctions.InsertAdToWatchlist(
                         AdvId, 1,
-                        context = context
+                        context = mcontext
                     )
                     true
                 }
                 R.id.menu_email_3day -> {
                     HelpFunctions.InsertAdToWatchlist(
                         AdvId, 3,
-                        context = context
+                        context = mcontext
                     )
                     true
                 }
                 R.id.menu_email_once_a_week -> {
                     HelpFunctions.InsertAdToWatchlist(
                         AdvId, 7,
-                        context = context
+                        context = mcontext
                     )
                     true
                 }

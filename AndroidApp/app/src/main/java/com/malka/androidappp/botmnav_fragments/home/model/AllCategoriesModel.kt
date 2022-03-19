@@ -11,5 +11,6 @@ data class AllCategoriesModel(
     val createdBy: String?,
     val createdOn: Any?,
     val template: String?,
+    val imagePath: String?,
     var is_select: Boolean=false,
 )

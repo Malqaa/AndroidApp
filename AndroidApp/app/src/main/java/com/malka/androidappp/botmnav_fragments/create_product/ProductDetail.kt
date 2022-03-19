@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
@@ -17,14 +16,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.malka.androidappp.R
-import com.malka.androidappp.activities_main.login.SignInActivity
 import com.malka.androidappp.botmnav_fragments.cardetail_page.Data
 import com.malka.androidappp.botmnav_fragments.cardetail_page.ModelAddSellerFav
 import com.malka.androidappp.botmnav_fragments.cardetail_page.ModelSellerDetails
 import com.malka.androidappp.botmnav_fragments.cardetail_page.bottomsheet_bidopt.BottomsheetDialogfragClass
 import com.malka.androidappp.botmnav_fragments.cardetail_page.bottomsheet_bidopt.StoreDataForAdDetail
 import com.malka.androidappp.botmnav_fragments.cardetail_page.bottomsheet_bidopt.getbidModel.ModelBidingResponse
-import com.malka.androidappp.botmnav_fragments.home.view.HomeFragment
 import com.malka.androidappp.botmnav_fragments.question_ans_comnt.get_models_quesans.ModelQuesAnswr
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.helper.HelpFunctions
@@ -40,9 +37,7 @@ import kotlinx.android.synthetic.main.carspec_card3.*
 import kotlinx.android.synthetic.main.carspec_card5.*
 import kotlinx.android.synthetic.main.carspec_card6.*
 import kotlinx.android.synthetic.main.carspec_card8.*
-import kotlinx.android.synthetic.main.carspec_card9.*
 import kotlinx.android.synthetic.main.carsspec_card4.*
-import kotlinx.android.synthetic.main.fragment_car_specifics.*
 import kotlinx.android.synthetic.main.fragment_car_specifics.bckscarpces
 import kotlinx.android.synthetic.main.fragment_product_detail.*
 import retrofit2.Call
@@ -166,7 +161,7 @@ class ProductDetail : Fragment(), BottomsheetDialogfragClass.BottomSheetListener
             if (alreadyadded) {
                 HelpFunctions.DeleteAdFromWatchlist(
                     AdvId,
-                    this@ProductDetail
+                    requireContext()
                 )
                 watchbutton.setImageResource(R.drawable.watch_carspecs)
             } else {
@@ -175,7 +170,7 @@ class ProductDetail : Fragment(), BottomsheetDialogfragClass.BottomSheetListener
             }
         })
 
-        sharebutton.setOnClickListener() {
+        sharebutton.setOnClickListener {
             shared()
         }
 
@@ -595,7 +590,7 @@ class ProductDetail : Fragment(), BottomsheetDialogfragClass.BottomSheetListener
                 R.id.menu_dont_email -> {
                     HelpFunctions.InsertAdToWatchlist(
                         AdvId, 0,
-                        this@ProductDetail
+                        requireContext()
                     )
                     watchbutton.setImageResource(R.drawable.removewatchlist)
                     true
@@ -603,7 +598,7 @@ class ProductDetail : Fragment(), BottomsheetDialogfragClass.BottomSheetListener
                 R.id.menu_email_everyday -> {
                     HelpFunctions.InsertAdToWatchlist(
                         AdvId, 1,
-                        this@ProductDetail
+                        requireContext()
                     )
                     watchbutton.setImageResource(R.drawable.removewatchlist)
                     true
@@ -611,7 +606,7 @@ class ProductDetail : Fragment(), BottomsheetDialogfragClass.BottomSheetListener
                 R.id.menu_email_3day -> {
                     HelpFunctions.InsertAdToWatchlist(
                         AdvId, 3,
-                        this@ProductDetail
+                        requireContext()
                     )
                     watchbutton.setImageResource(R.drawable.removewatchlist)
                     true
@@ -619,7 +614,7 @@ class ProductDetail : Fragment(), BottomsheetDialogfragClass.BottomSheetListener
                 R.id.menu_email_once_a_week -> {
                     HelpFunctions.InsertAdToWatchlist(
                         AdvId, 7,
-                        this@ProductDetail
+                        requireContext()
                     )
                     watchbutton.setImageResource(R.drawable.removewatchlist)
                     true

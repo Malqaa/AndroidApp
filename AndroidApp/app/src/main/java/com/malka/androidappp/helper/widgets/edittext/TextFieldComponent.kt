@@ -24,6 +24,8 @@ import com.malka.androidappp.helper.show
 import com.malka.androidappp.helper.widgets.searchdialog.OnSearchItemSelected
 import com.malka.androidappp.helper.widgets.searchdialog.SearchListItem
 import com.malka.androidappp.helper.widgets.searchdialog.SearchableDialog
+import com.malka.androidappp.network.constants.ApiConstants
+import com.squareup.picasso.Picasso
 
 class TextFieldComponent : LinearLayout {
 
@@ -221,6 +223,22 @@ class TextFieldComponent : LinearLayout {
 
     }
 
+    public fun _setStartIconImage(link: String?) {
+        if (!link.isNullOrEmpty()) {
+            iv_start_icon.show()
+            line.show()
+
+            Picasso.get()
+                .load(link)
+                .into(iv_start_icon)
+
+        } else {
+            iv_start_icon.hide()
+            line.hide()
+        }
+
+    }
+
     public fun _setEndIcon(drawable: Int) {
         if (drawable != 0) {
             iv_end_icon.show()
@@ -254,6 +272,10 @@ class TextFieldComponent : LinearLayout {
         }
     }
 
+
+    public fun _getEndText():String {
+       return end_text_tv.text.toString()
+    }
     public fun _setHint(textHint: CharSequence?, initialisation: Boolean = false) {
         this.textHint = textHint
 
@@ -462,6 +484,8 @@ class TextFieldComponent : LinearLayout {
     public fun getText(): String {
         if (viewType == 4) {
             return edittext.text.toString()
+        }else if (viewType == 3) {
+            return textView.text.toString()
         } else {
             return et_Field.text.toString()
         }
@@ -470,6 +494,8 @@ class TextFieldComponent : LinearLayout {
     public fun setText(text: String?) {
         if (viewType == 4) {
             edittext.setText(text ?: "")
+        }else if (viewType == 3) {
+            textView.setText(text ?: "")
         } else {
             et_Field.setText(text ?: "")
         }

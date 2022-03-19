@@ -142,7 +142,7 @@ class CartPaymentMethod : Fragment() {
             paymentProductListRecycler.layoutManager =
                 LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
             var browadpt: AdapterShoppingCart2 =
-                AdapterShoppingCart2(shoppingCartposts, this@CartPaymentMethod)
+                AdapterShoppingCart2(shoppingCartposts, this@CartPaymentMethod,requireContext())
             paymentProductListRecycler.adapter = browadpt
         } catch (ex: Exception) {
             HelpFunctions.ReportError(ex)

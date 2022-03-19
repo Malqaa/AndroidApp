@@ -1,5 +1,6 @@
 package com.malka.androidappp.network.service
 
+import com.google.gson.JsonObject
 import com.malka.androidappp.activities_main.signup_account.signup_pg1.CreateUserDataModel
 import com.malka.androidappp.activities_main.login.LoginClass
 import com.malka.androidappp.activities_main.login.LoginResponseBack
@@ -10,12 +11,10 @@ import com.malka.androidappp.botmnav_fragments.ForgotPassword.PostForgotpassMode
 import com.malka.androidappp.botmnav_fragments.UserImageResponseBack
 import com.malka.androidappp.botmnav_fragments.activities_main.business_signup.ModelBusinessRegistration
 import com.malka.androidappp.botmnav_fragments.browse_market.popup_subcategories_list.ModelAddSearchFav
-import com.malka.androidappp.botmnav_fragments.cardetail_page.AdDetailModel
 import com.malka.androidappp.botmnav_fragments.cardetail_page.ModelAddSellerFav
 import com.malka.androidappp.botmnav_fragments.cardetail_page.ModelSellerDetails
 import com.malka.androidappp.botmnav_fragments.cardetail_page.bottomsheet_bidopt.getbidModel.ModelBidingResponse
 import com.malka.androidappp.botmnav_fragments.cardetail_page.bottomsheet_bidopt.post_bidprice.ModelPostBidPrice
-import com.malka.androidappp.botmnav_fragments.create_ads.*
 import com.malka.androidappp.botmnav_fragments.create_product.CreateProductResponseBack
 import com.malka.androidappp.botmnav_fragments.create_product.ModelCreateProduct
 import com.malka.androidappp.botmnav_fragments.create_product.ProductResponseBack
@@ -93,9 +92,7 @@ import com.malka.androidappp.network.constants.ApiConstants.RESEND_OTPCODE_API_E
 import com.malka.androidappp.network.constants.ApiConstants.SEARCH_CATEGORY_LISTING_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.UPDATEUSER_SIGNUP_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.VERIFY_API_ENDPOINT
-import com.malka.androidappp.servicemodels.BasicResponseInt
-import com.malka.androidappp.servicemodels.Basicresponse
-import com.malka.androidappp.servicemodels.CountryRespone
+import com.malka.androidappp.servicemodels.*
 import com.malka.androidappp.servicemodels.addtocart.AddToCartResponseModel
 import com.malka.androidappp.servicemodels.addtocart.InsertToCartRequestModel
 import com.malka.androidappp.servicemodels.categorylistings.CategoryResponse
@@ -188,7 +185,7 @@ interface MalqaApiService {
     fun getAdDetailById(
         @Query("id") id: String,
         @Query("template") template: String
-    ): Call<AdDetailModel>
+    ): Call<JsonObject>
 
     @GET(GET_SELLER_ENDPOINT + "?")
     fun getAdSeller(
@@ -201,12 +198,6 @@ interface MalqaApiService {
         @Query("id") id: String
     ): Call<ModelSellerDetails>
 
-    @POST(CREATE_GENERAL_ADVERTISEMENT_ENDPOINTT)
-    fun createAds(@Body createad: ModelDataCreateGeneralAd): Call<ModelDataCreateGeneralAd>
-
-    ////////////////////CREATE AUTOMOBILE AD/////////////////////
-    @POST(CREATE_GENERAL_ADVERTISEMENT_ENDPOINTT)
-    fun createAutoMobileAd(@Body createautoad: ModelDataCreateAutoMobile): Call<ModelDataCreateAutoMobile>
 
     @POST(FORGOTPASS_EMAIL_ENDPOINT)
     fun forgotpassemail(@Body forgottpass: PostForgotpassModel): Call<ForgotPassResponseModel>
@@ -243,7 +234,7 @@ interface MalqaApiService {
     @POST(ASK_QUES_AD_ENDPOINT)
     fun askQues(@Body askques: ModelAskQues): Call<ModelAskQues>
 
-    @GET(GET_QUES_ANS_COMMENT_ENDPOINT + "?")
+    @GET(GET_QUES_ANS_COMMENT_ENDPOINT)
     fun quesAns(
         @Query("adid") qaadid: String,
         @Query("loggedin") qalogid: String

@@ -140,19 +140,13 @@ class SignupPg1 : SignInActivity() {
     fun apicallcreateuser() {
         HelpFunctions.startProgressBar(this)
 
-        val malqaa: MalqaApiService = RetrofitBuilder.createUserInstance()
+        val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder2()
         val emailId = textEmaill.text.toString().trim()
         val mobilenum = PhoneNumber.text.toString().trim()
         val countryCode = PhoneNumber.selectedCountryCode()
         val fullmobilenum = "+" + countryCode + mobilenum
         val passcode = textPass.text.toString().trim()
         val usernaam = userNamee.text.toString().trim()
-//        val call: Call<ResponseBody> = malqaa.createuser(
-//            CreateUserDataModel(
-//                email = emailId,
-//                phone = mobilenum,
-//                password = passcode,
-//                username = usernaam))
         val createUser = CreateUserDataModel(
             email = emailId,
             phone = fullmobilenum,

@@ -8,6 +8,7 @@ public class SearchListItem {
     int id;
     String title;
     String key;
+    String data;
 
     public SearchListItem(int id, String title) {
         this.id = id;
@@ -17,6 +18,8 @@ public class SearchListItem {
         this.key = key;
         this.title = title;
     }
+
+
 
     public int getId() {
         return id;

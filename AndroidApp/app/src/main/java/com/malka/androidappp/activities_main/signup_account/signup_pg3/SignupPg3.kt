@@ -8,10 +8,9 @@ import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isEmpty
 import com.malka.androidappp.R
-import com.malka.androidappp.activities_main.BaseActivity
+import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.activities_main.login.SignInActivity
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.helper.widgets.searchdialog.SearchListItem
@@ -20,10 +19,6 @@ import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.servicemodels.ConstantObjects
 import com.malka.androidappp.servicemodels.CountryRespone
 import kotlinx.android.synthetic.main.activity_signup_pg4.*
-import kotlinx.android.synthetic.main.activity_signup_pg4.select_city
-import kotlinx.android.synthetic.main.activity_signup_pg4.select_country
-import kotlinx.android.synthetic.main.activity_signup_pg4.select_region
-import kotlinx.android.synthetic.main.fragment_list_details.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -61,6 +56,13 @@ class SignupPg3 : BaseActivity() {
             dpd.show()
         }
 
+        ConstantObjects.countryList.filter {
+            it.key==ConstantObjects.defaltCountry
+        }.let {
+            if(it.size>0){
+                select_country._setStartIconImage(it.get(0).flagimglink)
+            }
+        }
         select_country._setOnClickListener {
             val list: ArrayList<SearchListItem> = ArrayList()
             ConstantObjects.countryList.forEachIndexed { index, country ->
@@ -73,10 +75,16 @@ class SignupPg3 : BaseActivity() {
             ) {
                 select_country.text = it.title
                 selectedCountry = it
-
-
                 select_region.text = ""
                 selectedRegion = null
+
+                ConstantObjects.countryList.filter {
+                    it.key==selectedCountry!!.key
+                }.let {
+                    if(it.size>0){
+                        select_country._setStartIconImage(it.get(0).flagimglink)
+                    }
+                }
             }
 
         }
