@@ -1,5 +1,6 @@
 package com.malka.androidappp.servicemodels
 
+import android.widget.ImageView
 import com.malka.androidappp.botmnav_fragments.home.model.AllCategoriesModel
 import com.malka.androidappp.botmnav_fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ShippingAddressessData
 import com.malka.androidappp.servicemodels.addtocart.CartItemModel
@@ -8,23 +9,14 @@ import com.malka.androidappp.servicemodels.favourites.FavouriteObject
 import com.malka.androidappp.servicemodels.feedbacks.FeedbackObject
 import com.malka.androidappp.servicemodels.user.UserObject
 import com.malka.androidappp.servicemodels.watchlist.watchlistobject
-import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
 class ConstantObjects() {
     companion object {
+        var is_watch_iv: ImageView?=null
 
         val defaltCountry: String = "KSA-en-US";
         val isSuccess: String = "isSuccess";
-        val subcategory_1_key: String = "subcategory_1_key";
-        val subcategory_2_key: String = "subcategory_2_key";
-        val subcategory_3_key: String = "subcategory_3_key";
-        val subcategory_4_key: String = "subcategory_4_key";
-        val subcategory_5_key: String = "subcategory_5_key";
-        val subcategory_6_key: String = "subcategory_6_key";
-        var category_template_file_Name: String = "";
-        var productDetails: String = "productDetails";
+
 
         var userobj: UserObject? = null;
         var userfeedback: FeedbackObject? = null;

@@ -145,7 +145,8 @@ dependencies {
     }
     annotationProcessor "com.github.bumptech.glide:compiler:4.13.0"
     implementation 'jp.wasabeef:glide-transformations:4.0.1'
-    implementation 'com.github.HamidrezaAmz:MagicalExoPlayer:1.0.16'
+    implementation 'com.github.HamidrezaAmz:MagicalExoPlayer:2.0.7'
     implementation 'com.joooonho:selectableroundedimageview:1.0.1'
+    implementation("org.greenrobot:eventbus:3.3.1")
 
 }

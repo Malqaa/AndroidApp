@@ -170,7 +170,7 @@ class Confirmation : BaseActivity() {
 //                "    AAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO" +
 //                "        9TXL0Y4OHwAAAABJRU5ErkJggg==")
 
-        mainModel.Images = imageList
+        mainModel.images = imageList
 
         val jsonString = Gson().toJson(mainModel)
 
@@ -178,8 +178,8 @@ class Confirmation : BaseActivity() {
         map = Gson().fromJson(jsonString, map.javaClass)
 
         ConstantObjects.dynamic_json_dictionary.putAll(map)
-//        val testing=Gson().toJson(map)
-//        print(testing)
+        val testing=Gson().toJson(map)
+        print(testing)
 
         createAllAds(ConstantObjects.dynamic_json_dictionary)
 

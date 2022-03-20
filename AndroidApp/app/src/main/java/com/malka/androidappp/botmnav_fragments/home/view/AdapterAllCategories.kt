@@ -37,10 +37,10 @@ class AdapterAllCategories(
 
         holder.view.run {
             allCategories.get(position).run {
-                val params: ViewGroup.LayoutParams = fullview.layoutParams
-                params.width = resources.getDimension(R.dimen._90sdp).toInt()
-                params.height = params.height
-                fullview.layoutParams = params
+//                val params: ViewGroup.LayoutParams = fullview.layoutParams
+//                params.width = resources.getDimension(R.dimen._90sdp).toInt()
+//                params.height = params.height
+//                fullview.layoutParams = params
                 bgline.hide()
                 is_selectimage.hide()
                 category_name_tv.text = categoryName

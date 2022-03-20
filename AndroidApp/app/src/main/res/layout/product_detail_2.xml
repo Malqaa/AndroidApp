@@ -8,6 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -260,15 +261,15 @@
                     android:orientation="horizontal"
                     android:weightSum="2">
 
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/madani_arabic_medium"
-                        android:text="Item specification"
+                        android:text="@string/item_specification"
                         android:textColor="#000000"
                         android:textSize="@dimen/_14sdp" />
-
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -276,7 +277,7 @@
                         android:layout_weight="1"
                         android:fontFamily="@font/madani_arabic_light"
                         android:gravity="end"
-                        android:text="More"
+                        android:text="@string/more"
                         android:textColor="@color/bg"
                         android:textSize="@dimen/_14sdp" />
 
@@ -313,13 +314,20 @@
 
                 </LinearLayout>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/madani_arabic_medium"
+                    android:text="@string/item_details"
+                    android:textColor="#000000"
+                    android:textSize="@dimen/_14sdp" />
 
                 <TextView
+                    android:text="@string/Details"
                     android:id="@+id/description_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/madani_arabic_light"
-                    android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book"
                     android:textColor="#000000"
                     android:textSize="@dimen/_14sdp" />
 
@@ -328,7 +336,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_2sdp"
                     android:fontFamily="@font/madani_arabic_medium"
-                    android:text="ABC"
+                    android:text="@string/more"
                     android:textColor="@color/bg"
                     android:textSize="@dimen/_12sdp" />
 
@@ -995,16 +1003,191 @@
 
                 </LinearLayout>
 
+                <RelativeLayout
+                    android:id="@+id/seller_product_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:background="@drawable/edittext_bg"
+                    android:padding="@dimen/_10sdp">
+
+                    <TextView
+                        android:id="@+id/seller_product_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:fontFamily="@font/madani_arabic_light"
+                        android:text="@string/view_similar_product_from_seller"
+                        android:textAllCaps="false"
+                        android:textColor="@color/textColor"
+                        android:textSize="@dimen/_12sdp" />
+
+                    <ImageView
+                        android:id="@+id/isSellerProductHide_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:src="@drawable/down_arrow" />
+                </RelativeLayout>
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/seller_product_rcv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:fontFamily="@font/madani_arabic_bold"
+                    android:text="@string/similar_products"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_16sdp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/similar_products_rcv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+                <RelativeLayout
+                    android:id="@+id/add_to_cart"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:background="@drawable/round_btn"
+                    android:padding="@dimen/_10sdp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:fontFamily="@font/madani_arabic_semi_bold"
+                        android:text="@string/add_to_cart"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_12sdp" />
+
+
+                    <TextView
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:fontFamily="@font/madani_arabic_semi_bold"
+                        android:text="@string/sar"
+                        android:textAllCaps="false"
+                        android:layout_alignParentRight="true"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_12sdp" />
+
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/current_price_buy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:background="@drawable/round_btn"
+                    android:padding="@dimen/_10sdp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:fontFamily="@font/madani_arabic_semi_bold"
+                        android:text="@string/current_price_buy"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_12sdp" />
+
+
+                    <TextView
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:fontFamily="@font/madani_arabic_semi_bold"
+                        android:text="@string/sar"
+                        android:textAllCaps="false"
+                        android:layout_alignParentRight="true"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_12sdp" />
+
+
+
+                </RelativeLayout>
+
+
+
+                <RelativeLayout
+                    android:id="@+id/Bid_on_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:background="@drawable/round_btn_grey"
+                    android:padding="@dimen/_10sdp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:fontFamily="@font/madani_arabic_semi_bold"
+                        android:text="@string/Bid_on_price"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_12sdp" />
+
+
+                    <TextView
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:fontFamily="@font/madani_arabic_semi_bold"
+                        android:text="@string/sar"
+                        android:textAllCaps="false"
+                        android:layout_alignParentRight="true"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_12sdp" />
+
+
+
+                </RelativeLayout>
+
+
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_width="@dimen/_150sdp"
+                    android:layout_height="@dimen/_2sdp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_20sdp"
+                    android:background="@drawable/round_btn_grey" />
 
             </LinearLayout>
 
+
         </LinearLayout>
+
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-
-
 
 
             <RelativeLayout
@@ -1020,12 +1203,11 @@
                     android:orientation="horizontal">
 
                     <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/btn_share"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:background="@drawable/circle_bg"
                         android:scaleType="center"
-                        android:id="@+id/btn_share"
                         android:src="@drawable/share"
                         app:backgroundTint="@color/white"
                         app:maxImageSize="@dimen/_14sdp"
@@ -1034,17 +1216,16 @@
                         />
 
                     <com.google.android.material.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/add_Wish_btn"
+                        android:id="@+id/is_watch_iv"
+
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginStart="@dimen/_10sdp"
-                        android:background="@drawable/circle_bg"
                         android:scaleType="center"
                         android:src="@drawable/star"
                         app:backgroundTint="@color/white"
                         app:maxImageSize="@dimen/_14sdp"
-                        app:tint="@color/black"
 
                         />
                 </LinearLayout>

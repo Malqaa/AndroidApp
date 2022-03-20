@@ -19,7 +19,7 @@ data class AdDetailModel(
     val highlightexpirydate: String? = null,
     val id: String? = null,
     val images: List<String>? = null,
-    val isWatching: Boolean? = null,
+    var isWatching: Boolean? = null,
     val iscontactchat: String? = null,
     val iscontactemail: String? = null,
     val iscontactphone: String? = null,

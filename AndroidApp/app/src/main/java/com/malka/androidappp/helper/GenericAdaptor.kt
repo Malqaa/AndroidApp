@@ -2,23 +2,60 @@ package com.malka.androidappp.helper
 
 import android.content.Context
 import android.content.Intent
+import android.view.ViewGroup
+import android.widget.Filter
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.ProductDetails
+import com.malka.androidappp.activities_main.login.SignInActivity
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
-import com.malka.androidappp.servicemodels.AdDetailModel
 import com.malka.androidappp.helper.Extension.decimalNumberFormat
+import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.network.constants.ApiConstants
+import com.malka.androidappp.servicemodels.AdDetailModel
+import com.malka.androidappp.servicemodels.ConstantObjects
 import kotlinx.android.synthetic.main.product_item.view.*
 
 class GenericAdaptor {
 
     fun productAdaptor(
-        element: AdDetailModel, context: Context, holder: BaseViewHolder, isGrid: Boolean
+        element: AdDetailModel?, context: Context, holder: BaseViewHolder, isGrid: Boolean
     ) {
 
         holder.view.run {
             element!!.run {
+
+                is_watch_iv. setOnClickListener {
+                    if (HelpFunctions.AdAlreadyAddedToWatchList(referenceId)) {
+                        HelpFunctions.DeleteAdFromWatchlist(
+                            referenceId!!,
+                            context
+                        ) {
+                            is_watch_iv.setImageResource(R.drawable.star)
+                        }
+                    }else{
+                        if (ConstantObjects.logged_userid.isEmpty()) {
+                            context. startActivity(Intent(context, SignInActivity::class.java).apply {
+                            })
+                        } else {
+
+                            HelpFunctions.InsertAdToWatchlist(
+                                referenceId!!, 0,
+                                context
+                            ) {
+                                is_watch_iv.setImageResource(R.drawable.starcolor)
+
+                            }
+
+                        }
+                    }
+                }
+                if (HelpFunctions.AdAlreadyAddedToWatchList(referenceId?:id?:"")) {
+                    is_watch_iv.setImageResource(R.drawable.add_icon)
+                } else {
+                    is_watch_iv.setImageResource(R.drawable.star)
+                }
 
                 titlenamee.text = title
                 city_tv.text = city
@@ -26,13 +63,14 @@ class GenericAdaptor {
 
                 setOnClickListener {
                     SharedPreferencesStaticClass.ad_userid = user!!
+                    ConstantObjects.is_watch_iv = is_watch_iv
                     context.startActivity(Intent(context, ProductDetails::class.java).apply {
                         putExtra("AdvId", referenceId)
                         putExtra("Template", template)
                     })
                 }
                 if (homepageImage.isNullOrEmpty()) {
-                    if(!images.isNullOrEmpty()){
+                    if (!images.isNullOrEmpty()) {
                         val imageURL = ApiConstants.IMAGE_URL + images.get(0)
 
                         Extension.loadThumbnail(
@@ -57,12 +95,6 @@ class GenericAdaptor {
                         productimg, loader
                     )
                 }
-
-
-//                val  ItemInWatchlist = HelpFunctions.AdAlreadyAddedToWatchList(
-//                    IndProperty.id
-//                )
-
 
                 date_tv.text = HelpFunctions.FormatDateTime(
                     createdOn!!,
@@ -93,4 +125,33 @@ class GenericAdaptor {
             }
         }
     }
+
+
+
+    fun setHomeProductAdaptor(list: List<AdDetailModel>,product_rcv: RecyclerView) {
+        product_rcv.adapter = object : GenericListAdapter<AdDetailModel>(
+            R.layout.product_item,
+            bind = { element, holder, itemCount, position ->
+                holder.view.run {
+
+                    val params: ViewGroup.LayoutParams = fullview.layoutParams
+                    params.width = resources.getDimension(R.dimen._220sdp).toInt()
+                    params.height = params.height
+                    fullview.layoutParams = params
+                    productAdaptor(list.get(position), context, holder,true)
+                }
+            }
+        ) {
+            override fun getFilter(): Filter {
+                TODO("Not yet implemented")
+            }
+
+        }.apply {
+            submitList(
+                list
+            )
+        }
+    }
+
+
 }

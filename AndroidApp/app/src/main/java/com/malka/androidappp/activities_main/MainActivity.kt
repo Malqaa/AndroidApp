@@ -2,21 +2,18 @@ package com.malka.androidappp.activities_main
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.login.SignInActivity
 import com.malka.androidappp.activities_main.new_flow.ListanItem
+import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.helper.HelpFunctions
 import kotlinx.android.synthetic.main.activity_bottmmm.*
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,8 +64,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         floatingActionButtonBottm.setOnClickListener() {
-           // startActivity(Intent(this, ListanItem::class.java))
-
             if (HelpFunctions.IsUserLoggedIn()) {
                 startActivity(Intent(this, ListanItem::class.java))
             } else {
@@ -78,17 +73,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onBackPressed() {
-        val navView: BottomNavigationView = findViewById(R.id.nav_view)
-//        navView.visibility = View.VISIBLE
-        super.onBackPressed()
-//        finish()
-    }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        //Inflate the menu; this adds items to the action bar if it is present.
-        //menuInflater.inflate(R.menu.nav, menu)
-        return true
-    }
+
+
 }
 

@@ -4,7 +4,7 @@ object ApiConstants {
 
     private const val HTTP_PROTOCOL = "http"
  //   private const val SERVER_LOCATION = "89.40.10.168:81"
-    private const val SERVER_LOCATION = "89.40.10.168:81"
+    private const val SERVER_LOCATION = "89.40.10.168:85"
     private const val API_FOLDER = "api"
     private const val API_VERSION = "v1"
     private const val IMAGE_FOLDER = "ImageFile"
@@ -75,8 +75,7 @@ object ApiConstants {
 
     const val INSERT_AD_WATCHLIST_ENDPOINT = "Watchlist/insert"
 
-    const val DELETE_AD_WATCHLIST = GET_WATCHLIST_LISTING
-    const val DELETE_AD_WATCHLIST_ENDPOINT = "delete"
+    const val DELETE_AD_WATCHLIST_ENDPOINT = "Watchlist/delete"
 
     const val INSERT_FAVOURITE_SELLER_ENDPOINT = "insertseller/"
     const val INSERT_FAVOURITE_CATEGORY_ENDPOINT = "insertcategory/"

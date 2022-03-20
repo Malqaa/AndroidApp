@@ -43,17 +43,18 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp">
 
+
                 <ImageView
-                    android:id="@+id/imgbtn_watchlist_remove"
-                    android:layout_width="@dimen/_15sdp"
-                    android:layout_height="@dimen/_15sdp"
+                    android:id="@+id/is_watch_iv"
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="@dimen/_25sdp"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:background="@drawable/starback1"
-                    android:padding="@dimen/_4sdp"
-                    android:src="@drawable/star"
+                    android:padding="@dimen/_7sdp"
+                    android:src="@drawable/starcolor" />
 
-                    />
+
 
                 <LinearLayout
                     android:layout_width="wrap_content"

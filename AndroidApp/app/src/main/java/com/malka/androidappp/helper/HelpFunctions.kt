@@ -5,9 +5,7 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Color
+import android.graphics.*
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.StrictMode
@@ -22,17 +20,18 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.malka.androidappp.R
+import com.malka.androidappp.activities_main.ProductDetails
 import com.malka.androidappp.activities_main.login.LoginData
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.botmnav_fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ModelShipAddresses
 import com.malka.androidappp.botmnav_fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ShippingAddressessData
-import com.malka.androidappp.activities_main.ProductDetails
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.constants.ApiConstants
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.servicemodels.BasicResponseInt
 import com.malka.androidappp.servicemodels.Basicresponse
 import com.malka.androidappp.servicemodels.ConstantObjects
+import com.malka.androidappp.servicemodels.WatchList
 import com.malka.androidappp.servicemodels.addtocart.AddToCartResponseModel
 import com.malka.androidappp.servicemodels.addtocart.InsertToCartRequestModel
 import com.malka.androidappp.servicemodels.checkout.CheckoutRequestModel
@@ -45,6 +44,7 @@ import com.malka.androidappp.servicemodels.watchlist.watchlistobject
 import io.paperdb.Paper
 import kotlinx.android.synthetic.main.alertpopup.view.*
 import kotlinx.android.synthetic.main.progress_bar.view.*
+import org.greenrobot.eventbus.EventBus
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -189,9 +189,11 @@ class HelpFunctions {
             if (context != null) {
                 val dialogBuilder: AlertDialog.Builder = AlertDialog.Builder(context!!)
                 val inflater =
-                    context!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+                    context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
                 val dialogView: View = inflater.inflate(R.layout.alertpopup, null).also {
-                    it.Lbl_ALertTitle.setText(alertTitle);
+                    if(alertTitle.isNotEmpty()){
+                        it.Lbl_ALertTitle.setText(alertTitle);
+                    }
                     it.Lbl_AlertMessage.setText(alertMessage)
                 };
                 dialogBuilder.setView(dialogView)
@@ -237,19 +239,19 @@ class HelpFunctions {
             sourceformat: String,
             requiredformat: String
         ): String {
-            var RetVal: String = "";
+            var RetVal = "";
             try {
-                if (value != null && value.trim().length > 0) {
+                if (value.trim().length > 0) {
                     val defaultsourceformat =
-                        if (sourceformat == null || sourceformat.trim().length == 0) datetimeformat_24hrs else sourceformat
+                        if (sourceformat.trim().length == 0) datetimeformat_24hrs else sourceformat
                     val defaulttargetformat =
-                        if (requiredformat == null || requiredformat.trim().length == 0) datetimeformat_mmddyyyy else requiredformat
+                        if (requiredformat.trim().length == 0) datetimeformat_mmddyyyy else requiredformat
                     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                        var simpleFormat = DateTimeFormatter.ofPattern(defaultsourceformat)
-                        var convertedDate = if (value != null) LocalDateTime.parse(
+                        val simpleFormat = DateTimeFormatter.ofPattern(defaultsourceformat)
+                        val convertedDate = LocalDateTime.parse(
                             value,
                             simpleFormat
-                        ) else LocalDateTime.parse("1900-01-01T12:00:00", simpleFormat)
+                        )
                         val formatter = DateTimeFormatter.ofPattern(requiredformat)
                         RetVal = convertedDate.format(formatter)
                     } else {
@@ -279,59 +281,26 @@ class HelpFunctions {
         // NavHostFragment.findNavController(fragment).navigate(R.id.carspicification, args)
         }
 
-        fun AdAlreadyAddedToWatchList(adreferenceId: String): Boolean1 {
-            var RetVal: Boolean1 = false;
-            try {
-                if (adreferenceId != null && adreferenceId.trim().length > 0) {
-                    if (ConstantObjects.userwatchlist != null && ConstantObjects.userwatchlist!!.data != null && ConstantObjects.userwatchlist!!.data.size > 0) {
-                        for (IndWatch in ConstantObjects.userwatchlist!!.data) {
-                            if (IndWatch.advertisement != null) {
-                                if (IndWatch.advertisement.referenceId!!.trim().toUpperCase()
-                                        .equals(adreferenceId.trim().toUpperCase())
-                                ) {
-                                    RetVal = true
-                                    break
-                                } else {
-                                    RetVal = false
-                                    continue
-                                }
-                            }
+        fun AdAlreadyAddedToWatchList(adreferenceId: String?): Boolean1 {
+            var RetVal = false;
+            if (adreferenceId!!.trim().length > 0) {
+                if (ConstantObjects.userwatchlist != null && ConstantObjects.userwatchlist!!.data.size > 0) {
+                    for (IndWatch in ConstantObjects.userwatchlist!!.data) {
+                        if (IndWatch.advertisement.referenceId!!.trim().lowercase()
+                                .equals(adreferenceId!!.trim().lowercase())
+                        ) {
+                            RetVal = true
+                            break
+                        } else {
+                            RetVal = false
+                            continue
                         }
                     }
                 }
-            } catch (ex: Exception) {
-                throw  ex
             }
             return RetVal
         }
 
-        fun GetUserWatchlist() {
-            try {
-                val malqa: MalqaApiService =
-                    RetrofitBuilder.GetRetrofitBuilder2()
-                val call: Call<watchlistobject> =
-                    malqa.getUserWatchlist(ConstantObjects.logged_userid)
-                call.enqueue(object : Callback<watchlistobject> {
-                    override fun onResponse(
-                        call: Call<watchlistobject>,
-                        response: Response<watchlistobject>
-                    ) {
-                        if (response.isSuccessful) {
-                            if (response.body() != null) {
-                                val watchlistinfo: watchlistobject = response.body()!!;
-                                ConstantObjects.userwatchlist = watchlistinfo
-                            }
-                        }
-                    }
-
-                    override fun onFailure(call: Call<watchlistobject>, t: Throwable) {
-
-                    }
-                })
-            } catch (ex: Exception) {
-                throw ex
-            }
-        }
 
         //Zack
         //Date: 11/13/2020
@@ -350,13 +319,7 @@ class HelpFunctions {
                         if (response.isSuccessful) {
                             if (response.body() != null) {
                                 val resp: FavouriteObject = response.body()!!
-                                if (resp != null) {
-                                    ConstantObjects.userfavourite = resp
-                                } else {
-                                    ShowLongToast(
-                                        "No Record Found", context.requireContext()
-                                    )
-                                }
+                                ConstantObjects.userfavourite = resp
                             } else {
                                 ShowLongToast(
                                     "No Record Found", context.requireContext()
@@ -380,10 +343,9 @@ class HelpFunctions {
             }
         }
 
-        fun InsertAdToWatchlist(AdsId: String, reminderType: Int, context: Context): Boolean1 {
+        fun InsertAdToWatchlist(AdsId: String, reminderType: Int, context: Context, onSuccess: (() -> Unit)? = null) {
             startProgressBar(context as Activity)
 
-            var RetVal = false
             try {
                 val ad = watchlistadd(
                     ConstantObjects.logged_userid,
@@ -401,8 +363,8 @@ class HelpFunctions {
                             if (response.body() != null) {
                                 val resp: Basicresponse = response.body()!!;
                                 if (resp.status_code == 200 && (resp.data == true || resp.data == 1 || resp.data == 1.0)) {
-                                    RetVal = true
                                     GetUserWatchlist()
+                                    onSuccess?.invoke()
                                     ShowLongToast(
                                         resp.message,
                                         context
@@ -425,7 +387,7 @@ class HelpFunctions {
                                 context
                             );
                         }
-                        HelpFunctions.dismissProgressBar()
+                        dismissProgressBar()
 
                     }
 
@@ -437,20 +399,21 @@ class HelpFunctions {
                             "Error",
                             context
                         );
-                        HelpFunctions.dismissProgressBar()
+                        dismissProgressBar()
 
                     }
                 })
             } catch (ex: Exception) {
                 throw ex
             }
-            return RetVal
         }
 
-        fun DeleteAdFromWatchlist(AdsId: String, context: Context): Boolean1 {
-            var RetVal: Boolean1 = false;
+        fun DeleteAdFromWatchlist(AdsId: String, context: Context, onSuccess: (() -> Unit)? = null
+        ) {
+            startProgressBar(context as Activity)
+
             try {
-                val malqa: MalqaApiService = RetrofitBuilder.DeleteAdFromUserWatchlist()
+                val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder2()
                 val call: Call<Basicresponse> =
                     malqa.DeleteAdFromUserWatchlist(ConstantObjects.logged_userid, AdsId)
                 call.enqueue(object : Callback<Basicresponse> {
@@ -460,10 +423,10 @@ class HelpFunctions {
                     ) {
                         if (response.isSuccessful) {
                             if (response.body() != null) {
-                                var resp: Basicresponse = response.body()!!;
+                                val resp: Basicresponse = response.body()!!;
                                 if (resp.status_code == 200 && (resp.data == true || resp.data == 1 || resp.data == 1.0)) {
-                                    RetVal = true;
                                     GetUserWatchlist()
+                                    onSuccess?.invoke()
                                     ShowLongToast(
                                         "Removed Successfully",
                                         context
@@ -472,7 +435,7 @@ class HelpFunctions {
                                     ShowLongToast(
                                         resp.message,
                                         context
-                                    );
+                                    )
                                 }
                             } else {
                                 ShowLongToast(
@@ -486,6 +449,8 @@ class HelpFunctions {
                                 context
                             );
                         }
+                        dismissProgressBar()
+
                     }
 
                     override fun onFailure(
@@ -495,13 +460,40 @@ class HelpFunctions {
                         ShowLongToast(
                             "Error During Deletion",
                             context
-                        );
+                        )
+                        dismissProgressBar()
+
                     }
                 })
             } catch (ex: Exception) {
                 throw ex
             }
-            return RetVal
+        }
+
+        fun GetUserWatchlist() {
+            val malqa: MalqaApiService =
+                RetrofitBuilder.GetRetrofitBuilder2()
+            val call: Call<watchlistobject> =
+                malqa.getUserWatchlist(ConstantObjects.logged_userid)
+            call.enqueue(object : Callback<watchlistobject> {
+                override fun onResponse(
+                    call: Call<watchlistobject>,
+                    response: Response<watchlistobject>
+                ) {
+                    if (response.isSuccessful) {
+                        if (response.body() != null) {
+                            val watchlistinfo: watchlistobject = response.body()!!
+                            ConstantObjects.userwatchlist=watchlistinfo
+                            EventBus.getDefault().post(WatchList())
+
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<watchlistobject>, t: Throwable) {
+
+                }
+            })
         }
 
         fun InsertToFavourite(
@@ -1036,5 +1028,6 @@ class HelpFunctions {
                 isdialog.dismiss()
             }
         }
+
     }
 }

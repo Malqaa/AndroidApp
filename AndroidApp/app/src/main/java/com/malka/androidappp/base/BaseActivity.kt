@@ -75,24 +75,9 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     fun showError(error: String) {
-        var alertDialog: AlertDialog? = null
-        val dialogBuilder: AlertDialog.Builder = AlertDialog.Builder(this)
-        val inflater = this.layoutInflater
-        val dialogView: View = inflater.inflate(R.layout.error_layout, null)
-        dialogBuilder.setView(dialogView)
-
-        val msg_tv = dialogView.findViewById<TextView>(R.id.msg_tv)
-        msg_tv.setText(error)
-
-        dialogView.findViewById<TextView>(R.id.dismiss_tbn).setOnClickListener {
-            alertDialog!!.dismiss()
-
-        }
-        alertDialog = dialogBuilder.create()
-        dialogBuilder.setCancelable(false)
-        alertDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-
-        alertDialog.show()
+        HelpFunctions.ShowAlert(
+            this, "", error
+        )
     }
 
     fun getCategortList(): String {

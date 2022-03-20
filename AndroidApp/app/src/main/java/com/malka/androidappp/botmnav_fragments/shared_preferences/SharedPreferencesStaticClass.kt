@@ -1,5 +1,8 @@
 package com.malka.androidappp.botmnav_fragments.shared_preferences
 
+import android.widget.ImageView
+import com.malka.androidappp.helper.BaseViewHolder
+
 class SharedPreferencesStaticClass {
     companion object{
          val SHARED_PREFS = "sharedPrefs"

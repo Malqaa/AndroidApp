@@ -184,7 +184,8 @@ interface MalqaApiService {
     @GET(ADVBYID_ENDPOINT + "?")
     fun getAdDetailById(
         @Query("id") id: String,
-        @Query("template") template: String
+        @Query("template") template: String,
+        @Query("loggedin") loggedin: String
     ): Call<JsonObject>
 
     @GET(GET_SELLER_ENDPOINT + "?")
@@ -297,7 +298,7 @@ interface MalqaApiService {
     fun GetGeneralAds(): Call<generalads>;
 
     @GET(ApiConstants.HOME_ALL_ADS_URL)
-    fun GetAllAds(): Call<GetAllAds>;
+    fun GetAllAds(@Query("loginId") userid: String): Call<GetAllAds>;
 
     @GET(ApiConstants.HOME_TOTAL_VISIT_COUNT)
     fun GetTotalVisitCount(): Call<visit_count_object>;

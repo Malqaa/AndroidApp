@@ -10,6 +10,7 @@ import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.servicemodels.AdDetailModel
+import com.malka.androidappp.servicemodels.ConstantObjects
 import com.malka.androidappp.servicemodels.home.GetAllAds
 import kotlinx.android.synthetic.main.fragment_pie_chart_frag4.*
 import retrofit2.Call
@@ -38,7 +39,7 @@ class PieChartFrag4 : Fragment() {
     fun getAllAdsData() {
 
         val malqa: MalqaApiService = RetrofitBuilder.GetAllAds()
-        val call: Call<GetAllAds> = malqa.GetAllAds()
+        val call: Call<GetAllAds> = malqa.GetAllAds(ConstantObjects.logged_userid)
 
         call.enqueue(object : Callback<GetAllAds> {
             override fun onResponse(

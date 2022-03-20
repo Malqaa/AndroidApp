@@ -164,6 +164,11 @@
             android:name="com.zfdang.multiple_images_selector.ImagesSelectorActivity"
             android:configChanges="orientation|screenSize"
             android:hardwareAccelerated="false" />
+
+        <activity
+            android:name="com.malka.androidappp.botmnav_fragments.browse_market.BrowseMarketFragment"
+            android:configChanges="orientation|screenSize"
+          />
     </application>
 
 </manifest>

@@ -2622,5 +2622,12 @@
     <string name="video_link">رابط الفيديو غير صالح</string>
     <string name="it_will_end">it will end</string>
   <string name="all_reviews">All reviews</string>
+    <string name="similar_products">المنتجات المشابهة</string>
+  <string name="view_similar_product_from_seller">View similar product from seller</string>
+  <string name="hide_similar_product_from_seller">Hide similar product from seller</string>
+  <string name="current_price_buy">شراء بالسعر الحالى</string>
+  <string name="Bid_on_price">مزايدة على السعر</string>
+  <string name="add_to_cart">إضافة للسلة</string>
+  <string name="more">أكثر</string>
 
 </resources>

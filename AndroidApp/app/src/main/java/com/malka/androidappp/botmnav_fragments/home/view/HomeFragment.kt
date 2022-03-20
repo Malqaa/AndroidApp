@@ -11,6 +11,8 @@ import android.os.Parcelable
 import android.speech.RecognizerIntent
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
+import android.widget.Filter
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Toast
@@ -19,12 +21,15 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import com.arlib.floatingsearchview.FloatingSearchView
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion
 import com.malka.androidappp.R
+import com.malka.androidappp.activities_main.new_flow.ContinueActivity
+import com.malka.androidappp.botmnav_fragments.browse_market.BrowseMarketFragment
+import com.malka.androidappp.botmnav_fragments.create_ads.StaticClassAdCreate
 import com.malka.androidappp.botmnav_fragments.home.adapter.CarAdvertisementAdapter
-import com.malka.androidappp.botmnav_fragments.home.adapter.ParentCategoryAdaptor
 import com.malka.androidappp.botmnav_fragments.home.adapter.PropertyAdvertisementAdapter
 import com.malka.androidappp.botmnav_fragments.home.adapter.RecentAdvertisementAdapter
 import com.malka.androidappp.botmnav_fragments.home.model.AllCategoriesModel
@@ -32,26 +37,30 @@ import com.malka.androidappp.botmnav_fragments.home.model.AllCategoriesResponseB
 import com.malka.androidappp.botmnav_fragments.home.model.DynamicList
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.design.CartActivity
+import com.malka.androidappp.helper.GenericAdaptor
 import com.malka.androidappp.helper.HelpFunctions
+import com.malka.androidappp.helper.hide
 import com.malka.androidappp.helper.show
+import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.helper.widgets.viewpager2.AutoScrollViewPager
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
+import com.malka.androidappp.servicemodels.AdDetailModel
 import com.malka.androidappp.servicemodels.ConstantObjects
 import com.malka.androidappp.servicemodels.home.GetAllAds
 import com.malka.androidappp.servicemodels.home.favouritecars
 import com.malka.androidappp.servicemodels.home.favouriteproperties
 import com.malka.androidappp.servicemodels.home.recentlisting
-import com.malka.myapplication.Model
-import com.malka.myapplication.PostsAdapter
 import kotlinx.android.synthetic.main.fragment_homee.*
+import kotlinx.android.synthetic.main.parenet_category_item.view.*
+import kotlinx.android.synthetic.main.product_item.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
 
 
-class HomeFragment : Fragment(R.layout.fragment_homee), PostsAdapter.OnPostItemClickListener,
+class HomeFragment : Fragment(R.layout.fragment_homee),
     AdapterAllCategories.OnItemClickListener {
     private var dotscount = 0
     var dots: ArrayList<ImageView> = arrayListOf()
@@ -153,7 +162,8 @@ class HomeFragment : Fragment(R.layout.fragment_homee), PostsAdapter.OnPostItemC
         if (ConstantObjects.logged_userid.trim().length > 0) {
             //Zaack
             //Date: 10/29/2020
-               HelpFunctions.GetUserWatchlist();
+              HelpFunctions.GetUserWatchlist();
+//            HelpFunctions.GetUserFavourites(this@HomeFragment);
 //            HelpFunctions.GetUserFavourites(this@HomeFragment);
 //            HelpFunctions.GetUsersCartList(this@HomeFragment);
 //            HelpFunctions.GetUserCreditCards(this@HomeFragment);
@@ -205,22 +215,22 @@ class HomeFragment : Fragment(R.layout.fragment_homee), PostsAdapter.OnPostItemC
     //Zaack
     //Date: 10/29/2020
     fun NavigateToCategoryListing(category: String) {
-        val args = Bundle()
-        args.putString("CategoryDesc", category);
-        args.putString("SearchQuery", "");
-        findNavController().navigate(R.id.home_browsemarket, args)
+        startActivity(Intent(requireContext(), BrowseMarketFragment::class.java).apply {
+            putExtra("CategoryDesc", category)
+            putExtra("SearchQuery", "")
+        })
+
     }
 
     fun SearchAndNavigateToCategoryListing(searchquery: String) {
-        val args = Bundle()
-        args.putString("CategoryDesc", "");
-        args.putString("SearchQuery", searchquery);
-        findNavController().navigate(R.id.home_browsemarket, args)
+
+        startActivity(Intent(requireContext(), BrowseMarketFragment::class.java).apply {
+            putExtra("CategoryDesc", "")
+            putExtra("SearchQuery", searchquery)
+        })
+
     }
 
-    override fun onItemClick(item: Model, position: Int) {
-        findNavController().navigate(R.id.home_carspec)
-    }
 
     fun BindFavouriteCarData() {
         var recyclerCarfeatured = reyclerviewcarfeature
@@ -637,7 +647,8 @@ class HomeFragment : Fragment(R.layout.fragment_homee), PostsAdapter.OnPostItemC
     fun getAllAdsData() {
 
         val malqa: MalqaApiService = RetrofitBuilder.GetAllAds()
-        val call: Call<GetAllAds> = malqa.GetAllAds()
+
+        val call: Call<GetAllAds> = malqa.GetAllAds(ConstantObjects.logged_userid)
         call.enqueue(object : Callback<GetAllAds> {
             override fun onResponse(
                 call: Call<GetAllAds>,
@@ -679,18 +690,9 @@ class HomeFragment : Fragment(R.layout.fragment_homee), PostsAdapter.OnPostItemC
                                 )
                             )
 
-                            val genadpt = ParentCategoryAdaptor(list, this@HomeFragment,requireContext())
 
+                            setHomeAdaptor(list)
 
-                            dynamic_product_rcv.adapter = genadpt
-                            genadpt.onItemClick = { indobj ->
-                                HelpFunctions.ViewAdvertismentDetail(
-                                    indobj.referenceId,
-                                    indobj.template,
-                                    requireContext(),HomeFragment()
-                                )
-                                SharedPreferencesStaticClass.ad_userid = indobj.user
-                            }
                         }
 
 
@@ -711,6 +713,45 @@ class HomeFragment : Fragment(R.layout.fragment_homee), PostsAdapter.OnPostItemC
             }
         })
 
+    }
+
+
+
+    private fun setHomeAdaptor(list: List<DynamicList>) {
+        dynamic_product_rcv.adapter = object : GenericListAdapter<DynamicList>(
+            R.layout.parenet_category_item,
+            bind = { element, holder, itemCount, position ->
+                holder.view.run {
+                    element.run {
+                        when(typeName){
+                            "category"->{
+                                category_type!!.show()
+                                product_list_layout!!.hide()
+                            }
+                            "list"->{
+                                category_type!!.hide()
+                                product_list_layout!!.show()
+                            }
+                        }
+                        detail_tv!!.text=detail
+                        category_name_tv!!.text=category_name
+                        category_name_tv_2!!.text=category_name
+                        category_icon_iv!!.setImageResource(category_icon)
+
+                        GenericAdaptor().  setHomeProductAdaptor(product,product_rcv)
+                    }
+                }
+            }
+        ) {
+            override fun getFilter(): Filter {
+                TODO("Not yet implemented")
+            }
+
+        }.apply {
+            submitList(
+                list
+            )
+        }
     }
 
     override fun OnItemClick(position: Int) {
@@ -841,7 +882,6 @@ class HomeFragment : Fragment(R.layout.fragment_homee), PostsAdapter.OnPostItemC
 
 
     }
-
 
 }
 

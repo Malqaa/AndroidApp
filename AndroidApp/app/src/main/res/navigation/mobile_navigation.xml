@@ -15,9 +15,6 @@
             android:id="@+id/home_carspec"
             app:destination="@+id/carspicification" />
 
-        <action
-            android:id="@+id/home_browsemarket"
-            app:destination="@+id/browsemarket_frag" />
 
 
 
@@ -374,14 +371,6 @@
         android:name="com.malka.androidappp.botmnav_fragments.question_ans_comnt.QuesAnsFragment"
         android:label="Question Answer"
         tools:layout="@layout/fragment_ques_ans">
-
-    </fragment>
-
-    <fragment
-        android:id="@+id/browsemarket_frag"
-        android:name="com.malka.androidappp.botmnav_fragments.browse_market.BrowseMarketFragment"
-        android:label="Browse"
-        tools:layout="@layout/fragment_browse_market">
 
     </fragment>
 

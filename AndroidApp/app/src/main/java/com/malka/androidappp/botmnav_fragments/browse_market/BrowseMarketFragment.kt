@@ -1,13 +1,10 @@
 package com.malka.androidappp.botmnav_fragments.browse_market
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.malka.androidappp.R
+import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.botmnav_fragments.browse_market.popup_subcategories_list.ModelAddSearchFav
 import com.malka.androidappp.botmnav_fragments.browse_market.popup_subcategories_list.StaticGetSubcategoryByBrowseCateClick
 import com.malka.androidappp.botmnav_fragments.browse_market.popup_subcategories_list.SubcategoriesDialogFragment
@@ -27,7 +24,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class BrowseMarketFragment : Fragment() {
+class BrowseMarketFragment : BaseActivity() {
 
     //Zack
     //Date: 10/29/2020
@@ -35,23 +32,17 @@ class BrowseMarketFragment : Fragment() {
     var SearchQuery: String = "";
     var browadptxl: BrowseMarketXLAdap? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        setHasOptionsMenu(true)
-        CategoryDesc = arguments?.getString("CategoryDesc").toString()
-        SearchQuery = arguments?.getString("SearchQuery").toString()
-        StaticGetSubcategoryByBrowseCateClick.getcategory = CategoryDesc;
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_browse_market, container, false)
-    }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.fragment_browse_market)
+
+        CategoryDesc = intent?.getStringExtra("CategoryDesc").toString()
+        SearchQuery = intent?.getStringExtra("SearchQuery").toString()
+        StaticGetSubcategoryByBrowseCateClick.getcategory = CategoryDesc;
 
         back_button.setOnClickListener {
-            requireActivity().onBackPressed()
+            onBackPressed()
 
         }
         search_toolbar.setOnClickListener {
@@ -65,7 +56,7 @@ class BrowseMarketFragment : Fragment() {
 //            startActivity(intentt)
 //        }
 
-        browadptxl = BrowseMarketXLAdap(marketpost, requireContext())
+        browadptxl = BrowseMarketXLAdap(marketpost, this)
         recyclerViewmarket.adapter = browadptxl
 
 
@@ -75,14 +66,14 @@ class BrowseMarketFragment : Fragment() {
             icon_list.setImageResource(R.drawable.ic_icon_list_active)
             icon_grid.setImageResource(R.drawable.icon_grid)
             recyclerViewmarket.layoutManager =
-                LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false)
+                LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
         }
         icon_grid.setOnClickListener {
             browadptxl!!.updateLayout(true)
             icon_grid.setImageResource(R.drawable.ic_icon_grid_active)
             icon_list.setImageResource(R.drawable.icon_list)
-            recyclerViewmarket.layoutManager = GridLayoutManager(context, 2)
+            recyclerViewmarket.layoutManager = GridLayoutManager(this, 2)
 
         }
         icon_grid.performClick()
@@ -97,7 +88,11 @@ class BrowseMarketFragment : Fragment() {
             SetToolbarTitle("Search: " + SearchQuery)
             SearchCategories(SearchQuery)
         }
+
+
     }
+
+
 
     var marketpost: ArrayList<AdDetailModel> = ArrayList()
 
@@ -105,7 +100,7 @@ class BrowseMarketFragment : Fragment() {
     //Zack
     //Date: 10/29/2020
     fun FetchCategories(category: String) {
-        HelpFunctions.startProgressBar(this.requireActivity())
+        HelpFunctions.startProgressBar(this)
 
 
         val requestbody: SearchRequestModel =
@@ -116,7 +111,7 @@ class BrowseMarketFragment : Fragment() {
         call.enqueue(object : Callback<SearchRespone> {
             override fun onFailure(call: Call<SearchRespone>, t: Throwable) {
                 HelpFunctions.ShowAlert(
-                    this@BrowseMarketFragment.context,
+                    this@BrowseMarketFragment,
                     getString(R.string.Information),
                     getString(R.string.NoRecordFound)
                 )
@@ -140,7 +135,7 @@ class BrowseMarketFragment : Fragment() {
                                 getString(R.string.result, marketpost.count().toString())
                         } else {
                             HelpFunctions.ShowAlert(
-                                this@BrowseMarketFragment.context,
+                                this@BrowseMarketFragment,
                                 getString(R.string.Information),
                                 getString(R.string.NoRecordFound)
                             )
@@ -148,7 +143,7 @@ class BrowseMarketFragment : Fragment() {
                     }
                 } else {
                     HelpFunctions.ShowAlert(
-                        this@BrowseMarketFragment.context,
+                        this@BrowseMarketFragment,
                         getString(R.string.Information),
                         getString(R.string.NoRecordFound)
                     )
@@ -161,7 +156,7 @@ class BrowseMarketFragment : Fragment() {
     }
 
     fun SearchCategories(searchquery: String) {
-        HelpFunctions.startProgressBar(this.requireActivity())
+        HelpFunctions.startProgressBar(this)
 
 
         val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder2()
@@ -169,7 +164,7 @@ class BrowseMarketFragment : Fragment() {
         call.enqueue(object : Callback<CategoryResponse> {
             override fun onFailure(call: Call<CategoryResponse>, t: Throwable) {
                 HelpFunctions.ShowAlert(
-                    this@BrowseMarketFragment.context,
+                    this@BrowseMarketFragment,
                     getString(R.string.Information),
                     getString(R.string.NoRecordFound)
                 )
@@ -215,7 +210,7 @@ class BrowseMarketFragment : Fragment() {
                     }
                 } else {
                     HelpFunctions.ShowAlert(
-                        this@BrowseMarketFragment.context,
+                        this@BrowseMarketFragment,
                         getString(R.string.Information),
                         getString(R.string.NoRecordFound)
                     )
@@ -238,7 +233,7 @@ class BrowseMarketFragment : Fragment() {
 
     fun openDialog() {
         val exampleDialog = SubcategoriesDialogFragment()
-        exampleDialog.show(childFragmentManager, "example dialog")
+     //   exampleDialog.show(childFragmentManager, "example dialog")
     }
 
     // Add Search to favorites
@@ -262,7 +257,7 @@ class BrowseMarketFragment : Fragment() {
 
                         HelpFunctions.ShowLongToast(
                             searchQuery + " " + getString(R.string.AddedtoFavorites),
-                            activity
+                            this@BrowseMarketFragment
                         )
 //                        Toast.makeText(
 //                            activity,
@@ -274,7 +269,7 @@ class BrowseMarketFragment : Fragment() {
                     } else {
                         HelpFunctions.ShowLongToast(
                             getString(R.string.Failedtoaddfavorites),
-                            activity
+                            this@BrowseMarketFragment
                         )
 //                        Toast.makeText(activity, "", Toast.LENGTH_LONG)
 //                            .show()
@@ -282,7 +277,7 @@ class BrowseMarketFragment : Fragment() {
                 }
 
                 override fun onFailure(call: Call<ModelAddSearchFav>, t: Throwable) {
-                    t.message?.let { HelpFunctions.ShowLongToast(it, activity) }
+                    t.message?.let { HelpFunctions.ShowLongToast(it, this@BrowseMarketFragment) }
 //                    Toast.makeText(activity, t.message, Toast.LENGTH_LONG).show()
                 }
             })

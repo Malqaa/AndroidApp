@@ -2,40 +2,47 @@ package com.malka.androidappp.activities_main
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.view.View
 import android.widget.Filter
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.login.SignInActivity
 import com.malka.androidappp.base.BaseActivity
-import com.malka.androidappp.servicemodels.AdDetailModel
 import com.malka.androidappp.botmnav_fragments.question_ans_comnt.QuesAnsFragment
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.design.ProductReviews
 import com.malka.androidappp.helper.Extension.loadThumbnail
 import com.malka.androidappp.helper.Extension.shared
+import com.malka.androidappp.helper.GenericAdaptor
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.constants.ApiConstants
 import com.malka.androidappp.network.service.MalqaApiService
+import com.malka.androidappp.servicemodels.AdDetailModel
 import com.malka.androidappp.servicemodels.Attribute
 import com.malka.androidappp.servicemodels.ConstantObjects
 import com.malka.androidappp.servicemodels.ProductImage
 import kotlinx.android.synthetic.main.activity_product_details.*
 import kotlinx.android.synthetic.main.atrribute_item.view.*
 import kotlinx.android.synthetic.main.image_item.view.*
+import kotlinx.android.synthetic.main.image_item.view.loader
+import kotlinx.android.synthetic.main.parenet_category_item.view.*
 import kotlinx.android.synthetic.main.product_detail_2.*
 import org.json.JSONArray
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+
 
 class ProductDetails : BaseActivity() {
 
@@ -81,20 +88,7 @@ class ProductDetails : BaseActivity() {
         btn_share.setOnClickListener {
             shared("URL OF PRODUCT DETAIL PAGE")
         }
-        add_Wish_btn.setOnClickListener {
 
-            if (ConstantObjects.logged_userid.isEmpty()) {
-                startActivity(Intent(this, SignInActivity::class.java).apply {
-                })
-            } else {
-
-                HelpFunctions.InsertAdToWatchlist(
-                    AdvId, 3,
-                    this@ProductDetails
-                )
-
-            }
-        }
         next_image.setOnClickListener {
 
         }
@@ -109,7 +103,6 @@ class ProductDetails : BaseActivity() {
 
             })
         }
-
 
 
 
@@ -250,7 +243,7 @@ class ProductDetails : BaseActivity() {
         HelpFunctions.startProgressBar(this)
 
         val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder2()
-        val call = malqa.getAdDetailById(advid, template)
+        val call = malqa.getAdDetailById(advid, template,ConstantObjects.logged_userid)
         call.enqueue(object : Callback<JsonObject> {
             @SuppressLint("UseRequireInsteadOfGet", "SetTextI18n")
             override fun onResponse(
@@ -354,7 +347,69 @@ class ProductDetails : BaseActivity() {
                             HelpFunctions.datetimeformat_24hrs_7milliseconds_timezone,
                             HelpFunctions.datetimeformat_mmddyyyy
                         )
+                        is_watch_iv. setOnClickListener {
+                            if (HelpFunctions.AdAlreadyAddedToWatchList(AdvId)) {
+                                HelpFunctions.DeleteAdFromWatchlist(
+                                    AdvId,
+                                    this@ProductDetails
+                                ) {
+                                    is_watch_iv.setImageResource(R.drawable.star)
+                                    ConstantObjects.is_watch_iv!!.setImageResource(R.drawable.star)
+                                }
+                            }else{
+                                if (ConstantObjects.logged_userid.isEmpty()) {
+                                    startActivity(Intent(this@ProductDetails, SignInActivity::class.java).apply {
+                                    })
+                                } else {
+
+                                    HelpFunctions.InsertAdToWatchlist(
+                                        AdvId, 0,
+                                        this@ProductDetails
+                                    ) {
+                                        activeWatch(is_watch_iv)
+                                        ConstantObjects.is_watch_iv!!.setImageResource(R.drawable.starcolor)
+                                    }
+
+                                }
+                            }
+                        }
+                        if (HelpFunctions.AdAlreadyAddedToWatchList(AdvId)) {
+                            activeWatch(is_watch_iv)
+                            ConstantObjects.is_watch_iv!!.setImageResource(R.drawable.starcolor)
+
+                        } else {
+                            is_watch_iv.setImageResource(R.drawable.star)
+                            ConstantObjects.is_watch_iv!!.setImageResource(R.drawable.star)
+                        }
                     }
+
+                    val list: ArrayList<AdDetailModel> = ArrayList()
+                    list.add(product)
+                    list.add(product)
+                    list.add(product)
+                    list.add(product)
+                    list.add(product)
+                    list.add(product)
+
+                    var isSellerProductHide=true
+                    seller_product_layout.setOnClickListener {
+                        if(isSellerProductHide){
+                            isSellerProductHide=false
+                            seller_product_rcv.isVisible=true
+                            isSellerProductHide_iv.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24)
+                            seller_product_tv.text=getText(R.string.view_similar_product_from_seller)
+
+                        }else{
+                            isSellerProductHide=true
+                            seller_product_rcv.isVisible=false
+                            isSellerProductHide_iv.setImageResource(R.drawable.down_arrow)
+                            seller_product_tv.text=getText(R.string.view_similar_product_from_seller)
+
+
+                        }
+                    }
+                    GenericAdaptor().setHomeProductAdaptor(list, similar_products_rcv)
+                    GenericAdaptor().setHomeProductAdaptor(list, seller_product_rcv)
 
                     mainContainer.isVisible = true
 
@@ -369,6 +424,8 @@ class ProductDetails : BaseActivity() {
 
             }
 
+
+
             override fun onFailure(call: Call<JsonObject>, t: Throwable) {
                 HelpFunctions.ShowLongToast(t.message!!, this@ProductDetails)
                 HelpFunctions.dismissProgressBar()
@@ -378,31 +435,15 @@ class ProductDetails : BaseActivity() {
 
     }
 
-
-
-
-    fun AdAlreadyAddedToWatchList(adreferenceId: String): Boolean {
-        var RetVal = false;
-        try {
-            if (adreferenceId.trim().length > 0) {
-                if (ConstantObjects.userwatchlist != null && ConstantObjects.userwatchlist!!.data.size > 0) {
-                    for (IndWatch in ConstantObjects.userwatchlist!!.data) {
-                        if (IndWatch.advertisement.referenceId!!.trim().lowercase()
-                                .equals(adreferenceId.trim().lowercase())
-                        ) {
-                            RetVal = true
-                            break
-                        } else {
-                            RetVal = false
-                            continue
-                        }
-                    }
-                }
-            }
-        } catch (ex: Exception) {
-            throw  ex
-        }
-        return RetVal
+    private fun activeWatch(view:FloatingActionButton) {
+        val myFabSrc= ContextCompat.getDrawable(this@ProductDetails, R.drawable.starcolor)
+        val willBeWhite = myFabSrc!!.constantState!!.newDrawable()
+        willBeWhite.mutate()
+            .setColorFilter(ContextCompat.getColor(this@ProductDetails, R.color.bg), PorterDuff.Mode.MULTIPLY)
+        view.setImageDrawable(willBeWhite)
     }
+
+
+
 
 }

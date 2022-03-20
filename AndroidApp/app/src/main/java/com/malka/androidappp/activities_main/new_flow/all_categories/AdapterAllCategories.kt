@@ -3,6 +3,7 @@ package com.malka.androidappp.activities_main.new_flow.all_categories
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
 import com.malka.androidappp.botmnav_fragments.home.model.AllCategoriesModel
@@ -39,13 +40,23 @@ class AdapterAllCategories(
             allCategories[position].run {
                 category_name_tv.text = categoryName
                 if (allCategories.get(position).is_select) {
-                    bgline.show()
+                   // bgline.show()
                     is_selectimage.show()
+                    category_icon.borderColor=  ContextCompat.getColor(
+                        context,
+                        R.color.bg
+                    )
 
                 } else {
-                    bgline.hide()
+                   // bgline.hide()
                     is_selectimage.hide()
+                    category_icon.borderColor=  ContextCompat.getColor(
+                        context,
+                        R.color.white
+                    )
                 }
+
+
 
                 if(imagePath.isNullOrEmpty()){
                     category_icon.setImageResource(R.drawable.product_attribute_bg2)

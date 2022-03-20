@@ -25,7 +25,7 @@ data class CreateAdvMainModel(
     val updatedOn: String? = null,
     val updatedBy: String? = null,
     val isActive: Boolean? = false,
-    var Images: List<String>? = null,
+    var images: List<String>? = null,
     val referenceId: String? = null,
     val isWatching: Boolean? = false,
     val Isuserfavorite: Boolean? = false,
