@@ -268,7 +268,7 @@ class BusinessSignupPg3 : AppCompatActivity() {
         val busiContactnum = "+" + busiprimaryContact + getPrimContactInfo
         StaticBusinessRegistration.PrimContactInfo = busiContactnum
         //
-        val malqaa: MalqaApiService = RetrofitBuilder.busiReg()
+        val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
         val respBusiReg: ModelBusinessRegistration = ModelBusinessRegistration(
             alternateEmail = StaticBusinessRegistration.BEmail2,
             bUsername = StaticBusinessRegistration.Busername,

@@ -307,7 +307,7 @@ class HelpFunctions {
         fun GetUserFavourites(context: Fragment) {
             try {
                 val malqa: MalqaApiService =
-                    RetrofitBuilder.getuserfavourites(ConstantObjects.logged_userid)
+                    RetrofitBuilder.GetRetrofitBuilder()
                 val call: Call<FavouriteObject> =
                     malqa.getuserfavourites(ConstantObjects.logged_userid)
                 call.enqueue(object : Callback<FavouriteObject> {
@@ -352,7 +352,7 @@ class HelpFunctions {
                     AdsId,
                     reminderType
                 )
-                val malqa: MalqaApiService = RetrofitBuilder.InsertAdtoUserWatchlist()
+                val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
                 val call: Call<Basicresponse> = malqa.InsertAdtoUserWatchlist(ad)
                 call.enqueue(object : Callback<Basicresponse> {
                     override fun onResponse(
@@ -413,7 +413,7 @@ class HelpFunctions {
             startProgressBar(context as Activity)
 
             try {
-                val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder2()
+                val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
                 val call: Call<Basicresponse> =
                     malqa.DeleteAdFromUserWatchlist(ConstantObjects.logged_userid, AdsId)
                 call.enqueue(object : Callback<Basicresponse> {
@@ -472,7 +472,7 @@ class HelpFunctions {
 
         fun GetUserWatchlist() {
             val malqa: MalqaApiService =
-                RetrofitBuilder.GetRetrofitBuilder2()
+                RetrofitBuilder.GetRetrofitBuilder()
             val call: Call<watchlistobject> =
                 malqa.getUserWatchlist(ConstantObjects.logged_userid)
             call.enqueue(object : Callback<watchlistobject> {
@@ -524,7 +524,7 @@ class HelpFunctions {
                     apiurl = ApiConstants.INSERT_FAVOURTIE_SEARCH_URL;
                 }
 
-                val malqa: MalqaApiService = RetrofitBuilder.InsertToUserFavouritelist(apiurl)
+                val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
                 val call: Call<Basicresponse> = malqa.InsertToUserFavouritelist(ad)
                 call.enqueue(object : Callback<Basicresponse> {
                     override fun onResponse(
@@ -604,7 +604,7 @@ class HelpFunctions {
                     apiurl = ApiConstants.REMOVE_FAVOURTIE_SEARCH_URL;
                 }
 
-                val malqa: MalqaApiService = RetrofitBuilder.DeleteFromUserFavouritelist(apiurl)
+                val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
                 val call: Call<BasicResponseInt> =
                     malqa.DeleteFromUserFavouritelist(
                         sellerid,
@@ -685,7 +685,7 @@ class HelpFunctions {
         }
         fun GetUserCreditCards(context: Fragment) {
             try {
-                val malqa: MalqaApiService = RetrofitBuilder.GetUserCreditCards()
+                val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
                 val call: Call<CreditCardResponse> =
                     malqa.GetUserCreditCards(ConstantObjects.logged_userid)
                 val response: Response<CreditCardResponse> = call.execute();
@@ -718,7 +718,7 @@ class HelpFunctions {
         fun InsertUserCreditCard(cardinfo: CreditCardRequestModel, context: Fragment): Boolean1 {
             var RetVal: Boolean1 = false
             try {
-                val malqa: MalqaApiService = RetrofitBuilder.InsertUserCreditCard()
+                val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
                 val call: Call<Basicresponse> = malqa.InsertUserCreditCard(cardinfo)
                 val response: Response<Basicresponse> = call.execute();
                 if (response.isSuccessful) {
@@ -753,7 +753,7 @@ class HelpFunctions {
         fun DeleteUserCreditCard(CardId: String, context: Fragment): Boolean1 {
             var RetVal: Boolean1 = false;
             try {
-                val malqa: MalqaApiService = RetrofitBuilder.DeleteUserCreditCard()
+                val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
                 val call: Call<Basicresponse> = malqa.DeleteUserCreditCard(CardId)
                 val response: Response<Basicresponse> = call.execute();
 
@@ -795,7 +795,7 @@ class HelpFunctions {
             try {
                 val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
                 StrictMode.setThreadPolicy(policy)
-                val malqa: MalqaApiService = RetrofitBuilder.GetUsersCartList()
+                val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
                 val call: Call<AddToCartResponseModel> =
                     malqa.GetUsersCartList(ConstantObjects.logged_userid)
                 val response: Response<AddToCartResponseModel> = call.execute();
@@ -830,7 +830,7 @@ class HelpFunctions {
             try {
                 val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
                 StrictMode.setThreadPolicy(policy)
-                val malqa: MalqaApiService = RetrofitBuilder.AddToUserCart()
+                val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
                 val call: Call<Basicresponse> = malqa.AddToUserCart(cartiteminfo)
                 val response: Response<Basicresponse> = call.execute();
                 if (response.isSuccessful) {
@@ -867,7 +867,7 @@ class HelpFunctions {
             try {
                 val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
                 StrictMode.setThreadPolicy(policy)
-                val malqa: MalqaApiService = RetrofitBuilder.DeleteFromUserCart()
+                val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
                 val call: Call<Basicresponse> = malqa.DeleteFromUserCart(CartId)
                 val response: Response<Basicresponse> = call.execute();
                 if (response.isSuccessful) {
@@ -907,7 +907,7 @@ class HelpFunctions {
         fun PostUserCheckOut(checkoutinfo: CheckoutRequestModel, context: Fragment): Boolean1 {
             var RetVal: Boolean1 = false
             try {
-                val malqa: MalqaApiService = RetrofitBuilder.PostUserCheckOut()
+                val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
                 val call: Call<Basicresponse> = malqa.PostUserCheckOut(checkoutinfo)
                 val response: Response<Basicresponse> = call.execute();
                 if (response.isSuccessful) {
@@ -945,7 +945,7 @@ class HelpFunctions {
         ): Boolean1 {
             var RetVal: Boolean1 = false
             try {
-                val malqa: MalqaApiService = RetrofitBuilder.AddNewShippingAddress()
+                val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
                 val call: Call<Basicresponse> = malqa.AddNewShippingAddress(shippingaddress)
                 val response: Response<Basicresponse> = call.execute();
                 if (response.isSuccessful) {
@@ -968,7 +968,7 @@ class HelpFunctions {
         }
 
         fun GetUserShippingAddress(context: Fragment) {
-            val malqaa: MalqaApiService = RetrofitBuilder.getaddress(ConstantObjects.logged_userid)
+            val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
             val call: Call<ModelShipAddresses> =
                 malqaa.getshipaddress(ConstantObjects.logged_userid)
             val response: Response<ModelShipAddresses> = call.execute();

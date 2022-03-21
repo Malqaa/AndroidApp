@@ -64,7 +64,7 @@ class MyProduct : Fragment(), AdapterMyProduct.OnItemClickListener {
 
     fun getAllProducts() {
 
-        val malqaa: MalqaApiService = RetrofitBuilder.getAllProducts()
+        val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
         val call: Call<AllProductsResponseBack> = malqaa.getAllProducts()
 
         call.enqueue(object : Callback<AllProductsResponseBack> {

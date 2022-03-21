@@ -48,7 +48,7 @@ class WonFrag : Fragment() {
     }
 
     fun WonApiCall() {
-        val malqaa: MalqaApiService = RetrofitBuilder.getWonLost(ConstantObjects.logged_userid)
+        val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
         val call: Call<ModelWonLost> = malqaa.getWonLost(ConstantObjects.logged_userid)
         val wonRecyclerr: RecyclerView = requireActivity().findViewById(R.id.recyclerViewWon)
 

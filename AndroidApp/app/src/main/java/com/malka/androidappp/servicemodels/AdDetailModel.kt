@@ -1,5 +1,5 @@
 package com.malka.androidappp.servicemodels
-
+import com.malka.androidappp.helper.HelpFunctions
 data class AdDetailModel(
     val createdOn: String? = null,
     val address: String? = null,
@@ -54,4 +54,17 @@ data class AdDetailModel(
     val homepageImage: String? = null,
 
 
-)
+){
+
+    val createdOnFormated: String
+        get() {
+            val result: String = createdOn!!.substring(0, createdOn.indexOf("."))
+
+            return  HelpFunctions.FormatDateTime(
+                result,
+                HelpFunctions.datetimeformat_24hrs,
+                HelpFunctions.datetimeformat_mmddyyyy
+            )
+        }
+
+}

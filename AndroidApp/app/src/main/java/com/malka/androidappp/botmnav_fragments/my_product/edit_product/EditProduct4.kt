@@ -113,7 +113,7 @@ class EditProduct4 : Fragment() {
 
     fun getProductbyidapi(advid: String, loginUserId: String) {
 
-        val malqa: MalqaApiService = RetrofitBuilder.getProductDetailById(advid, loginUserId)
+        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
         val call: Call<ProductResponseBack> = malqa.getProductDetailById(advid, loginUserId)
 
         call.enqueue(object : Callback<ProductResponseBack> {

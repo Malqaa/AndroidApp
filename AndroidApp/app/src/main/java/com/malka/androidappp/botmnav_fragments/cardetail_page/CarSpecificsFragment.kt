@@ -9,8 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.cardview.widget.CardView
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -23,20 +21,16 @@ import com.malka.androidappp.botmnav_fragments.cardetail_page.bottomsheet_bidopt
 import com.malka.androidappp.botmnav_fragments.question_ans_comnt.get_models_quesans.ModelQuesAnswr
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.helper.HelpFunctions
-import com.malka.androidappp.imageslider.ViewPagerAdapter
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.constants.ApiConstants
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.servicemodels.ConstantObjects
 import com.malka.androidappp.servicemodels.addtocart.InsertToCartRequestModel
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.carspce_card2.*
 import kotlinx.android.synthetic.main.carspec_card1.*
-import kotlinx.android.synthetic.main.carspec_card3.*
 import kotlinx.android.synthetic.main.carspec_card5.*
 import kotlinx.android.synthetic.main.carspec_card6.*
 import kotlinx.android.synthetic.main.carspec_card8.*
-import kotlinx.android.synthetic.main.carsspec_card4.*
 import kotlinx.android.synthetic.main.fragment_car_specifics.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -589,7 +583,7 @@ class CarSpecificsFragment : Fragment(), BottomsheetDialogfragClass.BottomSheetL
     //getBidPriceApiCall
     fun getcurrentbidingprice() {
 
-        val malqaa: MalqaApiService = RetrofitBuilder.getBidingbyAdId(AdvId)
+        val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
         val call: Call<ModelBidingResponse> = malqaa.getbidgpricebyAdvId(AdvId)
 
         call.enqueue(object : Callback<ModelBidingResponse> {
@@ -635,7 +629,7 @@ class CarSpecificsFragment : Fragment(), BottomsheetDialogfragClass.BottomSheetL
     // To get total count of questions
     fun quesAnss(adsId: String) {
         val malqaa: MalqaApiService =
-            RetrofitBuilder.getQuesAnsComnt(adsId, ConstantObjects.logged_userid)
+            RetrofitBuilder.GetRetrofitBuilder()
         val call: Call<ModelQuesAnswr> = malqaa.quesAns(adsId, ConstantObjects.logged_userid)
 
         call.enqueue(object : Callback<ModelQuesAnswr> {
@@ -667,7 +661,7 @@ class CarSpecificsFragment : Fragment(), BottomsheetDialogfragClass.BottomSheetL
 
     // Add seller to favorites
     fun addSellerFav() {
-        val malqaa: MalqaApiService = RetrofitBuilder.addSellerToFav()
+        val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
 
         val call: Call<ModelAddSellerFav> = malqaa.addSellerFav(
             ModelAddSellerFav(
@@ -757,7 +751,7 @@ class CarSpecificsFragment : Fragment(), BottomsheetDialogfragClass.BottomSheetL
 
     private fun getSellerByID(id: String) {
 
-        val malqa: MalqaApiService = RetrofitBuilder.getAdSellerByID(id)
+        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
         val call: Call<ModelSellerDetails> = malqa.getAdSellerByID(id)
 
         call.enqueue(object : Callback<ModelSellerDetails> {

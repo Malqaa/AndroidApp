@@ -107,7 +107,7 @@ class EditProduct5 : Fragment() {
         val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
         val currentDate = sdf.format(Date())
 
-        val malqaa: MalqaApiService = RetrofitBuilder.editProduct()
+        val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
         val resp = ModelEditProduct(
             id = StaticClassProductCreate.id,
             userId = StaticClassProductCreate.userId,
@@ -216,7 +216,7 @@ class EditProduct5 : Fragment() {
 
     fun getProductbyidapi(advid: String, loginUserId: String) {
 
-        val malqa: MalqaApiService = RetrofitBuilder.getProductDetailById(advid, loginUserId)
+        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
         val call: Call<ProductResponseBack> = malqa.getProductDetailById(advid, loginUserId)
 
         call.enqueue(object : Callback<ProductResponseBack> {

@@ -8,11 +8,11 @@
     android:orientation="vertical"
     tools:context=".botmnav_fragments.browse_market.BrowseMarketFragment">
 
-    <RelativeLayout
+    <androidx.appcompat.widget.Toolbar
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/_10sdp">
+        android:padding="@dimen/_5sdp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -24,12 +24,11 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical">
 
-                <ImageButton
+                <ImageView
                     android:id="@+id/back_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/backarrow1"
-      />
+                    android:background="@drawable/backarrow1" />
 
 
                 <TextView
@@ -67,8 +66,7 @@
             android:src="@drawable/search_toolbar"
             app:tint="@color/gray_light" />
 
-    </RelativeLayout>
-
+    </androidx.appcompat.widget.Toolbar>
 
 
     <LinearLayout
@@ -124,7 +122,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewmarket"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_5sdp" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/category_filter"

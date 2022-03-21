@@ -95,7 +95,7 @@ class GiveFeedback : Fragment() {
 
     private fun giveFeedBack() {
         try {
-            val malqaa: MalqaApiService = RetrofitBuilder.giveFeedback()
+            val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
             val resp = ModelGiveFeedBack(
                 loginUserId = ConstantObjects.logged_userid,
                 sellerId = SharedPreferencesStaticClass.ad_userid,

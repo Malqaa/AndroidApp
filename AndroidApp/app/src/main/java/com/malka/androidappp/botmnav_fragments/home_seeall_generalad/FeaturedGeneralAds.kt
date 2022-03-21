@@ -47,7 +47,7 @@ class FeaturedGeneralAds : Fragment() {
         var reyclerviewgeneral: RecyclerView =
             requireActivity().findViewById(R.id.recylerview_featured_general)
         try {
-            val malqa: MalqaApiService = RetrofitBuilder.GetGeneralAds()
+            val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
             val call: Call<generalads> = malqa.GetGeneralAds()
             try {
                 call.enqueue(object : Callback<generalads> {

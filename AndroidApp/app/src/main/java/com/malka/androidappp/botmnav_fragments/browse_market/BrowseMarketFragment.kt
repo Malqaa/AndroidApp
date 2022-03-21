@@ -106,7 +106,7 @@ class BrowseMarketFragment : BaseActivity() {
         val requestbody: SearchRequestModel =
             SearchRequestModel(category, "", "", "", "", "", "", "")
 
-        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder2()
+        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
         val call: Call<SearchRespone> = malqa.categorylist(requestbody)
         call.enqueue(object : Callback<SearchRespone> {
             override fun onFailure(call: Call<SearchRespone>, t: Throwable) {
@@ -159,7 +159,7 @@ class BrowseMarketFragment : BaseActivity() {
         HelpFunctions.startProgressBar(this)
 
 
-        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder2()
+        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
         val call: Call<CategoryResponse> = malqa.searchcategorylist(searchquery)
         call.enqueue(object : Callback<CategoryResponse> {
             override fun onFailure(call: Call<CategoryResponse>, t: Throwable) {
@@ -240,7 +240,7 @@ class BrowseMarketFragment : BaseActivity() {
     fun addSearchQueryFav(searchQuery: String) {
         try {
 
-            val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder2()
+            val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
 
             val call: Call<ModelAddSearchFav> = malqaa.addSearchFav(
                 ModelAddSearchFav(

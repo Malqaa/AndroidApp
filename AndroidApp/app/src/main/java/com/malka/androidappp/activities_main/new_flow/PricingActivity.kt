@@ -461,7 +461,7 @@ class PricingActivity : BaseActivity() {
 
         HelpFunctions.startProgressBar(this)
 
-        val malqa = RetrofitBuilder.GetRetrofitBuilder2()
+        val malqa = RetrofitBuilder.GetRetrofitBuilder()
 
         val holder_name = bottomSheetDialog.account_holder_name.text.toString()
         val nameBank = bottomSheetDialog.bank_name.text.toString()
@@ -529,7 +529,7 @@ class PricingActivity : BaseActivity() {
 
         HelpFunctions.startProgressBar(this)
 
-        val malqa = RetrofitBuilder.GetRetrofitBuilder2()
+        val malqa = RetrofitBuilder.GetRetrofitBuilder()
         val call = malqa.getBankDetail(ConstantObjects.logged_userid)
 
 

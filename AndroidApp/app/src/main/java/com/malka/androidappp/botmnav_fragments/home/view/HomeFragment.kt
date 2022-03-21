@@ -235,7 +235,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee),
     fun BindFavouriteCarData() {
         var recyclerCarfeatured = reyclerviewcarfeature
         try {
-            val malqa: MalqaApiService = RetrofitBuilder.GetFeaturedMotorsAds()
+            val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
             val call: Call<favouritecars> = malqa.GetFeaturedMotorsAds()
             try {
                 call.enqueue(object : Callback<favouritecars> {
@@ -297,7 +297,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee),
     fun BindFavouritePropertyData() {
         var recyclerProperty = reyclerviewfeatureprop
         try {
-            val malqa: MalqaApiService = RetrofitBuilder.GetFeaturedPropertyAds()
+            val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
             val call: Call<favouriteproperties> = malqa.GetFeaturedPropertyAds()
             try {
                 call.enqueue(object : Callback<favouriteproperties> {
@@ -359,7 +359,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee),
         var reyclerviewrecent = reyclerviewrecentads
         try {
 
-            val malqa: MalqaApiService = RetrofitBuilder.GetRecentAds()
+            val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
             val call: Call<recentlisting> = malqa.GetRecentAds()
             try {
                 call.enqueue(object : Callback<recentlisting> {
@@ -586,7 +586,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee),
         HelpFunctions.startProgressBar(this.requireActivity())
 
 
-        val malqaa = RetrofitBuilder.GetRetrofitBuilder2()
+        val malqaa = RetrofitBuilder.GetRetrofitBuilder()
         val call: Call<AllCategoriesResponseBack> = malqaa.getAllCategories()
 
         call.enqueue(object : Callback<AllCategoriesResponseBack> {
@@ -646,7 +646,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee),
 
     fun getAllAdsData() {
 
-        val malqa: MalqaApiService = RetrofitBuilder.GetAllAds()
+        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
 
         val call: Call<GetAllAds> = malqa.GetAllAds(ConstantObjects.logged_userid)
         call.enqueue(object : Callback<GetAllAds> {

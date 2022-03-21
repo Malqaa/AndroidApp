@@ -324,7 +324,7 @@ class ProductDetail : Fragment(), BottomsheetDialogfragClass.BottomSheetListener
 
     private fun getProductbyidapi(advid: String, loginUserId: String) {
         try {
-            val malqa: MalqaApiService = RetrofitBuilder.getProductDetailById(advid, loginUserId)
+            val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
             val call: Call<ProductResponseBack> = malqa.getProductDetailById(advid, loginUserId)
 
             call.enqueue(object : Callback<ProductResponseBack> {
@@ -507,7 +507,7 @@ class ProductDetail : Fragment(), BottomsheetDialogfragClass.BottomSheetListener
     private fun getcurrentbidingprice() {
 
         try {
-            val malqaa: MalqaApiService = RetrofitBuilder.getBidingbyAdId(AdvId)
+            val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
             val call: Call<ModelBidingResponse> = malqaa.getbidgpricebyAdvId(AdvId)
 
             call.enqueue(object : Callback<ModelBidingResponse> {
@@ -552,7 +552,7 @@ class ProductDetail : Fragment(), BottomsheetDialogfragClass.BottomSheetListener
     private fun quesAnss(adsId: String) {
         try {
             val malqaa: MalqaApiService =
-                RetrofitBuilder.getQuesAnsComnt(adsId, ConstantObjects.logged_userid)
+                RetrofitBuilder.GetRetrofitBuilder()
 
             val call: Call<ModelQuesAnswr> = malqaa.quesAns(adsId, ConstantObjects.logged_userid)
 
@@ -641,7 +641,7 @@ class ProductDetail : Fragment(), BottomsheetDialogfragClass.BottomSheetListener
 
     // Add seller to favorites
     fun addSellerFav() {
-        val malqaa: MalqaApiService = RetrofitBuilder.addSellerToFav()
+        val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
 
         val call: Call<ModelAddSellerFav> = malqaa.addSellerFav(
             ModelAddSellerFav(
@@ -672,7 +672,7 @@ class ProductDetail : Fragment(), BottomsheetDialogfragClass.BottomSheetListener
 
     private fun getSellerByID(id: String) {
 
-        val malqa: MalqaApiService = RetrofitBuilder.getAdSellerByID(id)
+        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
         val call: Call<ModelSellerDetails> = malqa.getAdSellerByID(id)
 
         call.enqueue(object : Callback<ModelSellerDetails> {

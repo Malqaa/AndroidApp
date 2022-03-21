@@ -242,7 +242,7 @@ class ProductDetails : BaseActivity() {
     fun getadbyidapi(advid: String, template: String) {
         HelpFunctions.startProgressBar(this)
 
-        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder2()
+        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
         val call = malqa.getAdDetailById(advid, template,ConstantObjects.logged_userid)
         call.enqueue(object : Callback<JsonObject> {
             @SuppressLint("UseRequireInsteadOfGet", "SetTextI18n")
@@ -342,11 +342,7 @@ class ProductDetails : BaseActivity() {
                         description_tv.text = description
                         itemviews_tv.text =
                             getString(R.string.itemView, itemviews.toString().toInt())
-                        date.text = HelpFunctions.FormatDateTime(
-                            createdOn!!,
-                            HelpFunctions.datetimeformat_24hrs_7milliseconds_timezone,
-                            HelpFunctions.datetimeformat_mmddyyyy
-                        )
+                        date.text =createdOnFormated
                         is_watch_iv. setOnClickListener {
                             if (HelpFunctions.AdAlreadyAddedToWatchList(AdvId)) {
                                 HelpFunctions.DeleteAdFromWatchlist(

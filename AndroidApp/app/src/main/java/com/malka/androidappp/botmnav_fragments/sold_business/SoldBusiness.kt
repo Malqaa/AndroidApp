@@ -47,7 +47,7 @@ class SoldBusiness : Fragment() {
 
 
     fun getSoldItemsApi() {
-        val malqaa: MalqaApiService = RetrofitBuilder.getSolditembyId(ConstantObjects.logged_userid)
+        val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
         val call: Call<ModelSoldUnsold> = malqaa.getsolditemsbyId(ConstantObjects.logged_userid)
         val soldBusinessRecycler: RecyclerView =
             requireActivity().findViewById(R.id.sold_business_recycler)

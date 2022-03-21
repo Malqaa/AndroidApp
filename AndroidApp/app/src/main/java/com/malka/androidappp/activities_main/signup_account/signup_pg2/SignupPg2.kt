@@ -93,7 +93,7 @@ class SignupPg2 : AppCompatActivity() {
 
     //////////////////////////////////////Api Post Verify//////////////////////////////////////////////////
     fun apicallSignup2() {
-        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder2()
+        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
         val userId: String? = intent.getStringExtra("userid")
         val otpcode: String? = intent.getStringExtra("datacode")
         val call: Call<PostReqVerifyCode> = malqa.verifycode(PostReqVerifyCode(userId!!, otpcode!!))
@@ -151,7 +151,7 @@ class SignupPg2 : AppCompatActivity() {
 
     fun resendCodeApi() {
 
-        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder2()
+        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
         val email: String? = intent.getStringExtra("dataemail")
         val passcode: String? = intent.getStringExtra("datapassword")
         val resendmodel = ResendCodeDataModel(email!!, passcode!!)

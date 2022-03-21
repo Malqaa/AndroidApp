@@ -118,10 +118,10 @@ object ApiConstants {
     const val POST_MAX_BIDING_PRICE = "placebid"
 
     const val GET_UNSOLDITEMS_BASEURL = ACCOUNT_BASE_URL
-    const val GET_UNSOLDITEMS_ENDPOINT = "soldunsolditems"
+    const val GET_UNSOLDITEMS_ENDPOINT = "Accounts/soldunsolditems"
 
     const val GET_SOLDITEMS_BASEURL = ACCOUNT_BASE_URL
-    const val GET_SOLDITEMS_ENDPOINT = "soldunsolditems"
+    const val GET_SOLDITEMS_ENDPOINT = "Accounts/soldunsolditems"
 
     const val POST_BUSINESS_USER_REGISTRATION_BASEURL = API_BASE_URL + "BusinessUser/"
     const val POST_BUSINESS_USER_REGISTRATION_ENDPOINT = "Insertbusinessuser"

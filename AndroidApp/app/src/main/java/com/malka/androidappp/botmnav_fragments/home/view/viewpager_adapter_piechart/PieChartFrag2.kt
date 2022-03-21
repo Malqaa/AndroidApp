@@ -37,7 +37,7 @@ class PieChartFrag2 : Fragment() {
 
 
     fun getTotalOnlineUsersApi(){
-    val malqaa: MalqaApiService = RetrofitBuilder.getTotalOnlineUser()
+    val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
     val call:Call<ModelGetTotalOnlineUsers> = malqaa.GetTotalOnlineUers()
 
     call.enqueue(object : Callback<ModelGetTotalOnlineUsers>{

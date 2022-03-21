@@ -189,7 +189,7 @@ class ProfileFrag : Fragment() {
     //Date: 11/04/2020
     private fun GetUserInfo(userid: String) {
         try {
-            val malqa: MalqaApiService = RetrofitBuilder.getUser(userid)
+            val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
             val call: Call<UserObject> = malqa.getuser(userid)
             call.enqueue(object : Callback<UserObject> {
                 @SuppressLint("NewApi")
@@ -267,7 +267,7 @@ class ProfileFrag : Fragment() {
     //Date: 11/13/2020
     private fun GetUserFeedBack(userid: String) {
         try {
-            val malqa: MalqaApiService = RetrofitBuilder.getuserfeedback(userid)
+            val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
             val call: Call<FeedbackObject> = malqa.getuserfeedback(userid)
             call.enqueue(object : Callback<FeedbackObject> {
                 override fun onFailure(call: Call<FeedbackObject>, t: Throwable) {
@@ -612,7 +612,7 @@ class ProfileFrag : Fragment() {
 
     private fun updateProfilePicApiCall() {
         try {
-            val malqaa: MalqaApiService = RetrofitBuilder.userimageupload()
+            val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
             val resp = profileImage
 
             val call: Call<UserImageResponseBack> =

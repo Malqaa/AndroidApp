@@ -52,7 +52,7 @@ class ItemImSelling : Fragment(), AdapterImSelling.OnItemClickListener {
 
     private fun getSellerByID(id: String, loggedUserID: String) {
 
-        val malqa: MalqaApiService = RetrofitBuilder.getAdSeller(id, loggedUserID)
+        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
         val call: Call<SellerResponseBack> = malqa.getAdSeller(id, loggedUserID)
 
         call.enqueue(object : Callback<SellerResponseBack> {

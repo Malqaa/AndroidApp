@@ -131,7 +131,7 @@ class ListanItem : BaseActivity() {
         HelpFunctions.startProgressBar(this)
 
         try {
-            val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder2()
+            val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
 
             val call: Call<CategoryTagsModel> = malqaa.getCategoryTags(category)
 

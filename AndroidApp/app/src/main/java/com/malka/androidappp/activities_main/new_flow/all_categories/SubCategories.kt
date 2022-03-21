@@ -54,7 +54,7 @@ class SubCategories :  BaseActivity() , AdapterSubCategories.OnItemClickListener
         try {
 
             val malqaa: MalqaApiService =
-                RetrofitBuilder.getAllCategoriesByTemplateID()
+                RetrofitBuilder.GetRetrofitBuilder()
 
             val call: Call<AllCategoriesResponseBack> =
                 malqaa.getAllCategoriesByTemplateID(categoryKey,"en")

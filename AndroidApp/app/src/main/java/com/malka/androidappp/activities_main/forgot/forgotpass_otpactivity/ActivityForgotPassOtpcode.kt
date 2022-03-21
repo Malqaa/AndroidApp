@@ -64,7 +64,7 @@ class ActivityForgotPassOtpcode : AppCompatActivity() {
 
     //////////////////////////////////////Api Post Verify//////////////////////////////////////////////////
     fun verifyotpcode() {
-        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder2()
+        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
         val userId: String? = intent.getStringExtra("userid")
         val otpcode: String = pinview234.getValue().toString().trim()
         val call: Call<PostReqVerifyCode> = malqa.verifycode(PostReqVerifyCode(userId!!, otpcode))

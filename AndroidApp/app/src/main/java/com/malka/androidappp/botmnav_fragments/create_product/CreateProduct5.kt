@@ -102,7 +102,7 @@ class CreateProduct5 : Fragment() {
         val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
         val currentDate = sdf.format(Date())
 
-        val malqaa: MalqaApiService = RetrofitBuilder.createProduct()
+        val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
         val resp = ModelCreateProduct(
             userId = StaticClassProductCreate.userId,
             code = StaticClassProductCreate.code,

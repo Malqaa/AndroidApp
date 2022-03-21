@@ -10,9 +10,11 @@ import com.malka.androidappp.servicemodels.AdDetailModel
 import com.malka.androidappp.servicemodels.ConstantObjects
 import com.malka.androidappp.servicemodels.WatchList
 import kotlinx.android.synthetic.main.fragment_watchlist.*
+import kotlinx.android.synthetic.main.toolbar_main.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import androidx.navigation.fragment.findNavController
 
 
 class WatchlistFragment : Fragment(R.layout.fragment_watchlist) {
@@ -22,6 +24,13 @@ class WatchlistFragment : Fragment(R.layout.fragment_watchlist) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        toolbar_title.text = getString(R.string.favorite)
+        back_btn.setOnClickListener {
+            findNavController().popBackStack()
+
+        }
+
         if(!EventBus.getDefault().isRegistered(this)){
             EventBus.getDefault().register(this)
         }
@@ -52,10 +61,9 @@ class WatchlistFragment : Fragment(R.layout.fragment_watchlist) {
 
     }
 
-
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         EventBus.getDefault().unregister(this)
-    }
 
+    }
 }

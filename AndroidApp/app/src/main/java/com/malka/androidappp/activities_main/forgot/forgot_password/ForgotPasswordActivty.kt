@@ -85,7 +85,7 @@ class ForgotPasswordActivty : AppCompatActivity() {
 
         val emailfogotpass: String = editText4.text.toString().trim()
         val modeldataitem = PostForgotpassModel(emailfogotpass, "String")
-        val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder2()
+        val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
         val call: Call<ForgotPassResponseModel> = malqaa.forgotpassemail(modeldataitem)
 
 

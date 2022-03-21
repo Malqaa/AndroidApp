@@ -290,7 +290,7 @@ class EditProfileDetailsFragment : Fragment() {
     fun updateapicall() {
         var userprop: UserProperties? = ConstantObjects.userobj?.data;
         if (userprop != null) {
-            val malqaa: MalqaApiService = RetrofitBuilder.updaateuserSignup()
+            val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
             val userId4: String = userprop.id
             val firstname: String = fn_id.text.toString().trim()
             val lastnaam: String = ln_id.text.toString().trim()
@@ -368,7 +368,7 @@ class EditProfileDetailsFragment : Fragment() {
     }
 
     fun getuserprofiledataapi() {
-        val malqa: MalqaApiService = RetrofitBuilder.getUser(ConstantObjects.logged_userid)
+        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
         val call: Call<UserObject> = malqa.getuser(ConstantObjects.logged_userid)
         call.enqueue(object : Callback<UserObject> {
             override fun onResponse(call: Call<UserObject>, response: Response<UserObject>) {

@@ -128,7 +128,7 @@ class SignupPg3 : BaseActivity() {
         HelpFunctions.startProgressBar(this)
 
 
-        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder2()
+        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
         val call = malqa.getRegion(key, culture)
         call.enqueue(object : retrofit2.Callback<CountryRespone?> {
             override fun onFailure(call: retrofit2.Call<CountryRespone?>?, t: Throwable) {
@@ -179,7 +179,7 @@ class SignupPg3 : BaseActivity() {
         HelpFunctions.startProgressBar(this)
 
 
-        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder2()
+        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
         val call = malqa.getCity(key, culture())
         call.enqueue(object : retrofit2.Callback<CountryRespone?> {
             override fun onFailure(call: retrofit2.Call<CountryRespone?>?, t: Throwable) {
@@ -321,7 +321,7 @@ class SignupPg3 : BaseActivity() {
     fun updateapicall() {
 
 
-        val malqaa: MalqaApiService = RetrofitBuilder.updaateuserSignup()
+        val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
         //  val userId4 = intent.getStringExtra("useridupdate")
         val userId4 = "userId4"
         val fullnaam4 = fullNamee.text.toString().trim()

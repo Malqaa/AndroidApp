@@ -104,7 +104,7 @@ class QuesAnsFragment : BaseActivity(), AdapterQuesAns.OnQAPostItemClickLisenten
 //        Toast.makeText(this, "BuyersId: "+buyersId, Toast.LENGTH_LONG).show()
 
         val insertAskQuesinModel = ModelAskQues(adsId, buyersId, quesgetInput)
-        val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder2()
+        val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
 
         val call: Call<ModelAskQues> = malqaa.askQues(insertAskQuesinModel)
 
@@ -128,7 +128,7 @@ class QuesAnsFragment : BaseActivity(), AdapterQuesAns.OnQAPostItemClickLisenten
 
     fun quesAnss(adsId: String) {
         val malqaa: MalqaApiService =
-            RetrofitBuilder.GetRetrofitBuilder2()
+            RetrofitBuilder.GetRetrofitBuilder()
 
         val call: Call<ModelQuesAnswr> = malqaa.quesAns(adsId, ConstantObjects.logged_userid)
 
@@ -169,7 +169,7 @@ class QuesAnsFragment : BaseActivity(), AdapterQuesAns.OnQAPostItemClickLisenten
         val ansvalue = editTextques.text.toString().trim()
         askques_bottom.visibility = View.GONE
 
-        val malqaa = RetrofitBuilder.GetRetrofitBuilder2()
+        val malqaa = RetrofitBuilder.GetRetrofitBuilder()
 
         val call: Call<ModelPostAns> = malqaa.postAnsByQid(
             SharedPreferencesStaticClass.getReqQuestionId_toReplyAns,
@@ -196,7 +196,7 @@ class QuesAnsFragment : BaseActivity(), AdapterQuesAns.OnQAPostItemClickLisenten
         val getCommentValue: String = editTextques.getText().toString().trim()
         askques_bottom.visibility = View.GONE
 
-        val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder2()
+        val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
         val call: Call<ModelPostComment> = malqaa.postCommentByQId(
             SharedPreferencesStaticClass.getReqQuestionId_toComment,
             getCommentValue,

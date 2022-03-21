@@ -48,7 +48,7 @@ class SplashActivity : BaseActivity() {
     fun getCountry(culture: String) {
 
 
-        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder2()
+        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
         val call = malqa.getCountry(culture)
         call.enqueue(object : retrofit2.Callback<CountryRespone?> {
             override fun onFailure(call: retrofit2.Call<CountryRespone?>?, t: Throwable) {

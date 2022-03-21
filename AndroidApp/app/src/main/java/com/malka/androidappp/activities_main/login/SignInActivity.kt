@@ -167,7 +167,7 @@ open class SignInActivity : BaseActivity() {
     fun MakeLoginAPICall(email: String, password: String, context: Context) {
         HelpFunctions.startProgressBar(this)
 
-        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder2()
+        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
         val login = LoginClass(email, password)
 
         val call: Call<LoginResponseBack?>? = malqa.loginUser(login)

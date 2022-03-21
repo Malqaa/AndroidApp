@@ -35,7 +35,7 @@ class PieChartFrag3 : Fragment() {
     }
 
     fun getTotalMembersApi() {
-        val malqaa: MalqaApiService = RetrofitBuilder.getTotalMembers()
+        val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
         val call: Call<ModelGetTotalMembers> = malqaa.getTotalMembers()
         call.enqueue(object : Callback<ModelGetTotalMembers> {
             override fun onResponse(

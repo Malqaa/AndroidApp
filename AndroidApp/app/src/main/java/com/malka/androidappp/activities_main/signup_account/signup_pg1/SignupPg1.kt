@@ -140,7 +140,7 @@ class SignupPg1 : SignInActivity() {
     fun apicallcreateuser() {
         HelpFunctions.startProgressBar(this)
 
-        val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder2()
+        val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
         val emailId = textEmaill.text.toString().trim()
         val mobilenum = PhoneNumber.text.toString().trim()
         val countryCode = PhoneNumber.selectedCountryCode()

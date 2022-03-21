@@ -52,7 +52,7 @@ class GenericAdaptor {
                     }
                 }
                 if (HelpFunctions.AdAlreadyAddedToWatchList(referenceId?:id?:"")) {
-                    is_watch_iv.setImageResource(R.drawable.add_icon)
+                    is_watch_iv.setImageResource(R.drawable.starcolor)
                 } else {
                     is_watch_iv.setImageResource(R.drawable.star)
                 }
@@ -96,11 +96,7 @@ class GenericAdaptor {
                     )
                 }
 
-                date_tv.text = HelpFunctions.FormatDateTime(
-                    createdOn!!,
-                    HelpFunctions.datetimeformat_24hrs_7milliseconds_timezone,
-                    HelpFunctions.datetimeformat_mmddyyyy
-                )
+                date_tv.text =createdOnFormated
                 product_price.text = "${price!!.toDouble().decimalNumberFormat()} ${
                     context.getString(
                         R.string.Rayal

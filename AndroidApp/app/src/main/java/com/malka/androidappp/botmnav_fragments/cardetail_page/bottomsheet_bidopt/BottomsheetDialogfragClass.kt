@@ -92,7 +92,7 @@ class BottomsheetDialogfragClass : BottomSheetDialogFragment() {
         val getbidPrice = bidInputText.text.toString().trim()
 
 
-        val malqaa: MalqaApiService = RetrofitBuilder.postBidPrice()
+        val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
         val resp: ModelPostBidPrice = ModelPostBidPrice(
             StoreDataForAdDetail.saveAdvIdforAdDetailBiding,
             "0", getbidPrice, ConstantObjects.logged_userid, "1", 0

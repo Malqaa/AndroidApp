@@ -109,7 +109,7 @@ class AboutTheSeller : Fragment() {
 
     private fun getSellerByID(id: String, loggedUserID: String) {
 
-        val malqa: MalqaApiService = RetrofitBuilder.getAdSeller(id, loggedUserID)
+        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
         val call: Call<SellerResponseBack> = malqa.getAdSeller(id, loggedUserID)
 
         call.enqueue(object : Callback<SellerResponseBack> {
@@ -172,7 +172,7 @@ class AboutTheSeller : Fragment() {
 
     private fun GetUserFeedBack(userid: String) {
         try {
-            val malqa: MalqaApiService = RetrofitBuilder.getuserfeedback(userid)
+            val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
             val call: Call<FeedbackObject> = malqa.getuserfeedback(userid)
             call.enqueue(object : Callback<FeedbackObject> {
                 override fun onFailure(call: Call<FeedbackObject>, t: Throwable) {
