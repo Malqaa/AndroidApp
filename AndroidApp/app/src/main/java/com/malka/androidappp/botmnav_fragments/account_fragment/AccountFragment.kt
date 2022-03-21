@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.login.SignInActivity
 import com.malka.androidappp.activities_main.new_flow.ListanItem
+import com.malka.androidappp.botmnav_fragments.activities_main.business_signup.BusinessAccountCreate
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.servicemodels.ConstantObjects
@@ -158,7 +159,8 @@ class AccountFragment : Fragment() {
         }
 
         switch_accounts_and_business_account.setOnClickListener {
-
+            val intentt = Intent(this.activity, BusinessAccountCreate::class.java)
+            startActivity(intentt)
         }
 
         userType()

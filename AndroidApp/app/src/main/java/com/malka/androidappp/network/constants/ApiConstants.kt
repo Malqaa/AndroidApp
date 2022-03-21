@@ -37,7 +37,7 @@ object ApiConstants {
     const val HOME_GENERAL_ADS_URL = HOME_URL + "RecentListing/"
     const val HOME_ALL_ADS_URL = HOME_URL + "All/"
 
-    const val CREATE_USER_ENDPOINT = "Accounts/register"
+    const val CREATE_USER_ENDPOINT = "Accounts/signUp"
     const val ALL_USER_ENDPOINT = "All"
     const val LOGIN_ENDPOINT = "Accounts/login"
     const val ADDRESS_ENDPOINT = "insertaddress"
@@ -47,7 +47,7 @@ object ApiConstants {
     const val ACCOUNT_BASE_URL = API_BASE_URL + "Accounts/"
     const val VERIFY_API_ENDPOINT = "Accounts/verify"
     const val RESEND_OTPCODE_API_ENDPOINT = "Accounts/ResendCode"
-    const val UPDATEUSER_SIGNUP_ENDPOINT = "Accounts/UpdateUser"
+    const val UPDATEUSER_SIGNUP_ENDPOINT = "Accounts/updatePersonalInfo"
     const val CREATE_GENERAL_ADVERTISEMENT_ENDPOINTT = "CarTemplate/Create"
     const val GET_CATEGORY_LISTING = API_BASE_URL + "SearchFilter/"
     const val GET_CATEGORY_LISTING_ENDPOINT = "SearchFilter/generalsearchfilters"

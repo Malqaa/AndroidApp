@@ -3,18 +3,14 @@ package com.malka.androidappp.botmnav_fragments.activities_main.business_signup
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.view.WindowManager
-import android.widget.Toast
 import com.malka.androidappp.R
 import com.malka.androidappp.helper.hide
 import com.malka.androidappp.helper.show
 import com.malka.androidappp.servicemodels.ConstantObjects
-import kotlinx.android.synthetic.main.activity_business_signup_pg1.*
 import kotlinx.android.synthetic.main.activity_business_signup_pg2.*
-import kotlinx.android.synthetic.main.activity_signup_pg1.*
 
-class BusinessSignupPg2 : AppCompatActivity() {
+class BusinessAccountCreate : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_business_signup_pg2)
@@ -47,7 +43,7 @@ class BusinessSignupPg2 : AppCompatActivity() {
     }
 
     fun BthirdPg() {
-        val intent = Intent(this@BusinessSignupPg2, BusinessSignupPg3::class.java)
+        val intent = Intent(this@BusinessAccountCreate, BusinessSignupPg3::class.java)
         startActivity(intent)
         if (ConstantObjects.currentLanguage == "en") {
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)

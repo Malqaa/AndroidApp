@@ -262,7 +262,7 @@
 
                         <ImageView
                             android:layout_width="@dimen/_15sdp"
-                            android:layout_height="@dimen"
+                            android:layout_height="@dimen/_15sdp"
                             android:layout_gravity="center"
                             android:layout_marginTop="@dimen/_4sdp"
                             android:layout_marginEnd="@dimen/_6sdp"

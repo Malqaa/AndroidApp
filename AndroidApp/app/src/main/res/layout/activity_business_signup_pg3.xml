@@ -145,7 +145,6 @@
     </ScrollView>
 
     <ScrollView
-        android:visibility="gone"
 
         android:id="@+id/scroll1"
         android:layout_width="match_parent"

@@ -151,7 +151,9 @@ class SignupPg1 : SignInActivity() {
             email = emailId,
             phone = fullmobilenum,
             password = passcode,
-            username = usernaam
+            cPassword = passcode,
+            username = usernaam,
+            termsAndConditions = switch_term_condition._getChecked()
         )
         val call: Call<ResponseBody> = malqaa.createuser(createUser)
 
