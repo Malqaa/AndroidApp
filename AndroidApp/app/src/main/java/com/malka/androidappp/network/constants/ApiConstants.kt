@@ -57,7 +57,7 @@ object ApiConstants {
     const val GETUSER_BASEURL = ACCOUNT_BASE_URL
     const val GETUSER_ENDPOINT = "Accounts/GetUser"
     const val FEEDBACK_ENDPOINT = "Auction/"
-    const val FEEDBACK_PARAMETER = "getall"
+    const val FEEDBACK_PARAMETER = "Auction/getall"
     const val USERFEEDBACK_ENDPOINT = API_BASE_URL + FEEDBACK_ENDPOINT
     const val GIVE_FEEDBACK_ENDPOINT = "InsertFeedback"
     const val FAVOURITE_ENDPOINT = "Favourite/"

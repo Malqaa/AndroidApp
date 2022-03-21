@@ -2794,4 +2794,5 @@ Want to start a business account? Create a Business Account
   <string name="Bid_on_price">Bid on price</string>
   <string name="add_to_cart">Add to cart</string>
   <string name="more">More</string>
+    <string name="switch_accounts_and_business_account">Switch accounts and business account</string>
 </resources>

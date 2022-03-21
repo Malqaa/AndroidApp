@@ -157,6 +157,10 @@ class AccountFragment : Fragment() {
             requireActivity().finish()
         }
 
+        switch_accounts_and_business_account.setOnClickListener {
+
+        }
+
         userType()
     }
 

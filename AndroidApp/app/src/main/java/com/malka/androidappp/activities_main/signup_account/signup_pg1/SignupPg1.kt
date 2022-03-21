@@ -166,14 +166,11 @@ class SignupPg1 : SignInActivity() {
 
                     if (data.status_code == 200) {
                         NextAcivityparsedata(data)
-//                              signuppg1ParseNnext()
                     } else {
                         HelpFunctions.ShowLongToast(data.message, this@SignupPg1)
-//                        Toast.makeText(this@SignupPg1, data.message, Toast.LENGTH_LONG).show()
                     }
                 } else {
                     HelpFunctions.ShowLongToast(response.message(), this@SignupPg1)
-//                    Toast.makeText(this@SignupPg1, response.message(), Toast.LENGTH_LONG).show()
                 }
                 HelpFunctions.dismissProgressBar()
 
@@ -183,7 +180,6 @@ class SignupPg1 : SignInActivity() {
                 HelpFunctions.dismissProgressBar()
 
                 t.message?.let { HelpFunctions.ShowLongToast(it, this@SignupPg1) }
-//                Toast.makeText(this@SignupPg1, t.message, Toast.LENGTH_LONG).show()
             }
         })
 
@@ -206,7 +202,7 @@ class SignupPg1 : SignInActivity() {
         val datapassword = textPass.text.toString().trim()
 
         val datamobnum = PhoneNumber.text.toString().trim()
-        val countryCode = PhoneNumber.selectedCountryCode()
+        val countryCode = PhoneNumber._getEndText()
         val fullmobilenum = "+" + countryCode + datamobnum
         val intenttt = Intent(this, SignupPg2::class.java)
         intenttt.putExtra("datacode", datacode)

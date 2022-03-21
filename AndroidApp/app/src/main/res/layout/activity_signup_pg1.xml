@@ -84,6 +84,29 @@
                 app:startIcon="@drawable/ic_user" />
 
             <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
+                android:id="@+id/PhoneNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="@string/PhoneNumber"
+                android:inputType="phone"
+                app:endText="+965"
+                app:imeOptions="done"
+                app:startIcon="@drawable/ic_phone" />
+
+
+
+
+       <!--     <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
+                android:id="@+id/PhoneNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="@string/PhoneNumber"
+                android:inputType="phone"
+                app:viewType="phone" />-->
+
+            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/textEmaill"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -91,16 +114,6 @@
                 android:hint="@string/Email"
                 android:inputType="textEmailAddress"
                 app:startIcon="@drawable/ic_email" />
-
-            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
-                android:id="@+id/PhoneNumber"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:hint="@string/PhoneNumber"
-                android:inputType="phone"
-                app:viewType="phone" />
-
 
             <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/textPass"
