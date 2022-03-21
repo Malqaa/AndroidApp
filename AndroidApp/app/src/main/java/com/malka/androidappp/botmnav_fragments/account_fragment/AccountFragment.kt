@@ -173,6 +173,7 @@ class AccountFragment : Fragment() {
         } else {
             productview.visibility = View.VISIBLE
         }
+
     }
 
 }
