@@ -7,7 +7,6 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -20,7 +19,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.malka.androidappp.R
-import com.malka.androidappp.botmnav_fragments.create_product.CreateProduct2
 import com.malka.androidappp.botmnav_fragments.create_product.ProductDetailModel
 import com.malka.androidappp.botmnav_fragments.create_product.ProductResponseBack
 import com.malka.androidappp.botmnav_fragments.create_product.StaticClassProductCreate
@@ -28,7 +26,6 @@ import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.servicemodels.ConstantObjects
-import kotlinx.android.synthetic.main.fragment_create_product.*
 import kotlinx.android.synthetic.main.fragment_create_product_pg2.*
 import retrofit2.Call
 import retrofit2.Callback

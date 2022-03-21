@@ -2,7 +2,6 @@ package com.malka.androidappp.activities_main
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Bundle
 import android.view.View
@@ -35,7 +34,6 @@ import kotlinx.android.synthetic.main.activity_product_details.*
 import kotlinx.android.synthetic.main.atrribute_item.view.*
 import kotlinx.android.synthetic.main.image_item.view.*
 import kotlinx.android.synthetic.main.image_item.view.loader
-import kotlinx.android.synthetic.main.parenet_category_item.view.*
 import kotlinx.android.synthetic.main.product_detail_2.*
 import org.json.JSONArray
 import org.json.JSONObject

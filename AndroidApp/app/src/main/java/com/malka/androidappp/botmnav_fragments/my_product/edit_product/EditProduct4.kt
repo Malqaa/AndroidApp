@@ -11,7 +11,6 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
-import androidx.viewpager2.adapter.StatefulAdapter
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.malka.androidappp.R
 import com.malka.androidappp.botmnav_fragments.create_product.ProductDetailModel
@@ -20,7 +19,6 @@ import com.malka.androidappp.botmnav_fragments.create_product.StaticClassProduct
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
-import kotlinx.android.synthetic.main.fragment_create_product_pg3.*
 import kotlinx.android.synthetic.main.fragment_create_product_pg4.*
 import retrofit2.Call
 import retrofit2.Callback

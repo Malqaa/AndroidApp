@@ -55,7 +55,7 @@ object ApiConstants {
     const val GET_WATCHLIST_LISTING = API_BASE_URL + "Watchlist/"
     const val GET_WATCHLIST_LISTING_ENDPOINT = "Watchlist/getall"
     const val GETUSER_BASEURL = ACCOUNT_BASE_URL
-    const val GETUSER_ENDPOINT = "GetUser"
+    const val GETUSER_ENDPOINT = "Accounts/GetUser"
     const val FEEDBACK_ENDPOINT = "Auction/"
     const val FEEDBACK_PARAMETER = "getall"
     const val USERFEEDBACK_ENDPOINT = API_BASE_URL + FEEDBACK_ENDPOINT

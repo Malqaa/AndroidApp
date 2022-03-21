@@ -9,7 +9,6 @@ import android.os.Environment
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.login.SignInActivity

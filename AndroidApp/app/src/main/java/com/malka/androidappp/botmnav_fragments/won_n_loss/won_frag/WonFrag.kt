@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
@@ -15,7 +14,6 @@ import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.servicemodels.ConstantObjects
-import kotlinx.android.synthetic.main.fragment_setting.*
 import kotlinx.android.synthetic.main.fragment_won.*
 import retrofit2.Call
 import retrofit2.Callback

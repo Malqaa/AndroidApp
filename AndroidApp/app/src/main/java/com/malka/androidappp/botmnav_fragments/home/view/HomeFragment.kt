@@ -11,7 +11,6 @@ import android.os.Parcelable
 import android.speech.RecognizerIntent
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -21,14 +20,11 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import com.arlib.floatingsearchview.FloatingSearchView
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion
 import com.malka.androidappp.R
-import com.malka.androidappp.activities_main.new_flow.ContinueActivity
 import com.malka.androidappp.botmnav_fragments.browse_market.BrowseMarketFragment
-import com.malka.androidappp.botmnav_fragments.create_ads.StaticClassAdCreate
 import com.malka.androidappp.botmnav_fragments.home.adapter.CarAdvertisementAdapter
 import com.malka.androidappp.botmnav_fragments.home.adapter.PropertyAdvertisementAdapter
 import com.malka.androidappp.botmnav_fragments.home.adapter.RecentAdvertisementAdapter
@@ -45,7 +41,6 @@ import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.helper.widgets.viewpager2.AutoScrollViewPager
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
-import com.malka.androidappp.servicemodels.AdDetailModel
 import com.malka.androidappp.servicemodels.ConstantObjects
 import com.malka.androidappp.servicemodels.home.GetAllAds
 import com.malka.androidappp.servicemodels.home.favouritecars
@@ -53,7 +48,6 @@ import com.malka.androidappp.servicemodels.home.favouriteproperties
 import com.malka.androidappp.servicemodels.home.recentlisting
 import kotlinx.android.synthetic.main.fragment_homee.*
 import kotlinx.android.synthetic.main.parenet_category_item.view.*
-import kotlinx.android.synthetic.main.product_item.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

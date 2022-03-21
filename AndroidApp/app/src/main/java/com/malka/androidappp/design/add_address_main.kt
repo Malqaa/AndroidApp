@@ -12,9 +12,7 @@ import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.network.service.insertAddressResponseBack
-import kotlinx.android.synthetic.main.activity_add_address.*
 import kotlinx.android.synthetic.main.activity_add_address_main.*
-import kotlinx.android.synthetic.main.add_address_design.view.*
 
 class add_address_main : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

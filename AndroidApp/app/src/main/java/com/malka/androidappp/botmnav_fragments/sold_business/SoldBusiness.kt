@@ -13,7 +13,6 @@ import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.servicemodels.ConstantObjects
-import kotlinx.android.synthetic.main.fragment_fixed_price_offer.*
 import kotlinx.android.synthetic.main.fragment_sold_business.*
 import retrofit2.Call
 import retrofit2.Callback

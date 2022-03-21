@@ -15,9 +15,7 @@ import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferen
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.servicemodels.ConstantObjects
-import kotlinx.android.synthetic.main.activity_bottmmm.*
 import kotlinx.android.synthetic.main.botm_sheet_layout.view.*
-import kotlinx.android.synthetic.main.carspec_card8.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

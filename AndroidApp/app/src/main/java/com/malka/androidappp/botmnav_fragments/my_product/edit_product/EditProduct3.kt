@@ -21,9 +21,7 @@ import com.malka.androidappp.botmnav_fragments.create_product.StaticClassProduct
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
-import kotlinx.android.synthetic.main.fragment_create_product_pg2.*
 import kotlinx.android.synthetic.main.fragment_create_product_pg3.*
-import kotlinx.android.synthetic.main.fragment_edit_product3.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

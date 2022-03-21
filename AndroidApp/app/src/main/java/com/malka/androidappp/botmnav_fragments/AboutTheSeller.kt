@@ -23,14 +23,7 @@ import com.malka.androidappp.servicemodels.ConstantObjects
 import com.malka.androidappp.servicemodels.feedbacks.FeedbackObject
 import com.malka.androidappp.servicemodels.feedbacks.FeedbackProperties
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.carspce_card2.*
-import kotlinx.android.synthetic.main.carspec_card1.*
-import kotlinx.android.synthetic.main.carspec_card3.*
-import kotlinx.android.synthetic.main.carspec_card8.*
-import kotlinx.android.synthetic.main.carsspec_card4.*
-import kotlinx.android.synthetic.main.frag_profile.*
 import kotlinx.android.synthetic.main.fragment_about_the_seller.*
-import kotlinx.android.synthetic.main.fragment_browse_market.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
