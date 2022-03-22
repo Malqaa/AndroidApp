@@ -54,17 +54,32 @@
                 android:text="@string/please_enter_company_information"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_12sdp" />
+            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
+                android:id="@+id/userNamee"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_25sdp"
+                android:hint="@string/Username"
+                android:inputType="textPersonName"
+                app:startIcon="@drawable/ic_user" />
 
 
             <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/busi_signup2_edittext1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_25sdp"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:hint="@string/the_company_s_name"
                 android:inputType="textPersonName"
                 app:startIcon="@drawable/ic_user" />
-
+            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
+                android:id="@+id/textEmaill"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="@string/Email"
+                android:inputType="textEmailAddress"
+                app:startIcon="@drawable/ic_email" />
             <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/busi_signup3_edittext2"
                 android:layout_width="match_parent"
@@ -104,19 +119,35 @@
                     android:id="@+id/ic_youtube_select"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/circle_bg"
+                    android:background="@drawable/circle_bg_disable"
                     android:padding="@dimen/_15sdp"
                     android:src="@drawable/ic_youtube" />
-
                 <ImageView
                     android:id="@+id/ic_twitter_select"
-
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_20sdp"
-                    android:background="@drawable/circle_bg"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:background="@drawable/circle_bg_disable"
                     android:padding="@dimen/_15sdp"
                     android:src="@drawable/ic_twitter" />
+                <ImageView
+                    android:id="@+id/ic_whatsapp_select"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:background="@drawable/circle_bg_disable"
+                    android:padding="@dimen/_15sdp"
+                    android:src="@drawable/ic_whatsapp" />
+
+
+                <ImageView
+                    android:id="@+id/ic_snapshot_select"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:background="@drawable/circle_bg_disable"
+                    android:padding="@dimen/_15sdp"
+                    android:src="@drawable/ic_snapshot" />
             </LinearLayout>
 
             <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
@@ -139,20 +170,42 @@
                 android:inputType="textWebEmailAddress"
                 app:startIcon="@drawable/ic_twitter" />
 
+
             <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
+                android:id="@+id/ic_whatsapp"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="@string/whatsapp"
+
+                android:inputType="textWebEmailAddress"
+                app:startIcon="@drawable/ic_whatsapp" />
 
 
-                android:id="@+id/ic_office_building"
+            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
+                android:id="@+id/ic_snapshot"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="@string/snapchat"
+                android:inputType="textWebEmailAddress"
+                app:startIcon="@drawable/ic_snapshot" />
+
+
+            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
+                android:id="@+id/select_region"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:hint="@string/type_of_employment"
-                android:inputType="textPersonName"
-                app:startIcon="@drawable/ic_office_building" />
+                app:endIcon="@drawable/ic_arrow_down"
+                app:startIcon="@drawable/ic_office_building"
+                app:viewType="spinner" />
+
 
             <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
-
-
                 android:id="@+id/commercial_registration_no"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -204,27 +257,6 @@
                 app:startIcon="@drawable/ic_region"
                 app:viewType="text" />
 
-
-            <com.hbb20.CountryCodePicker
-                android:id="@+id/busi_signup2_edittext4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="30dp"
-                android:background="@drawable/buttonradius"
-                android:drawablePadding="8dp"
-                android:padding="7dp"
-                android:paddingEnd="16dp"
-                app:ccpDialog_allowSearch="false"
-                app:ccp_customMasterCountries="BH,KW,OM,SA,AE"
-                app:ccp_defaultNameCode="SA"
-                app:ccp_showFullName="true"
-                app:ccp_showNameCode="false"
-                app:ccp_showPhoneCode="false"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/countryLabel" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/business_signup2_button"

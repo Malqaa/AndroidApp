@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.WindowManager
+import androidx.core.content.ContextCompat
 import com.malka.androidappp.R
 import com.malka.androidappp.helper.hide
 import com.malka.androidappp.helper.show
@@ -11,34 +12,68 @@ import com.malka.androidappp.servicemodels.ConstantObjects
 import kotlinx.android.synthetic.main.activity_business_signup_pg2.*
 
 class BusinessAccountCreate : AppCompatActivity() {
+    var youtube=false
+    var twitter=false
+    var whatsApp=false
+    var snapShot=false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_business_signup_pg2)
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
 
-        busi_signup2_btn.setOnClickListener() {
+        busi_signup2_btn.setOnClickListener {
             onBackPressed()
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
         }
 
         business_signup2_button.setOnClickListener() {
-//            confirminputtBpg2()
+
+
         }
-        ic_youtube_select.setOnClickListener() {
-           // ic_youtube_select.isSelected=!ic_youtube_select.isSelected
-            if(ic_youtube_select.isSelected){
+
+        ic_youtube_select.setOnClickListener {
+            youtube=!youtube
+            if(youtube){
+                ic_youtube_select.background= ContextCompat.getDrawable(this, R.drawable.circle_bg_enable)
                 ic_youtube.show()
             }else{
+                ic_youtube_select.background= ContextCompat.getDrawable(this, R.drawable.circle_bg_disable)
                 ic_youtube.hide()
             }
+
         }
-        ic_twitter_select.setOnClickListener() {
-            ic_twitter_select.isSelected=!ic_twitter_select.isSelected
-            if(ic_twitter_select.isSelected){
+        ic_twitter_select.setOnClickListener {
+            twitter=!twitter
+            if(twitter){
+                ic_twitter_select.background= ContextCompat.getDrawable(this, R.drawable.circle_bg_enable)
                 ic_twitter.show()
             }else{
+                ic_twitter_select.background= ContextCompat.getDrawable(this, R.drawable.circle_bg_disable)
                 ic_twitter.hide()
             }
+
+        }
+        ic_whatsapp_select.setOnClickListener {
+            whatsApp=!whatsApp
+            if(whatsApp){
+                ic_whatsapp_select.background= ContextCompat.getDrawable(this, R.drawable.circle_bg_enable)
+                ic_whatsapp.show()
+            }else{
+                ic_whatsapp_select.background= ContextCompat.getDrawable(this, R.drawable.circle_bg_disable)
+                ic_whatsapp.hide()
+            }
+
+        }
+        ic_snapshot_select.setOnClickListener {
+            snapShot=!snapShot
+            if(snapShot){
+                ic_snapshot_select.background= ContextCompat.getDrawable(this, R.drawable.circle_bg_enable)
+                ic_snapshot.show()
+            }else{
+                ic_snapshot_select.background= ContextCompat.getDrawable(this, R.drawable.circle_bg_disable)
+                ic_snapshot.hide()
+            }
+
         }
     }
 
@@ -52,29 +87,7 @@ class BusinessAccountCreate : AppCompatActivity() {
         }
     }
 
-//    fun confirminputtBpg2() {
-//        if (!validateBActualAddress() or !validateBBillingAddress() or !validateBphoneNum()
-//            or !validateBpass() or !validateBSignupConfrmPassword()
-//        ) {
-//            return
-//        } else {
-//            val Bactualadress = busi_signup2_edittext1.text.toString().trim()
-//            StaticBusinessRegistration.bActualadress = Bactualadress
-//            val Bbillingadress = busi_signup2_edittext2.text.toString().trim()
-//            StaticBusinessRegistration.Bbillingadress = Bbillingadress
-//            //
-//            val Bphone = busi_signup2_edittext3.text.toString().trim()
-//            val busicountryCode = cppfield2.selectedCountryCode
-//            val busimobilenum = "+" + busicountryCode + Bphone
-//            StaticBusinessRegistration.BphoneNo = busimobilenum
-//            //
-//            val Bcountry = busi_signup2_edittext4.selectedCountryName
-//            StaticBusinessRegistration.Bcountryy = Bcountry
-//            val Bpass = busi_signup2_inputedittext5b.text.toString().trim()
-//            StaticBusinessRegistration.Bpassw = Bpass
-//            BthirdPg()
-//        }
-//    }
+
 
     private fun validateBActualAddress(): Boolean {
         val BactualAdress = busi_signup2_edittext1.text.toString().trim { it <= ' ' }
@@ -87,56 +100,6 @@ class BusinessAccountCreate : AppCompatActivity() {
         }
     }
 
-//
-//    private fun validateBBillingAddress(): Boolean {
-//        val BbillingAdress = busi_signup2_edittext2.text.toString().trim { it <= ' ' }
-//        return if (BbillingAdress.isEmpty()) {
-//            busi_signup2_edittext2.error = getString(R.string.Fieldcantbeempty)
-//            false
-//        } else {
-//            busi_signup2_edittext2.error = null
-//            true
-//        }
-//    }
-//
-//    private fun validateBphoneNum(): Boolean {
-//        val bphoneNum = busi_signup2_edittext3.text.toString().trim { it <= ' ' }
-//        return if (bphoneNum.isEmpty()) {
-//            busi_signup2_edittext3.error = getString(R.string.Fieldcantbeempty)
-//            false
-//        } else {
-//            busi_signup2_edittext3.error = null
-//            true
-//        }
-//    }
-//
-//
-//    private fun validateBpass(): Boolean {
-//        val bpass = busi_signup2_inputedittext5b.text.toString().trim { it <= ' ' }
-//        return if (bpass.isEmpty()) {
-//            busi_signup2_inputedittext5b.error = getString(R.string.Fieldcantbeempty)
-//            false
-//        } else {
-//            busi_signup2_inputedittext5b.error = null
-//            true
-//        }
-//    }
-//
-//    //confirmpass validation
-//    private fun validateBSignupConfrmPassword(): Boolean {
-//        val passwordInput = busi_signup2_inputedittext5b.text.toString().trim { it <= ' ' }
-//        val confrmpassInput = busi_signup2_inputedittext6b.text.toString().trim { it <= ' ' }
-//        return if (confrmpassInput.isEmpty()) {
-//            busi_signup2_inputedittext6b.error = getString(R.string.Fieldcantbeempty)
-//            false
-//        } else if (confrmpassInput != passwordInput) {
-//            busi_signup2_inputedittext6b.error = getString(R.string.Passworddoesnotmatch)
-//            false
-//        } else {
-//            busi_signup2_inputedittext6b.error = null
-//            true
-//        }
-//    }
 
 
 }

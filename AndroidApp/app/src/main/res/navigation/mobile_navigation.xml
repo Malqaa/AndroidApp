@@ -321,7 +321,7 @@
 
     <fragment
         android:id="@+id/confirmation"
-        android:name="com.malka.androidappp.activities_main.new_flow.Confirmation"
+        android:name="com.malka.androidappp.activities_main.add_product.Confirmation"
         android:label="Confirmation"
         tools:layout="@layout/fragment_confirmation">
 
@@ -337,7 +337,7 @@
 
     <fragment
         android:id="@+id/listing_fee"
-        android:name="com.malka.androidappp.activities_main.new_flow.ListingFee"
+        android:name="com.malka.androidappp.activities_main.add_product.ListingFee"
         android:label="Listing Fee"
         tools:layout="@layout/fragment_listing_fee">
 
@@ -353,7 +353,7 @@
 
     <fragment
         android:id="@+id/continue_frag"
-        android:name="com.malka.androidappp.activities_main.new_flow.ContinueActivity"
+        android:name="com.malka.androidappp.activities_main.add_product.ContinueActivity"
         android:label="Continue"
         tools:layout="@layout/fragment_continue">
 
@@ -377,7 +377,7 @@
 
     <fragment
         android:id="@+id/listduration_frag"
-        android:name="com.malka.androidappp.activities_main.new_flow.ListingDuration"
+        android:name="com.malka.androidappp.activities_main.add_product.ListingDuration"
         android:label="List Duration"
         tools:layout="@layout/fragment_listing_duration">
 

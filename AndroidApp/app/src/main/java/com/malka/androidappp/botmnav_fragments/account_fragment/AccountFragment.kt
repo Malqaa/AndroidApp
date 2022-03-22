@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.login.SignInActivity
-import com.malka.androidappp.activities_main.new_flow.ListanItem
+import com.malka.androidappp.activities_main.add_product.ListanItem
 import com.malka.androidappp.botmnav_fragments.activities_main.business_signup.BusinessAccountCreate
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.helper.HelpFunctions

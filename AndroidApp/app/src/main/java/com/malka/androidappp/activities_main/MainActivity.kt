@@ -7,7 +7,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.login.SignInActivity
-import com.malka.androidappp.activities_main.new_flow.ListanItem
+import com.malka.androidappp.activities_main.add_product.ListanItem
 import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.helper.HelpFunctions
 import kotlinx.android.synthetic.main.activity_bottmmm.*
@@ -38,18 +38,21 @@ class MainActivity : BaseActivity() {
                     }
                 }
                 R.id.navigation_account -> {
+
                     if (!HelpFunctions.IsUserLoggedIn()) {
-                        HelpFunctions.ShowAlert(this, "Information", "Please Log In");
+                        val intentt = Intent(this, SignInActivity::class.java)
+                        startActivity(intentt)
+
+
                         return@setOnNavigationItemSelectedListener false
                     } else {
-                    findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_account)
+                        findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_account)
                     }
                 }
                 R.id.navigation_watchlist -> {
                     if (!HelpFunctions.IsUserLoggedIn()) {
                         val intentt = Intent(this, SignInActivity::class.java)
                         startActivity(intentt)
-                        finish()
 
                         return@setOnNavigationItemSelectedListener false
                     } else {

@@ -1,4 +1,4 @@
-package com.malka.androidappp.activities_main.new_flow
+package com.malka.androidappp.activities_main.add_product
 
 import android.Manifest
 import android.content.Intent

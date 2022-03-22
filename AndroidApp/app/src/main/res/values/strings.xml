@@ -2636,10 +2636,10 @@ Want to start a business account? Create a Business Account
     <string name="district">District</string>
     <string name="CompanyData">Company Data</string>
     <string name="please_enter_company_information">Please enter company information</string>
-    <string name="the_company_s_name">The Company\'s name</string>
+    <string name="the_company_s_name">Company Name</string>
     <string name="website">Website</string>
     <string name="TaxNumber">Tax Number</string>
-    <string name="download_the_commercial_registry_file">Download the commercial registry file</string>
+    <string name="download_the_commercial_registry_file">Upload commercial registry file</string>
     <string name="locating_the_company">Locating the company</string>
     <string name="commercial_registration_no">Commercial Registration No</string>
     <string name="type_of_employment">Type of employment</string>
@@ -2798,4 +2798,6 @@ Want to start a business account? Create a Business Account
     <string name="accounts">Accounts</string>
     <string name="user_account">user account</string>
   <string name="currently_registered">Currently registered</string>
+  <string name="whatsapp">WhatsApp</string>
+  <string name="snapchat">Snapchat</string>
 </resources>

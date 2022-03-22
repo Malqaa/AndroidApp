@@ -15,6 +15,7 @@ import com.malka.androidappp.activities_main.signup_account.signup_pg1.SignupPg1
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass.Companion.islogin
 import com.malka.androidappp.helper.HelpFunctions
+import com.malka.androidappp.helper.HelpFunctions.Companion.PASSWORD_PATTERN
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.servicemodels.ConstantObjects
@@ -152,18 +153,7 @@ open class SignInActivity : BaseActivity() {
 
     }
 
-    companion object {
-        val PASSWORD_PATTERN = Pattern.compile(
-            "^" + "(?=.*[0-9])" +         //at least 1 digit
-                    //"(?=.*[a-z])" +         //at least 1 lower case letter
-                    "(?=.*[A-Z])" +         //at least 1 upper case letter
-                    "(?=.*[a-zA-Z])" +  //any letter
-                    // "(?=.*[@#$%^&+=])" +  //at least 1 special character
-                    "(?=\\S+$)" +  //no white spaces
-                    ".{4,}" +  //at least 4 characters
-                    "$"
-        )
-    }
+
 
     fun MakeLoginAPICall(email: String, password: String, context: Context) {
         HelpFunctions.startProgressBar(this)

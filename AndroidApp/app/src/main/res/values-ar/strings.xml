@@ -2633,5 +2633,7 @@
     <string name="accounts">حسابات</string>
   <string name="user_account">حساب مستخدم</string>
   <string name="currently_registered">مسجل حاليا</string>
+    <string name="whatsapp">WhatsApp</string>
+  <string name="snapchat">سناب شات</string>
 
 </resources>

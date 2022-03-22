@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.login.SignInActivity
+import com.malka.androidappp.helper.HelpFunctions.Companion.PASSWORD_PATTERN
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
 import kotlinx.android.synthetic.main.activity_forgotpass_reset.*
@@ -28,7 +29,7 @@ class ForgotChangepassActivity : AppCompatActivity() {
         return if (passwordInputt.isEmpty()) {
             editText1asdasd0!!.error = "Field can't be empty"
             false
-        } else if (!SignInActivity.PASSWORD_PATTERN.matcher(passwordInputt).matches()) {
+        } else if (!PASSWORD_PATTERN.matcher(passwordInputt).matches()) {
             editText1asdasd0!!.error = "Password too weak"
             false
         } else {

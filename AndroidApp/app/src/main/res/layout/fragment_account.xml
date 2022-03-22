@@ -958,6 +958,7 @@
 
 
                 <LinearLayout
+                    android:id="@+id/logout_signin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_5sdp"
@@ -1535,37 +1536,6 @@
                         </androidx.constraintlayout.widget.ConstraintLayout>
                     </androidx.cardview.widget.CardView>
 
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/logout_signin"
-                        android:layout_width="match_parent"
-                        android:layout_height="60dp"
-                        android:layout_margin="0.1dp">
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
-                            <ImageView
-                                android:id="@+id/imageView14"
-                                android:layout_width="20dp"
-                                android:layout_height="18dp"
-                                android:layout_marginStart="10dp"
-                                android:layout_marginTop="22dp"
-                                android:src="@drawable/logout"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <TextView
-                                android:id="@+id/textView17"
-                                android:layout_width="wrap_content"
-                                android:layout_height="19dp"
-                                android:layout_marginStart="16dp"
-                                android:layout_marginTop="22dp"
-                                android:text="@string/logout"
-                                app:layout_constraintStart_toEndOf="@+id/imageView14"
-                                app:layout_constraintTop_toTopOf="parent" />
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-                    </androidx.cardview.widget.CardView>
 
 
                     <androidx.cardview.widget.CardView

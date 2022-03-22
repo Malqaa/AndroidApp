@@ -1,4 +1,4 @@
-package com.malka.androidappp.activities_main.new_flow
+package com.malka.androidappp.activities_main.add_product
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,8 +6,8 @@ import android.widget.Toast
 import com.malka.androidappp.R
 import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.botmnav_fragments.create_ads.StaticClassAdCreate
-import com.malka.androidappp.activities_main.new_flow.all_categories.AdapterAllCategories
-import com.malka.androidappp.activities_main.new_flow.all_categories.SubCategories
+import com.malka.androidappp.activities_main.add_product.all_categories.AdapterAllCategories
+import com.malka.androidappp.activities_main.add_product.all_categories.SubCategories
 import com.malka.androidappp.botmnav_fragments.home.model.AllCategoriesModel
 import com.malka.androidappp.helper.Extension.truncateString
 import com.malka.androidappp.helper.HelpFunctions
