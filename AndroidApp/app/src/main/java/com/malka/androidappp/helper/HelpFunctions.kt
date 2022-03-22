@@ -84,13 +84,18 @@ class HelpFunctions {
 
 
         fun ShowLongToast(msg: String, context: Context?) {
-            if (context != null) {
-                Toast.makeText(
-                    context,
-                    msg,
-                    Toast.LENGTH_SHORT
-                ).show();
-            }
+
+            ShowAlert(
+                context, "", msg
+            )
+
+//            if (context != null) {
+//                Toast.makeText(
+//                    context,
+//                    msg,
+//                    Toast.LENGTH_SHORT
+//                ).show();
+//            }
         }
 
         fun IsUserLoggedIn(): Boolean1 {
@@ -198,7 +203,7 @@ class HelpFunctions {
                 };
                 dialogBuilder.setView(dialogView)
                 val alertDialog: AlertDialog = dialogBuilder.create()
-                alertDialog.getWindow()!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+               alertDialog.getWindow()!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                 alertDialog.show()
                 dialogView.btn_alertclose.setOnClickListener() {
                     alertDialog.dismiss()
@@ -1029,5 +1034,16 @@ class HelpFunctions {
             }
         }
 
+
+        val PASSWORD_PATTERN = Pattern.compile(
+            "^" + "(?=.*[0-9])" +         //at least 1 digit
+                    //"(?=.*[a-z])" +         //at least 1 lower case letter
+                    "(?=.*[A-Z])" +         //at least 1 upper case letter
+                    "(?=.*[a-zA-Z])" +  //any letter
+                    // "(?=.*[@#$%^&+=])" +  //at least 1 special character
+                    "(?=\\S+$)" +  //no white spaces
+                    ".{4,}" +  //at least 4 characters
+                    "$"
+        )
     }
 }

@@ -6,9 +6,10 @@ import android.util.Patterns
 import android.view.View
 import com.google.gson.Gson
 import com.malka.androidappp.R
-import com.malka.androidappp.activities_main.login.SignInActivity
 import com.malka.androidappp.activities_main.signup_account.signup_pg2.SignupPg2
+import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.helper.HelpFunctions
+import com.malka.androidappp.helper.HelpFunctions.Companion.PASSWORD_PATTERN
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
 import kotlinx.android.synthetic.main.activity_signup_pg1.*
@@ -20,7 +21,7 @@ import java.io.InputStreamReader
 import java.io.Reader
 
 
-class SignupPg1 : SignInActivity() {
+class SignupPg1 : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,13 +88,13 @@ class SignupPg1 : SignInActivity() {
         val passwordInput = textPass!!.text.toString().trim { it <= ' ' }
         val confrmpassInput = confirmPass!!.text.toString().trim { it <= ' ' }
         return if (confrmpassInput.isEmpty()) {
-            textPass!!.error = getString(R.string.Fieldcantbeempty)
+            confirmPass!!.error = getString(R.string.Fieldcantbeempty)
             false
         } else if (confrmpassInput != passwordInput) {
-            textPass!!.error = getString(R.string.Passworddonotmatch)
+            confirmPass!!.error = getString(R.string.Passworddonotmatch)
             false
         } else {
-            textPass!!.error = null
+            confirmPass!!.error = null
             true
         }
     }
@@ -120,7 +121,12 @@ class SignupPg1 : SignInActivity() {
         if (!validateSignupEmail() or !validateSignupPassword() or !validateNumber() or !validateSignupConfrmPassword() or !validateSignupUser()) {
             return
         } else {
-            apicallcreateuser()
+
+            if(switch_term_condition._getChecked()){
+                apicallcreateuser()
+            }else{
+                showError(getString(R.string.Please_select,getString(R.string.term_condition)))
+            }
 
         }
 
@@ -167,9 +173,12 @@ class SignupPg1 : SignInActivity() {
                     val data = Gson().fromJson(reader, RegisterData::class.java)
 
                     if (data.status_code == 200) {
+
                         NextAcivityparsedata(data)
                     } else {
-                        HelpFunctions.ShowLongToast(data.message, this@SignupPg1)
+                        if(data.isError){
+                            showError(data.data.get(0))
+                        }
                     }
                 } else {
                     HelpFunctions.ShowLongToast(response.message(), this@SignupPg1)
@@ -199,7 +208,7 @@ class SignupPg1 : SignInActivity() {
 
     fun NextAcivityparsedata(data: RegisterData) {
         val datacode = data.code
-        val dataUserId = data.data
+        val dataUserId = data.id
         val dataemail = textEmaill.text.toString().trim()
         val datapassword = textPass.text.toString().trim()
 

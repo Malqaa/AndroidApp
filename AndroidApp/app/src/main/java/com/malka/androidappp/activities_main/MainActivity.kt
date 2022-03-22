@@ -38,18 +38,21 @@ class MainActivity : BaseActivity() {
                     }
                 }
                 R.id.navigation_account -> {
+
                     if (!HelpFunctions.IsUserLoggedIn()) {
-                        HelpFunctions.ShowAlert(this, "Information", "Please Log In");
+                        val intentt = Intent(this, SignInActivity::class.java)
+                        startActivity(intentt)
+
+
                         return@setOnNavigationItemSelectedListener false
                     } else {
-                    findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_account)
+                        findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_account)
                     }
                 }
                 R.id.navigation_watchlist -> {
                     if (!HelpFunctions.IsUserLoggedIn()) {
                         val intentt = Intent(this, SignInActivity::class.java)
                         startActivity(intentt)
-                        finish()
 
                         return@setOnNavigationItemSelectedListener false
                     } else {
