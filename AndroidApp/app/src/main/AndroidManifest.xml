@@ -119,39 +119,39 @@
             android:name=".activities_main.forgot.forgot_password.ForgotPasswordActivty"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name="com.malka.androidappp.activities_main.new_flow.ListanItem"
+            android:name="com.malka.androidappp.activities_main.add_product.ListanItem"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name="com.malka.androidappp.activities_main.new_flow.ChooseCategory"
+            android:name="com.malka.androidappp.activities_main.add_product.ChooseCategory"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name="com.malka.androidappp.activities_main.new_flow.all_categories.SubCategories"
+            android:name="com.malka.androidappp.activities_main.add_product.all_categories.SubCategories"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name="com.malka.androidappp.activities_main.new_flow.AddPhoto"
+            android:name="com.malka.androidappp.activities_main.add_product.AddPhoto"
             android:theme="@style/NoActionBar">
 
         </activity>
         <activity
-            android:name="com.malka.androidappp.activities_main.new_flow.DynamicTemplate"
+            android:name="com.malka.androidappp.activities_main.add_product.DynamicTemplate"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name="com.malka.androidappp.activities_main.new_flow.ListingDetails"
+            android:name="com.malka.androidappp.activities_main.add_product.ListingDetails"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name="com.malka.androidappp.activities_main.new_flow.PricingActivity"
+            android:name="com.malka.androidappp.activities_main.add_product.PricingActivity"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name="com.malka.androidappp.activities_main.new_flow.ListingDuration"
+            android:name="com.malka.androidappp.activities_main.add_product.ListingDuration"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name="com.malka.androidappp.activities_main.new_flow.PromotionalActivity"
+            android:name="com.malka.androidappp.activities_main.add_product.PromotionalActivity"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name="com.malka.androidappp.activities_main.new_flow.Confirmation"
+            android:name="com.malka.androidappp.activities_main.add_product.Confirmation"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name="com.malka.androidappp.activities_main.new_flow.ContinueActivity"
+            android:name="com.malka.androidappp.activities_main.add_product.ContinueActivity"
             android:theme="@style/NoActionBar" />
 
         <activity

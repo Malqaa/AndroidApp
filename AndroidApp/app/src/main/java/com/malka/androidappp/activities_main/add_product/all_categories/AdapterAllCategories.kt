@@ -1,4 +1,4 @@
-package com.malka.androidappp.activities_main.new_flow.all_categories
+package com.malka.androidappp.activities_main.add_product.all_categories
 
 import android.view.LayoutInflater
 import android.view.View

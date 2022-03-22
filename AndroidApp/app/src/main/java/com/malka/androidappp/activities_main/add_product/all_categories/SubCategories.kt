@@ -1,4 +1,4 @@
-package com.malka.androidappp.activities_main.new_flow.all_categories
+package com.malka.androidappp.activities_main.add_product.all_categories
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -7,7 +7,7 @@ import android.widget.Toast
 import com.malka.androidappp.R
 import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.botmnav_fragments.create_ads.StaticClassAdCreate
-import com.malka.androidappp.activities_main.new_flow.AddPhoto
+import com.malka.androidappp.activities_main.add_product.AddPhoto
 import com.malka.androidappp.botmnav_fragments.home.model.AllCategoriesModel
 import com.malka.androidappp.botmnav_fragments.home.model.AllCategoriesResponseBack
 import com.malka.androidappp.helper.Extension.truncateString
