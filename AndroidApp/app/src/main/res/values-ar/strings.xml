@@ -2632,5 +2632,6 @@
   <string name="switch_accounts_and_business_account">تبديل الحسابات والحساب التجارى</string>
     <string name="whatsapp">WhatsApp</string>
   <string name="snapchat">سناب شات</string>
+  <string name="search_location">Searh Location</string>
 
 </resources>

@@ -2791,10 +2791,19 @@ Want to start a business account? Create a Business Account
     <string name="view_similar_product_from_seller">View similar product from seller</string>
     <string name="hide_similar_product_from_seller">Hide similar product from seller</string>
     <string name="current_price_buy">Buy at the current price</string>
-  <string name="Bid_on_price">Bid on price</string>
-  <string name="add_to_cart">Add to cart</string>
-  <string name="more">More</string>
+    <string name="Bid_on_price">Bid on price</string>
+    <string name="add_to_cart">Add to cart</string>
+    <string name="more">More</string>
     <string name="switch_accounts_and_business_account">Switch accounts and business account</string>
-  <string name="whatsapp">WhatsApp</string>
-  <string name="snapchat">Snapchat</string>
+    <string name="whatsapp">WhatsApp</string>
+    <string name="snapchat">Snapchat</string>
+  <string name="search_location">Searh Location</string>
+
+  <string name="key_search">key_search</string>
+  <string name="key_location" translatable="false">key_location</string>
+  <string name="key_latitude" translatable="false">key_latitude</string>
+  <string name="key_longitude" translatable="false">key_longitude</string>
+  <string name="key_status" translatable="false">key_status</string>
+  <string name="location_is_not_found">Location is not found.</string>
+
 </resources>

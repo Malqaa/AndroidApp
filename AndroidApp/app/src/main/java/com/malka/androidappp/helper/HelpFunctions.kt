@@ -7,6 +7,8 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.*
 import android.graphics.drawable.ColorDrawable
+import android.location.Address
+import android.location.Geocoder
 import android.os.Bundle
 import android.os.StrictMode
 import android.provider.Settings.Secure
@@ -59,11 +61,6 @@ import java.util.regex.Matcher
 import java.util.regex.Pattern
 import kotlin.Boolean as Boolean1
 
-
-interface ListRefreshed {
-    fun onWatchlistRefresed()
-    fun onFavouritelistRefresed()
-}
 
 class HelpFunctions {
 
@@ -1045,5 +1042,29 @@ class HelpFunctions {
                     ".{4,}" +  //at least 4 characters
                     "$"
         )
+
+        @JvmStatic
+        fun getLocationInfoFromLatLng(latitude: Double, longitude: Double, context: Context): HashMap<String, String>? {
+            val geocoder: Geocoder
+            val addresses: List<Address>
+            geocoder = Geocoder(context, Locale.getDefault())
+            val hashMapLocationInfo = HashMap<String, String>()
+            try {
+                // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+                addresses = geocoder.getFromLocation(latitude, longitude, 1)
+                // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+                // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+                hashMapLocationInfo["address"] = addresses[0].getAddressLine(0)
+                hashMapLocationInfo["country"] = addresses[0].countryName
+                hashMapLocationInfo["state"] = addresses[0].adminArea
+                hashMapLocationInfo["city"] = addresses[0].locality
+                hashMapLocationInfo["postalCode"] = addresses[0].postalCode?:""
+                // Only if available else return NULL
+                hashMapLocationInfo["knownName"] = addresses[0].featureName?:""
+            } catch (e: java.lang.Exception) {
+                e.printStackTrace()
+            }
+            return hashMapLocationInfo
+        }
     }
 }
