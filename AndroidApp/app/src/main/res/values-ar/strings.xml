@@ -2630,5 +2630,8 @@
   <string name="add_to_cart">إضافة للسلة</string>
   <string name="more">أكثر</string>
   <string name="switch_accounts_and_business_account">تبديل الحسابات والحساب التجارى</string>
+    <string name="accounts">حسابات</string>
+  <string name="user_account">حساب مستخدم</string>
+  <string name="currently_registered">مسجل حاليا</string>
 
 </resources>

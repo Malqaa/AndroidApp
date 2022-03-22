@@ -2791,8 +2791,11 @@ Want to start a business account? Create a Business Account
     <string name="view_similar_product_from_seller">View similar product from seller</string>
     <string name="hide_similar_product_from_seller">Hide similar product from seller</string>
     <string name="current_price_buy">Buy at the current price</string>
-  <string name="Bid_on_price">Bid on price</string>
-  <string name="add_to_cart">Add to cart</string>
-  <string name="more">More</string>
+    <string name="Bid_on_price">Bid on price</string>
+    <string name="add_to_cart">Add to cart</string>
+    <string name="more">More</string>
     <string name="switch_accounts_and_business_account">Switch accounts and business account</string>
+    <string name="accounts">Accounts</string>
+    <string name="user_account">user account</string>
+  <string name="currently_registered">Currently registered</string>
 </resources>
