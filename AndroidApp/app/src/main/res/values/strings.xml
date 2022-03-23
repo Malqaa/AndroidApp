@@ -2800,4 +2800,7 @@ Want to start a business account? Create a Business Account
   <string name="currently_registered">Currently registered</string>
   <string name="whatsapp">WhatsApp</string>
   <string name="snapchat">Snapchat</string>
+
+  <string name="Switch">Switch</string>
+  <string name="business_account">Business Account</string>
 </resources>

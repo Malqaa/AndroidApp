@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
 
     <LinearLayout
@@ -31,18 +31,18 @@
 
 
                 <TextView
-                    android:id="@+id/review_comment"
+                    android:id="@+id/account_type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/madani_arabic_light"
-                    android:text="@string/user_account"
+                    android:text="@string/business_account"
                     android:textSize="@dimen/_12sdp"
                     android:textColor="#6D6C74"
                     android:layout_marginStart="@dimen/_5sdp"/>
 
 
                 <TextView
-                    android:id="@+id/review_name"
+                    android:id="@+id/business_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/madani_arabic_bold"
@@ -68,7 +68,7 @@
                     android:layout_marginEnd="@dimen/_10sdp"
                     android:background="@drawable/rate_ic_background"
                     android:gravity="center"
-                    android:backgroundTint="@color/light_bg"
+                    android:backgroundTint="@color/bg"
                     android:orientation="horizontal">
 
                     <TextView
@@ -79,8 +79,8 @@
                         android:fontFamily="@font/madani_arabic_light"
                         android:gravity="center"
                         android:padding="@dimen/_5sdp"
-                        android:text="@string/Current"
-                        android:textColor="#000000"
+                        android:text="@string/Switch"
+                        android:textColor="@color/white"
                         android:textSize="@dimen/_10sdp" />
 
 
@@ -108,38 +108,6 @@
     </LinearLayout>
 
 
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@color/white">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_46sdp"
-            android:layout_marginStart="@dimen/_15sdp"
-            android:layout_marginTop="@dimen/_12sdp"
-            android:layout_marginEnd="@dimen/_15sdp"
-            android:background="@drawable/round_btn_grey"
-            android:layout_marginBottom="@dimen/_15sdp">
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_vertical"
-                android:padding="@dimen/_10sdp"
-                android:fontFamily="@font/madani_arabic_semi_bold"
-                android:gravity="center"
-                android:text="Upgrade my existing account to a merchant account"
-                android:textColor="@color/white"
-                android:textSize="@dimen/_12sdp" />
-
-
-        </LinearLayout>
-
-    </RelativeLayout>
 
 
 

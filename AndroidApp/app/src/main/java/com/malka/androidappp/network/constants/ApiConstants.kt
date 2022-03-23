@@ -3,7 +3,8 @@ package com.malka.androidappp.network.constants
 object ApiConstants {
 
     private const val HTTP_PROTOCOL = "http"
- //   private const val SERVER_LOCATION = "89.40.10.168:81"
+
+    //   private const val SERVER_LOCATION = "89.40.10.168:81"
     private const val SERVER_LOCATION = "89.40.10.168:85"
     private const val API_FOLDER = "api"
     private const val API_VERSION = "v1"
@@ -46,6 +47,8 @@ object ApiConstants {
     const val GET_BANK__ACCOUNT_DETAIL = "UserBankAccount/UserBankAccountsById"
     const val ACCOUNT_BASE_URL = API_BASE_URL + "Accounts/"
     const val VERIFY_API_ENDPOINT = "Accounts/verify"
+    const val BUSSINESS_USER_ENDPOINT = "Accounts/CreateBusinessAccount"
+    const val GET_BUSINESS_USER_LIST = "Accounts/GetBusinessListByUserId"
     const val RESEND_OTPCODE_API_ENDPOINT = "Accounts/ResendCode"
     const val UPDATEUSER_SIGNUP_ENDPOINT = "Accounts/updatePersonalInfo"
     const val CREATE_GENERAL_ADVERTISEMENT_ENDPOINTT = "CarTemplate/Create"

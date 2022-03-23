@@ -2635,5 +2635,7 @@
   <string name="currently_registered">مسجل حاليا</string>
     <string name="whatsapp">WhatsApp</string>
   <string name="snapchat">سناب شات</string>
+  <string name="Switch">تبديل</string>
+    <string name="business_account">Business Account</string>
 
 </resources>

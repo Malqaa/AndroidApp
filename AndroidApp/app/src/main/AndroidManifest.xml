@@ -31,7 +31,11 @@
         tools:ignore="AllowBackup">
         <activity
             android:name=".design.Switch_Account"
-            android:exported="false" />
+            android:exported="true"
+            android:theme="@style/NoActionBar">
+
+
+        </activity>
         <activity
             android:name=".activities_main.FullImageActivity"
             android:exported="false" />
@@ -94,6 +98,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
         <activity
             android:name=".activities_main.MainActivity"

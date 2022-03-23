@@ -13,6 +13,7 @@ import com.malka.androidappp.activities_main.login.SignInActivity
 import com.malka.androidappp.activities_main.add_product.ListanItem
 import com.malka.androidappp.botmnav_fragments.activities_main.business_signup.BusinessAccountCreate
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
+import com.malka.androidappp.design.Switch_Account
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.servicemodels.ConstantObjects
 import io.paperdb.Paper
@@ -159,7 +160,7 @@ class AccountFragment : Fragment() {
         }
 
         switch_accounts_and_business_account.setOnClickListener {
-            val intentt = Intent(this.activity, BusinessAccountCreate::class.java)
+            val intentt = Intent(this.activity, Switch_Account::class.java)
             startActivity(intentt)
         }
 

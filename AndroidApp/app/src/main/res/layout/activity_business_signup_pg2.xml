@@ -29,7 +29,6 @@
                 tools:ignore="SpeakableTextPresentCheck" />
 
 
-
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -54,6 +53,7 @@
                 android:text="@string/please_enter_company_information"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_12sdp" />
+
             <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/userNamee"
                 android:layout_width="match_parent"
@@ -65,13 +65,14 @@
 
 
             <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
-                android:id="@+id/busi_signup2_edittext1"
+                android:id="@+id/company_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:hint="@string/the_company_s_name"
                 android:inputType="textPersonName"
                 app:startIcon="@drawable/ic_user" />
+
             <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/textEmaill"
                 android:layout_width="match_parent"
@@ -80,6 +81,7 @@
                 android:hint="@string/Email"
                 android:inputType="textEmailAddress"
                 app:startIcon="@drawable/ic_email" />
+
             <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/busi_signup3_edittext2"
                 android:layout_width="match_parent"
@@ -122,6 +124,7 @@
                     android:background="@drawable/circle_bg_disable"
                     android:padding="@dimen/_15sdp"
                     android:src="@drawable/ic_youtube" />
+
                 <ImageView
                     android:id="@+id/ic_twitter_select"
                     android:layout_width="wrap_content"
@@ -130,6 +133,7 @@
                     android:background="@drawable/circle_bg_disable"
                     android:padding="@dimen/_15sdp"
                     android:src="@drawable/ic_twitter" />
+
                 <ImageView
                     android:id="@+id/ic_whatsapp_select"
                     android:layout_width="wrap_content"
@@ -153,49 +157,48 @@
             <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/ic_youtube"
                 android:layout_width="match_parent"
-                android:visibility="gone"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:hint="@string/youtube"
                 android:inputType="textPersonName"
+                android:visibility="gone"
                 app:startIcon="@drawable/ic_youtube" />
 
             <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/ic_twitter"
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:hint="@string/Twitter"
                 android:inputType="textWebEmailAddress"
+                android:visibility="gone"
                 app:startIcon="@drawable/ic_twitter" />
 
 
             <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/ic_whatsapp"
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:hint="@string/whatsapp"
-
-                android:inputType="textWebEmailAddress"
+                android:inputType="number"
+                android:visibility="gone"
                 app:startIcon="@drawable/ic_whatsapp" />
 
 
             <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/ic_snapshot"
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:hint="@string/snapchat"
                 android:inputType="textWebEmailAddress"
+                android:visibility="gone"
                 app:startIcon="@drawable/ic_snapshot" />
 
 
             <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
-                android:id="@+id/select_region"
+                android:id="@+id/employment_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
@@ -223,6 +226,7 @@
                 android:inputType="textPersonName"
                 app:startIcon="@drawable/ic_calendar"
                 app:viewType="spinner" />
+
             <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/TaxNumber"
                 android:layout_width="match_parent"
@@ -232,7 +236,6 @@
                 android:inputType="textPersonName"
                 app:imeOptions="done"
                 app:startIcon="@drawable/ic_tax" />
-
 
 
             <androidx.appcompat.widget.AppCompatButton
@@ -268,7 +271,8 @@
                 android:text="@string/NEXT"
                 android:textAllCaps="false"
                 android:textColor="#ffffff"
-                android:textSize="@dimen/_14sdp" />
+                android:textSize="@dimen/_14sdp"
+                tools:ignore="OnClick" />
         </LinearLayout>
 
     </ScrollView>

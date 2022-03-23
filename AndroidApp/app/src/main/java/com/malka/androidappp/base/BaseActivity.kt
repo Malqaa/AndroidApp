@@ -20,6 +20,7 @@ import java.util.*
 abstract class BaseActivity : AppCompatActivity() {
 
 
+
     fun culture():String{
         return "en-US"
     }

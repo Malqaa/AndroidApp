@@ -39,6 +39,7 @@ import com.malka.androidappp.botmnav_fragments.sold_business.ModelSoldUnsold
 import com.malka.androidappp.botmnav_fragments.won_n_loss.model_wonloss.ModelWonLost
 import com.malka.androidappp.design.Models.GetAddressResponse
 import com.malka.androidappp.design.Models.BankListRespone
+import com.malka.androidappp.design.Models.BusinessUserModel
 import com.malka.androidappp.network.constants.ApiConstants
 import com.malka.androidappp.network.constants.ApiConstants.ADDBANK_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.ADDRESS_ENDPOINT
@@ -49,6 +50,7 @@ import com.malka.androidappp.network.constants.ApiConstants.ADVBYID_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.ALL_PRODUCTS_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.ALL_USER_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.ASK_QUES_AD_ENDPOINT
+import com.malka.androidappp.network.constants.ApiConstants.BUSSINESS_USER_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.CHANGEPASS_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.CHECKOUT_INSERT_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.CREATE_BUSINESS_PRODUCT_ENDPOINT
@@ -65,6 +67,7 @@ import com.malka.androidappp.network.constants.ApiConstants.GET_ADDRESS_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.GET_ALL_CATEGORIES
 import com.malka.androidappp.network.constants.ApiConstants.GET_ALL_CATEGORIES_BY_ID
 import com.malka.androidappp.network.constants.ApiConstants.GET_BANK__ACCOUNT_DETAIL
+import com.malka.androidappp.network.constants.ApiConstants.GET_BUSINESS_USER_LIST
 import com.malka.androidappp.network.constants.ApiConstants.GET_CATEGORY_LISTING_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.GET_CATEGORY_TAGS_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.GET_QUES_ANS_COMMENT_ENDPOINT
@@ -145,6 +148,9 @@ interface MalqaApiService {
     @POST(ADDRESS_ENDPOINT)
     fun insertAddress(@Body info: GetAddressResponse.AddressModel): Call<insertAddressResponseBack>
 
+    @POST(BUSSINESS_USER_ENDPOINT)
+    fun addBusinesUser(@Body info: BusinessUserModel.getBusinessList): Call<addBusinessUserlistReponse>
+
     @POST(ADDBANK_ENDPOINT)
     fun addbankaccount(@Body info: BankListRespone.BankDetail): Call<addBankAccountResponseBack>
 
@@ -153,6 +159,9 @@ interface MalqaApiService {
 
     @GET(GET_BANK__ACCOUNT_DETAIL)
     fun getBankDetail(@Query("UserID") loginId: String): Call<BankListRespone>
+
+    @GET(GET_BUSINESS_USER_LIST)
+    fun getBusinessUserList(@Query("UserID") loginId: String): Call<BusinessUserModel>
 
     @GET("Country/GetAllCountryFrmSql")
     fun getCountry(@Query("culture") culture: String): Call<CountryRespone>
