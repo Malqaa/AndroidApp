@@ -22,6 +22,7 @@ import com.malka.androidappp.botmnav_fragments.feedback_frag.insert_feedback.Giv
 import com.malka.androidappp.botmnav_fragments.feedback_frag.insert_feedback.ModelGiveFeedBack
 import com.malka.androidappp.activities_main.forgot.forgot_changepass_reset_activity.PostChangePassApiModel
 import com.malka.androidappp.activities_main.forgot.forgot_password.ForgotPassResponseModel
+import com.malka.androidappp.activities_main.signup_account.signup_pg1.RegisterData
 import com.malka.androidappp.botmnav_fragments.home.model.AllCategoriesResponseBack
 import com.malka.androidappp.botmnav_fragments.home.model.CarTemplate
 import com.malka.androidappp.botmnav_fragments.home_view_allcategories.ModelAddCatFav
@@ -120,7 +121,7 @@ interface MalqaApiService {
     val users: Call<CarTemplate?>?
 
     @POST(CREATE_USER_ENDPOINT)
-    fun createuser(@Body registeruser: CreateUserDataModel): Call<ResponseBody>
+    fun createuser(@Body registeruser: CreateUserDataModel): Call<RegisterData>
 
     @POST(VERIFY_API_ENDPOINT)
     fun verifycode(@Body verifyusercode: PostReqVerifyCode): Call<PostReqVerifyCode>

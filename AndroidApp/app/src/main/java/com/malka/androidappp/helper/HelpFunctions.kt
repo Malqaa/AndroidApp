@@ -82,17 +82,17 @@ class HelpFunctions {
 
         fun ShowLongToast(msg: String, context: Context?) {
 
-            ShowAlert(
-                context, "", msg
-            )
+//            ShowAlert(
+//                context, "", msg
+//            )
 
-//            if (context != null) {
-//                Toast.makeText(
-//                    context,
-//                    msg,
-//                    Toast.LENGTH_SHORT
-//                ).show();
-//            }
+            if (context != null) {
+                Toast.makeText(
+                    context,
+                    msg,
+                    Toast.LENGTH_SHORT
+                ).show();
+            }
         }
 
         fun IsUserLoggedIn(): Boolean1 {

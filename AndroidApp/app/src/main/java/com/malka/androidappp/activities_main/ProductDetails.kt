@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.Filter
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.ItemTouchHelper
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.Gson
@@ -22,6 +23,8 @@ import com.malka.androidappp.helper.Extension.loadThumbnail
 import com.malka.androidappp.helper.Extension.shared
 import com.malka.androidappp.helper.GenericAdaptor
 import com.malka.androidappp.helper.HelpFunctions
+import com.malka.androidappp.helper.swipe.MessageSwipeController
+import com.malka.androidappp.helper.swipe.SwipeControllerActions
 import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.constants.ApiConstants
@@ -33,7 +36,6 @@ import com.malka.androidappp.servicemodels.ProductImage
 import kotlinx.android.synthetic.main.activity_product_details.*
 import kotlinx.android.synthetic.main.atrribute_item.view.*
 import kotlinx.android.synthetic.main.image_item.view.*
-import kotlinx.android.synthetic.main.image_item.view.loader
 import kotlinx.android.synthetic.main.product_detail_2.*
 import org.json.JSONArray
 import org.json.JSONObject
@@ -75,8 +77,8 @@ class ProductDetails : BaseActivity() {
         behavior.peekHeight =getResources().getDimension(R.dimen._360sdp).toInt()
 
         mainContainer.isVisible = false
-        AdvId = intent.getStringExtra("AdvId") ?: "uajl8160XC"
-        template = intent.getStringExtra("Template") ?: "Car"
+        AdvId = intent.getStringExtra("AdvId")?:""
+        template = intent.getStringExtra("Template")?:""
 
         getadbyidapi(AdvId, template)
 
@@ -235,6 +237,30 @@ class ProductDetails : BaseActivity() {
                 list
             )
         }
+
+        enableSwipeToDeleteAndUndo()
+    }
+    private fun enableSwipeToDeleteAndUndo() {
+       val  messageSwipeController =
+            MessageSwipeController(this, object : SwipeControllerActions {
+                override fun showReplyUI(position: Int) {
+                    replyItemClicked("QUESTION")
+                }
+            })
+        val itemTouchHelper = ItemTouchHelper(messageSwipeController)
+        itemTouchHelper.attachToRecyclerView(product_attribute)
+    }
+
+    private fun replyItemClicked(selectedMessage: String?) {
+        if (selectedMessage == null) return
+        val author: String
+
+//
+//        showReplyLayout("author", selectedMessage)
+//        exitActionMode()
+       openSoftKeyboard(this, question_editText.findFocus())
+//        etMessage.requestFocus()
+//        currentQuotedMessage = selectedMessage
     }
 
     fun getadbyidapi(advid: String, template: String) {

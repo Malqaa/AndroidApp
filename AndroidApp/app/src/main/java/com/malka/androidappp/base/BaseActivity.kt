@@ -104,4 +104,9 @@ abstract class BaseActivity : AppCompatActivity() {
         }
 //        windowImmersive((Activity)context);
     }
+
+    open fun openSoftKeyboard(context: Context, view: View?) {
+        val imm = context.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        imm?.showSoftInput(view, 0)
+    }
 }
