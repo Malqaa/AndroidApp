@@ -48,6 +48,7 @@ import com.google.android.libraries.places.api.net.PlacesClient;
 import com.malka.androidappp.R;
 import com.malka.androidappp.activities_main.place_picker.PlaceAutocompleteAdapter;
 import com.malka.androidappp.base.BaseActivity;
+import com.malka.androidappp.servicemodels.LocationPickerModel;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -225,10 +226,7 @@ public class LocationPickerActivity extends BaseActivity implements View.OnClick
 
     }
 
-    public void setBroadCast() {
-        IntentFilter filter = new IntentFilter();
-        filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
-    }
+
 
     private void mapViewWidget(Bundle savedInstanceState) {
         mMapView.onCreate(savedInstanceState);
@@ -343,21 +341,13 @@ public class LocationPickerActivity extends BaseActivity implements View.OnClick
 
             case R.id.Confirmlocation: {
                 if (hashMapLocationInfo.containsKey("address") && hashMapLocationInfo.get("address") != null) {
-                    if (!locationPlacesSearch.equalsIgnoreCase("")) {
-                        hashMapLocationInfo.put("address", locationPlacesSearch);
-                    }
-
-                    hashMapLocationInfo.put("address", tvSearch.getText().toString());
-//                    makeProperAddress();
-
+                    String address=tvSearch.getText().toString();
+                    new LocationPickerModel(address,currentCenter.latitude,currentCenter.longitude);
                     Intent intent = getIntent();
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(getString(R.string.key_location),
                             hashMapLocationInfo);
-                    bundle.putDouble(getString(R.string.key_latitude),
-                            currentCenter.latitude);
-                    bundle.putDouble(getString(R.string.key_longitude),
-                            currentCenter.longitude);
+
                     intent.putExtras(bundle);
                     setResult(LocationPickerActivity.RESULT_OK, intent);
                     onBackPressed();
@@ -375,52 +365,6 @@ public class LocationPickerActivity extends BaseActivity implements View.OnClick
         }
 
     }
-
-    private void makeProperAddress() {
-        String address = "";
-        String country = "";
-        String state = "";
-        String city = "";
-
-        address = hashMapLocationInfo.get("address");
-
-        if (hashMapLocationInfo.containsKey("country")
-                && hashMapLocationInfo.get("country") != null) {
-            country = hashMapLocationInfo.get("country");
-        }
-        if (hashMapLocationInfo.containsKey("state")
-                && hashMapLocationInfo.get("state") != null) {
-            state = hashMapLocationInfo.get("state");
-        }
-        if (hashMapLocationInfo.containsKey("city")
-                && hashMapLocationInfo.get("city") != null) {
-            city = hashMapLocationInfo.get("city");
-        }
-
-        if (address.contains(country)) {
-            address = address.replaceAll(", " + country, "");
-            address = address.replaceAll(" " + country, "");
-            address = address.replaceAll("" + country, "");
-        }
-
-        if (address.contains(state)) {
-            address = address.replaceAll(", " + state, "");
-            address = address.replaceAll(" " + state, "");
-            address = address.replaceAll("" + state, "");
-        }
-
-        if (address.contains(city)) {
-            address = address.replaceAll(", " + city, "");
-            address = address.replaceAll(" " + city, "");
-            address = address.replaceAll("" + city, "");
-            address = address.replaceAll(", City", "");
-            address = address.replaceAll(" City", "");
-            address = address.replaceAll("City", "");
-        }
-
-        hashMapLocationInfo.put("address", address);
-    }
-
 
 
 

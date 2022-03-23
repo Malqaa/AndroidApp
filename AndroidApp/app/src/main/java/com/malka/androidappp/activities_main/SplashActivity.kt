@@ -33,13 +33,7 @@ class SplashActivity : BaseActivity() {
             splash_view.setOnCompletionListener(MediaPlayer.OnCompletionListener {
                 if (isFinishing) return@OnCompletionListener
                 else {
-//                    val intentt = Intent(this@SplashActivity, MainActivity::class.java)
-//                    this@SplashActivity.startActivity(intentt)
-//                    finish()
-//                    this.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
-
-
-                    val intentt = Intent(this@SplashActivity, LocationPickerActivity::class.java)
+                    val intentt = Intent(this@SplashActivity, MainActivity::class.java)
                     this@SplashActivity.startActivity(intentt)
                     finish()
                     this.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
