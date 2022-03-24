@@ -16,6 +16,8 @@ import com.google.gson.JsonObject
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.login.SignInActivity
 import com.malka.androidappp.base.BaseActivity
+import com.malka.androidappp.botmnav_fragments.cardetail_page.Data
+import com.malka.androidappp.botmnav_fragments.cardetail_page.ModelSellerDetails
 import com.malka.androidappp.botmnav_fragments.question_ans_comnt.QuesAnsFragment
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.design.ProductReviews
@@ -33,6 +35,7 @@ import com.malka.androidappp.servicemodels.AdDetailModel
 import com.malka.androidappp.servicemodels.Attribute
 import com.malka.androidappp.servicemodels.ConstantObjects
 import com.malka.androidappp.servicemodels.ProductImage
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_product_details.*
 import kotlinx.android.synthetic.main.atrribute_item.view.*
 import kotlinx.android.synthetic.main.image_item.view.*
@@ -281,6 +284,8 @@ class ProductDetails : BaseActivity() {
 
 
                     product!!.run {
+                        getSellerByID(user!!)
+
                         if (!template.isNullOrEmpty()) {
                             val json_string = HelpFunctions.GetTemplatesJson(
                                 this@ProductDetails,
@@ -464,6 +469,32 @@ class ProductDetails : BaseActivity() {
     }
 
 
+    private fun getSellerByID(id: String) {
 
+        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+        val call: Call<ModelSellerDetails> = malqa.getAdSellerByID(id)
+
+        call.enqueue(object : Callback<ModelSellerDetails> {
+
+            @SuppressLint("SetTextI18n")
+            override fun onResponse(
+                call: Call<ModelSellerDetails>,
+                response: Response<ModelSellerDetails>
+            ) {
+                if (response.isSuccessful) {
+                    var sellerData: Data = response.body()!!.data
+                    sellerData.fullName
+                    sellerData.phone
+
+                } else {
+                    HelpFunctions.ShowLongToast(getString(R.string.NoRecordFound), this@ProductDetails)
+                }
+            }
+
+            override fun onFailure(call: Call<ModelSellerDetails>, t: Throwable) {
+                HelpFunctions.ShowLongToast(getString(R.string.Somethingwentwrong), this@ProductDetails)
+            }
+        })
+    }
 
 }

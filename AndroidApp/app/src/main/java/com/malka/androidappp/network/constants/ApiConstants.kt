@@ -77,13 +77,13 @@ object ApiConstants {
 
     const val DELETE_AD_WATCHLIST_ENDPOINT = "Watchlist/delete"
 
-    const val INSERT_FAVOURITE_SELLER_ENDPOINT = "insertseller/"
-    const val INSERT_FAVOURITE_CATEGORY_ENDPOINT = "insertcategory/"
-    const val INSERT_FAVOURITE_SEARCH_ENDPOINT = "insertsearch/"
+    const val INSERT_FAVOURITE_SELLER_ENDPOINT = "Favourite/insertseller"
+    const val INSERT_FAVOURITE_CATEGORY_ENDPOINT = "Favourite/insertcategory"
+    const val INSERT_FAVOURITE_SEARCH_ENDPOINT = "Favourite/insertsearch"
 
-    const val REMOVE_FAVOURITE_SELLER_ENDPOINT = "RemoveFavoriteSeller/"
-    const val REMOVE_FAVOURITE_CATEGORY_ENDPOINT = "RemoveFavoriteCategory/"
-    const val REMOVE_FAVOURITE_SEARCH_ENDPOINT = "RemoveFavoriteSearch/"
+    const val REMOVE_FAVOURITE_SELLER_ENDPOINT = "Favourite/RemoveFavoriteSeller"
+    const val REMOVE_FAVOURITE_CATEGORY_ENDPOINT = "Favourite/RemoveFavoriteCategory"
+    const val REMOVE_FAVOURITE_SEARCH_ENDPOINT = "Favourite/RemoveFavoriteSearch"
 
     const val INSERT_FAVOURTIE_SELLER_URL =
         USERFAVOURITE_ENDPOINT + INSERT_FAVOURITE_SELLER_ENDPOINT
@@ -127,23 +127,23 @@ object ApiConstants {
     const val POST_BUSINESS_USER_REGISTRATION_ENDPOINT = "Insertbusinessuser"
 
     const val GET_WONLOST_BASEURL = API_BASE_URL + "Bid/"
-    const val GET_WONLOST_ENDPOINT = "UserWonNLostList"
+    const val GET_WONLOST_ENDPOINT = "Bid/UserWonNLostList"
 
     const val HOME_TOTAL_ONLINEVISITS_BASEURL = API_BASE_URL + "Accounts/"
     const val HOME_TOTAL_ONLINEVISITS_ENDPOINT = "GetAllOnlineUsers"
 
     const val GET_SELLER_BASE_URL = API_BASE_URL + "Accounts/"
-    const val GET_SELLER_ENDPOINT = "GetUser"
+    const val GET_SELLER_ENDPOINT = "Accounts/GetUser"
 
     const val POST_USER_IMAGE = API_BASE_URL + "Accounts/"
-    const val POST_USER_IMAGE_ENDPOINT = "userimageupload"
+    const val POST_USER_IMAGE_ENDPOINT = "Accounts/userimageupload"
 
     const val HOME_TOTAL_NUMBERS_OF_MEMBERS_BASEURL = API_BASE_URL + "Accounts/"
-    const val HOME_TOTAL_NUMBERS_OF_MEMBERS_ENDPOINT = "usercount"
+    const val HOME_TOTAL_NUMBERS_OF_MEMBERS_ENDPOINT = "Accounts/usercount"
 
     const val GET_BUYNOW_SHIPPINGADDRESS_BASEURL = API_BASE_URL + "Accounts/"
-    const val GET_BUYNOW_SHIPPINGADDRESS_ENDPOINT = "getaddresses"
-    const val INSERT_BUYNOW_SHIPPINGADDRESS_ENDPOINT = "insertaddress"
+    const val GET_BUYNOW_SHIPPINGADDRESS_ENDPOINT = "Accounts/getaddresses"
+    const val INSERT_BUYNOW_SHIPPINGADDRESS_ENDPOINT = "Accounts/insertaddress"
 
     const val HASSAN_SERVER = "http://192.168.2.51/"
     const val CREATE_ADV_BYWAQAR_TEST_SERVER_BASEURL =
