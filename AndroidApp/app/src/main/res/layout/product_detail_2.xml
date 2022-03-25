@@ -2,7 +2,8 @@
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -471,68 +472,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/madani_arabic_light"
-                    android:text="There are 5 questions that the seller did not answer"
+                    android:text="There are 2 questions that the seller did not answer"
                     android:textColor="#000000"
                     android:textSize="@dimen/_12sdp" />
 
-                <LinearLayout
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/quest_ans_rcv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_13sdp"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/profile2x" />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="@dimen/_10sdp"
-                        android:background="@drawable/comment_background"
-                        android:padding="@dimen/_8sdp">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:fontFamily="@font/madani_arabic_light"
-                            android:text="Is the phone defective?"
-                            android:textColor="@color/grey"
-                            android:textSize="@dimen/_13sdp" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="end"
-                    android:layout_marginTop="@dimen/_13sdp"
-                    android:background="@drawable/comment_background1"
-                    android:padding="@dimen/_8sdp">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="@dimen/_10sdp"
-                        android:background="@drawable/comment_background1">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="center_vertical"
-                            android:fontFamily="@font/madani_arabic_light"
-                            android:text="Is the phone defective?"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/_13sdp" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
+                    android:layout_margin="@dimen/_10sdp"
+                    android:orientation="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
 
                 <LinearLayout
@@ -543,6 +493,7 @@
                     android:background="@drawable/comment_btn">
 
                     <EditText
+                        android:id="@+id/editTextque"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"

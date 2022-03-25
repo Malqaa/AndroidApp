@@ -20,7 +20,6 @@ class Switch_Account : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_switch_account)
-        getBusinessUserList()
 
 
         add_business_account_btn.setOnClickListener {
@@ -29,10 +28,13 @@ class Switch_Account : AppCompatActivity() {
         }
 
 
-
     }
 
+    override fun onResume() {
+        super.onResume()
 
+        getBusinessUserList()
+    }
 
 
 

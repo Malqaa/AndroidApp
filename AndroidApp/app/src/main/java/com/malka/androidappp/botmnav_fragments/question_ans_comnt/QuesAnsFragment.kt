@@ -139,6 +139,7 @@ class QuesAnsFragment : BaseActivity(), AdapterQuesAns.OnQAPostItemClickLisenten
                 call: Call<ModelQuesAnswr>, response: Response<ModelQuesAnswr>
             ) {
                 if (response.isSuccessful) {
+
                     recyclerQuesAns.layoutManager = LinearLayoutManager(
                         this@QuesAnsFragment,
                         LinearLayoutManager.VERTICAL,

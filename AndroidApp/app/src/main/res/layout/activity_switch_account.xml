@@ -15,6 +15,7 @@
 
     <LinearLayout
         android:layout_below="@+id/toolbar_main"
+        android:layout_above="@+id/add_business_account_btn"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -174,6 +175,7 @@
 
 
     <RelativeLayout
+        android:id="@+id/add_business_account_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -190,16 +192,15 @@
 
 
             <TextView
-                android:id="@+id/add_business_account_btn"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
                 android:fontFamily="@font/madani_arabic_semi_bold"
                 android:gravity="center"
-                android:padding="@dimen/_10sdp"
+                android:padding="@dimen/_5sdp"
                 android:text="Upgrade my existing account to a merchant account"
                 android:textColor="@color/white"
-                android:textSize="@dimen/_12sdp" />
+                android:textSize="@dimen/_10sdp" />
 
 
         </LinearLayout>

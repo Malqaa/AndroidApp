@@ -48,6 +48,7 @@ object ApiConstants {
     const val ACCOUNT_BASE_URL = API_BASE_URL + "Accounts/"
     const val VERIFY_API_ENDPOINT = "Accounts/verify"
     const val BUSSINESS_USER_ENDPOINT = "Accounts/CreateBusinessAccount"
+    const val BUSSINESS_REGISTER_FILE_ENDPOINT = "Accounts/UploadBusinessDocuments"
     const val GET_BUSINESS_USER_LIST = "Accounts/GetBusinessListByUserId"
     const val RESEND_OTPCODE_API_ENDPOINT = "Accounts/ResendCode"
     const val UPDATEUSER_SIGNUP_ENDPOINT = "Accounts/updatePersonalInfo"

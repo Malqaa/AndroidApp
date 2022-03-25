@@ -6,8 +6,11 @@ import android.graphics.PorterDuff
 import android.os.Bundle
 import android.view.View
 import android.widget.Filter
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.Gson
@@ -16,12 +19,20 @@ import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.login.SignInActivity
 import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.botmnav_fragments.question_ans_comnt.QuesAnsFragment
+import com.malka.androidappp.botmnav_fragments.question_ans_comnt.adapter_ques_ans.AdapterQuesAns
+import com.malka.androidappp.botmnav_fragments.question_ans_comnt.get_models_quesans.ModelQuesAnswr
+import com.malka.androidappp.botmnav_fragments.question_ans_comnt.get_models_quesans.Question
+import com.malka.androidappp.botmnav_fragments.question_ans_comnt.post_answer_api.ModelPostAns
+import com.malka.androidappp.botmnav_fragments.question_ans_comnt.post_ask_ques_api_edittext.ModelAskQues
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
+import com.malka.androidappp.design.Models.GetAddressResponse
 import com.malka.androidappp.design.ProductReviews
 import com.malka.androidappp.helper.Extension.loadThumbnail
 import com.malka.androidappp.helper.Extension.shared
 import com.malka.androidappp.helper.GenericAdaptor
 import com.malka.androidappp.helper.HelpFunctions
+import com.malka.androidappp.helper.hide
+import com.malka.androidappp.helper.show
 import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.constants.ApiConstants
@@ -31,10 +42,15 @@ import com.malka.androidappp.servicemodels.Attribute
 import com.malka.androidappp.servicemodels.ConstantObjects
 import com.malka.androidappp.servicemodels.ProductImage
 import kotlinx.android.synthetic.main.activity_product_details.*
+import kotlinx.android.synthetic.main.activity_product_details.loader
+import kotlinx.android.synthetic.main.activity_signup_pg1.*
+import kotlinx.android.synthetic.main.add_address_design.view.*
 import kotlinx.android.synthetic.main.atrribute_item.view.*
+import kotlinx.android.synthetic.main.fragment_ques_ans.*
 import kotlinx.android.synthetic.main.image_item.view.*
-import kotlinx.android.synthetic.main.image_item.view.loader
 import kotlinx.android.synthetic.main.product_detail_2.*
+import kotlinx.android.synthetic.main.question_answer_design.*
+import kotlinx.android.synthetic.main.question_answer_design.view.*
 import org.json.JSONArray
 import org.json.JSONObject
 import retrofit2.Call
@@ -48,6 +64,7 @@ class ProductDetails : BaseActivity() {
     var template = ""
     var selectLink = ""
     val attributeList: ArrayList<Attribute> = ArrayList()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,7 +89,7 @@ class ProductDetails : BaseActivity() {
 
             }
         })
-        behavior.peekHeight =getResources().getDimension(R.dimen._360sdp).toInt()
+        behavior.peekHeight = getResources().getDimension(R.dimen._360sdp).toInt()
 
         mainContainer.isVisible = false
         AdvId = intent.getStringExtra("AdvId") ?: "uajl8160XC"
@@ -94,6 +111,9 @@ class ProductDetails : BaseActivity() {
             startActivity(Intent(this, QuesAnsFragment::class.java).apply {
                 putExtra("AdvId", AdvId)
             })
+
+//            confrmAskQues()
+
         }
 
         all_reviews.setOnClickListener {
@@ -102,6 +122,7 @@ class ProductDetails : BaseActivity() {
             })
         }
 
+        quesAnss(AdvId)
 
 
     }
@@ -128,24 +149,24 @@ class ProductDetails : BaseActivity() {
                 holder.view.run {
                     element.run {
                         if (is_select) {
-                            product_image.borderColor=  ContextCompat.getColor(
+                            product_image.borderColor = ContextCompat.getColor(
                                 this@ProductDetails,
                                 R.color.bg
                             )
                         } else {
-                            product_image.borderColor=  ContextCompat.getColor(
+                            product_image.borderColor = ContextCompat.getColor(
                                 this@ProductDetails,
                                 R.color.white
                             )
                         }
 
-                        
+
                         val imageURL = ApiConstants.IMAGE_URL + link
                         if (isVideo) {
                             loadThumbnail(
                                 this@ProductDetails,
                                 link,
-                                product_image,loader
+                                product_image, loader
                             ) {
                                 is_video_iv.isVisible = true
                             }
@@ -155,12 +176,12 @@ class ProductDetails : BaseActivity() {
                             loadThumbnail(
                                 this@ProductDetails,
                                 imageURL,
-                                product_image,loader
+                                product_image, loader
                             )
 
                         }
                         setOnClickListener {
-                           
+
                             if (isVideo) {
                                 startActivity(
                                     Intent(
@@ -174,15 +195,15 @@ class ProductDetails : BaseActivity() {
 
                             } else {
                                 list.forEach {
-                                    it.is_select=false
+                                    it.is_select = false
                                 }
-                                is_select=true
+                                is_select = true
                                 image_rcv.post({ image_rcv.adapter!!.notifyDataSetChanged() })
                                 selectLink = imageURL
                                 loadThumbnail(
                                     this@ProductDetails,
                                     imageURL,
-                                    productimg,loader
+                                    productimg, loader
                                 )
                             }
 
@@ -241,7 +262,7 @@ class ProductDetails : BaseActivity() {
         HelpFunctions.startProgressBar(this)
 
         val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-        val call = malqa.getAdDetailById(advid, template,ConstantObjects.logged_userid)
+        val call = malqa.getAdDetailById(advid, template, ConstantObjects.logged_userid)
         call.enqueue(object : Callback<JsonObject> {
             @SuppressLint("UseRequireInsteadOfGet", "SetTextI18n")
             override fun onResponse(
@@ -293,7 +314,7 @@ class ProductDetails : BaseActivity() {
                             loadThumbnail(
                                 this@ProductDetails,
                                 imageURL,
-                                productimg,loader
+                                productimg, loader
                             )
 //                            productimg.setOnClickListener {
 //                                startActivity(
@@ -314,9 +335,9 @@ class ProductDetails : BaseActivity() {
                             productImage.add(ProductImage(video, true))
                         }
                         images.forEachIndexed { index, s ->
-                            if(index==0){
+                            if (index == 0) {
                                 productImage.add(ProductImage(s, is_select = true))
-                            }else{
+                            } else {
                                 productImage.add(ProductImage(s))
                             }
                         }
@@ -340,8 +361,8 @@ class ProductDetails : BaseActivity() {
                         description_tv.text = description
                         itemviews_tv.text =
                             getString(R.string.itemView, itemviews.toString().toInt())
-                        date.text =createdOnFormated
-                        is_watch_iv. setOnClickListener {
+                        date.text = createdOnFormated
+                        is_watch_iv.setOnClickListener {
                             if (HelpFunctions.AdAlreadyAddedToWatchList(AdvId)) {
                                 HelpFunctions.DeleteAdFromWatchlist(
                                     AdvId,
@@ -350,10 +371,14 @@ class ProductDetails : BaseActivity() {
                                     is_watch_iv.setImageResource(R.drawable.star)
                                     ConstantObjects.is_watch_iv!!.setImageResource(R.drawable.star)
                                 }
-                            }else{
+                            } else {
                                 if (ConstantObjects.logged_userid.isEmpty()) {
-                                    startActivity(Intent(this@ProductDetails, SignInActivity::class.java).apply {
-                                    })
+                                    startActivity(
+                                        Intent(
+                                            this@ProductDetails,
+                                            SignInActivity::class.java
+                                        ).apply {
+                                        })
                                 } else {
 
                                     HelpFunctions.InsertAdToWatchlist(
@@ -385,19 +410,21 @@ class ProductDetails : BaseActivity() {
                     list.add(product)
                     list.add(product)
 
-                    var isSellerProductHide=true
+                    var isSellerProductHide = true
                     seller_product_layout.setOnClickListener {
-                        if(isSellerProductHide){
-                            isSellerProductHide=false
-                            seller_product_rcv.isVisible=true
+                        if (isSellerProductHide) {
+                            isSellerProductHide = false
+                            seller_product_rcv.isVisible = true
                             isSellerProductHide_iv.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24)
-                            seller_product_tv.text=getText(R.string.view_similar_product_from_seller)
+                            seller_product_tv.text =
+                                getText(R.string.view_similar_product_from_seller)
 
-                        }else{
-                            isSellerProductHide=true
-                            seller_product_rcv.isVisible=false
+                        } else {
+                            isSellerProductHide = true
+                            seller_product_rcv.isVisible = false
                             isSellerProductHide_iv.setImageResource(R.drawable.down_arrow)
-                            seller_product_tv.text=getText(R.string.view_similar_product_from_seller)
+                            seller_product_tv.text =
+                                getText(R.string.view_similar_product_from_seller)
 
 
                         }
@@ -419,7 +446,6 @@ class ProductDetails : BaseActivity() {
             }
 
 
-
             override fun onFailure(call: Call<JsonObject>, t: Throwable) {
                 HelpFunctions.ShowLongToast(t.message!!, this@ProductDetails)
                 HelpFunctions.dismissProgressBar()
@@ -429,15 +455,204 @@ class ProductDetails : BaseActivity() {
 
     }
 
-    private fun activeWatch(view:FloatingActionButton) {
-        val myFabSrc= ContextCompat.getDrawable(this@ProductDetails, R.drawable.starcolor)
+    private fun activeWatch(view: FloatingActionButton) {
+        val myFabSrc = ContextCompat.getDrawable(this@ProductDetails, R.drawable.starcolor)
         val willBeWhite = myFabSrc!!.constantState!!.newDrawable()
         willBeWhite.mutate()
-            .setColorFilter(ContextCompat.getColor(this@ProductDetails, R.color.bg), PorterDuff.Mode.MULTIPLY)
+            .setColorFilter(
+                ContextCompat.getColor(this@ProductDetails, R.color.bg),
+                PorterDuff.Mode.MULTIPLY
+            )
         view.setImageDrawable(willBeWhite)
     }
 
+    private fun validateAskQuesInputText(): Boolean {
+        val Inputemail = editTextque!!.text.toString().trim { it <= ' ' }
 
+        return if (Inputemail.isEmpty()) {
+            HelpFunctions.ShowLongToast(getString(R.string.Fieldcantbeempty), this)
+            false
+        } else {
+            true
+        }
+    }
+
+
+    fun confrmAskQues() {
+        if (!validateAskQuesInputText()) {
+            return
+        } else {
+            if (ConstantObjects.logged_userid != SharedPreferencesStaticClass.ad_userid) {
+//                PostAnsApi()
+            } else if (ConstantObjects.logged_userid == SharedPreferencesStaticClass.ad_userid &&
+                SharedPreferencesStaticClass.is_selected_ans_or_comment == "answer"
+
+            ) {
+                askquesApi()
+            }
+
+        }
+
+    }
+
+    fun askquesApi() {
+        val quesgetInput: String = editTextque.text.toString().trim()
+//        val adsId: String = "thol1637CI"
+//        val buyersId: String = "119392dd-8b27-4f35-84c8-1ccf50343df7"
+
+
+        val adsId: String = AdvId
+        val buyersId: String = ConstantObjects.logged_userid
+
+//        Toast.makeText(this, "AdvID: "+AdvId, Toast.LENGTH_LONG).show()
+//        Toast.makeText(this, "BuyersId: "+buyersId, Toast.LENGTH_LONG).show()
+
+        val insertAskQuesinModel = ModelAskQues(adsId, buyersId, quesgetInput)
+        val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+
+        val call: Call<ModelAskQues> = malqaa.askQues(insertAskQuesinModel)
+
+        call.enqueue(object : Callback<ModelAskQues> {
+            override fun onResponse(call: Call<ModelAskQues>, response: Response<ModelAskQues>) {
+                if (response.isSuccessful) {
+                    editTextque.text = null
+                    HelpFunctions.ShowLongToast(
+                        getString(R.string.Questionhasbeenpost),
+                        this@ProductDetails
+                    )
+
+                } else {
+                    HelpFunctions.ShowLongToast(
+                        getString(R.string.FailedtopostQuestion),
+                        this@ProductDetails
+                    )
+                }
+
+            }
+
+            override fun onFailure(call: Call<ModelAskQues>, t: Throwable) {
+                t.message?.let { HelpFunctions.ShowLongToast(it, this@ProductDetails) }
+            }
+        })
+
+    }
+
+
+    fun quesAnss(adsId: String) {
+        val malqaa: MalqaApiService =
+            RetrofitBuilder.GetRetrofitBuilder()
+
+        val call: Call<ModelQuesAnswr> = malqaa.quesAns(adsId, ConstantObjects.logged_userid)
+
+        val recyclerQuesAns: RecyclerView = findViewById(R.id.quest_ans_rcv)
+
+        call.enqueue(object : Callback<ModelQuesAnswr> {
+            override fun onResponse(
+                call: Call<ModelQuesAnswr>, response: Response<ModelQuesAnswr>
+            ) {
+                if (response.isSuccessful) {
+                    if (response.body() != null) {
+                        val respone: ModelQuesAnswr = response.body()!!
+
+                        questionAnswerAdaptor(respone.questions)
+
+
+                    }
+
+
+                    // Get item count
+
+//                    Toast.makeText(this, "Total questions are : "+totalQuestions, Toast.LENGTH_LONG).show()
+
+                } else {
+                    HelpFunctions.ShowLongToast(
+                        getString(R.string.FailedtogetQuestions),
+                        this@ProductDetails
+                    )
+                }
+            }
+
+            override fun onFailure(call: Call<ModelQuesAnswr>, t: Throwable) {
+                t.message?.let { HelpFunctions.ShowLongToast(it, this@ProductDetails) }
+            }
+        })
+
+    }
+
+
+    fun PostAnsApi(questionId: String, answer: String,) {
+
+
+        val malqaa = RetrofitBuilder.GetRetrofitBuilder()
+
+        val call: Call<ModelPostAns> = malqaa.postAnsByQid(
+
+            questionId,
+            answer,
+            ConstantObjects.logged_userid,
+        )
+        call.enqueue(object : Callback<ModelPostAns> {
+            override fun onResponse(
+                call: Call<ModelPostAns>, response: Response<ModelPostAns>
+            ) {
+                if (response.isSuccessful) {
+
+                    if (response.body() != null) {
+
+                        val respone: ModelPostAns = response.body()!!
+                        if (respone.status_code.equals("200")) {
+                            HelpFunctions.ShowLongToast(
+                                getString(R.string.Answerhasbeenposted),
+                                this@ProductDetails
+                            )
+
+                        }
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<ModelPostAns>, t: Throwable) {
+                t.message?.let { HelpFunctions.ShowLongToast(it, this@ProductDetails) }
+
+            }
+        })
+    }
+
+
+    private fun questionAnswerAdaptor(list: List<Question>) {
+
+        quest_ans_rcv.adapter = object : GenericListAdapter<Question>(
+            R.layout.question_answer_design,
+            bind = { element, holder, itemCount, position ->
+                holder.view.run {
+                    element.run {
+
+                        question_tv.text = question
+                        question_tv.setOnClickListener {
+
+                            PostAnsApi(_id, "Hello")
+                        }
+
+                        if (isAnswered) {
+                            answer_view.show()
+                            answer_tv.text = answer.description
+                        } else {
+                            answer_view.hide()
+                        }
+                    }
+                }
+            }
+        ) {
+            override fun getFilter(): Filter {
+                TODO("Not yet implemented")
+            }
+
+        }.apply {
+            submitList(
+                list
+            )
+        }
+    }
 
 
 }

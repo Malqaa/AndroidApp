@@ -40,6 +40,7 @@ import com.malka.androidappp.botmnav_fragments.won_n_loss.model_wonloss.ModelWon
 import com.malka.androidappp.design.Models.GetAddressResponse
 import com.malka.androidappp.design.Models.BankListRespone
 import com.malka.androidappp.design.Models.BusinessUserModel
+import com.malka.androidappp.design.Models.getBusinessRegisterFile
 import com.malka.androidappp.network.constants.ApiConstants
 import com.malka.androidappp.network.constants.ApiConstants.ADDBANK_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.ADDRESS_ENDPOINT
@@ -50,6 +51,7 @@ import com.malka.androidappp.network.constants.ApiConstants.ADVBYID_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.ALL_PRODUCTS_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.ALL_USER_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.ASK_QUES_AD_ENDPOINT
+import com.malka.androidappp.network.constants.ApiConstants.BUSSINESS_REGISTER_FILE_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.BUSSINESS_USER_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.CHANGEPASS_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.CHECKOUT_INSERT_ENDPOINT
@@ -150,6 +152,9 @@ interface MalqaApiService {
 
     @POST(BUSSINESS_USER_ENDPOINT)
     fun addBusinesUser(@Body info: BusinessUserModel.getBusinessList): Call<addBusinessUserlistReponse>
+
+    @POST(BUSSINESS_REGISTER_FILE_ENDPOINT)
+    fun addBusinessRegisterFile(@Body info: getBusinessRegisterFile.GetDocuments): Call<addBusinessRegisterFileResponse>
 
     @POST(ADDBANK_ENDPOINT)
     fun addbankaccount(@Body info: BankListRespone.BankDetail): Call<addBankAccountResponseBack>

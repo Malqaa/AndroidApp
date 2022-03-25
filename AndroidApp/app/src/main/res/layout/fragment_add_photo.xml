@@ -116,15 +116,15 @@
                 android:background="@drawable/edittext_bg">
 
                 <EditText
-                    android:padding="@dimen/_10sdp"
                     android:id="@+id/addvideo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:background="@null"
-                    android:inputType="textUri"
                     android:fontFamily="@font/madani_arabic_light"
                     android:hint="@string/attach_a_video_link_of_the_item"
+                    android:inputType="textUri"
+                    android:padding="@dimen/_10sdp"
                     android:textColor="@color/grey"
                     android:textSize="@dimen/_12sdp" />
 

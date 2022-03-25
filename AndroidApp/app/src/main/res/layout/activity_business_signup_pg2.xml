@@ -217,15 +217,18 @@
                 android:inputType="textPersonName"
                 app:startIcon="@drawable/ic_office_building" />
 
-            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
+
+            <TextView
                 android:id="@+id/date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:hint="@string/expiry_date"
-                android:inputType="textPersonName"
-                app:startIcon="@drawable/ic_calendar"
-                app:viewType="spinner" />
+                android:background="@drawable/edittext_bg"
+                android:drawablePadding="@dimen/_15sdp"
+                android:gravity="center_vertical"
+                android:padding="@dimen/_12sdp"
+                android:text="@string/SelectDate"
+                app:drawableStartCompat="@drawable/ic_calendar" />
 
             <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/TaxNumber"

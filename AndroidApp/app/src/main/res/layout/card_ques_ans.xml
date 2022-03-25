@@ -13,17 +13,17 @@
     android:layout_width="wrap_content"
     android:layout_height="24dp"
     android:src="@drawable/questionn"
-    android:tint="@color/GoldenApp"/>
+    />
 
  <TextView
      android:id="@+id/ques_text"
-     android:layout_toEndOf="@+id/ques_icon"
-     android:layout_marginStart="15dp"
      android:layout_width="wrap_content"
      android:layout_height="wrap_content"
-     android:textColor="@color/black"
      android:layout_alignBottom="@+id/ques_icon"
-     android:text="There is dual sim available?"/>
+     android:layout_marginStart="15dp"
+     android:layout_toEndOf="@+id/ques_icon"
+     android:text="There is dual sim available?"
+     android:textColor="@color/black" />
 
  <TextView
      android:id="@+id/buyer_name"
@@ -46,39 +46,38 @@
      android:layout_height="wrap_content"
      android:layout_below="@+id/buyer_name"
      android:src="@drawable/answerr"
-     android:tint="@color/GreenApp"/>
+    />
 
 
  <TextView
      android:id="@+id/ans_text"
-     android:layout_toEndOf="@+id/ans_icon"
-     android:layout_marginStart="23dp"
-     android:layout_marginTop="15dp"
-     android:layout_below="@+id/buyer_name"
      android:layout_width="wrap_content"
      android:layout_height="wrap_content"
-     android:textColor="@color/black"
-     android:text="no dual sim "/>
+     android:layout_below="@+id/buyer_name"
+     android:layout_marginStart="23dp"
+     android:layout_marginTop="15dp"
+     android:layout_toEndOf="@+id/ans_icon"
+     android:text="no dual sim "
+     android:textColor="@color/black" />
 
  <TextView
      android:id="@+id/seller_name"
      android:layout_width="wrap_content"
      android:layout_height="wrap_content"
+     android:layout_below="@+id/ans_text"
      android:layout_marginStart="16dp"
      android:layout_marginTop="4dp"
      android:layout_toEndOf="@+id/ques_icon"
-     android:layout_below="@+id/ans_text"
-     android:textSize="10dp"
      android:text="Seller name"
-     />
+     android:textSize="10dp" />
 
-<androidx.recyclerview.widget.RecyclerView
-    android:id="@+id/commentRecycler"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    tools:listitem="card"
-    android:layout_below="@+id/seller_name"
-    />
+ <androidx.recyclerview.widget.RecyclerView
+     android:id="@+id/commentRecycler"
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     android:layout_below="@+id/seller_name"
+     android:layout_marginTop="0dp"
+     tools:listitem="card" />
 
  <Button
      android:id="@+id/buttonans"

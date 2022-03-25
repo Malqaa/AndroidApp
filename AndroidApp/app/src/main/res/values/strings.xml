@@ -263,6 +263,7 @@
   </string>
     <string name="Select" formatted="true">Select %s</string>
     <string name="Please_select" formatted="true">Please select %s</string>
+    <string name="Please" formatted="true">Please %s</string>
     <string name="Please_enter" formatted="true">Please enter %s</string>
 
     <string name="Subtitle">

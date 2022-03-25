@@ -289,6 +289,7 @@
 
     <string name="Select" formatted="true">تحديد %s</string>
     <string name="Please_select" formatted="true">حدد اختيار %s</string>
+    <string name="Please" formatted="true">الرجاء %s</string>
     <string name="Please_enter" formatted="true">الرجاء إدخال %s</string>
 
     <string name="Subtitle">

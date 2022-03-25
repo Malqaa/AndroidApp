@@ -20,7 +20,7 @@ data class BusinessUserModel(
         val businessLogoPath: Any,
         val businessName: String,
         val businessPhone: String,
-        val businessRegistrationExpiry: String,
+        var businessRegistrationExpiry: String,
         val businessRegistrationNumber: String,
         val businessTwitterURI: String,
         val businessType: String,

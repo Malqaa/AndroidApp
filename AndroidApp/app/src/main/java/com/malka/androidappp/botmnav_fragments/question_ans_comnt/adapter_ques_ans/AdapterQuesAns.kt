@@ -7,18 +7,18 @@ import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
+import com.malka.androidappp.activities_main.ProductDetails
+import com.malka.androidappp.botmnav_fragments.question_ans_comnt.QuesAnsFragment
 import com.malka.androidappp.botmnav_fragments.question_ans_comnt.adapter_sub_comments.AdapterComments
 import com.malka.androidappp.botmnav_fragments.question_ans_comnt.get_models_quesans.Question
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.servicemodels.ConstantObjects
 import kotlinx.android.synthetic.main.card_ques_ans.view.*
-import retrofit2.Callback
-import retrofit2.Response
 
 
 class AdapterQuesAns(
     val quesAnsposts: List<Question>,
-    var clickedListener: OnQAPostItemClickLisentener
+    var clickedListener: QuesAnsFragment
 ) : RecyclerView.Adapter<AdapterQuesAns.AdapterQuesAnsViewHolder>() {
 
     class AdapterQuesAnsViewHolder(itemview: View) : RecyclerView.ViewHolder(itemview) {
@@ -33,11 +33,11 @@ class AdapterQuesAns(
         val btn_comment:TextView = itemview.buttoncomment
         val comnt_recycler:RecyclerView = itemview.commentRecycler
 
-        fun intailaizeAnsOnClick(item:Question,action: OnQAPostItemClickLisentener){
+        fun intailaizeAnsOnClick(item:Question, action: QuesAnsFragment){
             btn_ans.setOnClickListener(){action.OnQAItemClick(item, adapterPosition)}
         }
 
-        fun intializeCommentOnClick(item: Question,action: OnQAPostItemClickLisentener){
+        fun intializeCommentOnClick(item: Question, action: QuesAnsFragment){
             btn_comment.setOnClickListener(){action.onCommentItemClick(item, adapterPosition)}
         }
 
@@ -60,12 +60,12 @@ class AdapterQuesAns(
 
 
     override fun onBindViewHolder(holder: AdapterQuesAnsViewHolder, position: Int) {
-        //val item = quesAnsposts.get(holder.adapterPosition)
+        val item = quesAnsposts.get(holder.adapterPosition)
 
             if (quesAnsposts != null && quesAnsposts.size > 0 && quesAnsposts[position] != null) {
 
-                //////////////Hide Comment and Anser buttons for buyers////////////////////////////
-                if(ConstantObjects.logged_userid!=SharedPreferencesStaticClass.ad_userid)
+                //////////Hide Comment and Anser buttons for buyers////////////////////////////
+                if(ConstantObjects.logged_userid!= SharedPreferencesStaticClass.ad_userid)
                 {
                     holder.btn_ans.setVisibility(View.GONE)
                     holder.btn_comment.setVisibility(View.GONE)
@@ -75,7 +75,7 @@ class AdapterQuesAns(
                 holder.questext.text =
                 if (quesAnsposts[position].question != null) quesAnsposts[position].question
                 else ""
-                //holder.buyername.text = quesAnsposts[position].buyerName
+//                holder.buyername.text = quesAnsposts[position].buyerName
 
                 //////////////////////////////settext to question view///////////////////////////////
                 holder.anstext.text =
@@ -85,7 +85,7 @@ class AdapterQuesAns(
                 else ""
 
                 ///////////////////////hide ansicon if answer text is empty/////////////////////////
-                //holder.ansicon.setTag(position)
+                holder.ansicon.setTag(position)
                 holder.ansicon.visibility =
                     if(quesAnsposts[position].answer != null && quesAnsposts[position].answer.description != null)
                         View.VISIBLE
@@ -96,7 +96,7 @@ class AdapterQuesAns(
                     View.VISIBLE
                 else
                     View.GONE
-            ///////////////////////////Calling CommentRecyclerview////////////////////////////////////
+//            ///////////////////////////Calling CommentRecyclerview////////////////////////////////////
                 holder.comnt_recycler.layoutManager = LinearLayoutManager(holder.comnt_recycler.context,
                     LinearLayoutManager.VERTICAL,
                     false
@@ -105,7 +105,7 @@ class AdapterQuesAns(
                     if(quesAnsposts[position].answer != null && quesAnsposts[position].answer.description != null && quesAnsposts[position].comment != null)
                     AdapterComments(quesAnsposts[position].comment)
                 else null
-            //////////////////////////////////////////////////////////////////////////////////////////
+//            //////////////////////////////////////////////////////////////////////////////////////////
             }
 
 
