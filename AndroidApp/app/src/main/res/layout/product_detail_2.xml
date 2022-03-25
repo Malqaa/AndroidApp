@@ -775,6 +775,7 @@
                             android:gravity="center">
 
                             <ImageView
+                                android:id="@+id/seller_picture"
                                 android:layout_width="@dimen/_54sdp"
                                 android:layout_height="@dimen/_54sdp"
                                 android:layout_centerVertical="true"
@@ -807,6 +808,7 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/sellerName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -814,17 +816,36 @@
                             android:text="Ahmed Mohamed"
                             android:textColor="#000000"
                             android:textSize="@dimen/_14sdp" />
-
-                        <TextView
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:fontFamily="@font/madani_arabic_light"
-                            android:text="Member since 2/21/2020"
-                            android:textColor="#000000"
-                            android:textSize="@dimen/_12sdp" />
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:fontFamily="@font/madani_arabic_light"
+                                android:text="Member since "
+                                android:textColor="#000000"
+                                android:textSize="@dimen/_12sdp" />
+                            <TextView
+                                android:id="@+id/member_since"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:fontFamily="@font/madani_arabic_light"
+                                android:text="@string/_2_21_2020"
+                                android:textColor="#000000"
+                                android:textSize="@dimen/_12sdp" />
+
+
+
+
+                        </LinearLayout>
 
                         <TextView
+                            android:id="@+id/seller_city"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
@@ -834,6 +855,7 @@
                             android:textSize="@dimen/_12sdp" />
 
                         <TextView
+                            android:id="@+id/seller_number"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"

@@ -2799,8 +2799,6 @@ Want to start a business account? Create a Business Account
     <string name="accounts">Accounts</string>
     <string name="user_account">user account</string>
   <string name="currently_registered">Currently registered</string>
-  <string name="whatsapp">WhatsApp</string>
-  <string name="snapchat">Snapchat</string>
 
   <string name="Switch">Switch</string>
   <string name="business_account">Business Account</string>
@@ -2814,5 +2812,6 @@ Want to start a business account? Create a Business Account
   <string name="key_longitude" translatable="false">key_longitude</string>
   <string name="key_status" translatable="false">key_status</string>
   <string name="location_is_not_found">Location is not found.</string>
+  <string name="_2_21_2020">2/21/2020</string>
 
 </resources>

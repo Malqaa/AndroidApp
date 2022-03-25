@@ -22,11 +22,9 @@ import com.malka.androidappp.botmnav_fragments.question_ans_comnt.get_models_que
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
-import com.malka.androidappp.network.constants.ApiConstants
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.servicemodels.ConstantObjects
 import com.malka.androidappp.servicemodels.addtocart.InsertToCartRequestModel
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.carspec_card1.*
 import kotlinx.android.synthetic.main.carspec_card5.*
 import kotlinx.android.synthetic.main.carspec_card6.*

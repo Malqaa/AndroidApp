@@ -18,28 +18,64 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:src="@drawable/profile2x" />
-
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:background="@drawable/comment_background"
-                android:padding="@dimen/_8sdp">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:background="@drawable/comment_background"
+                    android:padding="@dimen/_8sdp">
+
+                    <TextView
+                        android:id="@+id/question_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:fontFamily="@font/madani_arabic_light"
+                        android:text="Is the phone defective?"
+                        android:textColor="@color/grey"
+                        android:textSize="@dimen/_13sdp" />
+
+                </LinearLayout>
 
                 <TextView
-                    android:id="@+id/question_tv"
+                    android:id="@+id/question_time"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_1sdp"
                     android:layout_gravity="center_vertical"
                     android:fontFamily="@font/madani_arabic_light"
-                    android:text="Is the phone defective?"
+                    android:text="22/6/2022"
                     android:textColor="@color/grey"
-                    android:textSize="@dimen/_13sdp" />
+                    android:textSize="@dimen/_8sdp" />
+
+                <TextView
+                    android:id="@+id/question_response_yet"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_1sdp"
+                    android:layout_gravity="center_vertical"
+                    android:fontFamily="@font/madani_arabic_light"
+                    android:text="No response yet"
+                    android:textColor="@color/bg"
+                    android:textSize="@dimen/_8sdp" />
 
             </LinearLayout>
 
+
         </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/answer_view"
@@ -68,7 +104,25 @@
 
             </LinearLayout>
 
+
         </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/answer_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_1sdp"
+            android:layout_gravity="center_vertical"
+            android:fontFamily="@font/madani_arabic_light"
+            android:text="22/6/2022"
+            android:textColor="@color/grey"
+            android:gravity="end"
+            android:textSize="@dimen/_8sdp" />
+
+    </LinearLayout>
+
 
 
     </LinearLayout>

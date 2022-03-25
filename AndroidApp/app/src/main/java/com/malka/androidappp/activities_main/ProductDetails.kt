@@ -8,7 +8,6 @@ import android.view.View
 import android.widget.Filter
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -21,13 +20,11 @@ import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.botmnav_fragments.cardetail_page.Data
 import com.malka.androidappp.botmnav_fragments.cardetail_page.ModelSellerDetails
 import com.malka.androidappp.botmnav_fragments.question_ans_comnt.QuesAnsFragment
-import com.malka.androidappp.botmnav_fragments.question_ans_comnt.adapter_ques_ans.AdapterQuesAns
 import com.malka.androidappp.botmnav_fragments.question_ans_comnt.get_models_quesans.ModelQuesAnswr
 import com.malka.androidappp.botmnav_fragments.question_ans_comnt.get_models_quesans.Question
 import com.malka.androidappp.botmnav_fragments.question_ans_comnt.post_answer_api.ModelPostAns
 import com.malka.androidappp.botmnav_fragments.question_ans_comnt.post_ask_ques_api_edittext.ModelAskQues
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
-import com.malka.androidappp.design.Models.GetAddressResponse
 import com.malka.androidappp.design.ProductReviews
 import com.malka.androidappp.helper.Extension.loadThumbnail
 import com.malka.androidappp.helper.Extension.shared
@@ -45,7 +42,6 @@ import com.malka.androidappp.servicemodels.AdDetailModel
 import com.malka.androidappp.servicemodels.Attribute
 import com.malka.androidappp.servicemodels.ConstantObjects
 import com.malka.androidappp.servicemodels.ProductImage
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_product_details.*
 import kotlinx.android.synthetic.main.activity_product_details.loader
 import kotlinx.android.synthetic.main.activity_signup_pg1.*
@@ -97,8 +93,8 @@ class ProductDetails : BaseActivity() {
         behavior.peekHeight = getResources().getDimension(R.dimen._360sdp).toInt()
 
         mainContainer.isVisible = false
-        AdvId = intent.getStringExtra("AdvId")?:""
-        template = intent.getStringExtra("Template")?:""
+        AdvId = intent.getStringExtra("AdvId") ?: ""
+        template = intent.getStringExtra("Template") ?: ""
 
         getadbyidapi(AdvId, template)
 
@@ -264,8 +260,9 @@ class ProductDetails : BaseActivity() {
 
         enableSwipeToDeleteAndUndo()
     }
+
     private fun enableSwipeToDeleteAndUndo() {
-       val  messageSwipeController =
+        val messageSwipeController =
             MessageSwipeController(this, object : SwipeControllerActions {
                 override fun showReplyUI(position: Int) {
                     replyItemClicked("QUESTION")
@@ -282,7 +279,7 @@ class ProductDetails : BaseActivity() {
 //
 //        showReplyLayout("author", selectedMessage)
 //        exitActionMode()
-       openSoftKeyboard(this, question_editText.findFocus())
+//        openSoftKeyboard(this, question_editText.findFocus())
 //        etMessage.requestFocus()
 //        currentQuotedMessage = selectedMessage
     }
@@ -611,7 +608,7 @@ class ProductDetails : BaseActivity() {
     }
 
 
-    fun PostAnsApi(questionId: String, answer: String,) {
+    fun PostAnsApi(questionId: String, answer: String) {
 
 
         val malqaa = RetrofitBuilder.GetRetrofitBuilder()
@@ -659,32 +656,20 @@ class ProductDetails : BaseActivity() {
                     element.run {
 
                         question_tv.text = question
+                        question_time.text = dateTime
+                        question_response_yet.show()
                         question_tv.setOnClickListener {
-
-    private fun getSellerByID(id: String) {
-
-        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-        val call: Call<ModelSellerDetails> = malqa.getAdSellerByID(id)
-
-        call.enqueue(object : Callback<ModelSellerDetails> {
-
-            @SuppressLint("SetTextI18n")
-            override fun onResponse(
-                call: Call<ModelSellerDetails>,
-                response: Response<ModelSellerDetails>
-            ) {
-                if (response.isSuccessful) {
-                    var sellerData: Data = response.body()!!.data
-                    sellerData.fullName
-                    sellerData.phone
                             PostAnsApi(_id, "Hello")
+                            question_response_yet.hide()
                         }
 
                         if (isAnswered) {
                             answer_view.show()
                             answer_tv.text = answer.description
+                            answer_time.text = dateTime
                         } else {
                             answer_view.hide()
+                            answer_time.hide()
                         }
                     }
                 }
@@ -701,13 +686,51 @@ class ProductDetails : BaseActivity() {
         }
     }
 
+
+    private fun getSellerByID(id: String) {
+
+
+        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+        val call: Call<ModelSellerDetails> = malqa.getAdSellerByID(id)
+
+        call.enqueue(object : Callback<ModelSellerDetails> {
+
+            @SuppressLint("SetTextI18n")
+            override fun onResponse(
+                call: Call<ModelSellerDetails>,
+                response: Response<ModelSellerDetails>
+            ) {
+                if (response.isSuccessful) {
+                    var sellerData: Data = response.body()!!.data
+                    sellerName.text = sellerData.fullName
+                    seller_city.text = sellerData.city
+                    seller_number.text = sellerData.phone
+                    seller_picture.setImageResource(R.drawable.profiledp)
+
+//                    var imageLink = sellerData.image
+//                    if(imageLink.isNotEmpty()){
+//
+//                        Picasso.get().load(imageLink)
+//                            .error(R.drawable.profile_pic).placeholder(R.drawable.profile_pic)
+//                            .into(seller_picture)
+//
+//                    }else {
+//                        seller_picture.setImageResource(R.drawable.profile_pic)
+//                    }
+
                 } else {
-                    HelpFunctions.ShowLongToast(getString(R.string.NoRecordFound), this@ProductDetails)
+                    HelpFunctions.ShowLongToast(
+                        getString(R.string.NoRecordFound),
+                        this@ProductDetails
+                    )
                 }
             }
 
             override fun onFailure(call: Call<ModelSellerDetails>, t: Throwable) {
-                HelpFunctions.ShowLongToast(getString(R.string.Somethingwentwrong), this@ProductDetails)
+                HelpFunctions.ShowLongToast(
+                    getString(R.string.Somethingwentwrong),
+                    this@ProductDetails
+                )
             }
         })
     }

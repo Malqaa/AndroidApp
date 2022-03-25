@@ -7,12 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.malka.androidappp.R
-import com.malka.androidappp.botmnav_fragments.feedback_frag.all_feedback.AdapterAllFeedback
-import com.malka.androidappp.botmnav_fragments.feedback_frag.all_feedback.ModelAllFeedback
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.servicemodels.ConstantObjects
 import kotlinx.android.synthetic.main.fragment_feedback_frag_pager1.*
-import kotlinx.android.synthetic.main.fragment_feedback_frag_pager1.allfeedback_recycler
 import kotlinx.android.synthetic.main.fragment_feedback_frag_pager2.*
 
 
