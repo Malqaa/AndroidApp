@@ -5,13 +5,12 @@ import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
-import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
-import com.malka.androidappp.R
 import com.malka.androidappp.botmnav_fragments.create_ads.StaticClassAdCreate
 import com.malka.androidappp.helper.HelpFunctions
 import java.util.*
@@ -91,5 +90,24 @@ abstract class BaseActivity : AppCompatActivity() {
             name = name.dropLast(3)
         }
         return name
+    }
+
+    open fun hideSoftKeyboard(context: Context, et: EditText) {
+        try {
+            val inputMethodManager = context.getSystemService(
+                INPUT_METHOD_SERVICE
+            ) as InputMethodManager
+            inputMethodManager.hideSoftInputFromWindow(
+                et.windowToken, 0
+            )
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+//        windowImmersive((Activity)context);
+    }
+
+    open fun openSoftKeyboard(context: Context, view: View?) {
+        val imm = context.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        imm?.showSoftInput(view, 0)
     }
 }

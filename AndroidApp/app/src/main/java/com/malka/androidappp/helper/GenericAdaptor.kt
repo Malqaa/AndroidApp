@@ -65,7 +65,7 @@ class GenericAdaptor {
                     SharedPreferencesStaticClass.ad_userid = user!!
                     ConstantObjects.is_watch_iv = is_watch_iv
                     context.startActivity(Intent(context, ProductDetails::class.java).apply {
-                        putExtra("AdvId", referenceId)
+                        putExtra("AdvId", referenceId?:id?:"")
                         putExtra("Template", template)
                     })
                 }

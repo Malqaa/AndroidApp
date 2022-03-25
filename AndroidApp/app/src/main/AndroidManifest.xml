@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.malka.androidappp">
 
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -29,6 +30,9 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup">
+        <activity
+            android:name=".activities_main.LocationPickerActivity"
+            android:exported="false" />
         <activity
             android:name=".design.Switch_Account"
             android:exported="true"
@@ -79,10 +83,7 @@
             android:theme="@style/NoActionBar" />
         <activity
             android:name=".botmnav_fragments.activities_main.business_signup.BusinessAccountCreate"
-            android:theme="@style/NoActionBar" >
-
-        </activity>
-
+            android:theme="@style/NoActionBar"></activity>
         <activity
             android:name=".activities_main.forgot.forgot_changepass_reset_activity.ForgotChangepassActivity"
             android:theme="@style/NoActionBar" />
@@ -122,39 +123,37 @@
             android:name=".activities_main.forgot.forgot_password.ForgotPasswordActivty"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name="com.malka.androidappp.activities_main.add_product.ListanItem"
+            android:name=".activities_main.add_product.ListanItem"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name="com.malka.androidappp.activities_main.add_product.ChooseCategory"
+            android:name=".activities_main.add_product.ChooseCategory"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name="com.malka.androidappp.activities_main.add_product.all_categories.SubCategories"
+            android:name=".activities_main.add_product.all_categories.SubCategories"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name="com.malka.androidappp.activities_main.add_product.AddPhoto"
-            android:theme="@style/NoActionBar">
-
-        </activity>
+            android:name=".activities_main.add_product.AddPhoto"
+            android:theme="@style/NoActionBar"></activity>
         <activity
-            android:name="com.malka.androidappp.activities_main.add_product.DynamicTemplate"
+            android:name=".activities_main.add_product.DynamicTemplate"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name="com.malka.androidappp.activities_main.add_product.ListingDetails"
+            android:name=".activities_main.add_product.ListingDetails"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name="com.malka.androidappp.activities_main.add_product.PricingActivity"
+            android:name=".activities_main.add_product.PricingActivity"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name="com.malka.androidappp.activities_main.add_product.ListingDuration"
+            android:name=".activities_main.add_product.ListingDuration"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name="com.malka.androidappp.activities_main.add_product.PromotionalActivity"
+            android:name=".activities_main.add_product.PromotionalActivity"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name="com.malka.androidappp.activities_main.add_product.Confirmation"
+            android:name=".activities_main.add_product.Confirmation"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name="com.malka.androidappp.activities_main.add_product.ContinueActivity"
+            android:name=".activities_main.add_product.ContinueActivity"
             android:theme="@style/NoActionBar" />
         <activity
             android:name=".botmnav_fragments.question_ans_comnt.QuesAnsFragment"

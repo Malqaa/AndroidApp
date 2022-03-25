@@ -6,11 +6,11 @@ import android.graphics.PorterDuff
 import android.os.Bundle
 import android.view.View
 import android.widget.Filter
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.ItemTouchHelper
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.Gson
@@ -18,6 +18,8 @@ import com.google.gson.JsonObject
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.login.SignInActivity
 import com.malka.androidappp.base.BaseActivity
+import com.malka.androidappp.botmnav_fragments.cardetail_page.Data
+import com.malka.androidappp.botmnav_fragments.cardetail_page.ModelSellerDetails
 import com.malka.androidappp.botmnav_fragments.question_ans_comnt.QuesAnsFragment
 import com.malka.androidappp.botmnav_fragments.question_ans_comnt.adapter_ques_ans.AdapterQuesAns
 import com.malka.androidappp.botmnav_fragments.question_ans_comnt.get_models_quesans.ModelQuesAnswr
@@ -33,6 +35,8 @@ import com.malka.androidappp.helper.GenericAdaptor
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.helper.hide
 import com.malka.androidappp.helper.show
+import com.malka.androidappp.helper.swipe.MessageSwipeController
+import com.malka.androidappp.helper.swipe.SwipeControllerActions
 import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.constants.ApiConstants
@@ -41,6 +45,7 @@ import com.malka.androidappp.servicemodels.AdDetailModel
 import com.malka.androidappp.servicemodels.Attribute
 import com.malka.androidappp.servicemodels.ConstantObjects
 import com.malka.androidappp.servicemodels.ProductImage
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_product_details.*
 import kotlinx.android.synthetic.main.activity_product_details.loader
 import kotlinx.android.synthetic.main.activity_signup_pg1.*
@@ -92,8 +97,8 @@ class ProductDetails : BaseActivity() {
         behavior.peekHeight = getResources().getDimension(R.dimen._360sdp).toInt()
 
         mainContainer.isVisible = false
-        AdvId = intent.getStringExtra("AdvId") ?: "uajl8160XC"
-        template = intent.getStringExtra("Template") ?: "Car"
+        AdvId = intent.getStringExtra("AdvId")?:""
+        template = intent.getStringExtra("Template")?:""
 
         getadbyidapi(AdvId, template)
 
@@ -256,6 +261,30 @@ class ProductDetails : BaseActivity() {
                 list
             )
         }
+
+        enableSwipeToDeleteAndUndo()
+    }
+    private fun enableSwipeToDeleteAndUndo() {
+       val  messageSwipeController =
+            MessageSwipeController(this, object : SwipeControllerActions {
+                override fun showReplyUI(position: Int) {
+                    replyItemClicked("QUESTION")
+                }
+            })
+        val itemTouchHelper = ItemTouchHelper(messageSwipeController)
+        itemTouchHelper.attachToRecyclerView(product_attribute)
+    }
+
+    private fun replyItemClicked(selectedMessage: String?) {
+        if (selectedMessage == null) return
+        val author: String
+
+//
+//        showReplyLayout("author", selectedMessage)
+//        exitActionMode()
+       openSoftKeyboard(this, question_editText.findFocus())
+//        etMessage.requestFocus()
+//        currentQuotedMessage = selectedMessage
     }
 
     fun getadbyidapi(advid: String, template: String) {
@@ -276,6 +305,8 @@ class ProductDetails : BaseActivity() {
 
 
                     product!!.run {
+                        getSellerByID(user!!)
+
                         if (!template.isNullOrEmpty()) {
                             val json_string = HelpFunctions.GetTemplatesJson(
                                 this@ProductDetails,
@@ -630,6 +661,22 @@ class ProductDetails : BaseActivity() {
                         question_tv.text = question
                         question_tv.setOnClickListener {
 
+    private fun getSellerByID(id: String) {
+
+        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+        val call: Call<ModelSellerDetails> = malqa.getAdSellerByID(id)
+
+        call.enqueue(object : Callback<ModelSellerDetails> {
+
+            @SuppressLint("SetTextI18n")
+            override fun onResponse(
+                call: Call<ModelSellerDetails>,
+                response: Response<ModelSellerDetails>
+            ) {
+                if (response.isSuccessful) {
+                    var sellerData: Data = response.body()!!.data
+                    sellerData.fullName
+                    sellerData.phone
                             PostAnsApi(_id, "Hello")
                         }
 
@@ -654,5 +701,15 @@ class ProductDetails : BaseActivity() {
         }
     }
 
+                } else {
+                    HelpFunctions.ShowLongToast(getString(R.string.NoRecordFound), this@ProductDetails)
+                }
+            }
+
+            override fun onFailure(call: Call<ModelSellerDetails>, t: Throwable) {
+                HelpFunctions.ShowLongToast(getString(R.string.Somethingwentwrong), this@ProductDetails)
+            }
+        })
+    }
 
 }

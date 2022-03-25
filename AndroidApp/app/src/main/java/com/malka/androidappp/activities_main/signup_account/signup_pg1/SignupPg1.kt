@@ -161,18 +161,16 @@ class SignupPg1 : BaseActivity() {
             username = usernaam,
             termsAndConditions = switch_term_condition._getChecked()
         )
-        val call: Call<ResponseBody> = malqaa.createuser(createUser)
+        val call: Call<RegisterData> = malqaa.createuser(createUser)
 
-        call.enqueue(object : Callback<ResponseBody> {
+        call.enqueue(object : Callback<RegisterData> {
 
             override fun onResponse(
-                call: Call<ResponseBody>, response: Response<ResponseBody>
+                call: Call<RegisterData>, response: Response<RegisterData>
             ) {
                 if (response.isSuccessful) {
-                    val reader: Reader = InputStreamReader(response.body()?.byteStream(), "UTF-8")
-                    val data = Gson().fromJson(reader, RegisterData::class.java)
-
-                    if (data.status_code == 200) {
+                    val data=response.body()
+                    if (data!!.status_code == 200) {
 
                         NextAcivityparsedata(data)
                     } else {
@@ -187,7 +185,7 @@ class SignupPg1 : BaseActivity() {
 
             }
 
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+            override fun onFailure(call: Call<RegisterData>, t: Throwable) {
                 HelpFunctions.dismissProgressBar()
 
                 t.message?.let { HelpFunctions.ShowLongToast(it, this@SignupPg1) }

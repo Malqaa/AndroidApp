@@ -108,7 +108,6 @@ class CarSpecificsFragment : Fragment(), BottomsheetDialogfragClass.BottomSheetL
         getcurrentbidingprice()
 
         // Seller Details
-      //  getSellerByID(SharedPreferencesStaticClass.ad_userid)
 
 
         val buttonOpenBottomSheet: Button = view.findViewById(R.id.placebid)
@@ -749,64 +748,5 @@ class CarSpecificsFragment : Fragment(), BottomsheetDialogfragClass.BottomSheetL
         }
     }
 
-    private fun getSellerByID(id: String) {
 
-        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-        val call: Call<ModelSellerDetails> = malqa.getAdSellerByID(id)
-
-        call.enqueue(object : Callback<ModelSellerDetails> {
-
-            @SuppressLint("SetTextI18n")
-            override fun onResponse(
-                call: Call<ModelSellerDetails>,
-                response: Response<ModelSellerDetails>
-            ) {
-                if (response.isSuccessful) {
-
-                    val details: ModelSellerDetails = response.body()!!
-                    if (details != null) {
-
-                        var sellerData: Data = response.body()!!.data
-
-                        if (sellerData.username != null) {
-                            sellerName.text = sellerData.username
-                        } else {
-                            sellerName.text = "Seller Name"
-                        }
-                        if (sellerData.phone != null) {
-                            sellerMobile.text = sellerData.phone
-                        } else {
-                            sellerMobile.text = "Seller Number"
-                        }
-                        if (sellerData.email != null) {
-                            sellerEmail.text = sellerData.email
-                        } else {
-                            sellerEmail.text = "Email the seller"
-                        }
-                        if (sellerData.country != null) {
-                            sellerLocation.text = sellerData.country
-                        } else {
-                            sellerLocation.text = "Location"
-                        }
-                        if (sellerData.image != null) {
-                            Picasso.get()
-                                .load(ApiConstants.IMAGE_URL + sellerData.image)
-                                .into(sellerImage)
-                        } else {
-                            sellerImage.setImageResource(R.drawable.profilepic)
-                        }
-
-                    } else {
-                        HelpFunctions.ShowLongToast(getString(R.string.NoRecordFound), context)
-                    }
-                } else {
-                    HelpFunctions.ShowLongToast(getString(R.string.NoRecordFound), context)
-                }
-            }
-
-            override fun onFailure(call: Call<ModelSellerDetails>, t: Throwable) {
-                HelpFunctions.ShowLongToast(getString(R.string.Somethingwentwrong), context)
-            }
-        })
-    }
 }

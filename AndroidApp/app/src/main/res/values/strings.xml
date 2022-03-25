@@ -2804,4 +2804,15 @@ Want to start a business account? Create a Business Account
 
   <string name="Switch">Switch</string>
   <string name="business_account">Business Account</string>
+    <string name="whatsapp">WhatsApp</string>
+    <string name="snapchat">Snapchat</string>
+  <string name="search_location">Searh Location</string>
+
+  <string name="key_search">key_search</string>
+  <string name="key_location" translatable="false">key_location</string>
+  <string name="key_latitude" translatable="false">key_latitude</string>
+  <string name="key_longitude" translatable="false">key_longitude</string>
+  <string name="key_status" translatable="false">key_status</string>
+  <string name="location_is_not_found">Location is not found.</string>
+
 </resources>
