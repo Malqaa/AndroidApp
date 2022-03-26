@@ -20,19 +20,16 @@
 
             <ImageButton
                 android:id="@+id/busi_signup2_btn"
-                android:layout_width="14dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
-
-                android:background="@drawable/ic_back"
-                android:rotation="@string/mirror_degree"
-                tools:ignore="SpeakableTextPresentCheck" />
+                android:background="@drawable/backarrow1" />
 
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_30sdp"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:background="@drawable/main_logo" />
 
             <TextView
@@ -81,6 +78,17 @@
                 android:hint="@string/Email"
                 android:inputType="textEmailAddress"
                 app:startIcon="@drawable/ic_email" />
+
+            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
+                android:id="@+id/PhoneNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="@string/PhoneNumber"
+                android:inputType="phone"
+                app:endText="+965"
+                app:imeOptions="done"
+                app:startIcon="@drawable/ic_phone" />
 
             <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/busi_signup3_edittext2"
@@ -274,8 +282,7 @@
                 android:text="@string/NEXT"
                 android:textAllCaps="false"
                 android:textColor="#ffffff"
-                android:textSize="@dimen/_14sdp"
-                tools:ignore="OnClick" />
+                android:textSize="@dimen/_14sdp" />
         </LinearLayout>
 
     </ScrollView>

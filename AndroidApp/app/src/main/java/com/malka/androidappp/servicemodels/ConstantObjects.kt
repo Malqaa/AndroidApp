@@ -10,7 +10,7 @@ import com.malka.androidappp.servicemodels.feedbacks.FeedbackObject
 import com.malka.androidappp.servicemodels.user.UserObject
 import com.malka.androidappp.servicemodels.watchlist.watchlistobject
 
-class ConstantObjects() {
+class ConstantObjects {
     companion object {
         var is_watch_iv: ImageView?=null
 
@@ -35,6 +35,10 @@ class ConstantObjects() {
         var currentLanguage: String = ""
         var categoryList: List<AllCategoriesModel> = ArrayList()
         var countryList: List<CountryRespone.Country> = ArrayList()
+
+
+        @JvmStatic
+        var data= "data"
 
     }
 }

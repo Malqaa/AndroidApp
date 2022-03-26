@@ -2620,7 +2620,7 @@
     <string name="PM">مساء</string>
     <string name="AM">صباحا</string>
     <string name="mark_main_photo">يرجى وضع علامة على الصورة الرئيسية</string>
-    <string name="video_link">رابط الفيديو غير صالح</string>
+    <string name="please_enter_valid">الرجاء إدخال صالح %s</string>
     <string name="it_will_end">it will end</string>
   <string name="all_reviews">All reviews</string>
     <string name="similar_products">المنتجات المشابهة</string>
@@ -2637,7 +2637,18 @@
     <string name="whatsapp">WhatsApp</string>
   <string name="snapchat">سناب شات</string>
   <string name="Switch">تبديل</string>
-    <string name="business_account">Business Account</string>
+    <string name="business_account">حساب تجاري</string>
   <string name="search_location">Searh Location</string>
+  <string name="switch_accounts">تبديل الحسابات</string>
+  <string name="upgrade_my_existing_account_to_a_merchant_account">Upgrade my existing account to a merchant account</string>
+  <string name="Commercial_Record">سجل تجارى</string>
+  <string name="Free_work">عمل حر</string>
+  <string name="A_favour">معروف</string>
+  <string name="video_link">رابط الفيديو</string>
+  <string name="Choose_location">اختيار موقع</string>
+  <string name="ok">OK</string>
+  <string name="alert">Alert</string>
+  <string name="gps_check">Location service is denied for the app. Allow it to use the app</string>
+    <string name="purchase">الشراء</string>
 
 </resources>

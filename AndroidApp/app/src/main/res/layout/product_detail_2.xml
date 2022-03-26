@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -324,11 +324,11 @@
                     android:textSize="@dimen/_14sdp" />
 
                 <TextView
-                    android:text="@string/Details"
                     android:id="@+id/description_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/madani_arabic_light"
+                    android:text="@string/Details"
                     android:textColor="#000000"
                     android:textSize="@dimen/_14sdp" />
 
@@ -486,13 +486,13 @@
 
 
                 <LinearLayout
-                    android:padding="@dimen/_5sdp"
-
+                    android:id="@+id/askques_bottom"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/_14sdp"
-                    android:background="@drawable/comment_btn">
+                    android:background="@drawable/comment_btn"
+                    android:padding="@dimen/_5sdp">
 
                     <EditText
                         android:id="@+id/editTextque"
@@ -816,6 +816,7 @@
                             android:text="Ahmed Mohamed"
                             android:textColor="#000000"
                             android:textSize="@dimen/_14sdp" />
+
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -829,17 +830,15 @@
                                 android:text="Member since "
                                 android:textColor="#000000"
                                 android:textSize="@dimen/_12sdp" />
+
                             <TextView
                                 android:id="@+id/member_since"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:fontFamily="@font/madani_arabic_light"
-                                android:text="@string/_2_21_2020"
                                 android:textColor="#000000"
                                 android:textSize="@dimen/_12sdp" />
-
-
 
 
                         </LinearLayout>
@@ -1055,17 +1054,16 @@
 
 
                     <TextView
-                        android:layout_marginRight="@dimen/_10sdp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/_10sdp"
                         android:fontFamily="@font/madani_arabic_semi_bold"
                         android:text="@string/sar"
                         android:textAllCaps="false"
-                        android:layout_alignParentRight="true"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_12sdp" />
-
 
 
                 </RelativeLayout>
@@ -1091,21 +1089,19 @@
 
 
                     <TextView
-                        android:layout_marginRight="@dimen/_10sdp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/_10sdp"
                         android:fontFamily="@font/madani_arabic_semi_bold"
                         android:text="@string/sar"
                         android:textAllCaps="false"
-                        android:layout_alignParentRight="true"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_12sdp" />
 
 
-
                 </RelativeLayout>
-
 
 
                 <RelativeLayout
@@ -1129,21 +1125,19 @@
 
 
                     <TextView
-                        android:layout_marginRight="@dimen/_10sdp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/_10sdp"
                         android:fontFamily="@font/madani_arabic_semi_bold"
                         android:text="@string/sar"
                         android:textAllCaps="false"
-                        android:layout_alignParentRight="true"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_12sdp" />
 
 
-
                 </RelativeLayout>
-
 
 
                 <androidx.appcompat.widget.AppCompatButton

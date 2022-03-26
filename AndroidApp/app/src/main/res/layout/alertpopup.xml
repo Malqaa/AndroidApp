@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/madani_arabic_semi_bold"
-            android:text="Alert"
+            android:text="@string/alert"
             android:id="@+id/Lbl_ALertTitle"
             android:textColor="#293241"
             android:textSize="@dimen/_16sdp" />

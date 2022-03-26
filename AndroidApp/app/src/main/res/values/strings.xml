@@ -2641,7 +2641,7 @@ Want to start a business account? Create a Business Account
     <string name="website">Website</string>
     <string name="TaxNumber">Tax Number</string>
     <string name="download_the_commercial_registry_file">Upload commercial registry file</string>
-    <string name="locating_the_company">Locating the company</string>
+    <string name="locating_the_company">Company Location</string>
     <string name="commercial_registration_no">Commercial Registration No</string>
     <string name="type_of_employment">Type of employment</string>
     <string name="expiry_date">Expiry date</string>
@@ -2785,7 +2785,7 @@ Want to start a business account? Create a Business Account
     <string name="PM">PM</string>
     <string name="AM">AM</string>
     <string name="mark_main_photo">Please mark main photo</string>
-    <string name="video_link">Video link is not valid</string>
+    <string name="please_enter_valid" formatted="true">Please enter valid %s</string>
     <string name="it_will_end">it will end</string>
     <string name="all_reviews">All reviews</string>
     <string name="similar_products">Similar Products</string>
@@ -2812,6 +2812,17 @@ Want to start a business account? Create a Business Account
   <string name="key_longitude" translatable="false">key_longitude</string>
   <string name="key_status" translatable="false">key_status</string>
   <string name="location_is_not_found">Location is not found.</string>
-  <string name="_2_21_2020">2/21/2020</string>
+  <string name="switch_accounts">Switch Accounts</string>
+  <string name="upgrade_my_existing_account_to_a_merchant_account">Upgrade my existing account to a merchant account</string>
+  <string name="Commercial_Record">Commercial Record</string>
+  <string name="Free_work">Free work</string>
+  <string name="A_favour">A favour</string>
+  <string name="video_link">Video link</string>
+  <string name="Choose_location">Choose location</string>
+  <string name="ok">OK</string>
+  <string name="alert">Alert</string>
+  <string name="gps_check">Location service is denied for the app. Allow it to use the app</string>
+  <string name="purchase">Purchase</string>
+
 
 </resources>

@@ -12,7 +12,8 @@ import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.add_product.ListanItem
 import com.malka.androidappp.activities_main.login.SignInActivity
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
-import com.malka.androidappp.design.Switch_Account
+import com.malka.androidappp.activities_main.business_signup.Switch_Account
+import com.malka.androidappp.activities_main.login.LoginData
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.servicemodels.ConstantObjects
 import io.paperdb.Paper
@@ -49,10 +50,6 @@ class AccountFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        //(activity as AppCompatActivity?)!!.supportActionBar!!.show()
-        //(activity as AppCompatActivity?)!!.supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-
-
         return LayoutInflater.from(container?.context).inflate(
             R.layout.fragment_account,
             container,
@@ -68,13 +65,16 @@ class AccountFragment : Fragment() {
             disableenableoptions(false)
             logout_signin.visibility = View.GONE
             btn_signin.visibility = View.VISIBLE
-
         }
         else
         {
             disableenableoptions(true)
             logout_signin.visibility = View.VISIBLE
             btn_signin.visibility = View.GONE
+
+
+            val `data` = Paper.book().read<LoginData>(SharedPreferencesStaticClass.userData)!!
+            userName.text=data.fullName
         }
 
         helpbtn.setOnClickListener() {
@@ -111,13 +111,11 @@ class AccountFragment : Fragment() {
             findNavController().navigate(R.id.account_fixedprice)
         }
 
-        soldfragg.setOnClickListener() {
-            findNavController().navigate(R.id.account_sold)
+        MyProducts.setOnClickListener() {
+            findNavController().navigate(R.id.soldfraggg)
         }
 
-        unsold_card.setOnClickListener() {
-            findNavController().navigate(R.id.acc_unsold)
-        }
+
 
         shop_card.setOnClickListener() {
             findNavController().navigate(R.id.acc_shopcart)

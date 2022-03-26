@@ -1,8 +1,10 @@
 package com.malka.androidappp.botmnav_fragments.activities_main.business_signup
 
 import android.Manifest
+import android.app.Activity
+import android.content.DialogInterface
 import android.content.Intent
-import android.content.LocusId
+import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
@@ -11,13 +13,22 @@ import android.util.Patterns
 import android.view.WindowManager
 import android.webkit.URLUtil
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.PermissionChecker
 import androidx.fragment.app.FragmentManager
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.common.api.ResolvableApiException
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.LocationSettingsRequest
+import com.google.android.gms.location.LocationSettingsStatusCodes
+import com.google.gson.Gson
 import com.malka.androidappp.R
+import com.malka.androidappp.activities_main.place_picker.LocationPickerActivity
 import com.malka.androidappp.base.BaseActivity
-import com.malka.androidappp.botmnav_fragments.create_ads.StaticClassAdCreate
-import com.malka.androidappp.botmnav_fragments.create_ads.StaticClassAdCreate.Companion.video
 import com.malka.androidappp.design.Models.BusinessUserModel
 import com.malka.androidappp.design.Models.getBusinessRegisterFile
 import com.malka.androidappp.helper.HelpFunctions
@@ -30,21 +41,20 @@ import com.malka.androidappp.network.service.addBusinessRegisterFileResponse
 import com.malka.androidappp.network.service.addBusinessUserlistReponse
 import com.malka.androidappp.servicemodels.ConstantObjects
 import com.malka.androidappp.servicemodels.ImageSelectModel
+import com.malka.androidappp.servicemodels.LocationPickerModel
 import com.zfdang.multiple_images_selector.ImagesSelectorActivity
 import com.zfdang.multiple_images_selector.SelectorSettings
 import kotlinx.android.synthetic.main.activity_business_signup_pg2.*
-import kotlinx.android.synthetic.main.fragment_add_photo.*
 
 
-class BusinessAccountCreate : BaseActivity()  {
-    var youtube=false
-    var twitter=false
-    var whatsApp=false
-    var snapShot=false
+class BusinessAccountCreate : BaseActivity() {
+    var youtube = false
+    var twitter = false
+    var whatsApp = false
+    var snapShot = false
     var businessDocument = ""
     var selectdate = ""
     var fm: FragmentManager? = null
-    var isSelectShipping = false
 
     private val selectedImagesURI: ArrayList<ImageSelectModel> = ArrayList()
 
@@ -52,11 +62,25 @@ class BusinessAccountCreate : BaseActivity()  {
 
     private val PERMISSION_CODE = 1001
     private var mResults: ArrayList<String> = ArrayList()
+    var locationPicker: LocationPickerModel? = null
+    val PERMISSION_REQUEST_ACCESS_FINE_LOCATION = 100
+    val REQUEST_GPS_SETTINGS = 107
+
+    val chooseLocationLuncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                locationPicker =
+                    Gson().fromJson(result.data!!.getStringExtra(ConstantObjects.data), LocationPickerModel::class.java)
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_business_signup_pg2)
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+
+
+
 
         busi_signup2_btn.setOnClickListener {
             onBackPressed()
@@ -66,16 +90,29 @@ class BusinessAccountCreate : BaseActivity()  {
 
         business_signup2_button.setOnClickListener() {
 
-            if (  validateUserName() && validateCompanyName()  && validateSignupEmail()  && validateCompanyURL() && validateEmployementType() && validateCommercialRegisterNo()
-                && validateExpiryDate() && validateTaxNumber() && validateCommercialRegisterDoc() ) {
+            if (validateUserName() && validateCompanyName() && validateSignupEmail() && validateNumber() && validateCompanyURL() && validateEmployementType() && validateCommercialRegisterNo()
+                && validateExpiryDate() && validateTaxNumber() && validateCommercialRegisterDoc()
+            ) {
 
-                if(selectedImagesURI.size==0){
-                    showError(getString(R.string.download_the_commercial_registry_file))
+                if (selectedImagesURI.size == 0) {
+                    showError(
+                        getString(
+                            R.string.Please_select,
+                            getString(R.string.download_the_commercial_registry_file)
+                        )
+                    )
+                } else {
 
-
-
-                }else{
-                    addBusinessUser()
+                    if(locationPicker==null){
+                        showError(
+                            getString(
+                                R.string.Please_select,
+                                getString(R.string.locating_the_company)
+                            )
+                        )
+                    }else{
+                        addBusinessUser()
+                    }
 
                 }
             }
@@ -86,9 +123,9 @@ class BusinessAccountCreate : BaseActivity()  {
 
             val list: ArrayList<SearchListItem> = ArrayList()
 
-            list.add(SearchListItem(1, "Commercial Record"))
-            list.add(SearchListItem(2, "Free work"))
-            list.add(SearchListItem(3, "A favour"))
+            list.add(SearchListItem(1, getString(R.string.Commercial_Record)))
+            list.add(SearchListItem(2, getString(R.string.Free_work)))
+            list.add(SearchListItem(3, getString(R.string.A_favour)))
 
             employment_type.showSpinner(
                 this,
@@ -134,49 +171,84 @@ class BusinessAccountCreate : BaseActivity()  {
 
 
         ic_youtube_select.setOnClickListener {
-            youtube=!youtube
-            if(youtube){
-                ic_youtube_select.background= ContextCompat.getDrawable(this, R.drawable.circle_bg_enable)
+            youtube = !youtube
+            if (youtube) {
+                ic_youtube_select.background =
+                    ContextCompat.getDrawable(this, R.drawable.circle_bg_enable)
                 ic_youtube.show()
-            }else{
-                ic_youtube_select.background= ContextCompat.getDrawable(this, R.drawable.circle_bg_disable)
+            } else {
+                ic_youtube_select.background =
+                    ContextCompat.getDrawable(this, R.drawable.circle_bg_disable)
                 ic_youtube.hide()
             }
 
         }
         ic_twitter_select.setOnClickListener {
-            twitter=!twitter
-            if(twitter){
-                ic_twitter_select.background= ContextCompat.getDrawable(this, R.drawable.circle_bg_enable)
+            twitter = !twitter
+            if (twitter) {
+                ic_twitter_select.background =
+                    ContextCompat.getDrawable(this, R.drawable.circle_bg_enable)
                 ic_twitter.show()
-            }else{
-                ic_twitter_select.background= ContextCompat.getDrawable(this, R.drawable.circle_bg_disable)
+            } else {
+                ic_twitter_select.background =
+                    ContextCompat.getDrawable(this, R.drawable.circle_bg_disable)
                 ic_twitter.hide()
             }
 
         }
         ic_whatsapp_select.setOnClickListener {
-            whatsApp=!whatsApp
-            if(whatsApp){
-                ic_whatsapp_select.background= ContextCompat.getDrawable(this, R.drawable.circle_bg_enable)
+            whatsApp = !whatsApp
+            if (whatsApp) {
+                ic_whatsapp_select.background =
+                    ContextCompat.getDrawable(this, R.drawable.circle_bg_enable)
                 ic_whatsapp.show()
-            }else{
-                ic_whatsapp_select.background= ContextCompat.getDrawable(this, R.drawable.circle_bg_disable)
+            } else {
+                ic_whatsapp_select.background =
+                    ContextCompat.getDrawable(this, R.drawable.circle_bg_disable)
                 ic_whatsapp.hide()
             }
 
         }
         ic_snapshot_select.setOnClickListener {
-            snapShot=!snapShot
-            if(snapShot){
-                ic_snapshot_select.background= ContextCompat.getDrawable(this, R.drawable.circle_bg_enable)
+            snapShot = !snapShot
+            if (snapShot) {
+                ic_snapshot_select.background =
+                    ContextCompat.getDrawable(this, R.drawable.circle_bg_enable)
                 ic_snapshot.show()
-            }else{
-                ic_snapshot_select.background= ContextCompat.getDrawable(this, R.drawable.circle_bg_disable)
+            } else {
+                ic_snapshot_select.background =
+                    ContextCompat.getDrawable(this, R.drawable.circle_bg_disable)
                 ic_snapshot.hide()
             }
 
         }
+
+        locating_the_company.setOnClickListener {
+            checkLocationPermission()
+        }
+    }
+
+    private fun checkLocationPermission() {
+        if (ContextCompat.checkSelfPermission(
+                this@BusinessAccountCreate,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this@BusinessAccountCreate,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                PERMISSION_REQUEST_ACCESS_FINE_LOCATION
+            )
+
+        }else{
+            checkGPS()
+        }
+    }
+
+    private fun openPlacePicker() {
+        val intent = Intent(this@BusinessAccountCreate, LocationPickerActivity::class.java)
+        chooseLocationLuncher.launch(intent)
     }
 
     fun BthirdPg() {
@@ -188,20 +260,6 @@ class BusinessAccountCreate : BaseActivity()  {
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
         }
     }
-
-
-
-    private fun validateBActualAddress(): Boolean {
-        val BactualAdress = textEmaill.text.toString().trim { it <= ' ' }
-        return if (BactualAdress.isEmpty()) {
-            textEmaill.error = getString(R.string.Fieldcantbeempty)
-            false
-        } else {
-            textEmaill.error = null
-            true
-        }
-    }
-
 
 
 
@@ -245,25 +303,26 @@ class BusinessAccountCreate : BaseActivity()  {
             businessRegistrationExpiry = "",
             approvedBy = "",
             approvedOn = "",
-            businessGoogleLatLng = "",
+            businessGoogleLatLng = "${locationPicker!!.lat},${locationPicker!!.lng}",
             businessLogoPath = "",
-            businessPhone = "12345678",
+            businessPhone = PhoneNumber.text.toString(),
             id = 0,
             isApproved = true,
             userId = ConstantObjects.logged_userid
 
         )
 
-       val businessRegistrationExpiry = HelpFunctions.FormatDateTime(
+        val businessRegistrationExpiry = HelpFunctions.getFormattedDate(
             SelectDate,
-            HelpFunctions.datetimeformat_ddmmmyyyy,
-            HelpFunctions.datetimeformat_24hrs_milliseconds
+            HelpFunctions.datetimeformat_ddmyyyy,
+            HelpFunctions.datetimeformat_24hrs
         )
+
 
         addBusinessUser.businessRegistrationExpiry = businessRegistrationExpiry
         val call: retrofit2.Call<addBusinessUserlistReponse> = malqa.addBusinesUser(addBusinessUser)
 
-        call?.enqueue(object : retrofit2.Callback<addBusinessUserlistReponse?> {
+        call.enqueue(object : retrofit2.Callback<addBusinessUserlistReponse?> {
             override fun onFailure(
                 call: retrofit2.Call<addBusinessUserlistReponse?>?,
                 t: Throwable
@@ -283,10 +342,11 @@ class BusinessAccountCreate : BaseActivity()  {
 
                         val respone: addBusinessUserlistReponse = response.body()!!
 
-                        if(!respone.isError){
+                        if (!respone.isError) {
                             addBusinessRegisterFile(respone.id)
 
-                        }else{
+                        } else {
+                            HelpFunctions.dismissProgressBar()
 
                             Toast.makeText(
                                 this@BusinessAccountCreate,
@@ -297,18 +357,25 @@ class BusinessAccountCreate : BaseActivity()  {
                     }
 
                 }
-                HelpFunctions.dismissProgressBar()
             }
         })
 
     }
 
 
-
-
-
-
-
+    private fun validateNumber(): Boolean {
+        val numberInput =
+            PhoneNumber!!.text.toString().trim { it <= ' ' }
+        return if (numberInput.isEmpty()) {
+            showError(getString(R.string.PleaseenteravalidPhoneNumber))
+            false
+        } else if (!Patterns.PHONE.matcher(numberInput).matches()) {
+            showError(getString(R.string.PleaseenteravalidPhoneNumber))
+            false
+        }  else {
+            true
+        }
+    }
 
 
     //Email Validation
@@ -317,7 +384,7 @@ class BusinessAccountCreate : BaseActivity()  {
             textEmaill!!.text.toString().trim { it <= ' ' }
         return if (emailInput.isEmpty()) {
 
-            showError(getString(R.string.Please_enter,getString(R.string.Email)))
+            showError(getString(R.string.Please_enter, getString(R.string.Email)))
             false
         } else if (!Patterns.EMAIL_ADDRESS.matcher(emailInput).matches()) {
             showError(getString(R.string.Pleaseenteravalidemailaddress))
@@ -333,10 +400,9 @@ class BusinessAccountCreate : BaseActivity()  {
         val emailInput =
             userNamee!!.text.toString().trim { it <= ' ' }
         return if (emailInput.isEmpty()) {
-            showError(getString(R.string.Please_enter,getString(R.string.Username)))
+            showError(getString(R.string.Please_enter, getString(R.string.Username)))
             false
         } else {
-            userNamee!!.error = null
             true
         }
     }
@@ -347,7 +413,10 @@ class BusinessAccountCreate : BaseActivity()  {
         val emailInput =
             company_name!!.text.toString().trim { it <= ' ' }
         return if (emailInput.isEmpty()) {
-            showError(getString(R.string.Please_enter,getString(R.string.the_company_s_name)))
+            showError(getString(R.string.Please_enter, getString(R.string.the_company_s_name)))
+            false
+        }else if (emailInput.length<5) {
+            showError(getString(R.string.please_enter_valid, getString(R.string.the_company_s_name)))
             false
         } else {
             true
@@ -355,16 +424,18 @@ class BusinessAccountCreate : BaseActivity()  {
     }
 
 
-
     //WebsiteURL Validation
     private fun validateCompanyURL(): Boolean {
         val emailInput =
-            busi_signup3_edittext2!!.text.toString().trim { it <= ' ' }
+            busi_signup3_edittext2!!.text.toString()
         return if (emailInput.isEmpty()) {
-            showError(getString(R.string.Please_enter,getString(R.string.website)))
+            showError(getString(R.string.Please_enter, getString(R.string.website)))
+            false
+        } else if (!URLUtil.isValidUrl(emailInput)) {
+            showError(getString(R.string.please_enter_valid, getString(R.string.website)))
             false
         } else {
-           true
+            true
         }
     }
 
@@ -374,7 +445,7 @@ class BusinessAccountCreate : BaseActivity()  {
         val emailInput =
             employment_type!!.text.toString().trim { it <= ' ' }
         return if (emailInput.isEmpty()) {
-            showError(getString(R.string.Please_select,getString(R.string.type_of_employment)))
+            showError(getString(R.string.Please_select, getString(R.string.type_of_employment)))
             false
         } else {
             true
@@ -387,13 +458,17 @@ class BusinessAccountCreate : BaseActivity()  {
         val emailInput =
             commercial_registration_no!!.text.toString().trim { it <= ' ' }
         return if (emailInput.isEmpty()) {
-            showError(getString(R.string.Please_enter,getString(R.string.commercial_registration_no)))
+            showError(
+                getString(
+                    R.string.Please_enter,
+                    getString(R.string.commercial_registration_no)
+                )
+            )
             false
         } else {
             true
         }
     }
-
 
 
     //ExpiryDate Validation
@@ -401,7 +476,7 @@ class BusinessAccountCreate : BaseActivity()  {
         val emailInput =
             date!!.text.toString().trim { it <= ' ' }
         return if (emailInput.isEmpty()) {
-            showError(getString(R.string.Please_select,getString(R.string.expiry_date)))
+            showError(getString(R.string.Please_select, getString(R.string.expiry_date)))
             false
         } else {
             true
@@ -409,24 +484,12 @@ class BusinessAccountCreate : BaseActivity()  {
     }
 
 
-    private fun GO() {
-        selectedImagesURI.filter {
-            it.is_main==true
-        }.let {
-            if (it.size > 0) {
-                StaticClassAdCreate.video = addvideo.text.toString()
-            } else {
-                HelpFunctions.ShowLongToast(getString(R.string.mark_main_photo), this)
-            }
-        }
-    }
-
     //TaxNumber Validation
     private fun validateTaxNumber(): Boolean {
         val emailInput =
             TaxNumber!!.text.toString().trim { it <= ' ' }
         return if (emailInput.isEmpty()) {
-            showError(getString(R.string.Please_select,getString(R.string.expiry_date)))
+            showError(getString(R.string.Please_select, getString(R.string.TaxNumber)))
             false
         } else {
             true
@@ -438,7 +501,12 @@ class BusinessAccountCreate : BaseActivity()  {
         val emailInput =
             download_the_commercial_registry_file!!.text.toString().trim { it <= ' ' }
         return if (emailInput.isEmpty()) {
-            showError(getString(R.string.Please,getString(R.string.download_the_commercial_registry_file)))
+            showError(
+                getString(
+                    R.string.Please,
+                    getString(R.string.download_the_commercial_registry_file)
+                )
+            )
             false
         } else {
             true
@@ -446,15 +514,12 @@ class BusinessAccountCreate : BaseActivity()  {
     }
 
 
-
-
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK) {
 
-            if (requestCode == IMAGE_PICK_CODE ) {
-                mResults = data!!.getStringArrayListExtra(SelectorSettings.SELECTOR_RESULTS)!!;
+            if (requestCode == IMAGE_PICK_CODE) {
+                mResults = data!!.getStringArrayListExtra(SelectorSettings.SELECTOR_RESULTS)!!
                 selectedImagesURI.clear()
                 mResults.forEach {
                     try {
@@ -470,6 +535,32 @@ class BusinessAccountCreate : BaseActivity()  {
             }
         }
 
+        if (requestCode == REQUEST_GPS_SETTINGS) {
+            when (resultCode) {
+                Activity.RESULT_OK -> {
+                    openPlacePicker()
+                }
+                Activity.RESULT_CANCELED -> {
+
+                    val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+                    builder.setMessage(getString(R.string.gps_check))
+                    builder.setTitle(getString(R.string.alert))
+                        .setCancelable(false)
+                        .setPositiveButton(
+                            getString(R.string.ok)
+                        ) { dialog, id ->
+                            checkGPS()
+                        }
+                        .setNegativeButton(
+                            "Cancel"
+                        ) { dialog: DialogInterface?, id: Int ->
+                            finish()
+                        }
+                    val alert: AlertDialog = builder.create()
+                    alert.show()
+                }
+            }
+        }
     }
 
 
@@ -490,9 +581,56 @@ class BusinessAccountCreate : BaseActivity()  {
                     HelpFunctions.ShowLongToast("Permission denied", this)
                 }
             }
+            PERMISSION_REQUEST_ACCESS_FINE_LOCATION -> {
+                if (grantResults.size > 0 && grantResults[0] ==
+                    PackageManager.PERMISSION_GRANTED
+                ) {
+                    checkGPS()
+
+                } else {
+                    HelpFunctions.ShowLongToast("Permission denied", this)
+                }
+            }
         }
     }
 
+    private fun checkGPS() {
+
+        val mLocationRequest = LocationRequest()
+        mLocationRequest.interval = 10000
+        mLocationRequest.fastestInterval = 5000
+        mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        val builder = LocationSettingsRequest.Builder()
+            .addLocationRequest(mLocationRequest)
+        val client = LocationServices.getSettingsClient(this)
+        val task =
+            client.checkLocationSettings(builder.build())
+        task.addOnCompleteListener { task ->
+            try {
+                val response = task.getResult(
+                    ApiException::class.java
+                )
+                openPlacePicker()
+            } catch (exception: ApiException) {
+                when (exception.statusCode) {
+                    LocationSettingsStatusCodes.RESOLUTION_REQUIRED -> try {
+                        val resolvable =
+                            exception as ResolvableApiException
+                        resolvable.startResolutionForResult(
+                            this@BusinessAccountCreate,
+                            REQUEST_GPS_SETTINGS
+                        )
+                    } catch (e: IntentSender.SendIntentException) {
+                    } catch (e: ClassCastException) {
+                    }
+                    LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE -> {
+                    }
+                }
+            }
+        }
+
+
+    }
 
 
 
@@ -501,19 +639,15 @@ class BusinessAccountCreate : BaseActivity()  {
         val intent = Intent(this, ImagesSelectorActivity::class.java)
         intent.putExtra(SelectorSettings.SELECTOR_MAX_IMAGE_NUMBER, 1)
         intent.putExtra(SelectorSettings.SELECTOR_SHOW_CAMERA, false)
+        mResults.clear()
         intent.putStringArrayListExtra(SelectorSettings.SELECTOR_INITIAL_SELECTED_LIST, mResults)
 
         startActivityForResult(intent, IMAGE_PICK_CODE)
     }
 
 
-
-
-
-
     fun addBusinessRegisterFile(businessId: Int) {
 
-        HelpFunctions.startProgressBar(this)
 
         val malqa = RetrofitBuilder.GetRetrofitBuilder()
 
@@ -521,14 +655,15 @@ class BusinessAccountCreate : BaseActivity()  {
 
             isActive = true,
             documentName = businessDocument,
-            uploadedOn = "2022-03-23T09:15:57.596Z",
+            uploadedOn = "",
             createdBy = "",
             businessId = businessId,
 
-        )
-        val call: retrofit2.Call<addBusinessRegisterFileResponse> = malqa.addBusinessRegisterFile(addBusinessDocumentFile)
+            )
+        val call: retrofit2.Call<addBusinessRegisterFileResponse> =
+            malqa.addBusinessRegisterFile(addBusinessDocumentFile)
 
-        call?.enqueue(object : retrofit2.Callback<addBusinessRegisterFileResponse?> {
+        call.enqueue(object : retrofit2.Callback<addBusinessRegisterFileResponse?> {
             override fun onFailure(
                 call: retrofit2.Call<addBusinessRegisterFileResponse?>?,
                 t: Throwable
@@ -548,8 +683,9 @@ class BusinessAccountCreate : BaseActivity()  {
 
                         val respone: addBusinessRegisterFileResponse = response.body()!!
 
-                        if(!respone.isError){
-
+                        if (!respone.isError) {
+                            HelpFunctions.dismissProgressBar()
+                            setResult(RESULT_OK, Intent())
                             finish()
 
                             Toast.makeText(
@@ -559,7 +695,8 @@ class BusinessAccountCreate : BaseActivity()  {
 
                             ).show()
 
-                        }else{
+                        } else {
+                            HelpFunctions.dismissProgressBar()
 
                             Toast.makeText(
                                 this@BusinessAccountCreate,
@@ -572,14 +709,10 @@ class BusinessAccountCreate : BaseActivity()  {
                     }
 
                 }
-                HelpFunctions.dismissProgressBar()
             }
         })
 
     }
-
-
-
 
 
 }

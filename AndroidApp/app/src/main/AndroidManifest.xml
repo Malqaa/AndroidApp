@@ -31,10 +31,10 @@
         android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup">
         <activity
-            android:name=".activities_main.LocationPickerActivity"
+            android:name=".activities_main.place_picker.LocationPickerActivity"
             android:exported="false" />
         <activity
-            android:name=".design.Switch_Account"
+            android:name=".activities_main.business_signup.Switch_Account"
             android:exported="true"
             android:theme="@style/NoActionBar">
 

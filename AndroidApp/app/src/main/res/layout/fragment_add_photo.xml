@@ -103,7 +103,7 @@
                 android:layout_marginTop="@dimen/_15sdp"
                 android:layout_marginEnd="@dimen/_15sdp"
                 android:fontFamily="@font/madani_arabic_medium"
-                android:text="Video link"
+                android:text="@string/video_link"
                 android:textColor="#293241"
                 android:textSize="@dimen/_14sdp" />
 

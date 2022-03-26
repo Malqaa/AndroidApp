@@ -8,8 +8,8 @@ import android.view.View
 import android.widget.Filter
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.Gson
@@ -43,14 +43,9 @@ import com.malka.androidappp.servicemodels.Attribute
 import com.malka.androidappp.servicemodels.ConstantObjects
 import com.malka.androidappp.servicemodels.ProductImage
 import kotlinx.android.synthetic.main.activity_product_details.*
-import kotlinx.android.synthetic.main.activity_product_details.loader
-import kotlinx.android.synthetic.main.activity_signup_pg1.*
-import kotlinx.android.synthetic.main.add_address_design.view.*
 import kotlinx.android.synthetic.main.atrribute_item.view.*
-import kotlinx.android.synthetic.main.fragment_ques_ans.*
 import kotlinx.android.synthetic.main.image_item.view.*
 import kotlinx.android.synthetic.main.product_detail_2.*
-import kotlinx.android.synthetic.main.question_answer_design.*
 import kotlinx.android.synthetic.main.question_answer_design.view.*
 import org.json.JSONArray
 import org.json.JSONObject
@@ -108,6 +103,13 @@ class ProductDetails : BaseActivity() {
         next_image.setOnClickListener {
 
         }
+
+        if (ConstantObjects.logged_userid == SharedPreferencesStaticClass.ad_userid) {
+            askques_bottom.visibility = View.GONE
+        } else if (ConstantObjects.logged_userid != SharedPreferencesStaticClass.ad_userid) {
+            askques_bottom.visibility = View.VISIBLE
+        }
+
         ask_question.setOnClickListener {
             startActivity(Intent(this, QuesAnsFragment::class.java).apply {
                 putExtra("AdvId", AdvId)

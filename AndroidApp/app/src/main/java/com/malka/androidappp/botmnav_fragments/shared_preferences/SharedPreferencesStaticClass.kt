@@ -5,9 +5,7 @@ import com.malka.androidappp.helper.BaseViewHolder
 
 class SharedPreferencesStaticClass {
     companion object{
-         val SHARED_PREFS = "sharedPrefs"
          val TEXT = "text1"
-         val TEXT2 = "text2"
 
         ///////////For Ads detail///////////////
         var ad_userid = ""

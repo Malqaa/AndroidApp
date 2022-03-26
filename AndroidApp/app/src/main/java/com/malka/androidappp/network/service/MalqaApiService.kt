@@ -36,7 +36,7 @@ import com.malka.androidappp.botmnav_fragments.question_ans_comnt.post_comment_a
 import com.malka.androidappp.botmnav_fragments.sellerdetails.SellerResponseBack
 import com.malka.androidappp.botmnav_fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ModelShipAddresses
 import com.malka.androidappp.botmnav_fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ShippingAddressessData
-import com.malka.androidappp.botmnav_fragments.sold_business.ModelSoldUnsold
+import com.malka.androidappp.servicemodels.ModelSoldUnsold
 import com.malka.androidappp.botmnav_fragments.won_n_loss.model_wonloss.ModelWonLost
 import com.malka.androidappp.design.Models.GetAddressResponse
 import com.malka.androidappp.design.Models.BankListRespone

@@ -65,7 +65,7 @@ class AddPhoto : BaseActivity() {
                     if(URLUtil.isValidUrl(video)){
                         GO()
                     }else{
-                        showError(getString(R.string.video_link))
+                        showError(getString(R.string.please_enter_valid,getString(R.string.video_link)))
                     }
                 }
             }

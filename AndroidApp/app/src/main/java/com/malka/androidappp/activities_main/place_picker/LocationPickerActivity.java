@@ -1,10 +1,9 @@
-package com.malka.androidappp.activities_main;
+package com.malka.androidappp.activities_main.place_picker;
 
 import static com.malka.androidappp.helper.HelpFunctions.getLocationInfoFromLatLng;
 
 import android.Manifest;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
@@ -19,6 +18,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -45,9 +45,10 @@ import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.net.FetchPlaceRequest;
 import com.google.android.libraries.places.api.net.FetchPlaceResponse;
 import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.gson.Gson;
 import com.malka.androidappp.R;
-import com.malka.androidappp.activities_main.place_picker.PlaceAutocompleteAdapter;
 import com.malka.androidappp.base.BaseActivity;
+import com.malka.androidappp.servicemodels.ConstantObjects;
 import com.malka.androidappp.servicemodels.LocationPickerModel;
 
 import java.util.Arrays;
@@ -163,6 +164,12 @@ public class LocationPickerActivity extends BaseActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location_picker);
 
+        LinearLayout toolbar_main = findViewById(R.id.toolbar_main);
+
+        TextView toolbar_title =toolbar_main.findViewById(R.id.toolbar_title);
+        ImageView back_btn =toolbar_main.findViewById(R.id.back_btn);
+        toolbar_title.setText( getString(R.string.Choose_location));
+        back_btn.setOnClickListener(v -> finish());
         init();
         headerSettings();
         mapViewWidget(savedInstanceState);
@@ -342,13 +349,9 @@ public class LocationPickerActivity extends BaseActivity implements View.OnClick
             case R.id.Confirmlocation: {
                 if (hashMapLocationInfo.containsKey("address") && hashMapLocationInfo.get("address") != null) {
                     String address=tvSearch.getText().toString();
-                    new LocationPickerModel(address,currentCenter.latitude,currentCenter.longitude);
+                    LocationPickerModel locationPickerModel=new LocationPickerModel(address,currentCenter.latitude,currentCenter.longitude);
                     Intent intent = getIntent();
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable(getString(R.string.key_location),
-                            hashMapLocationInfo);
-
-                    intent.putExtras(bundle);
+                    intent.putExtra(ConstantObjects.getData(),new  Gson().toJson(locationPickerModel));
                     setResult(LocationPickerActivity.RESULT_OK, intent);
                     onBackPressed();
                 } else {

@@ -8,4 +8,10 @@ data class LoginData(
     val name: String,
     val refreshToken: String,
     val isBusinessUser: Int
-)
+
+){
+    val fullName:String
+        get() {
+            return "$firstName $lastName"
+        }
+}

@@ -58,13 +58,18 @@ data class AdDetailModel(
 
     val createdOnFormated: String
         get() {
-            val result: String = createdOn!!.substring(0, createdOn.indexOf("."))
+            createdOn?.let {
+                val result: String = createdOn!!.substring(0, createdOn.indexOf("."))
 
-            return  HelpFunctions.FormatDateTime(
-                result,
-                HelpFunctions.datetimeformat_24hrs,
-                HelpFunctions.datetimeformat_mmddyyyy
-            )
+                return  HelpFunctions.FormatDateTime(
+                    result,
+                    HelpFunctions.datetimeformat_24hrs,
+                    HelpFunctions.datetimeformat_mmddyyyy
+                )
+            }?:kotlin.run {
+                return ""
+            }
+
         }
 
 }

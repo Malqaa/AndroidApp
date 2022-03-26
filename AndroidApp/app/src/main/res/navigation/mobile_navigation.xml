@@ -57,12 +57,8 @@
         <action
             android:id="@+id/accountsettingtosettings"
             app:destination="@+id/settingfrag" />
-        <action
-            android:id="@+id/account_sold"
-            app:destination="@+id/soldfraggg" />
-        <action
-            android:id="@+id/acc_unsold"
-            app:destination="@id/unsold_frag" />
+
+
         <action
             android:id="@+id/acc_shopcart"
             app:destination="@id/shopping_cart" />
@@ -206,7 +202,7 @@
 
     <fragment
         android:id="@+id/soldfraggg"
-        android:name="com.malka.androidappp.botmnav_fragments.sold_business.SoldBusiness"
+        android:name="com.malka.androidappp.botmnav_fragments.MyProducts.MyProductsFragment"
         android:label="Sold"
         tools:layout="@layout/fragment_sold">
 
@@ -214,23 +210,11 @@
             android:id="@+id/sold_acc"
             app:destination="@+id/navigation_account" />
 
-        <action
-            android:id="@+id/sold_unsold"
-            app:destination="@+id/unsold_frag" />
+
 
     </fragment>
 
-    <fragment
-        android:id="@+id/unsold_frag"
-        android:name="com.malka.androidappp.botmnav_fragments.unsold_business.UnsoldBusiness"
-        android:label="Unsold "
-        tools:layout="@layout/fragment_unsold">
 
-        <action
-            android:id="@+id/unsold_acc"
-            app:destination="@+id/navigation_account" />
-
-    </fragment>
 
     <fragment
         android:id="@+id/shopping_cart"

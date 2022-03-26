@@ -5,7 +5,9 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.location.Address
 import android.location.Geocoder
@@ -51,6 +53,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.*
+import java.text.DateFormat
+import java.text.ParseException
 import java.text.ParsePosition
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
@@ -72,12 +76,12 @@ class HelpFunctions {
             "yyyy-MM-dd'T'HH:mm:ss.SSSSSSSXXX"
         const val datetimeformat_mmddyyyy: String = "MM/dd/yyyy"
         const val datetimeformat_ddmmmyyyy: String = "dd/MMM/yyyy"
+        const val datetimeformat_ddmyyyy: String = "dd/MM/yyyy"
         const val datetimeformat_ddmmmyyyy_24hrs: String = "dd/MMM/yyyyHH:mm:ss"
         const val datetimeformat_mmddyyyy_24hrs: String = "MM/dd/yyyyHH:mm:ss"
         const val datetimeformat_24hrs: String = "yyyy-MM-dd'T'HH:mm:ss"
         const val datetimeformat_12hrs: String = "MM/dd/yyyy hh:mm:ss a"
-        const val appName = "Malqaa";
-
+        const val appName = "Malqaa"
 
 
         fun ShowLongToast(msg: String, context: Context?) {
@@ -96,9 +100,9 @@ class HelpFunctions {
         }
 
         fun IsUserLoggedIn(): Boolean1 {
-            val islogin= Paper.book().read(SharedPreferencesStaticClass.islogin,false)?:false
-            if(islogin){
-                val `data`= Paper.book().read<LoginData>(SharedPreferencesStaticClass.userData)!!
+            val islogin = Paper.book().read(SharedPreferencesStaticClass.islogin, false) ?: false
+            if (islogin) {
+                val `data` = Paper.book().read<LoginData>(SharedPreferencesStaticClass.userData)!!
                 ConstantObjects.logged_userid = data.id
                 ConstantObjects.isBusinessUser = data.isBusinessUser > 0
             }
@@ -193,14 +197,14 @@ class HelpFunctions {
                 val inflater =
                     context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
                 val dialogView: View = inflater.inflate(R.layout.alertpopup, null).also {
-                    if(alertTitle.isNotEmpty()){
+                    if (alertTitle.isNotEmpty()) {
                         it.Lbl_ALertTitle.setText(alertTitle);
                     }
                     it.Lbl_AlertMessage.setText(alertMessage)
                 };
                 dialogBuilder.setView(dialogView)
                 val alertDialog: AlertDialog = dialogBuilder.create()
-               alertDialog.getWindow()!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                alertDialog.getWindow()!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                 alertDialog.show()
                 dialogView.btn_alertclose.setOnClickListener() {
                     alertDialog.dismiss()
@@ -232,7 +236,7 @@ class HelpFunctions {
         fun ConvertStringToDate(aDate: String?, aFormat: String): Date? {
             if (aDate == null) return null
             val pos = ParsePosition(0)
-            val simpledateformat = SimpleDateFormat(aFormat)
+            val simpledateformat = SimpleDateFormat(aFormat,Locale.ENGLISH)
             return simpledateformat.parse(aDate, pos)
         }
 
@@ -257,8 +261,8 @@ class HelpFunctions {
                         val formatter = DateTimeFormatter.ofPattern(requiredformat)
                         RetVal = convertedDate.format(formatter)
                     } else {
-                        val parser = SimpleDateFormat(defaultsourceformat)
-                        val formatter = SimpleDateFormat(defaulttargetformat)
+                        val parser = SimpleDateFormat(defaultsourceformat,Locale.ENGLISH)
+                        val formatter = SimpleDateFormat(defaulttargetformat,Locale.ENGLISH)
                         RetVal = formatter.format(parser.parse(value))
                     }
                 } else {
@@ -270,7 +274,35 @@ class HelpFunctions {
             return RetVal
         }
 
-        fun ViewAdvertismentDetail(AdvId: String, Category: String, context: Context,fragment: Fragment) {
+        fun getFormattedDate(
+            date: String?,
+            givenFormat: String?,
+            requiredFormat: String?
+        ): String {
+            var result = ""
+            var dateFormat: DateFormat? = null
+            var requestDateFormat: DateFormat? = null
+            var requestDate: Date? = null
+            try {
+                dateFormat = SimpleDateFormat(requiredFormat,Locale.ENGLISH)
+                //  dateFormat.setTimeZone(TimeZone.getDefault())
+                requestDateFormat = SimpleDateFormat(givenFormat,Locale.ENGLISH)
+
+                // requestDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"))
+                requestDate = requestDateFormat.parse(date)
+                result = dateFormat!!.format(requestDate)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+            return result
+        }
+
+        fun ViewAdvertismentDetail(
+            AdvId: String,
+            Category: String,
+            context: Context,
+            fragment: Fragment
+        ) {
             val args = Bundle()
             args.putString("AdvId", AdvId);
             args.putString("Template", Category);
@@ -280,7 +312,7 @@ class HelpFunctions {
                 putExtra("Template", Category)
             })
 
-        // NavHostFragment.findNavController(fragment).navigate(R.id.carspicification, args)
+            // NavHostFragment.findNavController(fragment).navigate(R.id.carspicification, args)
         }
 
         fun AdAlreadyAddedToWatchList(adreferenceId: String?): Boolean1 {
@@ -345,7 +377,12 @@ class HelpFunctions {
             }
         }
 
-        fun InsertAdToWatchlist(AdsId: String, reminderType: Int, context: Context, onSuccess: (() -> Unit)? = null) {
+        fun InsertAdToWatchlist(
+            AdsId: String,
+            reminderType: Int,
+            context: Context,
+            onSuccess: (() -> Unit)? = null
+        ) {
             startProgressBar(context as Activity)
 
             try {
@@ -371,7 +408,7 @@ class HelpFunctions {
                                         resp.message,
                                         context
                                     )
-                                }else{
+                                } else {
                                     ShowLongToast(
                                         resp.message,
                                         context
@@ -410,7 +447,8 @@ class HelpFunctions {
             }
         }
 
-        fun DeleteAdFromWatchlist(AdsId: String, context: Context, onSuccess: (() -> Unit)? = null
+        fun DeleteAdFromWatchlist(
+            AdsId: String, context: Context, onSuccess: (() -> Unit)? = null
         ) {
             startProgressBar(context as Activity)
 
@@ -485,7 +523,7 @@ class HelpFunctions {
                     if (response.isSuccessful) {
                         if (response.body() != null) {
                             val watchlistinfo: watchlistobject = response.body()!!
-                            ConstantObjects.userwatchlist=watchlistinfo
+                            ConstantObjects.userwatchlist = watchlistinfo
                             EventBus.getDefault().post(WatchList())
 
                         }
@@ -685,6 +723,7 @@ class HelpFunctions {
             //Base64.de
             return Base64.encodeToString(b, Base64.DEFAULT)
         }
+
         fun GetUserCreditCards(context: Fragment) {
             try {
                 val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
@@ -1026,7 +1065,7 @@ class HelpFunctions {
         }
 
         fun dismissProgressBar() {
-            if(isdialog!=null){
+            if (isdialog != null) {
                 isdialog.dismiss()
             }
         }
@@ -1044,7 +1083,11 @@ class HelpFunctions {
         )
 
         @JvmStatic
-        fun getLocationInfoFromLatLng(latitude: Double, longitude: Double, context: Context): HashMap<String, String>? {
+        fun getLocationInfoFromLatLng(
+            latitude: Double,
+            longitude: Double,
+            context: Context
+        ): HashMap<String, String>? {
             val geocoder: Geocoder
             val addresses: List<Address>
             geocoder = Geocoder(context, Locale.getDefault())
@@ -1052,15 +1095,18 @@ class HelpFunctions {
             try {
                 // Here 1 represent max location result to returned, by documents it recommended 1 to 5
                 addresses = geocoder.getFromLocation(latitude, longitude, 1)
-                // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
-                // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
-                hashMapLocationInfo["address"] = addresses[0].getAddressLine(0)
-                hashMapLocationInfo["country"] = addresses[0].countryName
-                hashMapLocationInfo["state"] = addresses[0].adminArea
-                hashMapLocationInfo["city"] = addresses[0].locality
-                hashMapLocationInfo["postalCode"] = addresses[0].postalCode?:""
-                // Only if available else return NULL
-                hashMapLocationInfo["knownName"] = addresses[0].featureName?:""
+                if (addresses.size > 0) {
+                    // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+                    // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+                    hashMapLocationInfo["address"] = addresses[0].getAddressLine(0)
+                    hashMapLocationInfo["country"] = addresses[0].countryName
+                    hashMapLocationInfo["state"] = addresses[0].adminArea
+                    hashMapLocationInfo["city"] = addresses[0].locality
+                    hashMapLocationInfo["postalCode"] = addresses[0].postalCode ?: ""
+                    // Only if available else return NULL
+                    hashMapLocationInfo["knownName"] = addresses[0].featureName ?: ""
+                }
+
             } catch (e: java.lang.Exception) {
                 e.printStackTrace()
             }

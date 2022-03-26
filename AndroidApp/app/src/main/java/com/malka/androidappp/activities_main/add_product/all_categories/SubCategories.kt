@@ -57,7 +57,7 @@ class SubCategories :  BaseActivity() , AdapterSubCategories.OnItemClickListener
                 RetrofitBuilder.GetRetrofitBuilder()
 
             val call: Call<AllCategoriesResponseBack> =
-                malqaa.getAllCategoriesByTemplateID(categoryKey,"en")
+                malqaa.getAllCategoriesByTemplateID(categoryKey,culture())
 
             call.enqueue(object : Callback<AllCategoriesResponseBack> {
                 @SuppressLint("UseRequireInsteadOfGet")
