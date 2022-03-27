@@ -1,9 +1,12 @@
 package com.malka.androidappp.network.service
 
 import com.google.gson.JsonObject
-import com.malka.androidappp.activities_main.signup_account.signup_pg1.CreateUserDataModel
+import com.malka.androidappp.activities_main.forgot.forgot_changepass_reset_activity.PostChangePassApiModel
+import com.malka.androidappp.activities_main.forgot.forgot_password.ForgotPassResponseModel
 import com.malka.androidappp.activities_main.login.LoginClass
 import com.malka.androidappp.activities_main.login.LoginResponseBack
+import com.malka.androidappp.activities_main.signup_account.signup_pg1.CreateUserDataModel
+import com.malka.androidappp.activities_main.signup_account.signup_pg1.RegisterData
 import com.malka.androidappp.activities_main.signup_account.signup_pg2.PostReqVerifyCode
 import com.malka.androidappp.activities_main.signup_account.signup_pg2.ResendCodeDataModel
 import com.malka.androidappp.activities_main.signup_account.signup_pg3.UpdateuserSignup
@@ -20,27 +23,23 @@ import com.malka.androidappp.botmnav_fragments.create_product.ModelCreateProduct
 import com.malka.androidappp.botmnav_fragments.create_product.ProductResponseBack
 import com.malka.androidappp.botmnav_fragments.feedback_frag.insert_feedback.GiveFeedbackResponseBack
 import com.malka.androidappp.botmnav_fragments.feedback_frag.insert_feedback.ModelGiveFeedBack
-import com.malka.androidappp.activities_main.forgot.forgot_changepass_reset_activity.PostChangePassApiModel
-import com.malka.androidappp.activities_main.forgot.forgot_password.ForgotPassResponseModel
-import com.malka.androidappp.activities_main.signup_account.signup_pg1.RegisterData
 import com.malka.androidappp.botmnav_fragments.home.model.AllCategoriesResponseBack
 import com.malka.androidappp.botmnav_fragments.home.model.CarTemplate
 import com.malka.androidappp.botmnav_fragments.home_view_allcategories.ModelAddCatFav
 import com.malka.androidappp.botmnav_fragments.my_product.AllProductsResponseBack
 import com.malka.androidappp.botmnav_fragments.my_product.edit_product.EditProductResponseBack
 import com.malka.androidappp.botmnav_fragments.my_product.edit_product.ModelEditProduct
-import com.malka.androidappp.botmnav_fragments.question_ans_comnt.post_ask_ques_api_edittext.ModelAskQues
 import com.malka.androidappp.botmnav_fragments.question_ans_comnt.get_models_quesans.ModelQuesAnswr
 import com.malka.androidappp.botmnav_fragments.question_ans_comnt.post_answer_api.ModelPostAns
+import com.malka.androidappp.botmnav_fragments.question_ans_comnt.post_ask_ques_api_edittext.ModelAskQues
 import com.malka.androidappp.botmnav_fragments.question_ans_comnt.post_comment_api_model.ModelPostComment
 import com.malka.androidappp.botmnav_fragments.sellerdetails.SellerResponseBack
 import com.malka.androidappp.botmnav_fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ModelShipAddresses
 import com.malka.androidappp.botmnav_fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ShippingAddressessData
-import com.malka.androidappp.servicemodels.ModelSoldUnsold
 import com.malka.androidappp.botmnav_fragments.won_n_loss.model_wonloss.ModelWonLost
-import com.malka.androidappp.design.Models.GetAddressResponse
 import com.malka.androidappp.design.Models.BankListRespone
 import com.malka.androidappp.design.Models.BusinessUserModel
+import com.malka.androidappp.design.Models.GetAddressResponse
 import com.malka.androidappp.design.Models.getBusinessRegisterFile
 import com.malka.androidappp.network.constants.ApiConstants
 import com.malka.androidappp.network.constants.ApiConstants.ADDBANK_ENDPOINT
@@ -57,7 +56,6 @@ import com.malka.androidappp.network.constants.ApiConstants.BUSSINESS_USER_ENDPO
 import com.malka.androidappp.network.constants.ApiConstants.CHANGEPASS_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.CHECKOUT_INSERT_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.CREATE_BUSINESS_PRODUCT_ENDPOINT
-import com.malka.androidappp.network.constants.ApiConstants.CREATE_GENERAL_ADVERTISEMENT_ENDPOINTT
 import com.malka.androidappp.network.constants.ApiConstants.CREATE_USER_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.DELETE_AD_WATCHLIST_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.DELETE_CREDIT_CARD_ENDPOINT
@@ -138,11 +136,12 @@ interface MalqaApiService {
     fun resendcode(@Body resendotpcode: ResendCodeDataModel): Call<ResponseBody>
 
 
-
-    @POST(CREATE_GENERAL_ADVERTISEMENT_ENDPOINTT)
+    @POST("CarTemplate/Create")
     fun createAllAd(@Body data: HashMap<String, String>): Call<CreateAdvResponseBack>
 
 
+    @POST("CarTemplate/update")
+    fun updateCarTemplate(@Body data: HashMap<String, String>): Call<CreateAdvResponseBack>
 
 
     @POST(LOGIN_ENDPOINT)
@@ -173,12 +172,11 @@ interface MalqaApiService {
     fun getCountry(@Query("culture") culture: String): Call<CountryRespone>
 
     @GET("Country/GetRegionFrmSqlbyKey")
-    fun getRegion(@Query("key") Id: String,@Query("culture") culture: String): Call<CountryRespone>
+    fun getRegion(@Query("key") Id: String, @Query("culture") culture: String): Call<CountryRespone>
 
 
- @GET("Country/GetCityFrmSqlbyKey")
-    fun getCity(@Query("key") Id: String,@Query("culture") culture: String): Call<CountryRespone>
-
+    @GET("Country/GetCityFrmSqlbyKey")
+    fun getCity(@Query("key") Id: String, @Query("culture") culture: String): Call<CountryRespone>
 
 
     @POST(GET_CATEGORY_LISTING_ENDPOINT)

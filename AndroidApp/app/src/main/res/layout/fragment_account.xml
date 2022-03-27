@@ -270,7 +270,7 @@
                             android:fontFamily="@font/madani_arabic_light"
                             android:text="@string/MyProducts"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/_13sdp"
+                            android:textSize="@dimen/_12sdp"
                             android:textStyle="bold" />
 
                         <ImageView
@@ -342,7 +342,7 @@
                             android:fontFamily="@font/madani_arabic_light"
                             android:text="My requests"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/_13sdp"
+                            android:textSize="@dimen/_12sdp"
                             android:textStyle="bold" />
 
                         <ImageView
@@ -393,7 +393,7 @@
                             android:fontFamily="@font/madani_arabic_light"
                             android:text="My bids"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/_13sdp"
+                            android:textSize="@dimen/_12sdp"
                             android:textStyle="bold" />
 
                         <ImageView
@@ -444,7 +444,7 @@
                             android:fontFamily="@font/madani_arabic_light"
                             android:text="Loser"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/_13sdp"
+                            android:textSize="@dimen/_12sdp"
                             android:textStyle="bold" />
 
                         <ImageView
@@ -497,7 +497,7 @@
                             android:fontFamily="@font/madani_arabic_light"
                             android:text="Shopping basket"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/_13sdp"
+                            android:textSize="@dimen/_12sdp"
                             android:textStyle="bold" />
 
                         <ImageView
@@ -550,7 +550,7 @@
                             android:fontFamily="@font/madani_arabic_light"
                             android:text="Negotiation offers"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/_13sdp"
+                            android:textSize="@dimen/_12sdp"
                             android:textStyle="bold" />
 
                         <ImageView
@@ -623,7 +623,7 @@
                             android:fontFamily="@font/madani_arabic_light"
                             android:text="Edit my data"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/_13sdp"
+                            android:textSize="@dimen/_12sdp"
                             android:textStyle="bold" />
 
                         <ImageView
@@ -679,7 +679,7 @@
                             android:fontFamily="@font/madani_arabic_light"
                             android:text="Payment cards"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/_13sdp"
+                            android:textSize="@dimen/_12sdp"
                             android:textStyle="bold" />
 
                         <ImageView
@@ -731,7 +731,7 @@
                             android:fontFamily="@font/madani_arabic_light"
                             android:text="My saved addresses"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/_13sdp"
+                            android:textSize="@dimen/_12sdp"
                             android:textStyle="bold" />
 
                         <ImageView
@@ -785,7 +785,7 @@
                             android:fontFamily="@font/madani_arabic_light"
                             android:text="Application settings"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/_13sdp"
+                            android:textSize="@dimen/_12sdp"
                             android:textStyle="bold" />
 
                         <ImageView
@@ -839,7 +839,7 @@
                             android:fontFamily="@font/madani_arabic_light"
                             android:text="Help"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/_13sdp"
+                            android:textSize="@dimen/_12sdp"
                             android:textStyle="bold" />
 
                         <ImageView
@@ -892,7 +892,7 @@
                             android:fontFamily="@font/madani_arabic_light"
                             android:text="Technical support"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/_13sdp"
+                            android:textSize="@dimen/_12sdp"
                             android:textStyle="bold" />
 
                         <ImageView
@@ -944,7 +944,7 @@
                             android:fontFamily="@font/madani_arabic_light"
                             android:text="@string/switch_accounts_and_business_account"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/_13sdp"
+                            android:textSize="@dimen/_12sdp"
                             android:textStyle="bold" />
 
                         <ImageView
@@ -994,7 +994,7 @@
                             android:fontFamily="@font/madani_arabic_light"
                             android:text="@string/logout"
                             android:textColor="@color/bg"
-                            android:textSize="@dimen/_13sdp"
+                            android:textSize="@dimen/_12sdp"
                             android:textStyle="bold" />
 
                         <ImageView
@@ -1034,6 +1034,7 @@
 
 
         <LinearLayout
+            android:visibility="gone"
             android:id="@+id/scrollView2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

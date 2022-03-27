@@ -52,7 +52,6 @@ object ApiConstants {
     const val GET_BUSINESS_USER_LIST = "Accounts/GetBusinessListByUserId"
     const val RESEND_OTPCODE_API_ENDPOINT = "Accounts/ResendCode"
     const val UPDATEUSER_SIGNUP_ENDPOINT = "Accounts/updatePersonalInfo"
-    const val CREATE_GENERAL_ADVERTISEMENT_ENDPOINTT = "CarTemplate/Create"
     const val GET_CATEGORY_LISTING = API_BASE_URL + "SearchFilter/"
     const val GET_CATEGORY_LISTING_ENDPOINT = "SearchFilter/generalsearchfilters"
     const val GET_USER = ACCOUNT_BASE_URL

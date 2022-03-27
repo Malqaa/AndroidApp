@@ -274,11 +274,12 @@ class ProductDetails : BaseActivity() {
                 override fun showReplyUI(position: Int) {
                     val question = questionList.get(position)
                     replyItemClicked(question)
+                    vibration()
                 }
             })
         val itemTouchHelper = ItemTouchHelper(messageSwipeController)
         itemTouchHelper.attachToRecyclerView(quest_ans_rcv)
-        vibration()
+
     }
 
 
@@ -438,11 +439,8 @@ class ProductDetails : BaseActivity() {
                         }
                         if (HelpFunctions.AdAlreadyAddedToWatchList(AdvId)) {
                             activeWatch(is_watch_iv)
-                            ConstantObjects.is_watch_iv!!.setImageResource(R.drawable.starcolor)
-
                         } else {
                             is_watch_iv.setImageResource(R.drawable.star)
-                            ConstantObjects.is_watch_iv!!.setImageResource(R.drawable.star)
                         }
                     }
 

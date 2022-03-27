@@ -111,7 +111,7 @@ class GenericAdaptor {
                 } ${context.getString(R.string.Rayal)}"
 
 
-                LowestPrice.text =
+                purchasing_price_tv_2.text =
                     "${price.toDouble().decimalNumberFormat()} ${context.getString(R.string.Rayal)}"
                 LowestPrice_2.text =
                     "${price.toDouble().decimalNumberFormat()} ${context.getString(R.string.Rayal)}"

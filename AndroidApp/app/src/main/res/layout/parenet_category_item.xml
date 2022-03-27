@@ -13,12 +13,13 @@
         android:layout_height="wrap_content"
         android:background="@drawable/category_bg"
         android:gravity="center_vertical"
-        android:padding="@dimen/_10sdp">
+        android:padding="@dimen/_5sdp">
 
         <ImageView
+            android:layout_marginLeft="@dimen/_5sdp"
             android:id="@+id/category_icon_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
             android:background="@drawable/product_attribute_bg2"
             android:padding="@dimen/_5sdp"
             android:src="@drawable/ic_vechile" />
@@ -53,7 +54,7 @@
             android:id="@+id/detail_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/madani_arabic_extra_light"
+            android:fontFamily="@font/madani_arabic_light"
             android:text="@string/login_with_mobile"
             android:textColor="@color/black"
             android:textSize="@dimen/_10sdp" />

@@ -17,8 +17,6 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/btn_listduration"
         android:layout_below="@+id/toolbar_listduration"
-        android:layout_marginTop="0dp"
-        android:layout_marginBottom="20dp"
         android:orientation="vertical"
         android:padding="@dimen/_15sdp">
 
@@ -175,71 +173,62 @@
             </LinearLayout>
 
 
+            <TextView
+                android:id="@+id/pickup_option2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:fontFamily="@font/madani_arabic_medium"
+                android:text="@string/Selectashippingoption"
+                android:textColor="@color/textColor"
+                android:textSize="20sp" />
 
 
+            <RadioGroup
+                android:id="@+id/pricepay_radioGroupp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:orientation="vertical"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/pickup_option2">
 
-
-
-
-                <TextView
-                    android:id="@+id/pickup_option2"
+                <RadioButton
+                    android:id="@+id/rb2_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:fontFamily="@font/madani_arabic_medium"
-                    android:text="@string/Selectashippingoption"
-                    android:textColor="@color/textColor"
-                    android:textSize="20sp"
-                   />
+                    android:text="@string/FreeshippingwithinSaudiArabia"
+                    android:textColor="#4d4d33"
+                    android:textSize="14sp" />
 
 
-                <RadioGroup
-                    android:id="@+id/pricepay_radioGroupp"
+                <RadioButton
+                    android:id="@+id/rb2_2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:orientation="vertical"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/pickup_option2">
+                    android:layout_marginTop="5dp"
+                    android:text="@string/ShippingNotAvailable"
+                    android:textColor="#4d4d33"
+                    android:textSize="14sp" />
 
-                    <RadioButton
-                        android:id="@+id/rb2_1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/FreeshippingwithinSaudiArabia"
-                        android:textColor="#4d4d33"
-                        android:textSize="14sp" />
+                <RadioButton
+                    android:id="@+id/rb2_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/TobeArranged"
+                    android:textColor="#4d4d33"
+                    android:textSize="14sp" />
 
-
-                    <RadioButton
-                        android:id="@+id/rb2_2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="@string/ShippingNotAvailable"
-                        android:textColor="#4d4d33"
-                        android:textSize="14sp" />
-
-                    <RadioButton
-                        android:id="@+id/rb2_3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="@string/TobeArranged"
-                        android:textColor="#4d4d33"
-                        android:textSize="14sp" />
-
-                    <RadioButton
-                        android:id="@+id/rb2_4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="@string/SpecifyShippingCost"
-                        android:textColor="#4d4d33"
-                        android:textSize="14sp" />
-                </RadioGroup>
-
-
+                <RadioButton
+                    android:id="@+id/rb2_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/SpecifyShippingCost"
+                    android:textColor="#4d4d33"
+                    android:textSize="14sp" />
+            </RadioGroup>
 
 
         </LinearLayout>

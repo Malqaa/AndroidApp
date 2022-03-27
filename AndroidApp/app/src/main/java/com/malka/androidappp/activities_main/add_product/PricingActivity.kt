@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.Filter
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.malka.androidappp.R
 import com.malka.androidappp.base.BaseActivity
@@ -104,7 +105,7 @@ class PricingActivity : BaseActivity() {
     }
 
     private fun validateradiobutton(): Boolean {
-        return if (swicth_visa_mastercard.isChecked||!StaticClassAdCreate.isbankpaid.isEmpty()) {
+        return if (swicth_visa_mastercard.isChecked||!StaticClassAdCreate.isbankpaid) {
             true
         } else {
             showError(getString(R.string.Selectanyonepaymentmethod))
@@ -126,7 +127,7 @@ class PricingActivity : BaseActivity() {
                     StaticClassAdCreate.startingPrice = startPrice
 
                     if (swicth_visa_mastercard.isChecked) {
-                        StaticClassAdCreate.isvisaPaid = "visa"
+                        StaticClassAdCreate.isvisapaid = true
                     }
 
 
@@ -135,8 +136,6 @@ class PricingActivity : BaseActivity() {
                         StaticClassAdCreate.listingType = "1"
                     } else if (listingtyp_rb2.isChecked) {
                         StaticClassAdCreate.listingType = "2"
-                    } else if (listingtyp_rb3.isChecked) {
-                        StaticClassAdCreate.listingType = "3"
                     }
 
                     startActivity(Intent(this, ListingDuration::class.java).apply {
@@ -172,181 +171,46 @@ class PricingActivity : BaseActivity() {
     private fun disableTextFields() {
 
 
-        with(listingtyp_rb1) {
-            listingtyp_rb1.setOnCheckedChangeListener({ _, b ->
-                if (b) {
-                    listingtyp_rb2.isChecked = false
-                    listingtyp_rb3.isChecked = false
+        listingtyp_rb1.setOnCheckedChangeListener { _, b ->
+            fixed_price_layout.isVisible = b
+            if (b) {
+                fix_Price_l.setBackgroundResource(R.drawable.field_selection_border_enable)
+                fixed_price_tv.setTextColor(ContextCompat.getColor(this, R.color.bg))
 
-                    startprice.isEnabled = false
-                    startprice.isFocusableInTouchMode = false
-                    startprice.setText("")
+            } else {
+                fix_Price_l.setBackgroundResource(R.drawable.edittext_bg)
+                fixed_price_tv.setTextColor(ContextCompat.getColor(this, R.color.text_color))
 
-                    reserveprice.isEnabled = false
-                    reserveprice.isFocusableInTouchMode = false
-                    reserveprice.setText("")
-
-                    fix_Price_l.setBackgroundResource(R.drawable.product_attribute_bg_linebg)
-
-                    buynowprice.isEnabled = true
-                    buynowprice.isFocusableInTouchMode = true
-
-
-
-
-
-
-                    buynowprice.visibility = View.VISIBLE
-                    Buy_now_l.visibility = View.VISIBLE
-                    textview_price.visibility = View.VISIBLE
-                    Buy_Auctino_l.visibility = View.GONE
-                    Auction_price.visibility = View.GONE
-                    auction_opt.visibility = View.GONE
-                    textview_minimum_p.visibility = View.GONE
-                    minimum_price_l.visibility = View.GONE
-                    startprice.visibility = View.GONE
-                    reserveprice.visibility = View.GONE
-                    chooseOption.visibility = View.VISIBLE
-
-
-                } else {
-
-                    buynowprice.visibility = View.VISIBLE
-                    Buy_now_l.visibility = View.GONE
-                    Buy_Auctino_l.visibility = View.GONE
-                    minimum_price_l.visibility = View.GONE
-                    startprice.visibility = View.GONE
-                    textview_price.visibility = View.GONE
-                    reserveprice.visibility = View.GONE
-                    reserveprice.visibility = View.GONE
-                    chooseOption.visibility = View.GONE
-                    Buy_Auctino_l.visibility = View.GONE
-                    startprice.visibility = View.GONE
-                    Auction_price.visibility = View.GONE
-                    chooseOption.visibility = View.VISIBLE
-                    auction_opt.visibility = View.GONE
-                    textview_minimum_p.visibility = View.GONE
-                    fix_Price_l.setBackgroundResource(R.drawable.add_product_attribte)
-                    reserveprice.visibility = View.GONE
-                    minimum_price_l.visibility = View.GONE
-
-
-                    buynowprice.isEnabled = true
-                    buynowprice.isFocusableInTouchMode = true
-
-
-                }
-            })
+            }
         }
 
 
-        listingtyp_rb2.setOnCheckedChangeListener({ _, b ->
+        listingtyp_rb2.setOnCheckedChangeListener { _, b ->
+            Auction_layout.isVisible = b
+
             if (b) {
-                listingtyp_rb1.isChecked = false
-                listingtyp_rb3.isChecked = false
-
-                startprice.isEnabled = true
-                startprice.isFocusableInTouchMode = true
-
-                reserveprice.isEnabled = true
-                reserveprice.isFocusableInTouchMode = true
-
-                buynowprice.isEnabled = false
-                buynowprice.isFocusableInTouchMode = false
-                buynowprice.setText("")
-
-
-
-                auction_option.setBackgroundResource(R.drawable.product_attribute_bg_linebg)
-
-
-
-
-
-
-
-
-                buynowprice.visibility = View.GONE
-                Buy_now_l.visibility = View.GONE
-                textview_price.visibility = View.GONE
-                Buy_Auctino_l.visibility = View.VISIBLE
-                startprice.visibility = View.VISIBLE
-                Auction_price.visibility = View.VISIBLE
-                auction_opt.visibility = View.VISIBLE
-                reserveprice.visibility = View.VISIBLE
-                textview_minimum_p.visibility = View.VISIBLE
-                minimum_price_l.visibility = View.VISIBLE
-                chooseOption.visibility = View.VISIBLE
-
+                auction_option.setBackgroundResource(R.drawable.field_selection_border_enable)
+                Auction_price_tv.setTextColor(ContextCompat.getColor(this, R.color.bg))
 
             } else {
-
-                buynowprice.visibility = View.GONE
-                startprice.visibility = View.GONE
-                reserveprice.visibility = View.GONE
-                chooseOption.visibility = View.GONE
-                Buy_Auctino_l.visibility = View.GONE
-                startprice.visibility = View.GONE
-                Auction_price.visibility = View.GONE
-                auction_opt.visibility = View.GONE
-                textview_minimum_p.visibility = View.GONE
-                reserveprice.visibility = View.GONE
-                minimum_price_l.visibility = View.GONE
-                chooseOption.visibility = View.VISIBLE
-                auction_option.setBackgroundResource(R.drawable.add_product_attribte)
+                auction_option.setBackgroundResource(R.drawable.edittext_bg)
+                Auction_price_tv.setTextColor(ContextCompat.getColor(this, R.color.text_color))
 
 
             }
-        })
-        listingtyp_rb3.setOnCheckedChangeListener({ _, b ->
+        }
+        listingtyp_rb3.setOnCheckedChangeListener { _, b ->
+            StaticClassAdCreate.isnegotiable = b
             if (b) {
-                listingtyp_rb1.isChecked = false
-                listingtyp_rb2.isChecked = false
-
-                startprice.isEnabled = true
-                startprice.isFocusableInTouchMode = true
-
-                reserveprice.isEnabled = true
-                reserveprice.isFocusableInTouchMode = true
-
-                Tender_l.setBackgroundResource(R.drawable.product_attribute_bg_linebg)
-
-                buynowprice.isEnabled = true
-                buynowprice.isFocusableInTouchMode = true
-
-
-                Buy_now_l.visibility = View.VISIBLE
-                textview_price.visibility = View.VISIBLE
-                Buy_Auctino_l.visibility = View.VISIBLE
-                startprice.visibility = View.VISIBLE
-                Auction_price.visibility = View.VISIBLE
-                auction_opt.visibility = View.VISIBLE
-                textview_minimum_p.visibility = View.VISIBLE
-                minimum_price_l.visibility = View.VISIBLE
-                reserveprice.visibility = View.VISIBLE
-                chooseOption.visibility = View.VISIBLE
-                buynowprice.visibility = View.VISIBLE
-
+                Tender_l.setBackgroundResource(R.drawable.field_selection_border_enable)
+                Tender_price_tv.setTextColor(ContextCompat.getColor(this, R.color.bg))
 
             } else {
-
-                buynowprice.visibility = View.GONE
-                Buy_now_l.visibility = View.GONE
-                textview_price.visibility = View.GONE
-                Buy_Auctino_l.visibility = View.GONE
-                startprice.visibility = View.GONE
-                Auction_price.visibility = View.GONE
-                auction_opt.visibility = View.GONE
-                Tender_l.setBackgroundResource(R.drawable.add_product_attribte)
-                textview_minimum_p.visibility = View.GONE
-                minimum_price_l.visibility = View.GONE
-                chooseOption.visibility = View.VISIBLE
-                reserveprice.visibility = View.GONE
-                chooseOption.visibility = View.VISIBLE
-
+                Tender_l.setBackgroundResource(R.drawable.edittext_bg)
+                Tender_price_tv.setTextColor(ContextCompat.getColor(this, R.color.text_color))
 
             }
-        })
+        }
 
 
 
@@ -357,12 +221,14 @@ class PricingActivity : BaseActivity() {
                 swicth_saudi_bank_deposit.isChecked = false
 
                 layout_visa_mastercard.background =
-                    ContextCompat.getDrawable(this, R.drawable.product_attribute_bg_linebg)
+                    ContextCompat.getDrawable(this, R.drawable.field_selection_border_enable)
+                visa_mastercard.setTextColor(ContextCompat.getColor(this, R.color.bg))
 
             } else {
 
                 layout_visa_mastercard.background =
                     ContextCompat.getDrawable(this, R.drawable.edittext_bg)
+                visa_mastercard.setTextColor(ContextCompat.getColor(this, R.color.text_color))
 
             }
         }
@@ -415,7 +281,6 @@ class PricingActivity : BaseActivity() {
                 true
             } else {
                 HelpFunctions.ShowLongToast(getString(R.string.Buynowmaxlimitreached), this)
-//                Toast.makeText(context, "Buy now max limit reached", Toast.LENGTH_SHORT).show()
                 false
             }
         } else {
@@ -586,7 +451,7 @@ class PricingActivity : BaseActivity() {
                                     addBankDetail.isSelect = index == position
                                 }
                                 addbank_rcv.adapter!!.notifyDataSetChanged()
-                                StaticClassAdCreate.isbankpaid = "SA bank deposit"
+                                StaticClassAdCreate.isbankpaid = true
 
                             }
                         }

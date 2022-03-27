@@ -34,12 +34,12 @@ class StaticClassAdCreate {
         var startingPrice = ""
 
 
-        //        var brand_new_item: Boolean? = false
         var brand_new_item = ""
         var price = ""
-        var iscashpaid = ""
-        var isvisaPaid = ""
-        var isbankpaid = ""
+        var iscashpaid = false
+        var isvisapaid = false
+        var isbankpaid = false
+        var isnegotiable = false
 
         var fixLength = ""
         var timepicker = ""

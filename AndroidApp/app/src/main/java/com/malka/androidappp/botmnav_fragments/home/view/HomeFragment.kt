@@ -84,19 +84,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee),
             mData = `in`.readString()!!
         }
 
-        companion object {
-            @JvmField
-            val CREATOR: Parcelable.Creator<SimpleSuggestions?> =
-                object : Parcelable.Creator<SimpleSuggestions?> {
-                    override fun createFromParcel(`in`: Parcel): SimpleSuggestions? {
-                        return SimpleSuggestions(`in`)
-                    }
 
-                    override fun newArray(size: Int): Array<SimpleSuggestions?> {
-                        return arrayOfNulls(size)
-                    }
-                }
-        }
     }
 
     var allCategoryList: List<AllCategoriesModel> = ArrayList()

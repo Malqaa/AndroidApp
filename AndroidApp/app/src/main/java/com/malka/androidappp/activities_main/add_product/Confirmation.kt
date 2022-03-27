@@ -132,7 +132,9 @@ class Confirmation : BaseActivity() {
             enddate = StaticClassAdCreate.endtime,
             platform = "Android",
             iscashpaid = StaticClassAdCreate.iscashpaid,
+            isvisapaid = StaticClassAdCreate.isvisapaid,
             isbankpaid = StaticClassAdCreate.isbankpaid,
+            isnegotiable = StaticClassAdCreate.isnegotiable,
             subcatone = StaticClassAdCreate.subcatone,
             subcattwo = StaticClassAdCreate.subcattwo,
             subcatthree = StaticClassAdCreate.subcatthree,
@@ -199,10 +201,6 @@ class Confirmation : BaseActivity() {
                     val importAdId = response.body()!!.data
 
                     HelpFunctions.dismissProgressBar()
-                    HelpFunctions.ShowLongToast(
-                        getString(R.string.Youradhasbeencreatedsuccessfully),
-                        this@Confirmation
-                    )
                     startActivity(Intent(this@Confirmation, ContinueActivity::class.java).apply {
                         flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         putExtra("AdvId", importAdId)
@@ -290,10 +288,10 @@ class Confirmation : BaseActivity() {
             }
         }
 
-        if (!StaticClassAdCreate.isbankpaid.isEmpty()) {
+        if (!StaticClassAdCreate.isbankpaid) {
             saudi_bank_deposit.show()
         }
-        if (!StaticClassAdCreate.isvisaPaid.isEmpty()) {
+        if (!StaticClassAdCreate.isvisapaid) {
             Visa.show()
         }
 

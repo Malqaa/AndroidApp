@@ -2798,35 +2798,36 @@ Want to start a business account? Create a Business Account
     <string name="switch_accounts_and_business_account">Switch accounts and business account</string>
     <string name="accounts">Accounts</string>
     <string name="user_account">user account</string>
-  <string name="currently_registered">Currently registered</string>
+    <string name="currently_registered">Currently registered</string>
 
-  <string name="Switch">Switch</string>
-  <string name="business_account">Business Account</string>
+    <string name="Switch">Switch</string>
+    <string name="business_account">Business Account</string>
     <string name="whatsapp">WhatsApp</string>
     <string name="snapchat">Snapchat</string>
-  <string name="search_location">Searh Location</string>
+    <string name="search_location">Searh Location</string>
 
-  <string name="key_search">key_search</string>
-  <string name="key_location" translatable="false">key_location</string>
-  <string name="key_latitude" translatable="false">key_latitude</string>
-  <string name="key_longitude" translatable="false">key_longitude</string>
-  <string name="key_status" translatable="false">key_status</string>
-  <string name="location_is_not_found">Location is not found.</string>
-  <string name="switch_accounts">Switch Accounts</string>
-  <string name="upgrade_my_existing_account_to_a_merchant_account">Upgrade my existing account to a merchant account</string>
-  <string name="Commercial_Record">Commercial Record</string>
-  <string name="Free_work">Free work</string>
-  <string name="A_favour">A favour</string>
-  <string name="video_link">Video link</string>
-  <string name="Choose_location">Choose location</string>
-  <string name="ok">OK</string>
-  <string name="alert">Alert</string>
-  <string name="gps_check">Location service is denied for the app. Allow it to use the app</string>
-  <string name="purchase">Purchase</string>
-  <string name="Question">Question</string>
-  <string name="Answer">Answer</string>
-  <string name="there_are_2_questions_that_the_seller_did_not_answer" formatted="true">There are %s questions that the seller did not answer</string>
-  <string name="questions_and_answers">Questions and answers</string>
+    <string name="key_search">key_search</string>
+    <string name="key_location" translatable="false">key_location</string>
+    <string name="key_latitude" translatable="false">key_latitude</string>
+    <string name="key_longitude" translatable="false">key_longitude</string>
+    <string name="key_status" translatable="false">key_status</string>
+    <string name="location_is_not_found">Location is not found.</string>
+    <string name="switch_accounts">Switch Accounts</string>
+    <string name="upgrade_my_existing_account_to_a_merchant_account">Upgrade my existing account to a merchant account</string>
+    <string name="Commercial_Record">Commercial Record</string>
+    <string name="Free_work">Free work</string>
+    <string name="A_favour">A favour</string>
+    <string name="video_link">Video link</string>
+    <string name="Choose_location">Choose location</string>
+    <string name="ok">OK</string>
+    <string name="alert">Alert</string>
+    <string name="gps_check">Location service is denied for the app. Allow it to use the app</string>
+    <string name="purchase">Purchase</string>
+    <string name="Question">Question</string>
+    <string name="Answer">Answer</string>
+    <string name="there_are_2_questions_that_the_seller_did_not_answer" formatted="true">There are %s questions that the seller did not answer</string>
+    <string name="questions_and_answers">Questions and answers</string>
+    <string name="price_is_negotiable">Price is negotiable</string>
 
 
 </resources>

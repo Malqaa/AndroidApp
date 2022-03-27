@@ -122,11 +122,12 @@ class QuestionActivity : BaseActivity() {
                 override fun showReplyUI(position: Int) {
                     val question = questionList.get(position)
                     replyItemClicked(question)
+                    vibration()
                 }
             })
         val itemTouchHelper = ItemTouchHelper(messageSwipeController)
         itemTouchHelper.attachToRecyclerView(quest_ans_rcv)
-        vibration()
+
     }
 
     private fun replyItemClicked(question: Question) {
