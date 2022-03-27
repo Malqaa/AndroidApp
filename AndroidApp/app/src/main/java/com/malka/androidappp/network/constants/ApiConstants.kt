@@ -2,27 +2,14 @@ package com.malka.androidappp.network.constants
 
 object ApiConstants {
 
-    private const val HTTP_PROTOCOL = "http"
+    const val HTTP_PROTOCOL = "http"
 
-    //   private const val SERVER_LOCATION = "89.40.10.168:81"
-    private const val SERVER_LOCATION = "89.40.10.168:85"
+    const val SERVER_LOCATION2 = "89.40.10.168:82" // TODO REMOVE IT
+    const val SERVER_LOCATION = "89.40.10.168:85"
     private const val API_FOLDER = "api"
     private const val API_VERSION = "v1"
     private const val IMAGE_FOLDER = "ImageFile"
 
-//    const val HTTP_PROTOCOL = "http";
-//    const val SERVER_LOCATION = "212.24.104.23";
-//    const val API_FOLDER = "api";
-//    const val API_VERSION = "v1"
-//    const val IMAGE_FOLDER = "ImageFile";
-
-//    const val HTTP_PROTOCOL = "http"
-//    const val SERVER_LOCATION = "192.168.2.27"
-//    const val API_FOLDER = "Com.Techxcape.Mazad.Web.Services";
-//    const val API_VERSION = "v1"
-//    const val IMAGE_FOLDER = "ImageFile";
-
-    const val api = "http:///Com.Techxcape.Mazad.Web.Services/swagger/index.html"
 
     const val API_BASE_URL =
         HTTP_PROTOCOL + "://" + SERVER_LOCATION + "/" + API_VERSION + "/";

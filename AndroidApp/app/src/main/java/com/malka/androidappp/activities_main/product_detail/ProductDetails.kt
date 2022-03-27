@@ -105,9 +105,8 @@ class ProductDetails : BaseActivity() {
             onBackPressed()
         }
         btn_share.setOnClickListener {
-            shared("URL OF PRODUCT DETAIL PAGE")
+            shared("${ApiConstants.HTTP_PROTOCOL}://${ ApiConstants.SERVER_LOCATION2}/Advertisement/Detail/$AdvId?template=$template")
         }
-
         next_image.setOnClickListener {
 
         }
