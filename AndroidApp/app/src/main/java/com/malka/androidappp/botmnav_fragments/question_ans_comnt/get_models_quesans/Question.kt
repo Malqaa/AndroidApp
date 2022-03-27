@@ -1,5 +1,7 @@
 package com.malka.androidappp.botmnav_fragments.question_ans_comnt.get_models_quesans
 
+import com.malka.androidappp.helper.HelpFunctions
+
 data class Question(
     val _id: String,
     val advId: String,
@@ -7,7 +9,20 @@ data class Question(
     val buyerId: String,
     val comment: List<Comment>,
     val dateTime: String,
-    val isAnswered: Boolean,
+    var isAnswered: Boolean,
     val question: String,
     val sellerId: String
-)
+){
+
+    val dateTimeFormated: String
+        get() {
+
+            val dateTime: String = dateTime.substring(0, dateTime.indexOf("."))
+            return  HelpFunctions.FormatDateTime(
+                dateTime,
+                HelpFunctions.datetimeformat_24hrs,
+                HelpFunctions.datetimeformat_mmddyyyy
+            )
+
+        }
+}

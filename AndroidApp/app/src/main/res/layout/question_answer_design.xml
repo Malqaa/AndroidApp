@@ -11,13 +11,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_13sdp"
+            android:layout_marginTop="@dimen/_5sdp"
             android:orientation="horizontal">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:src="@drawable/profile2x" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -26,11 +23,17 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:background="@drawable/comment_background"
-                    android:padding="@dimen/_8sdp">
+                    android:layout_marginStart="@dimen/_5sdp"
+                   >
+                    <ImageView
+                        android:layout_width="@dimen/_30sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:src="@drawable/profile2x" />
 
                     <TextView
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:background="@drawable/comment_background"
+                        android:padding="@dimen/_5sdp"
                         android:id="@+id/question_tv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -38,30 +41,30 @@
                         android:fontFamily="@font/madani_arabic_light"
                         android:text="Is the phone defective?"
                         android:textColor="@color/grey"
-                        android:textSize="@dimen/_13sdp" />
+                        android:textSize="@dimen/_12sdp" />
 
                 </LinearLayout>
 
                 <TextView
+                    android:layout_marginLeft="@dimen/_45sdp"
                     android:id="@+id/question_time"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_1sdp"
+                    android:layout_marginTop="@dimen/_2sdp"
                     android:layout_gravity="center_vertical"
-                    android:fontFamily="@font/madani_arabic_light"
                     android:text="22/6/2022"
                     android:textColor="@color/grey"
                     android:textSize="@dimen/_8sdp" />
 
                 <TextView
+                    android:layout_marginLeft="@dimen/_45sdp"
                     android:id="@+id/question_response_yet"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_1sdp"
                     android:layout_gravity="center_vertical"
-                    android:fontFamily="@font/madani_arabic_light"
                     android:text="No response yet"
                     android:textColor="@color/bg"
                     android:textSize="@dimen/_8sdp" />
@@ -82,9 +85,9 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="end"
-            android:layout_marginTop="@dimen/_13sdp"
+            android:layout_marginTop="@dimen/_5sdp"
             android:background="@drawable/comment_background1"
-            android:padding="@dimen/_8sdp">
+            android:padding="@dimen/_5sdp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -100,7 +103,7 @@
                     android:fontFamily="@font/madani_arabic_light"
                     android:text="Is the phone defective?"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/_13sdp" />
+                    android:textSize="@dimen/_12sdp" />
 
             </LinearLayout>
 
@@ -109,13 +112,12 @@
 
 
         <TextView
+            android:layout_gravity="end"
             android:id="@+id/answer_time"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_1sdp"
-            android:layout_gravity="center_vertical"
-            android:fontFamily="@font/madani_arabic_light"
+            android:layout_marginTop="@dimen/_2sdp"
             android:text="22/6/2022"
             android:textColor="@color/grey"
             android:gravity="end"

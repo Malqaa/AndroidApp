@@ -24,7 +24,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.malka.androidappp.R
-import com.malka.androidappp.activities_main.ProductDetails
+import com.malka.androidappp.activities_main.product_detail.ProductDetails
 import com.malka.androidappp.activities_main.login.LoginData
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.botmnav_fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ModelShipAddresses
@@ -54,7 +54,6 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.*
 import java.text.DateFormat
-import java.text.ParseException
 import java.text.ParsePosition
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime

@@ -2650,5 +2650,10 @@
   <string name="alert">Alert</string>
   <string name="gps_check">Location service is denied for the app. Allow it to use the app</string>
     <string name="purchase">الشراء</string>
+  <string name="Question">سؤال</string>
+  <string name="Answer">إجابه</string>
+
+  <string name="there_are_2_questions_that_the_seller_did_not_answer" formatted="true">هناك %s أسئلة لم يرد عليها البائع</string>
+    <string name="questions_and_answers">الأسئلة والاجوبة</string>
 
 </resources>

@@ -3,8 +3,9 @@ package com.malka.androidappp.base
 import android.app.Activity
 import android.content.Context
 import android.content.res.Configuration
-import android.os.Bundle
+import android.os.*
 import android.view.View
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
@@ -25,8 +26,8 @@ abstract class BaseActivity : AppCompatActivity() {
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         HelpFunctions.IsUserLoggedIn()
-
         loadLocate()
     }
 
@@ -110,4 +111,26 @@ abstract class BaseActivity : AppCompatActivity() {
         val imm = context.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
         imm?.showSoftInput(view, 0)
     }
+
+    fun vibration() {
+        try {
+            val vibrator = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                val vibratorManager =
+                    getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
+                vibratorManager.getDefaultVibrator()
+            } else {
+                getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                vibrator.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE))
+            } else {
+                vibrator.vibrate(500)
+            }
+        }catch (error:Exception){
+
+        }
+
+
+    }
+
 }

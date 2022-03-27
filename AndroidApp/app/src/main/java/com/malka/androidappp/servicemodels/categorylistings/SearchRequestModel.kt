@@ -8,5 +8,6 @@ data class SearchRequestModel(
     val pricesort: String = "",
     val listingtype: String = "",
     val listingTitle: String = "",
-    val brandNewItem: String = ""
+    val brandNewItem: String = "",
+    val query: String = ""
 )

@@ -1,4 +1,4 @@
-package com.malka.androidappp.activities_main
+package com.malka.androidappp.activities_main.product_detail
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -9,21 +9,19 @@ import android.widget.Filter
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.malka.androidappp.R
+import com.malka.androidappp.activities_main.MainActivity
+import com.malka.androidappp.activities_main.PlayActivity
 import com.malka.androidappp.activities_main.login.SignInActivity
 import com.malka.androidappp.base.BaseActivity
-import com.malka.androidappp.botmnav_fragments.cardetail_page.Data
+import com.malka.androidappp.botmnav_fragments.cardetail_page.Seller
 import com.malka.androidappp.botmnav_fragments.cardetail_page.ModelSellerDetails
 import com.malka.androidappp.botmnav_fragments.question_ans_comnt.QuesAnsFragment
-import com.malka.androidappp.botmnav_fragments.question_ans_comnt.get_models_quesans.ModelQuesAnswr
 import com.malka.androidappp.botmnav_fragments.question_ans_comnt.get_models_quesans.Question
-import com.malka.androidappp.botmnav_fragments.question_ans_comnt.post_answer_api.ModelPostAns
-import com.malka.androidappp.botmnav_fragments.question_ans_comnt.post_ask_ques_api_edittext.ModelAskQues
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.design.ProductReviews
 import com.malka.androidappp.helper.Extension.loadThumbnail
@@ -42,11 +40,11 @@ import com.malka.androidappp.servicemodels.AdDetailModel
 import com.malka.androidappp.servicemodels.Attribute
 import com.malka.androidappp.servicemodels.ConstantObjects
 import com.malka.androidappp.servicemodels.ProductImage
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_product_details.*
 import kotlinx.android.synthetic.main.atrribute_item.view.*
 import kotlinx.android.synthetic.main.image_item.view.*
 import kotlinx.android.synthetic.main.product_detail_2.*
-import kotlinx.android.synthetic.main.question_answer_design.view.*
 import org.json.JSONArray
 import org.json.JSONObject
 import retrofit2.Call
@@ -60,13 +58,16 @@ class ProductDetails : BaseActivity() {
     var template = ""
     var selectLink = ""
     val attributeList: ArrayList<Attribute> = ArrayList()
+    var questionList: List<Question> = ArrayList()
 
-
+    lateinit var productDetailHelper:ProductDetailHelper
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product_details)
-
-
+        productDetailHelper=ProductDetailHelper(this)
+        product_attribute.isVisible = true
+        quest_ans_rcv.isVisible = true
+        answerLayout.isVisible = false
         val behavior: BottomSheetBehavior<*> = BottomSheetBehavior.from<View>(bottom_sheet)
         behavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
 
@@ -93,6 +94,13 @@ class ProductDetails : BaseActivity() {
 
         getadbyidapi(AdvId, template)
 
+        quesAnss()
+
+        setListenser()
+    }
+
+    private fun setListenser() {
+
         back_button.setOnClickListener {
             onBackPressed()
         }
@@ -104,19 +112,16 @@ class ProductDetails : BaseActivity() {
 
         }
 
-        if (ConstantObjects.logged_userid == SharedPreferencesStaticClass.ad_userid) {
-            askques_bottom.visibility = View.GONE
-        } else if (ConstantObjects.logged_userid != SharedPreferencesStaticClass.ad_userid) {
-            askques_bottom.visibility = View.VISIBLE
-        }
 
-        ask_question.setOnClickListener {
+
+        ask_question.setOnLongClickListener {
             startActivity(Intent(this, QuesAnsFragment::class.java).apply {
                 putExtra("AdvId", AdvId)
             })
-
-//            confrmAskQues()
-
+            true
+        }
+        ask_question.setOnClickListener {
+            confrmAskQues()
         }
 
         all_reviews.setOnClickListener {
@@ -125,9 +130,11 @@ class ProductDetails : BaseActivity() {
             })
         }
 
-        quesAnss(AdvId)
-
-
+        SEEALL.setOnClickListener {
+            startActivity(Intent(this, QuestionActivity::class.java).apply {
+                putExtra("AdvId",AdvId)
+            })
+        }
     }
 
     override fun onBackPressed() {
@@ -259,31 +266,38 @@ class ProductDetails : BaseActivity() {
                 list
             )
         }
-
-        enableSwipeToDeleteAndUndo()
     }
 
     private fun enableSwipeToDeleteAndUndo() {
         val messageSwipeController =
             MessageSwipeController(this, object : SwipeControllerActions {
                 override fun showReplyUI(position: Int) {
-                    replyItemClicked("QUESTION")
+                    val question = questionList.get(position)
+                    replyItemClicked(question)
                 }
             })
         val itemTouchHelper = ItemTouchHelper(messageSwipeController)
-        itemTouchHelper.attachToRecyclerView(product_attribute)
+        itemTouchHelper.attachToRecyclerView(quest_ans_rcv)
+        vibration()
     }
 
-    private fun replyItemClicked(selectedMessage: String?) {
-        if (selectedMessage == null) return
-        val author: String
 
-//
-//        showReplyLayout("author", selectedMessage)
-//        exitActionMode()
-//        openSoftKeyboard(this, question_editText.findFocus())
-//        etMessage.requestFocus()
-//        currentQuotedMessage = selectedMessage
+    private fun replyItemClicked(question: Question) {
+
+        answerLayout.isVisible = true
+        cross_reply_layout.setOnClickListener {
+            answerLayout.isVisible = false
+        }
+        quetsion_tv.text = question.question
+        ReplyAnswer_btn.setOnClickListener {
+            ReplyAnswer.text.toString().let {
+                if (it.isEmpty()) {
+                    showError(getString(R.string.Please_enter, getString(R.string.Answer)))
+                } else {
+                    PostAnsApi(question._id, it)
+                }
+            }
+        }
     }
 
     fun getadbyidapi(advid: String, template: String) {
@@ -500,7 +514,7 @@ class ProductDetails : BaseActivity() {
         val Inputemail = editTextque!!.text.toString().trim { it <= ' ' }
 
         return if (Inputemail.isEmpty()) {
-            HelpFunctions.ShowLongToast(getString(R.string.Fieldcantbeempty), this)
+            showError(getString(R.string.Please_enter, getString(R.string.Question)))
             false
         } else {
             true
@@ -512,100 +526,41 @@ class ProductDetails : BaseActivity() {
         if (!validateAskQuesInputText()) {
             return
         } else {
-            if (ConstantObjects.logged_userid != SharedPreferencesStaticClass.ad_userid) {
-//                PostAnsApi()
-            } else if (ConstantObjects.logged_userid == SharedPreferencesStaticClass.ad_userid &&
-                SharedPreferencesStaticClass.is_selected_ans_or_comment == "answer"
-
-            ) {
-                askquesApi()
-            }
-
+            askquesApi()
         }
 
     }
 
     fun askquesApi() {
-        val quesgetInput: String = editTextque.text.toString().trim()
-//        val adsId: String = "thol1637CI"
-//        val buyersId: String = "119392dd-8b27-4f35-84c8-1ccf50343df7"
-
-
-        val adsId: String = AdvId
-        val buyersId: String = ConstantObjects.logged_userid
-
-//        Toast.makeText(this, "AdvID: "+AdvId, Toast.LENGTH_LONG).show()
-//        Toast.makeText(this, "BuyersId: "+buyersId, Toast.LENGTH_LONG).show()
-
-        val insertAskQuesinModel = ModelAskQues(adsId, buyersId, quesgetInput)
-        val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-
-        val call: Call<ModelAskQues> = malqaa.askQues(insertAskQuesinModel)
-
-        call.enqueue(object : Callback<ModelAskQues> {
-            override fun onResponse(call: Call<ModelAskQues>, response: Response<ModelAskQues>) {
-                if (response.isSuccessful) {
-                    editTextque.text = null
-                    HelpFunctions.ShowLongToast(
-                        getString(R.string.Questionhasbeenpost),
-                        this@ProductDetails
-                    )
-
-                } else {
-                    HelpFunctions.ShowLongToast(
-                        getString(R.string.FailedtopostQuestion),
-                        this@ProductDetails
-                    )
-                }
-
-            }
-
-            override fun onFailure(call: Call<ModelAskQues>, t: Throwable) {
-                t.message?.let { HelpFunctions.ShowLongToast(it, this@ProductDetails) }
-            }
+        productDetailHelper.askquesApi(editTextque.text.toString(), AdvId, {
+            editTextque.setText("")
+            quesAnss()
         })
-
     }
 
 
-    fun quesAnss(adsId: String) {
-        val malqaa: MalqaApiService =
-            RetrofitBuilder.GetRetrofitBuilder()
+    fun quesAnss() {
+        productDetailHelper. quesAnss(AdvId) {
+            it.run {
+                quest_ans.text = getString(
+                    R.string.there_are_2_questions_that_the_seller_did_not_answer,
+                    unAnswered.toString()
+                )
 
-        val call: Call<ModelQuesAnswr> = malqaa.quesAns(adsId, ConstantObjects.logged_userid)
+                questionList = questions
+                questionList=questionList.take(3)
+                GenericAdaptor(). questionAnswerAdaptor(quest_ans_rcv,questionList)
+                if (ConstantObjects.logged_userid == SharedPreferencesStaticClass.ad_userid) {
+                    askques_bottom.visibility = View.GONE
+                    enableSwipeToDeleteAndUndo()
 
-        val recyclerQuesAns: RecyclerView = findViewById(R.id.quest_ans_rcv)
+                } else if (ConstantObjects.logged_userid != SharedPreferencesStaticClass.ad_userid) {
+                    askques_bottom.visibility = View.VISIBLE
 
-        call.enqueue(object : Callback<ModelQuesAnswr> {
-            override fun onResponse(
-                call: Call<ModelQuesAnswr>, response: Response<ModelQuesAnswr>
-            ) {
-                if (response.isSuccessful) {
-                    if (response.body() != null) {
-                        val respone: ModelQuesAnswr = response.body()!!
-
-                        questionAnswerAdaptor(respone.questions)
-
-
-                    }
-
-
-                    // Get item count
-
-//                    Toast.makeText(this, "Total questions are : "+totalQuestions, Toast.LENGTH_LONG).show()
-
-                } else {
-                    HelpFunctions.ShowLongToast(
-                        getString(R.string.FailedtogetQuestions),
-                        this@ProductDetails
-                    )
                 }
             }
 
-            override fun onFailure(call: Call<ModelQuesAnswr>, t: Throwable) {
-                t.message?.let { HelpFunctions.ShowLongToast(it, this@ProductDetails) }
-            }
-        })
+        }
 
     }
 
@@ -613,80 +568,24 @@ class ProductDetails : BaseActivity() {
     fun PostAnsApi(questionId: String, answer: String) {
 
 
-        val malqaa = RetrofitBuilder.GetRetrofitBuilder()
 
-        val call: Call<ModelPostAns> = malqaa.postAnsByQid(
+        productDetailHelper. PostAnsApi(questionId,answer) {respone->
 
-            questionId,
-            answer,
-            ConstantObjects.logged_userid,
-        )
-        call.enqueue(object : Callback<ModelPostAns> {
-            override fun onResponse(
-                call: Call<ModelPostAns>, response: Response<ModelPostAns>
-            ) {
-                if (response.isSuccessful) {
 
-                    if (response.body() != null) {
-
-                        val respone: ModelPostAns = response.body()!!
-                        if (respone.status_code.equals("200")) {
-                            HelpFunctions.ShowLongToast(
-                                getString(R.string.Answerhasbeenposted),
-                                this@ProductDetails
-                            )
-
-                        }
-                    }
-                }
-            }
-
-            override fun onFailure(call: Call<ModelPostAns>, t: Throwable) {
-                t.message?.let { HelpFunctions.ShowLongToast(it, this@ProductDetails) }
+            if (respone.status_code >= 200||respone.status_code<=299) {
+                answerLayout.isVisible = false
+                ReplyAnswer.setText("")
+                quesAnss()
+                HelpFunctions.ShowLongToast(
+                    getString(R.string.Answerhasbeenposted),
+                    this@ProductDetails
+                )
 
             }
-        })
-    }
-
-
-    private fun questionAnswerAdaptor(list: List<Question>) {
-
-        quest_ans_rcv.adapter = object : GenericListAdapter<Question>(
-            R.layout.question_answer_design,
-            bind = { element, holder, itemCount, position ->
-                holder.view.run {
-                    element.run {
-
-                        question_tv.text = question
-                        question_time.text = dateTime
-                        question_response_yet.show()
-                        question_tv.setOnClickListener {
-                            PostAnsApi(_id, "Hello")
-                            question_response_yet.hide()
-                        }
-
-                        if (isAnswered) {
-                            answer_view.show()
-                            answer_tv.text = answer.description
-                            answer_time.text = dateTime
-                        } else {
-                            answer_view.hide()
-                            answer_time.hide()
-                        }
-                    }
-                }
-            }
-        ) {
-            override fun getFilter(): Filter {
-                TODO("Not yet implemented")
-            }
-
-        }.apply {
-            submitList(
-                list
-            )
         }
+
     }
+
 
 
     private fun getSellerByID(id: String) {
@@ -703,22 +602,19 @@ class ProductDetails : BaseActivity() {
                 response: Response<ModelSellerDetails>
             ) {
                 if (response.isSuccessful) {
-                    var sellerData: Data = response.body()!!.data
+                    val sellerData: Seller = response.body()!!.data
                     sellerName.text = sellerData.fullName
                     seller_city.text = sellerData.city
                     seller_number.text = sellerData.phone
-                    seller_picture.setImageResource(R.drawable.profiledp)
 
-//                    var imageLink = sellerData.image
-//                    if(imageLink.isNotEmpty()){
-//
-//                        Picasso.get().load(imageLink)
-//                            .error(R.drawable.profile_pic).placeholder(R.drawable.profile_pic)
-//                            .into(seller_picture)
-//
-//                    }else {
-//                        seller_picture.setImageResource(R.drawable.profile_pic)
-//                    }
+                    val imageLink = sellerData.image
+                    if (!imageLink.isNullOrEmpty()) {
+                        Picasso.get().load(imageLink)
+                            .error(R.drawable.profiledp).placeholder(R.drawable.profiledp)
+                            .into(seller_picture)
+                    } else {
+                        seller_picture.setImageResource(R.drawable.profiledp)
+                    }
 
                 } else {
                     HelpFunctions.ShowLongToast(

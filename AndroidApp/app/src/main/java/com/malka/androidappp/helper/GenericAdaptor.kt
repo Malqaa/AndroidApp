@@ -2,20 +2,24 @@ package com.malka.androidappp.helper
 
 import android.content.Context
 import android.content.Intent
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
-import com.malka.androidappp.activities_main.ProductDetails
+import com.malka.androidappp.activities_main.product_detail.ProductDetails
 import com.malka.androidappp.activities_main.login.SignInActivity
+import com.malka.androidappp.botmnav_fragments.question_ans_comnt.get_models_quesans.Question
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.helper.Extension.decimalNumberFormat
 import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.network.constants.ApiConstants
 import com.malka.androidappp.servicemodels.AdDetailModel
 import com.malka.androidappp.servicemodels.ConstantObjects
+import kotlinx.android.synthetic.main.activity_question.*
 import kotlinx.android.synthetic.main.product_item.view.*
+import kotlinx.android.synthetic.main.question_answer_design.view.*
 
 class GenericAdaptor {
 
@@ -149,5 +153,40 @@ class GenericAdaptor {
         }
     }
 
+
+    fun questionAnswerAdaptor(quest_ans_rcv:RecyclerView,list: List<Question>) {
+
+        quest_ans_rcv.adapter = object : GenericListAdapter<Question>(
+            R.layout.question_answer_design,
+            bind = { element, holder, itemCount, position ->
+                holder.view.run {
+                    element.run {
+
+                        question_tv.text = question
+                        question_time.text = dateTimeFormated
+                        if (isAnswered) {
+                            question_response_yet.hide()
+                            answer_view.show()
+                            answer_tv.text = answer.description
+                            answer_time.text = answer.dateTimeFormated
+                        } else {
+                            question_response_yet.show()
+                            answer_view.hide()
+                            answer_time.hide()
+                        }
+                    }
+                }
+            }
+        ) {
+            override fun getFilter(): Filter {
+                TODO("Not yet implemented")
+            }
+
+        }.apply {
+            submitList(
+                list
+            )
+        }
+    }
 
 }

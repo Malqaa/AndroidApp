@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
 
@@ -31,15 +32,15 @@
         android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup">
         <activity
+            android:name=".activities_main.product_detail.QuestionActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities_main.place_picker.LocationPickerActivity"
             android:exported="false" />
         <activity
             android:name=".activities_main.business_signup.Switch_Account"
             android:exported="true"
-            android:theme="@style/NoActionBar">
-
-
-        </activity>
+            android:theme="@style/NoActionBar"></activity>
         <activity
             android:name=".activities_main.FullImageActivity"
             android:exported="false" />
@@ -70,9 +71,9 @@
             android:exported="true"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name=".activities_main.ProductDetails"
+            android:name=".activities_main.product_detail.ProductDetails"
             android:exported="true"
-            android:theme="@style/NoActionBar"/>
+            android:theme="@style/NoActionBar" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -83,7 +84,7 @@
             android:theme="@style/NoActionBar" />
         <activity
             android:name=".botmnav_fragments.activities_main.business_signup.BusinessAccountCreate"
-            android:theme="@style/NoActionBar"></activity>
+            android:theme="@style/NoActionBar" />
         <activity
             android:name=".activities_main.forgot.forgot_changepass_reset_activity.ForgotChangepassActivity"
             android:theme="@style/NoActionBar" />
@@ -99,7 +100,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".activities_main.MainActivity"
@@ -133,7 +133,7 @@
             android:theme="@style/NoActionBar" />
         <activity
             android:name=".activities_main.add_product.AddPhoto"
-            android:theme="@style/NoActionBar"></activity>
+            android:theme="@style/NoActionBar" />
         <activity
             android:name=".activities_main.add_product.DynamicTemplate"
             android:theme="@style/NoActionBar" />

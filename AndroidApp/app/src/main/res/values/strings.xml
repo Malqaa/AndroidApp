@@ -2350,7 +2350,7 @@ Want to start a business account? Create a Business Account
 
     <string name="FeaturedinGeneral">Featured in General</string>
 
-    <string name="SEEALL">SEE ALL</string>
+    <string name="SEEALL">See all</string>
 
     <string name="FeaturedinRecent">Featured in Recent</string>
 
@@ -2823,6 +2823,10 @@ Want to start a business account? Create a Business Account
   <string name="alert">Alert</string>
   <string name="gps_check">Location service is denied for the app. Allow it to use the app</string>
   <string name="purchase">Purchase</string>
+  <string name="Question">Question</string>
+  <string name="Answer">Answer</string>
+  <string name="there_are_2_questions_that_the_seller_did_not_answer" formatted="true">There are %s questions that the seller did not answer</string>
+  <string name="questions_and_answers">Questions and answers</string>
 
 
 </resources>

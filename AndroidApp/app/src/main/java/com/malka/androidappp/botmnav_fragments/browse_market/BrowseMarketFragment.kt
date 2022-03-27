@@ -15,7 +15,6 @@ import com.malka.androidappp.recycler_browsecat.BrowseMarketXLAdap
 import com.malka.androidappp.servicemodels.AdDetailModel
 import com.malka.androidappp.servicemodels.ConstantObjects
 import com.malka.androidappp.servicemodels.categorylistings.CategoryResponse
-import com.malka.androidappp.servicemodels.categorylistings.PropertyModel
 import com.malka.androidappp.servicemodels.categorylistings.SearchRequestModel
 import com.malka.androidappp.servicemodels.categorylistings.SearchRespone
 import kotlinx.android.synthetic.main.fragment_browse_market.*
@@ -49,12 +48,7 @@ class BrowseMarketFragment : BaseActivity() {
             openDialog()
 
         }
-//        if (HelpFunctions.IsUserLoggedIn()) {
-//            addSearchQueryFav(SearchQuery)
-//        } else {
-//            val intentt = Intent(context, SignInActivity::class.java)
-//            startActivity(intentt)
-//        }
+
 
         browadptxl = BrowseMarketXLAdap(marketpost, this)
         recyclerViewmarket.adapter = browadptxl
@@ -78,15 +72,18 @@ class BrowseMarketFragment : BaseActivity() {
         }
         icon_grid.performClick()
 
-        if (CategoryDesc != null && CategoryDesc.trim().length > 0) {
-            SetToolbarTitle(CategoryDesc);
-            FetchCategories(CategoryDesc);
-            btn1.setOnClickListener() { openDialog() }
-            btn2.setOnClickListener() { openDialog() }
-            btn3.setOnClickListener() { openDialog() }
-        } else if (SearchQuery != null && SearchQuery.trim().length > 0) {
+        if (CategoryDesc.trim().length > 0) {
+            SetToolbarTitle(CategoryDesc)
+            FetchCategories(CategoryDesc,"")
+            btn1.setOnClickListener { openDialog() }
+            btn2.setOnClickListener { openDialog() }
+            btn3.setOnClickListener { openDialog() }
+        } else if (SearchQuery.trim().length > 0) {
             SetToolbarTitle("Search: " + SearchQuery)
-            SearchCategories(SearchQuery)
+            FetchCategories("",SearchQuery)
+            if (HelpFunctions.IsUserLoggedIn()) {
+                addSearchQueryFav(SearchQuery)
+            }
         }
 
 
@@ -99,12 +96,12 @@ class BrowseMarketFragment : BaseActivity() {
 
     //Zack
     //Date: 10/29/2020
-    fun FetchCategories(category: String) {
+    fun FetchCategories(category: String,query:String) {
         HelpFunctions.startProgressBar(this)
 
 
-        val requestbody: SearchRequestModel =
-            SearchRequestModel(category, "", "", "", "", "", "", "")
+        val requestbody =
+            SearchRequestModel(category, "", "", "", "", "", query, "",query)
 
         val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
         val call: Call<SearchRespone> = malqa.categorylist(requestbody)
@@ -123,6 +120,7 @@ class BrowseMarketFragment : BaseActivity() {
                 call: Call<SearchRespone>,
                 response: Response<SearchRespone>
             ) {
+
                 if (response.isSuccessful) {
                     if (response.body() != null) {
                         val resp: SearchRespone = response.body()!!
@@ -175,38 +173,24 @@ class BrowseMarketFragment : BaseActivity() {
             override fun onResponse(
                 call: Call<CategoryResponse>, response: Response<CategoryResponse>
             ) {
+
                 if (response.isSuccessful) {
                     if (response.body() != null) {
-                        var resp: CategoryResponse = response.body()!!;
-                        var lists: List<PropertyModel> = resp.data;
-//                            if (lists != null && lists.count() > 0) {
-//                                for (IndProperty in lists) {
-//                                    marketpost.add(
-//                                        BrowseMarketModel(
-//                                            if (IndProperty.title != null) IndProperty.title else "",
-//                                            if (IndProperty.description != null) IndProperty.description else "",
-//                                            "Reserve not met",
-//                                            if (IndProperty.price != null) IndProperty.price else "0",
-//                                            if (IndProperty.price != null) IndProperty.price else "0",
-//                                            "Buy Now",
-//                                            if (IndProperty.homepageImage != null) IndProperty.homepageImage else "",
-//                                            "",
-//                                            advid = IndProperty.referenceId,
-//                                            ItemInWatchlist = HelpFunctions.AdAlreadyAddedToWatchList(
-//                                                IndProperty.referenceId
-//                                            )
-//                                        )
-//                                    )
-//                                }
-//                                ShowGridLayout()
-//
-//                            } else {
-//                                HelpFunctions.ShowAlert(
-//                                    this@BrowseMarketFragment.context,
-//                                    getString(R.string.Information),
-//                                    getString(R.string.NoRecordFound)
-//                                )
-//                            }
+                        val resp: CategoryResponse = response.body()!!
+                        resp.data.forEach {
+                            marketpost.add(it)
+                        }
+                        if (marketpost.count() > 0) {
+                            browadptxl!!.updateData(marketpost)
+                            total_result_tv.text =
+                                getString(R.string.result, marketpost.count().toString())
+                        } else {
+                            HelpFunctions.ShowAlert(
+                                this@BrowseMarketFragment,
+                                getString(R.string.Information),
+                                getString(R.string.NoRecordFound)
+                            )
+                        }
                     }
                 } else {
                     HelpFunctions.ShowAlert(
@@ -221,19 +205,14 @@ class BrowseMarketFragment : BaseActivity() {
         })
 
     }
-
-    //Zack
-    //Date: 10/29/2020
     fun SetToolbarTitle(Category: String) {
-        if (Category == "LSOWWFASAR")
-            lbl_toolbar_category.text = "Property";
-        else
-            lbl_toolbar_category.text = Category;
+        lbl_toolbar_category.text = Category;
+
     }
 
     fun openDialog() {
         val exampleDialog = SubcategoriesDialogFragment()
-     //   exampleDialog.show(childFragmentManager, "example dialog")
+        exampleDialog.show(getSupportFragmentManager(), "example dialog")
     }
 
     // Add Search to favorites
@@ -253,32 +232,10 @@ class BrowseMarketFragment : BaseActivity() {
                 override fun onResponse(
                     call: Call<ModelAddSearchFav>, response: Response<ModelAddSearchFav>
                 ) {
-                    if (response.isSuccessful) {
 
-                        HelpFunctions.ShowLongToast(
-                            searchQuery + " " + getString(R.string.AddedtoFavorites),
-                            this@BrowseMarketFragment
-                        )
-//                        Toast.makeText(
-//                            activity,
-//                            "$searchQuery Added to Favorites",
-//                            Toast.LENGTH_LONG
-//                        )
-//                            .show()
-
-                    } else {
-                        HelpFunctions.ShowLongToast(
-                            getString(R.string.Failedtoaddfavorites),
-                            this@BrowseMarketFragment
-                        )
-//                        Toast.makeText(activity, "", Toast.LENGTH_LONG)
-//                            .show()
-                    }
                 }
-
                 override fun onFailure(call: Call<ModelAddSearchFav>, t: Throwable) {
                     t.message?.let { HelpFunctions.ShowLongToast(it, this@BrowseMarketFragment) }
-//                    Toast.makeText(activity, t.message, Toast.LENGTH_LONG).show()
                 }
             })
         } catch (ex: Exception) {

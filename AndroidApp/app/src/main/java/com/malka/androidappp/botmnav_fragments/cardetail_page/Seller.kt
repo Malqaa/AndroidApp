@@ -1,6 +1,6 @@
 package com.malka.androidappp.botmnav_fragments.cardetail_page
 
-data class Data(
+data class Seller(
     val address: String,
     val area: Any,
     val city: String,

@@ -65,7 +65,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_5sdp"
                         android:fontFamily="@font/madani_arabic_light"
-                        android:text="#6497"
+                        android:text="#"
                         android:textColor="@color/textColor"
 
                         android:textSize="@dimen/_12sdp" />
@@ -300,6 +300,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
+                        android:visibility="gone"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:spanCount="1" />
 
@@ -450,7 +451,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/madani_arabic_medium"
-                        android:text="Questions and answers"
+                        android:text="@string/questions_and_answers"
                         android:textColor="#000000"
                         android:textSize="@dimen/_14sdp" />
 
@@ -461,7 +462,8 @@
                         android:layout_weight="1"
                         android:fontFamily="@font/madani_arabic_light"
                         android:gravity="end"
-                        android:text="see all"
+                        android:id="@+id/SEEALL"
+                        android:text="@string/SEEALL"
                         android:textColor="@color/bg"
                         android:textSize="@dimen/_14sdp" />
 
@@ -469,10 +471,11 @@
 
 
                 <TextView
+                    android:id="@+id/quest_ans"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/madani_arabic_light"
-                    android:text="There are 2 questions that the seller did not answer"
+                    android:text="@string/there_are_2_questions_that_the_seller_did_not_answer"
                     android:textColor="#000000"
                     android:textSize="@dimen/_12sdp" />
 
@@ -480,12 +483,120 @@
                     android:id="@+id/quest_ans_rcv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/_10sdp"
                     android:orientation="vertical"
+                    android:visibility="gone"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
+                <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/answerLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_14sdp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <View
+                            android:layout_width="@dimen/_3sdp"
+                            android:layout_height="@dimen/_60sdp"
+                            android:background="@color/bg" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="@dimen/_5sdp">
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_centerVertical="true"
+                                    android:fontFamily="@font/madani_arabic_medium"
+                                    android:text="@string/Question"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_13sdp" />
+
+                                <ImageView
+                                    android:id="@+id/cross_reply_layout"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginLeft="@dimen/_10sdp"
+                                    android:layout_marginRight="@dimen/_10sdp"
+                                    android:src="@drawable/ic_cross" />
+                            </RelativeLayout>
+
+                            <TextView
+                                android:id="@+id/quetsion_tv"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/madani_arabic_light"
+                                android:text="@string/there_are_2_questions_that_the_seller_did_not_answer"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_13sdp" />
+
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@drawable/comment_btn"
+                        android:padding="@dimen/_5sdp">
+
+                        <EditText
+                            android:id="@+id/ReplyAnswer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="@dimen/_13sdp"
+                            android:layout_weight="1"
+                            android:background="@null"
+                            android:fontFamily="@font/madani_arabic_light"
+                            android:hint="@string/ReplyAnswer"
+                            android:inputType="text"
+                            android:textColor="#6D6C74"
+                            android:textSize="@dimen/_13sdp" />
+
+
+                        <LinearLayout
+                            android:id="@+id/ReplyAnswer_btn"
+
+                            android:layout_width="@dimen/_32sdp"
+                            android:layout_height="@dimen/_32sdp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginEnd="@dimen/_5sdp"
+                            android:background="@drawable/circle_ic_background_bg"
+                            android:gravity="center">
+
+                            <ImageView
+                                android:layout_width="17dp"
+                                android:layout_height="@dimen/_17sdp"
+                                android:gravity="center"
+                                android:src="@drawable/send_log" />
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+                </LinearLayout>
 
                 <LinearLayout
+                    android:visibility="gone"
                     android:id="@+id/askques_bottom"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -504,7 +615,7 @@
                         android:background="@null"
                         android:fontFamily="@font/madani_arabic_light"
                         android:hint="@string/have_a_question"
-                        android:inputType="textEmailAddress"
+                        android:inputType="text"
                         android:textColor="#6D6C74"
                         android:textSize="@dimen/_13sdp" />
 

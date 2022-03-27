@@ -12,6 +12,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.login.SignInActivity
+import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
@@ -24,7 +25,7 @@ import java.io.FileNotFoundException
 import java.io.InputStream
 import java.util.*
 
-class BusinessSignupPg3 : AppCompatActivity() {
+class BusinessSignupPg3 : BaseActivity() {
 
     //Total Number of Images to pickup
     val imagCount = 10
@@ -41,7 +42,6 @@ class BusinessSignupPg3 : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_business_signup_pg3)
-        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
 
         fileText = findViewById(R.id.textViewFile)
 

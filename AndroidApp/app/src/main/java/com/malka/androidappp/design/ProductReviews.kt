@@ -4,13 +4,14 @@ import android.os.Bundle
 import android.widget.Filter
 import androidx.appcompat.app.AppCompatActivity
 import com.malka.androidappp.R
+import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.design.Models.reviewmodel
 import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
 import kotlinx.android.synthetic.main.product_review_design.view.*
 import kotlinx.android.synthetic.main.product_reviews1.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 
-class ProductReviews : AppCompatActivity() {
+class ProductReviews : BaseActivity() {
 
     val list : ArrayList<reviewmodel> = ArrayList()
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -11,10 +11,8 @@ import android.os.Parcelable
 import android.speech.RecognizerIntent
 import android.view.MenuItem
 import android.view.View
-import android.widget.Filter
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.Toast
+import android.view.inputmethod.EditorInfo
+import android.widget.*
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -47,6 +45,8 @@ import com.malka.androidappp.servicemodels.home.favouritecars
 import com.malka.androidappp.servicemodels.home.favouriteproperties
 import com.malka.androidappp.servicemodels.home.recentlisting
 import kotlinx.android.synthetic.main.fragment_homee.*
+import kotlinx.android.synthetic.main.fragment_homee.textInputLayout11
+import kotlinx.android.synthetic.main.fragment_listan_item.*
 import kotlinx.android.synthetic.main.parenet_category_item.view.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -112,6 +112,8 @@ class HomeFragment : Fragment(R.layout.fragment_homee),
 
         loadLocate()
 
+
+        setListenser()
 
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -206,23 +208,30 @@ class HomeFragment : Fragment(R.layout.fragment_homee),
         setPagerDots(sliderlist)
     }
 
-    //Zaack
-    //Date: 10/29/2020
-    fun NavigateToCategoryListing(category: String) {
-        startActivity(Intent(requireContext(), BrowseMarketFragment::class.java).apply {
-            putExtra("CategoryDesc", category)
-            putExtra("SearchQuery", "")
-        })
+    private fun setListenser() {
+        textInputLayout11._view2()
+            .setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
 
+                    SearchAndNavigateToCategoryListing(textInputLayout11.getText())
+                    return@OnEditorActionListener true
+                }
+                true
+            })
+        textInputLayout11._attachInfoClickListener {
+            SearchAndNavigateToCategoryListing(textInputLayout11.getText())
+
+        }
     }
 
+
     fun SearchAndNavigateToCategoryListing(searchquery: String) {
-
-        startActivity(Intent(requireContext(), BrowseMarketFragment::class.java).apply {
-            putExtra("CategoryDesc", "")
-            putExtra("SearchQuery", searchquery)
-        })
-
+        if(!searchquery.isEmpty()){
+            startActivity(Intent(requireContext(), BrowseMarketFragment::class.java).apply {
+                putExtra("CategoryDesc", "")
+                putExtra("SearchQuery", searchquery)
+            })
+        }
     }
 
 
@@ -751,9 +760,11 @@ class HomeFragment : Fragment(R.layout.fragment_homee),
     override fun OnItemClick(position: Int) {
         super.OnItemClick(position)
 
-        allCategoryList[position].categoryName?.let {
-            NavigateToCategoryListing(it)
-        }
+
+        startActivity(Intent(requireContext(), BrowseMarketFragment::class.java).apply {
+            putExtra("CategoryDesc", allCategoryList[position].categoryName)
+            putExtra("SearchQuery", "")
+        })
     }
 
     //Methods For language

@@ -59,7 +59,7 @@ data class AdDetailModel(
     val createdOnFormated: String
         get() {
             createdOn?.let {
-                val result: String = createdOn!!.substring(0, createdOn.indexOf("."))
+                val result: String = it.substring(0, createdOn.indexOf("."))
 
                 return  HelpFunctions.FormatDateTime(
                     result,

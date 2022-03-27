@@ -16,7 +16,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.malka.androidappp.R
-import com.malka.androidappp.botmnav_fragments.cardetail_page.Data
+import com.malka.androidappp.botmnav_fragments.cardetail_page.Seller
 import com.malka.androidappp.botmnav_fragments.cardetail_page.ModelAddSellerFav
 import com.malka.androidappp.botmnav_fragments.cardetail_page.ModelSellerDetails
 import com.malka.androidappp.botmnav_fragments.cardetail_page.bottomsheet_bidopt.BottomsheetDialogfragClass
@@ -687,7 +687,7 @@ class ProductDetail : Fragment(), BottomsheetDialogfragClass.BottomSheetListener
                     val details: ModelSellerDetails = response.body()!!
                     if (details != null) {
 
-                        var sellerData: Data = response.body()!!.data
+                        var sellerData: Seller = response.body()!!.data
 
                         if (sellerData.username != null) {
                             sellerName.text = sellerData.username

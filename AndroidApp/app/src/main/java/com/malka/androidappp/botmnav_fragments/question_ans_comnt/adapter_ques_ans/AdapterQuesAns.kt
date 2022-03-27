@@ -7,7 +7,6 @@ import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
-import com.malka.androidappp.activities_main.ProductDetails
 import com.malka.androidappp.botmnav_fragments.question_ans_comnt.QuesAnsFragment
 import com.malka.androidappp.botmnav_fragments.question_ans_comnt.adapter_sub_comments.AdapterComments
 import com.malka.androidappp.botmnav_fragments.question_ans_comnt.get_models_quesans.Question
