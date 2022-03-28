@@ -24,16 +24,16 @@
 
 
             <TextView
-                android:layout_toRightOf="@+id/back_btn"
+                android:id="@+id/toolbar_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="@dimen/_10sdp"
+                android:layout_toRightOf="@+id/back_btn"
                 android:fontFamily="@font/madani_arabic_medium"
-                android:text="@string/add_product"
-                android:layout_centerVertical="true"
 
-                android:id="@+id/toolbar_title"
+                android:text="@string/add_product"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_13sdp" />
 

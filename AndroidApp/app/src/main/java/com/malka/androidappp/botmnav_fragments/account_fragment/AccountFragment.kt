@@ -9,15 +9,18 @@ import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.malka.androidappp.R
+import com.malka.androidappp.activities_main.add_product.Confirmation
 import com.malka.androidappp.activities_main.add_product.ListanItem
 import com.malka.androidappp.activities_main.login.SignInActivity
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.activities_main.business_signup.Switch_Account
 import com.malka.androidappp.activities_main.login.LoginData
+import com.malka.androidappp.design.TechnicalSupport
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.servicemodels.ConstantObjects
 import io.paperdb.Paper
 import kotlinx.android.synthetic.main.fragment_account.*
+import kotlinx.android.synthetic.main.fragment_promotional.*
 
 
 class AccountFragment : Fragment() {
@@ -55,7 +58,12 @@ class AccountFragment : Fragment() {
             container,
             false
         )
+
     }
+
+
+
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -87,6 +95,7 @@ class AccountFragment : Fragment() {
         }
 
 
+
         view.findViewById<CardView>(R.id.profilecardv).setOnClickListener() {
 
             findNavController().navigate(R.id.accountsettingtoprofile)
@@ -112,8 +121,9 @@ class AccountFragment : Fragment() {
         }
 
         MyProducts.setOnClickListener() {
-            findNavController().navigate(R.id.soldfraggg)
+            findNavController().navigate(R.id.myProduct)
         }
+
 
 
 
@@ -161,8 +171,14 @@ class AccountFragment : Fragment() {
             startActivity(intentt)
         }
 
+        technincal_support.setOnClickListener {
+            val intent = Intent(this.activity, TechnicalSupport::class.java)
+            startActivity(intent)
+        }
+
         userType()
     }
+
 
     fun userType() {
 

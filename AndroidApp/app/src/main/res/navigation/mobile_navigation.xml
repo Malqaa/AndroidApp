@@ -201,7 +201,7 @@
     </fragment>
 
     <fragment
-        android:id="@+id/soldfraggg"
+        android:id="@+id/myProduct"
         android:name="com.malka.androidappp.botmnav_fragments.MyProducts.MyProductsFragment"
         android:label="Sold"
         tools:layout="@layout/fragment_sold">

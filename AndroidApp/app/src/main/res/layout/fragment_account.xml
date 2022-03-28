@@ -864,11 +864,10 @@
 
 
                 <LinearLayout
+                    android:id="@+id/technincal_support"
                     android:gravity="center_vertical"
-
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    
                     android:layout_marginTop="@dimen/_1sdp"
                     android:orientation="horizontal">
 
@@ -1034,7 +1033,7 @@
 
 
         <LinearLayout
-            android:visibility="gone"
+
             android:id="@+id/scrollView2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
