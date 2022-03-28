@@ -18,18 +18,15 @@ import com.malka.androidappp.activities_main.MainActivity
 import com.malka.androidappp.activities_main.PlayActivity
 import com.malka.androidappp.activities_main.login.SignInActivity
 import com.malka.androidappp.base.BaseActivity
-import com.malka.androidappp.botmnav_fragments.cardetail_page.Seller
 import com.malka.androidappp.botmnav_fragments.cardetail_page.ModelSellerDetails
-import com.malka.androidappp.botmnav_fragments.question_ans_comnt.QuesAnsFragment
-import com.malka.androidappp.botmnav_fragments.question_ans_comnt.get_models_quesans.Question
+import com.malka.androidappp.botmnav_fragments.cardetail_page.Seller
+import com.malka.androidappp.servicemodels.questionModel.Question
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.design.ProductReviews
 import com.malka.androidappp.helper.Extension.loadThumbnail
 import com.malka.androidappp.helper.Extension.shared
 import com.malka.androidappp.helper.GenericAdaptor
 import com.malka.androidappp.helper.HelpFunctions
-import com.malka.androidappp.helper.hide
-import com.malka.androidappp.helper.show
 import com.malka.androidappp.helper.swipe.MessageSwipeController
 import com.malka.androidappp.helper.swipe.SwipeControllerActions
 import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
@@ -113,12 +110,8 @@ class ProductDetails : BaseActivity() {
 
 
 
-        ask_question.setOnLongClickListener {
-            startActivity(Intent(this, QuesAnsFragment::class.java).apply {
-                putExtra("AdvId", AdvId)
-            })
-            true
-        }
+
+
         ask_question.setOnClickListener {
             confrmAskQues()
         }
@@ -130,6 +123,12 @@ class ProductDetails : BaseActivity() {
         }
 
         SEEALL.setOnClickListener {
+            startActivity(Intent(this, QuestionActivity::class.java).apply {
+                putExtra("AdvId",AdvId)
+            })
+        }
+
+        current_price_buy.setOnClickListener {
             startActivity(Intent(this, QuestionActivity::class.java).apply {
                 putExtra("AdvId",AdvId)
             })

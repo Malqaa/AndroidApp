@@ -1,4 +1,4 @@
-package com.malka.androidappp.botmnav_fragments.question_ans_comnt.get_models_quesans
+package com.malka.androidappp.servicemodels.questionModel
 
 import com.malka.androidappp.helper.HelpFunctions
 
@@ -7,7 +7,6 @@ data class Question(
     val advId: String,
     val answer: Answer,
     val buyerId: String,
-    val comment: List<Comment>,
     val dateTime: String,
     var isAnswered: Boolean,
     val question: String,

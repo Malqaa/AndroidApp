@@ -1,4 +1,4 @@
-package com.malka.androidappp.botmnav_fragments.question_ans_comnt.post_answer_api
+package com.malka.androidappp.servicemodels.questionModel
 
 data class ModelPostAns(
     val `data`: Boolean,

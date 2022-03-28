@@ -3,13 +3,13 @@ package com.malka.androidappp.activities_main.product_detail
 import android.app.Activity
 import android.content.Context
 import com.malka.androidappp.R
-import com.malka.androidappp.botmnav_fragments.question_ans_comnt.get_models_quesans.ModelQuesAnswr
-import com.malka.androidappp.botmnav_fragments.question_ans_comnt.post_answer_api.ModelPostAns
-import com.malka.androidappp.botmnav_fragments.question_ans_comnt.post_ask_ques_api_edittext.ModelAskQues
+import com.malka.androidappp.servicemodels.questionModel.ModelQuesAnswr
+import com.malka.androidappp.servicemodels.questionModel.ModelAskQues
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.servicemodels.ConstantObjects
+import com.malka.androidappp.servicemodels.questionModel.ModelPostAns
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

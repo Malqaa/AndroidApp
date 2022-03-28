@@ -29,10 +29,6 @@ import com.malka.androidappp.botmnav_fragments.home_view_allcategories.ModelAddC
 import com.malka.androidappp.botmnav_fragments.my_product.AllProductsResponseBack
 import com.malka.androidappp.botmnav_fragments.my_product.edit_product.EditProductResponseBack
 import com.malka.androidappp.botmnav_fragments.my_product.edit_product.ModelEditProduct
-import com.malka.androidappp.botmnav_fragments.question_ans_comnt.get_models_quesans.ModelQuesAnswr
-import com.malka.androidappp.botmnav_fragments.question_ans_comnt.post_answer_api.ModelPostAns
-import com.malka.androidappp.botmnav_fragments.question_ans_comnt.post_ask_ques_api_edittext.ModelAskQues
-import com.malka.androidappp.botmnav_fragments.question_ans_comnt.post_comment_api_model.ModelPostComment
 import com.malka.androidappp.botmnav_fragments.sellerdetails.SellerResponseBack
 import com.malka.androidappp.botmnav_fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ModelShipAddresses
 import com.malka.androidappp.botmnav_fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ShippingAddressessData
@@ -89,7 +85,6 @@ import com.malka.androidappp.network.constants.ApiConstants.INSERT_FAVOURITE_SEL
 import com.malka.androidappp.network.constants.ApiConstants.LOGIN_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.POST_ANS_ONADD_QUESID_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.POST_BUSINESS_USER_REGISTRATION_ENDPOINT
-import com.malka.androidappp.network.constants.ApiConstants.POST_COMMENT_ONADD_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.POST_USER_IMAGE_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.PRODUCTBYID_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.RESEND_OTPCODE_API_ENDPOINT
@@ -110,6 +105,9 @@ import com.malka.androidappp.servicemodels.favourites.favouriteadd
 import com.malka.androidappp.servicemodels.feedbacks.FeedbackObject
 import com.malka.androidappp.servicemodels.home.*
 import com.malka.androidappp.servicemodels.home.visitcount.visit_count_object
+import com.malka.androidappp.servicemodels.questionModel.ModelAskQues
+import com.malka.androidappp.servicemodels.questionModel.ModelPostAns
+import com.malka.androidappp.servicemodels.questionModel.ModelQuesAnswr
 import com.malka.androidappp.servicemodels.total_members.ModelGetTotalMembers
 import com.malka.androidappp.servicemodels.total_online_users.ModelGetTotalOnlineUsers
 import com.malka.androidappp.servicemodels.user.UserObject
@@ -288,12 +286,6 @@ interface MalqaApiService {
     ): Call<ModelPostAns>
 
 
-    @POST(POST_COMMENT_ONADD_ENDPOINT + "?")
-    fun postCommentByQId(
-        @Query("qId") comntqid: String,
-        @Query("comment") comntcomnt: String,
-        @Query("Loggedin") comntLoginId: String
-    ): Call<ModelPostComment>
 
     @GET(ApiConstants.HOME_CLOSING_SOON_URL)
     fun GetClosingSoonAds(): Call<closingsoon>;

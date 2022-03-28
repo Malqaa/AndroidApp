@@ -22,7 +22,7 @@ import com.malka.androidappp.botmnav_fragments.cardetail_page.ModelSellerDetails
 import com.malka.androidappp.botmnav_fragments.cardetail_page.bottomsheet_bidopt.BottomsheetDialogfragClass
 import com.malka.androidappp.botmnav_fragments.cardetail_page.bottomsheet_bidopt.StoreDataForAdDetail
 import com.malka.androidappp.botmnav_fragments.cardetail_page.bottomsheet_bidopt.getbidModel.ModelBidingResponse
-import com.malka.androidappp.botmnav_fragments.question_ans_comnt.get_models_quesans.ModelQuesAnswr
+import com.malka.androidappp.servicemodels.questionModel.ModelQuesAnswr
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.imageslider.ViewPagerAdapter
