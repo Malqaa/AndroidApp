@@ -74,14 +74,12 @@
                     android:fontFamily="@font/madani_arabic_medium"
                     android:padding="@dimen/_10sdp"
                     android:text="ERROR"
-
                     android:textColor="@color/text_color"
                     android:visibility="gone" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tvl_field"
                     android:layout_width="match_parent"
-
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:hint="@string/type_your_email_here"

@@ -6,22 +6,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Filter
 import androidx.fragment.app.Fragment
 import com.malka.androidappp.R
 import com.malka.androidappp.design.GenericProductAdapterNew
-import com.malka.androidappp.design.Models.GetAddressResponse
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.helper.hide
 import com.malka.androidappp.helper.show
-import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.recycler_browsecat.GenericProductAdapter
 import com.malka.androidappp.servicemodels.ConstantObjects
 import com.malka.androidappp.servicemodels.ModelSoldUnsold
-import kotlinx.android.synthetic.main.activity_add_address.*
-import kotlinx.android.synthetic.main.add_address_design.view.*
+import kotlinx.android.synthetic.main.address_list_fragment.*
 import kotlinx.android.synthetic.main.carspec_card6.*
 import kotlinx.android.synthetic.main.fragment_sold_business.*
 import kotlinx.android.synthetic.main.fragment_sold_business.view.*
@@ -144,28 +140,6 @@ class MyProductsFragment : Fragment() {
 
     }
 
-    private fun AdressAdaptor(list: List<GetAddressResponse.AddressModel>) {
-        category_rcv.adapter = object : GenericListAdapter<GetAddressResponse.AddressModel>(
-            R.layout.add_address_design,
-            bind = { element, holder, itemCount, position ->
-                holder.view.run {
-                    element.run {
-
-
-                    }
-                }
-            }
-        ) {
-            override fun getFilter(): Filter {
-                TODO("Not yet implemented")
-            }
-
-        }.apply {
-            submitList(
-                list
-            )
-        }
-    }
 
 
 }

@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".botmnav_fragments.edit_my_profile.EditProfile">
+
+
+    <include
+        android:id="@+id/toolbar_main"
+        layout="@layout/toolbar_main" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar_main">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="@dimen/_10sdp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/madani_arabic_light"
+                android:text="@string/account_settings"
+                android:textColor="#45495E"
+                android:textSize="@dimen/_12sdp" />
+
+
+            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
+                android:id="@+id/userNamee"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="@string/Username"
+                android:inputType="textPersonName"
+                app:startIcon="@drawable/ic_user" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_45sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@drawable/edittext_bg"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/_35sdp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_phone"/>
+
+                <View
+                    android:id="@+id/line"
+                    android:layout_width="@dimen/_1sdp"
+                    android:layout_height="match_parent"
+                    android:background="@color/line" />
+
+                <EditText
+                    android:id="@+id/PhoneNumber"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="@string/PhoneNumber"
+                    android:inputType="phone"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    app:endText="Reset"
+                    android:background="@null"
+                    app:imeOptions="done"
+                    android:textColor="#808080"
+                    android:textSize="@dimen/_12sdp"
+                    app:startIcon="@drawable/ic_phone" />
+                <LinearLayout
+                    android:id="@+id/reset_btn"
+                    android:layout_width="@dimen/_90sdp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="@color/bg">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/madani_arabic_medium"
+                        android:textSize="@dimen/_8sdp"
+                        android:gravity="center"
+                        android:textColor="@color/white"
+                        android:text="Reset"/>
+                </LinearLayout>
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_45sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@drawable/edittext_bg"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/_35sdp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_email"/>
+
+                <View
+                    android:layout_width="@dimen/_1sdp"
+                    android:layout_height="match_parent"
+                    android:background="@color/line" />
+
+                <EditText
+                    android:id="@+id/textEmail"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="@string/Email"
+                    android:inputType="textEmailAddress"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    app:endText="Reset"
+                    android:background="@null"
+                    app:imeOptions="done"
+                    android:textColor="#808080"
+                    android:textSize="@dimen/_12sdp"
+                    app:startIcon="@drawable/ic_phone" />
+                <LinearLayout
+                    android:id="@+id/activate_email"
+                    android:layout_width="@dimen/_90sdp"
+                    android:layout_height="match_parent"
+                    android:background="@color/bg">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/madani_arabic_medium"
+                        android:textSize="@dimen/_8sdp"
+                        android:gravity="center"
+                        android:textColor="@color/white"
+                        android:text="Activate Email"/>
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_45sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@drawable/edittext_bg"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/_35sdp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/symbolpass"/>
+
+                <View
+                    android:layout_width="@dimen/_1sdp"
+                    android:layout_height="match_parent"
+                    android:background="@color/line" />
+
+                <EditText
+                    android:id="@+id/password"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="@string/Password"
+                    android:inputType="textPassword"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    app:endText="Reset"
+                    android:background="@null"
+                    app:imeOptions="done"
+                    android:textColor="#808080"
+                    android:textSize="@dimen/_12sdp"
+                    app:startIcon="@drawable/ic_phone" />
+                <LinearLayout
+                    android:id="@+id/reset_password_btn"
+                    android:layout_width="@dimen/_90sdp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="@color/bg">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/madani_arabic_medium"
+                        android:textSize="@dimen/_8sdp"
+                        android:gravity="center"
+                        android:textColor="@color/white"
+                        android:text="Reset"/>
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/my_personal_settings"
+                android:fontFamily="@font/madani_arabic_light"
+                android:textColor="#45495E"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:textSize="@dimen/_12sdp"/>
+
+            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
+                android:id="@+id/fullNamee"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:hint="@string/First_Name"
+                android:inputType="textPersonName"
+                app:startIcon="@drawable/ic_user" />
+
+            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
+                android:id="@+id/editTextlastname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="@string/Last_Name"
+                android:inputType="textPersonName"
+                app:startIcon="@drawable/ic_user" />
+
+            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
+                android:id="@+id/date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="@string/EnterDateofBirth"
+                app:startIcon="@drawable/ic_calendar"
+                app:viewType="spinner" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:fontFamily="@font/madani_arabic_light"
+                android:text="@string/Gender"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:orientation="horizontal">
+
+                <com.malka.androidappp.helper.widgets.CustomRadioButton
+                    android:id="@+id/radiomale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="@string/Male" />
+
+                <com.malka.androidappp.helper.widgets.CustomRadioButton
+                    android:id="@+id/radiofemale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="@string/Female" />
+
+
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/view_my_information_for_everyone"
+                    android:fontFamily="@font/madani_arabic_light"
+                    android:textSize="@dimen/_12sdp"
+                    android:textColor="#293241"/>
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/view_my_information_for_members_only"
+                    android:fontFamily="@font/madani_arabic_light"
+                    android:textSize="@dimen/_12sdp"
+                    android:textColor="#293241"/>
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/madani_arabic_light"
+                    android:text="@string/no_one"
+                    android:textColor="#293241"
+                    android:textSize="@dimen/_12sdp" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:background="@drawable/round_btn"
+                android:fontFamily="@font/madani_arabic_semi_bold"
+                android:text="@string/save_edits"
+                android:textAllCaps="false"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/_14sdp" />
+
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+</RelativeLayout>

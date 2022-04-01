@@ -32,6 +32,9 @@
         android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup">
         <activity
+            android:name=".design.ApplicationSetting"
+            android:exported="false" />
+        <activity
             android:name=".design.TechnicalSupport"
             android:exported="false" />
         <activity
@@ -50,14 +53,7 @@
         <activity
             android:name=".activities_main.PlayActivity"
             android:exported="false" />
-        <activity
-            android:name=".design.add_address_main"
-            android:exported="true"
-            android:theme="@style/NoActionBar" />
-        <activity
-            android:name=".design.add_address"
-            android:exported="true"
-            android:theme="@style/NoActionBar" />
+
         <activity
             android:name=".design.CartActivity"
             android:exported="true"

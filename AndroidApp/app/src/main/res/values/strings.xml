@@ -2842,6 +2842,19 @@ Want to start a business account? Create a Business Account
     <string name="problem_title">Problem title</string>
     <string name="message_details">Message details</string>
     <string name="send">Send</string>
+    <string name="my_personal_settings">My personal settings</string>
+    <string name="account_settings">Account settings</string>
+    <string name="view_my_information_for_everyone">View my information for everyone</string>
+    <string name="view_my_information_for_members_only">View my information for members only</string>
+    <string name="no_one">No one</string>
+    <string name="save_edits">Save edits</string>
+    <string name="the_language">The Language</string>
+    <string name="receive_notification">Receive notification</string>
+    <string name="edit_profile">Edit profile</string>
+    <string name="application_settings">Application settings</string>
+    <string name="my_bids">My bids</string>
+    <string name="negotiation_offers">Negotiation offers</string>
+    <string name="save_addresses">Save Addresses</string>
 
 
 </resources>

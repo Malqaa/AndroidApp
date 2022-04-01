@@ -9,22 +9,22 @@ import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.malka.androidappp.R
-import com.malka.androidappp.activities_main.add_product.Confirmation
 import com.malka.androidappp.activities_main.add_product.ListanItem
 import com.malka.androidappp.activities_main.login.SignInActivity
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.activities_main.business_signup.Switch_Account
 import com.malka.androidappp.activities_main.login.LoginData
+import com.malka.androidappp.design.ApplicationSetting
+import com.malka.androidappp.botmnav_fragments.my_bids.MyBidsFragment
 import com.malka.androidappp.design.TechnicalSupport
+import com.malka.androidappp.botmnav_fragments.edit_my_profile.EditProfile
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.servicemodels.ConstantObjects
 import io.paperdb.Paper
 import kotlinx.android.synthetic.main.fragment_account.*
-import kotlinx.android.synthetic.main.fragment_promotional.*
 
 
 class AccountFragment : Fragment() {
-
 
 
     fun disableenableoptions(enable: Boolean) {
@@ -62,27 +62,21 @@ class AccountFragment : Fragment() {
     }
 
 
-
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if(!HelpFunctions.IsUserLoggedIn())
-        {
+        if (!HelpFunctions.IsUserLoggedIn()) {
             disableenableoptions(false)
             logout_signin.visibility = View.GONE
             btn_signin.visibility = View.VISIBLE
-        }
-        else
-        {
+        } else {
             disableenableoptions(true)
             logout_signin.visibility = View.VISIBLE
             btn_signin.visibility = View.GONE
 
 
             val `data` = Paper.book().read<LoginData>(SharedPreferencesStaticClass.userData)!!
-            userName.text=data.fullName
+            userName.text = data.fullName
         }
 
         helpbtn.setOnClickListener() {
@@ -105,7 +99,7 @@ class AccountFragment : Fragment() {
         }
 
         buttonlistitem.setOnClickListener() {
-          requireActivity().startActivity(Intent(requireActivity(), ListanItem::class.java))
+            requireActivity().startActivity(Intent(requireActivity(), ListanItem::class.java))
         }
 
         wonfragg.setOnClickListener() {
@@ -124,7 +118,33 @@ class AccountFragment : Fragment() {
             findNavController().navigate(R.id.myProduct)
         }
 
+        edit_profile_setting.setOnClickListener() {
+            findNavController().navigate(R.id.editProfile)
+        }
+        negotiation_offers.setOnClickListener() {
+            findNavController().navigate(R.id.negotiationOffer)
+        }
 
+        my_bids.setOnClickListener() {
+            findNavController().navigate(R.id.mybids)
+        }
+
+//        add_button.setOnClickListener {
+//            findNavController().navigate(R.id.addAddress)
+//        }
+
+        MySavedAddress.setOnClickListener() {
+            findNavController().navigate(R.id.MySavedAddress)
+
+        }
+
+        application_setting.setOnClickListener {
+            findNavController().navigate(R.id.applicationSetting)
+        }
+
+        technincal_support.setOnClickListener {
+            findNavController().navigate(R.id.technicalSupport)
+        }
 
 
         shop_card.setOnClickListener() {
@@ -153,7 +173,7 @@ class AccountFragment : Fragment() {
         }
 
         logout_signin.setOnClickListener() {
-            Paper.book().write(SharedPreferencesStaticClass.islogin,false)
+            Paper.book().write(SharedPreferencesStaticClass.islogin, false)
             ConstantObjects.logged_userid = ""
 
             HelpFunctions.ShowLongToast(getString(R.string.loggedoutsuccessfully), context)
@@ -171,10 +191,6 @@ class AccountFragment : Fragment() {
             startActivity(intentt)
         }
 
-        technincal_support.setOnClickListener {
-            val intent = Intent(this.activity, TechnicalSupport::class.java)
-            startActivity(intent)
-        }
 
         userType()
     }

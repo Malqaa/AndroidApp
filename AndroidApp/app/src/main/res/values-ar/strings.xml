@@ -2670,5 +2670,18 @@
   <string name="problem_title">عنوان المشكلة</string>
   <string name="message_details">تفاصيل الرسالة</string>
   <string name="send">ارسال</string>
+    <string name="my_personal_settings">اعداداتى الشخصية</string>
+  <string name="account_settings">اعدادات الحساب</string>
+    <string name="view_my_information_for_everyone">عرض معلوماتى للجميع</string>
+  <string name="view_my_information_for_members_only">عرض معلوماتى للاعضاء فقط</string>
+  <string name="no_one">لا احد</string>
+  <string name="save_edits">حفظ التعديلات</string>
+    <string name="the_language">اللغة</string>
+    <string name="receive_notification">تلقى الاشعارات</string>
+  <string name="edit_profile">تعديل بياناتى</string>
+  <string name="application_settings">اعدادات التطبيق</string>
+  <string name="my_bids">مزايداتى</string>
+  <string name="negotiation_offers">عروض التفاوض</string>
+  <string name="save_addresses">العناوين المحفوظة</string>
 
 </resources>
