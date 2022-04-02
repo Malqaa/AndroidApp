@@ -57,7 +57,7 @@ class ShippingAddress : Fragment() {
 
     fun GetUserCartItems() {
         try {
-            HelpFunctions.GetUsersCartList(this@ShippingAddress);
+            HelpFunctions.GetUsersCartList();
             BindUserCartItems();
         } catch (ex: Exception) {
             HelpFunctions.ReportError(ex)

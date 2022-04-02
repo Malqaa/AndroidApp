@@ -24,7 +24,6 @@ import com.malka.androidappp.botmnav_fragments.create_product.ProductResponseBac
 import com.malka.androidappp.botmnav_fragments.feedback_frag.insert_feedback.GiveFeedbackResponseBack
 import com.malka.androidappp.botmnav_fragments.feedback_frag.insert_feedback.ModelGiveFeedBack
 import com.malka.androidappp.botmnav_fragments.home.model.AllCategoriesResponseBack
-import com.malka.androidappp.botmnav_fragments.home.model.CarTemplate
 import com.malka.androidappp.botmnav_fragments.home_view_allcategories.ModelAddCatFav
 import com.malka.androidappp.botmnav_fragments.my_product.AllProductsResponseBack
 import com.malka.androidappp.botmnav_fragments.my_product.edit_product.EditProductResponseBack
@@ -45,7 +44,6 @@ import com.malka.androidappp.network.constants.ApiConstants.ADD_TO_CART_INSERT_E
 import com.malka.androidappp.network.constants.ApiConstants.ADD_TO_CART_USER_LIST_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.ADVBYID_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.ALL_PRODUCTS_ENDPOINT
-import com.malka.androidappp.network.constants.ApiConstants.ALL_USER_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.ASK_QUES_AD_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.BUSSINESS_REGISTER_FILE_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.BUSSINESS_USER_ENDPOINT
@@ -118,8 +116,6 @@ import retrofit2.Call
 import retrofit2.http.*
 
 interface MalqaApiService {
-    @get:GET(ALL_USER_ENDPOINT)
-    val users: Call<CarTemplate?>?
 
     @POST(CREATE_USER_ENDPOINT)
     fun createuser(@Body registeruser: CreateUserDataModel): Call<RegisterData>
@@ -287,20 +283,9 @@ interface MalqaApiService {
 
 
 
-    @GET(ApiConstants.HOME_CLOSING_SOON_URL)
-    fun GetClosingSoonAds(): Call<closingsoon>;
 
-    @GET(ApiConstants.HOME_FEATURED_MOTORS_URL)
-    fun GetFeaturedMotorsAds(): Call<favouritecars>;
 
-    @GET(ApiConstants.HOME_FEATURED_PROPERTY_URL)
-    fun GetFeaturedPropertyAds(): Call<favouriteproperties>;
 
-    @GET(ApiConstants.HOME_RECENT_URL)
-    fun GetRecentAds(): Call<recentlisting>;
-
-    @GET(ApiConstants.HOME_GENERAL_ADS_URL)
-    fun GetGeneralAds(): Call<generalads>;
 
     @GET(ApiConstants.HOME_ALL_ADS_URL)
     fun GetAllAds(@Query("loginId") userid: String): Call<GetAllAds>;

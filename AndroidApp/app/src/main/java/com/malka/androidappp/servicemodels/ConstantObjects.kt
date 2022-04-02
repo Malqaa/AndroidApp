@@ -23,7 +23,7 @@ class ConstantObjects {
         var userfavourite: FavouriteObject? = null;
         var userwatchlist: watchlistobject? = null;
         var usercreditcard: List<CreditCardResponseModel>? = null;
-        var usercart: List<CartItemModel>? = null;
+        var usercart: List<CartItemModel> = ArrayList()
         var useraddresses: List<ShippingAddressessData>? = null
         var selected_address_index: Int = -1
         var selected_credit_card_index: Int = -1

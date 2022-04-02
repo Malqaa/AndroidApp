@@ -2656,5 +2656,6 @@
     <string name="there_are_2_questions_that_the_seller_did_not_answer" formatted="true">هناك %s أسئلة لم يرد عليها البائع</string>
     <string name="questions_and_answers">الأسئلة والاجوبة</string>
     <string name="price_is_negotiable">السعر قابل للتفاوض</string>
+    <string name="empty_cart">Shopping Cart is Empty</string>
 
 </resources>

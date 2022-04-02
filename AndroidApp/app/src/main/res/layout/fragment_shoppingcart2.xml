@@ -1,209 +1,202 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
 
     android:background="@color/Silvr"
     tools:context=".botmnav_fragments.shopping_cart2.Shoppingcart2">
 
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_shopcart2"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="#339933"
-            android:layout_alignParentTop="true"
-            app:popupTheme="@style/PopupOverlay">
-        </androidx.appcompat.widget.Toolbar>
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_shopcart2"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentTop="true"
+        android:background="#339933"
+        app:popupTheme="@style/PopupOverlay"></androidx.appcompat.widget.Toolbar>
 
-        <ScrollView
-            android:id="@+id/scrolll"
+    <ScrollView
+        android:id="@+id/scrolll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar_shopcart2">
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/toolbar_shopcart2">
+            android:layout_height="wrap_content">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewShopCart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
 
-                    <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerViewShopCart"
+                android:layout_below="@+id/recyclerViewShopCart">
+
+                <RelativeLayout
+                    android:id="@+id/coupon_relative"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_margin="15dp"
+                    android:background="@drawable/quantity_spinner">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toStartOf="@+id/apply_button"
+
+                        android:background="@color/white"
+                        android:hint="Coupon Code or Gift Card"
+                        android:padding="14dp"
+
                         />
 
-                    <RelativeLayout
+                    <Button
+                        android:id="@+id/apply_button"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:text="APPLY"
+                        android:textColor="@color/graishhh" />
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/summary_relative"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/coupon_relative"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="20dp">
 
-                        android:layout_below="@+id/recyclerViewShopCart">
+                    <TextView
+                        android:id="@+id/tx_order"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:text="Order Summary"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
 
-                        <RelativeLayout
-                            android:id="@+id/coupon_relative"
-                            android:layout_width="match_parent"
-                            android:layout_height="50dp"
-                            android:layout_margin="15dp"
-                            android:background="@drawable/quantity_spinner"
-                            >
+                    <View
+                        android:id="@+id/view_shopcart1"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_below="@+id/tx_order"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="15dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="#EBEBEB" />
 
-                            <EditText
-                                android:layout_width="match_parent"
-                                android:layout_toStartOf="@+id/apply_button"
-                                android:background="@color/white"
-
-                                android:padding="14dp"
-                                android:hint="Coupon Code or Gift Card"
-                                android:layout_height="wrap_content"
-
-                            />
-
-                            <Button
-                                android:id="@+id/apply_button"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                style="?android:attr/borderlessButtonStyle"
-                                android:textColor="@color/graishhh"
-                                android:text="APPLY"
-                                android:layout_alignParentEnd="true"/>
-                        </RelativeLayout>
-
-
-                        <RelativeLayout
-                            android:id="@+id/summary_relative"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingTop="20dp"
-                            android:paddingBottom="20dp"
-                            android:layout_below="@+id/coupon_relative">
-                        <TextView
-                            android:id="@+id/tx_order"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Order Summary"
-                            android:textSize="14sp"
-                            android:textStyle="bold"
-                            android:layout_marginStart="15dp"
-                            />
-
-                        <View
-                            android:id="@+id/view_shopcart1"
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_below="@+id/tx_order"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginBottom="10dp"
-                            android:layout_marginStart="15dp"
-                            android:layout_marginEnd="15dp"
-                            android:background="#EBEBEB" />
-
-                        <TextView
-                            android:id="@+id/lbl_subtotal_text"
-                            android:layout_width="wrap_content"
-                            android:textSize="12sp"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/view_shopcart1"
-                            android:layout_marginStart="15dp"
-                            android:text="Subtotal (2 items)"/>
+                    <TextView
+                        android:id="@+id/lbl_subtotal_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/view_shopcart1"
+                        android:layout_marginStart="15dp"
+                        android:text="Subtotal (2 items)"
+                        android:textSize="12sp" />
 
 
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/lbl_subtotal_text"
-                            android:textColor="#757575"
-                            android:textSize="12sp"
-                            android:layout_marginStart="15dp"
-                            android:text="Shipping"
-                            android:textStyle="bold"
-                            android:layout_marginTop="5dp"/>
-
-
-                        <TextView
-                            android:id="@+id/lbl_subtotal_amount"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_marginEnd="15dp"
-                            android:layout_below="@+id/view_shopcart1"
-                            android:text="AED 21.15"
-                            android:textSize="12sp"
-                            />
-
-                        <TextView
-                            android:id="@+id/lbl_shipping_amount"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_marginEnd="15dp"
-                            android:layout_marginTop="5dp"
-                            android:layout_below="@+id/lbl_subtotal_amount"
-                            android:text="AED 10.00"
-                            android:textSize="12sp"
-                            />
-
-                        </RelativeLayout>
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/summary_relative"
-                            android:paddingTop="10dp"
-                            android:paddingBottom="10dp"
-                            android:background="@color/white"
-                            >
-
-                            <TextView
-                                android:id="@+id/total"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="6dp"
-                                android:layout_alignParentTop="true"
-                                android:layout_marginStart="15dp"
-                                android:text="Total:"
-                                android:textSize="14sp"
-                                />
-
-                            <TextView
-                                android:id="@+id/lbl_gross_total"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_toEndOf="@+id/total"
-                                android:text="AED 18.95"
-                                android:textSize="14sp"
-                                android:layout_marginTop="6dp"
-                                android:layout_alignParentTop="true"
-                                android:layout_marginStart="5dp"/>
-
-                            <TextView
-                                android:id="@+id/lbl_total_qty"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="15dp"
-                                android:layout_below="@+id/total"
-                                android:textSize="12sp"
-                                android:text="2 items"/>
-
-                            <Button
-                                android:id="@+id/checkout_btn"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentEnd="true"
-                                android:layout_marginEnd="10dp"
-                                android:text="CHECK OUT"
-                                android:textColor="@color/white"
-                                  android:layout_margin="@dimen/_15sdp"
-        android:background="@drawable/round_btn"
-                                android:textStyle="bold"
-                                android:layout_centerVertical="true"/>
-
-                        </RelativeLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/lbl_subtotal_text"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="5dp"
+                        android:text="Shipping"
+                        android:textColor="#757575"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
 
 
+                    <TextView
+                        android:id="@+id/lbl_subtotal_amount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/view_shopcart1"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="15dp"
+                        android:text="AED 21.15"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/lbl_shipping_amount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/lbl_subtotal_amount"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="15dp"
+                        android:text="AED 10.00"
+                        android:textSize="12sp" />
 
                 </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/summary_relative"
+                    android:background="@color/white"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp">
+
+                    <TextView
+                        android:id="@+id/total"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="6dp"
+                        android:text="Total:"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/lbl_gross_total"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="6dp"
+                        android:layout_toEndOf="@+id/total"
+                        android:text="AED 18.95"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/lbl_total_qty"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/total"
+                        android:layout_marginStart="15dp"
+                        android:text="2 items"
+                        android:textSize="12sp" />
+
+                    <Button
+                        android:id="@+id/checkout_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/_15sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:layout_marginEnd="@dimen/_15sdp"
+                        android:layout_marginBottom="@dimen/_15sdp"
+                        android:background="@drawable/round_btn"
+                        android:text="CHECK OUT"
+                        android:textColor="@color/white"
+                        android:textStyle="bold" />
+
+                </RelativeLayout>
+
+
             </RelativeLayout>
-        </ScrollView>
-    </RelativeLayout>
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

@@ -77,14 +77,14 @@
      android:id="@+id/tx_productdescription"
      android:layout_width="wrap_content"
      android:layout_height="wrap_content"
-     android:layout_toEndOf="@+id/img_shopcart"
+     android:layout_below="@+id/view1_shopcart"
      android:layout_marginStart="15dp"
-     android:textColor="@color/greenApp"
-     android:textSize="12sp"
      android:layout_marginTop="27dp"
      android:layout_marginEnd="50dp"
+     android:layout_toEndOf="@+id/img_shopcart"
      android:text="Samsung Galaxy S9 64GB Black (LocalWarranty) 100% NEW Unlocked"
-     android:layout_below="@+id/view1_shopcart"/>
+     android:textColor="@color/greenApp"
+     android:textSize="12sp" />
 
  <TextView
      android:id="@+id/tx_after_descrip"

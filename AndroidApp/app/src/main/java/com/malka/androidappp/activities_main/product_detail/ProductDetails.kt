@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.Filter
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -37,6 +38,7 @@ import com.malka.androidappp.servicemodels.AdDetailModel
 import com.malka.androidappp.servicemodels.Attribute
 import com.malka.androidappp.servicemodels.ConstantObjects
 import com.malka.androidappp.servicemodels.ProductImage
+import com.malka.androidappp.servicemodels.addtocart.InsertToCartRequestModel
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_product_details.*
 import kotlinx.android.synthetic.main.atrribute_item.view.*
@@ -129,9 +131,7 @@ class ProductDetails : BaseActivity() {
         }
 
         current_price_buy.setOnClickListener {
-            startActivity(Intent(this, QuestionActivity::class.java).apply {
-                putExtra("AdvId",AdvId)
-            })
+            AddToCart();
         }
     }
 
@@ -627,6 +627,22 @@ class ProductDetails : BaseActivity() {
                 )
             }
         })
+    }
+    fun AddToCart(): Boolean {
+        if (HelpFunctions.IsUserLoggedIn()) {
+            val cartobj = InsertToCartRequestModel()
+            cartobj.advertisementId = AdvId;
+            cartobj.userid = ConstantObjects.logged_userid;
+            val resp = HelpFunctions.AddToUserCart(cartobj, this);
+            if (resp) {
+               // findNavController().navigate(R.id.buy_now_to_checkout)
+            }
+            return resp;
+        } else {
+            val intentt = Intent(this, SignInActivity::class.java)
+            startActivity(intentt)
+            return false
+        }
     }
 
 }

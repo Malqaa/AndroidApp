@@ -2828,6 +2828,7 @@ Want to start a business account? Create a Business Account
     <string name="there_are_2_questions_that_the_seller_did_not_answer" formatted="true">There are %s questions that the seller did not answer</string>
     <string name="questions_and_answers">Questions and answers</string>
     <string name="price_is_negotiable">Price is negotiable</string>
+    <string name="empty_cart">Shopping Cart is Empty</string>
 
 
 </resources>

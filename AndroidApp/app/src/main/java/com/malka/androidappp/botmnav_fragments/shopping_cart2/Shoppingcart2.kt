@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.servicemodels.ConstantObjects
@@ -54,7 +53,7 @@ class Shoppingcart2 : Fragment() {
 
     fun GetUserCartItems() {
         try {
-            HelpFunctions.GetUsersCartList(this@Shoppingcart2);
+            HelpFunctions.GetUsersCartList();
             BindUserCartItems();
         } catch (ex: Exception) {
             HelpFunctions.ReportError(ex)
@@ -63,8 +62,7 @@ class Shoppingcart2 : Fragment() {
 
     fun BindUserCartItems() {
         try {
-            val shoppingCartRecycler: RecyclerView =
-                requireActivity().findViewById(R.id.recyclerViewShopCart)
+
 
             shoppingCartposts = ArrayList()
             if (ConstantObjects.usercart != null && ConstantObjects.usercart!!.size > 0) {
@@ -92,11 +90,11 @@ class Shoppingcart2 : Fragment() {
                     this@Shoppingcart2.context
                 )
             }
-            shoppingCartRecycler.layoutManager =
+            recyclerViewShopCart.layoutManager =
                 LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
             var browadpt: AdapterShoppingCart2 =
                 AdapterShoppingCart2(shoppingCartposts, this@Shoppingcart2,requireContext())
-            shoppingCartRecycler.adapter = browadpt
+            recyclerViewShopCart.adapter = browadpt
         } catch (ex: Exception) {
             HelpFunctions.ReportError(ex)
         }

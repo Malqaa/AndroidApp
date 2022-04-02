@@ -11,16 +11,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
 import com.malka.androidappp.botmnav_fragments.shopping_cart2.AdapterShoppingCart2
 import com.malka.androidappp.botmnav_fragments.shopping_cart2.ModelShoppingcart2
-import com.malka.androidappp.botmnav_fragments.shoppingcart6_paymentmethod.payment_productlist.AdapterPaymentProductList
 import com.malka.androidappp.botmnav_fragments.shoppingcart6_paymentmethod.paymentmethod_bankscards.AdapterCartPaymentCard
 import com.malka.androidappp.botmnav_fragments.shoppingcart6_paymentmethod.paymentmethod_bankscards.ModelCartPaymentCard
-import com.malka.androidappp.botmnav_fragments.shoppingcart6_paymentmethod.payment_productlist.ModelPaymentProductlist
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.servicemodels.ConstantObjects
 import com.malka.androidappp.servicemodels.checkout.CheckoutRequestModel
-import com.malka.androidappp.servicemodels.user.UserObject
 import kotlinx.android.synthetic.main.fragment_cart_payment_method.*
-import kotlinx.android.synthetic.main.fragment_shoppingcart2.*
 import java.lang.Exception
 
 
@@ -101,7 +97,7 @@ class CartPaymentMethod : Fragment() {
 
     fun GetUserCartItems() {
         try {
-            HelpFunctions.GetUsersCartList(this@CartPaymentMethod);
+            HelpFunctions.GetUsersCartList();
             BindUserCartItems();
         } catch (ex: Exception) {
             HelpFunctions.ReportError(ex)
@@ -200,7 +196,7 @@ class CartPaymentMethod : Fragment() {
                     creditCardNo = ConstantObjects.usercreditcard!![ConstantObjects.selected_credit_card_index].cardnumber,
                     loginId = ConstantObjects.logged_userid,"", arrayListOf(""),arrayListOf(0)
                 )
-                val resp = HelpFunctions.PostUserCheckOut(checkoutinfo, this@CartPaymentMethod);
+                val resp = HelpFunctions.PostUserCheckOut(checkoutinfo, requireContext());
                 if (resp) {
                     findNavController().navigate(R.id.payment_to_checkout)
                 } else {

@@ -831,41 +831,21 @@ class HelpFunctions {
             return RetVal
         }
 
-        fun GetUsersCartList(context: Fragment) {
-            try {
-                val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
-                StrictMode.setThreadPolicy(policy)
-                val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-                val call: Call<AddToCartResponseModel> =
-                    malqa.GetUsersCartList(ConstantObjects.logged_userid)
-                val response: Response<AddToCartResponseModel> = call.execute();
-                if (response.isSuccessful) {
-                    if (response.body() != null) {
-                        val resp: AddToCartResponseModel = response.body()!!
-                        if (resp != null && resp.data != null) {
-                            ConstantObjects.usercart = resp.data
-                        } else {
-                            ConstantObjects.usercart = null
-                            ShowLongToast(
-                                "No Record Found", context.requireContext()
-                            )
-                        }
-                    } else {
-                        ShowLongToast(
-                            "No Record Found", context.requireContext()
-                        )
-                    }
-                } else {
-                    ShowLongToast(
-                        "No Record Found", context.requireContext()
-                    )
+        fun GetUsersCartList(onSuccess: (() -> Unit)? = null) {
+            val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+            val call: Call<AddToCartResponseModel> =
+                malqa.GetUsersCartList(ConstantObjects.logged_userid)
+            val response: Response<AddToCartResponseModel> = call.execute();
+            if (response.isSuccessful) {
+                if (response.body() != null) {
+                    val resp: AddToCartResponseModel = response.body()!!
+                    ConstantObjects.usercart = resp.data
+                    onSuccess?.invoke()
                 }
-            } catch (ex: Exception) {
-                throw ex
             }
         }
 
-        fun AddToUserCart(cartiteminfo: InsertToCartRequestModel, context: Fragment): Boolean1 {
+        fun AddToUserCart(cartiteminfo: InsertToCartRequestModel, context: Context): Boolean1 {
             var RetVal: Boolean1 = false
             try {
                 val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
@@ -875,25 +855,30 @@ class HelpFunctions {
                 val response: Response<Basicresponse> = call.execute();
                 if (response.isSuccessful) {
                     if (response.body() != null) {
-                        var resp: Basicresponse = response.body()!!;
+                        val resp: Basicresponse = response.body()!!;
                         if (resp.status_code == 200 && (resp.data == true || resp.data == 1 || resp.data == 1.0)) {
                             RetVal = true
-                            GetUsersCartList(context)
+                            GetUsersCartList()
                             ShowLongToast(
                                 "Added Successfully",
-                                context.requireContext()
-                            );
+                                context
+                            )
+                        }else{
+                            ShowLongToast(
+                                resp.message,
+                                context
+                            )
                         }
                     } else {
                         ShowLongToast(
                             "Error During Addition",
-                            context.requireContext()
+                            context
                         );
                     }
                 } else {
                     ShowLongToast(
                         "Error During Addition",
-                        context.requireContext()
+                        context
                     );
                 }
             } catch (ex: Exception) {
@@ -902,7 +887,7 @@ class HelpFunctions {
             return RetVal
         }
 
-        fun DeleteFromUserCart(CartId: String, context: Fragment): Boolean1 {
+        fun DeleteFromUserCart(CartId: String, context: Context): Boolean1 {
             var RetVal: Boolean1 = false;
             try {
                 val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
@@ -915,27 +900,27 @@ class HelpFunctions {
                         var resp: Basicresponse = response.body()!!;
                         if (resp.status_code == 200 && (resp.data == true || resp.data == 1 || resp.data == 1.0)) {
                             RetVal = true;
-                            GetUsersCartList(context)
+                            GetUsersCartList()
                             ShowLongToast(
                                 "Removed Successfully",
-                                context.requireContext()
+                                context
                             );
                         } else {
                             ShowLongToast(
                                 resp.message,
-                                context.requireContext()
+                                context
                             );
                         }
                     } else {
                         ShowLongToast(
                             "Error During Deletion",
-                            context.requireContext()
+                            context
                         );
                     }
                 } else {
                     ShowLongToast(
                         "Error During Deletion",
-                        context.requireContext()
+                        context
                     );
                 }
             } catch (ex: Exception) {
@@ -944,7 +929,7 @@ class HelpFunctions {
             return RetVal
         }
 
-        fun PostUserCheckOut(checkoutinfo: CheckoutRequestModel, context: Fragment): Boolean1 {
+        fun PostUserCheckOut(checkoutinfo: CheckoutRequestModel, context: Context): Boolean1 {
             var RetVal: Boolean1 = false
             try {
                 val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
@@ -955,22 +940,22 @@ class HelpFunctions {
                         var resp: Basicresponse = response.body()!!;
                         if (resp.status_code == 200 && (resp.data == true || resp.data == 1 || resp.data == 1.0)) {
                             RetVal = true
-                            GetUsersCartList(context)
+                            GetUsersCartList()
                             ShowLongToast(
                                 "Added Successfully",
-                                context.requireContext()
+                                context
                             );
                         }
                     } else {
                         ShowLongToast(
                             "Error During Addition",
-                            context.requireContext()
+                            context
                         );
                     }
                 } else {
                     ShowLongToast(
                         "Error During Addition",
-                        context.requireContext()
+                        context
                     );
                 }
             } catch (ex: Exception) {

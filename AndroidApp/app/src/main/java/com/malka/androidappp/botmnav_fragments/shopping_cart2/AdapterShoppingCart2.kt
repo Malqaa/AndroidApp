@@ -75,7 +75,7 @@ class AdapterShoppingCart2(
         holder.closeproductCard.setOnClickListener(View.OnClickListener {
             val resp: Boolean = HelpFunctions.DeleteFromUserCart(
                 shoppingcartProductposts[position].CartId,
-                context
+                mcontext
             );
             if (resp) {
                 if (context is Shoppingcart2)
