@@ -11,7 +11,7 @@ import com.malka.androidappp.botmnav_fragments.browse_market.popup_subcategories
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
-import com.malka.androidappp.recycler_browsecat.BrowseMarketXLAdap
+import com.malka.androidappp.recycler_browsecat.GenericProductAdapter
 import com.malka.androidappp.servicemodels.AdDetailModel
 import com.malka.androidappp.servicemodels.ConstantObjects
 import com.malka.androidappp.servicemodels.categorylistings.CategoryResponse
@@ -29,7 +29,7 @@ class BrowseMarketFragment : BaseActivity() {
     //Date: 10/29/2020
     var CategoryDesc: String = "";
     var SearchQuery: String = "";
-    var browadptxl: BrowseMarketXLAdap? = null
+    var browadptxl: GenericProductAdapter? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,7 +50,7 @@ class BrowseMarketFragment : BaseActivity() {
         }
 
 
-        browadptxl = BrowseMarketXLAdap(marketpost, this)
+        browadptxl = GenericProductAdapter(marketpost, this)
         recyclerViewmarket.adapter = browadptxl
 
 

@@ -5,7 +5,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import com.malka.androidappp.R
 import com.malka.androidappp.helper.HelpFunctions
-import com.malka.androidappp.recycler_browsecat.BrowseMarketXLAdap
+import com.malka.androidappp.recycler_browsecat.GenericProductAdapter
 import com.malka.androidappp.servicemodels.AdDetailModel
 import com.malka.androidappp.servicemodels.ConstantObjects
 import com.malka.androidappp.servicemodels.WatchList
@@ -36,7 +36,7 @@ class WatchlistFragment : Fragment(R.layout.fragment_watchlist) {
         }
 
 
-        fav_rcv!!.adapter = BrowseMarketXLAdap(list,requireContext())
+        fav_rcv!!.adapter = GenericProductAdapter(list,requireContext())
 
         if (ConstantObjects.userwatchlist!!.data.size > 0) {
             ConstantObjects.userwatchlist!!.data.forEach {

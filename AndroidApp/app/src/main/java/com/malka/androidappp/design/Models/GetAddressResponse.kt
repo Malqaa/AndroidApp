@@ -7,18 +7,18 @@ data class GetAddressResponse(
 ) {
     data class AddressModel(
         val address: String,
-//        val city: String,
-//        val country: String,
-//        val createdBy: String,
-//        val createdOn: String,
+        val city: String,
+        val country: String,
+        val createdBy: String,
+        val createdOn: String,
         val firstName: String,
-//        val id: String,
-//        val isActive: Boolean,
+        val id: String,
+        val isActive: Boolean,
         val lastName: String,
         val mobileNo: String,
-//        val region: String,
-//        val updatedBy: Any,
-//        val updatedOn: String,
+        val region: String,
+        val updatedBy: Any,
+        val updatedOn: String,
         val userId: String
     )
 }

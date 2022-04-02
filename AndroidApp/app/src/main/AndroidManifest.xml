@@ -32,6 +32,12 @@
         android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup">
         <activity
+            android:name=".design.ApplicationSetting"
+            android:exported="false" />
+        <activity
+            android:name=".design.TechnicalSupport"
+            android:exported="false" />
+        <activity
             android:name=".activities_main.product_detail.QuestionActivity"
             android:exported="false" />
         <activity
@@ -40,21 +46,14 @@
         <activity
             android:name=".activities_main.business_signup.Switch_Account"
             android:exported="true"
-            android:theme="@style/NoActionBar"></activity>
+            android:theme="@style/NoActionBar" />
         <activity
             android:name=".activities_main.FullImageActivity"
             android:exported="false" />
         <activity
             android:name=".activities_main.PlayActivity"
             android:exported="false" />
-        <activity
-            android:name=".design.add_address_main"
-            android:exported="true"
-            android:theme="@style/NoActionBar" />
-        <activity
-            android:name=".design.add_address"
-            android:exported="true"
-            android:theme="@style/NoActionBar" />
+
         <activity
             android:name=".activities_main.order.CartActivity"
             android:exported="true"

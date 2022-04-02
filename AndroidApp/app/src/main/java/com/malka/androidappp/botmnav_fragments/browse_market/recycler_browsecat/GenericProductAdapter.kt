@@ -11,7 +11,7 @@ import com.malka.androidappp.helper.GenericAdaptor
 import com.malka.androidappp.servicemodels.AdDetailModel
 
 
-class BrowseMarketXLAdap(
+class GenericProductAdapter(
     var marketposts: List<AdDetailModel>,
     var context: Context
 ) : RecyclerView.Adapter<BaseViewHolder>() {

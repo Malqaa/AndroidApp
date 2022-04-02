@@ -1,20 +1,29 @@
 package com.malka.androidappp.botmnav_fragments.MyProducts
 
+import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
+import com.malka.androidappp.design.GenericProductAdapterNew
 import com.malka.androidappp.helper.HelpFunctions
+import com.malka.androidappp.helper.hide
+import com.malka.androidappp.helper.show
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
-import com.malka.androidappp.recycler_browsecat.BrowseMarketXLAdap
+import com.malka.androidappp.recycler_browsecat.GenericProductAdapter
 import com.malka.androidappp.servicemodels.ConstantObjects
 import com.malka.androidappp.servicemodels.ModelSoldUnsold
+import kotlinx.android.synthetic.main.address_list_fragment.*
+import kotlinx.android.synthetic.main.carspec_card6.*
 import kotlinx.android.synthetic.main.fragment_sold_business.*
+import kotlinx.android.synthetic.main.fragment_sold_business.view.*
+import kotlinx.android.synthetic.main.item_details2_desgin.*
+import kotlinx.android.synthetic.main.selection_item.view.*
+import kotlinx.android.synthetic.main.suggested_categories.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -51,14 +60,59 @@ class MyProductsFragment : Fragment() {
 
 
         call.enqueue(object : Callback<ModelSoldUnsold> {
+            @SuppressLint("ResourceType")
             override fun onResponse(
                 call: Call<ModelSoldUnsold>,
                 response: Response<ModelSoldUnsold>
             ) {
                 if (response.isSuccessful) {
                     if (response.body() != null) {
-                        sold_business_recycler.adapter = BrowseMarketXLAdap(response.body()!!.data.sellingitems,requireContext())
+                        sold_business_recycler.adapter = GenericProductAdapter(response.body()!!.data.sellingitems,requireContext())
 
+                        for_sale.setOnClickListener {
+
+                            for_sale.setBackgroundDrawable(getResources().getDrawable(R.drawable.round_btn));
+                            did_not_Sell.setBackgroundResource(R.color.white);
+                            sold_out.setBackgroundResource(R.color.white);
+                            for_sale.setTextColor(Color.parseColor("#FFFFFF"));
+                            did_not_Sell.setTextColor(Color.parseColor("#45495E"));
+                            sold_out.setTextColor(Color.parseColor("#45495E"));
+                            did_not_sale_rcv.hide()
+                            sold_out_rcv.hide()
+                            sold_business_recycler.show()
+                            sold_business_recycler.adapter = GenericProductAdapter(response.body()!!.data.sellingitems,requireContext())
+
+                        }
+
+                        did_not_Sell.setOnClickListener {
+                            did_not_Sell.setBackgroundDrawable(getResources().getDrawable(R.drawable.round_btn));
+                            sold_out.setBackgroundResource(R.color.white);
+                            for_sale.setBackgroundResource(R.color.white);
+                            did_not_Sell.setTextColor(Color.parseColor("#FFFFFF"));
+                            sold_out.setTextColor(Color.parseColor("#45495E"));
+                            for_sale.setTextColor(Color.parseColor("#45495E"));
+
+                            sold_business_recycler.hide()
+                            sold_out_rcv.hide()
+                            did_not_sale_rcv.show()
+                            did_not_sale_rcv.adapter = GenericProductAdapter(response.body()!!.data.unsolditems,requireContext())
+
+                        }
+                        sold_out.setOnClickListener {
+
+                            sold_out.setBackgroundDrawable(getResources().getDrawable(R.drawable.round_btn))
+                            did_not_Sell.setBackgroundResource(R.color.white);
+                            for_sale.setBackgroundResource(R.color.white);
+                            sold_out.setTextColor(Color.parseColor("#FFFFFF"));
+                            did_not_Sell.setTextColor(Color.parseColor("#45495E"));
+                            for_sale.setTextColor(Color.parseColor("#45495E"));
+                            did_not_sale_rcv.hide()
+                            sold_business_recycler.hide()
+                            sold_out_rcv.show()
+                            sold_out_rcv.adapter = GenericProductAdapterNew(response.body()!!.data.solditems,requireContext())
+
+
+                        }
                     }
 
                 } else {
@@ -85,4 +139,7 @@ class MyProductsFragment : Fragment() {
         })
 
     }
+
+
+
 }

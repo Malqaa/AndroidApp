@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".design.TechnicalSupport">
+
+
+    <include
+        android:id="@+id/toolbar_main"
+        layout="@layout/toolbar_main" />
+
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar_main">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/we_are_glad_to_contact_you"
+                android:fontFamily="@font/madani_arabic_bold"
+                android:textSize="@dimen/_14sdp"
+                android:gravity="center"
+                android:textColor="#262626"/>
+
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/what_kind_of_help_do_you_need"
+                android:fontFamily="@font/madani_arabic_medium"
+                android:textSize="@dimen/_10sdp"
+                android:gravity="center"
+                android:textColor="#262626"/>
+
+
+            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
+                android:id="@+id/comunication_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                app:endIcon="@drawable/ic_arrow_down"
+                android:hint="@string/type_of_communication"
+                app:viewType="spinner" />
+
+            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
+                android:id="@+id/PhoneNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="@string/PhoneNumber"
+                android:inputType="phone"
+                app:endText="+965"
+                app:imeOptions="done"
+                app:startIcon="@drawable/ic_phone" />
+
+            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
+                android:id="@+id/textEmaill"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="@string/Email"
+                android:inputType="textEmailAddress"
+                app:startIcon="@drawable/ic_email" />
+
+            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
+                android:id="@+id/problem_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="@string/problem_title" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_100sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@drawable/edittext_bg">
+
+                <EditText
+                    android:id="@+id/item_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_100sdp"
+                    android:background="@null"
+                    android:fontFamily="@font/madani_arabic_light"
+                    android:gravity="top"
+                    android:inputType="text|textMultiLine|textCapSentences"
+                    android:padding="@dimen/_7sdp"
+                    android:scrollbars="vertical"
+                    android:textColor="#6D6C74"
+                    android:hint="@string/message_details"
+                    android:textSize="@dimen/_13sdp" />
+            </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:background="@drawable/round_btn"
+                android:fontFamily="@font/madani_arabic_semi_bold"
+                android:text="@string/send"
+                android:textAllCaps="false"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/_14sdp" />
+
+
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+
+</RelativeLayout>

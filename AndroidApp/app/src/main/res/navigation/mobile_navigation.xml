@@ -201,7 +201,7 @@
     </fragment>
 
     <fragment
-        android:id="@+id/soldfraggg"
+        android:id="@+id/myProduct"
         android:name="com.malka.androidappp.botmnav_fragments.MyProducts.MyProductsFragment"
         android:label="Sold"
         tools:layout="@layout/fragment_sold">
@@ -210,6 +210,94 @@
             android:id="@+id/sold_acc"
             app:destination="@+id/navigation_account" />
 
+
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/MySavedAddress"
+        android:name="com.malka.androidappp.botmnav_fragments.Add_Address.address_list"
+        android:label="Sold"
+        tools:layout="@layout/address_list_fragment">
+
+        <action
+            android:id="@+id/sold"
+            app:destination="@+id/address_list" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/addAddress"
+        android:name="com.malka.androidappp.botmnav_fragments.Add_Address.add_address"
+        android:label="Sold"
+        tools:layout="@layout/add_address_fragment">
+
+        <action
+            android:id="@+id/sold_ac"
+            app:destination="@+id/add_address" />
+
+
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/editProfile"
+        android:name="com.malka.androidappp.botmnav_fragments.edit_my_profile.EditProfile"
+        android:label="Edit Profile"
+        tools:layout="@layout/activity_edit_profile">
+
+        <action
+            android:id="@+id/sold_ac2"
+            app:destination="@+id/edit_profile" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/negotiationOffer"
+        android:name="com.malka.androidappp.botmnav_fragments.negotiation_offers"
+        android:label="Negotiation Offers"
+        tools:layout="@layout/fragment_negotiation_offer">
+
+        <action
+            android:id="@+id/negotiation"
+            app:destination="@+id/negotiation_offer" />
+
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/applicationSetting"
+        android:name="com.malka.androidappp.botmnav_fragments.ApplicationSetting"
+        android:label="Application Setting"
+        tools:layout="@layout/activity_application_setting">
+
+        <action
+            android:id="@+id/App_Setting"
+            app:destination="@+id/application_setting" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/technicalSupport"
+        android:name="com.malka.androidappp.botmnav_fragments.TechnicalSupport"
+        android:label="Application Setting"
+        tools:layout="@layout/activity_application_setting">
+
+        <action
+            android:id="@+id/App_Setting"
+            app:destination="@+id/application_setting" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/mybids"
+        android:name="com.malka.androidappp.botmnav_fragments.my_bids.MyBidsFragment"
+        android:label="Edit Profile"
+        tools:layout="@layout/activity_my_bids_fragment">
+
+        <action
+            android:id="@+id/bids"
+            app:destination="@+id/my_bids" />
 
 
     </fragment>

@@ -366,8 +366,8 @@
                     android:background="@color/light_gray" />
 
                 <LinearLayout
+                    android:id="@+id/my_bids"
                     android:gravity="center_vertical"
-
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_1sdp"
@@ -387,11 +387,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-
                             android:layout_marginStart="@dimen/_5sdp"
                             android:layout_marginEnd="@dimen/_5sdp"                            android:layout_weight="1"
                             android:fontFamily="@font/madani_arabic_light"
-                            android:text="My bids"
+                            android:text="@string/my_bids"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_12sdp"
                             android:textStyle="bold" />
@@ -522,11 +521,10 @@
 
 
                 <LinearLayout
+                    android:id="@+id/negotiation_offers"
                     android:gravity="center_vertical"
-
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    
                     android:layout_marginTop="@dimen/_1sdp"
                     android:orientation="horizontal">
 
@@ -548,7 +546,7 @@
                             android:layout_marginStart="@dimen/_5sdp"
                             android:layout_marginEnd="@dimen/_5sdp"                            android:layout_weight="1"
                             android:fontFamily="@font/madani_arabic_light"
-                            android:text="Negotiation offers"
+                            android:text="@string/negotiation_offers"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_12sdp"
                             android:textStyle="bold" />
@@ -594,10 +592,10 @@
 
 
                 <LinearLayout
+                    android:id="@+id/edit_profile_setting"
                     android:gravity="center_vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    
                     android:layout_marginTop="@dimen/_11sdp"
                     android:orientation="horizontal">
 
@@ -621,7 +619,7 @@
                             android:layout_marginEnd="@dimen/_5sdp"
                             android:layout_weight="1"
                             android:fontFamily="@font/madani_arabic_light"
-                            android:text="Edit my data"
+                            android:text="@string/edit_profile"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_12sdp"
                             android:textStyle="bold" />
@@ -703,11 +701,10 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/MySavedAddress"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-
-                    
                     android:layout_marginTop="@dimen/_1sdp"
                     android:orientation="horizontal">
 
@@ -729,7 +726,7 @@
                             android:layout_marginEnd="@dimen/_5sdp"
                             android:layout_weight="1"
                             android:fontFamily="@font/madani_arabic_light"
-                            android:text="My saved addresses"
+                            android:text="@string/save_addresses"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_12sdp"
                             android:textStyle="bold" />
@@ -757,11 +754,10 @@
 
 
                 <LinearLayout
+                    android:id="@+id/application_setting"
                     android:gravity="center_vertical"
-
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    
                     android:layout_marginTop="@dimen/_1sdp"
                     android:orientation="horizontal">
 
@@ -783,7 +779,7 @@
                             android:layout_marginEnd="@dimen/_5sdp"
                             android:layout_weight="1"
                             android:fontFamily="@font/madani_arabic_light"
-                            android:text="Application settings"
+                            android:text="@string/application_settings"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_12sdp"
                             android:textStyle="bold" />
@@ -864,11 +860,10 @@
 
 
                 <LinearLayout
+                    android:id="@+id/technincal_support"
                     android:gravity="center_vertical"
-
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    
                     android:layout_marginTop="@dimen/_1sdp"
                     android:orientation="horizontal">
 
