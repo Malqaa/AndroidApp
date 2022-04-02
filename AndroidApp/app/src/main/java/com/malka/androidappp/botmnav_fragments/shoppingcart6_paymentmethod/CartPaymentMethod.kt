@@ -192,13 +192,13 @@ class CartPaymentMethod : Fragment() {
                         }
                     }
                 }
-                var checkoutinfo: CheckoutRequestModel = CheckoutRequestModel(
+                val checkoutinfo = CheckoutRequestModel(
                     cartId = cartIds,
                     addressId = ConstantObjects.useraddresses!![ConstantObjects.selected_address_index].id,
                     tax = "0",
                     totalamount = grosstotal_label.text.toString(),
                     creditCardNo = ConstantObjects.usercreditcard!![ConstantObjects.selected_credit_card_index].cardnumber,
-                    loginId = ConstantObjects.logged_userid
+                    loginId = ConstantObjects.logged_userid,"", arrayListOf(""),arrayListOf(0)
                 )
                 val resp = HelpFunctions.PostUserCheckOut(checkoutinfo, this@CartPaymentMethod);
                 if (resp) {

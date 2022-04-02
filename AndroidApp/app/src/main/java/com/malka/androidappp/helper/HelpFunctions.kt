@@ -1032,7 +1032,7 @@ class HelpFunctions {
 
         fun GetTemplatesJson(context: Context, fileName: String): String? {
             var input: InputStream? = null
-            var jsonString: String = ""
+            var jsonString = ""
             try {
                 val folder_name: String = "json_templates";
                 input = context.assets.open(folder_name + "/" + fileName)

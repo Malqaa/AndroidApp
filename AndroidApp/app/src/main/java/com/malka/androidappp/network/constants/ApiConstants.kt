@@ -6,7 +6,6 @@ object ApiConstants {
 
     const val SERVER_LOCATION2 = "89.40.10.168:82" // TODO REMOVE IT
     const val SERVER_LOCATION = "89.40.10.168:85"
-    private const val API_FOLDER = "api"
     private const val API_VERSION = "v1"
     private const val IMAGE_FOLDER = "ImageFile"
 
@@ -39,28 +38,21 @@ object ApiConstants {
     const val GET_BUSINESS_USER_LIST = "Accounts/GetBusinessListByUserId"
     const val RESEND_OTPCODE_API_ENDPOINT = "Accounts/ResendCode"
     const val UPDATEUSER_SIGNUP_ENDPOINT = "Accounts/updatePersonalInfo"
-    const val GET_CATEGORY_LISTING = API_BASE_URL + "SearchFilter/"
     const val GET_CATEGORY_LISTING_ENDPOINT = "SearchFilter/generalsearchfilters"
     const val GET_USER = ACCOUNT_BASE_URL
     const val GET_WATCHLIST_LISTING = API_BASE_URL + "Watchlist/"
     const val GET_WATCHLIST_LISTING_ENDPOINT = "Watchlist/getall"
-    const val GETUSER_BASEURL = ACCOUNT_BASE_URL
     const val GETUSER_ENDPOINT = "Accounts/GetUser"
-    const val FEEDBACK_ENDPOINT = "Auction/"
     const val FEEDBACK_PARAMETER = "Auction/getall"
-    const val USERFEEDBACK_ENDPOINT = API_BASE_URL + FEEDBACK_ENDPOINT
-    const val GIVE_FEEDBACK_ENDPOINT = "InsertFeedback"
+    const val GIVE_FEEDBACK_ENDPOINT = "Auction/InsertFeedback"
     const val FAVOURITE_ENDPOINT = "Favourite/"
     const val FAVOURITE_PARAMETER = "all"
     const val USERFAVOURITE_ENDPOINT = API_BASE_URL + FAVOURITE_ENDPOINT
 
-    const val ADVBYID_URL = HOME_URL
     const val ADVBYID_ENDPOINT = "CarTemplate/Details"
 
-    const val FORGOTPASS_EMAIL_BASEURL = ACCOUNT_BASE_URL
     const val FORGOTPASS_EMAIL_ENDPOINT = "Accounts/ForgetEmailRequest"
 
-    const val CHANGEPASS_BASEURL = ACCOUNT_BASE_URL
     const val CHANGEPASS_ENDPOINT = "Accounts/ChangePassword"
 
     const val INSERT_AD_WATCHLIST_ENDPOINT = "Watchlist/insert"
@@ -89,57 +81,39 @@ object ApiConstants {
     const val REMOVE_FAVOURTIE_SEARCH_URL =
         USERFAVOURITE_ENDPOINT + REMOVE_FAVOURITE_SEARCH_ENDPOINT
 
-    const val ASK_QUES_AD_BASEURL = API_BASE_URL + "AdvQueAndAns/"
     const val ASK_QUES_AD_ENDPOINT = "AdvQueAndAns/create"
 
-    const val GET_QUES_ANS_COMMENT_BASEURL = HOME_URL
     const val GET_QUES_ANS_COMMENT_ENDPOINT = "CarTemplate/GetQuestionByAd"
 
     const val HOME_TOTAL_VISIT_COUNT = GET_WATCHLIST_LISTING + "totalVisitCount/"
 
-    const val POST_ANS_ONADD_QUESID_BASEURL = API_BASE_URL + "AdvQueAndAns/"
     const val POST_ANS_ONADD_QUESID_ENDPOINT = "AdvQueAndAns/answer"
 
-    const val POST_COMMENT_ONADD_BASEURL = API_BASE_URL + "AdvQueAndAns/"
-    const val POST_COMMENT_ONADD_ENDPOINT = "AdvQueAndAns/comment"
 
-    const val GETPOST_AD_DETAIL_BIDING_PRICE_BASEURL = API_BASE_URL + "Bid/"
-    const val GET_AD_DETAIL_BIDING_PRICE_ENDPOINT = "maxbid"
-    const val POST_MAX_BIDING_PRICE = "placebid"
+    const val GET_AD_DETAIL_BIDING_PRICE_ENDPOINT = "Bid/maxbid"
+    const val POST_MAX_BIDING_PRICE = "Bid/placebid"
 
-    const val GET_UNSOLDITEMS_BASEURL = ACCOUNT_BASE_URL
     const val GET_UNSOLDITEMS_ENDPOINT = "Accounts/soldunsolditems"
 
-    const val GET_SOLDITEMS_BASEURL = ACCOUNT_BASE_URL
     const val GET_SOLDITEMS_ENDPOINT = "Accounts/soldunsolditems"
 
-    const val POST_BUSINESS_USER_REGISTRATION_BASEURL = API_BASE_URL + "BusinessUser/"
-    const val POST_BUSINESS_USER_REGISTRATION_ENDPOINT = "Insertbusinessuser"
+    const val POST_BUSINESS_USER_REGISTRATION_ENDPOINT = "BusinessUser/Insertbusinessuser"
 
-    const val GET_WONLOST_BASEURL = API_BASE_URL + "Bid/"
     const val GET_WONLOST_ENDPOINT = "Bid/UserWonNLostList"
 
-    const val HOME_TOTAL_ONLINEVISITS_BASEURL = API_BASE_URL + "Accounts/"
     const val HOME_TOTAL_ONLINEVISITS_ENDPOINT = "GetAllOnlineUsers"
 
-    const val GET_SELLER_BASE_URL = API_BASE_URL + "Accounts/"
     const val GET_SELLER_ENDPOINT = "Accounts/GetUser"
 
-    const val POST_USER_IMAGE = API_BASE_URL + "Accounts/"
     const val POST_USER_IMAGE_ENDPOINT = "Accounts/userimageupload"
 
-    const val HOME_TOTAL_NUMBERS_OF_MEMBERS_BASEURL = API_BASE_URL + "Accounts/"
     const val HOME_TOTAL_NUMBERS_OF_MEMBERS_ENDPOINT = "Accounts/usercount"
 
-    const val GET_BUYNOW_SHIPPINGADDRESS_BASEURL = API_BASE_URL + "Accounts/"
     const val GET_BUYNOW_SHIPPINGADDRESS_ENDPOINT = "Accounts/getaddresses"
     const val INSERT_BUYNOW_SHIPPINGADDRESS_ENDPOINT = "Accounts/insertaddress"
 
-    const val HASSAN_SERVER = "http://192.168.2.51/"
-    const val CREATE_ADV_BYWAQAR_TEST_SERVER_BASEURL =
-        HASSAN_SERVER + "Com.Techxcape.Mazad.Web.Services/v1/CarTemplate/"
 
-    const val SEARCH_CATEGORY_LISTING = HOME_URL
+
     const val SEARCH_CATEGORY_LISTING_ENDPOINT = "CarTemplate/Search"
 
     const val GET_CATEGORY_TAGS_ENDPOINT = "Category/Tags"
@@ -147,28 +121,22 @@ object ApiConstants {
     const val GET_ALL_CATEGORIES_BY_ID = "Category/getAllCategoryByTemplateName"
 
 
-    const val CREATE_BUSINESS_PRODUCT_BASEURL = API_BASE_URL + "BussinessProduct/"
-    const val CREATE_BUSINESS_PRODUCT_ENDPOINT = "createproduct"
-    const val PRODUCTBYID_ENDPOINT = "detailsofproduct"
-    const val ALL_PRODUCTS_ENDPOINT = "getall"
-    const val EDIT_PRODUCTS_ENDPOINT = "editproduct"
+    const val CREATE_BUSINESS_PRODUCT_ENDPOINT = "BussinessProduct/createproduct"
+    const val PRODUCTBYID_ENDPOINT = "BussinessProduct/detailsofproduct"
+    const val ALL_PRODUCTS_ENDPOINT = "BussinessProduct/getall"
+    const val EDIT_PRODUCTS_ENDPOINT = "BussinessProduct/editproduct"
 
-    const val GET_CREDIT_CARD = API_BASE_URL + "CardDetail/"
 
-    const val GET_USER_CREDIT_CARD = GET_CREDIT_CARD
-    const val GET_USER_CREDIT_CARD_ENDPOINT = "getbyuserid"
+    const val GET_USER_CREDIT_CARD_ENDPOINT = "CardDetail/getbyuserid"
 
-    const val INSERT_CREDIT_CARD = GET_CREDIT_CARD
-    const val INSERT_CREDIT_CARD_ENDPOINT = "insertcard"
+    const val INSERT_CREDIT_CARD_ENDPOINT = "CardDetail/insertcard"
 
-    const val DELETE_CREDIT_CARD = GET_CREDIT_CARD
-    const val DELETE_CREDIT_CARD_ENDPOINT = "deletecard"
+    const val DELETE_CREDIT_CARD_ENDPOINT = "CardDetail/deletecard"
 
-    const val ADD_TO_CART_BASE_URL = API_BASE_URL + "AddToCart/"
-    const val ADD_TO_CART_DELETE_ENDPOINT = "delete"
-    const val ADD_TO_CART_INSERT_ENDPOINT = "create"
-    const val ADD_TO_CART_USER_LIST_ENDPOINT = "getbyloginuserid"
+    const val ADD_TO_CART_DELETE_ENDPOINT = "AddToCart/delete"
+    const val ADD_TO_CART_INSERT_ENDPOINT = "AddToCart/create"
+    const val getOrderHistory = "AddToCart/getall"
+    const val ADD_TO_CART_USER_LIST_ENDPOINT = "AddToCart/getbyloginuserid"
 
-    const val CHECKOUT_BASE_URL = API_BASE_URL + "Checkout/"
-    const val CHECKOUT_INSERT_ENDPOINT = "checkoutiteminsert/"
+    const val CHECKOUT_INSERT_ENDPOINT = "Checkout/checkoutiteminsert"
 }

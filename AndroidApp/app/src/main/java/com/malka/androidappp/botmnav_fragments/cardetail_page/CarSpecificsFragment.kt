@@ -63,13 +63,13 @@ class CarSpecificsFragment : Fragment(), BottomsheetDialogfragClass.BottomSheetL
 
 
 
-        AdvId = arguments?.getString("AdvId").toString()
-        template = arguments?.getString("Template").toString()
+//        AdvId = arguments?.getString("AdvId").toString()
+//        template = arguments?.getString("Template").toString()
 //        AdvId="sfyf9907LV"
 //        template="WreckedCar"
 
-        AdvId="mbuf8809HD"
-        template="HobsAndOvens"
+        AdvId="rvzn6692QH"
+        template="NintendoAccessories"
 
         StoreDataForAdDetail.saveAdvIdforAdDetailBiding = AdvId
 

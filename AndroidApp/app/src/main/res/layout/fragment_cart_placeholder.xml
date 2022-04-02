@@ -232,7 +232,7 @@
             android:id="@+id/placeholder_recycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/placeholder_relative"/>
+            android:layout_below="@+id/placeholder_relative" />
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>

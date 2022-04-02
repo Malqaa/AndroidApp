@@ -6,5 +6,9 @@ data class CheckoutRequestModel(
     var tax: String,
     var totalamount: String,
     var creditCardNo: String,
-    var loginId: String
-)
+    var loginId: String,
+    var shippingmethod: String,
+    var paymentType: MutableList<String>,
+    var bankAccountId: MutableList<Int>,
+
+    )
