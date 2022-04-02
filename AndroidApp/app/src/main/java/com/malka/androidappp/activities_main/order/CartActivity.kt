@@ -48,7 +48,7 @@ class CartActivity : BaseActivity() {
                         //  prod_type.text=protype
                         //    prod_name.text=proname
                         //   prod_city.text=procity
-                        prod_price.text = price
+                        prod_price.text = price.toString()
                         Picasso.get()
                             .load(ApiConstants.IMAGE_URL + image)
                             .into(prod_image)
