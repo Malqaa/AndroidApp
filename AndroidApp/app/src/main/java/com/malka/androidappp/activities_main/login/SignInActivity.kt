@@ -186,7 +186,6 @@ open class SignInActivity : BaseActivity() {
                                 context
                             )
                             Paper.book().write(islogin,true)
-                            Paper.book().write(SharedPreferencesStaticClass.userData,response.body()!!.data)
                            finish()
                         }
                     } else {

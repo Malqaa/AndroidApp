@@ -84,7 +84,8 @@ class HomeFragment : Fragment(R.layout.fragment_homee),
         if (ConstantObjects.logged_userid.trim().length > 0) {
 
               HelpFunctions.GetUserWatchlist();
-           // HelpFunctions.GetUsersCartList(requireContext());
+            HelpFunctions. GetUserInfo(ConstantObjects.logged_userid)
+            //  HelpFunctions.GetUsersCartList(requireContext());
           //  HelpFunctions.GetUserCreditCards(this@HomeFragment);
           //  HelpFunctions.GetUserShippingAddress(this@HomeFragment);
         }

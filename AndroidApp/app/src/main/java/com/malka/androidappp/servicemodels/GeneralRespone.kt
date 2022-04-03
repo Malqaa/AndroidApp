@@ -1,8 +1,8 @@
-package com.malka.androidappp.activities_main.signup_account.signup_pg1
+package com.malka.androidappp.servicemodels
 
 import java.io.Serializable
 
-data class RegisterData(
+data class GeneralRespone(
     val code: String,
     val id: String,
     val message: String,

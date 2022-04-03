@@ -2856,6 +2856,7 @@ Want to start a business account? Create a Business Account
     <string name="my_bids">My bids</string>
     <string name="negotiation_offers">Negotiation offers</string>
     <string name="save_addresses">Save Addresses</string>
+    <string name="member_since">Member since</string>
 
 
 </resources>

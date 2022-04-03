@@ -4,21 +4,19 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
 import android.view.View
-import com.google.gson.Gson
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.signup_account.signup_pg2.SignupPg2
+import com.malka.androidappp.activities_main.signup_account.signup_pg3.User
 import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.helper.HelpFunctions.Companion.PASSWORD_PATTERN
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
+import com.malka.androidappp.servicemodels.GeneralRespone
 import kotlinx.android.synthetic.main.activity_signup_pg1.*
-import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.InputStreamReader
-import java.io.Reader
 
 
 class SignupPg1 : BaseActivity() {
@@ -153,7 +151,7 @@ class SignupPg1 : BaseActivity() {
         val fullmobilenum = "+" + countryCode + mobilenum
         val passcode = textPass.text.toString().trim()
         val usernaam = userNamee.text.toString().trim()
-        val createUser = CreateUserDataModel(
+        val createUser = User(
             email = emailId,
             phone = fullmobilenum,
             password = passcode,
@@ -161,12 +159,12 @@ class SignupPg1 : BaseActivity() {
             username = usernaam,
             termsAndConditions = switch_term_condition._getChecked()
         )
-        val call: Call<RegisterData> = malqaa.createuser(createUser)
+        val call: Call<GeneralRespone> = malqaa.createuser(createUser)
 
-        call.enqueue(object : Callback<RegisterData> {
+        call.enqueue(object : Callback<GeneralRespone> {
 
             override fun onResponse(
-                call: Call<RegisterData>, response: Response<RegisterData>
+                call: Call<GeneralRespone>, response: Response<GeneralRespone>
             ) {
                 if (response.isSuccessful) {
                     val data=response.body()
@@ -185,7 +183,7 @@ class SignupPg1 : BaseActivity() {
 
             }
 
-            override fun onFailure(call: Call<RegisterData>, t: Throwable) {
+            override fun onFailure(call: Call<GeneralRespone>, t: Throwable) {
                 HelpFunctions.dismissProgressBar()
 
                 t.message?.let { HelpFunctions.ShowLongToast(it, this@SignupPg1) }
@@ -204,7 +202,7 @@ class SignupPg1 : BaseActivity() {
     //NextScreen item//val emailId = intent.getStringExtra("dataemaill")
     //}
 
-    fun NextAcivityparsedata(data: RegisterData) {
+    fun NextAcivityparsedata(data: GeneralRespone) {
         val datacode = data.code
         val dataUserId = data.id
         val dataemail = textEmaill.text.toString().trim()

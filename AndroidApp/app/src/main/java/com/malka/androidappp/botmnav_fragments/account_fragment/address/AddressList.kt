@@ -1,10 +1,7 @@
-package com.malka.androidappp.botmnav_fragments.Add_Address
+package com.malka.androidappp.botmnav_fragments.account_fragment.address
 
-import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Filter
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -19,7 +16,7 @@ import kotlinx.android.synthetic.main.add_address_design.view.*
 import kotlinx.android.synthetic.main.address_list_fragment.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 
-class address_list : Fragment(R.layout.address_list_fragment) {
+class AddressList : Fragment(R.layout.address_list_fragment) {
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

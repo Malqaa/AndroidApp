@@ -42,7 +42,7 @@
                 android:textSize="@dimen/_12sdp" />
 
             <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
-                android:id="@+id/fullNamee"
+                android:id="@+id/firstName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_25sdp"

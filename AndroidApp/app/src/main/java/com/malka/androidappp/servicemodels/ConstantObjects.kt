@@ -1,13 +1,13 @@
 package com.malka.androidappp.servicemodels
 
 import android.widget.ImageView
+import com.malka.androidappp.activities_main.signup_account.signup_pg3.User
 import com.malka.androidappp.botmnav_fragments.home.model.AllCategoriesModel
 import com.malka.androidappp.botmnav_fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ShippingAddressessData
 import com.malka.androidappp.servicemodels.addtocart.CartItemModel
 import com.malka.androidappp.servicemodels.creditcard.CreditCardResponseModel
 import com.malka.androidappp.servicemodels.favourites.FavouriteObject
 import com.malka.androidappp.servicemodels.feedbacks.FeedbackObject
-import com.malka.androidappp.servicemodels.user.UserObject
 import com.malka.androidappp.servicemodels.watchlist.watchlistobject
 
 class ConstantObjects {
@@ -18,7 +18,7 @@ class ConstantObjects {
         val isSuccess: String = "isSuccess";
 
 
-        var userobj: UserObject? = null;
+        var userobj: User? = null;
         var userfeedback: FeedbackObject? = null;
         var userfavourite: FavouriteObject? = null;
         var userwatchlist: watchlistobject? = null;

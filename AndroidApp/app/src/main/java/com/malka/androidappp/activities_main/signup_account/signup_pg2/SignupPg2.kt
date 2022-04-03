@@ -10,6 +10,7 @@ import com.google.gson.Gson
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.login.SignInActivity
 import com.malka.androidappp.activities_main.signup_account.signup_pg3.SignupPg3
+import com.malka.androidappp.activities_main.signup_account.signup_pg3.User
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
@@ -152,7 +153,7 @@ class SignupPg2 : AppCompatActivity() {
         val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
         val email: String? = intent.getStringExtra("dataemail")
         val passcode: String? = intent.getStringExtra("datapassword")
-        val resendmodel = ResendCodeDataModel(email!!, passcode!!)
+        val resendmodel = User(email=email!!, password = passcode!!)
 
         val call: Call<ResponseBody> = malqa.resendcode(resendmodel)
         call.enqueue(object : Callback<ResponseBody> {

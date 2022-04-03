@@ -17,13 +17,12 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.TextInputEditText
 import com.hbb20.CountryCodePicker
 import com.malka.androidappp.R
-import com.malka.androidappp.activities_main.signup_account.signup_pg3.UpdateuserSignup
+import com.malka.androidappp.activities_main.signup_account.signup_pg3.User
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.servicemodels.ConstantObjects
 import com.malka.androidappp.servicemodels.user.UserObject
-import com.malka.androidappp.servicemodels.user.UserProperties
 import kotlinx.android.synthetic.main.fragment_edit_profile_details.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -288,10 +287,10 @@ class EditProfileDetailsFragment : Fragment() {
 
 
     fun updateapicall() {
-        var userprop: UserProperties? = ConstantObjects.userobj?.data;
+        var userprop: User? = ConstantObjects.userobj;
         if (userprop != null) {
             val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-            val userId4: String = userprop.id
+            val userId4: String = userprop.id!!
             val firstname: String = fn_id.text.toString().trim()
             val lastnaam: String = ln_id.text.toString().trim()
 
@@ -319,8 +318,8 @@ class EditProfileDetailsFragment : Fragment() {
                 }
             }
 
-            val call: Call<UpdateuserSignup> = malqaa.updateUserSiginup(
-                UpdateuserSignup(
+            val call: Call<User> = malqaa.updateUserSiginup(
+                User(
                     id = userId4,
                     fullName = firstname,
                     lastname = lastnaam,
@@ -336,9 +335,9 @@ class EditProfileDetailsFragment : Fragment() {
                     zipcode = zipCodee
                 )
             )
-            call.enqueue(object : Callback<UpdateuserSignup> {
+            call.enqueue(object : Callback<User> {
                 override fun onResponse(
-                    call: Call<UpdateuserSignup>, response: Response<UpdateuserSignup>
+                    call: Call<User>, response: Response<User>
                 ) {
                     if (response.isSuccessful) {
 //                        Toast.makeText(
@@ -358,7 +357,7 @@ class EditProfileDetailsFragment : Fragment() {
                     }
                 }
 
-                override fun onFailure(call: Call<UpdateuserSignup>, t: Throwable) {
+                override fun onFailure(call: Call<User>, t: Throwable) {
                     t.message?.let { HelpFunctions.ShowLongToast(it, activity) }
 
 //                    Toast.makeText(activity, t.message, Toast.LENGTH_LONG).show()
@@ -374,8 +373,8 @@ class EditProfileDetailsFragment : Fragment() {
             override fun onResponse(call: Call<UserObject>, response: Response<UserObject>) {
 
                 if (response.isSuccessful) {
-                    ConstantObjects.userobj = response.body()
-                    var userprop: UserProperties? = ConstantObjects.userobj?.data
+                    ConstantObjects.userobj = response.body()!!.data
+                    var userprop: User? = ConstantObjects.userobj
                     if (userprop != null) {
 
                         if (userprop.fullName != null) {
@@ -426,7 +425,7 @@ class EditProfileDetailsFragment : Fragment() {
                         }
 
                         if (userprop.dateOfBirth != null) dateOfBirth.setText(
-                            userprop.dateOfBirth.take(
+                            userprop.dateOfBirth!!.take(
                                 10
                             )
                         )
@@ -440,7 +439,7 @@ class EditProfileDetailsFragment : Fragment() {
                         if (userprop.zipcode != null) zipcode.setText(userprop.zipcode)
                         else ""
 
-                        if (userprop.gender != null) checkedgender(userprop.gender)
+                        if (userprop.gender != null) checkedgender(userprop.gender!!)
                         else checkedgender("Male")
 
                         whocanseeProfile("Everyone")

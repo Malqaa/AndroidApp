@@ -5,11 +5,8 @@ import com.malka.androidappp.activities_main.forgot.forgot_changepass_reset_acti
 import com.malka.androidappp.activities_main.forgot.forgot_password.ForgotPassResponseModel
 import com.malka.androidappp.activities_main.login.LoginClass
 import com.malka.androidappp.activities_main.login.LoginResponseBack
-import com.malka.androidappp.activities_main.signup_account.signup_pg1.CreateUserDataModel
-import com.malka.androidappp.activities_main.signup_account.signup_pg1.RegisterData
 import com.malka.androidappp.activities_main.signup_account.signup_pg2.PostReqVerifyCode
-import com.malka.androidappp.activities_main.signup_account.signup_pg2.ResendCodeDataModel
-import com.malka.androidappp.activities_main.signup_account.signup_pg3.UpdateuserSignup
+import com.malka.androidappp.activities_main.signup_account.signup_pg3.User
 import com.malka.androidappp.botmnav_fragments.ForgotPassword.PostForgotpassModel
 import com.malka.androidappp.botmnav_fragments.UserImageResponseBack
 import com.malka.androidappp.botmnav_fragments.activities_main.business_signup.ModelBusinessRegistration
@@ -101,7 +98,7 @@ import com.malka.androidappp.servicemodels.creditcard.CreditCardResponse
 import com.malka.androidappp.servicemodels.favourites.FavouriteObject
 import com.malka.androidappp.servicemodels.favourites.favouriteadd
 import com.malka.androidappp.servicemodels.feedbacks.FeedbackObject
-import com.malka.androidappp.servicemodels.home.*
+import com.malka.androidappp.servicemodels.home.GetAllAds
 import com.malka.androidappp.servicemodels.home.visitcount.visit_count_object
 import com.malka.androidappp.servicemodels.questionModel.ModelAskQues
 import com.malka.androidappp.servicemodels.questionModel.ModelPostAns
@@ -118,16 +115,16 @@ import retrofit2.http.*
 interface MalqaApiService {
 
     @POST(CREATE_USER_ENDPOINT)
-    fun createuser(@Body registeruser: CreateUserDataModel): Call<RegisterData>
+    fun createuser(@Body registeruser: User): Call<GeneralRespone>
 
     @POST(VERIFY_API_ENDPOINT)
     fun verifycode(@Body verifyusercode: PostReqVerifyCode): Call<PostReqVerifyCode>
 
     @POST(UPDATEUSER_SIGNUP_ENDPOINT)
-    fun updateUserSiginup(@Body updateusersignupp: UpdateuserSignup): Call<UpdateuserSignup>
+    fun updateUserSiginup(@Body updateusersignupp: User): Call<User>
 
     @POST(RESEND_OTPCODE_API_ENDPOINT)
-    fun resendcode(@Body resendotpcode: ResendCodeDataModel): Call<ResponseBody>
+    fun resendcode(@Body resendotpcode: User): Call<ResponseBody>
 
 
     @POST("CarTemplate/Create")

@@ -2684,5 +2684,6 @@
   <string name="my_bids">مزايداتى</string>
   <string name="negotiation_offers">عروض التفاوض</string>
   <string name="save_addresses">العناوين المحفوظة</string>
+    <string name="member_since">عضو منذ</string>
 
 </resources>

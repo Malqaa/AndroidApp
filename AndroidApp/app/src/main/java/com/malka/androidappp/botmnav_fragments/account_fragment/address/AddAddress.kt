@@ -1,4 +1,4 @@
-package com.malka.androidappp.botmnav_fragments.Add_Address
+package com.malka.androidappp.botmnav_fragments.account_fragment.address
 
 import android.os.Build
 import android.os.Bundle
@@ -31,6 +31,11 @@ class add_address : Fragment(R.layout.add_address_fragment)  {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        ConstantObjects.userobj!!.run {
+            firstname_tv.text=fullName
+            lastname_tv.text=lastname
+            PhoneNumber_tv.text=phone
+        }
         initView()
         setListenser()
 
@@ -249,15 +254,15 @@ class add_address : Fragment(R.layout.add_address_fragment)  {
 
         val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
 
-        val ftname = firstname.text.toString()
-        val ltname = lastname.text.toString()
-        val phonenumber = PhoneNumber.text.toString()
+        val ftname = firstname_tv.text.toString()
+        val ltname = lastname_tv.text.toString()
+        val phonenumber = PhoneNumber_tv.text.toString()
+
         val address = area_address.text.toString()
         val streetno = streetnumber.text.toString()
         val selectCountry = select_country.text.toString()
         val selectRegion = select_region.text.toString()
         val selectCity = select_city.text.toString()
-        val `data` = Paper.book().read<LoginData>(SharedPreferencesStaticClass.userData)!!
 
 
         val addAddress = GetAddressResponse.AddressModel(
@@ -269,13 +274,12 @@ class add_address : Fragment(R.layout.add_address_fragment)  {
             country = selectCountry,
             region = selectRegion,
             city = selectCity,
-            createdBy = "",
-            createdOn = "",
-            isActive = true,
             id = "0",
+            createdBy = "",
+            createdOn = HelpFunctions.GetCurrentDateTime(HelpFunctions.datetimeformat_24hrs_milliseconds),
             updatedBy = "",
-            updatedOn = "",
-
+            updatedOn = HelpFunctions.GetCurrentDateTime(HelpFunctions.datetimeformat_24hrs_milliseconds),
+            isActive = true,
 
         )
         val call: retrofit2.Call<insertAddressResponseBack> = malqa.insertAddress(addAddress)

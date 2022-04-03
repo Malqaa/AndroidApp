@@ -70,9 +70,11 @@ class AccountFragment : Fragment() {
             logout_signin.visibility = View.VISIBLE
             btn_signin.visibility = View.GONE
 
+            ConstantObjects.userobj!!.run {
+                userName.text = fullName
+                member_since.text = "${getString(R.string.member_since)} $createdatFormated"
+            }
 
-            val `data` = Paper.book().read<LoginData>(SharedPreferencesStaticClass.userData)!!
-            userName.text = data.fullName
         }
 
         helpbtn.setOnClickListener() {

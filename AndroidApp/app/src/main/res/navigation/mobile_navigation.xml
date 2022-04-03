@@ -16,8 +16,6 @@
             app:destination="@+id/carspicification" />
 
 
-
-
         <action
             android:id="@+id/home_seeall_generalfeaturedads"
             app:destination="@+id/seelall_generalfeaturedads_frag" />
@@ -30,7 +28,6 @@
         android:name="com.malka.androidappp.botmnav_fragments.watchlist_fragment.WatchlistFragment"
         android:label="@string/title_watchlist"
         tools:layout="@layout/fragment_watchlist" />
-
 
 
     <fragment
@@ -211,41 +208,27 @@
             app:destination="@+id/navigation_account" />
 
 
-
     </fragment>
 
     <fragment
         android:id="@+id/MySavedAddress"
-        android:name="com.malka.androidappp.botmnav_fragments.Add_Address.address_list"
+        android:name="com.malka.androidappp.botmnav_fragments.account_fragment.address.AddressList"
         android:label="Sold"
-        tools:layout="@layout/address_list_fragment">
-
-
-    </fragment>
+        tools:layout="@layout/address_list_fragment" />
 
 
     <fragment
         android:id="@+id/addAddress"
-        android:name="com.malka.androidappp.botmnav_fragments.Add_Address.add_address"
+        android:name="com.malka.androidappp.botmnav_fragments.account_fragment.address.add_address"
         android:label="Sold"
-        tools:layout="@layout/add_address_fragment">
-
-
-
-
-    </fragment>
+        tools:layout="@layout/add_address_fragment" />
 
 
     <fragment
         android:id="@+id/editProfile"
         android:name="com.malka.androidappp.botmnav_fragments.edit_my_profile.EditProfile"
         android:label="Edit Profile"
-        tools:layout="@layout/activity_edit_profile">
-
-        <action
-            android:id="@+id/sold_ac2"
-            app:destination="@+id/edit_profile" />
-    </fragment>
+        tools:layout="@layout/activity_edit_profile" />
 
 
     <fragment
@@ -297,7 +280,6 @@
 
 
     </fragment>
-
 
 
     <fragment
@@ -354,14 +336,6 @@
     </fragment>
 
 
-
-
-
-
-
-
-
-
     <fragment
         android:id="@+id/list_details"
         android:name="com.malka.androidappp.botmnav_fragments.create_ads.ListingDetailsFragment"
@@ -384,7 +358,6 @@
             app:popUpToInclusive="true" />
 
     </fragment>
-
 
 
     <fragment
@@ -460,9 +433,6 @@
     </fragment>
 
 
-
-
-
     <fragment
         android:id="@+id/member_listing_frag"
         android:name="com.malka.androidappp.botmnav_fragments.memberlisting.MemberListing"
@@ -470,17 +440,6 @@
         tools:layout="@layout/fragment_member_listing">
 
     </fragment>
-
-
-
-
-
-
-
-
-
-
-
 
 
     <fragment
@@ -545,8 +504,6 @@
         tools:layout="@layout/fragment_email_preferences_setting">
 
     </fragment>
-
-
 
 
     <fragment
@@ -857,12 +814,10 @@
     </fragment>
 
 
-
     <fragment
         android:id="@+id/seelall_generalfeaturedads_frag"
         android:name="com.malka.androidappp.botmnav_fragments.home_seeall_generalad.FeaturedGeneralAds"
-        tools:layout="@layout/fragment_featured_general_ads"/>
-
+        tools:layout="@layout/fragment_featured_general_ads" />
 
 
     <fragment

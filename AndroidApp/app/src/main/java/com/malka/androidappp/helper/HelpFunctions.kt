@@ -43,8 +43,10 @@ import com.malka.androidappp.servicemodels.creditcard.CreditCardRequestModel
 import com.malka.androidappp.servicemodels.creditcard.CreditCardResponse
 import com.malka.androidappp.servicemodels.favourites.FavouriteObject
 import com.malka.androidappp.servicemodels.favourites.favouriteadd
+import com.malka.androidappp.servicemodels.user.UserObject
 import com.malka.androidappp.servicemodels.watchlist.watchlistadd
 import com.malka.androidappp.servicemodels.watchlist.watchlistobject
+import com.squareup.picasso.Picasso
 import io.paperdb.Paper
 import kotlinx.android.synthetic.main.alertpopup.view.*
 import kotlinx.android.synthetic.main.progress_bar.view.*
@@ -56,6 +58,7 @@ import java.io.*
 import java.text.DateFormat
 import java.text.ParsePosition
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -101,9 +104,12 @@ class HelpFunctions {
         fun IsUserLoggedIn(): Boolean1 {
             val islogin = Paper.book().read(SharedPreferencesStaticClass.islogin, false) ?: false
             if (islogin) {
-                val `data` = Paper.book().read<LoginData>(SharedPreferencesStaticClass.userData)!!
-                ConstantObjects.logged_userid = data.id
-                ConstantObjects.isBusinessUser = data.isBusinessUser > 0
+
+                ConstantObjects.userobj?.let {
+                    ConstantObjects.logged_userid = it.id?:""
+                  //  ConstantObjects.isBusinessUser = it.isBusinessUser > 0
+                }
+
             }
             return islogin
         }
@@ -1096,5 +1102,28 @@ class HelpFunctions {
             }
             return hashMapLocationInfo
         }
+
+        fun GetUserInfo(userid: String) {
+            val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+            val call: Call<UserObject> = malqa.getuser(userid)
+            call.enqueue(object : Callback<UserObject> {
+                override fun onResponse(call: Call<UserObject>, response: Response<UserObject>) {
+                    if (response.isSuccessful) {
+                        if (response.body() != null) {
+                            response.body()!!.run {
+                                if(status_code==200){
+                                    ConstantObjects.userobj = response.body()!!.data
+                                }
+                            }
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<UserObject>, t: Throwable) {
+
+                }
+            })
+        }
+
     }
 }

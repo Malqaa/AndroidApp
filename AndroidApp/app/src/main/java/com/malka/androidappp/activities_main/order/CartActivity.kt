@@ -25,7 +25,7 @@ class CartActivity : BaseActivity() {
 
         the_next.setOnClickListener {
             if (ConstantObjects.usercart.size > 0) {
-                findNavController().navigate(R.id.checkout_to_shipping_address)
+               // findNavController().navigate(R.id.checkout_to_shipping_address)
                 val  intent = Intent(this, AddressPaymentActivity::class.java)
                 startActivity(intent)
             } else {

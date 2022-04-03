@@ -322,22 +322,18 @@ class SignupPg3 : BaseActivity() {
 
 
         val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-        //  val userId4 = intent.getStringExtra("useridupdate")
-        val userId4 = "userId4"
-        val fullnaam4 = fullNamee.text.toString().trim()
+        val userId4 = intent.getStringExtra("useridupdate")
+        val firstName = firstName.text.toString().trim()
         val lastName = editTextlastname.text.toString().trim()
         val date4 = date.text.toString().trim()
         val country = select_country.text.toString()
-        //
-
-        //
         val areaa = Area.text.toString().trim()
 
-        val call: Call<UpdateuserSignup> = malqaa.updateUserSiginup(
-            UpdateuserSignup(
+        val call: Call<User> = malqaa.updateUserSiginup(
+            User(
                 id = userId4,
                 gender = gender4,
-                fullName = fullnaam4,
+                firstName = firstName,
                 dateOfBirth = date4,
                 country = country,
                 region = select_region.text.toString(),
@@ -349,10 +345,10 @@ class SignupPg3 : BaseActivity() {
             )
         )
 
-        call.enqueue(object : Callback<UpdateuserSignup> {
+        call.enqueue(object : Callback<User> {
 
             override fun onResponse(
-                call: Call<UpdateuserSignup>, response: Response<UpdateuserSignup>
+                call: Call<User>, response: Response<User>
             ) {
                 if (response.isSuccessful) {
                     HelpFunctions.ShowLongToast(
@@ -366,7 +362,7 @@ class SignupPg3 : BaseActivity() {
                 }
             }
 
-            override fun onFailure(call: Call<UpdateuserSignup>, t: Throwable) {
+            override fun onFailure(call: Call<User>, t: Throwable) {
                 Toast.makeText(this@SignupPg3, t.message, Toast.LENGTH_LONG).show()
             }
         })
@@ -383,12 +379,12 @@ class SignupPg3 : BaseActivity() {
 
     //Data Validation
     private fun validateSign3FullName(): Boolean {
-        val Inputname = fullNamee!!.text.toString().trim { it <= ' ' }
+        val Inputname = firstName!!.text.toString().trim { it <= ' ' }
         return if (Inputname.isEmpty()) {
-            fullNamee!!.error = getString(R.string.Fieldcantbeempty)
+            firstName!!.error = getString(R.string.Fieldcantbeempty)
             false
         } else {
-            fullNamee!!.error = null
+            firstName!!.error = null
             true
         }
     }
