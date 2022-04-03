@@ -25,7 +25,6 @@ object ApiConstants {
     const val HOME_ALL_ADS_URL = HOME_URL + "All/"
 
     const val CREATE_USER_ENDPOINT = "Accounts/signUp"
-    const val ALL_USER_ENDPOINT = "All"
     const val LOGIN_ENDPOINT = "Accounts/login"
     const val ADDRESS_ENDPOINT = "Accounts/insertaddress"
     const val ADDBANK_ENDPOINT = "UserBankAccount/AddUserBankAccount"
@@ -117,7 +116,7 @@ object ApiConstants {
     const val SEARCH_CATEGORY_LISTING_ENDPOINT = "CarTemplate/Search"
 
     const val GET_CATEGORY_TAGS_ENDPOINT = "Category/Tags"
-    const val GET_ALL_CATEGORIES = "Category/getAllCategory"
+    const val GET_ALL_CATEGORIES = "Category/GetAllCategoryByCulture"
     const val GET_ALL_CATEGORIES_BY_ID = "Category/getAllCategoryByTemplateName"
 
 

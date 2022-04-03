@@ -1,13 +1,10 @@
 package com.malka.androidappp.network.service
 
 import com.google.gson.JsonObject
-import com.malka.androidappp.activities_main.forgot.forgot_changepass_reset_activity.PostChangePassApiModel
-import com.malka.androidappp.activities_main.forgot.forgot_password.ForgotPassResponseModel
 import com.malka.androidappp.activities_main.login.LoginClass
 import com.malka.androidappp.activities_main.login.LoginResponseBack
 import com.malka.androidappp.activities_main.signup_account.signup_pg2.PostReqVerifyCode
 import com.malka.androidappp.activities_main.signup_account.signup_pg3.User
-import com.malka.androidappp.botmnav_fragments.ForgotPassword.PostForgotpassModel
 import com.malka.androidappp.botmnav_fragments.UserImageResponseBack
 import com.malka.androidappp.botmnav_fragments.activities_main.business_signup.ModelBusinessRegistration
 import com.malka.androidappp.botmnav_fragments.browse_market.popup_subcategories_list.ModelAddSearchFav
@@ -108,7 +105,6 @@ import com.malka.androidappp.servicemodels.total_online_users.ModelGetTotalOnlin
 import com.malka.androidappp.servicemodels.user.UserObject
 import com.malka.androidappp.servicemodels.watchlist.watchlistadd
 import com.malka.androidappp.servicemodels.watchlist.watchlistobject
-import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -124,7 +120,7 @@ interface MalqaApiService {
     fun updateUserSiginup(@Body updateusersignupp: User): Call<User>
 
     @POST(RESEND_OTPCODE_API_ENDPOINT)
-    fun resendcode(@Body resendotpcode: User): Call<ResponseBody>
+    fun resendcode(@Body resendotpcode: User): Call<GeneralRespone>
 
 
     @POST("CarTemplate/Create")
@@ -205,10 +201,10 @@ interface MalqaApiService {
 
 
     @POST(FORGOTPASS_EMAIL_ENDPOINT)
-    fun forgotpassemail(@Body forgottpass: PostForgotpassModel): Call<ForgotPassResponseModel>
+    fun forgotpassemail(@Body forgottpass: User): Call<GeneralRespone>
 
     @POST(CHANGEPASS_ENDPOINT)
-    fun changepass(@Body changepasspost: PostChangePassApiModel): Call<PostChangePassApiModel>
+    fun changepass(@Body changepasspost: User): Call<User>
 
     @POST(INSERT_AD_WATCHLIST_ENDPOINT)
     fun InsertAdtoUserWatchlist(@Body insertads: watchlistadd): Call<Basicresponse>
@@ -254,7 +250,9 @@ interface MalqaApiService {
     fun getAllProducts(): Call<AllProductsResponseBack>
 
     @GET(GET_ALL_CATEGORIES)
-    fun getAllCategories(): Call<AllCategoriesResponseBack>
+    fun getAllCategories(
+        @Query("culture") culture: String,
+    ): Call<AllCategoriesResponseBack>
 
     @GET("$GET_ALL_CATEGORIES_BY_ID?")
     fun getAllCategoriesByTemplateID(

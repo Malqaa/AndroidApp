@@ -25,7 +25,6 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.product_detail.ProductDetails
-import com.malka.androidappp.activities_main.login.LoginData
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.botmnav_fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ModelShipAddresses
 import com.malka.androidappp.botmnav_fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ShippingAddressessData
@@ -46,7 +45,6 @@ import com.malka.androidappp.servicemodels.favourites.favouriteadd
 import com.malka.androidappp.servicemodels.user.UserObject
 import com.malka.androidappp.servicemodels.watchlist.watchlistadd
 import com.malka.androidappp.servicemodels.watchlist.watchlistobject
-import com.squareup.picasso.Picasso
 import io.paperdb.Paper
 import kotlinx.android.synthetic.main.alertpopup.view.*
 import kotlinx.android.synthetic.main.progress_bar.view.*
@@ -58,7 +56,6 @@ import java.io.*
 import java.text.DateFormat
 import java.text.ParsePosition
 import java.text.SimpleDateFormat
-import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -103,45 +100,11 @@ class HelpFunctions {
 
         fun IsUserLoggedIn(): Boolean1 {
             val islogin = Paper.book().read(SharedPreferencesStaticClass.islogin, false) ?: false
-            if (islogin) {
-
-                ConstantObjects.userobj?.let {
-                    ConstantObjects.logged_userid = it.id?:""
-                  //  ConstantObjects.isBusinessUser = it.isBusinessUser > 0
-                }
-
+            if(islogin){
+                val logged_userid = Paper.book().read(SharedPreferencesStaticClass.logged_userid, "") ?:""
+                ConstantObjects.logged_userid=logged_userid
             }
             return islogin
-        }
-
-        fun ShowShortToast(msg: String, context: Context?) {
-            if (context != null) {
-                Toast.makeText(
-                    context,
-                    msg,
-                    Toast.LENGTH_SHORT
-                ).show();
-            }
-        }
-
-        fun ShowVerbose(Text: String) {
-            Log.v(appName, Text)
-        }
-
-        fun ShowWarning(Text: String) {
-            Log.w(appName, Text)
-        }
-
-        fun ShowInformation(Text: String) {
-            Log.i(appName, Text)
-        }
-
-        fun ShowError(Text: String) {
-            Log.e(appName, Text)
-        }
-
-        fun showLog(Text: String) {
-            Log.d(appName, Text)
         }
 
         fun GetCurrentDateTime(format: String): String {
@@ -193,7 +156,7 @@ class HelpFunctions {
             error += "Error: " + exception.message + "\r\n";
             error += "Stacktrace: " + sStackTrace + "\r\n";
 
-            ShowError(error)
+           // ShowError(error)
         }
 
         fun ShowAlert(context: Context?, alertTitle: String, alertMessage: String) {
@@ -729,7 +692,7 @@ class HelpFunctions {
             return Base64.encodeToString(b, Base64.DEFAULT)
         }
 
-        fun GetUserCreditCards(context: Fragment) {
+        fun GetUserCreditCards(context: Context) {
             try {
                 val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
                 val call: Call<CreditCardResponse> =
@@ -743,17 +706,17 @@ class HelpFunctions {
                         } else {
                             ConstantObjects.usercreditcard = null
                             ShowLongToast(
-                                "No Record Found", context.requireContext()
+                                "No Record Found", context
                             )
                         }
                     } else {
                         ShowLongToast(
-                            "No Record Found", context.requireContext()
+                            "No Record Found", context
                         )
                     }
                 } else {
                     ShowLongToast(
-                        "No Record Found", context.requireContext()
+                        "No Record Found", context
                     )
                 }
             } catch (ex: Exception) {
@@ -761,7 +724,7 @@ class HelpFunctions {
             }
         }
 
-        fun InsertUserCreditCard(cardinfo: CreditCardRequestModel, context: Fragment): Boolean1 {
+        fun InsertUserCreditCard(cardinfo: CreditCardRequestModel, context: Context): Boolean1 {
             var RetVal: Boolean1 = false
             try {
                 val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
@@ -775,13 +738,13 @@ class HelpFunctions {
                             GetUserCreditCards(context)
                             ShowLongToast(
                                 "Added Successfully",
-                                context.requireContext()
+                                context
                             );
                         }
                     } else {
                         ShowLongToast(
                             "Error During Addition",
-                            context.requireContext()
+                            context
                         );
                     }
                 } else {
@@ -851,47 +814,7 @@ class HelpFunctions {
             }
         }
 
-        fun AddToUserCart(cartiteminfo: InsertToCartRequestModel, context: Context): Boolean1 {
-            var RetVal: Boolean1 = false
-            try {
-                val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
-                StrictMode.setThreadPolicy(policy)
-                val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-                val call: Call<Basicresponse> = malqa.AddToUserCart(cartiteminfo)
-                val response: Response<Basicresponse> = call.execute();
-                if (response.isSuccessful) {
-                    if (response.body() != null) {
-                        val resp: Basicresponse = response.body()!!;
-                        if (resp.status_code == 200 && (resp.data == true || resp.data == 1 || resp.data == 1.0)) {
-                            RetVal = true
-                            GetUsersCartList()
-                            ShowLongToast(
-                                "Added Successfully",
-                                context
-                            )
-                        }else{
-                            ShowLongToast(
-                                resp.message,
-                                context
-                            )
-                        }
-                    } else {
-                        ShowLongToast(
-                            "Error During Addition",
-                            context
-                        );
-                    }
-                } else {
-                    ShowLongToast(
-                        "Error During Addition",
-                        context
-                    );
-                }
-            } catch (ex: Exception) {
-                throw ex
-            }
-            return RetVal
-        }
+
 
         fun DeleteFromUserCart(CartId: String, context: Context): Boolean1 {
             var RetVal: Boolean1 = false;
@@ -1103,27 +1026,28 @@ class HelpFunctions {
             return hashMapLocationInfo
         }
 
-        fun GetUserInfo(userid: String) {
-            val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-            val call: Call<UserObject> = malqa.getuser(userid)
-            call.enqueue(object : Callback<UserObject> {
-                override fun onResponse(call: Call<UserObject>, response: Response<UserObject>) {
-                    if (response.isSuccessful) {
-                        if (response.body() != null) {
-                            response.body()!!.run {
-                                if(status_code==200){
-                                    ConstantObjects.userobj = response.body()!!.data
-                                }
-                            }
-                        }
-                    }
-                }
+        fun utcToLocal(time: String,format: String): String {
 
-                override fun onFailure(call: Call<UserObject>, t: Throwable) {
-
-                }
-            })
+            val df = SimpleDateFormat(format, Locale.ENGLISH)
+            df.timeZone = TimeZone.getTimeZone("UTC")
+            val date = df.parse(time)
+            df.timeZone = TimeZone.getDefault()
+            return df.format(date)
         }
 
+
+        fun  String.localToUTC(): String {
+
+            val df = SimpleDateFormat("yyyy-mm-dd'T'hh:mm:ss", Locale.ENGLISH)
+            df.timeZone = TimeZone.getDefault()
+            val date = df.parse(this)
+            df.timeZone = TimeZone.getTimeZone("UTC")
+            val formattedDate = df.format(date!!)
+            return formattedDate
+
+        }
     }
+
+
+
 }

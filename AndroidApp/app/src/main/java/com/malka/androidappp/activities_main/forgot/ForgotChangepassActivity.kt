@@ -1,4 +1,4 @@
-package com.malka.androidappp.activities_main.forgot.forgot_changepass_reset_activity
+package com.malka.androidappp.activities_main.forgot
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.login.SignInActivity
+import com.malka.androidappp.activities_main.signup_account.signup_pg3.User
 import com.malka.androidappp.helper.HelpFunctions.Companion.PASSWORD_PATTERN
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
@@ -65,19 +66,19 @@ class ForgotChangepassActivity : AppCompatActivity() {
         val getnewpasscode: String = editText1asdasd0.text.toString().trim()
         val getdata = intent.getStringExtra("getidd").toString()
         val getdata2 = intent.getStringExtra("getcodee").toString()
-        val postdatachangepass = PostChangePassApiModel(getdata2, getdata, getnewpasscode)
+        val postdatachangepass = User(getdata2, getdata, getnewpasscode)
         val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-        val call: Call<PostChangePassApiModel> = malqaa.changepass(postdatachangepass)
+        val call: Call<User> = malqaa.changepass(postdatachangepass)
 
-        call.enqueue(object : Callback<PostChangePassApiModel> {
+        call.enqueue(object : Callback<User> {
 
-            override fun onFailure(call: Call<PostChangePassApiModel>, t: Throwable) {
+            override fun onFailure(call: Call<User>, t: Throwable) {
                 Toast.makeText(applicationContext, t.message, Toast.LENGTH_LONG).show()
             }
 
             override fun onResponse(
-                call: Call<PostChangePassApiModel>,
-                response: Response<PostChangePassApiModel>
+                call: Call<User>,
+                response: Response<User>
             ) {
                 if (response.isSuccessful) {
                     Toast.makeText(

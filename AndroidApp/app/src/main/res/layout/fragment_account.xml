@@ -5,7 +5,6 @@
     android:id="@+id/fragment_account"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     tools:context=".botmnav_fragments.account_fragment.AccountFragment">
 
 
@@ -57,7 +56,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_3sdp"
                     android:gravity="center"
-                    android:text=" Membership Number: 6461"
+                    android:id="@+id/membership_number_tv"
+                    android:text="@string/membership_number"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_12sdp" />
 

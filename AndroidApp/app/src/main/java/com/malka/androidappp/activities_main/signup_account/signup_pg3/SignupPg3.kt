@@ -1,18 +1,13 @@
 package com.malka.androidappp.activities_main.signup_account.signup_pg3
 
-import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import android.view.WindowManager
-import android.view.inputmethod.InputMethodManager
-import android.widget.TextView
 import android.widget.Toast
-import androidx.core.view.isEmpty
 import com.malka.androidappp.R
-import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.activities_main.login.SignInActivity
+import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.helper.HelpFunctions
+import com.malka.androidappp.helper.widgets.DatePickerFragment
 import com.malka.androidappp.helper.widgets.searchdialog.SearchListItem
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
@@ -22,44 +17,29 @@ import kotlinx.android.synthetic.main.activity_signup_pg4.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.*
 
 class SignupPg3 : BaseActivity() {
 
     var selectedCountry: SearchListItem? = null
     var selectedRegion: SearchListItem? = null
     var selectedCity: SearchListItem? = null
-    var gender4 = ""
+    var gender_ = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signup_pg4)
-        supportActionBar?.hide()
-        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
+        date!!._setOnClickListener {
 
+            DatePickerFragment(true, false) { selectdate_ ->
+                date.text = "$selectdate_ "
 
+            }.show(supportFragmentManager, "")
 
-        val c = Calendar.getInstance()
-        val year = c.get(Calendar.YEAR)
-        val month = c.get(Calendar.MONTH)
-        val day = c.get(Calendar.DAY_OF_MONTH)
-        date!!._setOnClickListener() {
-            val dpd = DatePickerDialog(
-                this,
-                { view, mYear, mMonth, mDay ->
-                    val monthplus: Int = mMonth + 1
-                    date!!.setText("" + mYear + "-" + monthplus + "-" + mDay)
-                },
-                year,
-                month,
-                day
-            )
-            dpd.show()
         }
 
         ConstantObjects.countryList.filter {
-            it.key==ConstantObjects.defaltCountry
+            it.key == ConstantObjects.defaltCountry
         }.let {
-            if(it.size>0){
+            if (it.size > 0) {
                 select_country._setStartIconImage(it.get(0).flagimglink)
             }
         }
@@ -79,9 +59,9 @@ class SignupPg3 : BaseActivity() {
                 selectedRegion = null
 
                 ConstantObjects.countryList.filter {
-                    it.key==selectedCountry!!.key
+                    it.key == selectedCountry!!.key
                 }.let {
-                    if(it.size>0){
+                    if (it.size > 0) {
                         select_country._setStartIconImage(it.get(0).flagimglink)
                     }
                 }
@@ -109,17 +89,19 @@ class SignupPg3 : BaseActivity() {
         radiomale._setOnClickListener {
             radiomale._setCheck(!radiomale.getCheck())
             radiofemale._setCheck(false)
-            gender4=radiomale.getText()
+            gender_ = radiomale.getText()
         }
         radiofemale._setOnClickListener {
             radiofemale._setCheck(!radiofemale.getCheck())
             radiomale._setCheck(false)
-            gender4=radiomale.getText()
+            gender_ = radiomale.getText()
 
         }
 
         confirm_button.setOnClickListener {
-            SignupApi()
+            if (isValid()) {
+                updateapicall()
+            }
         }
     }
 
@@ -175,7 +157,7 @@ class SignupPg3 : BaseActivity() {
     }
 
 
-    fun getCity(key: String, ) {
+    fun getCity(key: String) {
         HelpFunctions.startProgressBar(this)
 
 
@@ -229,89 +211,59 @@ class SignupPg3 : BaseActivity() {
         finish()
     }
 
-    //Data Validation
-    //Data Validation
-    //Data Validation
-    private fun validateRegion(): Boolean {
-
-        val errorregion_s4text = findViewById<TextView>(R.id.errorregion_s4)
-        return if (select_region.text!!.isEmpty()) {
-            errorregion_s4text.visibility = View.VISIBLE
-            false
-        } else {
-            errorregion_s4text.visibility = View.GONE
-            true
+    private fun isValid(): Boolean {
+        if (firstName!!.text.toString().isEmpty()) {
+            showError(getString(R.string.Please_enter, getString(R.string.First_Name)))
+            return false
         }
-    }
 
-    private fun validateCity(): Boolean {
-
-        val errorregion_s4text = findViewById<TextView>(R.id.errorcity_s4)
-        return if (select_city.isEmpty()) {
-            errorregion_s4text.visibility = View.VISIBLE
-            false
-        } else {
-            errorregion_s4text.visibility = View.GONE
-            true
+        if (editTextlastname!!.text.toString().isEmpty()) {
+            showError(getString(R.string.Please_enter, getString(R.string.Last_Name)))
+            return false
         }
-    }
+
+        if (date!!.text.toString().isEmpty()) {
+            showError(getString(R.string.Please_select, getString(R.string.Date_of_Birth)))
+            return false
+        }
 
 
-    //Data Validation
-    private fun validateSign4Streetnum(): Boolean {
-        val InputStreet = streetNUmber!!.text.toString().trim { it <= ' ' }
+        if (gender_.isEmpty()) {
+            showError(getString(R.string.Please_select, getString(R.string.Gender)))
+            return false
+        }
 
-        return if (InputStreet.isEmpty()) {
+        if (select_country!!.text.toString().isEmpty()) {
+            showError(getString(R.string.Please_select, getString(R.string.Country)))
+            return false
+        }
+
+        if (select_region!!.text.toString().isEmpty()) {
+            showError(getString(R.string.Please_select, getString(R.string.Region)))
+            return false
+        }
+
+        if (select_city!!.text.toString().isEmpty()) {
+            showError(getString(R.string.Please_select, getString(R.string.district)))
+            return false
+        }
+
+
+        if (Area!!.text.toString().isEmpty()) {
+            showError(getString(R.string.Please_enter, getString(R.string.Area)))
+            return false
+        }
+        if (streetNUmber!!.text.toString().isEmpty()) {
             showError(getString(R.string.Please_enter, getString(R.string.StreetNumber)))
-            false
-        } else {
-            true
+            return false
         }
+        if (county_code!!.text.toString().isEmpty()) {
+            showError(getString(R.string.Please_enter, getString(R.string.ZipCode)))
+            return false
+        }
+        return true
     }
 
-    //Data Validation
-    private fun validateSign4Area(): Boolean {
-        val InputArea = Area!!.text.toString().trim { it <= ' ' }
-
-        return if (InputArea.isEmpty()) {
-            Area!!.error = getString(R.string.Fieldcantbeempty)
-            false
-        } else {
-            Area!!.error = null
-            true
-        }
-    }
-
-    //Data Validation
-    private fun validateSign4PoBox(): Boolean {
-        val InputPoBox = county_code!!.text.toString().trim { it <= ' ' }
-
-        return if (InputPoBox.isEmpty()) {
-            county_code!!.error = getString(R.string.Fieldcantbeempty)
-            false
-        } else {
-            county_code!!.error = null
-            true
-        }
-    }
-
-
-    fun SignupApi() {
-
-        if (validateSign4Streetnum() && validateSign4Area() &&
-            validateSign4PoBox() && validateCity() && validateSign3FullName() && validateSign3Day() && validateRadio()
-        ) {
-
-            updateapicall()
-        }
-
-    }
-
-    //fun signup4prev(view: View) {
-    //  val intent = Intent(this@SignupPg4, SignupPg3::class.java)
-    //startActivity(intent)
-    //finish()
-    //}
 
     override fun finish() {
         super.finish()
@@ -322,26 +274,43 @@ class SignupPg3 : BaseActivity() {
 
 
         val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-        val userId4 = intent.getStringExtra("useridupdate")
+        val userId = intent.getStringExtra("useridupdate")
         val firstName = firstName.text.toString().trim()
         val lastName = editTextlastname.text.toString().trim()
-        val date4 = date.text.toString().trim()
         val country = select_country.text.toString()
         val areaa = Area.text.toString().trim()
 
+
+
         val call: Call<User> = malqaa.updateUserSiginup(
             User(
-                id = userId4,
-                gender = gender4,
+                id = userId,
+                gender = gender_,
                 firstName = firstName,
-                dateOfBirth = date4,
+                intDoBDay = HelpFunctions.getFormattedDate(
+                    date.text.toString(),
+                    HelpFunctions.datetimeformat_ddmyyyy,
+              "dd"
+                ).toInt(),
+                intDoBMonth = HelpFunctions.getFormattedDate(
+                    date.text.toString(),
+                    HelpFunctions.datetimeformat_ddmyyyy,
+                    "MM"
+                ).toInt(),
+                intDoBYear = HelpFunctions.getFormattedDate(
+                    date.text.toString(),
+                    HelpFunctions.datetimeformat_ddmyyyy,
+                    "yyyy"
+                ).toInt(),
                 country = country,
                 region = select_region.text.toString(),
                 city = select_city.text.toString(),
-                distric = "",
+                distric = select_city.text.toString(),
                 area = areaa,
                 zipcode = county_code.text.toString(),
-                lastname = lastName
+                lastname = lastName,
+                fullName = "$firstName $lastName",
+                isApproved = 1
             )
         )
 
@@ -375,54 +344,5 @@ class SignupPg3 : BaseActivity() {
     }
 
 
-    // SignUp 3 Starts from here
-
-    //Data Validation
-    private fun validateSign3FullName(): Boolean {
-        val Inputname = firstName!!.text.toString().trim { it <= ' ' }
-        return if (Inputname.isEmpty()) {
-            firstName!!.error = getString(R.string.Fieldcantbeempty)
-            false
-        } else {
-            firstName!!.error = null
-            true
-        }
-    }
-
-    //Data Validation
-    private fun validateSign3Day(): Boolean {
-        val Inputday = date!!.text.toString().trim { it <= ' ' }
-
-        return if (Inputday.isEmpty()) {
-            date!!.error = getString(R.string.Fieldcantbeempty)
-            false
-        } else {
-            date!!.error = null
-            true
-        }
-    }
-
-    private fun validateRadio(): Boolean {
-//        val radioButtonMale: RadioButton = findViewById(R.id.radiomale)
-//        val radioButtonFemale: RadioButton = findViewById(R.id.radiofemale)
-//        return if (radioButtonMale.isChecked or radioButtonFemale.isChecked) {
-//            Toast.makeText(applicationContext, "Please select a gender", Toast.LENGTH_SHORT).show()
-//            false
-//        } else {
-//            true
-//        }
-
-        return if (gender4.isEmpty()) {
-            HelpFunctions.ShowLongToast(getString(R.string.Pleaseselectagender), applicationContext)
-            return false
-        } else {
-            true
-        }
-    }
-
-    fun hidekeyboard() {
-        val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(currentFocus!!.windowToken, 0)
-    }
 
 }

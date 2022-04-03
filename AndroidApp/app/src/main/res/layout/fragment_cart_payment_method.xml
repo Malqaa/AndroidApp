@@ -51,11 +51,11 @@
                 android:textAllCaps="true"
                 />
 
-                <androidx.recyclerview.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_paymentcard"
                 android:layout_width="match_parent"
-                android:layout_below="@+id/tx_cartpaymentmethod"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tx_cartpaymentmethod" />
 
                 <RelativeLayout
                     android:id="@+id/addcard_btn_relative"
@@ -67,21 +67,20 @@
 
                     <Button
                         android:id="@+id/btn_add_new_card"
+                        style="?android:attr/borderlessButtonStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="38dp"
+                        android:layout_alignParentEnd="true"
                         android:text="Add a new card"
                         android:textAllCaps="false"
-                        android:textColor="@color/greenApp"
-                        style="?android:attr/borderlessButtonStyle"
-                        android:layout_alignParentEnd="true"
-                        />
+                        android:textColor="@color/greenApp" />
                 </RelativeLayout>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/payment_productlist_recycler"
-                    android:layout_below="@+id/addcard_btn_relative"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/payment_productlist_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/addcard_btn_relative" />
 
                 <TextView
                 android:id="@+id/tx_payment_order"

@@ -30,7 +30,7 @@ class DatePickerFragment(val maxdayToday:Boolean=false,val minDateToday:Boolean=
 
 
     override fun onDateSet(view: DatePicker, year: Int, month: Int, day: Int) {
-        var monthString = month.toString()
+        var monthString = "${month+1}"
         if (monthString.length == 1) {
             monthString = "0$monthString"
         }

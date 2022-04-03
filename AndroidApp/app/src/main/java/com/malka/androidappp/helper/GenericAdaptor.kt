@@ -5,17 +5,21 @@ import android.content.Intent
 import android.view.ViewGroup
 import android.widget.Filter
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.product_detail.ProductDetails
 import com.malka.androidappp.activities_main.login.SignInActivity
 import com.malka.androidappp.servicemodels.questionModel.Question
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
+import com.malka.androidappp.design.Models.GetAddressResponse
 import com.malka.androidappp.helper.Extension.decimalNumberFormat
 import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.network.constants.ApiConstants
 import com.malka.androidappp.servicemodels.AdDetailModel
 import com.malka.androidappp.servicemodels.ConstantObjects
+import kotlinx.android.synthetic.main.add_address_design.view.*
+import kotlinx.android.synthetic.main.address_list_fragment.*
 import kotlinx.android.synthetic.main.product_item.view.*
 import kotlinx.android.synthetic.main.question_answer_design.view.*
 
@@ -28,7 +32,7 @@ class GenericAdaptor {
         holder.view.run {
             element!!.run {
 
-                is_watch_iv. setOnClickListener {
+                is_watch_iv.setOnClickListener {
                     if (HelpFunctions.AdAlreadyAddedToWatchList(referenceId)) {
                         HelpFunctions.DeleteAdFromWatchlist(
                             referenceId!!,
@@ -36,10 +40,14 @@ class GenericAdaptor {
                         ) {
                             is_watch_iv.setImageResource(R.drawable.star)
                         }
-                    }else{
+                    } else {
                         if (ConstantObjects.logged_userid.isEmpty()) {
-                            context. startActivity(Intent(context, SignInActivity::class.java).apply {
-                            })
+                            context.startActivity(
+                                Intent(
+                                    context,
+                                    SignInActivity::class.java
+                                ).apply {
+                                })
                         } else {
 
                             HelpFunctions.InsertAdToWatchlist(
@@ -53,7 +61,7 @@ class GenericAdaptor {
                         }
                     }
                 }
-                if (HelpFunctions.AdAlreadyAddedToWatchList(referenceId?:id?:"")) {
+                if (HelpFunctions.AdAlreadyAddedToWatchList(referenceId ?: id ?: "")) {
                     is_watch_iv.setImageResource(R.drawable.starcolor)
                 } else {
                     is_watch_iv.setImageResource(R.drawable.star)
@@ -67,7 +75,7 @@ class GenericAdaptor {
                     SharedPreferencesStaticClass.ad_userid = user!!
                     ConstantObjects.is_watch_iv = is_watch_iv
                     context.startActivity(Intent(context, ProductDetails::class.java).apply {
-                        putExtra("AdvId", referenceId?:id?:"")
+                        putExtra("AdvId", referenceId ?: id ?: "")
                         putExtra("Template", template)
                     })
                 }
@@ -98,7 +106,7 @@ class GenericAdaptor {
                     )
                 }
 
-                date_tv.text =createdOnFormated
+                date_tv.text = createdOnFormated
                 product_price.text = "${price!!.toDouble().decimalNumberFormat()} ${
                     context.getString(
                         R.string.Rayal
@@ -125,8 +133,7 @@ class GenericAdaptor {
     }
 
 
-
-    fun setHomeProductAdaptor(list: List<AdDetailModel>,product_rcv: RecyclerView) {
+    fun setHomeProductAdaptor(list: List<AdDetailModel>, product_rcv: RecyclerView) {
         product_rcv.adapter = object : GenericListAdapter<AdDetailModel>(
             R.layout.product_item,
             bind = { element, holder, itemCount, position ->
@@ -136,7 +143,7 @@ class GenericAdaptor {
                     params.width = resources.getDimension(R.dimen._220sdp).toInt()
                     params.height = params.height
                     fullview.layoutParams = params
-                    productAdaptor(list.get(position), context, holder,true)
+                    productAdaptor(list.get(position), context, holder, true)
                 }
             }
         ) {
@@ -152,7 +159,7 @@ class GenericAdaptor {
     }
 
 
-    fun questionAnswerAdaptor(quest_ans_rcv:RecyclerView,list: List<Question>) {
+    fun questionAnswerAdaptor(quest_ans_rcv: RecyclerView, list: List<Question>) {
 
         quest_ans_rcv.adapter = object : GenericListAdapter<Question>(
             R.layout.question_answer_design,
@@ -172,6 +179,56 @@ class GenericAdaptor {
                             answer_view.hide()
                             answer_time.hide()
                         }
+                    }
+                }
+            }
+        ) {
+            override fun getFilter(): Filter {
+                TODO("Not yet implemented")
+            }
+
+        }.apply {
+            submitList(
+                list
+            )
+        }
+    }
+
+    fun AdressAdaptor(
+        category_rcv: RecyclerView,
+        list: List<GetAddressResponse.AddressModel>,
+        type: String,onItemClick:
+            (address: GetAddressResponse.AddressModel) -> Unit
+    ) {
+        category_rcv.adapter = object : GenericListAdapter<GetAddressResponse.AddressModel>(
+            R.layout.add_address_design,
+            bind = { element, holder, itemCount, position ->
+                holder.view.run {
+                    element.run {
+                        when (type) {
+                            ConstantObjects.View -> {
+                                is_select_.isVisible = false
+                            }
+                            ConstantObjects.Select -> {
+                                is_select_.isVisible = true
+                                is_select_.isChecked = is_select
+                                is_select_.setOnCheckedChangeListener { buttonView, isChecked ->
+                                    list.forEach {
+                                        it.is_select = false
+                                    }
+                                    if (isChecked) {
+                                        element.is_select = true
+                                    }
+                                    onItemClick.invoke(element)
+                                    category_rcv.adapter?.notifyDataSetChanged()
+                                }
+                            }
+                        }
+                        address_name.text = name
+                        country_name.text = "$country - $region -$city"
+                        phonenum.text = mobileNo
+                        address_tv.text = address
+
                     }
                 }
             }

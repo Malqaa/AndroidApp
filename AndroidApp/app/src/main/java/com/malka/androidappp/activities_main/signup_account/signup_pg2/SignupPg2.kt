@@ -6,7 +6,7 @@ import android.os.CountDownTimer
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.google.gson.Gson
+import com.malka.androidappp.BuildConfig
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.login.SignInActivity
 import com.malka.androidappp.activities_main.signup_account.signup_pg3.SignupPg3
@@ -14,42 +14,32 @@ import com.malka.androidappp.activities_main.signup_account.signup_pg3.User
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
+import com.malka.androidappp.servicemodels.GeneralRespone
 import kotlinx.android.synthetic.main.activity_signup_pg2.*
-import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.InputStreamReader
-import java.io.Reader
 
 
 class SignupPg2 : AppCompatActivity() {
 
     private var START_TIME_IN_MILLIS: Long = 60000
     lateinit var countdownTimer: TextView
-    var counter = 60
     private var mTimeLeftInMillis = START_TIME_IN_MILLIS
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signup_pg2)
-        supportActionBar?.hide()
-
-
-        // OTP expiry timer
+        
         countdownTimer = findViewById(R.id.countdownTimer)
-
-        //////////////////////Parse Mobile Num on textview/////////////////////////
-
-
-        //////////////////////Parse code Num on pinview/////////////////////////
-      //  val datacode: String? = intent.getStringExtra("datacode")
-        val datacode="1234"
-        pinview.value = datacode!!
+        val datacode: String? = intent.getStringExtra("datacode")
+        if(BuildConfig.DEBUG){
+            pinview.value = datacode!!
+        }
 
 
-        textView3501.setOnClickListener() {
+        resend_btn.setOnClickListener {
             if (mTimeLeftInMillis >= 1000) {
                 HelpFunctions.ShowLongToast(
                     getString(R.string.Pleasewaituntilthecodeexpires),
@@ -57,13 +47,12 @@ class SignupPg2 : AppCompatActivity() {
                 )
             } else {
                 resendCodeApi()
-                startTimeCounter(View(this@SignupPg2))
-                button3.isEnabled = true
+
             }
 
         }
 
-        startTimeCounter(View(this@SignupPg2))
+        startTimeCounter()
     }
 
 
@@ -155,23 +144,24 @@ class SignupPg2 : AppCompatActivity() {
         val passcode: String? = intent.getStringExtra("datapassword")
         val resendmodel = User(email=email!!, password = passcode!!)
 
-        val call: Call<ResponseBody> = malqa.resendcode(resendmodel)
-        call.enqueue(object : Callback<ResponseBody> {
+        val call = malqa.resendcode(resendmodel)
+        call.enqueue(object : Callback<GeneralRespone> {
 
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+            override fun onFailure(call: Call<GeneralRespone>, t: Throwable) {
 
                 t.message?.let { HelpFunctions.ShowLongToast(it, this@SignupPg2) }
 
             }
 
-            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+            override fun onResponse(call: Call<GeneralRespone>, response: Response<GeneralRespone>) {
 
                 if (response.isSuccessful) {
-                    val reader: Reader = InputStreamReader(response.body()?.byteStream(), "UTF-8")
-                    val data = Gson().fromJson(reader, ResendCodeResponseBodyModel::class.java)
-                    val otppcode = data.data
-                    pinview.value = otppcode
-
+                    val otppcode = response.body()?.data
+                    if(BuildConfig.DEBUG){
+                        pinview.value = otppcode
+                    }
+                    startTimeCounter()
+                    button3.isEnabled = true
                 } else {
                     HelpFunctions.ShowLongToast(
                         getString(R.string.VerificationFailed),
@@ -182,13 +172,12 @@ class SignupPg2 : AppCompatActivity() {
         })
     }
 
-    fun startTimeCounter(view: View) {
+    fun startTimeCounter() {
 
         object : CountDownTimer(START_TIME_IN_MILLIS, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 mTimeLeftInMillis = millisUntilFinished
-                var seconds = (mTimeLeftInMillis / 1000).toInt() % 60
-//                countdownTimer.text = "$seconds Seconds"
+                val seconds = (mTimeLeftInMillis / 1000).toInt() % 60
                 countdownTimer.text = getString(R.string.Seconds, seconds)
 
             }

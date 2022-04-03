@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             app:spanCount="2"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            tools:listitem="@layout/itemselling_watchlist" />
+            tools:listitem="@layout/product_item" />
 
 
     </LinearLayout>

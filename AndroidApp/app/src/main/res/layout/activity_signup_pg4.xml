@@ -1,218 +1,189 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true">
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="@dimen/_10sdp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:background="@drawable/main_logo" />
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:fontFamily="@font/madani_arabic_bold"
+            android:text="@string/one_step_left"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_16sdp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:fontFamily="@font/madani_arabic_light"
+            android:text="@string/enter_your_address_name_and_age_details"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12sdp" />
+
+        <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
+            android:id="@+id/firstName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_25sdp"
+            android:hint="@string/First_Name"
+            android:inputType="textCapWords"
+            app:startIcon="@drawable/ic_user" />
+
+        <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
+            android:id="@+id/editTextlastname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:hint="@string/Last_Name"
+            android:inputType="textCapWords"
+            app:startIcon="@drawable/ic_user" />
+
+        <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
+            android:id="@+id/date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:hint="@string/EnterDateofBirth"
+            app:startIcon="@drawable/ic_calendar"
+            app:viewType="spinner" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:fontFamily="@font/madani_arabic_light"
+            android:text="@string/Gender"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12sdp" />
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:padding="@dimen/_10sdp">
+            android:layout_marginTop="@dimen/_10sdp"
+            android:orientation="horizontal">
 
-            <ImageView
+            <com.malka.androidappp.helper.widgets.CustomRadioButton
+                android:id="@+id/radiomale"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_30sdp"
-                android:background="@drawable/main_logo" />
+                android:checked="false"
+                android:text="@string/Male" />
 
-            <TextView
-
+            <com.malka.androidappp.helper.widgets.CustomRadioButton
+                android:id="@+id/radiofemale"
                 android:layout_width="wrap_content"
+
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:fontFamily="@font/madani_arabic_bold"
-                android:text="@string/one_step_left"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_16sdp" />
+                android:checked="false"
+                android:text="@string/Female" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:fontFamily="@font/madani_arabic_light"
-                android:text="@string/enter_your_address_name_and_age_details"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_12sdp" />
-
-            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
-                android:id="@+id/firstName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_25sdp"
-                android:hint="@string/First_Name"
-                android:inputType="textPersonName"
-                app:startIcon="@drawable/ic_user" />
-
-            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
-                android:id="@+id/editTextlastname"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:hint="@string/Last_Name"
-                android:inputType="textPersonName"
-                app:startIcon="@drawable/ic_user" />
-
-            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
-                android:id="@+id/date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:hint="@string/EnterDateofBirth"
-                app:startIcon="@drawable/ic_calendar"
-                app:viewType="spinner" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:fontFamily="@font/madani_arabic_light"
-                android:text="@string/Gender"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_12sdp" />
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:orientation="horizontal">
-
-                <com.malka.androidappp.helper.widgets.CustomRadioButton
-                    android:id="@+id/radiomale"
-                    android:layout_width="wrap_content"
-
-                    android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:text="@string/Male" />
-
-                <com.malka.androidappp.helper.widgets.CustomRadioButton
-                    android:id="@+id/radiofemale"
-                    android:layout_width="wrap_content"
-
-                    android:layout_height="wrap_content"
-                    android:checked="false"
-                    android:text="@string/Female" />
-
-
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:layout_marginTop="@dimen/_5sdp"
-
-                android:text="@string/address_details" />
-
-
-            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
-                android:id="@+id/select_country"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:hint="@string/Country"
-                android:inputType="textPersonName"
-                app:endIcon="@drawable/ic_arrow_down"
-                app:startIcon="@drawable/ic_region"
-                app:viewType="spinner" />
-
-            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
-                android:id="@+id/select_region"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:hint="@string/Region"
-                android:inputType="textPersonName"
-                app:endIcon="@drawable/ic_arrow_down"
-                app:startIcon="@drawable/ic_region"
-                app:viewType="spinner" />
-
-            <TextView
-                android:id="@+id/errorregion_s4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:paddingTop="@dimen/_2sdp"
-                android:paddingBottom="@dimen/_2sdp"
-                android:text="ERROR"
-                android:textColor="@color/Red"
-                android:visibility="gone" />
-
-
-            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
-                android:id="@+id/select_city"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:hint="@string/district"
-                android:inputType="textPersonName"
-                app:endIcon="@drawable/ic_arrow_down"
-                app:startIcon="@drawable/ic_city"
-                app:viewType="spinner" />
-
-            <TextView
-                android:id="@+id/errorcity_s4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:paddingTop="@dimen/_2sdp"
-                android:paddingBottom="@dimen/_2sdp"
-                android:text="ERROR"
-                android:textColor="@color/Red"
-                android:visibility="gone" />
-
-
-            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
-                android:id="@+id/Area"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:hint="@string/Area"
-                android:inputType="text" />
-
-
-            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
-                android:id="@+id/streetNUmber"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:hint="@string/StreetNumber"
-                android:inputType="text" />
-
-            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
-                android:id="@+id/county_code"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:hint="@string/ZipCode"
-                android:inputType="text"
-                app:imeOptions="done" />
-
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/confirm_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_20sdp"
-                android:background="@drawable/round_btn"
-                android:fontFamily="@font/madani_arabic_semi_bold"
-                android:text="@string/SignUp"
-                android:textAllCaps="false"
-                android:textColor="#ffffff"
-                android:textSize="@dimen/_14sdp" />
 
         </LinearLayout>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginTop="@dimen/_5sdp"
 
-    </ScrollView>
+            android:text="@string/address_details" />
 
 
-</RelativeLayout>
+        <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
+            android:id="@+id/select_country"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:hint="@string/Country"
+            android:inputType="textPersonName"
+            app:endIcon="@drawable/ic_arrow_down"
+            app:startIcon="@drawable/ic_region"
+            app:viewType="spinner" />
+
+        <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
+            android:id="@+id/select_region"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:hint="@string/Region"
+            android:inputType="textPersonName"
+            app:endIcon="@drawable/ic_arrow_down"
+            app:startIcon="@drawable/ic_region"
+            app:viewType="spinner" />
+
+
+
+
+        <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
+            android:id="@+id/select_city"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:hint="@string/district"
+            android:inputType="textPersonName"
+            app:endIcon="@drawable/ic_arrow_down"
+            app:startIcon="@drawable/ic_city"
+            app:viewType="spinner" />
+
+
+        <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
+            android:id="@+id/Area"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:hint="@string/Area"
+            android:inputType="text" />
+
+
+        <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
+            android:id="@+id/streetNUmber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:hint="@string/StreetNumber"
+            android:inputType="text" />
+
+        <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
+            android:id="@+id/county_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:hint="@string/ZipCode"
+            android:inputType="text"
+            app:imeOptions="done" />
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/confirm_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:background="@drawable/round_btn"
+            android:fontFamily="@font/madani_arabic_semi_bold"
+            android:text="@string/SignUp"
+            android:textAllCaps="false"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/_14sdp" />
+
+    </LinearLayout>
+
+
+</ScrollView>

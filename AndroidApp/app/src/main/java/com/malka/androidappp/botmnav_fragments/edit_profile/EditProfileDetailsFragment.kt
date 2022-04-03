@@ -40,6 +40,7 @@ class EditProfileDetailsFragment : Fragment() {
     lateinit var district: TextInputEditText
     lateinit var regionSpinner: Spinner
     lateinit var citySpinner: Spinner
+    var areaa = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -321,7 +322,7 @@ class EditProfileDetailsFragment : Fragment() {
             val call: Call<User> = malqaa.updateUserSiginup(
                 User(
                     id = userId4,
-                    fullName = firstname,
+                    firstName = firstname,
                     lastname = lastnaam,
                     gender = genderRadiobtnnn,
                     phone = null,
@@ -330,7 +331,7 @@ class EditProfileDetailsFragment : Fragment() {
                     city = city,
                     address = address,
                     dateOfBirth = dateofbirth,
-                    area = SaveStaticGetUserData.areaa,
+                    area = areaa,
                     distric = districnamee,
                     zipcode = zipCodee
                 )
@@ -448,7 +449,7 @@ class EditProfileDetailsFragment : Fragment() {
 
                     val returnarea: String =
                         if (response.body()!!.data.area != null) response.body()!!.data.area.toString() else ""
-                    SaveStaticGetUserData.areaa = returnarea
+                    areaa = returnarea
                     HelpFunctions.dismissProgressBar()
 
                 }

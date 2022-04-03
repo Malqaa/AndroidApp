@@ -1,6 +1,5 @@
 package com.malka.androidappp.activities_main.login
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -8,12 +7,10 @@ import android.util.Patterns
 import android.view.View
 import android.widget.Toast
 import com.malka.androidappp.R
-import com.malka.androidappp.base.BaseActivity
-import com.malka.androidappp.activities_main.MainActivity
-import com.malka.androidappp.activities_main.forgot.forgot_password.ForgotPasswordActivty
+import com.malka.androidappp.activities_main.forgot.ForgotPasswordActivty
 import com.malka.androidappp.activities_main.signup_account.signup_pg1.SignupPg1
+import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
-import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass.Companion.islogin
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.helper.HelpFunctions.Companion.PASSWORD_PATTERN
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
@@ -24,26 +21,16 @@ import kotlinx.android.synthetic.main.activity_sign_in.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.regex.Pattern
 
+ class SignInActivity : BaseActivity() {
 
-open class SignInActivity : BaseActivity() {
-    var calledfromsigninactivity = false
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
+     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        calledfromsigninactivity = true
-
-        // To set language
 
 
-        ConstantObjects.currentLanguage = getLanguage()
+         ConstantObjects.currentLanguage = getLanguage()
+         setContentView(R.layout.activity_sign_in)
 
-        setContentView(R.layout.activity_sign_in)
-        supportActionBar?.hide()
-
-        updateViews()
 
 
         Forgot_your_password.setOnClickListener {
@@ -81,28 +68,14 @@ open class SignInActivity : BaseActivity() {
 
     }
 
-    ///////////////////////////////////save id/password on checkbox all functions //////////calling on top and down///////////////////////////
-    private var text: String? = null
-    private var text2: String? = null
 
 
 
 
 
-    open fun updateViews() {
-        email_tv.setText(text)
-        passwword_tv.setText(text2)
 
-    }
 
-    ////////////////////////////////SignIn to homepage with parse data///////////////////////////////////////
-    //fun signtohome()
-    fun signtohome(context: Context, activity: Activity) {
-        val intentt = Intent(context, MainActivity::class.java)
-        context.startActivity(intentt)
-        finish()
-        activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
-    }
+
 
 
     override fun onBackPressed() {
@@ -111,7 +84,6 @@ open class SignInActivity : BaseActivity() {
 
     }
 
-    ////////////////////////////////Data Validation///////////////////////////////////
 
 
     private fun validateEmail(): Boolean {
@@ -177,23 +149,23 @@ open class SignInActivity : BaseActivity() {
                     ConstantObjects.logged_userid = response.body()!!.data.id
                     ConstantObjects.isBusinessUser = response.body()!!.data.isBusinessUser > 0
                     // To check if user is approved user or not
-                    if (response.body()!!.data.isBusinessUser < 1 || response.body()!!.data.isBusinessUser > 1) {
+                  //  if (response.body()!!.data.isBusinessUser < 1 || response.body()!!.data.isBusinessUser > 1) {
                         val userId: String = response.body()!!.data.id
                         ConstantObjects.logged_userid = userId
-                        if (calledfromsigninactivity != null && calledfromsigninactivity) {
                             HelpFunctions.ShowLongToast(
                                 getString(R.string.LoginSuccessfully),
                                 context
                             )
-                            Paper.book().write(islogin,true)
+                            Paper.book().write(SharedPreferencesStaticClass.islogin,true)
+                            Paper.book().write(SharedPreferencesStaticClass.logged_userid,userId)
                            finish()
-                        }
-                    } else {
-                        HelpFunctions.ShowLongToast(
-                            getString(R.string.Youraccountisnotapproved),
-                            context
-                        )
-                    }
+
+//                    } else {
+//                        HelpFunctions.ShowLongToast(
+//                            getString(R.string.Youraccountisnotapproved),
+//                            context
+//                        )
+//                    }
                 } else {
                     HelpFunctions.ShowLongToast(
                         getString(R.string.InvalidUsernameorPassword),

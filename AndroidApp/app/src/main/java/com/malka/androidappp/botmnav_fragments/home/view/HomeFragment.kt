@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager.widget.ViewPager
 import com.malka.androidappp.R
+import com.malka.androidappp.activities_main.MainActivity
 import com.malka.androidappp.activities_main.login.SignInActivity
 import com.malka.androidappp.botmnav_fragments.browse_market.BrowseMarketFragment
 import com.malka.androidappp.botmnav_fragments.home.model.AllCategoriesModel
@@ -81,10 +82,9 @@ class HomeFragment : Fragment(R.layout.fragment_homee),
         //Zack
         //Date: 03/14/2021
         //If user has logged in
-        if (ConstantObjects.logged_userid.trim().length > 0) {
+        if (HelpFunctions.IsUserLoggedIn()) {
 
-              HelpFunctions.GetUserWatchlist();
-            HelpFunctions. GetUserInfo(ConstantObjects.logged_userid)
+              HelpFunctions.GetUserWatchlist()
             //  HelpFunctions.GetUsersCartList(requireContext());
           //  HelpFunctions.GetUserCreditCards(this@HomeFragment);
           //  HelpFunctions.GetUserShippingAddress(this@HomeFragment);
@@ -145,7 +145,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee),
 
 
         val malqaa = RetrofitBuilder.GetRetrofitBuilder()
-        val call: Call<AllCategoriesResponseBack> = malqaa.getAllCategories()
+        val call: Call<AllCategoriesResponseBack> = malqaa.getAllCategories((requireActivity() as MainActivity).culture())
 
         call.enqueue(object : Callback<AllCategoriesResponseBack> {
             @SuppressLint("UseRequireInsteadOfGet")

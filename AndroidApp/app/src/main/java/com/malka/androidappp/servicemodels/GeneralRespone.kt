@@ -8,5 +8,5 @@ data class GeneralRespone(
     val message: String,
     val status_code: Int,
     val isError: Boolean,
-    val data: List<String>
+    val data: String
 ):Serializable

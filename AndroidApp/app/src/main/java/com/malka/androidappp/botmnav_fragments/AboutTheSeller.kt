@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.malka.androidappp.R
 import com.malka.androidappp.botmnav_fragments.sellerdetails.Advertisement
-import com.malka.androidappp.botmnav_fragments.sellerdetails.DetailOfUser
 import com.malka.androidappp.botmnav_fragments.sellerdetails.SellerResponseBack
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.helper.HelpFunctions
@@ -117,7 +116,7 @@ class AboutTheSeller : Fragment() {
                     val details: SellerResponseBack = response.body()!!
                     if (details != null) {
 
-                        var sellerData: DetailOfUser = response.body()!!.data.detailOfUser
+                        var sellerData = response.body()!!.data.detailOfUser
                         var sellerAdCount: List<Advertisement> =
                             response.body()!!.data.advertisements
 
@@ -128,7 +127,7 @@ class AboutTheSeller : Fragment() {
                             sellersTotalListing.text = getString(R.string.listing, 0)
                         }
                         sellerName.text = sellerData.username
-                        userName = sellerData.username
+                        userName = sellerData.username!!
                         sellerFirstName.text = sellerData.fullName
                         sellerLastName.text = sellerData.lastname
                         sellerGender.text = sellerData.gender

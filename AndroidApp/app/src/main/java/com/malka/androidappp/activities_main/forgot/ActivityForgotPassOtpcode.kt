@@ -1,4 +1,4 @@
-package com.malka.androidappp.activities_main.forgot.forgotpass_otpactivity
+package com.malka.androidappp.activities_main.forgot
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -7,7 +7,6 @@ import android.view.View
 import com.malka.androidappp.BuildConfig
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.signup_account.signup_pg2.PostReqVerifyCode
-import com.malka.androidappp.activities_main.forgot.forgot_changepass_reset_activity.ForgotChangepassActivity
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
@@ -84,7 +83,7 @@ class ActivityForgotPassOtpcode : AppCompatActivity() {
                 if (response.isSuccessful) {
                     val getpin: String = pinview234.getValue().toString().trim()
                     val getidd = intent.getStringExtra("getid")
-                    val intenddd = Intent(this@ActivityForgotPassOtpcode,ForgotChangepassActivity::class.java)
+                    val intenddd = Intent(this@ActivityForgotPassOtpcode, ForgotChangepassActivity::class.java)
                     intenddd.putExtra("getidd",getidd)
                     intenddd.putExtra("getcodee",getpin)
                     startActivity(intenddd)

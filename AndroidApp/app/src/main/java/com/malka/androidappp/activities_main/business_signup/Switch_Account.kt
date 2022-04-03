@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.widget.Filter
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import com.malka.androidappp.R
 import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.botmnav_fragments.activities_main.business_signup.BusinessAccountCreate

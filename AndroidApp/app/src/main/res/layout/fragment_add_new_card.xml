@@ -103,12 +103,14 @@
     <Button
         android:id="@+id/save_card"
         android:layout_width="match_parent"
-          android:layout_margin="@dimen/_15sdp"
-        android:background="@drawable/round_btn"
         android:layout_height="64dp"
         android:layout_alignParentBottom="true"
+        android:layout_marginStart="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_marginEnd="@dimen/_15sdp"
+        android:layout_marginBottom="@dimen/_15sdp"
+        android:background="@drawable/round_btn"
         android:text="Save"
         android:textColor="@color/white"
-        android:textStyle="bold"
-        />
+        android:textStyle="bold" />
 </RelativeLayout>

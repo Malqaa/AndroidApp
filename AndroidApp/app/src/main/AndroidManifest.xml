@@ -42,8 +42,7 @@
             android:exported="false" />
         <activity
             android:name=".activities_main.business_signup.Switch_Account"
-            android:exported="true"
-            android:theme="@style/NoActionBar" />
+            android:exported="true" />
         <activity
             android:name=".activities_main.FullImageActivity"
             android:exported="false" />
@@ -52,112 +51,68 @@
             android:exported="false" />
         <activity
             android:name=".activities_main.order.CartActivity"
-            android:exported="true"
-            android:theme="@style/NoActionBar" />
+            android:exported="true" />
         <activity
             android:name=".design.order_done"
             android:exported="false" />
         <activity
             android:name=".design.negotiation_offers1"
-            android:exported="true"
-            android:theme="@style/NoActionBar" />
+            android:exported="true" />
         <activity
             android:name=".design.ProductReviews"
-            android:exported="true"
-            android:theme="@style/NoActionBar" />
+            android:exported="true" />
         <activity
             android:name=".activities_main.product_detail.ProductDetails"
-            android:exported="true"
-            android:theme="@style/NoActionBar" />
+            android:exported="true" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity
-            android:name=".botmnav_fragments.activities_main.business_signup.BusinessSignupPg3"
-            android:theme="@style/NoActionBar" />
-        <activity
-            android:name=".botmnav_fragments.activities_main.business_signup.BusinessAccountCreate"
-            android:theme="@style/NoActionBar" />
-        <activity
-            android:name=".activities_main.forgot.forgot_changepass_reset_activity.ForgotChangepassActivity"
-            android:theme="@style/NoActionBar" />
-        <activity
-            android:name=".activities_main.forgot.forgotpass_otpactivity.ActivityForgotPassOtpcode"
-            android:theme="@style/NoActionBar" />
+
+        <activity android:name=".botmnav_fragments.activities_main.business_signup.BusinessAccountCreate" />
+        <activity android:name=".activities_main.forgot.ForgotChangepassActivity" />
+        <activity android:name=".activities_main.forgot.ActivityForgotPassOtpcode" />
         <activity
             android:name=".activities_main.SplashActivity"
             android:exported="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/NoActionBar">
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activities_main.MainActivity"
-            android:label="Bottom Nav"
-            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".activities_main.MainActivity" />
         <activity
             android:name=".activities_main.login.SignInActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".activities_main.signup_account.signup_pg1.SignupPg1"
-            android:theme="@style/NoActionBar"
-            android:windowSoftInputMode="adjustPan" />
-        <activity
-            android:name=".activities_main.signup_account.signup_pg2.SignupPg2"
-            android:theme="@style/NoActionBar" />
-        <activity
-            android:name=".activities_main.signup_account.signup_pg3.SignupPg3"
-            android:theme="@style/NoActionBar"
-            android:windowSoftInputMode="adjustPan" />
-        <activity
-            android:name=".activities_main.forgot.forgot_password.ForgotPasswordActivty"
-            android:theme="@style/NoActionBar" />
-        <activity
-            android:name=".activities_main.add_product.ListanItem"
-            android:theme="@style/NoActionBar" />
-        <activity
-            android:name=".activities_main.add_product.ChooseCategory"
-            android:theme="@style/NoActionBar" />
-        <activity
-            android:name=".activities_main.add_product.all_categories.SubCategories"
-            android:theme="@style/NoActionBar" />
-        <activity
-            android:name=".activities_main.add_product.AddPhoto"
-            android:theme="@style/NoActionBar" />
-        <activity
-            android:name=".activities_main.add_product.DynamicTemplate"
-            android:theme="@style/NoActionBar" />
-        <activity
-            android:name=".activities_main.add_product.ListingDetails"
-            android:theme="@style/NoActionBar" />
-        <activity
-            android:name=".activities_main.add_product.PricingActivity"
-            android:theme="@style/NoActionBar" />
-        <activity
-            android:name=".activities_main.add_product.ListingDuration"
-            android:theme="@style/NoActionBar" />
-        <activity
-            android:name=".activities_main.add_product.PromotionalActivity"
-            android:theme="@style/NoActionBar" />
-        <activity
-            android:name=".activities_main.add_product.Confirmation"
-            android:theme="@style/NoActionBar" />
-        <activity
-            android:name=".activities_main.add_product.ContinueActivity"
-            android:theme="@style/NoActionBar" />
+        <activity android:name=".activities_main.signup_account.signup_pg1.SignupPg1"
+
+            />
+        <activity android:name=".activities_main.signup_account.signup_pg2.SignupPg2" />
+        <activity android:name=".activities_main.signup_account.signup_pg3.SignupPg3"
+
+            />
+        <activity android:name=".activities_main.forgot.ForgotPasswordActivty" />
+        <activity android:name=".activities_main.add_product.ListanItem" />
+        <activity android:name=".activities_main.add_product.ChooseCategory" />
+        <activity android:name=".activities_main.add_product.all_categories.SubCategories" />
+        <activity android:name=".activities_main.add_product.AddPhoto" />
+        <activity android:name=".activities_main.add_product.DynamicTemplate" />
+        <activity android:name=".activities_main.add_product.ListingDetails" />
+        <activity android:name=".activities_main.add_product.PricingActivity" />
+        <activity android:name=".activities_main.add_product.ListingDuration" />
+        <activity android:name=".activities_main.add_product.PromotionalActivity" />
+        <activity android:name=".activities_main.add_product.Confirmation" />
+        <activity android:name=".activities_main.add_product.ContinueActivity" />
         <activity
             android:name="com.zfdang.multiple_images_selector.ImagesSelectorActivity"
             android:configChanges="orientation|screenSize"
             android:hardwareAccelerated="false" />
-        <activity
-            android:name=".botmnav_fragments.browse_market.BrowseMarketFragment"
-            android:configChanges="orientation|screenSize" />
+        <activity android:name=".botmnav_fragments.browse_market.BrowseMarketFragment" />
+
+        <activity android:name=".botmnav_fragments.account_fragment.address.AddAddress" />
     </application>
 
 </manifest>

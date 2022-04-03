@@ -4,6 +4,7 @@ import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Bundle
 import com.malka.androidappp.R
+import com.malka.androidappp.activities_main.signup_account.signup_pg3.SignupPg3
 import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
@@ -33,6 +34,7 @@ class SplashActivity : BaseActivity() {
             splash_view.setOnCompletionListener(MediaPlayer.OnCompletionListener {
                 if (isFinishing) return@OnCompletionListener
                 else {
+               //     val intentt = Intent(this@SplashActivity, SignupPg3::class.java)
                     val intentt = Intent(this@SplashActivity, MainActivity::class.java)
                     this@SplashActivity.startActivity(intentt)
                     finish()

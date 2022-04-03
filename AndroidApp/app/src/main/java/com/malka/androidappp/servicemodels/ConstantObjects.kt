@@ -40,5 +40,8 @@ class ConstantObjects {
         @JvmStatic
         var data= "data"
 
+        var View= "View"
+        var Select= "Select"
+
     }
 }

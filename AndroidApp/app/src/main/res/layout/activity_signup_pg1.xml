@@ -91,7 +91,6 @@
                 android:hint="@string/PhoneNumber"
                 android:inputType="phone"
                 app:endText="+965"
-                app:imeOptions="done"
                 app:startIcon="@drawable/ic_phone" />
 
 
@@ -194,9 +193,6 @@
         </LinearLayout>
     </ScrollView>
 
-    <include
-        android:visibility="gone"
-        android:id="@+id/loader"
-        layout="@layout/loader_layout" />
+
 
 </RelativeLayout>

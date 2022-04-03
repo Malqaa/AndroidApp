@@ -25,22 +25,31 @@
 
 
                 <RadioButton
+                    android:id="@+id/is_select_"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
-                    android:fontFamily="@font/madani_arabic_medium"
                     android:layout_centerVertical="true"
+                  />
 
+
+                <TextView
+                    android:layout_toEndOf="@+id/is_select_"
+                    android:id="@+id/address_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:fontFamily="@font/madani_arabic_medium"
                     android:text="@string/delivery_to_my_current_address"
                     android:textColor="@color/grey"
                     android:textSize="@dimen/_10sdp" />
 
 
                 <ImageView
-                    android:layout_centerVertical="true"
                     android:layout_width="@dimen/_30sdp"
                     android:layout_height="@dimen/_25sdp"
                     android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
                     android:layout_gravity="bottom"
                     android:src="@drawable/edit_button" />
 
@@ -48,12 +57,11 @@
             </RelativeLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_30sdp"
-                android:orientation="horizontal">
+                android:layout_marginStart="@dimen/_10sdp"
 
-
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
                 <TextView
                     android:id="@+id/country_name"
                     android:layout_width="wrap_content"
@@ -61,129 +69,20 @@
                     android:fontFamily="@font/madani_arabic_light"
                     android:gravity="center_vertical"
                     android:text="First honored"
-                    android:textColor="#000000"
-                    android:textSize="@dimen/_10sdp" />
 
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="@dimen/_3sdp"
-                    android:fontFamily="@font/madani_arabic_light"
-                    android:gravity="center_vertical"
-                    android:text="-"
-                    android:textColor="#000000"
-                    android:textSize="@dimen/_10sdp" />
-
-
-                <TextView
-                    android:id="@+id/city_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="@dimen/_3sdp"
-                    android:fontFamily="@font/madani_arabic_light"
-                    android:gravity="center_vertical"
-                    android:text="Nasr City"
-                    android:textColor="#000000"
-                    android:textSize="@dimen/_10sdp" />
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="@dimen/_3sdp"
-                    android:fontFamily="@font/madani_arabic_light"
-                    android:gravity="center_vertical"
-                    android:text="-"
                     android:textColor="#000000"
                     android:textSize="@dimen/_10sdp" />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="@dimen/_3sdp"
-                    android:fontFamily="@font/madani_arabic_light"
-                    android:gravity="center_vertical"
-                    android:text="Cairo"
-                    android:textColor="#000000"
-                    android:textSize="@dimen/_10sdp" />
-
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_30sdp"
-                android:layout_marginTop="@dimen/_2sdp"
-                android:orientation="horizontal">
-
-
-                <TextView
-                    android:id="@+id/house_no"
+                    android:id="@+id/address_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/madani_arabic_light"
                     android:gravity="center_vertical"
-                    android:text="B134679"
+                    android:text="First honored"
+
                     android:textColor="#000000"
                     android:textSize="@dimen/_10sdp" />
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="@dimen/_3sdp"
-                    android:fontFamily="@font/madani_arabic_light"
-                    android:gravity="center_vertical"
-                    android:text="-"
-                    android:textColor="#000000"
-                    android:textSize="@dimen/_10sdp" />
-
-
-                <TextView
-                    android:id="@+id/adress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="@dimen/_3sdp"
-                    android:fontFamily="@font/madani_arabic_light"
-                    android:gravity="center_vertical"
-                    android:text="Cairo Building 22"
-                    android:textColor="#000000"
-                    android:textSize="@dimen/_10sdp" />
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="@dimen/_3sdp"
-                    android:fontFamily="@font/madani_arabic_light"
-                    android:gravity="center_vertical"
-                    android:text="-"
-                    android:textColor="#000000"
-                    android:textSize="@dimen/_10sdp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="@dimen/_3sdp"
-                    android:fontFamily="@font/madani_arabic_light"
-                    android:gravity="center_vertical"
-                    android:text="Fourth Floor"
-                    android:textColor="#000000"
-                    android:textSize="@dimen/_10sdp" />
-
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_30sdp"
-                android:orientation="horizontal">
-
 
                 <TextView
                     android:id="@+id/phonenum"
@@ -191,12 +90,13 @@
                     android:layout_height="match_parent"
                     android:fontFamily="@font/madani_arabic_light"
                     android:gravity="center_vertical"
-                    android:text="+966 49 979 4979"
+                    android:text="First honored"
+
                     android:textColor="#000000"
                     android:textSize="@dimen/_10sdp" />
 
-
             </LinearLayout>
+
 
 
         </LinearLayout>

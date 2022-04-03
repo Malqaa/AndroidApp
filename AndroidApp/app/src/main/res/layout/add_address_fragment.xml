@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".botmnav_fragments.account_fragment.address.add_address">
+    tools:context=".botmnav_fragments.account_fragment.address.AddAddress">
 
     <include
         android:id="@+id/toolbar_main"
@@ -116,7 +116,6 @@
                 android:layout_marginTop="@dimen/_20sdp"
                 android:background="@drawable/round_btn"
                 android:fontFamily="@font/madani_arabic_semi_bold"
-                android:onClick="addressconfirmInput"
                 android:text="ADD"
                 android:textAllCaps="false"
                 android:textColor="#ffffff"
@@ -129,10 +128,6 @@
     </ScrollView>
 
 
-    <include
-        android:visibility="gone"
-        android:id="@+id/loader"
-        layout="@layout/loader_layout" />
 
 
 </RelativeLayout>

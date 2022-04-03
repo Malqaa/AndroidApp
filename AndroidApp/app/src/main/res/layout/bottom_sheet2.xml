@@ -7,8 +7,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@drawable/product_attribute_bg4">
+        android:background="@drawable/product_attribute_bg4"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -21,8 +21,8 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_4sdp"
-                android:gravity="center"
                 android:layout_marginTop="@dimen/_10sdp"
+                android:gravity="center"
                 android:src="@drawable/line1" />
 
 
@@ -30,53 +30,51 @@
                 android:id="@+id/person_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/madani_arabic_medium"
-                android:text="Ahmed Mohamed "
                 android:layout_marginTop="@dimen/_10sdp"
-                android:textSize="@dimen/_14sdp"
+                android:fontFamily="@font/madani_arabic_medium"
                 android:gravity="center"
-                android:textColor="#262626" />
-
+                android:text="Ahmed Mohamed "
+                android:textColor="#262626"
+                android:textSize="@dimen/_14sdp" />
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal"
                 android:layout_marginTop="@dimen/_5sdp"
-                android:gravity="center">
+                android:gravity="center"
+                android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/madani_arabic_light"
+                    android:gravity="center"
                     android:text="Ahmed Mohamed "
-                    android:textSize="@dimen/_10sdp"
-                    android:gravity="center"
-                    android:textColor="#262626" />
+                    android:textColor="#262626"
+                    android:textSize="@dimen/_10sdp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/madani_arabic_medium"
+                    android:gravity="center"
                     android:text="17849 "
-                    android:textSize="@dimen/_10sdp"
-                    android:gravity="center"
-                    android:textColor="@color/bg" />
-
+                    android:textColor="@color/bg"
+                    android:textSize="@dimen/_10sdp" />
 
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/madani_arabic_medium"
-                    android:text="Rial "
-                    android:textSize="@dimen/_10sdp"
                     android:gravity="center"
-                    android:textColor="@color/bg" />
+                    android:text="Rial "
+                    android:textColor="@color/bg"
+                    android:textSize="@dimen/_10sdp" />
 
 
             </LinearLayout>
-
 
 
             <LinearLayout
@@ -85,19 +83,19 @@
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_15sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
-                android:gravity="center"
-                android:background="@drawable/edittext_bg">
+                android:background="@drawable/edittext_bg"
+                android:gravity="center">
 
                 <LinearLayout
-                    android:layout_weight="1"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_15sdp"
-                        android:src="@drawable/mastercard"/>
+                        android:src="@drawable/mastercard" />
 
 
                 </LinearLayout>
@@ -111,12 +109,13 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginEnd="@dimen/_10sdp"
                         android:fontFamily="@font/madani_arabic_light"
                         android:text="*********5456"
                         android:textColor="@color/bg"
-                        android:layout_marginStart="@dimen/_10sdp"
-                        android:layout_marginEnd="@dimen/_10sdp"
                         android:textSize="@dimen/_10sdp" />
+
                     <RadioButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -126,15 +125,14 @@
             </LinearLayout>
 
 
-
-
             <LinearLayout
+                android:id="@+id/add_a_new_account"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_40sdp"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:background="@drawable/edittext_bg"
                 android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
+                android:background="@drawable/edittext_bg"
                 android:orientation="horizontal">
 
                 <TextView
@@ -142,11 +140,10 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:fontFamily="@font/madani_arabic_light"
-                    android:text="@string/add_a_new_account"
-                    android:textColor="@color/grey"
                     android:gravity="center"
+                    android:text="@string/AddaNewCard"
+                    android:textColor="@color/grey"
                     android:textSize="@dimen/_12sdp" />
-
 
 
             </LinearLayout>
@@ -165,13 +162,6 @@
                 android:textAllCaps="false"
                 android:textColor="#ffffff"
                 android:textSize="@dimen/_14sdp" />
-
-
-
-
-
-
-
 
 
         </LinearLayout>

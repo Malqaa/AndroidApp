@@ -10,7 +10,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Patterns
-import android.view.WindowManager
 import android.webkit.URLUtil
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -44,7 +43,7 @@ import com.malka.androidappp.servicemodels.ImageSelectModel
 import com.malka.androidappp.servicemodels.LocationPickerModel
 import com.zfdang.multiple_images_selector.ImagesSelectorActivity
 import com.zfdang.multiple_images_selector.SelectorSettings
-import kotlinx.android.synthetic.main.activity_business_signup_pg2.*
+import kotlinx.android.synthetic.main.activity_business_signup.*
 
 
 class BusinessAccountCreate : BaseActivity() {
@@ -76,7 +75,7 @@ class BusinessAccountCreate : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_business_signup_pg2)
+        setContentView(R.layout.activity_business_signup)
 
 
 
@@ -250,15 +249,6 @@ class BusinessAccountCreate : BaseActivity() {
         chooseLocationLuncher.launch(intent)
     }
 
-    fun BthirdPg() {
-        val intent = Intent(this@BusinessAccountCreate, BusinessSignupPg3::class.java)
-        startActivity(intent)
-        if (ConstantObjects.currentLanguage == "en") {
-            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
-        } else {
-            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
-        }
-    }
 
 
 

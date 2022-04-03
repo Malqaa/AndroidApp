@@ -93,6 +93,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="text"
                         android:maxLines="1"
+                        android:importantForAutofill="no"
                         android:paddingTop="@dimen/_5sdp"
                         android:textAlignment="viewStart"
                         android:textSize="@dimen/_12sdp" />

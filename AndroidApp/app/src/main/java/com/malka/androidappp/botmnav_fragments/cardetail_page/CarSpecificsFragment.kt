@@ -234,15 +234,15 @@ class CarSpecificsFragment : Fragment(), BottomsheetDialogfragClass.BottomSheetL
             var cartobj: InsertToCartRequestModel = InsertToCartRequestModel()
             cartobj.advertisementId = AdvId;
             cartobj.userid = ConstantObjects.logged_userid;
-            resp = HelpFunctions.AddToUserCart(cartobj, requireContext());
-            if (resp) {
-                findNavController().navigate(R.id.buy_now_to_checkout)
-            } else {
-                HelpFunctions.ShowLongToast(
-                    getString(R.string.Error),
-                    this@CarSpecificsFragment.context
-                )
-            }
+//            resp = HelpFunctions.AddToUserCart(cartobj, requireContext());
+//            if (resp) {
+//                findNavController().navigate(R.id.buy_now_to_checkout)
+//            } else {
+//                HelpFunctions.ShowLongToast(
+//                    getString(R.string.Error),
+//                    this@CarSpecificsFragment.context
+//                )
+//            }
             return resp;
         } else {
 //            HelpFunctions.ShowAlert(

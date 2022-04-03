@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.cardview.widget.CardView
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.malka.androidappp.R
@@ -14,13 +15,14 @@ import com.malka.androidappp.activities_main.business_signup.Switch_Account
 import com.malka.androidappp.activities_main.login.LoginData
 import com.malka.androidappp.activities_main.login.SignInActivity
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
+import com.malka.androidappp.helper.CommonAPI
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.servicemodels.ConstantObjects
 import io.paperdb.Paper
 import kotlinx.android.synthetic.main.fragment_account.*
 
 
-class AccountFragment : Fragment() {
+class AccountFragment : Fragment(R.layout.fragment_account) {
 
 
     fun disableenableoptions(enable: Boolean) {
@@ -44,23 +46,12 @@ class AccountFragment : Fragment() {
         btn_signin.isEnabled = !enable
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return LayoutInflater.from(container?.context).inflate(
-            R.layout.fragment_account,
-            container,
-            false
-        )
 
-    }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        fragment_account.isVisible=false
         if (!HelpFunctions.IsUserLoggedIn()) {
             disableenableoptions(false)
             logout_signin.visibility = View.GONE
@@ -69,11 +60,15 @@ class AccountFragment : Fragment() {
             disableenableoptions(true)
             logout_signin.visibility = View.VISIBLE
             btn_signin.visibility = View.GONE
-
-            ConstantObjects.userobj!!.run {
-                userName.text = fullName
-                member_since.text = "${getString(R.string.member_since)} $createdatFormated"
+            CommonAPI(). GetUserInfo(requireContext(),ConstantObjects.logged_userid) {
+                fragment_account.isVisible = true
+                ConstantObjects.userobj!!.run {
+                    userName.text = fullName
+                    member_since.text = "${getString(R.string.member_since)}: $createdatFormated"
+                    membership_number_tv.text = "${getString(R.string.membership_number)}: "
+                }
             }
+
 
         }
 

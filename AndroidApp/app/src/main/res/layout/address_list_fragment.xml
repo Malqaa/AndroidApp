@@ -17,64 +17,58 @@
         android:layout_below="@+id/toolbar_main"
         android:orientation="vertical">
 
-            <ScrollView
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/category_rcv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_10sdp"
+                    android:orientation="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
 
                 <LinearLayout
+                    android:id="@+id/add_new_add"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:background="@drawable/product_attribute_bg4"
+                    android:orientation="vertical"
+                    android:padding="@dimen/_10sdp">
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/category_rcv"
+
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/_10sdp"
-                        android:orientation="vertical"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        tools:listitem="@layout/add_address_design" />
-
-
-                    <LinearLayout
-                        android:id="@+id/add_new_add"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginStart="@dimen/_10sdp"
-                        android:layout_marginTop="@dimen/_10sdp"
-                        android:layout_marginEnd="@dimen/_10sdp"
-                        android:layout_marginBottom="@dimen/_10sdp"
-                        android:background="@drawable/product_attribute_bg4"
-                        android:orientation="vertical"
-                        android:padding="@dimen/_10sdp">
-
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/madani_arabic_medium"
-                            android:gravity="center"
-                            android:text="@string/add_a_new_title"
-                            android:textColor="@color/grey"
-                            android:textSize="@dimen/_10sdp" />
-
-                    </LinearLayout>
-
-
+                        android:fontFamily="@font/madani_arabic_medium"
+                        android:gravity="center"
+                        android:text="@string/add_a_new_address"
+                        android:textColor="@color/grey"
+                        android:textSize="@dimen/_10sdp" />
 
                 </LinearLayout>
 
 
-            </ScrollView>
-
-        </LinearLayout>
+            </LinearLayout>
 
 
+        </ScrollView>
 
-    <include
-        android:visibility="gone"
-        android:id="@+id/loader"
-        layout="@layout/loader_layout" />
+    </LinearLayout>
+
+
+
 
 </RelativeLayout>

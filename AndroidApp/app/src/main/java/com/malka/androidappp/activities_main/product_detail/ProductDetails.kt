@@ -1,14 +1,15 @@
 package com.malka.androidappp.activities_main.product_detail
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.graphics.PorterDuff
 import android.os.Bundle
 import android.view.View
 import android.widget.Filter
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -18,12 +19,12 @@ import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.MainActivity
 import com.malka.androidappp.activities_main.PlayActivity
 import com.malka.androidappp.activities_main.login.SignInActivity
+import com.malka.androidappp.activities_main.order.CartActivity
 import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.botmnav_fragments.cardetail_page.ModelSellerDetails
-import com.malka.androidappp.botmnav_fragments.cardetail_page.Seller
-import com.malka.androidappp.servicemodels.questionModel.Question
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.design.ProductReviews
+import com.malka.androidappp.helper.Extension.decimalNumberFormat
 import com.malka.androidappp.helper.Extension.loadThumbnail
 import com.malka.androidappp.helper.Extension.shared
 import com.malka.androidappp.helper.GenericAdaptor
@@ -34,16 +35,16 @@ import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.constants.ApiConstants
 import com.malka.androidappp.network.service.MalqaApiService
-import com.malka.androidappp.servicemodels.AdDetailModel
-import com.malka.androidappp.servicemodels.Attribute
-import com.malka.androidappp.servicemodels.ConstantObjects
-import com.malka.androidappp.servicemodels.ProductImage
+import com.malka.androidappp.servicemodels.*
 import com.malka.androidappp.servicemodels.addtocart.InsertToCartRequestModel
+import com.malka.androidappp.servicemodels.questionModel.Question
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_product_details.*
 import kotlinx.android.synthetic.main.atrribute_item.view.*
 import kotlinx.android.synthetic.main.image_item.view.*
+import kotlinx.android.synthetic.main.image_item.view.loader
 import kotlinx.android.synthetic.main.product_detail_2.*
+import kotlinx.android.synthetic.main.product_item.view.*
 import org.json.JSONArray
 import org.json.JSONObject
 import retrofit2.Call
@@ -59,11 +60,11 @@ class ProductDetails : BaseActivity() {
     val attributeList: ArrayList<Attribute> = ArrayList()
     var questionList: List<Question> = ArrayList()
 
-    lateinit var productDetailHelper:ProductDetailHelper
+    lateinit var productDetailHelper: ProductDetailHelper
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product_details)
-        productDetailHelper=ProductDetailHelper(this)
+        productDetailHelper = ProductDetailHelper(this)
         product_attribute.isVisible = true
         quest_ans_rcv.isVisible = true
         answerLayout.isVisible = false
@@ -104,7 +105,7 @@ class ProductDetails : BaseActivity() {
             onBackPressed()
         }
         btn_share.setOnClickListener {
-            shared("${ApiConstants.HTTP_PROTOCOL}://${ ApiConstants.SERVER_LOCATION2}/Advertisement/Detail/$AdvId?template=$template")
+            shared("${ApiConstants.HTTP_PROTOCOL}://${ApiConstants.SERVER_LOCATION2}/Advertisement/Detail/$AdvId?template=$template")
         }
         next_image.setOnClickListener {
 
@@ -126,12 +127,12 @@ class ProductDetails : BaseActivity() {
 
         SEEALL.setOnClickListener {
             startActivity(Intent(this, QuestionActivity::class.java).apply {
-                putExtra("AdvId",AdvId)
+                putExtra("AdvId", AdvId)
             })
         }
 
         current_price_buy.setOnClickListener {
-            AddToCart();
+            AddToCart()
         }
     }
 
@@ -318,7 +319,11 @@ class ProductDetails : BaseActivity() {
 
                     product!!.run {
                         getSellerByID(user!!)
-
+                        current_price_buy_tv.text = "${price!!.toDouble().decimalNumberFormat()} ${
+                            getString(
+                                R.string.sar
+                            )
+                        }"
                         if (!template.isNullOrEmpty()) {
                             val json_string = HelpFunctions.GetTemplatesJson(
                                 this@ProductDetails,
@@ -536,7 +541,7 @@ class ProductDetails : BaseActivity() {
 
 
     fun quesAnss() {
-        productDetailHelper. quesAnss(AdvId) {
+        productDetailHelper.quesAnss(AdvId) {
             it.run {
                 quest_ans.text = getString(
                     R.string.there_are_2_questions_that_the_seller_did_not_answer,
@@ -544,8 +549,8 @@ class ProductDetails : BaseActivity() {
                 )
 
                 questionList = questions
-                questionList=questionList.take(3)
-                GenericAdaptor(). questionAnswerAdaptor(quest_ans_rcv,questionList)
+                questionList = questionList.take(3)
+                GenericAdaptor().questionAnswerAdaptor(quest_ans_rcv, questionList)
                 if (ConstantObjects.logged_userid == SharedPreferencesStaticClass.ad_userid) {
                     askques_bottom.visibility = View.GONE
                     enableSwipeToDeleteAndUndo()
@@ -564,11 +569,10 @@ class ProductDetails : BaseActivity() {
     fun PostAnsApi(questionId: String, answer: String) {
 
 
+        productDetailHelper.PostAnsApi(questionId, answer) { respone ->
 
-        productDetailHelper. PostAnsApi(questionId,answer) {respone->
 
-
-            if (respone.status_code >= 200||respone.status_code<=299) {
+            if (respone.status_code >= 200 || respone.status_code <= 299) {
                 answerLayout.isVisible = false
                 ReplyAnswer.setText("")
                 quesAnss()
@@ -581,7 +585,6 @@ class ProductDetails : BaseActivity() {
         }
 
     }
-
 
 
     private fun getSellerByID(id: String) {
@@ -598,19 +601,26 @@ class ProductDetails : BaseActivity() {
                 response: Response<ModelSellerDetails>
             ) {
                 if (response.isSuccessful) {
-                    val sellerData: Seller = response.body()!!.data
-                    sellerName.text = sellerData.fullName
-                    seller_city.text = sellerData.city
-                    seller_number.text = sellerData.phone
+                    val sellerData = response.body()!!.data
+                    sellerData?.let {
+                        it.run {
+                            sellerName.text = fullName ?: ""
+                            seller_city.text = city
+                            seller_number.text = phone
 
-                    val imageLink = sellerData.image
-                    if (!imageLink.isNullOrEmpty()) {
-                        Picasso.get().load(imageLink)
-                            .error(R.drawable.profiledp).placeholder(R.drawable.profiledp)
-                            .into(seller_picture)
-                    } else {
-                        seller_picture.setImageResource(R.drawable.profiledp)
+                            val imageLink = image
+                            if (!imageLink.isNullOrEmpty()) {
+                                Picasso.get().load(imageLink)
+                                    .error(R.drawable.profiledp).placeholder(R.drawable.profiledp)
+                                    .into(seller_picture)
+                            } else {
+                                seller_picture.setImageResource(R.drawable.profiledp)
+                            }
+                        }
+                    } ?: kotlin.run {
+                        seller_information.isVisible = false
                     }
+
 
                 } else {
                     HelpFunctions.ShowLongToast(
@@ -628,21 +638,62 @@ class ProductDetails : BaseActivity() {
             }
         })
     }
-    fun AddToCart(): Boolean {
+
+    fun AddToCart() {
         if (HelpFunctions.IsUserLoggedIn()) {
-            val cartobj = InsertToCartRequestModel()
-            cartobj.advertisementId = AdvId;
-            cartobj.userid = ConstantObjects.logged_userid;
-            val resp = HelpFunctions.AddToUserCart(cartobj, this);
-            if (resp) {
-               // findNavController().navigate(R.id.buy_now_to_checkout)
-            }
-            return resp;
+            AddToUserCart(this)
         } else {
             val intentt = Intent(this, SignInActivity::class.java)
             startActivity(intentt)
-            return false
         }
     }
 
+    fun AddToUserCart(context: Context) {
+        HelpFunctions.startProgressBar(this)
+        val cartobj = InsertToCartRequestModel()
+        cartobj.advertisementId = AdvId;
+        cartobj.userid = ConstantObjects.logged_userid
+
+        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+        val call: Call<Basicresponse> = malqa.AddToUserCart(cartobj)
+        call.enqueue(object : Callback<Basicresponse> {
+            override fun onResponse(
+                call: Call<Basicresponse>, response: Response<Basicresponse>
+            ) {
+                if (response.isSuccessful) {
+                    if (response.body() != null) {
+                        val resp: Basicresponse = response.body()!!
+                        if (resp.status_code == 200 || resp.status_code==403 && (resp.data == true || resp.data == 1 || resp.data == 1.0)) {
+                            startActivity(Intent(this@ProductDetails, CartActivity::class.java))
+                        } else {
+                            HelpFunctions.ShowLongToast(
+                                resp.message,
+                                context
+                            )
+                        }
+                    } else {
+                        HelpFunctions.ShowLongToast(
+                            "Error",
+                            context
+                        );
+                    }
+                } else {
+                    HelpFunctions.ShowLongToast(
+                        "Error",
+                        context
+                    );
+                }
+                HelpFunctions.dismissProgressBar()
+
+            }
+
+            override fun onFailure(call: Call<Basicresponse>, t: Throwable) {
+                Toast.makeText(this@ProductDetails, t.message, Toast.LENGTH_LONG).show()
+                HelpFunctions.dismissProgressBar()
+
+            }
+        })
+        
+       
+    }
 }

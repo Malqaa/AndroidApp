@@ -1,4 +1,4 @@
-package com.malka.androidappp.activities_main.forgot.forgot_password
+package com.malka.androidappp.activities_main.forgot
 
 import android.app.Activity
 import android.content.Intent
@@ -9,13 +9,13 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.malka.androidappp.R
-import com.malka.androidappp.botmnav_fragments.ForgotPassword.PostForgotpassModel
 import com.malka.androidappp.activities_main.login.SignInActivity
-import com.malka.androidappp.activities_main.forgot.forgotpass_otpactivity.ActivityForgotPassOtpcode
+import com.malka.androidappp.activities_main.signup_account.signup_pg3.User
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
+import com.malka.androidappp.servicemodels.GeneralRespone
 import kotlinx.android.synthetic.main.activity_forgot_password.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -84,20 +84,20 @@ class ForgotPasswordActivty : AppCompatActivity() {
     fun forgotemail() {
 
         val emailfogotpass: String = editText4.text.toString().trim()
-        val modeldataitem = PostForgotpassModel(emailfogotpass, "String")
+        val modeldataitem = User(email  =emailfogotpass, password = "String")
         val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-        val call: Call<ForgotPassResponseModel> = malqaa.forgotpassemail(modeldataitem)
+        val call= malqaa.forgotpassemail(modeldataitem)
 
 
-        call.enqueue(object : Callback<ForgotPassResponseModel> {
-            override fun onFailure(call: Call<ForgotPassResponseModel>, t: Throwable) {
+        call.enqueue(object : Callback<GeneralRespone> {
+            override fun onFailure(call: Call<GeneralRespone>, t: Throwable) {
                 HelpFunctions.ShowLongToast(getString(R.string.Somethingwentwrong),applicationContext)
 //                Toast.makeText(applicationContext, t.message, Toast.LENGTH_LONG).show()
             }
 
             override fun onResponse(
-                call: Call<ForgotPassResponseModel>,
-                response: Response<ForgotPassResponseModel>
+                call: Call<GeneralRespone>,
+                response: Response<GeneralRespone>
             ) {
 
                 if (response.isSuccessful) {

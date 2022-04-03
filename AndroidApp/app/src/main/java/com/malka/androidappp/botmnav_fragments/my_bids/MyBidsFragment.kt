@@ -56,7 +56,7 @@ class MyBidsFragment : Fragment() {
             ) {
                 if (response.isSuccessful) {
                     if (response.body() != null) {
-                        my_bids_recycler.adapter = GenericProductAdapter(response.body()!!.data.sellingitems,requireContext())
+                        my_bids_recycler.adapter = GenericProductAdapter(response.body()!!.data.sellingitems!!,requireContext())
 
                     }
 

@@ -16,7 +16,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.malka.androidappp.R
-import com.malka.androidappp.botmnav_fragments.cardetail_page.Seller
 import com.malka.androidappp.botmnav_fragments.cardetail_page.ModelAddSellerFav
 import com.malka.androidappp.botmnav_fragments.cardetail_page.ModelSellerDetails
 import com.malka.androidappp.botmnav_fragments.cardetail_page.bottomsheet_bidopt.BottomsheetDialogfragClass
@@ -687,35 +686,35 @@ class ProductDetail : Fragment(), BottomsheetDialogfragClass.BottomSheetListener
                     val details: ModelSellerDetails = response.body()!!
                     if (details != null) {
 
-                        var sellerData: Seller = response.body()!!.data
-
-                        if (sellerData.username != null) {
-                            sellerName.text = sellerData.username
-                        } else {
-                            sellerName.text = "Seller Name"
-                        }
-                        if (sellerData.phone != null) {
-                            sellerMobile.text = sellerData.phone
-                        } else {
-                            sellerMobile.text = "Seller Number"
-                        }
-                        if (sellerData.email != null) {
-                            sellerEmail.text = sellerData.email
-                        } else {
-                            sellerEmail.text = "Email the seller"
-                        }
-                        if (sellerData.country != null) {
-                            sellerLocation.text = sellerData.country
-                        } else {
-                            sellerLocation.text = "Location"
-                        }
-                        if (sellerData.image != null) {
-                            Picasso.get()
-                                .load(ApiConstants.IMAGE_URL + sellerData.image)
-                                .into(sellerImage)
-                        } else {
-                            sellerImage.setImageResource(R.drawable.profilepic)
-                        }
+//                        var sellerData = response.body()!!.data
+//
+//                        if (sellerData.username != null) {
+//                            sellerName.text = sellerData.username
+//                        } else {
+//                            sellerName.text = "Seller Name"
+//                        }
+//                        if (sellerData.phone != null) {
+//                            sellerMobile.text = sellerData.phone
+//                        } else {
+//                            sellerMobile.text = "Seller Number"
+//                        }
+//                        if (sellerData.email != null) {
+//                            sellerEmail.text = sellerData.email
+//                        } else {
+//                            sellerEmail.text = "Email the seller"
+//                        }
+//                        if (sellerData.country != null) {
+//                            sellerLocation.text = sellerData.country
+//                        } else {
+//                            sellerLocation.text = "Location"
+//                        }
+//                        if (sellerData.image != null) {
+//                            Picasso.get()
+//                                .load(ApiConstants.IMAGE_URL + sellerData.image)
+//                                .into(sellerImage)
+//                        } else {
+//                            sellerImage.setImageResource(R.drawable.profilepic)
+//                        }
 
                     } else {
                         Toast.makeText(context, "No record found", Toast.LENGTH_SHORT).show()

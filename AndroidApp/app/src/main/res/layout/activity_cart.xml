@@ -14,44 +14,14 @@
         android:orientation="vertical">
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_12sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="@dimen/_15sdp"
-                android:layout_height="@dimen/_10sdp"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/backarrow1" />
+        <include
+            android:id="@+id/toolbar_main"
+            layout="@layout/toolbar_main" />
 
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="@dimen/_7sdp"
-                android:fontFamily="@font/madani_arabic_medium"
-                android:text="@string/shopping_basket"
-                android:textColor="#000000"
-                android:textSize="@dimen/_13sdp" />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_1sdp"
-            android:layout_gravity="center"
-            android:layout_marginTop="15dp"
-            android:background="@color/light_gray">
-
-        </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/category_rcv"
+            android:id="@+id/cart_rcv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_10sdp"

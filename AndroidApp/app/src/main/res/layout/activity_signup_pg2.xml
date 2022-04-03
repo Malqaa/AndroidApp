@@ -65,27 +65,33 @@
                 android:textColor="@color/Red"
                 android:visibility="gone" />
 
-            <TextView
-                android:id="@+id/textView350"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="@string/Ididntreceiveacode"
-                android:textSize="15sp"
-                android:visibility="gone" />
+            <RelativeLayout
+                android:layout_width="match_parent"
 
-            <TextView
-                android:id="@+id/textView3501"
-
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="4dp"
-                android:text="@string/RESEND"
-                android:textAllCaps="true"
-                android:textColor="#339933"
-                android:textSize="14sp"
-                android:visibility="gone" />
+                android:layout_marginTop="@dimen/_10sdp">
+
+                <TextView
+                    android:id="@+id/textView350"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:fontFamily="@font/madani_arabic_light"
+                    android:text="@string/Ididntreceiveacode"
+                    android:textSize="@dimen/_12sdp" />
+
+                <TextView
+                    android:id="@+id/resend_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:fontFamily="@font/madani_arabic_light"
+                    android:text="@string/RESEND"
+                    android:textAllCaps="true"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12sdp" />
+
+            </RelativeLayout>
 
 
             <TextView
@@ -94,8 +100,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:fontFamily="@font/madani_arabic_light"
-                android:text="@string/Seconds"
                 android:textColor="@color/black"
+                android:text="@string/Seconds"
+
                 android:textSize="@dimen/_12sdp" />
 
 

@@ -9,6 +9,9 @@ data class User(
     val country: String? = null,
     val createdAt: String? = null,
     val dateOfBirth: String? = null,
+    val intDoBDay: Int? = null,
+    val intDoBMonth: Int? = null,
+    val intDoBYear: Int? = null,
     val descriptions: String? = null,
     val distric: String? = null,
     val email: String? = null,
@@ -30,6 +33,7 @@ data class User(
     val lastActive: String? = null,
     val firstName: String? = null,
     val lastname: String? = null,
+    val fullName: String? = null,
     val linkedin: String? = null,
     val notify: Boolean = false,
     val notify_cat: String? = null,
@@ -50,6 +54,7 @@ data class User(
     val zipcode: String? = null,
     val cPassword: String? = null,
     val termsAndConditions: Boolean? = null,
+    val code: String? = null,
 
     ) {
     val createdatFormated: String
@@ -57,19 +62,28 @@ data class User(
             createdAt?.let {
                 val result: String = it.substring(0, createdAt.indexOf("."))
 
-                return HelpFunctions.FormatDateTime(
+                val time = HelpFunctions.utcToLocal(
                     result,
+                    HelpFunctions.datetimeformat_24hrs,
+                )
+
+
+                return HelpFunctions.FormatDateTime(
+                    time,
                     HelpFunctions.datetimeformat_24hrs,
                     HelpFunctions.datetimeformat_mmddyyyy
                 )
+
+
             } ?: kotlin.run {
                 return ""
             }
 
         }
-    val fullName: String
-        get() {
-            return "$firstName $lastname"
-        }
+
+//    val fullName: String
+//        get() {
+//            return "$firstName $lastname"
+//        }
 
 }

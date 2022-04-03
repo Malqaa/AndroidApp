@@ -24,7 +24,7 @@ class SignupPg1 : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signup_pg1)
-        supportActionBar?.hide()
+        
 
     }
 
@@ -169,12 +169,9 @@ class SignupPg1 : BaseActivity() {
                 if (response.isSuccessful) {
                     val data=response.body()
                     if (data!!.status_code == 200) {
-
                         NextAcivityparsedata(data)
                     } else {
-                        if(data.isError){
-                            showError(data.data.get(0))
-                        }
+                        showError(data.message)
                     }
                 } else {
                     HelpFunctions.ShowLongToast(response.message(), this@SignupPg1)
@@ -193,14 +190,7 @@ class SignupPg1 : BaseActivity() {
     }
 
 
-    //fun tranferdata(data: RegisterData){
-    //  val dataemail = editText1011.text.toString().trim()
-    //val intentd = Intent(this@SignupPg1, SignupPg2::class.java)
-    //intentd.putExtra("dataemaill",dataemail)
-    //startActivity(intentd)
-    //overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
-    //NextScreen item//val emailId = intent.getStringExtra("dataemaill")
-    //}
+
 
     fun NextAcivityparsedata(data: GeneralRespone) {
         val datacode = data.code
