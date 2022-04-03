@@ -45,8 +45,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView_address"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                />
+                android:layout_height="wrap_content" />
             <RelativeLayout
                 android:id="@+id/addaddress_btn_relative"
                 android:layout_width="match_parent"
@@ -66,11 +65,12 @@
                     android:layout_alignParentEnd="true"
                     />
             </RelativeLayout>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recylerView_products"
-                android:layout_below="@+id/addaddress_btn_relative"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/addaddress_btn_relative" />
 
             <RelativeLayout
                 android:layout_width="match_parent"

@@ -220,9 +220,7 @@
         android:label="Sold"
         tools:layout="@layout/address_list_fragment">
 
-        <action
-            android:id="@+id/sold"
-            app:destination="@+id/address_list" />
+
     </fragment>
 
 
@@ -232,9 +230,7 @@
         android:label="Sold"
         tools:layout="@layout/add_address_fragment">
 
-        <action
-            android:id="@+id/sold_ac"
-            app:destination="@+id/add_address" />
+
 
 
     </fragment>

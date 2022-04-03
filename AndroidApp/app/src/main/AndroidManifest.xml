@@ -32,10 +32,7 @@
         android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup">
         <activity
-            android:name=".design.ApplicationSetting"
-            android:exported="false" />
-        <activity
-            android:name=".design.TechnicalSupport"
+            android:name=".activities_main.order.AddressPaymentActivity"
             android:exported="false" />
         <activity
             android:name=".activities_main.product_detail.QuestionActivity"
@@ -53,7 +50,6 @@
         <activity
             android:name=".activities_main.PlayActivity"
             android:exported="false" />
-
         <activity
             android:name=".activities_main.order.CartActivity"
             android:exported="true"
@@ -92,9 +88,9 @@
             android:theme="@style/NoActionBar" />
         <activity
             android:name=".activities_main.SplashActivity"
+            android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/NoActionBar"
-            android:exported="true">
+            android:theme="@style/NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -155,7 +151,6 @@
         <activity
             android:name=".activities_main.add_product.ContinueActivity"
             android:theme="@style/NoActionBar" />
-
         <activity
             android:name="com.zfdang.multiple_images_selector.ImagesSelectorActivity"
             android:configChanges="orientation|screenSize"

@@ -1,17 +1,10 @@
 package com.malka.androidappp.botmnav_fragments.Add_Address
 
-import android.icu.util.TimeZone.getRegion
 import android.os.Build
 import android.os.Bundle
-import android.util.Patterns
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
 import androidx.annotation.RequiresApi
-import androidx.core.view.isEmpty
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.MainActivity
 import com.malka.androidappp.activities_main.login.LoginData
@@ -25,14 +18,8 @@ import com.malka.androidappp.network.service.insertAddressResponseBack
 import com.malka.androidappp.servicemodels.ConstantObjects
 import com.malka.androidappp.servicemodels.CountryRespone
 import io.paperdb.Paper
-import kotlinx.android.synthetic.main.activity_signup_pg4.*
 import kotlinx.android.synthetic.main.add_address_fragment.*
-import kotlinx.android.synthetic.main.add_address_fragment.select_city
-import kotlinx.android.synthetic.main.add_address_fragment.select_country
-import kotlinx.android.synthetic.main.add_address_fragment.select_region
-import kotlinx.android.synthetic.main.address_list_fragment.*
 import kotlinx.android.synthetic.main.toolbar_main.*
-import java.util.ArrayList
 
 class add_address : Fragment(R.layout.add_address_fragment)  {
 
@@ -96,7 +83,7 @@ class add_address : Fragment(R.layout.add_address_fragment)  {
             if (select_country.text.toString().isEmpty()) {
                 (requireActivity() as MainActivity).showError(getString(R.string.Please_select, getString(R.string.Country)))
             } else {
-                getRegion(selectedCountry!!.key, culture())
+                getRegion(selectedCountry!!.key,(requireActivity() as MainActivity). culture())
             }
 
         }
@@ -110,10 +97,6 @@ class add_address : Fragment(R.layout.add_address_fragment)  {
             }
         }
 
-    }
-
-    fun culture():String{
-        return "en-US"
     }
 
 
@@ -173,7 +156,7 @@ class add_address : Fragment(R.layout.add_address_fragment)  {
 
 
         val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-        val call = malqa.getCity(key, culture())
+        val call = malqa.getCity(key, (requireActivity() as MainActivity). culture())
         call.enqueue(object : retrofit2.Callback<CountryRespone?> {
             override fun onFailure(call: retrofit2.Call<CountryRespone?>?, t: Throwable) {
                 HelpFunctions.dismissProgressBar()

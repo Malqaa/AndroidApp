@@ -1,10 +1,10 @@
 package com.malka.androidappp.activities_main.order
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Filter
 import com.malka.androidappp.R
 import com.malka.androidappp.base.BaseActivity
-import com.malka.androidappp.design.Models.cartmdel
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.network.constants.ApiConstants
@@ -15,7 +15,6 @@ import kotlinx.android.synthetic.main.activity_cart.*
 import kotlinx.android.synthetic.main.cart_design.view.*
 
 class CartActivity : BaseActivity() {
-    val list: ArrayList<cartmdel> = ArrayList()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cart)
@@ -26,7 +25,9 @@ class CartActivity : BaseActivity() {
 
         the_next.setOnClickListener {
             if (ConstantObjects.usercart.size > 0) {
-                //findNavController().navigate(R.id.checkout_to_shipping_address)
+                findNavController().navigate(R.id.checkout_to_shipping_address)
+                val  intent = Intent(this, AddressPaymentActivity::class.java)
+                startActivity(intent)
             } else {
                 showError(getString(R.string.empty_cart))
             }
