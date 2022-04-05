@@ -481,6 +481,10 @@ class TextFieldComponent : LinearLayout {
         return edittext
     }
 
+    public fun _view3(): TextView {
+        return textView
+    }
+
     public fun getText(): String {
         if (viewType == 4) {
             return edittext.text.toString()

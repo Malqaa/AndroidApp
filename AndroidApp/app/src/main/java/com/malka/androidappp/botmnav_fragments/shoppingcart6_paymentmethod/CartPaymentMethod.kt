@@ -54,7 +54,7 @@ class CartPaymentMethod : Fragment() {
 
     fun GetUserCreditCards() {
         try {
-            HelpFunctions.GetUserCreditCards(this@CartPaymentMethod);
+          //  HelpFunctions.GetUserCreditCards(requireContext());
             BindUserCreditCards();
         } catch (ex: Exception) {
             HelpFunctions.ReportError(ex)

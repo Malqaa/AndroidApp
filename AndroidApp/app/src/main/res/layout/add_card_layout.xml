@@ -40,8 +40,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp"
-                android:hint="XXXX 4641 6462 6464"
-                android:inputType="text" />
+                android:hint="@string/Cardno"
+                android:maxLength="16"
+                android:inputType="number" />
 
 
             <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
@@ -50,12 +51,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:hint="@string/card_holder_s_name"
-                android:inputType="text" />
+                android:inputType="textCapWords" />
 
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:layout_weight="2">
 
@@ -65,7 +66,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="MM/YYYY"
-                    android:inputType="text" />
+                    android:maxLength="7"
+                    android:inputType="number" />
                 <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
                     android:id="@+id/card_cvv_tv"
                     android:layout_width="0dp"
@@ -73,6 +75,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="@string/cvv"
+                    android:maxLength="4"
+                    app:imeOptions="done"
                     android:inputType="number" />
 
             </LinearLayout>

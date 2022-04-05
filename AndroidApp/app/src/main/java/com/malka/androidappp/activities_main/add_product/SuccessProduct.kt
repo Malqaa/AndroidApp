@@ -10,7 +10,7 @@ import com.malka.androidappp.servicemodels.ConstantObjects
 import kotlinx.android.synthetic.main.fragment_continue.*
 
 
-class ContinueActivity : BaseActivity() {
+class SuccessProduct : BaseActivity() {
 
     var AdvId: String = ""
     var template: String = ""

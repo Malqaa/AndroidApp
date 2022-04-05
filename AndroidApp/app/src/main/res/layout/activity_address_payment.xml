@@ -27,7 +27,7 @@
                 android:orientation="vertical">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/category_rcv"
+                    android:id="@+id/address_rcv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/_10sdp"
@@ -35,30 +35,19 @@
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
 
-                <LinearLayout
+                <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
                     android:id="@+id/add_new_add"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:layout_marginEnd="@dimen/_10sdp"
                     android:layout_marginBottom="@dimen/_10sdp"
-                    android:background="@drawable/product_attribute_bg4"
-                    android:orientation="vertical"
-                    android:padding="@dimen/_10sdp">
+                    android:gravity="center"
+                    android:text="@string/add_a_new_address"
+                    app:viewType="text" />
 
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/madani_arabic_medium"
-                        android:gravity="center"
-                        android:text="@string/add_a_new_address"
-                        android:textColor="@color/grey"
-                        android:textSize="@dimen/_10sdp" />
-
-                </LinearLayout>
 
 
                 <androidx.recyclerview.widget.RecyclerView

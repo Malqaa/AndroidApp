@@ -1,10 +1,7 @@
 package com.malka.androidappp.activities_main.add_product
 
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.Gson
 import com.malka.androidappp.R
 import com.malka.androidappp.base.BaseActivity
@@ -17,8 +14,6 @@ import com.malka.androidappp.helper.show
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.servicemodels.ConstantObjects
 import com.malka.androidappp.servicemodels.CreateAdvMainModel
-import kotlinx.android.synthetic.main.bottom_sheet1.*
-import kotlinx.android.synthetic.main.bottom_sheet2.*
 import kotlinx.android.synthetic.main.fragment_confirmation.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 import retrofit2.Call
@@ -41,43 +36,15 @@ class Confirmation : BaseActivity() {
 
 
         btn_confirm_details.setOnClickListener {
-            showBottomSheetDialog()
-        }
-
-    }
-
-    private fun showBottomSheetDialog() {
-        val bottomSheetDialog = BottomSheetDialog(this)
-        bottomSheetDialog.setContentView(R.layout.bottom_sheet1)
-        bottomSheetDialog.check_saudi_bank_deposit.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked) {
-                bottomSheetDialog.check_visa_mastercard.isChecked = false
-            }
-        }
-        bottomSheetDialog.check_visa_mastercard.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked) {
-                bottomSheetDialog.check_saudi_bank_deposit.isChecked = false
-
-            }
-        }
-        bottomSheetDialog.bottom_sheet_btn1.setOnClickListener {
-            bottomSheetDialog.dismiss()
-            showBottomShee2tDialog()
-        }
-        bottomSheetDialog.getWindow()!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        bottomSheetDialog.show()
-    }
-
-    private fun showBottomShee2tDialog() {
-        val bottomSheetDialog = BottomSheetDialog(this)
-        bottomSheetDialog.setContentView(R.layout.bottom_sheet2)
-        bottomSheetDialog.bottom_sheet_btn2.setOnClickListener {
-            bottomSheetDialog.dismiss()
             mainModelToJSON()
+
         }
-        bottomSheetDialog.getWindow()!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        bottomSheetDialog.show()
+
     }
+
+
+
+
 
 
     // Methods to handle dynamic ad creation
@@ -201,7 +168,7 @@ class Confirmation : BaseActivity() {
                     val importAdId = response.body()!!.data
 
                     HelpFunctions.dismissProgressBar()
-                    startActivity(Intent(this@Confirmation, ContinueActivity::class.java).apply {
+                    startActivity(Intent(this@Confirmation, SuccessProduct::class.java).apply {
                         flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         putExtra("AdvId", importAdId)
                         putExtra("Template", StaticClassAdCreate.template)

@@ -390,7 +390,7 @@
 
     <fragment
         android:id="@+id/continue_frag"
-        android:name="com.malka.androidappp.activities_main.add_product.ContinueActivity"
+        android:name="com.malka.androidappp.activities_main.add_product.SuccessProduct"
         android:label="Continue"
         tools:layout="@layout/fragment_continue">
 

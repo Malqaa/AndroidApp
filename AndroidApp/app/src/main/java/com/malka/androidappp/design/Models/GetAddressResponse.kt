@@ -20,7 +20,6 @@ data class GetAddressResponse(
         val updatedBy: Any,
         val updatedOn: String,
         val userId: String,
-        val name: String="Home",
         var is_select: Boolean=false
     )
 }

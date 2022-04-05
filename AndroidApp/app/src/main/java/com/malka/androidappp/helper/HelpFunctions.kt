@@ -692,74 +692,10 @@ class HelpFunctions {
             return Base64.encodeToString(b, Base64.DEFAULT)
         }
 
-        fun GetUserCreditCards(context: Context) {
-            try {
-                val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-                val call: Call<CreditCardResponse> =
-                    malqa.GetUserCreditCards(ConstantObjects.logged_userid)
-                val response: Response<CreditCardResponse> = call.execute();
-                if (response.isSuccessful) {
-                    if (response.body() != null) {
-                        val resp: CreditCardResponse = response.body()!!
-                        if (resp != null && resp.data != null) {
-                            ConstantObjects.usercreditcard = resp.data
-                        } else {
-                            ConstantObjects.usercreditcard = null
-                            ShowLongToast(
-                                "No Record Found", context
-                            )
-                        }
-                    } else {
-                        ShowLongToast(
-                            "No Record Found", context
-                        )
-                    }
-                } else {
-                    ShowLongToast(
-                        "No Record Found", context
-                    )
-                }
-            } catch (ex: Exception) {
-                throw ex
-            }
-        }
 
-        fun InsertUserCreditCard(cardinfo: CreditCardRequestModel, context: Context): Boolean1 {
-            var RetVal: Boolean1 = false
-            try {
-                val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-                val call: Call<Basicresponse> = malqa.InsertUserCreditCard(cardinfo)
-                val response: Response<Basicresponse> = call.execute();
-                if (response.isSuccessful) {
-                    if (response.body() != null) {
-                        var resp: Basicresponse = response.body()!!;
-                        if (resp.status_code == 200 && (resp.data == true || resp.data == 1 || resp.data == 1.0)) {
-                            RetVal = true
-                            GetUserCreditCards(context)
-                            ShowLongToast(
-                                "Added Successfully",
-                                context
-                            );
-                        }
-                    } else {
-                        ShowLongToast(
-                            "Error During Addition",
-                            context
-                        );
-                    }
-                } else {
-                    ShowLongToast(
-                        "Error During Addition",
-                        context.requireContext()
-                    );
-                }
-            } catch (ex: Exception) {
-                throw ex
-            }
-            return RetVal
-        }
 
-        fun DeleteUserCreditCard(CardId: String, context: Fragment): Boolean1 {
+
+        fun DeleteUserCreditCard(CardId: String, context: Context): Boolean1 {
             var RetVal: Boolean1 = false;
             try {
                 val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
@@ -771,27 +707,29 @@ class HelpFunctions {
                         var resp: Basicresponse = response.body()!!;
                         if (resp.status_code == 200 && (resp.data == true || resp.data == 1 || resp.data == 1.0)) {
                             RetVal = true;
-                            GetUserCreditCards(context)
+                            CommonAPI().GetUserCreditCards(context) {
+
+                            }
                             ShowLongToast(
                                 "Removed Successfully",
-                                context.requireContext()
+                                context
                             );
                         } else {
                             ShowLongToast(
                                 resp.message,
-                                context.requireContext()
+                                context
                             );
                         }
                     } else {
                         ShowLongToast(
                             "Error During Deletion",
-                            context.requireContext()
+                            context
                         );
                     }
                 } else {
                     ShowLongToast(
                         "Error During Deletion",
-                        context.requireContext()
+                        context
                     );
                 }
             } catch (ex: Exception) {

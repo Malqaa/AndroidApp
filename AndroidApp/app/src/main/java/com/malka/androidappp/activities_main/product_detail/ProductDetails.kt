@@ -130,10 +130,13 @@ class ProductDetails : BaseActivity() {
                 putExtra("AdvId", AdvId)
             })
         }
-
         current_price_buy.setOnClickListener {
             AddToCart()
         }
+        add_to_cart.setOnClickListener {
+            current_price_buy.performClick()
+        }
+
     }
 
     override fun onBackPressed() {

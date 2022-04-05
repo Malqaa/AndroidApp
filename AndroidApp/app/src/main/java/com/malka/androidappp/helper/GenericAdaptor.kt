@@ -8,9 +8,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
-import com.malka.androidappp.activities_main.product_detail.ProductDetails
 import com.malka.androidappp.activities_main.login.SignInActivity
-import com.malka.androidappp.servicemodels.questionModel.Question
+import com.malka.androidappp.activities_main.product_detail.ProductDetails
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.design.Models.GetAddressResponse
 import com.malka.androidappp.helper.Extension.decimalNumberFormat
@@ -18,6 +17,7 @@ import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.network.constants.ApiConstants
 import com.malka.androidappp.servicemodels.AdDetailModel
 import com.malka.androidappp.servicemodels.ConstantObjects
+import com.malka.androidappp.servicemodels.questionModel.Question
 import kotlinx.android.synthetic.main.add_address_design.view.*
 import kotlinx.android.synthetic.main.address_list_fragment.*
 import kotlinx.android.synthetic.main.product_item.view.*
@@ -220,11 +220,12 @@ class GenericAdaptor {
                                         element.is_select = true
                                     }
                                     onItemClick.invoke(element)
-                                    category_rcv.adapter?.notifyDataSetChanged()
+                                    category_rcv.post { category_rcv.adapter?.notifyDataSetChanged() }
+
                                 }
                             }
                         }
-                        address_name.text = name
+                        address_name.text = "Delivery to my current address"
                         country_name.text = "$country - $region -$city"
                         phonenum.text = mobileNo
                         address_tv.text = address

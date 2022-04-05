@@ -2689,5 +2689,9 @@
     <string name="seller_information">معلومات البائع</string>
     <string name="card_holder_s_name">أسم صاحب الكارد</string>
   <string name="cvv">CVV</string>
+  <string name="pay_by_card">Pay by card</string>
+    <string name="order_completed_successfully">Order completed successfully</string>
+  <string name="track_your_order">Track Your Order</string>
+  <string name="back_to_shopping">Back To Shopping</string>
 
 </resources>

@@ -89,10 +89,10 @@ class AddNewCard : Fragment() {
                     userId = ConstantObjects.logged_userid,
                     id = ""
                 )
-                val resp = HelpFunctions.InsertUserCreditCard(cardinfo, this@AddNewCard)
-                if (resp) {
-                    requireActivity().supportFragmentManager.popBackStack()
-                }
+//                val resp = HelpFunctions.InsertUserCreditCard(cardinfo, requireContext())
+//                if (resp) {
+//                    requireActivity().supportFragmentManager.popBackStack()
+//                }
             }
         } catch (ex: Exception) {
             HelpFunctions.ReportError(ex)

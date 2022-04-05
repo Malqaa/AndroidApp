@@ -77,7 +77,9 @@ abstract class BaseActivity : AppCompatActivity() {
 
     fun showError(error: String) {
         HelpFunctions.ShowAlert(
-            this, "", error
+            this, "", error.replaceFirstChar{
+                it.uppercase()
+            }
         )
     }
 

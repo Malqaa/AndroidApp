@@ -34,11 +34,11 @@
 
 
                 <TextView
-                    android:layout_toEndOf="@+id/is_select_"
                     android:id="@+id/address_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
+                    android:layout_toEndOf="@+id/is_select_"
                     android:fontFamily="@font/madani_arabic_medium"
                     android:text="@string/delivery_to_my_current_address"
                     android:textColor="@color/grey"

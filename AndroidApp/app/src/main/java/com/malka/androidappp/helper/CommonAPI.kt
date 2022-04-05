@@ -7,6 +7,8 @@ import com.malka.androidappp.design.Models.GetAddressResponse
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.servicemodels.ConstantObjects
+import com.malka.androidappp.servicemodels.creditcard.CreditCardResponse
+import com.malka.androidappp.servicemodels.creditcard.CreditCardResponseModel
 import com.malka.androidappp.servicemodels.user.UserObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -82,6 +84,39 @@ class CommonAPI {
             }
         })
 
+
+    }
+
+    fun GetUserCreditCards(context: Context,onSuccess: ((data: List<CreditCardResponseModel>) -> Unit)) {
+        HelpFunctions.startProgressBar(context as Activity)
+
+        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+        val call: Call<CreditCardResponse> =
+            malqa.GetUserCreditCards(ConstantObjects.logged_userid)
+        call.enqueue(object : Callback<CreditCardResponse?> {
+            override fun onFailure(call: Call<CreditCardResponse?>?, t: Throwable) {
+                HelpFunctions.dismissProgressBar()
+
+            }
+
+            override fun onResponse(
+                call: Call<CreditCardResponse?>,
+                response: Response<CreditCardResponse?>
+            ) {
+                if (response.isSuccessful) {
+                    if (response.body() != null) {
+                        val resp: CreditCardResponse = response.body()!!
+                        ConstantObjects.usercreditcard = resp.data
+                        onSuccess.invoke(resp.data)
+                    } else {
+                        HelpFunctions.ShowLongToast(
+                            "No Record Found", context
+                        )
+                    }
+                }
+                HelpFunctions.dismissProgressBar()
+            }
+        })
 
     }
 
