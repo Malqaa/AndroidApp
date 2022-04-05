@@ -7,10 +7,7 @@ import com.malka.androidappp.R
 import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.servicemodels.CreateAdvResponseBack
 import com.malka.androidappp.botmnav_fragments.create_ads.StaticClassAdCreate
-import com.malka.androidappp.helper.Extension
-import com.malka.androidappp.helper.HelpFunctions
-import com.malka.androidappp.helper.hide
-import com.malka.androidappp.helper.show
+import com.malka.androidappp.helper.*
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.servicemodels.ConstantObjects
 import com.malka.androidappp.servicemodels.CreateAdvMainModel
@@ -36,15 +33,27 @@ class Confirmation : BaseActivity() {
 
 
         btn_confirm_details.setOnClickListener {
-            mainModelToJSON()
+            CommonBottomSheet().showPaymentOption(this) {
+                when (it) {
+                    getString(R.string.saudi_bank_deposit) -> {
+
+                    }
+                    getString(R.string.visa_mastercard) -> {
+                        CommonAPI().GetUserCreditCards(this) {
+                            CommonBottomSheet().showCardSelection(this, it) {
+                                mainModelToJSON()
+                            }
+                        }
+
+                    }
+                }
+
+
+            }
 
         }
 
     }
-
-
-
-
 
 
     // Methods to handle dynamic ad creation
@@ -147,7 +156,7 @@ class Confirmation : BaseActivity() {
         map = Gson().fromJson(jsonString, map.javaClass)
 
         ConstantObjects.dynamic_json_dictionary.putAll(map)
-        val testing=Gson().toJson(map)
+        val testing = Gson().toJson(map)
         print(testing)
 
         createAllAds(ConstantObjects.dynamic_json_dictionary)
