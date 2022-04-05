@@ -129,6 +129,21 @@ class AccountFragment : Fragment() {
             findNavController().navigate(R.id.mybids)
         }
 
+        payment_card.setOnClickListener() {
+            findNavController().navigate(R.id.paymentCard)
+        }
+
+        follow_up.setOnClickListener() {
+            findNavController().navigate(R.id.followUp)
+        }
+        my_wallet.setOnClickListener() {
+            findNavController().navigate(R.id.myWallet)
+        }
+
+        my_points.setOnClickListener() {
+            findNavController().navigate(R.id.myPoints)
+        }
+
 //        add_button.setOnClickListener {
 //            findNavController().navigate(R.id.addAddress)
 //        }

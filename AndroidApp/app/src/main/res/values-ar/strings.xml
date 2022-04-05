@@ -2683,5 +2683,23 @@
   <string name="my_bids">مزايداتى</string>
   <string name="negotiation_offers">عروض التفاوض</string>
   <string name="save_addresses">العناوين المحفوظة</string>
+    <string name="payment_cards">بطاقات الدفع</string>
+    <string name="favorite_products">المنتجات المفضلة</string>
+  <string name="favorite_sellers">البائعين المفضلين</string>
+  <string name="favorite_search">بحث مفضل</string>
+  <string name="favorite_categories">الفئات المفضلة</string>
+    <string name="view_new_product_for_this_search">عرض منتج جديد لهذا البحث</string>
+  <string name="my_wallet">محفظتى</string>
+    <string name="my_balance">رصيدى</string>
+  <string name="choose_the_account">أختر الحساب</string>
+  <string name="recharge_the_balance">شحن رصيد</string>
+  <string name="recent_operations">أخر العمليات</string>
+  <string name="a_security_deposit_has_been_added_to_the_losing_auction">تم إضافة مبلغ تأمينى للمزاد الخاسر</string>
+    <string name="share_the_invite_code">شارك كود الدعوة</string>
+  <string name="and_get_100_points_for_every_new_store">واحصل على 100 نقطة على كل متجر جديد</string>
+  <string name="convert_points_into_credit">تحويل النقاط الى رصيد</string>
+  <string name="every_100_points_for_10_riyals">كل 100 نقطة بـ 10 ريال</string>
+  <string name="conversion">تحويل</string>
+  <string name="_100_points_have_been_converted_into_10_riyals_to_your_wallet">تم تحويل 100 نقطة الى 10 ريال لمحفظتك</string>
 
 </resources>

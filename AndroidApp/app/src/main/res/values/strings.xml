@@ -2855,6 +2855,24 @@ Want to start a business account? Create a Business Account
     <string name="my_bids">My bids</string>
     <string name="negotiation_offers">Negotiation offers</string>
     <string name="save_addresses">Save Addresses</string>
+    <string name="payment_cards">Payment cards</string>
+    <string name="favorite_products">Favorite Products</string>
+    <string name="favorite_sellers">Favorite Sellers</string>
+    <string name="favorite_search">favorite search</string>
+    <string name="favorite_categories">Favorite Categories</string>
+    <string name="view_new_product_for_this_search">View new product for this search</string>
+    <string name="my_wallet">My wallet</string>
+    <string name="my_balance">My balance</string>
+    <string name="choose_the_account">Choose the account</string>
+    <string name="recharge_the_balance">Recharge the balance</string>
+    <string name="recent_operations">Recent operations</string>
+    <string name="a_security_deposit_has_been_added_to_the_losing_auction">A security deposit has been added to the losing auction</string>
+    <string name="share_the_invite_code">Share the invite code</string>
+    <string name="and_get_100_points_for_every_new_store">And get 100 points for every new store</string>
+    <string name="convert_points_into_credit">Convert points into credit</string>
+    <string name="every_100_points_for_10_riyals">Every 100 points for 10 riyals</string>
+    <string name="conversion">Conversion</string>
+    <string name="_100_points_have_been_converted_into_10_riyals_to_your_wallet">100 points have been converted into 10 riyals to your wallet</string>
 
 
 </resources>

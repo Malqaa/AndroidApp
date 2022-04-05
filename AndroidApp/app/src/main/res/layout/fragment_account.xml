@@ -83,8 +83,8 @@
                         app:cardCornerRadius="@dimen/_10sdp"
                         android:layout_height="match_parent">
                         <LinearLayout
+                            android:id="@+id/follow_up"
                             android:gravity="center"
-
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -127,6 +127,7 @@
                         app:cardCornerRadius="@dimen/_10sdp"
                         android:layout_height="match_parent">
                         <LinearLayout
+                            android:id="@+id/my_wallet"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -147,7 +148,7 @@
                                 android:layout_gravity="center"
                                 android:layout_marginTop="@dimen/_5sdp"
                                 android:gravity="center"
-                                android:text="My wallet"
+                                android:text="@string/my_wallet"
                                 android:textSize="@dimen/_12sdp" />
 
                             <TextView
@@ -172,9 +173,10 @@
                         android:layout_margin="@dimen/_5sdp"
                         app:cardCornerRadius="@dimen/_10sdp"
                         android:layout_height="match_parent">
-                        <LinearLayout
-                            android:layout_width="match_parent"
 
+                        <LinearLayout
+                            android:id="@+id/my_points"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:gravity="center"
@@ -648,11 +650,10 @@
 
 
                 <LinearLayout
+                    android:id="@+id/payment_card"
                     android:gravity="center_vertical"
-
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    
                     android:layout_marginTop="@dimen/_1sdp"
                     android:orientation="horizontal">
 
@@ -675,7 +676,7 @@
                             android:layout_marginEnd="@dimen/_5sdp"
                             android:layout_weight="1"
                             android:fontFamily="@font/madani_arabic_light"
-                            android:text="Payment cards"
+                            android:text="@string/payment_cards"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_12sdp"
                             android:textStyle="bold" />
