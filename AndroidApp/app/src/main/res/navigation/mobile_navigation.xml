@@ -279,6 +279,43 @@
 
 
     <fragment
+        android:id="@+id/paymentCard"
+        android:name="com.malka.androidappp.botmnav_fragments.payment_card_fragment"
+        android:label="Payment Cards"
+        tools:layout="@layout/fragment_payment_card_fragment">
+
+    </fragment>
+    <fragment
+        android:id="@+id/myWallet"
+        android:name="com.malka.androidappp.botmnav_fragments.my_wallet.my_wallet_fragment"
+        android:label=" My Wallet"
+        tools:layout="@layout/fragment_my_wallet_fragment">
+
+
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/followUp"
+        android:name="com.malka.androidappp.botmnav_fragments.Follow_Up.follow_up_fragment"
+        android:label=" Follow Up"
+        tools:layout="@layout/fragment_follow_up_fragment">
+
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/myPoints"
+        android:name="com.malka.androidappp.botmnav_fragments.my_points.my_points_fragment"
+        android:label="My Points"
+        tools:layout="@layout/fragment_my_points_fragment">
+
+
+    </fragment>
+
+
+
+    <fragment
         android:id="@+id/shopping_cart"
         android:name="com.malka.androidappp.botmnav_fragments.shopping_cart1_dummy.ShopcartDummy"
         android:label="Shopping Cart"

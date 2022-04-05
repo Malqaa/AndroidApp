@@ -49,7 +49,6 @@
             android:textColor="#ffffff"
             android:textSize="@dimen/_14sdp" />
 
-
         <TextView
             android:id="@+id/back_to_main"
             android:layout_width="wrap_content"

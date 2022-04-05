@@ -26,10 +26,7 @@ import com.malka.androidappp.botmnav_fragments.sellerdetails.SellerResponseBack
 import com.malka.androidappp.botmnav_fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ModelShipAddresses
 import com.malka.androidappp.botmnav_fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ShippingAddressessData
 import com.malka.androidappp.botmnav_fragments.won_n_loss.model_wonloss.ModelWonLost
-import com.malka.androidappp.design.Models.BankListRespone
-import com.malka.androidappp.design.Models.BusinessUserModel
-import com.malka.androidappp.design.Models.GetAddressResponse
-import com.malka.androidappp.design.Models.getBusinessRegisterFile
+import com.malka.androidappp.design.Models.*
 import com.malka.androidappp.network.constants.ApiConstants
 import com.malka.androidappp.network.constants.ApiConstants.ADDBANK_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.ADDRESS_ENDPOINT
@@ -57,6 +54,7 @@ import com.malka.androidappp.network.constants.ApiConstants.GET_ALL_CATEGORIES
 import com.malka.androidappp.network.constants.ApiConstants.GET_ALL_CATEGORIES_BY_ID
 import com.malka.androidappp.network.constants.ApiConstants.GET_BANK__ACCOUNT_DETAIL
 import com.malka.androidappp.network.constants.ApiConstants.GET_BUSINESS_USER_LIST
+import com.malka.androidappp.network.constants.ApiConstants.GET_CARD_DETAILS_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.GET_CATEGORY_LISTING_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.GET_CATEGORY_TAGS_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.GET_QUES_ANS_COMMENT_ENDPOINT
@@ -148,6 +146,8 @@ interface MalqaApiService {
 
     @GET(GET_ADDRESS_ENDPOINT)
     fun getAddress(@Query("loginId") loginId: String): Call<GetAddressResponse>
+    @GET(GET_CARD_DETAILS_ENDPOINT)
+    fun getCardDetails(@Query("usid") loginId: String): Call<getCardDetailsModel>
 
     @GET(GET_BANK__ACCOUNT_DETAIL)
     fun getBankDetail(@Query("UserID") loginId: String): Call<BankListRespone>
