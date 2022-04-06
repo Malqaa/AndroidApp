@@ -117,7 +117,7 @@ class AboutTheSeller : Fragment() {
                     if (details != null) {
 
                         var sellerData = response.body()!!.data.detailOfUser
-                        var sellerAdCount: List<Advertisement> =
+                        var sellerAdCount =
                             response.body()!!.data.advertisements
 
                         if (sellerAdCount != null) {
