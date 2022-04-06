@@ -73,8 +73,7 @@ class MemberListing : Fragment() {
                     val details: SellerResponseBack = response.body()!!
                     if (details != null) {
 
-                        var sellerAdsList: List<Advertisement> =
-                            response.body()!!.data.advertisements
+                        var sellerAdsList= response.body()!!.data.advertisements
                         if (sellerAdsList != null && sellerAdsList.count() > 0) {
                             for (IndProperty in sellerAdsList) {
                                 sellerAds.add(
