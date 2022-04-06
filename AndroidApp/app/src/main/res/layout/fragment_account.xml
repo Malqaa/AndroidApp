@@ -46,7 +46,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_3sdp"
                     android:gravity="center"
-                    android:id="@+id/member_since"
+                    android:id="@+id/member_since_tv"
                     android:text="@string/member_since"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_14sdp" />

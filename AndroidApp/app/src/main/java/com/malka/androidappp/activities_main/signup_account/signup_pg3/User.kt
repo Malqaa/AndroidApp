@@ -57,7 +57,7 @@ data class User(
     val code: String? = null,
 
     ) {
-    val createdatFormated: String
+    val member_since: String
         get() {
             createdAt?.let {
                 val result: String = it.substring(0, createdAt.indexOf("."))

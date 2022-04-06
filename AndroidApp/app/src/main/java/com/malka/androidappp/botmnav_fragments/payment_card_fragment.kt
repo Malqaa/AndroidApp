@@ -89,9 +89,19 @@ class payment_card_fragment : Fragment(R.layout.fragment_payment_card_fragment) 
             bind = { element, holder, itemCount, position ->
                 holder.view.run {
                     element.run {
-                        card_number.text= cardnumber
-                        expiry_date.text= expiryDate
-                        card_user_name.text= card_holder_name
+
+//                        val sb = StringBuilder()
+//                        cardnumber.toCharArray().forEachIndexed { index, c ->
+//                            if (index % 4 == 0) {
+//                                sb.append(c)
+//                            }else{
+//                                sb.append(c).append(" ")
+//                            }
+//                        }
+//                        card_number.text = sb.toString()
+                        card_number.text = cardnumber
+                        expiry_date.text = expiryDate
+                        card_user_name.text = card_holder_name ?: "Card Holder Name"
 
 
                     }

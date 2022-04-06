@@ -2,9 +2,7 @@ package com.malka.androidappp.botmnav_fragments.account_fragment
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.cardview.widget.CardView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -12,7 +10,6 @@ import androidx.navigation.fragment.findNavController
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.add_product.ListanItem
 import com.malka.androidappp.activities_main.business_signup.Switch_Account
-import com.malka.androidappp.activities_main.login.LoginData
 import com.malka.androidappp.activities_main.login.SignInActivity
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.helper.CommonAPI
@@ -46,8 +43,10 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
         btn_signin.isEnabled = !enable
     }
 
-
-
+    var isProfileLoad=false
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -60,16 +59,14 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
             disableenableoptions(true)
             logout_signin.visibility = View.VISIBLE
             btn_signin.visibility = View.GONE
-            CommonAPI(). GetUserInfo(requireContext(),ConstantObjects.logged_userid) {
-                fragment_account.isVisible = true
-                ConstantObjects.userobj!!.run {
-                    userName.text = fullName
-                    member_since.text = "${getString(R.string.member_since)}: $createdatFormated"
-                    membership_number_tv.text = "${getString(R.string.membership_number)}: "
+            if(!isProfileLoad){
+                CommonAPI(). GetUserInfo(requireContext(),ConstantObjects.logged_userid) {
+                    fragment_account.isVisible = true
+                    loadProfile()
                 }
+            }else{
+                loadProfile()
             }
-
-
         }
 
         helpbtn.setOnClickListener() {
@@ -127,14 +124,14 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
         }
 
         follow_up.setOnClickListener() {
-            findNavController().navigate(R.id.followUp)
+            //findNavController().navigate(R.id.followUp)
         }
         my_wallet.setOnClickListener() {
-            findNavController().navigate(R.id.myWallet)
+           // findNavController().navigate(R.id.myWallet)
         }
 
         my_points.setOnClickListener() {
-            findNavController().navigate(R.id.myPoints)
+          //  findNavController().navigate(R.id.myPoints)
         }
 
 //        add_button.setOnClickListener {
@@ -201,6 +198,14 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
 
 
         userType()
+    }
+
+    private fun loadProfile() {
+        ConstantObjects.userobj!!.run {
+            userName.text = fullName
+            member_since_tv.text = "${getString(R.string.member_since)}: $member_since"
+            membership_number_tv.text = "${getString(R.string.membership_number)}: "
+        }
     }
 
 
