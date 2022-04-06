@@ -1,15 +1,22 @@
 package com.malka.androidappp.helper
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.graphics.Color
+import androidx.core.content.ContextCompat
 import com.malka.androidappp.R
+import com.malka.androidappp.design.GenericProductAdapterNew
 import com.malka.androidappp.design.Models.GetAddressResponse
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
+import com.malka.androidappp.recycler_browsecat.GenericProductAdapter
 import com.malka.androidappp.servicemodels.ConstantObjects
+import com.malka.androidappp.servicemodels.ModelSoldUnsold
 import com.malka.androidappp.servicemodels.creditcard.CreditCardResponse
 import com.malka.androidappp.servicemodels.creditcard.CreditCardResponseModel
 import com.malka.androidappp.servicemodels.user.UserObject
+import kotlinx.android.synthetic.main.fragment_sold_business.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -115,6 +122,53 @@ class CommonAPI {
                     }
                 }
                 HelpFunctions.dismissProgressBar()
+            }
+        })
+
+    }
+
+
+
+
+    fun getSoldItemsApi(userId: String, context: Context, onSuccess: ((data: ModelSoldUnsold.Data) -> Unit)) {
+        HelpFunctions.startProgressBar(context as Activity)
+
+        val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+        val call: Call<ModelSoldUnsold> = malqaa.getsolditemsbyId(userId)
+
+
+        call.enqueue(object : Callback<ModelSoldUnsold> {
+            @SuppressLint("ResourceType")
+            override fun onResponse(
+                call: Call<ModelSoldUnsold>,
+                response: Response<ModelSoldUnsold>
+            ) {
+                if (response.isSuccessful) {
+                    if (response.body() != null) {
+                        onSuccess.invoke(response.body()!!.data)
+
+                    }
+
+                } else {
+                    HelpFunctions.ShowLongToast(
+                       context.getString(R.string.ErrorOccur),
+                        context
+                    )
+
+                }
+                HelpFunctions.dismissProgressBar()
+
+            }
+
+            override fun onFailure(call: Call<ModelSoldUnsold>, t: Throwable) {
+                t.message?.let {
+                    HelpFunctions.ShowLongToast(
+                        it,
+                        context
+                    )
+                }
+                HelpFunctions.dismissProgressBar()
+
             }
         })
 
