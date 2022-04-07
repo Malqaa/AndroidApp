@@ -940,20 +940,12 @@
                                 android:orientation="horizontal">
 
                                 <TextView
+                                    android:id="@+id/member_since_Tv"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
                                     android:fontFamily="@font/madani_arabic_light"
                                     android:text="Member since "
-                                    android:textColor="#000000"
-                                    android:textSize="@dimen/_12sdp" />
-
-                                <TextView
-                                    android:id="@+id/member_since"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
-                                    android:fontFamily="@font/madani_arabic_light"
                                     android:textColor="#000000"
                                     android:textSize="@dimen/_12sdp" />
 
@@ -1007,6 +999,7 @@
 
 
                             <LinearLayout
+                                android:id="@+id/maps_btn"
                                 android:layout_width="@dimen/_42sdp"
                                 android:layout_height="@dimen/_42sdp"
                                 android:layout_marginTop="@dimen/_5sdp"
@@ -1034,12 +1027,14 @@
                         android:orientation="horizontal">
 
                         <ImageView
+                            android:id="@+id/skype_btn"
                             android:layout_width="@dimen/_25sdp"
                             android:layout_height="@dimen/_24sdp"
                             android:layout_gravity="center_vertical"
                             android:src="@drawable/skype_log" />
 
                         <ImageView
+                            android:id="@+id/youtube_btn"
                             android:layout_width="@dimen/_34sdp"
                             android:layout_height="@dimen/_22sdp"
                             android:layout_gravity="center_vertical"
@@ -1047,6 +1042,7 @@
                             android:src="@drawable/youtube_log" />
 
                         <ImageView
+                            android:id="@+id/instagram_btn"
                             android:layout_width="@dimen/_23sdp"
                             android:layout_height="@dimen/_23sdp"
                             android:layout_gravity="center_vertical"

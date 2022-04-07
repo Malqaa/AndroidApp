@@ -2685,6 +2685,7 @@
   <string name="negotiation_offers">عروض التفاوض</string>
   <string name="save_addresses">العناوين المحفوظة</string>
     <string name="member_since">عضو منذ</string>
+    <string name="merchant_page">صفحة التاجر </string>
     <string name="membership_number">Membership Number</string>
     <string name="seller_information">معلومات البائع</string>
     <string name="card_holder_s_name">أسم صاحب الكارد</string>
@@ -2711,5 +2712,11 @@
   <string name="every_100_points_for_10_riyals">كل 100 نقطة بـ 10 ريال</string>
   <string name="conversion">تحويل</string>
   <string name="_100_points_have_been_converted_into_10_riyals_to_your_wallet">تم تحويل 100 نقطة الى 10 ريال لمحفظتك</string>
+    <string name="membership_no">رقم العضوية</string>
+    <string name="delivery_options">خيارات التوصيل</string>
+  <string name="remove_all">إزالة الكل</string>
+  <string name="al_khalis_company">( شركة الخالص)</string>
+  <string name="shipment_no_1">شحنة رقم 1</string>
+  <string name="total_charges">مجموع الشحنة</string>
 
 </resources>
