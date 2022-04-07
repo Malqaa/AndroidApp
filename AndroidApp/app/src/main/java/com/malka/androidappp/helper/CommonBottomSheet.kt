@@ -15,7 +15,7 @@ import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
-import com.malka.androidappp.servicemodels.Basicresponse
+import com.malka.androidappp.servicemodels.BasicResponse
 import com.malka.androidappp.servicemodels.ConstantObjects
 import com.malka.androidappp.servicemodels.creditcard.CreditCardRequestModel
 import com.malka.androidappp.servicemodels.creditcard.CreditCardResponseModel
@@ -237,19 +237,19 @@ class CommonBottomSheet {
         view: BottomSheetDialog,onConfirm: (selectCard: CreditCardResponseModel) -> Unit
     ) {
         val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-        val call: Call<Basicresponse> = malqa.InsertUserCreditCard(cardinfo)
+        val call: Call<BasicResponse> = malqa.InsertUserCreditCard(cardinfo)
 
-        call.enqueue(object : Callback<Basicresponse?> {
-            override fun onFailure(call: Call<Basicresponse?>?, t: Throwable) {
+        call.enqueue(object : Callback<BasicResponse?> {
+            override fun onFailure(call: Call<BasicResponse?>?, t: Throwable) {
                 HelpFunctions.dismissProgressBar()
             }
 
             override fun onResponse(
-                call: Call<Basicresponse?>,
-                response: Response<Basicresponse?>
+                call: Call<BasicResponse?>,
+                response: Response<BasicResponse?>
             ) {
                 if (response.isSuccessful) {
-                    val resp: Basicresponse = response.body()!!;
+                    val resp: BasicResponse = response.body()!!;
                     if (resp.status_code == 200 && (resp.data == true || resp.data == 1 || resp.data == 1.0)) {
                         view. dismiss()
                         CommonAPI().GetUserCreditCards(context) {

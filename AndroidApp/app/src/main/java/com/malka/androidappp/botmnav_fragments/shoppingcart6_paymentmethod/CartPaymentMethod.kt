@@ -48,7 +48,7 @@ class CartPaymentMethod : Fragment() {
         }
 
         btn_add_new_card.setOnClickListener() {
-            findNavController().navigate(R.id.payment_to_add_new_card)
+
         }
     }
 

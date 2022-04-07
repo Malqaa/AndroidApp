@@ -37,8 +37,7 @@ class CartActivity : BaseActivity() {
 
         the_next.setOnClickListener {
             if (ConstantObjects.usercart.size > 0) {
-              val jk=R.id.checkout_to_shipping_address
-                val  intent = Intent(this, AddressPaymentActivity::class.java)
+                val intent = Intent(this, AddressPaymentActivity::class.java)
                 startActivity(intent)
             } else {
                 showError(getString(R.string.empty_cart))
@@ -48,9 +47,9 @@ class CartActivity : BaseActivity() {
 
 
     private fun setCategoryAdaptor() {
-        var price=0.0
+        var price = 0.0
         ConstantObjects.usercart.forEach {
-            price+= it.advertisements.price.toDouble()
+            price += it.advertisements.price.toDouble()
         }
         price_total.text = price.toString()
         cart_rcv.adapter = object : GenericListAdapter<CartItemModel>(
@@ -59,8 +58,8 @@ class CartActivity : BaseActivity() {
                 holder.view.run {
                     element.advertisements.run {
                         //  prod_type.text=protype
-                        //    prod_name.text=proname
-                        //   prod_city.text=procity
+                        //  prod_name.text=name
+                        //prod_city.text=cityName
                         prod_price.text = "$price ${getString(R.string.sar)}"
                         Picasso.get()
                             .load(ApiConstants.IMAGE_URL + image)
@@ -81,7 +80,7 @@ class CartActivity : BaseActivity() {
     }
 
     fun GetUsersCartList(onSuccess: (() -> Unit)? = null) {
-        HelpFunctions.startProgressBar(this )
+        HelpFunctions.startProgressBar(this)
         val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
         val call: Call<AddToCartResponseModel> =
             malqa.GetUsersCartList(ConstantObjects.logged_userid)
@@ -106,8 +105,7 @@ class CartActivity : BaseActivity() {
 
             }
         })
-        
-        
+
 
     }
 }

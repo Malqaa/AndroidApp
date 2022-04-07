@@ -112,13 +112,13 @@ interface MalqaApiService {
     fun createuser(@Body registeruser: User): Call<GeneralRespone>
 
     @POST(VERIFY_API_ENDPOINT)
-    fun verifycode(@Body verifyusercode: PostReqVerifyCode): Call<PostReqVerifyCode>
+    fun verifycode(@Body verifyusercode: PostReqVerifyCode): Call<BasicResponse>
 
     @POST(UPDATEUSER_SIGNUP_ENDPOINT)
     fun updateUserSiginup(@Body updateusersignupp: User): Call<User>
 
     @POST(RESEND_OTPCODE_API_ENDPOINT)
-    fun resendcode(@Body resendotpcode: User): Call<GeneralRespone>
+    fun resendcode(@Body resendotpcode: User): Call<BasicResponse>
 
 
     @POST("CarTemplate/Create")
@@ -207,13 +207,13 @@ interface MalqaApiService {
     fun changepass(@Body changepasspost: User): Call<User>
 
     @POST(INSERT_AD_WATCHLIST_ENDPOINT)
-    fun InsertAdtoUserWatchlist(@Body insertads: watchlistadd): Call<Basicresponse>
+    fun InsertAdtoUserWatchlist(@Body insertads: watchlistadd): Call<BasicResponse>
 
     @POST(DELETE_AD_WATCHLIST_ENDPOINT + "?")
     fun DeleteAdFromUserWatchlist(
         @Query("userid") userid: String,
         @Query("adid") adsId: String
-    ): Call<Basicresponse>
+    ): Call<BasicResponse>
 
     @POST(POST_USER_IMAGE_ENDPOINT + "?")
     fun userimageupload(
@@ -222,7 +222,7 @@ interface MalqaApiService {
     ): Call<UserImageResponseBack>
 
     @POST("?")
-    fun InsertToUserFavouritelist(@Body insertfav: favouriteadd): Call<Basicresponse>
+    fun InsertToUserFavouritelist(@Body insertfav: favouriteadd): Call<BasicResponse>
 
     @POST("?")
     fun DeleteFromUserFavouritelist(
@@ -316,7 +316,7 @@ interface MalqaApiService {
     fun getshipaddress(@Query("loginId") getaddressbyLoginId: String): Call<ModelShipAddresses>
 
     @POST(ApiConstants.INSERT_BUYNOW_SHIPPINGADDRESS_ENDPOINT)
-    fun AddNewShippingAddress(@Body shippingaddress: ShippingAddressessData): Call<Basicresponse>
+    fun AddNewShippingAddress(@Body shippingaddress: ShippingAddressessData): Call<BasicResponse>
 
     @GET(SEARCH_CATEGORY_LISTING_ENDPOINT + "?")
     fun searchcategorylist(@Query("query") category: String): Call<CategoryResponse>;
@@ -340,20 +340,20 @@ interface MalqaApiService {
     fun GetUserCreditCards(@Query("usid") userid: String): Call<CreditCardResponse>;
 
     @POST(INSERT_CREDIT_CARD_ENDPOINT)
-    fun InsertUserCreditCard(@Body insertads: CreditCardRequestModel): Call<Basicresponse>
+    fun InsertUserCreditCard(@Body insertads: CreditCardRequestModel): Call<BasicResponse>
 
     @DELETE(DELETE_CREDIT_CARD_ENDPOINT + "?")
-    fun DeleteUserCreditCard(@Query("id") userid: String): Call<Basicresponse>
+    fun DeleteUserCreditCard(@Query("id") userid: String): Call<BasicResponse>
 
     @GET(ADD_TO_CART_USER_LIST_ENDPOINT + "?")
     fun GetUsersCartList(@Query("loggedinUserId") userid: String): Call<AddToCartResponseModel>;
 
     @POST(ADD_TO_CART_INSERT_ENDPOINT)
-    fun AddToUserCart(@Body addtocart: InsertToCartRequestModel): Call<Basicresponse>
+    fun AddToUserCart(@Body addtocart: InsertToCartRequestModel): Call<BasicResponse>
 
     @DELETE(ADD_TO_CART_DELETE_ENDPOINT + "?")
-    fun DeleteFromUserCart(@Query("id") userid: String): Call<Basicresponse>
+    fun DeleteFromUserCart(@Query("id") userid: String): Call<BasicResponse>
 
     @POST(CHECKOUT_INSERT_ENDPOINT)
-    fun PostUserCheckOut(@Body checkout: CheckoutRequestModel): Call<Basicresponse>
+    fun PostUserCheckOut(@Body checkout: CheckoutRequestModel): Call<BasicResponse>
 }

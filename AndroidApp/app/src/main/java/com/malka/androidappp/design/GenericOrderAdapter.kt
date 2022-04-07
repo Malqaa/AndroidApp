@@ -10,7 +10,7 @@ import com.malka.androidappp.helper.BaseViewHolder
 import com.malka.androidappp.helper.GenericAdaptor
 import com.malka.androidappp.servicemodels.AdDetailModel
 
-class GenericProductAdapterNew (
+class GenericOrderAdapter (
     var soldOrderDetail: List<AdDetailModel>,
     var context: Context
 ) : RecyclerView.Adapter<BaseViewHolder>() {

@@ -20,14 +20,13 @@ import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.constants.ApiConstants
 import com.malka.androidappp.network.service.MalqaApiService
-import com.malka.androidappp.servicemodels.Basicresponse
+import com.malka.androidappp.servicemodels.BasicResponse
 import com.malka.androidappp.servicemodels.ConstantObjects
 import com.malka.androidappp.servicemodels.addtocart.CartItemModel
 import com.malka.androidappp.servicemodels.checkout.CheckoutRequestModel
 import com.malka.androidappp.servicemodels.creditcard.CreditCardResponseModel
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_address_payment.*
-import kotlinx.android.synthetic.main.activity_cart.*
 import kotlinx.android.synthetic.main.alert_box.view.*
 import kotlinx.android.synthetic.main.cart_design_new.view.*
 import kotlinx.android.synthetic.main.toolbar_main.*
@@ -37,6 +36,8 @@ import retrofit2.Response
 
 class AddressPaymentActivity : BaseActivity() {
     var selectAddress: GetAddressResponse.AddressModel? = null
+    var price = 0.0
+    val cartIds: MutableList<String> = mutableListOf()
 
     companion object {
         var totalAMount = "10"
@@ -103,12 +104,7 @@ class AddressPaymentActivity : BaseActivity() {
 
     }
     fun CheckoutUserCart(selectCard: CreditCardResponseModel) {
-        val cartIds: MutableList<String> = mutableListOf()
-        if (ConstantObjects.usercart.size > 0) {
-            for (IndItem in ConstantObjects.usercart) {
-                cartIds.add(IndItem.advertisements.id)
-            }
-        }
+
         val checkoutinfo = CheckoutRequestModel(
             cartId = cartIds,
             addressId = selectAddress!!.id,
@@ -124,10 +120,10 @@ class AddressPaymentActivity : BaseActivity() {
     fun PostUserCheckOut(checkoutinfo: CheckoutRequestModel, context: Context) {
 
             val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-            val call: Call<Basicresponse> = malqa.PostUserCheckOut(checkoutinfo)
+            val call: Call<BasicResponse> = malqa.PostUserCheckOut(checkoutinfo)
 
-            call.enqueue(object : Callback<Basicresponse?> {
-                override fun onFailure(call: Call<Basicresponse?>?, t: Throwable) {
+            call.enqueue(object : Callback<BasicResponse?> {
+                override fun onFailure(call: Call<BasicResponse?>?, t: Throwable) {
                     HelpFunctions.dismissProgressBar()
                     HelpFunctions.ShowLongToast(
                         getString(R.string.Error),
@@ -136,11 +132,11 @@ class AddressPaymentActivity : BaseActivity() {
                 }
 
                 override fun onResponse(
-                    call: Call<Basicresponse?>,
-                    response: Response<Basicresponse?>
+                    call: Call<BasicResponse?>,
+                    response: Response<BasicResponse?>
                 ) {
                     if (response.isSuccessful) {
-                        val resp: Basicresponse = response.body()!!;
+                        val resp: BasicResponse = response.body()!!;
                         if (resp.status_code == 200 && (resp.data == true || resp.data == 1 || resp.data == 1.0)) {
                             startActivity(Intent(this@AddressPaymentActivity, SuccessOrder::class.java).apply {
                                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -159,11 +155,15 @@ class AddressPaymentActivity : BaseActivity() {
     }
     
     private fun setCategoryAdaptor() {
-//        var price=0.0
-//        ConstantObjects.usercart.forEach {
-//            price+= it.advertisements.price.toDouble()
-//        }
-//        total_price.text = price.toString()
+        if (ConstantObjects.usercart.size > 0) {
+            for (IndItem in ConstantObjects.usercart) {
+                cartIds.add(IndItem.advertisements.id)
+                price += IndItem.advertisements.price.toDouble()
+            }
+        }
+        totalAMount=price.toString()
+        calculation(price)
+
         cart_new_rcv.adapter = object : GenericListAdapter<CartItemModel>(
             R.layout.cart_design_new,
             bind = { element, holder, itemCount, position ->
@@ -183,9 +183,9 @@ class AddressPaymentActivity : BaseActivity() {
                                 .create()
                             val view = layoutInflater.inflate(R.layout.alert_box, null)
                             builder.setView(view)
-//                            close_alert.setOnClickListener {
-//                                builder.dismiss()
-//                            }
+                            view.close_alert.setOnClickListener {
+                                builder.dismiss()
+                            }
                             builder.setCanceledOnTouchOutside(false)
                             builder.show()
 
@@ -207,7 +207,18 @@ class AddressPaymentActivity : BaseActivity() {
         }
     }
 
+    private fun calculation(totalPrice: Double) {
+        val discount =0.0
+        val TaxAmount = totalPrice * 12 / 100
+        val total = totalPrice + TaxAmount-discount
+        subtotal_tv.text = "${totalPrice} ${getString(R.string.rial)}"
+        discount_tv.text = "-${discount} ${getString(R.string.rial)}"
+        delivery_tax_tv.text = "${TaxAmount} ${getString(R.string.rial)}"
+        added_tax.text = "${TaxAmount} ${getString(R.string.rial)}"
 
+
+        total_tv.text = "${total} ${getString(R.string.rial)}"
+    }
 
 
 }

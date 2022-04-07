@@ -52,11 +52,11 @@
         android:id="@+id/img_shopcart"
         android:layout_width="95dp"
         android:layout_height="95dp"
-        android:src="@drawable/mobile"
         android:layout_below="@+id/view1_shopcart"
         android:layout_marginStart="12dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
+        android:src="@drawable/mobile"
 
         />
 
@@ -95,26 +95,25 @@
         android:layout_below="@+id/tx_after_descrip"
         android:layout_toEndOf="@+id/img_shopcart"
         >
+
         <Spinner
             android:id="@+id/spinner_quantity"
             android:layout_width="wrap_content"
             android:layout_height="25dp"
             android:drawSelectorOnTop="true"
-            android:entries="@array/payment_method"
-            />
+            android:entries="@array/payment_method" />
     </RelativeLayout>
 
     <TextView
         android:id="@+id/total_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="AED 18.95"
+        android:layout_below="@+id/tx_after_descrip"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="10dp"
-        android:textSize="12sp"
+        android:text="AED 18.95"
         android:textColor="@color/black"
-        android:layout_below="@+id/tx_after_descrip"
-        />
+        android:textSize="12sp" />
 
 
 </RelativeLayout>

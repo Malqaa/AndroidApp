@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/product_attribute_bg4"
     android:backgroundTint="@null"
-    android:background="@drawable/product_attribute_bg4">
+    android:orientation="vertical">
 
 
     <LinearLayout
@@ -31,9 +33,9 @@
             android:text="@string/payment_options"
             android:textSize="@dimen/_14sdp" />
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_45sdp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginTop="@dimen/_10sdp"
             android:background="@drawable/edittext_bg"
@@ -41,98 +43,80 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/_10sdp"
-                android:layout_weight="1"
                 android:fontFamily="@font/madani_arabic_medium"
                 android:gravity="center_vertical"
-                android:text="Saudi Bank"
-                android:textSize="@dimen/_14sdp" />
+                android:text="@string/saudi_bank_deposit"
+                android:textSize="@dimen/_12sdp" />
 
             <RadioButton
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
                 android:gravity="center" />
 
 
-        </LinearLayout>
-
-
-        <LinearLayout
+        </RelativeLayout>
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_45sdp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginTop="@dimen/_10sdp"
             android:background="@drawable/edittext_bg"
             android:padding="@dimen/_5sdp">
 
             <TextView
-
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:fontFamily="@font/madani_arabic_medium"
                 android:gravity="center_vertical"
                 android:text="@string/Visa"
-                android:textSize="@dimen/_14sdp" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:layout_weight="1">
-
-                <ImageView
-                    android:layout_width="@dimen/_25sdp"
-                    android:layout_height="@dimen/_25sdp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/mastercard" />
-
-            </LinearLayout>
+                android:textSize="@dimen/_12sdp" />
 
             <RadioButton
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
                 android:gravity="center" />
 
 
-        </LinearLayout>
+        </RelativeLayout>
+
+
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_confirm_details"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_45sdp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_12sdp"
             android:layout_marginBottom="@dimen/_5sdp"
             android:background="@drawable/round_btn"
             android:fontFamily="@font/madani_arabic_semi_bold"
-            android:text="@string/complete_the_order"
+            android:text="@string/NextStep"
             android:textAllCaps="false"
             android:textColor="#ffffff"
-            android:textSize="@dimen/_14sdp" />
+            android:textSize="@dimen/_14sdp"
+            android:visibility="gone" />
 
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/payment_option"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_10sdp"
-        android:layout_marginEnd="@dimen/_10sdp"
-        android:layout_marginBottom="@dimen/_15sdp"
-        android:background="@drawable/product_attribute_bg4"
-        android:layout_below="@+id/main"
-        android:orientation="vertical">
-
-        <TextView
+        <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
+            android:id="@+id/payment_option"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
             android:gravity="center"
-            android:padding="@dimen/_12sdp"
-            android:text="@string/payment_options" />
+            android:text="@string/payment_options"
+            app:viewType="text" />
 
     </LinearLayout>
 
-</RelativeLayout>
+
+</LinearLayout>

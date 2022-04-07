@@ -34,7 +34,7 @@ class GenericProductAdapter(
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
 
 
-//        GenericAdaptor().productAdaptor(marketposts.get(position), context, holder,isGrid)
+          GenericAdaptor().productAdaptor(marketposts.get(position), context, holder,isGrid)
 
 
 //

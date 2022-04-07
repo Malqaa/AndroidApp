@@ -15,13 +15,12 @@ object ApiConstants {
     const val IMAGE_URL =
         HTTP_PROTOCOL + "://" + SERVER_LOCATION + "/" + IMAGE_FOLDER + "/";
 
-    const val HOME_URL = API_BASE_URL + "CarTemplate/"
-    const val HOME_RECENT_URL = HOME_URL + "RecentListing/"
-    const val HOME_FEATURED_PROPERTY_URL = HOME_URL + "feactureAdvsInProperty/"
-    const val HOME_FEATURED_MOTORS_URL = HOME_URL + "feactureAdvsInMotors/"
-    const val HOME_CLOSING_SOON_URL = HOME_URL + "closingSoon/"
-    const val HOME_GENERAL_ADS_URL = HOME_URL + "RecentListing/"
-    const val HOME_ALL_ADS_URL = HOME_URL + "All/"
+    const val HOME_RECENT_URL = "CarTemplate/RecentListing/"
+    const val HOME_FEATURED_PROPERTY_URL = "CarTemplate/feactureAdvsInProperty/"
+    const val HOME_FEATURED_MOTORS_URL = "CarTemplate/feactureAdvsInMotors/"
+    const val HOME_CLOSING_SOON_URL =  "CarTemplate/closingSoon/"
+    const val HOME_GENERAL_ADS_URL = "CarTemplate/RecentListing/"
+    const val HOME_ALL_ADS_URL =  "CarTemplate/All/"
 
     const val CREATE_USER_ENDPOINT = "Accounts/signUp"
     const val LOGIN_ENDPOINT = "Accounts/login"
@@ -30,7 +29,7 @@ object ApiConstants {
     const val GET_ADDRESS_ENDPOINT = "Accounts/getaddresses"
     const val GET_CARD_DETAILS_ENDPOINT = "CardDetail/getbyuserid"
     const val GET_BANK__ACCOUNT_DETAIL = "UserBankAccount/UserBankAccountsById"
-    const val ACCOUNT_BASE_URL = API_BASE_URL + "Accounts/"
+    const val ACCOUNT_BASE_URL =  "Accounts/"
     const val VERIFY_API_ENDPOINT = "Accounts/verify"
     const val BUSSINESS_USER_ENDPOINT = "Accounts/CreateBusinessAccount"
     const val BUSSINESS_REGISTER_FILE_ENDPOINT = "Accounts/UploadBusinessDocuments"
@@ -39,14 +38,14 @@ object ApiConstants {
     const val UPDATEUSER_SIGNUP_ENDPOINT = "Accounts/updatePersonalInfo"
     const val GET_CATEGORY_LISTING_ENDPOINT = "SearchFilter/generalsearchfilters"
     const val GET_USER = ACCOUNT_BASE_URL
-    const val GET_WATCHLIST_LISTING = API_BASE_URL + "Watchlist/"
+    const val GET_WATCHLIST_LISTING = "Watchlist/"
     const val GET_WATCHLIST_LISTING_ENDPOINT = "Watchlist/getall"
     const val GETUSER_ENDPOINT = "Accounts/GetUser"
     const val FEEDBACK_PARAMETER = "Auction/getall"
     const val GIVE_FEEDBACK_ENDPOINT = "Auction/InsertFeedback"
     const val FAVOURITE_ENDPOINT = "Favourite/"
     const val FAVOURITE_PARAMETER = "all"
-    const val USERFAVOURITE_ENDPOINT = API_BASE_URL + FAVOURITE_ENDPOINT
+    const val USERFAVOURITE_ENDPOINT =  FAVOURITE_ENDPOINT
 
     const val ADVBYID_ENDPOINT = "CarTemplate/Details"
 
