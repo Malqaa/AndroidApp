@@ -4,31 +4,17 @@ import android.app.Activity
 import android.app.DatePickerDialog
 import android.graphics.Color
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
-import androidx.appcompat.widget.Toolbar
-import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.fragment.app.Fragment
 import com.malka.androidappp.R
-import com.malka.androidappp.botmnav_fragments.create_ads.StaticClassAdCreate
-import com.malka.androidappp.botmnav_fragments.shoppingcart7_placeholder.AdapterPlaceholderProductlist
-import com.malka.androidappp.botmnav_fragments.shoppingcart7_placeholder.ModelPlaceholderProductlist
 import com.malka.androidappp.helper.FourDigitCardFormatWatcher
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.servicemodels.ConstantObjects
 import com.malka.androidappp.servicemodels.creditcard.CreditCardRequestModel
-import com.malka.androidappp.servicemodels.user.UserObject
 import kotlinx.android.synthetic.main.fragment_add_new_card.*
-import kotlinx.android.synthetic.main.fragment_cart_placeholder.*
-import kotlinx.android.synthetic.main.fragment_cart_placeholder.toolbar_cart_placeholder
-import kotlinx.android.synthetic.main.fragment_general.*
 import java.util.*
 
 class AddNewCard : Fragment() {
