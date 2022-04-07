@@ -1,6 +1,7 @@
 package com.malka.androidappp.activities_main.order
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -26,7 +27,9 @@ import com.malka.androidappp.servicemodels.checkout.CheckoutRequestModel
 import com.malka.androidappp.servicemodels.creditcard.CreditCardResponseModel
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_address_payment.*
-import kotlinx.android.synthetic.main.cart_design.view.*
+import kotlinx.android.synthetic.main.activity_cart.*
+import kotlinx.android.synthetic.main.alert_box.view.*
+import kotlinx.android.synthetic.main.cart_design_new.view.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -95,6 +98,9 @@ class AddressPaymentActivity : BaseActivity() {
             }
         }
 
+
+
+
     }
     fun CheckoutUserCart(selectCard: CreditCardResponseModel) {
         val cartIds: MutableList<String> = mutableListOf()
@@ -153,8 +159,13 @@ class AddressPaymentActivity : BaseActivity() {
     }
     
     private fun setCategoryAdaptor() {
-        cart_rcv.adapter = object : GenericListAdapter<CartItemModel>(
-            R.layout.cart_design,
+//        var price=0.0
+//        ConstantObjects.usercart.forEach {
+//            price+= it.advertisements.price.toDouble()
+//        }
+//        total_price.text = price.toString()
+        cart_new_rcv.adapter = object : GenericListAdapter<CartItemModel>(
+            R.layout.cart_design_new,
             bind = { element, holder, itemCount, position ->
                 holder.view.run {
                     element.advertisements.run {
@@ -165,6 +176,22 @@ class AddressPaymentActivity : BaseActivity() {
                         Picasso.get()
                             .load(ApiConstants.IMAGE_URL + image)
                             .into(prod_image)
+
+                        payment_option_btn.setOnClickListener {
+
+                            val builder = AlertDialog.Builder(this@AddressPaymentActivity)
+                                .create()
+                            val view = layoutInflater.inflate(R.layout.alert_box, null)
+                            builder.setView(view)
+//                            close_alert.setOnClickListener {
+//                                builder.dismiss()
+//                            }
+                            builder.setCanceledOnTouchOutside(false)
+                            builder.show()
+
+                            delivery_option._view3().setGravity(Gravity.CENTER)
+                            payment_option_btn._view3().setGravity(Gravity.CENTER)
+                        }
                     }
                 }
             }
@@ -179,4 +206,8 @@ class AddressPaymentActivity : BaseActivity() {
             )
         }
     }
+
+
+
+
 }

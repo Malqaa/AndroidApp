@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.graphics.PorterDuff
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Filter
@@ -11,6 +12,8 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.Gson
@@ -22,8 +25,14 @@ import com.malka.androidappp.activities_main.login.SignInActivity
 import com.malka.androidappp.activities_main.order.CartActivity
 import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.botmnav_fragments.cardetail_page.ModelSellerDetails
+import com.malka.androidappp.botmnav_fragments.item_em_selling.AdapterImSelling
+import com.malka.androidappp.botmnav_fragments.item_em_selling.ItemImSelling
+import com.malka.androidappp.botmnav_fragments.item_em_selling.ModelImSelling
+import com.malka.androidappp.botmnav_fragments.sellerdetails.SellerResponseBack
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
+import com.malka.androidappp.design.Models.getCardDetailsModel
 import com.malka.androidappp.design.ProductReviews
+import com.malka.androidappp.design.SellerInformation
 import com.malka.androidappp.helper.Extension.decimalNumberFormat
 import com.malka.androidappp.helper.Extension.loadThumbnail
 import com.malka.androidappp.helper.Extension.shared
@@ -110,6 +119,11 @@ class ProductDetails : BaseActivity() {
         next_image.setOnClickListener {
 
         }
+        sellerName.setOnClickListener {
+            startActivity(Intent(this, SellerInformation::class.java).apply {
+
+            })
+        }
 
 
 
@@ -136,6 +150,44 @@ class ProductDetails : BaseActivity() {
         add_to_cart.setOnClickListener {
             current_price_buy.performClick()
         }
+
+
+        youtube_btn.setOnClickListener(View.OnClickListener {
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://www.youtube.com/")
+                )
+            )
+        })
+
+        instagram_btn.setOnClickListener(View.OnClickListener {
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://www.instagram.com/")
+                )
+            )
+        })
+
+        skype_btn.setOnClickListener(View.OnClickListener {
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://www.skype.com/")
+                )
+            )
+        })
+
+        maps_btn.setOnClickListener(View.OnClickListener {
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://www.google.com/maps/")
+                )
+            )
+        })
+
 
     }
 
@@ -610,7 +662,8 @@ class ProductDetails : BaseActivity() {
                             sellerName.text = fullName ?: ""
                             seller_city.text = city
                             seller_number.text = phone
-
+                            member_since_Tv.text =
+                                "${getString(R.string.member_since)}: $member_since"
                             val imageLink = image
                             if (!imageLink.isNullOrEmpty()) {
                                 Picasso.get().load(imageLink)
@@ -699,4 +752,5 @@ class ProductDetails : BaseActivity() {
         
        
     }
+
 }

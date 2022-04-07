@@ -11,9 +11,11 @@ import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.servicemodels.ConstantObjects
+import io.reactivex.internal.subscribers.ForEachWhileSubscriber
 import kotlinx.android.synthetic.main.fragment_payment_card_fragment.*
 import kotlinx.android.synthetic.main.payment_card_design.view.*
 import kotlinx.android.synthetic.main.toolbar_main.*
+import java.lang.StringBuilder
 
 class payment_card_fragment : Fragment(R.layout.fragment_payment_card_fragment) {
 
@@ -92,14 +94,28 @@ class payment_card_fragment : Fragment(R.layout.fragment_payment_card_fragment) 
 
 //                        val sb = StringBuilder()
 //                        cardnumber.toCharArray().forEachIndexed { index, c ->
-//                            if (index % 4 == 0) {
+//                            if (index % 4 < sb.length) {
 //                                sb.append(c)
 //                            }else{
 //                                sb.append(c).append(" ")
 //                            }
+//
 //                        }
 //                        card_number.text = sb.toString()
-                        card_number.text = cardnumber
+//
+
+
+                        val s: StringBuilder
+                        s = StringBuilder(cardnumber)
+
+                            var i = 4
+                            while (i < s.length) {
+                                s.insert(i, " ")
+                                i += 5
+                            }
+                        card_number.setText(s.toString())
+
+
                         expiry_date.text = expiryDate
                         card_user_name.text = card_holder_name ?: "Card Holder Name"
 
@@ -118,6 +134,9 @@ class payment_card_fragment : Fragment(R.layout.fragment_payment_card_fragment) 
             )
         }
     }
+
+
+
 
 
 }

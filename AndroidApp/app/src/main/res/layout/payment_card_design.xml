@@ -39,7 +39,7 @@
             android:id="@+id/card_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="1234 45689 5389 4356"
+            android:text="1234456895634"
             android:fontFamily="@font/madani_arabic_light"
             android:textColor="@color/white"
             android:layout_marginStart="@dimen/_10sdp"

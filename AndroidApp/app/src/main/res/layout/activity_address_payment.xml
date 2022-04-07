@@ -30,7 +30,7 @@
                     android:id="@+id/address_rcv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/_10sdp"
+                    android:layout_margin="@dimen/_20sdp"
                     android:orientation="vertical"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
@@ -39,9 +39,9 @@
                     android:id="@+id/add_new_add"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginStart="@dimen/_20sdp"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_20sdp"
                     android:layout_marginBottom="@dimen/_10sdp"
                     android:gravity="center"
                     android:text="@string/add_a_new_address"
@@ -51,7 +51,7 @@
 
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/cart_rcv"
+                    android:id="@+id/cart_new_rcv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/_10sdp"
