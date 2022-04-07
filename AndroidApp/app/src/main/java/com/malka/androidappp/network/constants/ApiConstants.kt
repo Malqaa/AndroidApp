@@ -4,7 +4,6 @@ object ApiConstants {
 
     const val HTTP_PROTOCOL = "http"
 
-    const val SERVER_LOCATION2 = "89.40.10.168:82" // TODO REMOVE IT
     const val SERVER_LOCATION = "89.40.10.168:85"
     private const val API_VERSION = "v1"
     private const val IMAGE_FOLDER = "ImageFile"
