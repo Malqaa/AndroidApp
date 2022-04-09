@@ -2718,5 +2718,6 @@
   <string name="al_khalis_company">( شركة الخالص)</string>
   <string name="shipment_no_1">شحنة رقم 1</string>
   <string name="total_charges">مجموع الشحنة</string>
+    <string name="update_card">Update Card</string>
 
 </resources>

@@ -130,6 +130,7 @@ object ApiConstants {
     const val GET_USER_CREDIT_CARD_ENDPOINT = "CardDetail/getbyuserid"
 
     const val INSERT_CREDIT_CARD_ENDPOINT = "CardDetail/insertcard"
+    const val UPDATE_CREDIT_CARD_ENDPOINT = "CardDetail/updatecard"
 
     const val DELETE_CREDIT_CARD_ENDPOINT = "CardDetail/deletecard"
 

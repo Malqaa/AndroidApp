@@ -1,21 +1,22 @@
 package com.malka.androidappp.botmnav_fragments
 
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
 import android.widget.Filter
 import androidx.fragment.app.Fragment
 import com.malka.androidappp.R
 import com.malka.androidappp.design.Models.getCardDetailsModel
+import com.malka.androidappp.helper.CommonBottomSheet
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.servicemodels.ConstantObjects
-import io.reactivex.internal.subscribers.ForEachWhileSubscriber
+import com.malka.androidappp.servicemodels.creditcard.CreditCardModel
 import kotlinx.android.synthetic.main.fragment_payment_card_fragment.*
 import kotlinx.android.synthetic.main.payment_card_design.view.*
 import kotlinx.android.synthetic.main.toolbar_main.*
-import java.lang.StringBuilder
 
 class payment_card_fragment : Fragment(R.layout.fragment_payment_card_fragment) {
 
@@ -26,6 +27,8 @@ class payment_card_fragment : Fragment(R.layout.fragment_payment_card_fragment) 
         getCardDetails()
         initView()
         setListenser()
+
+        add_new_card._view3().setGravity(Gravity.CENTER)
 
     }
 
@@ -40,7 +43,14 @@ class payment_card_fragment : Fragment(R.layout.fragment_payment_card_fragment) 
             requireActivity().onBackPressed()
         }
 
+        add_new_card.setOnClickListener {
+            CommonBottomSheet().addCardBottomSheet(requireContext(), {
+//                onConfirm.invoke(selectCard!!)
+            }, false, true)
+        }
+
     }
+
 
     fun getCardDetails() {
 
@@ -85,39 +95,38 @@ class payment_card_fragment : Fragment(R.layout.fragment_payment_card_fragment) 
 
     }
 
-    private fun PaymentCardAdaptor(list: List<getCardDetailsModel.Data>) {
-        cardDetails_rcv.adapter = object : GenericListAdapter<getCardDetailsModel.Data>(
+
+    private fun PaymentCardAdaptor(list: List<CreditCardModel>) {
+        cardDetails_rcv.adapter = object : GenericListAdapter<CreditCardModel>(
             R.layout.payment_card_design,
             bind = { element, holder, itemCount, position ->
                 holder.view.run {
                     element.run {
 
-//                        val sb = StringBuilder()
-//                        cardnumber.toCharArray().forEachIndexed { index, c ->
-//                            if (index % 4 < sb.length) {
-//                                sb.append(c)
-//                            }else{
-//                                sb.append(c).append(" ")
-//                            }
-//
-//                        }
-//                        card_number.text = sb.toString()
-//
+                        var s: StringBuilder
+                        s = StringBuilder(cardnumberformat())
 
 
-                        val s: StringBuilder
-                        s = StringBuilder(cardnumber)
+//                        cardnumber = cardnumber.replace(" " , "")
 
-                            var i = 4
-                            while (i < s.length) {
-                                s.insert(i, " ")
-                                i += 5
-                            }
+
+                        var i = 4
+                        while (i < s.length) {
+                            s.insert(i, " ")
+                            i += 5
+                        }
                         card_number.setText(s.toString())
-
 
                         expiry_date.text = expiryDate
                         card_user_name.text = card_holder_name ?: "Card Holder Name"
+
+
+                        edit_card.setOnClickListener {
+                            CommonBottomSheet().addCardBottomSheet(requireContext(), {
+                            }, true,
+                                true ,element, )
+
+                        }
 
 
                     }
@@ -134,9 +143,6 @@ class payment_card_fragment : Fragment(R.layout.fragment_payment_card_fragment) 
             )
         }
     }
-
-
-
 
 
 }

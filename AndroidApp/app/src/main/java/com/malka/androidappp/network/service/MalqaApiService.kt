@@ -80,6 +80,7 @@ import com.malka.androidappp.network.constants.ApiConstants.PRODUCTBYID_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.RESEND_OTPCODE_API_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.SEARCH_CATEGORY_LISTING_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.UPDATEUSER_SIGNUP_ENDPOINT
+import com.malka.androidappp.network.constants.ApiConstants.UPDATE_CREDIT_CARD_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.VERIFY_API_ENDPOINT
 import com.malka.androidappp.servicemodels.*
 import com.malka.androidappp.servicemodels.addtocart.AddToCartResponseModel
@@ -341,6 +342,8 @@ interface MalqaApiService {
 
     @POST(INSERT_CREDIT_CARD_ENDPOINT)
     fun InsertUserCreditCard(@Body insertads: CreditCardRequestModel): Call<Basicresponse>
+    @POST(UPDATE_CREDIT_CARD_ENDPOINT)
+    fun UpdateUserCreditCard(@Body insertads: CreditCardRequestModel): Call<Basicresponse>
 
     @DELETE(DELETE_CREDIT_CARD_ENDPOINT + "?")
     fun DeleteUserCreditCard(@Query("id") userid: String): Call<Basicresponse>

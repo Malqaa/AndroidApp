@@ -1,8 +1,8 @@
 package com.malka.androidappp.servicemodels.creditcard
 
-data class CreditCardResponseModel(
+data class CreditCardModel(
     val id: String,
-    val cardnumber: String,
+    var cardnumber: String,
     val expiryDate: String,
     val cvcNumber: String,
     val userId: String,
@@ -13,4 +13,10 @@ data class CreditCardResponseModel(
     val updatedOn: String,
     val isActive: Boolean,
     var isSelected: Boolean=false,
+    val card_holder_name: String
 )
+{
+    fun cardnumberformat(): String{
+       return cardnumber.replace(" ", "")
+    }
+}

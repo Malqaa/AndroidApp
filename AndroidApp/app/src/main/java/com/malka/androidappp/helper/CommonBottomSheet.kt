@@ -3,9 +3,11 @@ package com.malka.androidappp.helper
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.opengl.Visibility
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.Gravity
+import android.view.View
 import android.widget.Filter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -17,11 +19,13 @@ import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.servicemodels.Basicresponse
 import com.malka.androidappp.servicemodels.ConstantObjects
+import com.malka.androidappp.servicemodels.creditcard.CreditCardModel
 import com.malka.androidappp.servicemodels.creditcard.CreditCardRequestModel
-import com.malka.androidappp.servicemodels.creditcard.CreditCardResponseModel
+import kotlinx.android.synthetic.main.activity_signup_pg4.*
 import kotlinx.android.synthetic.main.add_card_layout.*
 import kotlinx.android.synthetic.main.card_item.view.*
 import kotlinx.android.synthetic.main.card_selection_layout.*
+import kotlinx.android.synthetic.main.carspec_card8.*
 import kotlinx.android.synthetic.main.paymnet_option_layout.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -67,12 +71,12 @@ class CommonBottomSheet {
         }
 
     }
-    var selectCard: CreditCardResponseModel? = null
+    var selectCard: CreditCardModel? = null
 
     fun showCardSelection(
         context: Context,
-        list: List<CreditCardResponseModel>,
-        onConfirm: (selectCard: CreditCardResponseModel) -> Unit
+        list: List<CreditCardModel>,
+        onConfirm: (selectCard: CreditCardModel) -> Unit
     ) {
         BottomSheetDialog(context).apply {
             setContentView(R.layout.card_selection_layout)
@@ -106,8 +110,8 @@ class CommonBottomSheet {
 
     }
 
-    private fun cardAdaptor(rcv: RecyclerView, list: List<CreditCardResponseModel>) {
-        rcv.adapter = object : GenericListAdapter<CreditCardResponseModel>(
+    private fun cardAdaptor(rcv: RecyclerView, list: List<CreditCardModel>) {
+        rcv.adapter = object : GenericListAdapter<CreditCardModel>(
             R.layout.card_item,
             bind = { element, holder, itemCount, position ->
                 holder.view.run {
@@ -160,7 +164,10 @@ class CommonBottomSheet {
             return ""
         }
     }
-    fun addCardBottomSheet(context: Context,onConfirm: (selectCard: CreditCardResponseModel) -> Unit) {
+    fun addCardBottomSheet(context: Context, onConfirm: (selectCard: CreditCardModel) -> Unit,
+                           isUpdate: Boolean = false,
+                           isSaveLater: Boolean = false,
+                           oldCard: CreditCardModel ?= null) {
         BottomSheetDialog(context).apply {
             setContentView(R.layout.add_card_layout)
             card_expiry_tv._view().addTextChangedListener(object : TextWatcher {
@@ -178,9 +185,26 @@ class CommonBottomSheet {
                     }
                 }
             })
+            if (isUpdate){
+                oldCard!!.run {
+                    Cardno_tv.text= cardnumberformat()
+                    card_expiry_tv.text = expiryDate
+                    card_holder_tv.text = card_holder_name
+                    card_cvv_tv.text = cvcNumber
+                    id
+                    title_bottom_sheet.setText(context.getString(R.string.update_card))
+                }
+
+
+
+            }
+            if (isSaveLater){
+                switch_save_later.visibility = View.GONE
+            }
+
 
             Confirm_btn.setOnClickListener {
-                AddNewUserCard(context, this,onConfirm)
+                AddNewUserCard(context, this,onConfirm, isUpdate, oldCard)
             }
             getWindow()!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             show()
@@ -188,7 +212,8 @@ class CommonBottomSheet {
 
     }
 
-    fun AddNewUserCard(context: Context, view: BottomSheetDialog,onConfirm: (selectCard: CreditCardResponseModel) -> Unit) {
+    fun AddNewUserCard(context: Context, view: BottomSheetDialog,onConfirm: (selectCard: CreditCardModel) -> Unit,
+                       isUpdate: Boolean, oldCard: CreditCardModel? = null) {
         if (view.Cardno_tv.text.toString().isEmpty()) {
                 (context as BaseActivity).showError(
                 context.getString(
@@ -218,14 +243,28 @@ class CommonBottomSheet {
                 )
             )
         } else {
-            val cardinfo = CreditCardRequestModel(
-                card_number = view.Cardno_tv.text.toString(),
-                expiryDate = view.card_expiry_tv.text.toString(),
-                cvcNumber = view.card_cvv_tv.text.toString().toInt(),
-                userId = ConstantObjects.logged_userid,
-                id = ""
-            )
-            InsertUserCreditCard(cardinfo, context, view,onConfirm)
+
+
+            if (isUpdate){
+                val cardinfo = CreditCardRequestModel(
+                    card_number = view.Cardno_tv.text.toString(),
+                    expiryDate = view.card_expiry_tv.text.toString(),
+                    cvcNumber = view.card_cvv_tv.text.toString().toInt(),
+                    userId = ConstantObjects.logged_userid,
+                    id = oldCard!!.id
+                )
+                UpdateUserCreditCard(cardinfo, context )
+            }else{
+                val cardinfo = CreditCardRequestModel(
+                    card_number = view.Cardno_tv.text.toString(),
+                    expiryDate = view.card_expiry_tv.text.toString(),
+                    cvcNumber = view.card_cvv_tv.text.toString().toInt(),
+                    userId = ConstantObjects.logged_userid,
+                    id = ""
+                )
+                InsertUserCreditCard(cardinfo, context, view,onConfirm)
+            }
+
 
 
         }
@@ -234,7 +273,7 @@ class CommonBottomSheet {
     fun InsertUserCreditCard(
         cardinfo: CreditCardRequestModel,
         context: Context,
-        view: BottomSheetDialog,onConfirm: (selectCard: CreditCardResponseModel) -> Unit
+        view: BottomSheetDialog,onConfirm: (selectCard: CreditCardModel) -> Unit
     ) {
         val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
         val call: Call<Basicresponse> = malqa.InsertUserCreditCard(cardinfo)
@@ -259,6 +298,48 @@ class CommonBottomSheet {
                         }
                         HelpFunctions.ShowLongToast(
                             "Added Successfully",
+                            context
+                        )
+                    }
+                } else {
+                    HelpFunctions.ShowLongToast(
+                        context.getString(R.string.Error),
+                        context
+                    );
+                }
+                HelpFunctions.dismissProgressBar()
+            }
+        })
+
+
+    }
+
+
+
+
+    fun UpdateUserCreditCard(
+        cardinfo: CreditCardRequestModel,
+        context: Context,
+
+    ) {
+        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+        val call: Call<Basicresponse> = malqa.UpdateUserCreditCard(cardinfo)
+
+        call.enqueue(object : Callback<Basicresponse?> {
+            override fun onFailure(call: Call<Basicresponse?>?, t: Throwable) {
+                HelpFunctions.dismissProgressBar()
+            }
+
+            override fun onResponse(
+                call: Call<Basicresponse?>,
+                response: Response<Basicresponse?>
+            ) {
+                if (response.isSuccessful) {
+                    val resp: Basicresponse = response.body()!!;
+                    if (resp.status_code == 200)
+                    {
+                        HelpFunctions.ShowLongToast(
+                            "Update Successfully",
                             context
                         )
                     }

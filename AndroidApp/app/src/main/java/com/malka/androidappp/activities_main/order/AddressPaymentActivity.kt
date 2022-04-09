@@ -24,7 +24,7 @@ import com.malka.androidappp.servicemodels.Basicresponse
 import com.malka.androidappp.servicemodels.ConstantObjects
 import com.malka.androidappp.servicemodels.addtocart.CartItemModel
 import com.malka.androidappp.servicemodels.checkout.CheckoutRequestModel
-import com.malka.androidappp.servicemodels.creditcard.CreditCardResponseModel
+import com.malka.androidappp.servicemodels.creditcard.CreditCardModel
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_address_payment.*
 import kotlinx.android.synthetic.main.activity_cart.*
@@ -102,7 +102,7 @@ class AddressPaymentActivity : BaseActivity() {
 
 
     }
-    fun CheckoutUserCart(selectCard: CreditCardResponseModel) {
+    fun CheckoutUserCart(selectCard: CreditCardModel) {
         val cartIds: MutableList<String> = mutableListOf()
         if (ConstantObjects.usercart.size > 0) {
             for (IndItem in ConstantObjects.usercart) {
