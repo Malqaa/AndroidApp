@@ -5,23 +5,23 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.View
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import com.malka.androidappp.BuildConfig
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.login.SignInActivity
 import com.malka.androidappp.activities_main.signup_account.signup_pg3.SignupPg3
 import com.malka.androidappp.activities_main.signup_account.signup_pg3.User
+import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
-import com.malka.androidappp.servicemodels.GeneralRespone
+import com.malka.androidappp.servicemodels.BasicResponse
 import kotlinx.android.synthetic.main.activity_signup_pg2.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 
-class SignupPg2 : AppCompatActivity() {
+class SignupPg2 : BaseActivity() {
 
     private var START_TIME_IN_MILLIS: Long = 60000
     lateinit var countdownTimer: TextView
@@ -84,26 +84,32 @@ class SignupPg2 : AppCompatActivity() {
         val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
         val userId: String? = intent.getStringExtra("userid")
         val otpcode: String? = intent.getStringExtra("datacode")
-        val call: Call<PostReqVerifyCode> = malqa.verifycode(PostReqVerifyCode(userId!!, otpcode!!))
-        call.enqueue(object : Callback<PostReqVerifyCode> {
+        val call: Call<BasicResponse> = malqa.verifycode(PostReqVerifyCode( code = otpcode!!, userId = userId!!))
+        call.enqueue(object : Callback<BasicResponse> {
 
-            override fun onFailure(call: Call<PostReqVerifyCode>, t: Throwable) {
+            override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
 
                 t.message?.let { HelpFunctions.ShowLongToast(it, this@SignupPg2) }
 
             }
 
             override fun onResponse(
-                call: Call<PostReqVerifyCode>,
-                response: Response<PostReqVerifyCode>
+                call: Call<BasicResponse>,
+                response: Response<BasicResponse>
             ) {
 
                 if (response.isSuccessful) {
-                    HelpFunctions.ShowLongToast(
-                        getString(R.string.VerificationSuccessful),
-                        this@SignupPg2
-                    )
-                    signup2next()
+                    val data=response.body()
+                    if (data!!.status_code == 200) {
+                        HelpFunctions.ShowLongToast(
+                            getString(R.string.VerificationSuccessful),
+                            this@SignupPg2
+                        )
+                        signup2next()
+                    } else {
+                        showError(data.message)
+                    }
+
                 } else {
                     HelpFunctions.ShowLongToast(
                         getString(R.string.VerificationFailed),
@@ -145,18 +151,18 @@ class SignupPg2 : AppCompatActivity() {
         val resendmodel = User(email=email!!, password = passcode!!)
 
         val call = malqa.resendcode(resendmodel)
-        call.enqueue(object : Callback<GeneralRespone> {
+        call.enqueue(object : Callback<BasicResponse> {
 
-            override fun onFailure(call: Call<GeneralRespone>, t: Throwable) {
+            override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
 
                 t.message?.let { HelpFunctions.ShowLongToast(it, this@SignupPg2) }
 
             }
 
-            override fun onResponse(call: Call<GeneralRespone>, response: Response<GeneralRespone>) {
+            override fun onResponse(call: Call<BasicResponse>, response: Response<BasicResponse>) {
 
                 if (response.isSuccessful) {
-                    val otppcode = response.body()?.data
+                    val otppcode = response.body()?.data.toString()
                     if(BuildConfig.DEBUG){
                         pinview.value = otppcode
                     }

@@ -2719,5 +2719,7 @@
   <string name="shipment_no_1">شحنة رقم 1</string>
   <string name="total_charges">مجموع الشحنة</string>
     <string name="update_card">Update Card</string>
+    <string name="password_update">Password has been successfully changed</string>
+    <string name="delivery_tax">Delivery Tax</string>
 
 </resources>

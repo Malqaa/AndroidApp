@@ -22,20 +22,20 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
- class SignInActivity : BaseActivity() {
 
-     override fun onCreate(savedInstanceState: Bundle?) {
+class SignInActivity : BaseActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
 
-         ConstantObjects.currentLanguage = getLanguage()
-         setContentView(R.layout.activity_sign_in)
+        ConstantObjects.currentLanguage = getLanguage()
+        setContentView(R.layout.activity_sign_in)
 
 
 
         Forgot_your_password.setOnClickListener {
-            val intent = Intent(this@SignInActivity, ForgotPasswordActivty::class.java)
-            startActivity(intent)
+            startActivity(Intent(this@SignInActivity, ForgotPasswordActivty::class.java))
         }
 
 
@@ -69,21 +69,11 @@ import retrofit2.Response
     }
 
 
-
-
-
-
-
-
-
-
-
     override fun onBackPressed() {
         super.onBackPressed()
         finish()
 
     }
-
 
 
     private fun validateEmail(): Boolean {
@@ -126,7 +116,6 @@ import retrofit2.Response
     }
 
 
-
     fun MakeLoginAPICall(email: String, password: String, context: Context) {
         HelpFunctions.startProgressBar(this)
 
@@ -141,7 +130,10 @@ import retrofit2.Response
                 Toast.makeText(context, "${t.message}", Toast.LENGTH_LONG).show()
             }
 
-            override fun onResponse(call: Call<LoginResponseBack?>, response: Response<LoginResponseBack?>) {
+            override fun onResponse(
+                call: Call<LoginResponseBack?>,
+                response: Response<LoginResponseBack?>
+            ) {
                 if (response.isSuccessful) {
 
                     //Zack
@@ -149,16 +141,17 @@ import retrofit2.Response
                     ConstantObjects.logged_userid = response.body()!!.data.id
                     ConstantObjects.isBusinessUser = response.body()!!.data.isBusinessUser > 0
                     // To check if user is approved user or not
-                  //  if (response.body()!!.data.isBusinessUser < 1 || response.body()!!.data.isBusinessUser > 1) {
-                        val userId: String = response.body()!!.data.id
-                        ConstantObjects.logged_userid = userId
-                            HelpFunctions.ShowLongToast(
-                                getString(R.string.LoginSuccessfully),
-                                context
-                            )
-                            Paper.book().write(SharedPreferencesStaticClass.islogin,true)
-                            Paper.book().write(SharedPreferencesStaticClass.logged_userid,userId)
-                           finish()
+                    //  if (response.body()!!.data.isBusinessUser < 1 || response.body()!!.data.isBusinessUser > 1) {
+                    val userId: String = response.body()!!.data.id
+                    ConstantObjects.logged_userid = userId
+                    HelpFunctions.ShowLongToast(
+                        getString(R.string.LoginSuccessfully),
+                        context
+                    )
+                    Paper.book().write(SharedPreferencesStaticClass.islogin, true)
+                    Paper.book().write(SharedPreferencesStaticClass.logged_userid, userId)
+                    setResult(RESULT_OK, Intent())
+                    finish()
 
 //                    } else {
 //                        HelpFunctions.ShowLongToast(

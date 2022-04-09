@@ -52,6 +52,7 @@ data class AdDetailModel(
     val brand_new_item: String? = null,
     val referenceId: String? = null,
     val homepageImage: String? = null,
+    val image: String? = null,
 
 
 ){

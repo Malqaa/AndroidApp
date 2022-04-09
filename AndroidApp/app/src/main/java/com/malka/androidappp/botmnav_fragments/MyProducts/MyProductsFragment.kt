@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.malka.androidappp.R
-import com.malka.androidappp.design.GenericProductAdapterNew
+import com.malka.androidappp.design.GenericOrderAdapter
 import com.malka.androidappp.helper.CommonAPI
 import com.malka.androidappp.helper.hide
 import com.malka.androidappp.helper.show
@@ -40,7 +40,7 @@ class MyProductsFragment : Fragment() {
             sold_business_recycler.adapter =
                 GenericProductAdapter(it.sellingitems, requireContext())
             did_not_sale_rcv.adapter = GenericProductAdapter(it.unsolditems, requireContext())
-            sold_out_rcv.adapter = GenericProductAdapterNew(it.solditems, requireContext())
+            sold_out_rcv.adapter = GenericOrderAdapter(it.solditems, requireContext())
 
             for_sale.setOnClickListener {
 

@@ -66,7 +66,7 @@ class ForgotChangepassActivity : AppCompatActivity() {
         val getnewpasscode: String = editText1asdasd0.text.toString().trim()
         val getdata = intent.getStringExtra("getidd").toString()
         val getdata2 = intent.getStringExtra("getcodee").toString()
-        val postdatachangepass = User(getdata2, getdata, getnewpasscode)
+        val postdatachangepass = User(code = getdata2, id=getdata, password=getnewpasscode)
         val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
         val call: Call<User> = malqaa.changepass(postdatachangepass)
 
@@ -83,13 +83,12 @@ class ForgotChangepassActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     Toast.makeText(
                         applicationContext,
-                        "Password has been successfully changed",
+                        getString(R.string.password_update),
                         Toast.LENGTH_LONG
                     ).show()
-                    val intentt = Intent(this@ForgotChangepassActivity, SignInActivity::class.java)
-                    startActivity(intentt)
+                    finish()
                 } else {
-                    Toast.makeText(applicationContext, "Failedddd", Toast.LENGTH_LONG).show()
+                    Toast.makeText(applicationContext, getString(R.string.Error), Toast.LENGTH_LONG).show()
                 }
             }
         })

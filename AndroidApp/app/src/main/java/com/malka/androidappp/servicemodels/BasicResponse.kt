@@ -1,6 +1,6 @@
 package com.malka.androidappp.servicemodels
 
-class Basicresponse(
+class BasicResponse(
     status_code: Int,
     message: String,
     val data: Any

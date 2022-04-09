@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.login.SignInActivity
 import com.malka.androidappp.activities_main.signup_account.signup_pg3.User
+import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
@@ -22,7 +23,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class ForgotPasswordActivty : AppCompatActivity() {
+class ForgotPasswordActivty : BaseActivity() {
 
 
 
@@ -82,6 +83,7 @@ class ForgotPasswordActivty : AppCompatActivity() {
 
 
     fun forgotemail() {
+        HelpFunctions.startProgressBar(this)
 
         val emailfogotpass: String = editText4.text.toString().trim()
         val modeldataitem = User(email  =emailfogotpass, password = "String")
@@ -91,8 +93,8 @@ class ForgotPasswordActivty : AppCompatActivity() {
 
         call.enqueue(object : Callback<GeneralRespone> {
             override fun onFailure(call: Call<GeneralRespone>, t: Throwable) {
+                HelpFunctions.dismissProgressBar()
                 HelpFunctions.ShowLongToast(getString(R.string.Somethingwentwrong),applicationContext)
-//                Toast.makeText(applicationContext, t.message, Toast.LENGTH_LONG).show()
             }
 
             override fun onResponse(
@@ -101,33 +103,29 @@ class ForgotPasswordActivty : AppCompatActivity() {
             ) {
 
                 if (response.isSuccessful) {
-                    if (response.body()!!.data.length != 47) {
-                        emailtextt!!.error = null
-                        val responseMsg: String? = response.body()!!.message
-                        val responsedata: String? = response.body()!!.data
-                        val asubstring1: String = responsedata!!.substring(41, 77)
-                        val asubstring2: String = responsedata.substring(83, 87)
-                        Toast.makeText(applicationContext, responseMsg, Toast.LENGTH_LONG).show()
+                    val query=HelpFunctions.getQueryString(response.body()!!.data)
+                    val userId=query.get("Id")?:""
+                    val code=query.get("code")?:""
+                    if(userId.isEmpty()||code.isEmpty()){
+                        showError( getString(R.string.ThisEmailAddressDoesnotExist))
+                    }else{
                         val intentd = Intent(
                             this@ForgotPasswordActivty,
                             ActivityForgotPassOtpcode::class.java
                         )
-                        intentd.putExtra("getid", asubstring1)
-                        intentd.putExtra("getcode", asubstring2)
+                        intentd.putExtra("getid", userId)
+                        intentd.putExtra("getcode", code)
                         startActivity(intentd)
-                    } else if (response.body()!!.data.length == 47) {
-                        HelpFunctions.ShowLongToast(
-                            getString(R.string.ThisEmailAddressDoesnotExist),
-                            applicationContext
-                        )
-                        emailtextt!!.error = getString(R.string.ThisEmailAddressDoesnotExist)
+                        finish()
                     }
                 } else {
                     HelpFunctions.ShowLongToast(
-                        getString(R.string.InternetIssue),
+                        getString(R.string.Error),
                         applicationContext
                     )
                 }
+                HelpFunctions.dismissProgressBar()
+
             }
         })
 

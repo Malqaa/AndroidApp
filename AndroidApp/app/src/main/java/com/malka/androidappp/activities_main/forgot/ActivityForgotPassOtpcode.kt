@@ -1,22 +1,23 @@
 package com.malka.androidappp.activities_main.forgot
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import com.malka.androidappp.BuildConfig
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.signup_account.signup_pg2.PostReqVerifyCode
+import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
+import com.malka.androidappp.servicemodels.BasicResponse
 import kotlinx.android.synthetic.main.activity_forgot_pass_otpcode.*
 import kotlinx.android.synthetic.main.activity_forgot_pass_otpcode.button4
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ActivityForgotPassOtpcode : AppCompatActivity() {
+class ActivityForgotPassOtpcode : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_forgot_pass_otpcode)
@@ -63,36 +64,49 @@ class ActivityForgotPassOtpcode : AppCompatActivity() {
 
     //////////////////////////////////////Api Post Verify//////////////////////////////////////////////////
     fun verifyotpcode() {
+        HelpFunctions.startProgressBar(this)
         val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-        val userId: String? = intent.getStringExtra("userid")
+        val userId: String? = intent.getStringExtra("getid")
         val otpcode: String = pinview234.getValue().toString().trim()
-        val call: Call<PostReqVerifyCode> = malqa.verifycode(PostReqVerifyCode(userId!!, otpcode))
-        call.enqueue(object : Callback<PostReqVerifyCode> {
+        val call= malqa.verifycode(PostReqVerifyCode(userId=userId!!,code= otpcode))
+        call.enqueue(object : Callback<BasicResponse> {
 
-            override fun onFailure(call: Call<PostReqVerifyCode>, t: Throwable) {
+            override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
+                HelpFunctions.dismissProgressBar()
 
-                t.message?.let { HelpFunctions.ShowLongToast(it, this@ActivityForgotPassOtpcode) }
+                t.message?.let {
+                    HelpFunctions.ShowLongToast(it, this@ActivityForgotPassOtpcode) }
 
             }
 
             override fun onResponse(
-                call: Call<PostReqVerifyCode>,
-                response: Response<PostReqVerifyCode>
+                call: Call<BasicResponse>,
+                response: Response<BasicResponse>
             ) {
 
                 if (response.isSuccessful) {
-                    val getpin: String = pinview234.getValue().toString().trim()
-                    val getidd = intent.getStringExtra("getid")
-                    val intenddd = Intent(this@ActivityForgotPassOtpcode, ForgotChangepassActivity::class.java)
-                    intenddd.putExtra("getidd",getidd)
-                    intenddd.putExtra("getcodee",getpin)
-                    startActivity(intenddd)
+                    val data=response.body()
+                    if (data!!.status_code == 200) {
+                        val getpin: String = pinview234.getValue().toString().trim()
+                        val getidd = intent.getStringExtra("getid")
+                        val intenddd = Intent(this@ActivityForgotPassOtpcode, ForgotChangepassActivity::class.java)
+                        intenddd.putExtra("getidd",getidd)
+                        intenddd.putExtra("getcodee",getpin)
+                        startActivity(intenddd)
+                        finish()
+                    } else {
+                        showError(data.message)
+                    }
+
+
                 } else {
                     HelpFunctions.ShowLongToast(
                         getString(R.string.VerificationFailed),
                         this@ActivityForgotPassOtpcode
                     )
                 }
+                HelpFunctions.dismissProgressBar()
+
             }
         })
     }

@@ -1,6 +1,7 @@
 package com.malka.androidappp.activities_main.product_detail
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.PorterDuff
@@ -9,11 +10,10 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Filter
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.Gson
@@ -25,12 +25,7 @@ import com.malka.androidappp.activities_main.login.SignInActivity
 import com.malka.androidappp.activities_main.order.CartActivity
 import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.botmnav_fragments.cardetail_page.ModelSellerDetails
-import com.malka.androidappp.botmnav_fragments.item_em_selling.AdapterImSelling
-import com.malka.androidappp.botmnav_fragments.item_em_selling.ItemImSelling
-import com.malka.androidappp.botmnav_fragments.item_em_selling.ModelImSelling
-import com.malka.androidappp.botmnav_fragments.sellerdetails.SellerResponseBack
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
-import com.malka.androidappp.design.Models.getCardDetailsModel
 import com.malka.androidappp.design.ProductReviews
 import com.malka.androidappp.design.SellerInformation
 import com.malka.androidappp.helper.Extension.decimalNumberFormat
@@ -68,6 +63,7 @@ class ProductDetails : BaseActivity() {
     var selectLink = ""
     val attributeList: ArrayList<Attribute> = ArrayList()
     var questionList: List<Question> = ArrayList()
+    lateinit var product:AdDetailModel
 
     lateinit var productDetailHelper: ProductDetailHelper
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -114,7 +110,7 @@ class ProductDetails : BaseActivity() {
             onBackPressed()
         }
         btn_share.setOnClickListener {
-            shared("${ApiConstants.HTTP_PROTOCOL}://${ApiConstants.SERVER_LOCATION2}/Advertisement/Detail/$AdvId?template=$template")
+            shared("${ApiConstants.HTTP_PROTOCOL}://${ApiConstants.SERVER_LOCATION}/Advertisement/Detail/$AdvId?template=$template")
         }
         next_image.setOnClickListener {
 
@@ -187,7 +183,6 @@ class ProductDetails : BaseActivity() {
                 )
             )
         })
-
 
     }
 
@@ -367,14 +362,19 @@ class ProductDetails : BaseActivity() {
                 response: Response<JsonObject>
             ) {
                 if (response.isSuccessful) {
-                    val product =
-                        Gson().fromJson(response.body().toString(), AdDetailModel::class.java)
+                    product = Gson().fromJson(response.body().toString(), AdDetailModel::class.java)
                     val jsonObject = response.body()
 
 
-                    product!!.run {
+                    product.run {
+                        checkPriceLayout()
                         getSellerByID(user!!)
                         current_price_buy_tv.text = "${price!!.toDouble().decimalNumberFormat()} ${
+                            getString(
+                                R.string.sar
+                            )
+                        }"
+                        current_price_buy_tv_2.text = "${price!!.toDouble().decimalNumberFormat()} ${
                             getString(
                                 R.string.sar
                             )
@@ -695,30 +695,43 @@ class ProductDetails : BaseActivity() {
         })
     }
 
+    val loginLuncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                checkPriceLayout()
+            }
+        }
+
+    private fun checkPriceLayout() {
+        if (HelpFunctions.IsUserLoggedIn()) {
+            price_layout.isVisible = ConstantObjects.logged_userid != product.user
+        }
+    }
+
+
     fun AddToCart() {
         if (HelpFunctions.IsUserLoggedIn()) {
             AddToUserCart(this)
         } else {
-            val intentt = Intent(this, SignInActivity::class.java)
-            startActivity(intentt)
+            loginLuncher.launch(Intent(this, SignInActivity::class.java))
         }
     }
 
     fun AddToUserCart(context: Context) {
         HelpFunctions.startProgressBar(this)
         val cartobj = InsertToCartRequestModel()
-        cartobj.advertisementId = AdvId;
+        cartobj.advertisementId = AdvId
         cartobj.userid = ConstantObjects.logged_userid
 
         val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-        val call: Call<Basicresponse> = malqa.AddToUserCart(cartobj)
-        call.enqueue(object : Callback<Basicresponse> {
+        val call: Call<BasicResponse> = malqa.AddToUserCart(cartobj)
+        call.enqueue(object : Callback<BasicResponse> {
             override fun onResponse(
-                call: Call<Basicresponse>, response: Response<Basicresponse>
+                call: Call<BasicResponse>, response: Response<BasicResponse>
             ) {
                 if (response.isSuccessful) {
                     if (response.body() != null) {
-                        val resp: Basicresponse = response.body()!!
+                        val resp: BasicResponse = response.body()!!
                         if (resp.status_code == 200 || resp.status_code==403 && (resp.data == true || resp.data == 1 || resp.data == 1.0)) {
                             startActivity(Intent(this@ProductDetails, CartActivity::class.java))
                         } else {
@@ -743,7 +756,7 @@ class ProductDetails : BaseActivity() {
 
             }
 
-            override fun onFailure(call: Call<Basicresponse>, t: Throwable) {
+            override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
                 Toast.makeText(this@ProductDetails, t.message, Toast.LENGTH_LONG).show()
                 HelpFunctions.dismissProgressBar()
 

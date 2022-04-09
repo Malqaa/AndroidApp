@@ -11,11 +11,11 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.location.Address
 import android.location.Geocoder
+import android.net.Uri
 import android.os.Bundle
 import android.os.StrictMode
 import android.provider.Settings.Secure
 import android.util.Base64
-import android.util.Log
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
@@ -32,17 +32,13 @@ import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.constants.ApiConstants
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.servicemodels.BasicResponseInt
-import com.malka.androidappp.servicemodels.Basicresponse
+import com.malka.androidappp.servicemodels.BasicResponse
 import com.malka.androidappp.servicemodels.ConstantObjects
 import com.malka.androidappp.servicemodels.WatchList
 import com.malka.androidappp.servicemodels.addtocart.AddToCartResponseModel
-import com.malka.androidappp.servicemodels.addtocart.InsertToCartRequestModel
 import com.malka.androidappp.servicemodels.checkout.CheckoutRequestModel
-import com.malka.androidappp.servicemodels.creditcard.CreditCardRequestModel
-import com.malka.androidappp.servicemodels.creditcard.CreditCardResponse
 import com.malka.androidappp.servicemodels.favourites.FavouriteObject
 import com.malka.androidappp.servicemodels.favourites.favouriteadd
-import com.malka.androidappp.servicemodels.user.UserObject
 import com.malka.androidappp.servicemodels.watchlist.watchlistadd
 import com.malka.androidappp.servicemodels.watchlist.watchlistobject
 import io.paperdb.Paper
@@ -360,15 +356,15 @@ class HelpFunctions {
                     reminderType
                 )
                 val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-                val call: Call<Basicresponse> = malqa.InsertAdtoUserWatchlist(ad)
-                call.enqueue(object : Callback<Basicresponse> {
+                val call: Call<BasicResponse> = malqa.InsertAdtoUserWatchlist(ad)
+                call.enqueue(object : Callback<BasicResponse> {
                     override fun onResponse(
-                        call: Call<Basicresponse>,
-                        response: Response<Basicresponse>
+                        call: Call<BasicResponse>,
+                        response: Response<BasicResponse>
                     ) {
                         if (response.isSuccessful) {
                             if (response.body() != null) {
-                                val resp: Basicresponse = response.body()!!;
+                                val resp: BasicResponse = response.body()!!;
                                 if (resp.status_code == 200 && (resp.data == true || resp.data == 1 || resp.data == 1.0)) {
                                     GetUserWatchlist()
                                     onSuccess?.invoke()
@@ -399,7 +395,7 @@ class HelpFunctions {
                     }
 
                     override fun onFailure(
-                        call: Call<Basicresponse>,
+                        call: Call<BasicResponse>,
                         t: Throwable
                     ) {
                         ShowLongToast(
@@ -422,16 +418,16 @@ class HelpFunctions {
 
             try {
                 val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-                val call: Call<Basicresponse> =
+                val call: Call<BasicResponse> =
                     malqa.DeleteAdFromUserWatchlist(ConstantObjects.logged_userid, AdsId)
-                call.enqueue(object : Callback<Basicresponse> {
+                call.enqueue(object : Callback<BasicResponse> {
                     override fun onResponse(
-                        call: Call<Basicresponse>,
-                        response: Response<Basicresponse>
+                        call: Call<BasicResponse>,
+                        response: Response<BasicResponse>
                     ) {
                         if (response.isSuccessful) {
                             if (response.body() != null) {
-                                val resp: Basicresponse = response.body()!!;
+                                val resp: BasicResponse = response.body()!!;
                                 if (resp.status_code == 200 && (resp.data == true || resp.data == 1 || resp.data == 1.0)) {
                                     GetUserWatchlist()
                                     onSuccess?.invoke()
@@ -462,7 +458,7 @@ class HelpFunctions {
                     }
 
                     override fun onFailure(
-                        call: Call<Basicresponse>,
+                        call: Call<BasicResponse>,
                         t: Throwable
                     ) {
                         ShowLongToast(
@@ -533,15 +529,15 @@ class HelpFunctions {
                 }
 
                 val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-                val call: Call<Basicresponse> = malqa.InsertToUserFavouritelist(ad)
-                call.enqueue(object : Callback<Basicresponse> {
+                val call: Call<BasicResponse> = malqa.InsertToUserFavouritelist(ad)
+                call.enqueue(object : Callback<BasicResponse> {
                     override fun onResponse(
-                        call: Call<Basicresponse>,
-                        response: Response<Basicresponse>
+                        call: Call<BasicResponse>,
+                        response: Response<BasicResponse>
                     ) {
                         if (response.isSuccessful) {
                             if (response.body() != null) {
-                                var resp: Basicresponse = response.body()!!;
+                                var resp: BasicResponse = response.body()!!;
                                 if (resp.status_code == 200 && (resp.data == true || resp.data == 1 || resp.data == 1.0)) {
                                     RetVal = true
                                     GetUserFavourites(context)
@@ -570,7 +566,7 @@ class HelpFunctions {
                     }
 
                     override fun onFailure(
-                        call: Call<Basicresponse>,
+                        call: Call<BasicResponse>,
                         t: Throwable
                     ) {
                         ShowLongToast(
@@ -699,12 +695,12 @@ class HelpFunctions {
             var RetVal: Boolean1 = false;
             try {
                 val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-                val call: Call<Basicresponse> = malqa.DeleteUserCreditCard(CardId)
-                val response: Response<Basicresponse> = call.execute();
+                val call: Call<BasicResponse> = malqa.DeleteUserCreditCard(CardId)
+                val response: Response<BasicResponse> = call.execute();
 
                 if (response.isSuccessful) {
                     if (response.body() != null) {
-                        var resp: Basicresponse = response.body()!!;
+                        var resp: BasicResponse = response.body()!!;
                         if (resp.status_code == 200 && (resp.data == true || resp.data == 1 || resp.data == 1.0)) {
                             RetVal = true;
                             CommonAPI().GetUserCreditCards(context) {
@@ -760,11 +756,11 @@ class HelpFunctions {
                 val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
                 StrictMode.setThreadPolicy(policy)
                 val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-                val call: Call<Basicresponse> = malqa.DeleteFromUserCart(CartId)
-                val response: Response<Basicresponse> = call.execute();
+                val call: Call<BasicResponse> = malqa.DeleteFromUserCart(CartId)
+                val response: Response<BasicResponse> = call.execute();
                 if (response.isSuccessful) {
                     if (response.body() != null) {
-                        var resp: Basicresponse = response.body()!!;
+                        var resp: BasicResponse = response.body()!!;
                         if (resp.status_code == 200 && (resp.data == true || resp.data == 1 || resp.data == 1.0)) {
                             RetVal = true;
                             GetUsersCartList()
@@ -800,11 +796,11 @@ class HelpFunctions {
             var RetVal: Boolean1 = false
             try {
                 val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-                val call: Call<Basicresponse> = malqa.PostUserCheckOut(checkoutinfo)
-                val response: Response<Basicresponse> = call.execute();
+                val call: Call<BasicResponse> = malqa.PostUserCheckOut(checkoutinfo)
+                val response: Response<BasicResponse> = call.execute();
                 if (response.isSuccessful) {
                     if (response.body() != null) {
-                        var resp: Basicresponse = response.body()!!;
+                        var resp: BasicResponse = response.body()!!;
                         if (resp.status_code == 200 && (resp.data == true || resp.data == 1 || resp.data == 1.0)) {
                             RetVal = true
                             GetUsersCartList()
@@ -838,11 +834,11 @@ class HelpFunctions {
             var RetVal: Boolean1 = false
             try {
                 val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-                val call: Call<Basicresponse> = malqa.AddNewShippingAddress(shippingaddress)
-                val response: Response<Basicresponse> = call.execute();
+                val call: Call<BasicResponse> = malqa.AddNewShippingAddress(shippingaddress)
+                val response: Response<BasicResponse> = call.execute();
                 if (response.isSuccessful) {
                     if (response.body() != null) {
-                        var resp: Basicresponse = response.body()!!;
+                        var resp: BasicResponse = response.body()!!;
                         if (resp.status_code == 200 && (resp.data == true || resp.data == 1 || resp.data == 1.0)) {
                             RetVal = true
                             GetUserShippingAddress(context)
@@ -984,7 +980,19 @@ class HelpFunctions {
             return formattedDate
 
         }
+        fun getQueryString(url: String?): HashMap<String, String> {
+            val uri = Uri.parse(url)
+            val map: HashMap<String, String> = HashMap()
+            for (paramName in uri.getQueryParameterNames()) {
+                if (paramName != null) {
+                    val paramValue: String = uri.getQueryParameter(paramName)?:""
+                    map[paramName] = paramValue
+                }
+            }
+            return map
+        }
     }
+
 
 
 

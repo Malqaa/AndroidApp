@@ -2891,6 +2891,8 @@ Want to start a business account? Create a Business Account
   <string name="shipment_no_1">Shipment No. 1</string>
     <string name="total_charges">Total charges</string>
     <string name="update_card">Update Card</string>
+    <string name="password_update">Password has been successfully changed</string>
+  <string name="delivery_tax">Delivery Tax</string>
 
 
 </resources>
