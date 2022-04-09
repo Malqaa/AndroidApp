@@ -341,9 +341,9 @@ interface MalqaApiService {
     fun GetUserCreditCards(@Query("usid") userid: String): Call<CreditCardResponse>;
 
     @POST(INSERT_CREDIT_CARD_ENDPOINT)
-    fun InsertUserCreditCard(@Body insertads: CreditCardRequestModel): Call<Basicresponse>
+    fun InsertUserCreditCard(@Body insertads: CreditCardRequestModel): Call<BasicResponse>
     @POST(UPDATE_CREDIT_CARD_ENDPOINT)
-    fun UpdateUserCreditCard(@Body insertads: CreditCardRequestModel): Call<Basicresponse>
+    fun UpdateUserCreditCard(@Body insertads: CreditCardRequestModel): Call<BasicResponse>
 
     @DELETE(DELETE_CREDIT_CARD_ENDPOINT + "?")
     fun DeleteUserCreditCard(@Query("id") userid: String): Call<BasicResponse>

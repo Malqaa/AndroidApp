@@ -323,19 +323,19 @@ class CommonBottomSheet {
 
     ) {
         val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-        val call: Call<Basicresponse> = malqa.UpdateUserCreditCard(cardinfo)
+        val call: Call<BasicResponse> = malqa.UpdateUserCreditCard(cardinfo)
 
-        call.enqueue(object : Callback<Basicresponse?> {
-            override fun onFailure(call: Call<Basicresponse?>?, t: Throwable) {
+        call.enqueue(object : Callback<BasicResponse?> {
+            override fun onFailure(call: Call<BasicResponse?>?, t: Throwable) {
                 HelpFunctions.dismissProgressBar()
             }
 
             override fun onResponse(
-                call: Call<Basicresponse?>,
-                response: Response<Basicresponse?>
+                call: Call<BasicResponse?>,
+                response: Response<BasicResponse?>
             ) {
                 if (response.isSuccessful) {
-                    val resp: Basicresponse = response.body()!!;
+                    val resp: BasicResponse = response.body()!!;
                     if (resp.status_code == 200)
                     {
                         HelpFunctions.ShowLongToast(

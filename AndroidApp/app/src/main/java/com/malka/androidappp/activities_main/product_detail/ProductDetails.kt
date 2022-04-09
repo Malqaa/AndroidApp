@@ -33,6 +33,7 @@ import com.malka.androidappp.helper.Extension.loadThumbnail
 import com.malka.androidappp.helper.Extension.shared
 import com.malka.androidappp.helper.GenericAdaptor
 import com.malka.androidappp.helper.HelpFunctions
+import com.malka.androidappp.helper.HelpFunctions.Companion.openExternalLInk
 import com.malka.androidappp.helper.swipe.MessageSwipeController
 import com.malka.androidappp.helper.swipe.SwipeControllerActions
 import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
@@ -54,6 +55,8 @@ import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class ProductDetails : BaseActivity() {
@@ -149,20 +152,14 @@ class ProductDetails : BaseActivity() {
 
 
         youtube_btn.setOnClickListener(View.OnClickListener {
-            startActivity(
-                Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse("https://www.youtube.com/")
-                )
+
+            openExternalLInk("https://www.youtube.com/watch?v=KioO9frme6c", this
             )
         })
 
         instagram_btn.setOnClickListener(View.OnClickListener {
-            startActivity(
-                Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse("https://www.instagram.com/")
-                )
+
+            openExternalLInk("https://www.instagram.com/reel/CcGMHEwjSAV/?utm_source=ig_web_copy_link", this
             )
         })
 
@@ -176,10 +173,10 @@ class ProductDetails : BaseActivity() {
         })
 
         maps_btn.setOnClickListener(View.OnClickListener {
+            val uri: String =
+                java.lang.String.format(Locale.ENGLISH, "geo:%f,%f", 33.7295, 73.0372)
             startActivity(
-                Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse("https://www.google.com/maps/")
+                Intent(Intent.ACTION_VIEW, Uri.parse(uri)
                 )
             )
         })
