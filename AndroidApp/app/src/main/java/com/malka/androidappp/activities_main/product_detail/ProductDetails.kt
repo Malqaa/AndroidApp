@@ -63,7 +63,7 @@ class ProductDetails : BaseActivity() {
     var selectLink = ""
     val attributeList: ArrayList<Attribute> = ArrayList()
     var questionList: List<Question> = ArrayList()
-    lateinit var product:AdDetailModel
+    lateinit var product: AdDetailModel
 
     lateinit var productDetailHelper: ProductDetailHelper
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -374,39 +374,43 @@ class ProductDetails : BaseActivity() {
                                 R.string.sar
                             )
                         }"
-                        current_price_buy_tv_2.text = "${price!!.toDouble().decimalNumberFormat()} ${
-                            getString(
-                                R.string.sar
-                            )
-                        }"
+                        current_price_buy_tv_2.text =
+                            "${price!!.toDouble().decimalNumberFormat()} ${
+                                getString(
+                                    R.string.sar
+                                )
+                            }"
                         if (!template.isNullOrEmpty()) {
-                            val json_string = HelpFunctions.GetTemplatesJson(
-                                this@ProductDetails,
-                                "$template-${culture()}.js"
-                            )
+                            HelpFunctions.GetTemplatesJson(
+                                "$template-${culture()}.js", { json_string ->
+                                    if (json_string.trim().length > 0) {
+                                        val parsed_data = JSONObject(json_string)
+                                        val controls_array: JSONArray =
+                                            parsed_data.getJSONArray("data")
+                                        if (controls_array.length() > 0) {
+                                            for (i in 0 until controls_array.length()) {
+                                                val IndControl = controls_array.getJSONObject(i)
+                                                val id = IndControl.getString("id").lowercase()
 
-                            if (json_string != null && json_string.trim().length > 0) {
-                                val parsed_data = JSONObject(json_string)
-                                val controls_array: JSONArray = parsed_data.getJSONArray("data")
-                                if (controls_array.length() > 0) {
-                                    for (i in 0 until controls_array.length()) {
-                                        val IndControl = controls_array.getJSONObject(i)
-                                        val id = IndControl.getString("id").lowercase()
+                                                if (jsonObject!!.has(id)) {
+                                                    val key = IndControl.getString("title") ?: ""
+                                                    if (!jsonObject.get(id).isJsonNull) {
+                                                        val value =
+                                                            jsonObject.get(id).asString ?: ""
+                                                        if (value.isNotEmpty()) {
+                                                            attributeList.add(Attribute(key, value))
 
-                                        if (jsonObject!!.has(id)) {
-                                            val key = IndControl.getString("title") ?: ""
-                                            if (!jsonObject.get(id).isJsonNull) {
-                                                val value = jsonObject.get(id).asString ?: ""
-                                                if (value.isNotEmpty()) {
-                                                    attributeList.add(Attribute(key, value))
+                                                        }
+                                                    }
 
                                                 }
                                             }
-
                                         }
                                     }
                                 }
-                            }
+                            )
+
+
                         }
 
 
@@ -732,7 +736,7 @@ class ProductDetails : BaseActivity() {
                 if (response.isSuccessful) {
                     if (response.body() != null) {
                         val resp: BasicResponse = response.body()!!
-                        if (resp.status_code == 200 || resp.status_code==403 && (resp.data == true || resp.data == 1 || resp.data == 1.0)) {
+                        if (resp.status_code == 200 || resp.status_code == 403 && (resp.data == true || resp.data == 1 || resp.data == 1.0)) {
                             startActivity(Intent(this@ProductDetails, CartActivity::class.java))
                         } else {
                             HelpFunctions.ShowLongToast(
@@ -762,8 +766,8 @@ class ProductDetails : BaseActivity() {
 
             }
         })
-        
-       
+
+
     }
 
 }

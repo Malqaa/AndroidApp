@@ -23,18 +23,17 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
+import com.google.gson.JsonObject
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.product_detail.ProductDetails
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.botmnav_fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ModelShipAddresses
 import com.malka.androidappp.botmnav_fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ShippingAddressessData
+import com.malka.androidappp.helper.widgets.searchdialog.SearchListItem
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.constants.ApiConstants
 import com.malka.androidappp.network.service.MalqaApiService
-import com.malka.androidappp.servicemodels.BasicResponseInt
-import com.malka.androidappp.servicemodels.BasicResponse
-import com.malka.androidappp.servicemodels.ConstantObjects
-import com.malka.androidappp.servicemodels.WatchList
+import com.malka.androidappp.servicemodels.*
 import com.malka.androidappp.servicemodels.addtocart.AddToCartResponseModel
 import com.malka.androidappp.servicemodels.checkout.CheckoutRequestModel
 import com.malka.androidappp.servicemodels.favourites.FavouriteObject
@@ -42,6 +41,7 @@ import com.malka.androidappp.servicemodels.favourites.favouriteadd
 import com.malka.androidappp.servicemodels.watchlist.watchlistadd
 import com.malka.androidappp.servicemodels.watchlist.watchlistobject
 import io.paperdb.Paper
+import kotlinx.android.synthetic.main.add_address_fragment.*
 import kotlinx.android.synthetic.main.alertpopup.view.*
 import kotlinx.android.synthetic.main.progress_bar.view.*
 import org.greenrobot.eventbus.EventBus
@@ -878,24 +878,58 @@ class HelpFunctions {
             return 0
         }
 
-        fun GetTemplatesJson(context: Context, fileName: String): String? {
-            var input: InputStream? = null
-            var jsonString = ""
+
+        fun GetTemplatesJson(fileName: String,onSuccess: ((respone:String) -> Unit)? = null) {
             try {
-                val folder_name: String = "json_templates";
-                input = context.assets.open(folder_name + "/" + fileName)
-                val size = input.available()
-                val buffer = ByteArray(size)
-                input.read(buffer)
-                jsonString = String(buffer)
+                val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+
+                val API_BASE_URL =
+                    ApiConstants.HTTP_PROTOCOL + "://" + ApiConstants.SERVER_LOCATION + "/" + ApiConstants.IMAGE_FOLDER + "/jsonTemplates/"+fileName
+
+                val call = malqa.jsonTemplates(API_BASE_URL)
+                call.enqueue(object : Callback<JsonObject?> {
+                    override fun onResponse(
+                        call: Call<JsonObject?>,
+                        response: Response<JsonObject?>
+                    ) {
+                        if (response.isSuccessful) {
+                            if (response.body() != null) {
+                                onSuccess?.invoke(response.body()!!.toString())
+                            }
+                        }
+
+                    }
+
+                    override fun onFailure(call: Call<JsonObject?>, t: Throwable) {
+
+                    }
+                })
+
+
+
             } catch (ex: Exception) {
-                ReportError(ex)
-            } finally {
-                input?.close()
+                throw ex
             }
-            return jsonString
         }
 
+//        fun GetTemplatesJson(context: Context, fileName: String): String? {
+//            var input: InputStream? = null
+//            var jsonString = ""
+//            try {
+//                val folder_name: String = "json_templates";
+//                input = context.assets.open(folder_name + "/" + fileName)
+//                val size = input.available()
+//                val buffer = ByteArray(size)
+//                input.read(buffer)
+//                jsonString = String(buffer)
+//            } catch (ex: Exception) {
+//                ReportError(ex)
+//            } finally {
+//                input?.close()
+//            }
+//            return jsonString
+//        }
+//
 
         lateinit var isdialog: AlertDialog
 

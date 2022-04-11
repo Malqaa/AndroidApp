@@ -75,22 +75,23 @@ class DynamicTemplate : BaseActivity() {
     fun CreateControlsFromJson() {
         try {
             if (file_name.trim().length > 0) {
-                val json_string = HelpFunctions.GetTemplatesJson(
-                    this,
+                HelpFunctions.GetTemplatesJson(
                     file_name
-                )
-                if (json_string != null && json_string.trim().length > 0) {
-                    val parsed_data = JSONObject(json_string)
-                    val controls_array: JSONArray = parsed_data.getJSONArray(json_key_data);
-                    if (controls_array.length() > 0) {
-                        for (i in 0 until controls_array.length()) {
-                            val IndControl = controls_array.getJSONObject(i)
-                            if (IndControl != null) {
-                                AddControlToScreen(IndControl);
+                ) { json_string ->
+                    if (json_string.trim().length > 0) {
+                        val parsed_data = JSONObject(json_string)
+                        val controls_array: JSONArray = parsed_data.getJSONArray(json_key_data);
+                        if (controls_array.length() > 0) {
+                            for (i in 0 until controls_array.length()) {
+                                val IndControl = controls_array.getJSONObject(i)
+                                if (IndControl != null) {
+                                    AddControlToScreen(IndControl);
+                                }
                             }
                         }
                     }
                 }
+
             }
         } catch (ex: Exception) {
             HelpFunctions.ReportError(ex);
@@ -152,8 +153,8 @@ class DynamicTemplate : BaseActivity() {
                             iv_end_icon.show()
                             setOnClickListener {
                                 fm = supportFragmentManager
-                                val dateDialog = DatePickerFragment(false,false) {selectdate->
-                                    val timeDialog = TimePickerFragment {selectTime->
+                                val dateDialog = DatePickerFragment(false, false) { selectdate ->
+                                    val timeDialog = TimePickerFragment { selectTime ->
                                         txt_dynamic_text_field.setText("$selectdate - $selectTime")
                                     }
                                     timeDialog.show(fm!!, "fragment_time")

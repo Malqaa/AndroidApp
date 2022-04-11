@@ -8,6 +8,7 @@ import com.malka.androidappp.R
 import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.botmnav_fragments.create_ads.StaticClassAdCreate
 import com.malka.androidappp.activities_main.add_product.AddPhoto
+import com.malka.androidappp.activities_main.add_product.DynamicTemplate
 import com.malka.androidappp.botmnav_fragments.home.model.AllCategoriesModel
 import com.malka.androidappp.botmnav_fragments.home.model.AllCategoriesResponseBack
 import com.malka.androidappp.helper.Extension.truncateString
@@ -112,9 +113,10 @@ class SubCategories :  BaseActivity() , AdapterSubCategories.OnItemClickListener
             val templateName =
                 truncateString(allCategoryList[position].template.toString())
             StaticClassAdCreate.template = templateName
-            startActivity(Intent(this, AddPhoto::class.java).apply {
+           // startActivity(Intent(this, AddPhoto::class.java).apply {
+            startActivity(Intent(this, DynamicTemplate::class.java).apply {
                 putExtra("Title", allCategoryList[position].categoryName.toString())
-                putExtra("file_name", allCategoryList[position].categoryKey.toString())
+                putExtra("file_name", allCategoryList[position].jsonFilePath)
             })
 
         } else {

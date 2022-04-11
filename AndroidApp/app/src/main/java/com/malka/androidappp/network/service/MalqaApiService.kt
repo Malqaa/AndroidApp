@@ -106,6 +106,7 @@ import com.malka.androidappp.servicemodels.watchlist.watchlistobject
 import retrofit2.Call
 import retrofit2.http.*
 
+
 interface MalqaApiService {
 
     @POST(CREATE_USER_ENDPOINT)
@@ -356,4 +357,9 @@ interface MalqaApiService {
 
     @POST(CHECKOUT_INSERT_ENDPOINT)
     fun PostUserCheckOut(@Body checkout: CheckoutRequestModel): Call<BasicResponse>
+
+
+    @GET()
+    fun jsonTemplates(@Url url: String): Call<JsonObject>
+
 }

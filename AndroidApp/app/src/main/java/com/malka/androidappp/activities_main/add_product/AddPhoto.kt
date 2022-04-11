@@ -167,7 +167,6 @@ class AddPhoto : BaseActivity() {
     }
 
     private fun categoryTemplate() {
-        val file_name = "$file_name.js"
         val Title = Title
 
 

@@ -5,8 +5,8 @@ object ApiConstants {
     const val HTTP_PROTOCOL = "http"
 
     const val SERVER_LOCATION = "89.40.10.168:85"
-    private const val API_VERSION = "v1"
-    private const val IMAGE_FOLDER = "ImageFile"
+    const val API_VERSION = "v1"
+    const val IMAGE_FOLDER = "ImageFile"
 
 
     const val API_BASE_URL =
