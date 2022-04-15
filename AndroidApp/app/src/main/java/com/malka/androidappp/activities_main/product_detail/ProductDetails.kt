@@ -382,33 +382,33 @@ class ProductDetails : BaseActivity() {
                             }"
                         if (!template.isNullOrEmpty()) {
                             HelpFunctions.GetTemplatesJson(
-                                "$template-${culture()}.js", { json_string ->
-                                    if (json_string.trim().length > 0) {
-                                        val parsed_data = JSONObject(json_string)
-                                        val controls_array: JSONArray =
-                                            parsed_data.getJSONArray("data")
-                                        if (controls_array.length() > 0) {
-                                            for (i in 0 until controls_array.length()) {
-                                                val IndControl = controls_array.getJSONObject(i)
-                                                val id = IndControl.getString("id").lowercase()
+                                "$template-${culture()}.js"
+                            ) { json_string ->
+                                if (json_string.trim().length > 0) {
+                                    val parsed_data = JSONObject(json_string)
+                                    val controls_array: JSONArray =
+                                        parsed_data.getJSONArray("data")
+                                    if (controls_array.length() > 0) {
+                                        for (i in 0 until controls_array.length()) {
+                                            val IndControl = controls_array.getJSONObject(i)
+                                            val id = IndControl.getString("id").lowercase()
 
-                                                if (jsonObject!!.has(id)) {
-                                                    val key = IndControl.getString("title") ?: ""
-                                                    if (!jsonObject.get(id).isJsonNull) {
-                                                        val value =
-                                                            jsonObject.get(id).asString ?: ""
-                                                        if (value.isNotEmpty()) {
-                                                            attributeList.add(Attribute(key, value))
+                                            if (jsonObject!!.has(id)) {
+                                                val key = IndControl.getString("title") ?: ""
+                                                if (!jsonObject.get(id).isJsonNull) {
+                                                    val value =
+                                                        jsonObject.get(id).asString ?: ""
+                                                    if (value.isNotEmpty()) {
+                                                        attributeList.add(Attribute(key, value))
 
-                                                        }
                                                     }
-
                                                 }
+
                                             }
                                         }
                                     }
                                 }
-                            )
+                            }
 
 
                         }

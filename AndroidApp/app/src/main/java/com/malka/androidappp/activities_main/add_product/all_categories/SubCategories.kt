@@ -113,8 +113,7 @@ class SubCategories :  BaseActivity() , AdapterSubCategories.OnItemClickListener
             val templateName =
                 truncateString(allCategoryList[position].template.toString())
             StaticClassAdCreate.template = templateName
-           // startActivity(Intent(this, AddPhoto::class.java).apply {
-            startActivity(Intent(this, DynamicTemplate::class.java).apply {
+            startActivity(Intent(this, AddPhoto::class.java).apply {
                 putExtra("Title", allCategoryList[position].categoryName.toString())
                 putExtra("file_name", allCategoryList[position].jsonFilePath)
             })
