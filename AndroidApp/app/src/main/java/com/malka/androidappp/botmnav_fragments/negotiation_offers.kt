@@ -1,31 +1,19 @@
 package com.malka.androidappp.botmnav_fragments
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Filter
 import androidx.fragment.app.Fragment
 import com.malka.androidappp.R
-import com.malka.androidappp.design.Models.GetAddressResponse
 import com.malka.androidappp.design.Models.negotiationmodel
 import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
 import kotlinx.android.synthetic.main.fragment_negotiation_offer.*
 import kotlinx.android.synthetic.main.negotiation_offers_design.view.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 
-class negotiation_offers : Fragment() {
+class negotiation_offers : Fragment(R.layout.fragment_negotiation_offer) {
     val list: ArrayList<negotiationmodel> = ArrayList()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_negotiation_offer, container, false)
-
-
-    }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

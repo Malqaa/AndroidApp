@@ -32,6 +32,21 @@
         android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup">
         <activity
+            android:name=".activities_main.order.OrderDetailConfirm"
+            android:exported="false" />
+        <activity
+            android:name=".activities_main.order.ShipmentRating"
+            android:exported="false" />
+        <activity
+            android:name=".activities_main.order.OrderDetail_1"
+            android:exported="false" />
+        <activity
+            android:name=".activities_main.order.OrderDetail"
+            android:exported="false" />
+        <activity
+            android:name=".botmnav_fragments.My_Request"
+            android:exported="false" />
+        <activity
             android:name=".design.SellerInformation"
             android:exported="false" />
         <activity
@@ -39,7 +54,7 @@
             android:exported="false" />
         <activity
             android:name=".activities_main.order.AddressPaymentActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".activities_main.product_detail.QuestionActivity"
             android:exported="false" />

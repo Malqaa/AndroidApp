@@ -19,7 +19,6 @@ import com.malka.androidappp.servicemodels.AdDetailModel
 import com.malka.androidappp.servicemodels.ConstantObjects
 import com.malka.androidappp.servicemodels.questionModel.Question
 import kotlinx.android.synthetic.main.add_address_design.view.*
-import kotlinx.android.synthetic.main.address_list_fragment.*
 import kotlinx.android.synthetic.main.product_item.view.*
 import kotlinx.android.synthetic.main.question_answer_design.view.*
 

@@ -134,7 +134,7 @@ object ApiConstants {
 
     const val ADD_TO_CART_DELETE_ENDPOINT = "AddToCart/delete"
     const val ADD_TO_CART_INSERT_ENDPOINT = "AddToCart/create"
-    const val getOrderHistory = "AddToCart/getall"
+    const val getOrderHistory = "AddToCart/GetAllCartByUserId"
     const val ADD_TO_CART_USER_LIST_ENDPOINT = "AddToCart/getbyloginuserid"
 
     const val CHECKOUT_INSERT_ENDPOINT = "Checkout/checkoutiteminsert"

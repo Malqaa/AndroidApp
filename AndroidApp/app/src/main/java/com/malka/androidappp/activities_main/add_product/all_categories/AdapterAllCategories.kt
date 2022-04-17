@@ -48,7 +48,7 @@ class AdapterAllCategories(
                     )
 
                 } else {
-                   // bgline.hide()
+                    bgline.hide()
                     is_selectimage.hide()
                     category_icon.borderColor=  ContextCompat.getColor(
                         context,

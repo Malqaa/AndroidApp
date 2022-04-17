@@ -25,7 +25,6 @@ import com.malka.androidappp.servicemodels.ConstantObjects
 import com.malka.androidappp.servicemodels.addtocart.CartItemModel
 import com.malka.androidappp.servicemodels.checkout.CheckoutRequestModel
 import com.malka.androidappp.servicemodels.creditcard.CreditCardModel
-import com.malka.androidappp.servicemodels.creditcard.CreditCardResponse
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_address_payment.*
 import kotlinx.android.synthetic.main.alert_box.view.*
@@ -213,11 +212,9 @@ class AddressPaymentActivity : BaseActivity() {
         val TaxAmount = totalPrice * 12 / 100
         val total = totalPrice + TaxAmount-discount
         subtotal_tv.text = "${totalPrice} ${getString(R.string.rial)}"
+
+
         discount_tv.text = "-${discount} ${getString(R.string.rial)}"
-        delivery_tax_tv.text = "${TaxAmount} ${getString(R.string.rial)}"
-        added_tax.text = "${TaxAmount} ${getString(R.string.rial)}"
-
-
         total_tv.text = "${total} ${getString(R.string.rial)}"
     }
 

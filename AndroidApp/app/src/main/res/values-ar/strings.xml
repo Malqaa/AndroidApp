@@ -2721,5 +2721,22 @@
     <string name="update_card">Update Card</string>
     <string name="password_update">Password has been successfully changed</string>
     <string name="delivery_tax">Delivery Tax</string>
+    <string name="my_requests">طلباتى</string>
+    <string name="customer_address">عنوان العميل</string>
+    <string name="shipment_confirmation_code">كود تأكيد استلام الشحنة</string>
+  <string name="_1_shipment">شحنة 1</string>
+  <string name="delivery_phase">مرحلة التوصيل</string>
+    <string name="cancel_a_shipment_order">الغاء طلب الشحنة</string>
+    <string name="my_orders">طلباتي</string>
+  <string name="seller_account_numbers">ارقام حسابات البائع</string>
+  <string name="we_are_pleased_to_deal_with_you_through_onrav">يسعدنا تعاملك من خلال أونراف</string>
+  <string name="we_are_pleased_to_deal_with_you_through_onruf">يسعدنا تعاملك من خلال أونراف</string>
+  <string name="help_us_give_your_rating">ساعدنا في إعطاء تقييمك</string>
+  <string name="what_is_your_evaluation_of_the_seller">ماهو تقييمك للبائع</string>
+  <string name="do_you_have_a_comment">هل لديك تعليق؟</string>
+  <string name="your_rating_for_the_product">تقييمك للمنتج</string>
+  <string name="your_rating_for_shipping">تقييمك للشحن</string>
+    <string name="send_evaluation">ارسال التقييم</string>
+    <string name="to_be_sure">تأكيد</string>
 
 </resources>

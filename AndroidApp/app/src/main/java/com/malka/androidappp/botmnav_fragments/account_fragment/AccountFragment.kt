@@ -11,6 +11,7 @@ import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.add_product.ListanItem
 import com.malka.androidappp.activities_main.business_signup.Switch_Account
 import com.malka.androidappp.activities_main.login.SignInActivity
+import com.malka.androidappp.activities_main.order.CartActivity
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.helper.CommonAPI
 import com.malka.androidappp.helper.HelpFunctions
@@ -111,6 +112,11 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
         edit_profile_setting.setOnClickListener() {
             findNavController().navigate(R.id.editProfile)
         }
+
+        my_rquest.setOnClickListener() {
+            findNavController().navigate(R.id.myRequest)
+        }
+
         negotiation_offers.setOnClickListener() {
             findNavController().navigate(R.id.negotiationOffer)
         }
@@ -195,6 +201,18 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
             val intentt = Intent(this.activity, Switch_Account::class.java)
             startActivity(intentt)
         }
+
+        shoping_basket.setOnClickListener {
+            if (ConstantObjects.logged_userid.isEmpty()) {
+                startActivity(Intent(context, SignInActivity::class.java).apply {
+                })
+            } else {
+                val  intent = Intent(requireActivity(), CartActivity::class.java)
+                startActivity(intent)
+            }
+
+        }
+
 
 
         userType()

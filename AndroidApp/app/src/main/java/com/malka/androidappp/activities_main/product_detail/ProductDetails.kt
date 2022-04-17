@@ -164,11 +164,8 @@ class ProductDetails : BaseActivity() {
         })
 
         skype_btn.setOnClickListener(View.OnClickListener {
-            startActivity(
-                Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse("https://www.skype.com/")
-                )
+
+            openExternalLInk("https://www.skype.com/", this
             )
         })
 

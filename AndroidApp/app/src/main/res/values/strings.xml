@@ -2886,13 +2886,30 @@ Want to start a business account? Create a Business Account
     <string name="_100_points_have_been_converted_into_10_riyals_to_your_wallet">100 points have been converted into 10 riyals to your wallet</string>
     <string name="membership_no">Membership No</string>
     <string name="delivery_options">Delivery options</string>
-  <string name="remove_all">Remove all</string>
-  <string name="al_khalis_company">(Al Khalis Company)</string>
-  <string name="shipment_no_1">Shipment No. 1</string>
+    <string name="remove_all">Remove all</string>
+    <string name="al_khalis_company">(Al Khalis Company)</string>
+    <string name="shipment_no_1">Shipment No. 1</string>
     <string name="total_charges">Total charges</string>
     <string name="update_card">Update Card</string>
     <string name="password_update">Password has been successfully changed</string>
-  <string name="delivery_tax">Delivery Tax</string>
+    <string name="delivery_tax">Delivery Tax</string>
+    <string name="my_requests">My requests</string>
+    <string name="customer_address">Customer address</string>
+    <string name="shipment_confirmation_code">Shipment confirmation code</string>
+    <string name="_1_shipment">1 . shipment</string>
+    <string name="delivery_phase">Delivery phase</string>
+    <string name="cancel_a_shipment_order">Cancel a shipment order</string>
+    <string name="my_orders">My Orders</string>
+    <string name="seller_account_numbers">Seller account numbers</string>
+    <string name="we_are_pleased_to_deal_with_you_through_onrav">We are pleased to deal with you through Onrav</string>
+    <string name="we_are_pleased_to_deal_with_you_through_onruf">We are pleased to deal with you through Onruf</string>
+    <string name="help_us_give_your_rating">Help us give your rating</string>
+    <string name="what_is_your_evaluation_of_the_seller">What is your evaluation of the seller?</string>
+    <string name="do_you_have_a_comment">Do you have a comment?</string>
+    <string name="your_rating_for_the_product">Your rating for the product</string>
+    <string name="your_rating_for_shipping">Your rating for shipping</string>
+    <string name="send_evaluation">Send evaluation</string>
+    <string name="to_be_sure">To be sure</string>
 
 
 </resources>

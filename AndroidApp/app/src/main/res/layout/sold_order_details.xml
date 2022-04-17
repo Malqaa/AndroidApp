@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
 
     <LinearLayout
+        android:id="@+id/item_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp"
         android:layout_marginEnd="@dimen/_10sdp"
         android:background="@drawable/product_attribute_bg4"
         android:orientation="vertical">
@@ -241,7 +243,7 @@
 
         <androidx.appcompat.widget.AppCompatButton
 
-            android:id="@+id/butt555"
+            android:id="@+id/butt554"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
