@@ -1,11 +1,11 @@
 package com.malka.androidappp.activities_main
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import com.malka.androidappp.R
+import com.malka.androidappp.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_play.*
 
-class PlayActivity : AppCompatActivity() {
+class PlayActivity : BaseActivity() {
     private var uri = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {

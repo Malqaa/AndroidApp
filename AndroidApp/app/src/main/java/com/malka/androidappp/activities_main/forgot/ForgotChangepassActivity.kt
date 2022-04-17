@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.login.SignInActivity
 import com.malka.androidappp.activities_main.signup_account.signup_pg3.User
+import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.helper.HelpFunctions.Companion.PASSWORD_PATTERN
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
@@ -15,7 +16,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ForgotChangepassActivity : AppCompatActivity() {
+class ForgotChangepassActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_forgotpass_reset)

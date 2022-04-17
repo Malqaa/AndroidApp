@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.malka.androidappp.R
-import com.malka.androidappp.design.GenericOrderAdapter
 import com.malka.androidappp.helper.CommonAPI
 import com.malka.androidappp.helper.hide
 import com.malka.androidappp.helper.show
@@ -37,10 +36,9 @@ class MyProductsFragment : Fragment() {
             requireActivity().onBackPressed()
         }
         CommonAPI().getSoldItemsApi(ConstantObjects.logged_userid, requireContext()) {
-            sold_business_recycler.adapter =
-                GenericProductAdapter(it.sellingitems, requireContext())
+            sold_business_recycler.adapter = GenericProductAdapter(it.sellingitems, requireContext())
             did_not_sale_rcv.adapter = GenericProductAdapter(it.unsolditems, requireContext())
-            sold_out_rcv.adapter = GenericOrderAdapter(it.solditems, requireContext())
+//            sold_out_rcv.adapter = GenericOrderAdapter(it.solditems, requireContext())
 
             for_sale.setOnClickListener {
 
@@ -63,8 +61,6 @@ class MyProductsFragment : Fragment() {
                         R.drawable.round_btn
                     )
                 )
-
-
 
 
                 for_sale.setTextColor(Color.parseColor("#FFFFFF"));

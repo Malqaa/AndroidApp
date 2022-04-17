@@ -1025,7 +1025,19 @@ class HelpFunctions {
             }
             return map
         }
+
+
+        fun openExternalLInk(link: String, context: Context){
+            context.startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse(link)
+                )
+            )
+        }
     }
+
+
 
 
 

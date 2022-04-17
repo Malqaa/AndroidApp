@@ -39,7 +39,6 @@ import com.malka.androidappp.network.constants.ApiConstants.ASK_QUES_AD_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.BUSSINESS_REGISTER_FILE_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.BUSSINESS_USER_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.CHANGEPASS_ENDPOINT
-import com.malka.androidappp.network.constants.ApiConstants.CHECKOUT_INSERT_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.CREATE_BUSINESS_PRODUCT_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.CREATE_USER_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.DELETE_AD_WATCHLIST_ENDPOINT
@@ -80,6 +79,7 @@ import com.malka.androidappp.network.constants.ApiConstants.PRODUCTBYID_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.RESEND_OTPCODE_API_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.SEARCH_CATEGORY_LISTING_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.UPDATEUSER_SIGNUP_ENDPOINT
+import com.malka.androidappp.network.constants.ApiConstants.UPDATE_CREDIT_CARD_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.VERIFY_API_ENDPOINT
 import com.malka.androidappp.servicemodels.*
 import com.malka.androidappp.servicemodels.addtocart.AddToCartResponseModel
@@ -109,16 +109,16 @@ import retrofit2.http.*
 
 interface MalqaApiService {
 
-    @POST(CREATE_USER_ENDPOINT)
+    @POST("Accounts/signUp")
     fun createuser(@Body registeruser: User): Call<GeneralRespone>
 
-    @POST(VERIFY_API_ENDPOINT)
+    @POST("Accounts/verify")
     fun verifycode(@Body verifyusercode: PostReqVerifyCode): Call<BasicResponse>
 
-    @POST(UPDATEUSER_SIGNUP_ENDPOINT)
+    @POST("Accounts/updatePersonalInfo")
     fun updateUserSiginup(@Body updateusersignupp: User): Call<User>
 
-    @POST(RESEND_OTPCODE_API_ENDPOINT)
+    @POST("Accounts/ResendCode")
     fun resendcode(@Body resendotpcode: User): Call<BasicResponse>
 
 
@@ -130,30 +130,30 @@ interface MalqaApiService {
     fun updateCarTemplate(@Body data: HashMap<String, String>): Call<CreateAdvResponseBack>
 
 
-    @POST(LOGIN_ENDPOINT)
+    @POST("Accounts/login")
     fun loginUser(@Body info: LoginClass): Call<LoginResponseBack?>?
 
-    @POST(ADDRESS_ENDPOINT)
+    @POST("Accounts/insertaddress")
     fun insertAddress(@Body info: GetAddressResponse.AddressModel): Call<insertAddressResponseBack>
 
-    @POST(BUSSINESS_USER_ENDPOINT)
+    @POST("Accounts/CreateBusinessAccount")
     fun addBusinesUser(@Body info: BusinessUserModel.getBusinessList): Call<addBusinessUserlistReponse>
 
-    @POST(BUSSINESS_REGISTER_FILE_ENDPOINT)
+    @POST("Accounts/UploadBusinessDocuments")
     fun addBusinessRegisterFile(@Body info: getBusinessRegisterFile.GetDocuments): Call<addBusinessRegisterFileResponse>
 
-    @POST(ADDBANK_ENDPOINT)
+    @POST("UserBankAccount/AddUserBankAccount")
     fun addbankaccount(@Body info: BankListRespone.BankDetail): Call<addBankAccountResponseBack>
 
-    @GET(GET_ADDRESS_ENDPOINT)
+    @GET("Accounts/getaddresses")
     fun getAddress(@Query("loginId") loginId: String): Call<GetAddressResponse>
-    @GET(GET_CARD_DETAILS_ENDPOINT)
+    @GET("CardDetail/getbyuserid")
     fun getCardDetails(@Query("usid") loginId: String): Call<getCardDetailsModel>
 
-    @GET(GET_BANK__ACCOUNT_DETAIL)
+    @GET("UserBankAccount/UserBankAccountsById")
     fun getBankDetail(@Query("UserID") loginId: String): Call<BankListRespone>
 
-    @GET(GET_BUSINESS_USER_LIST)
+    @GET("Accounts/GetBusinessListByUserId")
     fun getBusinessUserList(@Query("UserID") loginId: String): Call<BusinessUserModel>
 
     @GET("Country/GetAllCountryFrmSql")
@@ -167,56 +167,56 @@ interface MalqaApiService {
     fun getCity(@Query("key") Id: String, @Query("culture") culture: String): Call<CountryRespone>
 
 
-    @POST(GET_CATEGORY_LISTING_ENDPOINT)
+    @POST("SearchFilter/generalsearchfilters")
     fun categorylist(@Body creategeneralad: SearchRequestModel): Call<SearchRespone>;
 
-    @GET(GETUSER_ENDPOINT + "?")
+    @GET("Accounts/GetUser" + "?")
     fun getuser(@Query("id") userid: String): Call<UserObject>;
 
-    @GET(GET_WATCHLIST_LISTING_ENDPOINT + "?")
+    @GET("Watchlist/getall" + "?")
     fun getUserWatchlist(@Query("loggedinUserId") userid: String): Call<watchlistobject>;
 
-    @GET(FEEDBACK_PARAMETER + "?")
+    @GET("Auction/getall" + "?")
     fun getuserfeedback(@Query("loggedin") userid: String): Call<FeedbackObject>;
 
-    @GET(FAVOURITE_PARAMETER + "?")
+    @GET("all" + "?")
     fun getuserfavourites(@Query("loggedIn") userid: String): Call<FavouriteObject>;
 
-    @GET(ADVBYID_ENDPOINT + "?")
+    @GET( "CarTemplate/Details" + "?")
     fun getAdDetailById(
         @Query("id") id: String,
         @Query("template") template: String,
         @Query("loggedin") loggedin: String
     ): Call<JsonObject>
 
-    @GET(GET_SELLER_ENDPOINT + "?")
+    @GET("Accounts/GetUser" + "?")
     fun getAdSeller(
         @Query("id") id: String,
         @Query("loggedin") loggedin: String
     ): Call<SellerResponseBack>
 
-    @GET(GET_SELLER_ENDPOINT)
+    @GET("Accounts/GetUser")
     fun getAdSellerByID(
         @Query("id") id: String
     ): Call<ModelSellerDetails>
 
 
-    @POST(FORGOTPASS_EMAIL_ENDPOINT)
+    @POST("Accounts/ForgetEmailRequest")
     fun forgotpassemail(@Body forgottpass: User): Call<GeneralRespone>
 
-    @POST(CHANGEPASS_ENDPOINT)
+    @POST("Accounts/ChangePassword")
     fun changepass(@Body changepasspost: User): Call<User>
 
-    @POST(INSERT_AD_WATCHLIST_ENDPOINT)
+    @POST("Watchlist/insert")
     fun InsertAdtoUserWatchlist(@Body insertads: watchlistadd): Call<BasicResponse>
 
-    @POST(DELETE_AD_WATCHLIST_ENDPOINT + "?")
+    @POST("Watchlist/delete" + "?")
     fun DeleteAdFromUserWatchlist(
         @Query("userid") userid: String,
         @Query("adid") adsId: String
     ): Call<BasicResponse>
 
-    @POST(POST_USER_IMAGE_ENDPOINT + "?")
+    @POST("Accounts/userimageupload" + "?")
     fun userimageupload(
         @Query("userId") userid: String,
         @Body imagebase64string: String
@@ -233,10 +233,10 @@ interface MalqaApiService {
         @Query("userid") userid: String,
     ): Call<BasicResponseInt>
 
-    @POST(ASK_QUES_AD_ENDPOINT)
+    @POST("AdvQueAndAns/create")
     fun askQues(@Body askques: ModelAskQues): Call<ModelAskQues>
 
-    @GET(GET_QUES_ANS_COMMENT_ENDPOINT)
+    @GET("CarTemplate/GetQuestionByAd")
     fun quesAns(
         @Query("adid") qaadid: String,
         @Query("loggedin") qalogid: String
@@ -247,10 +247,10 @@ interface MalqaApiService {
         @Query("name") name: String
     ): Call<CategoryTagsModel>
 
-    @GET(ALL_PRODUCTS_ENDPOINT + "?")
+    @GET("BussinessProduct/getall" + "?")
     fun getAllProducts(): Call<AllProductsResponseBack>
 
-    @GET(GET_ALL_CATEGORIES)
+    @GET("Category/GetAllCategoryByCulture")
     fun getAllCategories(
         @Query("culture") culture: String,
     ): Call<AllCategoriesResponseBack>
@@ -261,16 +261,16 @@ interface MalqaApiService {
         @Query("culture") culture: String
     ): Call<AllCategoriesResponseBack>
 
-    @POST(INSERT_FAVOURITE_SELLER_ENDPOINT)
+    @POST("Favourite/insertseller")
     fun addSellerFav(@Body addfav: ModelAddSellerFav): Call<ModelAddSellerFav>
 
-    @POST(INSERT_FAVOURITE_CATEGORY_ENDPOINT)
+    @POST("Favourite/insertcategory")
     fun addCatFav(@Body addfav: ModelAddCatFav): Call<ModelAddCatFav>
 
-    @POST(INSERT_FAVOURITE_SEARCH_ENDPOINT)
+    @POST("Favourite/insertsearch")
     fun addSearchFav(@Body addfav: ModelAddSearchFav): Call<ModelAddSearchFav>
 
-    @POST(POST_ANS_ONADD_QUESID_ENDPOINT + "?")
+    @POST("AdvQueAndAns/answer" + "?")
     fun postAnsByQid(
         @Query("qId") ansqid: String,
         @Query("answer") ansans: String,
@@ -289,22 +289,23 @@ interface MalqaApiService {
     @GET(ApiConstants.HOME_TOTAL_VISIT_COUNT)
     fun GetTotalVisitCount(): Call<visit_count_object>;
 
-    @GET(GET_UNSOLDITEMS_ENDPOINT + "?")
+    @GET("Accounts/soldunsolditems" + "?")
     fun getunsolditemsbyId(@Query("userid") userid: String): Call<ModelSoldUnsold>
 
-    @GET(GET_SOLDITEMS_ENDPOINT + "?")
+    @GET("Accounts/soldunsolditems"
+            + "?")
     fun getsolditemsbyId(@Query("userid") userid: String): Call<ModelSoldUnsold>
 
-    @POST(POST_BUSINESS_USER_REGISTRATION_ENDPOINT)
+    @POST("BusinessUser/Insertbusinessuser")
     fun busiRegis(@Body busiReg: ModelBusinessRegistration): Call<ModelBusinessRegistration>
 
-    @GET(GET_WONLOST_ENDPOINT + "?")
+    @GET("Bid/UserWonNLostList" + "?")
     fun getWonLost(@Query("loginId") wonLogin: String): Call<ModelWonLost>
 
-    @GET(HOME_TOTAL_ONLINEVISITS_ENDPOINT)
+    @GET("GetAllOnlineUsers")
     fun GetTotalOnlineUers(): Call<ModelGetTotalOnlineUsers>
 
-    @GET(HOME_TOTAL_NUMBERS_OF_MEMBERS_ENDPOINT)
+    @GET("Accounts/usercount")
     fun getTotalMembers(): Call<ModelGetTotalMembers>
 
     @GET(ApiConstants.GET_AD_DETAIL_BIDING_PRICE_ENDPOINT)
@@ -319,43 +320,47 @@ interface MalqaApiService {
     @POST(ApiConstants.INSERT_BUYNOW_SHIPPINGADDRESS_ENDPOINT)
     fun AddNewShippingAddress(@Body shippingaddress: ShippingAddressessData): Call<BasicResponse>
 
-    @GET(SEARCH_CATEGORY_LISTING_ENDPOINT + "?")
+    @GET("CarTemplate/Search" + "?")
     fun searchcategorylist(@Query("query") category: String): Call<CategoryResponse>;
 
-    @POST(CREATE_BUSINESS_PRODUCT_ENDPOINT)
+    @POST("BussinessProduct/createproduct")
     fun createBusinessProduct(@Body createproduct: ModelCreateProduct): Call<CreateProductResponseBack>
 
-    @POST(GIVE_FEEDBACK_ENDPOINT)
+    @POST("Auction/InsertFeedback")
     fun giveFeedback(@Body giveFeedback: ModelGiveFeedBack): Call<GiveFeedbackResponseBack>
 
-    @POST(EDIT_PRODUCTS_ENDPOINT)
+    @POST("BussinessProduct/editproduct")
     fun editBusinessProduct(@Body editproduct: ModelEditProduct): Call<EditProductResponseBack>
 
-    @GET(PRODUCTBYID_ENDPOINT + "?")
+    @GET("BussinessProduct/detailsofproduct" + "?")
     fun getProductDetailById(
         @Query("id") id: String,
         @Query("loginUserId") loginUserId: String
     ): Call<ProductResponseBack>
 
-    @GET(GET_USER_CREDIT_CARD_ENDPOINT + "?")
+    @GET("CardDetail/getbyuserid" + "?")
     fun GetUserCreditCards(@Query("usid") userid: String): Call<CreditCardResponse>;
 
-    @POST(INSERT_CREDIT_CARD_ENDPOINT)
+    @POST("CardDetail/insertcard")
     fun InsertUserCreditCard(@Body insertads: CreditCardRequestModel): Call<BasicResponse>
+    @POST("CardDetail/updatecard")
+    fun UpdateUserCreditCard(@Body insertads: CreditCardRequestModel): Call<BasicResponse>
 
-    @DELETE(DELETE_CREDIT_CARD_ENDPOINT + "?")
+    @DELETE("CardDetail/deletecard" + "?")
     fun DeleteUserCreditCard(@Query("id") userid: String): Call<BasicResponse>
 
-    @GET(ADD_TO_CART_USER_LIST_ENDPOINT + "?")
+    @GET("AddToCart/getbyloginuserid" + "?")
     fun GetUsersCartList(@Query("loggedinUserId") userid: String): Call<AddToCartResponseModel>;
 
-    @POST(ADD_TO_CART_INSERT_ENDPOINT)
+    @POST("AddToCart/create")
     fun AddToUserCart(@Body addtocart: InsertToCartRequestModel): Call<BasicResponse>
+    @GET("AddToCart/getall")
+    fun getMyRequest(@Query("loginId") loginId: String): Call<getCartModel>
 
-    @DELETE(ADD_TO_CART_DELETE_ENDPOINT + "?")
+    @DELETE("AddToCart/delete" + "?")
     fun DeleteFromUserCart(@Query("id") userid: String): Call<BasicResponse>
 
-    @POST(CHECKOUT_INSERT_ENDPOINT)
+    @POST("Checkout/checkoutiteminsert")
     fun PostUserCheckOut(@Body checkout: CheckoutRequestModel): Call<BasicResponse>
 
 

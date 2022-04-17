@@ -1,7 +1,5 @@
 package com.malka.androidappp.design.Models
 
-import java.util.*
-
 data class negotiationmodel (
     val protype:String,
     val proname:String,
@@ -11,6 +9,7 @@ data class negotiationmodel (
     val pername: String,
     val persince:String,
     val perdp:Int,
+    var is_selectb: Boolean=true,
 
 
     )

@@ -279,6 +279,20 @@
 
 
     <fragment
+        android:id="@+id/myRequest"
+        android:name="com.malka.androidappp.botmnav_fragments.MyOrdersFragment"
+        android:label="My Request"
+        tools:layout="@layout/fragment_my_orders">
+
+        <action
+            android:id="@+id/myrequest"
+            app:destination="@+id/my_Request" />
+
+
+    </fragment>
+
+
+    <fragment
         android:id="@+id/paymentCard"
         android:name="com.malka.androidappp.botmnav_fragments.payment_card_fragment"
         android:label="Payment Cards"

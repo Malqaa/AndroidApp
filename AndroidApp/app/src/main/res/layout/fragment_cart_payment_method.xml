@@ -25,7 +25,7 @@
         android:layout_marginStart="@dimen/_15sdp"
         android:layout_marginTop="@dimen/_15sdp"
         android:layout_marginEnd="@dimen/_15sdp"
-        android:layout_marginBottom="@dimen/_15sdp"
+        android:layout_marginBottom="23dp"
         android:background="@drawable/round_btn"
         android:text="PLACE ORDER"
         android:textColor="@color/white"

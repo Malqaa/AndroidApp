@@ -128,12 +128,13 @@ object ApiConstants {
     const val GET_USER_CREDIT_CARD_ENDPOINT = "CardDetail/getbyuserid"
 
     const val INSERT_CREDIT_CARD_ENDPOINT = "CardDetail/insertcard"
+    const val UPDATE_CREDIT_CARD_ENDPOINT = "CardDetail/updatecard"
 
     const val DELETE_CREDIT_CARD_ENDPOINT = "CardDetail/deletecard"
 
     const val ADD_TO_CART_DELETE_ENDPOINT = "AddToCart/delete"
     const val ADD_TO_CART_INSERT_ENDPOINT = "AddToCart/create"
-    const val getOrderHistory = "AddToCart/getall"
+    const val getOrderHistory = "AddToCart/GetAllCartByUserId"
     const val ADD_TO_CART_USER_LIST_ENDPOINT = "AddToCart/getbyloginuserid"
 
     const val CHECKOUT_INSERT_ENDPOINT = "Checkout/checkoutiteminsert"

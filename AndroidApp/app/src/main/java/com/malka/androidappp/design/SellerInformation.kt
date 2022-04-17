@@ -5,8 +5,8 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import com.malka.androidappp.R
+import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.botmnav_fragments.sellerdetails.SellerResponseBack
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
@@ -14,12 +14,20 @@ import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.recycler_browsecat.GenericProductAdapter
 import com.malka.androidappp.servicemodels.ConstantObjects
 import kotlinx.android.synthetic.main.activity_seller_information.*
+import kotlinx.android.synthetic.main.activity_seller_information.instagram_btn
+import kotlinx.android.synthetic.main.activity_seller_information.maps_btn
+import kotlinx.android.synthetic.main.activity_seller_information.sellerName
+import kotlinx.android.synthetic.main.activity_seller_information.seller_city
+import kotlinx.android.synthetic.main.activity_seller_information.skype_btn
+import kotlinx.android.synthetic.main.activity_seller_information.youtube_btn
+import kotlinx.android.synthetic.main.product_detail_2.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.*
 
-class SellerInformation : AppCompatActivity() {
+class SellerInformation : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_seller_information)
@@ -31,40 +39,32 @@ class SellerInformation : AppCompatActivity() {
             finish()
         }
 
-
-
         youtube_btn.setOnClickListener(View.OnClickListener {
-            startActivity(
-                Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse("https://www.youtube.com/")
-                )
+
+            HelpFunctions.openExternalLInk(
+                "https://www.youtube.com/watch?v=KioO9frme6c", this
             )
         })
 
         instagram_btn.setOnClickListener(View.OnClickListener {
-            startActivity(
-                Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse("https://www.instagram.com/")
-                )
+
+            HelpFunctions.openExternalLInk(
+                "https://www.instagram.com/reel/CcGMHEwjSAV/?utm_source=ig_web_copy_link", this
             )
         })
 
         skype_btn.setOnClickListener(View.OnClickListener {
-            startActivity(
-                Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse("https://www.skype.com/")
-                )
+
+            HelpFunctions.openExternalLInk(
+                "https://www.skype.com/", this
             )
         })
 
         maps_btn.setOnClickListener(View.OnClickListener {
+            val uri: String =
+                java.lang.String.format(Locale.ENGLISH, "geo:%f,%f", 33.7295, 73.0372)
             startActivity(
-                Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse("https://www.google.com/maps/")
+                Intent(Intent.ACTION_VIEW, Uri.parse(uri)
                 )
             )
         })
