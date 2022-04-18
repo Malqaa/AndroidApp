@@ -6,7 +6,9 @@
     android:layout_marginTop="@dimen/_10sdp"
     android:paddingLeft="@dimen/_10sdp"
     android:paddingRight="@dimen/_10sdp"
-    android:background="@drawable/field_selection_bg">
+    android:background="@drawable/field_selection_bg"
+    android:paddingEnd="@dimen/_10sdp"
+    android:paddingStart="@dimen/_10sdp">
 
 
 

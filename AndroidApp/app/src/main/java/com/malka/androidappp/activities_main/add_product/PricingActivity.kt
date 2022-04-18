@@ -132,11 +132,12 @@ class PricingActivity : BaseActivity() {
                     }
 
 
-
+                    StaticClassAdCreate.listingType = ""
                     if (listingtyp_rb1.isChecked) {
-                        StaticClassAdCreate.listingType = "1"
-                    } else if (listingtyp_rb2.isChecked) {
-                        StaticClassAdCreate.listingType = "2"
+                        StaticClassAdCreate.listingType += "1"
+                    }
+                    if (listingtyp_rb2.isChecked) {
+                        StaticClassAdCreate.listingType += "2"
                     }
 
                     startActivity(Intent(this, ListingDuration::class.java).apply {

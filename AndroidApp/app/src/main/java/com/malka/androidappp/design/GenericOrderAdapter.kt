@@ -13,7 +13,7 @@ import com.malka.androidappp.helper.BaseViewHolder
 import com.malka.androidappp.helper.hide
 import com.malka.androidappp.helper.show
 import com.malka.androidappp.servicemodels.getCartModel
-import kotlinx.android.synthetic.main.sold_order_details.view.*
+import kotlinx.android.synthetic.main.order_item.view.*
 
 class GenericOrderAdapter(
     var soldOrderDetail: List<getCartModel.Data>,
@@ -22,44 +22,43 @@ class GenericOrderAdapter(
 ) : RecyclerView.Adapter<BaseViewHolder>() {
 
 
-
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): BaseViewHolder {
         val view: View =
-            LayoutInflater.from(parent.context).inflate(R.layout.sold_order_details, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.order_item, parent, false)
         return BaseViewHolder(view)
     }
 
     override fun getItemCount() = soldOrderDetail.size
 
-    override fun onBindViewHolder(holder: BaseViewHolder, position: Int, ) {
+    override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
 
 
         holder.view.run {
-
-
-
-            if (isCurrent){
-                butt554.show()
-                butt554.setOnClickListener {
-                    val intentt = Intent(context, OrderDetail::class.java)
-                    context.startActivity(intentt)
-                }
-            }else{
-                butt554.hide()
-                item_view.setOnClickListener {
-                    val intentt = Intent(context, OrderDetail_1::class.java)
-                    context.startActivity(intentt)
+            soldOrderDetail.get(position).run {
+                order_number_tv.text = "#$orderNumber"
+                order_status_tv.text = orderStatus
+                order_time_tv.text = createddateFormated
+                total_order_tv.text = "${advertisements.price} ${context.getString(R.string.rial)}"
+                if (isCurrent) {
+                    complete_order_btn.show()
+                    setOnClickListener {
+                        val intentt = Intent(context, OrderDetail::class.java)
+                        context.startActivity(intentt)
+                    }
+                } else {
+                    complete_order_btn.hide()
+                    setOnClickListener {
+                        val intentt = Intent(context, OrderDetail_1::class.java)
+                        context.startActivity(intentt)
+                    }
                 }
             }
 
+
         }
-
-
-
-//        GenericAdaptor().productAdaptor(soldOrderDetail.get(position), context, holder,isGrid)
 
 
     }

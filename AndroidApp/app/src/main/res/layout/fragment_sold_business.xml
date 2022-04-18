@@ -46,7 +46,9 @@
             android:padding="@dimen/_10sdp"
             android:text="@string/sold_out"
             android:textColor="#45495E"
-            android:textSize="@dimen/_10sdp" />
+            android:textSize="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp" />
 
         <TextView
             android:id="@+id/did_not_Sell"
@@ -70,7 +72,9 @@
         android:layout_marginRight="@dimen/_5sdp"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="2"
-        tools:listitem="@layout/product_item" />
+        tools:listitem="@layout/product_item"
+        android:layout_marginStart="@dimen/_5sdp"
+        android:layout_marginEnd="@dimen/_5sdp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/did_not_sale_rcv"
@@ -80,7 +84,9 @@
         android:layout_marginRight="@dimen/_5sdp"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="2"
-        tools:listitem="@layout/product_item" />
+        tools:listitem="@layout/product_item"
+        android:layout_marginEnd="@dimen/_5sdp"
+        android:layout_marginStart="@dimen/_5sdp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/sold_out_rcv"
@@ -90,7 +96,9 @@
         android:layout_height="wrap_content"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="2"
-        tools:listitem="@layout/sold_order_details" />
+        tools:listitem="@layout/order_item"
+        android:layout_marginEnd="@dimen/_5sdp"
+        android:layout_marginStart="@dimen/_5sdp" />
 
 
 </LinearLayout>

@@ -1,6 +1,7 @@
 package com.malka.androidappp.servicemodels
 
 import com.malka.androidappp.activities_main.signup_account.signup_pg3.User
+import com.malka.androidappp.helper.HelpFunctions
 
 data class getCartModel(
     val `data`: List<Data>,
@@ -13,7 +14,23 @@ data class getCartModel(
         val createddate: String,
         val isActive: Boolean,
         val loggenIn: String,
-        val sellerId: Any,
+        val sellerId: String,
+        val orderNumber: String,
+        val orderStatus: String,
         val user: User
-    )
+    ){
+        val createddateFormated: String
+            get() {
+                createddate.let {
+                    val result: String = it.substring(0, createddate.indexOf("."))
+                    return  HelpFunctions.FormatDateTime(
+                        result,
+                        HelpFunctions.datetimeformat_24hrs,
+                        HelpFunctions.datetimeformat_mmddyyyy
+                    )
+                }
+
+            }
+    }
+
 }

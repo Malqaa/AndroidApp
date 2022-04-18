@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.view.ViewGroup
 import android.widget.Filter
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
@@ -81,18 +80,17 @@ class GenericAdaptor {
                 if (homepageImage.isNullOrEmpty()) {
                     if (!images.isNullOrEmpty()) {
                         val imageURL = ApiConstants.IMAGE_URL + images.get(0)
-
                         Extension.loadThumbnail(
                             context,
                             imageURL,
                             productimg, loader
                         )
                     } else {
-                        productimg.setBackgroundColor(
-                            ContextCompat.getColor(
-                                context,
-                                R.color.gray_light
-                            )
+                        val imageURL = ApiConstants.IMAGE_URL + image
+                        Extension.loadThumbnail(
+                            context,
+                            imageURL,
+                            productimg, loader
                         )
 
                     }
@@ -106,20 +104,47 @@ class GenericAdaptor {
                 }
 
                 date_tv.text = createdOnFormated
-                product_price.text = "${price!!.toDouble().decimalNumberFormat()} ${
-                    context.getString(
-                        R.string.Rayal
-                    )
-                }"
-                LowestPrice.text = "${
-                    price!!.toDouble().decimalNumberFormat()
-                } ${context.getString(R.string.Rayal)}"
+
+                when(listingType){
+                    "1"->{
+                        LowestPrice_layout.hide()
+                        LowestPrice_layout_2.hide()
+                        product_price.text = "${price!!.toDouble().decimalNumberFormat()} ${
+                            context.getString(
+                                R.string.Rayal
+                            )
+                        }"
+                        purchasing_price_tv_2.text =
+                            "${price.toDouble().decimalNumberFormat()} ${context.getString(R.string.Rayal)}"
+                    }
+                    "12","2"->{
+                        LowestPrice_layout.show()
+                        LowestPrice_layout_2.show()
+
+                        product_price.text = "${startingPrice!!.toDouble().decimalNumberFormat()} ${
+                            context.getString(
+                                R.string.Rayal
+                            )
+                        }"
+                        purchasing_price_tv_2.text =
+                            "${startingPrice.toDouble().decimalNumberFormat()} ${context.getString(R.string.Rayal)}"
 
 
-                purchasing_price_tv_2.text =
-                    "${price.toDouble().decimalNumberFormat()} ${context.getString(R.string.Rayal)}"
-                LowestPrice_2.text =
-                    "${price.toDouble().decimalNumberFormat()} ${context.getString(R.string.Rayal)}"
+                        product_price.text = "${startingPrice!!.toDouble().decimalNumberFormat()} ${
+                            context.getString(
+                                R.string.Rayal
+                            )
+                        }"
+
+                        LowestPrice.text = "${
+                            reservePrice!!.toDouble().decimalNumberFormat()
+                        } ${context.getString(R.string.Rayal)}"
+                        LowestPrice_2.text =
+                            "${reservePrice.toDouble().decimalNumberFormat()} ${context.getString(R.string.Rayal)}"
+                    }
+                }
+
+
                 if (isGrid) {
                     lisView.hide()
                     gridview.show()

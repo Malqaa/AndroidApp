@@ -25,6 +25,7 @@ data class AdDetailModel(
     val iscontactphone: String? = null,
     val isuserfavorite: Boolean? = null,
     val listingType: String? = null,
+    val listingtype: String? = null,
     val name: String? = null,
     val pack4: String? = null,
     val phone: String? = null,
@@ -34,10 +35,11 @@ data class AdDetailModel(
     val quantity: String? = null,
     val region: String? = null,
     val reservePrice: String? = null,
+    val startingPrice: String? = null,
+
     val saBankPm: String? = null,
     val shippingOption: String? = null,
     val slug: String? = null,
-    val startingPrice: String? = null,
     val subtitle: String? = null,
     val tag: String? = null,
     val template: String? = null,
@@ -55,7 +57,7 @@ data class AdDetailModel(
     val image: String? = null,
 
 
-){
+    ){
 
     val createdOnFormated: String
         get() {

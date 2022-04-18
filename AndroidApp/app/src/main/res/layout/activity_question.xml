@@ -89,7 +89,9 @@
                                 android:layout_centerVertical="true"
                                 android:layout_marginLeft="@dimen/_10sdp"
                                 android:layout_marginRight="@dimen/_10sdp"
-                                android:src="@drawable/ic_cross" />
+                                android:src="@drawable/ic_cross"
+                                android:layout_marginEnd="@dimen/_10sdp"
+                                android:layout_marginStart="@dimen/_10sdp" />
                         </RelativeLayout>
 
                         <TextView

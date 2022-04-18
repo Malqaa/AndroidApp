@@ -9,10 +9,14 @@ import com.malka.androidappp.activities_main.MainActivity
 import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.design.Models.negotiationmodel
 import com.malka.androidappp.helper.CommonBottomSheet
+import com.malka.androidappp.helper.hide
 import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.servicemodels.ConstantObjects
 import kotlinx.android.synthetic.main.activity_order_detail.*
+import kotlinx.android.synthetic.main.activity_order_detail.order_item
+import kotlinx.android.synthetic.main.activity_order_detail1.*
 import kotlinx.android.synthetic.main.order_detail_design.view.*
+import kotlinx.android.synthetic.main.order_item.view.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 
 class OrderDetail : BaseActivity() {
@@ -35,6 +39,7 @@ class OrderDetail : BaseActivity() {
         val list: ArrayList<negotiationmodel> = ArrayList()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_order_detail)
+        order_item.complete_order_btn.hide()
 
         toolbar_title.text = getString(R.string.my_orders)
         back_btn.setOnClickListener {

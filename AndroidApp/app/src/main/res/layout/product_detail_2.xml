@@ -532,7 +532,9 @@
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentEnd="true"
                                     android:layout_centerVertical="true"
+                                    android:layout_marginStart="@dimen/_10sdp"
                                     android:layout_marginLeft="@dimen/_10sdp"
+                                    android:layout_marginEnd="@dimen/_10sdp"
                                     android:layout_marginRight="@dimen/_10sdp"
                                     android:src="@drawable/ic_cross" />
                             </RelativeLayout>
@@ -1114,9 +1116,12 @@
                         android:id="@+id/isSellerProductHide_iv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/_10sdp"
                         android:layout_marginLeft="@dimen/_10sdp"
+                        android:layout_marginEnd="@dimen/_10sdp"
                         android:layout_marginRight="@dimen/_10sdp"
                         android:src="@drawable/down_arrow" />
                 </RelativeLayout>
@@ -1148,23 +1153,25 @@
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
                 <LinearLayout
-                    android:orientation="vertical"
                     android:id="@+id/price_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
                     <RelativeLayout
                         android:id="@+id/add_to_cart"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:background="@drawable/round_btn"
-                        android:padding="@dimen/_10sdp">
+                        android:padding="@dimen/_10sdp"
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:layout_marginLeft="@dimen/_10sdp"
+                            android:layout_marginStart="@dimen/_10sdp"
                             android:fontFamily="@font/madani_arabic_semi_bold"
                             android:text="@string/add_to_cart"
                             android:textAllCaps="false"
@@ -1239,7 +1246,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:layout_marginLeft="@dimen/_10sdp"
+                            android:layout_marginStart="@dimen/_10sdp"
                             android:fontFamily="@font/madani_arabic_semi_bold"
                             android:text="@string/Bid_on_price"
                             android:textAllCaps="false"
@@ -1250,11 +1257,12 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
+                            android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
-                            android:layout_marginRight="@dimen/_10sdp"
+                            android:layout_marginEnd="@dimen/_10sdp"
                             android:fontFamily="@font/madani_arabic_semi_bold"
                             android:text="@string/sar"
+                            android:id="@+id/Bid_on_price_tv"
                             android:textAllCaps="false"
                             android:textColor="@color/white"
                             android:textSize="@dimen/_12sdp" />
@@ -1262,8 +1270,6 @@
 
                     </RelativeLayout>
                 </LinearLayout>
-
-
 
 
                 <androidx.appcompat.widget.AppCompatButton

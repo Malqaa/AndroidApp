@@ -2912,6 +2912,7 @@ Want to start a business account? Create a Business Account
     <string name="to_be_sure">To be sure</string>
     <string name="please_attach_a_copy_of_the_invoice">Please attach a copy of the invoice</string>
   <string name="attach_the_picture">Attach the picture</string>
+  <string name="highest_price">Highest Price: </string>
 
 
 </resources>

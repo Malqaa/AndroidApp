@@ -6,9 +6,11 @@ import android.widget.Filter
 import androidx.appcompat.app.AppCompatActivity
 import com.malka.androidappp.R
 import com.malka.androidappp.design.Models.negotiationmodel
+import com.malka.androidappp.helper.hide
 import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
 import kotlinx.android.synthetic.main.activity_order_detail1.*
 import kotlinx.android.synthetic.main.order_detail_design_1.view.*
+import kotlinx.android.synthetic.main.order_item.view.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 
 class OrderDetail_1 : AppCompatActivity() {
@@ -16,7 +18,7 @@ class OrderDetail_1 : AppCompatActivity() {
         val list: ArrayList<negotiationmodel> = ArrayList()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_order_detail1)
-
+        order_item.complete_order_btn.hide()
         toolbar_title.text = getString(R.string.my_orders)
         back_btn.setOnClickListener {
             finish()

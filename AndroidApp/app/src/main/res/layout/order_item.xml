@@ -17,17 +17,19 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_50sdp"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:paddingTop="@dimen/_10sdp"
             android:weightSum="2">
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_15sdp"
-                android:layout_marginTop="@dimen/_15sdp"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:weightSum="1">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -38,10 +40,11 @@
                     android:textSize="@dimen/_10sdp" />
 
                 <TextView
+                    android:id="@+id/order_number_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/madani_arabic_bold"
-                    android:text="#6497"
+                    android:text="#"
                     android:textColor="#45495E"
                     android:textSize="@dimen/_10sdp" />
 
@@ -55,12 +58,13 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_15sdp"
-                android:layout_marginTop="@dimen/_15sdp"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:weightSum="1">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -94,28 +98,32 @@
 
 
         <LinearLayout
+
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_50sdp"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:weightSum="2">
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_15sdp"
-                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:weightSum="1">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/madani_arabic_light"
+                    android:gravity="center_vertical"
                     android:text="@string/order_time"
                     android:textColor="#8B959E"
                     android:textSize="@dimen/_10sdp" />
 
                 <TextView
+                    android:id="@+id/order_time_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/madani_arabic_bold"
@@ -133,12 +141,15 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_15sdp"
-                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:weightSum="1">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -150,6 +161,7 @@
                     android:textSize="@dimen/_10sdp" />
 
                 <TextView
+                    android:id="@+id/shipments_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_10sdp"
@@ -172,17 +184,20 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_50sdp"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:weightSum="2">
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_15sdp"
-                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:layout_weight="1"
-                android:orientation="vertical">
+
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:weightSum="1">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -193,10 +208,11 @@
                     android:textSize="@dimen/_10sdp" />
 
                 <TextView
+                    android:id="@+id/total_order_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/madani_arabic_bold"
-                    android:text="# 6497"
+                    android:text="#"
                     android:textColor="#45495E"
                     android:textSize="@dimen/_10sdp" />
 
@@ -210,23 +226,26 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_15sdp"
-                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:weightSum="1">
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:fontFamily="@font/madani_arabic_light"
+                    android:gravity="center_vertical"
                     android:text="@string/order_status"
                     android:textColor="#8B959E"
                     android:textSize="@dimen/_10sdp" />
 
                 <TextView
+                    android:id="@+id/order_status_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_10sdp"
@@ -243,10 +262,9 @@
 
         <androidx.appcompat.widget.AppCompatButton
 
-            android:id="@+id/butt554"
+            android:id="@+id/complete_order_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_15sdp"
             android:layout_marginEnd="@dimen/_10sdp"

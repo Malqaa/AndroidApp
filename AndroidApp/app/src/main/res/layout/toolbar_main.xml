@@ -35,7 +35,8 @@
 
                 android:text="@string/add_product"
                 android:textColor="@color/black"
-                android:textSize="@dimen/_13sdp" />
+                android:textSize="@dimen/_13sdp"
+                android:layout_toEndOf="@+id/back_btn" />
 
             <ImageView
                 android:visibility="gone"

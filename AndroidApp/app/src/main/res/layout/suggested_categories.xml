@@ -23,7 +23,8 @@
         android:text=""
         android:id="@+id/is_select"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/_minus15sdp" />
 
 </LinearLayout>
 

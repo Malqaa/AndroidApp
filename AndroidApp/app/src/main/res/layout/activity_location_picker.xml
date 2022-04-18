@@ -41,7 +41,9 @@
             app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="@dimen/_10sdp"
             app:cardElevation="0dp"
-            app:cardUseCompatPadding="false">
+            app:cardUseCompatPadding="false"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_15sdp">
 
             <RelativeLayout
                 android:layout_width="match_parent"

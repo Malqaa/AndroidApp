@@ -58,7 +58,9 @@
             android:text="@string/dismiss"
             android:textAllCaps="false"
             android:textColor="#ffffff"
-            android:textSize="@dimen/_14sdp" />
+            android:textSize="@dimen/_14sdp"
+            android:layout_marginStart="@dimen/_30sdp"
+            android:layout_marginEnd="@dimen/_30sdp" />
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

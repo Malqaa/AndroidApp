@@ -1011,21 +1011,6 @@
 
         </LinearLayout>
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_account"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="#339933"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:popupTheme="@style/PopupOverlay"
-            app:title="@string/title_account"
-
-            app:titleTextColor="@color/white">
-
-        </androidx.appcompat.widget.Toolbar>
 
 
         <LinearLayout

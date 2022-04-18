@@ -34,6 +34,7 @@ import com.malka.androidappp.helper.Extension.shared
 import com.malka.androidappp.helper.GenericAdaptor
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.helper.HelpFunctions.Companion.openExternalLInk
+import com.malka.androidappp.helper.show
 import com.malka.androidappp.helper.swipe.MessageSwipeController
 import com.malka.androidappp.helper.swipe.SwipeControllerActions
 import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
@@ -366,17 +367,44 @@ class ProductDetails : BaseActivity() {
                     product.run {
                         checkPriceLayout()
                         getSellerByID(user!!)
-                        current_price_buy_tv.text = "${price!!.toDouble().decimalNumberFormat()} ${
-                            getString(
-                                R.string.sar
-                            )
-                        }"
-                        current_price_buy_tv_2.text =
-                            "${price!!.toDouble().decimalNumberFormat()} ${
-                                getString(
-                                    R.string.sar
-                                )
-                            }"
+                        when (listingtype) {
+                            "1"->{
+                                add_to_cart.show()
+                                current_price_buy_tv_2.text =
+                                    "${price!!.toDouble().decimalNumberFormat()} ${
+                                        getString(
+                                            R.string.sar
+                                        )
+                                    }"
+                            }
+                            "2"->{
+                                Bid_on_price.show()
+                                Bid_on_price_tv.text = "${startingPrice!!.toDouble().decimalNumberFormat()} ${
+                                    getString(
+                                        R.string.sar
+                                    )
+                                }"
+
+                            }
+                            "12"->{
+                                current_price_buy.show()
+                                Bid_on_price.show()
+                                current_price_buy_tv.text = "${price!!.toDouble().decimalNumberFormat()} ${
+                                    getString(
+                                        R.string.sar
+                                    )
+                                }"
+
+                                Bid_on_price_tv.text = "${startingPrice!!.toDouble().decimalNumberFormat()} ${
+                                    getString(
+                                        R.string.sar
+                                    )
+                                }"
+
+                            }
+                        }
+
+
                         if (!template.isNullOrEmpty()) {
                             HelpFunctions.GetTemplatesJson(
                                 "$template-${culture()}.js"
@@ -716,7 +744,7 @@ class ProductDetails : BaseActivity() {
 
     private fun checkPriceLayout() {
         if (HelpFunctions.IsUserLoggedIn()) {
-            price_layout.isVisible = ConstantObjects.logged_userid != product.user
+            //price_layout.isVisible = ConstantObjects.logged_userid != product.user
         }
     }
 

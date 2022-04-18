@@ -7,7 +7,6 @@
     tools:context=".botmnav_fragments.my_points.my_points_fragment">
 
 
-
     <include
         android:id="@+id/toolbar_main"
         layout="@layout/toolbar_main" />
@@ -117,8 +116,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_70sdp"
-                    android:gravity="center_vertical"
                     android:layout_marginStart="@dimen/_10sdp"
+                    android:gravity="center_vertical"
                     android:orientation="vertical">
 
                     <TextView
@@ -190,20 +189,20 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/convert_points_into_credit"
-                android:fontFamily="@font/madani_arabic_light"
-                android:textSize="@dimen/_16sdp"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:textColor="#45495E"/>
+                android:fontFamily="@font/madani_arabic_light"
+                android:text="@string/convert_points_into_credit"
+                android:textColor="#45495E"
+                android:textSize="@dimen/_16sdp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/every_100_points_for_10_riyals"
-                android:fontFamily="@font/madani_arabic_light"
-                android:textSize="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_5sdp"
-                android:textColor="@color/bg"/>
+                android:fontFamily="@font/madani_arabic_light"
+                android:text="@string/every_100_points_for_10_riyals"
+                android:textColor="@color/bg"
+                android:textSize="@dimen/_10sdp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -273,25 +272,24 @@
                 android:padding="@dimen/_15sdp">
 
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/madani_arabic_medium"
-                        android:text="@string/_100_points_have_been_converted_into_10_riyals_to_your_wallet"
-                        android:textColor="#1C1F2C"
-                        android:textSize="@dimen/_10sdp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/madani_arabic_medium"
+                    android:text="@string/_100_points_have_been_converted_into_10_riyals_to_your_wallet"
+                    android:textColor="#1C1F2C"
+                    android:textSize="@dimen/_10sdp" />
 
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/madani_arabic_medium"
-                        android:text="10/09/2022"
-                        android:textColor="#1C1F2C"
-                        android:textSize="@dimen/_10sdp" />
-
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/madani_arabic_medium"
+                    android:text="10/09/2022"
+                    android:textColor="#1C1F2C"
+                    android:textSize="@dimen/_10sdp" />
 
 
             </LinearLayout>
@@ -299,8 +297,6 @@
         </LinearLayout>
 
     </ScrollView>
-
-
 
 
 </RelativeLayout>

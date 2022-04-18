@@ -62,14 +62,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            tools:listitem="@layout/sold_order_details" />
+            tools:listitem="@layout/order_item" />
 
  <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/received_recycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            tools:listitem="@layout/sold_order_details" />
+            tools:listitem="@layout/order_item" />
 
 
     </LinearLayout>

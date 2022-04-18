@@ -22,7 +22,8 @@
             android:layout_height="@dimen/_20sdp"
             android:background="@drawable/product_attribute_bg2"
             android:padding="@dimen/_5sdp"
-            android:src="@drawable/ic_vechile" />
+            android:src="@drawable/ic_vechile"
+            android:layout_marginStart="@dimen/_5sdp" />
 
         <TextView
             android:id="@+id/category_name_tv"
