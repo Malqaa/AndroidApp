@@ -21,8 +21,6 @@ import kotlinx.android.synthetic.main.fragment_account.*
 
 
 class AccountFragment : Fragment(R.layout.fragment_account) {
-
-
     fun disableenableoptions(enable: Boolean) {
         profilecardv.isEnabled = enable
         watchlist_card.isEnabled = enable
@@ -44,14 +42,10 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
         btn_signin.isEnabled = !enable
     }
 
-    var isProfileLoad=false
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
+    var isProfileLoad = false
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        fragment_account.isVisible=false
+        fragment_account.isVisible = false
         if (!HelpFunctions.IsUserLoggedIn()) {
             disableenableoptions(false)
             logout_signin.visibility = View.GONE
@@ -60,12 +54,12 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
             disableenableoptions(true)
             logout_signin.visibility = View.VISIBLE
             btn_signin.visibility = View.GONE
-            if(!isProfileLoad){
-                CommonAPI(). GetUserInfo(requireContext(),ConstantObjects.logged_userid) {
-                    isProfileLoad=true
+            if (!isProfileLoad) {
+                CommonAPI().GetUserInfo(requireContext(), ConstantObjects.logged_userid) {
+                    isProfileLoad = true
                     loadProfile()
                 }
-            }else{
+            } else {
                 loadProfile()
             }
         }
@@ -133,11 +127,11 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
             //findNavController().navigate(R.id.followUp)
         }
         my_wallet.setOnClickListener() {
-           // findNavController().navigate(R.id.myWallet)
+            // findNavController().navigate(R.id.myWallet)
         }
 
         my_points.setOnClickListener() {
-          //  findNavController().navigate(R.id.myPoints)
+            //  findNavController().navigate(R.id.myPoints)
         }
 
 //        add_button.setOnClickListener {
@@ -205,7 +199,7 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
                 startActivity(Intent(context, SignInActivity::class.java).apply {
                 })
             } else {
-                val  intent = Intent(requireActivity(), CartActivity::class.java)
+                val intent = Intent(requireActivity(), CartActivity::class.java)
                 startActivity(intent)
             }
 
@@ -217,12 +211,17 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
     }
 
     private fun loadProfile() {
-        fragment_account.isVisible = true
-        ConstantObjects.userobj!!.run {
-            userName.text = fullName
-            member_since_tv.text = "${getString(R.string.member_since)}: $member_since"
-            membership_number_tv.text = "${getString(R.string.membership_number)}: "
+        try {
+            fragment_account.isVisible = true
+            ConstantObjects.userobj!!.run {
+                userName.text = fullName
+                member_since_tv.text = "${getString(R.string.member_since)}: $member_since"
+                membership_number_tv.text = "${getString(R.string.membership_number)}: "
+            }
+        } catch (er: Exception) {
+
         }
+
     }
 
 

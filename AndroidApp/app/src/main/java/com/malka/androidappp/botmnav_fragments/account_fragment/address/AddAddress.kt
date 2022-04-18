@@ -29,7 +29,6 @@ class AddAddress : BaseActivity()  {
         setContentView(R.layout.add_address_fragment)
         ConstantObjects.userobj?.let {
             setPreValue()
-
         }?:kotlin.run {
             CommonAPI(). GetUserInfo(this,ConstantObjects.logged_userid) {
                 setPreValue()
