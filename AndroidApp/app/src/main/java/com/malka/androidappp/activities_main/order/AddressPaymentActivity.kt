@@ -40,7 +40,7 @@ class AddressPaymentActivity : BaseActivity() {
     val cartIds: MutableList<String> = mutableListOf()
 
     companion object {
-        var totalAMount = "10"
+        var totalAMount = "0"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -86,13 +86,13 @@ class AddressPaymentActivity : BaseActivity() {
         btn_confirm_details.setOnClickListener {
             if (selectAddress == null) {
                 showError(getString(R.string.Please_select, getString(R.string.ShippingAddress)))
-
-
             } else {
                 val dd = R.id.shipping_address_to_payment
                 CommonAPI().GetUserCreditCards(this) {
-                    CommonBottomSheet().showCardSelection(this, it) {
+                    CommonBottomSheet().showCardSelection(this, it,{
                         CheckoutUserCart(it)
+                    }) {
+                        btn_confirm_details.performClick()
                     }
                 }
 
@@ -109,11 +109,11 @@ class AddressPaymentActivity : BaseActivity() {
             cartId = cartIds,
             addressId = selectAddress!!.id,
             tax = "0",
-            totalamount = "10",
-            creditCardNo = selectCard.cardnumber,
+            totalamount = totalAMount,
+            creditCardNo = selectCard.cardnumber!!,
             loginId = ConstantObjects.logged_userid,"", arrayListOf(""),arrayListOf(0)
         )
-        PostUserCheckOut(checkoutinfo,this);
+        PostUserCheckOut(checkoutinfo,this)
 
     }
 
@@ -140,6 +140,8 @@ class AddressPaymentActivity : BaseActivity() {
                         if (resp.status_code == 200 && (resp.data == true || resp.data == 1 || resp.data == 1.0)) {
                             startActivity(Intent(this@AddressPaymentActivity, SuccessOrder::class.java).apply {
                                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                putExtra("shipments",ConstantObjects.usercart.size.toString())
+                                putExtra("total_order",totalAMount)
                             })
                             finish()
                         }
@@ -172,7 +174,10 @@ class AddressPaymentActivity : BaseActivity() {
                         //  prod_type.text=protype
                         //    prod_name.text=proname
                         //   prod_city.text=procity
+                        shipment_no_tv.text = "${getString(R.string.shipment_no_1)}${position+1}"
+                        sellername_tv.text = sellername
                         prod_price.text = "$price ${getString(R.string.sar)}"
+                        total_price.text = "$price ${getString(R.string.sar)}"
                         Picasso.get()
                             .load(ApiConstants.IMAGE_URL + image)
                             .into(prod_image)
@@ -209,11 +214,9 @@ class AddressPaymentActivity : BaseActivity() {
 
     private fun calculation(totalPrice: Double) {
         val discount =0.0
-        val TaxAmount = totalPrice * 12 / 100
+        val TaxAmount = totalPrice * 0 / 100
         val total = totalPrice + TaxAmount-discount
         subtotal_tv.text = "${totalPrice} ${getString(R.string.rial)}"
-
-
         discount_tv.text = "-${discount} ${getString(R.string.rial)}"
         total_tv.text = "${total} ${getString(R.string.rial)}"
     }

@@ -147,8 +147,6 @@ interface MalqaApiService {
 
     @GET("Accounts/getaddresses")
     fun getAddress(@Query("loginId") loginId: String): Call<GetAddressResponse>
-    @GET("CardDetail/getbyuserid")
-    fun getCardDetails(@Query("usid") loginId: String): Call<getCardDetailsModel>
 
     @GET("UserBankAccount/UserBankAccountsById")
     fun getBankDetail(@Query("UserID") loginId: String): Call<BankListRespone>
@@ -170,26 +168,26 @@ interface MalqaApiService {
     @POST("SearchFilter/generalsearchfilters")
     fun categorylist(@Body creategeneralad: SearchRequestModel): Call<SearchRespone>;
 
-    @GET("Accounts/GetUser" + "?")
+    @GET("Accounts/GetUser")
     fun getuser(@Query("id") userid: String): Call<UserObject>;
 
-    @GET("Watchlist/getall" + "?")
+    @GET("Watchlist/getall")
     fun getUserWatchlist(@Query("loggedinUserId") userid: String): Call<watchlistobject>;
 
-    @GET("Auction/getall" + "?")
+    @GET("Auction/getall")
     fun getuserfeedback(@Query("loggedin") userid: String): Call<FeedbackObject>;
 
-    @GET("all" + "?")
+    @GET("all")
     fun getuserfavourites(@Query("loggedIn") userid: String): Call<FavouriteObject>;
 
-    @GET( "CarTemplate/Details" + "?")
+    @GET("CarTemplate/Details")
     fun getAdDetailById(
         @Query("id") id: String,
         @Query("template") template: String,
         @Query("loggedin") loggedin: String
     ): Call<JsonObject>
 
-    @GET("Accounts/GetUser" + "?")
+    @GET("Accounts/GetUser")
     fun getAdSeller(
         @Query("id") id: String,
         @Query("loggedin") loggedin: String
@@ -210,13 +208,13 @@ interface MalqaApiService {
     @POST("Watchlist/insert")
     fun InsertAdtoUserWatchlist(@Body insertads: watchlistadd): Call<BasicResponse>
 
-    @POST("Watchlist/delete" + "?")
+    @POST("Watchlist/delete")
     fun DeleteAdFromUserWatchlist(
         @Query("userid") userid: String,
         @Query("adid") adsId: String
     ): Call<BasicResponse>
 
-    @POST("Accounts/userimageupload" + "?")
+    @POST("Accounts/userimageupload")
     fun userimageupload(
         @Query("userId") userid: String,
         @Body imagebase64string: String
@@ -247,7 +245,7 @@ interface MalqaApiService {
         @Query("name") name: String
     ): Call<CategoryTagsModel>
 
-    @GET("BussinessProduct/getall" + "?")
+    @GET("BussinessProduct/getall")
     fun getAllProducts(): Call<AllProductsResponseBack>
 
     @GET("Category/GetAllCategoryByCulture")
@@ -270,17 +268,12 @@ interface MalqaApiService {
     @POST("Favourite/insertsearch")
     fun addSearchFav(@Body addfav: ModelAddSearchFav): Call<ModelAddSearchFav>
 
-    @POST("AdvQueAndAns/answer" + "?")
+    @POST("AdvQueAndAns/answer")
     fun postAnsByQid(
         @Query("qId") ansqid: String,
         @Query("answer") ansans: String,
         @Query("Loggedin") ansLoginId: String
     ): Call<ModelPostAns>
-
-
-
-
-
 
 
     @GET(ApiConstants.HOME_ALL_ADS_URL)
@@ -289,17 +282,18 @@ interface MalqaApiService {
     @GET(ApiConstants.HOME_TOTAL_VISIT_COUNT)
     fun GetTotalVisitCount(): Call<visit_count_object>;
 
-    @GET("Accounts/soldunsolditems" + "?")
+    @GET("Accounts/soldunsolditems")
     fun getunsolditemsbyId(@Query("userid") userid: String): Call<ModelSoldUnsold>
 
-    @GET("Accounts/soldunsolditems"
-            + "?")
+    @GET(
+        "Accounts/soldunsolditems"
+    )
     fun getsolditemsbyId(@Query("userid") userid: String): Call<ModelSoldUnsold>
 
     @POST("BusinessUser/Insertbusinessuser")
     fun busiRegis(@Body busiReg: ModelBusinessRegistration): Call<ModelBusinessRegistration>
 
-    @GET("Bid/UserWonNLostList" + "?")
+    @GET("Bid/UserWonNLostList")
     fun getWonLost(@Query("loginId") wonLogin: String): Call<ModelWonLost>
 
     @GET("GetAllOnlineUsers")
@@ -320,7 +314,7 @@ interface MalqaApiService {
     @POST(ApiConstants.INSERT_BUYNOW_SHIPPINGADDRESS_ENDPOINT)
     fun AddNewShippingAddress(@Body shippingaddress: ShippingAddressessData): Call<BasicResponse>
 
-    @GET("CarTemplate/Search" + "?")
+    @GET("CarTemplate/Search")
     fun searchcategorylist(@Query("query") category: String): Call<CategoryResponse>;
 
     @POST("BussinessProduct/createproduct")
@@ -332,32 +326,34 @@ interface MalqaApiService {
     @POST("BussinessProduct/editproduct")
     fun editBusinessProduct(@Body editproduct: ModelEditProduct): Call<EditProductResponseBack>
 
-    @GET("BussinessProduct/detailsofproduct" + "?")
+    @GET("BussinessProduct/detailsofproduct")
     fun getProductDetailById(
         @Query("id") id: String,
         @Query("loginUserId") loginUserId: String
     ): Call<ProductResponseBack>
 
-    @GET("CardDetail/getbyuserid" + "?")
+    @GET("CardDetail/getbyuserid")
     fun GetUserCreditCards(@Query("usid") userid: String): Call<CreditCardResponse>;
 
     @POST("CardDetail/insertcard")
     fun InsertUserCreditCard(@Body insertads: CreditCardRequestModel): Call<BasicResponse>
+
     @POST("CardDetail/updatecard")
     fun UpdateUserCreditCard(@Body insertads: CreditCardRequestModel): Call<BasicResponse>
 
-    @DELETE("CardDetail/deletecard" + "?")
+    @DELETE("CardDetail/deletecard")
     fun DeleteUserCreditCard(@Query("id") userid: String): Call<BasicResponse>
 
-    @GET("AddToCart/getbyloginuserid" + "?")
+    @GET("AddToCart/getbyloginuserid")
     fun GetUsersCartList(@Query("loggedinUserId") userid: String): Call<AddToCartResponseModel>;
 
     @POST("AddToCart/create")
     fun AddToUserCart(@Body addtocart: InsertToCartRequestModel): Call<BasicResponse>
+
     @GET("AddToCart/getall")
     fun getMyRequest(@Query("loginId") loginId: String): Call<getCartModel>
 
-    @DELETE("AddToCart/delete" + "?")
+    @DELETE("AddToCart/delete")
     fun DeleteFromUserCart(@Query("id") userid: String): Call<BasicResponse>
 
     @POST("Checkout/checkoutiteminsert")

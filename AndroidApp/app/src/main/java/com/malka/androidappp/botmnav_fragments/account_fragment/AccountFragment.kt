@@ -62,7 +62,7 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
             btn_signin.visibility = View.GONE
             if(!isProfileLoad){
                 CommonAPI(). GetUserInfo(requireContext(),ConstantObjects.logged_userid) {
-                    fragment_account.isVisible = true
+                    isProfileLoad=true
                     loadProfile()
                 }
             }else{
@@ -158,9 +158,7 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
         }
 
 
-        shop_card.setOnClickListener() {
-            findNavController().navigate(R.id.acc_shopcart)
-        }
+
 
         watchlist_card.setOnClickListener() {
             findNavController().navigate(R.id.acc_watchlist)
@@ -219,6 +217,7 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
     }
 
     private fun loadProfile() {
+        fragment_account.isVisible = true
         ConstantObjects.userobj!!.run {
             userName.text = fullName
             member_since_tv.text = "${getString(R.string.member_since)}: $member_since"

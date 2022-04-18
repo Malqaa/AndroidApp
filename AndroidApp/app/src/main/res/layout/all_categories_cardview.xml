@@ -39,18 +39,17 @@
                 app:sriv_right_top_corner_radius="@dimen/_15sdp" />
 
             <TextView
-                android:visibility="gone"
                 android:id="@+id/category_name_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_5sdp"
                 android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_5sdp"
                 android:layout_marginEnd="@dimen/_5sdp"
                 android:layout_marginBottom="@dimen/_5sdp"
                 android:fontFamily="@font/madani_arabic_light"
                 android:text="Vehicles"
                 android:textColor="#1D223B"
-                android:textSize="@dimen/_8sdp" />
+                android:textSize="@dimen/_9sdp" />
 
            <!-- <ImageView
                 android:scaleType="fitXY"

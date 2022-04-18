@@ -2888,7 +2888,7 @@ Want to start a business account? Create a Business Account
     <string name="delivery_options">Delivery options</string>
     <string name="remove_all">Remove all</string>
     <string name="al_khalis_company">(Al Khalis Company)</string>
-    <string name="shipment_no_1">Shipment No. 1</string>
+    <string name="shipment_no_1">Shipment No. </string>
     <string name="total_charges">Total charges</string>
     <string name="update_card">Update Card</string>
     <string name="password_update">Password has been successfully changed</string>
@@ -2910,6 +2910,8 @@ Want to start a business account? Create a Business Account
     <string name="your_rating_for_shipping">Your rating for shipping</string>
     <string name="send_evaluation">Send evaluation</string>
     <string name="to_be_sure">To be sure</string>
+    <string name="please_attach_a_copy_of_the_invoice">Please attach a copy of the invoice</string>
+  <string name="attach_the_picture">Attach the picture</string>
 
 
 </resources>

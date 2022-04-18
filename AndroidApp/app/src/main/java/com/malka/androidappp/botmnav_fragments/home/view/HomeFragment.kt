@@ -15,16 +15,14 @@ import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager.widget.ViewPager
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.MainActivity
 import com.malka.androidappp.activities_main.login.SignInActivity
+import com.malka.androidappp.activities_main.order.CartActivity
 import com.malka.androidappp.botmnav_fragments.browse_market.BrowseMarketFragment
-import com.malka.androidappp.botmnav_fragments.home.model.AllCategoriesModel
 import com.malka.androidappp.botmnav_fragments.home.model.AllCategoriesResponseBack
 import com.malka.androidappp.botmnav_fragments.home.model.DynamicList
-import com.malka.androidappp.activities_main.order.CartActivity
 import com.malka.androidappp.helper.GenericAdaptor
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.helper.hide
@@ -50,9 +48,6 @@ class HomeFragment : Fragment(R.layout.fragment_homee),
     var sliderlist: ArrayList<Int> = ArrayList()
     var slider_home_: AutoScrollViewPager? = null
 
-    var allCategoryList: List<AllCategoriesModel> = ArrayList()
-
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -72,39 +67,32 @@ class HomeFragment : Fragment(R.layout.fragment_homee),
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
-
-
-
-
-
-
-
-        //Zack
-        //Date: 03/14/2021
-        //If user has logged in
         if (HelpFunctions.IsUserLoggedIn()) {
-
-              HelpFunctions.GetUserWatchlist()
-            //  HelpFunctions.GetUsersCartList(requireContext());
-          //  HelpFunctions.GetUserCreditCards(this@HomeFragment);
-          //  HelpFunctions.GetUserShippingAddress(this@HomeFragment);
+            HelpFunctions.GetUserWatchlist()
         }
-
-
-
         ic_cart.setOnClickListener {
             if (ConstantObjects.logged_userid.isEmpty()) {
-               startActivity(Intent(context, SignInActivity::class.java).apply {
+                startActivity(Intent(context, SignInActivity::class.java).apply {
                 })
             } else {
-                val  intent = Intent(requireActivity(), CartActivity::class.java)
+                val intent = Intent(requireActivity(), CartActivity::class.java)
                 startActivity(intent)
             }
-
         }
 
-        getAllCategories()
+        if (ConstantObjects.categoryList.size > 0) {
+            all_categories_recycler.adapter =
+                AdapterAllCategories(
+                    ConstantObjects.categoryList,
+                    requireContext(),
+                    this@HomeFragment
+                )
 
+            getAllAdsData()
+        } else {
+
+            getAllCategories()
+        }
         setPagerDots(sliderlist)
     }
 
@@ -126,7 +114,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee),
 
 
     fun SearchAndNavigateToCategoryListing(searchquery: String) {
-        if(!searchquery.isEmpty()){
+        if (!searchquery.isEmpty()) {
             startActivity(Intent(requireContext(), BrowseMarketFragment::class.java).apply {
                 putExtra("CategoryDesc", "")
                 putExtra("SearchQuery", searchquery)
@@ -135,17 +123,13 @@ class HomeFragment : Fragment(R.layout.fragment_homee),
     }
 
 
-
-
-
-
-
     fun getAllCategories() {
         HelpFunctions.startProgressBar(this.requireActivity())
 
 
         val malqaa = RetrofitBuilder.GetRetrofitBuilder()
-        val call: Call<AllCategoriesResponseBack> = malqaa.getAllCategories((requireActivity() as MainActivity).culture())
+        val call: Call<AllCategoriesResponseBack> =
+            malqaa.getAllCategories((requireActivity() as MainActivity).culture())
 
         call.enqueue(object : Callback<AllCategoriesResponseBack> {
             @SuppressLint("UseRequireInsteadOfGet")
@@ -159,30 +143,16 @@ class HomeFragment : Fragment(R.layout.fragment_homee),
                     if (response.body() != null) {
 
                         val resp: AllCategoriesResponseBack = response.body()!!
-                        allCategoryList = resp.data
-                        if (allCategoryList.count() > 0) {
-                            ConstantObjects.categoryList=allCategoryList
-
-                            all_categories_recycler.layoutManager =
-                                LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-                            all_categories_recycler.adapter =
-                                AdapterAllCategories(
-                                    allCategoryList,
-                                    requireContext(),
-                                    this@HomeFragment
-                                )
-
-                            getAllAdsData()
-
-
-                        } else {
-                            HelpFunctions.ShowLongToast(
-                                getString(R.string.NoCategoriesfound),
-                                context
+                        ConstantObjects.categoryList = resp.data
+                        all_categories_recycler.adapter =
+                            AdapterAllCategories(
+                                ConstantObjects.categoryList,
+                                requireContext(),
+                                this@HomeFragment
                             )
-                            HelpFunctions.dismissProgressBar()
 
-                        }
+                        getAllAdsData()
+
                     }
 
                 } else {
@@ -203,100 +173,101 @@ class HomeFragment : Fragment(R.layout.fragment_homee),
 
 
     fun getAllAdsData() {
+        if (ConstantObjects.list.size > 0) {
+            setHomeAdaptor()
+        } else {
+            val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+            val call: Call<GetAllAds> = malqa.GetAllAds(ConstantObjects.logged_userid)
+            call.enqueue(object : Callback<GetAllAds> {
+                override fun onResponse(
+                    call: Call<GetAllAds>,
+                    response: Response<GetAllAds>
+                ) {
+                    if (response.isSuccessful) {
+                        if (response.body() != null) {
+                            response.body()!!.data.run {
+                                ConstantObjects.list.apply {
+                                    add(
+                                        DynamicList(
+                                            getString(R.string.vehicles),
+                                            R.drawable.ic_vechile,
+                                            caradvetisement
+                                        )
+                                    )
+                                    add(
+                                        DynamicList(
+                                            getString(R.string.electronics),
+                                            R.drawable.ic_electronic,
+                                            generaladvetisement
+                                        )
+                                    )
+                                    add(
+                                        DynamicList(
+                                            getString(R.string.real_estate),
+                                            R.drawable.ic_real_estate,
+                                            propertyadvetisement
+                                        )
+                                    )
+                                    add(
+                                        DynamicList(
+                                            getString(R.string.List_Auctions),
+                                            R.drawable.ic_vechile,
+                                            recentadvetisement,
+                                            "list",
+                                            getString(R.string.List_Auctions_detail)
+                                        )
+                                    )
+                                }
 
-        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+                                setHomeAdaptor()
 
-        val call: Call<GetAllAds> = malqa.GetAllAds(ConstantObjects.logged_userid)
-        call.enqueue(object : Callback<GetAllAds> {
-            override fun onResponse(
-                call: Call<GetAllAds>,
-                response: Response<GetAllAds>
-            ) {
-                if (response.isSuccessful) {
-                    if (response.body() != null) {
-                        response.body()!!.data.run {
-                            val list: ArrayList<DynamicList> = ArrayList()
-
-                            list.add(
-                                DynamicList(
-                                    getString(R.string.vehicles),
-                                    R.drawable.ic_vechile,
-                                    caradvetisement
-                                )
-                            )
-                            list.add(
-                                DynamicList(
-                                    getString(R.string.electronics),
-                                    R.drawable.ic_electronic,
-                                    generaladvetisement
-                                )
-                            )
-                            list.add(
-                                DynamicList(
-                                    getString(R.string.real_estate),
-                                    R.drawable.ic_real_estate,
-                                    propertyadvetisement
-                                )
-                            )
-                            list.add(
-                                DynamicList(
-                                    getString(R.string.List_Auctions),
-                                    R.drawable.ic_vechile,
-                                    recentadvetisement,
-                                    "list",
-                                    getString(R.string.List_Auctions_detail)
-                                )
-                            )
+                            }
 
 
-                            setHomeAdaptor(list)
-
+                        } else {
+                            HelpFunctions.ShowLongToast(getString(R.string.Error), context)
                         }
-
-
                     } else {
                         HelpFunctions.ShowLongToast(getString(R.string.Error), context)
                     }
-                } else {
-                    HelpFunctions.ShowLongToast(getString(R.string.Error), context)
+                    HelpFunctions.dismissProgressBar()
+
                 }
-                HelpFunctions.dismissProgressBar()
 
-            }
+                override fun onFailure(call: Call<GetAllAds>, t: Throwable) {
+                    HelpFunctions.ShowLongToast(t.message.toString(), requireActivity())
+                    HelpFunctions.dismissProgressBar()
 
-            override fun onFailure(call: Call<GetAllAds>, t: Throwable) {
-                HelpFunctions.ShowLongToast(t.message.toString(), requireActivity())
-                HelpFunctions.dismissProgressBar()
+                }
+            })
 
-            }
-        })
+        }
 
     }
 
 
-
-    private fun setHomeAdaptor(list: List<DynamicList>) {
+    private fun setHomeAdaptor() {
         dynamic_product_rcv.adapter = object : GenericListAdapter<DynamicList>(
             R.layout.parenet_category_item,
             bind = { element, holder, itemCount, position ->
                 holder.view.run {
                     element.run {
-                        when(typeName){
-                            "category"->{
+                        when (typeName) {
+                            "category" -> {
                                 category_type!!.show()
                                 product_list_layout!!.hide()
                             }
-                            "list"->{
+                            "list" -> {
                                 category_type!!.hide()
                                 product_list_layout!!.show()
                             }
                         }
-                        detail_tv!!.text=detail
-                        category_name_tv!!.text=category_name
-                        category_name_tv_2!!.text=category_name
+                        detail_tv!!.text = detail
+                        category_name_tv!!.text = category_name
+                        category_name_tv_2!!.text = category_name
                         category_icon_iv!!.setImageResource(category_icon)
 
-                        GenericAdaptor().  setHomeProductAdaptor(product,product_rcv)
+                        GenericAdaptor().setHomeProductAdaptor(product, product_rcv)
                     }
                 }
             }
@@ -307,7 +278,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee),
 
         }.apply {
             submitList(
-                list
+                ConstantObjects.list
             )
         }
     }
@@ -317,7 +288,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee),
 
 
         startActivity(Intent(requireContext(), BrowseMarketFragment::class.java).apply {
-            putExtra("CategoryDesc", allCategoryList[position].categoryName)
+            putExtra("CategoryDesc", ConstantObjects.categoryList[position].categoryName)
             putExtra("SearchQuery", "")
         })
     }
@@ -350,7 +321,6 @@ class HomeFragment : Fragment(R.layout.fragment_homee),
             setLocate(language)
         }
     }
-
 
 
     private fun setPagerDots(list: List<Int>) {

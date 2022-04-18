@@ -5,6 +5,7 @@ import android.os.Bundle
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.MainActivity
 import com.malka.androidappp.base.BaseActivity
+import com.malka.androidappp.servicemodels.ConstantObjects
 import kotlinx.android.synthetic.main.activity_success_order.*
 
 class SuccessOrder : BaseActivity() {
@@ -18,12 +19,10 @@ class SuccessOrder : BaseActivity() {
         setContentView(R.layout.activity_success_order)
 
         track_your_order_btn.setOnClickListener {
-//            startActivity(Intent(this, ProductDetails::class.java).apply {
-//                putExtra("AdvId", AdvId)
-//                putExtra("Template", template)
-//                putExtra(ConstantObjects.isSuccess, true)
-//            })
-//            finish()
+            startActivity(Intent(this, OrderDetail::class.java).apply {
+                putExtra(ConstantObjects.isSuccess, true)
+            })
+            finish()
         }
 
         back_to_main.setOnClickListener {
@@ -31,6 +30,8 @@ class SuccessOrder : BaseActivity() {
             })
             finish()
         }
-
+      //  order_number_tv.text=""
+        shipments_tv.text=intent.getStringExtra("shipments")
+        total_order_tv.text = "${intent.getStringExtra("total_order")} ${getString(R.string.rial)}"
     }
 }

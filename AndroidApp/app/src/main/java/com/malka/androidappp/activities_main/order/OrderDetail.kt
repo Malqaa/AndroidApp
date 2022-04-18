@@ -5,15 +5,32 @@ import android.os.Bundle
 import android.view.Gravity
 import android.widget.Filter
 import com.malka.androidappp.R
+import com.malka.androidappp.activities_main.MainActivity
 import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.design.Models.negotiationmodel
 import com.malka.androidappp.helper.CommonBottomSheet
 import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
+import com.malka.androidappp.servicemodels.ConstantObjects
 import kotlinx.android.synthetic.main.activity_order_detail.*
 import kotlinx.android.synthetic.main.order_detail_design.view.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 
 class OrderDetail : BaseActivity() {
+
+
+    override fun onBackPressed() {
+        intent.getBooleanExtra(ConstantObjects.isSuccess, false).let {
+            if (it) {
+                startActivity(Intent(this, MainActivity::class.java).apply {
+                })
+                finish()
+            } else {
+                finish()
+            }
+        }
+
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         val list: ArrayList<negotiationmodel> = ArrayList()
         super.onCreate(savedInstanceState)
@@ -21,8 +38,7 @@ class OrderDetail : BaseActivity() {
 
         toolbar_title.text = getString(R.string.my_orders)
         back_btn.setOnClickListener {
-            finish()
-
+            onBackPressed()
         }
 
 
@@ -59,7 +75,7 @@ class OrderDetail : BaseActivity() {
 
                         }
                         to_be_sure.setOnClickListener {
-                            val intent = Intent(this@OrderDetail, OrderDetailConfirm::class.java)
+                            val intent = Intent(this@OrderDetail, AttachInvoice::class.java)
                             startActivity(intent)
                         }
 

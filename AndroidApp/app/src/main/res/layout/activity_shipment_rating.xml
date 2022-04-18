@@ -15,6 +15,7 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:padding="@dimen/_10sdp"
         android:layout_below="@id/toolbar_main">
 
         <LinearLayout
@@ -30,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/we_are_pleased_to_deal_with_you_through_onruf"
                 android:fontFamily="@font/madani_arabic_light"
-                android:textSize="@dimen/_18sdp"
+                android:textSize="@dimen/_14sdp"
                 android:gravity="center"
                 android:textColor="#8B959E"/>
 
@@ -40,6 +41,7 @@
                 android:text="@string/help_us_give_your_rating"
                 android:fontFamily="@font/madani_arabic_bold"
                 android:textSize="@dimen/_14sdp"
+                android:layout_marginTop="@dimen/_5sdp"
                 android:gravity="center"
                 android:textColor="#45495E"/>
 
@@ -49,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/what_is_your_evaluation_of_the_seller"
                 android:fontFamily="@font/madani_arabic_light"
-                android:textSize="@dimen/_18sdp"
+                android:textSize="@dimen/_14sdp"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:gravity="center"
                 android:textColor="#8B959E"/>
@@ -83,26 +85,33 @@
                 android:layout_height="wrap_content"
                 android:text="@string/do_you_have_a_comment"
                 android:fontFamily="@font/madani_arabic_light"
-                android:textSize="@dimen/_18sdp"
+                android:textSize="@dimen/_14sdp"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:gravity="center"
                 android:textColor="#8B959E"/>
 
+
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_100sdp"
-                android:layout_margin="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_5sdp"
-                android:background="@drawable/product_attribute_bg4">
+                android:background="@drawable/edittext_bg">
 
                 <EditText
+                    android:id="@+id/item_description"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="@dimen/_100sdp"
+                    android:background="@null"
+                    android:fontFamily="@font/madani_arabic_light"
                     android:gravity="top"
-                    android:padding="@dimen/_10sdp"
-                    android:background="@null"/>
-
+                    android:inputType="text|textMultiLine|textCapSentences"
+                    android:padding="@dimen/_7sdp"
+                    android:scrollbars="vertical"
+                    android:textColor="#6D6C74"
+                    android:textSize="@dimen/_13sdp" />
             </LinearLayout>
+
 
 
             <TextView
@@ -113,7 +122,7 @@
                 android:gravity="center"
                 android:text="@string/your_rating_for_the_product"
                 android:textColor="#8B959E"
-                android:textSize="@dimen/_18sdp" />
+                android:textSize="@dimen/_14sdp" />
 
 
             <androidx.recyclerview.widget.RecyclerView
@@ -153,7 +162,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/do_you_have_a_comment"
                 android:fontFamily="@font/madani_arabic_light"
-                android:textSize="@dimen/_18sdp"
+                android:textSize="@dimen/_14sdp"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:gravity="center"
                 android:textColor="#8B959E"/>
@@ -161,19 +170,21 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_100sdp"
-                android:layout_margin="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_5sdp"
-                android:background="@drawable/product_attribute_bg4">
+                android:background="@drawable/edittext_bg">
 
                 <EditText
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="@dimen/_10sdp"
+                    android:layout_height="@dimen/_100sdp"
+                    android:background="@null"
+                    android:fontFamily="@font/madani_arabic_light"
                     android:gravity="top"
-                    android:background="@null"/>
-
+                    android:inputType="text|textMultiLine|textCapSentences"
+                    android:padding="@dimen/_7sdp"
+                    android:scrollbars="vertical"
+                    android:textColor="#6D6C74"
+                    android:textSize="@dimen/_13sdp" />
             </LinearLayout>
-
 
 
 
@@ -183,7 +194,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/your_rating_for_shipping"
                 android:fontFamily="@font/madani_arabic_light"
-                android:textSize="@dimen/_18sdp"
+                android:textSize="@dimen/_14sdp"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:gravity="center"
                 android:textColor="#8B959E"/>
@@ -217,27 +228,28 @@
                 android:layout_height="wrap_content"
                 android:text="@string/do_you_have_a_comment"
                 android:fontFamily="@font/madani_arabic_light"
-                android:textSize="@dimen/_18sdp"
+                android:textSize="@dimen/_14sdp"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:gravity="center"
                 android:textColor="#8B959E"/>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_100sdp"
-                android:layout_margin="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_5sdp"
-                android:background="@drawable/product_attribute_bg4">
+                android:background="@drawable/edittext_bg">
 
                 <EditText
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="@dimen/_100sdp"
+                    android:background="@null"
+                    android:fontFamily="@font/madani_arabic_light"
                     android:gravity="top"
-                    android:padding="@dimen/_10sdp"
-                    android:background="@null"/>
-
+                    android:inputType="text|textMultiLine|textCapSentences"
+                    android:padding="@dimen/_7sdp"
+                    android:scrollbars="vertical"
+                    android:textColor="#6D6C74"
+                    android:textSize="@dimen/_13sdp" />
             </LinearLayout>
-
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/button3"
@@ -245,8 +257,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginBottom="@dimen/_20sdp"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
                 android:background="@drawable/round_btn"
                 android:fontFamily="@font/madani_arabic_semi_bold"
                 android:text="@string/send_evaluation"

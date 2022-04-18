@@ -56,7 +56,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class ProductDetails : BaseActivity() {
@@ -153,19 +152,22 @@ class ProductDetails : BaseActivity() {
 
         youtube_btn.setOnClickListener(View.OnClickListener {
 
-            openExternalLInk("https://www.youtube.com/watch?v=KioO9frme6c", this
+            openExternalLInk(
+                "https://www.youtube.com/watch?v=KioO9frme6c", this
             )
         })
 
         instagram_btn.setOnClickListener(View.OnClickListener {
 
-            openExternalLInk("https://www.instagram.com/reel/CcGMHEwjSAV/?utm_source=ig_web_copy_link", this
+            openExternalLInk(
+                "https://www.instagram.com/reel/CcGMHEwjSAV/?utm_source=ig_web_copy_link", this
             )
         })
 
         skype_btn.setOnClickListener(View.OnClickListener {
 
-            openExternalLInk("https://www.skype.com/", this
+            openExternalLInk(
+                "https://www.skype.com/", this
             )
         })
 
@@ -173,7 +175,8 @@ class ProductDetails : BaseActivity() {
             val uri: String =
                 java.lang.String.format(Locale.ENGLISH, "geo:%f,%f", 33.7295, 73.0372)
             startActivity(
-                Intent(Intent.ACTION_VIEW, Uri.parse(uri)
+                Intent(
+                    Intent.ACTION_VIEW, Uri.parse(uri)
                 )
             )
         })
@@ -382,25 +385,31 @@ class ProductDetails : BaseActivity() {
                                     val parsed_data = JSONObject(json_string)
                                     val controls_array: JSONArray =
                                         parsed_data.getJSONArray("data")
-                                    if (controls_array.length() > 0) {
-                                        for (i in 0 until controls_array.length()) {
-                                            val IndControl = controls_array.getJSONObject(i)
-                                            val id = IndControl.getString("id").lowercase()
-
-                                            if (jsonObject!!.has(id)) {
+                                    for (i in 0 until controls_array.length()) {
+                                        val IndControl = controls_array.getJSONObject(i)
+                                        val id = IndControl.getString("id")
+                                        getIgnoreCase(jsonObject!!, id).let { value ->
+                                            if (!value.isEmpty()) {
                                                 val key = IndControl.getString("title") ?: ""
-                                                if (!jsonObject.get(id).isJsonNull) {
-                                                    val value =
-                                                        jsonObject.get(id).asString ?: ""
-                                                    if (value.isNotEmpty()) {
-                                                        attributeList.add(Attribute(key, value))
-
-                                                    }
-                                                }
+                                                attributeList.add(Attribute(key, value))
 
                                             }
                                         }
+
                                     }
+                                    attributeList.add(
+                                        Attribute(
+                                            getString(R.string.item_condition),
+                                            brand_new_item ?: ""
+                                        )
+                                    )
+                                    attributeList.add(
+                                        Attribute(
+                                            getString(R.string.quantity),
+                                            quantity ?: ""
+                                        )
+                                    )
+                                    attributeAdaptor(attributeList)
                                 }
                             }
 
@@ -448,14 +457,6 @@ class ProductDetails : BaseActivity() {
                         } else {
                             other_image_layout.isVisible = false
                         }
-                        attributeList.add(
-                            Attribute(
-                                getString(R.string.item_condition),
-                                brand_new_item ?: ""
-                            )
-                        )
-                        attributeList.add(Attribute(getString(R.string.quantity), quantity ?: ""))
-                        attributeAdaptor(attributeList)
                         ads_id_tv.text = "#$id"
                         product_title_tv.text = producttitle
                         subtitle_tv.text = subtitle
@@ -551,6 +552,19 @@ class ProductDetails : BaseActivity() {
             }
         })
 
+    }
+
+    fun getIgnoreCase(jobj: JsonObject, key: String?): String {
+        val iter: Iterator<String> = jobj.keySet().iterator()
+        while (iter.hasNext()) {
+            val key1 = iter.next()
+            if (key1.equals(key, ignoreCase = true)) {
+                if (!jobj[key1].isJsonNull) {
+                    return jobj[key1].asString ?: ""
+                }
+            }
+        }
+        return ""
     }
 
     private fun activeWatch(view: FloatingActionButton) {

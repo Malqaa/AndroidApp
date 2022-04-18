@@ -193,7 +193,7 @@ class CartPaymentMethod : Fragment() {
                     addressId = ConstantObjects.useraddresses!![ConstantObjects.selected_address_index].id,
                     tax = "0",
                     totalamount = grosstotal_label.text.toString(),
-                    creditCardNo = ConstantObjects.usercreditcard!![ConstantObjects.selected_credit_card_index].cardnumber,
+                    creditCardNo = ConstantObjects.usercreditcard!![ConstantObjects.selected_credit_card_index].cardnumber!!,
                     loginId = ConstantObjects.logged_userid,"", arrayListOf(""),arrayListOf(0)
                 )
                 val resp = HelpFunctions.PostUserCheckOut(checkoutinfo, requireContext());

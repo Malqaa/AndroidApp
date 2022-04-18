@@ -56,9 +56,7 @@
             app:destination="@+id/settingfrag" />
 
 
-        <action
-            android:id="@+id/acc_shopcart"
-            app:destination="@id/shopping_cart" />
+
         <action
             android:id="@+id/acc_watchlist"
             app:destination="@id/navigation_watchlist" />
@@ -201,14 +199,10 @@
         android:id="@+id/myProduct"
         android:name="com.malka.androidappp.botmnav_fragments.MyProducts.MyProductsFragment"
         android:label="Sold"
-        tools:layout="@layout/fragment_sold">
-
-        <action
-            android:id="@+id/sold_acc"
-            app:destination="@+id/navigation_account" />
+        tools:layout="@layout/fragment_sold"/>
 
 
-    </fragment>
+
 
     <fragment
         android:id="@+id/MySavedAddress"
@@ -284,17 +278,12 @@
         android:label="My Request"
         tools:layout="@layout/fragment_my_orders">
 
-        <action
-            android:id="@+id/myrequest"
-            app:destination="@+id/my_Request" />
-
-
     </fragment>
 
 
     <fragment
         android:id="@+id/paymentCard"
-        android:name="com.malka.androidappp.botmnav_fragments.payment_card_fragment"
+        android:name="com.malka.androidappp.botmnav_fragments.PaymentCardFragment"
         android:label="Payment Cards"
         tools:layout="@layout/fragment_payment_card_fragment">
 
@@ -329,17 +318,7 @@
 
 
 
-    <fragment
-        android:id="@+id/shopping_cart"
-        android:name="com.malka.androidappp.botmnav_fragments.shopping_cart1_dummy.ShopcartDummy"
-        android:label="Shopping Cart"
-        tools:layout="@layout/fragment_shopcart">
 
-        <action
-            android:id="@+id/shoppingcartdummy_shoppingcart2"
-            app:destination="@+id/shopingcart2_frag" />
-
-    </fragment>
 
     <fragment
         android:id="@+id/fav_frag"

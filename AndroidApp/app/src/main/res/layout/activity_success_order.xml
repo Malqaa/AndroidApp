@@ -47,6 +47,7 @@
                 android:textSize="@dimen/_12sdp" />
 
             <TextView
+                android:id="@+id/order_number_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_5sdp"
@@ -70,6 +71,7 @@
                 android:textSize="@dimen/_12sdp" />
 
             <TextView
+                android:id="@+id/shipments_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_5sdp"
@@ -116,12 +118,12 @@
                 android:textSize="@dimen/_12sdp" />
 
             <TextView
+                android:id="@+id/total_order_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_5sdp"
                 android:fontFamily="@font/madani_arabic_bold"
                 android:text="165 SAR"
-
                 android:textColor="@color/bg"
                 android:textSize="@dimen/_12sdp" />
         </LinearLayout>

@@ -78,8 +78,10 @@ class CommonBottomSheet {
     fun showCardSelection(
         context: Context,
         list: List<CreditCardModel>,
-        onConfirm: (selectCard: CreditCardModel) -> Unit
+        onConfirm: (selectCard: CreditCardModel) -> Unit,
+        onNewCardAdded: () -> Unit
     ) {
+        selectCard=null
         BottomSheetDialog(context).apply {
             setContentView(R.layout.card_selection_layout)
             add_a_new_account._view3().setGravity(Gravity.CENTER)
@@ -104,7 +106,7 @@ class CommonBottomSheet {
 
             add_a_new_account.setOnClickListener {
                 addCardBottomSheet(context, {
-                    onConfirm.invoke(selectCard!!)
+                    onNewCardAdded.invoke()
                 })
             }
             getWindow()!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -119,7 +121,7 @@ class CommonBottomSheet {
             bind = { element, holder, itemCount, position ->
                 holder.view.run {
                     element.run {
-                        card_number_tv.text = cardnumber.getFilteredNumber()
+                        card_number_tv.text = cardnumber!!.getFilteredNumber()
                         main_layout.setSelected(isSelected)
                         card_number_tv.setSelected(isSelected)
                         select_card_radio.isChecked = isSelected
@@ -170,7 +172,8 @@ class CommonBottomSheet {
     }
 
     fun addCardBottomSheet(
-        context: Context, onConfirm: (selectCard: CreditCardModel) -> Unit,
+        context: Context,
+        onSuccess: () -> Unit,
         isUpdate: Boolean = false,
         isSaveLater: Boolean = false,
         oldCard: CreditCardModel? = null
@@ -215,7 +218,7 @@ class CommonBottomSheet {
 
 
             Confirm_btn.setOnClickListener {
-                AddNewUserCard(context, this, onConfirm, isUpdate, oldCard)
+                AddNewUserCard(context, this, isUpdate, oldCard, onSuccess)
             }
             getWindow()!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             show()
@@ -280,10 +283,11 @@ class CommonBottomSheet {
     fun AddNewUserCard(
         context: Context,
         view: BottomSheetDialog,
-        onConfirm: (selectCard: CreditCardModel) -> Unit,
         isUpdate: Boolean,
-        oldCard: CreditCardModel? = null
-    ) {
+        oldCard: CreditCardModel? = null,
+        onSuccess: () -> Unit,
+
+        ) {
         if (view.Cardno_tv.text.toString().isEmpty()) {
             (context as BaseActivity).showError(
                 context.getString(
@@ -319,20 +323,22 @@ class CommonBottomSheet {
                 val cardinfo = CreditCardRequestModel(
                     card_number = view.Cardno_tv.text.toString(),
                     expiryDate = view.card_expiry_tv.text.toString(),
+                    card_holder_name = view.card_holder_tv.text.toString(),
                     cvcNumber = view.card_cvv_tv.text.toString().toInt(),
                     userId = ConstantObjects.logged_userid,
-                    id = oldCard!!.id
+                    id = oldCard!!.id!!
                 )
-                UpdateUserCreditCard(cardinfo, context)
+                UpdateUserCreditCard(cardinfo, context,onSuccess)
             } else {
                 val cardinfo = CreditCardRequestModel(
                     card_number = view.Cardno_tv.text.toString(),
                     expiryDate = view.card_expiry_tv.text.toString(),
+                    card_holder_name = view.card_holder_tv.text.toString(),
                     cvcNumber = view.card_cvv_tv.text.toString().toInt(),
                     userId = ConstantObjects.logged_userid,
                     id = ""
                 )
-                InsertUserCreditCard(cardinfo, context, view, onConfirm)
+                InsertUserCreditCard(cardinfo, context, view, onSuccess)
             }
 
 
@@ -342,13 +348,13 @@ class CommonBottomSheet {
     fun InsertUserCreditCard(
         cardinfo: CreditCardRequestModel,
         context: Context,
-        view: BottomSheetDialog, onConfirm: (selectCard: CreditCardModel) -> Unit
+        view: BottomSheetDialog, onSuccess: () -> Unit,
     ) {
         val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
         val call: Call<BasicResponse> = malqa.InsertUserCreditCard(cardinfo)
 
         call.enqueue(object : Callback<BasicResponse?> {
-            override fun onFailure(call: Call<BasicResponse?>?, t: Throwable) {
+            override fun onFailure(call: Call<BasicResponse?>, t: Throwable) {
                 HelpFunctions.dismissProgressBar()
             }
 
@@ -360,11 +366,7 @@ class CommonBottomSheet {
                     val resp: BasicResponse = response.body()!!;
                     if (resp.status_code == 200 && (resp.data == true || resp.data == 1 || resp.data == 1.0)) {
                         view.dismiss()
-                        CommonAPI().GetUserCreditCards(context) {
-                            showCardSelection(context, it) {
-                                onConfirm.invoke(it)
-                            }
-                        }
+                        onSuccess.invoke()
                         HelpFunctions.ShowLongToast(
                             "Added Successfully",
                             context
@@ -387,7 +389,7 @@ class CommonBottomSheet {
     fun UpdateUserCreditCard(
         cardinfo: CreditCardRequestModel,
         context: Context,
-
+        onSuccess: () -> Unit,
         ) {
         val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
         val call: Call<BasicResponse> = malqa.UpdateUserCreditCard(cardinfo)
@@ -402,8 +404,9 @@ class CommonBottomSheet {
                 response: Response<BasicResponse?>
             ) {
                 if (response.isSuccessful) {
-                    val resp: BasicResponse = response.body()!!;
+                    val resp: BasicResponse = response.body()!!
                     if (resp.status_code == 200) {
+                        onSuccess.invoke()
                         HelpFunctions.ShowLongToast(
                             "Update Successfully",
                             context

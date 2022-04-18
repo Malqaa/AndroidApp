@@ -42,13 +42,10 @@ class GenericOrderAdapter(
 
 
             if (isCurrent){
-
                 butt554.show()
-
                 butt554.setOnClickListener {
                     val intentt = Intent(context, OrderDetail::class.java)
                     context.startActivity(intentt)
-
                 }
             }else{
                 butt554.hide()

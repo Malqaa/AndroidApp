@@ -22,6 +22,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/madani_arabic_medium"
                 android:text="@string/shipment_no_1"
+                android:id="@+id/shipment_no_tv"
                 android:textColor="#45495E"
                 android:textSize="@dimen/_10sdp" />
 
@@ -29,6 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_5sdp"
+                android:id="@+id/sellername_tv"
                 android:fontFamily="@font/madani_arabic_medium"
                 android:text="@string/al_khalis_company"
                 android:textColor="@color/bg"
@@ -215,7 +217,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/madani_arabic_medium"
                 android:gravity="end"
-                android:text="1643"
+                android:text="0"
                 android:textColor="@color/bg"
                 android:textSize="@dimen/_10sdp" />
 

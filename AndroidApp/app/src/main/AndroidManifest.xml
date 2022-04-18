@@ -32,7 +32,7 @@
         android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup">
         <activity
-            android:name=".activities_main.order.OrderDetailConfirm"
+            android:name=".activities_main.order.AttachInvoice"
             android:exported="false" />
         <activity
             android:name=".activities_main.order.ShipmentRating"
@@ -42,9 +42,6 @@
             android:exported="false" />
         <activity
             android:name=".activities_main.order.OrderDetail"
-            android:exported="false" />
-        <activity
-            android:name=".botmnav_fragments.My_Request"
             android:exported="false" />
         <activity
             android:name=".design.SellerInformation"

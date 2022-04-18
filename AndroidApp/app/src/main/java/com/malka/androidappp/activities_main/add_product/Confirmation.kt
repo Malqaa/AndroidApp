@@ -40,8 +40,10 @@ class Confirmation : BaseActivity() {
                     }
                     getString(R.string.visa_mastercard) -> {
                         CommonAPI().GetUserCreditCards(this) {
-                            CommonBottomSheet().showCardSelection(this, it) {
+                            CommonBottomSheet().showCardSelection(this, it,{
                                 mainModelToJSON()
+                            }) {
+                                btn_confirm_details.performClick()
                             }
                         }
 
@@ -174,12 +176,11 @@ class Confirmation : BaseActivity() {
                 call: Call<CreateAdvResponseBack>, response: Response<CreateAdvResponseBack>
             ) {
                 if (response.isSuccessful) {
-                    val importAdId = response.body()!!.data
-
+                    val AdvId = response.body()!!.data
                     HelpFunctions.dismissProgressBar()
                     startActivity(Intent(this@Confirmation, SuccessProduct::class.java).apply {
                         flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                        putExtra("AdvId", importAdId)
+                        putExtra("AdvId", AdvId)
                         putExtra("Template", StaticClassAdCreate.template)
                         putExtra("sellerID", ConstantObjects.logged_userid)
                     })

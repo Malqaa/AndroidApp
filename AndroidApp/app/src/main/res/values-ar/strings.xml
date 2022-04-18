@@ -2716,7 +2716,7 @@
     <string name="delivery_options">خيارات التوصيل</string>
   <string name="remove_all">إزالة الكل</string>
   <string name="al_khalis_company">( شركة الخالص)</string>
-  <string name="shipment_no_1">شحنة رقم 1</string>
+  <string name="shipment_no_1">شحنة رقم </string>
   <string name="total_charges">مجموع الشحنة</string>
     <string name="update_card">Update Card</string>
     <string name="password_update">Password has been successfully changed</string>
@@ -2738,5 +2738,7 @@
   <string name="your_rating_for_shipping">تقييمك للشحن</string>
     <string name="send_evaluation">ارسال التقييم</string>
     <string name="to_be_sure">تأكيد</string>
+    <string name="please_attach_a_copy_of_the_invoice">Please attach a copy of the invoice</string>
+  <string name="attach_the_picture">Attach the picture</string>
 
 </resources>

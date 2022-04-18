@@ -23,6 +23,7 @@ import kotlinx.android.synthetic.main.add_account_layout.*
 import kotlinx.android.synthetic.main.add_bank_layout.view.*
 import kotlinx.android.synthetic.main.fragment_pricing_payment.*
 import kotlinx.android.synthetic.main.toolbar_main.*
+import retrofit2.Call
 
 
 class PricingActivity : BaseActivity() {
@@ -105,7 +106,7 @@ class PricingActivity : BaseActivity() {
     }
 
     private fun validateradiobutton(): Boolean {
-        return if (swicth_visa_mastercard.isChecked||!StaticClassAdCreate.isbankpaid) {
+        return if (swicth_visa_mastercard.isChecked||StaticClassAdCreate.isbankpaid) {
             true
         } else {
             showError(getString(R.string.Selectanyonepaymentmethod))
@@ -342,20 +343,16 @@ class PricingActivity : BaseActivity() {
             userID = ConstantObjects.logged_userid
 
         )
-        val call: retrofit2.Call<addBankAccountResponseBack> = malqa.addbankaccount(addBankAccount)
+        val call: Call<addBankAccountResponseBack> = malqa.addbankaccount(addBankAccount)
 
-        call?.enqueue(object : retrofit2.Callback<addBankAccountResponseBack?> {
-            override fun onFailure(
-                call: retrofit2.Call<addBankAccountResponseBack?>?,
-                t: Throwable
-            ) {
+        call.enqueue(object : retrofit2.Callback<addBankAccountResponseBack?> {
+            override fun onFailure(call: Call<addBankAccountResponseBack?>, t: Throwable) {
                 HelpFunctions.dismissProgressBar()
-
                 Toast.makeText(this@PricingActivity, "${t.message}", Toast.LENGTH_LONG).show()
             }
 
             override fun onResponse(
-                call: retrofit2.Call<addBankAccountResponseBack?>,
+                call: Call<addBankAccountResponseBack?>,
                 response: retrofit2.Response<addBankAccountResponseBack?>
             ) {
                 if (response.isSuccessful) {
@@ -397,17 +394,15 @@ class PricingActivity : BaseActivity() {
         val malqa = RetrofitBuilder.GetRetrofitBuilder()
         val call = malqa.getBankDetail(ConstantObjects.logged_userid)
 
-
-
-        call?.enqueue(object : retrofit2.Callback<BankListRespone?> {
-            override fun onFailure(call: retrofit2.Call<BankListRespone?>?, t: Throwable) {
+        call.enqueue(object : retrofit2.Callback<BankListRespone?> {
+            override fun onFailure(call: Call<BankListRespone?>, t: Throwable) {
                 HelpFunctions.dismissProgressBar()
 
                 Toast.makeText(this@PricingActivity, "${t.message}", Toast.LENGTH_LONG).show()
             }
 
             override fun onResponse(
-                call: retrofit2.Call<BankListRespone?>,
+                call: Call<BankListRespone?>,
                 response: retrofit2.Response<BankListRespone?>
             ) {
                 if (response.isSuccessful) {
@@ -417,8 +412,6 @@ class PricingActivity : BaseActivity() {
                         if (respone.status_code == 200) {
                             bankList = respone.data
                             addBankAdaptor(respone.data)
-
-
                         } else {
 
                         }

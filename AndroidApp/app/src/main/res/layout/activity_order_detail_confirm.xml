@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities_main.order.OrderDetailConfirm">
+    tools:context=".activities_main.order.AttachInvoice">
 
     <include
         android:id="@+id/toolbar_main"
@@ -26,7 +26,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Please attach a copy of the invoice"
+            android:text="@string/please_attach_a_copy_of_the_invoice"
             android:fontFamily="@font/madani_arabic_medium"
             android:gravity="center"
             android:layout_marginTop="@dimen/_10sdp"
@@ -39,12 +39,13 @@
             android:layout_height="wrap_content"
             android:background="@drawable/round_btn"
             android:layout_marginEnd="@dimen/_10sdp"
+            android:id="@+id/attacted_picture"
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_10sdp"
             android:backgroundTint="@color/light_bg"
             android:fontFamily="@font/madani_arabic_semi_bold"
             android:padding="@dimen/_5sdp"
-            android:text="Attach the picture"
+            android:text="@string/attach_the_picture"
             android:textAllCaps="false"
             android:textColor="@color/bg"
             android:textSize="@dimen/_12sdp" />
@@ -60,7 +61,7 @@
             android:layout_marginTop="@dimen/_10sdp"
             android:fontFamily="@font/madani_arabic_semi_bold"
             android:padding="@dimen/_5sdp"
-            android:text="Send"
+            android:text="@string/send"
             android:textAllCaps="false"
             android:textColor="#ffffff"
             android:textSize="@dimen/_12sdp" />

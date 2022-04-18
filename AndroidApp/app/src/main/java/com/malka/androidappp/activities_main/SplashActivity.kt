@@ -34,7 +34,6 @@ class SplashActivity : BaseActivity() {
             splash_view.setOnCompletionListener(MediaPlayer.OnCompletionListener {
                 if (isFinishing) return@OnCompletionListener
                 else {
-               //     val intentt = Intent(this@SplashActivity, SignupPg3::class.java)
                     val intentt = Intent(this@SplashActivity, MainActivity::class.java)
                     this@SplashActivity.startActivity(intentt)
                     finish()
@@ -73,8 +72,6 @@ class SplashActivity : BaseActivity() {
                 }
             }
         })
-
-
     }
 
 }
