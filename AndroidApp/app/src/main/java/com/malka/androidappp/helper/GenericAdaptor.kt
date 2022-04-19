@@ -105,9 +105,9 @@ class GenericAdaptor {
 
                 date_tv.text = createdOnFormated
 
-                when(listingType){
+                when(listingTypeFormated){
                     "1"->{
-                        LowestPrice_layout.hide()
+                        LowestPrice_layout.invisible()
                         LowestPrice_layout_2.hide()
                         product_price.text = "${price!!.toDouble().decimalNumberFormat()} ${
                             context.getString(

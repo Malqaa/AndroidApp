@@ -58,6 +58,20 @@ data class AdDetailModel(
 
 
     ){
+    val listingTypeFormated: String
+        get() {
+            listingType?.let {
+                return it
+            }?:kotlin.run {
+                listingtype?.let {
+                    return it
+                }?:kotlin.run {
+                    return ""
+                }
+            }
+
+        }
+
 
     val createdOnFormated: String
         get() {
