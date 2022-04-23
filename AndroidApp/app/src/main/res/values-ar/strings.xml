@@ -2684,6 +2684,7 @@
   <string name="my_bids">مزايداتى</string>
   <string name="negotiation_offers">عروض التفاوض</string>
   <string name="save_addresses">العناوين المحفوظة</string>
+  <string name="update_address">Update Addresses</string>
     <string name="member_since">عضو منذ</string>
     <string name="merchant_page">صفحة التاجر </string>
     <string name="membership_number">Membership Number</string>
@@ -2741,5 +2742,9 @@
     <string name="please_attach_a_copy_of_the_invoice">Please attach a copy of the invoice</string>
   <string name="attach_the_picture">Attach the picture</string>
     <string name="highest_price">Highest Price</string>
+    <string name="bidding_completed_successfully">تمت المزايدة بنجاح</string>
+  <string name="manage_your_bid">متابعة مزايداتك</string>
+    <string name="seller">تاجر</string>
+  <string name="_4_9_from_00_visitors" formatted="true">%s from %s visitors</string>
 
 </resources>

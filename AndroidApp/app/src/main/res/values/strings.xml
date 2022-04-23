@@ -2856,6 +2856,7 @@ Want to start a business account? Create a Business Account
     <string name="my_bids">My bids</string>
     <string name="negotiation_offers">Negotiation offers</string>
     <string name="save_addresses">Save Addresses</string>
+    <string name="update_address">Update Address</string>
     <string name="member_since">Member since</string>
     <string name="merchant_page">Merchant page</string>
     <string name="membership_number">Membership Number</string>
@@ -2913,6 +2914,10 @@ Want to start a business account? Create a Business Account
     <string name="please_attach_a_copy_of_the_invoice">Please attach a copy of the invoice</string>
   <string name="attach_the_picture">Attach the picture</string>
   <string name="highest_price">Highest Price: </string>
+    <string name="bidding_completed_successfully">Bidding completed successfully</string>
+  <string name="manage_your_bid">Manage Your Bid</string>
+    <string name="seller">Seller</string>
+    <string name="_4_9_from_00_visitors" formatted="true">%s from %s visitors</string>
 
 
 </resources>

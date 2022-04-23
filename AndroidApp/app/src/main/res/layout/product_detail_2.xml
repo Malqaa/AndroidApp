@@ -697,148 +697,37 @@
                 android:layout_marginEnd="@dimen/_14sdp"
                 android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_width="@dimen/_12sdp"
-                    android:layout_height="@dimen/_12sdp"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/star_log" />
-
-                <ImageView
-                    android:layout_width="@dimen/_12sdp"
-                    android:layout_height="@dimen/_12sdp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="@dimen/_2sdp"
-                    android:src="@drawable/star_log" />
-
-                <ImageView
-                    android:layout_width="@dimen/_12sdp"
-                    android:layout_height="@dimen/_12sdp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="@dimen/_2sdp"
-                    android:src="@drawable/star_log" />
-
-
-                <ImageView
-                    android:layout_width="@dimen/_12sdp"
-                    android:layout_height="@dimen/_12sdp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="@dimen/_2sdp"
-                    android:src="@drawable/star_log" />
-
-                <ImageView
-                    android:layout_width="@dimen/_12sdp"
-                    android:layout_height="@dimen/_12sdp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="@dimen/_2sdp"
-                    android:src="@drawable/star_grey" />
-
+                <RatingBar
+                    android:id="@+id/rating_bar"
+                    style="?android:attr/ratingBarStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:rating="4.7" />
 
                 <TextView
+                    android:id="@+id/rating_bar_detail_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_8sdp"
                     android:fontFamily="@font/madani_arabic_medium"
-                    android:text="4.9"
+                    android:text="@string/_4_9_from_00_visitors"
                     android:textColor="#000000"
                     android:textSize="@dimen/_14sdp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_5sdp"
-                    android:fontFamily="@font/madani_arabic_medium"
-                    android:text="From 200 visitors"
-                    android:textColor="#000000"
-                    android:textSize="@dimen/_14sdp" />
 
             </LinearLayout>
 
 
-            <LinearLayout
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/review_rcv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_14sdp"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:layout_marginEnd="@dimen/_14sdp"
-                android:orientation="horizontal">
-
-
-                <ImageView
-                    android:layout_width="@dimen/_40sdp"
-                    android:layout_height="@dimen/_40sdp"
-                    android:src="@drawable/profiledp" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/madani_arabic_medium"
-                        android:text="Jasmen Kamei"
-                        android:textColor="#000000"
-                        android:textSize="@dimen/_14sdp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:fontFamily="@font/madani_arabic_light"
-                        android:text="Jasmen Kamei"
-                        android:textColor="#000000"
-                        android:textSize="@dimen/_12sdp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_2sdp"
-                    android:gravity="end"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="@dimen/_12sdp"
-                        android:layout_height="@dimen/_12sdp"
-                        android:layout_gravity="center_vertical"
-                        android:src="@drawable/star_log" />
-
-                    <ImageView
-                        android:layout_width="@dimen/_12sdp"
-                        android:layout_height="@dimen/_12sdp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="@dimen/_2sdp"
-                        android:src="@drawable/star_log" />
-
-                    <ImageView
-                        android:layout_width="@dimen/_12sdp"
-                        android:layout_height="@dimen/_12sdp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="@dimen/_2sdp"
-                        android:src="@drawable/star_log" />
-
-
-                    <ImageView
-                        android:layout_width="@dimen/_12sdp"
-                        android:layout_height="@dimen/_12sdp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="@dimen/_2sdp"
-                        android:src="@drawable/star_log" />
-
-                    <ImageView
-                        android:layout_width="@dimen/_12sdp"
-                        android:layout_height="@dimen/_12sdp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="@dimen/_2sdp"
-                        android:src="@drawable/star_grey" />
-
-                </LinearLayout>
-
-
-            </LinearLayout>
+                android:layout_marginBottom="@dimen/_10sdp"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:spanCount="1"
+                tools:listitem="@layout/review_layout" />
 
 
             <LinearLayout
@@ -1255,6 +1144,7 @@
 
 
                         <TextView
+                            android:id="@+id/Bid_on_price_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
@@ -1262,7 +1152,6 @@
                             android:layout_marginEnd="@dimen/_10sdp"
                             android:fontFamily="@font/madani_arabic_semi_bold"
                             android:text="@string/sar"
-                            android:id="@+id/Bid_on_price_tv"
                             android:textAllCaps="false"
                             android:textColor="@color/white"
                             android:textSize="@dimen/_12sdp" />

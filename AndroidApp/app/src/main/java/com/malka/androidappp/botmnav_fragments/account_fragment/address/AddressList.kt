@@ -33,7 +33,8 @@ class AddressList : Fragment(R.layout.address_list_fragment) {
 
     private fun loadAddress() {
         CommonAPI().getAddress(requireContext(), {
-            GenericAdaptor().AdressAdaptor(category_rcv, it, ConstantObjects.View, {
+            GenericAdaptor().AdressAdaptor(addAddressLaucher, requireContext(), category_rcv, it, ConstantObjects.View, {
+
 
             })
         })
@@ -50,6 +51,9 @@ class AddressList : Fragment(R.layout.address_list_fragment) {
         add_new_add.setOnClickListener {
             addAddressLaucher.launch(Intent(requireContext(), AddAddress::class.java))
         }
+
+
+
 
 
         back_btn.setOnClickListener {

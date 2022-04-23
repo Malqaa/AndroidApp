@@ -2,14 +2,12 @@ package com.malka.androidappp.design
 
 import android.os.Bundle
 import android.widget.Filter
-import androidx.appcompat.app.AppCompatActivity
 import com.malka.androidappp.R
 import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.design.Models.negotiationmodel
 import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
 import kotlinx.android.synthetic.main.negotiation_offers1.*
 import kotlinx.android.synthetic.main.negotiation_offers_design.view.*
-import kotlinx.android.synthetic.main.product_review_design.view.*
 
 class negotiation_offers1 : BaseActivity() {
     val list: ArrayList<negotiationmodel> = ArrayList()
@@ -41,7 +39,6 @@ class negotiation_offers1 : BaseActivity() {
                         product_image.setImageResource(proimage)
                         person_name.text=pername
                         person_since.text=persince
-                        person_dp.setImageResource(perdp)
                     }
                 }
             }

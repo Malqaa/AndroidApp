@@ -27,7 +27,7 @@
 
             <TextView
                 android:layout_weight="1"
-                android:id="@+id/for_sale"
+                android:id="@+id/received"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/_5sdp"
@@ -41,7 +41,7 @@
 
             <TextView
                 android:layout_weight="1"
-                android:id="@+id/did_not_Sell"
+                android:id="@+id/sent"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/_5sdp"
@@ -62,18 +62,20 @@
             android:textSize="@dimen/_12sdp">
 
             <TextView
+                android:id="@+id/from_buyer"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/_35sdp"
                 android:background="@drawable/product_attribute_bg_linebg"
                 android:fontFamily="@font/madani_arabic_medium"
                 android:gravity="center"
-                android:text="received from buyers"
+                android:text="Received from buyers"
                 android:padding="@dimen/_10sdp"
                 android:textSize="@dimen/_10sdp"
                 android:textColor="@color/bg" />
 
 
             <TextView
+                android:id="@+id/from_seller"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/_35sdp"
                 android:layout_marginStart="@dimen/_5sdp"
@@ -81,7 +83,7 @@
                 android:fontFamily="@font/madani_arabic_medium"
                 android:gravity="center"
                 android:padding="@dimen/_10sdp"
-                android:text="received from sellers"
+                android:text="Received from sellers"
                 android:textColor="#45495E"
                 android:textSize="@dimen/_10sdp" />
         </LinearLayout>

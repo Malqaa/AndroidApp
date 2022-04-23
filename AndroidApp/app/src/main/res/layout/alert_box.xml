@@ -39,7 +39,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginTop="@dimen/_10sdp"
             android:background="@drawable/edittext_bg"
-            android:padding="@dimen/_5sdp">
+            android:padding="@dimen/_2sdp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -53,6 +53,7 @@
                 android:textSize="@dimen/_12sdp" />
 
             <RadioButton
+                android:id="@+id/saudi_bank"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -67,7 +68,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginTop="@dimen/_10sdp"
             android:background="@drawable/edittext_bg"
-            android:padding="@dimen/_5sdp">
+            android:padding="@dimen/_2sdp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -81,6 +82,7 @@
                 android:textSize="@dimen/_12sdp" />
 
             <RadioButton
+                android:id="@+id/visa"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -104,13 +106,13 @@
             android:textAllCaps="false"
             android:textColor="#ffffff"
             android:textSize="@dimen/_14sdp"
-            android:visibility="gone" />
+            />
 
         <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
             android:id="@+id/payment_option"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_15sdp"
             android:layout_marginBottom="@dimen/_10sdp"
             android:gravity="center"
             android:text="@string/payment_options"

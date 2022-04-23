@@ -4,11 +4,14 @@ import android.content.Context
 import android.content.Intent
 import android.view.ViewGroup
 import android.widget.Filter
+import androidx.activity.result.ActivityResultLauncher
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.login.SignInActivity
 import com.malka.androidappp.activities_main.product_detail.ProductDetails
+import com.malka.androidappp.botmnav_fragments.account_fragment.address.AddAddress
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.design.Models.GetAddressResponse
 import com.malka.androidappp.helper.Extension.decimalNumberFormat
@@ -219,6 +222,8 @@ class GenericAdaptor {
     }
 
     fun AdressAdaptor(
+        addAddressLaucher: ActivityResultLauncher<Intent>,
+        context: Context,
         category_rcv: RecyclerView,
         list: List<GetAddressResponse.AddressModel>,
         type: String,onItemClick:
@@ -233,6 +238,7 @@ class GenericAdaptor {
                             ConstantObjects.View -> {
                                 is_select_.isVisible = false
                             }
+
                             ConstantObjects.Select -> {
                                 is_select_.isVisible = true
                                 is_select_.isChecked = is_select
@@ -253,6 +259,16 @@ class GenericAdaptor {
                         country_name.text = "$country - $region -$city"
                         phonenum.text = mobileNo
                         address_tv.text = address
+
+                        edit_address_btn.setOnClickListener {
+
+                            addAddressLaucher.launch(Intent(context, AddAddress::class.java).apply {
+                                putExtra("isEdit", true)
+                                putExtra("addressObject", Gson().toJson(element))
+                            })
+                        }
+
+
 
                     }
                 }

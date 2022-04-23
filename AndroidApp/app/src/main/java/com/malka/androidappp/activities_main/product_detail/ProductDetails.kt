@@ -2,6 +2,7 @@ package com.malka.androidappp.activities_main.product_detail
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.PorterDuff
@@ -26,6 +27,7 @@ import com.malka.androidappp.activities_main.order.CartActivity
 import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.botmnav_fragments.cardetail_page.ModelSellerDetails
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
+import com.malka.androidappp.design.Models.reviewmodel
 import com.malka.androidappp.design.ProductReviews
 import com.malka.androidappp.design.SellerInformation
 import com.malka.androidappp.helper.Extension.decimalNumberFormat
@@ -46,21 +48,34 @@ import com.malka.androidappp.servicemodels.addtocart.InsertToCartRequestModel
 import com.malka.androidappp.servicemodels.questionModel.Question
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_product_details.*
+import kotlinx.android.synthetic.main.alert_box.view.*
+import kotlinx.android.synthetic.main.alert_box.view.close_alert
 import kotlinx.android.synthetic.main.atrribute_item.view.*
+import kotlinx.android.synthetic.main.bid_alert_box.*
+import kotlinx.android.synthetic.main.bid_alert_box.view.*
+import kotlinx.android.synthetic.main.bid_confirmation.*
+import kotlinx.android.synthetic.main.bid_confirmation.view.*
+import kotlinx.android.synthetic.main.carspec_card8.*
+import kotlinx.android.synthetic.main.fragment_account.*
 import kotlinx.android.synthetic.main.image_item.view.*
 import kotlinx.android.synthetic.main.image_item.view.loader
 import kotlinx.android.synthetic.main.product_detail_2.*
 import kotlinx.android.synthetic.main.product_item.view.*
+import kotlinx.android.synthetic.main.product_review_design.view.*
+import kotlinx.android.synthetic.main.product_reviews1.*
+import kotlinx.android.synthetic.main.review_layout.view.*
 import org.json.JSONArray
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class ProductDetails : BaseActivity() {
 
+    var reviewlist : ArrayList<reviewmodel> = ArrayList()
     var AdvId = ""
     var template = ""
     var selectLink = ""
@@ -105,6 +120,26 @@ class ProductDetails : BaseActivity() {
         quesAnss()
 
         setListenser()
+
+
+        reviewlist.add(reviewmodel("Ahmed3", "12/12/2022","Good and fast delivery", "2.9", R.drawable.car ))
+        reviewlist.add(reviewmodel("Ahmed4", "16/12/2022","Great Experience ","3.0", R.drawable.car2 ))
+        reviewlist.add(reviewmodel("Ahmed5", "10/12/2022","Excelent fast delivery","1.6", R.drawable.car4 ))
+        reviewlist.add(reviewmodel("Ahmed6", "5/12/2022","Amazing and fast delivery", "1.9", R.drawable.car5 ))
+        reviewlist.add(reviewmodel("Ahmed3", "12/12/2022","Good and fast delivery", "2.9", R.drawable.car ))
+        reviewlist.add(reviewmodel("Ahmed4", "16/12/2022","Great Experience ","2.0", R.drawable.car2 ))
+        reviewlist.add(reviewmodel("Ahmed4", "16/12/2022","Great Experience ","1.0", R.drawable.car2 ))
+
+        var totalRating = 0.0
+        reviewlist.forEach {
+          totalRating +=  it.rating.toDouble()
+
+        }
+        var average = totalRating/reviewlist.size
+        rating_bar.rating = average.toFloat()
+        rating_bar_detail_tv.text = getString(R.string._4_9_from_00_visitors, average.toString(), reviewlist.size.toString())
+        setReviewsAdapter(reviewlist)
+
     }
 
     private fun setListenser() {
@@ -146,9 +181,47 @@ class ProductDetails : BaseActivity() {
         current_price_buy.setOnClickListener {
             AddToCart()
         }
-        add_to_cart.setOnClickListener {
-            current_price_buy.performClick()
+
+        Bid_on_price.setOnClickListener{
+
+            val builder = AlertDialog.Builder(this@ProductDetails)
+                .create()
+            val view = layoutInflater.inflate(R.layout.bid_alert_box, null)
+            builder.setView(view)
+            view.close_alert.setOnClickListener {
+                builder.dismiss()
+            }
+
+            builder.setCanceledOnTouchOutside(false)
+            builder.show()
+
+
+            view.btn_bid.setOnClickListener {
+
+                val builder = AlertDialog.Builder(this@ProductDetails)
+                    .create()
+                val view = layoutInflater.inflate(R.layout.bid_confirmation, null)
+                builder.setView(view)
+                view.close_alert.setOnClickListener {
+                    builder.dismiss()
+                }
+
+                view.back_to_shopping.setOnClickListener {
+                    val intent = Intent(this@ProductDetails,MainActivity::class.java)
+                    startActivity(intent)
+                }
+//                view.manage_bid.setOnClickListener {
+//                    findNavController().navigate(R.id.mybids)
+//                }
+
+                builder.setCanceledOnTouchOutside(false)
+                builder.show()
+            }
+            add_to_cart.setOnClickListener {
+                current_price_buy.performClick()
+            }
         }
+
 
 
         youtube_btn.setOnClickListener(View.OnClickListener {
@@ -804,6 +877,34 @@ class ProductDetails : BaseActivity() {
         })
 
 
+    }
+
+    private fun setReviewsAdapter(list: ArrayList<reviewmodel>) {
+        review_rcv.adapter = object : GenericListAdapter<reviewmodel>(
+            R.layout.review_layout,
+            bind = { element, holder, itemCount, position ->
+                holder.view.run {
+                    element.run {
+                        review_name_tv.text=name
+
+                        rating_bar.rating = rating.toFloat()
+                        comment_tv.text = comment
+
+
+                    }
+                }
+            }
+        ) {
+            override fun getFilter(): Filter {
+                TODO("Not yet implemented")
+            }
+
+        }.apply {
+            submitList(
+
+                list.take(3)
+            )
+        }
     }
 
 }

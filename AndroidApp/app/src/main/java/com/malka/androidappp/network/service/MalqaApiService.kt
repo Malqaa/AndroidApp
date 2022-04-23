@@ -26,61 +26,13 @@ import com.malka.androidappp.botmnav_fragments.sellerdetails.SellerResponseBack
 import com.malka.androidappp.botmnav_fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ModelShipAddresses
 import com.malka.androidappp.botmnav_fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ShippingAddressessData
 import com.malka.androidappp.botmnav_fragments.won_n_loss.model_wonloss.ModelWonLost
-import com.malka.androidappp.design.Models.*
+import com.malka.androidappp.design.Models.BankListRespone
+import com.malka.androidappp.design.Models.BusinessUserModel
+import com.malka.androidappp.design.Models.GetAddressResponse
+import com.malka.androidappp.design.Models.getBusinessRegisterFile
 import com.malka.androidappp.network.constants.ApiConstants
-import com.malka.androidappp.network.constants.ApiConstants.ADDBANK_ENDPOINT
-import com.malka.androidappp.network.constants.ApiConstants.ADDRESS_ENDPOINT
-import com.malka.androidappp.network.constants.ApiConstants.ADD_TO_CART_DELETE_ENDPOINT
-import com.malka.androidappp.network.constants.ApiConstants.ADD_TO_CART_INSERT_ENDPOINT
-import com.malka.androidappp.network.constants.ApiConstants.ADD_TO_CART_USER_LIST_ENDPOINT
-import com.malka.androidappp.network.constants.ApiConstants.ADVBYID_ENDPOINT
-import com.malka.androidappp.network.constants.ApiConstants.ALL_PRODUCTS_ENDPOINT
-import com.malka.androidappp.network.constants.ApiConstants.ASK_QUES_AD_ENDPOINT
-import com.malka.androidappp.network.constants.ApiConstants.BUSSINESS_REGISTER_FILE_ENDPOINT
-import com.malka.androidappp.network.constants.ApiConstants.BUSSINESS_USER_ENDPOINT
-import com.malka.androidappp.network.constants.ApiConstants.CHANGEPASS_ENDPOINT
-import com.malka.androidappp.network.constants.ApiConstants.CREATE_BUSINESS_PRODUCT_ENDPOINT
-import com.malka.androidappp.network.constants.ApiConstants.CREATE_USER_ENDPOINT
-import com.malka.androidappp.network.constants.ApiConstants.DELETE_AD_WATCHLIST_ENDPOINT
-import com.malka.androidappp.network.constants.ApiConstants.DELETE_CREDIT_CARD_ENDPOINT
-import com.malka.androidappp.network.constants.ApiConstants.EDIT_PRODUCTS_ENDPOINT
-import com.malka.androidappp.network.constants.ApiConstants.FAVOURITE_PARAMETER
-import com.malka.androidappp.network.constants.ApiConstants.FEEDBACK_PARAMETER
-import com.malka.androidappp.network.constants.ApiConstants.FORGOTPASS_EMAIL_ENDPOINT
-import com.malka.androidappp.network.constants.ApiConstants.GETUSER_ENDPOINT
-import com.malka.androidappp.network.constants.ApiConstants.GET_ADDRESS_ENDPOINT
-import com.malka.androidappp.network.constants.ApiConstants.GET_ALL_CATEGORIES
 import com.malka.androidappp.network.constants.ApiConstants.GET_ALL_CATEGORIES_BY_ID
-import com.malka.androidappp.network.constants.ApiConstants.GET_BANK__ACCOUNT_DETAIL
-import com.malka.androidappp.network.constants.ApiConstants.GET_BUSINESS_USER_LIST
-import com.malka.androidappp.network.constants.ApiConstants.GET_CARD_DETAILS_ENDPOINT
-import com.malka.androidappp.network.constants.ApiConstants.GET_CATEGORY_LISTING_ENDPOINT
 import com.malka.androidappp.network.constants.ApiConstants.GET_CATEGORY_TAGS_ENDPOINT
-import com.malka.androidappp.network.constants.ApiConstants.GET_QUES_ANS_COMMENT_ENDPOINT
-import com.malka.androidappp.network.constants.ApiConstants.GET_SELLER_ENDPOINT
-import com.malka.androidappp.network.constants.ApiConstants.GET_SOLDITEMS_ENDPOINT
-import com.malka.androidappp.network.constants.ApiConstants.GET_UNSOLDITEMS_ENDPOINT
-import com.malka.androidappp.network.constants.ApiConstants.GET_USER_CREDIT_CARD_ENDPOINT
-import com.malka.androidappp.network.constants.ApiConstants.GET_WATCHLIST_LISTING_ENDPOINT
-import com.malka.androidappp.network.constants.ApiConstants.GET_WONLOST_ENDPOINT
-import com.malka.androidappp.network.constants.ApiConstants.GIVE_FEEDBACK_ENDPOINT
-import com.malka.androidappp.network.constants.ApiConstants.HOME_TOTAL_NUMBERS_OF_MEMBERS_ENDPOINT
-import com.malka.androidappp.network.constants.ApiConstants.HOME_TOTAL_ONLINEVISITS_ENDPOINT
-import com.malka.androidappp.network.constants.ApiConstants.INSERT_AD_WATCHLIST_ENDPOINT
-import com.malka.androidappp.network.constants.ApiConstants.INSERT_CREDIT_CARD_ENDPOINT
-import com.malka.androidappp.network.constants.ApiConstants.INSERT_FAVOURITE_CATEGORY_ENDPOINT
-import com.malka.androidappp.network.constants.ApiConstants.INSERT_FAVOURITE_SEARCH_ENDPOINT
-import com.malka.androidappp.network.constants.ApiConstants.INSERT_FAVOURITE_SELLER_ENDPOINT
-import com.malka.androidappp.network.constants.ApiConstants.LOGIN_ENDPOINT
-import com.malka.androidappp.network.constants.ApiConstants.POST_ANS_ONADD_QUESID_ENDPOINT
-import com.malka.androidappp.network.constants.ApiConstants.POST_BUSINESS_USER_REGISTRATION_ENDPOINT
-import com.malka.androidappp.network.constants.ApiConstants.POST_USER_IMAGE_ENDPOINT
-import com.malka.androidappp.network.constants.ApiConstants.PRODUCTBYID_ENDPOINT
-import com.malka.androidappp.network.constants.ApiConstants.RESEND_OTPCODE_API_ENDPOINT
-import com.malka.androidappp.network.constants.ApiConstants.SEARCH_CATEGORY_LISTING_ENDPOINT
-import com.malka.androidappp.network.constants.ApiConstants.UPDATEUSER_SIGNUP_ENDPOINT
-import com.malka.androidappp.network.constants.ApiConstants.UPDATE_CREDIT_CARD_ENDPOINT
-import com.malka.androidappp.network.constants.ApiConstants.VERIFY_API_ENDPOINT
 import com.malka.androidappp.servicemodels.*
 import com.malka.androidappp.servicemodels.addtocart.AddToCartResponseModel
 import com.malka.androidappp.servicemodels.addtocart.InsertToCartRequestModel
@@ -135,6 +87,8 @@ interface MalqaApiService {
 
     @POST("Accounts/insertaddress")
     fun insertAddress(@Body info: GetAddressResponse.AddressModel): Call<insertAddressResponseBack>
+    @POST("Accounts/updateAdress")
+    fun updateAddress(@Body info: updateAddressModel): Call<insertAddressResponseBack>
 
     @POST("Accounts/CreateBusinessAccount")
     fun addBusinesUser(@Body info: BusinessUserModel.getBusinessList): Call<addBusinessUserlistReponse>
@@ -359,8 +313,8 @@ interface MalqaApiService {
     @POST("Checkout/checkoutiteminsert")
     fun PostUserCheckOut(@Body checkout: CheckoutRequestModel): Call<BasicResponse>
 
-
     @GET()
     fun jsonTemplates(@Url url: String): Call<JsonObject>
+
 
 }
