@@ -23,7 +23,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class BrowseMarketFragment : BaseActivity() {
+class SearchCategoryActivity : BaseActivity() {
 
     //Zack
     //Date: 10/29/2020
@@ -108,7 +108,7 @@ class BrowseMarketFragment : BaseActivity() {
         call.enqueue(object : Callback<SearchRespone> {
             override fun onFailure(call: Call<SearchRespone>, t: Throwable) {
                 HelpFunctions.ShowAlert(
-                    this@BrowseMarketFragment,
+                    this@SearchCategoryActivity,
                     getString(R.string.Information),
                     getString(R.string.NoRecordFound)
                 )
@@ -133,7 +133,7 @@ class BrowseMarketFragment : BaseActivity() {
                                 getString(R.string.result, marketpost.count().toString())
                         } else {
                             HelpFunctions.ShowAlert(
-                                this@BrowseMarketFragment,
+                                this@SearchCategoryActivity,
                                 getString(R.string.Information),
                                 getString(R.string.NoRecordFound)
                             )
@@ -141,7 +141,7 @@ class BrowseMarketFragment : BaseActivity() {
                     }
                 } else {
                     HelpFunctions.ShowAlert(
-                        this@BrowseMarketFragment,
+                        this@SearchCategoryActivity,
                         getString(R.string.Information),
                         getString(R.string.NoRecordFound)
                     )
@@ -162,7 +162,7 @@ class BrowseMarketFragment : BaseActivity() {
         call.enqueue(object : Callback<CategoryResponse> {
             override fun onFailure(call: Call<CategoryResponse>, t: Throwable) {
                 HelpFunctions.ShowAlert(
-                    this@BrowseMarketFragment,
+                    this@SearchCategoryActivity,
                     getString(R.string.Information),
                     getString(R.string.NoRecordFound)
                 )
@@ -186,7 +186,7 @@ class BrowseMarketFragment : BaseActivity() {
                                 getString(R.string.result, marketpost.count().toString())
                         } else {
                             HelpFunctions.ShowAlert(
-                                this@BrowseMarketFragment,
+                                this@SearchCategoryActivity,
                                 getString(R.string.Information),
                                 getString(R.string.NoRecordFound)
                             )
@@ -194,7 +194,7 @@ class BrowseMarketFragment : BaseActivity() {
                     }
                 } else {
                     HelpFunctions.ShowAlert(
-                        this@BrowseMarketFragment,
+                        this@SearchCategoryActivity,
                         getString(R.string.Information),
                         getString(R.string.NoRecordFound)
                     )
@@ -235,7 +235,7 @@ class BrowseMarketFragment : BaseActivity() {
 
                 }
                 override fun onFailure(call: Call<ModelAddSearchFav>, t: Throwable) {
-                    t.message?.let { HelpFunctions.ShowLongToast(it, this@BrowseMarketFragment) }
+                    t.message?.let { HelpFunctions.ShowLongToast(it, this@SearchCategoryActivity) }
                 }
             })
         } catch (ex: Exception) {

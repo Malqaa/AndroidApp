@@ -162,6 +162,7 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
             findNavController().navigate(R.id.acc_fav)
         }
 
+
         selling_opt.setOnClickListener() {
             findNavController().navigate(R.id.account_sellingopt)
         }

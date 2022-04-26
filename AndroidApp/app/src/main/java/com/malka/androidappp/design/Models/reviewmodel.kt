@@ -7,5 +7,4 @@ data class reviewmodel(
     val rating: String,
     val image: Int,
 
-
     )

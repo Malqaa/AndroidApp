@@ -7,5 +7,6 @@ class DynamicList (
     val category_icon:Int,
     val product:List<AdDetailModel>,
     val typeName:String="category",
-    val detail:String=""
+    val detail:String="",
+    val category_id: String
 )

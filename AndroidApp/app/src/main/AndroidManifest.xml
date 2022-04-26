@@ -33,63 +33,84 @@
         tools:ignore="AllowBackup">
         <activity
             android:name=".activities_main.order.AttachInvoice"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activities_main.order.ShipmentRating"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activities_main.order.OrderDetail_1"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activities_main.order.OrderDetail"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".design.SellerInformation"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activities_main.order.SuccessOrder"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activities_main.order.AddressPaymentActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activities_main.product_detail.QuestionActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activities_main.place_picker.LocationPickerActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activities_main.business_signup.Switch_Account"
-            android:exported="true" />
+            android:exported="true"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activities_main.FullImageActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activities_main.PlayActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activities_main.order.CartActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".design.order_done"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".design.negotiation_offers1"
-            android:exported="true" />
+            android:exported="true"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".design.ProductReviews"
-            android:exported="true" />
+            android:exported="true"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activities_main.product_detail.ProductDetails"
-            android:exported="true" />
+            android:exported="true"
+            android:screenOrientation="portrait"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
+            android:value="@string/google_maps_key"
+            android:screenOrientation="portrait"/>
 
-        <activity android:name=".botmnav_fragments.activities_main.business_signup.BusinessAccountCreate" />
-        <activity android:name=".activities_main.forgot.ForgotChangepassActivity" />
-        <activity android:name=".activities_main.forgot.ActivityForgotPassOtpcode" />
+        <activity android:name=".botmnav_fragments.activities_main.business_signup.BusinessAccountCreate"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities_main.forgot.ForgotChangepassActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities_main.forgot.ActivityForgotPassOtpcode"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activities_main.SplashActivity"
             android:exported="true"
@@ -100,31 +121,50 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities_main.MainActivity" />
+        <activity android:name=".activities_main.MainActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activities_main.login.SignInActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activities_main.signup_account.signup_pg1.SignupPg1" />
-        <activity android:name=".activities_main.signup_account.signup_pg2.SignupPg2" />
-        <activity android:name=".activities_main.signup_account.signup_pg3.SignupPg3" />
-        <activity android:name=".activities_main.forgot.ForgotPasswordActivty" />
-        <activity android:name=".activities_main.add_product.ListanItem" />
-        <activity android:name=".activities_main.add_product.ChooseCategory" />
-        <activity android:name=".activities_main.add_product.all_categories.SubCategories" />
-        <activity android:name=".activities_main.add_product.AddPhoto" />
-        <activity android:name=".activities_main.add_product.DynamicTemplate" />
-        <activity android:name=".activities_main.add_product.ListingDetails" />
-        <activity android:name=".activities_main.add_product.PricingActivity" />
-        <activity android:name=".activities_main.add_product.ListingDuration" />
-        <activity android:name=".activities_main.add_product.PromotionalActivity" />
-        <activity android:name=".activities_main.add_product.Confirmation" />
-        <activity android:name=".activities_main.add_product.SuccessProduct" />
+        <activity android:name=".activities_main.signup_account.signup_pg1.SignupPg1"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities_main.signup_account.signup_pg2.SignupPg2"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities_main.signup_account.signup_pg3.SignupPg3"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities_main.forgot.ForgotPasswordActivty"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities_main.add_product.ListanItem"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities_main.add_product.ChooseCategory"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities_main.add_product.all_categories.SubCategories"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities_main.add_product.AddPhoto"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities_main.add_product.DynamicTemplate"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities_main.add_product.ListingDetails"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities_main.add_product.PricingActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities_main.add_product.ListingDuration"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities_main.add_product.PromotionalActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities_main.add_product.Confirmation"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities_main.add_product.SuccessProduct"
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.zfdang.multiple_images_selector.ImagesSelectorActivity"
             android:configChanges="orientation|screenSize"
-            android:hardwareAccelerated="false" />
-        <activity android:name=".botmnav_fragments.browse_market.BrowseMarketFragment" />
-        <activity android:name=".botmnav_fragments.account_fragment.address.AddAddress" />
+            android:hardwareAccelerated="false"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".botmnav_fragments.browse_market.SearchCategoryActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".botmnav_fragments.account_fragment.address.AddAddress"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

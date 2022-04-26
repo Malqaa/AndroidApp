@@ -20,7 +20,7 @@ import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.MainActivity
 import com.malka.androidappp.activities_main.login.SignInActivity
 import com.malka.androidappp.activities_main.order.CartActivity
-import com.malka.androidappp.botmnav_fragments.browse_market.BrowseMarketFragment
+import com.malka.androidappp.botmnav_fragments.browse_market.SearchCategoryActivity
 import com.malka.androidappp.botmnav_fragments.home.model.AllCategoriesResponseBack
 import com.malka.androidappp.botmnav_fragments.home.model.DynamicList
 import com.malka.androidappp.helper.GenericAdaptor
@@ -70,6 +70,8 @@ class HomeFragment : Fragment(R.layout.fragment_homee),
         if (HelpFunctions.IsUserLoggedIn()) {
             HelpFunctions.GetUserWatchlist()
         }
+
+
         ic_cart.setOnClickListener {
             if (ConstantObjects.logged_userid.isEmpty()) {
                 startActivity(Intent(context, SignInActivity::class.java).apply {
@@ -115,7 +117,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee),
 
     fun SearchAndNavigateToCategoryListing(searchquery: String) {
         if (!searchquery.isEmpty()) {
-            startActivity(Intent(requireContext(), BrowseMarketFragment::class.java).apply {
+            startActivity(Intent(requireContext(), SearchCategoryActivity::class.java).apply {
                 putExtra("CategoryDesc", "")
                 putExtra("SearchQuery", searchquery)
             })
@@ -191,21 +193,21 @@ class HomeFragment : Fragment(R.layout.fragment_homee),
                                         DynamicList(
                                             getString(R.string.vehicles),
                                             R.drawable.ic_vechile,
-                                            caradvetisement
+                                            caradvetisement, category_id = "Vehicles"
                                         )
                                     )
                                     add(
                                         DynamicList(
                                             getString(R.string.electronics),
                                             R.drawable.ic_electronic,
-                                            generaladvetisement
+                                            generaladvetisement, category_id = "Electronics & Gaming"
                                         )
                                     )
                                     add(
                                         DynamicList(
                                             getString(R.string.real_estate),
                                             R.drawable.ic_real_estate,
-                                            propertyadvetisement
+                                            propertyadvetisement, category_id = "Property"
                                         )
                                     )
                                     add(
@@ -214,7 +216,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee),
                                             R.drawable.ic_vechile,
                                             recentadvetisement,
                                             "list",
-                                            getString(R.string.List_Auctions_detail)
+                                            getString(R.string.List_Auctions_detail), ""
                                         )
                                     )
                                 }
@@ -262,6 +264,16 @@ class HomeFragment : Fragment(R.layout.fragment_homee),
                                 product_list_layout!!.show()
                             }
                         }
+                        view_all.setOnClickListener {
+
+
+                            startActivity(Intent(requireContext(), SearchCategoryActivity::class.java).apply {
+                                putExtra("CategoryDesc", category_id)
+                                putExtra("SearchQuery", "")
+                            })
+
+                        }
+
                         detail_tv!!.text = detail
                         category_name_tv!!.text = category_name
                         category_name_tv_2!!.text = category_name
@@ -287,7 +299,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee),
         super.OnItemClick(position)
 
 
-        startActivity(Intent(requireContext(), BrowseMarketFragment::class.java).apply {
+        startActivity(Intent(requireContext(), SearchCategoryActivity::class.java).apply {
             putExtra("CategoryDesc", ConstantObjects.categoryList[position].categoryName)
             putExtra("SearchQuery", "")
         })

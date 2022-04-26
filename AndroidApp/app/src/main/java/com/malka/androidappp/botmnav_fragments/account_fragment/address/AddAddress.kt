@@ -3,6 +3,7 @@ package com.malka.androidappp.botmnav_fragments.account_fragment.address
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import com.google.gson.Gson
 import com.malka.androidappp.R
 import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.design.Models.GetAddressResponse
@@ -14,10 +15,15 @@ import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.network.service.insertAddressResponseBack
 import com.malka.androidappp.servicemodels.ConstantObjects
 import com.malka.androidappp.servicemodels.CountryRespone
+import com.malka.androidappp.servicemodels.updateAddressModel
+import kotlinx.android.synthetic.main.activity_order_detail.*
 import kotlinx.android.synthetic.main.add_address_fragment.*
 import kotlinx.android.synthetic.main.toolbar_main.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
-class AddAddress : BaseActivity()  {
+class AddAddress : BaseActivity() {
 
     var selectedCountry: SearchListItem? = null
     var selectedRegion: SearchListItem? = null
@@ -27,10 +33,50 @@ class AddAddress : BaseActivity()  {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.add_address_fragment)
+        val isEdit = intent.getBooleanExtra("isEdit", false)
+
+        if (isEdit) {
+
+            val addressObject = intent.getStringExtra("addressObject")
+            val oldAddress =
+                Gson().fromJson(addressObject, GetAddressResponse.AddressModel::class.java)
+
+
+            oldAddress.apply {
+
+                select_country.text = country
+                select_region.text = region
+                select_city.text = city
+                area_address.text = address
+                id
+
+            }
+
+            add_button.text = getString(R.string.Confirm)
+            toolbar_title.text = getString(R.string.update_address)
+
+
+            UpdateAddress(oldAddress)
+
+        } else {
+
+            toolbar_title.text = getString(R.string.add_a_new_address)
+        }
+
+        add_button.setOnClickListener {
+
+            if (isEdit) {
+//                UpdateAddress()
+
+            } else (
+                    addressDetailValidation()
+                    )
+        }
+
         ConstantObjects.userobj?.let {
             setPreValue()
-        }?:kotlin.run {
-            CommonAPI(). GetUserInfo(this,ConstantObjects.logged_userid) {
+        } ?: kotlin.run {
+            CommonAPI().GetUserInfo(this, ConstantObjects.logged_userid) {
                 setPreValue()
             }
         }
@@ -44,28 +90,35 @@ class AddAddress : BaseActivity()  {
 
     private fun setPreValue() {
         ConstantObjects.userobj?.run {
-            firstname_tv.text=fullName
-            lastname_tv.text=lastname
-            PhoneNumber_tv.text=phone
+            firstname_tv.text = fullName
+            lastname_tv.text = lastname
+            PhoneNumber_tv.text = phone
         }
     }
 
     private fun initView() {
 
-        toolbar_title.text = getString(R.string.add_a_new_address)
+
+    }
+
+    fun addressDetailValidation() {
+
+
+        if (SelectCity() && validateArea() && validateStreetNumber()
+        ) {
+
+            insertAddress()
+        }
+
+
     }
 
 
     private fun setListenser() {
 
 
-        add_button.setOnClickListener {
-
-            SignupApi()
-        }
-
         back_btn.setOnClickListener {
-           finish()
+            finish()
         }
 
 
@@ -74,7 +127,8 @@ class AddAddress : BaseActivity()  {
             ConstantObjects.countryList.forEachIndexed { index, country ->
                 list.add(SearchListItem(country.key, country.name))
             }
-            select_country.showSpinner(this,
+            select_country.showSpinner(
+                this,
                 list,
                 getString(R.string.Select, getString(R.string.Country))
             ) {
@@ -84,9 +138,9 @@ class AddAddress : BaseActivity()  {
                 selectedRegion = null
 
                 ConstantObjects.countryList.filter {
-                    it.key==selectedCountry!!.key
+                    it.key == selectedCountry!!.key
                 }.let {
-                    if(it.size>0){
+                    if (it.size > 0) {
                         select_country._setStartIconImage(it.get(0).flagimglink)
                     }
                 }
@@ -95,16 +149,26 @@ class AddAddress : BaseActivity()  {
         }
         select_region._setOnClickListener {
             if (select_country.text.toString().isEmpty()) {
-                (this as BaseActivity).showError(getString(R.string.Please_select, getString(R.string.Country)))
+                (this as BaseActivity).showError(
+                    getString(
+                        R.string.Please_select,
+                        getString(R.string.Country)
+                    )
+                )
             } else {
-                getRegion(selectedCountry!!.key,(this as BaseActivity). culture())
+                getRegion(selectedCountry!!.key, (this as BaseActivity).culture())
             }
 
         }
         select_city._setOnClickListener {
 
             if (select_region.text.toString().isEmpty()) {
-                (this as BaseActivity).showError(getString(R.string.Please_select, getString(R.string.Region)))
+                (this as BaseActivity).showError(
+                    getString(
+                        R.string.Please_select,
+                        getString(R.string.Region)
+                    )
+                )
 
             } else {
                 getCity(selectedRegion!!.key)
@@ -165,12 +229,12 @@ class AddAddress : BaseActivity()  {
     }
 
 
-    fun getCity(key: String, ) {
+    fun getCity(key: String) {
         HelpFunctions.startProgressBar(this)
 
 
         val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-        val call = malqa.getCity(key, (this as BaseActivity). culture())
+        val call = malqa.getCity(key, (this as BaseActivity).culture())
         call.enqueue(object : retrofit2.Callback<CountryRespone?> {
             override fun onFailure(call: retrofit2.Call<CountryRespone?>?, t: Throwable) {
                 HelpFunctions.dismissProgressBar()
@@ -214,7 +278,12 @@ class AddAddress : BaseActivity()  {
     private fun SelectCity(): Boolean {
         val Inputname = select_city!!.text.toString().trim { it <= ' ' }
         return if (Inputname.isEmpty()) {
-            (this as BaseActivity).showError(getString(R.string.Please_select, getString(R.string.City)))
+            (this as BaseActivity).showError(
+                getString(
+                    R.string.Please_select,
+                    getString(R.string.City)
+                )
+            )
             false
         } else {
             true
@@ -224,7 +293,12 @@ class AddAddress : BaseActivity()  {
     private fun validateArea(): Boolean {
         val Inputname = area_address!!.text.toString().trim { it <= ' ' }
         return if (Inputname.isEmpty()) {
-            (this as BaseActivity).showError(getString(R.string.Please_enter, getString(R.string.Area)))
+            (this as BaseActivity).showError(
+                getString(
+                    R.string.Please_enter,
+                    getString(R.string.Area)
+                )
+            )
             false
         } else {
             true
@@ -234,7 +308,12 @@ class AddAddress : BaseActivity()  {
     private fun validateStreetNumber(): Boolean {
         val Inputname = streetnumber!!.text.toString().trim { it <= ' ' }
         return if (Inputname.isEmpty()) {
-            (this as BaseActivity).showError(getString(R.string.Please_enter, getString(R.string.StreetNumber)))
+            (this as BaseActivity).showError(
+                getString(
+                    R.string.Please_enter,
+                    getString(R.string.StreetNumber)
+                )
+            )
             false
         } else {
             true
@@ -242,16 +321,18 @@ class AddAddress : BaseActivity()  {
     }
 
 
-    fun SignupApi() {
-
-        if (SelectCity() && validateArea() && validateStreetNumber()
-        ) {
-
-            insertAddress()
-        }
-
-    }
-
+//    fun addressDetailValidation() {
+//
+//
+//        if (SelectCity() && validateArea() && validateStreetNumber()
+//        ) {
+//
+//
+//            insertAddress()
+//        }
+//
+//
+//    }
 
 
     fun insertAddress() {
@@ -279,14 +360,14 @@ class AddAddress : BaseActivity()  {
             country = selectCountry,
             region = selectRegion,
             city = selectCity,
-            id = "0",
+            id = "",
             createdBy = "",
             createdOn = HelpFunctions.GetCurrentDateTime(HelpFunctions.datetimeformat_24hrs_milliseconds),
             updatedBy = "",
             updatedOn = HelpFunctions.GetCurrentDateTime(HelpFunctions.datetimeformat_24hrs_milliseconds),
             isActive = true,
 
-        )
+            )
         val call: retrofit2.Call<insertAddressResponseBack> = malqa.insertAddress(addAddress)
 
         call?.enqueue(object : retrofit2.Callback<insertAddressResponseBack?> {
@@ -295,8 +376,6 @@ class AddAddress : BaseActivity()  {
                 t: Throwable
             ) {
                 HelpFunctions.dismissProgressBar()
-
-
             }
 
             override fun onResponse(
@@ -329,6 +408,61 @@ class AddAddress : BaseActivity()  {
     }
 
 
+    fun UpdateAddress(
+        oldAddress: GetAddressResponse.AddressModel,
+    ) {
+        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+
+        val ftname = firstname_tv.text.toString()
+        val ltname = lastname_tv.text.toString()
+        val phonenumber = PhoneNumber_tv.text.toString()
+
+        val address = "${area_address.text.toString()} - ${streetnumber.text.toString()}"
+        val selectCountry = select_country.text.toString()
+        val selectRegion = select_region.text.toString()
+        val selectCity = select_city.text.toString()
 
 
+        val updateAddress = updateAddressModel(
+
+            countryName = selectCountry,
+            regionName = selectRegion,
+            cityName = selectCity,
+            area = address,
+            id = oldAddress.id
+
+
+            )
+        val call: Call<insertAddressResponseBack> = malqa.updateAddress(updateAddress)
+
+
+
+        call.enqueue(object : Callback<insertAddressResponseBack?> {
+            override fun onFailure(call: Call<insertAddressResponseBack?>?, t: Throwable) {
+                HelpFunctions.dismissProgressBar()
+            }
+
+            override fun onResponse(
+                call: Call<insertAddressResponseBack?>,
+                response: Response<insertAddressResponseBack?>
+            ) {
+                if (response.isSuccessful) {
+                    val resp: insertAddressResponseBack = response.body()!!
+                    if (resp.status_code.equals("200")) {
+                        HelpFunctions.ShowLongToast(
+                            "Update Successfully",
+                            this@AddAddress
+                        )
+                    }
+                } else {
+                    HelpFunctions.ShowLongToast(
+                        getString(R.string.Error),
+                        this@AddAddress
+                    );
+                }
+                HelpFunctions.dismissProgressBar()
+            }
+        })
+
+    }
 }

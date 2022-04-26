@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.Gravity
 import android.widget.Filter
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
 import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.botmnav_fragments.account_fragment.address.AddAddress
@@ -27,14 +28,25 @@ import com.malka.androidappp.servicemodels.checkout.CheckoutRequestModel
 import com.malka.androidappp.servicemodels.creditcard.CreditCardModel
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_address_payment.*
+import kotlinx.android.synthetic.main.activity_address_payment.btn_confirm_details
+import kotlinx.android.synthetic.main.alert_box.*
 import kotlinx.android.synthetic.main.alert_box.view.*
+import kotlinx.android.synthetic.main.alert_box.view.close_alert
+import kotlinx.android.synthetic.main.card_item.view.*
+import kotlinx.android.synthetic.main.carspec_card8.*
 import kotlinx.android.synthetic.main.cart_design_new.view.*
+import kotlinx.android.synthetic.main.delivery_option.*
+import kotlinx.android.synthetic.main.delivery_option.view.*
+import kotlinx.android.synthetic.main.delivery_option_layout.view.*
+import kotlinx.android.synthetic.main.product_detail_2.*
+import kotlinx.android.synthetic.main.product_review_design.view.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class AddressPaymentActivity : BaseActivity() {
+    val deliveryOptionList: ArrayList<String> = ArrayList()
     var selectAddress: GetAddressResponse.AddressModel? = null
     var price = 0.0
     val cartIds: MutableList<String> = mutableListOf()
@@ -48,7 +60,17 @@ class AddressPaymentActivity : BaseActivity() {
         setContentView(R.layout.activity_address_payment)
         initView()
         setListenser()
+
+        deliveryOptionList.apply {
+
+            add("Option 1")
+            add("Option 2")
+            add("Option 3")
+        }
+
+
     }
+
 
     private fun initView() {
 
@@ -56,6 +78,10 @@ class AddressPaymentActivity : BaseActivity() {
 
         loadAddress()
         setCategoryAdaptor()
+
+
+
+
     }
 
     val addAddressLaucher =
@@ -67,7 +93,7 @@ class AddressPaymentActivity : BaseActivity() {
 
     private fun loadAddress() {
         CommonAPI().getAddress(this) {
-            GenericAdaptor().AdressAdaptor(address_rcv, it, ConstantObjects.Select) {
+            GenericAdaptor().AdressAdaptor(addAddressLaucher, this, address_rcv, it, ConstantObjects.Select) {
                 selectAddress = it
             }
         }
@@ -79,7 +105,6 @@ class AddressPaymentActivity : BaseActivity() {
             addAddressLaucher.launch(Intent(this, AddAddress::class.java))
         }
 
-
         back_btn.setOnClickListener {
             finish()
         }
@@ -89,7 +114,7 @@ class AddressPaymentActivity : BaseActivity() {
             } else {
                 val dd = R.id.shipping_address_to_payment
                 CommonAPI().GetUserCreditCards(this) {
-                    CommonBottomSheet().showCardSelection(this, it,{
+                    CommonBottomSheet().showCardSelection(this, it, {
                         CheckoutUserCart(it)
                     }) {
                         btn_confirm_details.performClick()
@@ -100,9 +125,8 @@ class AddressPaymentActivity : BaseActivity() {
         }
 
 
-
-
     }
+
     fun CheckoutUserCart(selectCard: CreditCardModel) {
 
         val checkoutinfo = CheckoutRequestModel(
@@ -111,51 +135,57 @@ class AddressPaymentActivity : BaseActivity() {
             tax = "0",
             totalamount = totalAMount,
             creditCardNo = selectCard.cardnumber!!,
-            loginId = ConstantObjects.logged_userid,"", arrayListOf(""),arrayListOf(0)
+            loginId = ConstantObjects.logged_userid, "", arrayListOf(""), arrayListOf(0)
         )
-        PostUserCheckOut(checkoutinfo,this)
+        PostUserCheckOut(checkoutinfo, this)
 
     }
 
     fun PostUserCheckOut(checkoutinfo: CheckoutRequestModel, context: Context) {
 
-            val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-            val call: Call<BasicResponse> = malqa.PostUserCheckOut(checkoutinfo)
+        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+        val call: Call<BasicResponse> = malqa.PostUserCheckOut(checkoutinfo)
 
-            call.enqueue(object : Callback<BasicResponse?> {
-                override fun onFailure(call: Call<BasicResponse?>?, t: Throwable) {
-                    HelpFunctions.dismissProgressBar()
+        call.enqueue(object : Callback<BasicResponse?> {
+            override fun onFailure(call: Call<BasicResponse?>?, t: Throwable) {
+                HelpFunctions.dismissProgressBar()
+                HelpFunctions.ShowLongToast(
+                    getString(R.string.Error),
+                    context
+                )
+            }
+
+            override fun onResponse(
+                call: Call<BasicResponse?>,
+                response: Response<BasicResponse?>
+            ) {
+                if (response.isSuccessful) {
+                    val resp: BasicResponse = response.body()!!;
+                    if (resp.status_code == 200 && (resp.data == true || resp.data == 1 || resp.data == 1.0)) {
+
+                        startActivity(
+                            Intent(
+                                this@AddressPaymentActivity,
+                                SuccessOrder::class.java
+                            ).apply {
+                                flags =
+                                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                putExtra("shipments", ConstantObjects.usercart.size.toString())
+                                putExtra("total_order", totalAMount)
+                            })
+                        finish()
+                    }
+                } else {
                     HelpFunctions.ShowLongToast(
                         getString(R.string.Error),
                         context
                     )
                 }
-
-                override fun onResponse(
-                    call: Call<BasicResponse?>,
-                    response: Response<BasicResponse?>
-                ) {
-                    if (response.isSuccessful) {
-                        val resp: BasicResponse = response.body()!!;
-                        if (resp.status_code == 200 && (resp.data == true || resp.data == 1 || resp.data == 1.0)) {
-                            startActivity(Intent(this@AddressPaymentActivity, SuccessOrder::class.java).apply {
-                                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                                putExtra("shipments",ConstantObjects.usercart.size.toString())
-                                putExtra("total_order",totalAMount)
-                            })
-                            finish()
-                        }
-                    } else {
-                        HelpFunctions.ShowLongToast(
-                            getString(R.string.Error),
-                            context
-                        )
-                    }
-                    HelpFunctions.dismissProgressBar()
-                }
-            })
+                HelpFunctions.dismissProgressBar()
+            }
+        })
     }
-    
+
     private fun setCategoryAdaptor() {
         if (ConstantObjects.usercart.size > 0) {
             for (IndItem in ConstantObjects.usercart) {
@@ -163,8 +193,9 @@ class AddressPaymentActivity : BaseActivity() {
                 price += IndItem.advertisements.price.toDouble()
             }
         }
-        totalAMount=price.toString()
+        totalAMount = price.toString()
         calculation(price)
+
 
         cart_new_rcv.adapter = object : GenericListAdapter<CartItemModel>(
             R.layout.cart_design_new,
@@ -174,13 +205,15 @@ class AddressPaymentActivity : BaseActivity() {
                         //  prod_type.text=protype
                         //    prod_name.text=proname
                         //   prod_city.text=procity
-                        shipment_no_tv.text = "${getString(R.string.shipment_no_1)}${position+1}"
+                        shipment_no_tv.text = "${getString(R.string.shipment_no_1)}${position + 1}"
                         sellername_tv.text = sellername
                         prod_price.text = "$price ${getString(R.string.sar)}"
                         total_price.text = "$price ${getString(R.string.sar)}"
+
                         Picasso.get()
                             .load(ApiConstants.IMAGE_URL + image)
                             .into(prod_image)
+
 
                         payment_option_btn.setOnClickListener {
 
@@ -190,12 +223,51 @@ class AddressPaymentActivity : BaseActivity() {
                             builder.setView(view)
                             view.close_alert.setOnClickListener {
                                 builder.dismiss()
+
+
+                            }
+
+
+                            view.visa.setOnClickListener {
+                                view.visa.isChecked = true
+                                view.saudi_bank.isChecked = false
+                            }
+
+                            view.saudi_bank.setOnClickListener {
+                                view.saudi_bank.isChecked = true
+                                view.visa.isChecked = false
                             }
                             builder.setCanceledOnTouchOutside(false)
                             builder.show()
 
                             delivery_option._view3().setGravity(Gravity.CENTER)
                             payment_option_btn._view3().setGravity(Gravity.CENTER)
+                        }
+
+
+
+                        delivery_option.setOnClickListener {
+
+                            val builder = AlertDialog.Builder(this@AddressPaymentActivity)
+                                .create()
+
+                            val view = layoutInflater.inflate(R.layout.delivery_option, null)
+                            builder.setView(view)
+
+
+                            view.apply {
+
+                                close_alert.setOnClickListener {
+                                    builder.dismiss()
+                                }
+
+                                setDeliveryOptionAdapter(deliveryOptionList , delivery_option_rcv)
+                            }
+
+
+                            builder.setCanceledOnTouchOutside(false)
+                            builder.show()
+
                         }
                     }
                 }
@@ -213,12 +285,37 @@ class AddressPaymentActivity : BaseActivity() {
     }
 
     private fun calculation(totalPrice: Double) {
-        val discount =0.0
+        val discount = 0.0
         val TaxAmount = totalPrice * 0 / 100
-        val total = totalPrice + TaxAmount-discount
+        val total = totalPrice + TaxAmount - discount
         subtotal_tv.text = "${totalPrice} ${getString(R.string.rial)}"
         discount_tv.text = "-${discount} ${getString(R.string.rial)}"
         total_tv.text = "${total} ${getString(R.string.rial)}"
+    }
+
+    fun setDeliveryOptionAdapter(list: ArrayList<String> , rcv: RecyclerView) {
+        rcv.adapter =
+            object : GenericListAdapter<String>(
+                R.layout.delivery_option_layout,
+                bind = { element, holder, itemCount, position ->
+                    holder.view.run {
+                        element.run {
+
+                            delivery_option_tv.text = this
+
+                        }
+                    }
+                }
+            ) {
+                override fun getFilter(): Filter {
+                    TODO("Not yet implemented")
+                }
+
+            }.apply {
+                submitList(
+                    list
+                )
+            }
     }
 
 
