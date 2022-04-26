@@ -44,16 +44,6 @@
                 android:visibility="gone"
                 app:startIcon="@drawable/ic_user" />
 
-            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
-                android:id="@+id/PhoneNumber_tv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:visibility="gone"
-                android:hint="@string/PhoneNumber"
-                android:inputType="phone"
-                app:viewType="phone" />
-
 
             <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/select_country"
@@ -107,6 +97,17 @@
                 android:layout_marginTop="@dimen/_10sdp"
                 android:hint="@string/StreetNumber"
                 android:inputType="text" />
+
+            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
+                android:id="@+id/PhoneNumber_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="@string/PhoneNumber"
+                android:inputType="phone"
+                app:endText="+965"
+                app:startIcon="@drawable/ic_phone" />
+
 
 
             <androidx.appcompat.widget.AppCompatButton

@@ -20,6 +20,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.malka.androidappp.R
+import com.malka.androidappp.activities_main.FullImageActivity
 import com.malka.androidappp.activities_main.MainActivity
 import com.malka.androidappp.activities_main.PlayActivity
 import com.malka.androidappp.activities_main.login.SignInActivity
@@ -124,11 +125,11 @@ class ProductDetails : BaseActivity() {
 
         reviewlist.add(reviewmodel("Ahmed3", "12/12/2022","Good and fast delivery", "2.9", R.drawable.car ))
         reviewlist.add(reviewmodel("Ahmed4", "16/12/2022","Great Experience ","3.0", R.drawable.car2 ))
-        reviewlist.add(reviewmodel("Ahmed5", "10/12/2022","Excelent fast delivery","1.6", R.drawable.car4 ))
-        reviewlist.add(reviewmodel("Ahmed6", "5/12/2022","Amazing and fast delivery", "1.9", R.drawable.car5 ))
+        reviewlist.add(reviewmodel("Ahmed5", "10/12/2022","Excelent fast delivery","3.6", R.drawable.car4 ))
+        reviewlist.add(reviewmodel("Ahmed6", "5/12/2022","Amazing and fast delivery", "4.9", R.drawable.car5 ))
         reviewlist.add(reviewmodel("Ahmed3", "12/12/2022","Good and fast delivery", "2.9", R.drawable.car ))
         reviewlist.add(reviewmodel("Ahmed4", "16/12/2022","Great Experience ","2.0", R.drawable.car2 ))
-        reviewlist.add(reviewmodel("Ahmed4", "16/12/2022","Great Experience ","1.0", R.drawable.car2 ))
+        reviewlist.add(reviewmodel("Ahmed4", "16/12/2022","Great Experience ","4.0", R.drawable.car2 ))
 
         var totalRating = 0.0
         reviewlist.forEach {
@@ -137,7 +138,7 @@ class ProductDetails : BaseActivity() {
         }
         var average = totalRating/reviewlist.size
         rating_bar.rating = average.toFloat()
-        rating_bar_detail_tv.text = getString(R.string._4_9_from_00_visitors, average.toString(), reviewlist.size.toString())
+        rating_bar_detail_tv.text = getString(R.string._4_9_from_00_visitors, rating_bar.rating.toString().format("%.2f", ), reviewlist.size.toString())
         setReviewsAdapter(reviewlist)
 
     }
@@ -527,17 +528,17 @@ class ProductDetails : BaseActivity() {
                                 imageURL,
                                 productimg, loader
                             )
-//                            productimg.setOnClickListener {
-//                                startActivity(
-//                                    Intent(
-//                                        this@ProductDetails,
-//                                        FullImageActivity::class.java
-//                                    ).putExtra(
-//                                        "imageUri",
-//                                        selectLink
-//                                    )
-//                                )
-//                            }
+                            productimg.setOnClickListener {
+                                startActivity(
+                                    Intent(
+                                        this@ProductDetails,
+                                        FullImageActivity::class.java
+                                    ).putExtra(
+                                        "imageUri",
+                                        selectLink
+                                    )
+                                )
+                            }
 
                         }
                         val productImage: ArrayList<ProductImage> = ArrayList()

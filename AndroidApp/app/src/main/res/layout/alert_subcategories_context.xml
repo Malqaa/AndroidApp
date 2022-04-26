@@ -7,7 +7,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     app:cardCornerRadius="10dp"
     android:background="@drawable/alert_background_corner"
-    tools:context=".botmnav_fragments.browse_market.BrowseMarketFragment"
+    tools:context=".botmnav_fragments.browse_market.SearchCategoryActivity"
     >
 
     <RelativeLayout
