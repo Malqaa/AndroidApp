@@ -93,7 +93,7 @@ class Confirmation : BaseActivity() {
             DateTime = StaticClassAdCreate.endtime,
 
             isActive = false,
-            isWatching = StaticClassAdCreate.iswatching,
+            isWatching = false,
             Isuserfavorite = false,
             listingType = StaticClassAdCreate.listingType,
             quantity = StaticClassAdCreate.quantity.toInt(),

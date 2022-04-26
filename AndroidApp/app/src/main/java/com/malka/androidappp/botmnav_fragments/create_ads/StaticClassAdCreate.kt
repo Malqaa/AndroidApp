@@ -17,9 +17,7 @@ class StaticClassAdCreate {
         var highlightexpirydate = ""
         var producttitle = ""
         var template = ""
-        var iscontactphone: Boolean? = false
-        var iscontactemail: Boolean? = false
-        var iscontactchat: Boolean? = false
+
         var title = ""
         val user = ""
         var subtitle = ""
@@ -55,41 +53,9 @@ class StaticClassAdCreate {
         @SerializedName("shipping-option")
         var shipping_option = ""
 
-        @SerializedName("cost-amount")
-        var cost_amount = ""
-
-        @SerializedName("cost-desc")
-        var cost_desc = ""
         var pack4 = ""
         var selectPromotiion: PromotionModel?=null
-        var iswatching: Boolean? = false
-        var selectasmain = ""
-        var isnogotiable: Boolean? = false
 
-
-
-
-        /////////////////////////Property Additional Fields////////////////////
-        var floorarea = ""
-        var bedrooms = ""
-        var bathrooms = ""
-        var landarea = ""
-        var floorsnumber = ""
-        var isfeatured: Boolean? = false
-        var isphonehidden: Boolean? = false
-
-        // Bus
-        var numberOfPassengers = ""
-
-        //Bike
-        var style = ""
-
-        //for property selection subcategory of subcategory
-        var proertySubCatA = ""
-        var propertySubCatB = ""
-
-
-        var platform = ""
 
         // List to store path of categories
         var subCategoryPath: ArrayList<String> = ArrayList()
