@@ -2746,5 +2746,7 @@
   <string name="manage_your_bid">متابعة مزايداتك</string>
     <string name="seller">تاجر</string>
   <string name="_4_9_from_00_visitors" formatted="true">%s from %s visitors</string>
+    <string name="profile_picture">صورة الملف الشخصي</string>
+  <string name="upload_photo">تحميل الصور</string>
 
 </resources>
