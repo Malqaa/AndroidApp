@@ -36,6 +36,7 @@ class Switch_Account : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_switch_account)
         toolbar_title.text = getString(R.string.switch_accounts)
+        loadProfile()
         back_btn.setOnClickListener {
             finish()
         }
@@ -47,6 +48,18 @@ class Switch_Account : BaseActivity() {
         }
 
         getBusinessUserList()
+    }
+
+    private fun loadProfile() {
+        try {
+
+            ConstantObjects.userobj!!.run {
+                review_name.text = fullName
+            }
+        } catch (er: Exception) {
+
+        }
+
     }
 
     fun getBusinessUserList() {
@@ -94,15 +107,7 @@ class Switch_Account : BaseActivity() {
                 holder.view.run {
                     element.run {
                         business_name.text = businessName
-//                        if (businessLogoPath.isNullOrEmpty()){
-//
-//                        }
                         val imageURL = ApiConstants.IMAGE_URL + businessLogoPath
-//                        Extension.loadThumbnail(
-//                            context,
-//                            imageURL,
-//                            review_profile_pic,
-//                        )
                         if (!imageURL.isNullOrEmpty()) {
                             Picasso.get().load(imageURL)
                                 .error(R.drawable.profileicon_bottomnav).placeholder(R.drawable.profileicon_bottomnav)
