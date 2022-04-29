@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:background="@drawable/edittext_bg"
-        android:padding="@dimen/_2sdp">
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/_10sdp"
+    android:id="@+id/delivery_layout"
+    android:background="@drawable/field_selection_bg"
+    android:padding="@dimen/_2sdp">
 
         <TextView
             android:id="@+id/delivery_option_tv"
@@ -22,6 +17,7 @@
             android:fontFamily="@font/madani_arabic_medium"
             android:gravity="center_vertical"
             android:text="@string/option_1"
+            android:textColor="@drawable/field_selection_color"
             android:textSize="@dimen/_12sdp" />
 
         <RadioButton
@@ -31,9 +27,6 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:gravity="center" />
-
-
-    </RelativeLayout>
 
 
 </RelativeLayout>

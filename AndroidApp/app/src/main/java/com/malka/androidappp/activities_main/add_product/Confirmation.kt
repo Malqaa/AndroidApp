@@ -5,12 +5,12 @@ import android.os.Bundle
 import com.google.gson.Gson
 import com.malka.androidappp.R
 import com.malka.androidappp.base.BaseActivity
-import com.malka.androidappp.servicemodels.CreateAdvResponseBack
 import com.malka.androidappp.botmnav_fragments.create_ads.StaticClassAdCreate
 import com.malka.androidappp.helper.*
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.servicemodels.ConstantObjects
 import com.malka.androidappp.servicemodels.CreateAdvMainModel
+import com.malka.androidappp.servicemodels.CreateAdvResponseBack
 import kotlinx.android.synthetic.main.fragment_confirmation.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 import retrofit2.Call
@@ -40,7 +40,7 @@ class Confirmation : BaseActivity() {
                     }
                     getString(R.string.visa_mastercard) -> {
                         CommonAPI().GetUserCreditCards(this) {
-                            CommonBottomSheet().showCardSelection(this, it,{
+                            CommonBottomSheet().showCardSelection(this, it, {
                                 mainModelToJSON()
                             }) {
                                 btn_confirm_details.performClick()

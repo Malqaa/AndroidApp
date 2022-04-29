@@ -2918,6 +2918,9 @@ Want to start a business account? Create a Business Account
   <string name="manage_your_bid">Manage Your Bid</string>
     <string name="seller">Seller</string>
     <string name="_4_9_from_00_visitors" formatted="true">%s from %s visitors</string>
+    <string name="activate_automatic_bidding">Activate automatic bidding</string>
+  <string name="bid_start_price">Bid start price</string>
+  <string name="participate_in_the_auction">Participate in the auction</string>
 
 
 </resources>

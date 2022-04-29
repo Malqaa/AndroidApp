@@ -12,74 +12,89 @@ import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.helper.widgets.searchdialog.SearchListItem
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
-import com.malka.androidappp.network.service.insertAddressResponseBack
 import com.malka.androidappp.servicemodels.ConstantObjects
+import com.malka.androidappp.servicemodels.Country
 import com.malka.androidappp.servicemodels.CountryRespone
-import com.malka.androidappp.servicemodels.updateAddressModel
-import kotlinx.android.synthetic.main.activity_order_detail.*
+import com.malka.androidappp.servicemodels.GeneralRespone
 import kotlinx.android.synthetic.main.add_address_fragment.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 import retrofit2.Call
 import retrofit2.Callback
-import retrofit2.Response
 
 class AddAddress : BaseActivity() {
 
     var selectedCountry: SearchListItem? = null
     var selectedRegion: SearchListItem? = null
     var selectedCity: SearchListItem? = null
-
+    var isEdit: Boolean = false
+    lateinit var oldAddress: GetAddressResponse.AddressModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.add_address_fragment)
-        val isEdit = intent.getBooleanExtra("isEdit", false)
+        isEdit = intent.getBooleanExtra("isEdit", false)
 
         if (isEdit) {
 
             val addressObject = intent.getStringExtra("addressObject")
-            val oldAddress =
-                Gson().fromJson(addressObject, GetAddressResponse.AddressModel::class.java)
+            oldAddress = Gson().fromJson(addressObject, GetAddressResponse.AddressModel::class.java)
 
 
-            oldAddress.apply {
-
+            oldAddress.run {
                 select_country.text = country
                 select_region.text = region
                 select_city.text = city
                 area_address.text = address
-                id
-
+                PhoneNumber_tv.text = mobileNo
+                firstname_tv.text = firstName
+                lastname_tv.text = lastName
             }
 
             add_button.text = getString(R.string.Confirm)
             toolbar_title.text = getString(R.string.update_address)
+            ConstantObjects.countryList.filter {
+                it.name==select_country.text.toString()
+            }.let {
+                if(it.isNotEmpty()){
+                    it.get(0).run {
+                        selectedCountry = SearchListItem(key, name)
+                        getRegion(selectedCountry!!.key, culture()) {
+                            it.filter {
+                                it.name==select_region.text.toString()
+                            }.let {
+                                if (it.isNotEmpty()) {
+                                    it.get(0).run {
+                                        selectedRegion = SearchListItem(key, name)
+                                    }
+                                }
+                            }
 
+                        }
+                    }
+                }
+            }
 
-            UpdateAddress(oldAddress)
 
         } else {
 
             toolbar_title.text = getString(R.string.add_a_new_address)
+            ConstantObjects.userobj?.let {
+                setPreValue()
+            } ?: kotlin.run {
+                CommonAPI().GetUserInfo(this, ConstantObjects.logged_userid) {
+                    setPreValue()
+                }
+            }
+
         }
 
         add_button.setOnClickListener {
 
-            if (isEdit) {
-//                UpdateAddress()
 
-            } else (
-                    addressDetailValidation()
-                    )
+            addressDetailValidation()
+
         }
 
-        ConstantObjects.userobj?.let {
-            setPreValue()
-        } ?: kotlin.run {
-            CommonAPI().GetUserInfo(this, ConstantObjects.logged_userid) {
-                setPreValue()
-            }
-        }
 
 
 
@@ -137,6 +152,10 @@ class AddAddress : BaseActivity() {
                 select_region.text = ""
                 selectedRegion = null
 
+                select_city.text = ""
+                selectedCity = null
+
+
                 ConstantObjects.countryList.filter {
                     it.key == selectedCountry!!.key
                 }.let {
@@ -156,7 +175,23 @@ class AddAddress : BaseActivity() {
                     )
                 )
             } else {
-                getRegion(selectedCountry!!.key, (this as BaseActivity).culture())
+                getRegion(selectedCountry!!.key, culture()) {
+                    val list: ArrayList<SearchListItem> = ArrayList()
+                    it.forEachIndexed { index, country ->
+                        list.add(SearchListItem(country.key, country.name))
+                    }
+                    select_region.showSpinner(
+                        this@AddAddress,
+                        list,
+                        getString(R.string.Select, getString(R.string.Region))
+                    ) {
+                        select_region.text = it.title
+                        selectedRegion = it
+                        select_city.text = ""
+                        selectedCity = null
+
+                    }
+                }
             }
 
         }
@@ -178,20 +213,20 @@ class AddAddress : BaseActivity() {
     }
 
 
-    fun getRegion(key: String, culture: String) {
+    fun getRegion(key: String, culture: String,onSuccess: (data: List<Country>) -> Unit) {
         HelpFunctions.startProgressBar(this)
 
 
         val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
         val call = malqa.getRegion(key, culture)
-        call.enqueue(object : retrofit2.Callback<CountryRespone?> {
-            override fun onFailure(call: retrofit2.Call<CountryRespone?>?, t: Throwable) {
+        call.enqueue(object : Callback<CountryRespone?> {
+            override fun onFailure(call: Call<CountryRespone?>, t: Throwable) {
                 HelpFunctions.dismissProgressBar()
 
             }
 
             override fun onResponse(
-                call: retrofit2.Call<CountryRespone?>,
+                call: Call<CountryRespone?>,
                 response: retrofit2.Response<CountryRespone?>
             ) {
                 if (response.isSuccessful) {
@@ -199,23 +234,7 @@ class AddAddress : BaseActivity() {
                     if (response.body() != null) {
                         val respone: CountryRespone = response.body()!!
                         if (respone.status_code == 200) {
-                            val list: ArrayList<SearchListItem> = ArrayList()
-                            respone.data.forEachIndexed { index, country ->
-                                list.add(SearchListItem(country.key, country.name))
-                            }
-                            select_region.showSpinner(
-                                this@AddAddress,
-                                list,
-                                getString(R.string.Select, getString(R.string.Region))
-                            ) {
-                                select_region.text = it.title
-                                selectedRegion = it
-
-
-                                select_city.text = ""
-                                selectedCity = null
-
-                            }
+                            onSuccess.invoke(respone.data)
                         }
                     }
 
@@ -234,15 +253,15 @@ class AddAddress : BaseActivity() {
 
 
         val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-        val call = malqa.getCity(key, (this as BaseActivity).culture())
-        call.enqueue(object : retrofit2.Callback<CountryRespone?> {
-            override fun onFailure(call: retrofit2.Call<CountryRespone?>?, t: Throwable) {
+        val call = malqa.getCity(key,culture())
+        call.enqueue(object : Callback<CountryRespone?> {
+            override fun onFailure(call: Call<CountryRespone?>, t: Throwable) {
                 HelpFunctions.dismissProgressBar()
 
             }
 
             override fun onResponse(
-                call: retrofit2.Call<CountryRespone?>,
+                call: Call<CountryRespone?>,
                 response: retrofit2.Response<CountryRespone?>
             ) {
                 if (response.isSuccessful) {
@@ -321,20 +340,6 @@ class AddAddress : BaseActivity() {
     }
 
 
-//    fun addressDetailValidation() {
-//
-//
-//        if (SelectCity() && validateArea() && validateStreetNumber()
-//        ) {
-//
-//
-//            insertAddress()
-//        }
-//
-//
-//    }
-
-
     fun insertAddress() {
 
         HelpFunctions.startProgressBar(this)
@@ -368,101 +373,80 @@ class AddAddress : BaseActivity() {
             isActive = true,
 
             )
-        val call: retrofit2.Call<insertAddressResponseBack> = malqa.insertAddress(addAddress)
 
-        call?.enqueue(object : retrofit2.Callback<insertAddressResponseBack?> {
-            override fun onFailure(
-                call: retrofit2.Call<insertAddressResponseBack?>?,
-                t: Throwable
-            ) {
-                HelpFunctions.dismissProgressBar()
-            }
+        if (isEdit) {
+            addAddress.id = oldAddress.id
 
-            override fun onResponse(
-                call: retrofit2.Call<insertAddressResponseBack?>,
-                response: retrofit2.Response<insertAddressResponseBack?>
-            ) {
-                if (response.isSuccessful) {
+            val call: Call<GeneralRespone> = malqa.updateAddress(addAddress)
+            call.enqueue(object : Callback<GeneralRespone?> {
+                override fun onFailure(call: Call<GeneralRespone?>, t: Throwable) {
+                    HelpFunctions.dismissProgressBar()
+                }
 
-                    if (response.body() != null) {
+                override fun onResponse(
+                    call: Call<GeneralRespone?>,
+                    response: retrofit2.Response<GeneralRespone?>
+                ) {
+                    if (response.isSuccessful) {
 
-                        val respone: insertAddressResponseBack = response.body()!!
-                        if (respone.status_code.equals("200")) {
-                            setResult(Activity.RESULT_OK, Intent())
-                            finish()
-                        } else {
+                        if (response.body() != null) {
 
-                            HelpFunctions.ShowLongToast(
-                                getString(R.string.ErrorOccur),
-                                this@AddAddress
-                            )
+                            val respone: GeneralRespone = response.body()!!
+                            if (respone.status_code==200) {
+                                setResult(Activity.RESULT_OK, Intent())
+                                finish()
+                            } else {
 
+                                HelpFunctions.ShowLongToast(
+                                    getString(R.string.ErrorOccur),
+                                    this@AddAddress
+                                )
+
+                            }
                         }
-                    }
 
+                    }
+                    HelpFunctions.dismissProgressBar()
                 }
-                HelpFunctions.dismissProgressBar()
-            }
-        })
+            })
+        } else {
+            val call: Call<GeneralRespone> = malqa.insertAddress(addAddress)
+
+            call.enqueue(object : Callback<GeneralRespone?> {
+                override fun onFailure(call: Call<GeneralRespone?>, t: Throwable) {
+                    HelpFunctions.dismissProgressBar()
+                }
+
+                override fun onResponse(
+                    call: Call<GeneralRespone?>,
+                    response: retrofit2.Response<GeneralRespone?>
+                ) {
+                    if (response.isSuccessful) {
+
+                        if (response.body() != null) {
+
+                            val respone: GeneralRespone = response.body()!!
+                            if (respone.status_code==200) {
+                                setResult(Activity.RESULT_OK, Intent())
+                                finish()
+                            } else {
+
+                                HelpFunctions.ShowLongToast(
+                                    getString(R.string.ErrorOccur),
+                                    this@AddAddress
+                                )
+
+                            }
+                        }
+
+                    }
+                    HelpFunctions.dismissProgressBar()
+                }
+            })
+        }
+
+
 
     }
 
-
-    fun UpdateAddress(
-        oldAddress: GetAddressResponse.AddressModel,
-    ) {
-        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-
-        val ftname = firstname_tv.text.toString()
-        val ltname = lastname_tv.text.toString()
-        val phonenumber = PhoneNumber_tv.text.toString()
-
-        val address = "${area_address.text.toString()} - ${streetnumber.text.toString()}"
-        val selectCountry = select_country.text.toString()
-        val selectRegion = select_region.text.toString()
-        val selectCity = select_city.text.toString()
-
-
-        val updateAddress = updateAddressModel(
-
-            countryName = selectCountry,
-            regionName = selectRegion,
-            cityName = selectCity,
-            area = address,
-            id = oldAddress.id
-
-
-            )
-        val call: Call<insertAddressResponseBack> = malqa.updateAddress(updateAddress)
-
-
-
-        call.enqueue(object : Callback<insertAddressResponseBack?> {
-            override fun onFailure(call: Call<insertAddressResponseBack?>?, t: Throwable) {
-                HelpFunctions.dismissProgressBar()
-            }
-
-            override fun onResponse(
-                call: Call<insertAddressResponseBack?>,
-                response: Response<insertAddressResponseBack?>
-            ) {
-                if (response.isSuccessful) {
-                    val resp: insertAddressResponseBack = response.body()!!
-                    if (resp.status_code.equals("200")) {
-                        HelpFunctions.ShowLongToast(
-                            "Update Successfully",
-                            this@AddAddress
-                        )
-                    }
-                } else {
-                    HelpFunctions.ShowLongToast(
-                        getString(R.string.Error),
-                        this@AddAddress
-                    );
-                }
-                HelpFunctions.dismissProgressBar()
-            }
-        })
-
-    }
 }

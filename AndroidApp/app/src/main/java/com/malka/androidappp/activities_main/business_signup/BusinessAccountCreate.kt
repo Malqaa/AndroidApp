@@ -36,9 +36,8 @@ import com.malka.androidappp.helper.show
 import com.malka.androidappp.helper.widgets.DatePickerFragment
 import com.malka.androidappp.helper.widgets.searchdialog.SearchListItem
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
-import com.malka.androidappp.network.service.addBusinessRegisterFileResponse
-import com.malka.androidappp.network.service.addBusinessUserlistReponse
 import com.malka.androidappp.servicemodels.ConstantObjects
+import com.malka.androidappp.servicemodels.GeneralRespone
 import com.malka.androidappp.servicemodels.ImageSelectModel
 import com.malka.androidappp.servicemodels.LocationPickerModel
 import com.zfdang.multiple_images_selector.ImagesSelectorActivity
@@ -309,11 +308,11 @@ class BusinessAccountCreate : BaseActivity() {
 
 
         addBusinessUser.businessRegistrationExpiry = businessRegistrationExpiry
-        val call: retrofit2.Call<addBusinessUserlistReponse> = malqa.addBusinesUser(addBusinessUser)
+        val call= malqa.addBusinesUser(addBusinessUser)
 
-        call.enqueue(object : retrofit2.Callback<addBusinessUserlistReponse?> {
+        call.enqueue(object : retrofit2.Callback<GeneralRespone?> {
             override fun onFailure(
-                call: retrofit2.Call<addBusinessUserlistReponse?>?,
+                call: retrofit2.Call<GeneralRespone?>?,
                 t: Throwable
             ) {
                 HelpFunctions.dismissProgressBar()
@@ -322,14 +321,14 @@ class BusinessAccountCreate : BaseActivity() {
             }
 
             override fun onResponse(
-                call: retrofit2.Call<addBusinessUserlistReponse?>,
-                response: retrofit2.Response<addBusinessUserlistReponse?>
+                call: retrofit2.Call<GeneralRespone?>,
+                response: retrofit2.Response<GeneralRespone?>
             ) {
                 if (response.isSuccessful) {
 
                     if (response.body() != null) {
 
-                        val respone: addBusinessUserlistReponse = response.body()!!
+                        val respone: GeneralRespone = response.body()!!
 
                         if (!respone.isError) {
                             addBusinessRegisterFile(respone.id)
@@ -635,7 +634,7 @@ class BusinessAccountCreate : BaseActivity() {
     }
 
 
-    fun addBusinessRegisterFile(businessId: Int) {
+    fun addBusinessRegisterFile(businessId: String) {
 
 
         val malqa = RetrofitBuilder.GetRetrofitBuilder()
@@ -649,12 +648,12 @@ class BusinessAccountCreate : BaseActivity() {
             businessId = businessId,
 
             )
-        val call: retrofit2.Call<addBusinessRegisterFileResponse> =
+        val call: retrofit2.Call<GeneralRespone> =
             malqa.addBusinessRegisterFile(addBusinessDocumentFile)
 
-        call.enqueue(object : retrofit2.Callback<addBusinessRegisterFileResponse?> {
+        call.enqueue(object : retrofit2.Callback<GeneralRespone?> {
             override fun onFailure(
-                call: retrofit2.Call<addBusinessRegisterFileResponse?>?,
+                call: retrofit2.Call<GeneralRespone?>?,
                 t: Throwable
             ) {
                 HelpFunctions.dismissProgressBar()
@@ -663,14 +662,14 @@ class BusinessAccountCreate : BaseActivity() {
             }
 
             override fun onResponse(
-                call: retrofit2.Call<addBusinessRegisterFileResponse?>,
-                response: retrofit2.Response<addBusinessRegisterFileResponse?>
+                call: retrofit2.Call<GeneralRespone?>,
+                response: retrofit2.Response<GeneralRespone?>
             ) {
                 if (response.isSuccessful) {
 
                     if (response.body() != null) {
 
-                        val respone: addBusinessRegisterFileResponse = response.body()!!
+                        val respone: GeneralRespone = response.body()!!
 
                         if (!respone.isError) {
                             HelpFunctions.dismissProgressBar()

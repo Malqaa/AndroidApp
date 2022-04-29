@@ -12,7 +12,7 @@ data class GetAddressResponse(
         val createdBy: String,
         val createdOn: String,
         val firstName: String,
-        val id: String,
+        var id: String,
         val isActive: Boolean,
         val lastName: String,
         val mobileNo: String,

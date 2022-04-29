@@ -10,7 +10,7 @@ data class getBusinessRegisterFile(
     val status_code: Int
 ){
     data class GetDocuments(
-        val businessId: Any,
+        val businessId: String,
         val documentName: String,
         val isActive: Boolean,
         val uploadedOn: String,

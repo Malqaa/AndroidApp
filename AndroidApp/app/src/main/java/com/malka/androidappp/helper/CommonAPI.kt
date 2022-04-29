@@ -8,9 +8,10 @@ import com.malka.androidappp.design.Models.GetAddressResponse
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.servicemodels.ConstantObjects
+import com.malka.androidappp.servicemodels.CountryRespone
 import com.malka.androidappp.servicemodels.ModelSoldUnsold
-import com.malka.androidappp.servicemodels.creditcard.CreditCardResponse
 import com.malka.androidappp.servicemodels.creditcard.CreditCardModel
+import com.malka.androidappp.servicemodels.creditcard.CreditCardResponse
 import com.malka.androidappp.servicemodels.user.UserObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -168,5 +169,31 @@ class CommonAPI {
         })
 
     }
+    fun getCountry(culture: String) {
 
+
+        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+        val call = malqa.getCountry(culture)
+        call.enqueue(object : Callback<CountryRespone?> {
+            override fun onFailure(call: Call<CountryRespone?>, t: Throwable) {
+
+            }
+
+            override fun onResponse(
+                call: Call<CountryRespone?>,
+                response: Response<CountryRespone?>
+            ) {
+                if (response.isSuccessful) {
+
+                    if (response.body() != null) {
+                        val respone: CountryRespone = response.body()!!
+                        if (respone.status_code == 200) {
+                            ConstantObjects.countryList = respone.data
+                        }
+                    }
+
+                }
+            }
+        })
+    }
 }

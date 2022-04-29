@@ -24,7 +24,9 @@ import com.malka.androidappp.activities_main.FullImageActivity
 import com.malka.androidappp.activities_main.MainActivity
 import com.malka.androidappp.activities_main.PlayActivity
 import com.malka.androidappp.activities_main.login.SignInActivity
+import com.malka.androidappp.activities_main.order.AddressPaymentActivity
 import com.malka.androidappp.activities_main.order.CartActivity
+import com.malka.androidappp.activities_main.order.SuccessOrder
 import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.botmnav_fragments.cardetail_page.ModelSellerDetails
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
@@ -49,21 +51,13 @@ import com.malka.androidappp.servicemodels.addtocart.InsertToCartRequestModel
 import com.malka.androidappp.servicemodels.questionModel.Question
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_product_details.*
-import kotlinx.android.synthetic.main.alert_box.view.*
-import kotlinx.android.synthetic.main.alert_box.view.close_alert
 import kotlinx.android.synthetic.main.atrribute_item.view.*
-import kotlinx.android.synthetic.main.bid_alert_box.*
 import kotlinx.android.synthetic.main.bid_alert_box.view.*
-import kotlinx.android.synthetic.main.bid_confirmation.*
 import kotlinx.android.synthetic.main.bid_confirmation.view.*
-import kotlinx.android.synthetic.main.carspec_card8.*
-import kotlinx.android.synthetic.main.fragment_account.*
 import kotlinx.android.synthetic.main.image_item.view.*
 import kotlinx.android.synthetic.main.image_item.view.loader
 import kotlinx.android.synthetic.main.product_detail_2.*
 import kotlinx.android.synthetic.main.product_item.view.*
-import kotlinx.android.synthetic.main.product_review_design.view.*
-import kotlinx.android.synthetic.main.product_reviews1.*
 import kotlinx.android.synthetic.main.review_layout.view.*
 import org.json.JSONArray
 import org.json.JSONObject
@@ -71,12 +65,11 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class ProductDetails : BaseActivity() {
 
-    var reviewlist : ArrayList<reviewmodel> = ArrayList()
+    var reviewlist: ArrayList<reviewmodel> = ArrayList()
     var AdvId = ""
     var template = ""
     var selectLink = ""
@@ -93,7 +86,7 @@ class ProductDetails : BaseActivity() {
         quest_ans_rcv.isVisible = true
         answerLayout.isVisible = false
         val behavior: BottomSheetBehavior<*> = BottomSheetBehavior.from<View>(bottom_sheet)
-        behavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+        behavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
 
 
             override fun onStateChanged(bottomSheet: View, newState: Int) {
@@ -101,6 +94,8 @@ class ProductDetails : BaseActivity() {
                     icon_layout.setVisibility(View.GONE)
                 } else if (newState == BottomSheetBehavior.STATE_HIDDEN) {
                     icon_layout.setVisibility(View.GONE)
+                    behavior.state = BottomSheetBehavior.STATE_EXPANDED
+
                 } else {
                     icon_layout.setVisibility(View.VISIBLE)
                 }
@@ -123,22 +118,82 @@ class ProductDetails : BaseActivity() {
         setListenser()
 
 
-        reviewlist.add(reviewmodel("Ahmed3", "12/12/2022","Good and fast delivery", "2.9", R.drawable.car ))
-        reviewlist.add(reviewmodel("Ahmed4", "16/12/2022","Great Experience ","3.0", R.drawable.car2 ))
-        reviewlist.add(reviewmodel("Ahmed5", "10/12/2022","Excelent fast delivery","3.6", R.drawable.car4 ))
-        reviewlist.add(reviewmodel("Ahmed6", "5/12/2022","Amazing and fast delivery", "4.9", R.drawable.car5 ))
-        reviewlist.add(reviewmodel("Ahmed3", "12/12/2022","Good and fast delivery", "2.9", R.drawable.car ))
-        reviewlist.add(reviewmodel("Ahmed4", "16/12/2022","Great Experience ","2.0", R.drawable.car2 ))
-        reviewlist.add(reviewmodel("Ahmed4", "16/12/2022","Great Experience ","4.0", R.drawable.car2 ))
+        reviewlist.add(
+            reviewmodel(
+                "Ahmed3",
+                "12/12/2022",
+                "Good and fast delivery",
+                "2.9",
+                R.drawable.car
+            )
+        )
+        reviewlist.add(
+            reviewmodel(
+                "Ahmed4",
+                "16/12/2022",
+                "Great Experience ",
+                "3.0",
+                R.drawable.car2
+            )
+        )
+        reviewlist.add(
+            reviewmodel(
+                "Ahmed5",
+                "10/12/2022",
+                "Excelent fast delivery",
+                "3.6",
+                R.drawable.car4
+            )
+        )
+        reviewlist.add(
+            reviewmodel(
+                "Ahmed6",
+                "5/12/2022",
+                "Amazing and fast delivery",
+                "4.9",
+                R.drawable.car5
+            )
+        )
+        reviewlist.add(
+            reviewmodel(
+                "Ahmed3",
+                "12/12/2022",
+                "Good and fast delivery",
+                "2.9",
+                R.drawable.car
+            )
+        )
+        reviewlist.add(
+            reviewmodel(
+                "Ahmed4",
+                "16/12/2022",
+                "Great Experience ",
+                "2.0",
+                R.drawable.car2
+            )
+        )
+        reviewlist.add(
+            reviewmodel(
+                "Ahmed4",
+                "16/12/2022",
+                "Great Experience ",
+                "4.0",
+                R.drawable.car2
+            )
+        )
 
         var totalRating = 0.0
         reviewlist.forEach {
-          totalRating +=  it.rating.toDouble()
+            totalRating += it.rating.toDouble()
 
         }
-        var average = totalRating/reviewlist.size
+        var average = totalRating / reviewlist.size
         rating_bar.rating = average.toFloat()
-        rating_bar_detail_tv.text = getString(R.string._4_9_from_00_visitors, rating_bar.rating.toString().format("%.2f", ), reviewlist.size.toString())
+        rating_bar_detail_tv.text = getString(
+            R.string._4_9_from_00_visitors,
+            rating_bar.rating.toString().format("%.2f"),
+            reviewlist.size.toString()
+        )
         setReviewsAdapter(reviewlist)
 
     }
@@ -179,17 +234,15 @@ class ProductDetails : BaseActivity() {
                 putExtra("AdvId", AdvId)
             })
         }
-        current_price_buy.setOnClickListener {
-            AddToCart()
-        }
 
-        Bid_on_price.setOnClickListener{
+
+        Bid_on_price.setOnClickListener {
 
             val builder = AlertDialog.Builder(this@ProductDetails)
                 .create()
             val view = layoutInflater.inflate(R.layout.bid_alert_box, null)
             builder.setView(view)
-            view.close_alert.setOnClickListener {
+            view.close_alert_bid.setOnClickListener {
                 builder.dismiss()
             }
 
@@ -199,31 +252,49 @@ class ProductDetails : BaseActivity() {
 
             view.btn_bid.setOnClickListener {
 
-                val builder = AlertDialog.Builder(this@ProductDetails)
-                    .create()
-                val view = layoutInflater.inflate(R.layout.bid_confirmation, null)
-                builder.setView(view)
-                view.close_alert.setOnClickListener {
-                    builder.dismiss()
-                }
+                AlertDialog.Builder(this@ProductDetails)
+                    .create().apply {
+                        layoutInflater.inflate(R.layout.bid_confirmation, null).also {
+                            this.setView(it)
+                            it.apply {
+                                close_alert.setOnClickListener {
+                                    builder.dismiss()
+                                }
 
-                view.back_to_shopping.setOnClickListener {
-                    val intent = Intent(this@ProductDetails,MainActivity::class.java)
-                    startActivity(intent)
-                }
-//                view.manage_bid.setOnClickListener {
-//                    findNavController().navigate(R.id.mybids)
-//                }
+                                back_to_shopping.setOnClickListener {
+                                    startActivity(
+                                        Intent(
+                                            this@ProductDetails,
+                                            MainActivity::class.java
+                                        ).apply {
+                                            flags =
+                                                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
 
-                builder.setCanceledOnTouchOutside(false)
-                builder.show()
+                                        })
+                                    finish()
+
+                                }
+                                manage_bid.setOnClickListener {
+                                  //  findNavController().navigate(R.id.mybids)
+                                }
+
+                            }
+
+                        }
+                        setCanceledOnTouchOutside(false)
+                        show()
+                    }
+
+
             }
-            add_to_cart.setOnClickListener {
-                current_price_buy.performClick()
-            }
+
         }
-
-
+        add_to_cart.setOnClickListener {
+            current_price_buy.performClick()
+        }
+        current_price_buy.setOnClickListener {
+            AddToCart()
+        }
 
         youtube_btn.setOnClickListener(View.OnClickListener {
 
@@ -442,7 +513,7 @@ class ProductDetails : BaseActivity() {
                         checkPriceLayout()
                         getSellerByID(user!!)
                         when (listingtype) {
-                            "1"->{
+                            "1" -> {
                                 add_to_cart.show()
                                 current_price_buy_tv_2.text =
                                     "${price!!.toDouble().decimalNumberFormat()} ${
@@ -451,29 +522,32 @@ class ProductDetails : BaseActivity() {
                                         )
                                     }"
                             }
-                            "2"->{
+                            "2" -> {
                                 Bid_on_price.show()
-                                Bid_on_price_tv.text = "${startingPrice!!.toDouble().decimalNumberFormat()} ${
-                                    getString(
-                                        R.string.sar
-                                    )
-                                }"
+                                Bid_on_price_tv.text =
+                                    "${startingPrice!!.toDouble().decimalNumberFormat()} ${
+                                        getString(
+                                            R.string.sar
+                                        )
+                                    }"
 
                             }
-                            "12"->{
+                            "12" -> {
                                 current_price_buy.show()
                                 Bid_on_price.show()
-                                current_price_buy_tv.text = "${price!!.toDouble().decimalNumberFormat()} ${
-                                    getString(
-                                        R.string.sar
-                                    )
-                                }"
+                                current_price_buy_tv.text =
+                                    "${price!!.toDouble().decimalNumberFormat()} ${
+                                        getString(
+                                            R.string.sar
+                                        )
+                                    }"
 
-                                Bid_on_price_tv.text = "${startingPrice!!.toDouble().decimalNumberFormat()} ${
-                                    getString(
-                                        R.string.sar
-                                    )
-                                }"
+                                Bid_on_price_tv.text =
+                                    "${startingPrice!!.toDouble().decimalNumberFormat()} ${
+                                        getString(
+                                            R.string.sar
+                                        )
+                                    }"
 
                             }
                         }
@@ -818,7 +892,7 @@ class ProductDetails : BaseActivity() {
 
     private fun checkPriceLayout() {
         if (HelpFunctions.IsUserLoggedIn()) {
-            //price_layout.isVisible = ConstantObjects.logged_userid != product.user
+            price_layout.isVisible = ConstantObjects.logged_userid != product.user
         }
     }
 
@@ -886,7 +960,7 @@ class ProductDetails : BaseActivity() {
             bind = { element, holder, itemCount, position ->
                 holder.view.run {
                     element.run {
-                        review_name_tv.text=name
+                        review_name_tv.text = name
 
                         rating_bar.rating = rating.toFloat()
                         comment_tv.text = comment

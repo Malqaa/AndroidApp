@@ -1,5 +1,7 @@
 package com.malka.androidappp.helper
 
+import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -19,6 +21,7 @@ import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.servicemodels.BasicResponse
 import com.malka.androidappp.servicemodels.ConstantObjects
+import com.malka.androidappp.servicemodels.Selection
 import com.malka.androidappp.servicemodels.creditcard.CreditCardModel
 import com.malka.androidappp.servicemodels.creditcard.CreditCardRequestModel
 import kotlinx.android.synthetic.main.add_card_layout.*
@@ -27,6 +30,8 @@ import kotlinx.android.synthetic.main.bank_accounts.*
 import kotlinx.android.synthetic.main.bank_bottom_design.view.*
 import kotlinx.android.synthetic.main.card_item.view.*
 import kotlinx.android.synthetic.main.card_selection_layout.*
+import kotlinx.android.synthetic.main.delivery_option.view.*
+import kotlinx.android.synthetic.main.delivery_option_layout.view.*
 import kotlinx.android.synthetic.main.paymnet_option_layout.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -81,7 +86,7 @@ class CommonBottomSheet {
         onConfirm: (selectCard: CreditCardModel) -> Unit,
         onNewCardAdded: () -> Unit
     ) {
-        selectCard=null
+        selectCard = null
         BottomSheetDialog(context).apply {
             setContentView(R.layout.card_selection_layout)
             add_a_new_account._view3().setGravity(Gravity.CENTER)
@@ -328,7 +333,7 @@ class CommonBottomSheet {
                     userId = ConstantObjects.logged_userid,
                     id = oldCard!!.id!!
                 )
-                UpdateUserCreditCard(cardinfo, context,onSuccess)
+                UpdateUserCreditCard(cardinfo, context, onSuccess)
             } else {
                 val cardinfo = CreditCardRequestModel(
                     card_number = view.Cardno_tv.text.toString(),
@@ -390,7 +395,7 @@ class CommonBottomSheet {
         cardinfo: CreditCardRequestModel,
         context: Context,
         onSuccess: () -> Unit,
-        ) {
+    ) {
         val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
         val call: Call<BasicResponse> = malqa.UpdateUserCreditCard(cardinfo)
 
@@ -425,5 +430,83 @@ class CommonBottomSheet {
 
     }
 
+    var selection: Selection? = null
+
+    fun commonSelctinDialog(
+        context: Context,
+        list: ArrayList<Selection>,
+        title: String,
+        onConfirm: (type: Selection) -> Unit
+    ) {
+        selection = null
+        val builder = AlertDialog.Builder(context)
+            .create()
+
+        val view = (context as Activity).layoutInflater.inflate(R.layout.delivery_option, null)
+        builder.setView(view)
+
+
+        view.apply {
+            title_tv.text=title
+            close_delivery_alert.setOnClickListener {
+                builder.dismiss()
+            }
+            btn_confirm_delivery.setOnClickListener {
+                if (selection == null) {
+                    (context as BaseActivity).showError(context.getString(R.string.Selectanyoneoption))
+                } else {
+                    onConfirm.invoke(selection!!)
+                    builder.dismiss()
+
+                }
+            }
+
+            setDeliveryOptionAdapter(list, delivery_option_rcv)
+        }
+
+
+        builder.setCanceledOnTouchOutside(false)
+        builder.show()
+
+    }
+
+    fun setDeliveryOptionAdapter(list: ArrayList<Selection>, rcv: RecyclerView) {
+        rcv.adapter =
+            object : GenericListAdapter<Selection>(
+                R.layout.delivery_option_layout,
+                bind = { element, holder, itemCount, position ->
+                    holder.view.run {
+                        element.run {
+                            delivery_layout.setSelected(isSelected)
+                            delivery_option_tv.setSelected(isSelected)
+                            delivery_option_rb.isChecked=isSelected
+                            delivery_option_tv.text = name
+                            delivery_layout.setOnClickListener {
+                                list.forEach {
+                                    it.isSelected = false
+                                }
+                                element.isSelected = true
+                                rcv.post { rcv.adapter?.notifyDataSetChanged() }
+                                selection=element
+                            }
+                            delivery_option_rb.setOnCheckedChangeListener { buttonView, isChecked ->
+                                if (isChecked) {
+                                    delivery_layout.performClick()
+                                }
+                            }
+                        }
+                    }
+                }
+            ) {
+                override fun getFilter(): Filter {
+                    TODO("Not yet implemented")
+                }
+
+            }.apply {
+                submitList(
+                    list
+                )
+            }
+    }
 
 }

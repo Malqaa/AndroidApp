@@ -17,8 +17,8 @@ import com.malka.androidappp.design.Models.BankListRespone
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
-import com.malka.androidappp.network.service.addBankAccountResponseBack
 import com.malka.androidappp.servicemodels.ConstantObjects
+import com.malka.androidappp.servicemodels.GeneralRespone
 import kotlinx.android.synthetic.main.add_account_layout.*
 import kotlinx.android.synthetic.main.add_bank_layout.view.*
 import kotlinx.android.synthetic.main.fragment_pricing_payment.*
@@ -344,23 +344,23 @@ class PricingActivity : BaseActivity() {
             userID = ConstantObjects.logged_userid
 
         )
-        val call: Call<addBankAccountResponseBack> = malqa.addbankaccount(addBankAccount)
+        val call: Call<GeneralRespone> = malqa.addbankaccount(addBankAccount)
 
-        call.enqueue(object : retrofit2.Callback<addBankAccountResponseBack?> {
-            override fun onFailure(call: Call<addBankAccountResponseBack?>, t: Throwable) {
+        call.enqueue(object : retrofit2.Callback<GeneralRespone?> {
+            override fun onFailure(call: Call<GeneralRespone?>, t: Throwable) {
                 HelpFunctions.dismissProgressBar()
                 Toast.makeText(this@PricingActivity, "${t.message}", Toast.LENGTH_LONG).show()
             }
 
             override fun onResponse(
-                call: Call<addBankAccountResponseBack?>,
-                response: retrofit2.Response<addBankAccountResponseBack?>
+                call: Call<GeneralRespone?>,
+                response: retrofit2.Response<GeneralRespone?>
             ) {
                 if (response.isSuccessful) {
 
                     if (response.body() != null) {
 
-                        val respone: addBankAccountResponseBack = response.body()!!
+                        val respone: GeneralRespone = response.body()!!
                         if (respone.status_code.equals("200")) {
                             bottomSheetDialog.dismiss()
                             getBankAccount()

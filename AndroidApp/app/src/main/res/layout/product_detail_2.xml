@@ -20,7 +20,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="@dimen/_22sdp"
-                android:background="@drawable/product_attribute_bg3"
+                android:background="@drawable/product_attribute_bg6"
                 android:orientation="vertical">
 
 
@@ -1048,13 +1048,6 @@
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
 
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:layout_width="@dimen/_150sdp"
-                        android:layout_height="@dimen/_2sdp"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="@dimen/_10sdp"
-                        android:layout_marginBottom="@dimen/_20sdp"
-                        android:background="@drawable/round_btn_grey" />
 
                 </LinearLayout>
 

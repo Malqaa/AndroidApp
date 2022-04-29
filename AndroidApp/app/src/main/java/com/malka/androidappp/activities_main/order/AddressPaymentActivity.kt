@@ -1,14 +1,12 @@
 package com.malka.androidappp.activities_main.order
 
 import android.app.Activity
-import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.Gravity
 import android.widget.Filter
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
 import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.botmnav_fragments.account_fragment.address.AddAddress
@@ -23,30 +21,21 @@ import com.malka.androidappp.network.constants.ApiConstants
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.servicemodels.BasicResponse
 import com.malka.androidappp.servicemodels.ConstantObjects
+import com.malka.androidappp.servicemodels.Selection
 import com.malka.androidappp.servicemodels.addtocart.CartItemModel
 import com.malka.androidappp.servicemodels.checkout.CheckoutRequestModel
 import com.malka.androidappp.servicemodels.creditcard.CreditCardModel
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_address_payment.*
-import kotlinx.android.synthetic.main.activity_address_payment.btn_confirm_details
-import kotlinx.android.synthetic.main.alert_box.*
-import kotlinx.android.synthetic.main.alert_box.view.*
-import kotlinx.android.synthetic.main.alert_box.view.close_alert
-import kotlinx.android.synthetic.main.card_item.view.*
-import kotlinx.android.synthetic.main.carspec_card8.*
 import kotlinx.android.synthetic.main.cart_design_new.view.*
-import kotlinx.android.synthetic.main.delivery_option.*
-import kotlinx.android.synthetic.main.delivery_option.view.*
-import kotlinx.android.synthetic.main.delivery_option_layout.view.*
-import kotlinx.android.synthetic.main.product_detail_2.*
-import kotlinx.android.synthetic.main.product_review_design.view.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class AddressPaymentActivity : BaseActivity() {
-    val deliveryOptionList: ArrayList<String> = ArrayList()
+    val deliveryOptionList: ArrayList<Selection> = ArrayList()
+    val paymentMethodList: ArrayList<Selection> = ArrayList()
     var selectAddress: GetAddressResponse.AddressModel? = null
     var price = 0.0
     val cartIds: MutableList<String> = mutableListOf()
@@ -60,15 +49,6 @@ class AddressPaymentActivity : BaseActivity() {
         setContentView(R.layout.activity_address_payment)
         initView()
         setListenser()
-
-        deliveryOptionList.apply {
-
-            add("Option 1")
-            add("Option 2")
-            add("Option 3")
-        }
-
-
     }
 
 
@@ -78,8 +58,6 @@ class AddressPaymentActivity : BaseActivity() {
 
         loadAddress()
         setCategoryAdaptor()
-
-
 
 
     }
@@ -93,7 +71,13 @@ class AddressPaymentActivity : BaseActivity() {
 
     private fun loadAddress() {
         CommonAPI().getAddress(this) {
-            GenericAdaptor().AdressAdaptor(addAddressLaucher, this, address_rcv, it, ConstantObjects.Select) {
+            GenericAdaptor().AdressAdaptor(
+                addAddressLaucher,
+                this,
+                address_rcv,
+                it,
+                ConstantObjects.Select
+            ) {
                 selectAddress = it
             }
         }
@@ -214,59 +198,38 @@ class AddressPaymentActivity : BaseActivity() {
                             .load(ApiConstants.IMAGE_URL + image)
                             .into(prod_image)
 
+                        delivery_option._view3().setGravity(Gravity.CENTER)
+                        payment_option_btn._view3().setGravity(Gravity.CENTER)
 
                         payment_option_btn.setOnClickListener {
-
-                            val builder = AlertDialog.Builder(this@AddressPaymentActivity)
-                                .create()
-                            val view = layoutInflater.inflate(R.layout.alert_box, null)
-                            builder.setView(view)
-                            view.close_alert.setOnClickListener {
-                                builder.dismiss()
-
+                            paymentMethodList.apply {
+                                clear()
+                                add(Selection(getString(R.string.Saudiabankdeposit)))
+                                add(Selection(getString(R.string.Visa)))
+                            }
+                            CommonBottomSheet().commonSelctinDialog(
+                                this@AddressPaymentActivity,
+                                paymentMethodList,getString(R.string.PaymentOptions)
+                            ) {
 
                             }
-
-
-                            view.visa.setOnClickListener {
-                                view.visa.isChecked = true
-                                view.saudi_bank.isChecked = false
-                            }
-
-                            view.saudi_bank.setOnClickListener {
-                                view.saudi_bank.isChecked = true
-                                view.visa.isChecked = false
-                            }
-                            builder.setCanceledOnTouchOutside(false)
-                            builder.show()
-
-                            delivery_option._view3().setGravity(Gravity.CENTER)
-                            payment_option_btn._view3().setGravity(Gravity.CENTER)
                         }
 
 
 
                         delivery_option.setOnClickListener {
-
-                            val builder = AlertDialog.Builder(this@AddressPaymentActivity)
-                                .create()
-
-                            val view = layoutInflater.inflate(R.layout.delivery_option, null)
-                            builder.setView(view)
-
-
-                            view.apply {
-
-                                close_alert.setOnClickListener {
-                                    builder.dismiss()
-                                }
-
-                                setDeliveryOptionAdapter(deliveryOptionList , delivery_option_rcv)
+                            deliveryOptionList.apply {
+                                clear()
+                                add(Selection("Option 1"))
+                                add(Selection("Option 2"))
+                                add(Selection("Option 3"))
                             }
+                            CommonBottomSheet().commonSelctinDialog(
+                                this@AddressPaymentActivity,
+                                deliveryOptionList,getString(R.string.delivery_options)
+                            ) {
 
-
-                            builder.setCanceledOnTouchOutside(false)
-                            builder.show()
+                            }
 
                         }
                     }
@@ -291,31 +254,6 @@ class AddressPaymentActivity : BaseActivity() {
         subtotal_tv.text = "${totalPrice} ${getString(R.string.rial)}"
         discount_tv.text = "-${discount} ${getString(R.string.rial)}"
         total_tv.text = "${total} ${getString(R.string.rial)}"
-    }
-
-    fun setDeliveryOptionAdapter(list: ArrayList<String> , rcv: RecyclerView) {
-        rcv.adapter =
-            object : GenericListAdapter<String>(
-                R.layout.delivery_option_layout,
-                bind = { element, holder, itemCount, position ->
-                    holder.view.run {
-                        element.run {
-
-                            delivery_option_tv.text = this
-
-                        }
-                    }
-                }
-            ) {
-                override fun getFilter(): Filter {
-                    TODO("Not yet implemented")
-                }
-
-            }.apply {
-                submitList(
-                    list
-                )
-            }
     }
 
 

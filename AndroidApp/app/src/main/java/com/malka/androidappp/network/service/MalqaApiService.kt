@@ -86,18 +86,18 @@ interface MalqaApiService {
     fun loginUser(@Body info: LoginClass): Call<LoginResponseBack?>?
 
     @POST("Accounts/insertaddress")
-    fun insertAddress(@Body info: GetAddressResponse.AddressModel): Call<insertAddressResponseBack>
+    fun insertAddress(@Body info: GetAddressResponse.AddressModel): Call<GeneralRespone>
     @POST("Accounts/updateAdress")
-    fun updateAddress(@Body info: updateAddressModel): Call<insertAddressResponseBack>
+    fun updateAddress(@Body info: GetAddressResponse.AddressModel): Call<GeneralRespone>
 
     @POST("Accounts/CreateBusinessAccount")
-    fun addBusinesUser(@Body info: BusinessUserModel.getBusinessList): Call<addBusinessUserlistReponse>
+    fun addBusinesUser(@Body info: BusinessUserModel.getBusinessList): Call<GeneralRespone>
 
     @POST("Accounts/UploadBusinessDocuments")
-    fun addBusinessRegisterFile(@Body info: getBusinessRegisterFile.GetDocuments): Call<addBusinessRegisterFileResponse>
+    fun addBusinessRegisterFile(@Body info: getBusinessRegisterFile.GetDocuments): Call<GeneralRespone>
 
     @POST("UserBankAccount/AddUserBankAccount")
-    fun addbankaccount(@Body info: BankListRespone.BankDetail): Call<addBankAccountResponseBack>
+    fun addbankaccount(@Body info: BankListRespone.BankDetail): Call<GeneralRespone>
 
     @GET("Accounts/getaddresses")
     fun getAddress(@Query("loginId") loginId: String): Call<GetAddressResponse>

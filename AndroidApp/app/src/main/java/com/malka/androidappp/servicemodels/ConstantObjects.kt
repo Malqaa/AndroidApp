@@ -36,7 +36,7 @@ class ConstantObjects {
         var currentLanguage: String = ""
         var categoryList: List<AllCategoriesModel> = ArrayList()
         val list: ArrayList<DynamicList> = java.util.ArrayList()
-        var countryList: List<CountryRespone.Country> = ArrayList()
+        var countryList: List<Country> = ArrayList()
 
 
         @JvmStatic
