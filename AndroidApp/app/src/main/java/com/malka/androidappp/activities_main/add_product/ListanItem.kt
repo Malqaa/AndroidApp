@@ -9,15 +9,15 @@ import android.widget.TextView.OnEditorActionListener
 import android.widget.Toast
 import com.malka.androidappp.R
 import com.malka.androidappp.base.BaseActivity
-import com.malka.androidappp.servicemodels.CategoryTagsModel
 import com.malka.androidappp.botmnav_fragments.create_ads.StaticClassAdCreate
-import com.malka.androidappp.servicemodels.Tags
 import com.malka.androidappp.helper.Extension
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
+import com.malka.androidappp.servicemodels.CategoryTagsModel
 import com.malka.androidappp.servicemodels.ConstantObjects
+import com.malka.androidappp.servicemodels.Tags
 import kotlinx.android.synthetic.main.fragment_listan_item.*
 import kotlinx.android.synthetic.main.suggested_categories.view.*
 import kotlinx.android.synthetic.main.toolbar_main.*
@@ -192,7 +192,9 @@ class ListanItem : BaseActivity() {
                                     it.isSelect = false
                                 }
                                 list.get(position).isSelect = true
-                                recycler_suggested_category.adapter!!.notifyDataSetChanged()
+                                recycler_suggested_category.post {
+                                    recycler_suggested_category.adapter!!.notifyDataSetChanged()
+                                }
                             }
                             selectTag = element
                         }

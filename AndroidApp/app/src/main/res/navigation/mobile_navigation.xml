@@ -72,9 +72,7 @@
             android:id="@+id/account_fixedprice"
             app:destination="@id/fixed_price_frag" />
 
-        <action
-            android:id="@+id/account_itemimselling"
-            app:destination="@+id/item_imselling_frag" />
+
 
         <action
             android:id="@+id/account_products"
@@ -458,21 +456,7 @@
 
     </fragment>
 
-    <fragment
-        android:id="@+id/item_imselling_frag"
-        android:name="com.malka.androidappp.botmnav_fragments.item_em_selling.ItemImSelling"
-        android:label="Item I'm Selling"
-        tools:layout="@layout/fragment_item_im_selling">
 
-        <action
-            android:id="@+id/my_items_to_detail_page"
-            app:destination="@+id/carspicification"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-
-    </fragment>
 
     <fragment
         android:id="@+id/myproductcreation"

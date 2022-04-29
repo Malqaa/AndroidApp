@@ -1,4 +1,4 @@
-package com.malka.androidappp.botmnav_fragments.activities_main.business_signup
+package com.malka.androidappp.servicemodels
 
 data class ModelBusinessRegistration(
     val alternateEmail: String? = null,

@@ -557,7 +557,7 @@ android:visibility="gone"
                             android:drawablePadding="@dimen/_5sdp"
                             android:fontFamily="@font/madani_arabic_medium"
                             android:gravity="end"
-                            android:text="@string/Visa"
+                            android:text="@string/visa_mastercard"
                             android:textColor="@color/grey"
                             android:textSize="@dimen/_10sdp"
 

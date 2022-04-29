@@ -160,7 +160,7 @@ class AddPhoto : BaseActivity() {
                     }
 
                 }
-                category_rcv.adapter!!.notifyDataSetChanged()
+                category_rcv.post { category_rcv.adapter!!.notifyDataSetChanged() }
             }
         }
 

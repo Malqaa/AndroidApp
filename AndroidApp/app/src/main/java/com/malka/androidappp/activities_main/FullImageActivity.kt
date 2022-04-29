@@ -1,10 +1,9 @@
 package com.malka.androidappp.activities_main
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import com.malka.androidappp.R
 import com.malka.androidappp.base.BaseActivity
-import com.squareup.picasso.Picasso
+import com.malka.androidappp.helper.Extension
 import kotlinx.android.synthetic.main.activity_full_image.*
 
 class FullImageActivity : BaseActivity() {
@@ -16,9 +15,14 @@ class FullImageActivity : BaseActivity() {
         }
 
         val filepath = intent.getStringExtra("imageUri")
-        Picasso.get()
-            .load(filepath)
-            .into(imageviewFullimg)
+
+        Extension.loadThumbnail(
+            this@FullImageActivity,
+            filepath,
+            imageviewFullimg, null
+        )
+
+
 
     }
 }

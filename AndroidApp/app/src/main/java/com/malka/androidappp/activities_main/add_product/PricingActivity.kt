@@ -13,10 +13,10 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.malka.androidappp.R
 import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.botmnav_fragments.create_ads.StaticClassAdCreate
-import com.malka.androidappp.servicemodels.BankListRespone
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
+import com.malka.androidappp.servicemodels.BankListRespone
 import com.malka.androidappp.servicemodels.ConstantObjects
 import com.malka.androidappp.servicemodels.GeneralRespone
 import kotlinx.android.synthetic.main.add_account_layout.*
@@ -361,7 +361,7 @@ class PricingActivity : BaseActivity() {
                     if (response.body() != null) {
 
                         val respone: GeneralRespone = response.body()!!
-                        if (respone.status_code.equals("200")) {
+                        if (respone.status_code==200) {
                             bottomSheetDialog.dismiss()
                             getBankAccount()
                             Toast.makeText(
@@ -444,7 +444,8 @@ class PricingActivity : BaseActivity() {
                                 list.forEachIndexed { index, addBankDetail ->
                                     addBankDetail.isSelect = index == position
                                 }
-                                addbank_rcv.adapter!!.notifyDataSetChanged()
+                                addbank_rcv.post { addbank_rcv.adapter!!.notifyDataSetChanged() }
+
                                 StaticClassAdCreate.isbankpaid = true
 
                             }

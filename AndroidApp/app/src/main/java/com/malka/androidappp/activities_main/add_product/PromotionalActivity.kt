@@ -159,7 +159,9 @@ class PromotionalActivity : BaseActivity() {
             it.is_select = false
         }
         list.get(position).is_select = true
-        category_rcv.adapter!!.notifyDataSetChanged()
+        category_rcv.post {
+            category_rcv.adapter!!.notifyDataSetChanged()
+        }
     }
 
 

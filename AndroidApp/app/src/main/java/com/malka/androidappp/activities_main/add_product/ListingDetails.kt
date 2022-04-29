@@ -73,6 +73,9 @@ class ListingDetails : BaseActivity() {
                 }
                 select_region.text = ""
                 selectedRegion = null
+
+                select_city.text = ""
+                selectedCity = null
             }
 
         }

@@ -30,9 +30,9 @@ import kotlinx.android.synthetic.main.bank_accounts.*
 import kotlinx.android.synthetic.main.bank_bottom_design.view.*
 import kotlinx.android.synthetic.main.card_item.view.*
 import kotlinx.android.synthetic.main.card_selection_layout.*
+import kotlinx.android.synthetic.main.delivery_option.*
 import kotlinx.android.synthetic.main.delivery_option.view.*
 import kotlinx.android.synthetic.main.delivery_option_layout.view.*
-import kotlinx.android.synthetic.main.paymnet_option_layout.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -40,38 +40,22 @@ import retrofit2.Response
 class CommonBottomSheet {
 
 
-    fun showPaymentOption(context: Context, onConfirm: (type: String) -> Unit) {
+    fun showPaymentOption(title:String,list: ArrayList<Selection>,context: Context, onConfirm: (type: Selection) -> Unit) {
         BottomSheetDialog(context).apply {
-            setContentView(R.layout.paymnet_option_layout)
-            check_saudi_bank_deposit.setOnCheckedChangeListener { buttonView, isChecked ->
-                if (isChecked) {
-                    check_visa_mastercard.isChecked = false
-                }
-            }
-            check_visa_mastercard.setOnCheckedChangeListener { buttonView, isChecked ->
-                if (isChecked) {
-                    check_saudi_bank_deposit.isChecked = false
-
-                }
-            }
-            bottom_sheet_btn1.setOnClickListener {
-                if (check_saudi_bank_deposit.isChecked) {
-                    dismiss()
-                    onConfirm.invoke(context.getString(R.string.saudi_bank_deposit))
-
-                } else if (check_visa_mastercard.isChecked) {
-                    dismiss()
-                    onConfirm.invoke(context.getString(R.string.visa_mastercard))
+            setContentView(R.layout.delivery_option)
+            title_tv.text=title
+            btn_confirm_delivery.text=context.getText(R.string.the_next)
+            close_delivery_alert.hide()
+            btn_confirm_delivery.setOnClickListener {
+                if (selection == null) {
+                    (context as BaseActivity).showError(context.getString(R.string.choose_your_payment_method))
                 } else {
-                    (context as BaseActivity).showError(
-                        context.getString(
-                            R.string.Please,
-                            context.getString(R.string.choose_your_payment_method)
-                        )
-                    )
-                }
+                    onConfirm.invoke(selection!!)
+                    dismiss()
 
+                }
             }
+            setDeliveryOptionAdapter(list, delivery_option_rcv)
             getWindow()!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             show()
         }
@@ -134,7 +118,7 @@ class CommonBottomSheet {
                             list.forEach {
                                 it.isSelected = false
                             }
-                            element.isSelected = true
+                            list.get(position).isSelected=true
                             rcv.post { rcv.adapter?.notifyDataSetChanged() }
                             selectCard = element
                         }

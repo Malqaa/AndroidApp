@@ -7,7 +7,6 @@ import android.os.*
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
@@ -95,9 +94,9 @@ abstract class BaseActivity : AppCompatActivity() {
         return name
     }
 
-    open fun hideSoftKeyboard(context: Context, et: EditText) {
+    open fun hideSoftKeyboard( et: View) {
         try {
-            val inputMethodManager = context.getSystemService(
+            val inputMethodManager = getSystemService(
                 INPUT_METHOD_SERVICE
             ) as InputMethodManager
             inputMethodManager.hideSoftInputFromWindow(

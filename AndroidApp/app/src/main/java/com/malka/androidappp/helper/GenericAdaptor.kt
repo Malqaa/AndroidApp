@@ -243,14 +243,16 @@ class GenericAdaptor {
                                 is_select_.isVisible = true
                                 is_select_.isChecked = is_select
                                 is_select_.setOnCheckedChangeListener { buttonView, isChecked ->
-                                    list.forEach {
-                                        it.is_select = false
-                                    }
+
                                     if (isChecked) {
-                                        element.is_select = true
+                                        list.forEach {
+                                            it.is_select = false
+                                        }
+                                        list.get(position).is_select = true
+                                        onItemClick.invoke(element)
+                                        category_rcv.post { category_rcv.adapter?.notifyDataSetChanged() }
                                     }
-                                    onItemClick.invoke(element)
-                                    category_rcv.post { category_rcv.adapter?.notifyDataSetChanged() }
+
 
                                 }
                             }

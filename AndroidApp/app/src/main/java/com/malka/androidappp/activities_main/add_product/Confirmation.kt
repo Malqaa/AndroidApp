@@ -11,6 +11,7 @@ import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.servicemodels.ConstantObjects
 import com.malka.androidappp.servicemodels.CreateAdvMainModel
 import com.malka.androidappp.servicemodels.CreateAdvResponseBack
+import com.malka.androidappp.servicemodels.Selection
 import kotlinx.android.synthetic.main.fragment_confirmation.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 import retrofit2.Call
@@ -33,8 +34,14 @@ class Confirmation : BaseActivity() {
 
 
         btn_confirm_details.setOnClickListener {
-            CommonBottomSheet().showPaymentOption(this) {
-                when (it) {
+            val paymentMethodList: ArrayList<Selection> = ArrayList()
+            paymentMethodList.apply {
+                clear()
+                add(Selection(getString(R.string.Saudiabankdeposit)))
+                add(Selection(getString(R.string.visa_mastercard)))
+            }
+            CommonBottomSheet().showPaymentOption(getString(R.string.PaymentOptions),paymentMethodList,this) {
+                when (it.name) {
                     getString(R.string.saudi_bank_deposit) -> {
 
                     }

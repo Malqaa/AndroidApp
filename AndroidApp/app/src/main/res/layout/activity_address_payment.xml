@@ -11,62 +11,124 @@
         android:id="@+id/toolbar_main"
         layout="@layout/toolbar_main" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <androidx.core.widget.NestedScrollView
         android:layout_below="@+id/toolbar_main"
-        android:orientation="vertical">
 
-        <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/address_rcv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_20sdp"
+                android:orientation="vertical"
+                android:nestedScrollingEnabled="false"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+
+            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
+                android:id="@+id/add_new_add"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:gravity="center"
+                android:text="@string/add_a_new_address"
+                app:viewType="text" />
+
+
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/cart_new_rcv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_10sdp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:spanCount="1" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:layout_marginBottom="@dimen/_15sdp"
                 android:orientation="vertical">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/address_rcv"
-                    android:layout_width="match_parent"
+
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/_20sdp"
-                    android:orientation="vertical"
-                    android:nestedScrollingEnabled="false"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/madani_arabic_medium"
+                    android:text="@string/do_you_have_a_discount_coupon"
+                    android:textColor="@color/grey"
+                    android:textSize="@dimen/_10sdp" />
 
 
-                <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
-                    android:id="@+id/add_new_add"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_20sdp"
+                    android:layout_height="@dimen/_40sdp"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_marginEnd="@dimen/_20sdp"
-                    android:layout_marginBottom="@dimen/_10sdp"
-                    android:gravity="center"
-                    android:text="@string/add_a_new_address"
-                    app:viewType="text" />
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:background="@drawable/product_attribute_bg4"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
 
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/_15sdp"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:fontFamily="@font/madani_arabic_extra_light"
+                        android:hint="@string/enter_the_coupon"
+                        android:imeOptions="actionDone"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:textColor="@color/grey"
+                        android:textSize="@dimen/_10sdp" />
+
+                    <LinearLayout
+                        android:layout_width="@dimen/_70sdp"
+                        android:layout_height="match_parent"
+                        android:background="@color/bg"
+                        android:gravity="center">
+
+                        <TextView
+
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/madani_arabic_medium"
+                            android:gravity="center"
+                            android:text="@string/activation"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_10sdp" />
 
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/cart_new_rcv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/_10sdp"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:spanCount="1" />
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_15sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_marginEnd="@dimen/_15sdp"
-                    android:layout_marginBottom="@dimen/_15sdp"
-                    android:orientation="vertical">
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
 
                     <TextView
@@ -74,205 +136,136 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_15sdp"
                         android:layout_weight="1"
-                        android:fontFamily="@font/madani_arabic_medium"
-                        android:text="@string/do_you_have_a_discount_coupon"
+                        android:fontFamily="@font/madani_arabic_light"
+                        android:text="@string/subtotal"
                         android:textColor="@color/grey"
                         android:textSize="@dimen/_10sdp" />
 
-
                     <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/_40sdp"
-                        android:layout_marginTop="@dimen/_10sdp"
-                        android:layout_marginBottom="@dimen/_5sdp"
-                        android:background="@drawable/product_attribute_bg4"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-
-                        <EditText
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="@dimen/_15sdp"
-                            android:layout_weight="1"
-                            android:background="@null"
-                            android:fontFamily="@font/madani_arabic_extra_light"
-                            android:hint="@string/enter_the_coupon"
-                            android:imeOptions="actionDone"
-                            android:inputType="text"
-                            android:maxLines="1"
-                            android:textColor="@color/grey"
-                            android:textSize="@dimen/_10sdp" />
-
-                        <LinearLayout
-                            android:layout_width="@dimen/_70sdp"
-                            android:layout_height="match_parent"
-                            android:background="@color/bg"
-                            android:gravity="center">
-
-                            <TextView
-
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:fontFamily="@font/madani_arabic_medium"
-                                android:gravity="center"
-                                android:text="@string/activation"
-                                android:textColor="@color/white"
-                                android:textSize="@dimen/_10sdp" />
-
-
-                        </LinearLayout>
-
-
-                    </LinearLayout>
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_5sdp"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
 
 
                         <TextView
+
+                            android:id="@+id/subtotal_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_15sdp"
-                            android:layout_weight="1"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_marginEnd="@dimen/_15sdp"
                             android:fontFamily="@font/madani_arabic_light"
-                            android:text="@string/subtotal"
+                            android:text="0"
                             android:textColor="@color/grey"
-                            android:textSize="@dimen/_10sdp" />
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
-
-
-                            <TextView
-
-                                android:id="@+id/subtotal_tv"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/_5sdp"
-                                android:layout_marginEnd="@dimen/_15sdp"
-                                android:fontFamily="@font/madani_arabic_light"
-                                android:text="0"
-                                android:textColor="@color/grey"
-                                android:textSize="@dimen/_14sdp" />
-
-
-                        </LinearLayout>
+                            android:textSize="@dimen/_14sdp" />
 
 
                     </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="match_parent"
+
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_5sdp"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
+                        android:layout_marginStart="@dimen/_15sdp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/madani_arabic_light"
+                        android:text="@string/discount_coupon"
+                        android:textColor="@color/grey"
+                        android:textSize="@dimen/_10sdp" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
 
 
                         <TextView
+
+                            android:id="@+id/discount_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_15sdp"
-                            android:layout_weight="1"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_marginEnd="@dimen/_15sdp"
                             android:fontFamily="@font/madani_arabic_light"
-                            android:text="@string/discount_coupon"
+                            android:text="0"
                             android:textColor="@color/grey"
-                            android:textSize="@dimen/_10sdp" />
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
-
-
-                            <TextView
-
-                                android:id="@+id/discount_tv"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/_5sdp"
-                                android:layout_marginEnd="@dimen/_15sdp"
-                                android:fontFamily="@font/madani_arabic_light"
-                                android:text="0"
-                                android:textColor="@color/grey"
-                                android:textSize="@dimen/_14sdp" />
-
-
-                        </LinearLayout>
+                            android:textSize="@dimen/_14sdp" />
 
 
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_5sdp"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_15sdp"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/madani_arabic_light"
-                            android:text="@string/total"
-                            android:textColor="@color/grey"
-                            android:textSize="@dimen/_10sdp" />
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
-
-
-                            <TextView
-
-                                android:id="@+id/total_tv"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/_5sdp"
-                                android:layout_marginEnd="@dimen/_15sdp"
-                                android:fontFamily="@font/madani_arabic_semi_bold"
-                                android:text="0"
-                                android:textColor="@color/grey"
-                                android:textSize="@dimen/_14sdp" />
-
-                        </LinearLayout>
-
-
-                    </LinearLayout>
 
                 </LinearLayout>
 
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_confirm_details"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_15sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_marginEnd="@dimen/_15sdp"
-                    android:layout_marginBottom="@dimen/_10sdp"
-                    android:background="@drawable/round_btn"
-                    android:fontFamily="@font/madani_arabic_semi_bold"
-                    android:text="@string/complete_the_order"
-                    android:textAllCaps="false"
-                    android:textColor="#ffffff"
-                    android:textSize="@dimen/_14sdp" />
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_15sdp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/madani_arabic_light"
+                        android:text="@string/total"
+                        android:textColor="@color/grey"
+                        android:textSize="@dimen/_10sdp" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+
+                        <TextView
+
+                            android:id="@+id/total_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_marginEnd="@dimen/_15sdp"
+                            android:fontFamily="@font/madani_arabic_semi_bold"
+                            android:text="0"
+                            android:textColor="@color/grey"
+                            android:textSize="@dimen/_14sdp" />
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
 
             </LinearLayout>
 
 
-        </androidx.core.widget.NestedScrollView>
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_confirm_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:background="@drawable/round_btn"
+                android:fontFamily="@font/madani_arabic_semi_bold"
+                android:text="@string/complete_the_order"
+                android:textAllCaps="false"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/_14sdp" />
 
-    </LinearLayout>
+        </LinearLayout>
 
+
+    </androidx.core.widget.NestedScrollView>
 
 
 </RelativeLayout>

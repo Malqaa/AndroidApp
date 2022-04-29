@@ -1,4 +1,4 @@
-package com.malka.androidappp.botmnav_fragments.home_view_allcategories
+package com.malka.androidappp.servicemodels
 
 data class ModelAddCatFav(
     val categoryName: String,

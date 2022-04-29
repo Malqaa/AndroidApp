@@ -9,6 +9,7 @@ import com.malka.androidappp.botmnav_fragments.browse_market.popup_subcategories
 import com.malka.androidappp.botmnav_fragments.browse_market.popup_subcategories_list.StaticGetSubcategoryByBrowseCateClick
 import com.malka.androidappp.botmnav_fragments.browse_market.popup_subcategories_list.SubcategoriesDialogFragment
 import com.malka.androidappp.helper.HelpFunctions
+import com.malka.androidappp.helper.show
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.recycler_browsecat.GenericProductAdapter
@@ -38,6 +39,11 @@ class SearchCategoryActivity : BaseActivity() {
 
         CategoryDesc = intent?.getStringExtra("CategoryDesc").toString()
         SearchQuery = intent?.getStringExtra("SearchQuery").toString()
+        intent?.getBooleanExtra("isMapShow", false)?.let {
+            if (it) {
+                map_button.show()
+            }
+        }
         StaticGetSubcategoryByBrowseCateClick.getcategory = CategoryDesc;
 
         back_button.setOnClickListener {
@@ -74,13 +80,13 @@ class SearchCategoryActivity : BaseActivity() {
 
         if (CategoryDesc.trim().length > 0) {
             SetToolbarTitle(CategoryDesc)
-            FetchCategories(CategoryDesc,"")
+            FetchCategories(CategoryDesc, "")
             btn1.setOnClickListener { openDialog() }
             btn2.setOnClickListener { openDialog() }
             btn3.setOnClickListener { openDialog() }
         } else if (SearchQuery.trim().length > 0) {
             SetToolbarTitle("Search: " + SearchQuery)
-            FetchCategories("",SearchQuery)
+            FetchCategories("", SearchQuery)
             if (HelpFunctions.IsUserLoggedIn()) {
                 addSearchQueryFav(SearchQuery)
             }
@@ -90,18 +96,17 @@ class SearchCategoryActivity : BaseActivity() {
     }
 
 
-
     var marketpost: ArrayList<AdDetailModel> = ArrayList()
 
 
     //Zack
     //Date: 10/29/2020
-    fun FetchCategories(category: String,query:String) {
+    fun FetchCategories(category: String, query: String) {
         HelpFunctions.startProgressBar(this)
 
 
         val requestbody =
-            SearchRequestModel(category, "", "", "", "", "", query, "",query)
+            SearchRequestModel(category, "", "", "", "", "", query, "", query)
 
         val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
         val call: Call<SearchRespone> = malqa.categorylist(requestbody)
@@ -205,6 +210,7 @@ class SearchCategoryActivity : BaseActivity() {
         })
 
     }
+
     fun SetToolbarTitle(Category: String) {
         lbl_toolbar_category.text = Category;
 
@@ -234,6 +240,7 @@ class SearchCategoryActivity : BaseActivity() {
                 ) {
 
                 }
+
                 override fun onFailure(call: Call<ModelAddSearchFav>, t: Throwable) {
                     t.message?.let { HelpFunctions.ShowLongToast(it, this@SearchCategoryActivity) }
                 }

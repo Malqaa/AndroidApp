@@ -41,8 +41,9 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
         logout_signin.isEnabled = enable
         btn_signin.isEnabled = !enable
     }
-
-    var isProfileLoad = false
+    companion object{
+        var isProfileLoad = false
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         fragment_account.isVisible = false
@@ -167,10 +168,7 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
             findNavController().navigate(R.id.account_sellingopt)
         }
 
-        item_imselling_btn.setOnClickListener() {
-            HelpFunctions.startProgressBar(requireActivity())
-            findNavController().navigate(R.id.account_itemimselling)
-        }
+
 
         product.setOnClickListener() {
             findNavController().navigate(R.id.account_products)

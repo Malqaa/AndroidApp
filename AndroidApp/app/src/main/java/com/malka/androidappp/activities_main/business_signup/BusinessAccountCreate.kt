@@ -28,18 +28,13 @@ import com.google.gson.Gson
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.place_picker.LocationPickerActivity
 import com.malka.androidappp.base.BaseActivity
-import com.malka.androidappp.servicemodels.BusinessUserRespone
-import com.malka.androidappp.servicemodels.getBusinessRegisterFile
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.helper.hide
 import com.malka.androidappp.helper.show
 import com.malka.androidappp.helper.widgets.DatePickerFragment
 import com.malka.androidappp.helper.widgets.searchdialog.SearchListItem
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
-import com.malka.androidappp.servicemodels.ConstantObjects
-import com.malka.androidappp.servicemodels.GeneralRespone
-import com.malka.androidappp.servicemodels.ImageSelectModel
-import com.malka.androidappp.servicemodels.LocationPickerModel
+import com.malka.androidappp.servicemodels.*
 import com.zfdang.multiple_images_selector.ImagesSelectorActivity
 import com.zfdang.multiple_images_selector.SelectorSettings
 import kotlinx.android.synthetic.main.activity_business_signup.*
@@ -81,33 +76,37 @@ class BusinessAccountCreate : BaseActivity() {
 
 
         business_signup2_button.setOnClickListener() {
+            if(profileImageBase64.isEmpty()){
+                showError(getString(R.string.Please_enter, getString(R.string.profile_picture)))
+            }else{
+                if (validateUserName() && validateCompanyName() && validateSignupEmail() && validateNumber() && validateCompanyURL() && validateProfilePicture() && validateEmployementType() && validateCommercialRegisterNo()
+                    && validateExpiryDate() && validateTaxNumber() && validateCommercialRegisterDoc()
+                ) {
 
-            if (validateUserName() && validateCompanyName() && validateSignupEmail() && validateNumber() && validateCompanyURL() && validateProfilePicture() && validateEmployementType() && validateCommercialRegisterNo()
-                && validateExpiryDate() && validateTaxNumber() && validateCommercialRegisterDoc()
-            ) {
-
-                if (selectedImagesURI.size == 0) {
-                    showError(
-                        getString(
-                            R.string.Please_select,
-                            getString(R.string.download_the_commercial_registry_file)
-                        )
-                    )
-                } else {
-
-                    if(locationPicker==null){
+                    if (selectedImagesURI.size == 0) {
                         showError(
                             getString(
                                 R.string.Please_select,
-                                getString(R.string.locating_the_company)
+                                getString(R.string.download_the_commercial_registry_file)
                             )
                         )
-                    }else{
-                        addBusinessUser()
-                    }
+                    } else {
 
+                        if(locationPicker==null){
+                            showError(
+                                getString(
+                                    R.string.Please_select,
+                                    getString(R.string.locating_the_company)
+                                )
+                            )
+                        }else{
+                            addBusinessUser()
+                        }
+
+                    }
                 }
             }
+
 
         }
 

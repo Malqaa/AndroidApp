@@ -167,7 +167,7 @@
                     android:drawablePadding="@dimen/_15sdp"
                     android:gravity="center_vertical"
                     android:padding="@dimen/_10sdp"
-                    android:text="@string/SelectTime"
+                    android:hint="@string/SelectTime"
                     app:drawableStartCompat="@drawable/ic_calendar" />
 
             </LinearLayout>

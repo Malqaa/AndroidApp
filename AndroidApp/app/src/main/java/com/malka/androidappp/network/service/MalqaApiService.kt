@@ -6,7 +6,6 @@ import com.malka.androidappp.activities_main.login.LoginResponseBack
 import com.malka.androidappp.activities_main.signup_account.signup_pg2.PostReqVerifyCode
 import com.malka.androidappp.activities_main.signup_account.signup_pg3.User
 import com.malka.androidappp.botmnav_fragments.UserImageResponseBack
-import com.malka.androidappp.botmnav_fragments.activities_main.business_signup.ModelBusinessRegistration
 import com.malka.androidappp.botmnav_fragments.browse_market.popup_subcategories_list.ModelAddSearchFav
 import com.malka.androidappp.botmnav_fragments.cardetail_page.ModelAddSellerFav
 import com.malka.androidappp.botmnav_fragments.cardetail_page.ModelSellerDetails
@@ -18,7 +17,7 @@ import com.malka.androidappp.botmnav_fragments.create_product.ProductResponseBac
 import com.malka.androidappp.botmnav_fragments.feedback_frag.insert_feedback.GiveFeedbackResponseBack
 import com.malka.androidappp.botmnav_fragments.feedback_frag.insert_feedback.ModelGiveFeedBack
 import com.malka.androidappp.botmnav_fragments.home.model.AllCategoriesResponseBack
-import com.malka.androidappp.botmnav_fragments.home_view_allcategories.ModelAddCatFav
+import com.malka.androidappp.servicemodels.ModelAddCatFav
 import com.malka.androidappp.botmnav_fragments.my_product.AllProductsResponseBack
 import com.malka.androidappp.botmnav_fragments.my_product.edit_product.EditProductResponseBack
 import com.malka.androidappp.botmnav_fragments.my_product.edit_product.ModelEditProduct
@@ -26,10 +25,6 @@ import com.malka.androidappp.botmnav_fragments.sellerdetails.SellerResponseBack
 import com.malka.androidappp.botmnav_fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ModelShipAddresses
 import com.malka.androidappp.botmnav_fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ShippingAddressessData
 import com.malka.androidappp.botmnav_fragments.won_n_loss.model_wonloss.ModelWonLost
-import com.malka.androidappp.servicemodels.BankListRespone
-import com.malka.androidappp.servicemodels.BusinessUserRespone
-import com.malka.androidappp.servicemodels.GetAddressResponse
-import com.malka.androidappp.servicemodels.getBusinessRegisterFile
 import com.malka.androidappp.network.constants.ApiConstants
 import com.malka.androidappp.network.constants.ApiConstants.GET_ALL_CATEGORIES_BY_ID
 import com.malka.androidappp.network.constants.ApiConstants.GET_CATEGORY_TAGS_ENDPOINT

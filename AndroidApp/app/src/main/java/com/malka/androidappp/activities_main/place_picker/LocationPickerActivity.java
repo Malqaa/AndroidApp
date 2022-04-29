@@ -109,7 +109,7 @@ public class LocationPickerActivity extends BaseActivity implements View.OnClick
         @Override
         public void onComplete(Task<FetchPlaceResponse> task) {
             try {
-                hideSoftKeyboard(LocationPickerActivity.this, actSearch);
+                hideSoftKeyboard(actSearch);
                 FetchPlaceResponse places = task.getResult();
                 // Get the Place object from the buffer.
                 final Place place = places.getPlace();
@@ -216,7 +216,7 @@ public class LocationPickerActivity extends BaseActivity implements View.OnClick
                     case R.id.actSearch:
                         if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                             // Your piece of code on keyboard search click
-                            hideSoftKeyboard(LocationPickerActivity.this, actSearch);
+                            hideSoftKeyboard(actSearch);
                             return true;
                         }
                         break;
@@ -340,7 +340,7 @@ public class LocationPickerActivity extends BaseActivity implements View.OnClick
     @Override
     public void onClick(View v) {
 
-        hideSoftKeyboard(this, actSearch);
+        hideSoftKeyboard( actSearch);
 
         switch (v.getId()) {
 

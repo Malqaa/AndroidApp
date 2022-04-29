@@ -238,7 +238,9 @@ class ListingDuration : BaseActivity() {
                             list.forEachIndexed { index, addBankDetail ->
                                 addBankDetail.isSelect = index == position
                             }
-                            fix_lenght_rcv.adapter!!.notifyDataSetChanged()
+                            fix_lenght_rcv.post {
+                                fix_lenght_rcv.adapter!!.notifyDataSetChanged()
+                            }
                             fixlenghtselected = element
                             radiobtn1.isChecked = true
                         }

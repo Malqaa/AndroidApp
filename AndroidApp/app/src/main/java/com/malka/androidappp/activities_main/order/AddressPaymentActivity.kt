@@ -205,7 +205,7 @@ class AddressPaymentActivity : BaseActivity() {
                             paymentMethodList.apply {
                                 clear()
                                 add(Selection(getString(R.string.Saudiabankdeposit)))
-                                add(Selection(getString(R.string.Visa)))
+                                add(Selection(getString(R.string.visa_mastercard)))
                             }
                             CommonBottomSheet().commonSelctinDialog(
                                 this@AddressPaymentActivity,

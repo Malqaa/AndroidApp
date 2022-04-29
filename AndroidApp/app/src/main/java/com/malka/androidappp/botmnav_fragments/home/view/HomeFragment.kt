@@ -20,6 +20,7 @@ import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.MainActivity
 import com.malka.androidappp.activities_main.login.SignInActivity
 import com.malka.androidappp.activities_main.order.CartActivity
+import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.botmnav_fragments.browse_market.SearchCategoryActivity
 import com.malka.androidappp.botmnav_fragments.home.model.AllCategoriesResponseBack
 import com.malka.androidappp.botmnav_fragments.home.model.DynamicList
@@ -122,6 +123,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee),
                 putExtra("CategoryDesc", "")
                 putExtra("SearchQuery", searchquery)
             })
+            (requireActivity() as BaseActivity).hideSoftKeyboard(textInputLayout11._view2())
         }
     }
 
@@ -271,7 +273,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee),
                             startActivity(Intent(requireContext(), SearchCategoryActivity::class.java).apply {
                                 putExtra("CategoryDesc", category_id)
                                 putExtra("SearchQuery", "")
-//                                putExtra("isMapShow", false)
+                                putExtra("isMapShow", category_id.equals("Property"))
                             })
 
                         }
@@ -304,6 +306,8 @@ class HomeFragment : Fragment(R.layout.fragment_homee),
         startActivity(Intent(requireContext(), SearchCategoryActivity::class.java).apply {
             putExtra("CategoryDesc", ConstantObjects.categoryList[position].categoryName)
             putExtra("SearchQuery", "")
+            putExtra("isMapShow",ConstantObjects.categoryList[position].categoryid==3)
+
         })
     }
 

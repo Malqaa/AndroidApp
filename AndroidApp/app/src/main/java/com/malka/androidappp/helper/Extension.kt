@@ -8,12 +8,10 @@ import android.view.View
 import android.widget.ImageView
 import androidx.annotation.Nullable
 import androidx.core.view.isVisible
-import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.malka.androidappp.botmnav_fragments.create_ads.StaticClassAdCreate
-import com.malka.androidappp.servicemodels.categorylistings.SearchRespone
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.*
@@ -29,15 +27,7 @@ object Extension {
         try {
             val format = "%.${limit}f"
             val decimalNumber = String.format(Locale.ENGLISH, format, this)
-            var pattern = "###,###,###,###,##0"
-
-            if (limit > 0) {
-                //pattern += "."
-
-                for (i in 1..limit) {
-                   // pattern += "0"
-                }
-            }
+            val pattern = "###,###,###,###,##0"
 
             val formatter = DecimalFormat(pattern, DecimalFormatSymbols(Locale.ENGLISH))
             aNumber = formatter.format(decimalNumber.toDouble())
