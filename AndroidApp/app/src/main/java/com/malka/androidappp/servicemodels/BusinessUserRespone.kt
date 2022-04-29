@@ -1,15 +1,15 @@
-package com.malka.androidappp.design.Models
+package com.malka.androidappp.servicemodels
 
-data class BusinessUserModel(
+data class BusinessUserRespone(
     val code: Any,
-    val `data`: List<getBusinessList>,
+    val `data`: List<BusinessUser>,
     val errors: Any,
     val id: String,
     val isError: Boolean,
     val message: String,
     val status_code: Int
 ) {
-    data class getBusinessList(
+    data class BusinessUser(
         val approvedBy: String,
         val approvedOn: String,
         val businessEmail: String,

@@ -15,7 +15,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.order.AddressPaymentActivity
 import com.malka.androidappp.base.BaseActivity
-import com.malka.androidappp.design.Models.negotiationmodel
+import com.malka.androidappp.servicemodels.Negotiationmodel
 import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
@@ -232,7 +232,7 @@ class CommonBottomSheet {
     }
 
 
-    fun bankaAccountBottomSheet(context: Context, list: List<negotiationmodel>) {
+    fun bankaAccountBottomSheet(context: Context, list: List<Negotiationmodel>) {
         BottomSheetDialog(context).apply {
             setContentView(R.layout.bank_accounts)
 
@@ -248,11 +248,11 @@ class CommonBottomSheet {
 
     private fun userBankAdapter(
         rcv: RecyclerView,
-        banklist: List<negotiationmodel>,
+        banklist: List<Negotiationmodel>,
         isSelect: Boolean
     ) {
 
-        rcv.adapter = object : GenericListAdapter<negotiationmodel>(
+        rcv.adapter = object : GenericListAdapter<Negotiationmodel>(
             R.layout.bank_bottom_design,
             bind = { element, holder, itemCount, position ->
                 holder.view.run {

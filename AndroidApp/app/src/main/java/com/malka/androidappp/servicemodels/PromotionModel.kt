@@ -1,4 +1,4 @@
-package com.malka.androidappp.design.Models
+package com.malka.androidappp.servicemodels
 
 class PromotionModel(
     val packagename: String,

@@ -28,8 +28,8 @@ import com.google.gson.Gson
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.place_picker.LocationPickerActivity
 import com.malka.androidappp.base.BaseActivity
-import com.malka.androidappp.design.Models.BusinessUserModel
-import com.malka.androidappp.design.Models.getBusinessRegisterFile
+import com.malka.androidappp.servicemodels.BusinessUserRespone
+import com.malka.androidappp.servicemodels.getBusinessRegisterFile
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.helper.hide
 import com.malka.androidappp.helper.show
@@ -43,7 +43,6 @@ import com.malka.androidappp.servicemodels.LocationPickerModel
 import com.zfdang.multiple_images_selector.ImagesSelectorActivity
 import com.zfdang.multiple_images_selector.SelectorSettings
 import kotlinx.android.synthetic.main.activity_business_signup.*
-import kotlinx.android.synthetic.main.fragment_add_photo.*
 
 
 class BusinessAccountCreate : BaseActivity() {
@@ -374,7 +373,7 @@ class BusinessAccountCreate : BaseActivity() {
         val TaxNumber = TaxNumber.text.toString()
 
 
-        val addBusinessUser = BusinessUserModel.getBusinessList(
+        val addBusinessUser = BusinessUserRespone.BusinessUser(
 
             businessName = CompanyName,
             businessEmail = EmailAddress,
@@ -688,10 +687,6 @@ class BusinessAccountCreate : BaseActivity() {
 
 
     }
-
-    fun addBusinessRegisterFile(businessId: Int) {
-
-
 
 
     fun addBusinessRegisterFile(businessId: String) {

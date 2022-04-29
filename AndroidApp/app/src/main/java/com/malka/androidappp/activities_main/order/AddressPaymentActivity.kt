@@ -10,7 +10,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import com.malka.androidappp.R
 import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.botmnav_fragments.account_fragment.address.AddAddress
-import com.malka.androidappp.design.Models.GetAddressResponse
+import com.malka.androidappp.servicemodels.GetAddressResponse
 import com.malka.androidappp.helper.CommonAPI
 import com.malka.androidappp.helper.CommonBottomSheet
 import com.malka.androidappp.helper.GenericAdaptor

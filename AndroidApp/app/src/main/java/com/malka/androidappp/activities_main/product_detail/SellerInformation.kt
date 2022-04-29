@@ -1,4 +1,4 @@
-package com.malka.androidappp.design
+package com.malka.androidappp.activities_main.product_detail
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -14,13 +14,6 @@ import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.recycler_browsecat.GenericProductAdapter
 import com.malka.androidappp.servicemodels.ConstantObjects
 import kotlinx.android.synthetic.main.activity_seller_information.*
-import kotlinx.android.synthetic.main.activity_seller_information.instagram_btn
-import kotlinx.android.synthetic.main.activity_seller_information.maps_btn
-import kotlinx.android.synthetic.main.activity_seller_information.sellerName
-import kotlinx.android.synthetic.main.activity_seller_information.seller_city
-import kotlinx.android.synthetic.main.activity_seller_information.skype_btn
-import kotlinx.android.synthetic.main.activity_seller_information.youtube_btn
-import kotlinx.android.synthetic.main.product_detail_2.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 import retrofit2.Call
 import retrofit2.Callback

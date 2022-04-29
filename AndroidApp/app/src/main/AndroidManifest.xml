@@ -48,7 +48,7 @@
             android:exported="false"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".design.SellerInformation"
+            android:name=".activities_main.product_detail.SellerInformation"
             android:exported="false"
             android:screenOrientation="portrait"/>
         <activity
@@ -83,16 +83,10 @@
             android:name=".activities_main.order.CartActivity"
             android:exported="true"
             android:screenOrientation="portrait"/>
+
+
         <activity
-            android:name=".design.order_done"
-            android:exported="false"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".design.negotiation_offers1"
-            android:exported="true"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".design.ProductReviews"
+            android:name=".activities_main.product_detail.ProductReviews"
             android:exported="true"
             android:screenOrientation="portrait"/>
         <activity

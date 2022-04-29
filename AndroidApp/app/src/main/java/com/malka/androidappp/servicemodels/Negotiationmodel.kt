@@ -1,6 +1,6 @@
-package com.malka.androidappp.design.Models
+package com.malka.androidappp.servicemodels
 
-data class negotiationmodel (
+data class Negotiationmodel (
     val protype:String,
     val proname:String,
     val procity:String,

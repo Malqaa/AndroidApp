@@ -10,7 +10,7 @@ import androidx.core.content.ContextCompat
 import com.malka.androidappp.R
 import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.botmnav_fragments.create_ads.StaticClassAdCreate
-import com.malka.androidappp.design.Models.PromotionModel
+import com.malka.androidappp.servicemodels.PromotionModel
 import com.malka.androidappp.helper.hide
 import com.malka.androidappp.helper.show
 import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter

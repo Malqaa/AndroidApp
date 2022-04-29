@@ -13,12 +13,12 @@ import com.malka.androidappp.activities_main.login.SignInActivity
 import com.malka.androidappp.activities_main.product_detail.ProductDetails
 import com.malka.androidappp.botmnav_fragments.account_fragment.address.AddAddress
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
-import com.malka.androidappp.design.Models.GetAddressResponse
 import com.malka.androidappp.helper.Extension.decimalNumberFormat
 import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.network.constants.ApiConstants
 import com.malka.androidappp.servicemodels.AdDetailModel
 import com.malka.androidappp.servicemodels.ConstantObjects
+import com.malka.androidappp.servicemodels.GetAddressResponse
 import com.malka.androidappp.servicemodels.questionModel.Question
 import kotlinx.android.synthetic.main.add_address_design.view.*
 import kotlinx.android.synthetic.main.product_item.view.*
@@ -226,7 +226,7 @@ class GenericAdaptor {
         context: Context,
         category_rcv: RecyclerView,
         list: List<GetAddressResponse.AddressModel>,
-        type: String,onItemClick:
+        type: String, onItemClick:
             (address: GetAddressResponse.AddressModel) -> Unit
     ) {
         category_rcv.adapter = object : GenericListAdapter<GetAddressResponse.AddressModel>(

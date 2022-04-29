@@ -24,15 +24,11 @@ import com.malka.androidappp.activities_main.FullImageActivity
 import com.malka.androidappp.activities_main.MainActivity
 import com.malka.androidappp.activities_main.PlayActivity
 import com.malka.androidappp.activities_main.login.SignInActivity
-import com.malka.androidappp.activities_main.order.AddressPaymentActivity
 import com.malka.androidappp.activities_main.order.CartActivity
-import com.malka.androidappp.activities_main.order.SuccessOrder
 import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.botmnav_fragments.cardetail_page.ModelSellerDetails
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
-import com.malka.androidappp.design.Models.reviewmodel
-import com.malka.androidappp.design.ProductReviews
-import com.malka.androidappp.design.SellerInformation
+import com.malka.androidappp.servicemodels.Reviewmodel
 import com.malka.androidappp.helper.Extension.decimalNumberFormat
 import com.malka.androidappp.helper.Extension.loadThumbnail
 import com.malka.androidappp.helper.Extension.shared
@@ -69,7 +65,7 @@ import java.util.*
 
 class ProductDetails : BaseActivity() {
 
-    var reviewlist: ArrayList<reviewmodel> = ArrayList()
+    var reviewlist: ArrayList<Reviewmodel> = ArrayList()
     var AdvId = ""
     var template = ""
     var selectLink = ""
@@ -119,7 +115,7 @@ class ProductDetails : BaseActivity() {
 
 
         reviewlist.add(
-            reviewmodel(
+            Reviewmodel(
                 "Ahmed3",
                 "12/12/2022",
                 "Good and fast delivery",
@@ -128,7 +124,7 @@ class ProductDetails : BaseActivity() {
             )
         )
         reviewlist.add(
-            reviewmodel(
+            Reviewmodel(
                 "Ahmed4",
                 "16/12/2022",
                 "Great Experience ",
@@ -137,7 +133,7 @@ class ProductDetails : BaseActivity() {
             )
         )
         reviewlist.add(
-            reviewmodel(
+            Reviewmodel(
                 "Ahmed5",
                 "10/12/2022",
                 "Excelent fast delivery",
@@ -146,7 +142,7 @@ class ProductDetails : BaseActivity() {
             )
         )
         reviewlist.add(
-            reviewmodel(
+            Reviewmodel(
                 "Ahmed6",
                 "5/12/2022",
                 "Amazing and fast delivery",
@@ -155,7 +151,7 @@ class ProductDetails : BaseActivity() {
             )
         )
         reviewlist.add(
-            reviewmodel(
+            Reviewmodel(
                 "Ahmed3",
                 "12/12/2022",
                 "Good and fast delivery",
@@ -164,7 +160,7 @@ class ProductDetails : BaseActivity() {
             )
         )
         reviewlist.add(
-            reviewmodel(
+            Reviewmodel(
                 "Ahmed4",
                 "16/12/2022",
                 "Great Experience ",
@@ -173,7 +169,7 @@ class ProductDetails : BaseActivity() {
             )
         )
         reviewlist.add(
-            reviewmodel(
+            Reviewmodel(
                 "Ahmed4",
                 "16/12/2022",
                 "Great Experience ",
@@ -954,8 +950,8 @@ class ProductDetails : BaseActivity() {
 
     }
 
-    private fun setReviewsAdapter(list: ArrayList<reviewmodel>) {
-        review_rcv.adapter = object : GenericListAdapter<reviewmodel>(
+    private fun setReviewsAdapter(list: ArrayList<Reviewmodel>) {
+        review_rcv.adapter = object : GenericListAdapter<Reviewmodel>(
             R.layout.review_layout,
             bind = { element, holder, itemCount, position ->
                 holder.view.run {

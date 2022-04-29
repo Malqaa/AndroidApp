@@ -7,14 +7,13 @@ import android.widget.Filter
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.MainActivity
 import com.malka.androidappp.base.BaseActivity
-import com.malka.androidappp.design.Models.negotiationmodel
+import com.malka.androidappp.servicemodels.Negotiationmodel
 import com.malka.androidappp.helper.CommonBottomSheet
 import com.malka.androidappp.helper.hide
 import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.servicemodels.ConstantObjects
 import kotlinx.android.synthetic.main.activity_order_detail.*
 import kotlinx.android.synthetic.main.activity_order_detail.order_item
-import kotlinx.android.synthetic.main.activity_order_detail1.*
 import kotlinx.android.synthetic.main.order_detail_design.view.*
 import kotlinx.android.synthetic.main.order_item.view.*
 import kotlinx.android.synthetic.main.toolbar_main.*
@@ -36,7 +35,7 @@ class OrderDetail : BaseActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val list: ArrayList<negotiationmodel> = ArrayList()
+        val list: ArrayList<Negotiationmodel> = ArrayList()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_order_detail)
         order_item.complete_order_btn.hide()
@@ -48,9 +47,9 @@ class OrderDetail : BaseActivity() {
 
 
 
-        list.add(negotiationmodel("Electric - phone","RealMe 8 Pro ","Riyadh", "1653",R.drawable.detailpic1,"Ahmed","Member since 5/23/2020",R.drawable.profiledp))
-        list.add(negotiationmodel("Electric - bus","RealMe 8 ","Dubai", "1567",R.drawable.car1,"Ali", "Member since 2/21/2020",R.drawable.profile_pic))
-        list.add(negotiationmodel("Electric - car","RealMe 8 Pro ","Dubai3", "1711",R.drawable.car5,"Ahmed2","Member since 12/11/2022",R.drawable.car2))
+        list.add(Negotiationmodel("Electric - phone","RealMe 8 Pro ","Riyadh", "1653",R.drawable.detailpic1,"Ahmed","Member since 5/23/2020",R.drawable.profiledp))
+        list.add(Negotiationmodel("Electric - bus","RealMe 8 ","Dubai", "1567",R.drawable.car1,"Ali", "Member since 2/21/2020",R.drawable.profile_pic))
+        list.add(Negotiationmodel("Electric - car","RealMe 8 Pro ","Dubai3", "1711",R.drawable.car5,"Ahmed2","Member since 12/11/2022",R.drawable.car2))
 
         OrderDetailsAdapter(list)
 
@@ -60,9 +59,9 @@ class OrderDetail : BaseActivity() {
 
 
 
-    private fun OrderDetailsAdapter(list: List<negotiationmodel>, isCurrent: Boolean = true) {
+    private fun OrderDetailsAdapter(list: List<Negotiationmodel>, isCurrent: Boolean = true) {
 
-        negotiation_rcv.adapter = object : GenericListAdapter<negotiationmodel>(
+        negotiation_rcv.adapter = object : GenericListAdapter<Negotiationmodel>(
             R.layout.order_detail_design,
             bind = { element, holder, itemCount, position ->
                 holder.view.run {

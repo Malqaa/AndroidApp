@@ -9,7 +9,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import com.malka.androidappp.R
 import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.botmnav_fragments.activities_main.business_signup.BusinessAccountCreate
-import com.malka.androidappp.design.Models.BusinessUserModel
+import com.malka.androidappp.servicemodels.BusinessUserRespone
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
@@ -18,9 +18,6 @@ import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.servicemodels.ConstantObjects
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_switch_account.*
-import kotlinx.android.synthetic.main.pager_layout.view.*
-import kotlinx.android.synthetic.main.product_detail_2.*
-import kotlinx.android.synthetic.main.product_item.view.*
 import kotlinx.android.synthetic.main.switch_account_design.view.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 
@@ -71,18 +68,18 @@ class Switch_Account : BaseActivity() {
 
 
 
-        call.enqueue(object : retrofit2.Callback<BusinessUserModel?> {
-            override fun onFailure(call: retrofit2.Call<BusinessUserModel?>?, t: Throwable) {
+        call.enqueue(object : retrofit2.Callback<BusinessUserRespone?> {
+            override fun onFailure(call: retrofit2.Call<BusinessUserRespone?>?, t: Throwable) {
                 HelpFunctions.dismissProgressBar()
 
                 Toast.makeText(this@Switch_Account, "${t.message}", Toast.LENGTH_LONG).show()
             }
 
-            override fun onResponse(call: retrofit2.Call<BusinessUserModel?>, response: retrofit2.Response<BusinessUserModel?>) {
+            override fun onResponse(call: retrofit2.Call<BusinessUserRespone?>, response: retrofit2.Response<BusinessUserRespone?>) {
                 if (response.isSuccessful) {
 
                     if (response.body() != null) {
-                        val respone: BusinessUserModel = response.body()!!
+                        val respone: BusinessUserRespone = response.body()!!
                         if (respone.status_code==200){
                             getBusinessUser(respone.data)
                         }else{
@@ -99,9 +96,9 @@ class Switch_Account : BaseActivity() {
     }
 
 
-    private fun getBusinessUser(list: List<BusinessUserModel.getBusinessList>) {
+    private fun getBusinessUser(list: List<BusinessUserRespone.BusinessUser>) {
         accounts.text="${list.size+1} ${getString(R.string.accounts)}"
-        business_rcv.adapter = object : GenericListAdapter<BusinessUserModel.getBusinessList>(
+        business_rcv.adapter = object : GenericListAdapter<BusinessUserRespone.BusinessUser>(
             R.layout.switch_account_design,
             bind = { element, holder, itemCount, position ->
                 holder.view.run {

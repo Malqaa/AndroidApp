@@ -6,7 +6,7 @@ import android.os.Bundle
 import com.google.gson.Gson
 import com.malka.androidappp.R
 import com.malka.androidappp.base.BaseActivity
-import com.malka.androidappp.design.Models.GetAddressResponse
+import com.malka.androidappp.servicemodels.GetAddressResponse
 import com.malka.androidappp.helper.CommonAPI
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.helper.widgets.searchdialog.SearchListItem

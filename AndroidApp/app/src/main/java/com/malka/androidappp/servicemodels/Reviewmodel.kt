@@ -1,6 +1,6 @@
-package com.malka.androidappp.design.Models
+package com.malka.androidappp.servicemodels
 
-data class reviewmodel(
+data class Reviewmodel(
     val name: String,
     val date: String,
     val comment: String,

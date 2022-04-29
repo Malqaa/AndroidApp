@@ -1,4 +1,4 @@
-package com.malka.androidappp.design.Models
+package com.malka.androidappp.servicemodels
 
 data class BankListRespone(
     val `data`: List<BankDetail>,

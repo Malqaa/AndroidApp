@@ -26,10 +26,10 @@ import com.malka.androidappp.botmnav_fragments.sellerdetails.SellerResponseBack
 import com.malka.androidappp.botmnav_fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ModelShipAddresses
 import com.malka.androidappp.botmnav_fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ShippingAddressessData
 import com.malka.androidappp.botmnav_fragments.won_n_loss.model_wonloss.ModelWonLost
-import com.malka.androidappp.design.Models.BankListRespone
-import com.malka.androidappp.design.Models.BusinessUserModel
-import com.malka.androidappp.design.Models.GetAddressResponse
-import com.malka.androidappp.design.Models.getBusinessRegisterFile
+import com.malka.androidappp.servicemodels.BankListRespone
+import com.malka.androidappp.servicemodels.BusinessUserRespone
+import com.malka.androidappp.servicemodels.GetAddressResponse
+import com.malka.androidappp.servicemodels.getBusinessRegisterFile
 import com.malka.androidappp.network.constants.ApiConstants
 import com.malka.androidappp.network.constants.ApiConstants.GET_ALL_CATEGORIES_BY_ID
 import com.malka.androidappp.network.constants.ApiConstants.GET_CATEGORY_TAGS_ENDPOINT
@@ -91,7 +91,7 @@ interface MalqaApiService {
     fun updateAddress(@Body info: GetAddressResponse.AddressModel): Call<GeneralRespone>
 
     @POST("Accounts/CreateBusinessAccount")
-    fun addBusinesUser(@Body info: BusinessUserModel.getBusinessList): Call<GeneralRespone>
+    fun addBusinesUser(@Body info: BusinessUserRespone.BusinessUser): Call<GeneralRespone>
 
     @POST("Accounts/UploadBusinessDocuments")
     fun addBusinessRegisterFile(@Body info: getBusinessRegisterFile.GetDocuments): Call<GeneralRespone>
@@ -106,7 +106,7 @@ interface MalqaApiService {
     fun getBankDetail(@Query("UserID") loginId: String): Call<BankListRespone>
 
     @GET("Accounts/GetBusinessListByUserId")
-    fun getBusinessUserList(@Query("UserID") loginId: String): Call<BusinessUserModel>
+    fun getBusinessUserList(@Query("UserID") loginId: String): Call<BusinessUserRespone>
 
     @GET("Country/GetAllCountryFrmSql")
     fun getCountry(@Query("culture") culture: String): Call<CountryRespone>

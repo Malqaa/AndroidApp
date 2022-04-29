@@ -1,4 +1,4 @@
-package com.malka.androidappp.design.Models
+package com.malka.androidappp.servicemodels
 
 data class getBusinessRegisterFile(
     val code: Any,

@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import com.malka.androidappp.R
-import com.malka.androidappp.design.Models.GetAddressResponse
+import com.malka.androidappp.servicemodels.GetAddressResponse
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.servicemodels.ConstantObjects
