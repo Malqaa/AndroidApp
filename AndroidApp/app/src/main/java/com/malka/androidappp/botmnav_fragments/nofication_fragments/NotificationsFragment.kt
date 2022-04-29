@@ -18,7 +18,5 @@ class NotificationsFragment : Fragment(R.layout.fragment_notifications) {
         back_btn.setOnClickListener {
             findNavController().popBackStack()
         }
-
     }
-
 }

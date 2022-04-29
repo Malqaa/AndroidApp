@@ -13,9 +13,14 @@ import com.malka.androidappp.design.Models.BusinessUserModel
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
+import com.malka.androidappp.network.constants.ApiConstants
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.servicemodels.ConstantObjects
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_switch_account.*
+import kotlinx.android.synthetic.main.pager_layout.view.*
+import kotlinx.android.synthetic.main.product_detail_2.*
+import kotlinx.android.synthetic.main.product_item.view.*
 import kotlinx.android.synthetic.main.switch_account_design.view.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 
@@ -31,6 +36,7 @@ class Switch_Account : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_switch_account)
         toolbar_title.text = getString(R.string.switch_accounts)
+        loadProfile()
         back_btn.setOnClickListener {
             finish()
         }
@@ -42,6 +48,18 @@ class Switch_Account : BaseActivity() {
         }
 
         getBusinessUserList()
+    }
+
+    private fun loadProfile() {
+        try {
+
+            ConstantObjects.userobj!!.run {
+                review_name.text = fullName
+            }
+        } catch (er: Exception) {
+
+        }
+
     }
 
     fun getBusinessUserList() {
@@ -89,8 +107,14 @@ class Switch_Account : BaseActivity() {
                 holder.view.run {
                     element.run {
                         business_name.text = businessName
-
-
+                        val imageURL = ApiConstants.IMAGE_URL + businessLogoPath
+                        if (!imageURL.isNullOrEmpty()) {
+                            Picasso.get().load(imageURL)
+                                .error(R.drawable.profileicon_bottomnav).placeholder(R.drawable.profileicon_bottomnav)
+                                .into(review_profile_pic)
+                        } else {
+                            review_profile_pic.setImageResource(R.drawable.profileicon_bottomnav)
+                        }
                     }
                 }
             }
@@ -106,3 +130,4 @@ class Switch_Account : BaseActivity() {
         }
     }
 }
+

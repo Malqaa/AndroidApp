@@ -33,6 +33,7 @@ import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.servicemodels.ConstantObjects
 import com.malka.androidappp.servicemodels.home.GetAllAds
+import kotlinx.android.synthetic.main.fragment_browse_market.*
 import kotlinx.android.synthetic.main.fragment_homee.*
 import kotlinx.android.synthetic.main.parenet_category_item.view.*
 import retrofit2.Call
@@ -270,6 +271,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee),
                             startActivity(Intent(requireContext(), SearchCategoryActivity::class.java).apply {
                                 putExtra("CategoryDesc", category_id)
                                 putExtra("SearchQuery", "")
+//                                putExtra("isMapShow", false)
                             })
 
                         }

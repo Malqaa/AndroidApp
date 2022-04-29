@@ -43,6 +43,7 @@ import com.malka.androidappp.servicemodels.LocationPickerModel
 import com.zfdang.multiple_images_selector.ImagesSelectorActivity
 import com.zfdang.multiple_images_selector.SelectorSettings
 import kotlinx.android.synthetic.main.activity_business_signup.*
+import kotlinx.android.synthetic.main.fragment_add_photo.*
 
 
 class BusinessAccountCreate : BaseActivity() {
@@ -53,6 +54,8 @@ class BusinessAccountCreate : BaseActivity() {
     var businessDocument = ""
     var selectdate = ""
     var fm: FragmentManager? = null
+    var isProfileImage = false
+    var profileImageBase64 = ""
 
     private val selectedImagesURI: ArrayList<ImageSelectModel> = ArrayList()
 
@@ -78,16 +81,9 @@ class BusinessAccountCreate : BaseActivity() {
 
 
 
-
-        busi_signup2_btn.setOnClickListener {
-            onBackPressed()
-            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
-        }
-
-
         business_signup2_button.setOnClickListener() {
 
-            if (validateUserName() && validateCompanyName() && validateSignupEmail() && validateNumber() && validateCompanyURL() && validateEmployementType() && validateCommercialRegisterNo()
+            if (validateUserName() && validateCompanyName() && validateSignupEmail() && validateNumber() && validateCompanyURL() && validateProfilePicture() && validateEmployementType() && validateCommercialRegisterNo()
                 && validateExpiryDate() && validateTaxNumber() && validateCommercialRegisterDoc()
             ) {
 
@@ -134,22 +130,10 @@ class BusinessAccountCreate : BaseActivity() {
             }
         }
 
-        download_the_commercial_registry_file.setOnClickListener {
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                if (PermissionChecker.checkSelfPermission(
-                        this,
-                        Manifest.permission.READ_EXTERNAL_STORAGE
-                    ) == PermissionChecker.PERMISSION_DENIED
-                ) {
-                    val permissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE);
-                    requestPermissions(permissions, PERMISSION_CODE);
-                } else {
-                    pickImageFromGallery();
-                }
-            } else {
-                pickImageFromGallery();
-            }
+        download_the_commercial_registry_file.setOnClickListener {
+            isProfileImage = false
+            checkPermissions()
 
         }
 
@@ -223,6 +207,51 @@ class BusinessAccountCreate : BaseActivity() {
         locating_the_company.setOnClickListener {
             checkLocationPermission()
         }
+
+
+        busi_signup2_btn.setOnClickListener {
+            onBackPressed()
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+        }
+
+
+        upload_photo.setOnClickListener {
+            isProfileImage = true
+            checkPermissions()
+
+        }
+
+
+    }
+
+    private fun checkPermissions() {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (PermissionChecker.checkSelfPermission(
+                    this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                ) == PermissionChecker.PERMISSION_DENIED
+            ) {
+                val permissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE);
+                requestPermissions(permissions, PERMISSION_CODE);
+            } else {
+                pickImageFromGallery();
+            }
+        } else {
+            pickImageFromGallery();
+        }
+
+    }
+
+
+    fun pickImageFromGallery() {
+        mResults.clear()
+        val intent = Intent(this, ImagesSelectorActivity::class.java)
+        intent.putExtra(SelectorSettings.SELECTOR_MAX_IMAGE_NUMBER, 1)
+        intent.putExtra(SelectorSettings.SELECTOR_SHOW_CAMERA, false)
+        intent.putStringArrayListExtra(SelectorSettings.SELECTOR_INITIAL_SELECTED_LIST, mResults)
+
+        startActivityForResult(intent, IMAGE_PICK_CODE)
     }
 
     private fun checkLocationPermission() {
@@ -249,6 +278,75 @@ class BusinessAccountCreate : BaseActivity() {
     }
 
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == RESULT_OK) {
+
+            if (requestCode == IMAGE_PICK_CODE) {
+                mResults = data!!.getStringArrayListExtra(SelectorSettings.SELECTOR_RESULTS)!!
+                selectedImagesURI.clear()
+                if (isProfileImage){
+
+                    mResults.forEach {
+                        try {
+                            profileImageBase64 = HelpFunctions.encodeImage(it)!!
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+
+                    }
+
+                }else{
+
+                    mResults.forEach {
+                        try {
+                            val uri: Uri = Uri.parse(it)
+                            businessDocument = HelpFunctions.encodeImage(it)!!
+                            selectedImagesURI.add(ImageSelectModel(uri, businessDocument))
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+
+                    }
+
+                }
+
+
+
+
+            }
+        }
+
+        if (requestCode == REQUEST_GPS_SETTINGS) {
+            when (resultCode) {
+                Activity.RESULT_OK -> {
+                    openPlacePicker()
+                }
+                Activity.RESULT_CANCELED -> {
+
+                    val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+                    builder.setMessage(getString(R.string.gps_check))
+                    builder.setTitle(getString(R.string.alert))
+                        .setCancelable(false)
+                        .setPositiveButton(
+                            getString(R.string.ok)
+                        ) { dialog, id ->
+                            checkGPS()
+                        }
+                        .setNegativeButton(
+                            "Cancel"
+                        ) { dialog: DialogInterface?, id: Int ->
+                            finish()
+                        }
+                    val alert: AlertDialog = builder.create()
+                    alert.show()
+                }
+            }
+        }
+    }
+
+
+
 
 
 
@@ -272,6 +370,7 @@ class BusinessAccountCreate : BaseActivity() {
         val SelectEmployemntType = employment_type.text.toString()
         val CommercialRegisterNo = commercial_registration_no.text.toString()
         val SelectDate = date.text.toString()
+        val profile_photo = upload_photo.text.toString()
         val TaxNumber = TaxNumber.text.toString()
 
 
@@ -292,7 +391,7 @@ class BusinessAccountCreate : BaseActivity() {
             approvedBy = "",
             approvedOn = "",
             businessGoogleLatLng = "${locationPicker!!.lat},${locationPicker!!.lng}",
-            businessLogoPath = "",
+            businessLogoPath = profileImageBase64,
             businessPhone = PhoneNumber.text.toString(),
             id = 0,
             isApproved = true,
@@ -458,6 +557,23 @@ class BusinessAccountCreate : BaseActivity() {
         }
     }
 
+    //ProfilePicture Validation
+    private fun validateProfilePicture(): Boolean {
+        val emailInput =
+            upload_photo!!.text.toString().trim { it <= ' ' }
+        return if (emailInput.isEmpty()) {
+            showError(
+                getString(
+                    R.string.Please_select,
+                    getString(R.string.profile_picture)
+                )
+            )
+            false
+        } else {
+            true
+        }
+    }
+
 
     //ExpiryDate Validation
     private fun validateExpiryDate(): Boolean {
@@ -502,55 +618,6 @@ class BusinessAccountCreate : BaseActivity() {
     }
 
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == RESULT_OK) {
-
-            if (requestCode == IMAGE_PICK_CODE) {
-                mResults = data!!.getStringArrayListExtra(SelectorSettings.SELECTOR_RESULTS)!!
-                selectedImagesURI.clear()
-                mResults.forEach {
-                    try {
-                        val uri: Uri = Uri.parse(it)
-                        businessDocument = HelpFunctions.encodeImage(it)!!
-                        selectedImagesURI.add(ImageSelectModel(uri, businessDocument))
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
-
-                }
-
-            }
-        }
-
-        if (requestCode == REQUEST_GPS_SETTINGS) {
-            when (resultCode) {
-                Activity.RESULT_OK -> {
-                    openPlacePicker()
-                }
-                Activity.RESULT_CANCELED -> {
-
-                    val builder: AlertDialog.Builder = AlertDialog.Builder(this)
-                    builder.setMessage(getString(R.string.gps_check))
-                    builder.setTitle(getString(R.string.alert))
-                        .setCancelable(false)
-                        .setPositiveButton(
-                            getString(R.string.ok)
-                        ) { dialog, id ->
-                            checkGPS()
-                        }
-                        .setNegativeButton(
-                            "Cancel"
-                        ) { dialog: DialogInterface?, id: Int ->
-                            finish()
-                        }
-                    val alert: AlertDialog = builder.create()
-                    alert.show()
-                }
-            }
-        }
-    }
-
 
     //handle requested permission result
     override fun onRequestPermissionsResult(
@@ -560,6 +627,7 @@ class BusinessAccountCreate : BaseActivity() {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
+
             PERMISSION_CODE -> {
                 if (grantResults.size > 0 && grantResults[0] ==
                     PackageManager.PERMISSION_GRANTED
@@ -579,6 +647,7 @@ class BusinessAccountCreate : BaseActivity() {
                     HelpFunctions.ShowLongToast("Permission denied", this)
                 }
             }
+
         }
     }
 
@@ -620,18 +689,9 @@ class BusinessAccountCreate : BaseActivity() {
 
     }
 
+    fun addBusinessRegisterFile(businessId: Int) {
 
 
-
-    fun pickImageFromGallery() {
-        val intent = Intent(this, ImagesSelectorActivity::class.java)
-        intent.putExtra(SelectorSettings.SELECTOR_MAX_IMAGE_NUMBER, 1)
-        intent.putExtra(SelectorSettings.SELECTOR_SHOW_CAMERA, false)
-        mResults.clear()
-        intent.putStringArrayListExtra(SelectorSettings.SELECTOR_INITIAL_SELECTED_LIST, mResults)
-
-        startActivityForResult(intent, IMAGE_PICK_CODE)
-    }
 
 
     fun addBusinessRegisterFile(businessId: String) {

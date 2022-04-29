@@ -64,12 +64,12 @@
                     android:layout_marginEnd="@dimen/_10sdp"
                     android:orientation="horizontal">
 
-                    <ImageView
+                    <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/review_profile_pic"
                         android:layout_width="@dimen/_50sdp"
                         android:layout_height="@dimen/_50sdp"
                         android:layout_gravity="center_vertical"
-                        android:src="@drawable/profile_pic" />
+                        android:src="@drawable/profileicon_bottomnav" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -155,6 +155,7 @@
         </RelativeLayout>
 
 
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/business_rcv"
             android:layout_width="match_parent"
@@ -163,6 +164,9 @@
             android:layout_marginBottom="@dimen/_10sdp"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:spanCount="1" />
+
+
+
 
 
     </LinearLayout>
