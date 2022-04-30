@@ -1,4 +1,4 @@
-package com.malka.androidappp.activities_main.signup_account.signup_pg2
+package com.malka.androidappp.servicemodels
 
 data class PostReqVerifyCode(
     val code: String,

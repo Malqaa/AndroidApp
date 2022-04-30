@@ -1,4 +1,4 @@
-package com.malka.androidappp.botmnav_fragments.home.model
+package com.malka.androidappp.servicemodels.model
 
 data class AllCategoriesResponseBack(
     val status_code: String,

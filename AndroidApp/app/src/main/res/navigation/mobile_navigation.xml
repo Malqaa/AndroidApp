@@ -34,12 +34,8 @@
         android:label="@string/title_account"
         tools:layout="@layout/fragment_account">
 
-        <action
-            android:id="@+id/acc_won"
-            app:destination="@+id/won_frag" />
-        <action
-            android:id="@+id/acc_lost"
-            app:destination="@+id/lost_frag" />
+
+
         <action
             android:id="@+id/accountsettingtoprofile"
             app:destination="@+id/profileFrag" />
@@ -519,16 +515,13 @@
 
     </fragment>
 
-    <fragment
-        android:id="@+id/won_frag"
-        android:name="com.malka.androidappp.botmnav_fragments.won_n_loss.won_frag.WonFrag"
-        tools:layout="@layout/fragment_won">
 
-    </fragment>
+
+
 
     <fragment
         android:id="@+id/lost_frag"
-        android:name="com.malka.androidappp.botmnav_fragments.won_n_loss.lost_frag.LostFrag"
+        android:name="com.malka.androidappp.botmnav_fragments.won_n_loss.LostFrag"
         tools:layout="@layout/fragment_lost">
 
     </fragment>

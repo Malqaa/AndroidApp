@@ -22,8 +22,8 @@ import com.malka.androidappp.activities_main.login.SignInActivity
 import com.malka.androidappp.activities_main.order.CartActivity
 import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.botmnav_fragments.browse_market.SearchCategoryActivity
-import com.malka.androidappp.botmnav_fragments.home.model.AllCategoriesResponseBack
-import com.malka.androidappp.botmnav_fragments.home.model.DynamicList
+import com.malka.androidappp.servicemodels.model.AllCategoriesResponseBack
+import com.malka.androidappp.servicemodels.model.DynamicList
 import com.malka.androidappp.helper.GenericAdaptor
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.helper.hide

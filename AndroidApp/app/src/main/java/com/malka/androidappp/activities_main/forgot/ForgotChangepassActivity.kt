@@ -1,12 +1,9 @@
 package com.malka.androidappp.activities_main.forgot
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import com.malka.androidappp.R
-import com.malka.androidappp.activities_main.login.SignInActivity
-import com.malka.androidappp.activities_main.signup_account.signup_pg3.User
+import com.malka.androidappp.servicemodels.User
 import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.helper.HelpFunctions.Companion.PASSWORD_PATTERN
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder

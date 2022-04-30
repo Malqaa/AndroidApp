@@ -1,4 +1,4 @@
-package com.malka.androidappp.activities_main.signup_account.signup_pg3
+package com.malka.androidappp.servicemodels
 
 data class RefreshTokenX(
     val created: String,

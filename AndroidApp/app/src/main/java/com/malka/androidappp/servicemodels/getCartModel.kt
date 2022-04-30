@@ -1,6 +1,5 @@
 package com.malka.androidappp.servicemodels
 
-import com.malka.androidappp.activities_main.signup_account.signup_pg3.User
 import com.malka.androidappp.helper.HelpFunctions
 
 data class getCartModel(

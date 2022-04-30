@@ -3,44 +3,85 @@ package com.malka.androidappp.botmnav_fragments.account_fragment
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Filter
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.MainActivity
-import com.malka.androidappp.activities_main.add_product.ListanItem
 import com.malka.androidappp.activities_main.business_signup.Switch_Account
 import com.malka.androidappp.activities_main.login.SignInActivity
 import com.malka.androidappp.activities_main.order.CartActivity
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
-import com.malka.androidappp.helper.CommonAPI
-import com.malka.androidappp.helper.HelpFunctions
+import com.malka.androidappp.helper.*
+import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
+import com.malka.androidappp.servicemodels.AccountItem
+import com.malka.androidappp.servicemodels.AccountSubItem
 import com.malka.androidappp.servicemodels.ConstantObjects
 import io.paperdb.Paper
+import kotlinx.android.synthetic.main.account_main_item.view.*
+import kotlinx.android.synthetic.main.account_sub_item.view.*
 import kotlinx.android.synthetic.main.fragment_account.*
 
 
 class AccountFragment : Fragment(R.layout.fragment_account) {
-    fun disableenableoptions(enable: Boolean) {
-        profilecardv.isEnabled = enable
-        watchlist_card.isEnabled = enable
-        shop_card.isEnabled = enable
-        fav_card.isEnabled = enable
-        fixed_price.isEnabled = enable
-        wonfragg.isEnabled = enable
-        lostfragg.isEnabled = enable
-        product.isEnabled = enable
-        buttonlistitem.isEnabled = enable
-        item_imselling_btn.isEnabled = enable
-        soldfragg.isEnabled = enable
-        unsold_card.isEnabled = enable
-        settingcardv.isEnabled = enable
-        selling_opt.isEnabled = enable
-        helpbtn.isEnabled = enable
-        logout_signin.isEnabled = enable
-        logout_signin.isEnabled = enable
-        btn_signin.isEnabled = !enable
+    val list: ArrayList<AccountItem> = ArrayList()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        list.apply {
+            add(
+                AccountItem(
+                    getString(R.string.Sale), arrayListOf(
+                        AccountSubItem(getString(R.string.MyProducts), R.drawable.newslogo)
+                    )
+                )
+            )
+
+            add(
+                AccountItem(
+                    getString(R.string.purchase), arrayListOf(
+                        AccountSubItem(getString(R.string.my_orders), R.drawable.shopingbag),
+                        AccountSubItem(getString(R.string.my_bids), R.drawable.bidlogo),
+                        AccountSubItem(getString(R.string.Loser), R.drawable.lost),
+                        AccountSubItem(
+                            getString(R.string.shopping_basket),
+                            R.drawable.cart
+                        ),
+                        AccountSubItem(
+                            getString(R.string.negotiation_offers),
+                            R.drawable.path
+                        ),
+
+                        )
+                )
+            )
+
+            add(
+                AccountItem(
+                    getString(R.string.Settings), arrayListOf(
+                        AccountSubItem(getString(R.string.edit_profile), R.drawable.setting),
+                        AccountSubItem(getString(R.string.payment_cards), R.drawable.paymentcard),
+                        AccountSubItem(getString(R.string.save_addresses), R.drawable.maps),
+                        AccountSubItem(
+                            getString(R.string.application_settings),
+                            R.drawable.settinglogo
+                        ),
+                        AccountSubItem(getString(R.string.help), R.drawable.discord),
+                        AccountSubItem(getString(R.string.technical_support), R.drawable.call),
+                        AccountSubItem(
+                            getString(R.string.switch_accounts_and_business_account),
+                            R.drawable.user
+                        ),
+                        AccountSubItem(getString(R.string.logout), R.drawable.logout),
+
+                        )
+                )
+            )
+        }
     }
+
 
     companion object {
         var isProfileLoad = false
@@ -50,85 +91,23 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
         super.onViewCreated(view, savedInstanceState)
         setListenser()
         fragment_account.isVisible = false
-        if (!HelpFunctions.IsUserLoggedIn()) {
-            disableenableoptions(false)
-            logout_signin.visibility = View.GONE
-            btn_signin.visibility = View.VISIBLE
-        } else {
-            disableenableoptions(true)
-            logout_signin.visibility = View.VISIBLE
-            btn_signin.visibility = View.GONE
-            if (!isProfileLoad) {
-                CommonAPI().GetUserInfo(requireContext(), ConstantObjects.logged_userid) {
-                    isProfileLoad = true
-                    loadProfile()
-                }
-            } else {
+        if (!isProfileLoad) {
+            CommonAPI().GetUserInfo(requireContext(), ConstantObjects.logged_userid) {
+                isProfileLoad = true
                 loadProfile()
             }
+        } else {
+            loadProfile()
         }
 
 
 
         userType()
 
+
     }
 
     private fun setListenser() {
-        helpbtn.setOnClickListener() {
-
-        }
-
-
-
-        profilecardv.setOnClickListener() {
-
-            findNavController().navigate(R.id.accountsettingtoprofile)
-        }
-        settingcardv.setOnClickListener() {
-            findNavController().navigate(R.id.accountsettingtosettings)
-        }
-
-        buttonlistitem.setOnClickListener() {
-            requireActivity().startActivity(Intent(requireActivity(), ListanItem::class.java))
-        }
-
-        wonfragg.setOnClickListener() {
-            findNavController().navigate(R.id.acc_won)
-        }
-
-        lostfragg.setOnClickListener() {
-            findNavController().navigate(R.id.acc_lost)
-        }
-
-        fixed_price.setOnClickListener() {
-            findNavController().navigate(R.id.account_fixedprice)
-        }
-
-        MyProducts.setOnClickListener() {
-            findNavController().navigate(R.id.myProduct)
-        }
-
-        edit_profile_setting.setOnClickListener() {
-            findNavController().navigate(R.id.editProfile)
-        }
-
-        my_rquest.setOnClickListener() {
-            findNavController().navigate(R.id.myRequest)
-        }
-
-        negotiation_offers.setOnClickListener() {
-            findNavController().navigate(R.id.negotiationOffer)
-        }
-
-        my_bids.setOnClickListener() {
-            findNavController().navigate(R.id.mybids)
-        }
-
-        payment_card.setOnClickListener() {
-            findNavController().navigate(R.id.paymentCard)
-        }
-
         follow_up.setOnClickListener() {
             //findNavController().navigate(R.id.followUp)
         }
@@ -140,25 +119,26 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
             //  findNavController().navigate(R.id.myPoints)
         }
 
-//        add_button.setOnClickListener {
-//            findNavController().navigate(R.id.addAddress)
-//        }
 
-        MySavedAddress.setOnClickListener() {
-            findNavController().navigate(R.id.MySavedAddress)
 
+
+
+        profilecardv.setOnClickListener() {
+
+            findNavController().navigate(R.id.accountsettingtoprofile)
         }
-
-        application_setting.setOnClickListener {
-            findNavController().navigate(R.id.applicationSetting)
-        }
-
-        technincal_support.setOnClickListener {
-            findNavController().navigate(R.id.technicalSupport)
+        settingcardv.setOnClickListener() {
+            findNavController().navigate(R.id.accountsettingtosettings)
         }
 
 
 
+
+
+
+        fixed_price.setOnClickListener() {
+            findNavController().navigate(R.id.account_fixedprice)
+        }
 
         watchlist_card.setOnClickListener() {
             findNavController().navigate(R.id.acc_watchlist)
@@ -173,18 +153,8 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
             findNavController().navigate(R.id.account_sellingopt)
         }
 
-
-
         product.setOnClickListener() {
             findNavController().navigate(R.id.account_products)
-        }
-
-        logout_signin.setOnClickListener() {
-            Paper.book().write(SharedPreferencesStaticClass.islogin, false)
-            ConstantObjects.logged_userid = ""
-
-            HelpFunctions.ShowLongToast(getString(R.string.loggedoutsuccessfully), context)
-            findNavController().navigate(R.id.logout_to_home)
         }
 
         btn_signin.setOnClickListener() {
@@ -193,21 +163,6 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
             requireActivity().finish()
         }
 
-        switch_accounts_and_business_account.setOnClickListener {
-            val intentt = Intent(this.activity, Switch_Account::class.java)
-            startActivity(intentt)
-        }
-
-        shoping_basket.setOnClickListener {
-            if (ConstantObjects.logged_userid.isEmpty()) {
-                startActivity(Intent(context, SignInActivity::class.java).apply {
-                })
-            } else {
-                val intent = Intent(requireActivity(), CartActivity::class.java)
-                startActivity(intent)
-            }
-
-        }
 
 
     }
@@ -220,13 +175,7 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
                 member_since_tv.text = "${getString(R.string.member_since)}: $member_since"
                 membership_number_tv.text = "${getString(R.string.membership_number)}: "
             }
-            if (MainActivity.myOrderTrigger) {
-                MainActivity.myOrderTrigger = false
-                my_rquest.performClick()
-            } else if (MainActivity.myBidTrigger) {
-                MainActivity.myBidTrigger = false
-                my_bids.performClick()
-            }
+            setAdaptor()
         } catch (er: Exception) {
 
         }
@@ -240,6 +189,149 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
             productview.visibility = View.GONE
         } else {
             productview.visibility = View.VISIBLE
+        }
+
+    }
+
+    private fun setAdaptor() {
+        main_item_rcv.adapter = object : GenericListAdapter<AccountItem>(
+            R.layout.account_main_item,
+            bind = { element, holder, itemCount, position ->
+                holder.view.run {
+                    element.run {
+                        main_item_tv.text = name
+
+                        sub_item_rcv.adapter = object : GenericListAdapter<AccountSubItem>(
+                            R.layout.account_sub_item,
+                            bind = { element, holder, itemCount, position ->
+                                holder.view.run {
+                                    element.run {
+                                        sub_item_tv.text = name
+                                        item_icon.setImageResource(image)
+                                        if (MainActivity.myOrderTrigger) {
+                                            MainActivity.myOrderTrigger = false
+                                            findNavController().navigate(R.id.myRequest)
+                                        } else if (MainActivity.myBidTrigger) {
+                                            MainActivity.myBidTrigger = false
+                                            findNavController().navigate(R.id.mybids)
+                                        }
+                                        if(name.equals(getString(R.string.logout))){
+                                            sub_item_tv.setTextColor(ContextCompat.getColor(requireContext(), R.color.bg))
+                                            item_right_icon.setColorFilter(ContextCompat.getColor(context, R.color.bg), android.graphics.PorterDuff.Mode.SRC_IN);
+                                            line.hide()
+                                        }else{
+                                            sub_item_tv.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+                                            item_right_icon.setColorFilter(ContextCompat.getColor(context, R.color.black), android.graphics.PorterDuff.Mode.SRC_IN);
+                                            line.show()
+
+                                        }
+                                        setOnClickListener {
+                                            when (name) {
+                                                getString(R.string.MyProducts) -> {
+                                                    findNavController().navigate(R.id.myProduct)
+                                                }
+
+                                                getString(R.string.my_orders) -> {
+                                                    findNavController().navigate(R.id.myRequest)
+
+                                                }
+                                                getString(R.string.my_bids) -> {
+                                                    findNavController().navigate(R.id.mybids)
+
+                                                }
+                                                getString(R.string.Loser) -> {
+                                                    findNavController().navigate(R.id.lost_frag)
+
+                                                }
+                                                getString(R.string.shopping_basket) -> {
+                                                    if (ConstantObjects.logged_userid.isEmpty()) {
+                                                        startActivity(Intent(context, SignInActivity::class.java))
+                                                    } else {
+                                                        startActivity(Intent(requireActivity(), CartActivity::class.java))
+                                                    }
+                                                }
+                                                getString(R.string.negotiation_offers) -> {
+                                                    findNavController().navigate(R.id.negotiationOffer)
+
+                                                }
+                                                getString(R.string.edit_profile) -> {
+                                                    findNavController().navigate(R.id.editProfile)
+
+                                                }
+                                                getString(R.string.payment_cards) -> {
+                                                    findNavController().navigate(R.id.paymentCard)
+
+                                                }
+
+                                                getString(R.string.save_addresses) -> {
+                                                    findNavController().navigate(R.id.MySavedAddress)
+                                                }
+
+                                                getString(R.string.application_settings) -> {
+                                                    findNavController().navigate(R.id.applicationSetting)
+
+                                                }
+                                                getString(R.string.help) -> {
+
+                                                }
+
+                                                getString(R.string.technical_support) -> {
+
+
+                                                    findNavController().navigate(R.id.technicalSupport)
+
+                                                }
+                                                getString(R.string.switch_accounts_and_business_account) -> {
+                                                    startActivity(
+                                                        Intent(
+                                                            requireActivity(),
+                                                            Switch_Account::class.java
+                                                        )
+                                                    )
+                                                }
+                                                getString(R.string.logout) -> {
+                                                    Paper.book().write(
+                                                        SharedPreferencesStaticClass.islogin,
+                                                        false
+                                                    )
+                                                    ConstantObjects.logged_userid = ""
+
+                                                    HelpFunctions.ShowLongToast(
+                                                        getString(R.string.loggedoutsuccessfully),
+                                                        context
+                                                    )
+                                                    findNavController().navigate(R.id.logout_to_home)
+                                                }
+                                            }
+                                        }
+
+
+                                    }
+                                }
+                            }
+                        ) {
+                            override fun getFilter(): Filter {
+                                TODO("Not yet implemented")
+                            }
+
+                        }.apply {
+                            submitList(
+                                list
+                            )
+                        }
+
+                    }
+                }
+            }
+        ) {
+            override fun getFilter(): Filter {
+                TODO("Not yet implemented")
+            }
+
+        }.apply {
+            submitList(
+                list
+            )
         }
 
     }

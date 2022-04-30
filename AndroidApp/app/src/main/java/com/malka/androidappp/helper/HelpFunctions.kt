@@ -12,7 +12,6 @@ import android.graphics.drawable.ColorDrawable
 import android.location.Address
 import android.location.Geocoder
 import android.net.Uri
-import android.os.Bundle
 import android.os.StrictMode
 import android.provider.Settings.Secure
 import android.util.Base64

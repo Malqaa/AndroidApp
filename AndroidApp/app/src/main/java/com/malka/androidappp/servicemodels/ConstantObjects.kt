@@ -1,9 +1,8 @@
 package com.malka.androidappp.servicemodels
 
 import android.widget.ImageView
-import com.malka.androidappp.activities_main.signup_account.signup_pg3.User
-import com.malka.androidappp.botmnav_fragments.home.model.AllCategoriesModel
-import com.malka.androidappp.botmnav_fragments.home.model.DynamicList
+import com.malka.androidappp.servicemodels.model.AllCategoriesModel
+import com.malka.androidappp.servicemodels.model.DynamicList
 import com.malka.androidappp.botmnav_fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ShippingAddressessData
 import com.malka.androidappp.servicemodels.addtocart.CartItemModel
 import com.malka.androidappp.servicemodels.creditcard.CreditCardModel

@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
-import com.malka.androidappp.botmnav_fragments.home.model.AllCategoriesModel
+import com.malka.androidappp.servicemodels.model.AllCategoriesModel
 import com.malka.androidappp.helper.BaseViewHolder
 import com.malka.androidappp.helper.hide
 import com.malka.androidappp.helper.show

@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.View
 import com.malka.androidappp.BuildConfig
 import com.malka.androidappp.R
-import com.malka.androidappp.activities_main.signup_account.signup_pg2.PostReqVerifyCode
+import com.malka.androidappp.servicemodels.PostReqVerifyCode
 import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder

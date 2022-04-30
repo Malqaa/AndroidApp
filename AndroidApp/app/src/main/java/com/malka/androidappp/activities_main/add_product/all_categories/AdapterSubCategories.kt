@@ -7,7 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
-import com.malka.androidappp.botmnav_fragments.home.model.AllCategoriesModel
+import com.malka.androidappp.servicemodels.model.AllCategoriesModel
 import com.malka.androidappp.helper.hide
 import com.malka.androidappp.helper.show
 import kotlinx.android.synthetic.main.all_categories_card.view.*

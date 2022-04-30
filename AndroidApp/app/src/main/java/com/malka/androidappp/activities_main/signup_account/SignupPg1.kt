@@ -1,18 +1,17 @@
-package com.malka.androidappp.activities_main.signup_account.signup_pg1
+package com.malka.androidappp.activities_main.signup_account
 
 import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
 import android.view.View
 import com.malka.androidappp.R
-import com.malka.androidappp.activities_main.signup_account.signup_pg2.SignupPg2
-import com.malka.androidappp.activities_main.signup_account.signup_pg3.User
 import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.helper.HelpFunctions.Companion.PASSWORD_PATTERN
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.servicemodels.GeneralRespone
+import com.malka.androidappp.servicemodels.User
 import kotlinx.android.synthetic.main.activity_signup_pg1.*
 import retrofit2.Call
 import retrofit2.Callback

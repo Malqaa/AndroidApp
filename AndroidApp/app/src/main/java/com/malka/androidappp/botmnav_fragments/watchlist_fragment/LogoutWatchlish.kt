@@ -16,8 +16,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.malka.androidappp.R
-import com.malka.androidappp.activities_main.signup_account.signup_pg1.SignupPg1
-import kotlinx.android.synthetic.main.fragment_logout_notification.*
+import com.malka.androidappp.activities_main.signup_account.SignupPg1
 import kotlinx.android.synthetic.main.fragment_logout_watchlish.*
 
 

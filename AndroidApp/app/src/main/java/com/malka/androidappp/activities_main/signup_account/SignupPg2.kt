@@ -1,4 +1,4 @@
-package com.malka.androidappp.activities_main.signup_account.signup_pg2
+package com.malka.androidappp.activities_main.signup_account
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,13 +8,13 @@ import android.widget.TextView
 import com.malka.androidappp.BuildConfig
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.login.SignInActivity
-import com.malka.androidappp.activities_main.signup_account.signup_pg3.SignupPg3
-import com.malka.androidappp.activities_main.signup_account.signup_pg3.User
 import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.servicemodels.BasicResponse
+import com.malka.androidappp.servicemodels.PostReqVerifyCode
+import com.malka.androidappp.servicemodels.User
 import kotlinx.android.synthetic.main.activity_signup_pg2.*
 import retrofit2.Call
 import retrofit2.Callback

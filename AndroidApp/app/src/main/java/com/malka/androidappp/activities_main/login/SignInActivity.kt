@@ -8,7 +8,7 @@ import android.view.View
 import android.widget.Toast
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.forgot.ForgotPasswordActivty
-import com.malka.androidappp.activities_main.signup_account.signup_pg1.SignupPg1
+import com.malka.androidappp.activities_main.signup_account.SignupPg1
 import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.helper.HelpFunctions

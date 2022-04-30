@@ -1,6 +1,6 @@
 package com.malka.androidappp.servicemodels.addtocart
 
-import com.malka.androidappp.activities_main.signup_account.signup_pg3.User
+import com.malka.androidappp.servicemodels.User
 
 data class CartItemModel(
     val _id: String,

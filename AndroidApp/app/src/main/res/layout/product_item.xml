@@ -320,6 +320,7 @@
                         android:fontFamily="@font/madani_arabic_light"
                         android:text="@string/purchasing_price"
                         android:textColor="@color/textColor2"
+                        android:layout_centerVertical="true"
                         android:textSize="@dimen/_7sdp" />
 
 
@@ -328,8 +329,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
                         android:fontFamily="@font/madani_arabic_bold"
                         android:text="0 Rayal"
+
                         android:textColor="@color/bg"
                         android:textSize="@dimen/_9sdp"
                         android:textStyle="bold" />
@@ -347,6 +350,8 @@
 
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+
                         android:fontFamily="@font/madani_arabic_light"
                         android:text="@string/highest_price"
                         android:textColor="@color/textColor2"
@@ -358,6 +363,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
                         android:layout_marginEnd="1dp"
                         android:fontFamily="@font/madani_arabic_bold"
                         android:text="0 Rayal"

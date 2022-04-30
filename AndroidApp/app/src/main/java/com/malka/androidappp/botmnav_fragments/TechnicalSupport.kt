@@ -13,7 +13,7 @@ class TechnicalSupport : Fragment(R.layout.activity_technical_support) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        toolbar_title.text = getString(R.string.negotiation_offers)
+        toolbar_title.text = getString(R.string.application_settings)
         back_btn.setOnClickListener {
             requireActivity().onBackPressed()
         }

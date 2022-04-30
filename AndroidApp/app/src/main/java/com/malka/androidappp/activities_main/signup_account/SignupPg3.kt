@@ -1,4 +1,4 @@
-package com.malka.androidappp.activities_main.signup_account.signup_pg3
+package com.malka.androidappp.activities_main.signup_account
 
 import android.content.Intent
 import android.os.Bundle
@@ -13,6 +13,7 @@ import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.servicemodels.ConstantObjects
 import com.malka.androidappp.servicemodels.CountryRespone
+import com.malka.androidappp.servicemodels.User
 import kotlinx.android.synthetic.main.activity_signup_pg4.*
 import retrofit2.Call
 import retrofit2.Callback
