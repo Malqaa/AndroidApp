@@ -71,7 +71,7 @@ class ProductDetail : Fragment(), BottomsheetDialogfragClass.BottomSheetListener
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val navBar: BottomNavigationView = requireActivity().findViewById(R.id.nav_view)
+        
         
 
         AdvId = arguments?.getString("AdvId").toString()

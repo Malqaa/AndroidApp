@@ -3,11 +3,11 @@ package com.malka.androidappp.botmnav_fragments.account_fragment
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.cardview.widget.CardView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.malka.androidappp.R
+import com.malka.androidappp.activities_main.MainActivity
 import com.malka.androidappp.activities_main.add_product.ListanItem
 import com.malka.androidappp.activities_main.business_signup.Switch_Account
 import com.malka.androidappp.activities_main.login.SignInActivity
@@ -41,11 +41,14 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
         logout_signin.isEnabled = enable
         btn_signin.isEnabled = !enable
     }
-    companion object{
+
+    companion object {
         var isProfileLoad = false
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setListenser()
         fragment_account.isVisible = false
         if (!HelpFunctions.IsUserLoggedIn()) {
             disableenableoptions(false)
@@ -65,22 +68,24 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
             }
         }
 
+
+
+        userType()
+
+    }
+
+    private fun setListenser() {
         helpbtn.setOnClickListener() {
-//            val fragment = ListanItemFragment()
-//            val fragmentManager = fragmentManager
-//            val fragmentTransaction = fragmentManager!!.beginTransaction()
-//            fragmentTransaction.replace(R.id.fragment_account, fragment)
-//            fragmentTransaction.addToBackStack(null)
-//            fragmentTransaction.commit()
+
         }
 
 
 
-        view.findViewById<CardView>(R.id.profilecardv).setOnClickListener() {
+        profilecardv.setOnClickListener() {
 
             findNavController().navigate(R.id.accountsettingtoprofile)
         }
-        view.findViewById<CardView>(R.id.settingcardv).setOnClickListener() {
+        settingcardv.setOnClickListener() {
             findNavController().navigate(R.id.accountsettingtosettings)
         }
 
@@ -160,7 +165,7 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
         }
 
         fav_card.setOnClickListener() {
-            findNavController().navigate(R.id.acc_fav)
+            //  findNavController().navigate(R.id.acc_fav)
         }
 
 
@@ -205,8 +210,6 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
         }
 
 
-
-        userType()
     }
 
     private fun loadProfile() {
@@ -216,6 +219,13 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
                 userName.text = fullName
                 member_since_tv.text = "${getString(R.string.member_since)}: $member_since"
                 membership_number_tv.text = "${getString(R.string.membership_number)}: "
+            }
+            if (MainActivity.myOrderTrigger) {
+                MainActivity.myOrderTrigger = false
+                my_rquest.performClick()
+            } else if (MainActivity.myBidTrigger) {
+                MainActivity.myBidTrigger = false
+                my_bids.performClick()
             }
         } catch (er: Exception) {
 

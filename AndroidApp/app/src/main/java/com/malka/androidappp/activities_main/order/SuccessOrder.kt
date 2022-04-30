@@ -19,18 +19,20 @@ class SuccessOrder : BaseActivity() {
         setContentView(R.layout.activity_success_order)
 
         track_your_order_btn.setOnClickListener {
-            startActivity(Intent(this, OrderDetail::class.java).apply {
-                putExtra(ConstantObjects.isSuccess, true)
+            startActivity(Intent(this@SuccessOrder, MainActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                putExtra(ConstantObjects.isMyOrder,true)
             })
             finish()
         }
 
         back_to_main.setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             })
             finish()
         }
-      //  order_number_tv.text=""
+        order_number_tv.text=intent.getStringExtra("order_number")
         shipments_tv.text=intent.getStringExtra("shipments")
         total_order_tv.text = "${intent.getStringExtra("total_order")} ${getString(R.string.rial)}"
     }

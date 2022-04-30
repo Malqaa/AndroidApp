@@ -29,7 +29,7 @@ class EditProduct5 : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val navBar: BottomNavigationView = requireActivity().findViewById(R.id.nav_view)
+        
         
 
         // Inflate the layout for this fragment

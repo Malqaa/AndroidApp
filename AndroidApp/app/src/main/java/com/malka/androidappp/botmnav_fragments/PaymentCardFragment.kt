@@ -64,7 +64,7 @@ class PaymentCardFragment : Fragment(R.layout.fragment_payment_card_fragment) {
                             s.insert(i, " ")
                             i += 5
                         }
-                        card_number.setText(s.toString())
+                        card_number_tv.setText(s.toString())
                         expiry_date.text = expiryDate
                         card_user_name.text = card_holder_name
                         edit_card.setOnClickListener {

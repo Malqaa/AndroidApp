@@ -10,7 +10,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import com.malka.androidappp.R
 import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.botmnav_fragments.account_fragment.address.AddAddress
-import com.malka.androidappp.servicemodels.GetAddressResponse
 import com.malka.androidappp.helper.CommonAPI
 import com.malka.androidappp.helper.CommonBottomSheet
 import com.malka.androidappp.helper.GenericAdaptor
@@ -19,8 +18,9 @@ import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.constants.ApiConstants
 import com.malka.androidappp.network.service.MalqaApiService
-import com.malka.androidappp.servicemodels.BasicResponse
 import com.malka.androidappp.servicemodels.ConstantObjects
+import com.malka.androidappp.servicemodels.GeneralRespone
+import com.malka.androidappp.servicemodels.GetAddressResponse
 import com.malka.androidappp.servicemodels.Selection
 import com.malka.androidappp.servicemodels.addtocart.CartItemModel
 import com.malka.androidappp.servicemodels.checkout.CheckoutRequestModel
@@ -128,10 +128,10 @@ class AddressPaymentActivity : BaseActivity() {
     fun PostUserCheckOut(checkoutinfo: CheckoutRequestModel, context: Context) {
 
         val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-        val call: Call<BasicResponse> = malqa.PostUserCheckOut(checkoutinfo)
+        val call= malqa.PostUserCheckOut(checkoutinfo)
 
-        call.enqueue(object : Callback<BasicResponse?> {
-            override fun onFailure(call: Call<BasicResponse?>?, t: Throwable) {
+        call.enqueue(object : Callback<GeneralRespone?> {
+            override fun onFailure(call: Call<GeneralRespone?>, t: Throwable) {
                 HelpFunctions.dismissProgressBar()
                 HelpFunctions.ShowLongToast(
                     getString(R.string.Error),
@@ -140,30 +140,40 @@ class AddressPaymentActivity : BaseActivity() {
             }
 
             override fun onResponse(
-                call: Call<BasicResponse?>,
-                response: Response<BasicResponse?>
+                call: Call<GeneralRespone?>,
+                response: Response<GeneralRespone?>
             ) {
                 if (response.isSuccessful) {
-                    val resp: BasicResponse = response.body()!!;
-                    if (resp.status_code == 200 && (resp.data == true || resp.data == 1 || resp.data == 1.0)) {
-
+                    response.body()!!.run {
                         startActivity(
                             Intent(
                                 this@AddressPaymentActivity,
                                 SuccessOrder::class.java
                             ).apply {
-                                flags =
-                                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                putExtra("order_number", id)
                                 putExtra("shipments", ConstantObjects.usercart.size.toString())
                                 putExtra("total_order", totalAMount)
                             })
-                        finish()
+
+//                        if(!isError){
+//                            startActivity(
+//                                Intent(
+//                                    this@AddressPaymentActivity,
+//                                    SuccessOrder::class.java
+//                                ).apply {
+//                                    flags =
+//                                        Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+//                                    putExtra("order_number", id)
+//                                    putExtra("shipments", ConstantObjects.usercart.size.toString())
+//                                    putExtra("total_order", totalAMount)
+//                                })
+//                        }else{
+//                            HelpFunctions.ShowLongToast(
+//                                message,
+//                                context
+//                            )
+//                        }
                     }
-                } else {
-                    HelpFunctions.ShowLongToast(
-                        getString(R.string.Error),
-                        context
-                    )
                 }
                 HelpFunctions.dismissProgressBar()
             }
@@ -255,6 +265,5 @@ class AddressPaymentActivity : BaseActivity() {
         discount_tv.text = "-${discount} ${getString(R.string.rial)}"
         total_tv.text = "${total} ${getString(R.string.rial)}"
     }
-
 
 }

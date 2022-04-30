@@ -56,13 +56,9 @@
             app:destination="@+id/settingfrag" />
 
 
-
         <action
             android:id="@+id/acc_watchlist"
             app:destination="@id/navigation_watchlist" />
-        <action
-            android:id="@+id/acc_fav"
-            app:destination="@+id/fav_frag" />
 
 
         <action
@@ -71,7 +67,6 @@
         <action
             android:id="@+id/account_fixedprice"
             app:destination="@id/fixed_price_frag" />
-
 
 
         <action
@@ -197,9 +192,7 @@
         android:id="@+id/myProduct"
         android:name="com.malka.androidappp.botmnav_fragments.MyProducts.MyProductsFragment"
         android:label="Sold"
-        tools:layout="@layout/fragment_sold"/>
-
-
+        tools:layout="@layout/fragment_sold" />
 
 
     <fragment
@@ -207,9 +200,6 @@
         android:name="com.malka.androidappp.botmnav_fragments.account_fragment.address.AddressList"
         android:label="Sold"
         tools:layout="@layout/address_list_fragment" />
-
-
-
 
 
     <fragment
@@ -223,69 +213,40 @@
         android:id="@+id/negotiationOffer"
         android:name="com.malka.androidappp.botmnav_fragments.negotiation_offers"
         android:label="Negotiation Offers"
-        tools:layout="@layout/fragment_negotiation_offer">
-
-        <action
-            android:id="@+id/negotiation"
-            app:destination="@+id/negotiation_offer" />
-
-    </fragment>
+        tools:layout="@layout/fragment_negotiation_offer" />
 
 
     <fragment
         android:id="@+id/applicationSetting"
         android:name="com.malka.androidappp.botmnav_fragments.ApplicationSetting"
         android:label="Application Setting"
-        tools:layout="@layout/activity_application_setting">
-
-        <action
-            android:id="@+id/App_Setting"
-            app:destination="@+id/application_setting" />
-
-    </fragment>
-
+        tools:layout="@layout/activity_application_setting" />
     <fragment
         android:id="@+id/technicalSupport"
         android:name="com.malka.androidappp.botmnav_fragments.TechnicalSupport"
         android:label="Application Setting"
-        tools:layout="@layout/activity_application_setting">
-
-        <action
-            android:id="@+id/App_Setting"
-            app:destination="@+id/application_setting" />
-
-    </fragment>
+        tools:layout="@layout/activity_application_setting" />
 
     <fragment
         android:id="@+id/mybids"
         android:name="com.malka.androidappp.botmnav_fragments.my_bids.MyBidsFragment"
         android:label="Edit Profile"
-        tools:layout="@layout/activity_my_bids_fragment">
-
-        <action
-            android:id="@+id/bids"
-            app:destination="@+id/my_bids" />
-
-
-    </fragment>
+        tools:layout="@layout/activity_my_bids_fragment" />
 
 
     <fragment
         android:id="@+id/myRequest"
         android:name="com.malka.androidappp.botmnav_fragments.MyOrdersFragment"
         android:label="My Request"
-        tools:layout="@layout/fragment_my_orders">
-
-    </fragment>
+        tools:layout="@layout/fragment_my_orders" />
 
 
     <fragment
         android:id="@+id/paymentCard"
         android:name="com.malka.androidappp.botmnav_fragments.PaymentCardFragment"
         android:label="Payment Cards"
-        tools:layout="@layout/fragment_payment_card_fragment">
+        tools:layout="@layout/fragment_payment_card_fragment" />
 
-    </fragment>
     <fragment
         android:id="@+id/myWallet"
         android:name="com.malka.androidappp.botmnav_fragments.my_wallet.my_wallet_fragment"
@@ -317,28 +278,13 @@
 
 
 
-
-    <fragment
-        android:id="@+id/fav_frag"
-        android:name="com.malka.androidappp.botmnav_fragments.favourite_frag.MainFavouritesFrag"
-        android:label="Favoutites"
-        tools:layout="@layout/fragment_favourites">
-        <action
-            android:id="@+id/fav_acc"
-            app:destination="@+id/navigation_account" />
-
-    </fragment>
-
     <fragment
         android:id="@+id/feedback_frag"
         android:name="com.malka.androidappp.botmnav_fragments.feedback_frag.FeedbackFragment"
         android:label="Feedback"
-        tools:layout="@layout/fragment_feedback">
-        <action
-            android:id="@+id/feedback_profile"
-            app:destination="@+id/profileFrag" />
+        tools:layout="@layout/fragment_feedback"/>
 
-    </fragment>
+
 
     <fragment
         android:id="@+id/about_about_seller"
@@ -358,20 +304,6 @@
             android:id="@+id/aboutseller_memberlisting"
             app:destination="@+id/member_listing_frag" />
     </fragment>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     <fragment
@@ -455,7 +387,6 @@
 
 
     </fragment>
-
 
 
     <fragment
@@ -656,7 +587,6 @@
         <action
             android:id="@+id/payment_to_checkout"
             app:destination="@+id/checkout" />
-
 
 
     </fragment>

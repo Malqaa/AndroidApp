@@ -9,7 +9,6 @@ import android.widget.CompoundButton
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.malka.androidappp.R
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
@@ -26,8 +25,8 @@ class CreateProduct5 : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val navBar: BottomNavigationView = requireActivity().findViewById(R.id.nav_view)
-        navBar.setVisibility(View.GONE)
+        
+        
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_create_product_pg5, container, false)

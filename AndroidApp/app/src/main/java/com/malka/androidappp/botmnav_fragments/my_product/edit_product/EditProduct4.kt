@@ -3,15 +3,14 @@ package com.malka.androidappp.botmnav_fragments.my_product.edit_product
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.malka.androidappp.R
 import com.malka.androidappp.botmnav_fragments.create_product.ProductDetailModel
 import com.malka.androidappp.botmnav_fragments.create_product.ProductResponseBack
@@ -36,7 +35,7 @@ class EditProduct4 : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val navBar: BottomNavigationView = requireActivity().findViewById(R.id.nav_view)
+
         
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_edit_product4, container, false)

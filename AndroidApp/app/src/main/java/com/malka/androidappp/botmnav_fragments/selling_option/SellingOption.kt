@@ -2,15 +2,12 @@ package com.malka.androidappp.botmnav_fragments.selling_option
 
 import android.graphics.Color
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CompoundButton
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.malka.androidappp.R
-import kotlinx.android.synthetic.main.fragment_favourites.*
-import kotlinx.android.synthetic.main.fragment_listing_duration.*
 import kotlinx.android.synthetic.main.fragment_selling_option.*
 
 

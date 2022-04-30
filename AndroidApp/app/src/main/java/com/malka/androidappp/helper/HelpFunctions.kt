@@ -25,22 +25,22 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.google.gson.JsonObject
 import com.malka.androidappp.R
-import com.malka.androidappp.activities_main.product_detail.ProductDetails
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.botmnav_fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ModelShipAddresses
 import com.malka.androidappp.botmnav_fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ShippingAddressessData
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.constants.ApiConstants
 import com.malka.androidappp.network.service.MalqaApiService
-import com.malka.androidappp.servicemodels.*
+import com.malka.androidappp.servicemodels.BasicResponse
+import com.malka.androidappp.servicemodels.BasicResponseInt
+import com.malka.androidappp.servicemodels.ConstantObjects
+import com.malka.androidappp.servicemodels.WatchList
 import com.malka.androidappp.servicemodels.addtocart.AddToCartResponseModel
-import com.malka.androidappp.servicemodels.checkout.CheckoutRequestModel
 import com.malka.androidappp.servicemodels.favourites.FavouriteObject
 import com.malka.androidappp.servicemodels.favourites.favouriteadd
 import com.malka.androidappp.servicemodels.watchlist.watchlistadd
 import com.malka.androidappp.servicemodels.watchlist.watchlistobject
 import io.paperdb.Paper
-import kotlinx.android.synthetic.main.add_address_fragment.*
 import kotlinx.android.synthetic.main.alertpopup.view.*
 import kotlinx.android.synthetic.main.progress_bar.view.*
 import org.greenrobot.eventbus.EventBus
@@ -260,23 +260,6 @@ class HelpFunctions {
             return result
         }
 
-        fun ViewAdvertismentDetail(
-            AdvId: String,
-            Category: String,
-            context: Context,
-            fragment: Fragment
-        ) {
-            val args = Bundle()
-            args.putString("AdvId", AdvId);
-            args.putString("Template", Category);
-
-            context.startActivity(Intent(context, ProductDetails::class.java).apply {
-                putExtra("AdvId", AdvId)
-                putExtra("Template", Category)
-            })
-
-            // NavHostFragment.findNavController(fragment).navigate(R.id.carspicification, args)
-        }
 
         fun AdAlreadyAddedToWatchList(adreferenceId: String?): Boolean1 {
             var RetVal = false;
@@ -791,40 +774,6 @@ class HelpFunctions {
             return RetVal
         }
 
-        fun PostUserCheckOut(checkoutinfo: CheckoutRequestModel, context: Context): Boolean1 {
-            var RetVal: Boolean1 = false
-            try {
-                val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-                val call: Call<BasicResponse> = malqa.PostUserCheckOut(checkoutinfo)
-                val response: Response<BasicResponse> = call.execute();
-                if (response.isSuccessful) {
-                    if (response.body() != null) {
-                        var resp: BasicResponse = response.body()!!;
-                        if (resp.status_code == 200 && (resp.data == true || resp.data == 1 || resp.data == 1.0)) {
-                            RetVal = true
-                            GetUsersCartList()
-                            ShowLongToast(
-                                "Added Successfully",
-                                context
-                            );
-                        }
-                    } else {
-                        ShowLongToast(
-                            "Error During Addition",
-                            context
-                        );
-                    }
-                } else {
-                    ShowLongToast(
-                        "Error During Addition",
-                        context
-                    );
-                }
-            } catch (ex: Exception) {
-                throw ex
-            }
-            return RetVal
-        }
 
         fun AddNewShippingAddress(
             shippingaddress: ShippingAddressessData,

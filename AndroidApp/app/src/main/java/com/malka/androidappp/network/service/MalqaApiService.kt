@@ -17,7 +17,6 @@ import com.malka.androidappp.botmnav_fragments.create_product.ProductResponseBac
 import com.malka.androidappp.botmnav_fragments.feedback_frag.insert_feedback.GiveFeedbackResponseBack
 import com.malka.androidappp.botmnav_fragments.feedback_frag.insert_feedback.ModelGiveFeedBack
 import com.malka.androidappp.botmnav_fragments.home.model.AllCategoriesResponseBack
-import com.malka.androidappp.servicemodels.ModelAddCatFav
 import com.malka.androidappp.botmnav_fragments.my_product.AllProductsResponseBack
 import com.malka.androidappp.botmnav_fragments.my_product.edit_product.EditProductResponseBack
 import com.malka.androidappp.botmnav_fragments.my_product.edit_product.ModelEditProduct
@@ -35,7 +34,7 @@ import com.malka.androidappp.servicemodels.categorylistings.CategoryResponse
 import com.malka.androidappp.servicemodels.categorylistings.SearchRequestModel
 import com.malka.androidappp.servicemodels.categorylistings.SearchRespone
 import com.malka.androidappp.servicemodels.checkout.CheckoutRequestModel
-import com.malka.androidappp.servicemodels.creditcard.CreditCardRequestModel
+import com.malka.androidappp.servicemodels.creditcard.CreditCardModel
 import com.malka.androidappp.servicemodels.creditcard.CreditCardResponse
 import com.malka.androidappp.servicemodels.favourites.FavouriteObject
 import com.malka.androidappp.servicemodels.favourites.favouriteadd
@@ -285,10 +284,10 @@ interface MalqaApiService {
     fun GetUserCreditCards(@Query("usid") userid: String): Call<CreditCardResponse>;
 
     @POST("CardDetail/insertcard")
-    fun InsertUserCreditCard(@Body insertads: CreditCardRequestModel): Call<BasicResponse>
+    fun InsertUserCreditCard(@Body insertads: CreditCardModel): Call<BasicResponse>
 
     @POST("CardDetail/updatecard")
-    fun UpdateUserCreditCard(@Body insertads: CreditCardRequestModel): Call<BasicResponse>
+    fun UpdateUserCreditCard(@Body insertads: CreditCardModel): Call<BasicResponse>
 
     @DELETE("CardDetail/deletecard")
     fun DeleteUserCreditCard(@Query("id") userid: String): Call<BasicResponse>
@@ -306,7 +305,7 @@ interface MalqaApiService {
     fun DeleteFromUserCart(@Query("id") userid: String): Call<BasicResponse>
 
     @POST("Checkout/checkoutiteminsert")
-    fun PostUserCheckOut(@Body checkout: CheckoutRequestModel): Call<BasicResponse>
+    fun PostUserCheckOut(@Body checkout: CheckoutRequestModel): Call<GeneralRespone>
 
     @GET()
     fun jsonTemplates(@Url url: String): Call<JsonObject>

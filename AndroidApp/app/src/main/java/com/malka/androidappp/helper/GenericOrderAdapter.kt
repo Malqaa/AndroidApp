@@ -41,13 +41,16 @@ class GenericOrderAdapter(
                 total_order_tv.text = "${advertisements.price} ${context.getString(R.string.rial)}"
                 if (isCurrent) {
                     complete_order_btn.show()
-                    setOnClickListener {
+                    item_view. setOnClickListener {
                         val intentt = Intent(context, OrderDetail::class.java)
                         context.startActivity(intentt)
                     }
+                    complete_order_btn.setOnClickListener {
+                        item_view.performClick()
+                    }
                 } else {
                     complete_order_btn.hide()
-                    setOnClickListener {
+                    item_view. setOnClickListener {
                         val intentt = Intent(context, OrderDetail_1::class.java)
                         context.startActivity(intentt)
                     }

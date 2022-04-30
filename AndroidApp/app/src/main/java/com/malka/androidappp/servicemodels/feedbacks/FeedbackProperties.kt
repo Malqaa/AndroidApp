@@ -1,7 +1,5 @@
 package com.malka.androidappp.servicemodels.feedbacks
 
-import org.joda.time.DateTime
-
 data class FeedbackProperties(
     val _id: String,
     val loginUserId: String,

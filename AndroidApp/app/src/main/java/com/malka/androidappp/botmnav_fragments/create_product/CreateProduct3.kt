@@ -3,18 +3,15 @@ package com.malka.androidappp.botmnav_fragments.create_product
 import android.graphics.Color
 import android.os.Bundle
 import android.text.InputType
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.CompoundButton
 import android.widget.Spinner
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.malka.androidappp.R
-import kotlinx.android.synthetic.main.fragment_create_product.*
-import kotlinx.android.synthetic.main.fragment_create_product.toolbar_product
 import kotlinx.android.synthetic.main.fragment_create_product_pg3.*
 
 
@@ -23,7 +20,7 @@ class CreateProduct3 : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val navBar: BottomNavigationView = requireActivity().findViewById(R.id.nav_view)
+        
         
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_create_product_pg3, container, false)

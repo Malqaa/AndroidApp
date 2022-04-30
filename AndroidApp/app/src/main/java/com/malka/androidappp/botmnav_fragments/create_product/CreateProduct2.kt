@@ -16,7 +16,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.malka.androidappp.R
 import com.malka.androidappp.helper.HelpFunctions
 import kotlinx.android.synthetic.main.fragment_create_product_pg2.*
@@ -40,8 +39,7 @@ open class CreateProduct2 : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val navBar: BottomNavigationView = requireActivity().findViewById(R.id.nav_view)
-        navBar.setVisibility(View.GONE)
+        
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_create_product_pg2, container, false)

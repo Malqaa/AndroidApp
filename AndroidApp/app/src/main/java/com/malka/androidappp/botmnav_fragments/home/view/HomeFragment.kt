@@ -34,7 +34,6 @@ import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.servicemodels.ConstantObjects
 import com.malka.androidappp.servicemodels.home.GetAllAds
-import kotlinx.android.synthetic.main.fragment_browse_market.*
 import kotlinx.android.synthetic.main.fragment_homee.*
 import kotlinx.android.synthetic.main.parenet_category_item.view.*
 import retrofit2.Call
@@ -49,7 +48,6 @@ class HomeFragment : Fragment(R.layout.fragment_homee),
     var dots: ArrayList<ImageView> = arrayListOf()
     var sliderlist: ArrayList<Int> = ArrayList()
     var slider_home_: AutoScrollViewPager? = null
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -79,8 +77,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee),
                 startActivity(Intent(context, SignInActivity::class.java).apply {
                 })
             } else {
-                val intent = Intent(requireActivity(), CartActivity::class.java)
-                startActivity(intent)
+                startActivity(Intent(context, CartActivity::class.java))
             }
         }
 
@@ -99,7 +96,6 @@ class HomeFragment : Fragment(R.layout.fragment_homee),
         }
         setPagerDots(sliderlist)
     }
-
     private fun setListenser() {
         textInputLayout11._view2()
             .setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
@@ -203,7 +199,8 @@ class HomeFragment : Fragment(R.layout.fragment_homee),
                                         DynamicList(
                                             getString(R.string.electronics),
                                             R.drawable.ic_electronic,
-                                            generaladvetisement, category_id = "Electronics & Gaming"
+                                            generaladvetisement,
+                                            category_id = "Electronics & Gaming"
                                         )
                                     )
                                     add(
@@ -270,11 +267,15 @@ class HomeFragment : Fragment(R.layout.fragment_homee),
                         view_all.setOnClickListener {
 
 
-                            startActivity(Intent(requireContext(), SearchCategoryActivity::class.java).apply {
-                                putExtra("CategoryDesc", category_id)
-                                putExtra("SearchQuery", "")
-                                putExtra("isMapShow", category_id.equals("Property"))
-                            })
+                            startActivity(
+                                Intent(
+                                    requireContext(),
+                                    SearchCategoryActivity::class.java
+                                ).apply {
+                                    putExtra("CategoryDesc", category_id)
+                                    putExtra("SearchQuery", "")
+                                    putExtra("isMapShow", category_id.equals("Property"))
+                                })
 
                         }
 
@@ -297,6 +298,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee),
                 ConstantObjects.list
             )
         }
+
     }
 
     override fun OnItemClick(position: Int) {
@@ -306,7 +308,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee),
         startActivity(Intent(requireContext(), SearchCategoryActivity::class.java).apply {
             putExtra("CategoryDesc", ConstantObjects.categoryList[position].categoryName)
             putExtra("SearchQuery", "")
-            putExtra("isMapShow",ConstantObjects.categoryList[position].categoryid==3)
+            putExtra("isMapShow", ConstantObjects.categoryList[position].categoryid == 3)
 
         })
     }
@@ -411,9 +413,8 @@ class HomeFragment : Fragment(R.layout.fragment_homee),
             slider_home_ = slider_home
             slider_home.startAutoScroll()
         }
-
-
     }
+
 
 }
 

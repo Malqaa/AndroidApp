@@ -23,7 +23,6 @@ import com.malka.androidappp.servicemodels.BasicResponse
 import com.malka.androidappp.servicemodels.ConstantObjects
 import com.malka.androidappp.servicemodels.Selection
 import com.malka.androidappp.servicemodels.creditcard.CreditCardModel
-import com.malka.androidappp.servicemodels.creditcard.CreditCardRequestModel
 import kotlinx.android.synthetic.main.add_card_layout.*
 import kotlinx.android.synthetic.main.add_card_layout.title_bottom_sheet
 import kotlinx.android.synthetic.main.bank_accounts.*
@@ -309,21 +308,21 @@ class CommonBottomSheet {
 
 
             if (isUpdate) {
-                val cardinfo = CreditCardRequestModel(
+                val cardinfo = CreditCardModel(
                     card_number = view.Cardno_tv.text.toString(),
                     expiryDate = view.card_expiry_tv.text.toString(),
                     card_holder_name = view.card_holder_tv.text.toString(),
-                    cvcNumber = view.card_cvv_tv.text.toString().toInt(),
+                    cvcNumber = view.card_cvv_tv.text.toString(),
                     userId = ConstantObjects.logged_userid,
                     id = oldCard!!.id!!
                 )
                 UpdateUserCreditCard(cardinfo, context, onSuccess)
             } else {
-                val cardinfo = CreditCardRequestModel(
+                val cardinfo = CreditCardModel(
                     card_number = view.Cardno_tv.text.toString(),
                     expiryDate = view.card_expiry_tv.text.toString(),
                     card_holder_name = view.card_holder_tv.text.toString(),
-                    cvcNumber = view.card_cvv_tv.text.toString().toInt(),
+                    cvcNumber = view.card_cvv_tv.text.toString(),
                     userId = ConstantObjects.logged_userid,
                     id = ""
                 )
@@ -335,7 +334,7 @@ class CommonBottomSheet {
     }
 
     fun InsertUserCreditCard(
-        cardinfo: CreditCardRequestModel,
+        cardinfo: CreditCardModel,
         context: Context,
         view: BottomSheetDialog, onSuccess: () -> Unit,
     ) {
@@ -376,7 +375,7 @@ class CommonBottomSheet {
 
 
     fun UpdateUserCreditCard(
-        cardinfo: CreditCardRequestModel,
+        cardinfo: CreditCardModel,
         context: Context,
         onSuccess: () -> Unit,
     ) {
@@ -384,7 +383,7 @@ class CommonBottomSheet {
         val call: Call<BasicResponse> = malqa.UpdateUserCreditCard(cardinfo)
 
         call.enqueue(object : Callback<BasicResponse?> {
-            override fun onFailure(call: Call<BasicResponse?>?, t: Throwable) {
+            override fun onFailure(call: Call<BasicResponse?>, t: Throwable) {
                 HelpFunctions.dismissProgressBar()
             }
 

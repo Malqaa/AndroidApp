@@ -61,7 +61,7 @@ class EditProduct2 : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val navBar: BottomNavigationView = requireActivity().findViewById(R.id.nav_view)
+        
         
 
         return inflater.inflate(R.layout.fragment_edit_product2, container, false)

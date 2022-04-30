@@ -14,6 +14,7 @@ data class CreditCardModel(
     val isActive: Boolean?=null,
     var isSelected: Boolean=false,
     val card_holder_name: String?=null,
+    val card_number: String?=null,
 )
 {
     fun cardnumberformat(): String{

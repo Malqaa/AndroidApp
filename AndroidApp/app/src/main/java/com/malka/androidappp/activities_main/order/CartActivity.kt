@@ -20,6 +20,7 @@ import kotlinx.android.synthetic.main.toolbar_main.*
 import retrofit2.Call
 import retrofit2.Response
 
+
 class CartActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,8 +38,7 @@ class CartActivity : BaseActivity() {
 
         the_next.setOnClickListener {
             if (ConstantObjects.usercart.size > 0) {
-                val intent = Intent(this, AddressPaymentActivity::class.java)
-                startActivity(intent)
+                startActivity(Intent(this, AddressPaymentActivity::class.java))
             } else {
                 showError(getString(R.string.empty_cart))
             }

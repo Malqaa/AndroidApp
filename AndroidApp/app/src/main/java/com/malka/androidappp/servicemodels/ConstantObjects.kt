@@ -38,6 +38,8 @@ class ConstantObjects {
         val list: ArrayList<DynamicList> = java.util.ArrayList()
         var countryList: List<Country> = ArrayList()
 
+        var isBid= "isBid"
+        var isMyOrder= "isMyOrder"
 
         @JvmStatic
         var data= "data"

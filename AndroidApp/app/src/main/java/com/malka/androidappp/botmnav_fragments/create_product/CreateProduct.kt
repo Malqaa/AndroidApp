@@ -22,7 +22,7 @@ class CreateProduct : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val navBar: BottomNavigationView = requireActivity().findViewById(R.id.nav_view)
+        
         
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_create_product, container, false)

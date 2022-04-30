@@ -247,17 +247,18 @@ class ProductDetails : BaseActivity() {
 
 
             view.btn_bid.setOnClickListener {
-
+                builder.dismiss()
                 AlertDialog.Builder(this@ProductDetails)
                     .create().apply {
                         layoutInflater.inflate(R.layout.bid_confirmation, null).also {
                             this.setView(it)
                             it.apply {
                                 close_alert.setOnClickListener {
-                                    builder.dismiss()
+                                    dismiss()
                                 }
 
                                 back_to_shopping.setOnClickListener {
+                                    dismiss()
                                     startActivity(
                                         Intent(
                                             this@ProductDetails,
@@ -271,7 +272,12 @@ class ProductDetails : BaseActivity() {
 
                                 }
                                 manage_bid.setOnClickListener {
-                                  //  findNavController().navigate(R.id.mybids)
+                                    dismiss()
+                                    startActivity(Intent(this@ProductDetails, MainActivity::class.java).apply {
+                                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                       putExtra(ConstantObjects.isBid,true)
+                                    })
+                                    finish()
                                 }
 
                             }
@@ -292,28 +298,28 @@ class ProductDetails : BaseActivity() {
             AddToCart()
         }
 
-        youtube_btn.setOnClickListener(View.OnClickListener {
+        youtube_btn.setOnClickListener({
 
             openExternalLInk(
                 "https://www.youtube.com/watch?v=KioO9frme6c", this
             )
         })
 
-        instagram_btn.setOnClickListener(View.OnClickListener {
+        instagram_btn.setOnClickListener({
 
             openExternalLInk(
                 "https://www.instagram.com/reel/CcGMHEwjSAV/?utm_source=ig_web_copy_link", this
             )
         })
 
-        skype_btn.setOnClickListener(View.OnClickListener {
+        skype_btn.setOnClickListener({
 
             openExternalLInk(
                 "https://www.skype.com/", this
             )
         })
 
-        maps_btn.setOnClickListener(View.OnClickListener {
+        maps_btn.setOnClickListener({
             val uri: String =
                 java.lang.String.format(Locale.ENGLISH, "geo:%f,%f", 33.7295, 73.0372)
             startActivity(

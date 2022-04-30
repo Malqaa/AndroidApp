@@ -33,7 +33,7 @@ class MyProduct : Fragment(), AdapterMyProduct.OnItemClickListener {
         savedInstanceState: Bundle?
     ): View? {
 
-        val navBar: BottomNavigationView = requireActivity().findViewById(R.id.nav_view)
+        
         
 
         HelpFunctions.startProgressBar(requireActivity())

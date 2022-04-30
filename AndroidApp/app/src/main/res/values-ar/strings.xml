@@ -2751,5 +2751,6 @@
     <string name="activate_automatic_bidding">Activate automatic bidding</string>
   <string name="bid_start_price">Bid start price</string>
   <string name="participate_in_the_auction">Participate in the auction</string>
+    <string name="bid_value">Bid value</string>
 
 </resources>

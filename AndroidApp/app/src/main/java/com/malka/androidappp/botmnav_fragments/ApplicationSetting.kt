@@ -12,7 +12,7 @@ class ApplicationSetting : Fragment(R.layout.activity_application_setting) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        toolbar_title.text = getString(R.string.negotiation_offers)
+        toolbar_title.text = getString(R.string.application_settings)
         back_btn.setOnClickListener {
             requireActivity().onBackPressed()
         }
