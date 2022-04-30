@@ -30,10 +30,10 @@ class negotiation_offers : Fragment(R.layout.fragment_negotiation_offer) {
 
 
         list.add(Negotiationmodel("Electric - phone","RealMe 8 Pro Infinite","Riyadh", "1653",R.drawable.detailpic1,"Ahmed","Member since 5/23/2020",R.drawable.profiledp))
-        list.add(Negotiationmodel("Electric - bus","RealMe 8 ","Dubai", "1567",R.drawable.car1,"Ali", "Member since 2/21/2020",R.drawable.profile_pic))
-        list.add(Negotiationmodel("Electric - car","RealMe 8 Pro ","Dubai3", "1711",R.drawable.car5,"Ahmed2","Member since 12/11/2022",R.drawable.car2))
-        list.add(Negotiationmodel("Electric - car3","RealMe 8 Infinite","Uk", "9832",R.drawable.car4,"Ahmed3","Member since 5/22/2021",R.drawable.profiledp))
-        list.add(Negotiationmodel("Electric - jeep","Pro Infinite","Saudia", "6781",R.drawable.car2,"Ahmed5","Member since 1/28/2022",R.drawable.car4))
+        list.add(Negotiationmodel("Electric - bus","RealMe 8 ","Dubai", "1567",R.drawable.car,"Ali", "Member since 2/21/2020",R.drawable.profile_pic))
+        list.add(Negotiationmodel("Electric - car","RealMe 8 Pro ","Dubai3", "1711",R.drawable.car,"Ahmed2","Member since 12/11/2022",R.drawable.car))
+        list.add(Negotiationmodel("Electric - car3","RealMe 8 Infinite","Uk", "9832",R.drawable.car,"Ahmed3","Member since 5/22/2021",R.drawable.profiledp))
+        list.add(Negotiationmodel("Electric - jeep","Pro Infinite","Saudia", "6781",R.drawable.car,"Ahmed5","Member since 1/28/2022",R.drawable.car))
 
         NegotiationOffersAdaptor(list)
 

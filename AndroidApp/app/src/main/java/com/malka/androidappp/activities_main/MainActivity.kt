@@ -2,6 +2,7 @@ package com.malka.androidappp.activities_main
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -55,6 +56,13 @@ class MainActivity : BaseActivity() {
             return@setOnItemSelectedListener true;
 
         }
+        nav_view.getOrCreateBadge(R.id.navigation_notifications).apply {
+            isVisible = true
+            number = 99
+            backgroundColor = ContextCompat.getColor(this@MainActivity, R.color.bg)
+        }
+
+
         floatingActionButtonBottm.setOnClickListener {
             if (HelpFunctions.IsUserLoggedIn()) {
                 startActivity(Intent(this, ListanItem::class.java))

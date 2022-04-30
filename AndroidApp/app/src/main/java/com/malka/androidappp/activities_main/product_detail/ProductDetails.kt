@@ -129,7 +129,7 @@ class ProductDetails : BaseActivity() {
                 "16/12/2022",
                 "Great Experience ",
                 "3.0",
-                R.drawable.car2
+                R.drawable.car
             )
         )
         reviewlist.add(
@@ -138,7 +138,7 @@ class ProductDetails : BaseActivity() {
                 "10/12/2022",
                 "Excelent fast delivery",
                 "3.6",
-                R.drawable.car4
+                R.drawable.car
             )
         )
         reviewlist.add(
@@ -147,7 +147,7 @@ class ProductDetails : BaseActivity() {
                 "5/12/2022",
                 "Amazing and fast delivery",
                 "4.9",
-                R.drawable.car5
+                R.drawable.car
             )
         )
         reviewlist.add(
@@ -165,7 +165,7 @@ class ProductDetails : BaseActivity() {
                 "16/12/2022",
                 "Great Experience ",
                 "2.0",
-                R.drawable.car2
+                R.drawable.car
             )
         )
         reviewlist.add(
@@ -174,7 +174,7 @@ class ProductDetails : BaseActivity() {
                 "16/12/2022",
                 "Great Experience ",
                 "4.0",
-                R.drawable.car2
+                R.drawable.car
             )
         )
 
@@ -183,7 +183,7 @@ class ProductDetails : BaseActivity() {
             totalRating += it.rating.toDouble()
 
         }
-        var average = totalRating / reviewlist.size
+        val average = totalRating / reviewlist.size
         rating_bar.rating = average.toFloat()
         rating_bar_detail_tv.text = getString(
             R.string._4_9_from_00_visitors,

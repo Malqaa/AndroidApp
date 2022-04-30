@@ -9,18 +9,10 @@
         android:id="@+id/navigation_home"
         android:name="com.malka.androidappp.botmnav_fragments.home.view.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_homee">
-
-        <action
-            android:id="@+id/home_carspec"
-            app:destination="@+id/carspicification" />
+        tools:layout="@layout/fragment_homee"/>
 
 
-        <action
-            android:id="@+id/home_seeall_generalfeaturedads"
-            app:destination="@+id/seelall_generalfeaturedads_frag" />
 
-    </fragment>
 
 
     <fragment
@@ -591,16 +583,7 @@
 
     </fragment>
 
-    <fragment
-        android:id="@+id/add_new_card"
-        android:name="com.malka.androidappp.botmnav_fragments.shoppingcart8_addnewcard.AddNewCard"
-        tools:layout="@layout/fragment_add_new_card">
 
-        <action
-            android:id="@+id/save_card_to_payment"
-            app:destination="@+id/payment" />
-
-    </fragment>
 
     <fragment
         android:id="@+id/checkout"
@@ -669,10 +652,6 @@
     </fragment>
 
 
-    <fragment
-        android:id="@+id/seelall_generalfeaturedads_frag"
-        android:name="com.malka.androidappp.botmnav_fragments.home_seeall_generalad.FeaturedGeneralAds"
-        tools:layout="@layout/fragment_featured_general_ads" />
 
 
     <fragment

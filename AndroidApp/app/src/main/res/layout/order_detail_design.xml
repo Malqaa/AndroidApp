@@ -75,7 +75,7 @@
                     <ImageView
                         android:id="@+id/selectedImages"
                         android:layout_width="match_parent"
-                        android:src="@drawable/car5"
+                        android:src="@drawable/categorypic"
                         android:layout_height="match_parent"
                         android:scaleType="centerCrop" />
                 </com.google.android.material.card.MaterialCardView>
