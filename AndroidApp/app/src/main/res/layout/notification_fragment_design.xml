@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+
+        <LinearLayout
+            android:id="@+id/new_order_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_150sdp"
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:background="@drawable/product_attribute_bg4">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_75sdp"
+                android:background="@color/bg">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/your_order_is_now_being_delivered"
+                    android:fontFamily="@font/madani_arabic_bold"
+                    android:gravity="center"
+                    android:textSize="@dimen/_12sdp"
+                    android:textColor="@color/white"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:weightSum="2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center_vertical"
+                    android:layout_marginStart="@dimen/_15sdp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Order number"
+                        android:textColor="#8B959E"
+                        android:fontFamily="@font/madani_arabic_light"
+                        android:textSize="@dimen/_10sdp"/>
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="6497 #"
+                        android:textColor="@color/grey"
+                        android:fontFamily="@font/madani_arabic_bold"
+                        android:textSize="@dimen/_10sdp"/>
+
+                </LinearLayout>
+
+
+
+                <LinearLayout
+                    android:layout_width="@dimen/_1sdp"
+                    android:layout_height="match_parent"
+                    android:background="@color/light_gray">
+
+                </LinearLayout>
+
+
+
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/order_status"
+                        android:textColor="#8B959E"
+                        android:layout_gravity="center_horizontal"
+                        android:gravity="center"
+                        android:fontFamily="@font/madani_arabic_light"
+                        android:textSize="@dimen/_10sdp"/>
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/waiting_for_confirmation"
+                        android:gravity="center"
+                        android:textColor="@color/grey"
+                        android:layout_gravity="center_horizontal"
+                        android:fontFamily="@font/madani_arabic_bold"
+                        android:textSize="@dimen/_10sdp"/>
+
+
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/new_product_added"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_175sdp"
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:background="@drawable/product_attribute_bg4">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_70sdp"
+                android:background="@color/bg"
+                android:orientation="horizontal">
+
+                <ImageView
+
+                    android:layout_width="@dimen/_80sdp"
+                    android:layout_height="@dimen/_90sdp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/categorypic" />
+
+                <TextView
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:text="@string/new_product_has_been_added"
+                    android:fontFamily="@font/madani_arabic_bold"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_12sdp"/>
+
+                <ImageView
+
+                    android:layout_width="@dimen/_80sdp"
+                    android:layout_height="@dimen/_90sdp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/categorypic" />
+
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/_90sdp"
+                        android:layout_height="@dimen/_90sdp"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/detailpic1" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/product_type"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/madani_arabic_extra_light"
+                            android:text="@string/electronics_phones"
+                            android:textColor="#293241"
+                            android:textSize="@dimen/_10sdp" />
+
+                        <TextView
+                            android:id="@+id/product_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/madani_arabic_medium"
+                            android:text="RealMe 8 Pro Infinite "
+                            android:textColor="#000000"
+                            android:textSize="@dimen/_14sdp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:weightSum="2">
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/madani_arabic_extra_light"
+                                android:text="@string/Riyadh"
+                                android:textColor="#293241"
+                                android:textSize="@dimen/_10sdp" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_10sdp"
+                                android:layout_weight="1"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/madani_arabic_medium"
+                                    android:text="1643"
+                                    android:textColor="@color/bg"
+                                    android:textSize="@dimen/_12sdp" />
+
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="5dp"
+                                    android:fontFamily="@font/madani_arabic_medium"
+                                    android:text="@string/sar"
+                                    android:textColor="@color/bg"
+                                    android:textSize="@dimen/_12sdp" />
+
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/fav_merchant_add_product"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_175sdp"
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:background="@drawable/product_attribute_bg4">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_70sdp"
+                android:background="@color/bg"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_gravity="center_vertical">
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:layout_width="@dimen/_45sdp"
+                            android:layout_height="@dimen/_40sdp"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center_vertical"
+                            android:src="@drawable/profiledp" />
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:layout_width="@dimen/_40sdp"
+                            android:layout_height="@dimen/_16sdp"
+                            android:layout_marginTop="@dimen/_40sdp"
+                            android:layout_centerHorizontal="true"
+                            android:background="@drawable/round_btn"
+                            android:backgroundTint="@color/white"
+                            android:fontFamily="@font/madani_arabic_semi_bold"
+                            android:gravity="center"
+                            android:text="Ahmed"
+                            android:textAllCaps="false"
+                            android:textColor="@color/bg"
+                            android:textSize="@dimen/_6sdp" />
+
+                    </RelativeLayout>
+
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:text="@string/your_favorite_merchant_added_a_product"
+                    android:fontFamily="@font/madani_arabic_bold"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_12sdp"/>
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/_90sdp"
+                        android:layout_height="@dimen/_90sdp"
+                        android:src="@drawable/detailpic1" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <TextView
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/madani_arabic_extra_light"
+                            android:text="@string/electronics_phones"
+                            android:textColor="#293241"
+                            android:textSize="@dimen/_10sdp" />
+
+                        <TextView
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/madani_arabic_medium"
+                            android:text="RealMe 8 Pro Infinite "
+                            android:textColor="#000000"
+                            android:textSize="@dimen/_14sdp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:weightSum="2">
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/madani_arabic_extra_light"
+                                android:text="@string/Riyadh"
+                                android:textColor="#293241"
+                                android:textSize="@dimen/_10sdp" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_10sdp"
+                                android:layout_weight="1"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/madani_arabic_medium"
+                                    android:text="1643"
+                                    android:textColor="@color/bg"
+                                    android:textSize="@dimen/_12sdp" />
+
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="5dp"
+                                    android:fontFamily="@font/madani_arabic_medium"
+                                    android:text="@string/sar"
+                                    android:textColor="@color/bg"
+                                    android:textSize="@dimen/_12sdp" />
+
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+
+
+
+</RelativeLayout>
