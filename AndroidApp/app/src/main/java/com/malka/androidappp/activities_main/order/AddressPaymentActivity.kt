@@ -38,6 +38,7 @@ class AddressPaymentActivity : BaseActivity() {
     val paymentMethodList: ArrayList<Selection> = ArrayList()
     var selectAddress: GetAddressResponse.AddressModel? = null
     var price = 0.0
+    var isSelect: Boolean = false
     val cartIds: MutableList<String> = mutableListOf()
 
     companion object {
@@ -212,6 +213,9 @@ class AddressPaymentActivity : BaseActivity() {
                         payment_option_btn._view3().setGravity(Gravity.CENTER)
 
                         payment_option_btn.setOnClickListener {
+
+                            payment_option_btn.setSelected(true)
+
                             paymentMethodList.apply {
                                 clear()
                                 add(Selection(getString(R.string.Saudiabankdeposit)))
@@ -228,6 +232,7 @@ class AddressPaymentActivity : BaseActivity() {
 
 
                         delivery_option.setOnClickListener {
+                            delivery_option.setSelected(true)
                             deliveryOptionList.apply {
                                 clear()
                                 add(Selection("Option 1"))

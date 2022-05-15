@@ -255,13 +255,6 @@
 
         </RelativeLayout>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:layout_width="@dimen/_150sdp"
-            android:layout_height="@dimen/_2sdp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_marginBottom="@dimen/_10sdp"
-            android:background="@drawable/round_btn_grey" />
     </LinearLayout>
 
 </RelativeLayout>

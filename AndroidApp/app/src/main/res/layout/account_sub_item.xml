@@ -38,7 +38,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_5sdp"
                     android:layout_marginEnd="@dimen/_5sdp"
-                    android:fontFamily="@font/madani_arabic_bold"
+                    android:fontFamily="@font/madani_arabic_medium"
                     android:text="@string/MyProducts"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_12sdp" />
@@ -63,8 +63,8 @@
         android:layout_height="@dimen/_1sdp"
         android:layout_gravity="center"
         android:id="@+id/line"
-        android:layout_marginStart="@dimen/_18sdp"
+        android:layout_marginStart="@dimen/_30sdp"
         android:layout_marginTop="@dimen/_5sdp"
-        android:layout_marginEnd="@dimen/_15sdp"
+        android:layout_marginEnd="@dimen/_30sdp"
         android:background="@color/light_gray" />
 </LinearLayout>

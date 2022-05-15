@@ -3,22 +3,25 @@ package com.malka.androidappp.activities_main.add_product
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Filter
-import android.widget.RadioButton
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
+import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
 import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.botmnav_fragments.create_ads.StaticClassAdCreate
 import com.malka.androidappp.helper.widgets.DatePickerFragment
 import com.malka.androidappp.helper.widgets.TimePickerFragment
 import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
+import com.malka.androidappp.servicemodels.Selection
 import com.malka.androidappp.servicemodels.TimeSelection
 import kotlinx.android.synthetic.main.fragment_listing_duration.*
 import kotlinx.android.synthetic.main.selection_item.view.*
+import kotlinx.android.synthetic.main.shipping_option.view.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class ListingDuration : BaseActivity() {
@@ -81,7 +84,15 @@ class ListingDuration : BaseActivity() {
         }
         fixLenghtAdaptor(allWeeks)
 
+        val shippingOption: ArrayList<Selection> = ArrayList()
+        shippingOption.apply {
+            add(Selection("Free shipping within Saudi Arabia"))
+            add(Selection("Shipping Not Available" ))
+            add(Selection("To be Arranged" ))
+            add(Selection("Specify Shipping Cost" ))
+        }
 
+        shippingOptionAdaptor(shippingOption, shipping_option)
 
         own_time_tv.setOnClickListener {
             fm = supportFragmentManager
@@ -117,9 +128,7 @@ class ListingDuration : BaseActivity() {
             confirmListDuration()
         }
 
-        pricepay_radioGroupp.setOnCheckedChangeListener { group, checkedId ->
-            isSelectShipping = true
-        }
+
     }
 
 
@@ -186,18 +195,6 @@ class ListingDuration : BaseActivity() {
             }
 
 
-            ///////get value of radiobtn pickup opt1 to static class/////////////
-            val selectedId: Int = pricepay_radioGroupp.checkedRadioButtonId
-            val pickupopt1: RadioButton = findViewById(selectedId)
-            val pickupoptRadiobtnnn1: String = pickupopt1.text.toString()
-            StaticClassAdCreate.pickup_option = pickupoptRadiobtnnn1
-
-            ///////get value of radiobtn pickup opt2 to static class/////////////
-            val selectedId2: Int = pricepay_radioGroupp.checkedRadioButtonId
-            val pickupopt2: RadioButton = findViewById(selectedId2)
-            val pickupoptRadiobtnnn2: String = pickupopt2.text.toString()
-            StaticClassAdCreate.shipping_option = pickupoptRadiobtnnn2
-
             startActivity(Intent(this, PromotionalActivity::class.java).apply {
             })
 
@@ -246,6 +243,46 @@ class ListingDuration : BaseActivity() {
                         }
 
 
+                    }
+                }
+            }
+        ) {
+            override fun getFilter(): Filter {
+                TODO("Not yet implemented")
+            }
+
+        }.apply {
+            submitList(
+                list
+            )
+        }
+    }
+
+    var selection: Selection? = null
+
+
+    private fun shippingOptionAdaptor(list: ArrayList<Selection>,  rcv: RecyclerView) {
+        rcv.adapter = object : GenericListAdapter<Selection>(
+            R.layout.shipping_option,
+            bind = { element, holder, itemCount, position ->
+                holder.view.run {
+                    element.run {
+                        shipping_opt_tv.text = name
+                        rb2_1.isChecked = isSelected
+                        shipping_option_layout.setOnClickListener {
+                            list.forEach {
+                                it.isSelected = false
+                            }
+                            list.get(position).isSelected=true
+                            rcv.post { rcv.adapter?.notifyDataSetChanged() }
+                            selection=element
+                        }
+                        rb2_1.setOnCheckedChangeListener { buttonView, isChecked ->
+                            if (isChecked) {
+                                shipping_option_layout.performClick()
+                            }
+
+                        }
                     }
                 }
             }
