@@ -22,9 +22,21 @@ import retrofit2.Response
 
 
 class CartActivity : BaseActivity() {
+
+//    val list: ArrayList<Negotiationmodel> = ArrayList()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cart)
+
+
+//        list.add(Negotiationmodel("Electric - phone","RealMe 8 Pro Infinite","Riyadh", "1653",R.drawable.detailpic1,"Ahmed","Member since 5/23/2020",R.drawable.profiledp))
+//        list.add(Negotiationmodel("Electric - bus","RealMe 8 ","Dubai", "1567",R.drawable.car,"Ali", "Member since 2/21/2020",R.drawable.profile_pic))
+//        list.add(Negotiationmodel("Electric - car","RealMe 8 Pro ","Dubai3", "1711",R.drawable.car,"Ahmed2","Member since 12/11/2022",R.drawable.car))
+//        list.add(Negotiationmodel("Electric - car3","RealMe 8 Infinite","Uk", "9832",R.drawable.car,"Ahmed3","Member since 5/22/2021",R.drawable.profiledp))
+//        list.add(Negotiationmodel("Electric - jeep","Pro Infinite","Saudia", "6781",R.drawable.car,"Ahmed5","Member since 1/28/2022",R.drawable.car))
+//
+//        setCategoryAdaptor(list)
 
         toolbar_title.text = getString(R.string.shopping_basket)
         back_btn.setOnClickListener {
@@ -44,14 +56,11 @@ class CartActivity : BaseActivity() {
             }
         }
     }
-
-
     private fun setCategoryAdaptor() {
-        var price = 0.0
         ConstantObjects.usercart.forEach {
-            price += it.advertisements.price.toDouble()
+            it.advertisements.qty = "1"
         }
-        price_total.text = price.toString()
+        getTotalPrice()
         cart_rcv.adapter = object : GenericListAdapter<CartItemModel>(
             R.layout.cart_design,
             bind = { element, holder, itemCount, position ->
@@ -60,6 +69,11 @@ class CartActivity : BaseActivity() {
                         //  prod_type.text=protype
                         //  prod_name.text=name
                         //prod_city.text=cityName
+                        item_quantity.setOnValueChangeListener { view, oldValue, newValue ->
+//                            element.advertisements.qty = newValue.toString()
+                            ConstantObjects.usercart.get(position).advertisements.qty= newValue.toString()
+                            getTotalPrice()
+                        }
                         prod_price.text = "$price ${getString(R.string.sar)}"
                         Picasso.get()
                             .load(ApiConstants.IMAGE_URL + image)
@@ -77,6 +91,13 @@ class CartActivity : BaseActivity() {
                 ConstantObjects.usercart
             )
         }
+    }
+    private fun getTotalPrice() {
+        var price = 0.0
+        ConstantObjects.usercart.forEach {
+            price += it.advertisements.price.toDouble() * it.advertisements.qty.toDouble()
+        }
+        price_total.text = price.toString()
     }
 
     fun GetUsersCartList(onSuccess: (() -> Unit)? = null) {
@@ -97,7 +118,15 @@ class CartActivity : BaseActivity() {
                 if (response.isSuccessful) {
                     if (response.body() != null) {
                         val resp: AddToCartResponseModel = response.body()!!
-                        ConstantObjects.usercart = resp.data
+                        val addMore = resp.data
+                        var newList: ArrayList<CartItemModel> = ArrayList()
+                        newList.addAll(addMore)
+                        newList.addAll(addMore)
+                        newList.addAll(addMore)
+                        newList.addAll(addMore)
+                        ConstantObjects.usercart = newList
+
+
                         onSuccess?.invoke()
                     }
                 }
