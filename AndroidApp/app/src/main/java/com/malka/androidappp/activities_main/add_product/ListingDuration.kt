@@ -14,6 +14,7 @@ import com.malka.androidappp.helper.widgets.TimePickerFragment
 import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.servicemodels.Selection
 import com.malka.androidappp.servicemodels.TimeSelection
+import kotlinx.android.synthetic.main.fragment_list_details.*
 import kotlinx.android.synthetic.main.fragment_listing_duration.*
 import kotlinx.android.synthetic.main.selection_item.view.*
 import kotlinx.android.synthetic.main.shipping_option.view.*
@@ -30,6 +31,7 @@ class ListingDuration : BaseActivity() {
     var selectTime = ""
     var fm: FragmentManager? = null
     var isSelectShipping = false
+    var isEdit: Boolean = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,6 +43,9 @@ class ListingDuration : BaseActivity() {
         back_btn.setOnClickListener {
             finish()
         }
+
+        isEdit = intent.getBooleanExtra("isEdit", false)
+
 
         option_1.setOnClickListener {
             option_1.background =
@@ -58,6 +63,22 @@ class ListingDuration : BaseActivity() {
 
             radiobtn1.isChecked = false
             radiobtn2.isChecked = true
+        }
+
+        if(isEdit){
+
+            own_time_tv.setText("${StaticClassAdCreate.timepicker} - ${StaticClassAdCreate.endtime}")
+
+            if (StaticClassAdCreate.fixLength.equals("fixed_length")){
+                option_1.performClick()
+            }else{
+                option_2.performClick()
+            }
+
+
+            btn_listduration.setOnClickListener {
+                confirmListDuration()
+            }
         }
 
         val c = Calendar.getInstance()
@@ -176,7 +197,7 @@ class ListingDuration : BaseActivity() {
 
 
     fun confirmListDuration() {
-        if (!validateListDuration() or !ValidateRadiobtmchecked() or !validaterShippingRadiobutton()) {
+        if (!validateListDuration() or !ValidateRadiobtmchecked() ) {
             return
         } else {
 
@@ -194,9 +215,14 @@ class ListingDuration : BaseActivity() {
                 StaticClassAdCreate.endtime = selectdate
             }
 
-
-            startActivity(Intent(this, PromotionalActivity::class.java).apply {
-            })
+            if (isEdit){
+                startActivity(Intent(this, Confirmation::class.java).apply {
+                })
+                finish()
+            }else{
+                startActivity(Intent(this, PromotionalActivity::class.java).apply {
+                })
+            }
 
         }
 

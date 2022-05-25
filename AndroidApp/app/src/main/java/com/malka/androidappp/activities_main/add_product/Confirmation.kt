@@ -1,5 +1,6 @@
 package com.malka.androidappp.activities_main.add_product
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import com.google.gson.Gson
@@ -32,6 +33,33 @@ class Confirmation : BaseActivity() {
 
         setData()
 
+        edit_item_specification.setOnClickListener() {
+            startActivity(Intent(this, ListingDetails::class.java).apply {
+                putExtra("isEdit", true)
+
+            })
+        }
+        edit_item_payment.setOnClickListener() {
+            startActivity(Intent(this, PricingActivity::class.java).apply {
+                putExtra("isEdit", true)
+
+
+            })
+        }
+        edit_selected_package.setOnClickListener() {
+            startActivity(Intent(this, PromotionalActivity::class.java).apply {
+                putExtra("isEdit", true)
+
+
+            })
+        }
+        edit_shoping_option.setOnClickListener() {
+            startActivity(Intent(this, ListingDuration::class.java).apply {
+                putExtra("isEdit", true)
+
+
+            })
+        }
 
         btn_confirm_details.setOnClickListener {
             val paymentMethodList: ArrayList<Selection> = ArrayList()
@@ -216,6 +244,7 @@ class Confirmation : BaseActivity() {
         })
     }
 
+    @SuppressLint("SetTextI18n")
     fun setData() {
         StaticClassAdCreate.images.filter {
             it.is_main == true
@@ -294,6 +323,7 @@ class Confirmation : BaseActivity() {
 
     }
 
+    @SuppressLint("SetTextI18n")
     private fun calculation(package_cost: Int) {
         val TaxAmount = package_cost * 12 / 100
         val total = package_cost + TaxAmount

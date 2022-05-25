@@ -10,17 +10,20 @@ import androidx.core.content.ContextCompat
 import com.malka.androidappp.R
 import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.botmnav_fragments.create_ads.StaticClassAdCreate
-import com.malka.androidappp.servicemodels.PromotionModel
 import com.malka.androidappp.helper.hide
 import com.malka.androidappp.helper.show
 import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
+import com.malka.androidappp.servicemodels.PromotionModel
 import kotlinx.android.synthetic.main.fragment_promotional.*
+import kotlinx.android.synthetic.main.item_details2_desgin.*
 import kotlinx.android.synthetic.main.item_details2_desgin.view.*
+import kotlinx.android.synthetic.main.suggested_categories.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 
 
 class PromotionalActivity : BaseActivity() {
     val list: ArrayList<PromotionModel> = ArrayList()
+    var isEdit: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +32,16 @@ class PromotionalActivity : BaseActivity() {
         toolbar_title.text = getString(R.string.distinguish_your_product)
         back_btn.setOnClickListener {
             finish()
+        }
+
+        isEdit = intent.getBooleanExtra("isEdit", false)
+
+        if (isEdit){
+
+
+            button16611.setOnClickListener {
+                confirmpromotion()
+            }
         }
 
         list.add(
@@ -139,6 +152,8 @@ class PromotionalActivity : BaseActivity() {
                         main_layout.setOnClickListener {
                             packageSelection(list, parent_position)
                         }
+
+
                     }
                 }
             }
@@ -178,8 +193,16 @@ class PromotionalActivity : BaseActivity() {
             showError(getString(R.string.choose_one_of_our_special_packages))
         } else {
             saveSelectedcheckbox()
-            startActivity(Intent(this, Confirmation::class.java).apply {
-            })
+
+            if (isEdit){
+                startActivity(Intent(this, Confirmation::class.java).apply {
+                })
+                finish()
+
+            }else{
+                startActivity(Intent(this, Confirmation::class.java).apply {
+                })
+            }
         }
 
     }

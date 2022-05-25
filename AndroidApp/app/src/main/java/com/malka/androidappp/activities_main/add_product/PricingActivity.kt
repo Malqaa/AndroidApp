@@ -22,12 +22,15 @@ import com.malka.androidappp.servicemodels.GeneralRespone
 import kotlinx.android.synthetic.main.add_account_layout.*
 import kotlinx.android.synthetic.main.add_bank_layout.view.*
 import kotlinx.android.synthetic.main.fragment_pricing_payment.*
+import kotlinx.android.synthetic.main.fragment_pricing_payment.addbank_rcv
+import kotlinx.android.synthetic.main.fragment_pricing_payment.view.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 import retrofit2.Call
 
 
 class PricingActivity : BaseActivity() {
     var bankList: List<BankListRespone.BankDetail> = ArrayList()
+    var isEdit: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +38,9 @@ class PricingActivity : BaseActivity() {
 
 
         getBankAccount()
+
+        isEdit = intent.getBooleanExtra("isEdit", false)
+
 
 
         toolbar_title.text = getString(R.string.sale_details)
@@ -140,8 +146,16 @@ class PricingActivity : BaseActivity() {
                         StaticClassAdCreate.listingType += "2"
                     }
 
-                    startActivity(Intent(this, ListingDuration::class.java).apply {
-                    })
+                    if(isEdit){
+                        startActivity(Intent(this, Confirmation::class.java).apply {
+                        })
+                        finish()
+
+                    }else{
+                        startActivity(Intent(this, ListingDuration::class.java).apply {
+                        })
+                    }
+
                 }
             }
         }
@@ -254,6 +268,26 @@ class PricingActivity : BaseActivity() {
                 swicth_saudi_bank_deposit.isChecked = false
 
                 saudi_bank_auction.visibility = View.VISIBLE
+            }
+        }
+        if (isEdit){
+            swicth_visa_mastercard.isChecked = StaticClassAdCreate.isvisapaid
+            swicth_saudi_bank_deposit.isChecked = StaticClassAdCreate.isbankpaid
+            listingtyp_rb3.isChecked = StaticClassAdCreate.isnegotiable
+            buynowprice.setText(StaticClassAdCreate.price)
+            startprice.setText(StaticClassAdCreate.startingPrice)
+            reserveprice.setText(StaticClassAdCreate.reservedPrice)
+
+            if (StaticClassAdCreate.listingType.equals("1")){
+                listingtyp_rb1.isChecked = true
+            }else{
+                listingtyp_rb2.isChecked = true
+            }
+
+
+
+            btnnn.setOnClickListener {
+                confirmPricePaymentFrag()
             }
         }
     }
