@@ -107,9 +107,12 @@ class ListingDetails : BaseActivity() {
             subtitle.setText(StaticClassAdCreate.subtitle)
             title_tv.setText(StaticClassAdCreate.producttitle)
             quantityavail.number = StaticClassAdCreate.quantity
-            select_country.setText(StaticClassAdCreate.country)
-            select_region.setText(StaticClassAdCreate.region)
-            select_city.setText(StaticClassAdCreate.city)
+            select_country.setText(StaticClassAdCreate.country!!.title)
+            selectedCountry = StaticClassAdCreate.country
+            select_region.setText(StaticClassAdCreate.region!!.title)
+            selectedRegion = StaticClassAdCreate.region
+            select_city.setText(StaticClassAdCreate.city!!.title)
+            selectedCity = StaticClassAdCreate.city
             if (StaticClassAdCreate.brand_new_item.equals(tv_New.text.toString())){
                 tv_New.performClick()
             }else{
@@ -242,9 +245,9 @@ class ListingDetails : BaseActivity() {
             StaticClassAdCreate.subtitle = subtitle.getText()
             StaticClassAdCreate.item_description = item_description.getText().toString()
             StaticClassAdCreate.phone = phone_number_edittext._getEndText() + phone_number_edittext.text.toString()
-            StaticClassAdCreate.country = selectedCountry!!.title
-            StaticClassAdCreate.region = selectedRegion!!.title
-            StaticClassAdCreate.city = selectedCity!!.title
+            StaticClassAdCreate.country = selectedCountry
+            StaticClassAdCreate.region = selectedRegion
+            StaticClassAdCreate.city = selectedCity
 
             if (isEdit){
                 startActivity(Intent(this, Confirmation::class.java).apply {

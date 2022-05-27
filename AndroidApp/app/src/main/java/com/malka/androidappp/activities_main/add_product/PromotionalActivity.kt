@@ -15,9 +15,7 @@ import com.malka.androidappp.helper.show
 import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.servicemodels.PromotionModel
 import kotlinx.android.synthetic.main.fragment_promotional.*
-import kotlinx.android.synthetic.main.item_details2_desgin.*
 import kotlinx.android.synthetic.main.item_details2_desgin.view.*
-import kotlinx.android.synthetic.main.suggested_categories.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 
 
@@ -36,13 +34,7 @@ class PromotionalActivity : BaseActivity() {
 
         isEdit = intent.getBooleanExtra("isEdit", false)
 
-        if (isEdit){
 
-
-            button16611.setOnClickListener {
-                confirmpromotion()
-            }
-        }
 
         list.add(
             PromotionModel(
@@ -84,10 +76,18 @@ class PromotionalActivity : BaseActivity() {
             )
         )
 
+        if (isEdit){
+
+            list.forEach{
+                it.is_select = it.packagename.equals(StaticClassAdCreate.selectPromotiion!!.packagename)
+            }
+
+        }
 
 
 
-        setCategoryAdaptor(list)
+
+        setPromotionalAdaptor(list)
 
 
         button16611.setOnClickListener() {
@@ -97,10 +97,12 @@ class PromotionalActivity : BaseActivity() {
             startActivity(Intent(this, Confirmation::class.java).apply {
             })
         }
+
+
     }
 
 
-    private fun setCategoryAdaptor(
+    private fun setPromotionalAdaptor(
         list: List<PromotionModel>
     ) {
         val inflater =
@@ -192,6 +194,7 @@ class PromotionalActivity : BaseActivity() {
         if (!validatepromotion()) {
             showError(getString(R.string.choose_one_of_our_special_packages))
         } else {
+
             saveSelectedcheckbox()
 
             if (isEdit){

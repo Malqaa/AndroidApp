@@ -14,7 +14,6 @@ import com.malka.androidappp.helper.widgets.TimePickerFragment
 import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.servicemodels.Selection
 import com.malka.androidappp.servicemodels.TimeSelection
-import kotlinx.android.synthetic.main.fragment_list_details.*
 import kotlinx.android.synthetic.main.fragment_listing_duration.*
 import kotlinx.android.synthetic.main.selection_item.view.*
 import kotlinx.android.synthetic.main.shipping_option.view.*
@@ -22,7 +21,6 @@ import kotlinx.android.synthetic.main.toolbar_main.*
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class ListingDuration : BaseActivity() {
@@ -32,7 +30,8 @@ class ListingDuration : BaseActivity() {
     var fm: FragmentManager? = null
     var isSelectShipping = false
     var isEdit: Boolean = false
-
+    val allWeeks: ArrayList<TimeSelection> = ArrayList()
+    val shippingOption: ArrayList<Selection> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +50,7 @@ class ListingDuration : BaseActivity() {
             option_1.background =
                 ContextCompat.getDrawable(this, R.drawable.field_selection_border_enable)
             FixedLength.setTextColor(ContextCompat.getColor(this, R.color.bg))
-
+            own_time_tv.setText(selectTime)
             option_2.setSelected(false)
             radiobtn1.isChecked = true
             radiobtn2.isChecked = false
@@ -60,26 +59,14 @@ class ListingDuration : BaseActivity() {
             option_2.setSelected(true)
             option_1.background = ContextCompat.getDrawable(this, R.drawable.edittext_bg)
             FixedLength.setTextColor(ContextCompat.getColor(this, R.color.text_color))
-
             radiobtn1.isChecked = false
             radiobtn2.isChecked = true
+            allWeeks.forEach {
+                it.isSelect= false
+            }
+            fixLenghtAdaptor(allWeeks)
         }
 
-        if(isEdit){
-
-            own_time_tv.setText("${StaticClassAdCreate.timepicker} - ${StaticClassAdCreate.endtime}")
-
-            if (StaticClassAdCreate.fixLength.equals("fixed_length")){
-                option_1.performClick()
-            }else{
-                option_2.performClick()
-            }
-
-
-            btn_listduration.setOnClickListener {
-                confirmListDuration()
-            }
-        }
 
         val c = Calendar.getInstance()
         val day = c.get(Calendar.DAY_OF_MONTH)
@@ -96,21 +83,47 @@ class ListingDuration : BaseActivity() {
         val week4 = addDay(day.toString(), 28)
 
 
-        val allWeeks: ArrayList<TimeSelection> = ArrayList()
         allWeeks.apply {
             add(TimeSelection("1 week", week1))
             add(TimeSelection("2 week", week2))
             add(TimeSelection("3 week", week3))
             add(TimeSelection("4 week", week4))
         }
+
+        if(isEdit){
+
+            if (StaticClassAdCreate.fixLength.equals("fixed_length")){
+                own_time_tv.setText(StaticClassAdCreate.duration)
+                allWeeks.forEach {
+                    it.isSelect = it.text.equals(StaticClassAdCreate.weekSelection!!.text)
+                }
+                option_1.performClick()
+            }else{
+                own_time_tv.setText("${StaticClassAdCreate.timepicker} - ${StaticClassAdCreate.endtime}")
+                option_2.performClick()
+            }
+
+
+            btn_listduration.setOnClickListener {
+                confirmListDuration()
+            }
+        }
+
         fixLenghtAdaptor(allWeeks)
 
-        val shippingOption: ArrayList<Selection> = ArrayList()
         shippingOption.apply {
             add(Selection("Free shipping within Saudi Arabia"))
             add(Selection("Shipping Not Available" ))
             add(Selection("To be Arranged" ))
             add(Selection("Specify Shipping Cost" ))
+        }
+
+        if(isEdit){
+
+            shippingOption.forEach {
+                it.isSelected = it.name.equals(StaticClassAdCreate.shippingOptionSelection!!.name)
+            }
+
         }
 
         shippingOptionAdaptor(shippingOption, shipping_option)
@@ -214,7 +227,8 @@ class ListingDuration : BaseActivity() {
                 StaticClassAdCreate.duration = ""
                 StaticClassAdCreate.endtime = selectdate
             }
-
+            saveSelectedcheckbox()
+            saveShippingOption()
             if (isEdit){
                 startActivity(Intent(this, Confirmation::class.java).apply {
                 })
@@ -323,5 +337,29 @@ class ListingDuration : BaseActivity() {
             )
         }
     }
+
+
+    fun saveSelectedcheckbox() {
+
+        val list = allWeeks.filter {
+            it.isSelect == true
+
+        }
+        list.forEach {
+            StaticClassAdCreate.weekSelection = it
+        }
+    }
+
+    fun saveShippingOption() {
+
+        val list = shippingOption.filter {
+            it.isSelected == true
+        }
+        list.forEach {
+            StaticClassAdCreate.shippingOptionSelection = it
+        }
+
+    }
+
 }
 

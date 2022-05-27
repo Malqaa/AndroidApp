@@ -36,27 +36,27 @@ class Confirmation : BaseActivity() {
         edit_item_specification.setOnClickListener() {
             startActivity(Intent(this, ListingDetails::class.java).apply {
                 putExtra("isEdit", true)
-
+                finish()
             })
         }
         edit_item_payment.setOnClickListener() {
             startActivity(Intent(this, PricingActivity::class.java).apply {
                 putExtra("isEdit", true)
-
+                finish()
 
             })
         }
         edit_selected_package.setOnClickListener() {
             startActivity(Intent(this, PromotionalActivity::class.java).apply {
                 putExtra("isEdit", true)
-
+                finish()
 
             })
         }
         edit_shoping_option.setOnClickListener() {
             startActivity(Intent(this, ListingDuration::class.java).apply {
                 putExtra("isEdit", true)
-
+                finish()
 
             })
         }
@@ -108,12 +108,12 @@ class Confirmation : BaseActivity() {
 
         val mainModel = CreateAdvMainModel(
             Id = null,
-            City = StaticClassAdCreate.city,
-            Country = StaticClassAdCreate.country,
+            City = StaticClassAdCreate.city!!.title,
+            Country = StaticClassAdCreate.country!!.title,
             name = StaticClassAdCreate.name,
             slug = StaticClassAdCreate.slug,
             Template = StaticClassAdCreate.template,
-            Region = StaticClassAdCreate.region,
+            Region = StaticClassAdCreate.region!!.title,
             Urgentexpirydate = StaticClassAdCreate.urgentexpirydate,
             title = StaticClassAdCreate.title,
             Price = StaticClassAdCreate.price,
