@@ -56,7 +56,6 @@ class HomeFragment : Fragment(R.layout.fragment_homee),
         sliderlist.add(R.drawable.slider_demo)
         sliderlist.add(R.drawable.slider_demo)
 
-        loadLocate()
 
 
         setListenser()
@@ -313,34 +312,6 @@ class HomeFragment : Fragment(R.layout.fragment_homee),
         })
     }
 
-    //Methods For language
-    private fun setLocate(Lang: String) {
-
-        val locale = Locale(Lang)
-
-        Locale.setDefault(locale)
-
-        val config = Configuration()
-
-        config.locale = locale
-        requireActivity().baseContext.resources.updateConfiguration(
-            config,
-            requireActivity().baseContext.resources.displayMetrics
-        )
-
-        val editor = requireActivity().getSharedPreferences("Settings", Context.MODE_PRIVATE).edit()
-        editor.putString("My_Lang", Lang)
-        editor.apply()
-    }
-
-    private fun loadLocate() {
-        val sharedPreferences =
-            requireActivity().getSharedPreferences("Settings", Activity.MODE_PRIVATE)
-        val language = sharedPreferences.getString("My_Lang", "")
-        if (language != null) {
-            setLocate(language)
-        }
-    }
 
 
     private fun setPagerDots(list: List<Int>) {

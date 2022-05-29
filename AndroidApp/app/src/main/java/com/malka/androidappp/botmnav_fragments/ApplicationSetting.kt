@@ -1,11 +1,9 @@
 package com.malka.androidappp.botmnav_fragments
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.malka.androidappp.R
-import com.malka.androidappp.activities_main.SplashActivity
 import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.servicemodels.ConstantObjects
 import kotlinx.android.synthetic.main.activity_sign_in.*
@@ -28,20 +26,7 @@ class ApplicationSetting : Fragment(R.layout.activity_application_setting) {
         }
 
         language_toggle.setOnToggleSwitchChangeListener { position, isChecked ->
-            when (position) {
-                0 -> {
-                    (requireActivity() as BaseActivity).setLocate("en")
-                }
-                1 -> {
-                    (requireActivity() as BaseActivity).setLocate("ar")
-
-                }
-
-            }
-            val intentt = Intent(requireActivity(), SplashActivity::class.java)
-            startActivity(intentt)
-            requireActivity().finish()
-            requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+            (requireActivity() as BaseActivity).setLocate()
         }
 
 

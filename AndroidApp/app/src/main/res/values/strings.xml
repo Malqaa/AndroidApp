@@ -2928,6 +2928,8 @@ Want to start a business account? Create a Business Account
     <string name="Loser">Loser</string>
   <string name="help">Help</string>
   <string name="technical_support">Technical support</string>
+  <string name="reset">Reset</string>
+  <string name="activate_email">Activate Email</string>
 
 
 </resources>

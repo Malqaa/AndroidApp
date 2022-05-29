@@ -10,6 +10,7 @@ import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.helper.HelpFunctions.Companion.PASSWORD_PATTERN
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
+import com.malka.androidappp.servicemodels.ConstantObjects
 import com.malka.androidappp.servicemodels.GeneralRespone
 import com.malka.androidappp.servicemodels.User
 import kotlinx.android.synthetic.main.activity_signup_pg1.*
@@ -23,7 +24,17 @@ class SignupPg1 : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signup_pg1)
-        
+
+
+        if (ConstantObjects.currentLanguage == ENGLISH) {
+            language_toggle.checkedTogglePosition = 0
+        } else {
+            language_toggle.checkedTogglePosition = 1
+        }
+
+        language_toggle.setOnToggleSwitchChangeListener { position, isChecked ->
+            setLocate()
+        }
 
     }
 

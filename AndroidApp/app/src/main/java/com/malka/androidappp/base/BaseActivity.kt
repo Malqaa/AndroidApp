@@ -2,7 +2,7 @@ package com.malka.androidappp.base
 
 import android.app.Activity
 import android.content.Context
-import android.content.res.Configuration
+import android.content.Intent
 import android.os.*
 import android.view.View
 import android.view.WindowManager
@@ -11,18 +11,21 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import com.malka.androidappp.R
+import com.malka.androidappp.activities_main.SplashActivity
 import com.malka.androidappp.botmnav_fragments.create_ads.StaticClassAdCreate
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.servicemodels.ConstantObjects
-import java.util.*
+import com.yariksoffice.lingver.Lingver
 
 
 abstract class BaseActivity : AppCompatActivity() {
 
 
-
+    val ENGLISH = "en"
+    val ARABIC = "ar"
     fun culture():String{
-        if (ConstantObjects.currentLanguage == "en") {
+        if (ConstantObjects.currentLanguage == ENGLISH) {
             return "en-US"
         } else {
             return "ar"
@@ -32,33 +35,28 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
-        ConstantObjects.currentLanguage = getLanguage()
+        ConstantObjects.currentLanguage = Lingver.getInstance().getLocale().language
         HelpFunctions.IsUserLoggedIn()
     }
 
-    fun getLanguage(): String {
-        val sharedPreferences = getSharedPreferences("Settings", Activity.MODE_PRIVATE)
-        val language = sharedPreferences.getString("My_Lang", Locale.getDefault().language)
-            ?: Locale.getDefault().language
-        return language!!
-    }
+
 
     //Methods For language
-    fun setLocate(Lang: String) {
+    fun setLocate() {
+        Lingver.getInstance().setLocale(this, if (Lingver.getInstance().getLanguage() == ARABIC) ENGLISH else ARABIC)
+        val intentt = Intent(this, SplashActivity::class.java)
+        startActivity(intentt)
+       finish()
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
 
-        val locale = Locale(Lang)
-
-        Locale.setDefault(locale)
-
-        val config = Configuration()
-
-        config.locale = locale
-        baseContext.resources.updateConfiguration(config, baseContext.resources.displayMetrics)
-        val editor = getSharedPreferences("Settings", Context.MODE_PRIVATE).edit()
-        editor.putString("My_Lang", Lang)
-        editor.apply()
+       // restart()
     }
 
+    fun Activity.restart() {
+        val i = Intent(this, this::class.java)
+        startActivity(i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK))
+        finish()
+    }
 
     fun hideSystemUI(mainContainer: View) {
         WindowCompat.setDecorFitsSystemWindows(window, false)

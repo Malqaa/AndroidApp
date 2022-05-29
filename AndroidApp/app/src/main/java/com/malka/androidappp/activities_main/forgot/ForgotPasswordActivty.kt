@@ -1,20 +1,19 @@
 package com.malka.androidappp.activities_main.forgot
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.text.SpannableString
 import android.util.Patterns
 import android.view.View
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.login.SignInActivity
-import com.malka.androidappp.servicemodels.User
 import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
+import com.malka.androidappp.servicemodels.ConstantObjects
 import com.malka.androidappp.servicemodels.GeneralRespone
+import com.malka.androidappp.servicemodels.User
 import kotlinx.android.synthetic.main.activity_forgot_password.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -31,24 +30,22 @@ class ForgotPasswordActivty : BaseActivity() {
 
         setContentView(R.layout.activity_forgot_password)
 
+        if (ConstantObjects.currentLanguage == ENGLISH) {
+            language_toggle.checkedTogglePosition = 0
+        } else {
+            language_toggle.checkedTogglePosition = 1
+        }
+
+        language_toggle.setOnToggleSwitchChangeListener { position, isChecked ->
+            setLocate()
+        }
+
+
         signin.setOnClickListener {
             val intent = Intent(this@ForgotPasswordActivty, SignInActivity::class.java)
             startActivity(intent)
             finish()
         }
-
-
-
-        /////////////////////////ClickableSpan for Alreadyaccount////////////////////////////////
-
-        // To get the current language and set span accordingly
-        val sharedPreferences = getSharedPreferences("Settings", Activity.MODE_PRIVATE)
-        val language = sharedPreferences.getString("My_Lang", "")
-
-        val mSpannablerecover = SpannableString(getString(R.string.alreadyaccount))
-
-
-        //data Validation
         emailtextt = findViewById(R.id.editText4)
     }
 
