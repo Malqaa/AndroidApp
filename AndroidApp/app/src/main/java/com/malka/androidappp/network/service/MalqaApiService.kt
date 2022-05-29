@@ -290,7 +290,7 @@ interface MalqaApiService {
     @DELETE("CardDetail/deletecard")
     fun DeleteUserCreditCard(@Query("id") userid: String): Call<BasicResponse>
 
-    @GET("https://mocki.io/v1/4c766706-fce3-4c25-aeab-fd6e29162c22")
+    @GET("AddToCart/getbyloginuserid")
     fun GetUsersCartList(@Query("loggedinUserId") userid: String): Call<AddToCartResponseModel>;
 
     @POST("AddToCart/create")

@@ -33,7 +33,7 @@
                         android:id="@+id/back_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/backarrow1" />
+                        android:background="@drawable/ic_baseline_keyboard_backspace_24" />
 
 
                     <TextView
