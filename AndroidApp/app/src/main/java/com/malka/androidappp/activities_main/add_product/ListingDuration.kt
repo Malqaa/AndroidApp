@@ -28,10 +28,23 @@ class ListingDuration : BaseActivity() {
     var selectdate = ""
     var selectTime = ""
     var fm: FragmentManager? = null
-    var isSelectShipping = false
     var isEdit: Boolean = false
     val allWeeks: ArrayList<TimeSelection> = ArrayList()
     val shippingOption: ArrayList<Selection> = ArrayList()
+
+
+    override fun onBackPressed() {
+        intent.getBooleanExtra("isEdit",false).let {
+            if (it){
+                startActivity(Intent(this, Confirmation::class.java).apply {
+                    finish()
+                })
+            }else{
+                finish()
+            }
+        }
+
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,20 +53,22 @@ class ListingDuration : BaseActivity() {
 
         toolbar_title.text = getString(R.string.shipping_options)
         back_btn.setOnClickListener {
-            finish()
+            onBackPressed()
         }
-
-        isEdit = intent.getBooleanExtra("isEdit", false)
-
+        if(StaticClassAdCreate.shippingOptionSelection!=null){
+            isEdit=true
+        }
 
         option_1.setOnClickListener {
             option_1.background =
                 ContextCompat.getDrawable(this, R.drawable.field_selection_border_enable)
             FixedLength.setTextColor(ContextCompat.getColor(this, R.color.bg))
-            own_time_tv.setText(selectTime)
             option_2.setSelected(false)
             radiobtn1.isChecked = true
             radiobtn2.isChecked = false
+
+            own_time_tv.setText("")
+            own_time_tv.hint=getString(R.string.SelectTime)
         }
         option_2.setOnClickListener {
             option_2.setSelected(true)
@@ -65,6 +80,9 @@ class ListingDuration : BaseActivity() {
                 it.isSelect= false
             }
             fixLenghtAdaptor(allWeeks)
+            own_time_tv.text = "$selectdate - $selectTime"
+
+
         }
 
 
@@ -91,15 +109,15 @@ class ListingDuration : BaseActivity() {
         }
 
         if(isEdit){
-
+            selectTime=StaticClassAdCreate.timepicker
+            selectdate=StaticClassAdCreate.endtime
             if (StaticClassAdCreate.fixLength.equals("fixed_length")){
-                own_time_tv.setText(StaticClassAdCreate.duration)
                 allWeeks.forEach {
                     it.isSelect = it.text.equals(StaticClassAdCreate.weekSelection!!.text)
                 }
+                fixlenghtselected=  StaticClassAdCreate.fixlenghtselected
                 option_1.performClick()
             }else{
-                own_time_tv.setText("${StaticClassAdCreate.timepicker} - ${StaticClassAdCreate.endtime}")
                 option_2.performClick()
             }
 
@@ -133,7 +151,6 @@ class ListingDuration : BaseActivity() {
             val dateDialog = DatePickerFragment(false, true) { selectdate_ ->
                 val timeDialog = TimePickerFragment { selectTime_ ->
                     selectTime = selectTime_
-                    own_time_tv.text = "$selectdate_ - $selectTime"
                     radiobtn2.isChecked = true
                 }
                 timeDialog.show(fm!!, "")
@@ -177,7 +194,6 @@ class ListingDuration : BaseActivity() {
                 return true
             }
         }
-        ////////////////////////////////////////////////////
         else if (radiobtn2.isChecked) {
 
             if (own_time_tv.text.toString().isEmpty()) {
@@ -195,17 +211,18 @@ class ListingDuration : BaseActivity() {
 
     private fun ValidateRadiobtmchecked(): Boolean {
 
-        return if (radiobtn1.isChecked or radiobtn2.isChecked) {
-            true
-        } else {
-            showError(getString(R.string.Selectanyoneoption))
-            false
-        }
-    }
 
-    //////////////////////////////////////////////////////////
-    private fun validaterShippingRadiobutton(): Boolean {
-        return isSelectShipping
+
+        shippingOption.filter {
+            it.isSelected == true
+        }.isEmpty().let {
+            if(it){
+                showError(getString(R.string.Please_select, getString(R.string.shipping_options)))
+                return false
+            }else{
+                return true
+            }
+         }
     }
 
 
@@ -220,6 +237,7 @@ class ListingDuration : BaseActivity() {
                 StaticClassAdCreate.timepicker = sdf.format(Date())
                 StaticClassAdCreate.duration = fixlenghtselected!!.text
                 StaticClassAdCreate.endtime = fixlenghtselected!!.endTime
+                StaticClassAdCreate.fixlenghtselected = fixlenghtselected
 
             } else if (radiobtn2.isChecked) {
                 StaticClassAdCreate.fixLength = "end_time"
@@ -229,15 +247,17 @@ class ListingDuration : BaseActivity() {
             }
             saveSelectedcheckbox()
             saveShippingOption()
-            if (isEdit){
-                startActivity(Intent(this, Confirmation::class.java).apply {
-                })
-                finish()
-            }else{
-                startActivity(Intent(this, PromotionalActivity::class.java).apply {
-                })
-            }
+            intent.getBooleanExtra("isEdit",false).let {
+                if (it){
+                    startActivity(Intent(this, Confirmation::class.java).apply {
+                        finish()
+                    })
+                }else{
+                    startActivity(Intent(this, PromotionalActivity::class.java).apply {
+                    })
 
+                }
+            }
         }
 
     }

@@ -29,7 +29,6 @@ class SignInActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
 
 
-        ConstantObjects.currentLanguage = getLanguage()
         setContentView(R.layout.activity_sign_in)
 
 

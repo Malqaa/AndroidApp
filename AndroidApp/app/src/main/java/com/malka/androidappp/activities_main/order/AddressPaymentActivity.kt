@@ -37,7 +37,6 @@ class AddressPaymentActivity : BaseActivity() {
     val deliveryOptionList: ArrayList<Selection> = ArrayList()
     val paymentMethodList: ArrayList<Selection> = ArrayList()
     var selectAddress: GetAddressResponse.AddressModel? = null
-    var price = 0.0
     var isSelect: Boolean = false
     val cartIds: MutableList<String> = mutableListOf()
 
@@ -146,34 +145,24 @@ class AddressPaymentActivity : BaseActivity() {
             ) {
                 if (response.isSuccessful) {
                     response.body()!!.run {
-                        startActivity(
-                            Intent(
-                                this@AddressPaymentActivity,
-                                SuccessOrder::class.java
-                            ).apply {
-                                putExtra("order_number", id)
-                                putExtra("shipments", ConstantObjects.usercart.size.toString())
-                                putExtra("total_order", totalAMount)
-                            })
-
-//                        if(!isError){
-//                            startActivity(
-//                                Intent(
-//                                    this@AddressPaymentActivity,
-//                                    SuccessOrder::class.java
-//                                ).apply {
-//                                    flags =
-//                                        Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-//                                    putExtra("order_number", id)
-//                                    putExtra("shipments", ConstantObjects.usercart.size.toString())
-//                                    putExtra("total_order", totalAMount)
-//                                })
-//                        }else{
-//                            HelpFunctions.ShowLongToast(
-//                                message,
-//                                context
-//                            )
-//                        }
+                        if(!isError){
+                            startActivity(
+                                Intent(
+                                    this@AddressPaymentActivity,
+                                    SuccessOrder::class.java
+                                ).apply {
+                                    flags =
+                                        Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                    putExtra("order_number", id)
+                                    putExtra("shipments", ConstantObjects.usercart.size.toString())
+                                    putExtra("total_order", totalAMount)
+                                })
+                        }else{
+                            HelpFunctions.ShowLongToast(
+                                message,
+                                context
+                            )
+                        }
                     }
                 }
                 HelpFunctions.dismissProgressBar()
@@ -182,14 +171,8 @@ class AddressPaymentActivity : BaseActivity() {
     }
 
     private fun setCategoryAdaptor() {
-        if (ConstantObjects.usercart.size > 0) {
-            for (IndItem in ConstantObjects.usercart) {
-                cartIds.add(IndItem.advertisements.id)
-                price += IndItem.advertisements.price.toDouble()
-            }
-        }
-        totalAMount = price.toString()
-        calculation(price)
+
+        calculation()
 
 
         cart_new_rcv.adapter = object : GenericListAdapter<CartItemModel>(
@@ -200,6 +183,13 @@ class AddressPaymentActivity : BaseActivity() {
                         //  prod_type.text=protype
                         //    prod_name.text=proname
                         //   prod_city.text=procity
+                        item_quantity.number=qty
+                        item_quantity.setOnValueChangeListener { view, oldValue, newValue ->
+                            qty = newValue.toString()
+                            ConstantObjects.usercart.get(position).advertisements.qty =
+                                newValue.toString()
+                            calculation()
+                        }
                         shipment_no_tv.text = "${getString(R.string.shipment_no_1)}${position + 1}"
                         sellername_tv.text = sellername
                         prod_price.text = "$price ${getString(R.string.sar)}"
@@ -262,11 +252,19 @@ class AddressPaymentActivity : BaseActivity() {
         }
     }
 
-    private fun calculation(totalPrice: Double) {
+    private fun calculation() {
+        var price = 0.0
+        ConstantObjects.usercart.forEach {
+            cartIds.add(it.advertisements.id)
+            price += it.advertisements.price.toDouble() * it.advertisements.qty.toDouble()
+        }
+        totalAMount = price.toString()
+
+
         val discount = 0.0
-        val TaxAmount = totalPrice * 0 / 100
-        val total = totalPrice + TaxAmount - discount
-        subtotal_tv.text = "${totalPrice} ${getString(R.string.rial)}"
+        val TaxAmount = price * 0 / 100
+        val total = price + TaxAmount - discount
+        subtotal_tv.text = "${price} ${getString(R.string.rial)}"
         discount_tv.text = "-${discount} ${getString(R.string.rial)}"
         total_tv.text = "${total} ${getString(R.string.rial)}"
     }

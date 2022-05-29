@@ -23,16 +23,31 @@ class PromotionalActivity : BaseActivity() {
     val list: ArrayList<PromotionModel> = ArrayList()
     var isEdit: Boolean = false
 
+    override fun onBackPressed() {
+        intent.getBooleanExtra("isEdit",false).let {
+            if (it){
+                startActivity(Intent(this, Confirmation::class.java).apply {
+                    finish()
+                })
+            }else{
+                finish()
+            }
+        }
+
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_promotional)
 
         toolbar_title.text = getString(R.string.distinguish_your_product)
         back_btn.setOnClickListener {
-            finish()
+            onBackPressed()
         }
 
-        isEdit = intent.getBooleanExtra("isEdit", false)
+        if(StaticClassAdCreate.selectPromotiion!=null){
+            isEdit=true
+        }
 
 
 
@@ -93,7 +108,8 @@ class PromotionalActivity : BaseActivity() {
         button16611.setOnClickListener() {
             confirmpromotion()
         }
-        no_thank_you.setOnClickListener() {
+        no_thank_you.setOnClickListener {
+            StaticClassAdCreate.selectPromotiion = null
             startActivity(Intent(this, Confirmation::class.java).apply {
             })
         }
@@ -197,14 +213,16 @@ class PromotionalActivity : BaseActivity() {
 
             saveSelectedcheckbox()
 
-            if (isEdit){
-                startActivity(Intent(this, Confirmation::class.java).apply {
-                })
-                finish()
+            intent.getBooleanExtra("isEdit",false).let {
+                if (it){
+                    startActivity(Intent(this, Confirmation::class.java).apply {
+                        finish()
+                    })
+                }else{
+                    startActivity(Intent(this, Confirmation::class.java).apply {
+                    })
 
-            }else{
-                startActivity(Intent(this, Confirmation::class.java).apply {
-                })
+                }
             }
         }
 
@@ -216,7 +234,6 @@ class PromotionalActivity : BaseActivity() {
             it.is_select == true
         }
         list.forEach {
-            StaticClassAdCreate.pack4 = it.packageprice
             StaticClassAdCreate.selectPromotiion = it
         }
     }

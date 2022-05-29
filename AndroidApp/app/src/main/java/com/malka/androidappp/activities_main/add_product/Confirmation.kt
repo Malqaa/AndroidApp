@@ -33,32 +33,29 @@ class Confirmation : BaseActivity() {
 
         setData()
 
-        edit_item_specification.setOnClickListener() {
+        edit_item_specification.setOnClickListener {
             startActivity(Intent(this, ListingDetails::class.java).apply {
                 putExtra("isEdit", true)
-                finish()
             })
+            finish()
         }
-        edit_item_payment.setOnClickListener() {
+        edit_item_payment.setOnClickListener {
             startActivity(Intent(this, PricingActivity::class.java).apply {
                 putExtra("isEdit", true)
-                finish()
-
             })
+            finish()
         }
-        edit_selected_package.setOnClickListener() {
+        edit_selected_package.setOnClickListener {
             startActivity(Intent(this, PromotionalActivity::class.java).apply {
                 putExtra("isEdit", true)
-                finish()
-
             })
+            finish()
         }
-        edit_shoping_option.setOnClickListener() {
+        edit_shoping_option.setOnClickListener {
             startActivity(Intent(this, ListingDuration::class.java).apply {
                 putExtra("isEdit", true)
-                finish()
-
             })
+            finish()
         }
 
         btn_confirm_details.setOnClickListener {
@@ -136,9 +133,8 @@ class Confirmation : BaseActivity() {
             highlightexpirydate = StaticClassAdCreate.highlightexpirydate,
             phone = StaticClassAdCreate.phone,
             address = StaticClassAdCreate.address,
-            pickupOption = StaticClassAdCreate.pickup_option,
-            shippingOption = StaticClassAdCreate.shipping_option,
-            pack4 = StaticClassAdCreate.pack4,
+            pickupOption = StaticClassAdCreate.shippingOptionSelection!!.name,
+            shippingOption = StaticClassAdCreate.shippingOptionSelection!!.name,
             description = StaticClassAdCreate.item_description,
             subtitle = StaticClassAdCreate.subtitle,
             producttitle = StaticClassAdCreate.producttitle,
@@ -164,6 +160,12 @@ class Confirmation : BaseActivity() {
             Video = StaticClassAdCreate.video,
             brand_new_item = StaticClassAdCreate.brand_new_item,
         )
+        if(StaticClassAdCreate.selectPromotiion==null){
+            mainModel.pack4=""
+        }else{
+            mainModel.pack4= StaticClassAdCreate.selectPromotiion!!.packageprice
+
+        }
 
 
         val imageList: ArrayList<String> = ArrayList()
@@ -193,8 +195,8 @@ class Confirmation : BaseActivity() {
         map = Gson().fromJson(jsonString, map.javaClass)
 
         ConstantObjects.dynamic_json_dictionary.putAll(map)
-        val testing = Gson().toJson(map)
-        print(testing)
+//        val testing = Gson().toJson(map)
+//        print(testing)
 
         createAllAds(ConstantObjects.dynamic_json_dictionary)
 
@@ -211,6 +213,13 @@ class Confirmation : BaseActivity() {
                 call: Call<CreateAdvResponseBack>, response: Response<CreateAdvResponseBack>
             ) {
                 if (response.isSuccessful) {
+                    StaticClassAdCreate.listingType=""
+                    StaticClassAdCreate.brand_new_item=""
+                    StaticClassAdCreate.shippingOptionSelection=null
+                    StaticClassAdCreate.selectPromotiion=null
+                    StaticClassAdCreate.subCategoryPath.clear()
+                    Extension.clearPath()
+
                     val AdvId = response.body()!!.data
                     HelpFunctions.dismissProgressBar()
                     startActivity(Intent(this@Confirmation, SuccessProduct::class.java).apply {
@@ -221,8 +230,6 @@ class Confirmation : BaseActivity() {
                     })
                     finish()
 
-                    StaticClassAdCreate.subCategoryPath.clear()
-                    Extension.clearPath()
 
                 } else {
                     HelpFunctions.dismissProgressBar()
@@ -265,7 +272,7 @@ class Confirmation : BaseActivity() {
 
 
 
-        PickupOptionData.text = StaticClassAdCreate.shipping_option
+        PickupOptionData.text = StaticClassAdCreate.shippingOptionSelection!!.name
 
 
         product_type.text = getCategortList()
@@ -274,6 +281,11 @@ class Confirmation : BaseActivity() {
         product_detail.text = StaticClassAdCreate.item_description
         subTitleData.text = StaticClassAdCreate.subtitle
         quantityData.text = StaticClassAdCreate.quantity
+        if(StaticClassAdCreate.isnegotiable){
+            negotiable_tv.text = getString(R.string.Yes)
+        }else{
+            negotiable_tv.text = getString(R.string.No)
+        }
 
 
         when (StaticClassAdCreate.listingType) {
@@ -286,25 +298,26 @@ class Confirmation : BaseActivity() {
                 Auction.show()
                 auction_start_price.show()
                 minimum_price.show()
-                auction_start_price_tv.text = StaticClassAdCreate.reservedPrice
-                minimum_price_tv.text = StaticClassAdCreate.startingPrice
+                auction_start_price_tv.text = StaticClassAdCreate.startingPrice
+                minimum_price_tv.text = StaticClassAdCreate.reservedPrice
 
             }
-            "3" -> {
+            "12" -> {
+                fixed_price.show()
                 Auction.show()
                 purchasing_price_.show()
                 auction_start_price.show()
                 minimum_price.show()
                 purchasing_price_tv.text = StaticClassAdCreate.price
-                auction_start_price_tv.text = StaticClassAdCreate.reservedPrice
-                minimum_price_tv.text = StaticClassAdCreate.startingPrice
+                auction_start_price_tv.text = StaticClassAdCreate.startingPrice
+                minimum_price_tv.text = StaticClassAdCreate.reservedPrice
             }
         }
 
-        if (!StaticClassAdCreate.isbankpaid) {
+        if (StaticClassAdCreate.isbankpaid) {
             saudi_bank_deposit.show()
         }
-        if (!StaticClassAdCreate.isvisapaid) {
+        if (StaticClassAdCreate.isvisapaid) {
             Visa.show()
         }
 

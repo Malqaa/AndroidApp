@@ -19,19 +19,29 @@ class ListingDetails : BaseActivity() {
     var selectedRegion: SearchListItem? = null
     var selectedCity: SearchListItem? = null
     var isEdit: Boolean = false
+    override fun onBackPressed() {
+        intent.getBooleanExtra("isEdit",false).let {
+            if (it){
+                startActivity(Intent(this, Confirmation::class.java).apply {
+                    finish()
+                })
+            }else{
+                finish()
+            }
+        }
 
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_list_details)
-
-       isEdit = intent.getBooleanExtra("isEdit", false)
-
-
+        if(!StaticClassAdCreate.brand_new_item.isEmpty()){
+            isEdit=true
+        }
 
         toolbar_title.text = getString(R.string.item_details)
         back_btn.setOnClickListener {
-            finish()
+            onBackPressed()
         }
 
         tv_New.setOnClickListener {
@@ -248,23 +258,22 @@ class ListingDetails : BaseActivity() {
             StaticClassAdCreate.country = selectedCountry
             StaticClassAdCreate.region = selectedRegion
             StaticClassAdCreate.city = selectedCity
+            intent.getBooleanExtra("isEdit",false).let {
+                if (it){
+                    startActivity(Intent(this, Confirmation::class.java).apply {
+                        finish()
+                    })
+                }else{
+                    startActivity(Intent(this, PricingActivity::class.java).apply {
+                    })
 
-            if (isEdit){
-                startActivity(Intent(this, Confirmation::class.java).apply {
-                    finish()
-
-                })
-
-            }else{
-                startActivity(Intent(this, PricingActivity::class.java).apply {
-                })
-
+                }
             }
+
 
 
         }
 
 
     }
-
 }

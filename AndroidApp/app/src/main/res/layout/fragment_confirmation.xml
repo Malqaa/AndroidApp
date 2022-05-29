@@ -291,6 +291,7 @@
                         android:layout_alignParentEnd="true">
 
                         <TextView
+                            android:visibility="gone"
                             android:id="@+id/Auction"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -306,6 +307,8 @@
 
 
                         <TextView
+                            android:visibility="gone"
+
                             android:id="@+id/fixed_price"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -508,6 +511,7 @@
 
 
                     <TextView
+                        android:id="@+id/negotiable_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
@@ -517,7 +521,6 @@
                         android:gravity="end"
                         android:text="@string/Yes"
                         android:textColor="@color/grey"
-
                         android:textSize="@dimen/_10sdp"
                         app:drawableStartCompat="@drawable/ic_check" />
 
