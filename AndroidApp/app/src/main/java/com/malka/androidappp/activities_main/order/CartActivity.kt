@@ -22,19 +22,23 @@ import retrofit2.Response
 
 
 class CartActivity : BaseActivity() {
+
+    override fun onResume() {
+        super.onResume()
+        GetUsersCartList {
+            setCategoryAdaptor()
+        }
+
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cart)
-
         toolbar_title.text = getString(R.string.shopping_basket)
         back_btn.setOnClickListener {
             finish()
         }
 
 
-        GetUsersCartList {
-            setCategoryAdaptor()
-        }
 
         the_next.setOnClickListener {
             if (ConstantObjects.usercart.size > 0) {
@@ -44,14 +48,11 @@ class CartActivity : BaseActivity() {
             }
         }
     }
-
-
     private fun setCategoryAdaptor() {
-        var price = 0.0
         ConstantObjects.usercart.forEach {
-            price += it.advertisements.price.toDouble()
+            it.advertisements.qty = "1"
         }
-        price_total.text = price.toString()
+        getTotalPrice()
         cart_rcv.adapter = object : GenericListAdapter<CartItemModel>(
             R.layout.cart_design,
             bind = { element, holder, itemCount, position ->
@@ -60,6 +61,13 @@ class CartActivity : BaseActivity() {
                         //  prod_type.text=protype
                         //  prod_name.text=name
                         //prod_city.text=cityName
+                        item_quantity.number=qty
+                        item_quantity.setOnValueChangeListener { view, oldValue, newValue ->
+                            qty = newValue.toString()
+                            ConstantObjects.usercart.get(position).advertisements.qty =
+                                newValue.toString()
+                            getTotalPrice()
+                        }
                         prod_price.text = "$price ${getString(R.string.sar)}"
                         Picasso.get()
                             .load(ApiConstants.IMAGE_URL + image)
@@ -78,6 +86,13 @@ class CartActivity : BaseActivity() {
             )
         }
     }
+    private fun getTotalPrice() {
+        var price = 0.0
+        ConstantObjects.usercart.forEach {
+            price += it.advertisements.price.toDouble() * it.advertisements.qty.toDouble()
+        }
+        price_total.text = price.toString()
+    }
 
     fun GetUsersCartList(onSuccess: (() -> Unit)? = null) {
         HelpFunctions.startProgressBar(this)
@@ -85,7 +100,7 @@ class CartActivity : BaseActivity() {
         val call: Call<AddToCartResponseModel> =
             malqa.GetUsersCartList(ConstantObjects.logged_userid)
         call.enqueue(object : retrofit2.Callback<AddToCartResponseModel?> {
-            override fun onFailure(call: Call<AddToCartResponseModel?>?, t: Throwable) {
+            override fun onFailure(call: Call<AddToCartResponseModel?>, t: Throwable) {
                 HelpFunctions.dismissProgressBar()
 
             }
@@ -97,7 +112,7 @@ class CartActivity : BaseActivity() {
                 if (response.isSuccessful) {
                     if (response.body() != null) {
                         val resp: AddToCartResponseModel = response.body()!!
-                        ConstantObjects.usercart = resp.data
+                        ConstantObjects.usercart =  resp.data
                         onSuccess?.invoke()
                     }
                 }

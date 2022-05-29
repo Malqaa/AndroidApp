@@ -50,6 +50,7 @@
 
 
                     <TextView
+                        android:id="@+id/edit_item_specification"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -254,6 +255,7 @@
 
 
                     <TextView
+                        android:id="@+id/edit_item_payment"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -289,6 +291,7 @@
                         android:layout_alignParentEnd="true">
 
                         <TextView
+                            android:visibility="gone"
                             android:id="@+id/Auction"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -304,6 +307,8 @@
 
 
                         <TextView
+                            android:visibility="gone"
+
                             android:id="@+id/fixed_price"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -506,6 +511,7 @@
 
 
                     <TextView
+                        android:id="@+id/negotiable_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
@@ -515,7 +521,6 @@
                         android:gravity="end"
                         android:text="@string/Yes"
                         android:textColor="@color/grey"
-
                         android:textSize="@dimen/_10sdp"
                         app:drawableStartCompat="@drawable/ic_check" />
 
@@ -625,6 +630,7 @@ android:visibility="gone"
 
 
                     <TextView
+                        android:id="@+id/edit_shoping_option"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -763,6 +769,7 @@ android:visibility="gone"
 
 
                         <TextView
+                            android:id="@+id/edit_selected_package"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"

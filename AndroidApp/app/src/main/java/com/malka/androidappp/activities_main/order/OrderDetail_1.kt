@@ -3,17 +3,17 @@ package com.malka.androidappp.activities_main.order
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Filter
-import androidx.appcompat.app.AppCompatActivity
 import com.malka.androidappp.R
-import com.malka.androidappp.servicemodels.Negotiationmodel
+import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.helper.hide
 import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
+import com.malka.androidappp.servicemodels.Negotiationmodel
 import kotlinx.android.synthetic.main.activity_order_detail1.*
 import kotlinx.android.synthetic.main.order_detail_design_1.view.*
 import kotlinx.android.synthetic.main.order_item.view.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 
-class OrderDetail_1 : AppCompatActivity() {
+class OrderDetail_1 : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         val list: ArrayList<Negotiationmodel> = ArrayList()
         super.onCreate(savedInstanceState)

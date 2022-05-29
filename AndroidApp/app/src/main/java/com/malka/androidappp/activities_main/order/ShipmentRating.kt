@@ -2,15 +2,15 @@ package com.malka.androidappp.activities_main.order
 
 import android.os.Bundle
 import android.widget.Filter
-import androidx.appcompat.app.AppCompatActivity
 import com.malka.androidappp.R
-import com.malka.androidappp.servicemodels.Negotiationmodel
+import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
+import com.malka.androidappp.servicemodels.Negotiationmodel
 import kotlinx.android.synthetic.main.activity_shipment_rating.*
 import kotlinx.android.synthetic.main.product_rating_design.view.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 
-class ShipmentRating : AppCompatActivity() {
+class ShipmentRating : BaseActivity() {
     val list: ArrayList<Negotiationmodel> = ArrayList()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

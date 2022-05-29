@@ -3,8 +3,6 @@ package com.malka.androidappp.network.service
 import com.google.gson.JsonObject
 import com.malka.androidappp.activities_main.login.LoginClass
 import com.malka.androidappp.activities_main.login.LoginResponseBack
-import com.malka.androidappp.servicemodels.PostReqVerifyCode
-import com.malka.androidappp.servicemodels.User
 import com.malka.androidappp.botmnav_fragments.UserImageResponseBack
 import com.malka.androidappp.botmnav_fragments.browse_market.popup_subcategories_list.ModelAddSearchFav
 import com.malka.androidappp.botmnav_fragments.cardetail_page.ModelAddSellerFav
@@ -16,14 +14,12 @@ import com.malka.androidappp.botmnav_fragments.create_product.ModelCreateProduct
 import com.malka.androidappp.botmnav_fragments.create_product.ProductResponseBack
 import com.malka.androidappp.botmnav_fragments.feedback_frag.insert_feedback.GiveFeedbackResponseBack
 import com.malka.androidappp.botmnav_fragments.feedback_frag.insert_feedback.ModelGiveFeedBack
-import com.malka.androidappp.servicemodels.model.AllCategoriesResponseBack
 import com.malka.androidappp.botmnav_fragments.my_product.AllProductsResponseBack
 import com.malka.androidappp.botmnav_fragments.my_product.edit_product.EditProductResponseBack
 import com.malka.androidappp.botmnav_fragments.my_product.edit_product.ModelEditProduct
 import com.malka.androidappp.botmnav_fragments.sellerdetails.SellerResponseBack
 import com.malka.androidappp.botmnav_fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ModelShipAddresses
 import com.malka.androidappp.botmnav_fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ShippingAddressessData
-import com.malka.androidappp.servicemodels.model_wonloss.ModelWonLost
 import com.malka.androidappp.network.constants.ApiConstants
 import com.malka.androidappp.network.constants.ApiConstants.GET_ALL_CATEGORIES_BY_ID
 import com.malka.androidappp.network.constants.ApiConstants.GET_CATEGORY_TAGS_ENDPOINT
@@ -41,6 +37,8 @@ import com.malka.androidappp.servicemodels.favourites.favouriteadd
 import com.malka.androidappp.servicemodels.feedbacks.FeedbackObject
 import com.malka.androidappp.servicemodels.home.GetAllAds
 import com.malka.androidappp.servicemodels.home.visitcount.visit_count_object
+import com.malka.androidappp.servicemodels.model.AllCategoriesResponseBack
+import com.malka.androidappp.servicemodels.model_wonloss.ModelWonLost
 import com.malka.androidappp.servicemodels.questionModel.ModelAskQues
 import com.malka.androidappp.servicemodels.questionModel.ModelPostAns
 import com.malka.androidappp.servicemodels.questionModel.ModelQuesAnswr
@@ -292,7 +290,7 @@ interface MalqaApiService {
     @DELETE("CardDetail/deletecard")
     fun DeleteUserCreditCard(@Query("id") userid: String): Call<BasicResponse>
 
-    @GET("AddToCart/getbyloginuserid")
+    @GET("https://mocki.io/v1/4c766706-fce3-4c25-aeab-fd6e29162c22")
     fun GetUsersCartList(@Query("loggedinUserId") userid: String): Call<AddToCartResponseModel>;
 
     @POST("AddToCart/create")

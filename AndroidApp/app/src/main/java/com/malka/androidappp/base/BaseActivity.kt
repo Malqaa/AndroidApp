@@ -13,6 +13,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import com.malka.androidappp.botmnav_fragments.create_ads.StaticClassAdCreate
 import com.malka.androidappp.helper.HelpFunctions
+import com.malka.androidappp.servicemodels.ConstantObjects
 import java.util.*
 
 
@@ -21,13 +22,18 @@ abstract class BaseActivity : AppCompatActivity() {
 
 
     fun culture():String{
-        return "en-US"
+        if (ConstantObjects.currentLanguage == "en") {
+            return "en-US"
+        } else {
+            return "ar"
+        }
+
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+        ConstantObjects.currentLanguage = getLanguage()
         HelpFunctions.IsUserLoggedIn()
-        loadLocate()
     }
 
     fun getLanguage(): String {
@@ -53,9 +59,6 @@ abstract class BaseActivity : AppCompatActivity() {
         editor.apply()
     }
 
-    fun loadLocate() {
-        setLocate(getLanguage())
-    }
 
     fun hideSystemUI(mainContainer: View) {
         WindowCompat.setDecorFitsSystemWindows(window, false)

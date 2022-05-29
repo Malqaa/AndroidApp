@@ -238,7 +238,7 @@
         android:layout_marginStart="@dimen/_10sdp"
         android:layout_marginEnd="@dimen/_10sdp"
         android:orientation="horizontal"
-        android:layout_below="@+id/recyclerViewmarket"
+        android:visibility="gone"
         android:background="@drawable/edittext_bg">
 
         <TextView

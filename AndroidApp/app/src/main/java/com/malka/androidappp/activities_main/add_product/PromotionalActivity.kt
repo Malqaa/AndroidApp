@@ -10,10 +10,10 @@ import androidx.core.content.ContextCompat
 import com.malka.androidappp.R
 import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.botmnav_fragments.create_ads.StaticClassAdCreate
-import com.malka.androidappp.servicemodels.PromotionModel
 import com.malka.androidappp.helper.hide
 import com.malka.androidappp.helper.show
 import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
+import com.malka.androidappp.servicemodels.PromotionModel
 import kotlinx.android.synthetic.main.fragment_promotional.*
 import kotlinx.android.synthetic.main.item_details2_desgin.view.*
 import kotlinx.android.synthetic.main.toolbar_main.*
@@ -21,6 +21,20 @@ import kotlinx.android.synthetic.main.toolbar_main.*
 
 class PromotionalActivity : BaseActivity() {
     val list: ArrayList<PromotionModel> = ArrayList()
+    var isEdit: Boolean = false
+
+    override fun onBackPressed() {
+        intent.getBooleanExtra("isEdit",false).let {
+            if (it){
+                startActivity(Intent(this, Confirmation::class.java).apply {
+                    finish()
+                })
+            }else{
+                finish()
+            }
+        }
+
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,8 +42,14 @@ class PromotionalActivity : BaseActivity() {
 
         toolbar_title.text = getString(R.string.distinguish_your_product)
         back_btn.setOnClickListener {
-            finish()
+            onBackPressed()
         }
+
+        if(StaticClassAdCreate.selectPromotiion!=null){
+            isEdit=true
+        }
+
+
 
         list.add(
             PromotionModel(
@@ -71,23 +91,34 @@ class PromotionalActivity : BaseActivity() {
             )
         )
 
+        if (isEdit){
+
+            list.forEach{
+                it.is_select = it.packagename.equals(StaticClassAdCreate.selectPromotiion!!.packagename)
+            }
+
+        }
 
 
 
-        setCategoryAdaptor(list)
+
+        setPromotionalAdaptor(list)
 
 
         button16611.setOnClickListener() {
             confirmpromotion()
         }
-        no_thank_you.setOnClickListener() {
+        no_thank_you.setOnClickListener {
+            StaticClassAdCreate.selectPromotiion = null
             startActivity(Intent(this, Confirmation::class.java).apply {
             })
         }
+
+
     }
 
 
-    private fun setCategoryAdaptor(
+    private fun setPromotionalAdaptor(
         list: List<PromotionModel>
     ) {
         val inflater =
@@ -139,6 +170,8 @@ class PromotionalActivity : BaseActivity() {
                         main_layout.setOnClickListener {
                             packageSelection(list, parent_position)
                         }
+
+
                     }
                 }
             }
@@ -177,9 +210,20 @@ class PromotionalActivity : BaseActivity() {
         if (!validatepromotion()) {
             showError(getString(R.string.choose_one_of_our_special_packages))
         } else {
+
             saveSelectedcheckbox()
-            startActivity(Intent(this, Confirmation::class.java).apply {
-            })
+
+            intent.getBooleanExtra("isEdit",false).let {
+                if (it){
+                    startActivity(Intent(this, Confirmation::class.java).apply {
+                        finish()
+                    })
+                }else{
+                    startActivity(Intent(this, Confirmation::class.java).apply {
+                    })
+
+                }
+            }
         }
 
     }
@@ -190,7 +234,6 @@ class PromotionalActivity : BaseActivity() {
             it.is_select == true
         }
         list.forEach {
-            StaticClassAdCreate.pack4 = it.packageprice
             StaticClassAdCreate.selectPromotiion = it
         }
     }

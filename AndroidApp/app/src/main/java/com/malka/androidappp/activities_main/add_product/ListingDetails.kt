@@ -18,16 +18,30 @@ class ListingDetails : BaseActivity() {
     var selectedCountry: SearchListItem? = null
     var selectedRegion: SearchListItem? = null
     var selectedCity: SearchListItem? = null
+    var isEdit: Boolean = false
+    override fun onBackPressed() {
+        intent.getBooleanExtra("isEdit",false).let {
+            if (it){
+                startActivity(Intent(this, Confirmation::class.java).apply {
+                    finish()
+                })
+            }else{
+                finish()
+            }
+        }
 
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_list_details)
-
+        if(!StaticClassAdCreate.brand_new_item.isEmpty()){
+            isEdit=true
+        }
 
         toolbar_title.text = getString(R.string.item_details)
         back_btn.setOnClickListener {
-            finish()
+            onBackPressed()
         }
 
         tv_New.setOnClickListener {
@@ -44,9 +58,9 @@ class ListingDetails : BaseActivity() {
         }
 
         ConstantObjects.countryList.filter {
-            it.key==ConstantObjects.defaltCountry
+            it.key == ConstantObjects.defaltCountry
         }.let {
-            if(it.size>0){
+            if (it.size > 0) {
                 phone_number_edittext._setEndText(it.get(0).countryCode)
                 select_country._setStartIconImage(it.get(0).flagimglink)
             }
@@ -64,9 +78,9 @@ class ListingDetails : BaseActivity() {
                 select_country.text = it.title
                 selectedCountry = it
                 ConstantObjects.countryList.filter {
-                    it.key==selectedCountry!!.key
+                    it.key == selectedCountry!!.key
                 }.let {
-                    if(it.size>0){
+                    if (it.size > 0) {
                         phone_number_edittext._setEndText(it.get(0).countryCode)
                         select_country._setStartIconImage(it.get(0).flagimglink)
                     }
@@ -97,6 +111,28 @@ class ListingDetails : BaseActivity() {
         }
         title_tv.setText(StaticClassAdCreate.producttitle)
         btnotherr.setOnClickListener { ListDetailsconfirmInput() }
+
+        if (isEdit){
+            item_description.setText( StaticClassAdCreate.item_description)
+            subtitle.setText(StaticClassAdCreate.subtitle)
+            title_tv.setText(StaticClassAdCreate.producttitle)
+            quantityavail.number = StaticClassAdCreate.quantity
+            select_country.setText(StaticClassAdCreate.country!!.title)
+            selectedCountry = StaticClassAdCreate.country
+            select_region.setText(StaticClassAdCreate.region!!.title)
+            selectedRegion = StaticClassAdCreate.region
+            select_city.setText(StaticClassAdCreate.city!!.title)
+            selectedCity = StaticClassAdCreate.city
+            if (StaticClassAdCreate.brand_new_item.equals(tv_New.text.toString())){
+                tv_New.performClick()
+            }else{
+                tv_used.performClick()
+            }
+            phone_number_edittext.setText(StaticClassAdCreate.phone)
+            btnotherr.setOnClickListener {
+                ListDetailsconfirmInput() }
+
+        }
 
     }
 
@@ -205,9 +241,9 @@ class ListingDetails : BaseActivity() {
             showError(getString(R.string.Please_enter, getString(R.string.item_details)))
         } else if (StaticClassAdCreate.brand_new_item.isEmpty()) {
             showError(getString(R.string.Please_select, getString(R.string.item_condition)))
-        }else if (StaticClassAdCreate.quantity.isEmpty()) {
+        } else if (StaticClassAdCreate.quantity.isEmpty()) {
             showError(getString(R.string.Please_select, getString(R.string.QuantityAvailable)))
-        }else if (StaticClassAdCreate.quantity.toInt()<=0) {
+        } else if (StaticClassAdCreate.quantity.toInt() <= 0) {
             showError(getString(R.string.Please_select, getString(R.string.QuantityAvailable)))
         } else if (select_city.text.toString().isEmpty()) {
             showError(getString(R.string.Please_select, getString(R.string.district)))
@@ -218,16 +254,26 @@ class ListingDetails : BaseActivity() {
             StaticClassAdCreate.producttitle = title_tv.getText()
             StaticClassAdCreate.subtitle = subtitle.getText()
             StaticClassAdCreate.item_description = item_description.getText().toString()
-            StaticClassAdCreate.phone = phone_number_edittext._getEndText()+phone_number_edittext.text.toString()
-            StaticClassAdCreate.country = selectedCountry!!.title
-            StaticClassAdCreate.region = selectedRegion!!.title
-            StaticClassAdCreate.city = selectedCity!!.title
+            StaticClassAdCreate.phone = phone_number_edittext._getEndText() + phone_number_edittext.text.toString()
+            StaticClassAdCreate.country = selectedCountry
+            StaticClassAdCreate.region = selectedRegion
+            StaticClassAdCreate.city = selectedCity
+            intent.getBooleanExtra("isEdit",false).let {
+                if (it){
+                    startActivity(Intent(this, Confirmation::class.java).apply {
+                        finish()
+                    })
+                }else{
+                    startActivity(Intent(this, PricingActivity::class.java).apply {
+                    })
 
-            startActivity(Intent(this, PricingActivity::class.java).apply {
-            })
+                }
+            }
+
+
+
         }
 
 
     }
-
 }

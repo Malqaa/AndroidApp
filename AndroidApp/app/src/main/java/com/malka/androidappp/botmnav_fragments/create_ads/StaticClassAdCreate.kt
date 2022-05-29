@@ -1,8 +1,10 @@
 package com.malka.androidappp.botmnav_fragments.create_ads
 
-import com.google.gson.annotations.SerializedName
-import com.malka.androidappp.servicemodels.PromotionModel
+import com.malka.androidappp.helper.widgets.searchdialog.SearchListItem
 import com.malka.androidappp.servicemodels.ImageSelectModel
+import com.malka.androidappp.servicemodels.PromotionModel
+import com.malka.androidappp.servicemodels.Selection
+import com.malka.androidappp.servicemodels.TimeSelection
 
 class StaticClassAdCreate {
 
@@ -24,9 +26,9 @@ class StaticClassAdCreate {
         var quantity = ""
         var phone = ""
         var item_description = ""
-        var country = ""
-        var region = ""
-        var city = ""
+        var country: SearchListItem? = null
+        var region: SearchListItem? = null
+        var city: SearchListItem? = null
         var address = ""
         var reservedPrice = ""
         var startingPrice = ""
@@ -44,17 +46,13 @@ class StaticClassAdCreate {
 
         var duration = ""
         var endtime = ""
+        var fixlenghtselected: TimeSelection? = null
 
         var listingType = ""
 
-        @SerializedName("pickup-option")
-        var pickup_option = ""
-
-        @SerializedName("shipping-option")
-        var shipping_option = ""
-
-        var pack4 = ""
         var selectPromotiion: PromotionModel?=null
+        var weekSelection: TimeSelection?=null
+        var shippingOptionSelection: Selection?=null
 
 
         // List to store path of categories

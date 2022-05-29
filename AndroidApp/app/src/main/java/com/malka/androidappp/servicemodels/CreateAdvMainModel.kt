@@ -37,7 +37,7 @@ data class CreateAdvMainModel(
     val address: String? = null,
     val pickupOption: String? = null,
     val shippingOption: String? = null,
-    val pack4: String? = null,
+    var pack4: String? = null,
     val description: String? = null,
     val subtitle: String? = null,
     val producttitle: String? = null,

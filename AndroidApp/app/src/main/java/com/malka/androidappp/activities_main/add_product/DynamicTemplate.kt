@@ -56,7 +56,6 @@ class DynamicTemplate : BaseActivity() {
             GetDataFromDynamicControl()
             startActivity(Intent(this, ListingDetails::class.java).apply {
             })
-
         }
         file_name = intent?.getStringExtra("file_name").toString()
         Title = intent?.getStringExtra("Title").toString()

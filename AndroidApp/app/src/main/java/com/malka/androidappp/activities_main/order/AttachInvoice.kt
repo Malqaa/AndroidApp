@@ -1,12 +1,12 @@
 package com.malka.androidappp.activities_main.order
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import com.malka.androidappp.R
+import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.helper.hide
 import kotlinx.android.synthetic.main.toolbar_main.*
 
-class AttachInvoice : AppCompatActivity() {
+class AttachInvoice : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_order_detail_confirm)

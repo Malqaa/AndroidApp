@@ -28,7 +28,19 @@ import retrofit2.Call
 
 class PricingActivity : BaseActivity() {
     var bankList: List<BankListRespone.BankDetail> = ArrayList()
+    var isEdit: Boolean = false
+    override fun onBackPressed() {
+        intent.getBooleanExtra("isEdit",false).let {
+            if (it){
+                startActivity(Intent(this, Confirmation::class.java).apply {
+                    finish()
+                })
+            }else{
+                finish()
+            }
+        }
 
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_pricing_payment)
@@ -37,9 +49,13 @@ class PricingActivity : BaseActivity() {
         getBankAccount()
 
 
+        if(!StaticClassAdCreate.listingType.isEmpty()){
+            isEdit=true
+        }
+
         toolbar_title.text = getString(R.string.sale_details)
         back_btn.setOnClickListener {
-            finish()
+            onBackPressed()
         }
         btnnn.setOnClickListener {
             confirmPricePaymentFrag()
@@ -140,8 +156,18 @@ class PricingActivity : BaseActivity() {
                         StaticClassAdCreate.listingType += "2"
                     }
 
-                    startActivity(Intent(this, ListingDuration::class.java).apply {
-                    })
+                    intent.getBooleanExtra("isEdit",false).let {
+                        if (it){
+                            startActivity(Intent(this, Confirmation::class.java).apply {
+                                finish()
+                            })
+                        }else{
+                            startActivity(Intent(this, ListingDuration::class.java).apply {
+                            })
+
+                        }
+                    }
+
                 }
             }
         }
@@ -254,6 +280,26 @@ class PricingActivity : BaseActivity() {
                 swicth_saudi_bank_deposit.isChecked = false
 
                 saudi_bank_auction.visibility = View.VISIBLE
+            }
+        }
+        if (isEdit){
+            swicth_visa_mastercard.isChecked = StaticClassAdCreate.isvisapaid
+            swicth_saudi_bank_deposit.isChecked = StaticClassAdCreate.isbankpaid
+            listingtyp_rb3.isChecked = StaticClassAdCreate.isnegotiable
+            buynowprice.setText(StaticClassAdCreate.price)
+            startprice.setText(StaticClassAdCreate.startingPrice)
+            reserveprice.setText(StaticClassAdCreate.reservedPrice)
+
+            if (StaticClassAdCreate.listingType.equals("1")){
+                listingtyp_rb1.isChecked = true
+            }else{
+                listingtyp_rb2.isChecked = true
+            }
+
+
+
+            btnnn.setOnClickListener {
+                confirmPricePaymentFrag()
             }
         }
     }
@@ -441,12 +487,15 @@ class PricingActivity : BaseActivity() {
 
                         bank.setOnCheckedChangeListener { buttonView, isChecked ->
                             if (isChecked) {
-                                list.forEachIndexed { index, addBankDetail ->
-                                    addBankDetail.isSelect = index == position
-                                }
-                                addbank_rcv.post { addbank_rcv.adapter!!.notifyDataSetChanged() }
-
                                 StaticClassAdCreate.isbankpaid = true
+                                list.forEach {
+                                    it.isSelect = false
+                                }
+                                list.get(position).isSelect = true
+                                addbank_rcv.post {
+                                    addbank_rcv.adapter!!.notifyDataSetChanged()
+                                }
+
 
                             }
                         }
