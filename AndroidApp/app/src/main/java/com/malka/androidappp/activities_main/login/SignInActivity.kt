@@ -12,7 +12,6 @@ import com.malka.androidappp.activities_main.signup_account.SignupPg1
 import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.helper.HelpFunctions
-import com.malka.androidappp.helper.HelpFunctions.Companion.PASSWORD_PATTERN
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.servicemodels.ConstantObjects
@@ -85,9 +84,6 @@ class SignInActivity : BaseActivity() {
         val passwordInput = passwword_tv!!.text.toString().trim { it <= ' ' }
         return if (passwordInput.isEmpty()) {
             passwword_tv!!.error = getString(R.string.Passwordisrequired)
-            false
-        } else if (!PASSWORD_PATTERN.matcher(passwordInput).matches()) {
-            passwword_tv!!.error = getString(R.string.Passwordtooweak)
             false
         } else {
             passwword_tv!!.error = null
