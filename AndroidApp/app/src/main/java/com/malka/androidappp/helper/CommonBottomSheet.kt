@@ -10,11 +10,13 @@ import android.text.TextWatcher
 import android.view.Gravity
 import android.view.View
 import android.widget.Filter
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.order.AddressPaymentActivity
 import com.malka.androidappp.base.BaseActivity
+import com.malka.androidappp.botmnav_fragments.create_ads.StaticClassAdCreate
 import com.malka.androidappp.servicemodels.Negotiationmodel
 import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
@@ -29,6 +31,7 @@ import kotlinx.android.synthetic.main.bank_accounts.*
 import kotlinx.android.synthetic.main.bank_bottom_design.view.*
 import kotlinx.android.synthetic.main.card_item.view.*
 import kotlinx.android.synthetic.main.card_selection_layout.*
+import kotlinx.android.synthetic.main.cart_design_new.view.*
 import kotlinx.android.synthetic.main.delivery_option.*
 import kotlinx.android.synthetic.main.delivery_option.view.*
 import kotlinx.android.synthetic.main.delivery_option_layout.view.*
@@ -422,6 +425,12 @@ class CommonBottomSheet {
         onConfirm: (type: Selection) -> Unit
     ) {
         selection = null
+       val filtelistr= list.filter {
+           it.isSelected
+        }
+        if(filtelistr.size>0){
+            selection=filtelistr.get(0)
+        }
         val builder = AlertDialog.Builder(context)
             .create()
 
@@ -491,5 +500,7 @@ class CommonBottomSheet {
                 )
             }
     }
+
+
 
 }

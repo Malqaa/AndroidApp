@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.Gravity
 import android.widget.Filter
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import com.malka.androidappp.R
 import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.botmnav_fragments.account_fragment.address.AddAddress
@@ -128,7 +129,7 @@ class AddressPaymentActivity : BaseActivity() {
     fun PostUserCheckOut(checkoutinfo: CheckoutRequestModel, context: Context) {
 
         val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-        val call= malqa.PostUserCheckOut(checkoutinfo)
+        val call = malqa.PostUserCheckOut(checkoutinfo)
 
         call.enqueue(object : Callback<GeneralRespone?> {
             override fun onFailure(call: Call<GeneralRespone?>, t: Throwable) {
@@ -145,7 +146,7 @@ class AddressPaymentActivity : BaseActivity() {
             ) {
                 if (response.isSuccessful) {
                     response.body()!!.run {
-                        if(!isError){
+                        if (!isError) {
                             startActivity(
                                 Intent(
                                     this@AddressPaymentActivity,
@@ -157,7 +158,7 @@ class AddressPaymentActivity : BaseActivity() {
                                     putExtra("shipments", ConstantObjects.usercart.size.toString())
                                     putExtra("total_order", totalAMount)
                                 })
-                        }else{
+                        } else {
                             HelpFunctions.ShowLongToast(
                                 message,
                                 context
@@ -183,11 +184,12 @@ class AddressPaymentActivity : BaseActivity() {
                         //  prod_type.text=protype
                         //    prod_name.text=proname
                         //   prod_city.text=procity
-                        item_quantity.number=qty
+                        item_quantity.number = qty
                         item_quantity.setOnValueChangeListener { view, oldValue, newValue ->
                             qty = newValue.toString()
                             ConstantObjects.usercart.get(position).advertisements.qty =
                                 newValue.toString()
+
                             calculation()
                         }
                         shipment_no_tv.text = "${getString(R.string.shipment_no_1)}${position + 1}"
@@ -202,37 +204,89 @@ class AddressPaymentActivity : BaseActivity() {
                         delivery_option._view3().setGravity(Gravity.CENTER)
                         payment_option_btn._view3().setGravity(Gravity.CENTER)
 
-                        payment_option_btn.setOnClickListener {
 
-                            payment_option_btn.setSelected(true)
+                        if (deliveryOptionSelect == null) {
+                            delivery_option._view3().background = ContextCompat.getDrawable(
+                                this@AddressPaymentActivity,
+                                R.drawable.edittext_bg
+                            )
+                            delivery_option._view3().setTextColor(
+                                ContextCompat.getColor(
+                                    this@AddressPaymentActivity,
+                                    R.color.hint_color
+                                )
+                            );
+
+                        } else {
+                            delivery_option._view3().background = ContextCompat.getDrawable(
+                                this@AddressPaymentActivity,
+                                R.drawable.round_btn_ligh
+                            )
+                            delivery_option._view3()
+                                .setTextColor(getResources().getColor(R.color.bg));
+
+                        }
+
+                        if(paymentOptionSelection==null){
+
+                            payment_option_btn._view3().background = ContextCompat.getDrawable(
+                                this@AddressPaymentActivity,
+                                R.drawable.edittext_bg
+                            )
+                            payment_option_btn._view3().setTextColor(
+                                ContextCompat.getColor(
+                                    this@AddressPaymentActivity,
+                                    R.color.hint_color
+                                )
+                            );
+                        }else{
+                            payment_option_btn._view3().background = ContextCompat.getDrawable(
+                                this@AddressPaymentActivity,
+                                R.drawable.round_btn_ligh
+                            )
+                            payment_option_btn._view3()
+                                .setTextColor(getResources().getColor(R.color.bg));
+
+                        }
+
+                        payment_option_btn.setOnClickListener {
 
                             paymentMethodList.apply {
                                 clear()
                                 add(Selection(getString(R.string.Saudiabankdeposit)))
                                 add(Selection(getString(R.string.visa_mastercard)))
                             }
+                            paymentMethodList.forEach {
+                                it.isSelected = it.name.equals(paymentOptionSelection)
+                            }
                             CommonBottomSheet().commonSelctinDialog(
                                 this@AddressPaymentActivity,
-                                paymentMethodList,getString(R.string.PaymentOptions)
+                                paymentMethodList, getString(R.string.PaymentOptions)
                             ) {
+                                paymentOptionSelection = it.name
+                                cart_new_rcv.adapter!!.notifyDataSetChanged()
 
                             }
                         }
-
-
-
                         delivery_option.setOnClickListener {
-                            delivery_option.setSelected(true)
+
+
                             deliveryOptionList.apply {
                                 clear()
                                 add(Selection("Option 1"))
                                 add(Selection("Option 2"))
                                 add(Selection("Option 3"))
                             }
+                            deliveryOptionList.forEach {
+                                it.isSelected = it.name.equals(deliveryOptionSelect)
+                            }
                             CommonBottomSheet().commonSelctinDialog(
                                 this@AddressPaymentActivity,
-                                deliveryOptionList,getString(R.string.delivery_options)
+                                deliveryOptionList, getString(R.string.delivery_options)
                             ) {
+                                deliveryOptionSelect = it.name
+                                cart_new_rcv.adapter!!.notifyDataSetChanged()
+
 
                             }
 
@@ -251,6 +305,18 @@ class AddressPaymentActivity : BaseActivity() {
             )
         }
     }
+
+    fun saveSelectedcheckbox() {
+
+        val list = deliveryOptionList.filter {
+            it.isSelected == true
+
+        }
+        list.forEach {
+
+        }
+    }
+
 
     private fun calculation() {
         var price = 0.0

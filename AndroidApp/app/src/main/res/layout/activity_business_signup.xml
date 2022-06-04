@@ -84,11 +84,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
+                android:dropDownVerticalOffset="35dp"
                 android:hint="@string/PhoneNumber"
                 android:inputType="phone"
                 app:endText="+965"
-                app:imeOptions="done"
-                app:startIcon="@drawable/ic_phone" />
+                app:endIcon="@drawable/down_arrow"
+                app:startIcon="@drawable/ic_phone"
+                app:viewType="country"
+                />
 
             <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/busi_signup3_edittext2"
@@ -139,18 +142,15 @@
                     android:id="@+id/upload_photo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:fontFamily="@font/madani_arabic_light"
                     android:text="@string/upload_photo"
                     android:textColor="@color/bg"
-                    android:layout_marginStart="@dimen/_10sdp"
                     android:textSize="@dimen/_12sdp" />
 
 
-
-
             </LinearLayout>
-
 
 
             <LinearLayout

@@ -240,7 +240,9 @@
                     android:hint="@string/PhoneNumber"
                     android:inputType="phone"
                     app:endText=""
+                    app:endIcon="@drawable/down_arrow"
                     app:imeOptions="done"
+                    app:viewType="country"
                     app:startIcon="@drawable/ic_phone" />
 
 
