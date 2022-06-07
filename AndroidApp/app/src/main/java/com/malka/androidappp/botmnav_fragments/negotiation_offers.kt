@@ -47,8 +47,8 @@ class negotiation_offers : Fragment(R.layout.fragment_negotiation_offer) {
             sent.setTextColor(Color.parseColor("#FFFFFF"))
             received.setTextColor(Color.parseColor("#45495E"))
 //            btn.setText("Accept")
-            from_buyer.setText("Sent to buyers")
-            from_seller.setText("Sent to Seller")
+            from_buyer.setText(R.string.sent_to_buyers)
+            from_seller.setText(R.string.sent_to_sellers)
 
             received.background = null
         }
@@ -62,8 +62,8 @@ class negotiation_offers : Fragment(R.layout.fragment_negotiation_offer) {
             received.setTextColor(Color.parseColor("#FFFFFF"))
             sent.setTextColor(Color.parseColor("#45495E"))
 
-            from_buyer.setText("Received from buyers")
-            from_seller.setText("Received from Sellers")
+            from_buyer.setText(R.string.received_from_buyers)
+            from_seller.setText(R.string.received_from_sellers)
 
             sent.background = null
         }

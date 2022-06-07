@@ -178,7 +178,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/madani_arabic_extra_light"
                 android:lineSpacingExtra="@dimen/_3sdp"
-                android:text="Sample"
+                android:text="@string/shopping"
                 android:textColor="#000000"
                 android:textSize="@dimen/_10sdp" />
 
@@ -191,7 +191,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/madani_arabic_extra_light"
                 android:lineSpacingExtra="@dimen/_3sdp"
-                android:text="Sample"
+                android:text="@string/FreeshippingwithinSaudiArabia"
                 android:textColor="#000000"
                 android:textSize="@dimen/_10sdp" />
 
@@ -215,7 +215,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/madani_arabic_extra_light"
                 android:lineSpacingExtra="@dimen/_3sdp"
-                android:text="Sample"
+                android:text="@string/PaymentMethod"
                 android:textColor="#000000"
                 android:textSize="@dimen/_10sdp" />
 
@@ -234,7 +234,7 @@
                     android:layout_marginEnd="@dimen/_3sdp"
                     android:fontFamily="@font/madani_arabic_extra_light"
                     android:lineSpacingExtra="@dimen/_3sdp"
-                    android:text="Sample"
+                    android:text="@string/by_the_bank"
                     android:textColor="#000000"
                     android:textSize="@dimen/_10sdp" />
 

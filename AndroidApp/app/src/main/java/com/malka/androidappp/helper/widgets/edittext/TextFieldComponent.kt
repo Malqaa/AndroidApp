@@ -28,6 +28,7 @@ import com.malka.androidappp.network.constants.ApiConstants
 import com.malka.androidappp.servicemodels.ConstantObjects
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_business_signup.*
+import kotlinx.android.synthetic.main.item_detailed_text_field_description.view.*
 
 class TextFieldComponent : LinearLayout {
 
@@ -598,7 +599,7 @@ class TextFieldComponent : LinearLayout {
                 iv_end_icon.layoutParams.height= 30
                 iv_end_icon.layoutParams.width = 30
 
-                end_text_tv.setOnClickListener {
+                right_session.setOnClickListener {
 
                     val list: ArrayList<SearchListItem> = ArrayList()
                     ConstantObjects.countryList.forEachIndexed { index, country ->

@@ -64,6 +64,8 @@
                 android:hint="@string/PhoneNumber"
                 android:inputType="phone"
                 app:endText="+965"
+                app:viewType="country"
+                app:endIcon="@drawable/down_arrow"
                 app:imeOptions="done"
                 app:startIcon="@drawable/ic_phone" />
 

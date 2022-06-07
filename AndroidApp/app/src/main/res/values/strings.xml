@@ -2931,6 +2931,19 @@ Want to start a business account? Create a Business Account
   <string name="technical_support">Technical support</string>
   <string name="reset">Reset</string>
   <string name="activate_email">Activate Email</string>
+  <string name="follow_up">Follow-up</string>
+  <string name="my_points">My points</string>
+    <string name="sale">Sale</string>
+  <string name="free_delivery">Free delivery</string>
+    <string name="invoice_download">Invoice download</string>
+  <string name="shipment_evaluation">Shipment evaluation</string>
+    <string name="payment_when_recieving">Payment when recieving</string>
+  <string name="by_the_bank">By the bank</string>
+    <string name="shipping_and_payment_options">Shipping and payment options</string>
+  <string name="free_delivery_inside_the_kingdom">Free delivery inside the kingdom</string>
+    <string name="received_from_sellers">Received from sellers</string>
+    <string name="received_from_buyers">Received from buyers</string>
+  <string name="product_reviews">Product Reviews</string>
 
 
 </resources>

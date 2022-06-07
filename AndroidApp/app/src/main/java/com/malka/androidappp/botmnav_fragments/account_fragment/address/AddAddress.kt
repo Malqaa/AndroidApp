@@ -104,7 +104,8 @@ class AddAddress : BaseActivity() {
         ConstantObjects.userobj?.run {
             firstname_tv.text = fullName
             lastname_tv.text = lastname
-            PhoneNumber_tv.text = phone
+            PhoneNumber_tv.text = phone?.substring(4)
+            PhoneNumber_tv._setEndText(phone?.substring(0,4))
         }
     }
 
@@ -345,7 +346,7 @@ class AddAddress : BaseActivity() {
 
         val ftname = firstname_tv.text.toString()
         val ltname = lastname_tv.text.toString()
-        val phonenumber = PhoneNumber_tv.text.toString()
+        val phonenumber = PhoneNumber_tv._getEndText() + PhoneNumber_tv.text.toString()
 
         val address = "${area_address.text.toString()} - ${streetnumber.text.toString()}"
         val selectCountry = select_country.text.toString()

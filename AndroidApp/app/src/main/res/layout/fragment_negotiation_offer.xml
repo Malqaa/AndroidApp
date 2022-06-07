@@ -68,7 +68,7 @@
                 android:background="@drawable/product_attribute_bg_linebg"
                 android:fontFamily="@font/madani_arabic_medium"
                 android:gravity="center"
-                android:text="Received from buyers"
+                android:text="@string/received_from_buyers"
                 android:padding="@dimen/_10sdp"
                 android:textSize="@dimen/_10sdp"
                 android:textColor="@color/bg" />
@@ -83,7 +83,7 @@
                 android:fontFamily="@font/madani_arabic_medium"
                 android:gravity="center"
                 android:padding="@dimen/_10sdp"
-                android:text="Received from sellers"
+                android:text="@string/received_from_sellers"
                 android:textColor="#45495E"
                 android:textSize="@dimen/_10sdp" />
         </LinearLayout>
