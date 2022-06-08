@@ -2504,6 +2504,8 @@
     <string name="shopping">تسوق</string>
     <string name="new_">جديد</string>
     <string name="vehicles">مركبات</string>
+    <string name="electronics_gaming">الإلكترونيات والألعاب</string>
+  <string name="property">ملكية</string>
     <string name="electronics">الكترونيات</string>
     <string name="real_estate">عقارات</string>
     <string name="List_Auctions">مزادات قائمة</string>
@@ -2755,18 +2757,21 @@
     <string name="help">مساعدة</string>
     <string name="technical_support">الدعم الفنى</string>
     <string name="follow_up">المتابعة</string>
-  <string name="my_points">نقاطى</string>
-  <string name="sale">البيع</string>
+    <string name="my_points">نقاطى</string>
+    <string name="sale">البيع</string>
     <string name="free_delivery">توصيل مجانى</string>
-  <string name="invoice_download">تحميل الفاتورة</string>
-  <string name="shipment_evaluation">تقييم الشحنة</string>
-  <string name="payment_when_recieving">الدفع عند الاستلام</string>
-  <string name="by_the_bank">عن طريق البنك</string>
-  <string name="shipping_and_payment_options">خيارات الشحن والدفع</string>
-  <string name="free_delivery_inside_the_kingdom">التوصيل مجاني داخل المملكة</string>
-  <string name="received_from_sellers">مستلمة من بائعين</string>
-  <string name="received_from_buyers">مستلمة من مشترين</string>
-  <string name="product_reviews">تعليقات المنتج</string>
+    <string name="invoice_download">تحميل الفاتورة</string>
+    <string name="shipment_evaluation">تقييم الشحنة</string>
+    <string name="payment_when_recieving">الدفع عند الاستلام</string>
+    <string name="by_the_bank">عن طريق البنك</string>
+    <string name="shipping_and_payment_options">خيارات الشحن والدفع</string>
+    <string name="free_delivery_inside_the_kingdom">التوصيل مجاني داخل المملكة</string>
+    <string name="received_from_sellers">مستلمة من بائعين</string>
+    <string name="received_from_buyers">مستلمة من مشترين</string>
+    <string name="product_reviews">تعليقات المنتج</string>
+    <string name="results">نتائج</string>
+    <string name="reset">إعادة تعيين</string>
+    <string name="activate_email">تفعيل البريد الإلكتروني</string>
 
 
 </resources>

@@ -43,7 +43,6 @@
         <attr name="viewType">
             <enum name="edittext" value="0" />
             <enum name="spinner" value="1" />
-            <enum name="phone" value="2" />
             <enum name="text" value="3" />
             <enum name="edittext2" value="4" />
             <enum name="country" value="5" />

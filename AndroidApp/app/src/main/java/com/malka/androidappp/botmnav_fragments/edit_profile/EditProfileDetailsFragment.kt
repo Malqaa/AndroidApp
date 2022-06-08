@@ -15,7 +15,6 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.TextInputEditText
-import com.hbb20.CountryCodePicker
 import com.malka.androidappp.R
 import com.malka.androidappp.servicemodels.User
 import com.malka.androidappp.helper.HelpFunctions
@@ -295,7 +294,6 @@ class EditProfileDetailsFragment : Fragment() {
             val firstname: String = fn_id.text.toString().trim()
             val lastnaam: String = ln_id.text.toString().trim()
 
-            val country: String = country_id.selectedCountryName
 
             val userRegion: Spinner = requireActivity().findViewById(R.id.region_id)
             val region: String = userRegion.selectedItem.toString().trim()
@@ -326,7 +324,6 @@ class EditProfileDetailsFragment : Fragment() {
                     lastname = lastnaam,
                     gender = genderRadiobtnnn,
                     phone = null,
-                    country = country,
                     region = region,
                     city = city,
                     address = address,
@@ -387,23 +384,6 @@ class EditProfileDetailsFragment : Fragment() {
                         }
 
 
-                        if (userprop.country != null) {
-                            var ccp: CountryCodePicker =
-                                requireActivity().findViewById(R.id.country_id)
-
-                            if (userprop.country == "Saudi Arabia") {
-                                ccp.setCountryForNameCode("SA")
-                            } else if (userprop.country == "Bahrain") {
-                                ccp.setCountryForNameCode("BH")
-                            } else if (userprop.country == "Kuwait") {
-                                ccp.setCountryForNameCode("KW")
-                            } else if (userprop.country == "Oman") {
-                                ccp.setCountryForNameCode("OM")
-                            } else if (userprop.country == "United Arab Emirates") {
-                                ccp.setCountryForNameCode("AE")
-                            }
-
-                        }
 
                         if (userprop.region != null) {
                             regionSpinner.setSelection(

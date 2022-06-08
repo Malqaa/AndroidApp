@@ -8,6 +8,7 @@ import android.content.Intent
 import android.graphics.PorterDuff
 import android.net.Uri
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.View
 import android.widget.Filter
 import android.widget.Toast
@@ -27,6 +28,7 @@ import com.malka.androidappp.activities_main.login.SignInActivity
 import com.malka.androidappp.activities_main.order.CartActivity
 import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.botmnav_fragments.cardetail_page.ModelSellerDetails
+import com.malka.androidappp.botmnav_fragments.create_ads.StaticClassAdCreate
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.servicemodels.Reviewmodel
 import com.malka.androidappp.helper.Extension.decimalNumberFormat
@@ -60,7 +62,9 @@ import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.SimpleDateFormat
 import java.util.*
+import com.malka.androidappp.servicemodels.AdDetailModel
 
 
 class ProductDetails : BaseActivity() {
@@ -72,6 +76,7 @@ class ProductDetails : BaseActivity() {
     val attributeList: ArrayList<Attribute> = ArrayList()
     var questionList: List<Question> = ArrayList()
     lateinit var product: AdDetailModel
+    private lateinit var countDownTimer: CountDownTimer
 
     lateinit var productDetailHelper: ProductDetailHelper
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -498,6 +503,7 @@ class ProductDetails : BaseActivity() {
     fun getadbyidapi(advid: String, template: String) {
         HelpFunctions.startProgressBar(this)
 
+
         val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
         val call = malqa.getAdDetailById(advid, template, ConstantObjects.logged_userid)
         call.enqueue(object : Callback<JsonObject> {
@@ -506,6 +512,7 @@ class ProductDetails : BaseActivity() {
                 call: Call<JsonObject>,
                 response: Response<JsonObject>
             ) {
+
                 if (response.isSuccessful) {
                     product = Gson().fromJson(response.body().toString(), AdDetailModel::class.java)
                     val jsonObject = response.body()
@@ -642,6 +649,48 @@ class ProductDetails : BaseActivity() {
                         itemviews_tv.text =
                             getString(R.string.itemView, itemviews.toString().toInt())
                         date.text = createdOnFormated
+
+
+                        fun printDifferenceDateForHours() {
+                            val currentTime = Calendar.getInstance().time
+                            val endDateDay = endTime
+                            val format1 = SimpleDateFormat("dd/MM/yyyy",Locale.getDefault())
+                            val endDate = format1.parse(endDateDay)
+                            //milliseconds
+                            var different = endDate.time - currentTime.time
+                            countDownTimer = object : CountDownTimer(different, 1000) {
+
+                                override fun onTick(millisUntilFinished: Long) {
+                                    var diff = millisUntilFinished
+                                    val secondsInMilli: Long = 1000
+                                    val minutesInMilli = secondsInMilli * 60
+                                    val hoursInMilli = minutesInMilli * 60
+                                    val daysInMilli = hoursInMilli * 24
+
+                                    val elapsedDays = diff / daysInMilli
+                                    diff %= daysInMilli
+
+                                    val elapsedHours = diff / hoursInMilli
+                                    diff %= hoursInMilli
+
+                                    val elapsedMinutes = diff / minutesInMilli
+                                    diff %= minutesInMilli
+
+                                    val elapsedSeconds = diff / secondsInMilli
+
+                                    days.text = elapsedDays.toString()
+                                    hours.text = elapsedHours.toString()
+                                    minutes.text = elapsedMinutes.toString()
+
+                                }
+
+                                override fun onFinish() {
+
+                                }
+                            }.start()
+                        }
+
+
                         is_watch_iv.setOnClickListener {
                             if (HelpFunctions.AdAlreadyAddedToWatchList(AdvId)) {
                                 HelpFunctions.DeleteAdFromWatchlist(
@@ -677,6 +726,7 @@ class ProductDetails : BaseActivity() {
                         } else {
                             is_watch_iv.setImageResource(R.drawable.star)
                         }
+                        printDifferenceDateForHours()
                     }
 
                     val list: ArrayList<AdDetailModel> = ArrayList()
