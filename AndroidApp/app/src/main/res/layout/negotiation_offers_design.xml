@@ -93,7 +93,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="SAR"
+                        android:text="@string/sar"
                         android:fontFamily="@font/madani_arabic_medium"
                         android:textColor="@color/bg"
                         android:layout_marginStart="@dimen/_5sdp"
@@ -189,7 +189,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/madani_arabic_light"
-                    android:text="Member since 2/21/2020"
+                    android:text="@string/member_since"
                     android:textSize="@dimen/_12sdp"
                     android:textColor="#6D6C74" />
 

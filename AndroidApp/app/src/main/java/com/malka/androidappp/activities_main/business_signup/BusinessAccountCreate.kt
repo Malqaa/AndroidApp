@@ -38,6 +38,10 @@ import com.malka.androidappp.servicemodels.*
 import com.zfdang.multiple_images_selector.ImagesSelectorActivity
 import com.zfdang.multiple_images_selector.SelectorSettings
 import kotlinx.android.synthetic.main.activity_business_signup.*
+import kotlinx.android.synthetic.main.atrribute_item.view.*
+import kotlinx.android.synthetic.main.fragment_list_details.*
+import kotlinx.android.synthetic.main.item_detailed_text_field_description.view.*
+import kotlinx.android.synthetic.main.seller_ads_adapter.view.*
 
 
 class BusinessAccountCreate : BaseActivity() {

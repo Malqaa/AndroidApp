@@ -130,7 +130,7 @@
                                 android:layout_gravity="center"
                                 android:layout_marginTop="@dimen/_5sdp"
                                 android:gravity="center"
-                                android:text="Follow-up"
+                                android:text="@string/follow_up"
                                 android:textSize="@dimen/_12sdp" />
 
                             <TextView
@@ -221,7 +221,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/_5sdp"
                                 android:gravity="center"
-                                android:text="My points"
+                                android:text="@string/my_points"
                                 android:textSize="@dimen/_12sdp" />
 
                             <TextView

@@ -177,7 +177,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/madani_arabic_extra_light"
                 android:lineSpacingExtra="@dimen/_3sdp"
-                android:text="Sample"
+                android:text="@string/Shipping"
                 android:textColor="#000000"
                 android:textSize="@dimen/_10sdp" />
 
@@ -190,7 +190,8 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/madani_arabic_extra_light"
                 android:lineSpacingExtra="@dimen/_3sdp"
-                android:text="Sample"
+                android:gravity="end"
+                android:text="@string/FreeshippingwithinSaudiArabia"
                 android:textColor="#000000"
                 android:textSize="@dimen/_10sdp" />
 
@@ -214,7 +215,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/madani_arabic_extra_light"
                 android:lineSpacingExtra="@dimen/_3sdp"
-                android:text="Sample"
+                android:text="@string/PaymentMethod"
                 android:textColor="#000000"
                 android:textSize="@dimen/_10sdp" />
 
@@ -227,7 +228,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/madani_arabic_extra_light"
                 android:lineSpacingExtra="@dimen/_3sdp"
-                android:text="Sample"
+                android:text="@string/payment_when_recieving"
                 android:textColor="#000000"
                 android:textSize="@dimen/_10sdp" />
 
@@ -254,7 +255,7 @@
                 android:background="@drawable/round_btn"
                 android:fontFamily="@font/madani_arabic_semi_bold"
                 android:padding="@dimen/_5sdp"
-                android:text="Shipment evaluation"
+                android:text="@string/shipment_evaluation"
                 android:textAllCaps="false"
                 android:textColor="#ffffff"
                 android:textSize="@dimen/_12sdp" />
@@ -268,7 +269,7 @@
                 android:padding="@dimen/_6sdp"
                 android:layout_marginStart="@dimen/_5sdp"
                 android:fontFamily="@font/madani_arabic_semi_bold"
-                android:text="Invoice download"
+                android:text="@string/invoice_download"
                 android:textAllCaps="false"
                 android:textColor="#ffffff"
                 android:textSize="@dimen/_12sdp" />

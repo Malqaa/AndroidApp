@@ -128,7 +128,8 @@ class ListingDetails : BaseActivity() {
             }else{
                 tv_used.performClick()
             }
-            phone_number_edittext.setText(StaticClassAdCreate.phone)
+            phone_number_edittext.setText(StaticClassAdCreate.phone.substring(4))
+            phone_number_edittext._setEndText(StaticClassAdCreate.phone.substring(0, 4))
             btnotherr.setOnClickListener {
                 ListDetailsconfirmInput() }
 

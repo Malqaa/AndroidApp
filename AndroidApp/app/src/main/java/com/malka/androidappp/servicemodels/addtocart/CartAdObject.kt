@@ -22,5 +22,7 @@ data class CartAdObject(
     val subCategory5: String,
     val subCategory6: String,
     val userBankAccountIDs: String,
-    var qty: String
+    var qty: String,
+    var deliveryOptionSelect: String,
+    var paymentOptionSelection: String
 )

@@ -6,16 +6,12 @@ import android.os.Bundle
 import com.google.gson.Gson
 import com.malka.androidappp.R
 import com.malka.androidappp.base.BaseActivity
-import com.malka.androidappp.servicemodels.GetAddressResponse
 import com.malka.androidappp.helper.CommonAPI
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.helper.widgets.searchdialog.SearchListItem
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
-import com.malka.androidappp.servicemodels.ConstantObjects
-import com.malka.androidappp.servicemodels.Country
-import com.malka.androidappp.servicemodels.CountryRespone
-import com.malka.androidappp.servicemodels.GeneralRespone
+import com.malka.androidappp.servicemodels.*
 import kotlinx.android.synthetic.main.add_address_fragment.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 import retrofit2.Call
@@ -45,7 +41,8 @@ class AddAddress : BaseActivity() {
                 select_region.text = region
                 select_city.text = city
                 area_address.text = address
-                PhoneNumber_tv.text = mobileNo
+                PhoneNumber_tv.text = mobileNo.substring(4)
+                PhoneNumber_tv._setEndText(mobileNo.substring(0,4))
                 firstname_tv.text = firstName
                 lastname_tv.text = lastName
             }
@@ -107,7 +104,8 @@ class AddAddress : BaseActivity() {
         ConstantObjects.userobj?.run {
             firstname_tv.text = fullName
             lastname_tv.text = lastname
-            PhoneNumber_tv.text = phone
+            PhoneNumber_tv.text = phone?.substring(4)
+            PhoneNumber_tv._setEndText(phone?.substring(0,4))
         }
     }
 
@@ -348,7 +346,7 @@ class AddAddress : BaseActivity() {
 
         val ftname = firstname_tv.text.toString()
         val ltname = lastname_tv.text.toString()
-        val phonenumber = PhoneNumber_tv.text.toString()
+        val phonenumber = PhoneNumber_tv._getEndText() + PhoneNumber_tv.text.toString()
 
         val address = "${area_address.text.toString()} - ${streetnumber.text.toString()}"
         val selectCountry = select_country.text.toString()

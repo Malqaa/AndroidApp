@@ -25,7 +25,10 @@ import com.malka.androidappp.helper.widgets.searchdialog.OnSearchItemSelected
 import com.malka.androidappp.helper.widgets.searchdialog.SearchListItem
 import com.malka.androidappp.helper.widgets.searchdialog.SearchableDialog
 import com.malka.androidappp.network.constants.ApiConstants
+import com.malka.androidappp.servicemodels.ConstantObjects
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_business_signup.*
+import kotlinx.android.synthetic.main.item_detailed_text_field_description.view.*
 
 class TextFieldComponent : LinearLayout {
 
@@ -43,6 +46,7 @@ class TextFieldComponent : LinearLayout {
     private lateinit var et_Field: TextInputEditText
     private lateinit var itemLayout: LinearLayout
     private lateinit var end_text_tv: TextView
+    var selectedCountry: SearchListItem? = null
 
 
     private var enableTopLine = true
@@ -266,7 +270,7 @@ class TextFieldComponent : LinearLayout {
         if (endText != null) {
             end_text_tv.text = endText
             end_text_tv.show()
-            iv_end_icon.hide()
+//            iv_end_icon.hide()
         } else {
             end_text_tv.hide()
         }
@@ -330,7 +334,6 @@ class TextFieldComponent : LinearLayout {
             }
         }
     }
-
     fun checkHint() {
 
         if (_getisFocusable()) {
@@ -587,6 +590,36 @@ class TextFieldComponent : LinearLayout {
                 etl_Field.hide()
                 textView.hide()
                 edittext.show()
+            }
+            5 -> {
+                etl_Field.show()
+                textView.hide()
+                edittext.hide()
+
+                iv_end_icon.layoutParams.height= 30
+                iv_end_icon.layoutParams.width = 30
+
+                right_session.setOnClickListener {
+
+                    val list: ArrayList<SearchListItem> = ArrayList()
+                    ConstantObjects.countryList.forEachIndexed { index, country ->
+                        list.add(SearchListItem(country.key, "${country.name} (${country.countryCode})"))
+                    }
+                    showSpinner(
+                        context as Activity,
+                        list,
+                        context.getString(R.string.Select, context.getString(R.string.country_code))
+                    ) {
+                        selectedCountry = it
+                        ConstantObjects.countryList.filter {
+                            it.key == selectedCountry!!.key
+                        }.let {
+                            if (it.size > 0) {
+                                _setEndText(it.get(0).countryCode)
+                            }
+                        }
+                    }
+                }
             }
             else -> {
 

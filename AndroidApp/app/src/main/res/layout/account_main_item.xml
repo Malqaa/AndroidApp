@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/main_item_tv"
         android:fontFamily="@font/madani_arabic_light"
-        android:text="Sale"
+        android:text="@string/sale"
         android:textSize="@dimen/_14sdp" />
 
     <androidx.recyclerview.widget.RecyclerView
