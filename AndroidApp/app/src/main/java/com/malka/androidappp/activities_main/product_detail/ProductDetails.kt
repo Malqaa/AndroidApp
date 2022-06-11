@@ -28,9 +28,7 @@ import com.malka.androidappp.activities_main.login.SignInActivity
 import com.malka.androidappp.activities_main.order.CartActivity
 import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.botmnav_fragments.cardetail_page.ModelSellerDetails
-import com.malka.androidappp.botmnav_fragments.create_ads.StaticClassAdCreate
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
-import com.malka.androidappp.servicemodels.Reviewmodel
 import com.malka.androidappp.helper.Extension.decimalNumberFormat
 import com.malka.androidappp.helper.Extension.loadThumbnail
 import com.malka.androidappp.helper.Extension.shared
@@ -64,7 +62,6 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
-import com.malka.androidappp.servicemodels.AdDetailModel
 
 
 class ProductDetails : BaseActivity() {
@@ -655,32 +652,37 @@ class ProductDetails : BaseActivity() {
                             val currentTime = Calendar.getInstance().time
                             val endDateDay = endTime
                             val format1 = SimpleDateFormat("dd/MM/yyyy",Locale.getDefault())
-                            val endDate = format1.parse(endDateDay)
-                            //milliseconds
-                            var different = endDate.time - currentTime.time
-                            countDownTimer = object : CountDownTimer(different, 1000) {
 
-                                override fun onTick(millisUntilFinished: Long) {
-                                    var diff = millisUntilFinished
-                                    val secondsInMilli: Long = 1000
-                                    val minutesInMilli = secondsInMilli * 60
-                                    val hoursInMilli = minutesInMilli * 60
-                                    val daysInMilli = hoursInMilli * 24
+                            if (endDateDay.equals("") || endDateDay==null){
+                                countdownTimer_bar.visibility = View.GONE
+                            }else{
+                                countdownTimer_bar.visibility = View.VISIBLE
+                                val endDate = format1.parse(endDateDay)
+                                //milliseconds
+                                var different = endDate.time - currentTime.time
+                                countDownTimer = object : CountDownTimer(different, 1000) {
 
-                                    val elapsedDays = diff / daysInMilli
-                                    diff %= daysInMilli
+                                    override fun onTick(millisUntilFinished: Long) {
+                                        var diff = millisUntilFinished
+                                        val secondsInMilli: Long = 1000
+                                        val minutesInMilli = secondsInMilli * 60
+                                        val hoursInMilli = minutesInMilli * 60
+                                        val daysInMilli = hoursInMilli * 24
 
-                                    val elapsedHours = diff / hoursInMilli
-                                    diff %= hoursInMilli
+                                        val elapsedDays = diff / daysInMilli
+                                        diff %= daysInMilli
 
-                                    val elapsedMinutes = diff / minutesInMilli
-                                    diff %= minutesInMilli
+                                        val elapsedHours = diff / hoursInMilli
+                                        diff %= hoursInMilli
 
-                                    val elapsedSeconds = diff / secondsInMilli
+                                        val elapsedMinutes = diff / minutesInMilli
+                                        diff %= minutesInMilli
 
-                                    days.text = elapsedDays.toString()
-                                    hours.text = elapsedHours.toString()
-                                    minutes.text = elapsedMinutes.toString()
+                                        val elapsedSeconds = diff / secondsInMilli
+
+                                        days.text = elapsedDays.toString()
+                                        hours.text = elapsedHours.toString()
+                                        minutes.text = elapsedMinutes.toString()
 
                                 }
 
@@ -688,6 +690,8 @@ class ProductDetails : BaseActivity() {
 
                                 }
                             }.start()
+                        }
+
                         }
 
 

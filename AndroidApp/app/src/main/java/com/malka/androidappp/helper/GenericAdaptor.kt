@@ -2,6 +2,8 @@ package com.malka.androidappp.helper
 
 import android.content.Context
 import android.content.Intent
+import android.os.CountDownTimer
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import androidx.activity.result.ActivityResultLauncher
@@ -23,8 +25,12 @@ import com.malka.androidappp.servicemodels.questionModel.Question
 import kotlinx.android.synthetic.main.add_address_design.view.*
 import kotlinx.android.synthetic.main.product_item.view.*
 import kotlinx.android.synthetic.main.question_answer_design.view.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 class GenericAdaptor {
+    lateinit var countDownTimer: CountDownTimer
+
 
     fun productAdaptor(
         element: AdDetailModel?, context: Context, holder: BaseViewHolder, isGrid: Boolean
@@ -155,6 +161,50 @@ class GenericAdaptor {
                     lisView.show()
                     gridview.hide()
                 }
+
+                fun printDifferenceDateForHours() {
+                    val currentTime = Calendar.getInstance().time
+                    val endDateDay = endTime
+                    val format1 = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                    if (endDateDay.equals("") || endDateDay==null ) {
+                        time_bar.visibility = View.GONE
+                    } else {
+                        time_bar.visibility = View.VISIBLE
+                        val endDate = format1.parse(endDateDay)
+                        var different = endDate.time - currentTime.time
+
+                        countDownTimer = object : CountDownTimer(different, 1000) {
+
+                            override fun onTick(millisUntilFinished: Long) {
+                                var diff = millisUntilFinished
+                                val secondsInMilli: Long = 1000
+                                val minutesInMilli = secondsInMilli * 60
+                                val hoursInMilli = minutesInMilli * 60
+                                val daysInMilli = hoursInMilli * 24
+
+                                val elapsedDays = diff / daysInMilli
+                                diff %= daysInMilli
+
+                                val elapsedHours = diff / hoursInMilli
+                                diff %= hoursInMilli
+
+                                val elapsedMinutes = diff / minutesInMilli
+                                diff %= minutesInMilli
+
+                                val elapsedSeconds = diff / secondsInMilli
+
+                                days.text = elapsedDays.toString()
+                                hours.text = elapsedHours.toString()
+                                minutes.text = elapsedMinutes.toString()
+
+                            }
+
+                            override fun onFinish() {
+                            }
+                        }.start()
+                    }
+                }
+                printDifferenceDateForHours()
             }
         }
     }
