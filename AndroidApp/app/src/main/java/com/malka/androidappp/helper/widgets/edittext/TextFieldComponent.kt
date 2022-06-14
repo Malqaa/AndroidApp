@@ -12,22 +12,22 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.widget.*
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-import com.hbb20.CountryCodePicker
 import com.malka.androidappp.R
 import com.malka.androidappp.helper.hide
 import com.malka.androidappp.helper.show
 import com.malka.androidappp.helper.widgets.searchdialog.OnSearchItemSelected
 import com.malka.androidappp.helper.widgets.searchdialog.SearchListItem
 import com.malka.androidappp.helper.widgets.searchdialog.SearchableDialog
-import com.malka.androidappp.network.constants.ApiConstants
 import com.malka.androidappp.servicemodels.ConstantObjects
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_business_signup.*
 import kotlinx.android.synthetic.main.item_detailed_text_field_description.view.*
 
 class TextFieldComponent : LinearLayout {
@@ -42,7 +42,6 @@ class TextFieldComponent : LinearLayout {
     private lateinit var iv_start_icon: ImageView
     private lateinit var iv_end_icon: ImageView
     private lateinit var line: View
-    private lateinit var cppfield: CountryCodePicker
     private lateinit var et_Field: TextInputEditText
     private lateinit var itemLayout: LinearLayout
     private lateinit var end_text_tv: TextView
@@ -124,8 +123,6 @@ class TextFieldComponent : LinearLayout {
         line.id = TextFieldIdGenerator.viwId.getlllId(id)
 
 
-        cppfield = findViewById(R.id.cppfield)
-        cppfield.id = TextFieldIdGenerator.viwId.getllllId(id)
 
 
         et_Field = findViewById(R.id.tv_field)
@@ -448,9 +445,6 @@ class TextFieldComponent : LinearLayout {
             textView.setText(value)
         }
 
-    fun selectedCountryCode(): String {
-        return cppfield.selectedCountryCode
-    }
 
 
     fun _getisFocusable() = et_Field.isFocusable
@@ -560,25 +554,16 @@ class TextFieldComponent : LinearLayout {
         this.viewType = viewType
         when (viewType) {
             0 -> {
-                cppfield.hide()
+
                 et_Field.isFocusable = true
                 et_Field.isFocusableInTouchMode = true
                 et_Field.isClickable = false
             }
             1 -> {
-                cppfield.hide()
+
                 et_Field.isFocusable = false
                 et_Field.isFocusableInTouchMode = false
                 et_Field.isClickable = true
-            }
-            2 -> {
-                cppfield.show()
-                line.show()
-                et_Field.isFocusable = true
-                et_Field.isFocusableInTouchMode = true
-                et_Field.isClickable = false
-                edittext.hide()
-
             }
             3 -> {
                 etl_Field.hide()

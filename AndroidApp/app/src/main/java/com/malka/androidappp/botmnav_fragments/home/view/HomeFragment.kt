@@ -191,7 +191,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee),
                                         DynamicList(
                                             getString(R.string.vehicles),
                                             R.drawable.ic_vechile,
-                                            caradvetisement, category_id = "Vehicles"
+                                            caradvetisement, category_id = getString(R.string.vehicles)
                                         )
                                     )
                                     add(
@@ -199,14 +199,14 @@ class HomeFragment : Fragment(R.layout.fragment_homee),
                                             getString(R.string.electronics),
                                             R.drawable.ic_electronic,
                                             generaladvetisement,
-                                            category_id = "Electronics & Gaming"
+                                            category_id = getString(R.string.electronics_gaming)
                                         )
                                     )
                                     add(
                                         DynamicList(
                                             getString(R.string.real_estate),
                                             R.drawable.ic_real_estate,
-                                            propertyadvetisement, category_id = "Property"
+                                            propertyadvetisement, category_id = getString(R.string.property)
                                         )
                                     )
                                     add(

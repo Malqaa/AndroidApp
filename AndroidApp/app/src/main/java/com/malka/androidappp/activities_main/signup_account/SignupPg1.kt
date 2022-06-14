@@ -157,13 +157,10 @@ class SignupPg1 : BaseActivity() {
         val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
         val emailId = textEmaill.text.toString().trim()
         val mobilenum = PhoneNumber.text.toString().trim()
-        val countryCode = PhoneNumber.selectedCountryCode()
-        val fullmobilenum = "+" + countryCode + mobilenum
         val passcode = textPass.text.toString().trim()
         val usernaam = userNamee.text.toString().trim()
         val createUser = User(
             email = emailId,
-            phone = fullmobilenum,
             password = passcode,
             cPassword = passcode,
             username = usernaam,

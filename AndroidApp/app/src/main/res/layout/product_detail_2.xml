@@ -125,6 +125,7 @@
 
 
                     <LinearLayout
+                        android:id="@+id/countdownTimer_bar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -149,6 +150,49 @@
                             android:textSize="@dimen/_12sdp" />
 
                         <TextView
+                            android:id="@+id/days"
+                            android:layout_width="@dimen/_30sdp"
+                            android:layout_height="@dimen/_30sdp"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:background="@drawable/product_attribute_bg"
+                            android:gravity="center"
+                            android:text="01"
+                            android:textSize="@dimen/_12sdp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:text="D"
+                            android:textColor="@color/textColor"
+
+                            android:textSize="@dimen/_12sdp" />
+
+                        <TextView
+                            android:id="@+id/hours"
+                            android:layout_width="@dimen/_30sdp"
+                            android:layout_height="@dimen/_30sdp"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:background="@drawable/product_attribute_bg"
+                            android:gravity="center"
+                            android:text="01"
+                            android:textSize="@dimen/_12sdp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:text="H"
+                            android:textColor="@color/textColor"
+
+                            android:textSize="@dimen/_12sdp" />
+
+                        <TextView
+                            android:id="@+id/minutes"
                             android:layout_width="@dimen/_30sdp"
                             android:layout_height="@dimen/_30sdp"
                             android:layout_gravity="center"
@@ -164,46 +208,6 @@
                             android:layout_gravity="center"
                             android:layout_marginStart="@dimen/_5sdp"
                             android:text="M"
-                            android:textColor="@color/textColor"
-
-                            android:textSize="@dimen/_12sdp" />
-
-                        <TextView
-                            android:layout_width="@dimen/_30sdp"
-                            android:layout_height="@dimen/_30sdp"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="@dimen/_10sdp"
-                            android:background="@drawable/product_attribute_bg"
-                            android:gravity="center"
-                            android:text="01"
-                            android:textSize="@dimen/_12sdp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="@dimen/_5sdp"
-                            android:text="S"
-                            android:textColor="@color/textColor"
-
-                            android:textSize="@dimen/_12sdp" />
-
-                        <TextView
-                            android:layout_width="@dimen/_30sdp"
-                            android:layout_height="@dimen/_30sdp"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="@dimen/_10sdp"
-                            android:background="@drawable/product_attribute_bg"
-                            android:gravity="center"
-                            android:text="01"
-                            android:textSize="@dimen/_12sdp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="@dimen/_5sdp"
-                            android:text="L"
                             android:textColor="@color/textColor"
 
                             android:textSize="@dimen/_12sdp" />
