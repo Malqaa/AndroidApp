@@ -236,14 +236,14 @@ class ListingDuration : BaseActivity() {
                 val sdf = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
                 StaticClassAdCreate.timepicker = sdf.format(Date())
                 StaticClassAdCreate.duration = fixlenghtselected!!.text
-                StaticClassAdCreate.endtime = fixlenghtselected!!.endTime
+                StaticClassAdCreate.endtime = fixlenghtselected!!.endTime+" "+sdf.format(Date())
                 StaticClassAdCreate.fixlenghtselected = fixlenghtselected
 
             } else if (radiobtn2.isChecked) {
                 StaticClassAdCreate.fixLength = "end_time"
                 StaticClassAdCreate.timepicker = selectTime
                 StaticClassAdCreate.duration = ""
-                StaticClassAdCreate.endtime = selectdate
+                StaticClassAdCreate.endtime = selectdate+" "+selectTime
             }
             saveSelectedcheckbox()
             saveShippingOption()

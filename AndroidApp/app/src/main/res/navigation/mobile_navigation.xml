@@ -344,20 +344,7 @@
     </fragment>
 
 
-    <fragment
-        android:id="@+id/logout_watchlist_frag"
-        android:name="com.malka.androidappp.botmnav_fragments.watchlist_fragment.LogoutWatchlish"
-        tools:layout="@layout/fragment_logout_watchlish">
 
-    </fragment>
-
-
-    <fragment
-        android:id="@+id/logout_account_frag"
-        android:name="com.malka.androidappp.botmnav_fragments.account_fragment.LogoutAccount"
-        tools:layout="@layout/fragment_logout_account">
-
-    </fragment>
 
     <fragment
         android:id="@+id/emailprefrences_setting_frag"

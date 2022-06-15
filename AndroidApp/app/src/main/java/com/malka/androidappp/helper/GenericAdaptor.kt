@@ -29,7 +29,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class GenericAdaptor {
-    lateinit var countDownTimer: CountDownTimer
 
 
     fun productAdaptor(
@@ -114,8 +113,8 @@ class GenericAdaptor {
 
                 date_tv.text = createdOnFormated
 
-                when(listingTypeFormated){
-                    "1"->{
+                when (listingTypeFormated) {
+                    "1" -> {
                         LowestPrice_layout.invisible()
                         LowestPrice_layout_2.hide()
                         product_price.text = "${price!!.toDouble().decimalNumberFormat()} ${
@@ -124,9 +123,11 @@ class GenericAdaptor {
                             )
                         }"
                         purchasing_price_tv_2.text =
-                            "${price.toDouble().decimalNumberFormat()} ${context.getString(R.string.Rayal)}"
+                            "${
+                                price.toDouble().decimalNumberFormat()
+                            } ${context.getString(R.string.Rayal)}"
                     }
-                    "12","2"->{
+                    "12", "2" -> {
                         LowestPrice_layout.show()
                         LowestPrice_layout_2.show()
 
@@ -136,7 +137,9 @@ class GenericAdaptor {
                             )
                         }"
                         purchasing_price_tv_2.text =
-                            "${startingPrice.toDouble().decimalNumberFormat()} ${context.getString(R.string.Rayal)}"
+                            "${
+                                startingPrice.toDouble().decimalNumberFormat()
+                            } ${context.getString(R.string.Rayal)}"
 
 
                         product_price.text = "${startingPrice!!.toDouble().decimalNumberFormat()} ${
@@ -149,7 +152,9 @@ class GenericAdaptor {
                             reservePrice!!.toDouble().decimalNumberFormat()
                         } ${context.getString(R.string.Rayal)}"
                         LowestPrice_2.text =
-                            "${reservePrice.toDouble().decimalNumberFormat()} ${context.getString(R.string.Rayal)}"
+                            "${
+                                reservePrice.toDouble().decimalNumberFormat()
+                            } ${context.getString(R.string.Rayal)}"
                     }
                 }
 
@@ -162,49 +167,47 @@ class GenericAdaptor {
                     gridview.hide()
                 }
 
-                fun printDifferenceDateForHours() {
-                    val currentTime = Calendar.getInstance().time
-                    val endDateDay = endTime
-                    val format1 = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-                    if (endDateDay.equals("") || endDateDay==null ) {
+                try {
+                    val format = SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault())
+                    if (endTime.equals("") || endTime == null) {
                         time_bar.visibility = View.GONE
                     } else {
                         time_bar.visibility = View.VISIBLE
-                        val endDate = format1.parse(endDateDay)
-                        var different = endDate.time - currentTime.time
+                        val endDate = format.parse("$endTime")
 
-                        countDownTimer = object : CountDownTimer(different, 1000) {
 
-                            override fun onTick(millisUntilFinished: Long) {
-                                var diff = millisUntilFinished
-                                val secondsInMilli: Long = 1000
-                                val minutesInMilli = secondsInMilli * 60
-                                val hoursInMilli = minutesInMilli * 60
-                                val daysInMilli = hoursInMilli * 24
+                       val currentDate = format.parse(format.format(Date()))
 
-                                val elapsedDays = diff / daysInMilli
-                                diff %= daysInMilli
+                        if (endDate.before(currentDate)) {
+                            days_tv.text = "0"
+                            hours_tv.text = "0"
+                            minutes_tv.text = "0"
+                        } else {
+                            var diff: Long = endDate!!.getTime() - currentDate!!.getTime()
+                            val secondsInMilli: Long = 1000
+                            val minutesInMilli = secondsInMilli * 60
+                            val hoursInMilli = minutesInMilli * 60
+                            val daysInMilli = hoursInMilli * 24
 
-                                val elapsedHours = diff / hoursInMilli
-                                diff %= hoursInMilli
+                            val elapsedDays = diff / daysInMilli
+                            diff %= daysInMilli
 
-                                val elapsedMinutes = diff / minutesInMilli
-                                diff %= minutesInMilli
+                            val elapsedHours = diff / hoursInMilli
+                            diff %= hoursInMilli
 
-                                val elapsedSeconds = diff / secondsInMilli
+                            val elapsedMinutes = diff / minutesInMilli
+                            diff %= minutesInMilli
 
-                                days.text = elapsedDays.toString()
-                                hours.text = elapsedHours.toString()
-                                minutes.text = elapsedMinutes.toString()
 
-                            }
+                            days_tv.text = elapsedDays.toString()
+                            hours_tv.text = elapsedHours.toString()
+                            minutes_tv.text = elapsedMinutes.toString()
+                        }
 
-                            override fun onFinish() {
-                            }
-                        }.start()
                     }
+                } catch (error: Exception) {
+                    time_bar.visibility = View.GONE
                 }
-                printDifferenceDateForHours()
             }
         }
     }
@@ -319,7 +322,6 @@ class GenericAdaptor {
                                 putExtra("addressObject", Gson().toJson(element))
                             })
                         }
-
 
 
                     }

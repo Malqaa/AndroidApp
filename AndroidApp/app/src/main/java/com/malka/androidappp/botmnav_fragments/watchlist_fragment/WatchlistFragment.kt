@@ -3,10 +3,10 @@ package com.malka.androidappp.botmnav_fragments.watchlist_fragment
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.malka.androidappp.R
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.recycler_browsecat.GenericProductAdapter
-import com.malka.androidappp.servicemodels.AdDetailModel
 import com.malka.androidappp.servicemodels.ConstantObjects
 import com.malka.androidappp.servicemodels.WatchList
 import kotlinx.android.synthetic.main.fragment_watchlist.*
@@ -14,13 +14,11 @@ import kotlinx.android.synthetic.main.toolbar_main.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-import androidx.navigation.fragment.findNavController
 
 
 class WatchlistFragment : Fragment(R.layout.fragment_watchlist) {
 
 
-    val list: ArrayList<AdDetailModel> = ArrayList()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -36,12 +34,9 @@ class WatchlistFragment : Fragment(R.layout.fragment_watchlist) {
         }
 
 
-        fav_rcv!!.adapter = GenericProductAdapter(list,requireContext())
+        fav_rcv!!.adapter = GenericProductAdapter(ConstantObjects.userwatchlist,requireContext())
 
-        if (ConstantObjects.userwatchlist!!.data.size > 0) {
-            ConstantObjects.userwatchlist!!.data.forEach {
-                list.add(it.advertisement)
-            }
+        if (!ConstantObjects.userwatchlist.isEmpty()) {
             fav_rcv!!.adapter!!.notifyDataSetChanged()
         } else {
             HelpFunctions.ShowLongToast(
@@ -53,12 +48,7 @@ class WatchlistFragment : Fragment(R.layout.fragment_watchlist) {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onMessageEvent(event: WatchList?) {
-        list.clear()
-        ConstantObjects.userwatchlist!!.data.forEach {
-            list.add(it.advertisement)
-        }
         fav_rcv!!.adapter!!.notifyDataSetChanged()
-
     }
 
     override fun onDestroyView() {

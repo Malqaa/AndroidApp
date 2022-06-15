@@ -1,14 +1,13 @@
 package com.malka.androidappp.servicemodels
 
 import android.widget.ImageView
-import com.malka.androidappp.servicemodels.model.AllCategoriesModel
-import com.malka.androidappp.servicemodels.model.DynamicList
 import com.malka.androidappp.botmnav_fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ShippingAddressessData
 import com.malka.androidappp.servicemodels.addtocart.CartItemModel
 import com.malka.androidappp.servicemodels.creditcard.CreditCardModel
 import com.malka.androidappp.servicemodels.favourites.FavouriteObject
 import com.malka.androidappp.servicemodels.feedbacks.FeedbackObject
-import com.malka.androidappp.servicemodels.watchlist.watchlistobject
+import com.malka.androidappp.servicemodels.model.AllCategoriesModel
+import com.malka.androidappp.servicemodels.model.DynamicList
 
 class ConstantObjects {
     companion object {
@@ -21,7 +20,7 @@ class ConstantObjects {
         var userobj: User? = null;
         var userfeedback: FeedbackObject? = null;
         var userfavourite: FavouriteObject? = null;
-        var userwatchlist: watchlistobject? = null;
+        var userwatchlist=java.util.ArrayList<AdDetailModel> ()
         var usercreditcard: List<CreditCardModel>? = null;
         var usercart: List<CartItemModel> = ArrayList()
         var useraddresses: List<ShippingAddressessData>? = null
@@ -34,7 +33,7 @@ class ConstantObjects {
 
         var currentLanguage: String = ""
         var categoryList: List<AllCategoriesModel> = ArrayList()
-        val list: ArrayList<DynamicList> = java.util.ArrayList()
+        var list: ArrayList<DynamicList> = java.util.ArrayList()
         var countryList: List<Country> = ArrayList()
 
         var isBid= "isBid"

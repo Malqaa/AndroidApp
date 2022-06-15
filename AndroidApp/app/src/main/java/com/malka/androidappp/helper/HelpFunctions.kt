@@ -30,10 +30,7 @@ import com.malka.androidappp.botmnav_fragments.shoppingcart3_shippingaddress.shi
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.constants.ApiConstants
 import com.malka.androidappp.network.service.MalqaApiService
-import com.malka.androidappp.servicemodels.BasicResponse
-import com.malka.androidappp.servicemodels.BasicResponseInt
-import com.malka.androidappp.servicemodels.ConstantObjects
-import com.malka.androidappp.servicemodels.WatchList
+import com.malka.androidappp.servicemodels.*
 import com.malka.androidappp.servicemodels.addtocart.AddToCartResponseModel
 import com.malka.androidappp.servicemodels.favourites.FavouriteObject
 import com.malka.androidappp.servicemodels.favourites.favouriteadd
@@ -94,9 +91,10 @@ class HelpFunctions {
 
         fun IsUserLoggedIn(): Boolean1 {
             val islogin = Paper.book().read(SharedPreferencesStaticClass.islogin, false) ?: false
-            if(islogin){
-                val logged_userid = Paper.book().read(SharedPreferencesStaticClass.logged_userid, "") ?:""
-                ConstantObjects.logged_userid=logged_userid
+            if (islogin) {
+                val logged_userid =
+                    Paper.book().read(SharedPreferencesStaticClass.logged_userid, "") ?: ""
+                ConstantObjects.logged_userid = logged_userid
             }
             return islogin
         }
@@ -150,7 +148,7 @@ class HelpFunctions {
             error += "Error: " + exception.message + "\r\n";
             error += "Stacktrace: " + sStackTrace + "\r\n";
 
-           // ShowError(error)
+            // ShowError(error)
         }
 
         fun ShowAlert(context: Context?, alertTitle: String, alertMessage: String) {
@@ -198,7 +196,7 @@ class HelpFunctions {
         fun ConvertStringToDate(aDate: String?, aFormat: String): Date? {
             if (aDate == null) return null
             val pos = ParsePosition(0)
-            val simpledateformat = SimpleDateFormat(aFormat,Locale.ENGLISH)
+            val simpledateformat = SimpleDateFormat(aFormat, Locale.ENGLISH)
             return simpledateformat.parse(aDate, pos)
         }
 
@@ -223,8 +221,8 @@ class HelpFunctions {
                         val formatter = DateTimeFormatter.ofPattern(requiredformat)
                         RetVal = convertedDate.format(formatter)
                     } else {
-                        val parser = SimpleDateFormat(defaultsourceformat,Locale.ENGLISH)
-                        val formatter = SimpleDateFormat(defaulttargetformat,Locale.ENGLISH)
+                        val parser = SimpleDateFormat(defaultsourceformat, Locale.ENGLISH)
+                        val formatter = SimpleDateFormat(defaulttargetformat, Locale.ENGLISH)
                         RetVal = formatter.format(parser.parse(value))
                     }
                 } else {
@@ -246,9 +244,9 @@ class HelpFunctions {
             var requestDateFormat: DateFormat? = null
             var requestDate: Date? = null
             try {
-                dateFormat = SimpleDateFormat(requiredFormat,Locale.ENGLISH)
+                dateFormat = SimpleDateFormat(requiredFormat, Locale.ENGLISH)
                 //  dateFormat.setTimeZone(TimeZone.getDefault())
-                requestDateFormat = SimpleDateFormat(givenFormat,Locale.ENGLISH)
+                requestDateFormat = SimpleDateFormat(givenFormat, Locale.ENGLISH)
 
                 // requestDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"))
                 requestDate = requestDateFormat.parse(date)
@@ -261,12 +259,14 @@ class HelpFunctions {
 
 
         fun AdAlreadyAddedToWatchList(adreferenceId: String?): Boolean1 {
-            var RetVal = false;
-            if (adreferenceId!!.trim().length > 0) {
-                if (ConstantObjects.userwatchlist != null && ConstantObjects.userwatchlist!!.data.size > 0) {
-                    for (IndWatch in ConstantObjects.userwatchlist!!.data) {
-                        if (IndWatch.advertisement.referenceId!!.trim().lowercase()
-                                .equals(adreferenceId!!.trim().lowercase())
+            var RetVal = false
+            adreferenceId?.let {
+                if (it.trim().length > 0) {
+
+                    for (IndWatch in ConstantObjects.userwatchlist) {
+                        val id = IndWatch.referenceId ?: ""
+                        if (id.trim().lowercase()
+                                .equals(it.trim().lowercase())
                         ) {
                             RetVal = true
                             break
@@ -275,8 +275,12 @@ class HelpFunctions {
                             continue
                         }
                     }
+
                 }
+            } ?: kotlin.run {
+                RetVal = false
             }
+
             return RetVal
         }
 
@@ -468,7 +472,13 @@ class HelpFunctions {
                     if (response.isSuccessful) {
                         if (response.body() != null) {
                             val watchlistinfo: watchlistobject = response.body()!!
-                            ConstantObjects.userwatchlist = watchlistinfo
+                            val list = ArrayList<AdDetailModel>()
+                            watchlistinfo.data.forEach {
+                                it.advertisement?.let {
+                                    list.add(it)
+                                }
+                            }
+                            ConstantObjects.userwatchlist = list
                             EventBus.getDefault().post(WatchList())
 
                         }
@@ -670,8 +680,6 @@ class HelpFunctions {
         }
 
 
-
-
         fun DeleteUserCreditCard(CardId: String, context: Context): Boolean1 {
             var RetVal: Boolean1 = false;
             try {
@@ -728,7 +736,6 @@ class HelpFunctions {
                 }
             }
         }
-
 
 
         fun DeleteFromUserCart(CartId: String, context: Context): Boolean1 {
@@ -826,12 +833,12 @@ class HelpFunctions {
         }
 
 
-        fun GetTemplatesJson(fileName: String,onSuccess: ((respone:String) -> Unit)? = null) {
+        fun GetTemplatesJson(fileName: String, onSuccess: ((respone: String) -> Unit)? = null) {
             try {
                 val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
 
                 val API_BASE_URL =
-                    ApiConstants.HTTP_PROTOCOL + "://" + ApiConstants.SERVER_LOCATION + "/" + ApiConstants.IMAGE_FOLDER + "/jsonTemplates/"+fileName
+                    ApiConstants.HTTP_PROTOCOL + "://" + ApiConstants.SERVER_LOCATION + "/" + ApiConstants.IMAGE_FOLDER + "/jsonTemplates/" + fileName
 
                 val call = malqa.jsonTemplates(API_BASE_URL)
                 call.enqueue(object : Callback<JsonObject?> {
@@ -851,7 +858,6 @@ class HelpFunctions {
 
                     }
                 })
-
 
 
             } catch (ex: Exception) {
@@ -941,7 +947,7 @@ class HelpFunctions {
             return hashMapLocationInfo
         }
 
-        fun utcToLocal(time: String,format: String): String {
+        fun utcToLocal(time: String, format: String): String {
 
             val df = SimpleDateFormat(format, Locale.ENGLISH)
             df.timeZone = TimeZone.getTimeZone("UTC")
@@ -951,7 +957,7 @@ class HelpFunctions {
         }
 
 
-        fun  String.localToUTC(): String {
+        fun String.localToUTC(): String {
 
             val df = SimpleDateFormat("yyyy-mm-dd'T'hh:mm:ss", Locale.ENGLISH)
             df.timeZone = TimeZone.getDefault()
@@ -961,12 +967,13 @@ class HelpFunctions {
             return formattedDate
 
         }
+
         fun getQueryString(url: String?): HashMap<String, String> {
             val uri = Uri.parse(url)
             val map: HashMap<String, String> = HashMap()
             for (paramName in uri.getQueryParameterNames()) {
                 if (paramName != null) {
-                    val paramValue: String = uri.getQueryParameter(paramName)?:""
+                    val paramValue: String = uri.getQueryParameter(paramName) ?: ""
                     map[paramName] = paramValue
                 }
             }
@@ -974,7 +981,7 @@ class HelpFunctions {
         }
 
 
-        fun openExternalLInk(link: String, context: Context){
+        fun openExternalLInk(link: String, context: Context) {
             context.startActivity(
                 Intent(
                     Intent.ACTION_VIEW,
@@ -983,10 +990,6 @@ class HelpFunctions {
             )
         }
     }
-
-
-
-
 
 
 }

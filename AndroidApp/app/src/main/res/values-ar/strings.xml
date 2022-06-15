@@ -2505,7 +2505,7 @@
     <string name="new_">جديد</string>
     <string name="vehicles">مركبات</string>
     <string name="electronics_gaming">الإلكترونيات والألعاب</string>
-  <string name="property">ملكية</string>
+    <string name="property">ملكية</string>
     <string name="electronics">الكترونيات</string>
     <string name="real_estate">عقارات</string>
     <string name="List_Auctions">مزادات قائمة</string>
@@ -2772,6 +2772,7 @@
     <string name="results">نتائج</string>
     <string name="reset">إعادة تعيين</string>
     <string name="activate_email">تفعيل البريد الإلكتروني</string>
-
+    <string name="Sale">تخفيض السعر</string>
+    <string name="Loser">الخاسر</string>
 
 </resources>

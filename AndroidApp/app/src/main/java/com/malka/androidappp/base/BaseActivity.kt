@@ -1,6 +1,5 @@
 package com.malka.androidappp.base
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.*
@@ -11,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
-import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.SplashActivity
 import com.malka.androidappp.botmnav_fragments.create_ads.StaticClassAdCreate
 import com.malka.androidappp.helper.HelpFunctions
@@ -43,20 +41,15 @@ abstract class BaseActivity : AppCompatActivity() {
 
     //Methods For language
     fun setLocate() {
+        ConstantObjects.categoryList= ArrayList()
+        ConstantObjects.list= ArrayList()
         Lingver.getInstance().setLocale(this, if (Lingver.getInstance().getLanguage() == ARABIC) ENGLISH else ARABIC)
-        val intentt = Intent(this, SplashActivity::class.java)
-        startActivity(intentt)
+        startActivity(Intent(this, SplashActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        })
        finish()
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
-
-       // restart()
     }
 
-    fun Activity.restart() {
-        val i = Intent(this, this::class.java)
-        startActivity(i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK))
-        finish()
-    }
 
     fun hideSystemUI(mainContainer: View) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
