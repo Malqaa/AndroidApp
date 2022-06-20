@@ -19,6 +19,7 @@ class ListingDetails : BaseActivity() {
     var selectedRegion: SearchListItem? = null
     var selectedCity: SearchListItem? = null
     var isEdit: Boolean = false
+    val list: ArrayList<SearchListItem> = ArrayList()
     override fun onBackPressed() {
         intent.getBooleanExtra("isEdit",false).let {
             if (it){
@@ -66,7 +67,6 @@ class ListingDetails : BaseActivity() {
             }
         }
         select_country._setOnClickListener {
-            val list: ArrayList<SearchListItem> = ArrayList()
             ConstantObjects.countryList.forEachIndexed { index, country ->
                 list.add(SearchListItem(country.key, country.name))
             }
@@ -128,8 +128,15 @@ class ListingDetails : BaseActivity() {
             }else{
                 tv_used.performClick()
             }
-            phone_number_edittext.setText(StaticClassAdCreate.phone.substring(4))
-            phone_number_edittext._setEndText(StaticClassAdCreate.phone.substring(0, 4))
+
+            ConstantObjects.countryList.forEach {
+                if (StaticClassAdCreate.phone.startsWith(it.countryCode!!)){
+                    phone_number_edittext.text = StaticClassAdCreate.phone.replace(it.countryCode!!,"")
+                    phone_number_edittext._setEndText(it.countryCode)
+                }
+
+            }
+
             btnotherr.setOnClickListener {
                 ListDetailsconfirmInput() }
 

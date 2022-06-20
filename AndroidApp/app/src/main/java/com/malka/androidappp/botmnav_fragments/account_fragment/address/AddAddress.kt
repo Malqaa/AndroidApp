@@ -41,8 +41,14 @@ class AddAddress : BaseActivity() {
                 select_region.text = region
                 select_city.text = city
                 area_address.text = address
-                PhoneNumber_tv.text = mobileNo.substring(4)
-                PhoneNumber_tv._setEndText(mobileNo.substring(0,4))
+
+                ConstantObjects.countryList.forEach {
+                    if (mobileNo.startsWith(it.countryCode!!)){
+                        PhoneNumber_tv.text = mobileNo.replace(it.countryCode!!,"")
+                        PhoneNumber_tv._setEndText(it.countryCode)
+
+                    }
+                }
                 firstname_tv.text = firstName
                 lastname_tv.text = lastName
             }

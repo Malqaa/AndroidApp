@@ -8,7 +8,6 @@ import android.content.Intent
 import android.graphics.PorterDuff
 import android.net.Uri
 import android.os.Bundle
-import android.os.CountDownTimer
 import android.view.View
 import android.widget.Filter
 import android.widget.Toast
@@ -276,7 +275,7 @@ class ProductDetails : BaseActivity() {
                                     dismiss()
                                     startActivity(Intent(this@ProductDetails, MainActivity::class.java).apply {
                                         flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                                       putExtra(ConstantObjects.isBid,true)
+                                        putExtra(ConstantObjects.isBid,true)
                                     })
                                     finish()
                                 }
@@ -692,6 +691,8 @@ class ProductDetails : BaseActivity() {
                         }
                         
                         
+
+
 
 
                         is_watch_iv.setOnClickListener {
