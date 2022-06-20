@@ -8,7 +8,6 @@ import android.content.Intent
 import android.graphics.PorterDuff
 import android.net.Uri
 import android.os.Bundle
-import android.os.CountDownTimer
 import android.view.View
 import android.widget.Filter
 import android.widget.Toast
@@ -73,7 +72,6 @@ class ProductDetails : BaseActivity() {
     val attributeList: ArrayList<Attribute> = ArrayList()
     var questionList: List<Question> = ArrayList()
     lateinit var product: AdDetailModel
-    private lateinit var countDownTimer: CountDownTimer
 
     lateinit var productDetailHelper: ProductDetailHelper
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -277,7 +275,7 @@ class ProductDetails : BaseActivity() {
                                     dismiss()
                                     startActivity(Intent(this@ProductDetails, MainActivity::class.java).apply {
                                         flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                                       putExtra(ConstantObjects.isBid,true)
+                                        putExtra(ConstantObjects.isBid,true)
                                     })
                                     finish()
                                 }
@@ -648,51 +646,51 @@ class ProductDetails : BaseActivity() {
                         date.text = createdOnFormated
 
 
-                        fun printDifferenceDateForHours() {
-                            val currentTime = Calendar.getInstance().time
-                            val endDateDay = endTime
-                            val format1 = SimpleDateFormat("dd/MM/yyyy",Locale.getDefault())
 
-                            if (endDateDay.equals("") || endDateDay==null){
+                        try {
+                            val format= SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault())
+                            if (endTime.equals("") || endTime == null) {
                                 countdownTimer_bar.visibility = View.GONE
-                            }else{
+                            } else {
                                 countdownTimer_bar.visibility = View.VISIBLE
-                                val endDate = format1.parse(endDateDay)
-                                //milliseconds
-                                var different = endDate.time - currentTime.time
-                                countDownTimer = object : CountDownTimer(different, 1000) {
+                                val endDate = format.parse(endTime)
 
-                                    override fun onTick(millisUntilFinished: Long) {
-                                        var diff = millisUntilFinished
-                                        val secondsInMilli: Long = 1000
-                                        val minutesInMilli = secondsInMilli * 60
-                                        val hoursInMilli = minutesInMilli * 60
-                                        val daysInMilli = hoursInMilli * 24
 
-                                        val elapsedDays = diff / daysInMilli
-                                        diff %= daysInMilli
+                                val currentDate = format.parse(format.format(Date()))
 
-                                        val elapsedHours = diff / hoursInMilli
-                                        diff %= hoursInMilli
+                                if (endDate.before(currentDate)) {
+                                    days.text = "0"
+                                    hours.text = "0"
+                                    minutes.text = "0"
+                                } else {
+                                    var diff: Long = endDate!!.getTime() - currentDate!!.getTime()
 
-                                        val elapsedMinutes = diff / minutesInMilli
-                                        diff %= minutesInMilli
+                                    val secondsInMilli: Long = 1000
+                                    val minutesInMilli = secondsInMilli * 60
+                                    val hoursInMilli = minutesInMilli * 60
+                                    val daysInMilli = hoursInMilli * 24
 
-                                        val elapsedSeconds = diff / secondsInMilli
+                                    val elapsedDays = diff / daysInMilli
+                                    diff %= daysInMilli
 
-                                        days.text = elapsedDays.toString()
-                                        hours.text = elapsedHours.toString()
-                                        minutes.text = elapsedMinutes.toString()
+                                    val elapsedHours = diff / hoursInMilli
+                                    diff %= hoursInMilli
 
+                                    val elapsedMinutes = diff / minutesInMilli
+                                    diff %= minutesInMilli
+
+
+                                    days.text = elapsedDays.toString()
+                                    hours.text = elapsedHours.toString()
+                                    minutes.text = elapsedMinutes.toString()
                                 }
 
-                                override fun onFinish() {
-
-                                }
-                            }.start()
+                            }
+                        } catch (error: Exception) {
+                            countdownTimer_bar.visibility = View.GONE
                         }
 
-                        }
+
 
 
                         is_watch_iv.setOnClickListener {
@@ -730,7 +728,6 @@ class ProductDetails : BaseActivity() {
                         } else {
                             is_watch_iv.setImageResource(R.drawable.star)
                         }
-                        printDifferenceDateForHours()
                     }
 
                     val list: ArrayList<AdDetailModel> = ArrayList()
