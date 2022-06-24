@@ -14,7 +14,10 @@ import com.malka.androidappp.activities_main.business_signup.Switch_Account
 import com.malka.androidappp.activities_main.login.SignInActivity
 import com.malka.androidappp.activities_main.order.CartActivity
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
-import com.malka.androidappp.helper.*
+import com.malka.androidappp.helper.CommonAPI
+import com.malka.androidappp.helper.HelpFunctions
+import com.malka.androidappp.helper.hide
+import com.malka.androidappp.helper.show
 import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.servicemodels.AccountItem
 import com.malka.androidappp.servicemodels.AccountSubItem
@@ -109,14 +112,17 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
 
     private fun setListenser() {
         follow_up.setOnClickListener() {
-            //findNavController().navigate(R.id.followUp)
+            findNavController().navigate(R.id.followUp)
         }
         my_wallet.setOnClickListener() {
-            // findNavController().navigate(R.id.myWallet)
+            findNavController().navigate(R.id.myWallet)
         }
 
         my_points.setOnClickListener() {
-            //  findNavController().navigate(R.id.myPoints)
+            findNavController().navigate(R.id.myPoints)
+        }
+        rating_btn.setOnClickListener() {
+            findNavController().navigate(R.id.sellerRating)
         }
 
 

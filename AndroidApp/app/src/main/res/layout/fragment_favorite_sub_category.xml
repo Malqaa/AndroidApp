@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".botmnav_fragments.Follow_Up.favorite_sub_category">
+
+    <include
+        android:id="@+id/toolbar_main"
+        layout="@layout/toolbar_main" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar_main"
+        android:padding="@dimen/_10sdp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/favorite_subcategories"
+            android:gravity="center"
+            android:fontFamily="@font/madani_arabic_bold"
+            android:textColor="#293241"
+            android:textSize="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/choose_the_category_you_prefer_to_receive_all_new_about_it"
+            android:gravity="center"
+            android:fontFamily="@font/madani_arabic_light"
+            android:textColor="#293241"
+            android:textSize="@dimen/_12sdp"
+            android:layout_marginTop="@dimen/_2sdp"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/all_sub_category_rcv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_10sdp"
+            tools:listitem="@layout/favorite_sub_category_layout"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="3" />
+
+    </LinearLayout>
+
+</RelativeLayout>

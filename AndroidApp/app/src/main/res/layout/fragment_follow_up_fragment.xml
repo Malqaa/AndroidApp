@@ -3,67 +3,133 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".botmnav_fragments.Follow_Up.follow_up_fragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".botmnav_fragments.Follow_Up.follow_up_fragment"
+    android:orientation="vertical">
 
 
     <include
         android:id="@+id/toolbar_main"
         layout="@layout/toolbar_main" />
 
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_50sdp"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/add_new_category"
         android:layout_below="@+id/toolbar_main"
-        android:layout_marginStart="@dimen/_10sdp"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:layout_marginEnd="@dimen/_10sdp"
-        android:layout_marginBottom="@dimen/_10sdp"
-        android:background="@drawable/edittext_bg"
-        android:orientation="horizontal"
-        android:padding="@dimen/_5sdp"
-        android:textSize="@dimen/_12sdp"
-        android:weightSum="3">
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/for_sale"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/_5sdp"
-            android:layout_weight="1"
-            android:fontFamily="@font/madani_arabic_medium"
-            android:gravity="center"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_below="@+id/toolbar_main"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:background="@drawable/edittext_bg"
+            android:orientation="horizontal"
             android:padding="@dimen/_5sdp"
-            android:text="@string/favorite_categories"
-            android:textColor="#45495E"
-            android:textSize="@dimen/_10sdp" />
+            android:textSize="@dimen/_12sdp"
+            android:weightSum="3">
 
-        <TextView
-            android:id="@+id/sold_out"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/_5sdp"
-            android:layout_weight="1"
-            android:background="@drawable/round_btn"
-            android:fontFamily="@font/madani_arabic_medium"
-            android:gravity="center"
-            android:padding="@dimen/_5sdp"
-            android:text="@string/favorite_sellers"
-            android:textColor="@color/white"
-            android:textSize="@dimen/_10sdp" />
+            <TextView
+                android:id="@+id/fav_category"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_weight="1"
+                android:background="@drawable/edittext_bg"
+                android:fontFamily="@font/madani_arabic_medium"
+                android:gravity="center"
+                android:padding="@dimen/_5sdp"
+                android:text="@string/favorite_categories"
+                android:textColor="#45495E"
+                android:textSize="@dimen/_10sdp" />
 
-        <TextView
-            android:id="@+id/did_not_Sell"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/_5sdp"
-            android:layout_weight="1"
-            android:fontFamily="@font/madani_arabic_medium"
-            android:gravity="center"
-            android:padding="@dimen/_5sdp"
-            android:text="@string/favorite_search"
-            android:textColor="#45495E"
-            android:textSize="@dimen/_10sdp" />
+            <TextView
+                android:id="@+id/fav_seller"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_weight="1"
+                android:background="@drawable/round_btn"
+                android:fontFamily="@font/madani_arabic_medium"
+                android:gravity="center"
+                android:padding="@dimen/_5sdp"
+                android:text="@string/favorite_sellers"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_10sdp" />
+
+            <TextView
+                android:id="@+id/fav_search"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_weight="1"
+                android:background="@drawable/edittext_bg"
+                android:fontFamily="@font/madani_arabic_medium"
+                android:gravity="center"
+                android:padding="@dimen/_5sdp"
+                android:text="@string/favorite_search"
+                android:textColor="#45495E"
+                android:textSize="@dimen/_10sdp" />
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/fav_category_rcv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_5sdp"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/fav_seller_rcv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_5sdp"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/fav_search_rcv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_5sdp"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+
     </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/add_new_category"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginEnd="@dimen/_5sdp"
+        android:layout_marginBottom="@dimen/_5sdp"
+        android:background="@drawable/product_attribute_bg4"
+        android:gravity="center"
+        android:visibility="gone"
+        android:orientation="horizontal"
+        android:padding="@dimen/_12sdp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/madani_arabic_bold"
+            android:gravity="center"
+            android:text="@string/add_a_new_category"
+            android:textColor="@color/bg"
+            android:textSize="@dimen/_12sdp" />
+
+
+    </LinearLayout>
+
 
 </RelativeLayout>

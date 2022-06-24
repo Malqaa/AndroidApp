@@ -84,37 +84,40 @@
                 android:background="@drawable/edittext_bg"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:padding="@dimen/_10sdp"
+                android:padding="@dimen/_5sdp"
                 android:textSize="@dimen/_12sdp"
                 android:weightSum="3">
 
                 <TextView
-                    android:id="@+id/sold_out"
+                    android:id="@+id/balance_withdraw"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="@dimen/_40sdp"
                     android:layout_weight="1"
                     android:background="@drawable/round_btn"
                     android:fontFamily="@font/madani_arabic_medium"
                     android:gravity="center"
                     android:padding="@dimen/_5sdp"
-                    android:text="@string/favorite_sellers"
+                    android:text="@string/balance_withdrawal"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_10sdp" />
 
                 <TextView
-                    android:id="@+id/did_not_Sell"
+                    android:id="@+id/recharge_the_balance"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:background="@drawable/edittext_bg"
                     android:fontFamily="@font/madani_arabic_medium"
                     android:gravity="center"
                     android:padding="@dimen/_5sdp"
-                    android:text="@string/favorite_search"
+                    android:text="@string/recharge_the_balance"
                     android:textColor="#45495E"
+                    android:layout_marginStart="@dimen/_5sdp"
                     android:textSize="@dimen/_10sdp" />
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/choose_account"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/edittext_bg">

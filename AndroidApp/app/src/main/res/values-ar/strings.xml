@@ -2774,5 +2774,9 @@
     <string name="activate_email">تفعيل البريد الإلكتروني</string>
     <string name="Sale">تخفيض السعر</string>
     <string name="Loser">الخاسر</string>
+    <string name="add_a_new_category">إضافة فئة جديدة</string>
+    <string name="choose_the_category_you_prefer_to_receive_all_new_about_it">أختر الفئة التي تفضلها ليصلك عنها كل جديد</string>
+    <string name="balance_withdrawal">سحب رصيد</string>
+    <string name="favorite_subcategories">الفئات الفرعية المفضلة</string>
 
 </resources>

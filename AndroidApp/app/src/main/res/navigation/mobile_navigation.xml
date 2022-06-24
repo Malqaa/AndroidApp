@@ -255,10 +255,37 @@
     </fragment>
 
     <fragment
+        android:id="@+id/newCategory"
+        android:name="com.malka.androidappp.botmnav_fragments.Follow_Up.favorite_category"
+        android:label=" Follow Up"
+        tools:layout="@layout/fragment_favorite_category">
+
+
+    </fragment>
+
+ <fragment
+        android:id="@+id/newSubCategory"
+        android:name="com.malka.androidappp.botmnav_fragments.Follow_Up.favorite_sub_category"
+        android:label=" Follow Up"
+        tools:layout="@layout/fragment_sub_categories">
+
+
+    </fragment>
+
+    <fragment
         android:id="@+id/myPoints"
         android:name="com.malka.androidappp.botmnav_fragments.my_points.my_points_fragment"
         android:label="My Points"
         tools:layout="@layout/fragment_my_points_fragment">
+
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/sellerRating"
+        android:name="com.malka.androidappp.botmnav_fragments.seller_rating"
+        android:label="My Points"
+        tools:layout="@layout/fragment_seller_rating">
 
 
     </fragment>
