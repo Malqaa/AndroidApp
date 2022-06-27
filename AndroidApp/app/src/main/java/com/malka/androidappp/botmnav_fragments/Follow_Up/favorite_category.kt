@@ -79,7 +79,7 @@ class favorite_category : Fragment(R.layout.fragment_favorite_category) {
             allCategoryList.forEach {
                 it.is_select=false
             }
-            all_category_rcv.adapter =
+            fav_category.adapter =
                 AdapterAllCategories(
                     allCategoryList
                 ) {

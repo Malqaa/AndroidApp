@@ -2873,7 +2873,7 @@ Want to start a business account? Create a Business Account
     <string name="payment_cards">Payment cards</string>
     <string name="favorite_products">Favorite Products</string>
     <string name="favorite_sellers">Favorite Sellers</string>
-    <string name="favorite_search">favorite search</string>
+    <string name="favorite_search">Favorite search</string>
     <string name="favorite_categories">Favorite Categories</string>
     <string name="view_new_product_for_this_search">View new product for this search</string>
     <string name="my_wallet">My wallet</string>
@@ -2951,6 +2951,9 @@ Want to start a business account? Create a Business Account
     <string name="choose_the_category_you_prefer_to_receive_all_new_about_it">Choose the category you prefer to receive all new about it</string>
     <string name="balance_withdrawal">Balance withdrawal</string>
     <string name="favorite_subcategories">Favorite subcategories</string>
+  <string name="filter_application">Filter application</string>
+  <string name="reviews_type">Reviews type</string>
+  <string name="reviews_as_a_seller">Reviews as a seller</string>
 
 
 </resources>

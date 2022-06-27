@@ -31,9 +31,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup">
-        <activity
-            android:name=".favorit_category"
-            android:exported="false" />
+
         <activity
             android:name=".activities_main.order.AttachInvoice"
             android:exported="false"

@@ -14,7 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar_main"
-        android:padding="@dimen/_10sdp"
         android:orientation="vertical">
 
         <TextView
@@ -36,12 +35,14 @@
             android:gravity="center"
             android:fontFamily="@font/madani_arabic_light"
             android:textColor="#293241"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
             android:textSize="@dimen/_12sdp"
             android:layout_marginTop="@dimen/_2sdp"
             />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/all_category_rcv"
+            android:id="@+id/fav_category"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_10sdp"

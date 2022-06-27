@@ -2778,5 +2778,8 @@
     <string name="choose_the_category_you_prefer_to_receive_all_new_about_it">أختر الفئة التي تفضلها ليصلك عنها كل جديد</string>
     <string name="balance_withdrawal">سحب رصيد</string>
     <string name="favorite_subcategories">الفئات الفرعية المفضلة</string>
+    <string name="filter_application">تطبيق الفلتر</string>
+  <string name="reviews_type">نوع التقييم</string>
+  <string name="reviews_as_a_seller">التقييمات كبائع</string>
 
 </resources>
