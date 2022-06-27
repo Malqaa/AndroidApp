@@ -2779,7 +2779,8 @@
     <string name="balance_withdrawal">سحب رصيد</string>
     <string name="favorite_subcategories">الفئات الفرعية المفضلة</string>
     <string name="filter_application">تطبيق الفلتر</string>
-  <string name="reviews_type">نوع التقييم</string>
-  <string name="reviews_as_a_seller">التقييمات كبائع</string>
+    <string name="reviews_type">نوع التقييم</string>
+    <string name="reviews_as_a_seller">التقييمات كبائع</string>
+    <string name="following">التالية</string>
 
 </resources>

@@ -41,7 +41,7 @@ class follow_up_fragment : Fragment(R.layout.fragment_follow_up_fragment) {
     }
 
     private fun initView() {
-        toolbar_title.text = getString(R.string.payment_cards)
+        toolbar_title.text = getString(R.string.follow_up)
     }
 
 

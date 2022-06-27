@@ -9,8 +9,8 @@
     <include
         android:id="@+id/toolbar_main"
         layout="@layout/toolbar_main" />
-
     <LinearLayout
+        android:layout_above="@+id/add_new_category_btn"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar_main"
@@ -58,7 +58,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="@dimen/_15sdp"
-        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_marginTop="@dimen/_10sdp"
         android:layout_marginEnd="@dimen/_15sdp"
         android:layout_marginBottom="@dimen/_10sdp"
         android:background="@drawable/round_btn"

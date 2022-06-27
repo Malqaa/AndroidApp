@@ -2954,6 +2954,7 @@ Want to start a business account? Create a Business Account
   <string name="filter_application">Filter application</string>
   <string name="reviews_type">Reviews type</string>
   <string name="reviews_as_a_seller">Reviews as a seller</string>
+    <string name="following">Following</string>
 
 
 </resources>

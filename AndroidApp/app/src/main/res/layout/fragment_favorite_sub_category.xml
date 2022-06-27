@@ -44,7 +44,6 @@
             android:id="@+id/all_sub_category_rcv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_10sdp"
             tools:listitem="@layout/favorite_sub_category_layout"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:spanCount="3" />
