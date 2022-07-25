@@ -6,8 +6,11 @@ import android.util.Patterns
 import android.view.View
 import com.malka.androidappp.R
 import com.malka.androidappp.base.BaseActivity
+import com.malka.androidappp.helper.Extension.getDeviceId
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.helper.HelpFunctions.Companion.PASSWORD_PATTERN
+import com.malka.androidappp.helper.HelpFunctions.Companion.deviceType
+import com.malka.androidappp.helper.HelpFunctions.Companion.projectName
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.servicemodels.ConstantObjects
@@ -162,8 +165,14 @@ class SignupPg1 : BaseActivity() {
         val createUser = User(
             email = emailId,
             password = passcode,
+            phone = mobilenum,
             cPassword = passcode,
-            username = usernaam,
+            userName = usernaam,
+            info = "",
+            lang = language(),
+            projectName = projectName,
+            deviceType = deviceType,
+            deviceId = getDeviceId(),
             termsAndConditions = switch_term_condition._getChecked()
         )
         val call: Call<GeneralRespone> = malqaa.createuser(createUser)

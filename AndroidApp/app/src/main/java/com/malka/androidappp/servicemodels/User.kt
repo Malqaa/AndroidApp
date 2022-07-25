@@ -47,7 +47,7 @@ data class User(
     val tagline: String? = null,
     val twitter: String? = null,
     val updatedAt: String? = null,
-    val username: String? = null,
+    val userName: String? = null,
     val views: Int = 0,
     val website: String? = null,
     val youtube: String? = null,
@@ -55,6 +55,11 @@ data class User(
     val cPassword: String? = null,
     val termsAndConditions: Boolean? = null,
     val code: String? = null,
+    val info: String? = null,
+    val lang: String? = null,
+    val projectName: String? = null,
+    val deviceType: String? = null,
+    val deviceId: String? = null,
 
     ) {
     val member_since: String

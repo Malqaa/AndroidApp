@@ -6,12 +6,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.malka.androidappp.R
-import com.malka.androidappp.botmnav_fragments.sellerdetails.Advertisement
 import com.malka.androidappp.botmnav_fragments.sellerdetails.SellerResponseBack
 import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.helper.HelpFunctions
@@ -126,8 +127,8 @@ class AboutTheSeller : Fragment() {
                         } else {
                             sellersTotalListing.text = getString(R.string.listing, 0)
                         }
-                        sellerName.text = sellerData.username
-                        userName = sellerData.username!!
+                        sellerName.text = sellerData.userName
+                        userName = sellerData.userName!!
                         sellerFirstName.text = sellerData.fullName
                         sellerLastName.text = sellerData.lastname
                         sellerGender.text = sellerData.gender

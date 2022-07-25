@@ -177,7 +177,7 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
         try {
             fragment_account.isVisible = true
             ConstantObjects.userobj!!.run {
-                userName.text = fullName
+                userName_tv.text = fullName
                 member_since_tv.text = "${getString(R.string.member_since)}: $member_since"
                 membership_number_tv.text = "${getString(R.string.membership_number)}: "
             }

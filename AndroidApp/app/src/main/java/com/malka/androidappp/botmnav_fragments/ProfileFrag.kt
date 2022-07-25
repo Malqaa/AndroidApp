@@ -223,7 +223,7 @@ class ProfileFrag : Fragment() {
                                 textMobile.text = userinfo.data.phone
                                 textEmail.text = userinfo.data.email
                                 textAlternateEmail.text = "ssaeed@gmail.com"
-                                textUserName.text = userinfo.data.username
+                                textUserName.text = userinfo.data.userName
                                 textBusinessName.text = "Auckland"
                                 textBusinessNumber.text = "09 0000 00000"
                                 textCountry.text = userinfo.data.country

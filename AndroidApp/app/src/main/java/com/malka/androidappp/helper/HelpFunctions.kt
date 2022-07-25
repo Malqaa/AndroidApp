@@ -72,6 +72,8 @@ class HelpFunctions {
         const val datetimeformat_24hrs: String = "yyyy-MM-dd'T'HH:mm:ss"
         const val datetimeformat_12hrs: String = "MM/dd/yyyy hh:mm:ss a"
         const val appName = "Malqaa"
+        const val projectName = "OnRuff"
+        const val deviceType = "Android"
 
 
         fun ShowLongToast(msg: String, context: Context?) {

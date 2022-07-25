@@ -77,7 +77,7 @@ class ShippingAddress : Fragment() {
                             ModelShoppingcart2(
                                 productImgCaart = if (IndItem.advertisements.image != null) IndItem.advertisements.image.trim() else "",
                                 cartproductDescripp = if (IndItem.advertisements.producttitle != null) IndItem.advertisements.producttitle.trim() else "",
-                                listingPartyy = if (IndItem.user.username != null) IndItem.user.username.trim() else "",
+                                listingPartyy = if (IndItem.user.userName != null) IndItem.user.userName.trim() else "",
                                 pricebyQuantityy = if (IndItem.advertisements.price != null) IndItem.advertisements.price.trim() else "",
                                 totalPrice = if (IndItem.advertisements.price != null) IndItem.advertisements.price.trim() else "",
                                 advid = if (IndItem.advertisements.id != null) IndItem.advertisements.id.trim() else "",

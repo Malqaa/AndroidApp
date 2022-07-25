@@ -4,6 +4,8 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Drawable
+import android.os.Build
+import android.provider.Settings
 import android.view.View
 import android.widget.ImageView
 import androidx.annotation.Nullable
@@ -123,5 +125,16 @@ object Extension {
         sharingIntent.type = "text/plain"
         sharingIntent.putExtra(Intent.EXTRA_TEXT, shareBody)
         startActivity(Intent.createChooser(sharingIntent, "Share via"))
+    }
+
+    fun Context.getDeviceId(): String {
+        var id = Build.ID
+
+        try {
+            id = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return id
     }
 }

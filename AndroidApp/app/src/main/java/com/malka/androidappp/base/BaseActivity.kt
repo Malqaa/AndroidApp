@@ -30,6 +30,15 @@ abstract class BaseActivity : AppCompatActivity() {
         }
 
     }
+
+    fun language():String{
+        if (ConstantObjects.currentLanguage == ENGLISH) {
+            return "en"
+        } else {
+            return "ar"
+        }
+
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)

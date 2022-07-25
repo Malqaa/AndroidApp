@@ -33,7 +33,7 @@
                     android:src="@drawable/profiledp" />
 
                 <TextView
-                    android:id="@+id/userName"
+                    android:id="@+id/userName_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"

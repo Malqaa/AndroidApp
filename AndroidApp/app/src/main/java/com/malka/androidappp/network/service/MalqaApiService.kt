@@ -53,7 +53,7 @@ import retrofit2.http.*
 
 interface MalqaApiService {
 
-    @POST("Accounts/signUp")
+    @POST("RegisterProviderWebsite")
     fun createuser(@Body registeruser: User): Call<GeneralRespone>
 
     @POST("Accounts/verify")
