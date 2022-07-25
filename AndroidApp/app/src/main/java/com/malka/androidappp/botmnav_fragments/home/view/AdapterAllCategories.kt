@@ -39,12 +39,12 @@ class AdapterAllCategories(
             allCategories.get(position).run {
                 bgline.hide()
                 is_selectimage.hide()
-                category_name_tv.text = categoryName
-                if(imagePath.isNullOrEmpty()){
+                category_name_tv.text = nameEn
+                if(image.isNullOrEmpty()){
                     category_icon.setImageResource(R.drawable.product_attribute_bg2)
                 }else{
                     Picasso.get()
-                        .load(ApiConstants.IMAGE_URL + imagePath)
+                        .load(ApiConstants.IMAGE_URL + image)
                         .into(category_icon)
                 }
 

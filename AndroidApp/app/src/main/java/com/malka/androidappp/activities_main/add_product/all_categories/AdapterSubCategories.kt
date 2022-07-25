@@ -7,9 +7,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
-import com.malka.androidappp.servicemodels.model.AllCategoriesModel
 import com.malka.androidappp.helper.hide
 import com.malka.androidappp.helper.show
+import com.malka.androidappp.servicemodels.model.AllCategoriesModel
 import kotlinx.android.synthetic.main.all_categories_card.view.*
 
 class AdapterSubCategories(
@@ -51,7 +51,7 @@ class AdapterSubCategories(
 
     override fun onBindViewHolder(holder: AdapterSubCategoriesViewHolder, position: Int) {
 
-        holder.categoryName.text = allSubCategories[position].categoryName
+        holder.categoryName.text = allSubCategories[position].nameEn
 
         if (allSubCategories[position].isCategory) {
             holder.categoryIcon.show()

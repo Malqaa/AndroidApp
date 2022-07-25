@@ -1,10 +1,7 @@
 package com.malka.androidappp.botmnav_fragments.home.view
 
 import android.annotation.SuppressLint
-import android.app.Activity
-import android.content.Context
 import android.content.Intent
-import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -22,8 +19,6 @@ import com.malka.androidappp.activities_main.login.SignInActivity
 import com.malka.androidappp.activities_main.order.CartActivity
 import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.botmnav_fragments.browse_market.SearchCategoryActivity
-import com.malka.androidappp.servicemodels.model.AllCategoriesResponseBack
-import com.malka.androidappp.servicemodels.model.DynamicList
 import com.malka.androidappp.helper.GenericAdaptor
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.helper.hide
@@ -34,12 +29,13 @@ import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.servicemodels.ConstantObjects
 import com.malka.androidappp.servicemodels.home.GetAllAds
+import com.malka.androidappp.servicemodels.model.AllCategoriesResponseBack
+import com.malka.androidappp.servicemodels.model.DynamicList
 import kotlinx.android.synthetic.main.fragment_homee.*
 import kotlinx.android.synthetic.main.parenet_category_item.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.*
 
 
 class HomeFragment : Fragment(R.layout.fragment_homee),
@@ -253,6 +249,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee),
             bind = { element, holder, itemCount, position ->
                 holder.view.run {
                     element.run {
+
                         when (typeName) {
                             "category" -> {
                                 category_type!!.show()
@@ -305,7 +302,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee),
 
 
         startActivity(Intent(requireContext(), SearchCategoryActivity::class.java).apply {
-            putExtra("CategoryDesc", ConstantObjects.categoryList[position].categoryName)
+            putExtra("CategoryDesc", ConstantObjects.categoryList[position].nameEn)
             putExtra("SearchQuery", "")
             putExtra("isMapShow", ConstantObjects.categoryList[position].categoryid == 3)
 

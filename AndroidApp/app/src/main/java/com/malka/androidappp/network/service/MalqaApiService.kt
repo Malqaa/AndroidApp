@@ -194,7 +194,7 @@ interface MalqaApiService {
     @GET("BussinessProduct/getall")
     fun getAllProducts(): Call<AllProductsResponseBack>
 
-    @GET("Category/GetAllCategoryByCulture")
+    @GET("ListAllCategory")
     fun getAllCategories(
         @Query("culture") culture: String,
     ): Call<AllCategoriesResponseBack>

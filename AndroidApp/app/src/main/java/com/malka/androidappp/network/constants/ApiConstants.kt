@@ -4,13 +4,17 @@ object ApiConstants {
 
     const val HTTP_PROTOCOL = "http"
 
-    const val SERVER_LOCATION = "89.40.10.168:85"
+//   const val SERVER_LOCATION = "89.40.10.168:85"
+    const val SERVER_LOCATION = "advertleap-001-site1.itempurl.com"
+    const val Api = "api"
     const val API_VERSION = "v1"
     const val IMAGE_FOLDER = "ImageFile"
 
 
     const val API_BASE_URL =
-        HTTP_PROTOCOL + "://" + SERVER_LOCATION + "/" + API_VERSION + "/";
+//        HTTP_PROTOCOL + "://" + SERVER_LOCATION + "/" + API_VERSION + "/";
+
+    HTTP_PROTOCOL + "://" + SERVER_LOCATION + "/" + Api + "/" + API_VERSION + "/";
 
     const val IMAGE_URL =
         HTTP_PROTOCOL + "://" + SERVER_LOCATION + "/" + IMAGE_FOLDER + "/";

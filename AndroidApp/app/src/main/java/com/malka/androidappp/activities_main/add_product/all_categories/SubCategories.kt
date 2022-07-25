@@ -107,19 +107,19 @@ class SubCategories :  BaseActivity() , AdapterSubCategories.OnItemClickListener
         super.OnItemClickHandler(position)
         if (!allCategoryList[position].isCategory) {
 
-            StaticClassAdCreate.subCategoryPath.add(allCategoryList[position].categoryName.toString())
+            StaticClassAdCreate.subCategoryPath.add(allCategoryList[position].nameEn.toString())
 
             val templateName =
                 truncateString(allCategoryList[position].template.toString())
             StaticClassAdCreate.template = templateName
             startActivity(Intent(this, AddPhoto::class.java).apply {
-                putExtra("Title", allCategoryList[position].categoryName.toString())
+                putExtra("Title", allCategoryList[position].nameEn.toString())
                 putExtra("file_name", allCategoryList[position].jsonFilePath)
             })
 
         } else {
 
-            StaticClassAdCreate.subCategoryPath.add(allCategoryList[position].categoryName.toString())
+            StaticClassAdCreate.subCategoryPath.add(allCategoryList[position].nameEn.toString())
 
             getSubCategoriesByTemplateID(allCategoryList[position].categoryKey!!)
 

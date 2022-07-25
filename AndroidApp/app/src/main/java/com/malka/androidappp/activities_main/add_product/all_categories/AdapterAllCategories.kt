@@ -6,11 +6,11 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
-import com.malka.androidappp.servicemodels.model.AllCategoriesModel
 import com.malka.androidappp.helper.BaseViewHolder
 import com.malka.androidappp.helper.hide
 import com.malka.androidappp.helper.show
 import com.malka.androidappp.network.constants.ApiConstants
+import com.malka.androidappp.servicemodels.model.AllCategoriesModel
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.all_categories_cardview.view.*
 
@@ -38,7 +38,7 @@ class AdapterAllCategories(
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         holder.view.run {
             allCategories[position].run {
-                category_name_tv.text = categoryName
+                category_name_tv.text = nameEn
                 if (allCategories.get(position).is_select) {
                    // bgline.show()
                     is_selectimage.show()
@@ -47,7 +47,8 @@ class AdapterAllCategories(
                         R.color.bg
                     )
 
-                } else {
+                }
+                else {
                     bgline.hide()
                     is_selectimage.hide()
                     category_icon.borderColor=  ContextCompat.getColor(
@@ -58,11 +59,11 @@ class AdapterAllCategories(
 
 
 
-                if(imagePath.isNullOrEmpty()){
+                if(image.isNullOrEmpty()){
                     category_icon.setImageResource(R.drawable.product_attribute_bg2)
                 }else{
                     Picasso.get()
-                        .load(ApiConstants.IMAGE_URL + imagePath)
+                        .load(ApiConstants.IMAGE_URL + image)
                         .into(category_icon)
                 }
                 holder.itemView.setOnClickListener{

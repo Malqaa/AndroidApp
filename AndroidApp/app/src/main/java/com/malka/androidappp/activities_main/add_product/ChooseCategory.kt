@@ -4,14 +4,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import com.malka.androidappp.R
-import com.malka.androidappp.base.BaseActivity
-import com.malka.androidappp.botmnav_fragments.create_ads.StaticClassAdCreate
 import com.malka.androidappp.activities_main.add_product.all_categories.AdapterAllCategories
 import com.malka.androidappp.activities_main.add_product.all_categories.SubCategories
-import com.malka.androidappp.servicemodels.model.AllCategoriesModel
+import com.malka.androidappp.base.BaseActivity
+import com.malka.androidappp.botmnav_fragments.create_ads.StaticClassAdCreate
 import com.malka.androidappp.helper.Extension.truncateString
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.servicemodels.ConstantObjects
+import com.malka.androidappp.servicemodels.model.AllCategoriesModel
 import kotlinx.android.synthetic.main.fragment_choose_cate.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 
@@ -34,19 +34,19 @@ class ChooseCategory : BaseActivity() {
             }else{
                 if (!allCategoryList[position].isCategory) {
 
-                    StaticClassAdCreate.subCategoryPath.add(allCategoryList[position].categoryName.toString())
+                    StaticClassAdCreate.subCategoryPath.add(allCategoryList[position].nameEn.toString())
                     val templateName =
                         truncateString(allCategoryList[position].template.toString())
                     StaticClassAdCreate.template = templateName
                     startActivity(Intent(this, AddPhoto::class.java).apply {
-                        putExtra("Title", allCategoryList[position].categoryName.toString())
+                        putExtra("Title", allCategoryList[position].nameEn.toString())
                     })
                 } else {
 
-                    StaticClassAdCreate.subCategoryPath.add(allCategoryList[position].categoryName.toString())
+                    StaticClassAdCreate.subCategoryPath.add(allCategoryList[position].nameEn.toString())
                     startActivity(Intent(this, SubCategories::class.java).apply {
                         putExtra("categoryid", allCategoryList[position].categoryKey.toString())
-                        putExtra("categoryName", allCategoryList[position].categoryName.toString())
+                        putExtra("categoryName", allCategoryList[position].nameEn.toString())
                     })
                 }
             }
