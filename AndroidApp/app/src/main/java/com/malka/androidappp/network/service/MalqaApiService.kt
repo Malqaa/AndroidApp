@@ -47,14 +47,29 @@ import com.malka.androidappp.servicemodels.total_online_users.ModelGetTotalOnlin
 import com.malka.androidappp.servicemodels.user.UserObject
 import com.malka.androidappp.servicemodels.watchlist.watchlistadd
 import com.malka.androidappp.servicemodels.watchlist.watchlistobject
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.*
 
 
 interface MalqaApiService {
-    @FormUrlEncoded
+    @Multipart
     @POST("RegisterProviderWebsite")
-    fun createuser(@FieldMap hashFields: HashMap<String, Any> ): Call<GeneralRespone>
+    fun createuser(
+
+        @Part("email") email: RequestBody,
+        @Part("password") password: RequestBody,
+        @Part("phone") phone: RequestBody,
+        @Part("cPassword") cPassword: RequestBody,
+        @Part("userName") userName: RequestBody,
+        @Part("info") info: RequestBody,
+        @Part("lang") lang: RequestBody,
+        @Part("projectName") projectName: RequestBody,
+        @Part("deviceType") deviceType: RequestBody,
+        @Part("deviceId") deviceId: RequestBody,
+
+                   @Part file: MultipartBody.Part): Call<GeneralRespone>
 
     @POST("Accounts/verify")
     fun verifycode(@Body verifyusercode: PostReqVerifyCode): Call<BasicResponse>

@@ -14,6 +14,8 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.malka.androidappp.botmnav_fragments.create_ads.StaticClassAdCreate
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.*
@@ -136,5 +138,9 @@ object Extension {
             e.printStackTrace()
         }
         return id
+    }
+
+    fun String.requestBody(): RequestBody {
+        return RequestBody.create("text/plain".toMediaTypeOrNull(), this)
     }
 }

@@ -1,6 +1,7 @@
 package com.malka.androidappp.servicemodels
 
 import com.malka.androidappp.helper.HelpFunctions
+import okhttp3.MultipartBody
 
 data class User(
     val address: String? = null,
@@ -60,7 +61,7 @@ data class User(
     val projectName: String? = null,
     val deviceType: String? = null,
     val deviceId: String? = null,
-    val imgProfile: String? = null,
+    val imgProfile: MultipartBody.Part? = null,
 
     ) {
     val member_since: String

@@ -1,14 +1,15 @@
 package com.malka.androidappp.activities_main.signup_account
 
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Patterns
 import android.view.View
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.malka.androidappp.R
 import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.helper.Extension.getDeviceId
+import com.malka.androidappp.helper.Extension.requestBody
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.helper.HelpFunctions.Companion.PASSWORD_PATTERN
 import com.malka.androidappp.helper.HelpFunctions.Companion.deviceType
@@ -17,13 +18,16 @@ import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.servicemodels.ConstantObjects
 import com.malka.androidappp.servicemodels.GeneralRespone
-import com.malka.androidappp.servicemodels.User
 import kotlinx.android.synthetic.main.activity_signup_pg1.*
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-
-
+import java.io.File
+import java.io.FileOutputStream
+import java.io.OutputStream
 class SignupPg1 : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -154,7 +158,21 @@ class SignupPg1 : BaseActivity() {
         super.onBackPressed()
         finish()
     }
-
+    private fun persistImage(bitmap: Bitmap, name: String) :File?{
+        val filesDir: File = getFilesDir()
+        val imageFile = File(filesDir, "$name.jpg")
+        val os: OutputStream
+        try {
+            os = FileOutputStream(imageFile)
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, os)
+            os.flush()
+            os.close()
+            return imageFile
+        } catch (e: Exception) {
+           print(e.message)
+            return null
+        }
+    }
 
     fun apicallcreateuser() {
         HelpFunctions.startProgressBar(this)
@@ -164,25 +182,30 @@ class SignupPg1 : BaseActivity() {
         val mobilenum = PhoneNumber.text.toString().trim()
         val passcode = textPass.text.toString().trim()
         val usernaam = userNamee.text.toString().trim()
-        val createUser = User(
-            email = emailId,
-            password = passcode,
-            phone = mobilenum,
-            cPassword = passcode,
-            userName = usernaam,
-            info = "abc",
-            lang = language(),
-            imgProfile = "abcsd",
-            projectName = projectName,
-            deviceType = deviceType,
-            deviceId = getDeviceId(),
-            termsAndConditions = switch_term_condition._getChecked()
+
+        val icon = BitmapFactory.decodeResource(
+           resources,
+            R.drawable.accountbg
         )
-        val jsonString = Gson().toJson(createUser)
-        val retMap: HashMap<String, Any> = Gson().fromJson(
-            jsonString, object : TypeToken<HashMap<String?, Any?>?>() {}.getType()
-        )
-        val call: Call<GeneralRespone> = malqaa.createuser(retMap)
+        val file=persistImage(icon,"test.png")!!
+        val requestBody = RequestBody.create("image/*".toMediaTypeOrNull(), file)
+        val fileToUpload =
+            MultipartBody.Part.createFormData("imgProfile", file.name, requestBody)
+
+
+        val call: Call<GeneralRespone> = malqaa.createuser(
+            emailId.requestBody(),
+            passcode.requestBody(),
+            mobilenum.requestBody(),
+            passcode.requestBody(),
+
+            usernaam.requestBody(),
+            "abc".requestBody(),
+            language().requestBody(),
+            projectName.requestBody(),
+            deviceType.requestBody(),
+            getDeviceId().requestBody()
+            ,fileToUpload)
 
         call.enqueue(object : Callback<GeneralRespone> {
 
