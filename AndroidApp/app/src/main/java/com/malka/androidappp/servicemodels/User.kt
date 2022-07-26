@@ -60,6 +60,7 @@ data class User(
     val projectName: String? = null,
     val deviceType: String? = null,
     val deviceId: String? = null,
+    val imgProfile: String? = null,
 
     ) {
     val member_since: String

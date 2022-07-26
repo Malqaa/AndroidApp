@@ -52,9 +52,9 @@ import retrofit2.http.*
 
 
 interface MalqaApiService {
-
+    @FormUrlEncoded
     @POST("RegisterProviderWebsite")
-    fun createuser(@Body registeruser: User): Call<GeneralRespone>
+    fun createuser(@FieldMap hashFields: HashMap<String, Any> ): Call<GeneralRespone>
 
     @POST("Accounts/verify")
     fun verifycode(@Body verifyusercode: PostReqVerifyCode): Call<BasicResponse>

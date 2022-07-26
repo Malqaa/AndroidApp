@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
 import android.view.View
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.malka.androidappp.R
 import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.helper.Extension.getDeviceId
@@ -168,14 +170,19 @@ class SignupPg1 : BaseActivity() {
             phone = mobilenum,
             cPassword = passcode,
             userName = usernaam,
-            info = "",
+            info = "abc",
             lang = language(),
+            imgProfile = "abcsd",
             projectName = projectName,
             deviceType = deviceType,
             deviceId = getDeviceId(),
             termsAndConditions = switch_term_condition._getChecked()
         )
-        val call: Call<GeneralRespone> = malqaa.createuser(createUser)
+        val jsonString = Gson().toJson(createUser)
+        val retMap: HashMap<String, Any> = Gson().fromJson(
+            jsonString, object : TypeToken<HashMap<String?, Any?>?>() {}.getType()
+        )
+        val call: Call<GeneralRespone> = malqaa.createuser(retMap)
 
         call.enqueue(object : Callback<GeneralRespone> {
 
