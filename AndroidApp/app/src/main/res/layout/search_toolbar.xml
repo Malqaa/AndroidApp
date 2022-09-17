@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/toolbarsearch"
     android:background="#339933"
-    tools:context=".botmnav_fragments.home.view.HomeFragment">
+    tools:context=".fragments.home.view.HomeFragment">
 <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

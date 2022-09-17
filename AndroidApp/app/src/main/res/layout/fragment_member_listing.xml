@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    tools:context=".botmnav_fragments.memberlisting.MemberListing">
+    tools:context=".fragments.memberlisting.MemberListing">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_memberlisting"

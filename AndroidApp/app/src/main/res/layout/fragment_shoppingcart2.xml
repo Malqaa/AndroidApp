@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
 
     android:background="@color/Silvr"
-    tools:context=".botmnav_fragments.shopping_cart2.Shoppingcart2">
+    tools:context=".fragments.shopping_cart2.Shoppingcart2">
 
 
     <androidx.appcompat.widget.Toolbar

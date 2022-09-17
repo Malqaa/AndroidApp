@@ -22,7 +22,7 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/btn_shopcartmap"
         android:layout_below="@+id/toolbar_shopcartmap"
-        tools:context=".botmnav_fragments.shoppingcart4_googlemap.ShopCartMap" />
+        tools:context=".fragments.shoppingcart4_googlemap.ShopCartMap" />
 
     <Button
         android:id="@+id/btn_shopcartmap"

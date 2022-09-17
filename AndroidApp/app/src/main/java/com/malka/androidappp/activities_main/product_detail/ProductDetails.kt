@@ -26,8 +26,8 @@ import com.malka.androidappp.activities_main.PlayActivity
 import com.malka.androidappp.activities_main.login.SignInActivity
 import com.malka.androidappp.activities_main.order.CartActivity
 import com.malka.androidappp.base.BaseActivity
-import com.malka.androidappp.botmnav_fragments.cardetail_page.ModelSellerDetails
-import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
+import com.malka.androidappp.fragments.cardetail_page.ModelSellerDetails
+import com.malka.androidappp.fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.helper.Extension.decimalNumberFormat
 import com.malka.androidappp.helper.Extension.loadThumbnail
 import com.malka.androidappp.helper.Extension.shared

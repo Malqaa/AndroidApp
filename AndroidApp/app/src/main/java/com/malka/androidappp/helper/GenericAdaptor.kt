@@ -2,7 +2,6 @@ package com.malka.androidappp.helper
 
 import android.content.Context
 import android.content.Intent
-import android.os.CountDownTimer
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
@@ -13,8 +12,8 @@ import com.google.gson.Gson
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.login.SignInActivity
 import com.malka.androidappp.activities_main.product_detail.ProductDetails
-import com.malka.androidappp.botmnav_fragments.account_fragment.address.AddAddress
-import com.malka.androidappp.botmnav_fragments.shared_preferences.SharedPreferencesStaticClass
+import com.malka.androidappp.fragments.account_fragment.address.AddAddress
+import com.malka.androidappp.fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.helper.Extension.decimalNumberFormat
 import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.network.constants.ApiConstants

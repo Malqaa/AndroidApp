@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/SilverBackground"
 
-    tools:context=".botmnav_fragments.shoppingcart6_paymentmethod.CartPaymentMethod">
+    tools:context=".fragments.shoppingcart6_paymentmethod.CartPaymentMethod">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_cart_payment"

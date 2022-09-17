@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="300dp"
-    tools:context=".botmnav_fragments.home.view.viewpager_adapter_piechart.PieChartFrag1">
+    tools:context=".fragments.home.view.viewpager_adapter_piechart.PieChartFrag1">
 
     <!-- Title above the chart -->
 

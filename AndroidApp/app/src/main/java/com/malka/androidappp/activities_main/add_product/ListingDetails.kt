@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import com.malka.androidappp.R
 import com.malka.androidappp.base.BaseActivity
-import com.malka.androidappp.botmnav_fragments.create_ads.StaticClassAdCreate
+import com.malka.androidappp.fragments.create_ads.StaticClassAdCreate
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.helper.widgets.searchdialog.SearchListItem
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder

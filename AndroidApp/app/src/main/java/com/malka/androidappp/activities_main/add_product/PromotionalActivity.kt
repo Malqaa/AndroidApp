@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.malka.androidappp.R
 import com.malka.androidappp.base.BaseActivity
-import com.malka.androidappp.botmnav_fragments.create_ads.StaticClassAdCreate
+import com.malka.androidappp.fragments.create_ads.StaticClassAdCreate
 import com.malka.androidappp.helper.hide
 import com.malka.androidappp.helper.show
 import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter

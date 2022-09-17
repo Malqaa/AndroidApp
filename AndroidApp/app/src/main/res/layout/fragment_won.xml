@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
 
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".botmnav_fragments.won_n_loss.won_frag.WonFrag">
+    tools:context=".fragments.won_n_loss.won_frag.WonFrag">
 
 
         <androidx.appcompat.widget.Toolbar

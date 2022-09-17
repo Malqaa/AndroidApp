@@ -99,7 +99,7 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".botmnav_fragments.activities_main.business_signup.BusinessAccountCreate"
+            android:name=".fragments.activities_main.business_signup.BusinessAccountCreate"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities_main.forgot.ForgotChangepassActivity"
@@ -174,10 +174,10 @@
             android:hardwareAccelerated="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".botmnav_fragments.browse_market.SearchCategoryActivity"
+            android:name=".fragments.browse_market.SearchCategoryActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".botmnav_fragments.account_fragment.address.AddAddress"
+            android:name=".fragments.account_fragment.address.AddAddress"
             android:screenOrientation="portrait" />
     </application>
 

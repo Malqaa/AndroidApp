@@ -1,7 +1,7 @@
 package com.malka.androidappp.servicemodels
 
 import android.widget.ImageView
-import com.malka.androidappp.botmnav_fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ShippingAddressessData
+import com.malka.androidappp.fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ShippingAddressessData
 import com.malka.androidappp.servicemodels.addtocart.CartItemModel
 import com.malka.androidappp.servicemodels.creditcard.CreditCardModel
 import com.malka.androidappp.servicemodels.favourites.FavouriteObject

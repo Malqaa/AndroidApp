@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
 
-    tools:context=".botmnav_fragments.edit_profile.EditProfileDetailsFragment">
+    tools:context=".fragments.edit_profile.EditProfileDetailsFragment">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbareditprof"

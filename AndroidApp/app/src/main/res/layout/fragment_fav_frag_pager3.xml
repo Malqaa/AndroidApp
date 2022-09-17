@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/SilverBackground"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".botmnav_fragments.favourite_frag.seller_fav.SellerFav">
+    tools:context=".fragments.favourite_frag.seller_fav.SellerFav">
 
 <androidx.recyclerview.widget.RecyclerView
     android:id="@+id/recycler_favseller"

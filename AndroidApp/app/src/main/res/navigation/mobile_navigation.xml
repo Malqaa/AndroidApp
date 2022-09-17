@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.malka.androidappp.botmnav_fragments.home.view.HomeFragment"
+        android:name="com.malka.androidappp.fragments.home.view.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_homee"/>
 
@@ -17,20 +17,20 @@
 
     <fragment
         android:id="@+id/navigation_watchlist"
-        android:name="com.malka.androidappp.botmnav_fragments.watchlist_fragment.WatchlistFragment"
+        android:name="com.malka.androidappp.fragments.watchlist_fragment.WatchlistFragment"
         android:label="@string/title_watchlist"
         tools:layout="@layout/fragment_watchlist" />
 
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.malka.androidappp.botmnav_fragments.nofication_fragments.NotificationsFragment"
+        android:name="com.malka.androidappp.fragments.nofication_fragments.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
 
     <fragment
         android:id="@+id/navigation_account"
-        android:name="com.malka.androidappp.botmnav_fragments.account_fragment.AccountFragment"
+        android:name="com.malka.androidappp.fragments.account_fragment.AccountFragment"
         android:label="@string/title_account"
         tools:layout="@layout/fragment_account">
 
@@ -70,7 +70,7 @@
 
     <fragment
         android:id="@+id/profileFrag"
-        android:name="com.malka.androidappp.botmnav_fragments.ProfileFrag"
+        android:name="com.malka.androidappp.fragments.ProfileFrag"
         android:label="Profile"
         tools:layout="@layout/frag_profile">
 
@@ -92,7 +92,7 @@
 
     <fragment
         android:id="@+id/settingfrag"
-        android:name="com.malka.androidappp.botmnav_fragments.setting.SettingFragment"
+        android:name="com.malka.androidappp.fragments.setting.SettingFragment"
         android:label="Settings"
         tools:layout="@layout/fragment_setting">
         <action
@@ -115,7 +115,7 @@
 
     <fragment
         android:id="@+id/carspicification"
-        android:name="com.malka.androidappp.botmnav_fragments.cardetail_page.CarSpecificsFragment"
+        android:name="com.malka.androidappp.fragments.cardetail_page.CarSpecificsFragment"
         android:label="Car Specification"
         tools:layout="@layout/fragment_car_specifics">
 
@@ -156,7 +156,7 @@
 
     <fragment
         android:id="@+id/give_feedback"
-        android:name="com.malka.androidappp.botmnav_fragments.feedback_frag.insert_feedback.GiveFeedback"
+        android:name="com.malka.androidappp.fragments.feedback_frag.insert_feedback.GiveFeedback"
         android:label="Give Feedback"
         tools:layout="@layout/fragment_give_feedback">
 
@@ -166,7 +166,7 @@
 
     <fragment
         android:id="@+id/editprofiledetails"
-        android:name="com.malka.androidappp.botmnav_fragments.edit_profile.EditProfileDetailsFragment"
+        android:name="com.malka.androidappp.fragments.edit_profile.EditProfileDetailsFragment"
         android:label="Edit Profile Details"
         tools:layout="@layout/fragment_edit_profile_details">
         <action
@@ -178,66 +178,66 @@
 
     <fragment
         android:id="@+id/myProduct"
-        android:name="com.malka.androidappp.botmnav_fragments.MyProducts.MyProductsFragment"
+        android:name="com.malka.androidappp.fragments.MyProducts.MyProductsFragment"
         android:label="Sold"
         tools:layout="@layout/fragment_sold" />
 
 
     <fragment
         android:id="@+id/MySavedAddress"
-        android:name="com.malka.androidappp.botmnav_fragments.account_fragment.address.AddressList"
+        android:name="com.malka.androidappp.fragments.account_fragment.address.AddressList"
         android:label="Sold"
         tools:layout="@layout/address_list_fragment" />
 
 
     <fragment
         android:id="@+id/editProfile"
-        android:name="com.malka.androidappp.botmnav_fragments.edit_my_profile.EditProfile"
+        android:name="com.malka.androidappp.fragments.edit_my_profile.EditProfile"
         android:label="Edit Profile"
         tools:layout="@layout/activity_edit_profile" />
 
 
     <fragment
         android:id="@+id/negotiationOffer"
-        android:name="com.malka.androidappp.botmnav_fragments.negotiation_offers"
+        android:name="com.malka.androidappp.fragments.negotiation_offers"
         android:label="Negotiation Offers"
         tools:layout="@layout/fragment_negotiation_offer" />
 
 
     <fragment
         android:id="@+id/applicationSetting"
-        android:name="com.malka.androidappp.botmnav_fragments.ApplicationSetting"
+        android:name="com.malka.androidappp.fragments.ApplicationSetting"
         android:label="Application Setting"
         tools:layout="@layout/activity_application_setting" />
     <fragment
         android:id="@+id/technicalSupport"
-        android:name="com.malka.androidappp.botmnav_fragments.TechnicalSupport"
+        android:name="com.malka.androidappp.fragments.TechnicalSupport"
         android:label="Application Setting"
         tools:layout="@layout/activity_application_setting" />
 
     <fragment
         android:id="@+id/mybids"
-        android:name="com.malka.androidappp.botmnav_fragments.my_bids.MyBidsFragment"
+        android:name="com.malka.androidappp.fragments.my_bids.MyBidsFragment"
         android:label="Edit Profile"
         tools:layout="@layout/activity_my_bids_fragment" />
 
 
     <fragment
         android:id="@+id/myRequest"
-        android:name="com.malka.androidappp.botmnav_fragments.MyOrdersFragment"
+        android:name="com.malka.androidappp.fragments.MyOrdersFragment"
         android:label="My Request"
         tools:layout="@layout/fragment_my_orders" />
 
 
     <fragment
         android:id="@+id/paymentCard"
-        android:name="com.malka.androidappp.botmnav_fragments.PaymentCardFragment"
+        android:name="com.malka.androidappp.fragments.PaymentCardFragment"
         android:label="Payment Cards"
         tools:layout="@layout/fragment_payment_card_fragment" />
 
     <fragment
         android:id="@+id/myWallet"
-        android:name="com.malka.androidappp.botmnav_fragments.my_wallet.my_wallet_fragment"
+        android:name="com.malka.androidappp.fragments.my_wallet.my_wallet_fragment"
         android:label="@string/my_wallet"
         tools:layout="@layout/fragment_my_wallet_fragment">
 
@@ -247,13 +247,13 @@
 
     <fragment
         android:id="@+id/followUp"
-        android:name="com.malka.androidappp.botmnav_fragments.Follow_Up.follow_up_fragment"
+        android:name="com.malka.androidappp.fragments.Follow_Up.follow_up_fragment"
         android:label="@string/follow_up"
         tools:layout="@layout/fragment_follow_up_fragment"/>
 
     <fragment
         android:id="@+id/newCategory"
-        android:name="com.malka.androidappp.botmnav_fragments.Follow_Up.favorite_category"
+        android:name="com.malka.androidappp.fragments.Follow_Up.favorite_category"
         android:label=" Follow Up"
         tools:layout="@layout/fragment_favorite_category">
 
@@ -262,7 +262,7 @@
 
  <fragment
         android:id="@+id/newSubCategory"
-        android:name="com.malka.androidappp.botmnav_fragments.Follow_Up.favorite_sub_category"
+        android:name="com.malka.androidappp.fragments.Follow_Up.favorite_sub_category"
         android:label=" Follow Up"
         tools:layout="@layout/fragment_sub_categories">
 
@@ -271,7 +271,7 @@
 
     <fragment
         android:id="@+id/myPoints"
-        android:name="com.malka.androidappp.botmnav_fragments.my_points.my_points_fragment"
+        android:name="com.malka.androidappp.fragments.my_points.my_points_fragment"
         android:label="@string/my_points"
         tools:layout="@layout/fragment_my_points_fragment">
 
@@ -280,7 +280,7 @@
 
     <fragment
         android:id="@+id/sellerRating"
-        android:name="com.malka.androidappp.botmnav_fragments.seller_rating"
+        android:name="com.malka.androidappp.fragments.seller_rating"
         android:label="My Points"
         tools:layout="@layout/fragment_seller_rating">
 
@@ -292,7 +292,7 @@
 
     <fragment
         android:id="@+id/feedback_frag"
-        android:name="com.malka.androidappp.botmnav_fragments.feedback_frag.FeedbackFragment"
+        android:name="com.malka.androidappp.fragments.feedback_frag.FeedbackFragment"
         android:label="Feedback"
         tools:layout="@layout/fragment_feedback"/>
 
@@ -300,7 +300,7 @@
 
     <fragment
         android:id="@+id/about_about_seller"
-        android:name="com.malka.androidappp.botmnav_fragments.AboutTheSeller"
+        android:name="com.malka.androidappp.fragments.AboutTheSeller"
         android:label="About the seller"
         tools:layout="@layout/fragment_about_the_seller">
 
@@ -320,7 +320,7 @@
 
     <fragment
         android:id="@+id/member_listing_frag"
-        android:name="com.malka.androidappp.botmnav_fragments.memberlisting.MemberListing"
+        android:name="com.malka.androidappp.fragments.memberlisting.MemberListing"
         android:label="Member Listing"
         tools:layout="@layout/fragment_member_listing">
 
@@ -329,7 +329,7 @@
 
     <fragment
         android:id="@+id/sellingopt_frag"
-        android:name="com.malka.androidappp.botmnav_fragments.selling_option.SellingOption"
+        android:name="com.malka.androidappp.fragments.selling_option.SellingOption"
         tools:layout="@layout/fragment_selling_option">
 
         <action
@@ -339,7 +339,7 @@
 
     <fragment
         android:id="@+id/blacklist_frag"
-        android:name="com.malka.androidappp.botmnav_fragments.selling_option.blacklist_member.BlacklistMenbers"
+        android:name="com.malka.androidappp.fragments.selling_option.blacklist_member.BlacklistMenbers"
         tools:layout="@layout/fragment_blacklist_menbers">
 
     </fragment>
@@ -347,14 +347,14 @@
 
     <fragment
         android:id="@+id/notification_setting_frag"
-        android:name="com.malka.androidappp.botmnav_fragments.setting.setting_notification.SettingNotification"
+        android:name="com.malka.androidappp.fragments.setting.setting_notification.SettingNotification"
         tools:layout="@layout/fragment_setting_notification">
 
     </fragment>
 
     <fragment
         android:id="@+id/privacy_opt_frag"
-        android:name="com.malka.androidappp.botmnav_fragments.setting.privacy_option.PrivacyOption"
+        android:name="com.malka.androidappp.fragments.setting.privacy_option.PrivacyOption"
         tools:layout="@layout/fragment_privacy_option">
 
     </fragment>
@@ -362,7 +362,7 @@
 
     <fragment
         android:id="@+id/logout_notification_frag"
-        android:name="com.malka.androidappp.botmnav_fragments.nofication_fragments.LogoutNotification"
+        android:name="com.malka.androidappp.fragments.nofication_fragments.LogoutNotification"
         tools:layout="@layout/fragment_logout_notification">
 
     </fragment>
@@ -372,7 +372,7 @@
 
     <fragment
         android:id="@+id/emailprefrences_setting_frag"
-        android:name="com.malka.androidappp.botmnav_fragments.setting.setting_email_preferences.EmailPreferencesSetting"
+        android:name="com.malka.androidappp.fragments.setting.setting_email_preferences.EmailPreferencesSetting"
         tools:layout="@layout/fragment_email_preferences_setting">
 
     </fragment>
@@ -380,7 +380,7 @@
 
     <fragment
         android:id="@+id/fixed_price_frag"
-        android:name="com.malka.androidappp.botmnav_fragments.fixed_price_offer.FixedPriceOffer"
+        android:name="com.malka.androidappp.fragments.fixed_price_offer.FixedPriceOffer"
         android:label="Fixed Price Offer"
         tools:layout="@layout/fragment_fixed_price_offer">
 
@@ -390,7 +390,7 @@
 
     <fragment
         android:id="@+id/myproductcreation"
-        android:name="com.malka.androidappp.botmnav_fragments.create_product.CreateProduct"
+        android:name="com.malka.androidappp.fragments.create_product.CreateProduct"
         android:label="My Products"
         tools:layout="@layout/fragment_create_product">
 
@@ -405,7 +405,7 @@
 
     <fragment
         android:id="@+id/myproductview"
-        android:name="com.malka.androidappp.botmnav_fragments.my_product.MyProduct"
+        android:name="com.malka.androidappp.fragments.my_product.MyProduct"
         android:label="My Products"
         tools:layout="@layout/fragment_my_product">
 
@@ -437,7 +437,7 @@
 
     <fragment
         android:id="@+id/edit_product1"
-        android:name="com.malka.androidappp.botmnav_fragments.my_product.edit_product.EditProduct1"
+        android:name="com.malka.androidappp.fragments.my_product.edit_product.EditProduct1"
         tools:layout="@layout/fragment_edit_product1">
 
         <action
@@ -452,7 +452,7 @@
 
     <fragment
         android:id="@+id/editproduct2"
-        android:name="com.malka.androidappp.botmnav_fragments.my_product.edit_product.EditProduct2"
+        android:name="com.malka.androidappp.fragments.my_product.edit_product.EditProduct2"
         tools:layout="@layout/fragment_edit_product2">
 
         <action
@@ -467,7 +467,7 @@
 
     <fragment
         android:id="@+id/editproduct3"
-        android:name="com.malka.androidappp.botmnav_fragments.my_product.edit_product.EditProduct3"
+        android:name="com.malka.androidappp.fragments.my_product.edit_product.EditProduct3"
         tools:layout="@layout/fragment_edit_product3">
 
         <action
@@ -482,7 +482,7 @@
 
     <fragment
         android:id="@+id/editproduct4"
-        android:name="com.malka.androidappp.botmnav_fragments.my_product.edit_product.EditProduct4"
+        android:name="com.malka.androidappp.fragments.my_product.edit_product.EditProduct4"
         tools:layout="@layout/fragment_edit_product4">
 
         <action
@@ -497,7 +497,7 @@
 
     <fragment
         android:id="@+id/editproduct5"
-        android:name="com.malka.androidappp.botmnav_fragments.my_product.edit_product.EditProduct5"
+        android:name="com.malka.androidappp.fragments.my_product.edit_product.EditProduct5"
         tools:layout="@layout/fragment_edit_product5">
 
         <action
@@ -513,7 +513,7 @@
 
     <fragment
         android:id="@+id/continue_edit_product"
-        android:name="com.malka.androidappp.botmnav_fragments.my_product.edit_product.ContinueEditProduct"
+        android:name="com.malka.androidappp.fragments.my_product.edit_product.ContinueEditProduct"
         tools:layout="@layout/fragment_continue_edit_product">
 
         <action
@@ -532,14 +532,14 @@
 
     <fragment
         android:id="@+id/lost_frag"
-        android:name="com.malka.androidappp.botmnav_fragments.won_n_loss.LostFrag"
+        android:name="com.malka.androidappp.fragments.won_n_loss.LostFrag"
         tools:layout="@layout/fragment_lost">
 
     </fragment>
 
     <fragment
         android:id="@+id/shopingcart2_frag"
-        android:name="com.malka.androidappp.botmnav_fragments.shopping_cart2.Shoppingcart2"
+        android:name="com.malka.androidappp.fragments.shopping_cart2.Shoppingcart2"
         tools:layout="@layout/fragment_shoppingcart2">
 
         <action
@@ -551,7 +551,7 @@
 
     <fragment
         android:id="@+id/shopping_cart_checkout"
-        android:name="com.malka.androidappp.botmnav_fragments.shopping_cart2.Shoppingcart2"
+        android:name="com.malka.androidappp.fragments.shopping_cart2.Shoppingcart2"
         tools:layout="@layout/fragment_shoppingcart2">
 
         <action
@@ -562,7 +562,7 @@
 
     <fragment
         android:id="@+id/shipping_address"
-        android:name="com.malka.androidappp.botmnav_fragments.shoppingcart3_shippingaddress.ShippingAddress"
+        android:name="com.malka.androidappp.fragments.shoppingcart3_shippingaddress.ShippingAddress"
         tools:layout="@layout/fragment_shipping_address">
 
         <action
@@ -577,7 +577,7 @@
 
     <fragment
         android:id="@+id/payment"
-        android:name="com.malka.androidappp.botmnav_fragments.shoppingcart6_paymentmethod.CartPaymentMethod"
+        android:name="com.malka.androidappp.fragments.shoppingcart6_paymentmethod.CartPaymentMethod"
         tools:layout="@layout/fragment_cart_payment_method">
 
         <action
@@ -591,7 +591,7 @@
 
     <fragment
         android:id="@+id/checkout"
-        android:name="com.malka.androidappp.botmnav_fragments.shoppingcart7_placeholder.CartPlaceholder"
+        android:name="com.malka.androidappp.fragments.shoppingcart7_placeholder.CartPlaceholder"
         tools:layout="@layout/fragment_cart_placeholder">
 
         <action
@@ -603,7 +603,7 @@
 
     <fragment
         android:id="@+id/shopcart_shippingadress_frag"
-        android:name="com.malka.androidappp.botmnav_fragments.shoppingcart3_shippingaddress.ShippingAddress"
+        android:name="com.malka.androidappp.fragments.shoppingcart3_shippingaddress.ShippingAddress"
         tools:layout="@layout/fragment_shipping_address">
 
         <action
@@ -614,7 +614,7 @@
 
     <fragment
         android:id="@+id/shopcart_mapfrag"
-        android:name="com.malka.androidappp.botmnav_fragments.shoppingcart4_googlemap.ShopCartMap"
+        android:name="com.malka.androidappp.fragments.shoppingcart4_googlemap.ShopCartMap"
         tools:layout="@layout/fragment_shop_cart_map">
 
         <action
@@ -624,7 +624,7 @@
 
     <fragment
         android:id="@+id/shopcart_locationfrag"
-        android:name="com.malka.androidappp.botmnav_fragments.shoppingcart5_location.ShopcartLocationInfo"
+        android:name="com.malka.androidappp.fragments.shoppingcart5_location.ShopcartLocationInfo"
         tools:layout="@layout/fragment_shopcart_location_info">
 
         <action
@@ -634,7 +634,7 @@
 
     <fragment
         android:id="@+id/shopcart_paymentmethod"
-        android:name="com.malka.androidappp.botmnav_fragments.shoppingcart6_paymentmethod.CartPaymentMethod"
+        android:name="com.malka.androidappp.fragments.shoppingcart6_paymentmethod.CartPaymentMethod"
         tools:layout="@layout/fragment_cart_payment_method">
 
         <action
@@ -645,7 +645,7 @@
 
     <fragment
         android:id="@+id/shopcart_placeholder"
-        android:name="com.malka.androidappp.botmnav_fragments.shoppingcart7_placeholder.CartPlaceholder"
+        android:name="com.malka.androidappp.fragments.shoppingcart7_placeholder.CartPlaceholder"
         tools:layout="@layout/fragment_cart_placeholder">
 
         <action
@@ -660,7 +660,7 @@
 
     <fragment
         android:id="@+id/product_page2"
-        android:name="com.malka.androidappp.botmnav_fragments.create_product.CreateProduct2"
+        android:name="com.malka.androidappp.fragments.create_product.CreateProduct2"
         tools:layout="@layout/fragment_create_product_pg2">
 
         <action
@@ -675,7 +675,7 @@
 
     <fragment
         android:id="@+id/product_page3frag"
-        android:name="com.malka.androidappp.botmnav_fragments.create_product.CreateProduct3"
+        android:name="com.malka.androidappp.fragments.create_product.CreateProduct3"
         tools:layout="@layout/fragment_create_product_pg3">
 
         <action
@@ -690,7 +690,7 @@
 
     <fragment
         android:id="@+id/product_page4frag"
-        android:name="com.malka.androidappp.botmnav_fragments.create_product.CreateProduct4"
+        android:name="com.malka.androidappp.fragments.create_product.CreateProduct4"
         tools:layout="@layout/fragment_create_product_pg4">
 
         <action
@@ -704,7 +704,7 @@
 
     <fragment
         android:id="@+id/product_page5frag"
-        android:name="com.malka.androidappp.botmnav_fragments.create_product.CreateProduct5"
+        android:name="com.malka.androidappp.fragments.create_product.CreateProduct5"
         tools:layout="@layout/fragment_create_product_pg5">
 
         <action
@@ -718,7 +718,7 @@
 
     <fragment
         android:id="@+id/continue_product"
-        android:name="com.malka.androidappp.botmnav_fragments.create_product.ContinueProduct"
+        android:name="com.malka.androidappp.fragments.create_product.ContinueProduct"
         android:label="Continue"
         tools:layout="@layout/fragment_continue_product">
 
@@ -734,7 +734,7 @@
 
     <fragment
         android:id="@+id/ProductDetail"
-        android:name="com.malka.androidappp.botmnav_fragments.create_product.ProductDetail"
+        android:name="com.malka.androidappp.fragments.create_product.ProductDetail"
         android:label="Product Detail"
         tools:layout="@layout/fragment_product_detail">
 

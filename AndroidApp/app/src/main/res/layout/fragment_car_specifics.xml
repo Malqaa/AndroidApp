@@ -16,7 +16,7 @@
             android:id="@+id/carspeci"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:context=".botmnav_fragments.cardetail_page.CarSpecificsFragment">
+            tools:context=".fragments.cardetail_page.CarSpecificsFragment">
 
 
             <androidx.viewpager.widget.ViewPager

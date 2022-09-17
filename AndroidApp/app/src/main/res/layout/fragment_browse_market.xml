@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
 
     android:orientation="vertical"
-    tools:context=".botmnav_fragments.browse_market.SearchCategoryActivity">
+    tools:context=".fragments.browse_market.SearchCategoryActivity">
 
 
     <LinearLayout

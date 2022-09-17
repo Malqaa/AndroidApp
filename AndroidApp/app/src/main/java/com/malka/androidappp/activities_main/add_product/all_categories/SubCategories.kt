@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.widget.Toast
 import com.malka.androidappp.R
 import com.malka.androidappp.base.BaseActivity
-import com.malka.androidappp.botmnav_fragments.create_ads.StaticClassAdCreate
+import com.malka.androidappp.fragments.create_ads.StaticClassAdCreate
 import com.malka.androidappp.activities_main.add_product.AddPhoto
 import com.malka.androidappp.servicemodels.model.AllCategoriesModel
 import com.malka.androidappp.servicemodels.model.AllCategoriesResponseBack

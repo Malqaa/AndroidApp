@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.view.View
 import com.malka.androidappp.R
 import com.malka.androidappp.base.BaseActivity
-import com.malka.androidappp.botmnav_fragments.sellerdetails.SellerResponseBack
+import com.malka.androidappp.fragments.sellerdetails.SellerResponseBack
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService

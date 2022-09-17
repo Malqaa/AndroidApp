@@ -11,7 +11,7 @@
     android:background="@color/white"
 
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".botmnav_fragments.selling_option.SellingOption">
+    tools:context=".fragments.selling_option.SellingOption">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_sellingopt"

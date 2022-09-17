@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:background="@color/SilverBackground"
     android:layout_height="match_parent"
-    tools:context=".botmnav_fragments.feedback_frag.all_feedback.AllFeedback">
+    tools:context=".fragments.feedback_frag.all_feedback.AllFeedback">
 
 <androidx.recyclerview.widget.RecyclerView
     android:layout_width="match_parent"

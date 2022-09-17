@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    tools:context=".botmnav_fragments.unsold_business.UnsoldBusiness">
+    tools:context=".fragments.unsold_business.UnsoldBusiness">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_unsold_business"

@@ -3,23 +3,23 @@ package com.malka.androidappp.network.service
 import com.google.gson.JsonObject
 import com.malka.androidappp.activities_main.login.LoginClass
 import com.malka.androidappp.activities_main.login.LoginResponseBack
-import com.malka.androidappp.botmnav_fragments.UserImageResponseBack
-import com.malka.androidappp.botmnav_fragments.browse_market.popup_subcategories_list.ModelAddSearchFav
-import com.malka.androidappp.botmnav_fragments.cardetail_page.ModelAddSellerFav
-import com.malka.androidappp.botmnav_fragments.cardetail_page.ModelSellerDetails
-import com.malka.androidappp.botmnav_fragments.cardetail_page.bottomsheet_bidopt.getbidModel.ModelBidingResponse
-import com.malka.androidappp.botmnav_fragments.cardetail_page.bottomsheet_bidopt.post_bidprice.ModelPostBidPrice
-import com.malka.androidappp.botmnav_fragments.create_product.CreateProductResponseBack
-import com.malka.androidappp.botmnav_fragments.create_product.ModelCreateProduct
-import com.malka.androidappp.botmnav_fragments.create_product.ProductResponseBack
-import com.malka.androidappp.botmnav_fragments.feedback_frag.insert_feedback.GiveFeedbackResponseBack
-import com.malka.androidappp.botmnav_fragments.feedback_frag.insert_feedback.ModelGiveFeedBack
-import com.malka.androidappp.botmnav_fragments.my_product.AllProductsResponseBack
-import com.malka.androidappp.botmnav_fragments.my_product.edit_product.EditProductResponseBack
-import com.malka.androidappp.botmnav_fragments.my_product.edit_product.ModelEditProduct
-import com.malka.androidappp.botmnav_fragments.sellerdetails.SellerResponseBack
-import com.malka.androidappp.botmnav_fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ModelShipAddresses
-import com.malka.androidappp.botmnav_fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ShippingAddressessData
+import com.malka.androidappp.fragments.UserImageResponseBack
+import com.malka.androidappp.fragments.browse_market.popup_subcategories_list.ModelAddSearchFav
+import com.malka.androidappp.fragments.cardetail_page.ModelAddSellerFav
+import com.malka.androidappp.fragments.cardetail_page.ModelSellerDetails
+import com.malka.androidappp.fragments.cardetail_page.bottomsheet_bidopt.getbidModel.ModelBidingResponse
+import com.malka.androidappp.fragments.cardetail_page.bottomsheet_bidopt.post_bidprice.ModelPostBidPrice
+import com.malka.androidappp.fragments.create_product.CreateProductResponseBack
+import com.malka.androidappp.fragments.create_product.ModelCreateProduct
+import com.malka.androidappp.fragments.create_product.ProductResponseBack
+import com.malka.androidappp.fragments.feedback_frag.insert_feedback.GiveFeedbackResponseBack
+import com.malka.androidappp.fragments.feedback_frag.insert_feedback.ModelGiveFeedBack
+import com.malka.androidappp.fragments.my_product.AllProductsResponseBack
+import com.malka.androidappp.fragments.my_product.edit_product.EditProductResponseBack
+import com.malka.androidappp.fragments.my_product.edit_product.ModelEditProduct
+import com.malka.androidappp.fragments.sellerdetails.SellerResponseBack
+import com.malka.androidappp.fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ModelShipAddresses
+import com.malka.androidappp.fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ShippingAddressessData
 import com.malka.androidappp.network.constants.ApiConstants
 import com.malka.androidappp.network.constants.ApiConstants.GET_ALL_CATEGORIES_BY_ID
 import com.malka.androidappp.network.constants.ApiConstants.GET_CATEGORY_TAGS_ENDPOINT
@@ -322,6 +322,9 @@ interface MalqaApiService {
 
     @GET()
     fun jsonTemplates(@Url url: String): Call<JsonObject>
+
+    @GET("ListAdvertisments")
+    fun SliderAPI(): Call<SliderAPResponse>
 
 
 }

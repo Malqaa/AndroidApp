@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:textColor="#666666"
     android:textSize="12sp"
-    tools:context=".botmnav_fragments.home.view.HomeFragment"
+    tools:context=".fragments.home.view.HomeFragment"
     android:layout_width="80dp"
     android:layout_height="70dp"
     android:background="@drawable/custom_ripple"

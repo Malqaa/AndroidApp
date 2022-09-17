@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
 
     android:background="#F6F7FB"
-    tools:context=".botmnav_fragments.ProfileFrag">
+    tools:context=".fragments.ProfileFrag">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_profile"

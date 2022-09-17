@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/SilverBackground"
 
-    tools:context=".botmnav_fragments.shoppingcart5_location.ShopcartLocationInfo">
+    tools:context=".fragments.shoppingcart5_location.ShopcartLocationInfo">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_cart_locationinfo"

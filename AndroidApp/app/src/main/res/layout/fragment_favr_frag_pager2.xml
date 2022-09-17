@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/SilverBackground"
-    tools:context=".botmnav_fragments.favourite_frag.category_fav.CategoriesFav">
+    tools:context=".fragments.favourite_frag.category_fav.CategoriesFav">
 
 
 <androidx.recyclerview.widget.RecyclerView

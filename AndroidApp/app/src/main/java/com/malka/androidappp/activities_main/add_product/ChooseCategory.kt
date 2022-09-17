@@ -7,7 +7,7 @@ import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.add_product.all_categories.AdapterAllCategories
 import com.malka.androidappp.activities_main.add_product.all_categories.SubCategories
 import com.malka.androidappp.base.BaseActivity
-import com.malka.androidappp.botmnav_fragments.create_ads.StaticClassAdCreate
+import com.malka.androidappp.fragments.create_ads.StaticClassAdCreate
 import com.malka.androidappp.helper.Extension.truncateString
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.servicemodels.ConstantObjects

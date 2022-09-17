@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/SilverBackground"
-    tools:context=".botmnav_fragments.feedback_frag.selling_feedback.SellingFeedback">
+    tools:context=".fragments.feedback_frag.selling_feedback.SellingFeedback">
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"

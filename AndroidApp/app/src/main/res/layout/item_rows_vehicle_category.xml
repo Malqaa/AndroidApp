@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="45dp"
     android:layout_marginBottom="1dp"
-    tools:context=".botmnav_fragments.categoriesmodel_jsons.vehiclecateegory.VehicleCategory">
+    tools:context=".fragments.categoriesmodel_jsons.vehiclecateegory.VehicleCategory">
 
     <TextView
         android:id="@+id/categoryName"

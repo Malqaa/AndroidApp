@@ -6,7 +6,7 @@
     android:background="@color/Silvr"
     xmlns:app="http://schemas.android.com/apk/res-auto"
 
-    tools:context=".botmnav_fragments.shoppingcart3_shippingaddress.ShippingAddress">
+    tools:context=".fragments.shoppingcart3_shippingaddress.ShippingAddress">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_shopcart_shipping"
