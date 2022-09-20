@@ -9,14 +9,14 @@ import com.malka.androidappp.activities_main.add_product.all_categories.AdapterA
 import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.servicemodels.ConstantObjects
-import com.malka.androidappp.servicemodels.model.AllCategoriesModel
+import com.malka.androidappp.servicemodels.model.Category
 import kotlinx.android.synthetic.main.fragment_favorite_category.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 
 
 class favorite_category : Fragment(R.layout.fragment_favorite_category) {
 
-    var allCategoryList: List<AllCategoriesModel> = ArrayList()
+    var allCategoryList: List<Category> = ArrayList()
     var position = -1
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

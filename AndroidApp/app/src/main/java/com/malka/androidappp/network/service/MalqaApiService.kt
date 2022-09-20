@@ -35,7 +35,6 @@ import com.malka.androidappp.servicemodels.creditcard.CreditCardResponse
 import com.malka.androidappp.servicemodels.favourites.FavouriteObject
 import com.malka.androidappp.servicemodels.favourites.favouriteadd
 import com.malka.androidappp.servicemodels.feedbacks.FeedbackObject
-import com.malka.androidappp.servicemodels.home.GetAllAds
 import com.malka.androidappp.servicemodels.home.visitcount.visit_count_object
 import com.malka.androidappp.servicemodels.model.AllCategoriesResponseBack
 import com.malka.androidappp.servicemodels.model_wonloss.ModelWonLost
@@ -209,10 +208,6 @@ interface MalqaApiService {
     @GET("BussinessProduct/getall")
     fun getAllProducts(): Call<AllProductsResponseBack>
 
-    @GET("ListAllCategory")
-    fun getAllCategories(
-        @Query("culture") culture: String,
-    ): Call<AllCategoriesResponseBack>
 
     @GET("$GET_ALL_CATEGORIES_BY_ID?")
     fun getAllCategoriesByTemplateID(
@@ -237,8 +232,6 @@ interface MalqaApiService {
     ): Call<ModelPostAns>
 
 
-    @GET(ApiConstants.HOME_ALL_ADS_URL)
-    fun GetAllAds(@Query("loginId") userid: String): Call<GetAllAds>;
 
     @GET(ApiConstants.HOME_TOTAL_VISIT_COUNT)
     fun GetTotalVisitCount(): Call<visit_count_object>;
@@ -324,7 +317,14 @@ interface MalqaApiService {
     fun jsonTemplates(@Url url: String): Call<JsonObject>
 
     @GET("ListAdvertisments")
-    fun SliderAPI(): Call<SliderAPResponse>
+    fun SliderAPI(): Call<GeneralResponse>
 
+    @GET("ListAllCategory?isShowInHome=true")
+    fun getAllCategories(): Call<GeneralResponse>
+
+
+
+    @GET("ListHomeCategoryProduct?currentPage=1&productNumber=10&lang=en")
+    fun ListHomeCategoryProduct(/*@Path("language") language:String*/): Call<GeneralResponse>
 
 }

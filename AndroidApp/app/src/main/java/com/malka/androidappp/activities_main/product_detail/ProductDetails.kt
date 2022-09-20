@@ -759,8 +759,8 @@ class ProductDetails : BaseActivity() {
 
                         }
                     }
-                    GenericAdaptor().setHomeProductAdaptor(list, similar_products_rcv)
-                    GenericAdaptor().setHomeProductAdaptor(list, seller_product_rcv)
+//                    GenericAdaptor().setHomeProductAdaptor(list, similar_products_rcv)
+//                    GenericAdaptor().setHomeProductAdaptor(list, seller_product_rcv)
 
                     mainContainer.isVisible = true
 

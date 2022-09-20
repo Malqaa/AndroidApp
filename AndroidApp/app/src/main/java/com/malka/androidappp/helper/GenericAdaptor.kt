@@ -16,31 +16,28 @@ import com.malka.androidappp.fragments.account_fragment.address.AddAddress
 import com.malka.androidappp.fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.helper.Extension.decimalNumberFormat
 import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
-import com.malka.androidappp.network.constants.ApiConstants
-import com.malka.androidappp.servicemodels.AdDetailModel
 import com.malka.androidappp.servicemodels.ConstantObjects
 import com.malka.androidappp.servicemodels.GetAddressResponse
+import com.malka.androidappp.servicemodels.model.Products
 import com.malka.androidappp.servicemodels.questionModel.Question
 import kotlinx.android.synthetic.main.add_address_design.view.*
 import kotlinx.android.synthetic.main.product_item.view.*
 import kotlinx.android.synthetic.main.question_answer_design.view.*
-import java.text.SimpleDateFormat
-import java.util.*
 
 class GenericAdaptor {
 
 
     fun productAdaptor(
-        element: AdDetailModel?, context: Context, holder: BaseViewHolder, isGrid: Boolean
+        element: Products?, context: Context, holder: BaseViewHolder, isGrid: Boolean
     ) {
 
         holder.view.run {
             element!!.run {
 
                 is_watch_iv.setOnClickListener {
-                    if (HelpFunctions.AdAlreadyAddedToWatchList(referenceId)) {
+                    if (HelpFunctions.AdAlreadyAddedToWatchList(id.toString())) {
                         HelpFunctions.DeleteAdFromWatchlist(
-                            referenceId!!,
+                            id.toString(),
                             context
                         ) {
                             is_watch_iv.setImageResource(R.drawable.star)
@@ -56,7 +53,7 @@ class GenericAdaptor {
                         } else {
 
                             HelpFunctions.InsertAdToWatchlist(
-                                referenceId!!, 0,
+                                id.toString(),0,
                                 context
                             ) {
                                 is_watch_iv.setImageResource(R.drawable.starcolor)
@@ -66,52 +63,32 @@ class GenericAdaptor {
                         }
                     }
                 }
-                if (HelpFunctions.AdAlreadyAddedToWatchList(referenceId ?: id ?: "")) {
+                if (HelpFunctions.AdAlreadyAddedToWatchList(id .toString())) {
                     is_watch_iv.setImageResource(R.drawable.starcolor)
                 } else {
                     is_watch_iv.setImageResource(R.drawable.star)
                 }
 
-                titlenamee.text = title
-                city_tv.text = city
+                titlenamee.text = name
+                city_tv.text = ""
 
 
                 setOnClickListener {
-                    SharedPreferencesStaticClass.ad_userid = user!!
+                    SharedPreferencesStaticClass.ad_userid = ""
                     ConstantObjects.is_watch_iv = is_watch_iv
                     context.startActivity(Intent(context, ProductDetails::class.java).apply {
-                        putExtra("AdvId", referenceId ?: id ?: "")
-                        putExtra("Template", template)
+                        putExtra("AdvId", id ?: "")
+                        putExtra("Template", "")
                     })
                 }
-                if (homepageImage.isNullOrEmpty()) {
-                    if (!images.isNullOrEmpty()) {
-                        val imageURL = ApiConstants.IMAGE_URL + images.get(0)
-                        Extension.loadThumbnail(
-                            context,
-                            imageURL,
-                            productimg, loader
-                        )
-                    } else {
-                        val imageURL = ApiConstants.IMAGE_URL + image
-                        Extension.loadThumbnail(
-                            context,
-                            imageURL,
-                            productimg, loader
-                        )
+                Extension.loadThumbnail(
+                    context,
+                    image,
+                    productimg, loader
+                )
 
-                    }
-                } else {
-                    val imageURL = ApiConstants.IMAGE_URL + homepageImage
-                    Extension.loadThumbnail(
-                        context,
-                        imageURL,
-                        productimg, loader
-                    )
-                }
-
-                date_tv.text = createdOnFormated
-
+                date_tv.text = date
+               val listingTypeFormated="1"
                 when (listingTypeFormated) {
                     "1" -> {
                         LowestPrice_layout.invisible()
@@ -127,33 +104,33 @@ class GenericAdaptor {
                             } ${context.getString(R.string.Rayal)}"
                     }
                     "12", "2" -> {
-                        LowestPrice_layout.show()
-                        LowestPrice_layout_2.show()
-
-                        product_price.text = "${startingPrice!!.toDouble().decimalNumberFormat()} ${
-                            context.getString(
-                                R.string.Rayal
-                            )
-                        }"
-                        purchasing_price_tv_2.text =
-                            "${
-                                startingPrice.toDouble().decimalNumberFormat()
-                            } ${context.getString(R.string.Rayal)}"
-
-
-                        product_price.text = "${startingPrice!!.toDouble().decimalNumberFormat()} ${
-                            context.getString(
-                                R.string.Rayal
-                            )
-                        }"
-
-                        LowestPrice.text = "${
-                            reservePrice!!.toDouble().decimalNumberFormat()
-                        } ${context.getString(R.string.Rayal)}"
-                        LowestPrice_2.text =
-                            "${
-                                reservePrice.toDouble().decimalNumberFormat()
-                            } ${context.getString(R.string.Rayal)}"
+//                        LowestPrice_layout.show()
+//                        LowestPrice_layout_2.show()
+//
+//                        product_price.text = "${startingPrice!!.toDouble().decimalNumberFormat()} ${
+//                            context.getString(
+//                                R.string.Rayal
+//                            )
+//                        }"
+//                        purchasing_price_tv_2.text =
+//                            "${
+//                                startingPrice.toDouble().decimalNumberFormat()
+//                            } ${context.getString(R.string.Rayal)}"
+//
+//
+//                        product_price.text = "${startingPrice!!.toDouble().decimalNumberFormat()} ${
+//                            context.getString(
+//                                R.string.Rayal
+//                            )
+//                        }"
+//
+//                        LowestPrice.text = "${
+//                            reservePrice!!.toDouble().decimalNumberFormat()
+//                        } ${context.getString(R.string.Rayal)}"
+//                        LowestPrice_2.text =
+//                            "${
+//                                reservePrice.toDouble().decimalNumberFormat()
+//                            } ${context.getString(R.string.Rayal)}"
                     }
                 }
 
@@ -167,43 +144,43 @@ class GenericAdaptor {
                 }
 
                 try {
-                    val format = SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault())
-                    if (endTime.equals("") || endTime == null) {
-                        time_bar.visibility = View.GONE
-                    } else {
-                        time_bar.visibility = View.VISIBLE
-                        val endDate = format.parse("$endTime")
-
-
-                       val currentDate = format.parse(format.format(Date()))
-
-                        if (endDate.before(currentDate)) {
-                            days_tv.text = "0"
-                            hours_tv.text = "0"
-                            minutes_tv.text = "0"
-                        } else {
-                            var diff: Long = endDate!!.getTime() - currentDate!!.getTime()
-                            val secondsInMilli: Long = 1000
-                            val minutesInMilli = secondsInMilli * 60
-                            val hoursInMilli = minutesInMilli * 60
-                            val daysInMilli = hoursInMilli * 24
-
-                            val elapsedDays = diff / daysInMilli
-                            diff %= daysInMilli
-
-                            val elapsedHours = diff / hoursInMilli
-                            diff %= hoursInMilli
-
-                            val elapsedMinutes = diff / minutesInMilli
-                            diff %= minutesInMilli
-
-
-                            days_tv.text = elapsedDays.toString()
-                            hours_tv.text = elapsedHours.toString()
-                            minutes_tv.text = elapsedMinutes.toString()
-                        }
-
-                    }
+//                    val format = SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault())
+//                    if (endTime.equals("") || endTime == null) {
+//                        time_bar.visibility = View.GONE
+//                    } else {
+//                        time_bar.visibility = View.VISIBLE
+//                        val endDate = format.parse("$endTime")
+//
+//
+//                       val currentDate = format.parse(format.format(Date()))
+//
+//                        if (endDate.before(currentDate)) {
+//                            days_tv.text = "0"
+//                            hours_tv.text = "0"
+//                            minutes_tv.text = "0"
+//                        } else {
+//                            var diff: Long = endDate!!.getTime() - currentDate!!.getTime()
+//                            val secondsInMilli: Long = 1000
+//                            val minutesInMilli = secondsInMilli * 60
+//                            val hoursInMilli = minutesInMilli * 60
+//                            val daysInMilli = hoursInMilli * 24
+//
+//                            val elapsedDays = diff / daysInMilli
+//                            diff %= daysInMilli
+//
+//                            val elapsedHours = diff / hoursInMilli
+//                            diff %= hoursInMilli
+//
+//                            val elapsedMinutes = diff / minutesInMilli
+//                            diff %= minutesInMilli
+//
+//
+//                            days_tv.text = elapsedDays.toString()
+//                            hours_tv.text = elapsedHours.toString()
+//                            minutes_tv.text = elapsedMinutes.toString()
+//                        }
+//
+//                    }
                 } catch (error: Exception) {
                     time_bar.visibility = View.GONE
                 }
@@ -212,8 +189,8 @@ class GenericAdaptor {
     }
 
 
-    fun setHomeProductAdaptor(list: List<AdDetailModel>, product_rcv: RecyclerView) {
-        product_rcv.adapter = object : GenericListAdapter<AdDetailModel>(
+    fun setHomeProductAdaptor(list: List<Products>, product_rcv: RecyclerView) {
+        product_rcv.adapter = object : GenericListAdapter<Products>(
             R.layout.product_item,
             bind = { element, holder, itemCount, position ->
                 holder.view.run {

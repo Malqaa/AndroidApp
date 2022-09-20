@@ -51,11 +51,11 @@ class ListanItem : BaseActivity() {
                 if (lists.size>0&&selectTag != null) {
                     selectTag!!.run {
                         ConstantObjects.categoryList.filter {
-                            it.categoryid == categoryid
+                            it.id == categoryid
                         }.let {
                             if (it.size > 0) {
                                 it.get(0).run {
-                                    StaticClassAdCreate.subCategoryPath.add(nameEn.toString())
+                                    StaticClassAdCreate.subCategoryPath.add(name.toString())
                                     val templateName =
                                         Extension.truncateString(template.toString())
                                     StaticClassAdCreate.template = templateName
@@ -64,7 +64,7 @@ class ListanItem : BaseActivity() {
                                             this@ListanItem,
                                             AddPhoto::class.java
                                         ).apply {
-                                            putExtra("Title", nameEn.toString())
+                                            putExtra("Title", name.toString())
                                         })
                                 }
 

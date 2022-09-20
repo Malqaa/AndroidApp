@@ -9,10 +9,10 @@ import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.malka.androidappp.R
 import com.malka.androidappp.helper.Extension
-import com.malka.androidappp.servicemodels.SliderAPResponse
+import com.malka.androidappp.servicemodels.Slider
 
 
-class SliderAdaptor(context: Context, val sliderList :List<SliderAPResponse.Data>) : PagerAdapter() {
+class SliderAdaptor(context: Context, val sliderList :ArrayList<Slider>) : PagerAdapter() {
     private val context: Context
     private var layoutInflater: LayoutInflater? = null
 

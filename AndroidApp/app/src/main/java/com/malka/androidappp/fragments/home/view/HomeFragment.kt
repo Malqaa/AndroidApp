@@ -13,25 +13,24 @@ import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.malka.androidappp.R
-import com.malka.androidappp.activities_main.MainActivity
 import com.malka.androidappp.activities_main.login.SignInActivity
 import com.malka.androidappp.activities_main.order.CartActivity
 import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.fragments.browse_market.SearchCategoryActivity
-import com.malka.androidappp.helper.GenericAdaptor
-import com.malka.androidappp.helper.HelpFunctions
-import com.malka.androidappp.helper.hide
-import com.malka.androidappp.helper.show
+import com.malka.androidappp.helper.*
 import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.helper.widgets.viewpager2.AutoScrollViewPager
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.servicemodels.ConstantObjects
-import com.malka.androidappp.servicemodels.SliderAPResponse
-import com.malka.androidappp.servicemodels.home.GetAllAds
-import com.malka.androidappp.servicemodels.model.AllCategoriesResponseBack
+import com.malka.androidappp.servicemodels.GeneralResponse
+import com.malka.androidappp.servicemodels.Slider
+import com.malka.androidappp.servicemodels.model.Category
 import com.malka.androidappp.servicemodels.model.DynamicList
+import com.malka.androidappp.servicemodels.model.HomeProducts
 import kotlinx.android.synthetic.main.fragment_homee.*
 import kotlinx.android.synthetic.main.parenet_category_item.view.*
 import retrofit2.Call
@@ -81,40 +80,43 @@ class HomeFragment : Fragment(R.layout.fragment_homee),
                     this@HomeFragment
                 )
 
-            //getAllAdsData()
+            getAllAdsData()
         } else {
 
-           // getAllCategories()
+            getAllCategories()
         }
 
     }
 
     private fun getSliderAPI() {
-        HelpFunctions.startProgressBar(this.requireActivity())
 
 
         val apiBuilder = RetrofitBuilder.GetRetrofitBuilder()
-        val sliderAPIResponse=apiBuilder.SliderAPI()
-        sliderAPIResponse.enqueue(object : Callback<SliderAPResponse> {
+        val sliderAPIResponse = apiBuilder.SliderAPI()
+        sliderAPIResponse.enqueue(object : Callback<GeneralResponse> {
             @SuppressLint("UseRequireInsteadOfGet")
             override fun onResponse(
-                call: Call<SliderAPResponse>,
-                response: Response<SliderAPResponse>
+                call: Call<GeneralResponse>,
+                response: Response<GeneralResponse>
             ) {
                 if (response.isSuccessful) {
-                    val response= response.body()!!
-                   if(response.status_code==200){
-                       val sliderList=response.data
-                       setPagerDots(sliderList)
-                   }
+                    response.body()?.run {
+                        if (status_code == 200) {
+
+                            val sliderList: ArrayList<Slider> = Gson().fromJson(
+                                Gson().toJson(data),
+                                object : TypeToken<ArrayList<Slider>>() {}.type
+                            )
+                            setPagerDots(sliderList)
+                        }
+                    }
+
 
                 }
-                HelpFunctions.dismissProgressBar()
 
             }
 
-            override fun onFailure(call: Call<SliderAPResponse>, t: Throwable) {
-                HelpFunctions.dismissProgressBar()
+            override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
             }
         })
     }
@@ -148,26 +150,27 @@ class HomeFragment : Fragment(R.layout.fragment_homee),
 
 
     fun getAllCategories() {
-        HelpFunctions.startProgressBar(this.requireActivity())
 
 
         val malqaa = RetrofitBuilder.GetRetrofitBuilder()
-        val call: Call<AllCategoriesResponseBack> =
-            malqaa.getAllCategories((requireActivity() as MainActivity).culture())
+        val call: Call<GeneralResponse> =
+            malqaa.getAllCategories()
 
-        call.enqueue(object : Callback<AllCategoriesResponseBack> {
+        call.enqueue(object : Callback<GeneralResponse> {
             @SuppressLint("UseRequireInsteadOfGet")
             override fun onResponse(
-                call: Call<AllCategoriesResponseBack>,
-                response: Response<AllCategoriesResponseBack>
+                call: Call<GeneralResponse>,
+                response: Response<GeneralResponse>
             ) {
 
                 if (response.isSuccessful) {
+                    response.body()?.run {
 
-                    if (response.body() != null) {
+                        ConstantObjects.categoryList = Gson().fromJson(
+                            Gson().toJson(data),
+                            object : TypeToken<ArrayList<Category>>() {}.type
+                        )
 
-                        val resp: AllCategoriesResponseBack = response.body()!!
-                        ConstantObjects.categoryList = resp.data
                         all_categories_recycler.adapter =
                             AdapterAllCategories(
                                 ConstantObjects.categoryList,
@@ -176,8 +179,8 @@ class HomeFragment : Fragment(R.layout.fragment_homee),
                             )
 
                         getAllAdsData()
-
                     }
+
 
                 } else {
                     HelpFunctions.ShowLongToast(getString(R.string.NoCategoriesfound), context)
@@ -187,7 +190,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee),
 
             }
 
-            override fun onFailure(call: Call<AllCategoriesResponseBack>, t: Throwable) {
+            override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
                 t.message?.let { HelpFunctions.ShowLongToast(it, context) }
 
                 HelpFunctions.dismissProgressBar()
@@ -201,65 +204,39 @@ class HomeFragment : Fragment(R.layout.fragment_homee),
             setHomeAdaptor()
         } else {
             val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-            val call: Call<GetAllAds> = malqa.GetAllAds(ConstantObjects.logged_userid)
-            call.enqueue(object : Callback<GetAllAds> {
+            val call: Call<GeneralResponse> = malqa.ListHomeCategoryProduct()
+            call.enqueue(object : Callback<GeneralResponse> {
                 override fun onResponse(
-                    call: Call<GetAllAds>,
-                    response: Response<GetAllAds>
+                    call: Call<GeneralResponse>,
+                    response: Response<GeneralResponse>
                 ) {
                     if (response.isSuccessful) {
-                        if (response.body() != null) {
-                            response.body()!!.data.run {
+
+                        response.body()?.run {
+
+                            val homeproduct: ArrayList<HomeProducts.HomeCategory> = Gson().fromJson(
+                                Gson().toJson(data),
+                                object : TypeToken<ArrayList<HomeProducts.HomeCategory>>() {}.type
+                            )
+                            homeproduct.forEach {
                                 ConstantObjects.list.apply {
                                     add(
                                         DynamicList(
-                                            getString(R.string.vehicles),
-                                            R.drawable.ic_vechile,
-                                            caradvetisement, category_id = getString(R.string.vehicles)
-                                        )
-                                    )
-                                    add(
-                                        DynamicList(
-                                            getString(R.string.electronics),
-                                            R.drawable.ic_electronic,
-                                            generaladvetisement,
-                                            category_id = getString(R.string.electronics_gaming)
-                                        )
-                                    )
-                                    add(
-                                        DynamicList(
-                                            getString(R.string.real_estate),
-                                            R.drawable.ic_real_estate,
-                                            propertyadvetisement, category_id = getString(R.string.property)
-                                        )
-                                    )
-                                    add(
-                                        DynamicList(
-                                            getString(R.string.List_Auctions),
-                                            R.drawable.ic_vechile,
-                                            recentadvetisement,
-                                            "list",
-                                            getString(R.string.List_Auctions_detail), ""
+                                            it.name,
+                                            it.image,
+                                            it.listProducts,
+                                            it.catId
                                         )
                                     )
                                 }
-
-                                setHomeAdaptor()
-
                             }
+                            setHomeAdaptor()
 
-
-                        } else {
-                            HelpFunctions.ShowLongToast(getString(R.string.Error), context)
                         }
-                    } else {
-                        HelpFunctions.ShowLongToast(getString(R.string.Error), context)
                     }
-                    HelpFunctions.dismissProgressBar()
-
                 }
 
-                override fun onFailure(call: Call<GetAllAds>, t: Throwable) {
+                override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
                     HelpFunctions.ShowLongToast(t.message.toString(), requireActivity())
                     HelpFunctions.dismissProgressBar()
 
@@ -298,7 +275,10 @@ class HomeFragment : Fragment(R.layout.fragment_homee),
                                 ).apply {
                                     putExtra("CategoryDesc", category_id)
                                     putExtra("SearchQuery", "")
-                                    putExtra("isMapShow", category_id.equals("Property"))
+                                    putExtra(
+                                        "isMapShow",
+                                        category_id.equals("Property")
+                                    )
                                 })
 
                         }
@@ -306,7 +286,11 @@ class HomeFragment : Fragment(R.layout.fragment_homee),
                         detail_tv!!.text = detail
                         category_name_tv!!.text = category_name
                         category_name_tv_2!!.text = category_name
-                        category_icon_iv!!.setImageResource(category_icon)
+                        Extension.loadThumbnail(
+                            requireContext(),
+                            category_icon,
+                            category_icon_iv, null
+                        )
 
                         GenericAdaptor().setHomeProductAdaptor(product, product_rcv)
                     }
@@ -329,17 +313,20 @@ class HomeFragment : Fragment(R.layout.fragment_homee),
         super.OnItemClick(position)
 
 
-        startActivity(Intent(requireContext(), SearchCategoryActivity::class.java).apply {
-            putExtra("CategoryDesc", ConstantObjects.categoryList[position].nameEn)
-            putExtra("SearchQuery", "")
-            putExtra("isMapShow", ConstantObjects.categoryList[position].categoryid == 3)
+        startActivity(
+            Intent(
+                requireContext(),
+                SearchCategoryActivity::class.java
+            ).apply {
+                putExtra("CategoryDesc", ConstantObjects.categoryList[position].name)
+                putExtra("SearchQuery", "")
+                putExtra("isMapShow", ConstantObjects.categoryList[position].id == 3)
 
-        })
+            })
     }
 
 
-
-    private fun setPagerDots(list: List<SliderAPResponse.Data>) {
+    private fun setPagerDots(list: ArrayList<Slider>) {
 
         if (list.size > 0) {
             sliderLayout.show()
@@ -372,7 +359,8 @@ class HomeFragment : Fragment(R.layout.fragment_homee),
                 )
             )
 
-            slider_home.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            slider_home.addOnPageChangeListener(object :
+                ViewPager.OnPageChangeListener {
                 override fun onPageScrolled(
                     position: Int,
                     positionOffset: Float,

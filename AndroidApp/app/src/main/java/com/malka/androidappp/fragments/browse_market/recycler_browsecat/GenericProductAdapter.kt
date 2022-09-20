@@ -9,10 +9,11 @@ import com.malka.androidappp.R
 import com.malka.androidappp.helper.BaseViewHolder
 import com.malka.androidappp.helper.GenericAdaptor
 import com.malka.androidappp.servicemodels.AdDetailModel
+import com.malka.androidappp.servicemodels.model.Products
 
 
 class GenericProductAdapter(
-    var marketposts: List<AdDetailModel>,
+    var marketposts: List<Any>,
     var context: Context
 ) : RecyclerView.Adapter<BaseViewHolder>() {
     var isGrid:Boolean=true
@@ -34,7 +35,7 @@ class GenericProductAdapter(
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
 
 
-          GenericAdaptor().productAdaptor(marketposts.get(position), context, holder,isGrid)
+          GenericAdaptor().productAdaptor(marketposts.get(position) as Products, context, holder,isGrid)
 
 
 //

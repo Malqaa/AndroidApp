@@ -1,12 +1,11 @@
 package com.malka.androidappp.servicemodels.model
 
-import com.malka.androidappp.servicemodels.AdDetailModel
-
 class DynamicList (
     val category_name:String,
-    val category_icon:Int,
-    val product:List<AdDetailModel>,
+    val category_icon:String,
+    val product:List<Products>,
+    val category_id: Int,
     val typeName:String="category",
     val detail:String="",
-    val category_id: String
+
 )

@@ -6,7 +6,7 @@ import com.malka.androidappp.servicemodels.addtocart.CartItemModel
 import com.malka.androidappp.servicemodels.creditcard.CreditCardModel
 import com.malka.androidappp.servicemodels.favourites.FavouriteObject
 import com.malka.androidappp.servicemodels.feedbacks.FeedbackObject
-import com.malka.androidappp.servicemodels.model.AllCategoriesModel
+import com.malka.androidappp.servicemodels.model.Category
 import com.malka.androidappp.servicemodels.model.DynamicList
 
 class ConstantObjects {
@@ -32,7 +32,7 @@ class ConstantObjects {
         var dynamic_json_dictionary: HashMap<String, String> = HashMap<String, String>()
 
         var currentLanguage: String = ""
-        var categoryList: List<AllCategoriesModel> = ArrayList()
+        var categoryList: List<Category> = ArrayList()
         var list: ArrayList<DynamicList> = java.util.ArrayList()
         var countryList: List<Country> = ArrayList()
 

@@ -10,12 +10,12 @@ import com.malka.androidappp.helper.BaseViewHolder
 import com.malka.androidappp.helper.hide
 import com.malka.androidappp.helper.show
 import com.malka.androidappp.network.constants.ApiConstants
-import com.malka.androidappp.servicemodels.model.AllCategoriesModel
+import com.malka.androidappp.servicemodels.model.Category
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.all_categories_cardview.view.*
 
 class AdapterAllCategories(
-    private val allCategories: List<AllCategoriesModel>,
+    private val allCategories: List<Category>,
     var onItemClick: (position:Int) -> Unit
 ) : RecyclerView.Adapter<BaseViewHolder>() {
 
@@ -38,7 +38,7 @@ class AdapterAllCategories(
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         holder.view.run {
             allCategories[position].run {
-                category_name_tv.text = nameEn
+                category_name_tv.text = name
                 if (allCategories.get(position).is_select) {
                    // bgline.show()
                     is_selectimage.show()

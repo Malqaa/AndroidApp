@@ -4,5 +4,5 @@ data class AllCategoriesResponseBack(
     val status_code: String,
     val count: Int,
     val message: String,
-    val data: List<AllCategoriesModel>
+    val data: List<Category>
 )

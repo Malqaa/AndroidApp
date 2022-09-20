@@ -11,12 +11,12 @@ import com.malka.androidappp.fragments.create_ads.StaticClassAdCreate
 import com.malka.androidappp.helper.Extension.truncateString
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.servicemodels.ConstantObjects
-import com.malka.androidappp.servicemodels.model.AllCategoriesModel
+import com.malka.androidappp.servicemodels.model.Category
 import kotlinx.android.synthetic.main.fragment_choose_cate.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 
 class ChooseCategory : BaseActivity() {
-    var allCategoryList: List<AllCategoriesModel> = ArrayList()
+    var allCategoryList: List<Category> = ArrayList()
     var position = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,19 +34,19 @@ class ChooseCategory : BaseActivity() {
             }else{
                 if (!allCategoryList[position].isCategory) {
 
-                    StaticClassAdCreate.subCategoryPath.add(allCategoryList[position].nameEn.toString())
+                    StaticClassAdCreate.subCategoryPath.add(allCategoryList[position].name.toString())
                     val templateName =
                         truncateString(allCategoryList[position].template.toString())
                     StaticClassAdCreate.template = templateName
                     startActivity(Intent(this, AddPhoto::class.java).apply {
-                        putExtra("Title", allCategoryList[position].nameEn.toString())
+                        putExtra("Title", allCategoryList[position].name.toString())
                     })
                 } else {
 
-                    StaticClassAdCreate.subCategoryPath.add(allCategoryList[position].nameEn.toString())
+                    StaticClassAdCreate.subCategoryPath.add(allCategoryList[position].name.toString())
                     startActivity(Intent(this, SubCategories::class.java).apply {
                         putExtra("categoryid", allCategoryList[position].categoryKey.toString())
-                        putExtra("categoryName", allCategoryList[position].nameEn.toString())
+                        putExtra("categoryName", allCategoryList[position].name.toString())
                     })
                 }
             }
