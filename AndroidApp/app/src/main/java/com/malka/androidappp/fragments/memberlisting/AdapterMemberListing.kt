@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
 import com.malka.androidappp.fragments.sellerdetails.Advertisement
-import com.malka.androidappp.network.constants.ApiConstants
+import com.malka.androidappp.network.constants.Constants
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.seller_ads_adapter.view.*
 
@@ -58,7 +58,7 @@ class AdapterMemberListing(
 
         if (sellerAds[position].homepageImage != null)
             Picasso.get()
-                .load(ApiConstants.IMAGE_URL + sellerAds[position].homepageImage)
+                .load(Constants.IMAGE_URL + sellerAds[position].homepageImage)
                 .into(holder.mlimgg) else holder.mlimgg.setImageResource(R.drawable.cam)
 
 //        holder.mlwatchimg.setImageResource(R.drawable.watchlist)

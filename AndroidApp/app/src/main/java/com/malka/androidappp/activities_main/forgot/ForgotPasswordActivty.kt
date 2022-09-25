@@ -30,7 +30,7 @@ class ForgotPasswordActivty : BaseActivity() {
 
         setContentView(R.layout.activity_forgot_password)
 
-        if (ConstantObjects.currentLanguage == ENGLISH) {
+        if (ConstantObjects.currentLanguage == ConstantObjects.ENGLISH) {
             language_toggle.checkedTogglePosition = 0
         } else {
             language_toggle.checkedTogglePosition = 1

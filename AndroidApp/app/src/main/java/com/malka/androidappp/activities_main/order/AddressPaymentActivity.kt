@@ -17,7 +17,7 @@ import com.malka.androidappp.helper.GenericAdaptor
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
-import com.malka.androidappp.network.constants.ApiConstants
+import com.malka.androidappp.network.constants.Constants
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.servicemodels.ConstantObjects
 import com.malka.androidappp.servicemodels.GeneralRespone
@@ -198,7 +198,7 @@ class AddressPaymentActivity : BaseActivity() {
                         total_price.text = "$price ${getString(R.string.sar)}"
 
                         Picasso.get()
-                            .load(ApiConstants.IMAGE_URL + image)
+                            .load(Constants.IMAGE_URL + image)
                             .into(prod_image)
 
                         delivery_option._view3().setGravity(Gravity.CENTER)

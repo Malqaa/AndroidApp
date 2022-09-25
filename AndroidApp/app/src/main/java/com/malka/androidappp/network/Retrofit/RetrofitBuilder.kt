@@ -1,6 +1,6 @@
 package com.malka.androidappp.network.Retrofit
 
-import com.malka.androidappp.network.constants.ApiConstants
+import com.malka.androidappp.network.constants.Constants
 import com.malka.androidappp.network.service.MalqaApiService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -23,7 +23,7 @@ class RetrofitBuilder {
                 httpClient.addInterceptor(authenticationInterceptor);
 
                 builder = Retrofit.Builder()
-                builder!!.baseUrl(ApiConstants.API_BASE_URL)
+                builder!!.baseUrl(Constants.API_BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
                 builder!!.client(httpClient.build());
             }

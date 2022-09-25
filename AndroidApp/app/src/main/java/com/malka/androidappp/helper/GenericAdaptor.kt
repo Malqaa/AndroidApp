@@ -18,7 +18,7 @@ import com.malka.androidappp.helper.Extension.decimalNumberFormat
 import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.servicemodels.ConstantObjects
 import com.malka.androidappp.servicemodels.GetAddressResponse
-import com.malka.androidappp.servicemodels.model.Products
+import com.malka.androidappp.servicemodels.Product
 import com.malka.androidappp.servicemodels.questionModel.Question
 import kotlinx.android.synthetic.main.add_address_design.view.*
 import kotlinx.android.synthetic.main.product_item.view.*
@@ -28,7 +28,7 @@ class GenericAdaptor {
 
 
     fun productAdaptor(
-        element: Products?, context: Context, holder: BaseViewHolder, isGrid: Boolean
+        element: Product?, context: Context, holder: BaseViewHolder, isGrid: Boolean
     ) {
 
         holder.view.run {
@@ -81,13 +81,13 @@ class GenericAdaptor {
                         putExtra("Template", "")
                     })
                 }
-                Extension.loadThumbnail(
-                    context,
-                    image,
-                    productimg, loader
-                )
+//                Extension.loadThumbnail(
+//                    context,
+//                    image,
+//                    productimg, loader
+//                )
 
-                date_tv.text = date
+               // date_tv.text = date
                val listingTypeFormated="1"
                 when (listingTypeFormated) {
                     "1" -> {
@@ -189,8 +189,8 @@ class GenericAdaptor {
     }
 
 
-    fun setHomeProductAdaptor(list: List<Products>, product_rcv: RecyclerView) {
-        product_rcv.adapter = object : GenericListAdapter<Products>(
+    fun setHomeProductAdaptor(list: List<Product>, product_rcv: RecyclerView) {
+        product_rcv.adapter = object : GenericListAdapter<Product>(
             R.layout.product_item,
             bind = { element, holder, itemCount, position ->
                 holder.view.run {

@@ -17,7 +17,7 @@ class SplashActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
         hideSystemUI(mainContainer)
-        CommonAPI().getCountry(culture())
+        CommonAPI().getCountry()
         GoToHomeScreen()
 
     }

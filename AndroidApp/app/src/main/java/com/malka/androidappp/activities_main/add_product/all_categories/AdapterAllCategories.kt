@@ -9,7 +9,7 @@ import com.malka.androidappp.R
 import com.malka.androidappp.helper.BaseViewHolder
 import com.malka.androidappp.helper.hide
 import com.malka.androidappp.helper.show
-import com.malka.androidappp.network.constants.ApiConstants
+import com.malka.androidappp.network.constants.Constants
 import com.malka.androidappp.servicemodels.model.Category
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.all_categories_cardview.view.*
@@ -63,7 +63,7 @@ class AdapterAllCategories(
                     category_icon.setImageResource(R.drawable.product_attribute_bg2)
                 }else{
                     Picasso.get()
-                        .load(ApiConstants.IMAGE_URL + image)
+                        .load(Constants.IMAGE_URL + image)
                         .into(category_icon)
                 }
                 holder.itemView.setOnClickListener{

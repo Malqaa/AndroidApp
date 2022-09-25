@@ -1,16 +1,20 @@
 package com.malka.androidappp.fragments.browse_market
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.View
 import android.widget.Filter
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.malka.androidappp.R
 import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.fragments.browse_market.popup_subcategories_list.ModelAddSearchFav
 import com.malka.androidappp.fragments.browse_market.popup_subcategories_list.StaticGetSubcategoryByBrowseCateClick
 import com.malka.androidappp.fragments.browse_market.popup_subcategories_list.SubcategoriesDialogFragment
+import com.malka.androidappp.helper.CommonAPI
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.helper.hide
 import com.malka.androidappp.helper.show
@@ -18,17 +22,16 @@ import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.recycler_browsecat.GenericProductAdapter
-import com.malka.androidappp.servicemodels.AdDetailModel
-import com.malka.androidappp.servicemodels.ConstantObjects
-import com.malka.androidappp.servicemodels.Selection
-import com.malka.androidappp.servicemodels.categorylistings.CategoryResponse
-import com.malka.androidappp.servicemodels.categorylistings.SearchRequestModel
-import com.malka.androidappp.servicemodels.categorylistings.SearchRespone
+import com.malka.androidappp.servicemodels.*
+import com.malka.androidappp.servicemodels.model.Category
 import kotlinx.android.synthetic.main.fragment_browse_market.*
+import kotlinx.android.synthetic.main.region_item.view.*
 import kotlinx.android.synthetic.main.specification_design.view.*
 import kotlinx.android.synthetic.main.specification_sub_design.view.*
 import kotlinx.android.synthetic.main.sub_category_design.view.*
 import kotlinx.android.synthetic.main.sub_category_layout.view.*
+import kotlinx.android.synthetic.main.sub_city_item.view.*
+import kotlinx.android.synthetic.main.sub_region_item.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -41,12 +44,13 @@ class SearchCategoryActivity : BaseActivity() {
     var CategoryDesc: String = "";
     var SearchQuery: String = "";
     var browadptxl: GenericProductAdapter? = null
+    var CategoryID: String = ""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_browse_market)
-
+        CategoryID = intent?.getStringExtra("CategoryID") ?: ""
         CategoryDesc = intent?.getStringExtra("CategoryDesc").toString()
         SearchQuery = intent?.getStringExtra("SearchQuery").toString()
         intent?.getBooleanExtra("isMapShow", false)?.let {
@@ -75,58 +79,12 @@ class SearchCategoryActivity : BaseActivity() {
         }
 
         sub_catgeory.setOnClickListener {
-            val builder = AlertDialog.Builder(this@SearchCategoryActivity)
-                .create()
-            val view = layoutInflater.inflate(R.layout.sub_category_layout, null)
-            builder.setView(view)
-            bottom_bar.hide()
-            view.filter_bar.visibility = View.GONE
-            view.price_tv.visibility = View.GONE
-            fun subCategoryAdaptor(list: List<Selection>) {
-                view.sub_category_rcv.adapter = object : GenericListAdapter<Selection>(
-                    R.layout.sub_category_design,
-                    bind = { element, holder, itemCount, position ->
-                        holder.view.run {
-                            element.run {
-                                category_tv.text = name
-                            }
-                        }
-                    }
-                ) {
-                    override fun getFilter(): Filter {
-                        TODO("Not yet implemented")
-                    }
-
-                }.apply {
-                    submitList(
-                        list
-                    )
-                }
-            }
-            builder.setCanceledOnTouchOutside(true)
-            builder.show()
-            builder.setOnCancelListener {
-                bottom_bar.show()
-            }
-            view.region.setOnClickListener {
-                builder.dismiss()
-                region.performClick()
-            }
-
-            view.specification_t.setOnClickListener {
-                builder.dismiss()
-                specification.performClick()
-            }
-            view.sub_category.setOnClickListener {
-                builder.dismiss()
-                sub_catgeory.performClick()
-            }
-
-            subCategoryAdaptor((shippingOption))
-
+            GetSubCategoryByMainCategory(CategoryID)
         }
 
         region.setOnClickListener {
+
+
             val builder = AlertDialog.Builder(this@SearchCategoryActivity)
                 .create()
             val view = layoutInflater.inflate(R.layout.sub_category_layout, null)
@@ -135,15 +93,66 @@ class SearchCategoryActivity : BaseActivity() {
             view.filter_bar.visibility = View.GONE
             view.price_tv.visibility = View.GONE
 
-            fun regionAdaptor(list: List<Selection>) {
-                view.region_rcv.adapter = object : GenericListAdapter<Selection>(
-                    R.layout.sub_category_design,
+            fun regionAdaptor(list: List<Country>) {
+                view.region_rcv.adapter = object : GenericListAdapter<Country>(
+                    R.layout.region_item,
                     bind = { element, holder, itemCount, position ->
                         holder.view.run {
                             element.run {
-                                category_tv.text = name
-                                imageView_arrow.setImageResource(R.drawable.down_arrow)
+                                region_tv.text = name
+                                setOnClickListener {
+                                    CommonAPI().getRegion(id, this@SearchCategoryActivity) {regions->
 
+
+                                        sub_region_rcv.adapter = object : GenericListAdapter<Country>(
+                                            R.layout.sub_region_item,
+                                            bind = { element, holder, itemCount, position ->
+                                                holder.view.run {
+                                                    element.run {
+                                                        sub_region_tv.text = name
+                                                        setOnClickListener {
+                                                            CommonAPI().getCity(id, this@SearchCategoryActivity) {city->
+
+
+                                                                sub_city_rcv.adapter = object : GenericListAdapter<Country>(
+                                                                    R.layout.sub_city_item,
+                                                                    bind = { element, holder, itemCount, position ->
+                                                                        holder.view.run {
+                                                                            element.run {
+                                                                                sub_city_tv.text = name
+
+
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                ) {
+                                                                    override fun getFilter(): Filter {
+                                                                        TODO("Not yet implemented")
+                                                                    }
+
+                                                                }.apply {
+                                                                    submitList(
+                                                                        city
+                                                                    )
+                                                                }
+                                                            }
+                                                        }
+
+                                                    }
+                                                }
+                                            }
+                                        ) {
+                                            override fun getFilter(): Filter {
+                                                TODO("Not yet implemented")
+                                            }
+
+                                        }.apply {
+                                            submitList(
+                                                regions
+                                            )
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
@@ -179,7 +188,7 @@ class SearchCategoryActivity : BaseActivity() {
                 region.performClick()
             }
 
-            regionAdaptor((shippingOption))
+            regionAdaptor(ConstantObjects.countryList)
         }
 
         specification.setOnClickListener {
@@ -278,38 +287,63 @@ class SearchCategoryActivity : BaseActivity() {
 
         if (CategoryDesc.trim().length > 0) {
             SetToolbarTitle(CategoryDesc)
-            FetchCategories(CategoryDesc, "")
+            AdvanceFiltter(mapOf("mainCatId" to CategoryID))
             btn1.setOnClickListener { openDialog() }
             btn2.setOnClickListener { openDialog() }
             btn3.setOnClickListener { openDialog() }
         } else if (SearchQuery.trim().length > 0) {
             SetToolbarTitle("Search: " + SearchQuery)
-            FetchCategories("", SearchQuery)
+            AdvanceFiltter(mapOf("productName" to SearchQuery))
             if (HelpFunctions.IsUserLoggedIn()) {
                 addSearchQueryFav(SearchQuery)
             }
         }
 
+        follow_category.setOnClickListener {
+            FollowCategoryAPI()
+        }
+    }
 
+    private fun FollowCategoryAPI() {
+        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+
+        val call = malqa.AddFollow(CategoryID)
+
+        call.enqueue(object : Callback<GeneralResponse?> {
+            override fun onFailure(call: Call<GeneralResponse?>, t: Throwable) {
+                HelpFunctions.dismissProgressBar()
+            }
+
+            override fun onResponse(
+                call: Call<GeneralResponse?>,
+                response: Response<GeneralResponse?>
+            ) {
+                if (response.isSuccessful) {
+
+                    if (response.body() != null) {
+
+                        val respone = response.body()!!
+
+                    }
+
+                }
+                HelpFunctions.dismissProgressBar()
+            }
+        })
     }
 
 
-    var marketpost: ArrayList<AdDetailModel> = ArrayList()
+    var marketpost: ArrayList<Product> = ArrayList()
 
 
-    //Zack
-    //Date: 10/29/2020
-    fun FetchCategories(category: String, query: String) {
+    fun AdvanceFiltter(filter: Map<String, String>) {
         HelpFunctions.startProgressBar(this)
 
 
-        val requestbody =
-            SearchRequestModel(category, "", "", "", "", "", query, "", query)
-
         val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-        val call: Call<SearchRespone> = malqa.categorylist(requestbody)
-        call.enqueue(object : Callback<SearchRespone> {
-            override fun onFailure(call: Call<SearchRespone>, t: Throwable) {
+        val call: Call<GeneralResponse> = malqa.AdvanceFiltter(filter)
+        call.enqueue(object : Callback<GeneralResponse> {
+            override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
                 HelpFunctions.ShowAlert(
                     this@SearchCategoryActivity,
                     getString(R.string.Information),
@@ -320,16 +354,18 @@ class SearchCategoryActivity : BaseActivity() {
             }
 
             override fun onResponse(
-                call: Call<SearchRespone>,
-                response: Response<SearchRespone>
+                call: Call<GeneralResponse>,
+                response: Response<GeneralResponse>
             ) {
 
                 if (response.isSuccessful) {
-                    if (response.body() != null) {
-                        val resp: SearchRespone = response.body()!!
-                        resp.data.forEach {
-                            marketpost.add(it._source)
-                        }
+
+                    response.body()?.run {
+
+                        marketpost = Gson().fromJson(
+                            Gson().toJson(data),
+                            object : TypeToken<ArrayList<Product>>() {}.type
+                        )
                         if (marketpost.count() > 0) {
                             browadptxl!!.updateData(marketpost)
                             total_result_tv.text =
@@ -341,14 +377,11 @@ class SearchCategoryActivity : BaseActivity() {
                                 getString(R.string.NoRecordFound)
                             )
                         }
+
                     }
-                } else {
-                    HelpFunctions.ShowAlert(
-                        this@SearchCategoryActivity,
-                        getString(R.string.Information),
-                        getString(R.string.NoRecordFound)
-                    )
                 }
+
+
                 HelpFunctions.dismissProgressBar()
 
             }
@@ -356,58 +389,58 @@ class SearchCategoryActivity : BaseActivity() {
 
     }
 
-    fun SearchCategories(searchquery: String) {
-        HelpFunctions.startProgressBar(this)
-
-
-        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-        val call: Call<CategoryResponse> = malqa.searchcategorylist(searchquery)
-        call.enqueue(object : Callback<CategoryResponse> {
-            override fun onFailure(call: Call<CategoryResponse>, t: Throwable) {
-                HelpFunctions.ShowAlert(
-                    this@SearchCategoryActivity,
-                    getString(R.string.Information),
-                    getString(R.string.NoRecordFound)
-                )
-                HelpFunctions.dismissProgressBar()
-
-            }
-
-            override fun onResponse(
-                call: Call<CategoryResponse>, response: Response<CategoryResponse>
-            ) {
-
-                if (response.isSuccessful) {
-                    if (response.body() != null) {
-                        val resp: CategoryResponse = response.body()!!
-                        resp.data.forEach {
-                            marketpost.add(it)
-                        }
-                        if (marketpost.count() > 0) {
-                            browadptxl!!.updateData(marketpost)
-                            total_result_tv.text =
-                                getString(R.string.result, marketpost.count().toString())
-                        } else {
-                            HelpFunctions.ShowAlert(
-                                this@SearchCategoryActivity,
-                                getString(R.string.Information),
-                                getString(R.string.NoRecordFound)
-                            )
-                        }
-                    }
-                } else {
-                    HelpFunctions.ShowAlert(
-                        this@SearchCategoryActivity,
-                        getString(R.string.Information),
-                        getString(R.string.NoRecordFound)
-                    )
-                }
-                HelpFunctions.dismissProgressBar()
-
-            }
-        })
-
-    }
+//    fun SearchCategories(searchquery: String) {
+//        HelpFunctions.startProgressBar(this)
+//
+//
+//        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+//        val call: Call<CategoryResponse> = malqa.searchcategorylist(searchquery)
+//        call.enqueue(object : Callback<CategoryResponse> {
+//            override fun onFailure(call: Call<CategoryResponse>, t: Throwable) {
+//                HelpFunctions.ShowAlert(
+//                    this@SearchCategoryActivity,
+//                    getString(R.string.Information),
+//                    getString(R.string.NoRecordFound)
+//                )
+//                HelpFunctions.dismissProgressBar()
+//
+//            }
+//
+//            override fun onResponse(
+//                call: Call<CategoryResponse>, response: Response<CategoryResponse>
+//            ) {
+//
+//                if (response.isSuccessful) {
+//                    if (response.body() != null) {
+//                        val resp: CategoryResponse = response.body()!!
+//                        resp.data.forEach {
+//                            marketpost.add(it)
+//                        }
+//                        if (marketpost.count() > 0) {
+//                            browadptxl!!.updateData(marketpost)
+//                            total_result_tv.text =
+//                                getString(R.string.result, marketpost.count().toString())
+//                        } else {
+//                            HelpFunctions.ShowAlert(
+//                                this@SearchCategoryActivity,
+//                                getString(R.string.Information),
+//                                getString(R.string.NoRecordFound)
+//                            )
+//                        }
+//                    }
+//                } else {
+//                    HelpFunctions.ShowAlert(
+//                        this@SearchCategoryActivity,
+//                        getString(R.string.Information),
+//                        getString(R.string.NoRecordFound)
+//                    )
+//                }
+//                HelpFunctions.dismissProgressBar()
+//
+//            }
+//        })
+//
+//    }
 
     fun SetToolbarTitle(Category: String) {
         lbl_toolbar_category.text = Category;
@@ -447,5 +480,94 @@ class SearchCategoryActivity : BaseActivity() {
             HelpFunctions.ReportError(ex)
 
         }
+    }
+
+    private fun GetSubCategoryByMainCategory(categoryKey: String) {
+        HelpFunctions.startProgressBar(this)
+        val malqaa: MalqaApiService =
+            RetrofitBuilder.GetRetrofitBuilder()
+
+        val call: Call<GeneralResponse> =
+            malqaa.GetSubCategoryByMainCategory(categoryKey)
+
+        call.enqueue(object : Callback<GeneralResponse> {
+            @SuppressLint("UseRequireInsteadOfGet")
+            override fun onResponse(
+                call: Call<GeneralResponse>,
+                response: Response<GeneralResponse>
+            ) {
+                HelpFunctions.dismissProgressBar()
+
+                if (response.isSuccessful) {
+
+                    response.body()?.run {
+
+                        val list: ArrayList<Category> = Gson().fromJson(
+                            Gson().toJson(data),
+                            object : TypeToken<ArrayList<Category>>() {}.type
+                        )
+                        showFilterDialog(list)
+                    }
+                }
+
+
+            }
+
+            override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
+                HelpFunctions.dismissProgressBar()
+            }
+        })
+    }
+
+
+    private fun showFilterDialog(list: ArrayList<Category>) {
+        val builder = AlertDialog.Builder(this@SearchCategoryActivity)
+            .create()
+        val view = layoutInflater.inflate(R.layout.sub_category_layout, null)
+        builder.setView(view)
+        bottom_bar.hide()
+        view.filter_bar.visibility = View.GONE
+        view.price_tv.visibility = View.GONE
+        fun subCategoryAdaptor(list: List<Category>) {
+            view.sub_category_rcv.adapter = object : GenericListAdapter<Category>(
+                R.layout.sub_category_design,
+                bind = { element, holder, itemCount, position ->
+                    holder.view.run {
+                        element.run {
+                            category_tv.text = name
+                        }
+                    }
+                }
+            ) {
+                override fun getFilter(): Filter {
+                    TODO("Not yet implemented")
+                }
+
+            }.apply {
+                submitList(
+                    list
+                )
+            }
+        }
+        builder.setCanceledOnTouchOutside(true)
+        builder.show()
+        builder.setOnCancelListener {
+            bottom_bar.show()
+        }
+        view.region.setOnClickListener {
+            builder.dismiss()
+            region.performClick()
+        }
+
+        view.specification_t.setOnClickListener {
+            builder.dismiss()
+            specification.performClick()
+        }
+        view.sub_category.setOnClickListener {
+            builder.dismiss()
+            sub_catgeory.performClick()
+        }
+
+        subCategoryAdaptor(list)
     }
 }

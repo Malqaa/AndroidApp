@@ -1,20 +1,18 @@
 package com.malka.androidappp.helper.widgets.searchdialog;
 
-/**
- * Created by ajithvgiri on 06/11/17.
- */
+
 
 public class SearchListItem {
     int id;
     String title;
-    String key;
+    Integer key;
     String data;
 
     public SearchListItem(int id, String title) {
         this.id = id;
         this.title = title;
     }
-    public SearchListItem(String key, String title) {
+    public SearchListItem(Integer key, String title) {
         this.key = key;
         this.title = title;
     }
@@ -37,11 +35,11 @@ public class SearchListItem {
         this.title = title;
     }
 
-    public String getKey() {
+    public Integer getKey() {
         return key;
     }
 
-    public void setKey(String key) {
+    public void setKey(Integer key) {
         this.key = key;
     }
 

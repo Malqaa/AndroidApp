@@ -1,6 +1,7 @@
 package com.malka.androidappp.network.constants
 
-object ApiConstants {
+object Constants {
+
 
     const val HTTP_PROTOCOL = "http"
 
@@ -71,7 +72,6 @@ object ApiConstants {
 
 
     const val GET_CATEGORY_TAGS_ENDPOINT = "Category/Tags"
-    const val GET_ALL_CATEGORIES_BY_ID = "Category/getAllCategoryByTemplateName"
 
 
 

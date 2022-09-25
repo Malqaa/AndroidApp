@@ -45,7 +45,7 @@ class SignInActivity : BaseActivity() {
 
 
 
-        if (ConstantObjects.currentLanguage == ENGLISH) {
+        if (ConstantObjects.currentLanguage ==  ConstantObjects.ENGLISH) {
             language_toggle.checkedTogglePosition = 0
         } else {
             language_toggle.checkedTogglePosition = 1

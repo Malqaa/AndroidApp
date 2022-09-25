@@ -57,6 +57,7 @@
                     android:text="@string/follow_news"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_12sdp"
+                    android:id="@+id/follow_category"
                     app:drawableStartCompat="@drawable/notification" />
 
             </LinearLayout>
@@ -234,19 +235,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/_15sdp"
-        android:layout_marginStart="@dimen/_10sdp"
-        android:layout_marginEnd="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:layout_marginStart="@dimen/_7sdp"
+        android:layout_marginEnd="@dimen/_7sdp"
         android:orientation="horizontal"
-        android:visibility="gone"
+        android:weightSum="5"
         android:background="@drawable/edittext_bg">
 
         <TextView
             android:id="@+id/sub_catgeory"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sub Categories"
+            android:text="@string/sub_categories"
             android:gravity="center"
             android:layout_margin="@dimen/_12sdp"
             android:fontFamily="@font/madani_arabic_medium"
@@ -264,7 +265,7 @@
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Region"
+            android:text="@string/region"
             android:gravity="center"
             android:layout_margin="@dimen/_12sdp"
             android:fontFamily="@font/madani_arabic_medium"
@@ -277,11 +278,12 @@
 
 
         <TextView
+
             android:id="@+id/specification"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Specifications"
+            android:text="@string/specifications"
             android:gravity="center"
             android:layout_margin="@dimen/_12sdp"
             android:fontFamily="@font/madani_arabic_medium"

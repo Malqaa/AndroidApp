@@ -28,7 +28,7 @@ import com.malka.androidappp.fragments.shared_preferences.SharedPreferencesStati
 import com.malka.androidappp.fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ModelShipAddresses
 import com.malka.androidappp.fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ShippingAddressessData
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
-import com.malka.androidappp.network.constants.ApiConstants
+import com.malka.androidappp.network.constants.Constants
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.servicemodels.*
 import com.malka.androidappp.servicemodels.addtocart.AddToCartResponseModel
@@ -514,11 +514,11 @@ class HelpFunctions {
                 )
                 var apiurl: String = ""
                 if (sellerId != null && sellerId.trim().length > 0) {
-                    apiurl = ApiConstants.INSERT_FAVOURTIE_SELLER_URL;
+                    apiurl = Constants.INSERT_FAVOURTIE_SELLER_URL;
                 } else if (categoryName != null && categoryName.trim().length > 0) {
-                    apiurl = ApiConstants.INSERT_FAVOURTIE_CATEGORY_URL;
+                    apiurl = Constants.INSERT_FAVOURTIE_CATEGORY_URL;
                 } else if (searchQuery != null && searchQuery.trim().length > 0) {
-                    apiurl = ApiConstants.INSERT_FAVOURTIE_SEARCH_URL;
+                    apiurl = Constants.INSERT_FAVOURTIE_SEARCH_URL;
                 }
 
                 val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
@@ -594,11 +594,11 @@ class HelpFunctions {
                 )
                 var apiurl: String = ""
                 if (sellerid != null && sellerid.trim().length > 0) {
-                    apiurl = ApiConstants.REMOVE_FAVOURTIE_SELLER_URL;
+                    apiurl = Constants.REMOVE_FAVOURTIE_SELLER_URL;
                 } else if (category != null && category.trim().length > 0) {
-                    apiurl = ApiConstants.REMOVE_FAVOURTIE_CATEGORY_URL;
+                    apiurl = Constants.REMOVE_FAVOURTIE_CATEGORY_URL;
                 } else if (query != null && query.trim().length > 0) {
-                    apiurl = ApiConstants.REMOVE_FAVOURTIE_SEARCH_URL;
+                    apiurl = Constants.REMOVE_FAVOURTIE_SEARCH_URL;
                 }
 
                 val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
@@ -840,7 +840,7 @@ class HelpFunctions {
                 val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
 
                 val API_BASE_URL =
-                    ApiConstants.HTTP_PROTOCOL + "://" + ApiConstants.SERVER_LOCATION + "/" + ApiConstants.IMAGE_FOLDER + "/jsonTemplates/" + fileName
+                    Constants.HTTP_PROTOCOL + "://" + Constants.SERVER_LOCATION + "/" + Constants.IMAGE_FOLDER + "/jsonTemplates/" + fileName
 
                 val call = malqa.jsonTemplates(API_BASE_URL)
                 call.enqueue(object : Callback<JsonObject?> {

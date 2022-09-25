@@ -20,25 +20,16 @@ import com.yariksoffice.lingver.Lingver
 abstract class BaseActivity : AppCompatActivity() {
 
 
-    val ENGLISH = "en"
-    val ARABIC = "ar"
+
     fun culture():String{
-        if (ConstantObjects.currentLanguage == ENGLISH) {
-            return "en-US"
-        } else {
-            return "ar"
-        }
-
-    }
-
-    fun language():String{
-        if (ConstantObjects.currentLanguage == ENGLISH) {
+        if (ConstantObjects.currentLanguage == ConstantObjects.ENGLISH) {
             return "en"
         } else {
             return "ar"
         }
 
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
@@ -52,7 +43,7 @@ abstract class BaseActivity : AppCompatActivity() {
     fun setLocate() {
         ConstantObjects.categoryList= ArrayList()
         ConstantObjects.list= ArrayList()
-        Lingver.getInstance().setLocale(this, if (Lingver.getInstance().getLanguage() == ARABIC) ENGLISH else ARABIC)
+        Lingver.getInstance().setLocale(this, if (Lingver.getInstance().getLanguage() == ConstantObjects.ARABIC) ConstantObjects.ENGLISH else ConstantObjects.ARABIC)
         startActivity(Intent(this, SplashActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         })

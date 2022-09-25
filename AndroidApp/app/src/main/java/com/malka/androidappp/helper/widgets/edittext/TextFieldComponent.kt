@@ -588,7 +588,7 @@ class TextFieldComponent : LinearLayout {
 
                     val list: ArrayList<SearchListItem> = ArrayList()
                     ConstantObjects.countryList.forEachIndexed { index, country ->
-                        list.add(SearchListItem(country.key, "${country.name} (${country.countryCode})"))
+                        list.add(SearchListItem(country.id, "${country.name} (${country.countryCode})"))
                     }
                     showSpinner(
                         context as Activity,
@@ -597,7 +597,7 @@ class TextFieldComponent : LinearLayout {
                     ) {
                         selectedCountry = it
                         ConstantObjects.countryList.filter {
-                            it.key == selectedCountry!!.key
+                            it.id == selectedCountry!!.key
                         }.let {
                             if (it.size > 0) {
                                 _setEndText(it.get(0).countryCode)

@@ -39,7 +39,7 @@ import com.malka.androidappp.helper.swipe.MessageSwipeController
 import com.malka.androidappp.helper.swipe.SwipeControllerActions
 import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
-import com.malka.androidappp.network.constants.ApiConstants
+import com.malka.androidappp.network.constants.Constants
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.servicemodels.*
 import com.malka.androidappp.servicemodels.addtocart.InsertToCartRequestModel
@@ -200,7 +200,7 @@ class ProductDetails : BaseActivity() {
             onBackPressed()
         }
         btn_share.setOnClickListener {
-            shared("${ApiConstants.HTTP_PROTOCOL}://${ApiConstants.SERVER_LOCATION}/Advertisement/Detail/$AdvId?template=$template")
+            shared("${Constants.HTTP_PROTOCOL}://${Constants.SERVER_LOCATION}/Advertisement/Detail/$AdvId?template=$template")
         }
         next_image.setOnClickListener {
 
@@ -365,7 +365,7 @@ class ProductDetails : BaseActivity() {
                         }
 
 
-                        val imageURL = ApiConstants.IMAGE_URL + link
+                        val imageURL = Constants.IMAGE_URL + link
                         if (isVideo) {
                             loadThumbnail(
                                 this@ProductDetails,
@@ -599,7 +599,7 @@ class ProductDetails : BaseActivity() {
 
                         SharedPreferencesStaticClass.ad_userid = product.user!!
                         if (images!!.size > 0) {
-                            val imageURL = ApiConstants.IMAGE_URL + images.get(0)
+                            val imageURL = Constants.IMAGE_URL + images.get(0)
                             selectLink = imageURL
                             loadThumbnail(
                                 this@ProductDetails,

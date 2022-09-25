@@ -22,7 +22,7 @@ import com.malka.androidappp.R
 import com.malka.androidappp.fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
-import com.malka.androidappp.network.constants.ApiConstants
+import com.malka.androidappp.network.constants.Constants
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.servicemodels.ConstantObjects
 import com.malka.androidappp.servicemodels.feedbacks.FeedbackObject
@@ -204,7 +204,7 @@ class ProfileFrag : Fragment() {
                                 textFirstName.text = userinfo.data.fullName
                                 if (userinfo.data.image != null) {
                                     Picasso.get()
-                                        .load(ApiConstants.IMAGE_URL + userinfo.data.image)
+                                        .load(Constants.IMAGE_URL + userinfo.data.image)
                                         .into(imageUser)
                                 } else {
                                     imageUser.setImageResource(R.drawable.profilepic)

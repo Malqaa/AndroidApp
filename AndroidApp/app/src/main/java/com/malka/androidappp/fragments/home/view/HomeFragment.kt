@@ -16,6 +16,7 @@ import androidx.viewpager.widget.ViewPager
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.malka.androidappp.R
+import com.malka.androidappp.activities_main.MainActivity
 import com.malka.androidappp.activities_main.login.SignInActivity
 import com.malka.androidappp.activities_main.order.CartActivity
 import com.malka.androidappp.base.BaseActivity
@@ -30,7 +31,7 @@ import com.malka.androidappp.servicemodels.GeneralResponse
 import com.malka.androidappp.servicemodels.Slider
 import com.malka.androidappp.servicemodels.model.Category
 import com.malka.androidappp.servicemodels.model.DynamicList
-import com.malka.androidappp.servicemodels.model.HomeProducts
+import com.malka.androidappp.servicemodels.model.HomeProductsResponse
 import kotlinx.android.synthetic.main.fragment_homee.*
 import kotlinx.android.synthetic.main.parenet_category_item.view.*
 import retrofit2.Call
@@ -204,7 +205,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee),
             setHomeAdaptor()
         } else {
             val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-            val call: Call<GeneralResponse> = malqa.ListHomeCategoryProduct()
+            val call: Call<GeneralResponse> = malqa.ListHomeCategoryProduct((requireActivity() as MainActivity).culture())
             call.enqueue(object : Callback<GeneralResponse> {
                 override fun onResponse(
                     call: Call<GeneralResponse>,
@@ -214,9 +215,9 @@ class HomeFragment : Fragment(R.layout.fragment_homee),
 
                         response.body()?.run {
 
-                            val homeproduct: ArrayList<HomeProducts.HomeCategory> = Gson().fromJson(
+                            val homeproduct: ArrayList<HomeProductsResponse.HomeCategory> = Gson().fromJson(
                                 Gson().toJson(data),
-                                object : TypeToken<ArrayList<HomeProducts.HomeCategory>>() {}.type
+                                object : TypeToken<ArrayList<HomeProductsResponse.HomeCategory>>() {}.type
                             )
                             homeproduct.forEach {
                                 ConstantObjects.list.apply {
@@ -319,6 +320,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee),
                 SearchCategoryActivity::class.java
             ).apply {
                 putExtra("CategoryDesc", ConstantObjects.categoryList[position].name)
+                putExtra("CategoryID", ConstantObjects.categoryList[position].id.toString())
                 putExtra("SearchQuery", "")
                 putExtra("isMapShow", ConstantObjects.categoryList[position].id == 3)
 

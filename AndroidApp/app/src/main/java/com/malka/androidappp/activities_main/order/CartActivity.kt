@@ -8,7 +8,7 @@ import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
-import com.malka.androidappp.network.constants.ApiConstants
+import com.malka.androidappp.network.constants.Constants
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.servicemodels.ConstantObjects
 import com.malka.androidappp.servicemodels.addtocart.AddToCartResponseModel
@@ -70,7 +70,7 @@ class CartActivity : BaseActivity() {
                         }
                         prod_price.text = "$price ${getString(R.string.sar)}"
                         Picasso.get()
-                            .load(ApiConstants.IMAGE_URL + image)
+                            .load(Constants.IMAGE_URL + image)
                             .into(prod_image)
                     }
                 }

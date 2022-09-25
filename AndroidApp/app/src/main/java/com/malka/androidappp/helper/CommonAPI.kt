@@ -3,13 +3,12 @@ package com.malka.androidappp.helper
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import com.google.common.reflect.TypeToken
+import com.google.gson.Gson
 import com.malka.androidappp.R
-import com.malka.androidappp.servicemodels.GetAddressResponse
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
-import com.malka.androidappp.servicemodels.ConstantObjects
-import com.malka.androidappp.servicemodels.CountryRespone
-import com.malka.androidappp.servicemodels.ModelSoldUnsold
+import com.malka.androidappp.servicemodels.*
 import com.malka.androidappp.servicemodels.creditcard.CreditCardModel
 import com.malka.androidappp.servicemodels.creditcard.CreditCardResponse
 import com.malka.androidappp.servicemodels.user.UserObject
@@ -20,7 +19,7 @@ import retrofit2.Response
 class CommonAPI {
 
 
-    fun GetUserInfo(context:Context,userid: String, onSuccess: () -> Unit) {
+    fun GetUserInfo(context: Context, userid: String, onSuccess: () -> Unit) {
         HelpFunctions.startProgressBar(context as Activity)
 
         val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
@@ -30,9 +29,9 @@ class CommonAPI {
                 if (response.isSuccessful) {
                     if (response.body() != null) {
                         response.body()!!.run {
-                            if(status_code==200){
+                            if (status_code == 200) {
                                 ConstantObjects.userobj = response.body()!!.data
-                                ConstantObjects.logged_userid = response.body()!!.data.id?:""
+                                ConstantObjects.logged_userid = response.body()!!.data.id ?: ""
                                 onSuccess.invoke()
                             }
                         }
@@ -49,7 +48,10 @@ class CommonAPI {
         })
     }
 
-    fun getAddress(context: Context, onSuccess: ((data: List<GetAddressResponse.AddressModel>) -> Unit)) {
+    fun getAddress(
+        context: Context,
+        onSuccess: ((data: List<GetAddressResponse.AddressModel>) -> Unit)
+    ) {
 
         HelpFunctions.startProgressBar(context as Activity)
 
@@ -90,7 +92,7 @@ class CommonAPI {
 
     }
 
-    fun GetUserCreditCards(context: Context,onSuccess: ((data: List<CreditCardModel>) -> Unit)) {
+    fun GetUserCreditCards(context: Context, onSuccess: ((data: List<CreditCardModel>) -> Unit)) {
         HelpFunctions.startProgressBar(context as Activity)
 
         val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
@@ -124,9 +126,11 @@ class CommonAPI {
     }
 
 
-
-
-    fun getSoldItemsApi(userId: String, context: Context, onSuccess: ((data: ModelSoldUnsold.Data) -> Unit)) {
+    fun getSoldItemsApi(
+        userId: String,
+        context: Context,
+        onSuccess: ((data: ModelSoldUnsold.Data) -> Unit)
+    ) {
         HelpFunctions.startProgressBar(context as Activity)
 
         val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
@@ -147,7 +151,7 @@ class CommonAPI {
 
                 } else {
                     HelpFunctions.ShowLongToast(
-                       context.getString(R.string.ErrorOccur),
+                        context.getString(R.string.ErrorOccur),
                         context
                     )
 
@@ -169,31 +173,113 @@ class CommonAPI {
         })
 
     }
-    fun getCountry(culture: String) {
+
+    fun getCountry() {
 
 
         val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-        val call = malqa.getCountry(culture)
-        call.enqueue(object : Callback<CountryRespone?> {
-            override fun onFailure(call: Call<CountryRespone?>, t: Throwable) {
+        val call = malqa.getCountry()
+        call.enqueue(object : Callback<GeneralResponse?> {
+            override fun onFailure(call: Call<GeneralResponse?>, t: Throwable) {
 
             }
 
             override fun onResponse(
-                call: Call<CountryRespone?>,
-                response: Response<CountryRespone?>
+                call: Call<GeneralResponse?>,
+                response: Response<GeneralResponse?>
             ) {
+
                 if (response.isSuccessful) {
 
-                    if (response.body() != null) {
-                        val respone: CountryRespone = response.body()!!
-                        if (respone.status_code == 200) {
-                            ConstantObjects.countryList = respone.data
+                    response.body()?.run {
+                        if (status_code == 200) {
+                            val list: ArrayList<Country> = Gson().fromJson(
+                                Gson().toJson(data),
+                                object : TypeToken<ArrayList<Country>>() {}.type
+                            )
+                            ConstantObjects.countryList = list
                         }
                     }
-
                 }
+
             }
         })
     }
+
+
+    fun getRegion(key: Int,activity: Activity, onResponse: (list: ArrayList<Country>) -> Unit) {
+        HelpFunctions.startProgressBar(activity)
+        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+        val call = malqa.getRegion(key)
+        call.enqueue(object : Callback<GeneralResponse?> {
+            override fun onFailure(call: Call<GeneralResponse?>?, t: Throwable) {
+                HelpFunctions.dismissProgressBar()
+
+            }
+
+            override fun onResponse(
+                call: Call<GeneralResponse?>,
+                response: Response<GeneralResponse?>
+            ) {
+                HelpFunctions.dismissProgressBar()
+
+                if (response.isSuccessful) {
+
+                    response.body()?.run {
+                        if (status_code == 200) {
+                            val list: ArrayList<Country> = Gson().fromJson(
+                                Gson().toJson(data),
+                                object : TypeToken<ArrayList<Country>>() {}.type
+                            )
+                            onResponse.invoke(list)
+                           
+                        }
+                    }
+                }
+                
+
+            }
+        })
+
+
+    }
+
+
+    fun getCity(key: Int,activity: Activity, onResponse: (list: ArrayList<Country>) -> Unit) {
+        HelpFunctions.startProgressBar(activity)
+
+
+        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+        val call = malqa.getCity(key)
+        call.enqueue(object : Callback<GeneralResponse?> {
+            override fun onFailure(call: Call<GeneralResponse?>?, t: Throwable) {
+                HelpFunctions.dismissProgressBar()
+            }
+
+            override fun onResponse(
+                call: Call<GeneralResponse?>,
+                response: Response<GeneralResponse?>
+            ) {
+                HelpFunctions.dismissProgressBar()
+                if (response.isSuccessful) {
+
+                    response.body()?.run {
+                        if (status_code == 200) {
+                            val list: ArrayList<Country> = Gson().fromJson(
+                                Gson().toJson(data),
+                                object : TypeToken<ArrayList<Country>>() {}.type
+                            )
+                            onResponse.invoke(list)
+
+                        }
+                    }
+                }
+
+
+            }
+        })
+
+
+    }
+
 }

@@ -35,7 +35,7 @@ class SignupPg1 : BaseActivity() {
         setContentView(R.layout.activity_signup_pg1)
 
 
-        if (ConstantObjects.currentLanguage == ENGLISH) {
+        if (ConstantObjects.currentLanguage ==ConstantObjects. ENGLISH) {
             language_toggle.checkedTogglePosition = 0
         } else {
             language_toggle.checkedTogglePosition = 1
@@ -201,7 +201,7 @@ class SignupPg1 : BaseActivity() {
 
             usernaam.requestBody(),
             "abc".requestBody(),
-            language().requestBody(),
+            culture().requestBody(),
             projectName.requestBody(),
             deviceType.requestBody(),
             getDeviceId().requestBody()

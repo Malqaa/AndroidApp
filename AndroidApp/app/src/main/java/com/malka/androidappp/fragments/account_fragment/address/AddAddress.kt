@@ -11,7 +11,9 @@ import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.helper.widgets.searchdialog.SearchListItem
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
-import com.malka.androidappp.servicemodels.*
+import com.malka.androidappp.servicemodels.ConstantObjects
+import com.malka.androidappp.servicemodels.GeneralRespone
+import com.malka.androidappp.servicemodels.GetAddressResponse
 import kotlinx.android.synthetic.main.add_address_fragment.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 import retrofit2.Call
@@ -60,18 +62,18 @@ class AddAddress : BaseActivity() {
             }.let {
                 if(it.isNotEmpty()){
                     it.get(0).run {
-                        selectedCountry = SearchListItem(key, name)
-                        getRegion(selectedCountry!!.key, culture()) {
+                        selectedCountry = SearchListItem(id, name)
+
+                        CommonAPI().getRegion(selectedCountry!!.key, this@AddAddress) {
                             it.filter {
                                 it.name==select_region.text.toString()
                             }.let {
                                 if (it.isNotEmpty()) {
                                     it.get(0).run {
-                                        selectedRegion = SearchListItem(key, name)
+                                        selectedRegion = SearchListItem(id, name)
                                     }
                                 }
                             }
-
                         }
                     }
                 }
@@ -144,7 +146,7 @@ class AddAddress : BaseActivity() {
         select_country._setOnClickListener {
             val list: ArrayList<SearchListItem> = ArrayList()
             ConstantObjects.countryList.forEachIndexed { index, country ->
-                list.add(SearchListItem(country.key, country.name))
+                list.add(SearchListItem(country.id, country.name))
             }
             select_country.showSpinner(
                 this,
@@ -161,7 +163,7 @@ class AddAddress : BaseActivity() {
 
 
                 ConstantObjects.countryList.filter {
-                    it.key == selectedCountry!!.key
+                    it.id == selectedCountry!!.key
                 }.let {
                     if (it.size > 0) {
                         select_country._setStartIconImage(it.get(0).flagimglink)
@@ -179,18 +181,20 @@ class AddAddress : BaseActivity() {
                     )
                 )
             } else {
-                getRegion(selectedCountry!!.key, culture()) {
+                CommonAPI().getRegion(selectedCountry!!.key, this) {
                     val list: ArrayList<SearchListItem> = ArrayList()
                     it.forEachIndexed { index, country ->
-                        list.add(SearchListItem(country.key, country.name))
+                        list.add(SearchListItem(country.id, country.name))
                     }
                     select_region.showSpinner(
-                        this@AddAddress,
+                        this,
                         list,
                         getString(R.string.Select, getString(R.string.Region))
                     ) {
                         select_region.text = it.title
                         selectedRegion = it
+
+
                         select_city.text = ""
                         selectedCity = null
 
@@ -210,92 +214,27 @@ class AddAddress : BaseActivity() {
                 )
 
             } else {
-                getCity(selectedRegion!!.key)
+                CommonAPI().getCity(selectedRegion!!.key,this) {
+                    val list: ArrayList<SearchListItem> = ArrayList()
+                    it.forEachIndexed { index, country ->
+                        list.add(SearchListItem(country.id, country.name))
+                    }
+                    select_city.showSpinner(
+                        this,
+                        list,
+                        getString(R.string.Select, getString(R.string.district))
+                    ) {
+                        select_city.text = it.title
+                        selectedCity = it
+                    }
+                }
             }
         }
 
     }
 
 
-    fun getRegion(key: String, culture: String,onSuccess: (data: List<Country>) -> Unit) {
-        HelpFunctions.startProgressBar(this)
 
-
-        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-        val call = malqa.getRegion(key, culture)
-        call.enqueue(object : Callback<CountryRespone?> {
-            override fun onFailure(call: Call<CountryRespone?>, t: Throwable) {
-                HelpFunctions.dismissProgressBar()
-
-            }
-
-            override fun onResponse(
-                call: Call<CountryRespone?>,
-                response: retrofit2.Response<CountryRespone?>
-            ) {
-                if (response.isSuccessful) {
-
-                    if (response.body() != null) {
-                        val respone: CountryRespone = response.body()!!
-                        if (respone.status_code == 200) {
-                            onSuccess.invoke(respone.data)
-                        }
-                    }
-
-                }
-                HelpFunctions.dismissProgressBar()
-
-            }
-        })
-
-
-    }
-
-
-    fun getCity(key: String) {
-        HelpFunctions.startProgressBar(this)
-
-
-        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-        val call = malqa.getCity(key,culture())
-        call.enqueue(object : Callback<CountryRespone?> {
-            override fun onFailure(call: Call<CountryRespone?>, t: Throwable) {
-                HelpFunctions.dismissProgressBar()
-
-            }
-
-            override fun onResponse(
-                call: Call<CountryRespone?>,
-                response: retrofit2.Response<CountryRespone?>
-            ) {
-                if (response.isSuccessful) {
-
-                    if (response.body() != null) {
-                        val respone: CountryRespone = response.body()!!
-                        if (respone.status_code == 200) {
-                            val list: ArrayList<SearchListItem> = ArrayList()
-                            respone.data.forEachIndexed { index, country ->
-                                list.add(SearchListItem(country.key, country.name))
-                            }
-                            select_city.showSpinner(
-                                this@AddAddress,
-                                list,
-                                getString(R.string.Select, getString(R.string.district))
-                            ) {
-                                select_city.text = it.title
-                                selectedCity = it
-                            }
-                        }
-                    }
-
-                }
-                HelpFunctions.dismissProgressBar()
-
-            }
-        })
-
-
-    }
 
 
     private fun SelectCity(): Boolean {

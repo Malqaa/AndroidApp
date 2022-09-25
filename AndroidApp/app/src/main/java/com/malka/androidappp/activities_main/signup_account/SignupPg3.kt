@@ -6,13 +6,13 @@ import android.widget.Toast
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.login.SignInActivity
 import com.malka.androidappp.base.BaseActivity
+import com.malka.androidappp.helper.CommonAPI
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.helper.widgets.DatePickerFragment
 import com.malka.androidappp.helper.widgets.searchdialog.SearchListItem
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.servicemodels.ConstantObjects
-import com.malka.androidappp.servicemodels.CountryRespone
 import com.malka.androidappp.servicemodels.User
 import kotlinx.android.synthetic.main.activity_signup_pg4.*
 import retrofit2.Call
@@ -38,7 +38,7 @@ class SignupPg3 : BaseActivity() {
         }
 
         ConstantObjects.countryList.filter {
-            it.key == ConstantObjects.defaltCountry
+            it.id == ConstantObjects.defaltCountry
         }.let {
             if (it.size > 0) {
                 select_country._setStartIconImage(it.get(0).flagimglink)
@@ -47,7 +47,7 @@ class SignupPg3 : BaseActivity() {
         select_country._setOnClickListener {
             val list: ArrayList<SearchListItem> = ArrayList()
             ConstantObjects.countryList.forEachIndexed { index, country ->
-                list.add(SearchListItem(country.key, country.name))
+                list.add(SearchListItem(country.id, country.name))
             }
             select_country.showSpinner(
                 this,
@@ -60,7 +60,7 @@ class SignupPg3 : BaseActivity() {
                 selectedRegion = null
 
                 ConstantObjects.countryList.filter {
-                    it.key == selectedCountry!!.key
+                    it.id == selectedCountry!!.key
                 }.let {
                     if (it.size > 0) {
                         select_country._setStartIconImage(it.get(0).flagimglink)
@@ -73,7 +73,25 @@ class SignupPg3 : BaseActivity() {
             if (select_country.text.toString().isEmpty()) {
                 showError(getString(R.string.Please_select, getString(R.string.Country)))
             } else {
-                getRegion(selectedCountry!!.key, culture())
+                CommonAPI().getRegion(selectedCountry!!.key, this) {
+                    val list: ArrayList<SearchListItem> = ArrayList()
+                   it.forEachIndexed { index, country ->
+                        list.add(SearchListItem(country.id, country.name))
+                    }
+                    select_region.showSpinner(
+                        this@SignupPg3,
+                        list,
+                        getString(R.string.Select, getString(R.string.Region))
+                    ) {
+                        select_region.text = it.title
+                        selectedRegion = it
+
+
+                        select_city.text = ""
+                        selectedCity = null
+
+                    }
+                }
             }
 
         }
@@ -82,7 +100,20 @@ class SignupPg3 : BaseActivity() {
             if (select_region.text.toString().isEmpty()) {
                 showError(getString(R.string.Please_select, getString(R.string.Region)))
             } else {
-                getCity(selectedRegion!!.key)
+                CommonAPI().getCity(selectedRegion!!.key,this) {
+                    val list: ArrayList<SearchListItem> = ArrayList()
+                    it.forEachIndexed { index, country ->
+                        list.add(SearchListItem(country.id, country.name))
+                    }
+                    select_city.showSpinner(
+                        this@SignupPg3,
+                        list,
+                        getString(R.string.Select, getString(R.string.district))
+                    ) {
+                        select_city.text = it.title
+                        selectedCity = it
+                    }
+                }
             }
         }
 
@@ -107,101 +138,7 @@ class SignupPg3 : BaseActivity() {
     }
 
 
-    fun getRegion(key: String, culture: String) {
-        HelpFunctions.startProgressBar(this)
 
-
-        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-        val call = malqa.getRegion(key, culture)
-        call.enqueue(object : retrofit2.Callback<CountryRespone?> {
-            override fun onFailure(call: retrofit2.Call<CountryRespone?>?, t: Throwable) {
-                HelpFunctions.dismissProgressBar()
-
-            }
-
-            override fun onResponse(
-                call: retrofit2.Call<CountryRespone?>,
-                response: retrofit2.Response<CountryRespone?>
-            ) {
-                if (response.isSuccessful) {
-
-                    if (response.body() != null) {
-                        val respone: CountryRespone = response.body()!!
-                        if (respone.status_code == 200) {
-                            val list: ArrayList<SearchListItem> = ArrayList()
-                            respone.data.forEachIndexed { index, country ->
-                                list.add(SearchListItem(country.key, country.name))
-                            }
-                            select_region.showSpinner(
-                                this@SignupPg3,
-                                list,
-                                getString(R.string.Select, getString(R.string.Region))
-                            ) {
-                                select_region.text = it.title
-                                selectedRegion = it
-
-
-                                select_city.text = ""
-                                selectedCity = null
-
-                            }
-                        }
-                    }
-
-                }
-                HelpFunctions.dismissProgressBar()
-
-            }
-        })
-
-
-    }
-
-
-    fun getCity(key: String) {
-        HelpFunctions.startProgressBar(this)
-
-
-        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-        val call = malqa.getCity(key, culture())
-        call.enqueue(object : retrofit2.Callback<CountryRespone?> {
-            override fun onFailure(call: retrofit2.Call<CountryRespone?>?, t: Throwable) {
-                HelpFunctions.dismissProgressBar()
-
-            }
-
-            override fun onResponse(
-                call: retrofit2.Call<CountryRespone?>,
-                response: retrofit2.Response<CountryRespone?>
-            ) {
-                if (response.isSuccessful) {
-
-                    if (response.body() != null) {
-                        val respone: CountryRespone = response.body()!!
-                        if (respone.status_code == 200) {
-                            val list: ArrayList<SearchListItem> = ArrayList()
-                            respone.data.forEachIndexed { index, country ->
-                                list.add(SearchListItem(country.key, country.name))
-                            }
-                            select_city.showSpinner(
-                                this@SignupPg3,
-                                list,
-                                getString(R.string.Select, getString(R.string.district))
-                            ) {
-                                select_city.text = it.title
-                                selectedCity = it
-                            }
-                        }
-                    }
-
-                }
-                HelpFunctions.dismissProgressBar()
-
-            }
-        })
-
-
-    }
 
 
     override fun onBackPressed() {

@@ -2951,10 +2951,13 @@ Want to start a business account? Create a Business Account
     <string name="choose_the_category_you_prefer_to_receive_all_new_about_it">Choose the category you prefer to receive all new about it</string>
     <string name="balance_withdrawal">Balance withdrawal</string>
     <string name="favorite_subcategories">Favorite subcategories</string>
-  <string name="filter_application">Filter application</string>
-  <string name="reviews_type">Reviews type</string>
-  <string name="reviews_as_a_seller">Reviews as a seller</string>
+    <string name="filter_application">Filter application</string>
+    <string name="reviews_type">Reviews type</string>
+    <string name="reviews_as_a_seller">Reviews as a seller</string>
     <string name="following">Following</string>
+    <string name="sub_categories">Sub Categories</string>
+    <string name="region">Region</string>
+    <string name="specifications">Specifications</string>
 
 
 </resources>

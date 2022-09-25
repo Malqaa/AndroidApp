@@ -8,7 +8,7 @@ import android.widget.ImageView
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.malka.androidappp.R
-import com.malka.androidappp.network.constants.ApiConstants
+import com.malka.androidappp.network.constants.Constants
 import com.squareup.picasso.Picasso
 
 
@@ -34,7 +34,7 @@ class ViewPagerAdapter(private val context: Context, val imagelist: List<String>
         if (images != null && position < images.count()) {
             val imageView = view.findViewById<View>(R.id.imageView) as ImageView
             Picasso.get()
-                .load(ApiConstants.IMAGE_URL + images[position])
+                .load(Constants.IMAGE_URL + images[position])
                 .into(imageView);
             val vp = container as ViewPager
             vp.addView(view, 0)

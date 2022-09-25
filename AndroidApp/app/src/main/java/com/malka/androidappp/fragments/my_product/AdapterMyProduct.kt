@@ -7,7 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
-import com.malka.androidappp.network.constants.ApiConstants
+import com.malka.androidappp.network.constants.Constants
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.my_product_cardview.view.*
 
@@ -61,7 +61,7 @@ class AdapterMyProduct(
 
         if (myProductPost[position].images != null)
             Picasso.get()
-                .load(ApiConstants.IMAGE_URL + myProductPost[position].images!!.get(0))
+                .load(Constants.IMAGE_URL + myProductPost[position].images!!.get(0))
                 .into(holder.myproducticon) else holder.myproducticon.setImageResource(R.drawable.cam)
 
         holder.myProductname.text = myProductPost[position].title

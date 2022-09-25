@@ -11,9 +11,12 @@ import com.malka.androidappp.servicemodels.model.DynamicList
 
 class ConstantObjects {
     companion object {
+        val ENGLISH = "en"
+        val ARABIC = "ar"
+
         var is_watch_iv: ImageView?=null
 
-        val defaltCountry: String = "KSA-en-US";
+        val defaltCountry: Int = 3;
         val isSuccess: String = "isSuccess";
 
 

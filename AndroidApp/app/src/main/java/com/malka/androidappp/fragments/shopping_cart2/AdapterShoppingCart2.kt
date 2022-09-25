@@ -12,7 +12,7 @@ import com.malka.androidappp.R
 import com.malka.androidappp.fragments.shoppingcart3_shippingaddress.ShippingAddress
 import com.malka.androidappp.fragments.shoppingcart6_paymentmethod.CartPaymentMethod
 import com.malka.androidappp.helper.HelpFunctions
-import com.malka.androidappp.network.constants.ApiConstants
+import com.malka.androidappp.network.constants.Constants
 import com.malka.androidappp.servicemodels.ConstantObjects
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.shoppingcart2_card.view.*
@@ -50,7 +50,7 @@ class AdapterShoppingCart2(
 
         if (shoppingcartProductposts[position].productImgCaart != null && shoppingcartProductposts[position].productImgCaart.trim().length > 0)
             Picasso.get()
-                .load(ApiConstants.IMAGE_URL + shoppingcartProductposts[position].productImgCaart.trim())
+                .load(Constants.IMAGE_URL + shoppingcartProductposts[position].productImgCaart.trim())
                 .into(holder.imgShopcartproduct) else holder.imgShopcartproduct.setImageResource(R.drawable.cam)
         holder.listingParty.text = shoppingcartProductposts[position].listingPartyy
         holder.cartproductDescrip.text = shoppingcartProductposts[position].cartproductDescripp

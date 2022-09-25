@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.add_product.AddPhoto
 import com.malka.androidappp.base.BaseActivity
@@ -12,7 +14,7 @@ import com.malka.androidappp.helper.Extension.truncateString
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
-import com.malka.androidappp.servicemodels.model.AllCategoriesResponseBack
+import com.malka.androidappp.servicemodels.GeneralResponse
 import com.malka.androidappp.servicemodels.model.Category
 import kotlinx.android.synthetic.main.fragment_sub_categories.*
 import kotlinx.android.synthetic.main.toolbar_main.*
@@ -56,43 +58,48 @@ class SubCategories :  BaseActivity() , AdapterSubCategories.OnItemClickListener
             val malqaa: MalqaApiService =
                 RetrofitBuilder.GetRetrofitBuilder()
 
-            val call: Call<AllCategoriesResponseBack> =
-                malqaa.getAllCategoriesByTemplateID(categoryKey,culture())
+            val call: Call<GeneralResponse> =
+                malqaa.GetSubCategoryByMainCategory(categoryKey)
 
-            call.enqueue(object : Callback<AllCategoriesResponseBack> {
+            call.enqueue(object : Callback<GeneralResponse> {
                 @SuppressLint("UseRequireInsteadOfGet")
                 override fun onResponse(
-                    call: Call<AllCategoriesResponseBack>,
-                    response: Response<AllCategoriesResponseBack>
+                    call: Call<GeneralResponse>,
+                    response: Response<GeneralResponse>
                 ) {
+
                     if (response.isSuccessful) {
-                        if (response.body() != null) {
-                            val resp: AllCategoriesResponseBack = response.body()!!
-                            allCategoryList = resp.data
 
-                            if (allCategoryList.count() > 0) {
+                        response.body()?.run {
+                            if (status_code == 200) {
+                                allCategoryList = Gson().fromJson(
+                                    Gson().toJson(data),
+                                    object : TypeToken<ArrayList<Category>>() {}.type
+                                )
+
+                                if (allCategoryList.count() > 0) {
 
 
-                                allCategoriesRecyclerView.adapter =
-                                    AdapterSubCategories(
-                                        allCategoryList,
-                                        this@SubCategories
-                                    )
+                                    allCategoriesRecyclerView.adapter =
+                                        AdapterSubCategories(
+                                            allCategoryList,
+                                            this@SubCategories
+                                        )
 
-                                HelpFunctions.dismissProgressBar()
-                            } else {
-                                HelpFunctions.dismissProgressBar()
-                                Toast.makeText(this@SubCategories, "No Categories found", Toast.LENGTH_LONG)
-                                    .show()
+                                    HelpFunctions.dismissProgressBar()
+                                } else {
+                                    HelpFunctions.dismissProgressBar()
+                                    Toast.makeText(this@SubCategories, "No Categories found", Toast.LENGTH_LONG)
+                                        .show()
+                                }
                             }
+
                         }
-                    } else {
-                        HelpFunctions.dismissProgressBar()
-                        Toast.makeText(this@SubCategories, "No Categories found", Toast.LENGTH_LONG).show()
                     }
+
                 }
 
-                override fun onFailure(call: Call<AllCategoriesResponseBack>, t: Throwable) {
+                override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
                     HelpFunctions.dismissProgressBar()
                     Toast.makeText(this@SubCategories, t.message, Toast.LENGTH_LONG).show()
                 }

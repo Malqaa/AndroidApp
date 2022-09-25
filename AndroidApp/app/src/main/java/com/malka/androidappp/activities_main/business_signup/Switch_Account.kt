@@ -13,7 +13,7 @@ import com.malka.androidappp.servicemodels.BusinessUserRespone
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
-import com.malka.androidappp.network.constants.ApiConstants
+import com.malka.androidappp.network.constants.Constants
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.servicemodels.ConstantObjects
 import com.squareup.picasso.Picasso
@@ -104,7 +104,7 @@ class Switch_Account : BaseActivity() {
                 holder.view.run {
                     element.run {
                         business_name.text = businessName
-                        val imageURL = ApiConstants.IMAGE_URL + businessLogoPath
+                        val imageURL = Constants.IMAGE_URL + businessLogoPath
                         if (!imageURL.isNullOrEmpty()) {
                             Picasso.get().load(imageURL)
                                 .error(R.drawable.profileicon_bottomnav).placeholder(R.drawable.profileicon_bottomnav)

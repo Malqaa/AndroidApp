@@ -20,15 +20,12 @@ import com.malka.androidappp.fragments.my_product.edit_product.ModelEditProduct
 import com.malka.androidappp.fragments.sellerdetails.SellerResponseBack
 import com.malka.androidappp.fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ModelShipAddresses
 import com.malka.androidappp.fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ShippingAddressessData
-import com.malka.androidappp.network.constants.ApiConstants
-import com.malka.androidappp.network.constants.ApiConstants.GET_ALL_CATEGORIES_BY_ID
-import com.malka.androidappp.network.constants.ApiConstants.GET_CATEGORY_TAGS_ENDPOINT
+import com.malka.androidappp.network.constants.Constants
+import com.malka.androidappp.network.constants.Constants.GET_CATEGORY_TAGS_ENDPOINT
 import com.malka.androidappp.servicemodels.*
 import com.malka.androidappp.servicemodels.addtocart.AddToCartResponseModel
 import com.malka.androidappp.servicemodels.addtocart.InsertToCartRequestModel
 import com.malka.androidappp.servicemodels.categorylistings.CategoryResponse
-import com.malka.androidappp.servicemodels.categorylistings.SearchRequestModel
-import com.malka.androidappp.servicemodels.categorylistings.SearchRespone
 import com.malka.androidappp.servicemodels.checkout.CheckoutRequestModel
 import com.malka.androidappp.servicemodels.creditcard.CreditCardModel
 import com.malka.androidappp.servicemodels.creditcard.CreditCardResponse
@@ -36,7 +33,6 @@ import com.malka.androidappp.servicemodels.favourites.FavouriteObject
 import com.malka.androidappp.servicemodels.favourites.favouriteadd
 import com.malka.androidappp.servicemodels.feedbacks.FeedbackObject
 import com.malka.androidappp.servicemodels.home.visitcount.visit_count_object
-import com.malka.androidappp.servicemodels.model.AllCategoriesResponseBack
 import com.malka.androidappp.servicemodels.model_wonloss.ModelWonLost
 import com.malka.androidappp.servicemodels.questionModel.ModelAskQues
 import com.malka.androidappp.servicemodels.questionModel.ModelPostAns
@@ -114,19 +110,9 @@ interface MalqaApiService {
     @GET("Accounts/GetBusinessListByUserId")
     fun getBusinessUserList(@Query("UserID") loginId: String): Call<BusinessUserRespone>
 
-    @GET("Country/GetAllCountryFrmSql")
-    fun getCountry(@Query("culture") culture: String): Call<CountryRespone>
-
-    @GET("Country/GetRegionFrmSqlbyKey")
-    fun getRegion(@Query("key") Id: String, @Query("culture") culture: String): Call<CountryRespone>
 
 
-    @GET("Country/GetCityFrmSqlbyKey")
-    fun getCity(@Query("key") Id: String, @Query("culture") culture: String): Call<CountryRespone>
 
-
-    @POST("SearchFilter/generalsearchfilters")
-    fun categorylist(@Body creategeneralad: SearchRequestModel): Call<SearchRespone>;
 
     @GET("Accounts/GetUser")
     fun getuser(@Query("id") userid: String): Call<UserObject>;
@@ -209,11 +195,6 @@ interface MalqaApiService {
     fun getAllProducts(): Call<AllProductsResponseBack>
 
 
-    @GET("$GET_ALL_CATEGORIES_BY_ID?")
-    fun getAllCategoriesByTemplateID(
-        @Query("categoryKey") categoryParentId: String,
-        @Query("culture") culture: String
-    ): Call<AllCategoriesResponseBack>
 
     @POST("Favourite/insertseller")
     fun addSellerFav(@Body addfav: ModelAddSellerFav): Call<ModelAddSellerFav>
@@ -233,7 +214,7 @@ interface MalqaApiService {
 
 
 
-    @GET(ApiConstants.HOME_TOTAL_VISIT_COUNT)
+    @GET(Constants.HOME_TOTAL_VISIT_COUNT)
     fun GetTotalVisitCount(): Call<visit_count_object>;
 
     @GET("Accounts/soldunsolditems")
@@ -256,16 +237,16 @@ interface MalqaApiService {
     @GET("Accounts/usercount")
     fun getTotalMembers(): Call<ModelGetTotalMembers>
 
-    @GET(ApiConstants.GET_AD_DETAIL_BIDING_PRICE_ENDPOINT)
+    @GET(Constants.GET_AD_DETAIL_BIDING_PRICE_ENDPOINT)
     fun getbidgpricebyAdvId(@Query("advId") getbidByadvId: String): Call<ModelBidingResponse>
 
-    @POST(ApiConstants.POST_MAX_BIDING_PRICE)
+    @POST(Constants.POST_MAX_BIDING_PRICE)
     fun postBidPrice(@Body postBidpricee: ModelPostBidPrice): Call<ModelPostBidPrice>
 
-    @GET(ApiConstants.GET_BUYNOW_SHIPPINGADDRESS_ENDPOINT)
+    @GET(Constants.GET_BUYNOW_SHIPPINGADDRESS_ENDPOINT)
     fun getshipaddress(@Query("loginId") getaddressbyLoginId: String): Call<ModelShipAddresses>
 
-    @POST(ApiConstants.INSERT_BUYNOW_SHIPPINGADDRESS_ENDPOINT)
+    @POST(Constants.INSERT_BUYNOW_SHIPPINGADDRESS_ENDPOINT)
     fun AddNewShippingAddress(@Body shippingaddress: ShippingAddressessData): Call<BasicResponse>
 
     @GET("CarTemplate/Search")
@@ -316,15 +297,42 @@ interface MalqaApiService {
     @GET()
     fun jsonTemplates(@Url url: String): Call<JsonObject>
 
+
+
+    // NEw API START HERE
     @GET("ListAdvertisments")
     fun SliderAPI(): Call<GeneralResponse>
 
     @GET("ListAllCategory?isShowInHome=true")
     fun getAllCategories(): Call<GeneralResponse>
 
+    @GET("ListHomeCategoryProduct?currentPage=1&productNumber=10")
+    fun ListHomeCategoryProduct(@Query("lang") language:String): Call<GeneralResponse>
 
 
-    @GET("ListHomeCategoryProduct?currentPage=1&productNumber=10&lang=en")
-    fun ListHomeCategoryProduct(/*@Path("language") language:String*/): Call<GeneralResponse>
+    @GET("AddFollow")
+    fun AddFollow(@Query("catId") catId:String): Call<GeneralResponse>
+
+    @GET("AdvanceFiltter")
+    fun AdvanceFiltter(
+        @QueryMap filter: Map<String, String>,@Query("lang") language:String=ConstantObjects.currentLanguage
+    ): Call<GeneralResponse>
+
+    @GET("GetSubCategoryByMainCategory")
+    fun GetSubCategoryByMainCategory(
+        @Query("id") id: String,
+        @Query("lang") language:String=ConstantObjects.currentLanguage
+    ): Call<GeneralResponse>
+
+
+    @GET("ListCountries")
+    fun getCountry(): Call<GeneralResponse>
+
+    @GET("ListRegoinsByCountryId")
+    fun getRegion(@Query("id") Id: Int): Call<GeneralResponse>
+
+
+    @GET("ListNeighborhoodByRegionId")
+    fun getCity(@Query("id") Id: Int): Call<GeneralResponse>
 
 }

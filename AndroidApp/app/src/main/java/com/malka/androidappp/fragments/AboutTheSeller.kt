@@ -17,7 +17,7 @@ import com.malka.androidappp.fragments.sellerdetails.SellerResponseBack
 import com.malka.androidappp.fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
-import com.malka.androidappp.network.constants.ApiConstants
+import com.malka.androidappp.network.constants.Constants
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.servicemodels.ConstantObjects
 import com.malka.androidappp.servicemodels.feedbacks.FeedbackObject
@@ -139,7 +139,7 @@ class AboutTheSeller : Fragment() {
 
                         if (sellerData.image != null) {
                             Picasso.get()
-                                .load(ApiConstants.IMAGE_URL + sellerData.image)
+                                .load(Constants.IMAGE_URL + sellerData.image)
                                 .into(sellerImage)
                         } else {
                             sellerImage.setImageResource(R.drawable.profilepic)
