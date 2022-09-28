@@ -106,29 +106,29 @@ class SignInActivity : BaseActivity() {
         HelpFunctions.startProgressBar(this)
 
         val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-        val login = LoginClass(email, password)
 
-        val call: Call<LoginResponseBack?>? = malqa.loginUser(login)
-        call?.enqueue(object : Callback<LoginResponseBack?> {
-            override fun onFailure(call: Call<LoginResponseBack?>?, t: Throwable) {
+
+        val call: Call<LoginResponse?>? = malqa.loginUser(email,password)
+        call?.enqueue(object : Callback<LoginResponse?> {
+            override fun onFailure(call: Call<LoginResponse?>?, t: Throwable) {
                 HelpFunctions.dismissProgressBar()
 
                 Toast.makeText(context, "${t.message}", Toast.LENGTH_LONG).show()
             }
 
             override fun onResponse(
-                call: Call<LoginResponseBack?>,
-                response: Response<LoginResponseBack?>
+                call: Call<LoginResponse?>,
+                response: Response<LoginResponse?>
             ) {
                 if (response.isSuccessful) {
 
                     //Zack
                     //Date: 11/04/2020
-                    ConstantObjects.logged_userid = response.body()!!.data.id
-                    ConstantObjects.isBusinessUser = response.body()!!.data.isBusinessUser > 0
+                    ConstantObjects.logged_userid = response.body()!!.id
+                    ConstantObjects.isBusinessUser = response.body()!!.isBusinessAccount
                     // To check if user is approved user or not
                     //  if (response.body()!!.data.isBusinessUser < 1 || response.body()!!.data.isBusinessUser > 1) {
-                    val userId: String = response.body()!!.data.id
+                    val userId: String = response.body()!!.id
                     ConstantObjects.logged_userid = userId
                     HelpFunctions.ShowLongToast(
                         getString(R.string.LoginSuccessfully),

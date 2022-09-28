@@ -1,8 +1,7 @@
 package com.malka.androidappp.network.service
 
 import com.google.gson.JsonObject
-import com.malka.androidappp.activities_main.login.LoginClass
-import com.malka.androidappp.activities_main.login.LoginResponseBack
+import com.malka.androidappp.activities_main.login.LoginResponse
 import com.malka.androidappp.fragments.UserImageResponseBack
 import com.malka.androidappp.fragments.browse_market.popup_subcategories_list.ModelAddSearchFav
 import com.malka.androidappp.fragments.cardetail_page.ModelAddSellerFav
@@ -83,9 +82,12 @@ interface MalqaApiService {
     @POST("CarTemplate/update")
     fun updateCarTemplate(@Body data: HashMap<String, String>): Call<CreateAdvResponseBack>
 
-
-    @POST("Accounts/login")
-    fun loginUser(@Body info: LoginClass): Call<LoginResponseBack?>?
+    @FormUrlEncoded
+    @POST("loginWebsite")
+    fun loginUser(
+        @Field("email") email: String,
+        @Field("password") password: String?,
+    ): Call<LoginResponse?>?
 
     @POST("Accounts/insertaddress")
     fun insertAddress(@Body info: GetAddressResponse.AddressModel): Call<GeneralRespone>
