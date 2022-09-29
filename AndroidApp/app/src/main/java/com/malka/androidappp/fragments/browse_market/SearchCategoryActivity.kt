@@ -39,7 +39,7 @@ import retrofit2.Response
 
 class SearchCategoryActivity : BaseActivity() {
 
-    //Zack
+   
     //Date: 10/29/2020
     var CategoryDesc: String = "";
     var SearchQuery: String = "";
@@ -192,72 +192,9 @@ class SearchCategoryActivity : BaseActivity() {
         }
 
         specification.setOnClickListener {
-            val builder = AlertDialog.Builder(this@SearchCategoryActivity)
-                .create()
-            val view = layoutInflater.inflate(R.layout.sub_category_layout, null)
-            builder.setView(view)
-            bottom_bar.hide()
 
-            fun specificationAdaptor(list: List<Selection>) {
-                view.specification_rcv.adapter = object : GenericListAdapter<Selection>(
-                    R.layout.specification_design,
-                    bind = { element, holder, itemCount, position ->
-                        holder.view.run {
-                            element.run {
-                                header_title.text = name
-                                sub_item_rcv.adapter = object : GenericListAdapter<Selection>(
-                                    R.layout.specification_sub_design,
-                                    bind = { element, holder, itemCount, position ->
-                                        holder.view.run {
-                                            element.run {
-                                                specification_tv.text = name
-                                            }
-                                        }
-                                    }
-                                ) {
-                                    override fun getFilter(): Filter {
-                                        TODO("Not yet implemented")
-                                    }
+            getSpecification(CategoryID)
 
-                                }.apply {
-                                    submitList(
-                                        list
-                                    )
-                                }
-                            }
-                        }
-                    }
-                ) {
-                    override fun getFilter(): Filter {
-                        TODO("Not yet implemented")
-                    }
-
-                }.apply {
-                    submitList(
-                        list
-                    )
-                }
-            }
-            builder.setCanceledOnTouchOutside(true)
-            builder.show()
-            builder.setOnCancelListener {
-                bottom_bar.show()
-            }
-
-            view.region.setOnClickListener {
-                builder.dismiss()
-                region.performClick()
-            }
-
-            view.sub_category.setOnClickListener {
-                builder.dismiss()
-                sub_catgeory.performClick()
-            }
-            view.specification_t.setOnClickListener {
-                builder.dismiss()
-                specification.performClick()
-            }
-            specificationAdaptor((shippingOption))
 
         }
 
@@ -304,6 +241,112 @@ class SearchCategoryActivity : BaseActivity() {
         }
     }
 
+    private fun getSpecification(categoryID: String) {
+        HelpFunctions.startProgressBar(this)
+        val malqaa: MalqaApiService =
+            RetrofitBuilder.GetRetrofitBuilder()
+
+        val call: Call<GeneralResponse> =
+            malqaa.getSpecification(categoryID)
+
+        call.enqueue(object : Callback<GeneralResponse> {
+            @SuppressLint("UseRequireInsteadOfGet")
+            override fun onResponse(
+                call: Call<GeneralResponse>,
+                response: Response<GeneralResponse>
+            ) {
+                HelpFunctions.dismissProgressBar()
+
+                if (response.isSuccessful) {
+
+                    response.body()?.run {
+
+                        val list: ArrayList<CategorySpecification> = Gson().fromJson(
+                            Gson().toJson(data),
+                            object : TypeToken<ArrayList<CategorySpecification>>() {}.type
+                        )
+                        showSpecification(list)
+                    }
+                }
+
+
+            }
+
+            override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
+                HelpFunctions.dismissProgressBar()
+            }
+        })
+    }
+
+    private fun showSpecification(specificationList: ArrayList<CategorySpecification>) {
+        val builder = AlertDialog.Builder(this@SearchCategoryActivity)
+            .create()
+        val view = layoutInflater.inflate(R.layout.sub_category_layout, null)
+        builder.setView(view)
+        bottom_bar.hide()
+
+        fun specificationAdaptor(list: List<CategorySpecification>) {
+            view.specification_rcv.adapter = object : GenericListAdapter<CategorySpecification>(
+                R.layout.specification_design,
+                bind = { element, holder, itemCount, position ->
+                    holder.view.run {
+                        element.run {
+                            header_title.text = name
+                            sub_item_rcv.adapter = object : GenericListAdapter<SubSpecification>(
+                                R.layout.specification_sub_design,
+                                bind = { element, holder, itemCount, position ->
+                                    holder.view.run {
+                                        element.run {
+                                            specification_tv.text = name
+                                        }
+                                    }
+                                }
+                            ) {
+                                override fun getFilter(): Filter {
+                                    TODO("Not yet implemented")
+                                }
+
+                            }.apply {
+                                submitList(
+                                    subSpecifications
+                                )
+                            }
+                        }
+                    }
+                }
+            ) {
+                override fun getFilter(): Filter {
+                    TODO("Not yet implemented")
+                }
+
+            }.apply {
+                submitList(
+                    list
+                )
+            }
+        }
+        builder.setCanceledOnTouchOutside(true)
+        builder.show()
+        builder.setOnCancelListener {
+            bottom_bar.show()
+        }
+
+        view.region.setOnClickListener {
+            builder.dismiss()
+            region.performClick()
+        }
+
+        view.sub_category.setOnClickListener {
+            builder.dismiss()
+            sub_catgeory.performClick()
+        }
+        view.specification_t.setOnClickListener {
+            builder.dismiss()
+            specification.performClick()
+        }
+        specificationAdaptor(specificationList)
+    }
+
     private fun FollowCategoryAPI() {
         val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
 
@@ -322,7 +365,8 @@ class SearchCategoryActivity : BaseActivity() {
 
                     if (response.body() != null) {
 
-                        val respone = response.body()!!
+                        HelpFunctions.ShowLongToast(getString(R.string.follow_catgeory), this@SearchCategoryActivity)
+
 
                     }
 

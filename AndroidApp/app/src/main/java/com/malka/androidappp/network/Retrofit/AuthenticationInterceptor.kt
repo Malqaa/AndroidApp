@@ -11,7 +11,7 @@ class AuthenticationInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val original: Request = chain.request()
         val builder: Request.Builder = original.newBuilder()
-            .header("Authorization", ConstantObjects.logged_authtoken)
+            .header("Authorization", "Bearer ${ConstantObjects.logged_authtoken}")
         val request: Request = builder.build()
         return chain.proceed(request)
     }

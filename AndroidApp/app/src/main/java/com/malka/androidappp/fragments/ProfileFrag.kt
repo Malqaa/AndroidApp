@@ -137,11 +137,11 @@ class ProfileFrag : Fragment() {
 
         ///////////////////Data parse from activity to fragment//////////Method1 Simple///////////////
 
-        //Zack
+       
         //Date: 11/04/2020
         GetUserInfo(ConstantObjects.logged_userid);
 
-        //Zack
+       
         //Date: 11/13/2020
         GetUserFeedBack(ConstantObjects.logged_userid)
 
@@ -185,7 +185,7 @@ class ProfileFrag : Fragment() {
         userType()
     }
 
-    //Zack
+   
     //Date: 11/04/2020
     private fun GetUserInfo(userid: String) {
         try {
@@ -263,7 +263,7 @@ class ProfileFrag : Fragment() {
         }
     }
 
-    //Zack
+   
     //Date: 11/13/2020
     private fun GetUserFeedBack(userid: String) {
         try {

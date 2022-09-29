@@ -1,7 +1,7 @@
 package com.malka.androidappp.network.service
 
 import com.google.gson.JsonObject
-import com.malka.androidappp.activities_main.login.LoginResponse
+import com.malka.androidappp.activities_main.login.LoginUser
 import com.malka.androidappp.fragments.UserImageResponseBack
 import com.malka.androidappp.fragments.browse_market.popup_subcategories_list.ModelAddSearchFav
 import com.malka.androidappp.fragments.cardetail_page.ModelAddSellerFav
@@ -82,12 +82,7 @@ interface MalqaApiService {
     @POST("CarTemplate/update")
     fun updateCarTemplate(@Body data: HashMap<String, String>): Call<CreateAdvResponseBack>
 
-    @FormUrlEncoded
-    @POST("loginWebsite")
-    fun loginUser(
-        @Field("email") email: String,
-        @Field("password") password: String?,
-    ): Call<LoginResponse?>?
+
 
     @POST("Accounts/insertaddress")
     fun insertAddress(@Body info: GetAddressResponse.AddressModel): Call<GeneralRespone>
@@ -128,12 +123,7 @@ interface MalqaApiService {
     @GET("all")
     fun getuserfavourites(@Query("loggedIn") userid: String): Call<FavouriteObject>;
 
-    @GET("CarTemplate/Details")
-    fun getAdDetailById(
-        @Query("id") id: String,
-        @Query("template") template: String,
-        @Query("loggedin") loggedin: String
-    ): Call<JsonObject>
+
 
     @GET("Accounts/GetUser")
     fun getAdSeller(
@@ -312,7 +302,7 @@ interface MalqaApiService {
     fun ListHomeCategoryProduct(@Query("lang") language:String): Call<GeneralResponse>
 
 
-    @GET("AddFollow")
+    @POST("AddFollow")
     fun AddFollow(@Query("catId") catId:String): Call<GeneralResponse>
 
     @GET("AdvanceFiltter")
@@ -322,6 +312,12 @@ interface MalqaApiService {
 
     @GET("GetSubCategoryByMainCategory")
     fun GetSubCategoryByMainCategory(
+        @Query("id") id: String,
+        @Query("lang") language:String=ConstantObjects.currentLanguage
+    ): Call<GeneralResponse>
+
+    @GET("ListAllSpecificationAndSubSpecificationByCatId")
+    fun getSpecification(
         @Query("id") id: String,
         @Query("lang") language:String=ConstantObjects.currentLanguage
     ): Call<GeneralResponse>
@@ -337,4 +333,17 @@ interface MalqaApiService {
     @GET("ListNeighborhoodByRegionId")
     fun getCity(@Query("id") Id: Int): Call<GeneralResponse>
 
+
+    @FormUrlEncoded
+    @POST("loginWebsite")
+    fun loginUser(
+        @Field("email") email: String,
+        @Field("password") password: String?,
+    ): Call<LoginUser?>?
+
+    @GET("GetProductById")
+    fun getAdDetailById(
+        @Query("id") id: String,
+        @Query("lang") language:String=ConstantObjects.currentLanguage
+    ): Call<GeneralResponse>
 }

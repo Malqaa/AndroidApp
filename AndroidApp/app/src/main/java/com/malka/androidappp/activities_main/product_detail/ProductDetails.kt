@@ -17,10 +17,10 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.common.reflect.TypeToken
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.malka.androidappp.R
-import com.malka.androidappp.activities_main.FullImageActivity
 import com.malka.androidappp.activities_main.MainActivity
 import com.malka.androidappp.activities_main.PlayActivity
 import com.malka.androidappp.activities_main.login.SignInActivity
@@ -59,7 +59,6 @@ import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -67,11 +66,10 @@ class ProductDetails : BaseActivity() {
 
     var reviewlist: ArrayList<Reviewmodel> = ArrayList()
     var AdvId = ""
-    var template = ""
     var selectLink = ""
     val attributeList: ArrayList<Attribute> = ArrayList()
     var questionList: List<Question> = ArrayList()
-    lateinit var product: AdDetailModel
+    lateinit var product: Product
 
     lateinit var productDetailHelper: ProductDetailHelper
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -104,10 +102,9 @@ class ProductDetails : BaseActivity() {
         behavior.peekHeight = getResources().getDimension(R.dimen._360sdp).toInt()
 
         mainContainer.isVisible = false
-        AdvId = intent.getStringExtra("AdvId") ?: ""
-        template = intent.getStringExtra("Template") ?: ""
+        AdvId = intent.getIntExtra("AdvId",-1).toString()
 
-        getadbyidapi(AdvId, template)
+        getadbyidapi(AdvId)
 
         quesAnss()
 
@@ -200,7 +197,7 @@ class ProductDetails : BaseActivity() {
             onBackPressed()
         }
         btn_share.setOnClickListener {
-            shared("${Constants.HTTP_PROTOCOL}://${Constants.SERVER_LOCATION}/Advertisement/Detail/$AdvId?template=$template")
+            shared("${Constants.HTTP_PROTOCOL}://${Constants.SERVER_LOCATION}/Advertisement/Detail/$AdvId")
         }
         next_image.setOnClickListener {
 
@@ -495,274 +492,276 @@ class ProductDetails : BaseActivity() {
         }
     }
 
-    fun getadbyidapi(advid: String, template: String) {
+    fun getadbyidapi(advid: String) {
         HelpFunctions.startProgressBar(this)
 
 
         val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-        val call = malqa.getAdDetailById(advid, template, ConstantObjects.logged_userid)
-        call.enqueue(object : Callback<JsonObject> {
+        val call = malqa.getAdDetailById(advid)
+        call.enqueue(object : Callback<GeneralResponse> {
             @SuppressLint("UseRequireInsteadOfGet", "SetTextI18n")
             override fun onResponse(
-                call: Call<JsonObject>,
-                response: Response<JsonObject>
+                call: Call<GeneralResponse>,
+                response: Response<GeneralResponse>
             ) {
 
+
                 if (response.isSuccessful) {
-                    product = Gson().fromJson(response.body().toString(), AdDetailModel::class.java)
-                    val jsonObject = response.body()
+                    response.body()?.run {
+                        if (status_code == 200) {
+                            product = Gson().fromJson(
+                                Gson().toJson(data),
+                                object : TypeToken<Product>() {}.type
+                            )
+                            product.run {
+                                checkPriceLayout()
+                                getSellerByID("")
+                                when ("listingtype") {
+                                    "1" -> {
+                                        add_to_cart.show()
+                                        current_price_buy_tv_2.text =
+                                            "${price!!.toDouble().decimalNumberFormat()} ${
+                                                getString(
+                                                    R.string.sar
+                                                )
+                                            }"
+                                    }
+                                    "2" -> {
+                                        Bid_on_price.show()
+//                                        Bid_on_price_tv.text =
+//                                            "${startingPrice!!.toDouble().decimalNumberFormat()} ${
+//                                                getString(
+//                                                    R.string.sar
+//                                                )
+//                                            }"
+
+                                    }
+                                    "12" -> {
+                                        current_price_buy.show()
+                                        Bid_on_price.show()
+                                        current_price_buy_tv.text =
+                                            "${price!!.toDouble().decimalNumberFormat()} ${
+                                                getString(
+                                                    R.string.sar
+                                                )
+                                            }"
+
+//                                        Bid_on_price_tv.text =
+//                                            "${startingPrice!!.toDouble().decimalNumberFormat()} ${
+//                                                getString(
+//                                                    R.string.sar
+//                                                )
+//                                            }"
+
+                                    }
+                                }
 
 
-                    product.run {
-                        checkPriceLayout()
-                        getSellerByID(user!!)
-                        when (listingtype) {
-                            "1" -> {
-                                add_to_cart.show()
-                                current_price_buy_tv_2.text =
-                                    "${price!!.toDouble().decimalNumberFormat()} ${
-                                        getString(
-                                            R.string.sar
-                                        )
-                                    }"
-                            }
-                            "2" -> {
-                                Bid_on_price.show()
-                                Bid_on_price_tv.text =
-                                    "${startingPrice!!.toDouble().decimalNumberFormat()} ${
-                                        getString(
-                                            R.string.sar
-                                        )
-                                    }"
-
-                            }
-                            "12" -> {
-                                current_price_buy.show()
-                                Bid_on_price.show()
-                                current_price_buy_tv.text =
-                                    "${price!!.toDouble().decimalNumberFormat()} ${
-                                        getString(
-                                            R.string.sar
-                                        )
-                                    }"
-
-                                Bid_on_price_tv.text =
-                                    "${startingPrice!!.toDouble().decimalNumberFormat()} ${
-                                        getString(
-                                            R.string.sar
-                                        )
-                                    }"
-
-                            }
-                        }
-
-
-                        if (!template.isNullOrEmpty()) {
-                            HelpFunctions.GetTemplatesJson(
-                                "$template-${culture()}.js"
-                            ) { json_string ->
-                                if (json_string.trim().length > 0) {
-                                    val parsed_data = JSONObject(json_string)
-                                    val controls_array: JSONArray =
-                                        parsed_data.getJSONArray("data")
-                                    for (i in 0 until controls_array.length()) {
-                                        val IndControl = controls_array.getJSONObject(i)
-                                        val id = IndControl.getString("id")
-                                        getIgnoreCase(jsonObject!!, id).let { value ->
-                                            if (!value.isEmpty()) {
-                                                val key = IndControl.getString("title") ?: ""
-                                                attributeList.add(Attribute(key, value))
+                                if (!"template".isNullOrEmpty()) {
+                                    HelpFunctions.GetTemplatesJson(
+                                        "js"
+                                    ) { json_string ->
+                                        if (json_string.trim().length > 0) {
+                                            val parsed_data = JSONObject(json_string)
+                                            val controls_array: JSONArray =
+                                                parsed_data.getJSONArray("data")
+                                            for (i in 0 until controls_array.length()) {
+                                                val IndControl = controls_array.getJSONObject(i)
+                                                val id = IndControl.getString("id")
+//                                                getIgnoreCase(jsonObject!!, id).let { value ->
+//                                                    if (!value.isEmpty()) {
+//                                                        val key = IndControl.getString("title") ?: ""
+//                                                        attributeList.add(Attribute(key, value))
+//
+//                                                    }
+//                                                }
 
                                             }
+//                                            attributeList.add(
+//                                                Attribute(
+//                                                    getString(R.string.item_condition),
+//                                                    brand_new_item ?: ""
+//                                                )
+//                                            )
+//                                            attributeList.add(
+//                                                Attribute(
+//                                                    getString(R.string.quantity),
+//                                                    quantity ?: ""
+//                                                )
+//                                            )
+//                                            attributeAdaptor(attributeList)
                                         }
-
                                     }
-                                    attributeList.add(
-                                        Attribute(
-                                            getString(R.string.item_condition),
-                                            brand_new_item ?: ""
-                                        )
-                                    )
-                                    attributeList.add(
-                                        Attribute(
-                                            getString(R.string.quantity),
-                                            quantity ?: ""
-                                        )
-                                    )
-                                    attributeAdaptor(attributeList)
+
+
                                 }
-                            }
 
 
-                        }
+                                //SharedPreferencesStaticClass.ad_userid = product.user!!
+                                if (listMedia!!.size > 0) {
+//                                    val imageURL = Constants.IMAGE_URL + images.get(0)
+//                                    selectLink = imageURL
+//                                    loadThumbnail(
+//                                        this@ProductDetails,
+//                                        imageURL,
+//                                        productimg, loader
+//                                    )
+//                                    productimg.setOnClickListener {
+//                                        startActivity(
+//                                            Intent(
+//                                                this@ProductDetails,
+//                                                FullImageActivity::class.java
+//                                            ).putExtra(
+//                                                "imageUri",
+//                                                selectLink
+//                                            )
+//                                        )
+//                                    }
 
+                                }
+                                val productImage: ArrayList<ProductImage> = ArrayList()
 
-                        SharedPreferencesStaticClass.ad_userid = product.user!!
-                        if (images!!.size > 0) {
-                            val imageURL = Constants.IMAGE_URL + images.get(0)
-                            selectLink = imageURL
-                            loadThumbnail(
-                                this@ProductDetails,
-                                imageURL,
-                                productimg, loader
-                            )
-                            productimg.setOnClickListener {
-                                startActivity(
-                                    Intent(
-                                        this@ProductDetails,
-                                        FullImageActivity::class.java
-                                    ).putExtra(
-                                        "imageUri",
-                                        selectLink
-                                    )
-                                )
-                            }
+//                                if (!video.isNullOrEmpty()) {
+//                                    productImage.add(ProductImage(video, true))
+//                                }
+//                                images.forEachIndexed { index, s ->
+//                                    if (index == 0) {
+//                                        productImage.add(ProductImage(s, is_select = true))
+//                                    } else {
+//                                        productImage.add(ProductImage(s))
+//                                    }
+//                                }
 
-                        }
-                        val productImage: ArrayList<ProductImage> = ArrayList()
-
-                        if (!video.isNullOrEmpty()) {
-                            productImage.add(ProductImage(video, true))
-                        }
-                        images.forEachIndexed { index, s ->
-                            if (index == 0) {
-                                productImage.add(ProductImage(s, is_select = true))
-                            } else {
-                                productImage.add(ProductImage(s))
-                            }
-                        }
-
-                        if (productImage.size > 1) {
-                            setCategoryAdaptor(productImage)
-                        } else {
-                            other_image_layout.isVisible = false
-                        }
-                        ads_id_tv.text = "#$id"
-                        product_title_tv.text = producttitle
-                        subtitle_tv.text = subtitle
-                        description_tv.text = description
-                        itemviews_tv.text =
-                            getString(R.string.itemView, itemviews.toString().toInt())
-                        date.text = createdOnFormated
-
-
-
-                        try {
-                            val format= SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault())
-                            if (endTime.equals("") || endTime == null) {
-                                countdownTimer_bar.visibility = View.GONE
-                            } else {
-                                countdownTimer_bar.visibility = View.VISIBLE
-                                val endDate = format.parse(endTime)
-
-
-                                val currentDate = format.parse(format.format(Date()))
-
-                                if (endDate.before(currentDate)) {
-                                    days.text = "0"
-                                    hours.text = "0"
-                                    minutes.text = "0"
+                                if (productImage.size > 1) {
+                                    setCategoryAdaptor(productImage)
                                 } else {
-                                    var diff: Long = endDate!!.getTime() - currentDate!!.getTime()
-
-                                    val secondsInMilli: Long = 1000
-                                    val minutesInMilli = secondsInMilli * 60
-                                    val hoursInMilli = minutesInMilli * 60
-                                    val daysInMilli = hoursInMilli * 24
-
-                                    val elapsedDays = diff / daysInMilli
-                                    diff %= daysInMilli
-
-                                    val elapsedHours = diff / hoursInMilli
-                                    diff %= hoursInMilli
-
-                                    val elapsedMinutes = diff / minutesInMilli
-                                    diff %= minutesInMilli
-
-
-                                    days.text = elapsedDays.toString()
-                                    hours.text = elapsedHours.toString()
-                                    minutes.text = elapsedMinutes.toString()
+                                    other_image_layout.isVisible = false
                                 }
-
-                            }
-                        } catch (error: Exception) {
-                            countdownTimer_bar.visibility = View.GONE
-                        }
-                        
-                        
-
-
+                                ads_id_tv.text = "#$id"
+                                product_title_tv.text = name
+                                subtitle_tv.text = subTitle
+                                description_tv.text = description
+                                itemviews_tv.text =
+                                    getString(R.string.itemView, countView.toString().toInt())
+                                date.text = createdOnFormated
 
 
-                        is_watch_iv.setOnClickListener {
-                            if (HelpFunctions.AdAlreadyAddedToWatchList(AdvId)) {
-                                HelpFunctions.DeleteAdFromWatchlist(
-                                    AdvId,
-                                    this@ProductDetails
-                                ) {
+//
+//                                try {
+//                                    val format= SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault())
+//                                    if (endTime.equals("") || endTime == null) {
+//                                        countdownTimer_bar.visibility = View.GONE
+//                                    } else {
+//                                        countdownTimer_bar.visibility = View.VISIBLE
+//                                        val endDate = format.parse(endTime)
+//
+//
+//                                        val currentDate = format.parse(format.format(Date()))
+//
+//                                        if (endDate.before(currentDate)) {
+//                                            days.text = "0"
+//                                            hours.text = "0"
+//                                            minutes.text = "0"
+//                                        } else {
+//                                            var diff: Long = endDate!!.getTime() - currentDate!!.getTime()
+//
+//                                            val secondsInMilli: Long = 1000
+//                                            val minutesInMilli = secondsInMilli * 60
+//                                            val hoursInMilli = minutesInMilli * 60
+//                                            val daysInMilli = hoursInMilli * 24
+//
+//                                            val elapsedDays = diff / daysInMilli
+//                                            diff %= daysInMilli
+//
+//                                            val elapsedHours = diff / hoursInMilli
+//                                            diff %= hoursInMilli
+//
+//                                            val elapsedMinutes = diff / minutesInMilli
+//                                            diff %= minutesInMilli
+//
+//
+//                                            days.text = elapsedDays.toString()
+//                                            hours.text = elapsedHours.toString()
+//                                            minutes.text = elapsedMinutes.toString()
+//                                        }
+//
+//                                    }
+//                                } catch (error: Exception) {
+//                                    countdownTimer_bar.visibility = View.GONE
+//                                }
+//
+
+
+
+
+
+                                is_watch_iv.setOnClickListener {
+                                    if (HelpFunctions.AdAlreadyAddedToWatchList(AdvId)) {
+                                        HelpFunctions.DeleteAdFromWatchlist(
+                                            AdvId,
+                                            this@ProductDetails
+                                        ) {
+                                            is_watch_iv.setImageResource(R.drawable.star)
+                                            ConstantObjects.is_watch_iv!!.setImageResource(R.drawable.star)
+                                        }
+                                    } else {
+                                        if (ConstantObjects.logged_userid.isEmpty()) {
+                                            startActivity(
+                                                Intent(
+                                                    this@ProductDetails,
+                                                    SignInActivity::class.java
+                                                ).apply {
+                                                })
+                                        } else {
+
+                                            HelpFunctions.InsertAdToWatchlist(
+                                                AdvId, 0,
+                                                this@ProductDetails
+                                            ) {
+                                                activeWatch(is_watch_iv)
+                                                ConstantObjects.is_watch_iv!!.setImageResource(R.drawable.starcolor)
+                                            }
+
+                                        }
+                                    }
+                                }
+                                if (HelpFunctions.AdAlreadyAddedToWatchList(AdvId)) {
+                                    activeWatch(is_watch_iv)
+                                } else {
                                     is_watch_iv.setImageResource(R.drawable.star)
-                                    ConstantObjects.is_watch_iv!!.setImageResource(R.drawable.star)
                                 }
-                            } else {
-                                if (ConstantObjects.logged_userid.isEmpty()) {
-                                    startActivity(
-                                        Intent(
-                                            this@ProductDetails,
-                                            SignInActivity::class.java
-                                        ).apply {
-                                        })
-                                } else {
+                            }
 
-                                    HelpFunctions.InsertAdToWatchlist(
-                                        AdvId, 0,
-                                        this@ProductDetails
-                                    ) {
-                                        activeWatch(is_watch_iv)
-                                        ConstantObjects.is_watch_iv!!.setImageResource(R.drawable.starcolor)
-                                    }
+
+
+                            var isSellerProductHide = true
+                            seller_product_layout.setOnClickListener {
+                                if (isSellerProductHide) {
+                                    isSellerProductHide = false
+                                    seller_product_rcv.isVisible = true
+                                    isSellerProductHide_iv.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24)
+                                    seller_product_tv.text =
+                                        getText(R.string.view_similar_product_from_seller)
+
+                                } else {
+                                    isSellerProductHide = true
+                                    seller_product_rcv.isVisible = false
+                                    isSellerProductHide_iv.setImageResource(R.drawable.down_arrow)
+                                    seller_product_tv.text =
+                                        getText(R.string.view_similar_product_from_seller)
+
 
                                 }
                             }
-                        }
-                        if (HelpFunctions.AdAlreadyAddedToWatchList(AdvId)) {
-                            activeWatch(is_watch_iv)
-                        } else {
-                            is_watch_iv.setImageResource(R.drawable.star)
-                        }
-                    }
-
-                    val list: ArrayList<AdDetailModel> = ArrayList()
-                    list.add(product)
-                    list.add(product)
-                    list.add(product)
-                    list.add(product)
-                    list.add(product)
-                    list.add(product)
-
-                    var isSellerProductHide = true
-                    seller_product_layout.setOnClickListener {
-                        if (isSellerProductHide) {
-                            isSellerProductHide = false
-                            seller_product_rcv.isVisible = true
-                            isSellerProductHide_iv.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24)
-                            seller_product_tv.text =
-                                getText(R.string.view_similar_product_from_seller)
-
-                        } else {
-                            isSellerProductHide = true
-                            seller_product_rcv.isVisible = false
-                            isSellerProductHide_iv.setImageResource(R.drawable.down_arrow)
-                            seller_product_tv.text =
-                                getText(R.string.view_similar_product_from_seller)
-
-
-                        }
-                    }
 //                    GenericAdaptor().setHomeProductAdaptor(list, similar_products_rcv)
 //                    GenericAdaptor().setHomeProductAdaptor(list, seller_product_rcv)
 
-                    mainContainer.isVisible = true
+                            mainContainer.isVisible = true
+                        }
+                    }
+
+
+
 
                 } else {
                     HelpFunctions.ShowAlert(
@@ -776,7 +775,7 @@ class ProductDetails : BaseActivity() {
             }
 
 
-            override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+            override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
                 HelpFunctions.ShowLongToast(t.message!!, this@ProductDetails)
                 HelpFunctions.dismissProgressBar()
 
@@ -947,7 +946,7 @@ class ProductDetails : BaseActivity() {
 
     private fun checkPriceLayout() {
         if (HelpFunctions.IsUserLoggedIn()) {
-            price_layout.isVisible = ConstantObjects.logged_userid != product.user
+            //price_layout.isVisible = ConstantObjects.logged_userid != product.user
         }
     }
 

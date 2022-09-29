@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Patterns
 import android.view.View
 import android.widget.Toast
+import com.google.gson.Gson
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.forgot.ForgotPasswordActivty
 import com.malka.androidappp.activities_main.signup_account.SignupPg1
@@ -30,7 +31,8 @@ class SignInActivity : BaseActivity() {
 
         setContentView(R.layout.activity_sign_in)
 
-
+        email_tv.text="androi0@gmail.com"
+        passwword_tv.text="A112233"
 
         Forgot_your_password.setOnClickListener {
             startActivity(Intent(this@SignInActivity, ForgotPasswordActivty::class.java))
@@ -95,7 +97,11 @@ class SignInActivity : BaseActivity() {
         if (!validateEmail() or !validatePassword()) {
             return
         } else {
-            loginApiCall()
+            MakeLoginAPICall(
+                email_tv.text.toString().trim(),
+                passwword_tv.text.toString().trim(),
+                this@SignInActivity
+            )
         }
 
 
@@ -108,43 +114,35 @@ class SignInActivity : BaseActivity() {
         val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
 
 
-        val call: Call<LoginResponse?>? = malqa.loginUser(email,password)
-        call?.enqueue(object : Callback<LoginResponse?> {
-            override fun onFailure(call: Call<LoginResponse?>?, t: Throwable) {
+        val call: Call<LoginUser?>? = malqa.loginUser(email,password)
+        call?.enqueue(object : Callback<LoginUser?> {
+            override fun onFailure(call: Call<LoginUser?>?, t: Throwable) {
                 HelpFunctions.dismissProgressBar()
 
                 Toast.makeText(context, "${t.message}", Toast.LENGTH_LONG).show()
             }
 
             override fun onResponse(
-                call: Call<LoginResponse?>,
-                response: Response<LoginResponse?>
+                call: Call<LoginUser?>,
+                response: Response<LoginUser?>
             ) {
                 if (response.isSuccessful) {
 
-                    //Zack
-                    //Date: 11/04/2020
-                    ConstantObjects.logged_userid = response.body()!!.id
-                    ConstantObjects.isBusinessUser = response.body()!!.isBusinessAccount
-                    // To check if user is approved user or not
-                    //  if (response.body()!!.data.isBusinessUser < 1 || response.body()!!.data.isBusinessUser > 1) {
-                    val userId: String = response.body()!!.id
-                    ConstantObjects.logged_userid = userId
-                    HelpFunctions.ShowLongToast(
-                        getString(R.string.LoginSuccessfully),
-                        context
-                    )
-                    Paper.book().write(SharedPreferencesStaticClass.islogin, true)
-                    Paper.book().write(SharedPreferencesStaticClass.logged_userid, userId)
-                    setResult(RESULT_OK, Intent())
-                    finish()
+                    response.body()?.run {
+                        ConstantObjects.logged_userid = id
+                        ConstantObjects.isBusinessUser = isBusinessAccount
+                        val userId: String = id
+                        ConstantObjects.logged_userid = userId
+                        HelpFunctions.ShowLongToast(
+                            getString(R.string.LoginSuccessfully),
+                            context
+                        )
+                        Paper.book().write(SharedPreferencesStaticClass.islogin, true)
+                        Paper.book().write(SharedPreferencesStaticClass.user_object, Gson().toJson(this))
+                        setResult(RESULT_OK, Intent())
+                        finish()
+                    }
 
-//                    } else {
-//                        HelpFunctions.ShowLongToast(
-//                            getString(R.string.Youraccountisnotapproved),
-//                            context
-//                        )
-//                    }
                 } else {
                     HelpFunctions.ShowLongToast(
                         getString(R.string.InvalidUsernameorPassword),
@@ -157,13 +155,4 @@ class SignInActivity : BaseActivity() {
         })
     }
 
-
-    fun loginApiCall() {
-
-        MakeLoginAPICall(
-            email_tv.text.toString().trim(),
-            passwword_tv.text.toString().trim(),
-            this@SignInActivity
-        )
-    }
 }

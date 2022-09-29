@@ -1,6 +1,6 @@
 package com.malka.androidappp.activities_main.login
 
-data class LoginResponse(
+data class LoginUser(
     val activeCode: Boolean,
     val closeNotify: Boolean,
     val code: Int,

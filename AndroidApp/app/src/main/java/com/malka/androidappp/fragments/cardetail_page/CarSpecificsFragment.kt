@@ -223,7 +223,7 @@ class CarSpecificsFragment : Fragment(), BottomsheetDialogfragClass.BottomSheetL
 
     fun AddToCart(): Boolean {
         if (HelpFunctions.IsUserLoggedIn()) {
-            //Zack
+           
             //Date: 03/13/2021
             //findNavController().navigate(R.id.shipping_address_to_payment)
             //findNavController().navigate(R.id.shippingaddress_googlemap)

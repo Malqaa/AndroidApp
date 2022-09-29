@@ -7,6 +7,6 @@ class SharedPreferencesStaticClass {
 
         var myFeedback = false
         var islogin = "islogin"
-        var logged_userid = "logged_userid"
+        var user_object = "user_object"
     }
 }

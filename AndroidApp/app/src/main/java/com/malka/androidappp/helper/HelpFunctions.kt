@@ -22,8 +22,10 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
+import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.malka.androidappp.R
+import com.malka.androidappp.activities_main.login.LoginUser
 import com.malka.androidappp.fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ModelShipAddresses
 import com.malka.androidappp.fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ShippingAddressessData
@@ -94,9 +96,11 @@ class HelpFunctions {
         fun IsUserLoggedIn(): Boolean1 {
             val islogin = Paper.book().read(SharedPreferencesStaticClass.islogin, false) ?: false
             if (islogin) {
-                val logged_userid =
-                    Paper.book().read(SharedPreferencesStaticClass.logged_userid, "") ?: ""
-                ConstantObjects.logged_userid = logged_userid
+                val user_object =
+                    Paper.book().read(SharedPreferencesStaticClass.user_object, "") ?: ""
+               val user= Gson().fromJson(user_object, LoginUser::class.java)
+                ConstantObjects.logged_userid = user.id
+                ConstantObjects.logged_authtoken = user.token
             }
             return islogin
         }
@@ -287,7 +291,7 @@ class HelpFunctions {
         }
 
 
-        //Zack
+       
         //Date: 11/13/2020
         fun GetUserFavourites(context: Fragment) {
             try {
