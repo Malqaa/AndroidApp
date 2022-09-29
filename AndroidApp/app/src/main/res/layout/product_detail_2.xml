@@ -737,7 +737,7 @@
                     android:layout_marginBottom="@dimen/_10sdp"
                     app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                     app:spanCount="1"
-                    tools:listitem="@layout/review_layout" />
+                   />
 
 
                 <LinearLayout
