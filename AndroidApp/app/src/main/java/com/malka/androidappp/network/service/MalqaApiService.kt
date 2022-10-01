@@ -2,6 +2,7 @@ package com.malka.androidappp.network.service
 
 import com.google.gson.JsonObject
 import com.malka.androidappp.activities_main.login.LoginUser
+import com.malka.androidappp.activities_main.product_detail.RateResponse
 import com.malka.androidappp.fragments.UserImageResponseBack
 import com.malka.androidappp.fragments.browse_market.popup_subcategories_list.ModelAddSearchFav
 import com.malka.androidappp.fragments.cardetail_page.ModelAddSellerFav
@@ -346,4 +347,7 @@ interface MalqaApiService {
         @Query("id") id: String,
         @Query("lang") language:String=ConstantObjects.currentLanguage
     ): Call<GeneralResponse>
+
+    @GET("ListRateProduct?productId=15&currentPage=1")
+    fun getRates() : Call<RateResponse>
 }
