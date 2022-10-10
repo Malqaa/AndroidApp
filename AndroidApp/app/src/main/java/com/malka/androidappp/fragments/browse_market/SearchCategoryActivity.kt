@@ -5,6 +5,8 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.view.View
 import android.widget.Filter
+import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
@@ -12,8 +14,6 @@ import com.google.gson.reflect.TypeToken
 import com.malka.androidappp.R
 import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.fragments.browse_market.popup_subcategories_list.ModelAddSearchFav
-import com.malka.androidappp.fragments.browse_market.popup_subcategories_list.StaticGetSubcategoryByBrowseCateClick
-import com.malka.androidappp.fragments.browse_market.popup_subcategories_list.SubcategoriesDialogFragment
 import com.malka.androidappp.helper.CommonAPI
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.helper.hide
@@ -32,6 +32,7 @@ import kotlinx.android.synthetic.main.sub_category_design.view.*
 import kotlinx.android.synthetic.main.sub_category_layout.view.*
 import kotlinx.android.synthetic.main.sub_city_item.view.*
 import kotlinx.android.synthetic.main.sub_region_item.view.*
+import kotlinx.android.synthetic.main.sub_sub_category_item.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -39,8 +40,7 @@ import retrofit2.Response
 
 class SearchCategoryActivity : BaseActivity() {
 
-   
-    //Date: 10/29/2020
+
     var CategoryDesc: String = "";
     var SearchQuery: String = "";
     var browadptxl: GenericProductAdapter? = null
@@ -58,25 +58,16 @@ class SearchCategoryActivity : BaseActivity() {
                 map_button.show()
             }
         }
-        StaticGetSubcategoryByBrowseCateClick.getcategory = CategoryDesc;
 
         back_button.setOnClickListener {
             onBackPressed()
 
         }
         search_toolbar.setOnClickListener {
-            openDialog()
 
         }
 
-        val shippingOption: ArrayList<Selection> = ArrayList()
-        shippingOption.apply {
-            add(Selection("option 1"))
-            add(Selection("option 2"))
-            add(Selection("option 3"))
-            add(Selection("option 4"))
-            add(Selection("option 5"))
-        }
+
 
         sub_catgeory.setOnClickListener {
             GetSubCategoryByMainCategory(CategoryID)
@@ -101,56 +92,65 @@ class SearchCategoryActivity : BaseActivity() {
                             element.run {
                                 region_tv.text = name
                                 setOnClickListener {
-                                    CommonAPI().getRegion(id, this@SearchCategoryActivity) {regions->
+                                    CommonAPI().getRegion(
+                                        id,
+                                        this@SearchCategoryActivity
+                                    ) { regions ->
 
 
-                                        sub_region_rcv.adapter = object : GenericListAdapter<Country>(
-                                            R.layout.sub_region_item,
-                                            bind = { element, holder, itemCount, position ->
-                                                holder.view.run {
-                                                    element.run {
-                                                        sub_region_tv.text = name
-                                                        setOnClickListener {
-                                                            CommonAPI().getCity(id, this@SearchCategoryActivity) {city->
+                                        sub_region_rcv.adapter =
+                                            object : GenericListAdapter<Country>(
+                                                R.layout.sub_region_item,
+                                                bind = { element, holder, itemCount, position ->
+                                                    holder.view.run {
+                                                        element.run {
+                                                            sub_region_tv.text = name
+                                                            setOnClickListener {
+                                                                CommonAPI().getCity(
+                                                                    id,
+                                                                    this@SearchCategoryActivity
+                                                                ) { city ->
 
 
-                                                                sub_city_rcv.adapter = object : GenericListAdapter<Country>(
-                                                                    R.layout.sub_city_item,
-                                                                    bind = { element, holder, itemCount, position ->
-                                                                        holder.view.run {
-                                                                            element.run {
-                                                                                sub_city_tv.text = name
+                                                                    sub_city_rcv.adapter = object :
+                                                                        GenericListAdapter<Country>(
+                                                                            R.layout.sub_city_item,
+                                                                            bind = { element, holder, itemCount, position ->
+                                                                                holder.view.run {
+                                                                                    element.run {
+                                                                                        sub_city_tv.text =
+                                                                                            name
 
 
+                                                                                    }
+                                                                                }
                                                                             }
+                                                                        ) {
+                                                                        override fun getFilter(): Filter {
+                                                                            TODO("Not yet implemented")
                                                                         }
-                                                                    }
-                                                                ) {
-                                                                    override fun getFilter(): Filter {
-                                                                        TODO("Not yet implemented")
-                                                                    }
 
-                                                                }.apply {
-                                                                    submitList(
-                                                                        city
-                                                                    )
+                                                                    }.apply {
+                                                                        submitList(
+                                                                            city
+                                                                        )
+                                                                    }
                                                                 }
                                                             }
-                                                        }
 
+                                                        }
                                                     }
                                                 }
-                                            }
-                                        ) {
-                                            override fun getFilter(): Filter {
-                                                TODO("Not yet implemented")
-                                            }
+                                            ) {
+                                                override fun getFilter(): Filter {
+                                                    TODO("Not yet implemented")
+                                                }
 
-                                        }.apply {
-                                            submitList(
-                                                regions
-                                            )
-                                        }
+                                            }.apply {
+                                                submitList(
+                                                    regions
+                                                )
+                                            }
                                     }
                                 }
                             }
@@ -225,9 +225,6 @@ class SearchCategoryActivity : BaseActivity() {
         if (CategoryDesc.trim().length > 0) {
             SetToolbarTitle(CategoryDesc)
             AdvanceFiltter(mapOf("mainCatId" to CategoryID))
-            btn1.setOnClickListener { openDialog() }
-            btn2.setOnClickListener { openDialog() }
-            btn3.setOnClickListener { openDialog() }
         } else if (SearchQuery.trim().length > 0) {
             SetToolbarTitle("Search: " + SearchQuery)
             AdvanceFiltter(mapOf("productName" to SearchQuery))
@@ -365,7 +362,10 @@ class SearchCategoryActivity : BaseActivity() {
 
                     if (response.body() != null) {
 
-                        HelpFunctions.ShowLongToast(getString(R.string.follow_catgeory), this@SearchCategoryActivity)
+                        HelpFunctions.ShowLongToast(
+                            getString(R.string.follow_catgeory),
+                            this@SearchCategoryActivity
+                        )
 
 
                     }
@@ -491,10 +491,7 @@ class SearchCategoryActivity : BaseActivity() {
 
     }
 
-    fun openDialog() {
-        val exampleDialog = SubcategoriesDialogFragment()
-        exampleDialog.show(getSupportFragmentManager(), "example dialog")
-    }
+
 
     // Add Search to favorites
     fun addSearchQueryFav(searchQuery: String) {
@@ -564,7 +561,7 @@ class SearchCategoryActivity : BaseActivity() {
     }
 
 
-    private fun showFilterDialog(list: ArrayList<Category>) {
+    private fun showFilterDialog(categoryList: ArrayList<Category>) {
         val builder = AlertDialog.Builder(this@SearchCategoryActivity)
             .create()
         val view = layoutInflater.inflate(R.layout.sub_category_layout, null)
@@ -572,13 +569,62 @@ class SearchCategoryActivity : BaseActivity() {
         bottom_bar.hide()
         view.filter_bar.visibility = View.GONE
         view.price_tv.visibility = View.GONE
-        fun subCategoryAdaptor(list: List<Category>) {
+        fun subCategoryAdaptor(categoryList: List<Category>) {
             view.sub_category_rcv.adapter = object : GenericListAdapter<Category>(
                 R.layout.sub_category_design,
                 bind = { element, holder, itemCount, position ->
                     holder.view.run {
                         element.run {
                             category_tv.text = name
+                            if (is_select) {
+                                sub_sub_category_rcv.isVisible=true
+                                arrow_image.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24)
+                                main_layout.background =
+                                    ContextCompat.getDrawable(this@SearchCategoryActivity, R.drawable.field_selection_border_enable)
+                                category_tv.setTextColor(ContextCompat.getColor(this@SearchCategoryActivity, R.color.bg))
+                            } else {
+                                sub_sub_category_rcv.isVisible=false
+                                arrow_image.setImageResource(R.drawable.ic_arrow_down)
+                                main_layout.background = ContextCompat.getDrawable(this@SearchCategoryActivity, R.drawable.edittext_bg)
+                                category_tv.setTextColor(ContextCompat.getColor(this@SearchCategoryActivity, R.color.text_color))
+                            }
+                            main_layout.setOnClickListener {
+                                list.forEach {
+                                    it.is_select = false
+                                }
+                                is_select = true
+                                view.sub_category_rcv.post {
+                                    view.sub_category_rcv.adapter!!.notifyDataSetChanged()
+                                }
+
+                                if(list.isEmpty()){
+                                    arrow_image.isVisible=false
+                                }else{
+                                    arrow_image.isVisible=true
+                                }
+                            }
+
+                            arrow_image.isVisible = !list.isEmpty()
+
+                            sub_sub_category_rcv.adapter = object : GenericListAdapter<Category>(
+                                R.layout.sub_sub_category_item,
+                                bind = { element, holder, itemCount, position ->
+                                    holder.view.run {
+                                        element.run {
+                                            sub_sub_category_tv.text = name
+                                        }
+                                    }
+                                }
+                            ) {
+                                override fun getFilter(): Filter {
+                                    TODO("Not yet implemented")
+                                }
+
+                            }.apply {
+                                submitList(
+                                    list
+                                )
+                            }
                         }
                     }
                 }
@@ -589,7 +635,7 @@ class SearchCategoryActivity : BaseActivity() {
 
             }.apply {
                 submitList(
-                    list
+                    categoryList
                 )
             }
         }
@@ -612,6 +658,6 @@ class SearchCategoryActivity : BaseActivity() {
             sub_catgeory.performClick()
         }
 
-        subCategoryAdaptor(list)
+        subCategoryAdaptor(categoryList)
     }
 }

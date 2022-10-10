@@ -92,9 +92,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/_5sdp"
                             android:fontFamily="@font/madani_arabic_light"
-                            android:text="20/6/2021"
+                            tools:text="20/6/2021"
                             android:textColor="@color/textColor"
-
                             android:textSize="@dimen/_12sdp" />
                     </LinearLayout>
 

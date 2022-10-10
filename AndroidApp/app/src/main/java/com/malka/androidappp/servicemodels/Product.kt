@@ -1,7 +1,5 @@
 package com.malka.androidappp.servicemodels
 
-import com.malka.androidappp.helper.HelpFunctions
-
 
 data class Product(
     val acceptQuestion: Boolean,
@@ -29,7 +27,6 @@ data class Product(
     val price: Int,
     val priceDisc: Int,
     val productMazadNegotiate: Any,
-    val publishDate: String,
     val qty: Int,
     val regoinId: Any,
     val regoinName: String,
@@ -37,23 +34,34 @@ data class Product(
     val streetName: String,
     val stutes: Int,
     val subTitle: String,
-    val updateDate: String?=null,
-    val withFixedPrice: Boolean
+    val updatedAt: String?=null,
+    val createdAt: String?=null,
+    val withFixedPrice: Boolean,
+    val image: String?=null
 ){
 
     val createdOnFormated: String
         get() {
-            updateDate?.let {
-               // val result: String = it.substring(0, updateDate.indexOf("."))
-
-                return  HelpFunctions.FormatDateTime(
-                    it,
-                    HelpFunctions.datetimeformat_24hrs,
-                    HelpFunctions.datetimeformat_mmddyyyy
-                )
+            updatedAt?.let {
+//                return  HelpFunctions.FormatDateTime(
+//                    it,
+//                    HelpFunctions.datetimeformat_24hrs,
+//                    HelpFunctions.datetimeformat_mmddyyyy
+//                )
+                return  it
             }?:kotlin.run {
-                return ""
+                createdAt?.let {
+//                    return  HelpFunctions.FormatDateTime(
+//                        it,
+//                        HelpFunctions.datetimeformat_24hrs,
+//                        HelpFunctions.datetimeformat_mmddyyyy
+//                    )
+                    return  it
+                }?:kotlin.run {
+                    return ""
+                }
             }
+
 
         }
 }

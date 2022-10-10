@@ -16,6 +16,5 @@ data class Category(
     var template: String="",
     var categoryKey: String="",
     var jsonFilePath: String="",
-    var isSelected:Boolean=false,
     var list: List<Category>,
 )
