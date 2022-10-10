@@ -85,6 +85,8 @@ object Extension {
         onComplete: (() -> Unit)? = null
     ) {
 
+
+
         GlideApp.with(context)
             .load(path).addListener(object : RequestListener<Drawable?> {
                 override fun onLoadFailed(

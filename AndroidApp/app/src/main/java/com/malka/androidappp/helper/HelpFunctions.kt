@@ -3,7 +3,6 @@ package com.malka.androidappp.helper
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
-import android.app.Fragment
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -107,9 +106,10 @@ class HelpFunctions {
         }
 
         fun GetCurrentDateTime(format: String): String {
+            var timestamp: String = "";
             val sdf = SimpleDateFormat(format)
             val currentDate = sdf.format(Date())
-            val timestamp = currentDate
+            timestamp = currentDate
             return timestamp
         }
 
@@ -497,6 +497,86 @@ class HelpFunctions {
             })
         }
 
+        fun InsertToFavourite(
+            sellerId: String,
+            categoryName: String,
+            searchQuery: String,
+            context: Fragment
+        ): Boolean1 {
+            var RetVal: Boolean1 = false
+            try {
+                var ad: favouriteadd = favouriteadd(
+                    sellerId = sellerId,
+                    categoryName = categoryName,
+                    loggedInUserId = ConstantObjects.logged_userid,
+                    remindertype = 0,
+                    searchQuery = searchQuery,
+                    category = "",
+                    query = "",
+                    sellerid = "",
+                    userid = ""
+                )
+                var apiurl: String = ""
+                if (sellerId != null && sellerId.trim().length > 0) {
+                    apiurl = Constants.INSERT_FAVOURTIE_SELLER_URL;
+                } else if (categoryName != null && categoryName.trim().length > 0) {
+                    apiurl = Constants.INSERT_FAVOURTIE_CATEGORY_URL;
+                } else if (searchQuery != null && searchQuery.trim().length > 0) {
+                    apiurl = Constants.INSERT_FAVOURTIE_SEARCH_URL;
+                }
+
+                val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+                val call: Call<BasicResponse> = malqa.InsertToUserFavouritelist(ad)
+                call.enqueue(object : Callback<BasicResponse> {
+                    override fun onResponse(
+                        call: Call<BasicResponse>,
+                        response: Response<BasicResponse>
+                    ) {
+                        if (response.isSuccessful) {
+                            if (response.body() != null) {
+                                var resp: BasicResponse = response.body()!!;
+                                if (resp.status_code == 200 && (resp.data == true || resp.data == 1 || resp.data == 1.0)) {
+                                    RetVal = true
+                                    GetUserFavourites(context)
+                                    ShowLongToast(
+                                        "Added Successfully",
+                                        context.requireContext()
+                                    );
+                                } else {
+                                    ShowLongToast(
+                                        resp.message,
+                                        context.requireContext()
+                                    );
+                                }
+                            } else {
+                                ShowLongToast(
+                                    "Error During Addition",
+                                    context.requireContext()
+                                );
+                            }
+                        } else {
+                            ShowLongToast(
+                                "Error During Addition",
+                                context.requireContext()
+                            );
+                        }
+                    }
+
+                    override fun onFailure(
+                        call: Call<BasicResponse>,
+                        t: Throwable
+                    ) {
+                        ShowLongToast(
+                            "Error During Addition",
+                            context.requireContext()
+                        );
+                    }
+                })
+            } catch (ex: Exception) {
+                throw ex
+            }
+            return RetVal
+        }
 
         fun DeleteFromFavourite(
             sellerid: String,
@@ -790,6 +870,25 @@ class HelpFunctions {
                 throw ex
             }
         }
+
+//        fun GetTemplatesJson(context: Context, fileName: String): String? {
+//            var input: InputStream? = null
+//            var jsonString = ""
+//            try {
+//                val folder_name: String = "json_templates";
+//                input = context.assets.open(folder_name + "/" + fileName)
+//                val size = input.available()
+//                val buffer = ByteArray(size)
+//                input.read(buffer)
+//                jsonString = String(buffer)
+//            } catch (ex: Exception) {
+//                ReportError(ex)
+//            } finally {
+//                input?.close()
+//            }
+//            return jsonString
+//        }
+//
 
         lateinit var isdialog: AlertDialog
 

@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical">
@@ -40,20 +40,13 @@
                         android:id="@+id/lbl_toolbar_category"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
                         android:fontFamily="@font/madani_arabic_semi_bold"
                         android:text="Marketplace"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_12sdp" />
-                    <ImageView
-                        android:id="@+id/search_toolbar"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginStart="@dimen/_10sdp"
-                        android:src="@drawable/search_toolbar"
-                        app:tint="@color/gray_light" />
-                </RelativeLayout>
+
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -70,7 +63,14 @@
             </LinearLayout>
 
 
-
+            <ImageView
+                android:id="@+id/search_toolbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:src="@drawable/search_toolbar"
+                app:tint="@color/gray_light" />
 
         </androidx.appcompat.widget.Toolbar>
 
@@ -130,6 +130,88 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_5sdp" />
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/category_filter"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@color/white"
+                android:visibility="gone">
+
+                <View
+                    android:id="@+id/viewtopper"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="#E8E9ED"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+
+                    <Button
+                        android:id="@+id/btn1"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="@string/Category"
+                        android:textColor="@color/greenApp"
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/viewtopper" />
+
+                    <View
+                        android:id="@+id/v1"
+                        android:layout_width="2dp"
+                        android:layout_height="40dp"
+                        android:background="#E8E9ED"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/btn1"
+                        app:layout_constraintTop_toBottomOf="@+id/viewtopper" />
+
+                    <Button
+                        android:id="@+id/btn2"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/REFINE"
+                        android:textColor="@color/greenApp"
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/v1"
+                        app:layout_constraintTop_toBottomOf="@+id/viewtopper"
+                        tools:layout_editor_absoluteX="88dp" />
+
+                    <View
+                        android:id="@+id/v2"
+                        android:layout_width="1dp"
+                        android:layout_height="40dp"
+                        android:background="#E8E9ED"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/btn2"
+                        app:layout_constraintTop_toBottomOf="@+id/viewtopper" />
+
+                    <Button
+                        android:id="@+id/btn3"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/Location"
+                        android:textColor="@color/greenApp"
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/v2"
+                        app:layout_constraintTop_toBottomOf="@+id/viewtopper" />
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
 
@@ -144,7 +226,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="@dimen/_10sdp"
-        android:layout_marginBottom="@dimen/_50sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
         android:visibility="gone"
         android:src="@drawable/location_ic" />
 

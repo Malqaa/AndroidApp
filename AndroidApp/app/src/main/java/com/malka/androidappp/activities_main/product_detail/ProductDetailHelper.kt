@@ -2,47 +2,20 @@ package com.malka.androidappp.activities_main.product_detail
 
 import android.app.Activity
 import android.content.Context
-import android.util.Log
 import com.malka.androidappp.R
+import com.malka.androidappp.servicemodels.questionModel.ModelQuesAnswr
+import com.malka.androidappp.servicemodels.questionModel.ModelAskQues
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.servicemodels.ConstantObjects
-import com.malka.androidappp.servicemodels.questionModel.ModelAskQues
 import com.malka.androidappp.servicemodels.questionModel.ModelPostAns
-import com.malka.androidappp.servicemodels.questionModel.ModelQuesAnswr
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class ProductDetailHelper(val context: Context) {
 
-    fun getRates( productId:String,onSuccess: (( List<RateResponse.RateReview>) -> Unit)) {
-        val apiBuilder = RetrofitBuilder.GetRetrofitBuilder()
-        val Rates = apiBuilder.getRates(productId)
-        Rates.enqueue(object : Callback<RateResponse> {
-            override fun onResponse(
-                call: Call<RateResponse>,
-                response: Response<RateResponse>
-            ) {
-                response.body()?.let {
-                    it.run{
-                        if(status_code==200){
-                            onSuccess.invoke(it.data)
-                        }
-                    }
-
-
-                }
-            }
-
-            override fun onFailure(call: Call<RateResponse>, t: Throwable) {
-                Log.d("Api", "Error in fetching rates", t)
-            }
-
-        })
-
-    }
 
 
     fun quesAnss(adsId: String , onSuccess: ((ModelQuesAnswr) -> Unit)) {

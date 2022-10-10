@@ -53,6 +53,7 @@ import kotlinx.android.synthetic.main.image_item.view.*
 import kotlinx.android.synthetic.main.image_item.view.loader
 import kotlinx.android.synthetic.main.product_detail_2.*
 import kotlinx.android.synthetic.main.product_item.view.*
+import kotlinx.android.synthetic.main.review_layout.view.*
 import org.json.JSONArray
 import org.json.JSONObject
 import retrofit2.Call
@@ -63,6 +64,7 @@ import java.util.*
 
 class ProductDetails : BaseActivity() {
 
+    var reviewlist: ArrayList<Reviewmodel> = ArrayList()
     var AdvId = ""
     var selectLink = ""
     val attributeList: ArrayList<Attribute> = ArrayList()
@@ -100,7 +102,7 @@ class ProductDetails : BaseActivity() {
         behavior.peekHeight = getResources().getDimension(R.dimen._360sdp).toInt()
 
         mainContainer.isVisible = false
-        AdvId = intent.getIntExtra("AdvId", -1).toString()
+        AdvId = intent.getIntExtra("AdvId",-1).toString()
 
         getadbyidapi(AdvId)
 
@@ -109,24 +111,83 @@ class ProductDetails : BaseActivity() {
         setListenser()
 
 
-
-        productDetailHelper.getRates(AdvId) {
-            var totalRating = 0.0
-            it.forEach {
-                totalRating += it.rate.toDouble()
-
-            }
-            val average = totalRating / it.size
-            rating_bar.rating = average.toFloat()
-            rating_bar_detail_tv.text = getString(
-                R.string._4_9_from_00_visitors,
-                rating_bar.rating.toString().format("%.2f"),
-                it.size.toString()
+        reviewlist.add(
+            Reviewmodel(
+                "Ahmed3",
+                "12/12/2022",
+                "Good and fast delivery",
+                "2.9",
+                R.drawable.car
             )
+        )
+        reviewlist.add(
+            Reviewmodel(
+                "Ahmed4",
+                "16/12/2022",
+                "Great Experience ",
+                "3.0",
+                R.drawable.car
+            )
+        )
+        reviewlist.add(
+            Reviewmodel(
+                "Ahmed5",
+                "10/12/2022",
+                "Excelent fast delivery",
+                "3.6",
+                R.drawable.car
+            )
+        )
+        reviewlist.add(
+            Reviewmodel(
+                "Ahmed6",
+                "5/12/2022",
+                "Amazing and fast delivery",
+                "4.9",
+                R.drawable.car
+            )
+        )
+        reviewlist.add(
+            Reviewmodel(
+                "Ahmed3",
+                "12/12/2022",
+                "Good and fast delivery",
+                "2.9",
+                R.drawable.car
+            )
+        )
+        reviewlist.add(
+            Reviewmodel(
+                "Ahmed4",
+                "16/12/2022",
+                "Great Experience ",
+                "2.0",
+                R.drawable.car
+            )
+        )
+        reviewlist.add(
+            Reviewmodel(
+                "Ahmed4",
+                "16/12/2022",
+                "Great Experience ",
+                "4.0",
+                R.drawable.car
+            )
+        )
 
-            review_rcv.adapter = RateAdapter(this, it.take(3))
+        var totalRating = 0.0
+        reviewlist.forEach {
+            totalRating += it.rating.toDouble()
+
         }
-
+        val average = totalRating / reviewlist.size
+        rating_bar.rating = average.toFloat()
+        rating_bar_detail_tv.text = getString(
+            R.string._4_9_from_00_visitors,
+            rating_bar.rating.toString().format("%.2f"),
+            reviewlist.size.toString()
+        )
+        setReviewsAdapter(reviewlist)
 
     }
 
@@ -157,7 +218,7 @@ class ProductDetails : BaseActivity() {
 
         all_reviews.setOnClickListener {
             startActivity(Intent(this, ProductReviews::class.java).apply {
-                putExtra("AdvId", AdvId)
+
             })
         }
 
@@ -209,15 +270,10 @@ class ProductDetails : BaseActivity() {
                                 }
                                 manage_bid.setOnClickListener {
                                     dismiss()
-                                    startActivity(
-                                        Intent(
-                                            this@ProductDetails,
-                                            MainActivity::class.java
-                                        ).apply {
-                                            flags =
-                                                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                                            putExtra(ConstantObjects.isBid, true)
-                                        })
+                                    startActivity(Intent(this@ProductDetails, MainActivity::class.java).apply {
+                                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                        putExtra(ConstantObjects.isBid,true)
+                                    })
                                     finish()
                                 }
 
@@ -636,6 +692,9 @@ class ProductDetails : BaseActivity() {
 //
 
 
+
+
+
                                 is_watch_iv.setOnClickListener {
                                     if (HelpFunctions.AdAlreadyAddedToWatchList(AdvId)) {
                                         HelpFunctions.DeleteAdFromWatchlist(
@@ -674,6 +733,7 @@ class ProductDetails : BaseActivity() {
                             }
 
 
+
                             var isSellerProductHide = true
                             seller_product_layout.setOnClickListener {
                                 if (isSellerProductHide) {
@@ -699,6 +759,8 @@ class ProductDetails : BaseActivity() {
                             mainContainer.isVisible = true
                         }
                     }
+
+
 
 
                 } else {
@@ -945,4 +1007,33 @@ class ProductDetails : BaseActivity() {
 
 
     }
+
+    private fun setReviewsAdapter(list: ArrayList<Reviewmodel>) {
+        review_rcv.adapter = object : GenericListAdapter<Reviewmodel>(
+            R.layout.review_layout,
+            bind = { element, holder, itemCount, position ->
+                holder.view.run {
+                    element.run {
+                        review_name_tv.text = name
+
+                        rating_bar.rating = rating.toFloat()
+                        comment_tv.text = comment
+
+
+                    }
+                }
+            }
+        ) {
+            override fun getFilter(): Filter {
+                TODO("Not yet implemented")
+            }
+
+        }.apply {
+            submitList(
+
+                list.take(3)
+            )
+        }
+    }
+
 }

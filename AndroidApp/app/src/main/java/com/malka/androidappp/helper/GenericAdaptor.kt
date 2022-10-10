@@ -81,13 +81,13 @@ class GenericAdaptor {
                         putExtra("Template", "")
                     })
                 }
-                Extension.loadThumbnail(
-                    context,
-                    image,
-                    productimg, loader
-                )
+//                Extension.loadThumbnail(
+//                    context,
+//                    image,
+//                    productimg, loader
+//                )
 
-               date_tv.text = createdOnFormated
+               // date_tv.text = date
                val listingTypeFormated="1"
                 when (listingTypeFormated) {
                     "1" -> {
