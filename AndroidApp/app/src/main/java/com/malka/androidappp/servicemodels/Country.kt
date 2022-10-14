@@ -1,19 +1,17 @@
 package com.malka.androidappp.servicemodels
 
-import com.yariksoffice.lingver.Lingver
+import com.malka.androidappp.network.constants.Constants
 
 data class Country(
     val id: Int,
-    val nameAr: String,
-    val nameEn: String,
-    val flagimglink: String?=null,
+    val name: String,
+    val countryFlag: String?=null,
     val countryCode: String?=null,
 ){
-    val name: String
 
-
+    val flagimglink: String
         get() {
-            return if (Lingver.getInstance().getLanguage() == ConstantObjects.ARABIC && !nameAr.isBlank()) nameAr else nameEn
-                ?: ""
+            return Constants.IMAGE_URL2 + countryFlag
         }
+
 }

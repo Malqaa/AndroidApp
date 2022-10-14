@@ -4,11 +4,9 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.view.inputmethod.EditorInfo
 import android.widget.Filter
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -16,7 +14,6 @@ import androidx.viewpager.widget.ViewPager
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.malka.androidappp.R
-import com.malka.androidappp.activities_main.MainActivity
 import com.malka.androidappp.activities_main.login.SignInActivity
 import com.malka.androidappp.activities_main.order.CartActivity
 import com.malka.androidappp.base.BaseActivity
@@ -28,6 +25,7 @@ import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.servicemodels.ConstantObjects
 import com.malka.androidappp.servicemodels.GeneralResponse
+import com.malka.androidappp.servicemodels.Product
 import com.malka.androidappp.servicemodels.Slider
 import com.malka.androidappp.servicemodels.model.Category
 import com.malka.androidappp.servicemodels.model.DynamicList
@@ -123,31 +121,71 @@ class HomeFragment : Fragment(R.layout.fragment_homee),
     }
 
     private fun setListenser() {
-        textInputLayout11._view2()
-            .setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+//        textInputLayout11._view2()
+//            .setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
+//                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+//
+//                    SearchAndNavigateToCategoryListing(textInputLayout11.getText())
+//                    return@OnEditorActionListener true
+//                }
+//                true
+//            })
+//        textInputLayout11._attachInfoClickListener {
+//            SearchAndNavigateToCategoryListing(textInputLayout11.getText())
+//
+//        }
 
-                    SearchAndNavigateToCategoryListing(textInputLayout11.getText())
-                    return@OnEditorActionListener true
-                }
-                true
-            })
-        textInputLayout11._attachInfoClickListener {
-            SearchAndNavigateToCategoryListing(textInputLayout11.getText())
 
-        }
-    }
-
-
-    fun SearchAndNavigateToCategoryListing(searchquery: String) {
-        if (!searchquery.isEmpty()) {
+        textInputLayout11.onClickListener{
             startActivity(Intent(requireContext(), SearchCategoryActivity::class.java).apply {
-                putExtra("CategoryDesc", "")
-                putExtra("SearchQuery", searchquery)
+                putExtra("SearchQuery", it.name)
+                putExtra("CategoryID", it.categoryId.toString())
             })
             (requireActivity() as BaseActivity).hideSoftKeyboard(textInputLayout11._view2())
         }
+        textInputLayout11._onChange{query->
+            if (!query.isEmpty()) {
+                Serach(mapOf(
+                    "productName" to query,
+                ))
+            }else{
+                textInputLayout11.updateList(arrayListOf())
+            }
+        }
     }
+
+    fun Serach(filter: Map<String, String>) {
+
+
+        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+        val call: Call<GeneralResponse> = malqa.Serach(filter)
+        call.enqueue(object : Callback<GeneralResponse> {
+            override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
+
+
+            }
+
+            override fun onResponse(
+                call: Call<GeneralResponse>,
+                response: Response<GeneralResponse>
+            ) {
+
+                if (response.isSuccessful) {
+
+                    response.body()?.run {
+
+                        val list:ArrayList<Product> = Gson().fromJson(
+                            Gson().toJson(data),
+                            object : TypeToken<ArrayList<Product>>() {}.type
+                        )
+                        textInputLayout11.updateList(list)
+                    }
+                }
+            }
+        })
+
+    }
+
 
 
     fun getAllCategories() {
@@ -205,7 +243,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee),
             setHomeAdaptor()
         } else {
             val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-            val call: Call<GeneralResponse> = malqa.ListHomeCategoryProduct((requireActivity() as MainActivity).culture())
+            val call: Call<GeneralResponse> = malqa.ListHomeCategoryProduct()
             call.enqueue(object : Callback<GeneralResponse> {
                 override fun onResponse(
                     call: Call<GeneralResponse>,

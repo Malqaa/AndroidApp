@@ -50,6 +50,10 @@
 
 
     </declare-styleable>
+    <declare-styleable name="SearchBar">
+        <attr name="hint" format="string" />
+
+    </declare-styleable>
 
     <declare-styleable name="CustomRadioButton">
 

@@ -2,14 +2,17 @@ package com.malka.androidappp.fragments.browse_market
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Filter
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.malka.androidappp.R
+import com.malka.androidappp.activities_main.login.SignInActivity
 import com.malka.androidappp.base.BaseActivity
 import com.malka.androidappp.fragments.browse_market.popup_subcategories_list.ModelAddSearchFav
 import com.malka.androidappp.fragments.browse_market.popup_subcategories_list.StaticGetSubcategoryByBrowseCateClick
@@ -39,12 +42,13 @@ import retrofit2.Response
 
 class SearchCategoryActivity : BaseActivity() {
 
-   
+
     //Date: 10/29/2020
     var CategoryDesc: String = "";
     var SearchQuery: String = "";
     var browadptxl: GenericProductAdapter? = null
     var CategoryID: String = ""
+   lateinit var category: Category
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,6 +63,31 @@ class SearchCategoryActivity : BaseActivity() {
             }
         }
         StaticGetSubcategoryByBrowseCateClick.getcategory = CategoryDesc;
+        GetCategoryById()
+
+
+//        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+//        val call = malqa.ListCategoryFollow()
+//        call.enqueue(object : Callback<GeneralResponse?> {
+//            override fun onFailure(call: Call<GeneralResponse?>, t: Throwable) {
+//                HelpFunctions.dismissProgressBar()
+//            }
+//
+//            override fun onResponse(
+//                call: Call<GeneralResponse?>,
+//                response: Response<GeneralResponse?>
+//            ) {
+//                if (response.isSuccessful) {
+//
+//                    if (response.body() != null) {
+//
+//
+//                    }
+//
+//                }
+//                HelpFunctions.dismissProgressBar()
+//            }
+//        })
 
         back_button.setOnClickListener {
             onBackPressed()
@@ -69,14 +98,7 @@ class SearchCategoryActivity : BaseActivity() {
 
         }
 
-        val shippingOption: ArrayList<Selection> = ArrayList()
-        shippingOption.apply {
-            add(Selection("option 1"))
-            add(Selection("option 2"))
-            add(Selection("option 3"))
-            add(Selection("option 4"))
-            add(Selection("option 5"))
-        }
+
 
         sub_catgeory.setOnClickListener {
             GetSubCategoryByMainCategory(CategoryID)
@@ -101,56 +123,65 @@ class SearchCategoryActivity : BaseActivity() {
                             element.run {
                                 region_tv.text = name
                                 setOnClickListener {
-                                    CommonAPI().getRegion(id, this@SearchCategoryActivity) {regions->
+                                    CommonAPI().getRegion(
+                                        id,
+                                        this@SearchCategoryActivity
+                                    ) { regions ->
 
 
-                                        sub_region_rcv.adapter = object : GenericListAdapter<Country>(
-                                            R.layout.sub_region_item,
-                                            bind = { element, holder, itemCount, position ->
-                                                holder.view.run {
-                                                    element.run {
-                                                        sub_region_tv.text = name
-                                                        setOnClickListener {
-                                                            CommonAPI().getCity(id, this@SearchCategoryActivity) {city->
+                                        sub_region_rcv.adapter =
+                                            object : GenericListAdapter<Country>(
+                                                R.layout.sub_region_item,
+                                                bind = { element, holder, itemCount, position ->
+                                                    holder.view.run {
+                                                        element.run {
+                                                            sub_region_tv.text = name
+                                                            setOnClickListener {
+                                                                CommonAPI().getCity(
+                                                                    id,
+                                                                    this@SearchCategoryActivity
+                                                                ) { city ->
 
 
-                                                                sub_city_rcv.adapter = object : GenericListAdapter<Country>(
-                                                                    R.layout.sub_city_item,
-                                                                    bind = { element, holder, itemCount, position ->
-                                                                        holder.view.run {
-                                                                            element.run {
-                                                                                sub_city_tv.text = name
+                                                                    sub_city_rcv.adapter = object :
+                                                                        GenericListAdapter<Country>(
+                                                                            R.layout.sub_city_item,
+                                                                            bind = { element, holder, itemCount, position ->
+                                                                                holder.view.run {
+                                                                                    element.run {
+                                                                                        sub_city_tv.text =
+                                                                                            name
 
 
+                                                                                    }
+                                                                                }
                                                                             }
+                                                                        ) {
+                                                                        override fun getFilter(): Filter {
+                                                                            TODO("Not yet implemented")
                                                                         }
-                                                                    }
-                                                                ) {
-                                                                    override fun getFilter(): Filter {
-                                                                        TODO("Not yet implemented")
-                                                                    }
 
-                                                                }.apply {
-                                                                    submitList(
-                                                                        city
-                                                                    )
+                                                                    }.apply {
+                                                                        submitList(
+                                                                            city
+                                                                        )
+                                                                    }
                                                                 }
                                                             }
-                                                        }
 
+                                                        }
                                                     }
                                                 }
-                                            }
-                                        ) {
-                                            override fun getFilter(): Filter {
-                                                TODO("Not yet implemented")
-                                            }
+                                            ) {
+                                                override fun getFilter(): Filter {
+                                                    TODO("Not yet implemented")
+                                                }
 
-                                        }.apply {
-                                            submitList(
-                                                regions
-                                            )
-                                        }
+                                            }.apply {
+                                                submitList(
+                                                    regions
+                                                )
+                                            }
                                     }
                                 }
                             }
@@ -221,23 +252,15 @@ class SearchCategoryActivity : BaseActivity() {
 
         }
         icon_grid.performClick()
-
-        if (CategoryDesc.trim().length > 0) {
-            SetToolbarTitle(CategoryDesc)
-            AdvanceFiltter(mapOf("mainCatId" to CategoryID))
-            btn1.setOnClickListener { openDialog() }
-            btn2.setOnClickListener { openDialog() }
-            btn3.setOnClickListener { openDialog() }
-        } else if (SearchQuery.trim().length > 0) {
+        if (SearchQuery.trim().length > 0) {
             SetToolbarTitle("Search: " + SearchQuery)
-            AdvanceFiltter(mapOf("productName" to SearchQuery))
+            AdvanceFiltter(mapOf("productName" to SearchQuery,"mainCatId" to CategoryID))
             if (HelpFunctions.IsUserLoggedIn()) {
                 addSearchQueryFav(SearchQuery)
             }
-        }
-
-        follow_category.setOnClickListener {
-            FollowCategoryAPI()
+        }else{
+            AdvanceFiltter(mapOf("mainCatId" to CategoryID))
+            SetToolbarTitle(CategoryDesc)
         }
     }
 
@@ -348,10 +371,9 @@ class SearchCategoryActivity : BaseActivity() {
     }
 
     private fun FollowCategoryAPI() {
+        HelpFunctions.startProgressBar(this)
         val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-
-        val call = malqa.AddFollow(CategoryID)
-
+        val call = malqa.AddFollow(arrayListOf(CategoryID.toInt()))
         call.enqueue(object : Callback<GeneralResponse?> {
             override fun onFailure(call: Call<GeneralResponse?>, t: Throwable) {
                 HelpFunctions.dismissProgressBar()
@@ -364,9 +386,42 @@ class SearchCategoryActivity : BaseActivity() {
                 if (response.isSuccessful) {
 
                     if (response.body() != null) {
+                        HelpFunctions.ShowLongToast(
+                            getString(R.string.follow_catgeory),
+                            this@SearchCategoryActivity
+                        )
+                        category.isFollow=true
+                        checkFollowIcon(category.isFollow)
+                    }
 
-                        HelpFunctions.ShowLongToast(getString(R.string.follow_catgeory), this@SearchCategoryActivity)
+                }
+                HelpFunctions.dismissProgressBar()
+            }
+        })
+    }
 
+    private fun RemoveFollow() {
+        HelpFunctions.startProgressBar(this)
+        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+        val call = malqa.RemoveFollow(CategoryID.toInt())
+        call.enqueue(object : Callback<GeneralResponse?> {
+            override fun onFailure(call: Call<GeneralResponse?>, t: Throwable) {
+                HelpFunctions.dismissProgressBar()
+            }
+
+            override fun onResponse(
+                call: Call<GeneralResponse?>,
+                response: Response<GeneralResponse?>
+            ) {
+                if (response.isSuccessful) {
+
+                    if (response.body() != null) {
+                        HelpFunctions.ShowLongToast(
+                            getString(R.string.follow_catgeory),
+                            this@SearchCategoryActivity
+                        )
+                        category.isFollow=false
+                        checkFollowIcon(category.isFollow)
 
                     }
 
@@ -376,6 +431,62 @@ class SearchCategoryActivity : BaseActivity() {
         })
     }
 
+    private fun GetCategoryById() {
+        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+        val call = malqa.GetCategoryById(CategoryID.toInt())
+        call.enqueue(object : Callback<GeneralResponse?> {
+            override fun onFailure(call: Call<GeneralResponse?>, t: Throwable) {
+                HelpFunctions.dismissProgressBar()
+            }
+
+            override fun onResponse(
+                call: Call<GeneralResponse?>,
+                response: Response<GeneralResponse?>
+            ) {
+                if (response.isSuccessful) {
+
+                    response.body()?.run {
+                         category = Gson().fromJson(
+                            Gson().toJson(data),
+                            object : TypeToken<Category>() {}.type
+                        )
+
+                        follow_category.setOnClickListener {
+                            if (!HelpFunctions.IsUserLoggedIn()) {
+                                startActivity(Intent(this@SearchCategoryActivity, SignInActivity::class.java))
+                            } else {
+                                if (category.isFollow) {
+                                    RemoveFollow()
+                                } else {
+                                    FollowCategoryAPI()
+                                }
+                            }
+                        }
+                        checkFollowIcon(category.isFollow)
+                    }
+                }
+
+                HelpFunctions.dismissProgressBar()
+            }
+        })
+    }
+
+    private fun checkFollowIcon(isFollow:Boolean) {
+        val img=if (isFollow) {
+            ContextCompat.getDrawable(
+                this,
+                R.drawable.notification
+            )
+        } else {
+            ContextCompat.getDrawable(
+                this,
+                R.drawable.notification_log
+            )
+        }
+       // follow_category.setCompoundDrawables(img, null, null, null)
+        follow_category.setCompoundDrawablesWithIntrinsicBounds(img, null, null, null)
+
+    }
 
     var marketpost: ArrayList<Product> = ArrayList()
 

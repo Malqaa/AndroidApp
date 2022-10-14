@@ -55,16 +55,13 @@
                 android:textSize="@dimen/_12sdp" />
 
 
-            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
+            <com.malka.androidappp.helper.widgets.edittext.SearchBarComponent
                 android:id="@+id/textInputLayout11"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:backgroundTint="#F9F9F9"
-                android:hint="@string/search_by_name_auction_number_or_item"
-                app:endIcon="@drawable/search_icon"
-                app:imeOptions="search"
-                app:viewType="edittext2" />
+                app:hint="@string/search_by_name_auction_number_or_item"
+                />
 
 
             <RelativeLayout

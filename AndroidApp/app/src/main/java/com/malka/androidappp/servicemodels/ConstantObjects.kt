@@ -16,7 +16,7 @@ class ConstantObjects {
 
         var is_watch_iv: ImageView?=null
 
-        val defaltCountry: Int = 3;
+        val defaltCountry: Int = 31
         val isSuccess: String = "isSuccess";
 
 

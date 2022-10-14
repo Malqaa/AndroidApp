@@ -31,8 +31,8 @@ class SignInActivity : BaseActivity() {
 
         setContentView(R.layout.activity_sign_in)
 
-        email_tv.text="androi0@gmail.com"
-        passwword_tv.text="A112233"
+        email_tv.text="muhammadumersheraz@gmail.com"
+        passwword_tv.text="Test@123"
 
         Forgot_your_password.setOnClickListener {
             startActivity(Intent(this@SignInActivity, ForgotPasswordActivty::class.java))
@@ -114,7 +114,7 @@ class SignInActivity : BaseActivity() {
         val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
 
 
-        val call: Call<LoginUser?>? = malqa.loginUser(email,password)
+        val call: Call<LoginUser?>? = malqa.loginUser(email,password,password)
         call?.enqueue(object : Callback<LoginUser?> {
             override fun onFailure(call: Call<LoginUser?>?, t: Throwable) {
                 HelpFunctions.dismissProgressBar()

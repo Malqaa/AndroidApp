@@ -41,7 +41,11 @@ class SignupPg3 : BaseActivity() {
             it.id == ConstantObjects.defaltCountry
         }.let {
             if (it.size > 0) {
-                select_country._setStartIconImage(it.get(0).flagimglink)
+                it.get(0).run{
+                    selectedCountry = SearchListItem(id,name)
+                    select_country._setStartIconImage(flagimglink)
+                    select_country.text=it.get(0).name
+                }
             }
         }
         select_country._setOnClickListener {
@@ -60,7 +64,7 @@ class SignupPg3 : BaseActivity() {
                 selectedRegion = null
 
                 ConstantObjects.countryList.filter {
-                    it.id == selectedCountry!!.key
+                    it.id == selectedCountry!!.id
                 }.let {
                     if (it.size > 0) {
                         select_country._setStartIconImage(it.get(0).flagimglink)
@@ -73,7 +77,7 @@ class SignupPg3 : BaseActivity() {
             if (select_country.text.toString().isEmpty()) {
                 showError(getString(R.string.Please_select, getString(R.string.Country)))
             } else {
-                CommonAPI().getRegion(selectedCountry!!.key, this) {
+                CommonAPI().getRegion(selectedCountry!!.id, this) {
                     val list: ArrayList<SearchListItem> = ArrayList()
                    it.forEachIndexed { index, country ->
                         list.add(SearchListItem(country.id, country.name))
@@ -100,7 +104,7 @@ class SignupPg3 : BaseActivity() {
             if (select_region.text.toString().isEmpty()) {
                 showError(getString(R.string.Please_select, getString(R.string.Region)))
             } else {
-                CommonAPI().getCity(selectedRegion!!.key,this) {
+                CommonAPI().getCity(selectedRegion!!.id,this) {
                     val list: ArrayList<SearchListItem> = ArrayList()
                     it.forEachIndexed { index, country ->
                         list.add(SearchListItem(country.id, country.name))

@@ -64,7 +64,7 @@ class AddAddress : BaseActivity() {
                     it.get(0).run {
                         selectedCountry = SearchListItem(id, name)
 
-                        CommonAPI().getRegion(selectedCountry!!.key, this@AddAddress) {
+                        CommonAPI().getRegion(selectedCountry!!.id, this@AddAddress) {
                             it.filter {
                                 it.name==select_region.text.toString()
                             }.let {
@@ -163,7 +163,7 @@ class AddAddress : BaseActivity() {
 
 
                 ConstantObjects.countryList.filter {
-                    it.id == selectedCountry!!.key
+                    it.id == selectedCountry!!.id
                 }.let {
                     if (it.size > 0) {
                         select_country._setStartIconImage(it.get(0).flagimglink)
@@ -181,7 +181,7 @@ class AddAddress : BaseActivity() {
                     )
                 )
             } else {
-                CommonAPI().getRegion(selectedCountry!!.key, this) {
+                CommonAPI().getRegion(selectedCountry!!.id, this) {
                     val list: ArrayList<SearchListItem> = ArrayList()
                     it.forEachIndexed { index, country ->
                         list.add(SearchListItem(country.id, country.name))
@@ -214,7 +214,7 @@ class AddAddress : BaseActivity() {
                 )
 
             } else {
-                CommonAPI().getCity(selectedRegion!!.key,this) {
+                CommonAPI().getCity(selectedRegion!!.id,this) {
                     val list: ArrayList<SearchListItem> = ArrayList()
                     it.forEachIndexed { index, country ->
                         list.add(SearchListItem(country.id, country.name))

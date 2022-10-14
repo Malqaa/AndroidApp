@@ -26,7 +26,7 @@ class MainActivity : BaseActivity() {
             when (item.itemId) {
                 R.id.navigation_notifications -> {
                     if (!HelpFunctions.IsUserLoggedIn()) {
-                        startActivity(Intent(this, SignInActivity::class.java))
+                      startActivity(Intent(this, SignInActivity::class.java))
                     } else {
                         findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_notifications)
                     }

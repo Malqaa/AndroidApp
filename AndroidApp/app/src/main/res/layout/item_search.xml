@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/query_tv"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/_5sdp"
+    android:fontFamily="@font/madani_arabic_extra_light"
+    android:text="Query"
+    android:textColor="@color/black"
+    android:textSize="@dimen/_12sdp"
+    app:drawableRightCompat="@drawable/right_arrow"
+    app:drawableTint="@color/gray_light" />

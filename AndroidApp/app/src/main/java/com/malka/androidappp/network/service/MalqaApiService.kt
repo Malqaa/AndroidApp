@@ -64,7 +64,8 @@ interface MalqaApiService {
         @Part("deviceType") deviceType: RequestBody,
         @Part("deviceId") deviceId: RequestBody,
 
-                   @Part file: MultipartBody.Part): Call<GeneralRespone>
+        @Part file: MultipartBody.Part
+    ): Call<GeneralRespone>
 
     @POST("Accounts/verify")
     fun verifycode(@Body verifyusercode: PostReqVerifyCode): Call<BasicResponse>
@@ -84,9 +85,9 @@ interface MalqaApiService {
     fun updateCarTemplate(@Body data: HashMap<String, String>): Call<CreateAdvResponseBack>
 
 
-
     @POST("Accounts/insertaddress")
     fun insertAddress(@Body info: GetAddressResponse.AddressModel): Call<GeneralRespone>
+
     @POST("Accounts/updateAdress")
     fun updateAddress(@Body info: GetAddressResponse.AddressModel): Call<GeneralRespone>
 
@@ -109,9 +110,6 @@ interface MalqaApiService {
     fun getBusinessUserList(@Query("UserID") loginId: String): Call<BusinessUserRespone>
 
 
-
-
-
     @GET("Accounts/GetUser")
     fun getuser(@Query("id") userid: String): Call<UserObject>;
 
@@ -123,7 +121,6 @@ interface MalqaApiService {
 
     @GET("all")
     fun getuserfavourites(@Query("loggedIn") userid: String): Call<FavouriteObject>;
-
 
 
     @GET("Accounts/GetUser")
@@ -188,7 +185,6 @@ interface MalqaApiService {
     fun getAllProducts(): Call<AllProductsResponseBack>
 
 
-
     @POST("Favourite/insertseller")
     fun addSellerFav(@Body addfav: ModelAddSellerFav): Call<ModelAddSellerFav>
 
@@ -204,7 +200,6 @@ interface MalqaApiService {
         @Query("answer") ansans: String,
         @Query("Loggedin") ansLoginId: String
     ): Call<ModelPostAns>
-
 
 
     @GET(Constants.HOME_TOTAL_VISIT_COUNT)
@@ -291,7 +286,6 @@ interface MalqaApiService {
     fun jsonTemplates(@Url url: String): Call<JsonObject>
 
 
-
     // NEw API START HERE
     @GET("ListAdvertisments")
     fun SliderAPI(): Call<GeneralResponse>
@@ -300,39 +294,66 @@ interface MalqaApiService {
     fun getAllCategories(): Call<GeneralResponse>
 
     @GET("ListHomeCategoryProduct?currentPage=1&productNumber=10")
-    fun ListHomeCategoryProduct(@Query("lang") language:String): Call<GeneralResponse>
-
+    fun ListHomeCategoryProduct(@Query("lang") language: String = ConstantObjects.currentLanguage): Call<GeneralResponse>
 
     @POST("AddFollow")
-    fun AddFollow(@Query("catId") catId:String): Call<GeneralResponse>
+    fun AddFollow(@Body body: List<Int>): Call<GeneralResponse>
+
+
+    @DELETE("RemoveFollow")
+    fun RemoveFollow(@Query("catId") catId: Int): Call<GeneralResponse>
+
+    @GET("ListCategoryFollow")
+    fun ListCategoryFollow(@Query("lan") language: String = ConstantObjects.currentLanguage): Call<GeneralResponse>
+
+
+    @GET("GetCategoryById")
+    fun GetCategoryById(
+        @Query("id") id: Int,
+        @Query("lang") language: String = ConstantObjects.currentLanguage
+    ): Call<GeneralResponse>
 
     @GET("AdvanceFiltter")
     fun AdvanceFiltter(
-        @QueryMap filter: Map<String, String>,@Query("lang") language:String=ConstantObjects.currentLanguage
+        @QueryMap filter: Map<String, String>,
+        @Query("lang") language: String = ConstantObjects.currentLanguage
+    ): Call<GeneralResponse>
+
+
+   @GET("Serach")
+    fun Serach(
+        @QueryMap filter: Map<String, String>,
+        @Query("lang") language: String = ConstantObjects.currentLanguage
     ): Call<GeneralResponse>
 
     @GET("GetSubCategoryByMainCategory")
     fun GetSubCategoryByMainCategory(
         @Query("id") id: String,
-        @Query("lang") language:String=ConstantObjects.currentLanguage
+        @Query("lang") language: String = ConstantObjects.currentLanguage
     ): Call<GeneralResponse>
 
     @GET("ListAllSpecificationAndSubSpecificationByCatId")
     fun getSpecification(
         @Query("id") id: String,
-        @Query("lang") language:String=ConstantObjects.currentLanguage
+        @Query("lang") language: String = ConstantObjects.currentLanguage
     ): Call<GeneralResponse>
 
 
     @GET("ListCountries")
-    fun getCountry(): Call<GeneralResponse>
+    fun getCountry(@Query("lang") language: String = ConstantObjects.currentLanguage): Call<GeneralResponse>
 
     @GET("ListRegoinsByCountryId")
-    fun getRegion(@Query("id") Id: Int): Call<GeneralResponse>
+    fun getRegion(
+        @Query("id") Id: Int,
+        @Query("lang") language: String = ConstantObjects.currentLanguage
+    ): Call<GeneralResponse>
 
 
     @GET("ListNeighborhoodByRegionId")
-    fun getCity(@Query("id") Id: Int): Call<GeneralResponse>
+    fun getCity(
+        @Query("id") Id: Int,
+        @Query("lang") language: String = ConstantObjects.currentLanguage
+    ): Call<GeneralResponse>
 
 
     @FormUrlEncoded
@@ -340,14 +361,16 @@ interface MalqaApiService {
     fun loginUser(
         @Field("email") email: String,
         @Field("password") password: String?,
+        @Field("naewpassword") naewpassword: String?,
+        @Query("lang") language: String = ConstantObjects.currentLanguage
     ): Call<LoginUser?>?
 
     @GET("GetProductById")
     fun getAdDetailById(
         @Query("id") id: String,
-        @Query("lang") language:String=ConstantObjects.currentLanguage
+        @Query("lang") language: String = ConstantObjects.currentLanguage
     ): Call<GeneralResponse>
 
     @GET("ListRateProduct?productId=15&currentPage=1")
-    fun getRates() : Call<RateResponse>
+    fun getRates(@Query("lang") language: String = ConstantObjects.currentLanguage): Call<RateResponse>
 }

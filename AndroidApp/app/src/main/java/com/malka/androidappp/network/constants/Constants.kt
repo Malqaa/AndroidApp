@@ -11,6 +11,9 @@ object Constants {
     const val API_VERSION = "v1"
     const val IMAGE_FOLDER = "ImageFile"
 
+    const val IMAGE_URL2 =
+        HTTP_PROTOCOL + "://" + SERVER_LOCATION + "/"
+
 
     const val API_BASE_URL =
 //        HTTP_PROTOCOL + "://" + SERVER_LOCATION + "/" + API_VERSION + "/";
@@ -21,7 +24,6 @@ object Constants {
         HTTP_PROTOCOL + "://" + SERVER_LOCATION + "/" + IMAGE_FOLDER + "/";
 
 
-    const val HOME_ALL_ADS_URL =  "CarTemplate/All/"
 
 
 

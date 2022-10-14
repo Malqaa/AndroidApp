@@ -16,7 +16,6 @@ class ListingDetails : BaseActivity() {
     var selectedRegion: SearchListItem? = null
     var selectedCity: SearchListItem? = null
     var isEdit: Boolean = false
-    val list: ArrayList<SearchListItem> = ArrayList()
     override fun onBackPressed() {
         intent.getBooleanExtra("isEdit",false).let {
             if (it){
@@ -59,11 +58,17 @@ class ListingDetails : BaseActivity() {
             it.id == ConstantObjects.defaltCountry
         }.let {
             if (it.size > 0) {
-                phone_number_edittext._setEndText(it.get(0).countryCode)
-                select_country._setStartIconImage(it.get(0).flagimglink)
+                it.get(0).run{
+                    selectedCountry = SearchListItem(id,name)
+                    phone_number_edittext._setEndText(countryCode)
+                    select_country._setStartIconImage(flagimglink)
+                    select_country.text=it.get(0).name
+                }
+
             }
         }
         select_country._setOnClickListener {
+            val list: ArrayList<SearchListItem> = ArrayList()
             ConstantObjects.countryList.forEachIndexed { index, country ->
                 list.add(SearchListItem(country.id, country.name))
             }
@@ -75,7 +80,7 @@ class ListingDetails : BaseActivity() {
                 select_country.text = it.title
                 selectedCountry = it
                 ConstantObjects.countryList.filter {
-                    it.id == selectedCountry!!.key
+                    it.id == selectedCountry!!.id
                 }.let {
                     if (it.size > 0) {
                         phone_number_edittext._setEndText(it.get(0).countryCode)
@@ -94,7 +99,7 @@ class ListingDetails : BaseActivity() {
             if (select_country.text.toString().isEmpty()) {
                 showError(getString(R.string.Please_select, getString(R.string.Country)))
             } else {
-                CommonAPI().getRegion(selectedCountry!!.key, this) {
+                CommonAPI().getRegion(selectedCountry!!.id, this) {
                     val list: ArrayList<SearchListItem> = ArrayList()
                     it.forEachIndexed { index, country ->
                         list.add(SearchListItem(country.id, country.name))
@@ -121,7 +126,7 @@ class ListingDetails : BaseActivity() {
             if (select_region.text.toString().isEmpty()) {
                 showError(getString(R.string.Please_select, getString(R.string.Region)))
             } else {
-                CommonAPI().getCity(selectedRegion!!.key,this) {
+                CommonAPI().getCity(selectedRegion!!.id,this) {
                     val list: ArrayList<SearchListItem> = ArrayList()
                     it.forEachIndexed { index, country ->
                         list.add(SearchListItem(country.id, country.name))
