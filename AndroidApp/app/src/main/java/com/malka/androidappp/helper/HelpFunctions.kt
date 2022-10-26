@@ -471,19 +471,23 @@ class HelpFunctions {
         fun GetUserWatchlist() {
             val malqa: MalqaApiService =
                 RetrofitBuilder.GetRetrofitBuilder()
-            val call: Call<watchlistResponse> =
+            val call: Call<BasicResponse> =
                 malqa.getUserWatchlist(ConstantObjects.logged_userid)
-            call.enqueue(object : Callback<watchlistResponse> {
+            call.enqueue(object : Callback<BasicResponse> {
                 override fun onResponse(
-                    call: Call<watchlistResponse>,
-                    response: Response<watchlistResponse>
+                    call: Call<BasicResponse>,
+                    response: Response<BasicResponse>
                 ) {
                     if (response.isSuccessful) {
                         if (response.body() != null) {
-                            val watchlistinfo: watchlistResponse = response.body()!!
+                            val watchlistinfo: BasicResponse = response.body()!!
                             if (watchlistinfo.status_code == 200)
                             {
-                                ConstantObjects.userwatchlist = watchlistinfo.data
+                                val productList: ArrayList<Product> = Gson().fromJson(
+                                    Gson().toJson(watchlistinfo.data),
+                                    object : TypeToken<ArrayList<Product>>() {}.type
+                                )
+                                ConstantObjects.userwatchlist = productList
                                 EventBus.getDefault().post(WatchList())
 
                             }
@@ -497,7 +501,7 @@ class HelpFunctions {
                     }
                 }
 
-                override fun onFailure(call: Call<watchlistResponse>, t: Throwable) {
+                override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
 
                 }
             })

@@ -60,6 +60,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class ProductDetails : BaseActivity() {
@@ -79,6 +80,9 @@ class ProductDetails : BaseActivity() {
         product_attribute.isVisible = true
         quest_ans_rcv.isVisible = true
         answerLayout.isVisible = false
+
+        getSimilarproducts()
+
         val behavior: BottomSheetBehavior<*> = BottomSheetBehavior.from<View>(bottom_sheet)
         behavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
 
@@ -188,6 +192,47 @@ class ProductDetails : BaseActivity() {
             reviewlist.size.toString()
         )
         setReviewsAdapter(reviewlist)
+
+    }
+
+    private fun getSimilarproducts() {
+
+        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+        val call: Call<BasicResponse> = malqa.getsimilar()
+
+        call.enqueue(object : Callback<BasicResponse>{
+            override fun onResponse(
+                call: Call<BasicResponse>,
+                response: Response<BasicResponse>
+            ) {
+                if(response.isSuccessful)
+                {
+                    val similarData = response.body()
+                    similarData?.let{
+                        it.run {
+
+                            if(status_code == 200)
+                            {
+                                val similarList: ArrayList<Product> = Gson().fromJson(
+                                    Gson().toJson(data),
+                                    object : com.google.gson.reflect.TypeToken<ArrayList<Product>>() {}.type
+
+                                )
+                                GenericAdaptor().setHomeProductAdaptor(similarList, similar_products_rcv)
+                            }
+
+
+
+
+                        }
+                }
+                }
+            }
+
+            override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
+                TODO("Not yet implemented")
+            }
+        })
 
     }
 
@@ -753,8 +798,9 @@ class ProductDetails : BaseActivity() {
 
                                 }
                             }
-//                    GenericAdaptor().setHomeProductAdaptor(list, similar_products_rcv)
+
 //                    GenericAdaptor().setHomeProductAdaptor(list, seller_product_rcv)
+
 
                             mainContainer.isVisible = true
                         }

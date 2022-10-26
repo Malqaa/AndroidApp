@@ -1,7 +1,7 @@
 package com.malka.androidappp.servicemodels
 
-data class watchlistResponse(
-    val `data`: ArrayList<Product>,
+data class SmililarResponse(
+    val `data`: Any,
     val message: String,
     val status: String,
     val status_code: Int
