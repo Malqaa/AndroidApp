@@ -24,6 +24,7 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.google.gson.JsonObject
+import com.google.gson.reflect.TypeToken
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.login.LoginUser
 import com.malka.androidappp.fragments.shared_preferences.SharedPreferencesStaticClass
@@ -33,6 +34,7 @@ import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.constants.Constants
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.servicemodels.*
+import com.malka.androidappp.servicemodels.ConstantObjects.Companion.data
 import com.malka.androidappp.servicemodels.addtocart.AddToCartResponseModel
 import com.malka.androidappp.servicemodels.favourites.FavouriteObject
 import com.malka.androidappp.servicemodels.favourites.favouriteadd
@@ -55,6 +57,7 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 import java.util.regex.Matcher
 import java.util.regex.Pattern
+import kotlin.collections.ArrayList
 import kotlin.Boolean as Boolean1
 
 
@@ -270,8 +273,8 @@ class HelpFunctions {
                 if (it.trim().length > 0) {
 
                     for (IndWatch in ConstantObjects.userwatchlist) {
-                        val id = IndWatch.referenceId ?: ""
-                        if (id.trim().lowercase()
+                        val id = IndWatch.id
+                        if (id.toString().lowercase()
                                 .equals(it.trim().lowercase())
                         ) {
                             RetVal = true
@@ -347,16 +350,16 @@ class HelpFunctions {
                     reminderType
                 )
                 val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-                val call: Call<BasicResponse> = malqa.InsertAdtoUserWatchlist(ad)
-                call.enqueue(object : Callback<BasicResponse> {
+                val call: Call<AddFavResponse> = malqa.InsertAdtoUserWatchlist(15)
+                call.enqueue(object : Callback<AddFavResponse> {
                     override fun onResponse(
-                        call: Call<BasicResponse>,
-                        response: Response<BasicResponse>
+                        call: Call<AddFavResponse>,
+                        response: Response<AddFavResponse>
                     ) {
                         if (response.isSuccessful) {
                             if (response.body() != null) {
-                                val resp: BasicResponse = response.body()!!;
-                                if (resp.status_code == 200 && (resp.data == true || resp.data == 1 || resp.data == 1.0)) {
+                                val resp: AddFavResponse = response.body()!!;
+                                if (resp.status_code == 200) {
                                     GetUserWatchlist()
                                     onSuccess?.invoke()
                                     ShowLongToast(
@@ -386,7 +389,7 @@ class HelpFunctions {
                     }
 
                     override fun onFailure(
-                        call: Call<BasicResponse>,
+                        call: Call<AddFavResponse>,
                         t: Throwable
                     ) {
                         ShowLongToast(
@@ -468,30 +471,37 @@ class HelpFunctions {
         fun GetUserWatchlist() {
             val malqa: MalqaApiService =
                 RetrofitBuilder.GetRetrofitBuilder()
-            val call: Call<watchlistobject> =
+            val call: Call<BasicResponse> =
                 malqa.getUserWatchlist(ConstantObjects.logged_userid)
-            call.enqueue(object : Callback<watchlistobject> {
+            call.enqueue(object : Callback<BasicResponse> {
                 override fun onResponse(
-                    call: Call<watchlistobject>,
-                    response: Response<watchlistobject>
+                    call: Call<BasicResponse>,
+                    response: Response<BasicResponse>
                 ) {
                     if (response.isSuccessful) {
                         if (response.body() != null) {
-                            val watchlistinfo: watchlistobject = response.body()!!
-                            val list = ArrayList<AdDetailModel>()
-                            watchlistinfo.data.forEach {
-                                it.advertisement?.let {
-                                    list.add(it)
-                                }
+                            val watchlistinfo: BasicResponse = response.body()!!
+                            if (watchlistinfo.status_code == 200)
+                            {
+                                val productList: ArrayList<Product> = Gson().fromJson(
+                                    Gson().toJson(watchlistinfo.data),
+                                    object : TypeToken<ArrayList<Product>>() {}.type
+                                )
+                                ConstantObjects.userwatchlist = productList
+                                EventBus.getDefault().post(WatchList())
+
                             }
-                            ConstantObjects.userwatchlist = list
-                            EventBus.getDefault().post(WatchList())
+
+
+
+
+
 
                         }
                     }
                 }
 
-                override fun onFailure(call: Call<watchlistobject>, t: Throwable) {
+                override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
 
                 }
             })

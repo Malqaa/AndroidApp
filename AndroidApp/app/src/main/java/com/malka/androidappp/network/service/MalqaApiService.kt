@@ -113,8 +113,8 @@ interface MalqaApiService {
     @GET("Accounts/GetUser")
     fun getuser(@Query("id") userid: String): Call<UserObject>;
 
-    @GET("Watchlist/getall")
-    fun getUserWatchlist(@Query("loggedinUserId") userid: String): Call<watchlistobject>;
+    @GET("ListFavoriteProduct?currentPage=1")
+    fun getUserWatchlist(@Query("lang") language: String = ConstantObjects.currentLanguage): Call<BasicResponse>;
 
     @GET("Auction/getall")
     fun getuserfeedback(@Query("loggedin") userid: String): Call<FeedbackObject>;
@@ -141,8 +141,8 @@ interface MalqaApiService {
     @POST("Accounts/ChangePassword")
     fun changepass(@Body changepasspost: User): Call<User>
 
-    @POST("Watchlist/insert")
-    fun InsertAdtoUserWatchlist(@Body insertads: watchlistadd): Call<BasicResponse>
+    @POST("AddFavoriteProduct")
+    fun InsertAdtoUserWatchlist(@Query("productId") productId: Int): Call<AddFavResponse>
 
     @POST("Watchlist/delete")
     fun DeleteAdFromUserWatchlist(
@@ -373,4 +373,8 @@ interface MalqaApiService {
 
     @GET("ListRateProduct?productId=15&currentPage=1")
     fun getRates(@Query("lang") language: String = ConstantObjects.currentLanguage): Call<RateResponse>
+
+    @GET("ListSimilarProducts?currentPage=1&lang=ar")
+    fun getsimilar() : Call<BasicResponse>
+
 }

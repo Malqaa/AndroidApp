@@ -116,7 +116,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:orientation="horizontal"
-                tools:listitem="@layout/all_categories_cardview"
+                tools:listitem= "@layout/all_categories_cardview"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
             <RelativeLayout

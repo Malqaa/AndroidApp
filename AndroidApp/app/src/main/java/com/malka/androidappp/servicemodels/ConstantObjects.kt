@@ -23,7 +23,7 @@ class ConstantObjects {
         var userobj: User? = null;
         var userfeedback: FeedbackObject? = null;
         var userfavourite: FavouriteObject? = null;
-        var userwatchlist=java.util.ArrayList<AdDetailModel> ()
+        var userwatchlist=java.util.ArrayList<Product> ()
         var usercreditcard: List<CreditCardModel>? = null;
         var usercart: List<CartItemModel> = ArrayList()
         var useraddresses: List<ShippingAddressessData>? = null
