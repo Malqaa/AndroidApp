@@ -23,6 +23,7 @@ class RetrofitBuilder {
                 httpClient.addInterceptor(authenticationInterceptor);
 
                 builder = Retrofit.Builder()
+                println("hhhh")
                 builder!!.baseUrl(Constants.API_BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
                 builder!!.client(httpClient.build());

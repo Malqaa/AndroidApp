@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.widget.Toast
 import com.malka.androidappp.R
 import com.malka.androidappp.servicemodels.User
-import com.malka.androidappp.base.BaseActivity
+import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.helper.HelpFunctions.Companion.PASSWORD_PATTERN
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService

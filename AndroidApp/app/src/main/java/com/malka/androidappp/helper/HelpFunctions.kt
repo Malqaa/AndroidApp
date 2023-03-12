@@ -26,7 +26,7 @@ import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
 import com.malka.androidappp.R
-import com.malka.androidappp.activities_main.login.LoginUser
+import com.malka.androidappp.newPhase.models.LoginUser
 import com.malka.androidappp.fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ModelShipAddresses
 import com.malka.androidappp.fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ShippingAddressessData
@@ -34,12 +34,10 @@ import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.constants.Constants
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.servicemodels.*
-import com.malka.androidappp.servicemodels.ConstantObjects.Companion.data
 import com.malka.androidappp.servicemodels.addtocart.AddToCartResponseModel
 import com.malka.androidappp.servicemodels.favourites.FavouriteObject
 import com.malka.androidappp.servicemodels.favourites.favouriteadd
 import com.malka.androidappp.servicemodels.watchlist.watchlistadd
-import com.malka.androidappp.servicemodels.watchlist.watchlistobject
 import io.paperdb.Paper
 import kotlinx.android.synthetic.main.alertpopup.view.*
 import kotlinx.android.synthetic.main.progress_bar.view.*
@@ -821,7 +819,7 @@ class HelpFunctions {
 //        }
 //
 
-        lateinit var isdialog: AlertDialog
+         var isdialog: AlertDialog?=null
 
         fun startProgressBar(mActivity: Activity) {
             val infalter = mActivity.layoutInflater
@@ -831,13 +829,13 @@ class HelpFunctions {
             bulider.setView(dialogView)
             bulider.setCancelable(false)
             isdialog = bulider.create()
-            isdialog.show()
-            isdialog.window!!.setBackgroundDrawableResource(R.color.transparent)
+            isdialog?.show()
+            isdialog?.window!!.setBackgroundDrawableResource(R.color.transparent)
         }
 
         fun dismissProgressBar() {
             if (isdialog != null) {
-                isdialog.dismiss()
+                isdialog?.dismiss()
             }
         }
 

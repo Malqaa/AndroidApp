@@ -5,8 +5,8 @@ import android.os.Bundle
 import android.util.Patterns
 import android.view.View
 import com.malka.androidappp.R
-import com.malka.androidappp.activities_main.login.SignInActivity
-import com.malka.androidappp.base.BaseActivity
+import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
+import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder

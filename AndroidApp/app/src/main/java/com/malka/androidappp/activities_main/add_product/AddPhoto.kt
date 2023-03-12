@@ -10,7 +10,7 @@ import android.webkit.URLUtil
 import android.widget.Filter
 import androidx.core.content.PermissionChecker
 import com.malka.androidappp.R
-import com.malka.androidappp.base.BaseActivity
+import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.servicemodels.ImageSelectModel
 import com.malka.androidappp.fragments.create_ads.StaticClassAdCreate
 import com.malka.androidappp.helper.Extension

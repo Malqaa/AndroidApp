@@ -5,7 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import com.google.gson.Gson
 import com.malka.androidappp.R
-import com.malka.androidappp.base.BaseActivity
+import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.helper.CommonAPI
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.helper.widgets.searchdialog.SearchListItem

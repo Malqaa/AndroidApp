@@ -27,7 +27,7 @@ import com.google.android.gms.location.LocationSettingsStatusCodes
 import com.google.gson.Gson
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.place_picker.LocationPickerActivity
-import com.malka.androidappp.base.BaseActivity
+import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.helper.hide
 import com.malka.androidappp.helper.show
@@ -72,8 +72,6 @@ class BusinessAccountCreate : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_business_signup)
-
-
 
         business_signup2_button.setOnClickListener() {
             if(profileImageBase64.isEmpty()){

@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.malka.androidappp.R
-import com.malka.androidappp.base.BaseActivity
+import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.servicemodels.ConstantObjects
 import kotlinx.android.synthetic.main.activity_sign_in.*
 import kotlinx.android.synthetic.main.toolbar_main.*

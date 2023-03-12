@@ -1,4 +1,4 @@
-package com.malka.androidappp.base
+package com.malka.androidappp.newPhase.core
 
 import android.content.Context
 import android.content.Intent
@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
-import com.malka.androidappp.activities_main.SplashActivity
+import com.malka.androidappp.newPhase.presentation.splashActivity.SplashActivity
 import com.malka.androidappp.fragments.create_ads.StaticClassAdCreate
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.servicemodels.ConstantObjects

@@ -10,7 +10,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.malka.androidappp.R
-import com.malka.androidappp.activities_main.login.SignInActivity
+import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
 import com.malka.androidappp.activities_main.product_detail.ProductDetails
 import com.malka.androidappp.fragments.account_fragment.address.AddAddress
 import com.malka.androidappp.fragments.shared_preferences.SharedPreferencesStaticClass

@@ -1,4 +1,4 @@
-package com.malka.androidappp.activities_main.login
+package com.malka.androidappp.newPhase.models
 
 data class LoginUser(
     val activeCode: Boolean,

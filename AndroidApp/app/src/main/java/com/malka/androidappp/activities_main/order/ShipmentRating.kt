@@ -3,7 +3,7 @@ package com.malka.androidappp.activities_main.order
 import android.os.Bundle
 import android.widget.Filter
 import com.malka.androidappp.R
-import com.malka.androidappp.base.BaseActivity
+import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.servicemodels.Negotiationmodel
 import kotlinx.android.synthetic.main.activity_shipment_rating.*

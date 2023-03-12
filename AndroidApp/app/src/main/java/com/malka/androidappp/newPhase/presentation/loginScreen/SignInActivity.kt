@@ -1,4 +1,4 @@
-package com.malka.androidappp.activities_main.login
+package com.malka.androidappp.newPhase.presentation.loginScreen
 
 import android.content.Context
 import android.content.Intent
@@ -9,10 +9,11 @@ import android.widget.Toast
 import com.google.gson.Gson
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.forgot.ForgotPasswordActivty
-import com.malka.androidappp.activities_main.signup_account.SignupPg1
-import com.malka.androidappp.base.BaseActivity
+import com.malka.androidappp.newPhase.presentation.signup.SignupPg1
+import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.helper.HelpFunctions
+import com.malka.androidappp.newPhase.models.loginResp.LoginResp
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.servicemodels.ConstantObjects
@@ -63,9 +64,7 @@ class SignInActivity : BaseActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
         finish()
-
     }
-
 
     private fun validateEmail(): Boolean {
         val emailInput = email_tv!!.text.toString().trim { it <= ' ' }
@@ -103,46 +102,41 @@ class SignInActivity : BaseActivity() {
                 this@SignInActivity
             )
         }
-
-
     }
 
 
     fun MakeLoginAPICall(email: String, password: String, context: Context) {
         HelpFunctions.startProgressBar(this)
-
         val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-
-
-        val call: Call<LoginUser?>? = malqa.loginUser(email,password,password)
-        call?.enqueue(object : Callback<LoginUser?> {
-            override fun onFailure(call: Call<LoginUser?>?, t: Throwable) {
+        val call: Call<LoginResp?>? = malqa.loginUser(email,password,password)
+        call?.enqueue(object : Callback<LoginResp?> {
+            override fun onFailure(call: Call<LoginResp?>?, t: Throwable) {
                 HelpFunctions.dismissProgressBar()
-
                 Toast.makeText(context, "${t.message}", Toast.LENGTH_LONG).show()
             }
-
             override fun onResponse(
-                call: Call<LoginUser?>,
-                response: Response<LoginUser?>
+                call: Call<LoginResp?>,
+                response: Response<LoginResp?>
             ) {
                 if (response.isSuccessful) {
-
                     response.body()?.run {
-                        ConstantObjects.logged_userid = id
-                        ConstantObjects.isBusinessUser = isBusinessAccount
-                        val userId: String = id
-                        ConstantObjects.logged_userid = userId
-                        HelpFunctions.ShowLongToast(
-                            getString(R.string.LoginSuccessfully),
-                            context
-                        )
-                        Paper.book().write(SharedPreferencesStaticClass.islogin, true)
-                        Paper.book().write(SharedPreferencesStaticClass.user_object, Gson().toJson(this))
-                        setResult(RESULT_OK, Intent())
-                        finish()
-                    }
+                        if(this.userObject!=null){
+                            ConstantObjects.logged_userid =this.userObject.id
+                            ConstantObjects.isBusinessUser = this.userObject.isBusinessAccount
+                            val userId: String =this.userObject.id
+                            ConstantObjects.logged_userid = userId
+                            HelpFunctions.ShowLongToast(
+                                getString(R.string.LoginSuccessfully),
+                                context
+                            )
+                            Paper.book().write(SharedPreferencesStaticClass.islogin, true)
+                            Paper.book().write(SharedPreferencesStaticClass.user_object, Gson().toJson(this.userObject))
+                            setResult(RESULT_OK, Intent())
+                            finish()
+                        }
 
+
+                    }
                 } else {
                     HelpFunctions.ShowLongToast(
                         getString(R.string.InvalidUsernameorPassword),

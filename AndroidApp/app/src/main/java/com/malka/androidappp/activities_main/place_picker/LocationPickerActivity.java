@@ -47,7 +47,7 @@ import com.google.android.libraries.places.api.net.FetchPlaceResponse;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.gson.Gson;
 import com.malka.androidappp.R;
-import com.malka.androidappp.base.BaseActivity;
+import com.malka.androidappp.newPhase.core.BaseActivity;
 import com.malka.androidappp.servicemodels.ConstantObjects;
 import com.malka.androidappp.servicemodels.LocationPickerModel;
 

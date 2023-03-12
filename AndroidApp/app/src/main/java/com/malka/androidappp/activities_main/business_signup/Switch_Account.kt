@@ -7,7 +7,7 @@ import android.widget.Filter
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import com.malka.androidappp.R
-import com.malka.androidappp.base.BaseActivity
+import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.fragments.activities_main.business_signup.BusinessAccountCreate
 import com.malka.androidappp.servicemodels.BusinessUserRespone
 import com.malka.androidappp.helper.HelpFunctions

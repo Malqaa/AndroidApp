@@ -14,7 +14,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager.widget.ViewPager
 import com.malka.androidappp.R
-import com.malka.androidappp.activities_main.login.SignInActivity
+import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
 import com.malka.androidappp.fragments.cardetail_page.bottomsheet_bidopt.BottomsheetDialogfragClass
 import com.malka.androidappp.fragments.cardetail_page.bottomsheet_bidopt.StoreDataForAdDetail
 import com.malka.androidappp.fragments.cardetail_page.bottomsheet_bidopt.getbidModel.ModelBidingResponse

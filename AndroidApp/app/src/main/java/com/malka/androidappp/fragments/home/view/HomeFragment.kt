@@ -14,9 +14,9 @@ import androidx.viewpager.widget.ViewPager
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.malka.androidappp.R
-import com.malka.androidappp.activities_main.login.SignInActivity
+import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
 import com.malka.androidappp.activities_main.order.CartActivity
-import com.malka.androidappp.base.BaseActivity
+import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.fragments.browse_market.SearchCategoryActivity
 import com.malka.androidappp.helper.*
 import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter

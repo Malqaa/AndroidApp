@@ -6,7 +6,7 @@ import android.view.Gravity
 import android.widget.Filter
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.MainActivity
-import com.malka.androidappp.base.BaseActivity
+import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.servicemodels.Negotiationmodel
 import com.malka.androidappp.helper.CommonBottomSheet
 import com.malka.androidappp.helper.hide

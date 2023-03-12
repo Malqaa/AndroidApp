@@ -8,7 +8,7 @@ import android.widget.Filter
 import android.widget.TextView.OnEditorActionListener
 import android.widget.Toast
 import com.malka.androidappp.R
-import com.malka.androidappp.base.BaseActivity
+import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.fragments.create_ads.StaticClassAdCreate
 import com.malka.androidappp.helper.Extension
 import com.malka.androidappp.helper.HelpFunctions

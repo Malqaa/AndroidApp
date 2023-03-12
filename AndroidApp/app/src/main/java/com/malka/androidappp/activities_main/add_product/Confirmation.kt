@@ -5,7 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import com.google.gson.Gson
 import com.malka.androidappp.R
-import com.malka.androidappp.base.BaseActivity
+import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.fragments.create_ads.StaticClassAdCreate
 import com.malka.androidappp.helper.*
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder

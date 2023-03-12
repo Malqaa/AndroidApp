@@ -2,7 +2,7 @@ package com.malka.androidappp.activities_main
 
 import android.os.Bundle
 import com.malka.androidappp.R
-import com.malka.androidappp.base.BaseActivity
+import com.malka.androidappp.newPhase.core.BaseActivity
 import kotlinx.android.synthetic.main.activity_play.*
 
 class PlayActivity : BaseActivity() {

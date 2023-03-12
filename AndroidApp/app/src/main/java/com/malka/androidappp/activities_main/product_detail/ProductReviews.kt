@@ -2,21 +2,12 @@ package com.malka.androidappp.activities_main.product_detail
 
 import android.os.Bundle
 import android.util.Log
-import android.widget.Filter
-import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
-import com.malka.androidappp.base.BaseActivity
-import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
+import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
-import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.servicemodels.Reviewmodel
-import kotlinx.android.synthetic.main.activity_business_signup.*
-import kotlinx.android.synthetic.main.fragment_other_details.view.*
-import kotlinx.android.synthetic.main.pager_layout.*
-import kotlinx.android.synthetic.main.product_review_design.view.*
-import kotlinx.android.synthetic.main.product_reviews1.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 import retrofit2.Call
 import retrofit2.Callback

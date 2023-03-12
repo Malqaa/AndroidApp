@@ -6,7 +6,7 @@ import android.view.View
 import com.malka.androidappp.BuildConfig
 import com.malka.androidappp.R
 import com.malka.androidappp.servicemodels.PostReqVerifyCode
-import com.malka.androidappp.base.BaseActivity
+import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.helper.HelpFunctions
 import com.malka.androidappp.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.network.service.MalqaApiService
@@ -68,7 +68,7 @@ class ActivityForgotPassOtpcode : BaseActivity() {
         val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
         val userId: String? = intent.getStringExtra("getid")
         val otpcode: String = pinview234.getValue().toString().trim()
-        val call= malqa.verifycode(PostReqVerifyCode(userId=userId!!,code= otpcode))
+        val call= malqa.verifycode(PostReqVerifyCode(userId=userId.toString(),code= otpcode))
         call.enqueue(object : Callback<BasicResponse> {
 
             override fun onFailure(call: Call<BasicResponse>, t: Throwable) {

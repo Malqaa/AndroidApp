@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
 
-    tools:context=".activities_main.login.SignInActivity">
+    tools:context=".newPhase.presentation.loginScreen.SignInActivity">
 
     <ScrollView
         android:layout_width="match_parent"

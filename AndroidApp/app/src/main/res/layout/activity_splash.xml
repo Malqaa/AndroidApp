@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:id="@+id/mainContainer"
     android:background="@drawable/malqaa_splash"
-    tools:context=".activities_main.SplashActivity">
+    tools:context=".newPhase.presentation.splashActivity.SplashActivity">
 
     <VideoView
         android:id="@+id/splash_view"

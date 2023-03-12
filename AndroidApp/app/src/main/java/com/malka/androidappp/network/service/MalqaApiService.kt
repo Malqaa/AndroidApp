@@ -1,7 +1,6 @@
 package com.malka.androidappp.network.service
 
 import com.google.gson.JsonObject
-import com.malka.androidappp.activities_main.login.LoginUser
 import com.malka.androidappp.activities_main.product_detail.RateResponse
 import com.malka.androidappp.fragments.UserImageResponseBack
 import com.malka.androidappp.fragments.browse_market.popup_subcategories_list.ModelAddSearchFav
@@ -20,8 +19,12 @@ import com.malka.androidappp.fragments.my_product.edit_product.ModelEditProduct
 import com.malka.androidappp.fragments.sellerdetails.SellerResponseBack
 import com.malka.androidappp.fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ModelShipAddresses
 import com.malka.androidappp.fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ShippingAddressessData
+import com.malka.androidappp.newPhase.models.loginResp.LoginResp
+import com.malka.androidappp.newPhase.models.resgisterResp.RegisterResp
 import com.malka.androidappp.network.constants.Constants
 import com.malka.androidappp.network.constants.Constants.GET_CATEGORY_TAGS_ENDPOINT
+import com.malka.androidappp.newPhase.models.validateAndGenerateOTPResp.UserVerifiedResp
+import com.malka.androidappp.newPhase.models.validateAndGenerateOTPResp.ValidateAndGenerateOTPResp
 import com.malka.androidappp.servicemodels.*
 import com.malka.androidappp.servicemodels.addtocart.AddToCartResponseModel
 import com.malka.androidappp.servicemodels.addtocart.InsertToCartRequestModel
@@ -40,32 +43,74 @@ import com.malka.androidappp.servicemodels.questionModel.ModelQuesAnswr
 import com.malka.androidappp.servicemodels.total_members.ModelGetTotalMembers
 import com.malka.androidappp.servicemodels.total_online_users.ModelGetTotalOnlineUsers
 import com.malka.androidappp.servicemodels.user.UserObject
-import com.malka.androidappp.servicemodels.watchlist.watchlistadd
-import com.malka.androidappp.servicemodels.watchlist.watchlistobject
-import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.*
 
 
 interface MalqaApiService {
+    //    @Multipart
+//    @POST("RegisterProviderWebsite")
+//    fun createuser(
+//        @Part("email") email: RequestBody,
+//        @Part("password") password: RequestBody,
+//        @Part("phone") phone: RequestBody,
+//        @Part("cPassword") cPassword: RequestBody,
+//        @Part("userName") userName: RequestBody,
+//        @Part("info") info: RequestBody,
+//        @Part("lang") lang: RequestBody,
+//        @Part("projectName") projectName: RequestBody,
+//        @Part("deviceType") deviceType: RequestBody,
+//        @Part("deviceId") deviceId: RequestBody,
+//        @Part file: MultipartBody.Part
+//    ): Call<GeneralRespone>
     @Multipart
-    @POST("RegisterProviderWebsite")
-    fun createuser(
-
+    @POST("RegisterWebsite")
+    fun createuser2(
+        @Part("userName") userName: RequestBody,
+        @Part("phone") phone: RequestBody,
         @Part("email") email: RequestBody,
         @Part("password") password: RequestBody,
-        @Part("phone") phone: RequestBody,
-        @Part("cPassword") cPassword: RequestBody,
-        @Part("userName") userName: RequestBody,
-        @Part("info") info: RequestBody,
+        @Part("invitationCode")invitationCode:RequestBody,
+        @Part("firstName") firstName: RequestBody,
+        @Part("lastName") lastName: RequestBody,
+        @Part("dateOfBirth")dateOfBirth:RequestBody,
+        @Part("gender")gender:RequestBody,
+        @Part("countryId")countryId:RequestBody,
+        @Part("regionId") regionId:RequestBody,
+        @Part("neighborhoodId") neighborhoodId:RequestBody,
+        @Part("districtName") districtName:RequestBody,
+        @Part("streetNumber") streetNumber:RequestBody,
+        @Part("zipCode") zipCode:RequestBody,
+        @Part("isBusinessAccount") info: RequestBody,
         @Part("lang") lang: RequestBody,
         @Part("projectName") projectName: RequestBody,
         @Part("deviceType") deviceType: RequestBody,
         @Part("deviceId") deviceId: RequestBody,
+    ): Call<RegisterResp>
 
-        @Part file: MultipartBody.Part
-    ): Call<GeneralRespone>
+    @GET("ValidateUserAndGenerateOtp")
+    fun validateUserAndGenerateOtp(
+        @Query("userName") userName:String,
+        @Query("phoneNumber") userPhone: String,
+        @Query("email") userEmail:String,
+        @Query("User-Language")lang:String,
+    ):Call<ValidateAndGenerateOTPResp>
+
+    @GET("ResendOtp")
+    fun resendOtp(
+        @Query("phoneNumber") userPhone: String,
+        @Query("User-Language")lang:String,
+    ):Call<ValidateAndGenerateOTPResp>
+    @POST("VerifyOtp")
+    fun verifyOtp(
+        @Query("phoneNumber") userPhone:  String,
+        @Query("otpCode") otpCode: String,
+    ):Call<UserVerifiedResp>
+
+
+
+
 
     @POST("Accounts/verify")
     fun verifycode(@Body verifyusercode: PostReqVerifyCode): Call<BasicResponse>
@@ -320,7 +365,7 @@ interface MalqaApiService {
     ): Call<GeneralResponse>
 
 
-   @GET("Serach")
+    @GET("Serach")
     fun Serach(
         @QueryMap filter: Map<String, String>,
         @Query("lang") language: String = ConstantObjects.currentLanguage
@@ -363,7 +408,7 @@ interface MalqaApiService {
         @Field("password") password: String?,
         @Field("naewpassword") naewpassword: String?,
         @Query("lang") language: String = ConstantObjects.currentLanguage
-    ): Call<LoginUser?>?
+    ): Call<LoginResp?>?
 
     @GET("GetProductById")
     fun getAdDetailById(
@@ -375,6 +420,6 @@ interface MalqaApiService {
     fun getRates(@Query("lang") language: String = ConstantObjects.currentLanguage): Call<RateResponse>
 
     @GET("ListSimilarProducts?currentPage=1&lang=ar")
-    fun getsimilar() : Call<BasicResponse>
+    fun getsimilar(): Call<BasicResponse>
 
 }
