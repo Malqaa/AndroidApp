@@ -72,7 +72,7 @@
           />
 
 
-        <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
+        <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
             android:id="@+id/add_a_new_account"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

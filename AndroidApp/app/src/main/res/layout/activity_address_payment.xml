@@ -32,7 +32,7 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
 
-            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
+            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/add_new_add"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

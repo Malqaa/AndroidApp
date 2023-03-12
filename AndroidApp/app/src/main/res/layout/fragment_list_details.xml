@@ -54,7 +54,7 @@
                 </LinearLayout>
 
 
-                <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
+                <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
                     android:id="@+id/title_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -73,7 +73,7 @@
                     android:textColor="#293241"
                     android:textSize="@dimen/_14sdp" />
 
-                <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
+                <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
                     android:id="@+id/subtitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -185,7 +185,7 @@
                 </LinearLayout>
 
 
-                <com.malka.androidappp.helper.widgets.ElegantNumberButton
+                <com.malka.androidappp.newPhase.data.helper.widgets.ElegantNumberButton
                     android:id="@+id/quantityavail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -201,7 +201,7 @@
                     android:textSize="@dimen/_14sdp" />
 
 
-                <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
+                <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
                     android:id="@+id/select_country"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -211,7 +211,7 @@
                     app:startIcon="@drawable/ic_region"
                     app:viewType="spinner" />
 
-                <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
+                <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
                     android:id="@+id/select_region"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -222,7 +222,7 @@
                     app:viewType="spinner" />
 
 
-                <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
+                <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
                     android:id="@+id/select_city"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -232,7 +232,7 @@
                     app:startIcon="@drawable/ic_city"
                     app:viewType="spinner" />
 
-                <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
+                <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
                     android:id="@+id/phone_number_edittext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

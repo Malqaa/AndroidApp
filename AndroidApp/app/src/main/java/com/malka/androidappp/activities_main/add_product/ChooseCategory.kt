@@ -8,10 +8,10 @@ import com.malka.androidappp.activities_main.add_product.all_categories.AdapterA
 import com.malka.androidappp.activities_main.add_product.all_categories.SubCategories
 import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.fragments.create_ads.StaticClassAdCreate
-import com.malka.androidappp.helper.Extension.truncateString
-import com.malka.androidappp.helper.HelpFunctions
-import com.malka.androidappp.servicemodels.ConstantObjects
-import com.malka.androidappp.servicemodels.model.Category
+import com.malka.androidappp.newPhase.data.helper.Extension.truncateString
+import com.malka.androidappp.newPhase.data.helper.HelpFunctions
+import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.domain.models.servicemodels.model.Category
 import kotlinx.android.synthetic.main.fragment_choose_cate.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 

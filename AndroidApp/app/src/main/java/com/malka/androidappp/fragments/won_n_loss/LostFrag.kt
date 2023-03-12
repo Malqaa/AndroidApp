@@ -4,12 +4,12 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.malka.androidappp.R
-import com.malka.androidappp.helper.HelpFunctions
-import com.malka.androidappp.network.Retrofit.RetrofitBuilder
-import com.malka.androidappp.network.service.MalqaApiService
+import com.malka.androidappp.newPhase.data.helper.HelpFunctions
+import com.malka.androidappp.newPhase.data.network.Retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.data.network.service.MalqaApiService
 import com.malka.androidappp.recycler_browsecat.GenericProductAdapter
-import com.malka.androidappp.servicemodels.ConstantObjects
-import com.malka.androidappp.servicemodels.model_wonloss.ModelWonLost
+import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.domain.models.servicemodels.model_wonloss.ModelWonLost
 import kotlinx.android.synthetic.main.fragment_lost.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 import retrofit2.Call

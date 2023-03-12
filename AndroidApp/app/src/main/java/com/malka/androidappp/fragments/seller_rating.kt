@@ -7,11 +7,11 @@ import android.widget.Filter
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
-import com.malka.androidappp.helper.hide
-import com.malka.androidappp.helper.show
-import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
-import com.malka.androidappp.servicemodels.Reviewmodel
-import com.malka.androidappp.servicemodels.Selection
+import com.malka.androidappp.newPhase.data.helper.hide
+import com.malka.androidappp.newPhase.data.helper.show
+import com.malka.androidappp.newPhase.data.helper.widgets.rcv.GenericListAdapter
+import com.malka.androidappp.newPhase.domain.models.servicemodels.Reviewmodel
+import com.malka.androidappp.newPhase.domain.models.servicemodels.Selection
 import kotlinx.android.synthetic.main.fragment_seller_rating.*
 import kotlinx.android.synthetic.main.product_review_design.view.*
 import kotlinx.android.synthetic.main.product_reviews1.category_rcv

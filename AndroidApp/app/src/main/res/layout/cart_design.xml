@@ -96,7 +96,7 @@
                                     android:textSize="@dimen/_12sdp" />
 
 
-                                <com.malka.androidappp.helper.widgets.ElegantNumberButton
+                                <com.malka.androidappp.newPhase.data.helper.widgets.ElegantNumberButton
                                     android:id="@+id/item_quantity"
                                     android:layout_width="@dimen/_80sdp"
                                     android:layout_height="wrap_content"

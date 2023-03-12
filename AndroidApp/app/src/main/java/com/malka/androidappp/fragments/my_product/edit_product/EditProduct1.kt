@@ -17,10 +17,10 @@ import com.malka.androidappp.R
 import com.malka.androidappp.fragments.create_product.ProductDetailModel
 import com.malka.androidappp.fragments.create_product.ProductResponseBack
 import com.malka.androidappp.fragments.create_product.StaticClassProductCreate
-import com.malka.androidappp.helper.HelpFunctions
-import com.malka.androidappp.network.Retrofit.RetrofitBuilder
-import com.malka.androidappp.network.service.MalqaApiService
-import com.malka.androidappp.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.data.helper.HelpFunctions
+import com.malka.androidappp.newPhase.data.network.Retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.data.network.service.MalqaApiService
+import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
 import kotlinx.android.synthetic.main.fragment_create_product.*
 import retrofit2.Call
 import retrofit2.Callback

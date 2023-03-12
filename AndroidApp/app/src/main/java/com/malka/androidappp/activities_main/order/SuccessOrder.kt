@@ -5,7 +5,7 @@ import android.os.Bundle
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.MainActivity
 import com.malka.androidappp.newPhase.core.BaseActivity
-import com.malka.androidappp.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
 import kotlinx.android.synthetic.main.activity_success_order.*
 
 class SuccessOrder : BaseActivity() {

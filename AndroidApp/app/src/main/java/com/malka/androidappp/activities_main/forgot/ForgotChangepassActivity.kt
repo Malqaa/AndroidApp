@@ -3,11 +3,11 @@ package com.malka.androidappp.activities_main.forgot
 import android.os.Bundle
 import android.widget.Toast
 import com.malka.androidappp.R
-import com.malka.androidappp.servicemodels.User
+import com.malka.androidappp.newPhase.domain.models.servicemodels.User
 import com.malka.androidappp.newPhase.core.BaseActivity
-import com.malka.androidappp.helper.HelpFunctions.Companion.PASSWORD_PATTERN
-import com.malka.androidappp.network.Retrofit.RetrofitBuilder
-import com.malka.androidappp.network.service.MalqaApiService
+import com.malka.androidappp.newPhase.data.helper.HelpFunctions.Companion.PASSWORD_PATTERN
+import com.malka.androidappp.newPhase.data.network.Retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.data.network.service.MalqaApiService
 import kotlinx.android.synthetic.main.activity_forgotpass_reset.*
 import retrofit2.Call
 import retrofit2.Callback

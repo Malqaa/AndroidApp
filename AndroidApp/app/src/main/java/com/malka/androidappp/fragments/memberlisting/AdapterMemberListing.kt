@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
 import com.malka.androidappp.fragments.sellerdetails.Advertisement
-import com.malka.androidappp.network.constants.Constants
+import com.malka.androidappp.newPhase.data.network.constants.Constants
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.seller_ads_adapter.view.*
 

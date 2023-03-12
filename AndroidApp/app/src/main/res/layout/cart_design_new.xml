@@ -141,7 +141,7 @@
                                     android:textSize="@dimen/_12sdp" />
 
 
-                                <com.malka.androidappp.helper.widgets.ElegantNumberButton
+                                <com.malka.androidappp.newPhase.data.helper.widgets.ElegantNumberButton
                                     android:id="@+id/item_quantity"
                                     android:layout_width="@dimen/_80sdp"
                                     android:layout_height="wrap_content"
@@ -167,7 +167,7 @@
 
         </LinearLayout>
 
-        <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
+        <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
             android:id="@+id/delivery_option"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -177,7 +177,7 @@
             app:viewType="text" />
 
 
-        <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
+        <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
             android:id="@+id/payment_option_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.widget.Filter
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseActivity
-import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
-import com.malka.androidappp.servicemodels.Negotiationmodel
+import com.malka.androidappp.newPhase.data.helper.widgets.rcv.GenericListAdapter
+import com.malka.androidappp.newPhase.domain.models.servicemodels.Negotiationmodel
 import kotlinx.android.synthetic.main.activity_shipment_rating.*
 import kotlinx.android.synthetic.main.product_rating_design.view.*
 import kotlinx.android.synthetic.main.toolbar_main.*

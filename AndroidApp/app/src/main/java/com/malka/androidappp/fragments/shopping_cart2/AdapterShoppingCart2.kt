@@ -11,9 +11,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
 import com.malka.androidappp.fragments.shoppingcart3_shippingaddress.ShippingAddress
 import com.malka.androidappp.fragments.shoppingcart6_paymentmethod.CartPaymentMethod
-import com.malka.androidappp.helper.HelpFunctions
-import com.malka.androidappp.network.constants.Constants
-import com.malka.androidappp.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.data.helper.HelpFunctions
+import com.malka.androidappp.newPhase.data.network.constants.Constants
+import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.shoppingcart2_card.view.*
 

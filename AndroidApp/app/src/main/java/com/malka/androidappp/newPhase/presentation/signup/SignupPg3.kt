@@ -1,27 +1,28 @@
 package com.malka.androidappp.newPhase.presentation.signup
 
 import android.content.Intent
-import android.hardware.Camera
 import android.os.Bundle
-import android.widget.Toast
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import com.malka.androidappp.BuildConfig
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
 import com.malka.androidappp.newPhase.core.BaseActivity
-import com.malka.androidappp.helper.CommonAPI
-import com.malka.androidappp.helper.Extension.getDeviceId
-import com.malka.androidappp.helper.Extension.requestBody
-import com.malka.androidappp.helper.HelpFunctions
-import com.malka.androidappp.helper.widgets.DatePickerFragment
-import com.malka.androidappp.helper.widgets.searchdialog.SearchListItem
-import com.malka.androidappp.network.Retrofit.RetrofitBuilder
-import com.malka.androidappp.network.constants.Constants
-import com.malka.androidappp.network.service.MalqaApiService
-import com.malka.androidappp.newPhase.models.resgisterResp.RegisterResp
-import com.malka.androidappp.newPhase.models.validateAndGenerateOTPResp.OtpData
-import com.malka.androidappp.servicemodels.ConstantObjects
-import com.malka.androidappp.servicemodels.User
+import com.malka.androidappp.newPhase.data.network.CommonAPI
+import com.malka.androidappp.newPhase.data.helper.Extension.getDeviceId
+import com.malka.androidappp.newPhase.data.helper.Extension.requestBody
+import com.malka.androidappp.newPhase.data.helper.HelpFunctions
+import com.malka.androidappp.newPhase.data.helper.widgets.DatePickerFragment
+import com.malka.androidappp.newPhase.data.helper.widgets.searchdialog.SearchListItem
+import com.malka.androidappp.newPhase.data.network.Retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.data.network.constants.Constants
+import com.malka.androidappp.newPhase.data.network.service.MalqaApiService
+import com.malka.androidappp.newPhase.domain.models.resgisterResp.RegisterResp
+import com.malka.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.OtpData
+import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.presentation.signup.signupViewModel.SignupViewModel
 import com.yariksoffice.lingver.Lingver
-import kotlinx.android.synthetic.main.activity_signup_pg1.*
+import kotlinx.android.synthetic.main.activity_signup_pg2.*
 import kotlinx.android.synthetic.main.activity_signup_pg4.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -35,20 +36,13 @@ class SignupPg3 : BaseActivity() {
     var selectedCity: SearchListItem? = null
     var gender_ = -1
     private var otpData: OtpData? = null
-
+    private lateinit var signupViewModel: SignupViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signup_pg4)
-
         otpData = intent.getParcelableExtra(Constants.otpDataKey)
-        date!!._setOnClickListener {
-            DatePickerFragment(true, false) { selectdate_ ->
-                date.text = "$selectdate_ "
-
-            }.show(supportFragmentManager, "")
-
-        }
-
+        setupRegisterViewModel()
+        setupClickListeners()
         ConstantObjects.countryList.filter {
             it.id == ConstantObjects.defaltCountry
         }.let { if (it.size > 0) {
@@ -59,7 +53,65 @@ class SignupPg3 : BaseActivity() {
                 }
             }
         }
+    }
+    private fun setupRegisterViewModel() {
+        signupViewModel = ViewModelProvider(this).get(SignupViewModel::class.java)
+        signupViewModel.isLoading.observe(this, Observer {
+            if (it)
+                HelpFunctions.startProgressBar(this)
+            else
+                HelpFunctions.dismissProgressBar()
+        })
+        signupViewModel.isNetworkFail.observe(this, Observer {
+            if (it) {
+                HelpFunctions.ShowLongToast(
+                    getString(R.string.connectionError),
+                    this
+                )
+            } else {
+                HelpFunctions.ShowLongToast(
+                    getString(R.string.serverError),
+                    this
+                )
+            }
 
+        })
+        signupViewModel.errorResponseObserver.observe(this, Observer {
+            if (it.message != null) {
+                HelpFunctions.ShowLongToast(
+                    it.message,
+                    this
+                )
+            } else {
+                HelpFunctions.ShowLongToast(
+                    getString(R.string.serverError),
+                    this
+                )
+            }
+
+        })
+        signupViewModel.registerRespObserver.observe(this){registerResp->
+            if (registerResp.status_code == 200) {
+                HelpFunctions.ShowLongToast(
+                    getString(R.string.Accounthasbeencreated),
+                    this@SignupPg3
+                )
+                signInAfterSignUp()
+            } else {
+                showError(getString(R.string.serverError))
+            }
+
+        }
+    }
+    /***clickEvents*/
+    private fun setupClickListeners() {
+        date._setOnClickListener {
+            DatePickerFragment(true, false) { selectdate_ ->
+                date.text = "$selectdate_ "
+
+            }.show(supportFragmentManager, "")
+
+        }
         select_country._setOnClickListener {
             val list: ArrayList<SearchListItem> = ArrayList()
             ConstantObjects.countryList.forEachIndexed { index, country ->
@@ -85,7 +137,7 @@ class SignupPg3 : BaseActivity() {
             } else {
                 CommonAPI().getRegion(selectedCountryText!!.id, this) {
                     val list: ArrayList<SearchListItem> = ArrayList()
-                   it.forEachIndexed { index, country ->
+                    it.forEachIndexed { index, country ->
                         list.add(SearchListItem(country.id, country.name))
                     }
                     select_region.showSpinner(
@@ -126,8 +178,6 @@ class SignupPg3 : BaseActivity() {
                 }
             }
         }
-
-//
         radiomale._setOnClickListener {
             radiomale._setCheck(!radiomale.getCheck())
             radiofemale._setCheck(false)
@@ -142,22 +192,11 @@ class SignupPg3 : BaseActivity() {
 
         confirm_button.setOnClickListener {
             if (isValid()) {
-                apicallcreateuser()
+                callCreateUser()
             }
         }
     }
 
-
-
-
-
-    override fun onBackPressed() {
-        super.onBackPressed()
-        val intent = Intent(this@SignupPg3, SignInActivity::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        startActivity(intent)
-        finish()
-    }
 
     private fun isValid(): Boolean {
         if (firstName!!.text.toString().isEmpty()) {
@@ -218,6 +257,149 @@ class SignupPg3 : BaseActivity() {
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
     }
 
+    fun callCreateUser(){
+        var invitationCode="";
+        otpData?.let {
+            invitationCode=it.invitationCode;
+        }
+        var selectedRegionId=0
+        selectedRegion?.let {
+            selectedRegionId=it.id
+        }
+        var selectedCountryId=0
+        selectedCountryText?.let {
+            selectedCountryId=it.id
+        }
+        var cityId=0
+        selectedCity?.let {
+            cityId=it.id
+        }
+        signupViewModel.createUser(
+            otpData?.userName.toString(),
+            otpData?.phoneNumber.toString(),
+            otpData?.userEmail.toString(),
+            otpData?.userPass.toString(),
+            invitationCode,
+            firstName.text.toString().trim(),
+            editTextlastname.text.toString().trim(),
+            date.text.toString().trim(),
+            gender_.toString(),
+            selectedCountryId.toString(),
+            selectedRegionId.toString(),
+            cityId.toString(),
+            area.text.toString(),
+            streetNUmber.text.toString(),
+            county_code.text.toString(),
+            otpData?.isBusinessAccount.toString(),
+            Lingver.getInstance().getLanguage(),
+            HelpFunctions.projectName,
+            HelpFunctions.deviceType,
+            getDeviceId()
+        )
+    }
+
+
+
+
+
+    fun signInAfterSignUp() {
+        val intentsignin = Intent(this, SignInActivity::class.java)
+        intentsignin.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        startActivity(intentsignin)
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        val intent = Intent(this@SignupPg3, SignInActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        startActivity(intent)
+        finish()
+    }
+
+
+
+//    fun apicallcreateuser() {
+//        HelpFunctions.startProgressBar(this)
+//        val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+//        var invitationCode="";
+//        otpData?.let {
+//            invitationCode=it.invitationCode;
+//        }
+//        var selectedRegionId=0
+//        selectedRegion?.let {
+//            selectedRegionId=it.id
+//        }
+//        var selectedCountryId=0
+//        selectedCountryText?.let {
+//            selectedCountryId=it.id
+//        }
+//        var cityId=0
+//        selectedCity?.let {
+//            cityId=it.id
+//        }
+//
+//        val call: Call<RegisterResp> = malqaa.createuser2(
+//            otpData?.userName.toString().requestBody(),
+//            otpData?.phoneNumber.toString().requestBody(),
+//            otpData?.userEmail.toString().requestBody(),
+//            otpData?.userPass.toString().requestBody(),
+//            invitationCode.requestBody(),
+//            firstName.text.toString().trim().requestBody(),
+//            editTextlastname.text.toString().trim().requestBody(),
+//            date.text.toString().trim().requestBody(),
+//            gender_.toString().requestBody(),
+//            selectedCountryId.toString().requestBody(),
+//            selectedRegionId.toString().requestBody(),
+//            cityId.toString().requestBody(),
+//            area.text.toString().requestBody(),
+//            streetNUmber.text.toString().requestBody(),
+//            county_code.text.toString().requestBody(),
+//            otpData?.isBusinessAccount.toString().requestBody(),
+//            Lingver.getInstance().getLanguage().requestBody(),
+//            HelpFunctions.projectName.requestBody(),
+//            HelpFunctions.deviceType.requestBody(),
+//            getDeviceId().requestBody(),
+//        )
+//
+//        call.enqueue(object : Callback<RegisterResp> {
+//
+//            override fun onResponse(
+//                call: Call<RegisterResp>, response: Response<RegisterResp>
+//            ) {
+//                if (response.isSuccessful) {
+//                    val data=response.body()
+//                    if (data!!.status_code == 200) {
+//                        HelpFunctions.ShowLongToast(
+//                            getString(R.string.Accounthasbeencreated),
+//                            this@SignupPg3
+//                        )
+//                        signInAfterSignUp()
+//                    } else {
+//                        if(data.message!=null){
+//                            showError(data.message)
+//                        }else{
+//                            showError(response.message())
+//
+//                        }
+//                    }
+//                } else {
+//                    HelpFunctions.ShowLongToast(response.toString(), this@SignupPg3)
+//                }
+//                HelpFunctions.dismissProgressBar()
+//
+//            }
+//
+//            override fun onFailure(call: Call<RegisterResp>, t: Throwable) {
+//                HelpFunctions.dismissProgressBar()
+//                t.message?.let { HelpFunctions.ShowLongToast(it, this@SignupPg3) }
+//            }
+//        })
+//
+//    }
+
+
+
+
 //    fun updateapicall() {
 //        val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
 //        val userId = intent.getStringExtra("useridupdate")
@@ -268,94 +450,6 @@ class SignupPg3 : BaseActivity() {
 //            }
 //        })
 //    }
-    fun apicallcreateuser() {
-        HelpFunctions.startProgressBar(this)
-        val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-      var invitationCode="";
-        otpData?.let {
-            invitationCode=it.invitationCode;
-        }
-        var selectedRegionId=0
-       selectedRegion?.let {
-           selectedRegionId=it.id
-       }
-        var selectedCountryId=0
-        selectedCountryText?.let {
-            selectedCountryId=it.id
-        }
-        var cityId=0
-        selectedCity?.let {
-            cityId=it.id
-        }
-
-        val call: Call<RegisterResp> = malqaa.createuser2(
-            otpData?.userName.toString().requestBody(),
-            otpData?.phoneNumber.toString().requestBody(),
-            otpData?.userEmail.toString().requestBody(),
-            otpData?.userPass.toString().requestBody(),
-            invitationCode.requestBody(),
-            firstName.text.toString().trim().requestBody(),
-            editTextlastname.text.toString().trim().requestBody(),
-            date.text.toString().trim().requestBody(),
-            gender_.toString().requestBody(),
-            selectedCountryId.toString().requestBody(),
-            selectedRegionId.toString().requestBody(),
-            cityId.toString().requestBody(),
-            area.text.toString().requestBody(),
-            streetNUmber.text.toString().requestBody(),
-            county_code.text.toString().requestBody(),
-            otpData?.isBusinessAccount.toString().requestBody(),
-            Lingver.getInstance().getLanguage().requestBody(),
-            HelpFunctions.projectName.requestBody(),
-            HelpFunctions.deviceType.requestBody(),
-            getDeviceId().requestBody(),
-        )
-
-        call.enqueue(object : Callback<RegisterResp> {
-
-            override fun onResponse(
-                call: Call<RegisterResp>, response: Response<RegisterResp>
-            ) {
-                if (response.isSuccessful) {
-                    val data=response.body()
-                    if (data!!.status_code == 200) {
-                        HelpFunctions.ShowLongToast(
-                            getString(R.string.Accounthasbeencreated),
-                            this@SignupPg3
-                        )
-                        signInAfterSignUp()
-                    } else {
-                        if(data.message!=null){
-                            showError(data.message)
-                        }else{
-                            showError(response.message())
-
-                        }
-                    }
-                } else {
-                    HelpFunctions.ShowLongToast(response.toString(), this@SignupPg3)
-                }
-                HelpFunctions.dismissProgressBar()
-
-            }
-
-            override fun onFailure(call: Call<RegisterResp>, t: Throwable) {
-                HelpFunctions.dismissProgressBar()
-                t.message?.let { HelpFunctions.ShowLongToast(it, this@SignupPg3) }
-            }
-        })
-
-    }
-
-
-
-
-    fun signInAfterSignUp() {
-        val intentsignin = Intent(this, SignInActivity::class.java)
-        intentsignin.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        startActivity(intentsignin)
-    }
-
 
 
 }

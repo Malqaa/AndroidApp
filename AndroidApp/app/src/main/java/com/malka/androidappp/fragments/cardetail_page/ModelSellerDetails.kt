@@ -1,6 +1,6 @@
 package com.malka.androidappp.fragments.cardetail_page
 
-import com.malka.androidappp.servicemodels.User
+import com.malka.androidappp.newPhase.domain.models.servicemodels.User
 
 data class ModelSellerDetails(
     val `data`: User?,

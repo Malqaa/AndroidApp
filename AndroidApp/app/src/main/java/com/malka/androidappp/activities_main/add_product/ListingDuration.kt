@@ -9,11 +9,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.fragments.create_ads.StaticClassAdCreate
-import com.malka.androidappp.helper.widgets.DatePickerFragment
-import com.malka.androidappp.helper.widgets.TimePickerFragment
-import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
-import com.malka.androidappp.servicemodels.Selection
-import com.malka.androidappp.servicemodels.TimeSelection
+import com.malka.androidappp.newPhase.data.helper.widgets.DatePickerFragment
+import com.malka.androidappp.newPhase.data.helper.widgets.TimePickerFragment
+import com.malka.androidappp.newPhase.data.helper.widgets.rcv.GenericListAdapter
+import com.malka.androidappp.newPhase.domain.models.servicemodels.Selection
+import com.malka.androidappp.newPhase.domain.models.servicemodels.TimeSelection
 import kotlinx.android.synthetic.main.fragment_listing_duration.*
 import kotlinx.android.synthetic.main.selection_item.view.*
 import kotlinx.android.synthetic.main.shipping_option.view.*

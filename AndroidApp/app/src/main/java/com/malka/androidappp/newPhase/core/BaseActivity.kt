@@ -12,8 +12,8 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import com.malka.androidappp.newPhase.presentation.splashActivity.SplashActivity
 import com.malka.androidappp.fragments.create_ads.StaticClassAdCreate
-import com.malka.androidappp.helper.HelpFunctions
-import com.malka.androidappp.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.data.helper.HelpFunctions
+import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
 import com.yariksoffice.lingver.Lingver
 
 
@@ -77,7 +77,6 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     fun getCategortList(): String {
-
         var name = ""
         StaticClassAdCreate.subCategoryPath.forEach {
             name = name + it + " - "

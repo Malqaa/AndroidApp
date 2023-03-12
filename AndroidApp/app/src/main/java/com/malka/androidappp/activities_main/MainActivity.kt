@@ -10,8 +10,8 @@ import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.add_product.ListanItem
 import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
 import com.malka.androidappp.newPhase.core.BaseActivity
-import com.malka.androidappp.helper.HelpFunctions
-import com.malka.androidappp.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.data.helper.HelpFunctions
+import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
 import kotlinx.android.synthetic.main.activity_bottmmm.*
 
 

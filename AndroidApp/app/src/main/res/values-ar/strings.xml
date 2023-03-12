@@ -1,6 +1,7 @@
 <resources>
 
   <string name="serverError">حدث خطأ أثناء الإتصال الرجاء المحاولة مرة اخرى</string>
+  <string name="connectionError">فقد الإتصال بالانترنت</string>
     <string name="Back_to_login">العودة لتسجيل الدخول</string>
 
     <string name="City">مدينة</string>

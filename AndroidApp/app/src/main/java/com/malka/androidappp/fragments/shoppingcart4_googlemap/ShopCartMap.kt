@@ -25,7 +25,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.malka.androidappp.R
-import com.malka.androidappp.helper.HelpFunctions
+import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import kotlinx.android.synthetic.main.fragment_shop_cart_map.*
 
 class ShopCartMap : Fragment() {

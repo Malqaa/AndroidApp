@@ -5,9 +5,9 @@ import android.os.Bundle
 import android.widget.Filter
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseActivity
-import com.malka.androidappp.helper.hide
-import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
-import com.malka.androidappp.servicemodels.Negotiationmodel
+import com.malka.androidappp.newPhase.data.helper.hide
+import com.malka.androidappp.newPhase.data.helper.widgets.rcv.GenericListAdapter
+import com.malka.androidappp.newPhase.domain.models.servicemodels.Negotiationmodel
 import kotlinx.android.synthetic.main.activity_order_detail1.*
 import kotlinx.android.synthetic.main.order_detail_design_1.view.*
 import kotlinx.android.synthetic.main.order_item.view.*

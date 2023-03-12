@@ -44,7 +44,7 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/_12sdp" />
 
-            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
+            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/editText1asdasd0"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
                 app:enablePasswordToggle="true"
                 app:startIcon="@drawable/symbolpass" />
 
-            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
+            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/sdsdss"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

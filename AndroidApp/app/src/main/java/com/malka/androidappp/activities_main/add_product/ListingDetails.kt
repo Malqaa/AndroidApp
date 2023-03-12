@@ -5,9 +5,9 @@ import android.os.Bundle
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.fragments.create_ads.StaticClassAdCreate
-import com.malka.androidappp.helper.CommonAPI
-import com.malka.androidappp.helper.widgets.searchdialog.SearchListItem
-import com.malka.androidappp.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.data.network.CommonAPI
+import com.malka.androidappp.newPhase.data.helper.widgets.searchdialog.SearchListItem
+import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
 import kotlinx.android.synthetic.main.fragment_list_details.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 

@@ -6,9 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
-import com.malka.androidappp.helper.BaseViewHolder
-import com.malka.androidappp.helper.GenericAdaptor
-import com.malka.androidappp.servicemodels.Product
+import com.malka.androidappp.newPhase.data.helper.BaseViewHolder
+import com.malka.androidappp.newPhase.data.helper.GenericAdaptor
+import com.malka.androidappp.newPhase.domain.models.servicemodels.Product
 
 
 class GenericProductAdapter(

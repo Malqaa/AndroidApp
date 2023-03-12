@@ -1,6 +1,6 @@
 package com.malka.androidappp.fragments.feedback_frag.insert_feedback
 
-import com.malka.androidappp.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
 
 class StaticClassGiveFeedback {
     companion object {

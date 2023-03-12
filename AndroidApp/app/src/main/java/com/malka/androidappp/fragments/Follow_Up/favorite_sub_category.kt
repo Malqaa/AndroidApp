@@ -6,10 +6,10 @@ import android.widget.Filter
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.malka.androidappp.R
-import com.malka.androidappp.helper.hide
-import com.malka.androidappp.helper.show
-import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
-import com.malka.androidappp.servicemodels.Selection
+import com.malka.androidappp.newPhase.data.helper.hide
+import com.malka.androidappp.newPhase.data.helper.show
+import com.malka.androidappp.newPhase.data.helper.widgets.rcv.GenericListAdapter
+import com.malka.androidappp.newPhase.domain.models.servicemodels.Selection
 import kotlinx.android.synthetic.main.favorite_sub_category_layout.view.*
 import kotlinx.android.synthetic.main.fragment_favorite_sub_category.*
 import kotlinx.android.synthetic.main.toolbar_main.*

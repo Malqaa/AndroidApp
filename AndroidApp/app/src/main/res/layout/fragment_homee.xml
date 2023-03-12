@@ -55,7 +55,7 @@
                 android:textSize="@dimen/_12sdp" />
 
 
-            <com.malka.androidappp.helper.widgets.edittext.SearchBarComponent
+            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.SearchBarComponent
                 android:id="@+id/textInputLayout11"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -71,7 +71,7 @@
                 android:layout_marginTop="@dimen/_5sdp"
                 android:visibility="gone">
 
-                <com.malka.androidappp.helper.widgets.viewpager2.AutoScrollViewPager
+                <com.malka.androidappp.newPhase.data.helper.widgets.viewpager2.AutoScrollViewPager
                     android:id="@+id/slider_home"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

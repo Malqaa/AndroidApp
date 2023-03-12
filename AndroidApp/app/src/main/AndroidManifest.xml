@@ -19,7 +19,7 @@
         android:xlargeScreens="true" />
 
     <application
-        android:name=".App"
+        android:name=".newPhase.core.App"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/malqa_iconn"

@@ -5,23 +5,25 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.View
 import android.widget.TextView
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.malka.androidappp.BuildConfig
 import com.malka.androidappp.R
-import com.malka.androidappp.helper.Extension.requestBody
-import com.malka.androidappp.helper.HelpFunctions
-import com.malka.androidappp.network.Retrofit.RetrofitBuilder
-import com.malka.androidappp.network.constants.Constants
-import com.malka.androidappp.network.service.MalqaApiService
 import com.malka.androidappp.newPhase.core.BaseActivity
-import com.malka.androidappp.newPhase.models.validateAndGenerateOTPResp.OtpData
-import com.malka.androidappp.newPhase.models.validateAndGenerateOTPResp.UserVerifiedResp
-import com.malka.androidappp.newPhase.models.validateAndGenerateOTPResp.ValidateAndGenerateOTPResp
+import com.malka.androidappp.newPhase.data.helper.HelpFunctions
+import com.malka.androidappp.newPhase.data.network.Retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.data.network.constants.Constants
+import com.malka.androidappp.newPhase.data.network.service.MalqaApiService
+import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects.Companion.data
+import com.malka.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.OtpData
+import com.malka.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.UserVerifiedResp
+import com.malka.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.ValidateAndGenerateOTPResp
 import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
-import com.malka.androidappp.servicemodels.BasicResponse
-import com.malka.androidappp.servicemodels.ConstantObjects.Companion.data
-import com.malka.androidappp.servicemodels.PostReqVerifyCode
+import com.malka.androidappp.newPhase.presentation.signup.signupViewModel.SignupViewModel
 import com.yariksoffice.lingver.Lingver
+import kotlinx.android.synthetic.main.activity_signup_pg1.*
 import kotlinx.android.synthetic.main.activity_signup_pg2.*
+import kotlinx.android.synthetic.main.activity_signup_pg2.button3
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -33,67 +35,92 @@ class SignupPg2 : BaseActivity() {
     lateinit var countdownTimer: TextView
     private var mTimeLeftInMillis = START_TIME_IN_MILLIS
     private var otpData: OtpData? = null
-
+    private lateinit var signupViewModel: SignupViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signup_pg2)
         countdownTimer = findViewById(R.id.countdownTimer)
         otpData = intent.getParcelableExtra(Constants.otpDataKey)
+        setupRegisterViewModel()
+        setClickListeners()
 
-        var datacode: String? = otpData?.otpCode
-        // println("hhh $datacode")
         /***thisForTest*/
         if (BuildConfig.DEBUG) {
+            val datacode: String? = otpData?.otpCode
+            // println("hhh $datacode")
             pinview.value = datacode!!
         }
 
-
-        resend_btn.setOnClickListener {
-            if (mTimeLeftInMillis >= 1000) {
-                HelpFunctions.ShowLongToast(
-                    getString(R.string.Pleasewaituntilthecodeexpires),
-                    applicationContext
-                )
-            } else {
-                resendOTPApi()
-            }
-        }
         startTimeCounter()
     }
 
-    /**resend OTP*/
-    fun resendOTPApi() {
-        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-        val userPhone: String? = otpData?.phoneNumber
-        val call = malqa.resendOtp(userPhone.toString(), Lingver.getInstance().getLanguage())
-        call.enqueue(object : Callback<ValidateAndGenerateOTPResp> {
-
-            override fun onFailure(call: Call<ValidateAndGenerateOTPResp>, t: Throwable) {
-                t.message?.let { HelpFunctions.ShowLongToast(it, this@SignupPg2) }
-
-            }
-
-            override fun onResponse(
-                call: Call<ValidateAndGenerateOTPResp>,
-                response: Response<ValidateAndGenerateOTPResp>
-            ) {
-                if (response.isSuccessful) {
-                    val otppcode = response.body()?.otpData?.otpCode
-                    if (BuildConfig.DEBUG) {
-                        pinview.value = otppcode
-                    }
-                    startTimeCounter()
-                    button3.isEnabled = true
-                } else {
-                    HelpFunctions.ShowLongToast(
-                        getString(R.string.VerificationFailed),
-                        this@SignupPg2
-                    )
-                }
-            }
+    private fun setupRegisterViewModel() {
+        signupViewModel = ViewModelProvider(this).get(SignupViewModel::class.java)
+        signupViewModel.isLoading.observe(this, Observer {
+            if (it)
+                HelpFunctions.startProgressBar(this)
+            else
+                HelpFunctions.dismissProgressBar()
         })
+        signupViewModel.isNetworkFail.observe(this, Observer {
+            if (it) {
+                HelpFunctions.ShowLongToast(
+                    getString(R.string.connectionError),
+                    this
+                )
+            } else {
+                HelpFunctions.ShowLongToast(
+                    getString(R.string.serverError),
+                    this
+                )
+            }
+
+        })
+        signupViewModel.errorResponseObserver.observe(this, Observer {
+            if (it.message != null) {
+                HelpFunctions.ShowLongToast(
+                    it.message,
+                    this
+                )
+            } else {
+                HelpFunctions.ShowLongToast(
+                    getString(R.string.serverError),
+                    this
+                )
+            }
+
+        })
+        signupViewModel.validateAndGenerateOTPObserver.observe(this){validateUserAndGenerateOTP->
+            if (validateUserAndGenerateOTP.otpData != null) {
+                startTimeCounter()
+                button3.isEnabled = true
+                /***thisForTest*/
+                val otppcode = validateUserAndGenerateOTP.otpData!!.otpCode
+                if (BuildConfig.DEBUG) {
+                    pinview.value = otppcode
+                }
+            } else {
+                HelpFunctions.ShowLongToast(
+                    getString(R.string.serverError),
+                    this
+                )
+            }
+        }
+        signupViewModel.userVerifiedObserver.observe(this){userVerified->
+            if (userVerified.status_code == 200) {
+                HelpFunctions.ShowLongToast(
+                    getString(R.string.VerificationSuccessful),
+                    this@SignupPg2
+                )
+                signup2next()
+            } else {
+                showError(getString(R.string.serverError))
+            }
+
+        }
     }
 
+    /**clickEvents*/
     fun startTimeCounter() {
         object : CountDownTimer(START_TIME_IN_MILLIS, 1000) {
             override fun onTick(millisUntilFinished: Long) {
@@ -109,6 +136,21 @@ class SignupPg2 : BaseActivity() {
             }
 
         }.start()
+    }
+
+   private fun setClickListeners() {
+        resend_btn.setOnClickListener {
+            if (mTimeLeftInMillis >= 1000) {
+                HelpFunctions.ShowLongToast(
+                    getString(R.string.Pleasewaituntilthecodeexpires),
+                    applicationContext
+                )
+            } else {
+                val userPhone: String? = otpData?.phoneNumber
+                signupViewModel.resendOtp(userPhone.toString(), Lingver.getInstance().getLanguage())
+                //resendOTPApi()
+            }
+        }
     }
 
     /***/
@@ -129,53 +171,122 @@ class SignupPg2 : BaseActivity() {
         if (!validatePin()) {
             return
         } else {
-            apicallSignup2()
+            //apicallSignup2()
+            val otpcode: String? = pinview.value
+            signupViewModel.verifyOtp(otpData?.phoneNumber.toString(), otpcode.toString())
         }
     }
-
-
-    //////////////////////////////////////Api Post Verify//////////////////////////////////////////////////
-    fun apicallSignup2() {
-        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-        val otpcode: String? = pinview.value
-       val call: Call<UserVerifiedResp> = malqa.verifyOtp(otpData?.phoneNumber.toString(),otpcode.toString())
-
-        call.enqueue(object : Callback<UserVerifiedResp> {
-
-            override fun onFailure(call: Call<UserVerifiedResp>, t: Throwable) {
-                t.message?.let { HelpFunctions.ShowLongToast(it, this@SignupPg2) }
-
-            }
-            override fun onResponse(
-                call: Call<UserVerifiedResp>,
-                response: Response<UserVerifiedResp>
-            ) {
-
-                if (response.isSuccessful) {
-                    val data = response.body()
-                    if (data!!.status_code == 200) {
-                        HelpFunctions.ShowLongToast(
-                            getString(R.string.VerificationSuccessful),
-                            this@SignupPg2
-                        )
-                        signup2next()
-                    } else {
-                        if(data?.message!=null){
-                            showError(data.message!!)
-                        }else{
-                            showError(getString(R.string.serverError))
-                        }
-                    }
-
-                } else {
-                    HelpFunctions.ShowLongToast(
-                        getString(R.string.VerificationFailed)+" "+response.code(),
-                        this@SignupPg2
-                    )
-                }
-            }
-        })
+    fun signup2next() {
+        val userIdupdate: String? = intent.getStringExtra("userid")
+        val intent2 = Intent(this@SignupPg2, SignupPg3::class.java)
+        intent2.putExtra(Constants.otpDataKey, otpData)
+        startActivity(intent2)
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        val intent = Intent(this@SignupPg2, SignInActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        startActivity(intent)
+        finish()
+    }
+
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+    }
+
+
+
+
+
+
+
+//    //////////////////////////////////////Api Post Verify//////////////////////////////////////////////////
+//    fun apicallSignup2() {
+//        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+//        val otpcode: String? = pinview.value
+//        val call: Call<UserVerifiedResp> =
+//            malqa.verifyOtp(otpData?.phoneNumber.toString(), otpcode.toString())
+//
+//        call.enqueue(object : Callback<UserVerifiedResp> {
+//
+//            override fun onFailure(call: Call<UserVerifiedResp>, t: Throwable) {
+//                t.message?.let { HelpFunctions.ShowLongToast(it, this@SignupPg2) }
+//
+//            }
+//
+//            override fun onResponse(
+//                call: Call<UserVerifiedResp>,
+//                response: Response<UserVerifiedResp>
+//            ) {
+//
+//                if (response.isSuccessful) {
+//                    val data = response.body()
+//                    if (data!!.status_code == 200) {
+//                        HelpFunctions.ShowLongToast(
+//                            getString(R.string.VerificationSuccessful),
+//                            this@SignupPg2
+//                        )
+//                        signup2next()
+//                    } else {
+//                        if (data?.message != null) {
+//                            showError(data.message!!)
+//                        } else {
+//                            showError(getString(R.string.serverError))
+//                        }
+//                    }
+//
+//                } else {
+//                    HelpFunctions.ShowLongToast(
+//                        getString(R.string.VerificationFailed) + " " + response.code(),
+//                        this@SignupPg2
+//                    )
+//                }
+//            }
+//        })
+//    }
+
+
+
+
+//    /**resend OTP*/
+//    fun resendOTPApi() {
+//        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+//        val userPhone: String? = otpData?.phoneNumber
+//        val call = malqa.resendOtp(userPhone.toString(), Lingver.getInstance().getLanguage())
+//        call.enqueue(object : Callback<ValidateAndGenerateOTPResp> {
+//
+//            override fun onFailure(call: Call<ValidateAndGenerateOTPResp>, t: Throwable) {
+//                t.message?.let { HelpFunctions.ShowLongToast(it, this@SignupPg2) }
+//
+//            }
+//
+//            override fun onResponse(
+//                call: Call<ValidateAndGenerateOTPResp>,
+//                response: Response<ValidateAndGenerateOTPResp>
+//            ) {
+//                if (response.isSuccessful) {
+//                    val otppcode = response.body()?.otpData?.otpCode
+//                    if (BuildConfig.DEBUG) {
+//                        pinview.value = otppcode
+//                    }
+//                    startTimeCounter()
+//                    button3.isEnabled = true
+//                } else {
+//                    HelpFunctions.ShowLongToast(
+//                        getString(R.string.VerificationFailed),
+//                        this@SignupPg2
+//                    )
+//                }
+//            }
+//        })
+//    }
+
+
+
+
 //    fun apicallSignup2() {
 //        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
 ////        val userId: String? = intent.getStringExtra("userid")
@@ -224,26 +335,7 @@ class SignupPg2 : BaseActivity() {
 
 
     ////////////////////////////////Switch Activities/////////////////////////////////////////
-    fun signup2next() {
-        val userIdupdate: String? = intent.getStringExtra("userid")
-        val intent2 = Intent(this@SignupPg2, SignupPg3::class.java)
-        intent2.putExtra(Constants.otpDataKey, otpData)
-        startActivity(intent2)
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
-    }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        val intent = Intent(this@SignupPg2, SignInActivity::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        startActivity(intent)
-        finish()
-    }
-
-    override fun finish() {
-        super.finish()
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
-    }
 
 /*    fun resendCodeApi() {
 //        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()

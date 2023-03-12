@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import com.malka.androidappp.R
-import com.malka.androidappp.helper.HelpFunctions
+import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import kotlinx.android.synthetic.main.fragment_continue_product.*
 
 class ContinueProduct : Fragment() {

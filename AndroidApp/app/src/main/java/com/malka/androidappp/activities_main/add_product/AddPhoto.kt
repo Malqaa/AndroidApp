@@ -11,11 +11,11 @@ import android.widget.Filter
 import androidx.core.content.PermissionChecker
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseActivity
-import com.malka.androidappp.servicemodels.ImageSelectModel
+import com.malka.androidappp.newPhase.domain.models.servicemodels.ImageSelectModel
 import com.malka.androidappp.fragments.create_ads.StaticClassAdCreate
-import com.malka.androidappp.helper.Extension
-import com.malka.androidappp.helper.HelpFunctions
-import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
+import com.malka.androidappp.newPhase.data.helper.Extension
+import com.malka.androidappp.newPhase.data.helper.HelpFunctions
+import com.malka.androidappp.newPhase.data.helper.widgets.rcv.GenericListAdapter
 import com.zfdang.multiple_images_selector.ImagesSelectorActivity
 import com.zfdang.multiple_images_selector.SelectorSettings
 import kotlinx.android.synthetic.main.add_product_imgs.view.*

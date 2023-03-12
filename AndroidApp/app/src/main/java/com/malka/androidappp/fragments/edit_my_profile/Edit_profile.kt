@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.malka.androidappp.R
-import com.malka.androidappp.helper.widgets.DatePickerFragment
+import com.malka.androidappp.newPhase.data.helper.widgets.DatePickerFragment
 import kotlinx.android.synthetic.main.activity_edit_profile.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 

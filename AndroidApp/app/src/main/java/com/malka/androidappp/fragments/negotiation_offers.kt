@@ -7,8 +7,8 @@ import android.widget.Filter
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.malka.androidappp.R
-import com.malka.androidappp.servicemodels.Negotiationmodel
-import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
+import com.malka.androidappp.newPhase.domain.models.servicemodels.Negotiationmodel
+import com.malka.androidappp.newPhase.data.helper.widgets.rcv.GenericListAdapter
 import kotlinx.android.synthetic.main.fragment_negotiation_offer.*
 import kotlinx.android.synthetic.main.negotiation_offers_design.view.*
 import kotlinx.android.synthetic.main.toolbar_main.*

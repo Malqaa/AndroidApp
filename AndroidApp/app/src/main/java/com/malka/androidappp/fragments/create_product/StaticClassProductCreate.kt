@@ -1,6 +1,6 @@
 package com.malka.androidappp.fragments.create_product
 
-import com.malka.androidappp.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
 
 class StaticClassProductCreate {
     companion object {

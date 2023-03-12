@@ -8,10 +8,10 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.malka.androidappp.R
-import com.malka.androidappp.helper.hide
-import com.malka.androidappp.helper.show
-import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
-import com.malka.androidappp.servicemodels.Selection
+import com.malka.androidappp.newPhase.data.helper.hide
+import com.malka.androidappp.newPhase.data.helper.show
+import com.malka.androidappp.newPhase.data.helper.widgets.rcv.GenericListAdapter
+import com.malka.androidappp.newPhase.domain.models.servicemodels.Selection
 import kotlinx.android.synthetic.main.favorite_categories_design.view.*
 import kotlinx.android.synthetic.main.favorite_search_design.view.*
 import kotlinx.android.synthetic.main.favorite_seller_design.view.*

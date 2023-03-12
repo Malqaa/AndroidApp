@@ -6,8 +6,8 @@ import android.os.Bundle
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.MainActivity
 import com.malka.androidappp.newPhase.core.BaseActivity
-import com.malka.androidappp.helper.CommonAPI
-import com.malka.androidappp.helper.HelpFunctions
+import com.malka.androidappp.newPhase.data.network.CommonAPI
+import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import kotlinx.android.synthetic.main.activity_splash.*
 
 class SplashActivity : BaseActivity() {

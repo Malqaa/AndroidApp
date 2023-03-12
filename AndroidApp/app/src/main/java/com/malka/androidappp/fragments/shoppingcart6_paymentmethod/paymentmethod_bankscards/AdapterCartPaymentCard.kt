@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
 import com.malka.androidappp.fragments.shoppingcart6_paymentmethod.CartPaymentMethod
-import com.malka.androidappp.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
 import kotlinx.android.synthetic.main.shopcart6_payment_cardview.view.*
 
 class AdapterCartPaymentCard(

@@ -6,8 +6,8 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.malka.androidappp.R
-import com.malka.androidappp.helper.hide
-import com.malka.androidappp.helper.show
+import com.malka.androidappp.newPhase.data.helper.hide
+import com.malka.androidappp.newPhase.data.helper.show
 import kotlinx.android.synthetic.main.fragment_my_wallet_fragment.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 

@@ -47,7 +47,7 @@
                 android:textColor="#262626"/>
 
 
-            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
+            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/comunication_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -56,7 +56,7 @@
                 android:hint="@string/type_of_communication"
                 app:viewType="spinner" />
 
-            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
+            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/PhoneNumber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -69,7 +69,7 @@
                 app:imeOptions="done"
                 app:startIcon="@drawable/ic_phone" />
 
-            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
+            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/textEmaill"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -78,7 +78,7 @@
                 android:inputType="textEmailAddress"
                 app:startIcon="@drawable/ic_email" />
 
-            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
+            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/problem_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

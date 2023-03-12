@@ -1,6 +1,6 @@
 package com.malka.androidappp.activities_main.place_picker;
 
-import static com.malka.androidappp.helper.HelpFunctions.getLocationInfoFromLatLng;
+import static com.malka.androidappp.newPhase.data.helper.HelpFunctions.getLocationInfoFromLatLng;
 
 import android.Manifest;
 import android.content.Intent;
@@ -48,8 +48,8 @@ import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.gson.Gson;
 import com.malka.androidappp.R;
 import com.malka.androidappp.newPhase.core.BaseActivity;
-import com.malka.androidappp.servicemodels.ConstantObjects;
-import com.malka.androidappp.servicemodels.LocationPickerModel;
+import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects;
+import com.malka.androidappp.newPhase.domain.models.servicemodels.LocationPickerModel;
 
 import java.util.Arrays;
 import java.util.HashMap;

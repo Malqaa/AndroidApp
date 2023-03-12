@@ -7,11 +7,11 @@ import android.widget.Filter
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.MainActivity
 import com.malka.androidappp.newPhase.core.BaseActivity
-import com.malka.androidappp.servicemodels.Negotiationmodel
-import com.malka.androidappp.helper.CommonBottomSheet
-import com.malka.androidappp.helper.hide
-import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
-import com.malka.androidappp.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.domain.models.servicemodels.Negotiationmodel
+import com.malka.androidappp.newPhase.data.helper.CommonBottomSheet
+import com.malka.androidappp.newPhase.data.helper.hide
+import com.malka.androidappp.newPhase.data.helper.widgets.rcv.GenericListAdapter
+import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
 import kotlinx.android.synthetic.main.activity_order_detail.*
 import kotlinx.android.synthetic.main.activity_order_detail.order_item
 import kotlinx.android.synthetic.main.order_detail_design.view.*

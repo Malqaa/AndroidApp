@@ -8,8 +8,8 @@ import android.widget.ImageView
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.malka.androidappp.R
-import com.malka.androidappp.helper.Extension
-import com.malka.androidappp.servicemodels.Slider
+import com.malka.androidappp.newPhase.data.helper.Extension
+import com.malka.androidappp.newPhase.domain.models.servicemodels.Slider
 
 
 class SliderAdaptor(context: Context, val sliderList :ArrayList<Slider>) : PagerAdapter() {

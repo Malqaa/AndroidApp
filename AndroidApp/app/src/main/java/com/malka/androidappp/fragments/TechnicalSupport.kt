@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.malka.androidappp.R
-import com.malka.androidappp.helper.widgets.searchdialog.SearchListItem
+import com.malka.androidappp.newPhase.data.helper.widgets.searchdialog.SearchListItem
 import kotlinx.android.synthetic.main.activity_technical_support.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 

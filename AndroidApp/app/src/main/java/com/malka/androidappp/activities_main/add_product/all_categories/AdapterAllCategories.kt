@@ -6,11 +6,11 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
-import com.malka.androidappp.helper.BaseViewHolder
-import com.malka.androidappp.helper.hide
-import com.malka.androidappp.helper.show
-import com.malka.androidappp.network.constants.Constants
-import com.malka.androidappp.servicemodels.model.Category
+import com.malka.androidappp.newPhase.data.helper.BaseViewHolder
+import com.malka.androidappp.newPhase.data.helper.hide
+import com.malka.androidappp.newPhase.data.helper.show
+import com.malka.androidappp.newPhase.data.network.constants.Constants
+import com.malka.androidappp.newPhase.domain.models.servicemodels.model.Category
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.all_categories_cardview.view.*
 

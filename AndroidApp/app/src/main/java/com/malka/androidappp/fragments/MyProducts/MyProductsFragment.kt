@@ -8,11 +8,11 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.malka.androidappp.R
-import com.malka.androidappp.helper.CommonAPI
-import com.malka.androidappp.helper.hide
-import com.malka.androidappp.helper.show
+import com.malka.androidappp.newPhase.data.network.CommonAPI
+import com.malka.androidappp.newPhase.data.helper.hide
+import com.malka.androidappp.newPhase.data.helper.show
 import com.malka.androidappp.recycler_browsecat.GenericProductAdapter
-import com.malka.androidappp.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
 import kotlinx.android.synthetic.main.fragment_sold_business.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 

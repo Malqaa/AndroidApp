@@ -1,54 +1,41 @@
 package com.malka.androidappp.newPhase.presentation.loginScreen
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
 import android.view.View
-import android.widget.Toast
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.google.gson.Gson
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.forgot.ForgotPasswordActivty
-import com.malka.androidappp.newPhase.presentation.signup.SignupPg1
-import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.fragments.shared_preferences.SharedPreferencesStaticClass
-import com.malka.androidappp.helper.HelpFunctions
-import com.malka.androidappp.newPhase.models.loginResp.LoginResp
-import com.malka.androidappp.network.Retrofit.RetrofitBuilder
-import com.malka.androidappp.network.service.MalqaApiService
-import com.malka.androidappp.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.core.BaseActivity
+import com.malka.androidappp.newPhase.data.helper.HelpFunctions
+import com.malka.androidappp.newPhase.domain.models.LoginUser
+import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.presentation.signup.SignupPg1
 import io.paperdb.Paper
 import kotlinx.android.synthetic.main.activity_sign_in.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 
 class SignInActivity : BaseActivity() {
 
+
+    private lateinit var loginViewModel: LoginViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
         setContentView(R.layout.activity_sign_in)
 
-        email_tv.text="muhammadumersheraz@gmail.com"
-        passwword_tv.text="Test@123"
+//        email_tv.text = "muhammadumersheraz@gmail.com"
+//        passwword_tv.text = "Test@123"
 
-        Forgot_your_password.setOnClickListener {
-            startActivity(Intent(this@SignInActivity, ForgotPasswordActivty::class.java))
-        }
-
+        setupLoginViewModel()
+        setClickListeners()
 
 
-        new_registration.setOnClickListener {
-            val intent = Intent(this@SignInActivity, SignupPg1::class.java)
-            startActivity(intent)
-        }
-
-
-
-        if (ConstantObjects.currentLanguage ==  ConstantObjects.ENGLISH) {
+        if (ConstantObjects.currentLanguage == ConstantObjects.ENGLISH) {
             language_toggle.checkedTogglePosition = 0
         } else {
             language_toggle.checkedTogglePosition = 1
@@ -59,13 +46,91 @@ class SignInActivity : BaseActivity() {
         }
 
     }
+    private fun setupLoginViewModel() {
+        loginViewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
+        loginViewModel.isLoading.observe(this, Observer {
+            if (it)
+                HelpFunctions.startProgressBar(this)
+            else
+                HelpFunctions.dismissProgressBar()
+        })
+        loginViewModel.isNetworkFail.observe(this, Observer {
+            if (it) {
+                HelpFunctions.ShowLongToast(
+                    getString(R.string.connectionError),
+                    this
+                )
+            } else {
+                HelpFunctions.ShowLongToast(
+                    getString(R.string.serverError),
+                    this
+                )
+            }
 
+        })
+        loginViewModel.userLoginObserver.observe(this, Observer { userLoginResp ->
+            if (userLoginResp.userObject != null) {
+                saveUserData(userLoginResp.userObject)
+            } else {
+                HelpFunctions.ShowLongToast(
+                    getString(R.string.serverError),
+                    this
+                )
+            }
+        })
+        loginViewModel.errorResponseObserver.observe(this, Observer {
+            if (it.message != null) {
+                HelpFunctions.ShowLongToast(
+                    it.message,
+                    this
+                )
+            } else {
+                HelpFunctions.ShowLongToast(
+                    getString(R.string.serverError),
+                    this
+                )
+            }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
+        })
+    }
+    /**event clicks*/
+    private fun setClickListeners() {
+        Forgot_your_password.setOnClickListener {
+            startActivity(Intent(this@SignInActivity, ForgotPasswordActivty::class.java))
+        }
+        new_registration.setOnClickListener {
+            val intent = Intent(this@SignInActivity, SignupPg1::class.java)
+            startActivity(intent)
+        }
+
+    }
+    fun confirmInput(v: View) {
+        if (!validateEmail() or !validatePassword()) {
+            return
+        } else {
+            loginViewModel.signInUser(
+                email_tv.text.toString().trim(),
+                passwword_tv.text.toString().trim(),
+                this
+            )
+        }
+    }
+
+    /***/
+
+    private fun saveUserData(userObject: LoginUser) {
+        ConstantObjects.logged_userid = userObject.id
+        ConstantObjects.isBusinessUser = userObject.isBusinessAccount
+        val userId: String = userObject.id
+        ConstantObjects.logged_userid = userId
+        HelpFunctions.ShowLongToast(getString(R.string.LoginSuccessfully), this)
+        Paper.book().write(SharedPreferencesStaticClass.islogin, true)
+        Paper.book().write(SharedPreferencesStaticClass.user_object, Gson().toJson(userObject))
+        setResult(RESULT_OK, Intent())
         finish()
     }
 
+    /**validation */
     private fun validateEmail(): Boolean {
         val emailInput = email_tv!!.text.toString().trim { it <= ' ' }
         return if (emailInput.isEmpty()) {
@@ -80,7 +145,6 @@ class SignInActivity : BaseActivity() {
         }
     }
 
-
     private fun validatePassword(): Boolean {
         val passwordInput = passwword_tv!!.text.toString().trim { it <= ' ' }
         return if (passwordInput.isEmpty()) {
@@ -92,61 +156,10 @@ class SignInActivity : BaseActivity() {
         }
     }
 
-    fun confirmInput(v: View) {
-        if (!validateEmail() or !validatePassword()) {
-            return
-        } else {
-            MakeLoginAPICall(
-                email_tv.text.toString().trim(),
-                passwword_tv.text.toString().trim(),
-                this@SignInActivity
-            )
-        }
-    }
 
-
-    fun MakeLoginAPICall(email: String, password: String, context: Context) {
-        HelpFunctions.startProgressBar(this)
-        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-        val call: Call<LoginResp?>? = malqa.loginUser(email,password,password)
-        call?.enqueue(object : Callback<LoginResp?> {
-            override fun onFailure(call: Call<LoginResp?>?, t: Throwable) {
-                HelpFunctions.dismissProgressBar()
-                Toast.makeText(context, "${t.message}", Toast.LENGTH_LONG).show()
-            }
-            override fun onResponse(
-                call: Call<LoginResp?>,
-                response: Response<LoginResp?>
-            ) {
-                if (response.isSuccessful) {
-                    response.body()?.run {
-                        if(this.userObject!=null){
-                            ConstantObjects.logged_userid =this.userObject.id
-                            ConstantObjects.isBusinessUser = this.userObject.isBusinessAccount
-                            val userId: String =this.userObject.id
-                            ConstantObjects.logged_userid = userId
-                            HelpFunctions.ShowLongToast(
-                                getString(R.string.LoginSuccessfully),
-                                context
-                            )
-                            Paper.book().write(SharedPreferencesStaticClass.islogin, true)
-                            Paper.book().write(SharedPreferencesStaticClass.user_object, Gson().toJson(this.userObject))
-                            setResult(RESULT_OK, Intent())
-                            finish()
-                        }
-
-
-                    }
-                } else {
-                    HelpFunctions.ShowLongToast(
-                        getString(R.string.InvalidUsernameorPassword),
-                        context
-                    )
-                }
-                HelpFunctions.dismissProgressBar()
-
-            }
-        })
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
     }
 
 }

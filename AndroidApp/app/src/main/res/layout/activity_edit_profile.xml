@@ -31,7 +31,7 @@
                 android:textSize="@dimen/_12sdp" />
 
 
-            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
+            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/userNamee"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -212,7 +212,7 @@
                 android:layout_marginTop="@dimen/_15sdp"
                 android:textSize="@dimen/_12sdp"/>
 
-            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
+            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/fullNamee"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -221,7 +221,7 @@
                 android:inputType="textPersonName"
                 app:startIcon="@drawable/ic_user" />
 
-            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
+            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/editTextlastname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -230,7 +230,7 @@
                 android:inputType="textPersonName"
                 app:startIcon="@drawable/ic_user" />
 
-            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
+            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -256,14 +256,14 @@
                 android:layout_marginTop="@dimen/_10sdp"
                 android:orientation="horizontal">
 
-                <com.malka.androidappp.helper.widgets.CustomRadioButton
+                <com.malka.androidappp.newPhase.data.helper.widgets.CustomRadioButton
                     android:id="@+id/radiomale"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="false"
                     android:text="@string/Male" />
 
-                <com.malka.androidappp.helper.widgets.CustomRadioButton
+                <com.malka.androidappp.newPhase.data.helper.widgets.CustomRadioButton
                     android:id="@+id/radiofemale"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

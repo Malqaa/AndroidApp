@@ -7,9 +7,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
-import com.malka.androidappp.helper.hide
-import com.malka.androidappp.helper.show
-import com.malka.androidappp.servicemodels.model.Category
+import com.malka.androidappp.newPhase.data.helper.hide
+import com.malka.androidappp.newPhase.data.helper.show
+import com.malka.androidappp.newPhase.domain.models.servicemodels.model.Category
 import kotlinx.android.synthetic.main.all_categories_card.view.*
 
 class AdapterSubCategories(

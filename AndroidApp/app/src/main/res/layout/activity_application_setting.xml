@@ -84,7 +84,7 @@
                 android:textColor="#1D223B"
                 android:textSize="@dimen/_12sdp" />
 
-            <com.malka.androidappp.helper.widgets.language_switch.ToggleSwitch
+            <com.malka.androidappp.newPhase.data.helper.widgets.language_switch.ToggleSwitch
                 android:id="@+id/language_toggle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

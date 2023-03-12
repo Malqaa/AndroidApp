@@ -47,7 +47,7 @@
                     android:textColor="#000000"
                     android:textSize="@dimen/_12sdp" />
 
-                <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
+                <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
                     android:id="@+id/textInputLayout11"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -76,7 +76,7 @@
                     android:textSize="@dimen/_12sdp" />
 
 
-                <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
+                <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
                     android:id="@+id/button2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

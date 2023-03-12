@@ -1,10 +1,10 @@
 package com.malka.androidappp.fragments.create_ads
 
-import com.malka.androidappp.helper.widgets.searchdialog.SearchListItem
-import com.malka.androidappp.servicemodels.ImageSelectModel
-import com.malka.androidappp.servicemodels.PromotionModel
-import com.malka.androidappp.servicemodels.Selection
-import com.malka.androidappp.servicemodels.TimeSelection
+import com.malka.androidappp.newPhase.data.helper.widgets.searchdialog.SearchListItem
+import com.malka.androidappp.newPhase.domain.models.servicemodels.ImageSelectModel
+import com.malka.androidappp.newPhase.domain.models.servicemodels.PromotionModel
+import com.malka.androidappp.newPhase.domain.models.servicemodels.Selection
+import com.malka.androidappp.newPhase.domain.models.servicemodels.TimeSelection
 
 class StaticClassAdCreate {
 

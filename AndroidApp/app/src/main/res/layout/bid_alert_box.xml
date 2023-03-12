@@ -61,7 +61,7 @@
         </LinearLayout>
 
 
-        <com.malka.androidappp.helper.widgets.ElegantNumberButton
+        <com.malka.androidappp.newPhase.data.helper.widgets.ElegantNumberButton
             android:id="@+id/quantityavail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -6,10 +6,10 @@ import android.view.View
 import android.widget.Filter
 import androidx.fragment.app.Fragment
 import com.malka.androidappp.R
-import com.malka.androidappp.helper.CommonAPI
-import com.malka.androidappp.helper.CommonBottomSheet
-import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
-import com.malka.androidappp.servicemodels.creditcard.CreditCardModel
+import com.malka.androidappp.newPhase.data.network.CommonAPI
+import com.malka.androidappp.newPhase.data.helper.CommonBottomSheet
+import com.malka.androidappp.newPhase.data.helper.widgets.rcv.GenericListAdapter
+import com.malka.androidappp.newPhase.domain.models.servicemodels.creditcard.CreditCardModel
 import kotlinx.android.synthetic.main.fragment_payment_card_fragment.*
 import kotlinx.android.synthetic.main.payment_card_design.view.*
 import kotlinx.android.synthetic.main.toolbar_main.*

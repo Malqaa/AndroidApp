@@ -10,10 +10,10 @@ import androidx.core.content.ContextCompat
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.fragments.create_ads.StaticClassAdCreate
-import com.malka.androidappp.helper.hide
-import com.malka.androidappp.helper.show
-import com.malka.androidappp.helper.widgets.rcv.GenericListAdapter
-import com.malka.androidappp.servicemodels.PromotionModel
+import com.malka.androidappp.newPhase.data.helper.hide
+import com.malka.androidappp.newPhase.data.helper.show
+import com.malka.androidappp.newPhase.data.helper.widgets.rcv.GenericListAdapter
+import com.malka.androidappp.newPhase.domain.models.servicemodels.PromotionModel
 import kotlinx.android.synthetic.main.fragment_promotional.*
 import kotlinx.android.synthetic.main.item_details2_desgin.view.*
 import kotlinx.android.synthetic.main.toolbar_main.*

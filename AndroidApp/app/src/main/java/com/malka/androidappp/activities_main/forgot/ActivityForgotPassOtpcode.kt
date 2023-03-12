@@ -5,12 +5,12 @@ import android.os.Bundle
 import android.view.View
 import com.malka.androidappp.BuildConfig
 import com.malka.androidappp.R
-import com.malka.androidappp.servicemodels.PostReqVerifyCode
+import com.malka.androidappp.newPhase.domain.models.servicemodels.PostReqVerifyCode
 import com.malka.androidappp.newPhase.core.BaseActivity
-import com.malka.androidappp.helper.HelpFunctions
-import com.malka.androidappp.network.Retrofit.RetrofitBuilder
-import com.malka.androidappp.network.service.MalqaApiService
-import com.malka.androidappp.servicemodels.BasicResponse
+import com.malka.androidappp.newPhase.data.helper.HelpFunctions
+import com.malka.androidappp.newPhase.data.network.Retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.data.network.service.MalqaApiService
+import com.malka.androidappp.newPhase.domain.models.servicemodels.BasicResponse
 import kotlinx.android.synthetic.main.activity_forgot_pass_otpcode.*
 import kotlinx.android.synthetic.main.activity_forgot_pass_otpcode.button4
 import retrofit2.Call

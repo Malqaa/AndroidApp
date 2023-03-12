@@ -24,7 +24,7 @@
             android:padding="@dimen/_10sdp">
 
 
-            <com.malka.androidappp.helper.widgets.language_switch.ToggleSwitch
+            <com.malka.androidappp.newPhase.data.helper.widgets.language_switch.ToggleSwitch
                 android:id="@+id/language_toggle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -70,7 +70,7 @@
                 android:textSize="@dimen/_12sdp" />
 
 
-            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
+            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/email_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -79,7 +79,7 @@
                 android:inputType="textEmailAddress"
                 app:startIcon="@drawable/ic_email" />
 
-            <com.malka.androidappp.helper.widgets.edittext.TextFieldComponent
+            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/passwword_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
