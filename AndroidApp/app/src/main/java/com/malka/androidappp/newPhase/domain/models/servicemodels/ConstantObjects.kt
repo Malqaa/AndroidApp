@@ -47,6 +47,7 @@ class ConstantObjects {
 
         var View= "View"
         var Select= "Select"
+        const val searchQueryKey="searchQueryKey"
 
     }
 }

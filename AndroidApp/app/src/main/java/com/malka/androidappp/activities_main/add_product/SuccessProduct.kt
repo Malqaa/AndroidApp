@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseActivity
-import com.malka.androidappp.activities_main.MainActivity
+import com.malka.androidappp.newPhase.presentation.MainActivity
 import com.malka.androidappp.activities_main.product_detail.ProductDetails
 import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
 import kotlinx.android.synthetic.main.fragment_continue.*

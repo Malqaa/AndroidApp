@@ -4,6 +4,17 @@ import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 
 
 data class Product(
+    var id: Int,
+    var isActive: Boolean,
+    var image:String?=null,
+    var name: String?=null,
+    var qty: Int,
+    var price: Float,
+    var priceDiscount: Float,
+    var createdAt: String?=null,
+    var updatedAt: String?=null,
+    var isPaied: Boolean,
+   var isFavourite: Boolean,
     val acceptQuestion: Boolean,
     val category: String,
     val categoryId: Int,
@@ -12,27 +23,27 @@ data class Product(
     val country: String,
     val countryId: Any,
     val description: String,
-    val id: Int,
-    val isActive: Boolean,
+    val productImage:String?=null,
+    val regionId: Int,
+    val regionName: String?=null,
+
     val isDelete: Boolean,
     val isMazad: Boolean,
     val isNegotiationOffers: Boolean,
-    val isPaied: Boolean,
     val isSendOfferForMazad: Boolean,
     val lessPriceMazad: Int,
     val listMedia: List<Any>,
     val listProductSep: List<Any>,
-    val name: String,
+
     val neighborhood: String,
     val neighborhoodId: Int,
     val pakatId: Int,
-    val price: Int,
+
     val priceDisc: Int,
     val productMazadNegotiate: Any,
     val publishDate: String,
-    val qty: Int,
-    val regoinId: Any,
-    val regoinName: String,
+
+
     val startPriceMazad: Int,
     val streetName: String,
     val stutes: Int,

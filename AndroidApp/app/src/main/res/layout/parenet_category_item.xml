@@ -8,7 +8,7 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/category_type"
+        android:id="@+id/categoryHeaderContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/category_bg"
@@ -33,11 +33,12 @@
             android:layout_marginStart="@dimen/_10sdp"
             android:fontFamily="@font/madani_arabic_light"
             android:text="@string/vehicles"
+            android:textAlignment="viewStart"
             android:textColor="@color/black"
             android:textSize="@dimen/_12sdp" />
 
         <TextView
-            android:id="@+id/view_all"
+            android:id="@+id/viewAllCategoriesProduct"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/_10sdp"

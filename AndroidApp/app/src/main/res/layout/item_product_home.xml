@@ -49,11 +49,9 @@
                     android:layout_width="@dimen/_25sdp"
                     android:layout_height="@dimen/_25sdp"
                     android:layout_centerVertical="true"
-                    android:layout_alignParentEnd="true"
                     android:layout_marginStart="@dimen/_5sdp"
                     android:background="@drawable/starback1"
                     android:padding="@dimen/_7sdp"
-                    android:layout_margin="@dimen/_10sdp"
                     android:src="@drawable/starcolor" />
 
 
@@ -61,11 +59,11 @@
                     android:id="@+id/time_bar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:background="@drawable/product_attribute_bg1_ar"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:layout_marginTop="@dimen/_5sdp"
                     android:padding="@dimen/_2sdp">
 
                     <TextView
@@ -174,9 +172,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/madani_arabic_bold"
-                android:text=""
+                android:text="New Hyundai 2021"
                 android:textColor="#000000"
-                android:textSize="12sp" />
+                android:textSize="@dimen/_9sdp" />
 
 
             <LinearLayout
@@ -192,7 +190,7 @@
                     android:fontFamily="@font/madani_arabic_light"
                     android:text="@string/Riyadh"
                     android:textColor="@color/textColor"
-                    android:textSize="12sp" />
+                    android:textSize="@dimen/_7sdp" />
 
                 <TextView
                     android:layout_width="@dimen/_5sdp"
@@ -200,7 +198,7 @@
                     android:layout_marginStart="5dp"
                     android:text="-"
                     android:textColor="#293241"
-                    android:textSize="12sp" />
+                    android:textSize="@dimen/_7sdp" />
 
                 <TextView
                     android:id="@+id/date_tv"
@@ -208,95 +206,95 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:fontFamily="@font/madani_arabic_light"
-                    android:text="2021"
+                    android:text="26/6/2021"
                     android:textColor="@color/textColor"
-                    android:textSize="12sp" />
+                    android:textSize="@dimen/_7sdp" />
 
 
             </LinearLayout>
 
+<!--            <LinearLayout-->
+<!--                android:id="@+id/lisView"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="@dimen/_5sdp"-->
+<!--                android:gravity="center_vertical"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:weightSum="2">-->
+
+<!--                <RelativeLayout-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:orientation="horizontal">-->
+
+
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_alignParentStart="true"-->
+<!--                        android:layout_centerVertical="true"-->
+<!--                        android:fontFamily="@font/madani_arabic_light"-->
+<!--                        android:text="@string/purchasing_price"-->
+<!--                        android:textColor="@color/textColor2"-->
+<!--                        android:textSize="@dimen/_7sdp" />-->
+
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/purchasing_price_tv_2"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_alignParentEnd="true"-->
+<!--                        android:layout_centerVertical="true"-->
+<!--                        android:fontFamily="@font/madani_arabic_bold"-->
+<!--                        android:text="0 Rayal"-->
+
+<!--                        android:textColor="@color/bg"-->
+<!--                        android:textSize="@dimen/_9sdp"-->
+<!--                        android:textStyle="bold" />-->
+
+
+<!--                </RelativeLayout>-->
+
+<!--                <RelativeLayout-->
+<!--                    android:id="@+id/LowestPrice_layout_2"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="@dimen/_10sdp"-->
+<!--                    android:layout_weight="1">-->
+
+
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+
+<!--                        android:layout_alignParentStart="true"-->
+<!--                        android:layout_centerVertical="true"-->
+<!--                        android:fontFamily="@font/madani_arabic_light"-->
+<!--                        android:text="@string/highest_price"-->
+<!--                        android:textColor="@color/textColor2"-->
+<!--                        android:textSize="@dimen/_7sdp" />-->
+
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/LowestPrice_2"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_alignParentEnd="true"-->
+<!--                        android:layout_centerVertical="true"-->
+<!--                        android:fontFamily="@font/madani_arabic_bold"-->
+<!--                        android:text="0 Rayal"-->
+<!--                        android:textColor="@color/textColor2"-->
+<!--                        android:textSize="@dimen/_9sdp"-->
+<!--                        android:textStyle="bold" />-->
+
+
+<!--                </RelativeLayout>-->
+<!--            </LinearLayout>-->
+
             <LinearLayout
-                android:id="@+id/lisView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:weightSum="2">
-
-                <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_centerVertical="true"
-                        android:fontFamily="@font/madani_arabic_light"
-                        android:text="@string/purchasing_price"
-                        android:textColor="@color/textColor2"
-                        android:textSize="@dimen/_7sdp" />
-
-
-                    <TextView
-                        android:id="@+id/purchasing_price_tv_2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:fontFamily="@font/madani_arabic_bold"
-                        android:text="0 Rayal"
-
-                        android:textColor="@color/bg"
-                        android:textSize="@dimen/_9sdp"
-                        android:textStyle="bold" />
-
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/LowestPrice_layout_2"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_weight="1">
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-
-                        android:layout_alignParentStart="true"
-                        android:layout_centerVertical="true"
-                        android:fontFamily="@font/madani_arabic_light"
-                        android:text="@string/highest_price"
-                        android:textColor="@color/textColor2"
-                        android:textSize="@dimen/_7sdp" />
-
-
-                    <TextView
-                        android:id="@+id/LowestPrice_2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:fontFamily="@font/madani_arabic_bold"
-                        android:text="0 Rayal"
-                        android:textColor="@color/textColor2"
-                        android:textSize="@dimen/_9sdp"
-                        android:textStyle="bold" />
-
-
-                </RelativeLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/gridview"
+                android:id="@+id/productPriceContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -316,7 +314,7 @@
                         android:text="@string/purchasing_price"
                         android:textColor="@color/textColor2"
                         android:layout_centerVertical="true"
-                        android:textSize="12sp" />
+                        android:textSize="@dimen/_7sdp" />
 
 
                     <TextView
@@ -327,7 +325,6 @@
                         android:layout_centerVertical="true"
                         android:fontFamily="@font/madani_arabic_bold"
                         android:text="0 Rayal"
-
                         android:textColor="@color/bg"
                         android:textSize="@dimen/_9sdp"
                         android:textStyle="bold" />
@@ -350,7 +347,7 @@
                         android:fontFamily="@font/madani_arabic_light"
                         android:text="@string/highest_price"
                         android:textColor="@color/textColor2"
-                        android:textSize="12sp" />
+                        android:textSize="@dimen/_7sdp" />
 
 
                     <TextView

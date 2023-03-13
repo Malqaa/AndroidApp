@@ -1,4 +1,4 @@
-package com.malka.androidappp.fragments.home.view
+package com.malka.androidappp.newPhase.presentation.home.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,10 +7,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.data.helper.BaseViewHolder
-import com.malka.androidappp.newPhase.data.helper.hide
+import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.domain.models.servicemodels.model.Category
-import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.all_categories_cardview.view.*
+import kotlinx.android.synthetic.main.item_categories_card_in_home.view.*
+
 
 class AdapterAllCategories(
     val allCategories: List<Category>,
@@ -19,13 +19,11 @@ class AdapterAllCategories(
 ) : RecyclerView.Adapter<BaseViewHolder>() {
 
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): BaseViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
+
         val view: View =
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.all_categories_cardview, parent, false)
+                .inflate(R.layout.item_categories_card_in_home, parent, false)
         return BaseViewHolder(view)
 
     }
@@ -33,20 +31,19 @@ class AdapterAllCategories(
     override fun getItemCount() = allCategories.size
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
-
         holder.view.run {
             allCategories.get(position).run {
-                bgline.hide()
-                is_selectimage.hide()
+//                bgline.hide()
+//                is_selectimage.hide()
                 category_name_tv.text = name
                 if(image.isNullOrEmpty()){
                     category_icon.setImageResource(R.drawable.product_attribute_bg2)
                 }else{
-                    Picasso.get()
-                        .load(image)
-                        .into(category_icon)
+                    HelpFunctions.loadCompanyImage(context,category_icon,image)
+//                    Picasso.get()
+//                        .load(image)
+//                        .into(category_icon)
                 }
-
                 setOnClickListener {
                     listener.OnItemClick(position)
                 }

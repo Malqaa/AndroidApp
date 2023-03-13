@@ -5,7 +5,6 @@
     android:id="@+id/fullview"
     android:layout_width="@dimen/_90sdp"
     android:layout_height="@dimen/_120sdp"
-
     android:layout_margin="5dp"
 >
 
@@ -15,9 +14,6 @@
         android:layout_marginTop="@dimen/_5sdp"
         android:orientation="vertical">
 
-
-
-
         <RelativeLayout
             android:layout_marginTop="@dimen/_5sdp"
             android:layout_width="match_parent"
@@ -25,12 +21,10 @@
             android:orientation="vertical">
 
             <com.joooonho.SelectableRoundedImageView
-
                 android:id="@+id/category_icon"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_100sdp"
                 android:scaleType="centerCrop"
-
                 app:sriv_border_color="@color/white"
                 app:sriv_border_width="2dip"
                 app:sriv_left_bottom_corner_radius="@dimen/_15sdp"
@@ -49,6 +43,7 @@
                 android:layout_marginBottom="@dimen/_5sdp"
                 android:fontFamily="@font/madani_arabic_light"
                 android:text="Vehicles"
+                android:layout_alignParentEnd="true"
                 android:textColor="#1D223B"
                 android:textSize="@dimen/_9sdp" />
 

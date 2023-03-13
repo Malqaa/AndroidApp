@@ -1,4 +1,4 @@
-package com.malka.androidappp.fragments.browse_market
+package com.malka.androidappp.newPhase.presentation.prodctListActivity.browse_market
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
@@ -14,9 +14,9 @@ import com.google.gson.reflect.TypeToken
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
 import com.malka.androidappp.newPhase.core.BaseActivity
-import com.malka.androidappp.fragments.browse_market.popup_subcategories_list.ModelAddSearchFav
-import com.malka.androidappp.fragments.browse_market.popup_subcategories_list.StaticGetSubcategoryByBrowseCateClick
-import com.malka.androidappp.fragments.browse_market.popup_subcategories_list.SubcategoriesDialogFragment
+import com.malka.androidappp.newPhase.presentation.prodctListActivity.browse_market.popup_subcategories_list.ModelAddSearchFav
+import com.malka.androidappp.newPhase.presentation.prodctListActivity.browse_market.popup_subcategories_list.StaticGetSubcategoryByBrowseCateClick
+import com.malka.androidappp.newPhase.presentation.prodctListActivity.browse_market.popup_subcategories_list.SubcategoriesDialogFragment
 import com.malka.androidappp.newPhase.data.network.CommonAPI
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.data.helper.hide

@@ -121,8 +121,7 @@ class PromotionalActivity : BaseActivity() {
     private fun setPromotionalAdaptor(
         list: List<PromotionModel>
     ) {
-        val inflater =
-            getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         category_rcv.adapter = object : GenericListAdapter<PromotionModel>(
             R.layout.item_details2_desgin,
             bind = { element, holder, itemCount, parent_position ->

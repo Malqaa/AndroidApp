@@ -1,10 +1,11 @@
 <resources>
     <string name="app_name" translatable="false">Onruf</string>
-  <string name="serverError">Error happened, please try again later</string>
-  <string name="connectionError">Network Connection Fail</string>
-  <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyA-hhR3N_WfZkeHbBvfIjJtfH9_a1SCiHE</string>
+    <string name="serverError">Error happened, please try again later</string>
+    <string name="connectionError">Network Connection Fail</string>
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyA-hhR3N_WfZkeHbBvfIjJtfH9_a1SCiHE</string>
+  <string name="saveThisSearch">Save this search</string>
 
-  <string name="Back_to_login">
+    <string name="Back_to_login">
     Back to login
   </string>
 
@@ -2620,8 +2621,8 @@ Want to start a business account? Create a Business Account
 
     <string name="welcome_back">Welcome back</string>
     <string name="login_with_mobile">Log in with your mobile number</string>
-    <string name="ar">AR</string>
-    <string name="en">EN</string>
+    <string name="ar" translatable="false">AR</string>
+    <string name="en" translatable="false">EN</string>
     <string name="new_registration">New registration</string>
     <string name="don_t_have_an_account">Don\'t have an account?</string>
     <string name="please_choose_an_account_type">Please choose an account type</string>
@@ -2647,18 +2648,18 @@ Want to start a business account? Create a Business Account
     <string name="locating_the_company">Company Location</string>
     <string name="commercial_registration_no">Commercial Registration No</string>
     <string name="type_of_employment">Type of employment</string>
-    <string name="country_code">Country Code</string>
+    <string name="country_code" translatable="false">Country Code</string>
     <string name="expiry_date">Expiry date</string>
     <string name="youtube">Youtube</string>
-    <string name="enter_your_personal_information">Enter your personal information</string>
-    <string name="sign_up">Sign Up</string>
+    <string name="enter_your_personal_information" translatable="false">Enter your personal information</string>
+    <string name="sign_up" translatable="false">Sign Up</string>
     <string name="it_was_completed">It was completed</string>
     <string name="price_negotiation">Price Negotiation</string>
     <string name="have_a_question">Have a question?</string>
     <string name="merchant">Merchant</string>
-    <string name="password_reset">Password Reset</string>
-    <string name="we_have_sent_the_activation_code_to_your_phone">We have sent the activation code to your phone</string>
-    <string name="resend_the_code_after_50_seconds">Resend the code after: 50 seconds</string>
+    <string name="password_reset" translatable="false">Password Reset</string>
+    <string name="we_have_sent_the_activation_code_to_your_phone" translatable="false">We have sent the activation code to your phone</string>
+    <string name="resend_the_code_after_50_seconds" translatable="false">Resend the code after: 50 seconds</string>
     <string name="favorite">Favorite</string>
     <string name="purchasing_price">Purchasing price : </string>
     <string name="want_to_search_for_a_commodity_or_an_auction">Want to search for a commodity or an auction?</string>
@@ -2764,8 +2765,8 @@ Want to start a business account? Create a Business Account
     <string name="save_later">Save for later use</string>
     <string name="add_account">Add account</string>
     <string name="Please_choose_catgeory">Please choose category</string>
-    <string name="select_or_search">Select or Search</string>
-    <string name="close">Close</string>
+    <string name="select_or_search" translatable="false">Select or Search</string>
+    <string name="close" translatable="false">Close</string>
     <string name="subtotal">Subtotal</string>
     <string name="no_thank_you">No thank you</string>
 
@@ -2786,7 +2787,7 @@ Want to start a business account? Create a Business Account
     <string name="your_product_has_been_successfully_added">Your product has been successfully added</string>
     <string name="view_the_product">View the product</string>
     <string name="back_to_main">Back to main</string>
-    <string name="no_tag_found">No tags found</string>
+    <string name="no_tag_found" translatable="false">No tags found</string>
     <string name="main_photo">Main photo</string>
     <string name="PM">PM</string>
     <string name="AM">AM</string>
@@ -2812,12 +2813,12 @@ Want to start a business account? Create a Business Account
     <string name="snapchat">Snapchat</string>
     <string name="search_location">Searh Location</string>
 
-    <string name="key_search">key_search</string>
+    <string name="key_search" translatable="false">key_search</string>
     <string name="key_location" translatable="false">key_location</string>
     <string name="key_latitude" translatable="false">key_latitude</string>
     <string name="key_longitude" translatable="false">key_longitude</string>
     <string name="key_status" translatable="false">key_status</string>
-    <string name="location_is_not_found">Location is not found.</string>
+    <string name="location_is_not_found" translatable="false">Location is not found.</string>
     <string name="switch_accounts">Switch Accounts</string>
     <string name="upgrade_my_existing_account_to_a_merchant_account">Upgrade my existing account to a merchant account</string>
     <string name="Commercial_Record">Commercial Record</string>
@@ -2958,9 +2959,10 @@ Want to start a business account? Create a Business Account
     <string name="reviews_type">Reviews type</string>
     <string name="reviews_as_a_seller">Reviews as a seller</string>
     <string name="following">Following</string>
-    <string name="sub_categories">Sub Categories</string>
-    <string name="region">Region</string>
-    <string name="specifications">Specifications</string>
+    <string name="sub_categories" translatable="false">Sub Categories</string>
+    <string name="region" translatable="false">Region</string>
+    <string name="specifications" translatable="false">Specifications</string>
     <string name="follow_catgeory">Follow category successfully</string>
-    <string name="in_">in</string>
+    <string name="in_" translatable="false">in</string>
+
 </resources>

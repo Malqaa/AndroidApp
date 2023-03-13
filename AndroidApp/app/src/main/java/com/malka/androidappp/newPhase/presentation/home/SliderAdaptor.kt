@@ -1,4 +1,4 @@
-package com.malka.androidappp.fragments.home.view
+package com.malka.androidappp.newPhase.presentation.home
 
 import android.content.Context
 import android.view.LayoutInflater

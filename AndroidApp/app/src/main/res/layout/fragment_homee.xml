@@ -4,16 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.home.view.HomeFragment">
+    tools:context=".newPhase.presentation.home.HomeFragment">
 
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/homeee"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-
-
-        >
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:id="@+id/homelayout"
@@ -22,7 +19,6 @@
             android:backgroundTint="#F6F7FB"
             android:orientation="vertical"
             android:padding="@dimen/_10sdp">
-
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -43,9 +39,7 @@
                     android:background="@drawable/ic_cart" />
 
             </RelativeLayout>
-
             <TextView
-
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
@@ -53,17 +47,12 @@
                 android:text="@string/want_to_search_for_a_commodity_or_an_auction"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_12sdp" />
-
-
             <com.malka.androidappp.newPhase.data.helper.widgets.edittext.SearchBarComponent
                 android:id="@+id/textInputLayout11"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
-                app:hint="@string/search_by_name_auction_number_or_item"
-                />
-
-
+                app:hint="@string/search_by_name_auction_number_or_item" />
             <RelativeLayout
                 android:id="@+id/sliderLayout"
                 android:layout_width="match_parent"
@@ -90,9 +79,7 @@
                     android:gravity="center_vertical|center_horizontal"
                     android:orientation="horizontal" />
             </RelativeLayout>
-
             <TextView
-
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
@@ -100,7 +87,6 @@
                 android:text="@string/Browse_our_departments"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_12sdp" />
-
             <TextView
 
                 android:layout_width="wrap_content"
@@ -109,19 +95,18 @@
                 android:text="@string/lot_of_things"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_12sdp" />
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/all_categories_recycler"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:orientation="horizontal"
-                tools:listitem= "@layout/all_categories_cardview"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_categories_card_in_home" />
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp">
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
@@ -132,21 +117,26 @@
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/market_place"
-                        android:orientation="vertical"
-                        android:padding="@dimen/_15sdp">
+                        android:layout_height="@dimen/_130sdp"
+                        android:orientation="vertical">
 
+                        <ImageView
+                            android:id="@+id/ivNewImage"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/market_place" />
 
                         <androidx.appcompat.widget.AppCompatButton
                             android:layout_width="wrap_content"
                             android:layout_height="@dimen/_30sdp"
+                            android:layout_alignParentEnd="true"
                             android:layout_alignParentBottom="true"
                             android:background="@drawable/round_btn"
                             android:backgroundTint="@color/white"
                             android:fontFamily="@font/madani_arabic_semi_bold"
                             android:text="@string/shopping"
                             android:textAllCaps="false"
+                            android:layout_margin="@dimen/_20sdp"
                             android:textColor="@color/bg"
                             android:textSize="@dimen/_12sdp" />
 
@@ -154,11 +144,11 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-
-                            android:layout_marginStart="@dimen/_10sdp"
-                            android:layout_marginTop="@dimen/_10sdp"
-                            android:layout_marginEnd="@dimen/_10sdp"
-                            android:layout_marginBottom="@dimen/_10sdp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginStart="@dimen/_13sdp"
+                            android:layout_marginTop="@dimen/_20sdp"
+                            android:layout_marginEnd="@dimen/_13sdp"
+                            android:layout_marginBottom="@dimen/_20sdp"
                             android:fontFamily="@font/madani_arabic_light"
                             android:text="@string/market_place"
                             android:textColor="@color/white"
@@ -173,20 +163,17 @@
                 <androidx.appcompat.widget.AppCompatButton
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/_25sdp"
-
                     android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true"
                     android:background="@drawable/round_market_place"
                     android:fontFamily="@font/madani_arabic_semi_bold"
                     android:text="@string/new_"
                     android:textAllCaps="false"
+                    android:textAlignment="center"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_12sdp" />
 
 
             </RelativeLayout>
-
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/dynamic_product_rcv"
                 android:layout_width="match_parent"

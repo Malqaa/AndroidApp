@@ -1,4 +1,4 @@
-package com.malka.androidappp.fragments.home.view.viewpager_adapter_piechart
+package com.malka.androidappp.newPhase.presentation.home.viewpager_adapter_piechart
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity

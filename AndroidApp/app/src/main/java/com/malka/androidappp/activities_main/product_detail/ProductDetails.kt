@@ -21,7 +21,7 @@ import com.google.common.reflect.TypeToken
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.malka.androidappp.R
-import com.malka.androidappp.activities_main.MainActivity
+import com.malka.androidappp.newPhase.presentation.MainActivity
 import com.malka.androidappp.activities_main.PlayActivity
 import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
 import com.malka.androidappp.activities_main.order.CartActivity
@@ -80,9 +80,7 @@ class ProductDetails : BaseActivity() {
         product_attribute.isVisible = true
         quest_ans_rcv.isVisible = true
         answerLayout.isVisible = false
-
         getSimilarproducts()
-
         val behavior: BottomSheetBehavior<*> = BottomSheetBehavior.from<View>(bottom_sheet)
         behavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
 
@@ -104,7 +102,6 @@ class ProductDetails : BaseActivity() {
             }
         })
         behavior.peekHeight = getResources().getDimension(R.dimen._360sdp).toInt()
-
         mainContainer.isVisible = false
         AdvId = intent.getIntExtra("AdvId",-1).toString()
 

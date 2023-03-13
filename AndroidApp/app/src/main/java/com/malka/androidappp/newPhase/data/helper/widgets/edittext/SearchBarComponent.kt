@@ -231,8 +231,6 @@ class SearchBarComponent : LinearLayout {
             textHint = getText(R.styleable.SearchBar_hint)
             print(textHint)
         }
-
-
 //        a.recycle()
         return a
     }

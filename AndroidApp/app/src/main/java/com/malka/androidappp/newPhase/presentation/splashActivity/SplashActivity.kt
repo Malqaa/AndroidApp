@@ -4,7 +4,7 @@ import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Bundle
 import com.malka.androidappp.R
-import com.malka.androidappp.activities_main.MainActivity
+import com.malka.androidappp.newPhase.presentation.MainActivity
 import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.newPhase.data.network.CommonAPI
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions

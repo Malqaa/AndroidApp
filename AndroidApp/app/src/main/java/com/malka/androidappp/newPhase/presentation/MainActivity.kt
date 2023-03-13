@@ -1,4 +1,4 @@
-package com.malka.androidappp.activities_main
+package com.malka.androidappp.newPhase.presentation
 
 import android.content.Intent
 import android.os.Bundle

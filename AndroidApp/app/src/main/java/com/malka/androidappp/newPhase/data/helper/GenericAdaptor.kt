@@ -26,14 +26,30 @@ import kotlinx.android.synthetic.main.question_answer_design.view.*
 
 class GenericAdaptor {
 
+    fun setHomeProductAdaptor(list: List<Product>, product_rcv: RecyclerView) {
+        product_rcv.adapter = object : GenericListAdapter<Product>(
+            R.layout.product_item, bind = { element, holder, itemCount, position ->
+                holder.view.run {
+                    val params: ViewGroup.LayoutParams = fullview.layoutParams
+                    params.width = resources.getDimension(R.dimen._220sdp).toInt()
+                    params.height = params.height
+                    fullview.layoutParams = params
+                    productAdaptor(list.get(position), context, holder, true)
+                }
+            }
+        ) {
+            override fun getFilter(): Filter {
+                TODO("Not yet implemented")
+            }
 
+        }.apply { submitList(list)
+        }
+    }
     fun productAdaptor(
         element: Product?, context: Context, holder: BaseViewHolder, isGrid: Boolean
     ) {
-
         holder.view.run {
             element!!.run {
-
                 is_watch_iv.setOnClickListener {
                     if (HelpFunctions.AdAlreadyAddedToWatchList(id.toString())) {
                         HelpFunctions.DeleteAdFromWatchlist(
@@ -87,8 +103,8 @@ class GenericAdaptor {
 //                    productimg, loader
 //                )
 
-               // date_tv.text = date
-               val listingTypeFormated="1"
+                // date_tv.text = date
+                val listingTypeFormated="1"
                 when (listingTypeFormated) {
                     "1" -> {
                         LowestPrice_layout.invisible()
@@ -187,33 +203,6 @@ class GenericAdaptor {
             }
         }
     }
-
-
-    fun setHomeProductAdaptor(list: List<Product>, product_rcv: RecyclerView) {
-        product_rcv.adapter = object : GenericListAdapter<Product>(
-            R.layout.product_item,
-            bind = { element, holder, itemCount, position ->
-                holder.view.run {
-
-                    val params: ViewGroup.LayoutParams = fullview.layoutParams
-                    params.width = resources.getDimension(R.dimen._220sdp).toInt()
-                    params.height = params.height
-                    fullview.layoutParams = params
-                    productAdaptor(list.get(position), context, holder, true)
-                }
-            }
-        ) {
-            override fun getFilter(): Filter {
-                TODO("Not yet implemented")
-            }
-
-        }.apply {
-            submitList(
-                list
-            )
-        }
-    }
-
 
     fun questionAnswerAdaptor(quest_ans_rcv: RecyclerView, list: List<Question>) {
 

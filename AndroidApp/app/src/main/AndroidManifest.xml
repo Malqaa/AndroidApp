@@ -30,10 +30,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
-        tools:replace="android:allowBackup"
-       >
-<!--        tools:ignore="AllowBackup"-->
-
+        tools:replace="android:allowBackup">
+        <activity
+            android:name="com.malka.androidappp.newPhase.presentation.searchActivity.SearchActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <!-- tools:ignore="AllowBackup" -->
         <activity
             android:name=".activities_main.order.AttachInvoice"
             android:exported="false"
@@ -120,7 +125,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities_main.MainActivity"
+            android:name=".newPhase.presentation.MainActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".newPhase.presentation.loginScreen.SignInActivity"
@@ -176,7 +181,7 @@
             android:hardwareAccelerated="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".fragments.browse_market.SearchCategoryActivity"
+            android:name="com.malka.androidappp.newPhase.presentation.prodctListActivity.browse_market.SearchCategoryActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".fragments.account_fragment.address.AddAddress"

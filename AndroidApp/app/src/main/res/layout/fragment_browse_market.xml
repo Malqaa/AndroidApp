@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:orientation="vertical"
-    tools:context=".fragments.browse_market.SearchCategoryActivity">
+    tools:context=".newPhase.presentation.prodctListActivity.browse_market.SearchCategoryActivity">
 
 
     <LinearLayout

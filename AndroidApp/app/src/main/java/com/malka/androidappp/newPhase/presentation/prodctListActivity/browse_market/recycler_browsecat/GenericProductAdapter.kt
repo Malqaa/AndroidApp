@@ -12,9 +12,7 @@ import com.malka.androidappp.newPhase.domain.models.servicemodels.Product
 
 
 class GenericProductAdapter(
-    var marketposts: List<Any>,
-    var context: Context
-) : RecyclerView.Adapter<BaseViewHolder>() {
+    var marketposts: List<Any>, var context: Context) : RecyclerView.Adapter<BaseViewHolder>() {
     var isGrid:Boolean=true
 
 

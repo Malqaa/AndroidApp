@@ -9,7 +9,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.malka.androidappp.R
-import com.malka.androidappp.activities_main.MainActivity
+import com.malka.androidappp.newPhase.presentation.MainActivity
 import com.malka.androidappp.activities_main.business_signup.Switch_Account
 import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
 import com.malka.androidappp.activities_main.order.CartActivity
