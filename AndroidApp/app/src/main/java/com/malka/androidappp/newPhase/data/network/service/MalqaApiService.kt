@@ -108,12 +108,28 @@ interface MalqaApiService {
         @Query("otpCode") otpCode: String,
     ):Call<UserVerifiedResp>
 
-
-
-
-
     @POST("Accounts/verify")
     fun verifycode(@Body verifyusercode: PostReqVerifyCode): Call<BasicResponse>
+
+
+
+    @GET("ListAllCategory?isShowInHome=true")
+    fun getAllCategories(): Call<GeneralResponse>
+
+    @GET("ListHomeCategoryProduct?currentPage=1&productNumber=10")
+    fun ListHomeCategoryProduct(@Query("lang") language: String = ConstantObjects.currentLanguage): Call<GeneralResponse>
+
+
+    @GET("ListAdvertisments")
+    fun SliderAPI(): Call<GeneralResponse>
+
+
+
+
+
+    //+++++++++++++++++++++++++++++++++++++++++
+    //+++++++++++++++++++++++++++++++++++++++++
+    //+++++++++++++++++++++++++++++++++++++++++
 
     @POST("Accounts/updatePersonalInfo")
     fun updateUserSiginup(@Body updateusersignupp: User): Call<User>
@@ -332,14 +348,6 @@ interface MalqaApiService {
 
 
     // NEw API START HERE
-    @GET("ListAdvertisments")
-    fun SliderAPI(): Call<GeneralResponse>
-
-    @GET("ListAllCategory?isShowInHome=true")
-    fun getAllCategories(): Call<GeneralResponse>
-
-    @GET("ListHomeCategoryProduct?currentPage=1&productNumber=10")
-    fun ListHomeCategoryProduct(@Query("lang") language: String = ConstantObjects.currentLanguage): Call<GeneralResponse>
 
     @POST("AddFollow")
     fun AddFollow(@Body body: List<Int>): Call<GeneralResponse>

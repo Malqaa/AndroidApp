@@ -131,13 +131,13 @@
             android:name=".newPhase.presentation.loginScreen.SignInActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".newPhase.presentation.signup.SignupPg1"
+            android:name=".newPhase.presentation.signup.SignupConfirmNewUserActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".newPhase.presentation.signup.SignupPg2"
+            android:name=".newPhase.presentation.signup.SignupOTPVerificationActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".newPhase.presentation.signup.SignupPg3"
+            android:name=".newPhase.presentation.signup.SignupCreateNewUser"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities_main.forgot.ForgotPasswordActivty"

@@ -11,25 +11,16 @@ import com.malka.androidappp.BuildConfig
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
-import com.malka.androidappp.newPhase.data.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.newPhase.data.network.constants.Constants
-import com.malka.androidappp.newPhase.data.network.service.MalqaApiService
-import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects.Companion.data
 import com.malka.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.OtpData
-import com.malka.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.UserVerifiedResp
-import com.malka.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.ValidateAndGenerateOTPResp
 import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
 import com.malka.androidappp.newPhase.presentation.signup.signupViewModel.SignupViewModel
 import com.yariksoffice.lingver.Lingver
-import kotlinx.android.synthetic.main.activity_signup_pg1.*
 import kotlinx.android.synthetic.main.activity_signup_pg2.*
 import kotlinx.android.synthetic.main.activity_signup_pg2.button3
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 
-class SignupPg2 : BaseActivity() {
+class SignupOTPVerificationActivity : BaseActivity() {
 
     private var START_TIME_IN_MILLIS: Long = 60000
     lateinit var countdownTimer: TextView
@@ -110,7 +101,7 @@ class SignupPg2 : BaseActivity() {
             if (userVerified.status_code == 200) {
                 HelpFunctions.ShowLongToast(
                     getString(R.string.VerificationSuccessful),
-                    this@SignupPg2
+                    this@SignupOTPVerificationActivity
                 )
                 signup2next()
             } else {
@@ -178,7 +169,7 @@ class SignupPg2 : BaseActivity() {
     }
     fun signup2next() {
         val userIdupdate: String? = intent.getStringExtra("userid")
-        val intent2 = Intent(this@SignupPg2, SignupPg3::class.java)
+        val intent2 = Intent(this@SignupOTPVerificationActivity, SignupCreateNewUser::class.java)
         intent2.putExtra(Constants.otpDataKey, otpData)
         startActivity(intent2)
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
@@ -186,7 +177,7 @@ class SignupPg2 : BaseActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        val intent = Intent(this@SignupPg2, SignInActivity::class.java)
+        val intent = Intent(this@SignupOTPVerificationActivity, SignInActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         startActivity(intent)
         finish()

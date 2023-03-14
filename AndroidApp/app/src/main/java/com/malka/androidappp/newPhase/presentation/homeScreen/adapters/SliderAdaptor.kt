@@ -1,4 +1,4 @@
-package com.malka.androidappp.newPhase.presentation.home
+package com.malka.androidappp.newPhase.presentation.homeScreen.adapters
 
 import android.content.Context
 import android.view.LayoutInflater

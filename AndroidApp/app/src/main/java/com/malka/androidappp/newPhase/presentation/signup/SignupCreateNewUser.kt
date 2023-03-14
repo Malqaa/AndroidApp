@@ -4,31 +4,22 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.malka.androidappp.BuildConfig
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
 import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.newPhase.data.network.CommonAPI
 import com.malka.androidappp.newPhase.data.helper.Extension.getDeviceId
-import com.malka.androidappp.newPhase.data.helper.Extension.requestBody
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.data.helper.widgets.DatePickerFragment
 import com.malka.androidappp.newPhase.data.helper.widgets.searchdialog.SearchListItem
-import com.malka.androidappp.newPhase.data.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.newPhase.data.network.constants.Constants
-import com.malka.androidappp.newPhase.data.network.service.MalqaApiService
-import com.malka.androidappp.newPhase.domain.models.resgisterResp.RegisterResp
 import com.malka.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.OtpData
 import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
 import com.malka.androidappp.newPhase.presentation.signup.signupViewModel.SignupViewModel
 import com.yariksoffice.lingver.Lingver
-import kotlinx.android.synthetic.main.activity_signup_pg2.*
 import kotlinx.android.synthetic.main.activity_signup_pg4.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
-class SignupPg3 : BaseActivity() {
+class SignupCreateNewUser : BaseActivity() {
 
     var selectedCountryText: SearchListItem? = null
     var selectedCountryId: Int = 0
@@ -94,7 +85,7 @@ class SignupPg3 : BaseActivity() {
             if (registerResp.status_code == 200) {
                 HelpFunctions.ShowLongToast(
                     getString(R.string.Accounthasbeencreated),
-                    this@SignupPg3
+                    this@SignupCreateNewUser
                 )
                 signInAfterSignUp()
             } else {
@@ -141,7 +132,7 @@ class SignupPg3 : BaseActivity() {
                         list.add(SearchListItem(country.id, country.name))
                     }
                     select_region.showSpinner(
-                        this@SignupPg3,
+                        this@SignupCreateNewUser,
                         list,
                         getString(R.string.Select, getString(R.string.Region))
                     ) {
@@ -168,7 +159,7 @@ class SignupPg3 : BaseActivity() {
                         list.add(SearchListItem(country.id, country.name))
                     }
                     select_city.showSpinner(
-                        this@SignupPg3,
+                        this@SignupCreateNewUser,
                         list,
                         getString(R.string.Select, getString(R.string.district))
                     ) {
@@ -310,7 +301,7 @@ class SignupPg3 : BaseActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        val intent = Intent(this@SignupPg3, SignInActivity::class.java)
+        val intent = Intent(this@SignupCreateNewUser, SignInActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         startActivity(intent)
         finish()

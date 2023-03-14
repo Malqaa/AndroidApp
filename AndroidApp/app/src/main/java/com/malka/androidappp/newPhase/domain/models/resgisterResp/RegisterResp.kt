@@ -1,7 +1,7 @@
 package com.malka.androidappp.newPhase.domain.models.resgisterResp
 
 import com.google.gson.annotations.SerializedName
-import com.malka.androidappp.newPhase.domain.models.LoginUser
+import com.malka.androidappp.newPhase.domain.models.loginResp.LoginUser
 
 data class RegisterResp (
     val code: String?=null,
@@ -9,5 +9,5 @@ data class RegisterResp (
     val status_code: Int,
     val status:String?=null,
     @SerializedName("data")
-    val userObject:LoginUser
+    val userObject: LoginUser
 )

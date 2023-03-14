@@ -1,7 +1,6 @@
 package com.malka.androidappp.newPhase.presentation.signup
 
 import android.content.Intent
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.text.Editable
 import android.util.Patterns
@@ -13,23 +12,15 @@ import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions.Companion.PASSWORD_PATTERN
-import com.malka.androidappp.newPhase.data.network.Retrofit.RetrofitBuilder
 import com.malka.androidappp.newPhase.data.network.constants.Constants
-import com.malka.androidappp.newPhase.data.network.service.MalqaApiService
 import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
 import com.malka.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.OtpData
-import com.malka.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.ValidateAndGenerateOTPResp
 import com.malka.androidappp.newPhase.presentation.signup.signupViewModel.SignupViewModel
 import com.yariksoffice.lingver.Lingver
 import kotlinx.android.synthetic.main.activity_signup_pg1.*
 import kotlinx.android.synthetic.main.activity_signup_pg1.userNamee
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.io.File
-import java.io.FileOutputStream
-import java.io.OutputStream
-class SignupPg1 : BaseActivity() {
+
+class SignupConfirmNewUserActivity : BaseActivity() {
 
     var isPhoneNumberValid:Boolean=false
     var isBusinessAccount=false
@@ -90,7 +81,6 @@ class SignupPg1 : BaseActivity() {
         })
         signupViewModel.errorResponseObserver.observe(this, Observer {
             if (it.message != null) {
-                println("hhhhh 1"+it.message)
                 HelpFunctions.ShowLongToast(
                     it.message,
                     this
@@ -152,7 +142,7 @@ class SignupPg1 : BaseActivity() {
 
     }
     private fun goToOTPVerificationScreen(otpData: OtpData) {
-        val intent = Intent(this, SignupPg2::class.java)
+        val intent = Intent(this, SignupOTPVerificationActivity::class.java)
         intent.putExtra(Constants.otpDataKey, otpData)
         startActivity(intent)
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)

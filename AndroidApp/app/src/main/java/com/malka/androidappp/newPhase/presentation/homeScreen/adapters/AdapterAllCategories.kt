@@ -1,4 +1,4 @@
-package com.malka.androidappp.newPhase.presentation.home.adapters
+package com.malka.androidappp.newPhase.presentation.homeScreen.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -35,6 +35,7 @@ class AdapterAllCategories(
             allCategories.get(position).run {
 //                bgline.hide()
 //                is_selectimage.hide()
+
                 category_name_tv.text = name
                 if(image.isNullOrEmpty()){
                     category_icon.setImageResource(R.drawable.product_attribute_bg2)
@@ -45,7 +46,7 @@ class AdapterAllCategories(
 //                        .into(category_icon)
                 }
                 setOnClickListener {
-                    listener.OnItemClick(position)
+                    listener.pnCategorySelected(position)
                 }
             }
         }
@@ -53,7 +54,7 @@ class AdapterAllCategories(
     }
 
     interface OnItemClickListener {
-        fun OnItemClick(position: Int) {}
+        fun pnCategorySelected(position: Int) {}
     }
 
 }

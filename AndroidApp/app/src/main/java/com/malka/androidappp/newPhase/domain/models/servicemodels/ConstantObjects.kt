@@ -36,7 +36,7 @@ class ConstantObjects {
 
         var currentLanguage: String = ""
         var categoryList: List<Category> = ArrayList()
-        var list: ArrayList<DynamicList> = java.util.ArrayList()
+        var categoryProductHomeList: ArrayList<DynamicList> = java.util.ArrayList()
         var countryList: List<Country> = ArrayList()
 
         var isBid= "isBid"

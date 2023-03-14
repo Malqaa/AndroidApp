@@ -12,9 +12,9 @@ import com.malka.androidappp.activities_main.forgot.ForgotPasswordActivty
 import com.malka.androidappp.fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
-import com.malka.androidappp.newPhase.domain.models.LoginUser
+import com.malka.androidappp.newPhase.domain.models.loginResp.LoginUser
 import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
-import com.malka.androidappp.newPhase.presentation.signup.SignupPg1
+import com.malka.androidappp.newPhase.presentation.signup.SignupConfirmNewUserActivity
 import io.paperdb.Paper
 import kotlinx.android.synthetic.main.activity_sign_in.*
 
@@ -99,7 +99,7 @@ class SignInActivity : BaseActivity() {
             startActivity(Intent(this@SignInActivity, ForgotPasswordActivty::class.java))
         }
         new_registration.setOnClickListener {
-            val intent = Intent(this@SignInActivity, SignupPg1::class.java)
+            val intent = Intent(this@SignInActivity, SignupConfirmNewUserActivity::class.java)
             startActivity(intent)
         }
 

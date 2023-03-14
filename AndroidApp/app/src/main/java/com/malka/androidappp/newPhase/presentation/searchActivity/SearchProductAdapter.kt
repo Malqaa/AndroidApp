@@ -14,13 +14,7 @@ import com.malka.androidappp.newPhase.data.helper.*
 import com.malka.androidappp.newPhase.data.helper.Extension.decimalNumberFormat
 import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
 import com.malka.androidappp.newPhase.domain.models.servicemodels.Product
-import com.malka.androidappp.newPhase.domain.models.servicemodels.model.Category
-import com.malka.androidappp.newPhase.presentation.home.adapters.AdapterAllCategories
-import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
 import com.yariksoffice.lingver.Lingver
-import io.paperdb.Paper
-import kotlinx.android.synthetic.main.item_categories_card_in_home.view.*
-import kotlinx.android.synthetic.main.pager_layout.view.*
 import kotlinx.android.synthetic.main.product_item.view.*
 
 class SearchProductAdapter(

@@ -16,7 +16,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.malka.androidappp.R
-import com.malka.androidappp.newPhase.presentation.signup.SignupPg1
+import com.malka.androidappp.newPhase.presentation.signup.SignupConfirmNewUserActivity
 import kotlinx.android.synthetic.main.fragment_logout_notification.*
 
 
@@ -46,7 +46,7 @@ class LogoutNotification : Fragment() {
                 ds.isUnderlineText = false // set to false to remove underline
             }
             override fun onClick(view: View) {
-                val intent = Intent(requireContext(), SignupPg1::class.java)
+                val intent = Intent(requireContext(), SignupConfirmNewUserActivity::class.java)
                 startActivity(intent)
             }
 

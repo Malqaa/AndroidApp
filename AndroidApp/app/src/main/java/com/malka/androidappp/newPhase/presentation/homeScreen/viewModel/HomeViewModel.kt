@@ -1,4 +1,4 @@
-package com.malka.androidappp.newPhase.presentation.home.viewModel
+package com.malka.androidappp.newPhase.presentation.homeScreen.viewModel
 
 import androidx.lifecycle.MutableLiveData
 import com.malka.androidappp.newPhase.core.BaseViewModel
@@ -46,7 +46,7 @@ class HomeViewModel : BaseViewModel() {
             .Serach(filter)
             .enqueue(object : Callback<GeneralResponse> {
                 override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
-                    isNetworkFail.value = t !is HttpException
+                   // isNetworkFail.value = t !is HttpException
                 }
 
                 override fun onResponse(

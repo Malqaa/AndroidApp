@@ -42,7 +42,7 @@ abstract class BaseActivity : AppCompatActivity() {
     //Methods For language
     fun setLocate() {
         ConstantObjects.categoryList= ArrayList()
-        ConstantObjects.list= ArrayList()
+        ConstantObjects.categoryProductHomeList= ArrayList()
         Lingver.getInstance().setLocale(this, if (Lingver.getInstance().getLanguage() == ConstantObjects.ARABIC) ConstantObjects.ENGLISH else ConstantObjects.ARABIC)
         startActivity(Intent(this, SplashActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK

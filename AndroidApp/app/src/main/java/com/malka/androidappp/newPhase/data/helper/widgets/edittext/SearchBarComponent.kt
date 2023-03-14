@@ -69,19 +69,12 @@ class SearchBarComponent : LinearLayout {
     override fun onFinishInflate() {
         super.onFinishInflate()
 
-
-
         suggestion_rcv = findViewById(R.id.suggestion_rcv)
         suggestion_rcv.id = TextFieldIdGenerator.viwId.getlllId(id)
-
-
         iv_end_icon = findViewById(R.id.iv_end_icon)
         iv_end_icon.id = TextFieldIdGenerator.viwId.getllId(id)
-
         edittext = findViewById(R.id.edittext)
         edittext.id = TextFieldIdGenerator.viwId.getStartIconID(id)
-
-
         itemLayout = findViewById(R.id.itemLayout)
         itemLayout.id = TextFieldIdGenerator.viwId.getStartIconIDD(id)
 
