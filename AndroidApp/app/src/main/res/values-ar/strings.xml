@@ -3,7 +3,13 @@
     <string name="serverError">حدث خطأ أثناء الإتصال الرجاء المحاولة مرة اخرى</string>
     <string name="connectionError">فقد الإتصال بالانترنت</string>
     <string name="Back_to_login">العودة لتسجيل الدخول</string>
-  <string name="saveThisSearch">حفظ هذا البحث</string>
+    <string name="saveThisSearch">حفظ هذا البحث</string>
+    <string name="selectCountry">اختر دولة</string>
+    <string name="selectRegionTitle">أختر المنطقه</string>
+    <string name="selectDistrict">أختر الحى</string>
+
+    <string name="noResultFound">لا يوجد نتائج</string>
+    <string name="searchHere">ابحث هنا</string>
     <string name="City">مدينة</string>
 
     <string name="Confirm">تؤكد</string>

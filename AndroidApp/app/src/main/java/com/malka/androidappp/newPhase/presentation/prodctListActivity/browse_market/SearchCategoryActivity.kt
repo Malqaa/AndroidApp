@@ -22,8 +22,9 @@ import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.data.helper.hide
 import com.malka.androidappp.newPhase.data.helper.show
 import com.malka.androidappp.newPhase.data.helper.widgets.rcv.GenericListAdapter
-import com.malka.androidappp.newPhase.data.network.Retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
 import com.malka.androidappp.newPhase.data.network.service.MalqaApiService
+import com.malka.androidappp.newPhase.domain.models.countryResp.Country
 import com.malka.androidappp.recycler_browsecat.GenericProductAdapter
 import com.malka.androidappp.newPhase.domain.models.servicemodels.*
 import com.malka.androidappp.newPhase.domain.models.servicemodels.model.Category
@@ -127,8 +128,6 @@ class SearchCategoryActivity : BaseActivity() {
                                         id,
                                         this@SearchCategoryActivity
                                     ) { regions ->
-
-
                                         sub_region_rcv.adapter =
                                             object : GenericListAdapter<Country>(
                                                 R.layout.sub_region_item,

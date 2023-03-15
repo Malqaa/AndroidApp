@@ -5,26 +5,26 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.malka.androidappp.R
-import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
 import com.malka.androidappp.newPhase.core.BaseActivity
-import com.malka.androidappp.newPhase.data.network.CommonAPI
 import com.malka.androidappp.newPhase.data.helper.Extension.getDeviceId
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.data.helper.widgets.DatePickerFragment
 import com.malka.androidappp.newPhase.data.helper.widgets.searchdialog.SearchListItem
 import com.malka.androidappp.newPhase.data.network.constants.Constants
 import com.malka.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.OtpData
-import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.presentation.dialogsShared.countryDialog.CountryDialog
+import com.malka.androidappp.newPhase.presentation.dialogsShared.neighborhoodDialog.NeighborhoodDialog
+import com.malka.androidappp.newPhase.presentation.dialogsShared.regionDialog.RegionDialog
+import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
 import com.malka.androidappp.newPhase.presentation.signup.signupViewModel.SignupViewModel
 import com.yariksoffice.lingver.Lingver
 import kotlinx.android.synthetic.main.activity_signup_pg4.*
 
 class SignupCreateNewUser : BaseActivity() {
 
-    var selectedCountryText: SearchListItem? = null
     var selectedCountryId: Int = 0
-    var selectedRegion: SearchListItem? = null
-    var selectedCity: SearchListItem? = null
+    var selectedRegionId: Int = 0
+    var selectedNeighborhoodId: Int = 0
     var gender_ = -1
     private var otpData: OtpData? = null
     private lateinit var signupViewModel: SignupViewModel
@@ -34,17 +34,18 @@ class SignupCreateNewUser : BaseActivity() {
         otpData = intent.getParcelableExtra(Constants.otpDataKey)
         setupRegisterViewModel()
         setupClickListeners()
-        ConstantObjects.countryList.filter {
-            it.id == ConstantObjects.defaltCountry
-        }.let { if (it.size > 0) {
-                it.get(0).run{
-                    selectedCountryText = SearchListItem(id,name)
-                    select_country._setStartIconImage(flagimglink)
-                    select_country.text=it.get(0).name
-                }
-            }
-        }
+//        ConstantObjects.countryList.filter {
+//            it.id == ConstantObjects.defaltCountry }.let { if (it.size > 0) {
+//                it.get(0).run{
+//                    selectedCountryText = SearchListItem(id,name)
+//                    select_country._setStartIconImage(flagimglink)
+//                    select_country.text=it.get(0).name
+//                }
+//            }
+//        }
+
     }
+
     private fun setupRegisterViewModel() {
         signupViewModel = ViewModelProvider(this).get(SignupViewModel::class.java)
         signupViewModel.isLoading.observe(this, Observer {
@@ -81,7 +82,7 @@ class SignupCreateNewUser : BaseActivity() {
             }
 
         })
-        signupViewModel.registerRespObserver.observe(this){registerResp->
+        signupViewModel.registerRespObserver.observe(this) { registerResp ->
             if (registerResp.status_code == 200) {
                 HelpFunctions.ShowLongToast(
                     getString(R.string.Accounthasbeencreated),
@@ -94,6 +95,7 @@ class SignupCreateNewUser : BaseActivity() {
 
         }
     }
+
     /***clickEvents*/
     private fun setupClickListeners() {
         date._setOnClickListener {
@@ -103,70 +105,22 @@ class SignupCreateNewUser : BaseActivity() {
             }.show(supportFragmentManager, "")
 
         }
-        select_country._setOnClickListener {
-            val list: ArrayList<SearchListItem> = ArrayList()
-            ConstantObjects.countryList.forEachIndexed { index, country ->
-                list.add(SearchListItem(country.id, country.name))
-            }
-            select_country.showSpinner(this, list, getString(R.string.Select, getString(R.string.Country))) {
-                select_country.text = it.title
-                selectedCountryText = it
-                select_region.text = ""
-                selectedRegion = null
-
-                ConstantObjects.countryList.filter { it.id == selectedCountryText!!.id }.let {
-                    if (it.size > 0) {
-                        select_country._setStartIconImage(it.get(0).flagimglink)
-                    }
-                }
-            }
-
+        countryContainer._setOnClickListener {
+            openCountryDialog()
         }
-        select_region._setOnClickListener {
-            if (select_country.text.toString().isEmpty()) {
+        regionContainer._setOnClickListener {
+            if (selectedCountryId == 0) {
                 showError(getString(R.string.Please_select, getString(R.string.Country)))
             } else {
-                CommonAPI().getRegion(selectedCountryText!!.id, this) {
-                    val list: ArrayList<SearchListItem> = ArrayList()
-                    it.forEachIndexed { index, country ->
-                        list.add(SearchListItem(country.id, country.name))
-                    }
-                    select_region.showSpinner(
-                        this@SignupCreateNewUser,
-                        list,
-                        getString(R.string.Select, getString(R.string.Region))
-                    ) {
-                        select_region.text = it.title
-                        selectedRegion = it
-
-
-                        select_city.text = ""
-                        selectedCity = null
-
-                    }
-                }
+                openRegionDialog()
             }
 
         }
-        select_city._setOnClickListener {
-
-            if (select_region.text.toString().isEmpty()) {
+        neighborhoodContainer._setOnClickListener {
+            if (selectedRegionId == 0) {
                 showError(getString(R.string.Please_select, getString(R.string.Region)))
             } else {
-                CommonAPI().getCity(selectedRegion!!.id,this) {
-                    val list: ArrayList<SearchListItem> = ArrayList()
-                    it.forEachIndexed { index, country ->
-                        list.add(SearchListItem(country.id, country.name))
-                    }
-                    select_city.showSpinner(
-                        this@SignupCreateNewUser,
-                        list,
-                        getString(R.string.Select, getString(R.string.district))
-                    ) {
-                        select_city.text = it.title
-                        selectedCity = it
-                    }
-                }
+                openNeighborhoodDialog()
             }
         }
         radiomale._setOnClickListener {
@@ -189,6 +143,57 @@ class SignupCreateNewUser : BaseActivity() {
     }
 
 
+    /**countries , region and Neighborhood Dialogs**/
+    private fun openCountryDialog() {
+        val countryDialog = CountryDialog(this, object : CountryDialog.GetSelectedCountry {
+            override fun onSelectedCountry(id: Int, countryName: String, countryFlag: String?) {
+                /**setCountryData*/
+                selectedCountryId = id
+                countryContainer.text = countryName.toString()
+                countryContainer._setStartIconImage(countryFlag)
+                /**resetRegion*/
+                selectedRegionId = 0
+                regionContainer.text = null
+                /**resetRegion*/
+                selectedNeighborhoodId = 0
+                neighborhoodContainer.text = null
+            }
+        })
+        countryDialog.show()
+    }
+
+    private fun openRegionDialog() {
+        val regionDialog =
+            RegionDialog(this, selectedCountryId, object : RegionDialog.GetSelectedRegion {
+                override fun onSelectedRegion(id: Int, regionName: String) {
+                    /**setRegionData*/
+                    selectedRegionId = id
+                    regionContainer.text = regionName.toString()
+                    /**resetNeighborhood*/
+                    selectedNeighborhoodId = 0
+                    neighborhoodContainer.text = null
+                }
+            })
+        regionDialog.show()
+    }
+
+    private fun openNeighborhoodDialog() {
+        val neighborhoodDialog = NeighborhoodDialog(
+            this,
+            selectedRegionId,
+            object : NeighborhoodDialog.GetSelectedNeighborhood {
+                override fun onSelectedNeighborhood(id: Int, neighborhoodName: String) {
+                    /**setNeighborhoodData*/
+                    selectedNeighborhoodId = id
+                    neighborhoodContainer.text = neighborhoodName.toString()
+                }
+            })
+        neighborhoodDialog.show()
+    }
+
+    /**validation and createUseer*/
+
+
     private fun isValid(): Boolean {
         if (firstName!!.text.toString().isEmpty()) {
             showError(getString(R.string.Please_enter, getString(R.string.First_Name)))
@@ -206,26 +211,26 @@ class SignupCreateNewUser : BaseActivity() {
         }
 
 
-        if (gender_==-1) {
+        if (gender_ == -1) {
             showError(getString(R.string.Please_select, getString(R.string.Gender)))
             return false
         }
 
-        if (select_country!!.text.toString().isEmpty()) {
+        if (selectedCountryId == 0) {
             showError(getString(R.string.Please_select, getString(R.string.Country)))
             return false
         }
 
-//        if (select_region!!.text.toString().isEmpty()) {
+//        if (selectedRegionId == 0) {
 //            showError(getString(R.string.Please_select, getString(R.string.Region)))
 //            return false
 //        }
 //
-//        if (select_city!!.text.toString().isEmpty()) {
+//        if (selectedNeighborhoodId == 0) {
 //            showError(getString(R.string.Please_select, getString(R.string.district)))
 //            return false
 //        }
-//
+
 //
 //        if (area!!.text.toString().isEmpty()) {
 //            showError(getString(R.string.Please_enter, getString(R.string.Area)))
@@ -242,28 +247,10 @@ class SignupCreateNewUser : BaseActivity() {
         return true
     }
 
-
-    override fun finish() {
-        super.finish()
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
-    }
-
-    fun callCreateUser(){
-        var invitationCode="";
+    private fun callCreateUser() {
+        var invitationCode = "";
         otpData?.let {
-            invitationCode=it.invitationCode;
-        }
-        var selectedRegionId=0
-        selectedRegion?.let {
-            selectedRegionId=it.id
-        }
-        var selectedCountryId=0
-        selectedCountryText?.let {
-            selectedCountryId=it.id
-        }
-        var cityId=0
-        selectedCity?.let {
-            cityId=it.id
+            invitationCode = it.invitationCode;
         }
         signupViewModel.createUser(
             otpData?.userName.toString(),
@@ -277,7 +264,7 @@ class SignupCreateNewUser : BaseActivity() {
             gender_.toString(),
             selectedCountryId.toString(),
             selectedRegionId.toString(),
-            cityId.toString(),
+            selectedNeighborhoodId.toString(),
             area.text.toString(),
             streetNUmber.text.toString(),
             county_code.text.toString(),
@@ -288,9 +275,6 @@ class SignupCreateNewUser : BaseActivity() {
             getDeviceId()
         )
     }
-
-
-
 
 
     fun signInAfterSignUp() {
@@ -307,8 +291,10 @@ class SignupCreateNewUser : BaseActivity() {
         finish()
     }
 
-
-
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+    }
 //    fun apicallcreateuser() {
 //        HelpFunctions.startProgressBar(this)
 //        val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
@@ -387,8 +373,6 @@ class SignupCreateNewUser : BaseActivity() {
 //        })
 //
 //    }
-
-
 
 
 //    fun updateapicall() {

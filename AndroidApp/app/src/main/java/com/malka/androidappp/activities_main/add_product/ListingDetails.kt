@@ -61,42 +61,42 @@ class ListingDetails : BaseActivity() {
                 it.get(0).run{
                     selectedCountry = SearchListItem(id,name)
                     phone_number_edittext._setEndText(countryCode)
-                    select_country._setStartIconImage(flagimglink)
-                    select_country.text=it.get(0).name
+                    countryContainer._setStartIconImage(flagimglink)
+                    countryContainer.text=it.get(0).name
                 }
 
             }
         }
-        select_country._setOnClickListener {
+        countryContainer._setOnClickListener {
             val list: ArrayList<SearchListItem> = ArrayList()
             ConstantObjects.countryList.forEachIndexed { index, country ->
                 list.add(SearchListItem(country.id, country.name))
             }
-            select_country.showSpinner(
+            countryContainer.showSpinner(
                 this,
                 list,
                 getString(R.string.Select, getString(R.string.Country))
             ) {
-                select_country.text = it.title
+                countryContainer.text = it.title
                 selectedCountry = it
                 ConstantObjects.countryList.filter {
                     it.id == selectedCountry!!.id
                 }.let {
                     if (it.size > 0) {
                         phone_number_edittext._setEndText(it.get(0).countryCode)
-                        select_country._setStartIconImage(it.get(0).flagimglink)
+                        countryContainer._setStartIconImage(it.get(0).flagimglink)
                     }
                 }
-                select_region.text = ""
+                regionContainer.text = ""
                 selectedRegion = null
 
-                select_city.text = ""
+                neighborhoodContainer.text = ""
                 selectedCity = null
             }
 
         }
-        select_region._setOnClickListener {
-            if (select_country.text.toString().isEmpty()) {
+        regionContainer._setOnClickListener {
+            if (countryContainer.text.toString().isEmpty()) {
                 showError(getString(R.string.Please_select, getString(R.string.Country)))
             } else {
                 CommonAPI().getRegion(selectedCountry!!.id, this) {
@@ -104,16 +104,16 @@ class ListingDetails : BaseActivity() {
                     it.forEachIndexed { index, country ->
                         list.add(SearchListItem(country.id, country.name))
                     }
-                    select_region.showSpinner(
+                    regionContainer.showSpinner(
                         this,
                         list,
                         getString(R.string.Select, getString(R.string.Region))
                     ) {
-                        select_region.text = it.title
+                        regionContainer.text = it.title
                         selectedRegion = it
 
 
-                        select_city.text = ""
+                        neighborhoodContainer.text = ""
                         selectedCity = null
 
                     }
@@ -121,9 +121,9 @@ class ListingDetails : BaseActivity() {
             }
 
         }
-        select_city._setOnClickListener {
+        neighborhoodContainer._setOnClickListener {
 
-            if (select_region.text.toString().isEmpty()) {
+            if (regionContainer.text.toString().isEmpty()) {
                 showError(getString(R.string.Please_select, getString(R.string.Region)))
             } else {
                 CommonAPI().getCity(selectedRegion!!.id,this) {
@@ -131,12 +131,12 @@ class ListingDetails : BaseActivity() {
                     it.forEachIndexed { index, country ->
                         list.add(SearchListItem(country.id, country.name))
                     }
-                    select_city.showSpinner(
+                    neighborhoodContainer.showSpinner(
                         this,
                         list,
                         getString(R.string.Select, getString(R.string.district))
                     ) {
-                        select_city.text = it.title
+                        neighborhoodContainer.text = it.title
                         selectedCity = it
                     }
                 }
@@ -150,11 +150,11 @@ class ListingDetails : BaseActivity() {
             subtitle.setText(StaticClassAdCreate.subtitle)
             title_tv.setText(StaticClassAdCreate.producttitle)
             quantityavail.number = StaticClassAdCreate.quantity
-            select_country.setText(StaticClassAdCreate.country!!.title)
+            countryContainer.setText(StaticClassAdCreate.country!!.title)
             selectedCountry = StaticClassAdCreate.country
-            select_region.setText(StaticClassAdCreate.region!!.title)
+            regionContainer.setText(StaticClassAdCreate.region!!.title)
             selectedRegion = StaticClassAdCreate.region
-            select_city.setText(StaticClassAdCreate.city!!.title)
+            neighborhoodContainer.setText(StaticClassAdCreate.city!!.title)
             selectedCity = StaticClassAdCreate.city
             if (StaticClassAdCreate.brand_new_item.equals(tv_New.text.toString())){
                 tv_New.performClick()
@@ -193,7 +193,7 @@ class ListingDetails : BaseActivity() {
             showError(getString(R.string.Please_select, getString(R.string.QuantityAvailable)))
         } else if (StaticClassAdCreate.quantity.toInt() <= 0) {
             showError(getString(R.string.Please_select, getString(R.string.QuantityAvailable)))
-        } else if (select_city.text.toString().isEmpty()) {
+        } else if (neighborhoodContainer.text.toString().isEmpty()) {
             showError(getString(R.string.Please_select, getString(R.string.district)))
         } else if (phone_number_edittext.text.toString().isEmpty()) {
             showError(getString(R.string.Please_enter, getString(R.string.PhoneNumber)))

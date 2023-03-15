@@ -1,4 +1,4 @@
-package com.malka.androidappp.newPhase.core.imageslider
+package com.malka.androidappp.fragments.create_product.imageslider
 
 import android.content.Context
 import android.view.LayoutInflater

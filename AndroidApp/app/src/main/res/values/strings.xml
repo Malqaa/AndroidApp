@@ -3,7 +3,12 @@
     <string name="serverError">Error happened, please try again later</string>
     <string name="connectionError">Network Connection Fail</string>
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyA-hhR3N_WfZkeHbBvfIjJtfH9_a1SCiHE</string>
-  <string name="saveThisSearch">Save this search</string>
+    <string name="saveThisSearch">Save this search</string>
+    <string name="selectCountry">Select Country</string>
+    <string name="selectRegionTitle">Select Region</string>
+    <string name="selectDistrict">Select District</string>
+    <string name="noResultFound">No Results Found</string>
+    <string name="searchHere">Search Here</string>
 
     <string name="Back_to_login">
     Back to login

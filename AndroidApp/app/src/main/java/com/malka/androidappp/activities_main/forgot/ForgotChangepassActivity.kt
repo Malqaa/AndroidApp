@@ -6,7 +6,7 @@ import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.domain.models.servicemodels.User
 import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions.Companion.PASSWORD_PATTERN
-import com.malka.androidappp.newPhase.data.network.Retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
 import com.malka.androidappp.newPhase.data.network.service.MalqaApiService
 import kotlinx.android.synthetic.main.activity_forgotpass_reset.*
 import retrofit2.Call

@@ -2,14 +2,11 @@ package com.malka.androidappp.newPhase.presentation.signup.signupViewModel
 
 import androidx.lifecycle.MutableLiveData
 import com.malka.androidappp.newPhase.core.BaseViewModel
-import com.malka.androidappp.newPhase.data.helper.Extension.getDeviceId
 import com.malka.androidappp.newPhase.data.helper.Extension.requestBody
-import com.malka.androidappp.newPhase.data.helper.HelpFunctions
-import com.malka.androidappp.newPhase.data.network.Retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.resgisterResp.RegisterResp
 import com.malka.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.UserVerifiedResp
 import com.malka.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.ValidateAndGenerateOTPResp
-import com.yariksoffice.lingver.Lingver
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.HttpException

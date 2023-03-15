@@ -15,7 +15,7 @@ import com.malka.androidappp.fragments.sellerdetails.Advertisement
 import com.malka.androidappp.fragments.sellerdetails.SellerResponseBack
 import com.malka.androidappp.fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
-import com.malka.androidappp.newPhase.data.network.Retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
 import com.malka.androidappp.newPhase.data.network.service.MalqaApiService
 import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
 import kotlinx.android.synthetic.main.fragment_member_listing.*

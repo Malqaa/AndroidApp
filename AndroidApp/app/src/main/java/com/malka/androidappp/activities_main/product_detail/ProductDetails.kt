@@ -38,7 +38,7 @@ import com.malka.androidappp.newPhase.data.helper.show
 import com.malka.androidappp.newPhase.data.helper.swipe.MessageSwipeController
 import com.malka.androidappp.newPhase.data.helper.swipe.SwipeControllerActions
 import com.malka.androidappp.newPhase.data.helper.widgets.rcv.GenericListAdapter
-import com.malka.androidappp.newPhase.data.network.Retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
 import com.malka.androidappp.newPhase.data.network.constants.Constants
 import com.malka.androidappp.newPhase.data.network.service.MalqaApiService
 import com.malka.androidappp.newPhase.domain.models.servicemodels.*

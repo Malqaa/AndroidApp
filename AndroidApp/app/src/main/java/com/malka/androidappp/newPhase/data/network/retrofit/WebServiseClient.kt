@@ -1,4 +1,4 @@
-package com.malka.androidappp.newPhase.data.network.Retrofit
+package com.malka.androidappp.newPhase.data.network.retrofit
 
 import android.content.Context
 import com.google.gson.GsonBuilder

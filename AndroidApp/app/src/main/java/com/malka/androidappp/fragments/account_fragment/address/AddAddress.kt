@@ -9,7 +9,7 @@ import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.newPhase.data.network.CommonAPI
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.data.helper.widgets.searchdialog.SearchListItem
-import com.malka.androidappp.newPhase.data.network.Retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
 import com.malka.androidappp.newPhase.data.network.service.MalqaApiService
 import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
 import com.malka.androidappp.newPhase.domain.models.servicemodels.GeneralRespone
@@ -39,9 +39,9 @@ class AddAddress : BaseActivity() {
 
 
             oldAddress.run {
-                select_country.text = country
-                select_region.text = region
-                select_city.text = city
+                countryContainer.text = country
+                regionContainer.text = region
+                neighborhoodContainer.text = city
                 area_address.text = address
 
                 ConstantObjects.countryList.forEach {
@@ -58,7 +58,7 @@ class AddAddress : BaseActivity() {
             add_button.text = getString(R.string.Confirm)
             toolbar_title.text = getString(R.string.update_address)
             ConstantObjects.countryList.filter {
-                it.name==select_country.text.toString()
+                it.name==countryContainer.text.toString()
             }.let {
                 if(it.isNotEmpty()){
                     it.get(0).run {
@@ -66,7 +66,7 @@ class AddAddress : BaseActivity() {
 
                         CommonAPI().getRegion(selectedCountry!!.id, this@AddAddress) {
                             it.filter {
-                                it.name==select_region.text.toString()
+                                it.name==regionContainer.text.toString()
                             }.let {
                                 if (it.isNotEmpty()) {
                                     it.get(0).run {
@@ -143,22 +143,22 @@ class AddAddress : BaseActivity() {
         }
 
 
-        select_country._setOnClickListener {
+        countryContainer._setOnClickListener {
             val list: ArrayList<SearchListItem> = ArrayList()
             ConstantObjects.countryList.forEachIndexed { index, country ->
                 list.add(SearchListItem(country.id, country.name))
             }
-            select_country.showSpinner(
+            countryContainer.showSpinner(
                 this,
                 list,
                 getString(R.string.Select, getString(R.string.Country))
             ) {
-                select_country.text = it.title
+                countryContainer.text = it.title
                 selectedCountry = it
-                select_region.text = ""
+                regionContainer.text = ""
                 selectedRegion = null
 
-                select_city.text = ""
+                neighborhoodContainer.text = ""
                 selectedCity = null
 
 
@@ -166,14 +166,14 @@ class AddAddress : BaseActivity() {
                     it.id == selectedCountry!!.id
                 }.let {
                     if (it.size > 0) {
-                        select_country._setStartIconImage(it.get(0).flagimglink)
+                        countryContainer._setStartIconImage(it.get(0).flagimglink)
                     }
                 }
             }
 
         }
-        select_region._setOnClickListener {
-            if (select_country.text.toString().isEmpty()) {
+        regionContainer._setOnClickListener {
+            if (countryContainer.text.toString().isEmpty()) {
                 (this as BaseActivity).showError(
                     getString(
                         R.string.Please_select,
@@ -186,16 +186,16 @@ class AddAddress : BaseActivity() {
                     it.forEachIndexed { index, country ->
                         list.add(SearchListItem(country.id, country.name))
                     }
-                    select_region.showSpinner(
+                    regionContainer.showSpinner(
                         this,
                         list,
                         getString(R.string.Select, getString(R.string.Region))
                     ) {
-                        select_region.text = it.title
+                        regionContainer.text = it.title
                         selectedRegion = it
 
 
-                        select_city.text = ""
+                        neighborhoodContainer.text = ""
                         selectedCity = null
 
                     }
@@ -203,9 +203,9 @@ class AddAddress : BaseActivity() {
             }
 
         }
-        select_city._setOnClickListener {
+        neighborhoodContainer._setOnClickListener {
 
-            if (select_region.text.toString().isEmpty()) {
+            if (regionContainer.text.toString().isEmpty()) {
                 (this as BaseActivity).showError(
                     getString(
                         R.string.Please_select,
@@ -219,12 +219,12 @@ class AddAddress : BaseActivity() {
                     it.forEachIndexed { index, country ->
                         list.add(SearchListItem(country.id, country.name))
                     }
-                    select_city.showSpinner(
+                    neighborhoodContainer.showSpinner(
                         this,
                         list,
                         getString(R.string.Select, getString(R.string.district))
                     ) {
-                        select_city.text = it.title
+                        neighborhoodContainer.text = it.title
                         selectedCity = it
                     }
                 }
@@ -238,7 +238,7 @@ class AddAddress : BaseActivity() {
 
 
     private fun SelectCity(): Boolean {
-        val Inputname = select_city!!.text.toString().trim { it <= ' ' }
+        val Inputname = neighborhoodContainer!!.text.toString().trim { it <= ' ' }
         return if (Inputname.isEmpty()) {
             (this as BaseActivity).showError(
                 getString(
@@ -294,9 +294,9 @@ class AddAddress : BaseActivity() {
         val phonenumber = PhoneNumber_tv._getEndText() + PhoneNumber_tv.text.toString()
 
         val address = "${area_address.text.toString()} - ${streetnumber.text.toString()}"
-        val selectCountry = select_country.text.toString()
-        val selectRegion = select_region.text.toString()
-        val selectCity = select_city.text.toString()
+        val selectCountry = countryContainer.text.toString()
+        val selectRegion = regionContainer.text.toString()
+        val selectCity = neighborhoodContainer.text.toString()
 
 
         val addAddress = GetAddressResponse.AddressModel(

@@ -23,6 +23,8 @@ import com.malka.androidappp.newPhase.domain.models.loginResp.LoginResp
 import com.malka.androidappp.newPhase.domain.models.resgisterResp.RegisterResp
 import com.malka.androidappp.newPhase.data.network.constants.Constants
 import com.malka.androidappp.newPhase.data.network.constants.Constants.GET_CATEGORY_TAGS_ENDPOINT
+import com.malka.androidappp.newPhase.domain.models.countryResp.CountriesResp
+import com.malka.androidappp.newPhase.domain.models.regionsResp.RegionsResp
 import com.malka.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.UserVerifiedResp
 import com.malka.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.ValidateAndGenerateOTPResp
 import com.malka.androidappp.newPhase.domain.models.servicemodels.*
@@ -96,7 +98,6 @@ interface MalqaApiService {
         @Query("email") userEmail:String,
         @Query("User-Language")lang:String,
     ):Call<ValidateAndGenerateOTPResp>
-
     @GET("ResendOtp")
     fun resendOtp(
         @Query("phoneNumber") userPhone: String,
@@ -107,23 +108,33 @@ interface MalqaApiService {
         @Query("phoneNumber") userPhone:  String,
         @Query("otpCode") otpCode: String,
     ):Call<UserVerifiedResp>
-
     @POST("Accounts/verify")
     fun verifycode(@Body verifyusercode: PostReqVerifyCode): Call<BasicResponse>
-
-
 
     @GET("ListAllCategory?isShowInHome=true")
     fun getAllCategories(): Call<GeneralResponse>
 
     @GET("ListHomeCategoryProduct?currentPage=1&productNumber=10")
-    fun ListHomeCategoryProduct(@Query("lang") language: String = ConstantObjects.currentLanguage): Call<GeneralResponse>
-
+    fun ListHomeCategoryProduct(@Query("lang")
+                                language: String = ConstantObjects.currentLanguage): Call<GeneralResponse>
 
     @GET("ListAdvertisments")
     fun SliderAPI(): Call<GeneralResponse>
 
+    @GET("ListCountryDDL")
+    fun getCountryNew(): Call<CountriesResp>
+    @GET("ListRegionsByCountryIdDDL")
+    fun getRegionNew(
+        @Query("id") Id: Int,
+        @Query("lang") language: String = ConstantObjects.currentLanguage
+    ): Call<RegionsResp>
 
+
+    @GET("ListNeighborhoodByRegionIdDDL")
+    fun getNeighborhoodByRegionNew(
+        @Query("id") Id: Int,
+        @Query("lang") language: String = ConstantObjects.currentLanguage
+    ): Call<RegionsResp>
 
 
 

@@ -12,7 +12,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.malka.androidappp.R
 import com.malka.androidappp.fragments.cardetail_page.bottomsheet_bidopt.post_bidprice.ModelPostBidPrice
 import com.malka.androidappp.fragments.shared_preferences.SharedPreferencesStaticClass
-import com.malka.androidappp.newPhase.data.network.Retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
 import com.malka.androidappp.newPhase.data.network.service.MalqaApiService
 import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
 import kotlinx.android.synthetic.main.botm_sheet_layout.view.*

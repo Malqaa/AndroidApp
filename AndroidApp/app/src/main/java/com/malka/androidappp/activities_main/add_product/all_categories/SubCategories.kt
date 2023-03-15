@@ -12,7 +12,7 @@ import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.fragments.create_ads.StaticClassAdCreate
 import com.malka.androidappp.newPhase.data.helper.Extension.truncateString
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
-import com.malka.androidappp.newPhase.data.network.Retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
 import com.malka.androidappp.newPhase.data.network.service.MalqaApiService
 import com.malka.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
 import com.malka.androidappp.newPhase.domain.models.servicemodels.model.Category

@@ -12,7 +12,7 @@ import com.malka.androidappp.fragments.activities_main.business_signup.BusinessA
 import com.malka.androidappp.newPhase.domain.models.servicemodels.BusinessUserRespone
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.data.helper.widgets.rcv.GenericListAdapter
-import com.malka.androidappp.newPhase.data.network.Retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
 import com.malka.androidappp.newPhase.data.network.constants.Constants
 import com.malka.androidappp.newPhase.data.network.service.MalqaApiService
 import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects

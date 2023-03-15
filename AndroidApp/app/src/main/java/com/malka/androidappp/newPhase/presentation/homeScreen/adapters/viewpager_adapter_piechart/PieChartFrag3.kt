@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
-import com.malka.androidappp.newPhase.data.network.Retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
 import com.malka.androidappp.newPhase.data.network.service.MalqaApiService
 import com.malka.androidappp.newPhase.domain.models.servicemodels.total_members.ModelGetTotalMembers
 import kotlinx.android.synthetic.main.fragment_pie_chart_frag3.*

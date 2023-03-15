@@ -17,7 +17,7 @@ import com.malka.androidappp.activities_main.order.AddressPaymentActivity
 import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.newPhase.domain.models.servicemodels.Negotiationmodel
 import com.malka.androidappp.newPhase.data.helper.widgets.rcv.GenericListAdapter
-import com.malka.androidappp.newPhase.data.network.Retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
 import com.malka.androidappp.newPhase.data.network.service.MalqaApiService
 import com.malka.androidappp.newPhase.domain.models.servicemodels.BasicResponse
 import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects

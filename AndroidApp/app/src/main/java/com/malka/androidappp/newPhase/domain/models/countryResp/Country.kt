@@ -1,4 +1,4 @@
-package com.malka.androidappp.newPhase.domain.models.servicemodels
+package com.malka.androidappp.newPhase.domain.models.countryResp
 
 import com.malka.androidappp.newPhase.data.network.constants.Constants
 

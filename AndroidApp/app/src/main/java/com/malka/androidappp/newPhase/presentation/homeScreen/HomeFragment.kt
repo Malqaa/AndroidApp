@@ -36,6 +36,7 @@ import com.malka.androidappp.newPhase.presentation.homeScreen.adapters.AdapterAl
 import com.malka.androidappp.newPhase.presentation.homeScreen.adapters.SliderAdaptor
 import com.malka.androidappp.newPhase.presentation.homeScreen.viewModel.HomeViewModel
 import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
+import com.malka.androidappp.newPhase.presentation.prodctListActivity.browse_market.SearchCategoryActivity
 import com.malka.androidappp.newPhase.presentation.searchActivity.SearchActivity
 import com.yariksoffice.lingver.Lingver
 import io.paperdb.Paper
@@ -460,13 +461,13 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
     }
 
     override fun pnCategorySelected(position: Int) {
-//        startActivity(Intent(requireContext(), SearchCategoryActivity::class.java).apply {
-//                putExtra("CategoryDesc", ConstantObjects.categoryList[position].name)
-//                putExtra("CategoryID", ConstantObjects.categoryList[position].id.toString())
-//                putExtra("SearchQuery", "")
-//                putExtra("isMapShow", ConstantObjects.categoryList[position].id == 3)
-//
-//            })
+        startActivity(Intent(requireContext(), SearchCategoryActivity::class.java).apply {
+                putExtra("CategoryDesc", ConstantObjects.categoryList[position].name)
+                putExtra("CategoryID", ConstantObjects.categoryList[position].id.toString())
+                putExtra("SearchQuery", "")
+                putExtra("isMapShow", ConstantObjects.categoryList[position].id == 3)
+
+            })
     }
 
     private fun setPagerDots(list: ArrayList<Slider>) {

@@ -1,4 +1,4 @@
-package com.malka.androidappp.newPhase.data.network.Retrofit
+package com.malka.androidappp.newPhase.data.network.retrofit
 
 import com.malka.androidappp.newPhase.data.network.constants.Constants
 import com.malka.androidappp.newPhase.data.network.service.MalqaApiService
@@ -21,10 +21,10 @@ class RetrofitBuilder {
                 httpClient.addInterceptor(httpLoggingInterceptor);
 
                 httpClient.addInterceptor(authenticationInterceptor);
-
                 builder = Retrofit.Builder()
                 builder!!.baseUrl(Constants.API_BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
+                println("hhhh "+Constants.API_BASE_URL)
                 builder!!.client(httpClient.build());
             }
             return builder!!.build().create(MalqaApiService::class.java)

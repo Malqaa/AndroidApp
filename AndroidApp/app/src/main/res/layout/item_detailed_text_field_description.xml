@@ -82,6 +82,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="text"
                         android:maxLines="1"
+                        android:imeActionLabel=""
                         android:importantForAutofill="no"
                         android:paddingTop="@dimen/_5sdp"
                         android:textAlignment="viewStart"

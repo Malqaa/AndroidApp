@@ -9,7 +9,7 @@ import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.fragments.create_ads.StaticClassAdCreate
 import com.malka.androidappp.newPhase.data.helper.*
 import com.malka.androidappp.newPhase.data.network.CommonAPI
-import com.malka.androidappp.newPhase.data.network.Retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
 import com.malka.androidappp.newPhase.domain.models.servicemodels.CreateAdvMainModel
 import com.malka.androidappp.newPhase.domain.models.servicemodels.CreateAdvResponseBack

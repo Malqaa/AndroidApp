@@ -3,7 +3,7 @@ package com.malka.androidappp.newPhase.presentation.loginScreen
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.malka.androidappp.newPhase.core.BaseViewModel
-import com.malka.androidappp.newPhase.data.network.Retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.loginResp.LoginResp
 import com.yariksoffice.lingver.Lingver
 import retrofit2.Call
