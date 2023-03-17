@@ -45,7 +45,7 @@
 
 
                 <ImageView
-                    android:id="@+id/is_watch_iv"
+                    android:id="@+id/ivFav"
                     android:layout_width="@dimen/_25sdp"
                     android:layout_height="@dimen/_25sdp"
                     android:layout_centerVertical="true"
@@ -58,7 +58,7 @@
 
 
                 <LinearLayout
-                    android:id="@+id/time_bar"
+                    android:id="@+id/containerTimeBar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"

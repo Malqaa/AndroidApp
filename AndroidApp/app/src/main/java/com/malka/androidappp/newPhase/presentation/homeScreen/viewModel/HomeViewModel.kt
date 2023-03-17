@@ -17,6 +17,7 @@ class HomeViewModel : BaseViewModel() {
     var categoriesErrorResponseObserver: MutableLiveData<ErrorResponse> = MutableLiveData()
     var homeCategoryProductObserver: MutableLiveData<GeneralResponse> = MutableLiveData()
     var homeCategoryProductErrorResponseObserver: MutableLiveData<ErrorResponse> = MutableLiveData()
+    var isLoadingAllCategory:MutableLiveData<Boolean> =MutableLiveData()
     fun getSliderData() {
         RetrofitBuilder.GetRetrofitBuilder()
             .SliderAPI()
@@ -62,17 +63,20 @@ class HomeViewModel : BaseViewModel() {
     }
 
     fun getAllCategories() {
+        isLoadingAllCategory.value=true
         RetrofitBuilder.GetRetrofitBuilder()
             .getAllCategories()
             .enqueue(object : Callback<GeneralResponse> {
                 override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
                     isNetworkFail.value = t !is HttpException
+                    isLoadingAllCategory.value=false
                 }
 
                 override fun onResponse(
                     call: Call<GeneralResponse>,
                     response: Response<GeneralResponse>
                 ) {
+                    isLoadingAllCategory.value=false
                     if (response.isSuccessful) {
                         categoriesObserver.value = response.body()
                     } else {

@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
-import com.malka.androidappp.activities_main.product_detail.ProductDetails
+import com.malka.androidappp.newPhase.presentation.productDetailsActivity.ProductDetailsActivity
 import com.malka.androidappp.fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.newPhase.data.helper.*
 import com.malka.androidappp.newPhase.data.helper.Extension.decimalNumberFormat
@@ -38,8 +38,8 @@ class SearchProductAdapter(
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         holder.view.run {
             allProducts[position].run {
-                is_watch_iv.setImageResource(R.drawable.star)
-                is_watch_iv.setOnClickListener {
+                ivFav.setImageResource(R.drawable.star)
+                ivFav.setOnClickListener {
                         listener.addToWishList(position)
                 }
 //                if(Paper.book().read<Boolean>(SharedPreferencesStaticClass.islogin) == true){
@@ -63,8 +63,8 @@ class SearchProductAdapter(
 
                 setOnClickListener {
                     SharedPreferencesStaticClass.ad_userid = ""
-                    ConstantObjects.is_watch_iv = is_watch_iv
-                    context.startActivity(Intent(context, ProductDetails::class.java).apply {
+                    ConstantObjects.is_watch_iv = ivFav
+                    context.startActivity(Intent(context, ProductDetailsActivity::class.java).apply {
                         putExtra("AdvId", id)
                         putExtra("Template", "")
                     })
@@ -92,9 +92,9 @@ class SearchProductAdapter(
 
 
                 if(Lingver.getInstance().getLanguage()== ConstantObjects.ARABIC){
-                    time_bar.background= ContextCompat.getDrawable(context, R.drawable.product_attribute_bg1_ar)
+                    containerTimeBar.background= ContextCompat.getDrawable(context, R.drawable.product_attribute_bg1_ar)
                 }else{
-                    time_bar.background= ContextCompat.getDrawable(context, R.drawable.product_attribute_bg1_en)
+                    containerTimeBar.background= ContextCompat.getDrawable(context, R.drawable.product_attribute_bg1_en)
                 }
 
                 date_tv.text = HelpFunctions.getViewFormatForDateTrack(createdAt)

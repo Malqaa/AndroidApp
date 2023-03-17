@@ -1,4 +1,4 @@
-package com.malka.androidappp.activities_main.product_detail
+package com.malka.androidappp.newPhase.presentation.productsSellerInfoActivity
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -20,7 +20,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
 
-class SellerInformation : BaseActivity() {
+class SellerInformationActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_seller_information)
@@ -96,10 +96,9 @@ class SellerInformation : BaseActivity() {
                             member_sinceTv.text = "${getString(R.string.member_since)}:  ${sellerAdsList.member_since}"
                             member_ship.text = "${getString(R.string.membership_number)}: "
 
-
                             seller_information_recycler.adapter = GenericProductAdapter(
                                 respone.data.advertisements,
-                                this@SellerInformation
+                                this@SellerInformationActivity
                             )
 
 
@@ -107,7 +106,7 @@ class SellerInformation : BaseActivity() {
 
                             HelpFunctions.ShowLongToast(
                                 getString(R.string.ErrorOccur),
-                                this@SellerInformation
+                                this@SellerInformationActivity
                             )
                         }
                     }
@@ -120,7 +119,7 @@ class SellerInformation : BaseActivity() {
 
             override fun onFailure(call: Call<SellerResponseBack>, t: Throwable) {
                 HelpFunctions.dismissProgressBar()
-                HelpFunctions.ShowLongToast(t.message!!, this@SellerInformation)
+                HelpFunctions.ShowLongToast(t.message!!, this@SellerInformationActivity)
             }
         })
     }

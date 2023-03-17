@@ -56,7 +56,7 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities_main.product_detail.SellerInformation"
+            android:name=".newPhase.presentation.productsSellerInfoActivity.SellerInformationActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
@@ -68,7 +68,7 @@
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities_main.product_detail.QuestionActivity"
+            android:name=".newPhase.presentation.productQuestionActivity.QuestionActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
@@ -92,14 +92,15 @@
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities_main.product_detail.ProductReviews"
+            android:name=".newPhase.presentation.productReviewActivity.ProductReviewsActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities_main.product_detail.ProductDetails"
+            android:name=".newPhase.presentation.productDetailsActivity.ProductDetailsActivity"
             android:exported="true"
+            android:theme="@style/Theme.splash"
             android:screenOrientation="portrait" />
-
+<!--        -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:screenOrientation="portrait"

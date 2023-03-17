@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activities_main.product_detail.ProductReviews">
+    tools:context=".newPhase.presentation.productReviewActivity.ProductReviewsActivity">
 
     <include
         android:id="@+id/toolbar_main"
@@ -28,7 +28,7 @@
             android:textSize="@dimen/_12sdp" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/quest_ans_rcv"
+            android:id="@+id/rv_quest_ans"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@+id/footer"

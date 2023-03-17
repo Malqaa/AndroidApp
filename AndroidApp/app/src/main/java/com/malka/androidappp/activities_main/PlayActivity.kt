@@ -11,7 +11,7 @@ class PlayActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_play)
-        back_button.setOnClickListener {
+        fbButtonBack.setOnClickListener {
             finish()
         }
         uri = intent.getStringExtra("videourl")!!

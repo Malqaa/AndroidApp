@@ -1,4 +1,4 @@
-package com.malka.androidappp.activities_main.product_detail
+package com.malka.androidappp.newPhase.presentation.productDetailsActivity
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -15,7 +15,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.ItemTouchHelper
-import com.google.android.material.bottomsheet.BottomSheetBehavior
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.common.reflect.TypeToken
 import com.google.gson.Gson
@@ -34,6 +34,7 @@ import com.malka.androidappp.newPhase.data.helper.Extension.shared
 import com.malka.androidappp.newPhase.data.helper.GenericAdaptor
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions.Companion.openExternalLInk
+import com.malka.androidappp.newPhase.data.helper.linearLayoutManager
 import com.malka.androidappp.newPhase.data.helper.show
 import com.malka.androidappp.newPhase.data.helper.swipe.MessageSwipeController
 import com.malka.androidappp.newPhase.data.helper.swipe.SwipeControllerActions
@@ -44,16 +45,33 @@ import com.malka.androidappp.newPhase.data.network.service.MalqaApiService
 import com.malka.androidappp.newPhase.domain.models.servicemodels.*
 import com.malka.androidappp.newPhase.domain.models.servicemodels.addtocart.InsertToCartRequestModel
 import com.malka.androidappp.newPhase.domain.models.servicemodels.questionModel.Question
+import com.malka.androidappp.newPhase.presentation.productDetailsActivity.adapter.AttributeAdapter
+import com.malka.androidappp.newPhase.presentation.productDetailsActivity.adapter.QuestionAnswerAdapter
+import com.malka.androidappp.newPhase.presentation.productDetailsActivity.adapter.ReviewProductAdapter
+import com.malka.androidappp.newPhase.presentation.adapterShared.ProductHorizontalAdapter
+import com.malka.androidappp.newPhase.presentation.productDetailsActivity.viewModels.ProductDetailHelper
+import com.malka.androidappp.newPhase.presentation.productQuestionActivity.QuestionActivity
+import com.malka.androidappp.newPhase.presentation.productReviewActivity.ProductReviewsActivity
+import com.malka.androidappp.newPhase.presentation.productsSellerInfoActivity.SellerInformationActivity
 import com.squareup.picasso.Picasso
+import com.yariksoffice.lingver.Lingver
 import kotlinx.android.synthetic.main.activity_product_details.*
+import kotlinx.android.synthetic.main.activity_product_details.fbButtonBack
+import kotlinx.android.synthetic.main.activity_product_details.current_price_buy_tv
+import kotlinx.android.synthetic.main.activity_product_details.image_rcv
+import kotlinx.android.synthetic.main.activity_product_details.next_image
+import kotlinx.android.synthetic.main.activity_product_details.other_image_layout
+import kotlinx.android.synthetic.main.activity_product_details2.*
+import kotlinx.android.synthetic.main.activity_product_details_item_2.*
+import kotlinx.android.synthetic.main.activity_product_details_item_2.rating_bar
 import kotlinx.android.synthetic.main.atrribute_item.view.*
 import kotlinx.android.synthetic.main.bid_alert_box.view.*
 import kotlinx.android.synthetic.main.bid_confirmation.view.*
 import kotlinx.android.synthetic.main.image_item.view.*
 import kotlinx.android.synthetic.main.image_item.view.loader
-import kotlinx.android.synthetic.main.product_detail_2.*
+import kotlinx.android.synthetic.main.item_review_product.*
 import kotlinx.android.synthetic.main.product_item.view.*
-import kotlinx.android.synthetic.main.review_layout.view.*
+
 import org.json.JSONArray
 import org.json.JSONObject
 import retrofit2.Call
@@ -63,7 +81,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class ProductDetails : BaseActivity() {
+class ProductDetailsActivity : BaseActivity() {
 
     var reviewlist: ArrayList<Reviewmodel> = ArrayList()
     var AdvId = ""
@@ -71,158 +89,264 @@ class ProductDetails : BaseActivity() {
     val attributeList: ArrayList<Attribute> = ArrayList()
     var questionList: List<Question> = ArrayList()
     lateinit var product: Product
+    lateinit var attributesAdapter: AttributeAdapter
 
     lateinit var productDetailHelper: ProductDetailHelper
+    lateinit var questionAnswerAdapter:QuestionAnswerAdapter
+    lateinit var reviewProductAdapter:ReviewProductAdapter
+    lateinit var sellerProductAdapter: ProductHorizontalAdapter
+    lateinit var similarProductAdapter: ProductHorizontalAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_product_details)
-        productDetailHelper = ProductDetailHelper(this)
-        product_attribute.isVisible = true
-        quest_ans_rcv.isVisible = true
-        answerLayout.isVisible = false
-        getSimilarproducts()
-        val behavior: BottomSheetBehavior<*> = BottomSheetBehavior.from<View>(bottom_sheet)
-        behavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+        setContentView(R.layout.activity_product_details2)
+        setViewChanges()
+        setProductData()
+        setupViewClickListeners()
+        setupViewAdapters()
 
 
-            override fun onStateChanged(bottomSheet: View, newState: Int) {
-                if (newState == BottomSheetBehavior.STATE_EXPANDED) {
-                    icon_layout.setVisibility(View.GONE)
-                } else if (newState == BottomSheetBehavior.STATE_HIDDEN) {
-                    icon_layout.setVisibility(View.GONE)
-                    behavior.state = BottomSheetBehavior.STATE_EXPANDED
-
-                } else {
-                    icon_layout.setVisibility(View.VISIBLE)
-                }
-            }
-
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {
-
-            }
-        })
-        behavior.peekHeight = getResources().getDimension(R.dimen._360sdp).toInt()
-        mainContainer.isVisible = false
-        AdvId = intent.getIntExtra("AdvId",-1).toString()
-
-        getadbyidapi(AdvId)
-
-        quesAnss()
-
-        setListenser()
-
-
-        reviewlist.add(
-            Reviewmodel(
-                "Ahmed3",
-                "12/12/2022",
-                "Good and fast delivery",
-                "2.9",
-                R.drawable.car
-            )
-        )
-        reviewlist.add(
-            Reviewmodel(
-                "Ahmed4",
-                "16/12/2022",
-                "Great Experience ",
-                "3.0",
-                R.drawable.car
-            )
-        )
-        reviewlist.add(
-            Reviewmodel(
-                "Ahmed5",
-                "10/12/2022",
-                "Excelent fast delivery",
-                "3.6",
-                R.drawable.car
-            )
-        )
-        reviewlist.add(
-            Reviewmodel(
-                "Ahmed6",
-                "5/12/2022",
-                "Amazing and fast delivery",
-                "4.9",
-                R.drawable.car
-            )
-        )
-        reviewlist.add(
-            Reviewmodel(
-                "Ahmed3",
-                "12/12/2022",
-                "Good and fast delivery",
-                "2.9",
-                R.drawable.car
-            )
-        )
-        reviewlist.add(
-            Reviewmodel(
-                "Ahmed4",
-                "16/12/2022",
-                "Great Experience ",
-                "2.0",
-                R.drawable.car
-            )
-        )
-        reviewlist.add(
-            Reviewmodel(
-                "Ahmed4",
-                "16/12/2022",
-                "Great Experience ",
-                "4.0",
-                R.drawable.car
-            )
-        )
-
-        var totalRating = 0.0
-        reviewlist.forEach {
-            totalRating += it.rating.toDouble()
-
-        }
-        val average = totalRating / reviewlist.size
-        rating_bar.rating = average.toFloat()
-        rating_bar_detail_tv.text = getString(
-            R.string._4_9_from_00_visitors,
-            rating_bar.rating.toString().format("%.2f"),
-            reviewlist.size.toString()
-        )
-        setReviewsAdapter(reviewlist)
+//        productDetailHelper = ProductDetailHelper(this)
+//        product_attribute.isVisible = true
+//        quest_ans_rcv.isVisible = true
+//        answerLayout.isVisible = false
+//        getSimilarproducts()
+//        val behavior: BottomSheetBehavior<*> = BottomSheetBehavior.from<View>(bottom_sheet)
+//        behavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+//
+//            override fun onStateChanged(bottomSheet: View, newState: Int) {
+//                if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+//                    icon_layout.setVisibility(View.GONE)
+//                } else if (newState == BottomSheetBehavior.STATE_HIDDEN) {
+//                    icon_layout.setVisibility(View.GONE)
+//                    behavior.state = BottomSheetBehavior.STATE_EXPANDED
+//                } else {
+//                    icon_layout.setVisibility(View.VISIBLE)
+//                }
+//            }
+//
+//            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+//
+//            }
+//        })
+//        behavior.peekHeight = getResources().getDimension(R.dimen._360sdp).toInt()
+//        mainContainer.isVisible = false
+//        AdvId = intent.getIntExtra("AdvId",-1).toString()
+//
+//        getadbyidapi(AdvId)
+//
+//        quesAnss()
+//
+//        setListenser()
+//
+//
+//        reviewlist.add(
+//            Reviewmodel(
+//                "Ahmed3",
+//                "12/12/2022",
+//                "Good and fast delivery",
+//                "2.9",
+//                R.drawable.car
+//            )
+//        )
+//        reviewlist.add(
+//            Reviewmodel(
+//                "Ahmed4",
+//                "16/12/2022",
+//                "Great Experience ",
+//                "3.0",
+//                R.drawable.car
+//            )
+//        )
+//        reviewlist.add(
+//            Reviewmodel(
+//                "Ahmed5",
+//                "10/12/2022",
+//                "Excelent fast delivery",
+//                "3.6",
+//                R.drawable.car
+//            )
+//        )
+//        reviewlist.add(
+//            Reviewmodel(
+//                "Ahmed6",
+//                "5/12/2022",
+//                "Amazing and fast delivery",
+//                "4.9",
+//                R.drawable.car
+//            )
+//        )
+//        reviewlist.add(
+//            Reviewmodel(
+//                "Ahmed3",
+//                "12/12/2022",
+//                "Good and fast delivery",
+//                "2.9",
+//                R.drawable.car
+//            )
+//        )
+//        reviewlist.add(
+//            Reviewmodel(
+//                "Ahmed4",
+//                "16/12/2022",
+//                "Great Experience ",
+//                "2.0",
+//                R.drawable.car
+//            )
+//        )
+//        reviewlist.add(
+//            Reviewmodel(
+//                "Ahmed4",
+//                "16/12/2022",
+//                "Great Experience ",
+//                "4.0",
+//                R.drawable.car
+//            )
+//        )
+//
+//        var totalRating = 0.0
+//        reviewlist.forEach {
+//            totalRating += it.rating.toDouble()
+//
+//        }
+//        val average = totalRating / reviewlist.size
+//        rating_bar.rating = average.toFloat()
+//        rating_bar_detail_tv.text = getString(
+//            R.string._4_9_from_00_visitors,
+//            rating_bar.rating.toString().format("%.2f"),
+//            reviewlist.size.toString()
+//        )
+//        setReviewsAdapter(reviewlist)
 
     }
 
+    private fun setViewChanges() {
+        if(Lingver.getInstance().getLanguage()==ConstantObjects.ARABIC) {
+            fbButtonBack.scaleX=1f
+        }else{
+            fbButtonBack.scaleX=-1f
+        }
+    }
+
+    private fun setupViewAdapters() {
+
+        setAttributesAdapter()
+        setQuestionAnswerAdapter()
+        setReviewsAdapter()
+        setSellerAdapter()
+        setSimilarProduct()
+    }
+
+    private fun setSimilarProduct() {
+     similarProductAdapter= ProductHorizontalAdapter()
+        rv_similar_products.apply {
+            layoutManager = linearLayoutManager(RecyclerView.HORIZONTAL)
+            adapter = similarProductAdapter
+        }
+    }
+
+    private fun setSellerAdapter() {
+        sellerProductAdapter= ProductHorizontalAdapter()
+        rv_seller_product.apply {
+            layoutManager = linearLayoutManager(RecyclerView.HORIZONTAL)
+            adapter = sellerProductAdapter
+        }
+    }
+
+    private fun   setReviewsAdapter(){
+        reviewProductAdapter = ReviewProductAdapter()
+        rv_review.apply {
+            layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
+            adapter = reviewProductAdapter
+        }
+    }
+    private fun setAttributesAdapter() {
+        attributesAdapter = AttributeAdapter()
+        rvProductAttribute.apply {
+            layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
+            adapter = attributesAdapter
+        }
+    }
+    private fun setQuestionAnswerAdapter(){
+        questionAnswerAdapter= QuestionAnswerAdapter()
+        rv_quest_ans.apply {
+            layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
+            adapter = questionAnswerAdapter
+        }
+    }
+
+    private fun setProductData() {
+        tvProductReview.text = "0 ${getString(R.string.Views)} - #180 /12/2022"
+        tvProductItemName.text = "product Name"
+        tvProductSubtitle.text = "It has no Subtitle"
+        containerAuctioncountdownTimer_bar.show()
+        tvAuctionNumber.text = "${getString(R.string.bidding)} not implemented"
+        tvProductDescription.text = "details"
+    }
+
+    private fun setupViewClickListeners() {
+        fbButtonBack.setOnClickListener {
+          onBackPressed()
+        }
+        tvShowAllPidding.setOnClickListener {
+            HelpFunctions.ShowLongToast("not implemented yey", this)
+        }
+        btnPriceNegotiation.setOnClickListener {
+            HelpFunctions.ShowLongToast("not implemented yey", this)
+        }
+        btnShare.setOnClickListener {
+            shared("${Constants.HTTP_PROTOCOL}://${Constants.SERVER_LOCATION}/Advertisement/Detail/$AdvId")
+        }
+        tvQuestionAndAnswersShowAll.setOnClickListener {
+            HelpFunctions.ShowLongToast("not implemented yey", this)
+        }
+        tvShowAllReviews.setOnClickListener {
+            HelpFunctions.ShowLongToast("not implemented yey", this)
+        }
+        btnSellerProducts.setOnClickListener {
+            HelpFunctions.ShowLongToast("not implemented yey", this)
+        }
+        containerCurrentPriceBuy.setOnClickListener{
+            HelpFunctions.ShowLongToast("not implemented yey", this)
+        }
+        containerBidOnPrice.setOnClickListener{
+            HelpFunctions.ShowLongToast("not implemented yey", this)
+        }
+    }
+
+    /****************/
     private fun getSimilarproducts() {
 
         val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
         val call: Call<BasicResponse> = malqa.getsimilar()
 
-        call.enqueue(object : Callback<BasicResponse>{
+        call.enqueue(object : Callback<BasicResponse> {
             override fun onResponse(
                 call: Call<BasicResponse>,
                 response: Response<BasicResponse>
             ) {
-                if(response.isSuccessful)
-                {
+                if (response.isSuccessful) {
                     val similarData = response.body()
-                    similarData?.let{
+                    similarData?.let {
                         it.run {
 
-                            if(status_code == 200)
-                            {
-                                val similarList: ArrayList<Product> = Gson().fromJson(
-                                    Gson().toJson(data),
-                                    object : com.google.gson.reflect.TypeToken<ArrayList<Product>>() {}.type
+                            if (status_code == 200) {
+                                if (data != null) {
+                                    val similarList: ArrayList<Product> = Gson().fromJson(
+                                        Gson().toJson(data),
+                                        object :
+                                            com.google.gson.reflect.TypeToken<ArrayList<Product>>() {}.type
 
-                                )
-                                GenericAdaptor().setHomeProductAdaptor(similarList, similar_products_rcv)
+                                    )
+                                    GenericAdaptor().setHomeProductAdaptor(
+                                        similarList,
+                                        rv_similar_products
+                                    )
+                                }
                             }
 
 
-
-
                         }
-                }
+                    }
                 }
             }
 
@@ -235,17 +359,15 @@ class ProductDetails : BaseActivity() {
 
     private fun setListenser() {
 
-        back_button.setOnClickListener {
+        fbButtonBack.setOnClickListener {
             onBackPressed()
         }
-        btn_share.setOnClickListener {
-            shared("${Constants.HTTP_PROTOCOL}://${Constants.SERVER_LOCATION}/Advertisement/Detail/$AdvId")
-        }
+
         next_image.setOnClickListener {
 
         }
         sellerName.setOnClickListener {
-            startActivity(Intent(this, SellerInformation::class.java).apply {
+            startActivity(Intent(this, SellerInformationActivity::class.java).apply {
 
             })
         }
@@ -258,13 +380,13 @@ class ProductDetails : BaseActivity() {
             confrmAskQues()
         }
 
-        all_reviews.setOnClickListener {
-            startActivity(Intent(this, ProductReviews::class.java).apply {
+        tvShowAllReviews.setOnClickListener {
+            startActivity(Intent(this, ProductReviewsActivity::class.java).apply {
 
             })
         }
 
-        SEEALL.setOnClickListener {
+        tvQuestionAndAnswersShowAll.setOnClickListener {
             startActivity(Intent(this, QuestionActivity::class.java).apply {
                 putExtra("AdvId", AdvId)
             })
@@ -273,7 +395,7 @@ class ProductDetails : BaseActivity() {
 
         Bid_on_price.setOnClickListener {
 
-            val builder = AlertDialog.Builder(this@ProductDetails)
+            val builder = AlertDialog.Builder(this@ProductDetailsActivity)
                 .create()
             val view = layoutInflater.inflate(R.layout.bid_alert_box, null)
             builder.setView(view)
@@ -287,7 +409,7 @@ class ProductDetails : BaseActivity() {
 
             view.btn_bid.setOnClickListener {
                 builder.dismiss()
-                AlertDialog.Builder(this@ProductDetails)
+                AlertDialog.Builder(this@ProductDetailsActivity)
                     .create().apply {
                         layoutInflater.inflate(R.layout.bid_confirmation, null).also {
                             this.setView(it)
@@ -300,7 +422,7 @@ class ProductDetails : BaseActivity() {
                                     dismiss()
                                     startActivity(
                                         Intent(
-                                            this@ProductDetails,
+                                            this@ProductDetailsActivity,
                                             MainActivity::class.java
                                         ).apply {
                                             flags =
@@ -312,10 +434,15 @@ class ProductDetails : BaseActivity() {
                                 }
                                 manage_bid.setOnClickListener {
                                     dismiss()
-                                    startActivity(Intent(this@ProductDetails, MainActivity::class.java).apply {
-                                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                                        putExtra(ConstantObjects.isBid,true)
-                                    })
+                                    startActivity(
+                                        Intent(
+                                            this@ProductDetailsActivity,
+                                            MainActivity::class.java
+                                        ).apply {
+                                            flags =
+                                                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                            putExtra(ConstantObjects.isBid, true)
+                                        })
                                     finish()
                                 }
 
@@ -393,12 +520,12 @@ class ProductDetails : BaseActivity() {
                     element.run {
                         if (is_select) {
                             product_image.borderColor = ContextCompat.getColor(
-                                this@ProductDetails,
+                                this@ProductDetailsActivity,
                                 R.color.bg
                             )
                         } else {
                             product_image.borderColor = ContextCompat.getColor(
-                                this@ProductDetails,
+                                this@ProductDetailsActivity,
                                 R.color.white
                             )
                         }
@@ -407,7 +534,7 @@ class ProductDetails : BaseActivity() {
                         val imageURL = Constants.IMAGE_URL + link
                         if (isVideo) {
                             loadThumbnail(
-                                this@ProductDetails,
+                                this@ProductDetailsActivity,
                                 link,
                                 product_image, loader
                             ) {
@@ -417,7 +544,7 @@ class ProductDetails : BaseActivity() {
                             is_video_iv.isVisible = false
 
                             loadThumbnail(
-                                this@ProductDetails,
+                                this@ProductDetailsActivity,
                                 imageURL,
                                 product_image, loader
                             )
@@ -428,7 +555,7 @@ class ProductDetails : BaseActivity() {
                             if (isVideo) {
                                 startActivity(
                                     Intent(
-                                        this@ProductDetails,
+                                        this@ProductDetailsActivity,
                                         PlayActivity::class.java
                                     ).putExtra(
                                         "videourl",
@@ -444,7 +571,7 @@ class ProductDetails : BaseActivity() {
                                 image_rcv.post({ image_rcv.adapter!!.notifyDataSetChanged() })
                                 selectLink = imageURL
                                 loadThumbnail(
-                                    this@ProductDetails,
+                                    this@ProductDetailsActivity,
                                     imageURL,
                                     productimg, loader
                                 )
@@ -469,7 +596,7 @@ class ProductDetails : BaseActivity() {
     }
 
     private fun attributeAdaptor(list: List<Attribute>) {
-        product_attribute.adapter = object : GenericListAdapter<Attribute>(
+        rvProductAttribute.adapter = object : GenericListAdapter<Attribute>(
             R.layout.atrribute_item,
             bind = { element, holder, itemCount, position ->
                 holder.view.run {
@@ -481,7 +608,7 @@ class ProductDetails : BaseActivity() {
                         } else {
                             main_layout.background =
                                 ContextCompat.getDrawable(
-                                    this@ProductDetails,
+                                    this@ProductDetailsActivity,
                                     R.drawable.product_attribute_bg
                                 )
                         }
@@ -511,7 +638,7 @@ class ProductDetails : BaseActivity() {
                 }
             })
         val itemTouchHelper = ItemTouchHelper(messageSwipeController)
-        itemTouchHelper.attachToRecyclerView(quest_ans_rcv)
+        itemTouchHelper.attachToRecyclerView(rv_quest_ans)
 
     }
 
@@ -536,8 +663,6 @@ class ProductDetails : BaseActivity() {
 
     fun getadbyidapi(advid: String) {
         HelpFunctions.startProgressBar(this)
-
-
         val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
         val call = malqa.getAdDetailById(advid)
         call.enqueue(object : Callback<GeneralResponse> {
@@ -679,14 +804,14 @@ class ProductDetails : BaseActivity() {
                                 } else {
                                     other_image_layout.isVisible = false
                                 }
-                                ads_id_tv.text = "#$id"
-                                product_title_tv.text = name
-                                subtitle_tv.text = subTitle
-                                description_tv.text = description
-                                itemviews_tv.text =
-                                    getString(R.string.itemView, countView.toString().toInt())
-                                date.text = createdOnFormated
 
+                                tvProductItemName.text = name
+                                tvProductSubtitle.text = subTitle
+                                tvProductDescription.text = description
+                                tvProductReview.text =
+                                    getString(R.string.itemView, countView.toString().toInt())
+                                tvProductReview.text = createdOnFormated
+                                tvProductReview.text = "#$id"
 
 //
 //                                try {
@@ -734,23 +859,20 @@ class ProductDetails : BaseActivity() {
 //
 
 
-
-
-
-                                is_watch_iv.setOnClickListener {
+                                ivFav.setOnClickListener {
                                     if (HelpFunctions.AdAlreadyAddedToWatchList(AdvId)) {
                                         HelpFunctions.DeleteAdFromWatchlist(
                                             AdvId,
-                                            this@ProductDetails
+                                            this@ProductDetailsActivity
                                         ) {
-                                            is_watch_iv.setImageResource(R.drawable.star)
+                                            ivFav.setImageResource(R.drawable.star)
                                             ConstantObjects.is_watch_iv!!.setImageResource(R.drawable.star)
                                         }
                                     } else {
                                         if (ConstantObjects.logged_userid.isEmpty()) {
                                             startActivity(
                                                 Intent(
-                                                    this@ProductDetails,
+                                                    this@ProductDetailsActivity,
                                                     SignInActivity::class.java
                                                 ).apply {
                                                 })
@@ -758,9 +880,9 @@ class ProductDetails : BaseActivity() {
 
                                             HelpFunctions.InsertAdToWatchlist(
                                                 AdvId, 0,
-                                                this@ProductDetails
+                                                this@ProductDetailsActivity
                                             ) {
-                                                activeWatch(is_watch_iv)
+                                                activeWatch(ivFav)
                                                 ConstantObjects.is_watch_iv!!.setImageResource(R.drawable.starcolor)
                                             }
 
@@ -768,26 +890,25 @@ class ProductDetails : BaseActivity() {
                                     }
                                 }
                                 if (HelpFunctions.AdAlreadyAddedToWatchList(AdvId)) {
-                                    activeWatch(is_watch_iv)
+                                    activeWatch(ivFav)
                                 } else {
-                                    is_watch_iv.setImageResource(R.drawable.star)
+                                    ivFav.setImageResource(R.drawable.star)
                                 }
                             }
 
 
-
                             var isSellerProductHide = true
-                            seller_product_layout.setOnClickListener {
+                            btnSellerProducts.setOnClickListener {
                                 if (isSellerProductHide) {
                                     isSellerProductHide = false
-                                    seller_product_rcv.isVisible = true
+                                    rv_seller_product.isVisible = true
                                     isSellerProductHide_iv.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24)
                                     seller_product_tv.text =
                                         getText(R.string.view_similar_product_from_seller)
 
                                 } else {
                                     isSellerProductHide = true
-                                    seller_product_rcv.isVisible = false
+                                    rv_seller_product.isVisible = false
                                     isSellerProductHide_iv.setImageResource(R.drawable.down_arrow)
                                     seller_product_tv.text =
                                         getText(R.string.view_similar_product_from_seller)
@@ -804,11 +925,9 @@ class ProductDetails : BaseActivity() {
                     }
 
 
-
-
                 } else {
                     HelpFunctions.ShowAlert(
-                        this@ProductDetails,
+                        this@ProductDetailsActivity,
                         getString(R.string.Information),
                         getString(R.string.NoRecordFound)
                     )
@@ -819,7 +938,7 @@ class ProductDetails : BaseActivity() {
 
 
             override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
-                HelpFunctions.ShowLongToast(t.message!!, this@ProductDetails)
+                HelpFunctions.ShowLongToast(t.message!!, this@ProductDetailsActivity)
                 HelpFunctions.dismissProgressBar()
 
             }
@@ -841,11 +960,11 @@ class ProductDetails : BaseActivity() {
     }
 
     private fun activeWatch(view: FloatingActionButton) {
-        val myFabSrc = ContextCompat.getDrawable(this@ProductDetails, R.drawable.starcolor)
+        val myFabSrc = ContextCompat.getDrawable(this@ProductDetailsActivity, R.drawable.starcolor)
         val willBeWhite = myFabSrc!!.constantState!!.newDrawable()
         willBeWhite.mutate()
             .setColorFilter(
-                ContextCompat.getColor(this@ProductDetails, R.color.bg),
+                ContextCompat.getColor(this@ProductDetailsActivity, R.color.bg),
                 PorterDuff.Mode.MULTIPLY
             )
         view.setImageDrawable(willBeWhite)
@@ -883,14 +1002,14 @@ class ProductDetails : BaseActivity() {
     fun quesAnss() {
         productDetailHelper.quesAnss(AdvId) {
             it.run {
-                quest_ans.text = getString(
+                tvNumberQuestionNotAnswer.text = getString(
                     R.string.there_are_2_questions_that_the_seller_did_not_answer,
                     unAnswered.toString()
                 )
 
                 questionList = questions
                 questionList = questionList.take(3)
-                GenericAdaptor().questionAnswerAdaptor(quest_ans_rcv, questionList)
+                GenericAdaptor().questionAnswerAdaptor(rv_quest_ans, questionList)
                 if (ConstantObjects.logged_userid == SharedPreferencesStaticClass.ad_userid) {
                     askques_bottom.visibility = View.GONE
                     enableSwipeToDeleteAndUndo()
@@ -918,7 +1037,7 @@ class ProductDetails : BaseActivity() {
                 quesAnss()
                 HelpFunctions.ShowLongToast(
                     getString(R.string.Answerhasbeenposted),
-                    this@ProductDetails
+                    this@ProductDetailsActivity
                 )
 
             }
@@ -966,7 +1085,7 @@ class ProductDetails : BaseActivity() {
                 } else {
                     HelpFunctions.ShowLongToast(
                         getString(R.string.NoRecordFound),
-                        this@ProductDetails
+                        this@ProductDetailsActivity
                     )
                 }
             }
@@ -974,7 +1093,7 @@ class ProductDetails : BaseActivity() {
             override fun onFailure(call: Call<ModelSellerDetails>, t: Throwable) {
                 HelpFunctions.ShowLongToast(
                     getString(R.string.Somethingwentwrong),
-                    this@ProductDetails
+                    this@ProductDetailsActivity
                 )
             }
         })
@@ -1018,7 +1137,7 @@ class ProductDetails : BaseActivity() {
                     if (response.body() != null) {
                         val resp: BasicResponse = response.body()!!
                         if (resp.status_code == 200 || resp.status_code == 403 && (resp.data == true || resp.data == 1 || resp.data == 1.0)) {
-                            startActivity(Intent(this@ProductDetails, CartActivity::class.java))
+                            startActivity(Intent(this@ProductDetailsActivity, CartActivity::class.java))
                         } else {
                             HelpFunctions.ShowLongToast(
                                 resp.message,
@@ -1042,7 +1161,7 @@ class ProductDetails : BaseActivity() {
             }
 
             override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
-                Toast.makeText(this@ProductDetails, t.message, Toast.LENGTH_LONG).show()
+                Toast.makeText(this@ProductDetailsActivity, t.message, Toast.LENGTH_LONG).show()
                 HelpFunctions.dismissProgressBar()
 
             }
@@ -1052,8 +1171,8 @@ class ProductDetails : BaseActivity() {
     }
 
     private fun setReviewsAdapter(list: ArrayList<Reviewmodel>) {
-        review_rcv.adapter = object : GenericListAdapter<Reviewmodel>(
-            R.layout.review_layout,
+        rv_review.adapter = object : GenericListAdapter<Reviewmodel>(
+            R.layout.item_review_product,
             bind = { element, holder, itemCount, position ->
                 holder.view.run {
                     element.run {

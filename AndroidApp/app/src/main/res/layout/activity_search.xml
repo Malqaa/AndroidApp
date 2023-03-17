@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context=".newPhase.presentation.searchActivity.SearchActivity">
     <ImageView
-        android:id="@+id/back_button"
+        android:id="@+id/fbButtonBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="18dp"

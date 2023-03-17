@@ -8,13 +8,14 @@
     android:background="@color/SilverBackground"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
+    tools:context=".newPhase.presentation.productDetailsActivity.ProductDetailsActivity">
 
-    tools:context=".activities_main.product_detail.ProductDetails">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/price_layout">
+        android:layout_above="@+id/price_layout"
+        android:layout_marginBottom="181dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -51,7 +52,7 @@
 
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/back_button"
+                    android:id="@+id/fbButtonBack"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -67,7 +68,6 @@
                     android:id="@+id/other_image_layout"
                     android:layout_width="@dimen/_60sdp"
                     android:layout_height="wrap_content"
-
                     android:layout_marginTop="@dimen/_5sdp"
                     android:elevation="@dimen/_10sdp"
                     app:cardCornerRadius="@dimen/_10sdp">
@@ -127,7 +127,6 @@
 
         </RelativeLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
 
     <LinearLayout
         android:paddingLeft="@dimen/_20sdp"

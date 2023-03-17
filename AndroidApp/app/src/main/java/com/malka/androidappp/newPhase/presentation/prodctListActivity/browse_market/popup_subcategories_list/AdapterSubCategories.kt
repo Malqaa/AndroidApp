@@ -24,7 +24,6 @@ class AdapterSubCategories(
         val text1 : TextView = itemview.carr
         val text2: TextView = itemview.amountt
         val relatv:ConstraintLayout = itemview.filter1
-
         fun intiallize(item: CategoriesItem, action:onPostItemClickLisenter){
             relatv.setOnClickListener(){action.onItemClick(item, adapterPosition)}
         }

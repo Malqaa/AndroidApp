@@ -1,7 +1,7 @@
 package com.malka.androidappp.newPhase.data.network.service
 
 import com.google.gson.JsonObject
-import com.malka.androidappp.activities_main.product_detail.RateResponse
+import com.malka.androidappp.newPhase.presentation.productReviewActivity.RateResponse
 import com.malka.androidappp.fragments.UserImageResponseBack
 import com.malka.androidappp.newPhase.presentation.prodctListActivity.browse_market.popup_subcategories_list.ModelAddSearchFav
 import com.malka.androidappp.fragments.cardetail_page.ModelAddSellerFav

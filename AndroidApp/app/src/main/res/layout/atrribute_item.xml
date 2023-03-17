@@ -14,12 +14,11 @@
         android:layout_weight="1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:layout_marginStart="@dimen/_15sdp"
         android:id="@+id/key_tv"
-
+        android:textAlignment="viewStart"
         android:fontFamily="@font/madani_arabic_light"
-        android:text="Brand"
+        android:text=""
         android:textColor="#6D6C74"
         android:textSize="@dimen/_12sdp" />
 
@@ -32,7 +31,8 @@
         android:layout_marginEnd="@dimen/_15sdp"
         android:fontFamily="@font/madani_arabic_light"
         android:gravity="end"
-        android:text="Iphone"
+        android:text=""
+        android:textAlignment="viewEnd"
         android:id="@+id/value_tv"
         android:textColor="#6D6C74"
         android:textSize="@dimen/_12sdp" />

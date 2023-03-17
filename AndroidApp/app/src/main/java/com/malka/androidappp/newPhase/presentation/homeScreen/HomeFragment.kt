@@ -1,5 +1,6 @@
 package com.malka.androidappp.newPhase.presentation.homeScreen
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -20,6 +21,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.order.CartActivity
+import com.malka.androidappp.newPhase.presentation.productDetailsActivity.ProductDetailsActivity
 import com.malka.androidappp.fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.newPhase.data.helper.*
@@ -93,6 +95,12 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
                 HelpFunctions.startProgressBar(requireActivity())
             else
                 HelpFunctions.dismissProgressBar()
+        })
+        homeViewModel.isLoadingAllCategory.observe(viewLifecycleOwner, Observer {
+            if (it)
+               progressBarAllCAtegory.show()
+            else
+                progressBarAllCAtegory.hide()
         })
         homeViewModel.isNetworkFail.observe(viewLifecycleOwner, Observer {
             if (it) {
@@ -237,7 +245,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
         }
     }
 
-
+    @SuppressLint("ResourceType")
     private fun setHomeCategoryProductAdaptor() {
         dynamic_product_rcv.adapter = object : GenericListAdapter<DynamicList>(
             R.layout.parenet_category_item,
@@ -287,7 +295,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
         }
 
     }
-
+    @SuppressLint("ResourceType")
     fun setHomeProductAdaptor(list: List<Product>, product_rcv: RecyclerView) {
         product_rcv.adapter = object : GenericListAdapter<Product>(
             R.layout.product_item, bind = { element, holder, itemCount, position ->
@@ -314,7 +322,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
     ) {
         holder.view.run {
             product.run {
-                is_watch_iv.setOnClickListener {
+                ivFav.setOnClickListener {
                     if (Paper.book().read<Boolean>(SharedPreferencesStaticClass.islogin) == true) {
                         HelpFunctions.ShowLongToast(
                             "adding to wish list not implemented yet",
@@ -349,12 +357,12 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
                 }
                 if (Paper.book().read<Boolean>(SharedPreferencesStaticClass.islogin) == true) {
                     if (HelpFunctions.AdAlreadyAddedToWatchList(id.toString())) {
-                        is_watch_iv.setImageResource(R.drawable.starcolor)
+                        ivFav.setImageResource(R.drawable.starcolor)
                     } else {
-                        is_watch_iv.setImageResource(R.drawable.star)
+                        ivFav.setImageResource(R.drawable.star)
                     }
                 } else {
-                    is_watch_iv.setImageResource(R.drawable.star)
+                    ivFav.setImageResource(R.drawable.star)
                 }
 
                 if (name != null) {
@@ -369,12 +377,12 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
                     city_tv.text = "regionName"
                 }
                 setOnClickListener {
-//                    SharedPreferencesStaticClass.ad_userid = ""
-//                    ConstantObjects.is_watch_iv = is_watch_iv
-//                    context.startActivity(Intent(context, ProductDetails::class.java).apply {
-//                        putExtra("AdvId", id)
-//                        putExtra("Template", "")
-//                    })
+                    SharedPreferencesStaticClass.ad_userid = ""
+                    ConstantObjects.is_watch_iv = ivFav
+                    context.startActivity(Intent(context, ProductDetailsActivity::class.java).apply {
+                        putExtra("AdvId", id)
+                        putExtra("Template", "")
+                    })
                 }
                 Extension.loadThumbnail(
                     context,
@@ -403,10 +411,10 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
                 }
 
                 if (Lingver.getInstance().getLanguage() == ConstantObjects.ARABIC) {
-                    time_bar.background =
+                    containerTimeBar.background =
                         ContextCompat.getDrawable(context, R.drawable.product_attribute_bg1_ar)
                 } else {
-                    time_bar.background =
+                    containerTimeBar.background =
                         ContextCompat.getDrawable(context, R.drawable.product_attribute_bg1_en)
                 }
 

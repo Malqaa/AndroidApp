@@ -1,4 +1,4 @@
-package com.malka.androidappp.activities_main.product_detail
+package com.malka.androidappp.newPhase.presentation.productReviewActivity
 
 import android.os.Bundle
 import android.util.Log
@@ -12,9 +12,9 @@ import kotlinx.android.synthetic.main.toolbar_main.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import com.malka.androidappp.activities_main.product_detail.RateResponse as RateResponse1
+import com.malka.androidappp.newPhase.presentation.productReviewActivity.RateResponse as RateResponse1
 
-class ProductReviews : BaseActivity() {
+class ProductReviewsActivity : BaseActivity() {
 
     lateinit var adapter: RateAdapter
 
@@ -93,9 +93,9 @@ class ProductReviews : BaseActivity() {
                     if (rates != null) {
                         Log.d("Api", rates.toString())
                         val reviewList = findViewById<RecyclerView>(R.id.category_rcv)
-                        adapter = RateAdapter(this@ProductReviews, rates.data)
+                        adapter = RateAdapter(this@ProductReviewsActivity, rates.data)
                         reviewList.adapter = adapter
-                        reviewList.layoutManager = LinearLayoutManager(this@ProductReviews)
+                        reviewList.layoutManager = LinearLayoutManager(this@ProductReviewsActivity)
 
 
                     }

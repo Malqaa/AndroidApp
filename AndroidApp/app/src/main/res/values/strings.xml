@@ -9,11 +9,11 @@
     <string name="selectDistrict">Select District</string>
     <string name="noResultFound">No Results Found</string>
     <string name="searchHere">Search Here</string>
-
+   <string name="bidding">Bidding</string>
+  <string name="show">Show</string>
     <string name="Back_to_login">
     Back to login
   </string>
-
     <string name="loggedoutsuccessfully">
     Logged Out Successfully
   </string>
@@ -2424,6 +2424,7 @@ Want to start a business account? Create a Business Account
     <string name="Report">Report</string>
     <string name="PLACEBID">PLACE BID</string>
     <string name="QuestionAnswers">Question/Answers</string>
+
     <string name="Questionhasbeenpost">Question has been post</string>
     <string name="FailedtopostQuestion">Failed to post Question</string>
     <string name="Answerhasbeenposted">Answer has been posted</string>

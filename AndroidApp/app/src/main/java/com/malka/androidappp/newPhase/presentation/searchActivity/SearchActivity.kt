@@ -41,7 +41,7 @@ class SearchActivity : BaseActivity(), SearchProductAdapter.OnItemClickListener 
     }
 
     private fun setClickListeners() {
-        back_button.setOnClickListener {
+        fbButtonBack.setOnClickListener {
             onBackPressed()
         }
         etSearch.addTextChangedListener(object : TextWatcher {

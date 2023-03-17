@@ -1,4 +1,4 @@
-package com.malka.androidappp.activities_main.product_detail
+package com.malka.androidappp.newPhase.presentation.productQuestionActivity
 
 import android.os.Bundle
 import android.view.View
@@ -13,18 +13,19 @@ import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.data.helper.swipe.MessageSwipeController
 import com.malka.androidappp.newPhase.data.helper.swipe.SwipeControllerActions
 import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.presentation.productDetailsActivity.viewModels.ProductDetailHelper
 import kotlinx.android.synthetic.main.activity_question.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 
 class QuestionActivity : BaseActivity() {
     var AdvId = ""
-    lateinit var productDetailHelper:ProductDetailHelper
+    lateinit var productDetailHelper: ProductDetailHelper
     var questionList: MutableList <Question> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_question)
-        productDetailHelper=ProductDetailHelper(this)
+        productDetailHelper= ProductDetailHelper(this)
 
         AdvId = intent.getStringExtra("AdvId") ?: ""
 
@@ -32,7 +33,7 @@ class QuestionActivity : BaseActivity() {
         back_btn.setOnClickListener {
             finish()
         }
-        GenericAdaptor(). questionAnswerAdaptor(quest_ans_rcv,questionList)
+        GenericAdaptor(). questionAnswerAdaptor(rv_quest_ans,questionList)
 
         quesAnss()
         ask_question.setOnClickListener {
@@ -78,7 +79,7 @@ class QuestionActivity : BaseActivity() {
                 )
                 questionList.clear()
                 questionList .addAll(questions)
-                quest_ans_rcv.adapter!!.notifyDataSetChanged()
+                rv_quest_ans.adapter!!.notifyDataSetChanged()
                 if (ConstantObjects.logged_userid == SharedPreferencesStaticClass.ad_userid) {
                     askques_bottom.visibility = View.GONE
                     enableSwipeToDeleteAndUndo()
@@ -126,7 +127,7 @@ class QuestionActivity : BaseActivity() {
                 }
             })
         val itemTouchHelper = ItemTouchHelper(messageSwipeController)
-        itemTouchHelper.attachToRecyclerView(quest_ans_rcv)
+        itemTouchHelper.attachToRecyclerView(rv_quest_ans)
 
     }
 

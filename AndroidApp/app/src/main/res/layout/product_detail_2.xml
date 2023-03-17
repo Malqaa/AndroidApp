@@ -492,7 +492,7 @@
                         android:textSize="@dimen/_12sdp" />
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/quest_ans_rcv"
+                        android:id="@+id/rv_quest_ans"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
@@ -687,7 +687,7 @@
 
 
                     <TextView
-                        android:id="@+id/all_reviews"
+                        android:id="@+id/tvShowAllReviews"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -731,7 +731,7 @@
 
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/review_rcv"
+                    android:id="@+id/rv_review"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
@@ -994,7 +994,7 @@
                     </LinearLayout>
 
                     <RelativeLayout
-                        android:id="@+id/seller_product_layout"
+                        android:id="@+id/btnSellerProducts"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_10sdp"
@@ -1028,7 +1028,7 @@
 
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/seller_product_rcv"
+                        android:id="@+id/rv_seller_product"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
@@ -1046,7 +1046,7 @@
                         android:textSize="@dimen/_16sdp" />
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/similar_products_rcv"
+                        android:id="@+id/rv_similar_products"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
@@ -1094,7 +1094,7 @@
                             />
 
                         <com.google.android.material.floatingactionbutton.FloatingActionButton
-                            android:id="@+id/is_watch_iv"
+                            android:id="@+id/ivFav"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"

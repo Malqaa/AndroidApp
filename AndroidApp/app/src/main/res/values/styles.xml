@@ -33,7 +33,15 @@
         <item name="android:textSize">13sp</item>
     </style>
 
+    // transparent status bar
 
+<!--    <style name="Transparent.statusBar" parent="AppTheme">-->
+<!--        <item name="android:windowTranslucentStatus">true</item>-->
+<!--        <item name="android:windowTranslucentNavigation">true</item>-->
+<!--    </style>-->
+    <style name="Theme.splash" parent="AppTheme">
+        <item name="android:windowFullscreen">true</item>
+    </style>
 
 
 <style

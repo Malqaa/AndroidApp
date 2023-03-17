@@ -90,7 +90,7 @@ class SearchCategoryActivity : BaseActivity() {
 //            }
 //        })
 
-        back_button.setOnClickListener {
+        fbButtonBack.setOnClickListener {
             onBackPressed()
 
         }

@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
-import com.malka.androidappp.activities_main.product_detail.ProductDetails
+import com.malka.androidappp.newPhase.presentation.productDetailsActivity.ProductDetailsActivity
 import com.malka.androidappp.fragments.account_fragment.address.AddAddress
 import com.malka.androidappp.fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.newPhase.data.helper.Extension.decimalNumberFormat
@@ -21,8 +21,9 @@ import com.malka.androidappp.newPhase.domain.models.servicemodels.GetAddressResp
 import com.malka.androidappp.newPhase.domain.models.servicemodels.Product
 import com.malka.androidappp.newPhase.domain.models.servicemodels.questionModel.Question
 import kotlinx.android.synthetic.main.add_address_design.view.*
+import kotlinx.android.synthetic.main.item_question_answer_design.view.*
 import kotlinx.android.synthetic.main.product_item.view.*
-import kotlinx.android.synthetic.main.question_answer_design.view.*
+
 
 class GenericAdaptor {
 
@@ -50,13 +51,13 @@ class GenericAdaptor {
     ) {
         holder.view.run {
             element!!.run {
-                is_watch_iv.setOnClickListener {
+                ivFav.setOnClickListener {
                     if (HelpFunctions.AdAlreadyAddedToWatchList(id.toString())) {
                         HelpFunctions.DeleteAdFromWatchlist(
                             id.toString(),
                             context
                         ) {
-                            is_watch_iv.setImageResource(R.drawable.star)
+                            ivFav.setImageResource(R.drawable.star)
                         }
                     } else {
                         if (ConstantObjects.logged_userid.isEmpty()) {
@@ -72,7 +73,7 @@ class GenericAdaptor {
                                 id.toString(),0,
                                 context
                             ) {
-                                is_watch_iv.setImageResource(R.drawable.starcolor)
+                                ivFav.setImageResource(R.drawable.starcolor)
 
                             }
 
@@ -80,9 +81,9 @@ class GenericAdaptor {
                     }
                 }
                 if (HelpFunctions.AdAlreadyAddedToWatchList(id .toString())) {
-                    is_watch_iv.setImageResource(R.drawable.starcolor)
+                    ivFav.setImageResource(R.drawable.starcolor)
                 } else {
-                    is_watch_iv.setImageResource(R.drawable.star)
+                    ivFav.setImageResource(R.drawable.star)
                 }
 
                 titlenamee.text = name
@@ -91,8 +92,8 @@ class GenericAdaptor {
 
                 setOnClickListener {
                     SharedPreferencesStaticClass.ad_userid = ""
-                    ConstantObjects.is_watch_iv = is_watch_iv
-                    context.startActivity(Intent(context, ProductDetails::class.java).apply {
+                    ConstantObjects.is_watch_iv = ivFav
+                    context.startActivity(Intent(context, ProductDetailsActivity::class.java).apply {
                         putExtra("AdvId", id)
                         putExtra("Template", "")
                     })
@@ -198,7 +199,7 @@ class GenericAdaptor {
 //
 //                    }
                 } catch (error: Exception) {
-                    time_bar.visibility = View.GONE
+                    containerTimeBar.visibility = View.GONE
                 }
             }
         }
@@ -207,7 +208,7 @@ class GenericAdaptor {
     fun questionAnswerAdaptor(quest_ans_rcv: RecyclerView, list: List<Question>) {
 
         quest_ans_rcv.adapter = object : GenericListAdapter<Question>(
-            R.layout.question_answer_design,
+            R.layout.item_question_answer_design,
             bind = { element, holder, itemCount, position ->
                 holder.view.run {
                     element.run {
