@@ -20,7 +20,7 @@ class QuestionAnswerAdapter  :
             .inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
-    override fun getItemCount(): Int = 3
+    override fun getItemCount(): Int = 0
 
     override fun onBindViewHolder(holder: QuestionAnswerViewHolder, position: Int) {
 

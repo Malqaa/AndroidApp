@@ -2,6 +2,7 @@ package com.malka.androidappp.newPhase.presentation.loginScreen
 
 import android.content.Intent
 import android.os.Bundle
+import android.service.autofill.UserData
 import android.util.Patterns
 import android.view.View
 import androidx.lifecycle.Observer
@@ -125,7 +126,7 @@ class SignInActivity : BaseActivity() {
         ConstantObjects.logged_userid = userId
         HelpFunctions.ShowLongToast(getString(R.string.LoginSuccessfully), this)
         Paper.book().write(SharedPreferencesStaticClass.islogin, true)
-        Paper.book().write(SharedPreferencesStaticClass.user_object, Gson().toJson(userObject))
+        Paper.book().write<LoginUser>(SharedPreferencesStaticClass.user_object, userObject)
         setResult(RESULT_OK, Intent())
         finish()
     }

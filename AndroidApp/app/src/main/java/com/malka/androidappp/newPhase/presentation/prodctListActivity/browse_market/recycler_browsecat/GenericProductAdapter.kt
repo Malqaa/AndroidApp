@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.data.helper.BaseViewHolder
 import com.malka.androidappp.newPhase.data.helper.GenericAdaptor
-import com.malka.androidappp.newPhase.domain.models.servicemodels.Product
+import com.malka.androidappp.newPhase.domain.models.productResp.Product
 
 
 class GenericProductAdapter(

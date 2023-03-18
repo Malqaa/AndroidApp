@@ -13,6 +13,7 @@ import androidx.core.view.isVisible
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
+import com.malka.androidappp.R
 import com.malka.androidappp.fragments.create_ads.StaticClassAdCreate
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
@@ -99,6 +100,7 @@ object Extension {
                         pb_loading.isVisible=false
                         onComplete?.invoke()
                     }
+                    imageView.setImageDrawable(context.getDrawableCompat(R.mipmap.malqa_iconn_round))
                     return false
                 }
 

@@ -155,7 +155,7 @@
                             android:layout_height="@dimen/_30sdp"
                             android:layout_gravity="center"
                             android:layout_marginStart="@dimen/_10sdp"
-                            android:background="@drawable/product_attribute_bg"
+                            android:background="@drawable/product_attribute_bg_gray"
                             android:gravity="center"
                             android:text="01"
                             android:textSize="@dimen/_12sdp" />
@@ -177,7 +177,7 @@
 
                             android:layout_gravity="center"
                             android:layout_marginStart="@dimen/_10sdp"
-                            android:background="@drawable/product_attribute_bg"
+                            android:background="@drawable/product_attribute_bg_gray"
                             android:gravity="center"
                             android:text="01"
                             android:textSize="@dimen/_12sdp" />
@@ -198,7 +198,7 @@
                             android:layout_height="@dimen/_30sdp"
                             android:layout_gravity="center"
                             android:layout_marginStart="@dimen/_10sdp"
-                            android:background="@drawable/product_attribute_bg"
+                            android:background="@drawable/product_attribute_bg_gray"
                             android:gravity="center"
                             android:text="01"
                             android:textSize="@dimen/_12sdp" />
@@ -492,7 +492,7 @@
                         android:textSize="@dimen/_12sdp" />
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_quest_ans"
+                        android:id="@+id/rvQuestionForProduct"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
@@ -610,7 +610,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/askques_bottom"
+                        android:id="@+id/containerMainAskQuestion"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -620,7 +620,7 @@
                         android:visibility="gone">
 
                         <EditText
-                            android:id="@+id/editTextque"
+                            android:id="@+id/etWriteQuestion"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
@@ -635,7 +635,7 @@
 
 
                         <LinearLayout
-                            android:id="@+id/ask_question"
+                            android:id="@+id/contianerAskQuestion"
 
                             android:layout_width="@dimen/_32sdp"
                             android:layout_height="@dimen/_32sdp"
@@ -1046,7 +1046,7 @@
                         android:textSize="@dimen/_16sdp" />
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_similar_products"
+                        android:id="@+id/rvSimilarProducts"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"

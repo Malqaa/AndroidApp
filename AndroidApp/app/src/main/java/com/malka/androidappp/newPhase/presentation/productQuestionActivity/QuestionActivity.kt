@@ -33,10 +33,10 @@ class QuestionActivity : BaseActivity() {
         back_btn.setOnClickListener {
             finish()
         }
-        GenericAdaptor(). questionAnswerAdaptor(rv_quest_ans,questionList)
+        GenericAdaptor(). questionAnswerAdaptor(rvQuestionForProduct,questionList)
 
         quesAnss()
-        ask_question.setOnClickListener {
+        contianerAskQuestion.setOnClickListener {
             confrmAskQues()
         }
     }
@@ -53,15 +53,15 @@ class QuestionActivity : BaseActivity() {
     fun askquesApi() {
 
 
-        productDetailHelper.askquesApi(editTextque.text.toString(), AdvId, {
-            editTextque.setText("")
+        productDetailHelper.askquesApi(etWriteQuestion.text.toString(), AdvId, {
+            etWriteQuestion.setText("")
             quesAnss()
         })
 
     }
 
     private fun validateAskQuesInputText(): Boolean {
-        val Inputemail = editTextque!!.text.toString().trim { it <= ' ' }
+        val Inputemail = etWriteQuestion!!.text.toString().trim { it <= ' ' }
 
         return if (Inputemail.isEmpty()) {
             showError(getString(R.string.Please_enter, getString(R.string.Question)))
@@ -79,13 +79,13 @@ class QuestionActivity : BaseActivity() {
                 )
                 questionList.clear()
                 questionList .addAll(questions)
-                rv_quest_ans.adapter!!.notifyDataSetChanged()
+                rvQuestionForProduct.adapter!!.notifyDataSetChanged()
                 if (ConstantObjects.logged_userid == SharedPreferencesStaticClass.ad_userid) {
-                    askques_bottom.visibility = View.GONE
+                    containerMainAskQuestion.visibility = View.GONE
                     enableSwipeToDeleteAndUndo()
 
                 } else if (ConstantObjects.logged_userid != SharedPreferencesStaticClass.ad_userid) {
-                    askques_bottom.visibility = View.VISIBLE
+                    containerMainAskQuestion.visibility = View.VISIBLE
 
                 }
             }
@@ -127,7 +127,7 @@ class QuestionActivity : BaseActivity() {
                 }
             })
         val itemTouchHelper = ItemTouchHelper(messageSwipeController)
-        itemTouchHelper.attachToRecyclerView(rv_quest_ans)
+        itemTouchHelper.attachToRecyclerView(rvQuestionForProduct)
 
     }
 

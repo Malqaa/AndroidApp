@@ -14,6 +14,7 @@ import com.malka.androidappp.newPhase.presentation.splashActivity.SplashActivity
 import com.malka.androidappp.fragments.create_ads.StaticClassAdCreate
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
 import com.yariksoffice.lingver.Lingver
 
 
@@ -34,7 +35,7 @@ abstract class BaseActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         ConstantObjects.currentLanguage = Lingver.getInstance().getLocale().language
-        HelpFunctions.IsUserLoggedIn()
+        HelpFunctions.isUserLoggedIn()
     }
 
 
@@ -126,5 +127,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
 
     }
-
+     fun goToSignInActivity() {
+       startActivity(Intent(this,SignInActivity::class.java))
+    }
 }

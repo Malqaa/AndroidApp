@@ -110,7 +110,7 @@ class CarSpecificsFragment : Fragment(), BottomsheetDialogfragClass.BottomSheetL
 
         val buttonOpenBottomSheet: Button = view.findViewById(R.id.placebid)
         buttonOpenBottomSheet.setOnClickListener {
-            if (HelpFunctions.IsUserLoggedIn()) {
+            if (HelpFunctions.isUserLoggedIn()) {
                 val bottomSheet = BottomsheetDialogfragClass()
                 bottomSheet.show(requireActivity().supportFragmentManager, "exampleBottomSheet")
             } else {
@@ -126,7 +126,7 @@ class CarSpecificsFragment : Fragment(), BottomsheetDialogfragClass.BottomSheetL
 
 
         textView2011.setOnClickListener() {
-            if (HelpFunctions.IsUserLoggedIn()) {
+            if (HelpFunctions.isUserLoggedIn()) {
                 findNavController().navigate(R.id.carspec_aboutseller)
             } else {
                 val intentt = Intent(context, SignInActivity::class.java)
@@ -157,7 +157,7 @@ class CarSpecificsFragment : Fragment(), BottomsheetDialogfragClass.BottomSheetL
         }
 
         watchbutton.setOnClickListener(View.OnClickListener {
-            if (HelpFunctions.IsUserLoggedIn()) {
+            if (HelpFunctions.isUserLoggedIn()) {
                 val alreadyadded: Boolean = HelpFunctions.AdAlreadyAddedToWatchList(AdvId)
                 if (alreadyadded) {
                     HelpFunctions.DeleteAdFromWatchlist(
@@ -193,7 +193,7 @@ class CarSpecificsFragment : Fragment(), BottomsheetDialogfragClass.BottomSheetL
         }
 
         btn_give_feedback.setOnClickListener() {
-            if (HelpFunctions.IsUserLoggedIn()) {
+            if (HelpFunctions.isUserLoggedIn()) {
                 val args = Bundle()
                 args.putString("AdvId", AdvId)
                 findNavController().navigate(R.id.detail_to_give_feedback, args)
@@ -211,7 +211,7 @@ class CarSpecificsFragment : Fragment(), BottomsheetDialogfragClass.BottomSheetL
         }
 
         add_seller_fav.setOnClickListener() {
-            if (HelpFunctions.IsUserLoggedIn()) {
+            if (HelpFunctions.isUserLoggedIn()) {
                 addSellerFav()
             } else {
                 val intentt = Intent(context, SignInActivity::class.java)
@@ -222,7 +222,7 @@ class CarSpecificsFragment : Fragment(), BottomsheetDialogfragClass.BottomSheetL
     }
 
     fun AddToCart(): Boolean {
-        if (HelpFunctions.IsUserLoggedIn()) {
+        if (HelpFunctions.isUserLoggedIn()) {
            
             //Date: 03/13/2021
             //findNavController().navigate(R.id.shipping_address_to_payment)

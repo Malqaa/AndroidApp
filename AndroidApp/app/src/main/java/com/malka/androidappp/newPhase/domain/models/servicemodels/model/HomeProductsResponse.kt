@@ -1,6 +1,6 @@
 package com.malka.androidappp.newPhase.domain.models.servicemodels.model
 
-import com.malka.androidappp.newPhase.domain.models.servicemodels.Product
+import com.malka.androidappp.newPhase.domain.models.productResp.Product
 
 data class HomeProductsResponse(
     val `data`: List<HomeCategory>,

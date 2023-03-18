@@ -12,7 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.data.helper.widgets.rcv.GenericListAdapter
-import com.malka.androidappp.newPhase.domain.models.servicemodels.Product
+import com.malka.androidappp.newPhase.domain.models.productResp.Product
 import kotlinx.android.synthetic.main.item_search.view.*
 
 
@@ -33,7 +33,7 @@ class SearchBarComponent : LinearLayout {
     private var focusImpList = ArrayList<(View, Boolean) -> Unit>()
     val filterArray: ArrayList<InputFilter> = ArrayList()
     private lateinit var iv_end_icon: ImageView
-    var onClick: ((product:Product) -> Unit)? = null
+    var onClick: ((product: Product) -> Unit)? = null
 
 
     constructor(context: Context) : super(context) {
@@ -96,10 +96,10 @@ class SearchBarComponent : LinearLayout {
                     element.run {
                         val result = "$name ${context.getString(R.string.in_)} $category"
                         val spannable: Spannable = SpannableString(result)
+
                         spannable.setSpan(
                             ForegroundColorSpan(ContextCompat.getColor(context, R.color.colorPrimary)),
-                            result
-                                .indexOf(category),
+                            result.indexOf(category),
                             result.length,
                             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
                         )
@@ -126,7 +126,7 @@ class SearchBarComponent : LinearLayout {
 
     }
 
-    fun onClickListener(onClick_: ((product:Product) -> Unit)? = null) {
+    fun onClickListener(onClick_: ((product: Product) -> Unit)? = null) {
         onClick=onClick_
     }
 

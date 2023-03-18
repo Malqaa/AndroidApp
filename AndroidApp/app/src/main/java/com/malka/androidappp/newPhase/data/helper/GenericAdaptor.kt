@@ -18,7 +18,7 @@ import com.malka.androidappp.newPhase.data.helper.Extension.decimalNumberFormat
 import com.malka.androidappp.newPhase.data.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
 import com.malka.androidappp.newPhase.domain.models.servicemodels.GetAddressResponse
-import com.malka.androidappp.newPhase.domain.models.servicemodels.Product
+import com.malka.androidappp.newPhase.domain.models.productResp.Product
 import com.malka.androidappp.newPhase.domain.models.servicemodels.questionModel.Question
 import kotlinx.android.synthetic.main.add_address_design.view.*
 import kotlinx.android.synthetic.main.item_question_answer_design.view.*

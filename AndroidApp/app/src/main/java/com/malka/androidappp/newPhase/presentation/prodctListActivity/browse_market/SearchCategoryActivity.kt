@@ -25,6 +25,7 @@ import com.malka.androidappp.newPhase.data.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
 import com.malka.androidappp.newPhase.data.network.service.MalqaApiService
 import com.malka.androidappp.newPhase.domain.models.countryResp.Country
+import com.malka.androidappp.newPhase.domain.models.productResp.Product
 import com.malka.androidappp.recycler_browsecat.GenericProductAdapter
 import com.malka.androidappp.newPhase.domain.models.servicemodels.*
 import com.malka.androidappp.newPhase.domain.models.servicemodels.model.Category
@@ -254,7 +255,7 @@ class SearchCategoryActivity : BaseActivity() {
         if (SearchQuery.trim().length > 0) {
             SetToolbarTitle("Search: " + SearchQuery)
             AdvanceFiltter(mapOf("productName" to SearchQuery,"mainCatId" to CategoryID))
-            if (HelpFunctions.IsUserLoggedIn()) {
+            if (HelpFunctions.isUserLoggedIn()) {
                 addSearchQueryFav(SearchQuery)
             }
         }else{
@@ -451,7 +452,7 @@ class SearchCategoryActivity : BaseActivity() {
                         )
 
                         follow_category.setOnClickListener {
-                            if (!HelpFunctions.IsUserLoggedIn()) {
+                            if (!HelpFunctions.isUserLoggedIn()) {
                                 startActivity(Intent(this@SearchCategoryActivity, SignInActivity::class.java))
                             } else {
                                 if (category.isFollow) {

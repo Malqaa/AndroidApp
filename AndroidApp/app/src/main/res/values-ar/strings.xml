@@ -10,12 +10,15 @@
 
     <string name="noResultFound">لا يوجد نتائج</string>
     <string name="searchHere">ابحث هنا</string>
+    <string name="noSpecificationFound">لم يتم العثور على مواصفات</string>
+  <string name="noQuestionsFound">لم يتم العثور على أسئله</string>
+
     <string name="City">مدينة</string>
 
     <string name="Confirm">تؤكد</string>
 
-  <string name="bidding">مزايدة</string>
-  <string name="show">عرض</string>
+    <string name="bidding">مزايدة</string>
+    <string name="show">عرض</string>
     <string name="NoCategoryMarkedasFavourites">
     لم يتم تمييز أي فئة كمفضلة
   </string>

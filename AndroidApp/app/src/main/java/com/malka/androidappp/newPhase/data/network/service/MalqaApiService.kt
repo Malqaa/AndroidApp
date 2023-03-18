@@ -24,6 +24,9 @@ import com.malka.androidappp.newPhase.domain.models.resgisterResp.RegisterResp
 import com.malka.androidappp.newPhase.data.network.constants.Constants
 import com.malka.androidappp.newPhase.data.network.constants.Constants.GET_CATEGORY_TAGS_ENDPOINT
 import com.malka.androidappp.newPhase.domain.models.countryResp.CountriesResp
+import com.malka.androidappp.newPhase.domain.models.productResp.ProductListResp
+import com.malka.androidappp.newPhase.domain.models.productResp.ProductResp
+import com.malka.androidappp.newPhase.domain.models.questionResp.AddQuestionResp
 import com.malka.androidappp.newPhase.domain.models.regionsResp.RegionsResp
 import com.malka.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.UserVerifiedResp
 import com.malka.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.ValidateAndGenerateOTPResp
@@ -138,9 +141,57 @@ interface MalqaApiService {
 
 
 
+    @GET("GetProductById")
+    fun getProductDetailById2(
+        @Query("id") id: Int,
+        @Query("lang") language: String = ConstantObjects.currentLanguage
+    ): Call<ProductResp>
+    @GET("GetProductById")
+    fun getAdDetailById(
+        @Query("id") id: String,
+        @Query("lang") language: String = ConstantObjects.currentLanguage
+    ): Call<GeneralRespone>
+
+
+    @Multipart
+    @POST("AddQuestion")
+    fun addQuestion(
+        @Part("Question") question: RequestBody,
+        @Part("ProductId") productId: RequestBody,
+        @Part("lang") lang: RequestBody,
+    ): Call<AddQuestionResp>
+
+    @GET("ListSimilarProducts")
+    fun getSimilarProductForOtherProduct
+                (@Query("currentPage")page:Int,
+                 @Query("productId")productId: Int,
+                 @Query("lang") language: String = ConstantObjects.currentLanguage): Call<ProductListResp>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     //+++++++++++++++++++++++++++++++++++++++++
     //+++++++++++++++++++++++++++++++++++++++++
     //+++++++++++++++++++++++++++++++++++++++++
+    @GET("BussinessProduct/detailsofproduct")
+    fun getProductDetailById(
+        @Query("id") id: String,
+        @Query("loginUserId") loginUserId: String
+    ): Call<ProductResponseBack>
+
 
     @POST("Accounts/updatePersonalInfo")
     fun updateUserSiginup(@Body updateusersignupp: User): Call<User>
@@ -321,12 +372,8 @@ interface MalqaApiService {
     @POST("BussinessProduct/editproduct")
     fun editBusinessProduct(@Body editproduct: ModelEditProduct): Call<EditProductResponseBack>
 
-    @GET("BussinessProduct/detailsofproduct")
-    fun getProductDetailById(
-        @Query("id") id: String,
-        @Query("loginUserId") loginUserId: String
-    ): Call<ProductResponseBack>
 
+  //  GeneralResponse
     @GET("CardDetail/getbyuserid")
     fun GetUserCreditCards(@Query("usid") userid: String): Call<CreditCardResponse>;
 
@@ -427,12 +474,6 @@ interface MalqaApiService {
         @Field("password") password: String,
         @Field("lang") language: String ,
     ): Call<LoginResp>
-
-    @GET("GetProductById")
-    fun getAdDetailById(
-        @Query("id") id: String,
-        @Query("lang") language: String = ConstantObjects.currentLanguage
-    ): Call<GeneralResponse>
 
     @GET("ListRateProduct?productId=15&currentPage=1")
     fun getRates(@Query("lang") language: String = ConstantObjects.currentLanguage): Call<RateResponse>

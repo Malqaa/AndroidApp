@@ -25,7 +25,7 @@ class MainActivity : BaseActivity() {
         nav_view.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_notifications -> {
-                    if (!HelpFunctions.IsUserLoggedIn()) {
+                    if (!HelpFunctions.isUserLoggedIn()) {
                       startActivity(Intent(this, SignInActivity::class.java))
                     } else {
                         findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_notifications)
@@ -33,7 +33,7 @@ class MainActivity : BaseActivity() {
                 }
                 R.id.navigation_account -> {
 
-                    if (!HelpFunctions.IsUserLoggedIn()) {
+                    if (!HelpFunctions.isUserLoggedIn()) {
                         startActivity(Intent(this, SignInActivity::class.java))
                     } else {
                         myOrderTrigger = false
@@ -42,7 +42,7 @@ class MainActivity : BaseActivity() {
                     }
                 }
                 R.id.navigation_watchlist -> {
-                    if (!HelpFunctions.IsUserLoggedIn()) {
+                    if (!HelpFunctions.isUserLoggedIn()) {
                         startActivity(Intent(this, SignInActivity::class.java))
                     } else {
                         findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_watchlist)
@@ -64,7 +64,7 @@ class MainActivity : BaseActivity() {
 
 
         floatingActionButtonBottm.setOnClickListener {
-            if (HelpFunctions.IsUserLoggedIn()) {
+            if (HelpFunctions.isUserLoggedIn()) {
                 startActivity(Intent(this, ListanItem::class.java))
             } else {
                 startActivity(Intent(this, SignInActivity::class.java))

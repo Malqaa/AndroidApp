@@ -28,7 +28,7 @@
             android:textSize="@dimen/_12sdp" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_quest_ans"
+            android:id="@+id/rvQuestionForProduct"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@+id/footer"
@@ -155,7 +155,7 @@
 
             <LinearLayout
                 android:visibility="gone"
-                android:id="@+id/askques_bottom"
+                android:id="@+id/containerMainAskQuestion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -164,7 +164,7 @@
                 android:padding="@dimen/_5sdp">
 
                 <EditText
-                    android:id="@+id/editTextque"
+                    android:id="@+id/etWriteQuestion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -179,7 +179,7 @@
 
 
                 <LinearLayout
-                    android:id="@+id/ask_question"
+                    android:id="@+id/contianerAskQuestion"
 
                     android:layout_width="@dimen/_32sdp"
                     android:layout_height="@dimen/_32sdp"

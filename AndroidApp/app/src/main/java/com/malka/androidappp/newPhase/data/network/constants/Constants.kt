@@ -3,7 +3,7 @@ package com.malka.androidappp.newPhase.data.network.constants
 object Constants {
 
 
-    const val HTTP_PROTOCOL = "http"
+    const val HTTP_PROTOCOL = "https"
 
     //   const val SERVER_LOCATION = "89.40.10.168:85"
 //    const val SERVER_LOCATION = "advertleap-001-site1.itempurl.com"

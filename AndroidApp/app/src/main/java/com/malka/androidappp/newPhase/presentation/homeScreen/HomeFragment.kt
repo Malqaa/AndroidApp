@@ -29,7 +29,7 @@ import com.malka.androidappp.newPhase.data.helper.Extension.decimalNumberFormat
 import com.malka.androidappp.newPhase.data.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.newPhase.data.helper.widgets.viewpager2.AutoScrollViewPager
 import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
-import com.malka.androidappp.newPhase.domain.models.servicemodels.Product
+import com.malka.androidappp.newPhase.domain.models.productResp.Product
 import com.malka.androidappp.newPhase.domain.models.servicemodels.Slider
 import com.malka.androidappp.newPhase.domain.models.servicemodels.model.Category
 import com.malka.androidappp.newPhase.domain.models.servicemodels.model.DynamicList
@@ -66,7 +66,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
-        if (HelpFunctions.IsUserLoggedIn()) {
+        if (HelpFunctions.isUserLoggedIn()) {
             HelpFunctions.GetUserWatchlist()
         }
 //        if (ConstantObjects.categoryList.size > 0) {
@@ -355,8 +355,8 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
 //                        }
 //                    }
                 }
-                if (Paper.book().read<Boolean>(SharedPreferencesStaticClass.islogin) == true) {
-                    if (HelpFunctions.AdAlreadyAddedToWatchList(id.toString())) {
+                if (HelpFunctions.isUserLoggedIn()) {
+                    if (isFavourite) {
                         ivFav.setImageResource(R.drawable.starcolor)
                     } else {
                         ivFav.setImageResource(R.drawable.star)
@@ -380,7 +380,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
                     SharedPreferencesStaticClass.ad_userid = ""
                     ConstantObjects.is_watch_iv = ivFav
                     context.startActivity(Intent(context, ProductDetailsActivity::class.java).apply {
-                        putExtra("AdvId", id)
+                        putExtra(ConstantObjects.productIdKey, id)
                         putExtra("Template", "")
                     })
                 }
@@ -397,10 +397,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
                         R.string.Rayal
                     )
                 }"
-                purchasing_price_tv_2.text =
-                    "${
-                        price.toDouble().decimalNumberFormat()
-                    } ${context.getString(R.string.Rayal)}"
+                purchasing_price_tv_2.text = "${price.toDouble().decimalNumberFormat()} ${context.getString(R.string.Rayal)}"
 
                 if (isGrid) {
                     lisView.hide()

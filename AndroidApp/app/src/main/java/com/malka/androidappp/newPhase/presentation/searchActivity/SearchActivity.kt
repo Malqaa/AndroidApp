@@ -14,7 +14,7 @@ import com.malka.androidappp.fragments.shared_preferences.SharedPreferencesStati
 import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
-import com.malka.androidappp.newPhase.domain.models.servicemodels.Product
+import com.malka.androidappp.newPhase.domain.models.productResp.Product
 import com.malka.androidappp.newPhase.presentation.homeScreen.viewModel.HomeViewModel
 import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
 import io.paperdb.Paper

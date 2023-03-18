@@ -3,6 +3,7 @@ package com.malka.androidappp.newPhase.domain.models.servicemodels
 import android.widget.ImageView
 import com.malka.androidappp.fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ShippingAddressessData
 import com.malka.androidappp.newPhase.domain.models.countryResp.Country
+import com.malka.androidappp.newPhase.domain.models.productResp.Product
 import com.malka.androidappp.newPhase.domain.models.servicemodels.addtocart.CartItemModel
 import com.malka.androidappp.newPhase.domain.models.servicemodels.creditcard.CreditCardModel
 import com.malka.androidappp.newPhase.domain.models.servicemodels.favourites.FavouriteObject
@@ -15,7 +16,7 @@ class ConstantObjects {
         val ENGLISH = "en"
         val ARABIC = "ar"
 
-        var is_watch_iv: ImageView?=null
+        var is_watch_iv: ImageView? = null
 
         val defaltCountry: Int = 31
         val isSuccess: String = "isSuccess";
@@ -24,7 +25,7 @@ class ConstantObjects {
         var userobj: User? = null;
         var userfeedback: FeedbackObject? = null;
         var userfavourite: FavouriteObject? = null;
-        var userwatchlist=java.util.ArrayList<Product> ()
+        var userwatchlist = java.util.ArrayList<Product>()
         var usercreditcard: List<CreditCardModel>? = null;
         var usercart: List<CartItemModel> = ArrayList()
         var useraddresses: List<ShippingAddressessData>? = null
@@ -40,15 +41,15 @@ class ConstantObjects {
         var categoryProductHomeList: ArrayList<DynamicList> = java.util.ArrayList()
         var countryList: List<Country> = ArrayList()
 
-        var isBid= "isBid"
-        var isMyOrder= "isMyOrder"
+        var isBid = "isBid"
+        var isMyOrder = "isMyOrder"
 
         @JvmStatic
-        var data= "data"
+        var data = "data"
 
-        var View= "View"
-        var Select= "Select"
-        const val searchQueryKey="searchQueryKey"
-
+        var View = "View"
+        var Select = "Select"
+        const val searchQueryKey = "searchQueryKey"
+        const val productIdKey = "ProductIdKey"
     }
 }

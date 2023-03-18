@@ -36,6 +36,7 @@ import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
 import com.malka.androidappp.newPhase.data.network.constants.Constants
 import com.malka.androidappp.newPhase.data.network.service.MalqaApiService
 import com.malka.androidappp.newPhase.domain.models.loginResp.LoginUser
+import com.malka.androidappp.newPhase.domain.models.productResp.Product
 import com.malka.androidappp.newPhase.domain.models.servicemodels.*
 import com.malka.androidappp.newPhase.domain.models.servicemodels.addtocart.AddToCartResponseModel
 import com.malka.androidappp.newPhase.domain.models.servicemodels.favourites.FavouriteObject
@@ -97,14 +98,12 @@ class HelpFunctions {
             }
         }
 
-        fun IsUserLoggedIn(): Boolean1 {
+        fun isUserLoggedIn(): Boolean1 {
             val islogin = Paper.book().read(SharedPreferencesStaticClass.islogin, false) ?: false
             if (islogin) {
-                val user_object =
-                    Paper.book().read(SharedPreferencesStaticClass.user_object, "") ?: ""
-               val user= Gson().fromJson(user_object, LoginUser::class.java)
-                ConstantObjects.logged_userid = user.id
-                ConstantObjects.logged_authtoken = user.token
+                val user_object :LoginUser?= Paper.book().read<LoginUser>(SharedPreferencesStaticClass.user_object)
+                ConstantObjects.logged_userid = user_object?.id.toString()
+                ConstantObjects.logged_authtoken = user_object?.token.toString()
             }
             return islogin
         }

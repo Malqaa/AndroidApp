@@ -9,6 +9,8 @@
     <string name="selectDistrict">Select District</string>
     <string name="noResultFound">No Results Found</string>
     <string name="searchHere">Search Here</string>
+    <string name="noSpecificationFound">No Specification Found</string>
+  <string name="noQuestionsFound">No Questions Found</string>
    <string name="bidding">Bidding</string>
   <string name="show">Show</string>
     <string name="Back_to_login">
