@@ -24,6 +24,7 @@ import com.malka.androidappp.newPhase.domain.models.resgisterResp.RegisterResp
 import com.malka.androidappp.newPhase.data.network.constants.Constants
 import com.malka.androidappp.newPhase.data.network.constants.Constants.GET_CATEGORY_TAGS_ENDPOINT
 import com.malka.androidappp.newPhase.domain.models.countryResp.CountriesResp
+import com.malka.androidappp.newPhase.domain.models.homeSilderResp.HomeSliderResp
 import com.malka.androidappp.newPhase.domain.models.productResp.ProductListResp
 import com.malka.androidappp.newPhase.domain.models.productResp.ProductResp
 import com.malka.androidappp.newPhase.domain.models.questionResp.AddQuestionResp
@@ -121,8 +122,10 @@ interface MalqaApiService {
     fun ListHomeCategoryProduct(@Query("lang")
                                 language: String = ConstantObjects.currentLanguage): Call<GeneralResponse>
 
-    @GET("ListAdvertisments")
-    fun SliderAPI(): Call<GeneralResponse>
+
+    @GET("GetSliderImages")
+     fun getHomeSlidersImages(@Query("lang")
+                       language: String = ConstantObjects.currentLanguage): Call<HomeSliderResp>
 
     @GET("ListCountryDDL")
     fun getCountryNew(): Call<CountriesResp>
@@ -169,7 +172,10 @@ interface MalqaApiService {
 
 
 
-
+@GET("ListLastView?pageIndex=1&PageRowsCount=10")
+fun getListLastView(
+    @Query("lang") language: String = ConstantObjects.currentLanguage
+):Call<ProductListResp>
 
 
 
@@ -186,6 +192,11 @@ interface MalqaApiService {
     //+++++++++++++++++++++++++++++++++++++++++
     //+++++++++++++++++++++++++++++++++++++++++
     //+++++++++++++++++++++++++++++++++++++++++
+    @GET("ListAdvertisments")
+    fun SliderAPI(): Call<GeneralResponse>
+
+
+
     @GET("BussinessProduct/detailsofproduct")
     fun getProductDetailById(
         @Query("id") id: String,

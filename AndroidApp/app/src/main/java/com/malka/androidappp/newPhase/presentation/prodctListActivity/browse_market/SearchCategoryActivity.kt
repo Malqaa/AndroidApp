@@ -9,30 +9,31 @@ import android.widget.Filter
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
 import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.newPhase.presentation.prodctListActivity.browse_market.popup_subcategories_list.ModelAddSearchFav
-import com.malka.androidappp.newPhase.presentation.prodctListActivity.browse_market.popup_subcategories_list.StaticGetSubcategoryByBrowseCateClick
 import com.malka.androidappp.newPhase.presentation.prodctListActivity.browse_market.popup_subcategories_list.SubcategoriesDialogFragment
-import com.malka.androidappp.newPhase.data.network.CommonAPI
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.data.helper.hide
 import com.malka.androidappp.newPhase.data.helper.show
 import com.malka.androidappp.newPhase.data.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
 import com.malka.androidappp.newPhase.data.network.service.MalqaApiService
-import com.malka.androidappp.newPhase.domain.models.countryResp.Country
 import com.malka.androidappp.newPhase.domain.models.productResp.Product
 import com.malka.androidappp.recycler_browsecat.GenericProductAdapter
 import com.malka.androidappp.newPhase.domain.models.servicemodels.*
 import com.malka.androidappp.newPhase.domain.models.servicemodels.model.Category
+import com.malka.androidappp.newPhase.presentation.prodctListActivity.browse_market.filterDialog.FilterCategoryProductsDialog
+import com.malka.androidappp.newPhase.presentation.prodctListActivity.browse_market.recycler_browsecat.ProductSearchCategoryAdapter
+import kotlinx.android.synthetic.main.account_sub_item.*
 import kotlinx.android.synthetic.main.fragment_browse_market.*
+import kotlinx.android.synthetic.main.item_filter_specification.*
+import kotlinx.android.synthetic.main.item_filter_specification_sub_item.*
 import kotlinx.android.synthetic.main.region_item.view.*
-import kotlinx.android.synthetic.main.specification_design.view.*
-import kotlinx.android.synthetic.main.specification_sub_design.view.*
 import kotlinx.android.synthetic.main.sub_category_design.view.*
 import kotlinx.android.synthetic.main.sub_category_layout.view.*
 import kotlinx.android.synthetic.main.sub_city_item.view.*
@@ -50,23 +51,28 @@ class SearchCategoryActivity : BaseActivity() {
     var SearchQuery: String = "";
     var browadptxl: GenericProductAdapter? = null
     var CategoryID: String = ""
-   lateinit var category: Category
-
+    lateinit var category: Category
+    lateinit var productSearchCategoryAdapter: ProductSearchCategoryAdapter
+    lateinit var gridViewLayoutManager: GridLayoutManager
+    lateinit var linerlayout: LinearLayoutManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_browse_market)
+        setProductSearchCategoryAdapter()
+        setVeiwClickListeners()
+        /***
         CategoryID = intent?.getStringExtra("CategoryID") ?: ""
         CategoryDesc = intent?.getStringExtra("CategoryDesc").toString()
         SearchQuery = intent?.getStringExtra("SearchQuery").toString()
         intent?.getBooleanExtra("isMapShow", false)?.let {
-            if (it) {
-                map_button.show()
-            }
+        if (it) {
+        map_button.show()
+        }
         }
         StaticGetSubcategoryByBrowseCateClick.getcategory = CategoryDesc;
         GetCategoryById()
-
+         ***/
 
 //        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
 //        val call = malqa.ListCategoryFollow()
@@ -91,179 +97,220 @@ class SearchCategoryActivity : BaseActivity() {
 //            }
 //        })
 
-        fbButtonBack.setOnClickListener {
-            onBackPressed()
+        /*
+             fbButtonBack.setOnClickListener {
+                 onBackPressed()
 
-        }
-        search_toolbar.setOnClickListener {
-            openDialog()
+             }
+             search_toolbar.setOnClickListener {
+                 openDialog()
 
-        }
+             }
 
+             region.setOnClickListener {
+                 val builder = AlertDialog.Builder(this@SearchCategoryActivity)
+                     .create()
+                 val view = layoutInflater.inflate(R.layout.sub_category_layout, null)
+                 builder.setView(view)
+                 bottom_bar.hide()
+                 view.filter_bar.visibility = View.GONE
+                 view.price_tv.visibility = View.GONE
 
-
-        sub_catgeory.setOnClickListener {
-            GetSubCategoryByMainCategory(CategoryID)
-        }
-
-        region.setOnClickListener {
-
-
-            val builder = AlertDialog.Builder(this@SearchCategoryActivity)
-                .create()
-            val view = layoutInflater.inflate(R.layout.sub_category_layout, null)
-            builder.setView(view)
-            bottom_bar.hide()
-            view.filter_bar.visibility = View.GONE
-            view.price_tv.visibility = View.GONE
-
-            fun regionAdaptor(list: List<Country>) {
-                view.region_rcv.adapter = object : GenericListAdapter<Country>(
-                    R.layout.region_item,
-                    bind = { element, holder, itemCount, position ->
-                        holder.view.run {
-                            element.run {
-                                region_tv.text = name
-                                setOnClickListener {
-                                    CommonAPI().getRegion(
-                                        id,
-                                        this@SearchCategoryActivity
-                                    ) { regions ->
-                                        sub_region_rcv.adapter =
-                                            object : GenericListAdapter<Country>(
-                                                R.layout.sub_region_item,
-                                                bind = { element, holder, itemCount, position ->
-                                                    holder.view.run {
-                                                        element.run {
-                                                            sub_region_tv.text = name
-                                                            setOnClickListener {
-                                                                CommonAPI().getCity(
-                                                                    id,
-                                                                    this@SearchCategoryActivity
-                                                                ) { city ->
+                 fun regionAdaptor(list: List<Country>) {
+                     view.region_rcv.adapter = object : GenericListAdapter<Country>(
+                         R.layout.region_item,
+                         bind = { element, holder, itemCount, position ->
+                             holder.view.run {
+                                 element.run {
+                                     region_tv.text = name
+                                     setOnClickListener {
+                                         CommonAPI().getRegion(
+                                             id,
+                                             this@SearchCategoryActivity
+                                         ) { regions ->
+                                             sub_region_rcv.adapter =
+                                                 object : GenericListAdapter<Country>(
+                                                     R.layout.sub_region_item,
+                                                     bind = { element, holder, itemCount, position ->
+                                                         holder.view.run {
+                                                             element.run {
+                                                                 sub_region_tv.text = name
+                                                                 setOnClickListener {
+                                                                     CommonAPI().getCity(
+                                                                         id,
+                                                                         this@SearchCategoryActivity
+                                                                     ) { city ->
 
 
-                                                                    sub_city_rcv.adapter = object :
-                                                                        GenericListAdapter<Country>(
-                                                                            R.layout.sub_city_item,
-                                                                            bind = { element, holder, itemCount, position ->
-                                                                                holder.view.run {
-                                                                                    element.run {
-                                                                                        sub_city_tv.text =
-                                                                                            name
+                                                                         sub_city_rcv.adapter = object :
+                                                                             GenericListAdapter<Country>(
+                                                                                 R.layout.sub_city_item,
+                                                                                 bind = { element, holder, itemCount, position ->
+                                                                                     holder.view.run {
+                                                                                         element.run {
+                                                                                             sub_city_tv.text =
+                                                                                                 name
 
 
-                                                                                    }
-                                                                                }
-                                                                            }
-                                                                        ) {
-                                                                        override fun getFilter(): Filter {
-                                                                            TODO("Not yet implemented")
-                                                                        }
+                                                                                         }
+                                                                                     }
+                                                                                 }
+                                                                             ) {
+                                                                             override fun getFilter(): Filter {
+                                                                                 TODO("Not yet implemented")
+                                                                             }
 
-                                                                    }.apply {
-                                                                        submitList(
-                                                                            city
-                                                                        )
-                                                                    }
-                                                                }
-                                                            }
+                                                                         }.apply {
+                                                                             submitList(
+                                                                                 city
+                                                                             )
+                                                                         }
+                                                                     }
+                                                                 }
 
-                                                        }
-                                                    }
-                                                }
-                                            ) {
-                                                override fun getFilter(): Filter {
-                                                    TODO("Not yet implemented")
-                                                }
+                                                             }
+                                                         }
+                                                     }
+                                                 ) {
+                                                     override fun getFilter(): Filter {
+                                                         TODO("Not yet implemented")
+                                                     }
 
-                                            }.apply {
-                                                submitList(
-                                                    regions
-                                                )
-                                            }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                ) {
-                    override fun getFilter(): Filter {
-                        TODO("Not yet implemented")
-                    }
+                                                 }.apply {
+                                                     submitList(
+                                                         regions
+                                                     )
+                                                 }
+                                         }
+                                     }
+                                 }
+                             }
+                         }
+                     ) {
+                         override fun getFilter(): Filter {
+                             TODO("Not yet implemented")
+                         }
 
-                }.apply {
-                    submitList(
-                        list
-                    )
-                }
-            }
+                     }.apply {
+                         submitList(
+                             list
+                         )
+                     }
+                 }
 
-            builder.setCanceledOnTouchOutside(true)
-            builder.show()
-            builder.setOnCancelListener {
-                bottom_bar.show()
-            }
+                 builder.setCanceledOnTouchOutside(true)
+                 builder.show()
+                 builder.setOnCancelListener {
+                     bottom_bar.show()
+                 }
 
-            view.sub_category.setOnClickListener {
-                builder.dismiss()
-                sub_catgeory.performClick()
-            }
+                 view.sub_category.setOnClickListener {
+                     builder.dismiss()
+                     sub_catgeory.performClick()
+                 }
 
-            view.specification_t.setOnClickListener {
-                builder.dismiss()
-                specification.performClick()
-            }
-            view.region.setOnClickListener {
-                builder.dismiss()
-                region.performClick()
-            }
+                 view.specification_t.setOnClickListener {
+                     builder.dismiss()
+                     specification.performClick()
+                 }
+                 view.region.setOnClickListener {
+                     builder.dismiss()
+                     region.performClick()
+                 }
 
-            regionAdaptor(ConstantObjects.countryList)
-        }
+                 regionAdaptor(ConstantObjects.countryList)
+             }
+             specification.setOnClickListener {
 
-        specification.setOnClickListener {
-
-            getSpecification(CategoryID)
-
-
-        }
+                 getSpecification(CategoryID)
 
 
+             }
 
-        browadptxl = GenericProductAdapter(marketpost, this)
-        recyclerViewmarket.adapter = browadptxl
+             browadptxl = GenericProductAdapter(marketpost, this)
+             recyclerViewmarket.adapter = browadptxl
 
 
-        icon_list.setOnClickListener {
-            browadptxl!!.updateLayout(false)
+             icon_list.setOnClickListener {
+                 browadptxl!!.updateLayout(false)
 
-            icon_list.setImageResource(R.drawable.ic_icon_list_active)
-            icon_grid.setImageResource(R.drawable.icon_grid)
-            recyclerViewmarket.layoutManager =
-                LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+                 icon_list.setImageResource(R.drawable.ic_icon_list_active)
+                 icon_grid.setImageResource(R.drawable.icon_grid)
+                 recyclerViewmarket.layoutManager =
+                     LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
-        }
+             }
+             icon_grid.setOnClickListener {
+                 browadptxl!!.updateLayout(true)
+                 icon_grid.setImageResource(R.drawable.ic_icon_grid_active)
+                 icon_list.setImageResource(R.drawable.icon_list)
+                 recyclerViewmarket.layoutManager = GridLayoutManager(this, 2)
+
+             }
+             icon_grid.performClick()
+             if (SearchQuery.trim().length > 0) {
+                 SetToolbarTitle("Search: " + SearchQuery)
+                 AdvanceFiltter(mapOf("productName" to SearchQuery, "mainCatId" to CategoryID))
+                 if (HelpFunctions.isUserLoggedIn()) {
+                     addSearchQueryFav(SearchQuery)
+                 }
+             } else {
+                 AdvanceFiltter(mapOf("mainCatId" to CategoryID))
+                 SetToolbarTitle(CategoryDesc)
+             }
+     */
+    }
+
+    private fun setVeiwClickListeners() {
         icon_grid.setOnClickListener {
-            browadptxl!!.updateLayout(true)
+            //browadptxl!!.updateLayout(true)
             icon_grid.setImageResource(R.drawable.ic_icon_grid_active)
             icon_list.setImageResource(R.drawable.icon_list)
-            recyclerViewmarket.layoutManager = GridLayoutManager(this, 2)
-
+            recyclerViewMarket.layoutManager = gridViewLayoutManager
+            productSearchCategoryAdapter.notifyDataSetChanged()
         }
-        icon_grid.performClick()
-        if (SearchQuery.trim().length > 0) {
-            SetToolbarTitle("Search: " + SearchQuery)
-            AdvanceFiltter(mapOf("productName" to SearchQuery,"mainCatId" to CategoryID))
-            if (HelpFunctions.isUserLoggedIn()) {
-                addSearchQueryFav(SearchQuery)
-            }
-        }else{
-            AdvanceFiltter(mapOf("mainCatId" to CategoryID))
-            SetToolbarTitle(CategoryDesc)
+        icon_list.setOnClickListener {
+            //browadptxl!!.updateLayout(false)
+            icon_list.setImageResource(R.drawable.ic_icon_list_active)
+            icon_grid.setImageResource(R.drawable.icon_grid)
+            recyclerViewMarket.layoutManager = linerlayout
+            productSearchCategoryAdapter.notifyDataSetChanged()
+        }
+        btnSubCatgeoryFilter.setOnClickListener {
+            //GetSubCategoryByMainCategory(CategoryID)
+            var filterCategoryProductsDialog = FilterCategoryProductsDialog(this,FilterCategoryProductsDialog.subCategoryType)
+            filterCategoryProductsDialog.show()
+        }
+        btnRegion.setOnClickListener {
+            //GetSubCategoryByMainCategory(CategoryID)
+            var filterCategoryProductsDialog = FilterCategoryProductsDialog(this,FilterCategoryProductsDialog.regionType)
+            filterCategoryProductsDialog.show()
+        }
+        btnSpecification.setOnClickListener {
+            //GetSubCategoryByMainCategory(CategoryID)
+            var filterCategoryProductsDialog = FilterCategoryProductsDialog(this,FilterCategoryProductsDialog.specificationType)
+            filterCategoryProductsDialog.show()
         }
     }
 
+    private fun setProductSearchCategoryAdapter() {
+        icon_list.setImageResource(R.drawable.ic_icon_list_active)
+        icon_grid.setImageResource(R.drawable.icon_grid)
+        gridViewLayoutManager = GridLayoutManager(this, 2)
+        linerlayout= LinearLayoutManager (this, RecyclerView.VERTICAL, false)
+        productSearchCategoryAdapter = ProductSearchCategoryAdapter()
+        recyclerViewMarket.apply {
+            adapter = productSearchCategoryAdapter
+            layoutManager = linerlayout
+        }
+    }
+
+    /***********
+     * ***********
+     * *********
+     * *********
+     * ******
+     * *******/
     private fun getSpecification(categoryID: String) {
         HelpFunctions.startProgressBar(this)
         val malqaa: MalqaApiService =
@@ -310,13 +357,13 @@ class SearchCategoryActivity : BaseActivity() {
 
         fun specificationAdaptor(list: List<CategorySpecification>) {
             view.specification_rcv.adapter = object : GenericListAdapter<CategorySpecification>(
-                R.layout.specification_design,
+                R.layout.item_filter_specification,
                 bind = { element, holder, itemCount, position ->
                     holder.view.run {
                         element.run {
                             header_title.text = name
                             sub_item_rcv.adapter = object : GenericListAdapter<SubSpecification>(
-                                R.layout.specification_sub_design,
+                                R.layout.item_filter_specification_sub_item,
                                 bind = { element, holder, itemCount, position ->
                                     holder.view.run {
                                         element.run {
@@ -354,18 +401,18 @@ class SearchCategoryActivity : BaseActivity() {
             bottom_bar.show()
         }
 
-        view.region.setOnClickListener {
+        view.btn_region.setOnClickListener {
             builder.dismiss()
-            region.performClick()
+            btnRegion.performClick()
         }
 
-        view.sub_category.setOnClickListener {
+        view.btnSubCategory.setOnClickListener {
             builder.dismiss()
-            sub_catgeory.performClick()
+            btnSubCatgeoryFilter.performClick()
         }
-        view.specification_t.setOnClickListener {
+        view.btnSpecification.setOnClickListener {
             builder.dismiss()
-            specification.performClick()
+            btnSpecification.performClick()
         }
         specificationAdaptor(specificationList)
     }
@@ -390,7 +437,7 @@ class SearchCategoryActivity : BaseActivity() {
                             getString(R.string.follow_catgeory),
                             this@SearchCategoryActivity
                         )
-                        category.isFollow=true
+                        category.isFollow = true
                         checkFollowIcon(category.isFollow)
                     }
 
@@ -420,7 +467,7 @@ class SearchCategoryActivity : BaseActivity() {
                             getString(R.string.follow_catgeory),
                             this@SearchCategoryActivity
                         )
-                        category.isFollow=false
+                        category.isFollow = false
                         checkFollowIcon(category.isFollow)
 
                     }
@@ -446,14 +493,19 @@ class SearchCategoryActivity : BaseActivity() {
                 if (response.isSuccessful) {
 
                     response.body()?.run {
-                         category = Gson().fromJson(
+                        category = Gson().fromJson(
                             Gson().toJson(data),
                             object : TypeToken<Category>() {}.type
                         )
 
                         follow_category.setOnClickListener {
                             if (!HelpFunctions.isUserLoggedIn()) {
-                                startActivity(Intent(this@SearchCategoryActivity, SignInActivity::class.java))
+                                startActivity(
+                                    Intent(
+                                        this@SearchCategoryActivity,
+                                        SignInActivity::class.java
+                                    )
+                                )
                             } else {
                                 if (category.isFollow) {
                                     RemoveFollow()
@@ -471,8 +523,8 @@ class SearchCategoryActivity : BaseActivity() {
         })
     }
 
-    private fun checkFollowIcon(isFollow:Boolean) {
-        val img=if (isFollow) {
+    private fun checkFollowIcon(isFollow: Boolean) {
+        val img = if (isFollow) {
             ContextCompat.getDrawable(
                 this,
                 R.drawable.notification
@@ -483,7 +535,7 @@ class SearchCategoryActivity : BaseActivity() {
                 R.drawable.notification_log
             )
         }
-       // follow_category.setCompoundDrawables(img, null, null, null)
+        // follow_category.setCompoundDrawables(img, null, null, null)
         follow_category.setCompoundDrawablesWithIntrinsicBounds(img, null, null, null)
 
     }
@@ -709,18 +761,18 @@ class SearchCategoryActivity : BaseActivity() {
         builder.setOnCancelListener {
             bottom_bar.show()
         }
-        view.region.setOnClickListener {
+        view.btn_region.setOnClickListener {
             builder.dismiss()
-            region.performClick()
+            btnRegion.performClick()
         }
 
-        view.specification_t.setOnClickListener {
+        view.btnSpecification.setOnClickListener {
             builder.dismiss()
-            specification.performClick()
+            btnSpecification.performClick()
         }
-        view.sub_category.setOnClickListener {
+        view.btnSubCategory.setOnClickListener {
             builder.dismiss()
-            sub_catgeory.performClick()
+            btnSubCatgeoryFilter.performClick()
         }
 
         subCategoryAdaptor(list)

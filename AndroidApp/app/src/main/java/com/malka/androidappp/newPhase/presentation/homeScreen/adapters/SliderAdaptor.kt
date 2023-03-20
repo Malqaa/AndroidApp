@@ -5,14 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ProgressBar
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.data.helper.Extension
-import com.malka.androidappp.newPhase.domain.models.servicemodels.Slider
+import com.malka.androidappp.newPhase.domain.models.homeSilderResp.HomeSliderItem
 
 
-class SliderAdaptor(context: Context, val sliderList :ArrayList<Slider>) : PagerAdapter() {
+class SliderAdaptor(context: Context, val sliderList :List<HomeSliderItem>) : PagerAdapter() {
     private val context: Context
     private var layoutInflater: LayoutInflater? = null
 
@@ -29,10 +30,11 @@ class SliderAdaptor(context: Context, val sliderList :ArrayList<Slider>) : Pager
             context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater?
         val view = layoutInflater!!.inflate(R.layout.slider_item, null)
         val slider_image: ImageView = view.findViewById(R.id.slider_image)
+        val loader: ProgressBar = view.findViewById(R.id.loader)
         Extension.loadThumbnail(
             context,
-            sliderList.get(position).img,
-            slider_image, null
+            sliderList[position].image,
+            slider_image, loader
         )
         val vp = container as ViewPager
         vp.addView(view, 0)

@@ -61,22 +61,38 @@
             <RelativeLayout
                 android:id="@+id/sliderLayout"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_170sdp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp"
-                android:visibility="gone">
+                android:visibility="gone"
+                >
 
                 <com.malka.androidappp.newPhase.data.helper.widgets.viewpager2.AutoScrollViewPager
                     android:id="@+id/slider_home"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/_140sdp"
                     android:layout_above="@+id/SliderDots"
-                    android:layout_marginBottom="@dimen/_8sdp"
+                    android:layout_marginBottom="@dimen/_5sdp"
                     app:cycle="true"
                     app:slideDirection="right"
                     app:slideInterval="5000"
                     app:stopWhenTouch="true" />
+                <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+                    android:id="@+id/dots_indicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:dotsColor="@color/lightOrange"
+                    app:dotsCornerRadius="5dp"
+                    app:dotsSize="10dp"
+                    app:dotsSpacing="4dp"
+                    app:dotsWidthFactor="2.5"
+                    android:layout_centerHorizontal="true"
+                    app:selectedDotColor="@color/orange"
+                    app:progressMode="false"
+                    android:layout_below="@+id/slider_home"
+                    />
 
                 <LinearLayout
+                    android:visibility="gone"
                     android:id="@+id/SliderDots"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -199,6 +215,60 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+            <LinearLayout
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/containerLastView"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/category_bg"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/_5sdp">
+
+                    <ImageView
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:background="@drawable/product_attribute_bg2"
+                        android:padding="@dimen/_5sdp"
+                        android:src="@drawable/ic_vechile"
+                        android:layout_marginStart="@dimen/_5sdp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:fontFamily="@font/madani_arabic_light"
+                        android:text="@string/recentlyView"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12sdp" />
+
+                    <TextView
+                        android:id="@+id/viewAllRecentlyView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:fontFamily="@font/madani_arabic_light"
+                        android:text="@string/Viewall"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12sdp" />
+                </LinearLayout>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvLastViewedProducts"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                 />
+
+
+            </LinearLayout>
+
+
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

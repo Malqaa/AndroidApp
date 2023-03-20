@@ -62,7 +62,7 @@ class DynamicTemplate : BaseActivity() {
         CreateControlsFromJson()
 
         cetgory_name.text = getCategortList()
-        sub_catgeory.setOnClickListener {
+        btnSubCatgeoryFilter.setOnClickListener {
 //            startActivity(Intent(this, SubCategories::class.java).apply {
 //                putExtra("categoryid", allCategoryList[position].categoryKey.toString())
 //                putExtra("categoryName", allCategoryList[position].categoryName.toString())

@@ -183,7 +183,11 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.malka.androidappp.newPhase.presentation.prodctListActivity.browse_market.SearchCategoryActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:exported="true">
+
+        </activity>
+
         <activity
             android:name=".fragments.account_fragment.address.AddAddress"
             android:screenOrientation="portrait" />

@@ -11,6 +11,8 @@
     <string name="searchHere">Search Here</string>
     <string name="noSpecificationFound">No Specification Found</string>
   <string name="noQuestionsFound">No Questions Found</string>
+  <string name="applyFilter">Apply Filter</string>
+ <string name="recentlyView">Recently View</string>
    <string name="bidding">Bidding</string>
   <string name="show">Show</string>
     <string name="Back_to_login">
@@ -2972,5 +2974,8 @@ Want to start a business account? Create a Business Account
     <string name="specifications" translatable="false">Specifications</string>
     <string name="follow_catgeory">Follow category successfully</string>
     <string name="in_" translatable="false">in</string>
-
+  <array name="initial_slider_values">
+    <item>2000</item>
+    <item>3500</item>
+  </array>
 </resources>

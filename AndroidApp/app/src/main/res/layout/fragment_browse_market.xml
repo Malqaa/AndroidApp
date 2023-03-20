@@ -12,8 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <androidx.appcompat.widget.Toolbar
 
+        <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/_5sdp">
@@ -48,6 +48,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/follow_category"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
@@ -56,9 +57,7 @@
                     android:text="@string/follow_news"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_12sdp"
-                    android:id="@+id/follow_category"
-                    app:drawableStartCompat="@drawable/notification_log"
-              />
+                    app:drawableStartCompat="@drawable/notification_log" />
 
             </LinearLayout>
 
@@ -75,13 +74,13 @@
         </androidx.appcompat.widget.Toolbar>
 
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
             <RelativeLayout
-
+                android:id="@+id/contianerChangeLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/_10sdp">
@@ -90,7 +89,6 @@
                 <TextView
                     android:id="@+id/total_result_tv"
                     android:layout_width="wrap_content"
-
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:fontFamily="@font/madani_arabic_semi_bold"
@@ -125,12 +123,76 @@
 
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewmarket"
+                android:id="@+id/recyclerViewMarket"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/bottom_bar"
+                android:layout_below="@+id/contianerChangeLayout"
                 android:layout_margin="@dimen/_5sdp" />
 
-        </LinearLayout>
+            <LinearLayout
+                android:id="@+id/bottom_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="@dimen/_7sdp"
+                android:layout_marginEnd="@dimen/_7sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:background="@drawable/edittext_bg"
+                android:orientation="horizontal"
+                android:weightSum="5">
+
+                <TextView
+                    android:id="@+id/btnSubCatgeoryFilter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:layout_weight="2"
+                    android:fontFamily="@font/madani_arabic_medium"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:text="@string/sub_categories"
+                    android:textColor="#000000" />
+
+                <View
+                    android:layout_width="@dimen/_1sdp"
+                    android:layout_height="match_parent"
+                    android:background="@color/light_gray" />
+
+
+                <TextView
+                    android:id="@+id/btnRegion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/madani_arabic_medium"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:text="@string/region"
+                    android:textColor="#000000" />
+
+                <View
+                    android:layout_width="@dimen/_1sdp"
+                    android:layout_height="match_parent"
+                    android:background="@color/light_gray" />
+
+
+                <TextView
+
+                    android:id="@+id/btnSpecification"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:layout_weight="2"
+                    android:fontFamily="@font/madani_arabic_medium"
+                    android:gravity="center"
+                    android:text="@string/specifications"
+                    android:textColor="#000000" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
 
 
     </LinearLayout>
@@ -144,71 +206,8 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="@dimen/_10sdp"
         android:layout_marginBottom="@dimen/_50sdp"
-        android:visibility="gone"
-        android:src="@drawable/location_ic" />
-
-    <LinearLayout
-        android:id="@+id/bottom_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/_10sdp"
-        android:layout_marginStart="@dimen/_7sdp"
-        android:layout_marginEnd="@dimen/_7sdp"
-        android:orientation="horizontal"
-        android:weightSum="5"
-        android:background="@drawable/edittext_bg">
-
-        <TextView
-            android:id="@+id/sub_catgeory"
-            android:layout_weight="2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/sub_categories"
-            android:gravity="center"
-            android:layout_margin="@dimen/_5sdp"
-            android:fontFamily="@font/madani_arabic_medium"
-            android:textColor="#000000"/>
-
-        <View
-            android:layout_width="@dimen/_1sdp"
-            android:layout_height="match_parent"
-            android:background="@color/light_gray"/>
-
-
-
-        <TextView
-            android:id="@+id/region"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/region"
-            android:gravity="center"
-            android:layout_margin="@dimen/_5sdp"
-            android:fontFamily="@font/madani_arabic_medium"
-            android:textColor="#000000"/>
-
-        <View
-            android:layout_width="@dimen/_1sdp"
-            android:layout_height="match_parent"
-            android:background="@color/light_gray"/>
-
-
-        <TextView
-
-            android:id="@+id/specification"
-            android:layout_weight="2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/specifications"
-            android:gravity="center"
-            android:layout_margin="@dimen/_5sdp"
-            android:fontFamily="@font/madani_arabic_medium"
-            android:textColor="#000000"/>
-
-    </LinearLayout>
-
-
+        android:src="@drawable/location_ic"
+        android:visibility="gone" />
 
 
 </RelativeLayout>

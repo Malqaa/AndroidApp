@@ -120,7 +120,7 @@
             android:background="@drawable/edittext_bg">
 
             <TextView
-                android:id="@+id/sub_category"
+                android:id="@+id/btnSubCategory"
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -139,7 +139,7 @@
 
 
             <TextView
-                android:id="@+id/region"
+                android:id="@+id/btn_region"
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -157,7 +157,7 @@
 
 
             <TextView
-                android:id="@+id/specification_t"
+                android:id="@+id/btnSpecification"
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

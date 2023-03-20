@@ -30,12 +30,7 @@ class GenericProductAdapter(
     override fun getItemCount() = marketposts.size
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
-        GenericAdaptor().productAdaptor(
-            marketposts.get(position) as Product,
-            context,
-            holder,
-            isGrid
-        )
+        GenericAdaptor().productAdaptor(marketposts.get(position) as Product, context, holder, isGrid)
     }
 
     fun updateLayout(isGrid:Boolean){

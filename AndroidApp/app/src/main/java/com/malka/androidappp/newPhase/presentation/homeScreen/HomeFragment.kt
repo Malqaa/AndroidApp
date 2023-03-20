@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.ImageView
-import android.widget.LinearLayout
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -16,7 +15,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import androidx.viewpager.widget.ViewPager
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.malka.androidappp.R
@@ -28,12 +26,13 @@ import com.malka.androidappp.newPhase.data.helper.*
 import com.malka.androidappp.newPhase.data.helper.Extension.decimalNumberFormat
 import com.malka.androidappp.newPhase.data.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.newPhase.data.helper.widgets.viewpager2.AutoScrollViewPager
+import com.malka.androidappp.newPhase.domain.models.homeSilderResp.HomeSliderItem
 import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
 import com.malka.androidappp.newPhase.domain.models.productResp.Product
-import com.malka.androidappp.newPhase.domain.models.servicemodels.Slider
 import com.malka.androidappp.newPhase.domain.models.servicemodels.model.Category
 import com.malka.androidappp.newPhase.domain.models.servicemodels.model.DynamicList
 import com.malka.androidappp.newPhase.domain.models.servicemodels.model.HomeProductsResponse
+import com.malka.androidappp.newPhase.presentation.adapterShared.ProductHorizontalAdapter
 import com.malka.androidappp.newPhase.presentation.homeScreen.adapters.AdapterAllCategories
 import com.malka.androidappp.newPhase.presentation.homeScreen.adapters.SliderAdaptor
 import com.malka.androidappp.newPhase.presentation.homeScreen.viewModel.HomeViewModel
@@ -42,7 +41,9 @@ import com.malka.androidappp.newPhase.presentation.prodctListActivity.browse_mar
 import com.malka.androidappp.newPhase.presentation.searchActivity.SearchActivity
 import com.yariksoffice.lingver.Lingver
 import io.paperdb.Paper
+import kotlinx.android.synthetic.main.custom_layout.view.*
 import kotlinx.android.synthetic.main.fragment_homee.*
+import kotlinx.android.synthetic.main.fragment_homee.view.*
 import kotlinx.android.synthetic.main.parenet_category_item.view.*
 import kotlinx.android.synthetic.main.product_item.view.*
 
@@ -53,10 +54,13 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
     var dots: ArrayList<ImageView> = arrayListOf()
     var slider_home_: AutoScrollViewPager? = null
     private lateinit var homeViewModel: HomeViewModel
+   private lateinit var lastviewedPorductAdatper:ProductHorizontalAdapter
+   lateinit var  lastviewedPorductList:ArrayList<Product>
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         settingUpView()
         setListenser()
+        setupLastViewedPorductsAdapter()
         setupLoginViewModel()
 
 
@@ -66,9 +70,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
-        if (HelpFunctions.isUserLoggedIn()) {
-            HelpFunctions.GetUserWatchlist()
-        }
+
 //        if (ConstantObjects.categoryList.size > 0) {
 //            all_categories_recycler.adapter = AdapterAllCategories(ConstantObjects.categoryList, requireContext(), this@HomeFragment)
 //            getAllAdsData()
@@ -77,6 +79,8 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
 //        }
 
     }
+
+
 
     private fun settingUpView() {
         swipe_to_refresh.setColorSchemeResources(R.color.colorPrimaryDark)
@@ -87,7 +91,15 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
             ivNewImage.scaleX = -1f
         }
     }
+    private fun setupLastViewedPorductsAdapter() {
+        lastviewedPorductList=ArrayList()
+        lastviewedPorductAdatper=ProductHorizontalAdapter(lastviewedPorductList)
+        rvLastViewedProducts.apply {
+            adapter=lastviewedPorductAdatper
+            layoutManager= linearLayoutManager(RecyclerView.VERTICAL)
+        }
 
+    }
     private fun setupLoginViewModel() {
         homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         homeViewModel.isLoading.observe(viewLifecycleOwner, Observer {
@@ -117,7 +129,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
 
         })
         homeViewModel.errorResponseObserver.observe(viewLifecycleOwner, Observer {
-            if (it.message != null) {
+            if (it.message != null&& it.message!="") {
                 HelpFunctions.ShowLongToast(
                     it.message,
                     requireActivity()
@@ -130,14 +142,15 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
             }
 
         })
-        homeViewModel.sliderObserver.observe(viewLifecycleOwner, Observer { userLoginResp ->
-            if (userLoginResp != null) {
-                if (userLoginResp.status_code == 200) {
-                    var sliderList: ArrayList<Slider> = Gson().fromJson(
-                        Gson().toJson(userLoginResp.data),
-                        object : TypeToken<ArrayList<Slider>>() {}.type
-                    )
-                    setPagerDots(sliderList)
+        homeViewModel.sliderObserver.observe(viewLifecycleOwner, Observer { homeSliderResp ->
+            if (homeSliderResp != null) {
+                if (homeSliderResp.status_code == 200) {
+                    homeSliderResp.sliderList?.let{
+                            //var sliderList: ArrayList<HomeSliderResp> = Gson().fromJson(Gson().toJson(userLoginResp.data), object : TypeToken<ArrayList<Slider>>() {}.type)
+                            setPagerDots(it)
+                        }
+
+
                 }
             }
         })
@@ -167,7 +180,17 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
         }
         homeViewModel.categoriesErrorResponseObserver.observe(viewLifecycleOwner) {
             //HelpFunctions.ShowLongToast(getString(R.string.NoCategoriesfound), context)
-            HelpFunctions.ShowLongToast(it.message.toString(), context)
+            if (it.message != null&& it.message!="") {
+                HelpFunctions.ShowLongToast(
+                    it.message,
+                    requireActivity()
+                )
+            } else {
+                HelpFunctions.ShowLongToast(
+                    getString(R.string.serverError),
+                    requireActivity()
+                )
+            }
 
         }
         homeViewModel.homeCategoryProductObserver.observe(viewLifecycleOwner) { homeCategoriesProdcutResp ->
@@ -195,6 +218,19 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
             HelpFunctions.ShowLongToast(it.message.toString(), context)
 
         }
+       homeViewModel.lastViewProductsObserver.observe(viewLifecycleOwner){productListResp->
+           if(productListResp.productList!=null){
+               if(productListResp.productList.isNotEmpty()){
+                   containerLastView.show()
+                   lastviewedPorductList.clear()
+                   lastviewedPorductList.addAll(productListResp.productList)
+                   lastviewedPorductAdatper.notifyDataSetChanged()
+               }else{
+                   containerLastView.hide()
+               }
+           }
+
+       }
         onRefresh()
     }
 
@@ -475,70 +511,12 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
             })
     }
 
-    private fun setPagerDots(list: ArrayList<Slider>) {
+    private fun setPagerDots(list: List<HomeSliderItem>) {
         if (list.size > 0) {
             sliderLayout.show()
             val viewPagerAdapter = SliderAdaptor(requireContext(), list)
             slider_home.adapter = viewPagerAdapter
-            dotscount = viewPagerAdapter.count
-            for (i in 0 until dotscount) {
-                dots.add(ImageView(requireContext()))
-            }
-            for (i in 0 until dotscount) {
-                dots[i] = ImageView(requireContext())
-                dots[i].setImageDrawable(
-                    ContextCompat.getDrawable(requireContext(), R.drawable.non_active_slider)
-                )
-                val params = LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-                )
-                params.setMargins(8, 0, 8, 0)
-                SliderDots!!.addView(dots[i], params)
-            }
-
-            dots[0].setImageDrawable(
-                ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.active_slider
-                )
-            )
-
-            slider_home.addOnPageChangeListener(object :
-                ViewPager.OnPageChangeListener {
-                override fun onPageScrolled(
-                    position: Int,
-                    positionOffset: Float,
-                    positionOffsetPixels: Int,
-                ) {
-                }
-
-                override fun onPageSelected(position: Int) {
-                    try {
-                        for (i in 0 until dotscount) {
-                            dots[i].setImageDrawable(
-                                ContextCompat.getDrawable(
-                                    requireContext(),
-                                    R.drawable.non_active_slider
-                                )
-                            )
-                        }
-                        dots[position].setImageDrawable(
-                            ContextCompat.getDrawable(
-                                requireContext(),
-                                R.drawable.active_slider
-                            )
-                        )
-                    } catch (error: Exception) {
-                        //  slider_home.stopAutoScroll()
-                    }
-
-
-                }
-
-                override fun onPageScrollStateChanged(state: Int) {}
-            })
-            slider_home_ = slider_home
+            dots_indicator.attachTo(slider_home)
             slider_home.startAutoScroll()
         }
     }
@@ -550,7 +528,10 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
         SliderDots.removeAllViews()
         homeViewModel.getSliderData()
         homeViewModel.getAllCategories()
-
+//        if (HelpFunctions.isUserLoggedIn()) {
+//            homeViewModel.getLastViewedProduct()
+//            //  HelpFunctions.GetUserWatchlist()
+//        }
     }
 
 

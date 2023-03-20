@@ -12,7 +12,8 @@
     <string name="searchHere">ابحث هنا</string>
     <string name="noSpecificationFound">لم يتم العثور على مواصفات</string>
   <string name="noQuestionsFound">لم يتم العثور على أسئله</string>
-
+  <string name="applyFilter">تطبيق الفلتر</string>
+  <string name="recentlyView">مشاهدة مؤخرا </string>
     <string name="City">مدينة</string>
 
     <string name="Confirm">تؤكد</string>
