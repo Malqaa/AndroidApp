@@ -36,6 +36,9 @@ class RetrofitBuilder {
             val authenticationInterceptor = AuthenticationInterceptor();
             httpClient.addInterceptor(httpLoggingInterceptor);
             httpClient.addInterceptor(authenticationInterceptor);
+            httpClient.readTimeout(1, TimeUnit.MINUTES)
+            httpClient.writeTimeout(2, TimeUnit.MINUTES)
+            httpClient.connectTimeout(2, TimeUnit.MINUTES)
             if (builder == null) {
                 builder = Retrofit.Builder()
                 builder!!.baseUrl(Constants.API_BASE_URL)

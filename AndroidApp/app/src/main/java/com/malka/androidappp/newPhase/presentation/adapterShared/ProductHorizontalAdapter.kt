@@ -11,6 +11,7 @@ import com.malka.androidappp.newPhase.data.helper.Extension
 import com.malka.androidappp.newPhase.data.helper.Extension.decimalNumberFormat
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.data.helper.hide
+import com.malka.androidappp.newPhase.data.helper.show
 import com.malka.androidappp.newPhase.domain.models.productResp.Product
 import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
 import com.yariksoffice.lingver.Lingver
@@ -44,6 +45,16 @@ class ProductHorizontalAdapter(
             holder.viewBinding.fullview.layoutParams = params
         }
 
+        if(productList[position].isFreeDeleivry){
+            holder.viewBinding.btnFreeDelivery.show()
+        }else{
+            holder.viewBinding.btnFreeDelivery.hide()
+        }
+        if(productList[position].isMerchant){
+            holder.viewBinding.btnMerchant.show()
+        }else{
+            holder.viewBinding.btnMerchant.hide()
+        }
 
         if (HelpFunctions.isUserLoggedIn()) {
             if (productList[position].isFavourite) {

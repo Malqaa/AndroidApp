@@ -1,7 +1,7 @@
 package com.malka.androidappp.newPhase.data.network.service
 
 import com.google.gson.JsonObject
-import com.malka.androidappp.newPhase.presentation.productReviewActivity.RateResponse
+import com.malka.androidappp.newPhase.domain.models.ratingResp.RateResponse
 import com.malka.androidappp.fragments.UserImageResponseBack
 import com.malka.androidappp.newPhase.presentation.prodctListActivity.browse_market.popup_subcategories_list.ModelAddSearchFav
 import com.malka.androidappp.fragments.cardetail_page.ModelAddSellerFav
@@ -43,7 +43,6 @@ import com.malka.androidappp.newPhase.domain.models.servicemodels.favourites.Fav
 import com.malka.androidappp.newPhase.domain.models.servicemodels.favourites.favouriteadd
 import com.malka.androidappp.newPhase.domain.models.servicemodels.feedbacks.FeedbackObject
 import com.malka.androidappp.newPhase.domain.models.servicemodels.home.visitcount.visit_count_object
-import com.malka.androidappp.newPhase.domain.models.homeCategoryProductResp.CategoryProductItem
 import com.malka.androidappp.newPhase.domain.models.homeCategoryProductResp.HomeCategoryProductResp
 import com.malka.androidappp.newPhase.domain.models.servicemodels.model_wonloss.ModelWonLost
 import com.malka.androidappp.newPhase.domain.models.servicemodels.questionModel.ModelAskQues
@@ -203,7 +202,12 @@ interface MalqaApiService {
     ): Call<GeneralResponse>
     @GET("ListFavoriteProduct")
     fun getUserWatchlist(@Query("lang") language: String = ConstantObjects.currentLanguage): Call<ProductListResp>;
-   // ?currentPage=1
+
+
+    @GET("ListRateProduct?productId=15&currentPage=1")
+    fun getRates(@Query("productId") productID:Int,@Query("lang") language: String = ConstantObjects.currentLanguage): Call<RateResponse>
+
+    // ?currentPage=1
     //+++++++++++++++++++++++++++++++++++++++++
     //+++++++++++++++++++++++++++++++++++++++++
     //+++++++++++++++++++++++++++++++++++++++++
@@ -498,8 +502,6 @@ interface MalqaApiService {
         @Field("lang") language: String,
     ): Call<LoginResp>
 
-    @GET("ListRateProduct?productId=15&currentPage=1")
-    fun getRates(@Query("lang") language: String = ConstantObjects.currentLanguage): Call<RateResponse>
 
     @GET("ListSimilarProducts?currentPage=1&lang=ar")
     fun getsimilar(): Call<BasicResponse>

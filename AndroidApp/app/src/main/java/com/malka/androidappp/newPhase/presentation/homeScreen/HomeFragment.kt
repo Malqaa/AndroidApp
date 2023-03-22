@@ -1,10 +1,12 @@
 package com.malka.androidappp.newPhase.presentation.homeScreen
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -93,7 +95,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
 
     private fun setupLastViewedPorductsAdapter() {
         lastviewedPorductList = ArrayList()
-        lastviewedPorductAdatper = ProductHorizontalAdapter(lastviewedPorductList, this, 0,true)
+        lastviewedPorductAdatper = ProductHorizontalAdapter(lastviewedPorductList, this, 0, true)
         rvLastViewedProducts.apply {
             adapter = lastviewedPorductAdatper
             layoutManager = linearLayoutManager(RecyclerView.HORIZONTAL)
@@ -266,12 +268,12 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
                 when (status_product_added_to_fav_from) {
                     added_from_product_in_category -> {
                         lifecycleScope.launch(Dispatchers.IO) {
-                             var changedCategoryItemPosition = -1
-                            var  changedProductItemPosition = -1
+                            var changedCategoryItemPosition = -1
+                            var changedProductItemPosition = -1
                             for ((catIndex, category) in categoryProductHomeList.withIndex()) {
                                 if (category.catId == selected_category_product_added_to_fav) {
                                     category.listProducts?.let {
-                                        for ((index, product)  in it.withIndex()) {
+                                        for ((index, product) in it.withIndex()) {
                                             if (product.id == added_product_id_to_fav) {
                                                 product.isFavourite = !product.isFavourite
                                                 changedProductItemPosition = index
@@ -287,41 +289,120 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
                                     if (changedCategoryItemPosition != -1 && changedProductItemPosition != -1) {
                                         // 1. get ith item of the parent recyclerView
                                         val ithChildViewHolder: CategoryProductAdapter.CategoryProductHolder =
-                                                dynamic_product_rcv.findViewHolderForAdapterPosition(
-                                                    changedCategoryItemPosition
-                                                ) as CategoryProductAdapter.CategoryProductHolder
-                                            val ithChildsRecyclerView: RecyclerView =
-                                                ithChildViewHolder.viewBinding.productRcv
+                                            dynamic_product_rcv.findViewHolderForAdapterPosition(
+                                                changedCategoryItemPosition
+                                            ) as CategoryProductAdapter.CategoryProductHolder
+                                        val ithChildsRecyclerView: RecyclerView =
+                                            ithChildViewHolder.viewBinding.productRcv
 
-                                            // 3. get ithRecyclerView's adapter
-                                            val ithChildAdapter: ProductHorizontalAdapter? =
-                                                ithChildsRecyclerView.adapter as ProductHorizontalAdapter?
-                                            ithChildAdapter?.let { ithChildAdapter ->
-                                                ithChildAdapter.notifyItemChanged(
-                                                    changedProductItemPosition
-                                                )
-                                            }
+                                        // 3. get ithRecyclerView's adapter
+                                        val ithChildAdapter: ProductHorizontalAdapter? =
+                                            ithChildsRecyclerView.adapter as ProductHorizontalAdapter?
+                                        ithChildAdapter?.let { ithChildAdapter ->
+                                            ithChildAdapter.notifyItemChanged(
+                                                changedProductItemPosition
+                                            )
+                                        }
                                     }
-                                } catch (e:Exception) {
+                                } catch (e: Exception) {
                                     //println("hhh "+e.message)
-                                   categoryPrductAdapter.notifyDataSetChanged()
+                                    categoryPrductAdapter.notifyDataSetChanged()
                                 }
 
                                 // categoryPrductAdapter.notifyDataChange(changedCategoryItemPosition,changedProductItemPosition)
                                 //categoryPrductAdapter.notifyItemChanged(changedCategoryItemPosition)
                             }
                         }
+                        /***for similer product*/
+                        lifecycleScope.launch(Dispatchers.IO) {
+                            var selectedSimilerProduct: Product? = null
+                            for (product in lastviewedPorductList) {
+                                if (product.id == added_product_id_to_fav) {
+                                    product.isFavourite = !product.isFavourite
+                                    selectedSimilerProduct = product
+                                    break
+                                }
+                            }
+                            withContext(Dispatchers.Main) {
+                                /**update similer product*/
+                                selectedSimilerProduct?.let { product ->
+                                    lastviewedPorductAdatper.notifyItemChanged(
+                                        lastviewedPorductList.indexOf(
+                                            product
+                                        )
+                                    )
+                                }
+                            }
+                        }
                     }
                     added_from_last_product_view -> {
-                        for (product in lastviewedPorductList) {
-                            if (product.id == added_product_id_to_fav) {
-                                product.isFavourite = !product.isFavourite
-                                lastviewedPorductAdatper.notifyItemChanged(
-                                    lastviewedPorductList.indexOf(
-                                        product
+                        /***for similer product*/
+                        lifecycleScope.launch(Dispatchers.IO) {
+                            var selectedSimilerProduct: Product? = null
+                            for (product in lastviewedPorductList) {
+                                if (product.id == added_product_id_to_fav) {
+                                    product.isFavourite = !product.isFavourite
+                                    selectedSimilerProduct = product
+                                    break
+                                }
+                            }
+                            withContext(Dispatchers.Main) {
+                                /**update similer product*/
+                                selectedSimilerProduct?.let { product ->
+                                    lastviewedPorductAdatper.notifyItemChanged(
+                                        lastviewedPorductList.indexOf(
+                                            product
+                                        )
                                     )
-                                )
-                                break
+                                }
+                            }
+                        }
+                        /**for category products*/
+                        lifecycleScope.launch(Dispatchers.IO) {
+                            var changedCategoryItemPosition = -1
+                            var changedProductItemPosition = -1
+                            for ((catIndex, category) in categoryProductHomeList.withIndex()) {
+                                if (category.catId == selected_category_product_added_to_fav) {
+                                    category.listProducts?.let {
+                                        for ((index, product) in it.withIndex()) {
+                                            if (product.id == added_product_id_to_fav) {
+                                                product.isFavourite = !product.isFavourite
+                                                changedProductItemPosition = index
+                                                changedCategoryItemPosition = catIndex
+                                                break
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            withContext(Dispatchers.Main) {
+                                /**update  product in Category*/
+                                try {
+                                    if (changedCategoryItemPosition != -1 && changedProductItemPosition != -1) {
+                                        // 1. get ith item of the parent recyclerView
+                                        val ithChildViewHolder: CategoryProductAdapter.CategoryProductHolder =
+                                            dynamic_product_rcv.findViewHolderForAdapterPosition(
+                                                changedCategoryItemPosition
+                                            ) as CategoryProductAdapter.CategoryProductHolder
+                                        val ithChildsRecyclerView: RecyclerView =
+                                            ithChildViewHolder.viewBinding.productRcv
+
+                                        // 3. get ithRecyclerView's adapter
+                                        val ithChildAdapter: ProductHorizontalAdapter? =
+                                            ithChildsRecyclerView.adapter as ProductHorizontalAdapter?
+                                        ithChildAdapter?.let { ithChildAdapter ->
+                                            ithChildAdapter.notifyItemChanged(
+                                                changedProductItemPosition
+                                            )
+                                        }
+                                    }
+                                } catch (e: Exception) {
+                                    //println("hhh "+e.message)
+                                    categoryPrductAdapter.notifyDataSetChanged()
+                                }
+
+                                // categoryPrductAdapter.notifyDataChange(changedCategoryItemPosition,changedProductItemPosition)
+                                //categoryPrductAdapter.notifyItemChanged(changedCategoryItemPosition)
                             }
                         }
                     }
@@ -415,10 +496,8 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
     override fun onProductSelect(position: Int, productId: Int, categoryID: Int) {
 //        SharedPreferencesStaticClass.ad_userid = ""
 //        ConstantObjects.is_watch_iv = ivFav
-        startActivity(Intent(context, ProductDetailsActivity::class.java).apply {
-            putExtra(ConstantObjects.productIdKey, productId)
-            putExtra("Template", "")
-        })
+        goToProductDetails(productId)
+
     }
 
     override fun onAddProductToFav(position: Int, productId: Int, categoryID: Int) {
@@ -439,11 +518,13 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
     override fun onSelectedProductInCategory(position: Int, productID: Int, categoryID: Int) {
 //        SharedPreferencesStaticClass.ad_userid = ""
 //        ConstantObjects.is_watch_iv = ivFav
-        startActivity(
-            Intent(requireActivity(), ProductDetailsActivity::class.java).apply {
-                putExtra(ConstantObjects.productIdKey, productID)
-                putExtra("Template", "")
-            })
+//        startActivity(
+//            Intent(requireActivity(), ProductDetailsActivity::class.java).apply {
+//                putExtra(ConstantObjects.productIdKey, productID)
+//                putExtra("Template", "")
+//            })
+        goToProductDetails(productID)
+
     }
 
     override fun onAddProductInCategoryToFav(position: Int, productID: Int, categoryID: Int) {
@@ -459,6 +540,93 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
                     context,
                     SignInActivity::class.java
                 ).apply {})
+        }
+    }
+    /**open activity product detials functions**/
+    val productDetailsLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val productId:Int= result.data?.getIntExtra(ConstantObjects.productIdKey,0) ?: 0
+                val productFavStatusKey:Boolean= result.data?.getBooleanExtra(ConstantObjects.productFavStatusKey,false) ?:false
+                refreshFavProductStatus(productId,productFavStatusKey)
+            }
+        }
+    private fun goToProductDetails(productId: Int) {
+        productDetailsLauncher.launch(Intent(context, ProductDetailsActivity::class.java).apply {
+            putExtra(ConstantObjects.productIdKey, productId)
+            putExtra("Template", "")
+        })
+    }
+
+    private fun refreshFavProductStatus(productId: Int, productFavStatusKey: Boolean) {
+        /***for similer product*/
+        lifecycleScope.launch(Dispatchers.IO) {
+            var selectedSimilerProduct: Product? = null
+            for (product in lastviewedPorductList) {
+                if (product.id == productId) {
+                    product.isFavourite = productFavStatusKey
+                    selectedSimilerProduct = product
+                    break
+                }
+            }
+            withContext(Dispatchers.Main) {
+                /**update similer product*/
+                selectedSimilerProduct?.let { product ->
+                    lastviewedPorductAdatper.notifyItemChanged(
+                        lastviewedPorductList.indexOf(
+                            product
+                        )
+                    )
+                }
+            }
+        }
+        /**for category products*/
+        lifecycleScope.launch(Dispatchers.IO) {
+            var changedCategoryItemPosition = -1
+            var changedProductItemPosition = -1
+            for ((catIndex, category) in categoryProductHomeList.withIndex()) {
+                if (category.catId == selected_category_product_added_to_fav) {
+                    category.listProducts?.let {
+                        for ((index, product) in it.withIndex()) {
+                            if (product.id == productId) {
+                                product.isFavourite =productFavStatusKey
+                                changedProductItemPosition = index
+                                changedCategoryItemPosition = catIndex
+                                break
+                            }
+                        }
+                    }
+                }
+            }
+            withContext(Dispatchers.Main) {
+                /**update  product in Category*/
+                try {
+                    if (changedCategoryItemPosition != -1 && changedProductItemPosition != -1) {
+                        // 1. get ith item of the parent recyclerView
+                        val ithChildViewHolder: CategoryProductAdapter.CategoryProductHolder =
+                            dynamic_product_rcv.findViewHolderForAdapterPosition(
+                                changedCategoryItemPosition
+                            ) as CategoryProductAdapter.CategoryProductHolder
+                        val ithChildsRecyclerView: RecyclerView =
+                            ithChildViewHolder.viewBinding.productRcv
+
+                        // 3. get ithRecyclerView's adapter
+                        val ithChildAdapter: ProductHorizontalAdapter? =
+                            ithChildsRecyclerView.adapter as ProductHorizontalAdapter?
+                        ithChildAdapter?.let { ithChildAdapter ->
+                            ithChildAdapter.notifyItemChanged(
+                                changedProductItemPosition
+                            )
+                        }
+                    }
+                } catch (e: Exception) {
+                    //println("hhh "+e.message)
+                    categoryPrductAdapter.notifyDataSetChanged()
+                }
+
+                // categoryPrductAdapter.notifyDataChange(changedCategoryItemPosition,changedProductItemPosition)
+                //categoryPrductAdapter.notifyItemChanged(changedCategoryItemPosition)
+            }
         }
     }
 

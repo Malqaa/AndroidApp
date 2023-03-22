@@ -9,6 +9,7 @@ import com.malka.androidappp.newPhase.domain.models.productResp.ProductListResp
 import com.malka.androidappp.newPhase.domain.models.productResp.ProductResp
 import com.malka.androidappp.newPhase.domain.models.questionResp.AddQuestionResp
 import com.malka.androidappp.newPhase.domain.models.questionsResp.QuestionsResp
+import com.malka.androidappp.newPhase.domain.models.ratingResp.RateResponse
 import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
 import com.malka.androidappp.newPhase.domain.models.servicemodels.GeneralRespone
 
@@ -23,7 +24,7 @@ class ProductDetailsViewModel: BaseViewModel() {
     var addQuestionObservable :MutableLiveData<AddQuestionResp> = MutableLiveData()
     var getSimilarProductObservable :MutableLiveData<ProductListResp> = MutableLiveData()
     var getListOfQuestionsObservable :MutableLiveData<QuestionsResp> = MutableLiveData()
-
+    var getRateResponseObservable: MutableLiveData<RateResponse> = MutableLiveData()
 
 
     fun getProductDetailsById(productId:Int){
@@ -153,6 +154,48 @@ class ProductDetailsViewModel: BaseViewModel() {
                         getListOfQuestionsObservable.value = response.body()
                     }else {
                         errorResponseObserver.value = getErrorResponse(response.errorBody())
+                    }
+                }
+            })
+    }
+
+
+    fun getProductRatesForActivity(productID:Int){
+        isLoading.value=true
+        RetrofitBuilder.GetRetrofitBuilder()
+            .getRates(productID)
+            .enqueue(object : Callback<RateResponse> {
+                override fun onFailure(call: Call<RateResponse>, t: Throwable) {
+                    isNetworkFail.value = t !is HttpException
+                    isLoading.value=false
+                }
+
+                override fun onResponse(
+                    call: Call<RateResponse>,
+                    response: Response<RateResponse>
+                ) {
+                    isLoading.value=false
+                    if (response.isSuccessful) {
+                        getRateResponseObservable.value = response.body()
+                    }else {
+                        errorResponseObserver.value = getErrorResponse(response.errorBody())
+                    }
+                }
+            })
+    }
+    fun getProductRatesForProductDetails(productID:Int){
+        RetrofitBuilder.GetRetrofitBuilder()
+            .getRates(productID)
+            .enqueue(object : Callback<RateResponse> {
+                override fun onFailure(call: Call<RateResponse>, t: Throwable) {
+                }
+
+                override fun onResponse(
+                    call: Call<RateResponse>,
+                    response: Response<RateResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        getRateResponseObservable.value = response.body()
                     }
                 }
             })

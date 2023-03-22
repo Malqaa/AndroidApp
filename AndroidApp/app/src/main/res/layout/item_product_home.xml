@@ -133,7 +133,7 @@
                 android:gravity="start">
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_signup_normal"
+                    android:id="@+id/btnMerchant"
                     android:layout_width="@dimen/_45sdp"
                     android:layout_height="@dimen/_20sdp"
                     android:layout_marginStart="@dimen/_10sdp"
@@ -146,7 +146,7 @@
                     tools:ignore="TouchTargetSizeCheck" />
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_signup_business"
+                    android:id="@+id/btnFreeDelivery"
                     android:layout_width="@dimen/_65sdp"
                     android:layout_height="@dimen/_20sdp"
                     android:layout_marginStart="@dimen/_5sdp"

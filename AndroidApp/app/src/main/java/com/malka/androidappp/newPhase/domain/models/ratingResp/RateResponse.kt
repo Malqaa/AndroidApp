@@ -1,4 +1,4 @@
-package com.malka.androidappp.newPhase.presentation.productReviewActivity
+package com.malka.androidappp.newPhase.domain.models.ratingResp
 
 data class RateResponse(
     val `data`: List<RateReview>,

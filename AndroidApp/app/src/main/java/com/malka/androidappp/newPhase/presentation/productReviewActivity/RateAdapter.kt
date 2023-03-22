@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.malka.androidappp.R
+import com.malka.androidappp.newPhase.domain.models.ratingResp.RateResponse
 
 class RateAdapter(val context: Context, val rateData: List<RateResponse.RateReview>): RecyclerView.Adapter<RateAdapter.RateViewHolder>()
 {

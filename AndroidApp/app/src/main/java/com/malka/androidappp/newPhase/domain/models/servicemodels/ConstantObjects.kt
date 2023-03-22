@@ -52,5 +52,6 @@ class ConstantObjects {
         const val searchQueryKey = "searchQueryKey"
         const val productIdKey = "ProductIdKey"
         const val questionListKey="QuestionListKey"
+        const val productFavStatusKey="productFavStatusKey"
     }
 }

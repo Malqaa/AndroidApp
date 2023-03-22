@@ -51,8 +51,10 @@ data class Product(
     val streetName: String,
     val stutes: Int,
     val updateDate: String? = null,
+    val isFreeDeleivry:Boolean,
+    val isMerchant:Boolean
 
-    ) {
+) {
 
     val createdOnFormated: String
         get() {

@@ -1,8 +1,10 @@
 package com.malka.androidappp.newPhase.presentation.watchlistFragment
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -24,6 +26,7 @@ import com.malka.androidappp.newPhase.presentation.homeScreen.adapters.CategoryP
 import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
 import com.malka.androidappp.newPhase.presentation.productDetailsActivity.ProductDetailsActivity
 import com.malka.androidappp.newPhase.presentation.productDetailsActivity.viewModels.ProductDetailsViewModel
+import kotlinx.android.synthetic.main.fragment_choose_cate.*
 import kotlinx.android.synthetic.main.fragment_homee.*
 import kotlinx.android.synthetic.main.fragment_watchlist.*
 import kotlinx.android.synthetic.main.fragment_watchlist.swipe_to_refresh
@@ -204,6 +207,47 @@ class WatchlistFragment : Fragment(R.layout.fragment_watchlist),
                     SignInActivity::class.java
                 ).apply {})
         }
+    }
+    /**open activity product detials functions**/
+    val productDetailsLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val productId:Int= result.data?.getIntExtra(ConstantObjects.productIdKey,0) ?: 0
+                val productFavStatusKey:Boolean= result.data?.getBooleanExtra(ConstantObjects.productFavStatusKey,false) ?:false
+                refreshFavProductStatus(productId,productFavStatusKey)
+            }
+        }
+    private fun goToProductDetails(productId: Int) {
+        productDetailsLauncher.launch(Intent(context, ProductDetailsActivity::class.java).apply {
+            putExtra(ConstantObjects.productIdKey, productId)
+            putExtra("Template", "")
+        })
+    }
+
+    private fun refreshFavProductStatus(productId: Int, productFavStatusKey: Boolean) {
+        /***for similer product*/
+        lifecycleScope.launch(Dispatchers.IO) {
+            var selectedSimilerProduct: Product? = null
+            for (product in productList) {
+                if (product.id == productId) {
+                    product.isFavourite = productFavStatusKey
+                    selectedSimilerProduct = product
+                    break
+                }
+            }
+            withContext(Dispatchers.Main) {
+                /**update similer product*/
+                selectedSimilerProduct?.let { product ->
+                    productList.removeAt(productList.indexOf(product))
+                    wishListAdapter.notifyItemRemoved(productList.indexOf(product))
+                    wishListAdapter.notifyDataSetChanged();
+                    if(productList.isEmpty()){
+                        showProductApiError(getString(R.string.noProductsAdded))
+                    }
+                }
+            }
+        }
+
     }
 
 

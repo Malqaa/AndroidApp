@@ -1,7 +1,9 @@
 package com.malka.androidappp.newPhase.presentation
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
@@ -87,6 +89,13 @@ class MainActivity : BaseActivity() {
         var myOrderTrigger = false
         var myBidTrigger = false
     }
+
+//    val loginLuncher =
+//        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+//            if (result.resultCode == Activity.RESULT_OK) {
+//                checkPriceLayout()
+//            }
+//        }
 
 }
 

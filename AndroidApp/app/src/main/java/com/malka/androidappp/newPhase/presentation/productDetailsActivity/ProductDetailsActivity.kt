@@ -103,6 +103,8 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     val added_from_last_similerProducts_status = 2
     var added_position_from_last_similerProduct = 0
     var status_product_added_to_fav_from = 0
+    var productfavStatus=false
+    var favAddingChange=false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product_details2)
@@ -236,7 +238,6 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                 putExtra(ConstantObjects.productIdKey, productId)
             })
         }
-
 
 
         tvShowAllReviews.setOnClickListener {
@@ -382,6 +383,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                         }
                     }
                     added_from_product_Destails_status -> {
+                        favAddingChange=true
                         productDetails?.let { it ->
                             it.isFavourite = !it.isFavourite
                             setProductData(productDetails)
@@ -593,8 +595,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             /**pidding views*/
             containerAuctioncountdownTimer_bar.show()
             tvAuctionNumber.text = "${getString(R.string.bidding)} "
-
-            println("hhhh "+productDetails.isFavourite)
+            productfavStatus=productDetails.isFavourite
             if (productDetails.isFavourite) {
                 ivFav.setImageResource(R.drawable.starcolor)
             } else {
@@ -789,15 +790,24 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     }
 
     override fun onBackPressed() {
-        intent.getBooleanExtra(ConstantObjects.isSuccess, false).let {
-            if (it) {
-                startActivity(Intent(this, MainActivity::class.java).apply {
-                })
-                finish()
-            } else {
-                finish()
-            }
+        var returnIntent=Intent()
+        returnIntent.putExtra(ConstantObjects.productIdKey,productId)
+        returnIntent.putExtra(ConstantObjects.productFavStatusKey,productfavStatus)
+        if(favAddingChange){
+            setResult(Activity.RESULT_OK,returnIntent)
+            finish()
+        }else{
+            finish()
         }
+//        returnIntent.getBooleanExtra(ConstantObjects.isSuccess, false).let {
+//            if (it) {
+//                startActivity(Intent(this, MainActivity::class.java).apply {
+//                })
+//
+//            } else {
+//                finish()
+//            }
+//        }
 
     }
 

@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.toolbar_main.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import com.malka.androidappp.newPhase.presentation.productReviewActivity.RateResponse as RateResponse1
+import com.malka.androidappp.newPhase.domain.models.ratingResp.RateResponse as RateResponse1
 
 class ProductReviewsActivity : BaseActivity() {
 
@@ -83,7 +83,7 @@ class ProductReviewsActivity : BaseActivity() {
     }
         private fun getRates() {
             val apiBuilder = RetrofitBuilder.GetRetrofitBuilder()
-            val Rates = apiBuilder.getRates()
+            val Rates = apiBuilder.getRates(15)
             Rates.enqueue(object : Callback<RateResponse1> {
                 override fun onResponse(
                     call: Call<RateResponse1>,
