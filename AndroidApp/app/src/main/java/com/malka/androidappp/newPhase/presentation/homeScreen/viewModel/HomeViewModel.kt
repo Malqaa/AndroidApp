@@ -7,6 +7,8 @@ import com.malka.androidappp.newPhase.domain.models.ErrorResponse
 import com.malka.androidappp.newPhase.domain.models.homeSilderResp.HomeSliderResp
 import com.malka.androidappp.newPhase.domain.models.productResp.ProductListResp
 import com.malka.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
+import com.malka.androidappp.newPhase.domain.models.homeCategoryProductResp.CategoryProductItem
+import com.malka.androidappp.newPhase.domain.models.homeCategoryProductResp.HomeCategoryProductResp
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.HttpException
@@ -17,7 +19,7 @@ class HomeViewModel : BaseViewModel() {
     var searchObserver: MutableLiveData<GeneralResponse> = MutableLiveData()
     var categoriesObserver: MutableLiveData<GeneralResponse> = MutableLiveData()
     var categoriesErrorResponseObserver: MutableLiveData<ErrorResponse> = MutableLiveData()
-    var homeCategoryProductObserver: MutableLiveData<GeneralResponse> = MutableLiveData()
+    var homeCategoryProductObserver: MutableLiveData<HomeCategoryProductResp> = MutableLiveData()
     var homeCategoryProductErrorResponseObserver: MutableLiveData<ErrorResponse> = MutableLiveData()
     var isLoadingAllCategory:MutableLiveData<Boolean> =MutableLiveData()
     var lastViewProductsObserver:MutableLiveData<ProductListResp> =MutableLiveData()
@@ -93,15 +95,16 @@ class HomeViewModel : BaseViewModel() {
     fun getListHomeCategoryProduct() {
         RetrofitBuilder.GetRetrofitBuilder()
             .ListHomeCategoryProduct()
-            .enqueue(object : Callback<GeneralResponse> {
-                override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
+            .enqueue(object : Callback<HomeCategoryProductResp> {
+                override fun onFailure(call: Call<HomeCategoryProductResp>, t: Throwable) {
                     isNetworkFail.value = t !is HttpException
                 }
 
                 override fun onResponse(
-                    call: Call<GeneralResponse>,
-                    response: Response<GeneralResponse>
+                    call: Call<HomeCategoryProductResp>,
+                    response: Response<HomeCategoryProductResp>
                 ) {
+
                     if (response.isSuccessful) {
                         homeCategoryProductObserver.value = response.body()
                     } else {

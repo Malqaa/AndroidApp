@@ -13,23 +13,18 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.PlayActivity
 import com.malka.androidappp.activities_main.order.CartActivity
-import com.malka.androidappp.fragments.cardetail_page.ModelSellerDetails
 import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.newPhase.data.helper.*
 import com.malka.androidappp.newPhase.data.helper.Extension.shared
-import com.malka.androidappp.newPhase.data.helper.HelpFunctions.Companion.openExternalLInk
-import com.malka.androidappp.newPhase.data.helper.swipe.MessageSwipeController
-import com.malka.androidappp.newPhase.data.helper.swipe.SwipeControllerActions
 import com.malka.androidappp.newPhase.data.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.newPhase.data.network.constants.Constants
 import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
@@ -37,11 +32,13 @@ import com.malka.androidappp.newPhase.data.network.service.MalqaApiService
 import com.malka.androidappp.newPhase.domain.models.productResp.Product
 import com.malka.androidappp.newPhase.domain.models.productResp.ProductMediaItemDetails
 import com.malka.androidappp.newPhase.domain.models.productResp.ProductSpecialityItemDetails
+import com.malka.androidappp.newPhase.domain.models.questionResp.QuestionItem
 import com.malka.androidappp.newPhase.domain.models.servicemodels.*
 import com.malka.androidappp.newPhase.domain.models.servicemodels.addtocart.InsertToCartRequestModel
 import com.malka.androidappp.newPhase.domain.models.servicemodels.questionModel.Question
 import com.malka.androidappp.newPhase.presentation.MainActivity
 import com.malka.androidappp.newPhase.presentation.adapterShared.ProductHorizontalAdapter
+import com.malka.androidappp.newPhase.presentation.adapterShared.SetOnProductItemListeners
 import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
 import com.malka.androidappp.newPhase.presentation.productDetailsActivity.adapter.ProductImagesAdapter
 import com.malka.androidappp.newPhase.presentation.productDetailsActivity.adapter.QuestionAnswerAdapter
@@ -52,7 +49,6 @@ import com.malka.androidappp.newPhase.presentation.productDetailsActivity.viewMo
 import com.malka.androidappp.newPhase.presentation.productQuestionActivity.QuestionActivity
 import com.malka.androidappp.newPhase.presentation.productReviewActivity.ProductReviewsActivity
 import com.malka.androidappp.newPhase.presentation.productsSellerInfoActivity.SellerInformationActivity
-import com.squareup.picasso.Picasso
 import com.yariksoffice.lingver.Lingver
 import kotlinx.android.synthetic.main.activity_product_details2.*
 import kotlinx.android.synthetic.main.activity_product_details_item_2.*
@@ -63,6 +59,9 @@ import kotlinx.android.synthetic.main.bid_confirmation.view.*
 import kotlinx.android.synthetic.main.item_image_for_product_details.view.*
 import kotlinx.android.synthetic.main.item_review_product.*
 import kotlinx.android.synthetic.main.product_item.view.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -70,13 +69,15 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
+class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
+    SetOnProductItemListeners {
 
     var reviewlist: ArrayList<Reviewmodel> = ArrayList()
     var AdvId = ""
     var selectLink = ""
     val attributeList: ArrayList<Attribute> = ArrayList()
-    var questionList: List<Question> = ArrayList()
+
+    //    var questionList: List<Question> = ArrayList()
     lateinit var product: Product
 
     lateinit var productDetailHelper: ProductDetailHelper
@@ -94,6 +95,14 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     lateinit var productImagesList: ArrayList<ProductMediaItemDetails>
     lateinit var similerProductList: ArrayList<Product>
     lateinit var sellerSimilerProductList: ArrayList<Product>
+    var questionsList: List<QuestionItem> = ArrayList()
+    lateinit var subQuestionsList: ArrayList<QuestionItem>
+
+    /****/
+    val added_from_product_Destails_status = 1
+    val added_from_last_similerProducts_status = 2
+    var added_position_from_last_similerProduct = 0
+    var status_product_added_to_fav_from = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product_details2)
@@ -104,118 +113,10 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         productId = intent.getIntExtra(ConstantObjects.productIdKey, -1)
         onRefresh()
         println("hhhh " + productId)
-//        productDetailHelper = ProductDetailHelper(this)
-//        product_attribute.isVisible = true
-//        quest_ans_rcv.isVisible = true
-//        answerLayout.isVisible = false
-//        getSimilarproducts()
-//        val behavior: BottomSheetBehavior<*> = BottomSheetBehavior.from<View>(bottom_sheet)
-//        behavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+        if (HelpFunctions.isUserLoggedIn()) {
+            productDetialsViewModel.addLastViewedProduct(productId)
+        }
 //
-//            override fun onStateChanged(bottomSheet: View, newState: Int) {
-//                if (newState == BottomSheetBehavior.STATE_EXPANDED) {
-//                    icon_layout.setVisibility(View.GONE)
-//                } else if (newState == BottomSheetBehavior.STATE_HIDDEN) {
-//                    icon_layout.setVisibility(View.GONE)
-//                    behavior.state = BottomSheetBehavior.STATE_EXPANDED
-//                } else {
-//                    icon_layout.setVisibility(View.VISIBLE)
-//                }
-//            }
-//
-//            override fun onSlide(bottomSheet: View, slideOffset: Float) {
-//
-//            }
-//        })
-//        behavior.peekHeight = getResources().getDimension(R.dimen._360sdp).toInt()
-//        mainContainer.isVisible = false
-//        AdvId = intent.getIntExtra("AdvId",-1).toString()
-//
-//        getadbyidapi(AdvId)
-//
-//        quesAnss()
-//
-//        setListenser()
-//
-//
-//        reviewlist.add(
-//            Reviewmodel(
-//                "Ahmed3",
-//                "12/12/2022",
-//                "Good and fast delivery",
-//                "2.9",
-//                R.drawable.car
-//            )
-//        )
-//        reviewlist.add(
-//            Reviewmodel(
-//                "Ahmed4",
-//                "16/12/2022",
-//                "Great Experience ",
-//                "3.0",
-//                R.drawable.car
-//            )
-//        )
-//        reviewlist.add(
-//            Reviewmodel(
-//                "Ahmed5",
-//                "10/12/2022",
-//                "Excelent fast delivery",
-//                "3.6",
-//                R.drawable.car
-//            )
-//        )
-//        reviewlist.add(
-//            Reviewmodel(
-//                "Ahmed6",
-//                "5/12/2022",
-//                "Amazing and fast delivery",
-//                "4.9",
-//                R.drawable.car
-//            )
-//        )
-//        reviewlist.add(
-//            Reviewmodel(
-//                "Ahmed3",
-//                "12/12/2022",
-//                "Good and fast delivery",
-//                "2.9",
-//                R.drawable.car
-//            )
-//        )
-//        reviewlist.add(
-//            Reviewmodel(
-//                "Ahmed4",
-//                "16/12/2022",
-//                "Great Experience ",
-//                "2.0",
-//                R.drawable.car
-//            )
-//        )
-//        reviewlist.add(
-//            Reviewmodel(
-//                "Ahmed4",
-//                "16/12/2022",
-//                "Great Experience ",
-//                "4.0",
-//                R.drawable.car
-//            )
-//        )
-//
-//        var totalRating = 0.0
-//        reviewlist.forEach {
-//            totalRating += it.rating.toDouble()
-//
-//        }
-//        val average = totalRating / reviewlist.size
-//        rating_bar.rating = average.toFloat()
-//        rating_bar_detail_tv.text = getString(
-//            R.string._4_9_from_00_visitors,
-//            rating_bar.rating.toString().format("%.2f"),
-//            reviewlist.size.toString()
-//        )
-//        setReviewsAdapter(reviewlist)
-
     }
 
     /**set view changes*/
@@ -257,20 +158,30 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     private fun setupViewClickListeners() {
         skype_btn.setOnClickListener {
             if (productDetails?.sellerInformation?.skype != null && productDetails?.sellerInformation?.skype != "") {
-                HelpFunctions.openExternalLInk(productDetails?.sellerInformation?.skype!!,this)
+                HelpFunctions.openExternalLInk(productDetails?.sellerInformation?.skype!!, this)
             }
         }
         youtube_btn.setOnClickListener {
             if (productDetails?.sellerInformation?.youTube != null && productDetails?.sellerInformation?.youTube != "") {
-                HelpFunctions.openExternalLInk(productDetails?.sellerInformation?.youTube!! ,this)
+                HelpFunctions.openExternalLInk(productDetails?.sellerInformation?.youTube!!, this)
             }
         }
         instagram_btn.setOnClickListener {
             if (productDetails?.sellerInformation?.instagram != null && productDetails?.sellerInformation?.instagram != "") {
-                HelpFunctions.openExternalLInk(productDetails?.sellerInformation?.instagram!!,this)
+                HelpFunctions.openExternalLInk(productDetails?.sellerInformation?.instagram!!, this)
             }
         }
         ivFav.setOnClickListener {
+            if (HelpFunctions.isUserLoggedIn()) {
+                status_product_added_to_fav_from=added_from_product_Destails_status
+                productDetialsViewModel.addProductToFav(productId)
+            } else {
+                startActivity(
+                    Intent(
+                        this,
+                        SignInActivity::class.java
+                    ).apply {})
+            }
 //            if (HelpFunctions.AdAlreadyAddedToWatchList(AdvId)) {
 //                HelpFunctions.DeleteAdFromWatchlist(
 //                    AdvId,
@@ -320,6 +231,14 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         tvQuestionAndAnswersShowAll.setOnClickListener {
             HelpFunctions.ShowLongToast("not implemented yey", this)
         }
+        tvQuestionAndAnswersShowAll.setOnClickListener {
+            startActivity(Intent(this, QuestionActivity::class.java).apply {
+                putExtra(ConstantObjects.productIdKey, productId)
+            })
+        }
+
+
+
         tvShowAllReviews.setOnClickListener {
             HelpFunctions.ShowLongToast("not implemented yey", this)
         }
@@ -406,15 +325,97 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                 resetQuestionAndAnswerAdapter()
             }
         }
-        productDetialsViewModel.getSimilarProductObservable.observe(this){similarProductRes->
-            if(similarProductRes.productList!=null){
+        productDetialsViewModel.getSimilarProductObservable.observe(this) { similarProductRes ->
+            if (similarProductRes.productList != null) {
                 similerProductList.clear()
                 similerProductList.addAll(similarProductRes.productList)
                 similarProductAdapter.notifyDataSetChanged()
                 contaienrSimilerProduts.show()
             }
         }
+        productDetialsViewModel.getListOfQuestionsObservable.observe(this) { questionListResp ->
+            if (questionListResp.questionList != null && questionListResp.questionList.isNotEmpty()) {
+                tvErrorNoQuestion.hide()
+                setQuestionsView(questionListResp.questionList)
+            } else {
+                tvErrorNoQuestion.show()
+            }
+        }
+        productDetialsViewModel.isNetworkFailProductToFav.observe(this) {
+            if (it) {
+                HelpFunctions.ShowLongToast(
+                    getString(R.string.connectionError),
+                    this
+                )
+            } else {
+                HelpFunctions.ShowLongToast(
+                    getString(R.string.serverError),
+                    this
+                )
+            }
 
+        }
+        productDetialsViewModel.errorResponseObserverProductToFav.observe(this) {
+            if (it.message != null && it.message != "") {
+                HelpFunctions.ShowLongToast(
+                    it.message,
+                    this
+                )
+            } else {
+                HelpFunctions.ShowLongToast(
+                    getString(R.string.serverError),
+                    this
+                )
+            }
+
+        }
+        productDetialsViewModel.addProductToFavObserver.observe(this) {
+            if (it.status_code == 200) {
+                when (status_product_added_to_fav_from) {
+                    added_from_last_similerProducts_status -> {
+                        if (added_position_from_last_similerProduct < similerProductList.size) {
+                            similerProductList[added_position_from_last_similerProduct].isFavourite =
+                                !similerProductList[added_position_from_last_similerProduct].isFavourite
+                            similarProductAdapter.notifyItemChanged(
+                                added_position_from_last_similerProduct
+                            )
+                        }
+                    }
+                    added_from_product_Destails_status -> {
+                        productDetails?.let { it ->
+                            it.isFavourite = !it.isFavourite
+                            setProductData(productDetails)
+                        }
+                    }
+                }
+
+
+            }
+        }
+    }
+
+    private fun setQuestionsView(data: List<QuestionItem>) {
+        questionsList = data
+        var datalist = questionsList.take(3)
+        subQuestionsList.clear()
+        subQuestionsList.addAll(datalist)
+        questionAnswerAdapter.notifyDataSetChanged()
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            var numberOfNotAnswerYet = 0
+            for (question in questionsList) {
+                if (question.answer == null || question.answer == "") {
+                    numberOfNotAnswerYet += 1
+                }
+            }
+            withContext(Dispatchers.Main) {
+                tvNumberQuestionNotAnswer.text = getString(
+                    R.string.there_are_2_questions_that_the_seller_did_not_answer,
+                    numberOfNotAnswerYet.toString()
+                )
+
+            }
+        }
     }
 
 
@@ -459,8 +460,8 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     }
 
     private fun setSimilarProductAdapter() {
-        similerProductList= ArrayList()
-        similarProductAdapter = ProductHorizontalAdapter(similerProductList)
+        similerProductList = ArrayList()
+        similarProductAdapter = ProductHorizontalAdapter(similerProductList, this, 0,true)
         rvSimilarProducts.apply {
             layoutManager = linearLayoutManager(RecyclerView.HORIZONTAL)
             adapter = similarProductAdapter
@@ -468,8 +469,8 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     }
 
     private fun setSellerAdapter() {
-        sellerSimilerProductList= ArrayList()
-        sellerProductAdapter = ProductHorizontalAdapter(sellerSimilerProductList)
+        sellerSimilerProductList = ArrayList()
+        sellerProductAdapter = ProductHorizontalAdapter(sellerSimilerProductList, this, 0,true)
         rv_seller_product.apply {
             layoutManager = linearLayoutManager(RecyclerView.HORIZONTAL)
             adapter = sellerProductAdapter
@@ -494,7 +495,8 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     }
 
     private fun setQuestionAnswerAdapter() {
-        questionAnswerAdapter = QuestionAnswerAdapter()
+        subQuestionsList = ArrayList()
+        questionAnswerAdapter = QuestionAnswerAdapter(subQuestionsList)
         rvQuestionForProduct.apply {
             layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
             adapter = questionAnswerAdapter
@@ -508,8 +510,8 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         containerMainProduct.hide()
         containerShareAndFav.hide()
         productDetialsViewModel.getProductDetailsById(productId)
-        productDetialsViewModel.getSimilarProduct(productId,1)
-
+        productDetialsViewModel.getSimilarProduct(productId, 1)
+        productDetialsViewModel.getListOfQuestions(productId)
     }
 
 
@@ -543,8 +545,9 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             tvProductItemName.text = productDetails.name ?: ""
             tvProductSubtitle.text = productDetails.subTitle ?: ""
             tvProductDescription.text = productDetails.description ?: ""
-            current_price_buy_tv.text="${productDetails.price.toString()} ${getString(R.string.sar)}"
-            Bid_on_price_tv.text= " ${getString(R.string.sar)}"
+            current_price_buy_tv.text =
+                "${productDetails.price.toString()} ${getString(R.string.sar)}"
+            Bid_on_price_tv.text = " ${getString(R.string.sar)}"
             /**seller info*/
             if (productDetails.sellerInformation != null) {
                 containerSellerInfo.show()
@@ -565,17 +568,17 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             }
             if (productDetails?.sellerInformation?.instagram != null && productDetails?.sellerInformation?.instagram != "") {
                 instagram_btn.show()
-            }else{
+            } else {
                 instagram_btn.hide()
             }
             if (productDetails?.sellerInformation?.youTube != null && productDetails?.sellerInformation?.youTube != "") {
                 youtube_btn.show()
-            }else{
+            } else {
                 youtube_btn.hide()
             }
             if (productDetails?.sellerInformation?.skype != null && productDetails?.sellerInformation?.skype != "") {
                 skype_btn.show()
-            }else{
+            } else {
                 skype_btn.hide()
             }
             /**specification*/
@@ -590,6 +593,14 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             /**pidding views*/
             containerAuctioncountdownTimer_bar.show()
             tvAuctionNumber.text = "${getString(R.string.bidding)} "
+
+            println("hhhh "+productDetails.isFavourite)
+            if (productDetails.isFavourite) {
+                ivFav.setImageResource(R.drawable.starcolor)
+            } else {
+                ivFav.setImageResource(R.drawable.star)
+            }
+
         } else {
             showError(getString(R.string.serverError))
         }
@@ -643,10 +654,35 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
     }
 
+    override fun onProductSelect(position: Int, productID: Int, categoryID: Int) {
+        startActivity(Intent(this, ProductDetailsActivity::class.java).apply {
+            putExtra(ConstantObjects.productIdKey, productID)
+            putExtra("Template", "")
+        })
+        finish()
+    }
+
+    override fun onAddProductToFav(position: Int, productID: Int, categoryID: Int) {
+        if (HelpFunctions.isUserLoggedIn()) {
+            status_product_added_to_fav_from = added_from_last_similerProducts_status
+            added_position_from_last_similerProduct = position
+            productDetialsViewModel.addProductToFav(productID)
+        } else {
+            startActivity(
+                Intent(
+                    this,
+                    SignInActivity::class.java
+                ).apply {})
+        }
+
+
+    }
 
     /****************/
-
-
+    /**** /****************/************/
+    /****************/
+    /****************/
+    /****************/
     private fun setListenser() {
 
         fbButtonBack.setOnClickListener {
@@ -661,22 +697,9 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
             })
         }
-
-
-
-
-
-
-
         tvShowAllReviews.setOnClickListener {
             startActivity(Intent(this, ProductReviewsActivity::class.java).apply {
 
-            })
-        }
-
-        tvQuestionAndAnswersShowAll.setOnClickListener {
-            startActivity(Intent(this, QuestionActivity::class.java).apply {
-                putExtra("AdvId", AdvId)
             })
         }
 
@@ -753,7 +776,6 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 //        }
 
 
-
         maps_btn.setOnClickListener({
             val uri: String =
                 java.lang.String.format(Locale.ENGLISH, "geo:%f,%f", 33.7295, 73.0372)
@@ -780,21 +802,6 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     }
 
 
-    private fun enableSwipeToDeleteAndUndo() {
-        val messageSwipeController =
-            MessageSwipeController(this, object : SwipeControllerActions {
-                override fun showReplyUI(position: Int) {
-                    val question = questionList.get(position)
-                    replyItemClicked(question)
-                    vibration()
-                }
-            })
-        val itemTouchHelper = ItemTouchHelper(messageSwipeController)
-        itemTouchHelper.attachToRecyclerView(rvQuestionForProduct)
-
-    }
-
-
     private fun replyItemClicked(question: Question) {
 
         answerLayout.isVisible = true
@@ -812,7 +819,6 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             }
         }
     }
-
 
 
     fun getIgnoreCase(jobj: JsonObject, key: String?): String {
@@ -841,11 +847,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
 
     fun PostAnsApi(questionId: String, answer: String) {
-
-
         productDetailHelper.PostAnsApi(questionId, answer) { respone ->
-
-
             if (respone.status_code >= 200 || respone.status_code <= 299) {
                 answerLayout.isVisible = false
                 ReplyAnswer.setText("")
@@ -964,6 +966,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             )
         }
     }
+
 
     /** NotNeed Function delete latter**/
 
@@ -1378,5 +1381,130 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 //        })
 //
 //    }
+    //    private fun enableSwipeToDeleteAndUndo() {
+//        val messageSwipeController =
+//            MessageSwipeController(this, object : SwipeControllerActions {
+//                override fun showReplyUI(position: Int) {
+//                    val question = questionList.get(position)
+//                    replyItemClicked(question)
+//                    vibration()
+//                }
+//            })
+//        val itemTouchHelper = ItemTouchHelper(messageSwipeController)
+//        itemTouchHelper.attachToRecyclerView(rvQuestionForProduct)
+//
+//    }
 }
 
+
+//productDetailHelper = ProductDetailHelper(this)
+//        product_attribute.isVisible = true
+//        quest_ans_rcv.isVisible = true
+//        answerLayout.isVisible = false
+//        getSimilarproducts()
+//        val behavior: BottomSheetBehavior<*> = BottomSheetBehavior.from<View>(bottom_sheet)
+//        behavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+//
+//            override fun onStateChanged(bottomSheet: View, newState: Int) {
+//                if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+//                    icon_layout.setVisibility(View.GONE)
+//                } else if (newState == BottomSheetBehavior.STATE_HIDDEN) {
+//                    icon_layout.setVisibility(View.GONE)
+//                    behavior.state = BottomSheetBehavior.STATE_EXPANDED
+//                } else {
+//                    icon_layout.setVisibility(View.VISIBLE)
+//                }
+//            }
+//
+//            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+//
+//            }
+//        })
+//        behavior.peekHeight = getResources().getDimension(R.dimen._360sdp).toInt()
+//        mainContainer.isVisible = false
+//        AdvId = intent.getIntExtra("AdvId",-1).toString()
+//
+//        getadbyidapi(AdvId)
+//
+//        quesAnss()
+//
+//        setListenser()
+//
+//
+//        reviewlist.add(
+//            Reviewmodel(
+//                "Ahmed3",
+//                "12/12/2022",
+//                "Good and fast delivery",
+//                "2.9",
+//                R.drawable.car
+//            )
+//        )
+//        reviewlist.add(
+//            Reviewmodel(
+//                "Ahmed4",
+//                "16/12/2022",
+//                "Great Experience ",
+//                "3.0",
+//                R.drawable.car
+//            )
+//        )
+//        reviewlist.add(
+//            Reviewmodel(
+//                "Ahmed5",
+//                "10/12/2022",
+//                "Excelent fast delivery",
+//                "3.6",
+//                R.drawable.car
+//            )
+//        )
+//        reviewlist.add(
+//            Reviewmodel(
+//                "Ahmed6",
+//                "5/12/2022",
+//                "Amazing and fast delivery",
+//                "4.9",
+//                R.drawable.car
+//            )
+//        )
+//        reviewlist.add(
+//            Reviewmodel(
+//                "Ahmed3",
+//                "12/12/2022",
+//                "Good and fast delivery",
+//                "2.9",
+//                R.drawable.car
+//            )
+//        )
+//        reviewlist.add(
+//            Reviewmodel(
+//                "Ahmed4",
+//                "16/12/2022",
+//                "Great Experience ",
+//                "2.0",
+//                R.drawable.car
+//            )
+//        )
+//        reviewlist.add(
+//            Reviewmodel(
+//                "Ahmed4",
+//                "16/12/2022",
+//                "Great Experience ",
+//                "4.0",
+//                R.drawable.car
+//            )
+//        )
+//
+//        var totalRating = 0.0
+//        reviewlist.forEach {
+//            totalRating += it.rating.toDouble()
+//
+//        }
+//        val average = totalRating / reviewlist.size
+//        rating_bar.rating = average.toFloat()
+//        rating_bar_detail_tv.text = getString(
+//            R.string._4_9_from_00_visitors,
+//            rating_bar.rating.toString().format("%.2f"),
+//            reviewlist.size.toString()
+//        )
+//        setReviewsAdapter(reviewlist)

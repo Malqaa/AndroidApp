@@ -19,20 +19,35 @@
 
 
         <TextView
-            android:id="@+id/quest_ans"
+            android:id="@+id/tvNumberQuestionNotAnswer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/madani_arabic_light"
             android:text="@string/there_are_2_questions_that_the_seller_did_not_answer"
             android:textColor="#000000"
             android:textSize="@dimen/_12sdp" />
+        <TextView
+            android:id="@+id/tvErrorNoQuestion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="@font/madani_arabic_medium"
+            android:text="@string/noQuestionsFound"
+            android:textAlignment="viewStart"
+            android:textColor="@color/gray"
+            android:textSize="@dimen/_10sdp"
+            android:visibility="gone"/>
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvQuestionForProduct"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@+id/footer"
-            android:layout_below="@+id/quest_ans"
+            android:layout_below="@+id/tvNumberQuestionNotAnswer"
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
@@ -180,7 +195,6 @@
 
                 <LinearLayout
                     android:id="@+id/contianerAskQuestion"
-
                     android:layout_width="@dimen/_32sdp"
                     android:layout_height="@dimen/_32sdp"
                     android:layout_gravity="center_vertical"

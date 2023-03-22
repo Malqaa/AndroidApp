@@ -17,7 +17,7 @@
 
     <fragment
         android:id="@+id/navigation_watchlist"
-        android:name="com.malka.androidappp.fragments.watchlist_fragment.WatchlistFragment"
+        android:name="com.malka.androidappp.newPhase.presentation.watchlistFragment.WatchlistFragment"
         android:label="@string/title_watchlist"
         tools:layout="@layout/fragment_watchlist" />
 

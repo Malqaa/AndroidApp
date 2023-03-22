@@ -8,7 +8,9 @@ import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.productResp.ProductListResp
 import com.malka.androidappp.newPhase.domain.models.productResp.ProductResp
 import com.malka.androidappp.newPhase.domain.models.questionResp.AddQuestionResp
+import com.malka.androidappp.newPhase.domain.models.questionsResp.QuestionsResp
 import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.domain.models.servicemodels.GeneralRespone
 
 import retrofit2.Call
 import retrofit2.Callback
@@ -20,6 +22,9 @@ class ProductDetailsViewModel: BaseViewModel() {
     var productDetailsObservable :MutableLiveData<ProductResp> = MutableLiveData()
     var addQuestionObservable :MutableLiveData<AddQuestionResp> = MutableLiveData()
     var getSimilarProductObservable :MutableLiveData<ProductListResp> = MutableLiveData()
+    var getListOfQuestionsObservable :MutableLiveData<QuestionsResp> = MutableLiveData()
+
+
 
     fun getProductDetailsById(productId:Int){
         isLoading.value=true
@@ -64,11 +69,10 @@ class ProductDetailsViewModel: BaseViewModel() {
                     response: Response<AddQuestionResp>
                 ) {
                     isLoading.value=false
-                    println("hhhh "+response.code())
                     if (response.isSuccessful) {
                         addQuestionObservable.value = response.body()
                     } else {
-                        println("hhhh "+Gson().toJson(getErrorResponse(response.errorBody())))
+
                         errorResponseObserver.value = getErrorResponse(response.errorBody())
                     }
                 }
@@ -89,6 +93,66 @@ class ProductDetailsViewModel: BaseViewModel() {
 
                     if (response.isSuccessful) {
                         getSimilarProductObservable.value = response.body()
+                    }
+                }
+            })
+    }
+    fun addLastViewedProduct(productId:Int){
+        RetrofitBuilder.GetRetrofitBuilder()
+            .addLastViewProduct(productId)
+            .enqueue(object : Callback<GeneralRespone> {
+                override fun onFailure(call: Call<GeneralRespone>, t: Throwable) {
+                }
+                override fun onResponse(
+                    call: Call<GeneralRespone>,
+                    response: Response<GeneralRespone>
+                ) {
+                    if (response.isSuccessful) {
+                    //added product to last viewed
+                    }
+                }
+            })
+    }
+
+    fun getListOfQuestions(productId:Int){
+        RetrofitBuilder.GetRetrofitBuilder()
+            .getQuestionList(productId)
+
+            .enqueue(object : Callback<QuestionsResp> {
+                override fun onFailure(call: Call<QuestionsResp>, t: Throwable) {
+                }
+
+                override fun onResponse(
+                    call: Call<QuestionsResp>,
+                    response: Response<QuestionsResp>
+                ) {
+
+                    if (response.isSuccessful) {
+                        getListOfQuestionsObservable.value = response.body()
+                    }
+                }
+            })
+    }
+    fun getListOfQuestionsForActivity(productId:Int){
+        isLoading.value=true
+        RetrofitBuilder.GetRetrofitBuilder()
+            .getQuestionList(productId)
+
+            .enqueue(object : Callback<QuestionsResp> {
+                override fun onFailure(call: Call<QuestionsResp>, t: Throwable) {
+                    isNetworkFail.value = t !is HttpException
+                    isLoading.value=false
+                }
+
+                override fun onResponse(
+                    call: Call<QuestionsResp>,
+                    response: Response<QuestionsResp>
+                ) {
+                    isLoading.value=false
+                    if (response.isSuccessful) {
+                        getListOfQuestionsObservable.value = response.body()
+                    }else {
+                        errorResponseObserver.value = getErrorResponse(response.errorBody())
                     }
                 }
             })

@@ -2,6 +2,7 @@ package com.malka.androidappp.newPhase.domain.models.questionResp
 
 data class QuestionItem(
     val id: Int,
+    val productName:String?= null,
     val clientId: String,
     val client: Any? = null,
     val productId: Int,
@@ -12,4 +13,13 @@ data class QuestionItem(
     val answeredBy: Any?,
     val createdAt: String? = null,
     val answeredAt :String? = null,
+    val clientName:String?=null,
+val clientImage:String?=null,
+    val answeredByName:String?=null,
+    var answeredByImage:String?=null,
+    val noAnsweredQuetionsCount:Int
 )
+
+//"isActive": true,
+//"isDeleted": false,
+//"isShared": true,

@@ -20,6 +20,7 @@
 
     <string name="bidding">مزايدة</string>
     <string name="show">عرض</string>
+  <string name="noProductsAdded">لم يتم إضافه اى منتجات</string>
     <string name="NoCategoryMarkedasFavourites">
     لم يتم تمييز أي فئة كمفضلة
   </string>

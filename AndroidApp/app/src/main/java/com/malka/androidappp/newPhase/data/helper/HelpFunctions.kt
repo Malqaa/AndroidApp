@@ -380,7 +380,7 @@ class HelpFunctions {
                             if (response.body() != null) {
                                 val resp: AddFavResponse = response.body()!!;
                                 if (resp.status_code == 200) {
-                                    GetUserWatchlist()
+                                  //  GetUserWatchlist()
                                     onSuccess?.invoke()
                                     ShowLongToast(
                                         resp.message,
@@ -443,7 +443,7 @@ class HelpFunctions {
                             if (response.body() != null) {
                                 val resp: BasicResponse = response.body()!!;
                                 if (resp.status_code == 200 && (resp.data == true || resp.data == 1 || resp.data == 1.0)) {
-                                    GetUserWatchlist()
+                                   // GetUserWatchlist()
                                     onSuccess?.invoke()
                                     ShowLongToast(
                                         "Removed Successfully",
@@ -488,44 +488,44 @@ class HelpFunctions {
             }
         }
 
-        fun GetUserWatchlist() {
-            val malqa: MalqaApiService =
-                RetrofitBuilder.GetRetrofitBuilder()
-            val call: Call<BasicResponse> =
-                malqa.getUserWatchlist(ConstantObjects.logged_userid)
-            call.enqueue(object : Callback<BasicResponse> {
-                override fun onResponse(
-                    call: Call<BasicResponse>,
-                    response: Response<BasicResponse>
-                ) {
-                    if (response.isSuccessful) {
-                        if (response.body() != null) {
-                            val watchlistinfo: BasicResponse = response.body()!!
-                            if (watchlistinfo.status_code == 200)
-                            {
-                                val productList: ArrayList<Product> = Gson().fromJson(
-                                    Gson().toJson(watchlistinfo.data),
-                                    object : TypeToken<ArrayList<Product>>() {}.type
-                                )
-                                ConstantObjects.userwatchlist = productList
-                                EventBus.getDefault().post(WatchList())
-
-                            }
-
-
-
-
-
-
-                        }
-                    }
-                }
-
-                override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
-
-                }
-            })
-        }
+//        fun GetUserWatchlist() {
+//            val malqa: MalqaApiService =
+//                RetrofitBuilder.GetRetrofitBuilder()
+//            val call: Call<BasicResponse> =
+//                malqa.getUserWatchlist()
+//            call.enqueue(object : Callback<BasicResponse> {
+//                override fun onResponse(
+//                    call: Call<BasicResponse>,
+//                    response: Response<BasicResponse>
+//                ) {
+//                    if (response.isSuccessful) {
+//                        if (response.body() != null) {
+//                            val watchlistinfo: BasicResponse = response.body()!!
+//                            if (watchlistinfo.status_code == 200)
+//                            {
+//                                val productList: ArrayList<Product> = Gson().fromJson(
+//                                    Gson().toJson(watchlistinfo.data),
+//                                    object : TypeToken<ArrayList<Product>>() {}.type
+//                                )
+//                                ConstantObjects.userwatchlist = productList
+//                                EventBus.getDefault().post(WatchList())
+//
+//                            }
+//
+//
+//
+//
+//
+//
+//                        }
+//                    }
+//                }
+//
+//                override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
+//
+//                }
+//            })
+//        }
 
 
 

@@ -213,7 +213,7 @@ class GenericAdaptor {
                 holder.view.run {
                     element.run {
 
-                        question_tv.text = question
+                        tvQuestion.text = question
                         question_time.text = dateTimeFormated
                         if (isAnswered) {
                             question_response_yet.hide()

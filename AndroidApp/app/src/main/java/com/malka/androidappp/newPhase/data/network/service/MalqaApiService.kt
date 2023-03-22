@@ -28,6 +28,7 @@ import com.malka.androidappp.newPhase.domain.models.homeSilderResp.HomeSliderRes
 import com.malka.androidappp.newPhase.domain.models.productResp.ProductListResp
 import com.malka.androidappp.newPhase.domain.models.productResp.ProductResp
 import com.malka.androidappp.newPhase.domain.models.questionResp.AddQuestionResp
+import com.malka.androidappp.newPhase.domain.models.questionsResp.QuestionsResp
 import com.malka.androidappp.newPhase.domain.models.regionsResp.RegionsResp
 import com.malka.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.UserVerifiedResp
 import com.malka.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.ValidateAndGenerateOTPResp
@@ -42,6 +43,8 @@ import com.malka.androidappp.newPhase.domain.models.servicemodels.favourites.Fav
 import com.malka.androidappp.newPhase.domain.models.servicemodels.favourites.favouriteadd
 import com.malka.androidappp.newPhase.domain.models.servicemodels.feedbacks.FeedbackObject
 import com.malka.androidappp.newPhase.domain.models.servicemodels.home.visitcount.visit_count_object
+import com.malka.androidappp.newPhase.domain.models.homeCategoryProductResp.CategoryProductItem
+import com.malka.androidappp.newPhase.domain.models.homeCategoryProductResp.HomeCategoryProductResp
 import com.malka.androidappp.newPhase.domain.models.servicemodels.model_wonloss.ModelWonLost
 import com.malka.androidappp.newPhase.domain.models.servicemodels.questionModel.ModelAskQues
 import com.malka.androidappp.newPhase.domain.models.servicemodels.questionModel.ModelPostAns
@@ -77,17 +80,17 @@ interface MalqaApiService {
         @Part("phone") phone: RequestBody,
         @Part("email") email: RequestBody,
         @Part("password") password: RequestBody,
-        @Part("invitationCode")invitationCode:RequestBody,
+        @Part("invitationCode") invitationCode: RequestBody,
         @Part("firstName") firstName: RequestBody,
         @Part("lastName") lastName: RequestBody,
-        @Part("dateOfBirth")dateOfBirth:RequestBody,
-        @Part("gender")gender:RequestBody,
-        @Part("countryId")countryId:RequestBody,
-        @Part("regionId") regionId:RequestBody,
-        @Part("neighborhoodId") neighborhoodId:RequestBody,
-        @Part("districtName") districtName:RequestBody,
-        @Part("streetNumber") streetNumber:RequestBody,
-        @Part("zipCode") zipCode:RequestBody,
+        @Part("dateOfBirth") dateOfBirth: RequestBody,
+        @Part("gender") gender: RequestBody,
+        @Part("countryId") countryId: RequestBody,
+        @Part("regionId") regionId: RequestBody,
+        @Part("neighborhoodId") neighborhoodId: RequestBody,
+        @Part("districtName") districtName: RequestBody,
+        @Part("streetNumber") streetNumber: RequestBody,
+        @Part("zipCode") zipCode: RequestBody,
         @Part("isBusinessAccount") info: RequestBody,
         @Part("lang") lang: RequestBody,
         @Part("projectName") projectName: RequestBody,
@@ -97,21 +100,24 @@ interface MalqaApiService {
 
     @GET("ValidateUserAndGenerateOtp")
     fun validateUserAndGenerateOtp(
-        @Query("userName") userName:String,
+        @Query("userName") userName: String,
         @Query("phoneNumber") userPhone: String,
-        @Query("email") userEmail:String,
-        @Query("User-Language")lang:String,
-    ):Call<ValidateAndGenerateOTPResp>
+        @Query("email") userEmail: String,
+        @Query("User-Language") lang: String,
+    ): Call<ValidateAndGenerateOTPResp>
+
     @GET("ResendOtp")
     fun resendOtp(
         @Query("phoneNumber") userPhone: String,
-        @Query("User-Language")lang:String,
-    ):Call<ValidateAndGenerateOTPResp>
+        @Query("User-Language") lang: String,
+    ): Call<ValidateAndGenerateOTPResp>
+
     @POST("VerifyOtp")
     fun verifyOtp(
-        @Query("phoneNumber") userPhone:  String,
+        @Query("phoneNumber") userPhone: String,
         @Query("otpCode") otpCode: String,
-    ):Call<UserVerifiedResp>
+    ): Call<UserVerifiedResp>
+
     @POST("Accounts/verify")
     fun verifycode(@Body verifyusercode: PostReqVerifyCode): Call<BasicResponse>
 
@@ -119,16 +125,21 @@ interface MalqaApiService {
     fun getAllCategories(): Call<GeneralResponse>
 
     @GET("ListHomeCategoryProduct?currentPage=1&productNumber=10")
-    fun ListHomeCategoryProduct(@Query("lang")
-                                language: String = ConstantObjects.currentLanguage): Call<GeneralResponse>
+    fun ListHomeCategoryProduct(
+        @Query("lang")
+        language: String = ConstantObjects.currentLanguage
+    ): Call<HomeCategoryProductResp>
 
 
     @GET("GetSliderImages")
-     fun getHomeSlidersImages(@Query("lang")
-                       language: String = ConstantObjects.currentLanguage): Call<HomeSliderResp>
+    fun getHomeSlidersImages(
+        @Query("lang")
+        language: String = ConstantObjects.currentLanguage
+    ): Call<HomeSliderResp>
 
     @GET("ListCountryDDL")
     fun getCountryNew(): Call<CountriesResp>
+
     @GET("ListRegionsByCountryIdDDL")
     fun getRegionNew(
         @Query("id") Id: Int,
@@ -143,18 +154,17 @@ interface MalqaApiService {
     ): Call<RegionsResp>
 
 
-
     @GET("GetProductById")
     fun getProductDetailById2(
         @Query("id") id: Int,
         @Query("lang") language: String = ConstantObjects.currentLanguage
     ): Call<ProductResp>
+
     @GET("GetProductById")
     fun getAdDetailById(
         @Query("id") id: String,
         @Query("lang") language: String = ConstantObjects.currentLanguage
     ): Call<GeneralRespone>
-
 
     @Multipart
     @POST("AddQuestion")
@@ -165,36 +175,40 @@ interface MalqaApiService {
     ): Call<AddQuestionResp>
 
     @GET("ListSimilarProducts")
-    fun getSimilarProductForOtherProduct
-                (@Query("currentPage")page:Int,
-                 @Query("productId")productId: Int,
-                 @Query("lang") language: String = ConstantObjects.currentLanguage): Call<ProductListResp>
+    fun getSimilarProductForOtherProduct(
+        @Query("currentPage") page: Int,
+        @Query("productId") productId: Int,
+        @Query("lang") language: String = ConstantObjects.currentLanguage
+    ): Call<ProductListResp>
 
 
-
-@GET("ListLastView?pageIndex=1&PageRowsCount=10")
-fun getListLastView(
-    @Query("lang") language: String = ConstantObjects.currentLanguage
-):Call<ProductListResp>
-
+    @GET("ListLastView?pageIndex=1&PageRowsCount=10")
+    fun getListLastView(
+        @Query("lang") language: String = ConstantObjects.currentLanguage
+    ): Call<ProductListResp>
 
 
+    @POST("AddToLastView")
+    fun addLastViewProduct(
+        @Query("productId") productId: Int
+    ): Call<GeneralRespone>
+  @GET("ListQuestions")
+  fun getQuestionList(
+      @Query("productId") productId: Int
+  ): Call<QuestionsResp>
 
-
-
-
-
-
-
-
-
-
+  @POST("AddFavoriteProduct")
+  fun addProductToFav(
+  @Query("productId") productId: Int
+    ): Call<GeneralResponse>
+    @GET("ListFavoriteProduct")
+    fun getUserWatchlist(@Query("lang") language: String = ConstantObjects.currentLanguage): Call<ProductListResp>;
+   // ?currentPage=1
     //+++++++++++++++++++++++++++++++++++++++++
     //+++++++++++++++++++++++++++++++++++++++++
     //+++++++++++++++++++++++++++++++++++++++++
     @GET("ListAdvertisments")
     fun SliderAPI(): Call<GeneralResponse>
-
 
 
     @GET("BussinessProduct/detailsofproduct")
@@ -247,8 +261,6 @@ fun getListLastView(
     @GET("Accounts/GetUser")
     fun getuser(@Query("id") userid: String): Call<UserObject>;
 
-    @GET("ListFavoriteProduct?currentPage=1")
-    fun getUserWatchlist(@Query("lang") language: String = ConstantObjects.currentLanguage): Call<BasicResponse>;
 
     @GET("Auction/getall")
     fun getuserfeedback(@Query("loggedin") userid: String): Call<FeedbackObject>;
@@ -384,7 +396,7 @@ fun getListLastView(
     fun editBusinessProduct(@Body editproduct: ModelEditProduct): Call<EditProductResponseBack>
 
 
-  //  GeneralResponse
+    //  GeneralResponse
     @GET("CardDetail/getbyuserid")
     fun GetUserCreditCards(@Query("usid") userid: String): Call<CreditCardResponse>;
 
@@ -483,7 +495,7 @@ fun getListLastView(
     fun loginUser(
         @Field("email") email: String,
         @Field("password") password: String,
-        @Field("lang") language: String ,
+        @Field("lang") language: String,
     ): Call<LoginResp>
 
     @GET("ListRateProduct?productId=15&currentPage=1")

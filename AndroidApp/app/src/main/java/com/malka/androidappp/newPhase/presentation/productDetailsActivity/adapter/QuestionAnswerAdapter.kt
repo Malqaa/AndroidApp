@@ -4,25 +4,50 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.malka.androidappp.databinding.AtrributeItemBinding
 import com.malka.androidappp.databinding.ItemQuestionAnswerDesignBinding
+import com.malka.androidappp.newPhase.data.helper.Extension
+import com.malka.androidappp.newPhase.data.helper.HelpFunctions
+import com.malka.androidappp.newPhase.data.helper.hide
+import com.malka.androidappp.newPhase.data.helper.show
+import com.malka.androidappp.newPhase.domain.models.questionResp.QuestionItem
+import kotlinx.android.synthetic.main.item_question_answer_design.view.*
 
-class QuestionAnswerAdapter  :
-    RecyclerView.Adapter<QuestionAnswerAdapter.QuestionAnswerViewHolder>(){
+class QuestionAnswerAdapter(var questionList: List<QuestionItem>) :
+    RecyclerView.Adapter<QuestionAnswerAdapter.QuestionAnswerViewHolder>() {
     lateinit var context: Context
+
     class QuestionAnswerViewHolder(var viewBinding: ItemQuestionAnswerDesignBinding) :
         RecyclerView.ViewHolder(viewBinding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QuestionAnswerViewHolder {
         context = parent.context
-        return  QuestionAnswerViewHolder(
+        return QuestionAnswerViewHolder(
             ItemQuestionAnswerDesignBinding
-            .inflate(LayoutInflater.from(parent.context), parent, false))
+                .inflate(LayoutInflater.from(parent.context), parent, false)
+        )
     }
 
-    override fun getItemCount(): Int = 0
+    override fun getItemCount(): Int = questionList.size
 
     override fun onBindViewHolder(holder: QuestionAnswerViewHolder, position: Int) {
-
+        holder.viewBinding.tvQuestion.text = questionList[position].question.toString()
+        holder.viewBinding.questionTime.text = HelpFunctions.getViewFormatForDateTrack(questionList[position].createdAt)
+        Extension.loadThumbnail(
+            context,
+            questionList[position].clientImage,
+            holder.viewBinding.ivQuestionUser,
+           null
+        )
+        if (questionList[position].answer!=null && questionList[position].answer !="") {
+            holder.viewBinding.questionResponseYet.hide()
+            holder.viewBinding.answerView.show()
+            holder.viewBinding.answerTv.text = questionList[position].answer
+            holder.viewBinding.answerTime.text =  HelpFunctions.getViewFormatForDateTrack(questionList[position].answeredAt)
+            holder.viewBinding.answerTime.show()
+        } else {
+            holder.viewBinding.questionResponseYet.show()
+            holder.viewBinding.answerView.hide()
+            holder.viewBinding.answerTime.hide()
+        }
     }
 }

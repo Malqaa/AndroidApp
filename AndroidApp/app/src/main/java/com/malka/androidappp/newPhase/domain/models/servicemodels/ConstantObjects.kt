@@ -9,7 +9,7 @@ import com.malka.androidappp.newPhase.domain.models.servicemodels.creditcard.Cre
 import com.malka.androidappp.newPhase.domain.models.servicemodels.favourites.FavouriteObject
 import com.malka.androidappp.newPhase.domain.models.servicemodels.feedbacks.FeedbackObject
 import com.malka.androidappp.newPhase.domain.models.servicemodels.model.Category
-import com.malka.androidappp.newPhase.domain.models.servicemodels.model.DynamicList
+import com.malka.androidappp.newPhase.domain.models.homeCategoryProductResp.CategoryProductItem
 
 class ConstantObjects {
     companion object {
@@ -38,7 +38,7 @@ class ConstantObjects {
 
         var currentLanguage: String = ""
         var categoryList: List<Category> = ArrayList()
-        var categoryProductHomeList: ArrayList<DynamicList> = java.util.ArrayList()
+        var categoryProductHomeList: ArrayList<CategoryProductItem> = java.util.ArrayList()
         var countryList: List<Country> = ArrayList()
 
         var isBid = "isBid"
@@ -51,5 +51,6 @@ class ConstantObjects {
         var Select = "Select"
         const val searchQueryKey = "searchQueryKey"
         const val productIdKey = "ProductIdKey"
+        const val questionListKey="QuestionListKey"
     }
 }
