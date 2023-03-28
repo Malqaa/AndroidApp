@@ -45,9 +45,14 @@ class DynamicSpecificationsAdapter(
 
     lateinit var context: Context
     override fun getItemViewType(position: Int): Int {
-        if (dynamicSpecificationList[position].type == spinnerType) {
-            //dropDown
-            return spinnerType
+        if (dynamicSpecificationList[position].subSpecifications != null) {
+            if(dynamicSpecificationList[position].subSpecifications!!.isNotEmpty()){
+                //dropDown
+                return spinnerType
+            }else{
+                // text box
+                return textBoxType
+            }
         } else {
             // text box
             return textBoxType

@@ -1,5 +1,6 @@
 package com.malka.androidappp.newPhase.presentation.addProduct.activity6
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -14,6 +15,7 @@ import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.newPhase.presentation.addProduct.AddProductObjectData
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
+import com.malka.androidappp.newPhase.data.helper.show
 import com.malka.androidappp.newPhase.data.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.servicemodels.BankListRespone
@@ -32,28 +34,73 @@ class PricingActivity : BaseActivity() {
     var bankList: List<BankListRespone.BankDetail> = ArrayList()
     var isEdit: Boolean = false
     override fun onBackPressed() {
-        intent.getBooleanExtra("isEdit",false).let {
-            if (it){
-                startActivity(Intent(this, ConfirmationAddProductActivity::class.java).apply {
-                    finish()
-                })
-            }else{
-                finish()
-            }
+        if (isEdit) {
+            startActivity(Intent(this, ConfirmationAddProductActivity::class.java))
+            finish()
+        } else {
+            finish()
         }
-
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pricing_payment)
         toolbar_title.text = getString(R.string.sale_details)
+        isEdit = intent.getBooleanExtra(ConstantObjects.isEditKey, false)
         setViewClickListeners()
-      //  getBankAccount()
+        if (isEdit) {
+            setData()
+        }
+        //  getBankAccount()
 //        if(!AddProductObjectData.listingType.isEmpty()){
 //            isEdit=true
 //        }
 
         disableTextFields()
+
+    }
+
+    private fun setData() {
+        when (AddProductObjectData.buyingType) {
+            "1" -> {
+                fixedPriceType_rb1.isChecked = true
+                fixed_price_layout.isVisible = true
+                buynowprice.setText(AddProductObjectData.price)
+                fix_Price_l.setBackgroundResource(R.drawable.field_selection_border_enable)
+                fixed_price_tv.setTextColor(ContextCompat.getColor(this, R.color.bg))
+            }
+            "2" -> {
+
+            }
+            "12" -> {
+
+            }
+        }
+        if (priceNegotiable_rb3.isChecked) {
+            priceNegotiable_rb3.isChecked = true
+            Tender_pickUp_l.setBackgroundResource(R.drawable.field_selection_border_enable)
+            Tender_pickUp_tv.setTextColor(ContextCompat.getColor(this, R.color.bg))
+        } else {
+            priceNegotiable_rb3.isChecked = false
+            Tender_pickUp_l.setBackgroundResource(R.drawable.edittext_bg)
+            Tender_pickUp_tv.setTextColor(ContextCompat.getColor(this, R.color.text_color))
+
+        }
+
+        if (AddProductObjectData.isvisapaid) {
+            swicth_visa_mastercard.isChecked = true
+            layout_visa_mastercard.background =
+                ContextCompat.getDrawable(this, R.drawable.field_selection_border_enable)
+            visa_mastercard.setTextColor(ContextCompat.getColor(this, R.color.bg))
+
+        } else {
+            swicth_visa_mastercard.isChecked = false
+            layout_visa_mastercard.background =
+                ContextCompat.getDrawable(this, R.drawable.edittext_bg)
+            visa_mastercard.setTextColor(ContextCompat.getColor(this, R.color.text_color))
+
+        }
+
 
     }
 
@@ -69,6 +116,7 @@ class PricingActivity : BaseActivity() {
             showBottomSheetDialog()
         }
     }
+
     private fun disableTextFields() {
         fixedPriceType_rb1.setOnCheckedChangeListener { _, b ->
             fixed_price_layout.isVisible = b
@@ -109,7 +157,7 @@ class PricingActivity : BaseActivity() {
         }
         swicth_visa_mastercard.setOnCheckedChangeListener { _, b ->
             if (b) {
-               // saudi_bank_auction.visibility = View.VISIBLE
+                // saudi_bank_auction.visibility = View.VISIBLE
                 saudi_bank_option.visibility = View.GONE
                 swicth_saudi_bank_deposit.isChecked = false
 
@@ -129,7 +177,7 @@ class PricingActivity : BaseActivity() {
             if (b) {
                 swicth_visa_mastercard.isChecked = false
 
-              //  saudi_bank_auction.visibility = View.GONE
+                //  saudi_bank_auction.visibility = View.GONE
                 saudi_bank_option.visibility = View.VISIBLE
                 saudi_bank_deposit_switch.isChecked = true
 
@@ -142,10 +190,10 @@ class PricingActivity : BaseActivity() {
                 saudi_bank_option.visibility = View.GONE
                 swicth_saudi_bank_deposit.isChecked = false
 
-               // saudi_bank_auction.visibility = View.VISIBLE
+                // saudi_bank_auction.visibility = View.VISIBLE
             }
         }
-        if (isEdit){
+        if (isEdit) {
             swicth_visa_mastercard.isChecked = AddProductObjectData.isvisapaid
             swicth_saudi_bank_deposit.isChecked = AddProductObjectData.isbankpaid
             priceNegotiable_rb3.isChecked = AddProductObjectData.isnegotiable
@@ -153,9 +201,9 @@ class PricingActivity : BaseActivity() {
             startprice.setText(AddProductObjectData.startingPrice)
             reserveprice.setText(AddProductObjectData.reservedPrice)
 
-            if (AddProductObjectData.listingType.equals("1")){
+            if (AddProductObjectData.buyingType.equals("1")) {
                 fixedPriceType_rb1.isChecked = true
-            }else{
+            } else {
                 auctionType_rb2.isChecked = true
             }
 
@@ -166,10 +214,6 @@ class PricingActivity : BaseActivity() {
             }
         }
     }
-
-
-
-
 
 
     private fun showBottomSheetDialog() {
@@ -189,7 +233,7 @@ class PricingActivity : BaseActivity() {
 //            showError(getString(R.string.SelectSaleType))
 //            false
 //        }
-        return if (fixedPriceType_rb1.isChecked or auctionType_rb2.isChecked ) {
+        return if (fixedPriceType_rb1.isChecked or auctionType_rb2.isChecked) {
             true
         } else {
             showError(getString(R.string.SelectSaleType))
@@ -230,7 +274,7 @@ class PricingActivity : BaseActivity() {
     }
 
     private fun validateradiobutton(): Boolean {
-        return if (swicth_visa_mastercard.isChecked|| AddProductObjectData.isbankpaid) {
+        return if (swicth_visa_mastercard.isChecked || AddProductObjectData.isbankpaid) {
             true
         } else {
             showError(getString(R.string.Selectanyonepaymentmethod))
@@ -252,28 +296,23 @@ class PricingActivity : BaseActivity() {
                     if (swicth_visa_mastercard.isChecked) {
                         AddProductObjectData.isvisapaid = true
                     }
-                    AddProductObjectData.listingType = ""
+                    AddProductObjectData.buyingType = ""
 
                     if (fixedPriceType_rb1.isChecked) {
-                        AddProductObjectData.listingType += "1"
+                        AddProductObjectData.buyingType += "1"
                     }
                     if (auctionType_rb2.isChecked) {
-                        AddProductObjectData.listingType += "2"
+                        AddProductObjectData.buyingType += "2"
                     }
                     AddProductObjectData.isnegotiable = priceNegotiable_rb3.isChecked
-                    startActivity(Intent(this, ListingDurationActivity::class.java).apply {
-                    })
-//                    intent.getBooleanExtra("isEdit",false).let {
-//                        if (it){
-//                            startActivity(Intent(this, ConfirmationAddProductActivity::class.java).apply {
-//                                finish()
-//                            })
-//                        }else{
-//                            startActivity(Intent(this, ListingDurationActivity::class.java).apply {
-//                            })
-//
-//                        }
-//                    }
+
+
+                    if (isEdit) {
+                        startActivity(Intent(this, ConfirmationAddProductActivity::class.java))
+                        finish()
+                    } else {
+                        startActivity(Intent(this, ListingDurationActivity::class.java))
+                    }
 
                 }
             }
@@ -407,7 +446,7 @@ class PricingActivity : BaseActivity() {
                     if (response.body() != null) {
 
                         val respone: GeneralRespone = response.body()!!
-                        if (respone.status_code==200) {
+                        if (respone.status_code == 200) {
                             bottomSheetDialog.dismiss()
                             getBankAccount()
                             Toast.makeText(
@@ -432,6 +471,7 @@ class PricingActivity : BaseActivity() {
         })
 
     }
+
     fun getBankAccount() {
 
         HelpFunctions.startProgressBar(this)
@@ -469,9 +509,10 @@ class PricingActivity : BaseActivity() {
 
 
     }
-
+    @SuppressLint("ResourceType")
     private fun addBankAdaptor(list: List<BankListRespone.BankDetail>) {
-        addbank_rcv.adapter = object : GenericListAdapter<BankListRespone.BankDetail>(
+        addbank_rcv.adapter =
+        object : GenericListAdapter<BankListRespone.BankDetail>(
             R.layout.add_bank_layout,
             bind = { element, holder, itemCount, position ->
                 holder.view.run {

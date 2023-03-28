@@ -2810,4 +2810,6 @@
     <string name="following">التالية</string>
     <string name="follow_catgeory">Follow category successfully</string>
   <string name="free_shipping_within_Saudi_Arabia">شحن مجاني داخل المملكة العربية السعودية</string>
+  <string name="noPackagesFound">لم يتم العثور على باقات</string>
+  <string name="notSpecified">لم تحدد</string>
 </resources>

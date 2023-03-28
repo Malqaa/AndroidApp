@@ -29,7 +29,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_50sdp"
                     android:background="@color/textColor"
+                    android:layout_gravity="center"
                     android:orientation="horizontal"
+
                     android:weightSum="2">
 
 
@@ -37,22 +39,23 @@
                         android:id="@+id/pkg_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
                         android:layout_marginStart="@dimen/_15sdp"
                         android:layout_weight="1"
+                        android:textAlignment="viewStart"
                         android:fontFamily="@font/madani_arabic_medium"
                         android:text="@string/silver_package"
+                        android:layout_marginTop="25dp"
                         android:textColor="@color/white" />
 
                     <TextView
                         android:id="@+id/pkg_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
+                        android:textAlignment="viewEnd"
                         android:layout_marginEnd="@dimen/_15sdp"
                         android:layout_weight="1"
+                        android:layout_marginTop="25dp"
                         android:fontFamily="@font/madani_arabic_medium"
-                        android:gravity="end"
                         android:text="160 Rial"
                         android:textColor="@color/white" />
 

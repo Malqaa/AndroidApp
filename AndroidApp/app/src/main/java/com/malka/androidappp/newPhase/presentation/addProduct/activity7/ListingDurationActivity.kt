@@ -1,5 +1,6 @@
 package com.malka.androidappp.newPhase.presentation.addProduct.activity7
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Filter
@@ -12,6 +13,7 @@ import com.malka.androidappp.newPhase.presentation.addProduct.AddProductObjectDa
 import com.malka.androidappp.newPhase.data.helper.widgets.DatePickerFragment
 import com.malka.androidappp.newPhase.data.helper.widgets.TimePickerFragment
 import com.malka.androidappp.newPhase.data.helper.widgets.rcv.GenericListAdapter
+import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
 import com.malka.androidappp.newPhase.domain.models.servicemodels.Selection
 import com.malka.androidappp.newPhase.domain.models.servicemodels.TimeSelection
 import com.malka.androidappp.newPhase.presentation.addProduct.ConfirmationAddProductActivity
@@ -35,18 +37,17 @@ class ListingDurationActivity : BaseActivity() {
     var fm: FragmentManager? = null
     var isEdit: Boolean = false
     val allWeeks: ArrayList<TimeSelection> = ArrayList()
-    val shippingOption: ArrayList<Selection> = ArrayList()
+    val shippingOptionList: ArrayList<Selection> = ArrayList()
 
 
     override fun onBackPressed() {
-        intent.getBooleanExtra("isEdit", false).let {
-            if (it) {
-                startActivity(Intent(this, ConfirmationAddProductActivity::class.java).apply {
-                    finish()
-                })
-            } else {
+
+        if (isEdit) {
+            startActivity(Intent(this, ConfirmationAddProductActivity::class.java).apply {
                 finish()
-            }
+            })
+        } else {
+            finish()
         }
 
     }
@@ -54,17 +55,12 @@ class ListingDurationActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_listing_duration)
-
-
         toolbar_title.text = getString(R.string.shipping_options)
+        isEdit = intent.getBooleanExtra(ConstantObjects.isEditKey, false)
         setVieClickListeners()
-        option_1.isEnabled=false
-        option_2.isEnabled=false
-        AddProductObjectData.pickUpOption=false
+        option_1.isEnabled = false
+        option_2.isEnabled = false
         /***/
-        if (AddProductObjectData.shippingOptionSelection != null) {
-            isEdit = true
-        }
 
         val c = Calendar.getInstance()
         val day = c.get(Calendar.DAY_OF_MONTH)
@@ -85,44 +81,60 @@ class ListingDurationActivity : BaseActivity() {
             add(TimeSelection("3 week", week3))
             add(TimeSelection("4 week", week4))
         }
-        if (isEdit) {
-            selectTime = AddProductObjectData.timepicker
-            selectdate = AddProductObjectData.endtime
-            if (AddProductObjectData.fixLength.equals("fixed_length")) {
-                allWeeks.forEach {
-                    it.isSelect = it.text.equals(AddProductObjectData.weekSelection!!.text)
-                }
-                fixlenghtselected = AddProductObjectData.fixlenghtselected
-                option_1.performClick()
-            } else {
-                option_2.performClick()
-            }
 
 
-            btn_listduration.setOnClickListener {
-                confirmListDuration()
-            }
-        }
-        if (isEdit) {
-
-            shippingOption.forEach {
-                it.isSelected = it.name.equals(AddProductObjectData.shippingOptionSelection!!.name)
-            }
-
-        }
         fixLenghtAdaptor(allWeeks)
 
 
         /**shipping data */
-        shippingOption.apply {
+        shippingOptionList.apply {
             add(Selection(getString(R.string.free_shipping_within_Saudi_Arabia)))
 //            add(Selection("Shipping Not Available" ))
 //            add(Selection("To be Arranged" ))
 //            add(Selection("Specify Shipping Cost" ))
         }
-        shippingOptionAdaptor(shippingOption, shipping_option)
 
+        if (isEdit) {
+            setData()
+        }else{
+            shippingOptionAdaptor(shippingOptionList, shipping_option)
+        }
+//        if (isEdit) {
+//            selectTime = AddProductObjectData.timepicker
+//            selectdate = AddProductObjectData.endtime
+//            if (AddProductObjectData.fixLength.equals("fixed_length")) {
+//                allWeeks.forEach {
+//                    it.isSelect = it.text.equals(AddProductObjectData.weekSelection!!.text)
+//                }
+//                fixlenghtselected = AddProductObjectData.fixlenghtselected
+//                option_1.performClick()
+//            } else {
+//                option_2.performClick()
+//            }
+//
+//
+//            btn_listduration.setOnClickListener {
+//                confirmListDuration()
+//            }
+//        }
+    }
 
+    private fun setData() {
+        if(AddProductObjectData.pickUpOption){
+            Tender_pickUp_l.setBackgroundResource(R.drawable.field_selection_border_enable)
+            Tender_pickUp_tv.setTextColor(ContextCompat.getColor(this, R.color.bg))
+            pickup_rb.isChecked =true
+        }else{
+            Tender_pickUp_l.setBackgroundResource(R.drawable.edittext_bg)
+            Tender_pickUp_tv.setTextColor(ContextCompat.getColor(this, R.color.text_color))
+            pickup_rb.isChecked =false
+        }
+        shippingOptionList.forEach {item->
+            if(item.name==AddProductObjectData.shippingOptionSelection?.name){
+                item.isSelected=true
+            }
+        }
+        shippingOptionAdaptor(shippingOptionList, shipping_option)
     }
 
     private fun setVieClickListeners() {
@@ -222,7 +234,7 @@ class ListingDurationActivity : BaseActivity() {
     private fun ValidateRadiobtmchecked(): Boolean {
 
 
-        shippingOption.filter {
+        shippingOptionList.filter {
             it.isSelected == true
         }.isEmpty().let {
             if (it) {
@@ -245,8 +257,17 @@ class ListingDurationActivity : BaseActivity() {
     }
 
     private fun goNextActivity() {
+        saveShippingOption()
         AddProductObjectData.pickUpOption = pickup_rb.isChecked
-        startActivity(Intent(this, PromotionalActivity::class.java))
+        if (isEdit) {
+            startActivity(Intent(this, ConfirmationAddProductActivity::class.java).apply {
+                finish()
+            })
+        } else {
+            startActivity(Intent(this, PromotionalActivity::class.java).apply {
+            })
+
+        }
     }
 
     fun confirmListDuration() {
@@ -270,16 +291,14 @@ class ListingDurationActivity : BaseActivity() {
             }
             saveSelectedcheckbox()
             saveShippingOption()
-            intent.getBooleanExtra("isEdit", false).let {
-                if (it) {
-                    startActivity(Intent(this, ConfirmationAddProductActivity::class.java).apply {
-                        finish()
-                    })
-                } else {
-                    startActivity(Intent(this, PromotionalActivity::class.java).apply {
-                    })
+            if (isEdit) {
+                startActivity(Intent(this, ConfirmationAddProductActivity::class.java).apply {
+                    finish()
+                })
+            } else {
+                startActivity(Intent(this, PromotionalActivity::class.java).apply {
+                })
 
-                }
             }
         }
 
@@ -298,9 +317,10 @@ class ListingDurationActivity : BaseActivity() {
         val newDate = Date(c.timeInMillis)
         return dateFormat.format(newDate)
     }
-
+    @SuppressLint("ResourceType")
     private fun fixLenghtAdaptor(list: ArrayList<TimeSelection>) {
-        fix_lenght_rcv.adapter = object : GenericListAdapter<TimeSelection>(
+        fix_lenght_rcv.adapter =
+        object : GenericListAdapter<TimeSelection>(
             R.layout.selection_item,
             bind = { element, holder, itemCount, position ->
                 holder.view.run {
@@ -341,7 +361,7 @@ class ListingDurationActivity : BaseActivity() {
 
     var selection: Selection? = null
 
-
+    @SuppressLint("ResourceType")
     private fun shippingOptionAdaptor(list: ArrayList<Selection>, rcv: RecyclerView) {
         rcv.adapter = object : GenericListAdapter<Selection>(
             R.layout.shipping_option,
@@ -393,7 +413,7 @@ class ListingDurationActivity : BaseActivity() {
 
     fun saveShippingOption() {
 
-        val list = shippingOption.filter {
+        val list = shippingOptionList.filter {
             it.isSelected == true
         }
         list.forEach {

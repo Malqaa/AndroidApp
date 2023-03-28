@@ -107,7 +107,7 @@
                         android:textSize="@dimen/_14sdp" />
 
                     <TextView
-                        android:id="@+id/subTitleData"
+                        android:id="@+id/tvSubTitleData"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/madani_arabic_light"
@@ -309,7 +309,7 @@
                     android:textSize="@dimen/_10sdp" />
 
                 <TextView
-                    android:id="@+id/item_condition"
+                    android:id="@+id/tvItemCondition"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -347,7 +347,7 @@
                     android:textSize="@dimen/_10sdp" />
 
                 <TextView
-                    android:id="@+id/quantityData"
+                    android:id="@+id/tvQuantityData"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

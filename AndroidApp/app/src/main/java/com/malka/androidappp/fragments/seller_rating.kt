@@ -14,7 +14,7 @@ import com.malka.androidappp.newPhase.domain.models.servicemodels.Reviewmodel
 import com.malka.androidappp.newPhase.domain.models.servicemodels.Selection
 import kotlinx.android.synthetic.main.fragment_seller_rating.*
 import kotlinx.android.synthetic.main.product_review_design.view.*
-import kotlinx.android.synthetic.main.product_reviews1.category_rcv
+import kotlinx.android.synthetic.main.product_reviews1.rvPakat
 import kotlinx.android.synthetic.main.review_dialog_layout.view.*
 import kotlinx.android.synthetic.main.review_filter_design.view.*
 import kotlinx.android.synthetic.main.toolbar_main.*
@@ -218,7 +218,7 @@ class seller_rating : Fragment(R.layout.fragment_seller_rating) {
 
 
     private fun reviewAdaptor(list: ArrayList<Reviewmodel>) {
-        category_rcv.adapter = object : GenericListAdapter<Reviewmodel>(
+        rvPakat.adapter = object : GenericListAdapter<Reviewmodel>(
             R.layout.product_review_design,
             bind = { element, holder, itemCount, position ->
                 holder.view.run {

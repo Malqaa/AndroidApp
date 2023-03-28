@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
 
     <include
@@ -50,7 +49,7 @@
 
 
                     <TextView
-                        android:id="@+id/edit_item_specification"
+                        android:id="@+id/tvEditProductDetails"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -81,9 +80,10 @@
 
                         <com.google.android.material.card.MaterialCardView
                             android:layout_width="@dimen/_110sdp"
-                            app:cardCornerRadius="@dimen/_10sdp"
+                            android:layout_height="@dimen/_110sdp"
                             android:layout_marginStart="@dimen/_10sdp"
-                            android:layout_height="@dimen/_110sdp">
+                            app:cardCornerRadius="@dimen/_10sdp">
+
                             <ImageView
                                 android:id="@+id/selectedImages"
                                 android:layout_width="match_parent"
@@ -92,13 +92,12 @@
                         </com.google.android.material.card.MaterialCardView>
 
 
-
                         <LinearLayout
-                            android:padding="@dimen/_10sdp"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:gravity="center_vertical"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:padding="@dimen/_10sdp">
 
                             <TextView
                                 android:id="@+id/product_type"
@@ -110,7 +109,7 @@
                                 android:textSize="@dimen/_10sdp" />
 
                             <TextView
-                                android:id="@+id/TitleData"
+                                android:id="@+id/tvTitleData"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/madani_arabic_medium"
@@ -119,7 +118,7 @@
                                 android:textSize="@dimen/_14sdp" />
 
                             <TextView
-                                android:id="@+id/subTitleData"
+                                android:id="@+id/tvSubTitleData"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/madani_arabic_medium"
@@ -137,7 +136,7 @@
 
 
                 <TextView
-                    android:id="@+id/product_detail"
+                    android:id="@+id/tvProductDetail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_5sdp"
@@ -170,13 +169,14 @@
                         android:textSize="@dimen/_10sdp" />
 
                     <TextView
-                        android:id="@+id/item_condition"
+                        android:id="@+id/tvItemCondition"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/_15sdp"
                         android:layout_weight="1"
                         android:fontFamily="@font/madani_arabic_medium"
                         android:gravity="end"
+                        android:textAlignment="viewEnd"
                         android:textColor="@color/grey"
                         android:textSize="@dimen/_10sdp"
                         tools:text="@string/new_" />
@@ -205,7 +205,7 @@
                         android:textSize="@dimen/_10sdp" />
 
                     <TextView
-                        android:id="@+id/quantityData"
+                        android:id="@+id/tvQuantityData"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/_15sdp"
@@ -221,14 +221,12 @@
 
             </LinearLayout>
 
-            <LinearLayout
+            <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_5sdp"
                 android:layout_marginTop="@dimen/_15sdp"
-                android:background="@color/light_gray">
+                android:background="@color/light_gray" />
 
-
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -291,8 +289,7 @@
                         android:layout_alignParentEnd="true">
 
                         <TextView
-                            android:visibility="gone"
-                            android:id="@+id/Auction"
+                            android:id="@+id/tvAuction"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="@dimen/_5sdp"
@@ -302,14 +299,12 @@
                             android:text="@string/Auction"
                             android:textColor="@color/grey"
                             android:textSize="@dimen/_10sdp"
-
+                            android:visibility="gone"
                             app:drawableStartCompat="@drawable/ic_check" />
 
 
                         <TextView
-                            android:visibility="gone"
-
-                            android:id="@+id/fixed_price"
+                            android:id="@+id/tvFixedPrice"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="@dimen/_5sdp"
@@ -319,6 +314,7 @@
                             android:text="@string/fixed_price"
                             android:textColor="@color/grey"
                             android:textSize="@dimen/_10sdp"
+                            android:visibility="gone"
                             app:drawableStartCompat="@drawable/ic_check" />
 
                     </LinearLayout>
@@ -532,30 +528,29 @@
                     android:layout_marginTop="@dimen/_10sdp"
                     android:background="@drawable/product_attribute_bg4"
                     android:gravity="center_vertical"
-                    android:weightSum="3"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:weightSum="3">
 
 
                     <TextView
-                        android:layout_weight="1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_15sdp"
+                        android:layout_weight="1"
                         android:fontFamily="@font/madani_arabic_medium"
                         android:text="@string/payment_options"
                         android:textColor="@color/grey"
                         android:textSize="@dimen/_10sdp" />
 
                     <LinearLayout
-                        android:gravity="end"
-                        android:orientation="vertical"
-                        android:layout_weight="2"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:gravity="end"
+                        android:orientation="vertical">
 
                         <TextView
                             android:id="@+id/Visa"
-android:visibility="gone"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="@dimen/_15sdp"
@@ -565,24 +560,23 @@ android:visibility="gone"
                             android:text="@string/visa_mastercard"
                             android:textColor="@color/grey"
                             android:textSize="@dimen/_10sdp"
-
+                            android:visibility="gone"
                             app:drawableStartCompat="@drawable/ic_check" />
 
 
                         <TextView
-                            android:layout_marginTop="@dimen/_5sdp"
                             android:id="@+id/saudi_bank_deposit"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
                             android:layout_marginEnd="@dimen/_15sdp"
                             android:drawablePadding="@dimen/_5sdp"
-                            android:visibility="gone"
-
                             android:fontFamily="@font/madani_arabic_medium"
                             android:gravity="end"
                             android:text="@string/saudi_bank_deposit"
                             android:textColor="@color/grey"
                             android:textSize="@dimen/_10sdp"
+                            android:visibility="gone"
                             app:drawableStartCompat="@drawable/ic_check" />
 
                     </LinearLayout>
@@ -651,41 +645,95 @@ android:visibility="gone"
 
 
                     <LinearLayout
-                        android:weightSum="3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:gravity="center_vertical"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:weightSum="3">
 
 
                         <TextView
-                            android:layout_weight="1"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/_15sdp"
+                            android:layout_weight="1"
                             android:fontFamily="@font/madani_arabic_medium"
                             android:text="@string/shipping_options"
                             android:textColor="@color/grey"
                             android:textSize="@dimen/_10sdp" />
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:gravity="end"
+                            android:orientation="horizontal">
+
+
+
+                            <TextView
+                                android:id="@+id/tvShippingOption"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="@dimen/_15sdp"
+                                android:drawablePadding="@dimen/_5sdp"
+                                android:fontFamily="@font/madani_arabic_medium"
+                                android:gravity="end"
+                                android:text="@string/PickUp"
+                                android:textColor="@color/grey"
+                                android:textSize="@dimen/_10sdp"
+                                app:drawableStartCompat="@drawable/ic_check" />
+
+
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:background="@drawable/product_attribute_bg4"
+                    android:orientation="vertical">
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:weightSum="3">
 
 
                         <TextView
-                            android:layout_weight="2"
-                            android:id="@+id/PickupOptionData"
-                            android:layout_width="0dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_15sdp"
+                            android:fontFamily="@font/madani_arabic_medium"
+                            android:text="@string/PickUp"
+                            android:textColor="@color/grey"
+                            android:textSize="@dimen/_10sdp" />
+                        <TextView
+                            android:id="@+id/tvPickupOptionData"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="@dimen/_15sdp"
                             android:drawablePadding="@dimen/_5sdp"
                             android:fontFamily="@font/madani_arabic_medium"
                             android:gravity="end"
-                            android:text="gfdgggggggggggg ffffffffffffff ffffffffffffff ffffffffffffffff ff"
+                            android:layout_alignParentEnd="true"
+                            android:text="@string/PickUp"
                             android:textColor="@color/grey"
-
                             android:textSize="@dimen/_10sdp"
                             app:drawableStartCompat="@drawable/ic_check" />
 
-                    </LinearLayout>
+                    </RelativeLayout>
 
 
                 </LinearLayout>
@@ -775,7 +823,7 @@ android:visibility="gone"
                             android:layout_weight="1"
                             android:fontFamily="@font/madani_arabic_medium"
                             android:gravity="end"
-                            android:text="@string/Edit"
+                            android:text="@string/amendment"
                             android:textColor="@color/bg"
                             android:textSize="@dimen/_10sdp" />
 
@@ -793,18 +841,19 @@ android:visibility="gone"
 
 
                         <TextView
-                            android:id="@+id/package_name_tv"
+                            android:id="@+id/tv_package_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/_15sdp"
                             android:layout_weight="1"
+                            android:textAlignment="viewStart"
                             android:fontFamily="@font/madani_arabic_medium"
                             android:text="@string/bronze_package"
                             android:textColor="@color/grey"
                             android:textSize="@dimen/_10sdp" />
 
                         <TextView
-                            android:id="@+id/package_price_tv"
+                            android:id="@+id/tv_package_price"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="@dimen/_15sdp"

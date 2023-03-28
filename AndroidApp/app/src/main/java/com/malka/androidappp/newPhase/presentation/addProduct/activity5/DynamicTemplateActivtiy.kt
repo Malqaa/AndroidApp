@@ -153,16 +153,28 @@ class DynamicTemplateActivtiy : BaseActivity(), DynamicSpecificationsAdapter.OnC
         lifecycleScope.launch(Dispatchers.IO){
             var allValuesSet=true
             dynamicSpecificationsArrayList.forEach { dynamicSpecificationItem ->
-                if(dynamicSpecificationItem.type==1){
+//                if(dynamicSpecificationItem.type==1){
+//                    if(dynamicSpecificationItem.subSpecificationsValue==null){
+//                        allValuesSet=false
+//
+//                    }
+//                }else if(dynamicSpecificationItem.type==2){
+//                    if(dynamicSpecificationItem.valueText==""||dynamicSpecificationItem.valueText==null){
+//                        allValuesSet=false
+//                    }
+//                }
+                if(dynamicSpecificationItem.subSpecifications!=null&& dynamicSpecificationItem.subSpecifications!!.isNotEmpty()){
                     if(dynamicSpecificationItem.subSpecificationsValue==null){
                         allValuesSet=false
 
                     }
-                }else if(dynamicSpecificationItem.type==2){
+                }else {
                     if(dynamicSpecificationItem.valueText==""||dynamicSpecificationItem.valueText==null){
                         allValuesSet=false
                     }
                 }
+
+
             }
             withContext(Dispatchers.Main){
                 if(allValuesSet){

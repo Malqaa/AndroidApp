@@ -3,7 +3,7 @@ package com.malka.androidappp.newPhase.presentation.addProduct
 import com.malka.androidappp.newPhase.data.helper.widgets.searchdialog.SearchListItem
 import com.malka.androidappp.newPhase.domain.models.ImageSelectModel
 import com.malka.androidappp.newPhase.domain.models.dynamicSpecification.DynamicSpecificationItem
-import com.malka.androidappp.newPhase.domain.models.servicemodels.PromotionModel
+import com.malka.androidappp.newPhase.domain.models.pakatResp.PakatDetails
 import com.malka.androidappp.newPhase.domain.models.servicemodels.Selection
 import com.malka.androidappp.newPhase.domain.models.servicemodels.TimeSelection
 import com.malka.androidappp.newPhase.domain.models.servicemodels.model.Category
@@ -13,37 +13,44 @@ class AddProductObjectData {
     companion object {
 
 
-
-
         /**activity 1*/
         // List to store path of categories
         var subCategoryPath: ArrayList<String> = ArrayList()
-        var selectedCategory:Category?=null
-        var selectedCategoryId:Int=0
-        var selectedCategoryName:String=""
+        var selectedCategory: Category? = null
+        var selectedCategoryId: Int = 0
+        var selectedCategoryName: String = ""
         var video = ""
-        var images: MutableList<ImageSelectModel> =  mutableListOf()
+        var images: MutableList<ImageSelectModel> = mutableListOf()
 
-        var itemTitleAr:String = ""
-        var itemTitleEn: String= ""
-        var subtitleAr:String = ""
-        var subtitleEn: String=""
-        var itemDescriptionAr :String= ""
-        var itemDescriptionEn:String=""
+        var itemTitleAr: String = ""
+        var itemTitleEn: String = ""
+        var subtitleAr: String = ""
+        var subtitleEn: String = ""
+        var itemDescriptionAr: String = ""
+        var itemDescriptionEn: String = ""
+
         /**used =1 , new =2*/
-        var productCondition:Int=0
-        var quantity :String= ""
+        var productCondition: Int = 0
+        var quantity: String = ""
         var country: SearchListItem? = null
         var region: SearchListItem? = null
         var city: SearchListItem? = null
-        var price:String = ""
-        var reservedPrice:String = ""
-        var startingPrice :String= ""
+
+        var phone = ""
+        var phoneCountryCode = ""
+
+        var price: String = ""
+        var reservedPrice: String = ""
+        var startingPrice: String = ""
         var isnegotiable = false
-        var listingType = ""
+        var buyingType = ""
         var isvisapaid = false
-        var productSpecificationList: List<DynamicSpecificationItem>?=null
-        var pickUpOption: Boolean=false
+        var isbankpaid = false
+        var productSpecificationList: List<DynamicSpecificationItem>? = null
+        var pickUpOption: Boolean = false
+        var selectedPakat: PakatDetails? = null
+        var shippingOptionSelection: Selection? = null
+
 
 
 
@@ -67,18 +74,13 @@ class AddProductObjectData {
         val user = ""
 
 
-        var phone = ""
-
 
         var address = ""
 
 
-
-
-
         var iscashpaid = false
 
-        var isbankpaid = false
+
 
 
         var fixLength = ""
@@ -89,11 +91,8 @@ class AddProductObjectData {
         var fixlenghtselected: TimeSelection? = null
 
 
-
-        var selectPromotiion: PromotionModel?=null
-        var weekSelection: TimeSelection?=null
-        var shippingOptionSelection: Selection?=null
-
+//        var selectPromotiion: PromotionModel? = null
+        var weekSelection: TimeSelection? = null
 
 
 

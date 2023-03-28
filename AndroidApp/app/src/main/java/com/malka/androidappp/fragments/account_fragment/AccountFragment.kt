@@ -142,7 +142,7 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
 
 
 
-        fixed_price.setOnClickListener() {
+        tvFixedPrice.setOnClickListener() {
             findNavController().navigate(R.id.account_fixedprice)
         }
 

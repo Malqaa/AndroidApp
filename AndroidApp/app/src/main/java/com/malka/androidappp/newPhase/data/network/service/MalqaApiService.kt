@@ -45,6 +45,7 @@ import com.malka.androidappp.newPhase.domain.models.servicemodels.favourites.fav
 import com.malka.androidappp.newPhase.domain.models.servicemodels.feedbacks.FeedbackObject
 import com.malka.androidappp.newPhase.domain.models.servicemodels.home.visitcount.visit_count_object
 import com.malka.androidappp.newPhase.domain.models.homeCategoryProductResp.HomeCategoryProductResp
+import com.malka.androidappp.newPhase.domain.models.pakatResp.PakatResp
 import com.malka.androidappp.newPhase.domain.models.servicemodels.model_wonloss.ModelWonLost
 import com.malka.androidappp.newPhase.domain.models.productTags.CategoryTagsResp
 import com.malka.androidappp.newPhase.domain.models.servicemodels.questionModel.ModelAskQues
@@ -193,25 +194,33 @@ interface MalqaApiService {
     fun addLastViewProduct(
         @Query("productId") productId: Int
     ): Call<GeneralRespone>
-  @GET("ListQuestions")
-  fun getQuestionList(
-      @Query("productId") productId: Int
-  ): Call<QuestionsResp>
 
-  @POST("AddFavoriteProduct")
-  fun addProductToFav(
-  @Query("productId") productId: Int
+    @GET("ListQuestions")
+    fun getQuestionList(
+        @Query("productId") productId: Int
+    ): Call<QuestionsResp>
+
+    @POST("AddFavoriteProduct")
+    fun addProductToFav(
+        @Query("productId") productId: Int
     ): Call<GeneralResponse>
+
     @GET("ListFavoriteProduct")
     fun getUserWatchlist(@Query("lang") language: String = ConstantObjects.currentLanguage): Call<ProductListResp>;
 
 
     @GET("ListRateProduct?productId=15&currentPage=1")
-    fun getRates(@Query("productId") productID:Int,@Query("lang") language: String = ConstantObjects.currentLanguage): Call<RateResponse>
+    fun getRates(
+        @Query("productId") productID: Int,
+        @Query("lang") language: String = ConstantObjects.currentLanguage
+    ): Call<RateResponse>
 
 
     @GET("GetListCategoriesByProductName")
-    fun getListCategoriesByProductName(@Query("productName")productName:String,@Query("lang") language: String = ConstantObjects.currentLanguage):Call<CategoryTagsResp>
+    fun getListCategoriesByProductName(
+        @Query("productName") productName: String,
+        @Query("lang") language: String = ConstantObjects.currentLanguage
+    ): Call<CategoryTagsResp>
 
     @GET("ListAllSpecificationAndSubSpecificationByCatId")
     fun getDynamicSpecificationForCategory(
@@ -226,6 +235,14 @@ interface MalqaApiService {
         @Query("lang") language: String = ConstantObjects.currentLanguage
     ): Call<GeneralResponse>
 
+    @GET("GetAllPakatsList")
+    fun getAllPakatList(
+        @Query("categoryId") id: String,
+        @Query("PakatType") PakatType: Int = 1,
+        @Query("isAdmin") isAdmin: Boolean = false,
+        @Query("lang") language: String = ConstantObjects.currentLanguage,
+
+        ): Call<PakatResp>
 
 
     // ?currentPage=1

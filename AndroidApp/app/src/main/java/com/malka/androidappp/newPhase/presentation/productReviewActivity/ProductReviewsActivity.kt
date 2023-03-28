@@ -92,7 +92,7 @@ class ProductReviewsActivity : BaseActivity() {
                     val rates = response.body()
                     if (rates != null) {
                         Log.d("Api", rates.toString())
-                        val reviewList = findViewById<RecyclerView>(R.id.category_rcv)
+                        val reviewList = findViewById<RecyclerView>(R.id.rvPakat)
                         adapter = RateAdapter(this@ProductReviewsActivity, rates.data)
                         reviewList.adapter = adapter
                         reviewList.layoutManager = LinearLayoutManager(this@ProductReviewsActivity)

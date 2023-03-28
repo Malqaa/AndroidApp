@@ -15,6 +15,7 @@ class ConstantObjects {
     companion object {
 
 
+
         val ENGLISH = "en"
         val ARABIC = "ar"
 
@@ -57,5 +58,6 @@ class ConstantObjects {
         const val productFavStatusKey="productFavStatusKey"
         const val categoryIdKey: String="categoryid"
         const val categoryName: String="categoryName"
+        const val isEditKey: String="isEdit"
     }
 }

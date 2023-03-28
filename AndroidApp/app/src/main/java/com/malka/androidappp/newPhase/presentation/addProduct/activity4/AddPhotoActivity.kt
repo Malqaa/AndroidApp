@@ -10,7 +10,6 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.webkit.URLUtil
-import android.widget.GridLayout
 
 import androidx.core.content.ContextCompat
 import androidx.core.content.PermissionChecker
@@ -59,7 +58,7 @@ class AddPhotoActivity : BaseActivity(), SelectedImagesAdapter.SetOnSelectedMain
 
     private fun setImagesAdapter() {
         selectedImagesAdapter = SelectedImagesAdapter(selectedImagesURI, this)
-        category_rcv.apply {
+        rvPakat.apply {
             adapter=selectedImagesAdapter
             layoutManager= GridLayoutManager(this@AddPhotoActivity,2)
         }

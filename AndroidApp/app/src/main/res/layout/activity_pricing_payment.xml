@@ -66,7 +66,6 @@
 
                     <LinearLayout
                         android:id="@+id/fix_Price_l"
-
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_10sdp"

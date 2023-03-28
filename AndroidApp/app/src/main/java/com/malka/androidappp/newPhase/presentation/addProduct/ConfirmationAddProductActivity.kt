@@ -30,7 +30,7 @@ class ConfirmationAddProductActivity : BaseActivity() {
         setContentView(R.layout.activity_confirmation_add_product)
         toolbar_title.text = getString(R.string.distinguish_your_product)
         setViewClickListeners()
-      //  setData()
+        setData()
 
     }
 
@@ -38,27 +38,27 @@ class ConfirmationAddProductActivity : BaseActivity() {
         back_btn.setOnClickListener {
             finish()
         }
-        edit_item_specification.setOnClickListener {
+        tvEditProductDetails.setOnClickListener {
             startActivity(Intent(this, ListingDetailsActivity::class.java).apply {
-                putExtra("isEdit", true)
+                putExtra(ConstantObjects.isEditKey, true)
             })
             finish()
         }
         edit_item_payment.setOnClickListener {
             startActivity(Intent(this, PricingActivity::class.java).apply {
-                putExtra("isEdit", true)
+                putExtra(ConstantObjects.isEditKey, true)
             })
             finish()
         }
         edit_selected_package.setOnClickListener {
             startActivity(Intent(this, PromotionalActivity::class.java).apply {
-                putExtra("isEdit", true)
+                putExtra(ConstantObjects.isEditKey, true)
             })
             finish()
         }
         edit_shoping_option.setOnClickListener {
             startActivity(Intent(this, ListingDurationActivity::class.java).apply {
-                putExtra("isEdit", true)
+                putExtra(ConstantObjects.isEditKey, true)
             })
             finish()
         }
@@ -93,46 +93,47 @@ class ConfirmationAddProductActivity : BaseActivity() {
     }
     @SuppressLint("SetTextI18n")
     fun setData() {
+        tvQuantityData.text=null
+        tvTitleData.text = null
+        tvSubTitleData.text = null
+        tvProductDetail.text=null
+        product_type.text =null
+        tvItemCondition.text=null
+        purchasing_price_tv.text =null
+        auction_start_price_tv.text =null
+        minimum_price_tv.text =null
+        tvShippingOption.text=null
+        tv_package_price.text=null
         AddProductObjectData.images.filter {
             it.is_main == true
         }.let {
             if (it.size > 0) {
-                selectedImages.setImageURI(it.get(0).uri)
+                selectedImages.setImageURI(it[0].uri)
             }
         }
+        product_type.text = AddProductObjectData.selectedCategoryName
 
-        if (AddProductObjectData.selectPromotiion == null) {
-            calculation(0)
-        } else {
-            val package_cost = AddProductObjectData.selectPromotiion!!.packageprice.toInt()
-            calculation(package_cost)
-        }
-
-
-        PickupOptionData.text = AddProductObjectData.shippingOptionSelection!!.name
-
-
-        product_type.text = getCategortList()
-        item_condition.text = AddProductObjectData.brand_new_item
-       // TitleData.text = AddProductObjectData.productTitle
-        product_detail.text = AddProductObjectData.itemDescriptionAr
-        subTitleData.text = AddProductObjectData.subtitleAr
-        quantityData.text = AddProductObjectData.quantity
-        if(AddProductObjectData.isnegotiable){
-            negotiable_tv.text = getString(R.string.Yes)
+        if(ConstantObjects.currentLanguage==ConstantObjects.ARABIC){
+            tvTitleData.text = AddProductObjectData.itemTitleAr
+            tvSubTitleData.text = AddProductObjectData.subtitleAr
+            tvProductDetail.text=AddProductObjectData.itemDescriptionAr
         }else{
-            negotiable_tv.text = getString(R.string.No)
+            tvTitleData.text = AddProductObjectData.itemTitleEn
+            tvSubTitleData.text = AddProductObjectData.subtitleEn
+            tvProductDetail.text=AddProductObjectData.itemDescriptionEn
         }
+        tvItemCondition.text =if(AddProductObjectData.productCondition==1) getString(R.string.used) else getString(R.string.New)
 
+        tvQuantityData.text = AddProductObjectData.quantity
 
-        when (AddProductObjectData.listingType) {
+        when (AddProductObjectData.buyingType) {
             "1" -> {
-                fixed_price.show()
+                tvFixedPrice.show()
                 purchasing_price_.show()
                 purchasing_price_tv.text = AddProductObjectData.price
             }
             "2" -> {
-                Auction.show()
+                tvAuction.show()
                 auction_start_price.show()
                 minimum_price.show()
                 auction_start_price_tv.text = AddProductObjectData.startingPrice
@@ -140,8 +141,8 @@ class ConfirmationAddProductActivity : BaseActivity() {
 
             }
             "12" -> {
-                fixed_price.show()
-                Auction.show()
+                tvFixedPrice.show()
+                tvAuction.show()
                 purchasing_price_.show()
                 auction_start_price.show()
                 minimum_price.show()
@@ -149,6 +150,12 @@ class ConfirmationAddProductActivity : BaseActivity() {
                 auction_start_price_tv.text = AddProductObjectData.startingPrice
                 minimum_price_tv.text = AddProductObjectData.reservedPrice
             }
+        }
+
+        if(AddProductObjectData.isnegotiable){
+            negotiable_tv.text = getString(R.string.Yes)
+        }else{
+            negotiable_tv.text = getString(R.string.No)
         }
 
         if (AddProductObjectData.isbankpaid) {
@@ -157,27 +164,58 @@ class ConfirmationAddProductActivity : BaseActivity() {
         if (AddProductObjectData.isvisapaid) {
             Visa.show()
         }
-
-
-       // timingData.text = "${AddProductObjectData.endtime} ${AddProductObjectData.timepicker}"
-        timingData.text = "${AddProductObjectData.endtime}"
-
-        if (AddProductObjectData.selectPromotiion == null) {
-            select_package_layout.hide()
-
-        } else {
-            package_name_tv.text = AddProductObjectData.selectPromotiion!!.packagename
-            package_price_tv.text =
-                "${AddProductObjectData.selectPromotiion!!.packageprice} ${getString(R.string.rial)}"
+        if(AddProductObjectData.pickUpOption){
+            tvPickupOptionData.text =  getString(R.string.Yes)
+        }else{
+            tvPickupOptionData.text =  getString(R.string.No)
         }
+        tvShippingOption.text=AddProductObjectData.shippingOptionSelection?.name ?:""
+
+        if (AddProductObjectData.selectedPakat == null) {
+            tv_package_price.text=getString(R.string.notSpecified)
+            tv_package_name.text=getString(R.string.notSpecified)
+            calculation(0f)
+        } else {
+            tv_package_price.text=AddProductObjectData.selectedPakat?.price.toString()
+            tv_package_name.text=AddProductObjectData.selectedPakat?.name.toString()
+            AddProductObjectData.selectedPakat?.let {
+                calculation(it.price)
+            }
+
+//            val package_cost = AddProductObjectData.selectPromotiion!!.packageprice.toInt()
+//            calculation(package_cost)
+        }
+
+    // timingData.text = "${AddProductObjectData.endtime} ${AddProductObjectData.timepicker}"
+//        timingData.text = "${AddProductObjectData.endtime}"
+
+//        if (AddProductObjectData.selectPromotiion == null) {
+//            select_package_layout.hide()
+//
+//        } else {
+//            package_name_tv.text = AddProductObjectData.selectPromotiion!!.packagename
+//            package_price_tv.text =
+//                "${AddProductObjectData.selectPromotiion!!.packageprice} ${getString(R.string.rial)}"
+//        }
 
 
     }
 
+
+    @SuppressLint("SetTextI18n")
+    private fun calculation(package_cost: Float) {
+        val TaxAmount = package_cost * 12 / 100
+        val total = package_cost + TaxAmount
+        package_cost_tv.text = "${package_cost} ${getString(R.string.rial)}"
+        added_tax.text = "${TaxAmount} ${getString(R.string.rial)}"
+        total_tv.text = "${total} ${getString(R.string.rial)}"
+        discount_tv.text = "${"0"} ${getString(R.string.rial)}"
+    }
+
+
     // Methods to handle dynamic ad creation
     private fun mainModelToJSON() {
         HelpFunctions.startProgressBar(this)
-
 
 //        if (StaticClassAdCreate.brand_new_item.equals(getString(R.string.New))) {
 //            StaticClassAdCreate.brand_new_item = "on"
@@ -211,7 +249,7 @@ class ConfirmationAddProductActivity : BaseActivity() {
             isActive = false,
             isWatching = false,
             Isuserfavorite = false,
-            listingType = AddProductObjectData.listingType,
+            listingType = AddProductObjectData.buyingType,
             quantity = AddProductObjectData.quantity.toInt(),
             featureexpirydate = AddProductObjectData.featureexpirydate,
             highlightexpirydate = AddProductObjectData.highlightexpirydate,
@@ -244,12 +282,12 @@ class ConfirmationAddProductActivity : BaseActivity() {
             Video = AddProductObjectData.video,
             brand_new_item = AddProductObjectData.brand_new_item,
         )
-        if(AddProductObjectData.selectPromotiion==null){
-            mainModel.pack4=""
-        }else{
-            mainModel.pack4= AddProductObjectData.selectPromotiion!!.packageprice
-
-        }
+//        if(AddProductObjectData.selectPromotiion==null){
+//            mainModel.pack4=""
+//        }else{
+//            mainModel.pack4= AddProductObjectData.selectPromotiion!!.packageprice
+//
+//        }
 
 
         val imageList: ArrayList<String> = ArrayList()
@@ -297,10 +335,10 @@ class ConfirmationAddProductActivity : BaseActivity() {
                 call: Call<CreateAdvResponseBack>, response: Response<CreateAdvResponseBack>
             ) {
                 if (response.isSuccessful) {
-                    AddProductObjectData.listingType=""
+                    AddProductObjectData.buyingType=""
                     AddProductObjectData.brand_new_item=""
                     AddProductObjectData.shippingOptionSelection=null
-                    AddProductObjectData.selectPromotiion=null
+//                    AddProductObjectData.selectPromotiion=null
                     AddProductObjectData.subCategoryPath.clear()
                     Extension.clearPath()
 
@@ -335,13 +373,4 @@ class ConfirmationAddProductActivity : BaseActivity() {
         })
     }
 
-    @SuppressLint("SetTextI18n")
-    private fun calculation(package_cost: Int) {
-        val TaxAmount = package_cost * 12 / 100
-        val total = package_cost + TaxAmount
-        package_cost_tv.text = "${package_cost} ${getString(R.string.rial)}"
-        added_tax.text = "${TaxAmount} ${getString(R.string.rial)}"
-        total_tv.text = "${total} ${getString(R.string.rial)}"
-        discount_tv.text = "${"0"} ${getString(R.string.rial)}"
-    }
 }

@@ -49,19 +49,27 @@
                 android:gravity="center"
                 android:text="@string/and_get_many_advantages_of_displaying_your_product"
                 android:textColor="#293241"
-                android:textSize="@dimen/_12sdp" />
+                android:textSize="@dimen/_14sdp" />
 
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/category_rcv"
+                android:id="@+id/rvPakat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/item_details2_desgin" />
+                tools:listitem="@layout/item_pakat_desgin" />
 
 
         </LinearLayout>
     </LinearLayout>
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:visibility="gone"/>
 
 
     <LinearLayout

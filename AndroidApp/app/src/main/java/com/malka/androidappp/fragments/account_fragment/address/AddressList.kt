@@ -33,7 +33,7 @@ class AddressList : Fragment(R.layout.address_list_fragment) {
 
     private fun loadAddress() {
         CommonAPI().getAddress(requireContext(), {
-            GenericAdaptor().AdressAdaptor(addAddressLaucher, requireContext(), category_rcv, it, ConstantObjects.View, {
+            GenericAdaptor().AdressAdaptor(addAddressLaucher, requireContext(), rvPakat, it, ConstantObjects.View, {
 
 
             })

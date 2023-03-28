@@ -409,7 +409,7 @@
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/fixed_price"
+                    android:id="@+id/tvFixedPrice"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:layout_margin="0.1dp">

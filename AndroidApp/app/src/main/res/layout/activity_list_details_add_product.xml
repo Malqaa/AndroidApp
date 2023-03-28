@@ -61,6 +61,8 @@
                     android:layout_marginTop="@dimen/_5sdp"
                     android:hint="@string/type_the_item_s_title"
                     android:inputType="textPersonName"
+                    android:textAlignment="viewStart"
+                    android:gravity="start"
                     app:viewType="edittext2" />
 
                 <LinearLayout
@@ -96,6 +98,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:hint="@string/type_the_item_s_title"
+                    android:textAlignment="viewStart"
+                    android:gravity="start"
                     android:inputType="textPersonName"
                     app:viewType="edittext2" />
 
@@ -118,6 +122,8 @@
                     android:layout_marginTop="@dimen/_5sdp"
                     android:hint="@string/type_the_item_s_subtitle"
                     android:inputType="textPersonName"
+                    android:textAlignment="viewStart"
+                    android:gravity="start"
                     app:viewType="edittext2" />
                 <TextView
                     android:layout_width="wrap_content"
@@ -135,6 +141,8 @@
                     android:layout_marginTop="@dimen/_5sdp"
                     android:hint="@string/type_the_item_s_subtitle"
                     android:inputType="textPersonName"
+                    android:textAlignment="viewStart"
+                    android:gravity="start"
                     app:viewType="edittext2" />
 
 
@@ -161,9 +169,10 @@
                         android:layout_height="@dimen/_100sdp"
                         android:background="@null"
                         android:fontFamily="@font/madani_arabic_light"
-                        android:gravity="top"
                         android:inputType="text|textMultiLine|textCapSentences"
                         android:padding="@dimen/_7sdp"
+                        android:gravity="top|start"
+                        android:textAlignment="viewStart"
                         android:scrollbars="vertical"
                         android:textColor="#6D6C74"
                         android:textSize="@dimen/_13sdp" />
@@ -191,10 +200,11 @@
                         android:layout_height="@dimen/_100sdp"
                         android:background="@null"
                         android:fontFamily="@font/madani_arabic_light"
-                        android:gravity="top"
                         android:inputType="text|textMultiLine|textCapSentences"
                         android:padding="@dimen/_7sdp"
+                        android:gravity="top|start"
                         android:scrollbars="vertical"
+                        android:textAlignment="viewStart"
                         android:textColor="#6D6C74"
                         android:textSize="@dimen/_13sdp" />
                 </LinearLayout>

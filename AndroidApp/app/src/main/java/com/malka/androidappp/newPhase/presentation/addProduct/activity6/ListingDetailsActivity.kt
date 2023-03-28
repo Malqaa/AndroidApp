@@ -20,6 +20,9 @@ import kotlinx.android.synthetic.main.activity_list_details_add_product.countryC
 import kotlinx.android.synthetic.main.activity_list_details_add_product.etPhoneNumber
 import kotlinx.android.synthetic.main.activity_list_details_add_product.neighborhoodContainer
 import kotlinx.android.synthetic.main.activity_list_details_add_product.regionContainer
+import kotlinx.android.synthetic.main.item_country_city_in_filter.*
+import kotlinx.android.synthetic.main.item_filter_region.*
+import kotlinx.android.synthetic.main.item_select_city_or_region.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 
 class ListingDetailsActivity : BaseActivity() {
@@ -33,14 +36,11 @@ class ListingDetailsActivity : BaseActivity() {
     var isEdit: Boolean = false
     var isPhoneNumberValid: Boolean = false
     override fun onBackPressed() {
-        intent.getBooleanExtra("isEdit", false).let {
-            if (it) {
-                startActivity(Intent(this, ConfirmationAddProductActivity::class.java).apply {
-                    finish()
-                })
-            } else {
-                finish()
-            }
+        if (isEdit) {
+            startActivity(Intent(this, ConfirmationAddProductActivity::class.java))
+            finish()
+        } else {
+            finish()
         }
 
     }
@@ -49,10 +49,16 @@ class ListingDetailsActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list_details_add_product)
         toolbar_title.text = getString(R.string.item_details)
-        AddProductObjectData.productCondition=0
-        AddProductObjectData.quantity=""
+        isEdit = intent.getBooleanExtra(ConstantObjects.isEditKey, false)
+//        AddProductObjectData.productCondition = 0
+//        AddProductObjectData.quantity = ""
         setViewClickListeners()
         setupCountryCodePiker()
+
+        if (isEdit) {
+            setData()
+        }
+
 //  if(!AddProductObjectData.brand_new_item.isEmpty()){
 //            isEdit=true
 //        }
@@ -102,6 +108,39 @@ class ListingDetailsActivity : BaseActivity() {
 //                ListDetailsconfirmInput() }
 //
 //        }
+
+    }
+
+    private fun setData() {
+        tvTitleAr.setText(AddProductObjectData.itemTitleAr)
+        tvTitleEn.setText(AddProductObjectData.itemTitleEn)
+        tvSubtitleAr.setText(AddProductObjectData.subtitleAr)
+        tvSubtitleEn.setText(AddProductObjectData.subtitleEn)
+        tvDescriptionAr.setText(AddProductObjectData.itemDescriptionAr)
+        tvDescriptionEn.setText(AddProductObjectData.itemDescriptionEn)
+        selectedCountry = AddProductObjectData.country
+        selectedRegion = AddProductObjectData.region
+        selectedCity = AddProductObjectData.city
+        countryContainer.text = selectedCountry?.title ?: ""
+        regionContainer.text = selectedRegion?.title ?: ""
+        neighborhoodContainer.text = selectedCity?.title ?: ""
+        countryCodePicker.setCountryForNameCode(AddProductObjectData.phoneCountryCode)
+        etPhoneNumber.setText(
+            AddProductObjectData.phone.replace(
+                AddProductObjectData.phoneCountryCode,
+                ""
+            )
+        )
+        quantityavail.number=AddProductObjectData.quantity
+        if (AddProductObjectData.productCondition == 2) {
+            tv_New.isSelected = true
+            tv_used.isSelected = false
+            AddProductObjectData.productCondition = 2
+        } else {
+            tv_New.isSelected = false
+            tv_used.isSelected = true
+            AddProductObjectData.productCondition = 1
+        }
 
     }
 
@@ -301,8 +340,7 @@ class ListingDetailsActivity : BaseActivity() {
             showError(getString(R.string.Please_enter, getString(R.string.item_details)))
         } else if (tvDescriptionEn.getText().toString().isEmpty()) {
             showError(getString(R.string.Please_enter, getString(R.string.item_details)))
-        }
-        else if (AddProductObjectData.productCondition==0) {
+        } else if (AddProductObjectData.productCondition == 0) {
             showError(getString(R.string.Please_select, getString(R.string.item_condition)))
         } else if (AddProductObjectData.quantity.isEmpty()) {
             showError(getString(R.string.Please_select, getString(R.string.QuantityAvailable)))
@@ -310,7 +348,7 @@ class ListingDetailsActivity : BaseActivity() {
             showError(getString(R.string.Please_select, getString(R.string.QuantityAvailable)))
         } else if (countryContainer.text.toString().isEmpty()) {
             showError(getString(R.string.Please_select, getString(R.string.selectCountry)))
-        }else if (regionContainer.text.toString().isEmpty()) {
+        } else if (regionContainer.text.toString().isEmpty()) {
             showError(getString(R.string.Please_select, getString(R.string.selectCountry)))
         } else if (neighborhoodContainer.text.toString().isEmpty()) {
             showError(getString(R.string.Please_select, getString(R.string.district)))
@@ -319,10 +357,8 @@ class ListingDetailsActivity : BaseActivity() {
         } else if (!isPhoneNumberValid) {
             showError(getString(R.string.PleaseenteravalidPhoneNumber))
         } else {
-
             AddProductObjectData.itemTitleAr = tvTitleAr.getText().trim().toString()
             AddProductObjectData.itemTitleEn = tvTitleEn.getText().trim().toString()
-
             AddProductObjectData.subtitleAr = tvSubtitleAr.getText().trim().toString()
             AddProductObjectData.subtitleEn = tvSubtitleEn.getText().trim().toString()
             AddProductObjectData.itemDescriptionAr = tvDescriptionAr.text.trim().toString()
@@ -331,20 +367,16 @@ class ListingDetailsActivity : BaseActivity() {
             AddProductObjectData.region = selectedRegion
             AddProductObjectData.city = selectedCity
             AddProductObjectData.phone = countryCodePicker.fullNumberWithPlus
+            AddProductObjectData.phoneCountryCode = countryCodePicker.selectedCountryCodeWithPlus
+            if (isEdit) {
+                startActivity(Intent(this, ConfirmationAddProductActivity::class.java).apply {
+                    finish()
+                })
+            } else {
+                startActivity(Intent(this, PricingActivity::class.java).apply {
+                })
 
-            intent.getBooleanExtra("isEdit", false).let {
-                if (it) {
-                    startActivity(Intent(this, ConfirmationAddProductActivity::class.java).apply {
-                        finish()
-                    })
-                } else {
-                    startActivity(Intent(this, PricingActivity::class.java).apply {
-                    })
-
-                }
             }
-
-
         }
     }
 }

@@ -106,7 +106,7 @@
                         android:textSize="@dimen/_14sdp" />
 
                     <TextView
-                        android:id="@+id/subTitleData"
+                        android:id="@+id/tvSubTitleData"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/madani_arabic_light"
