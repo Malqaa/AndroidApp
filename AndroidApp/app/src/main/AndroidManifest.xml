@@ -144,37 +144,43 @@
             android:name=".activities_main.forgot.ForgotPasswordActivty"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities_main.add_product.ListanItem"
+            android:name="com.malka.androidappp.newPhase.presentation.addProduct.activity1.ProductsTagsForAddProductActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities_main.add_product.ChooseCategory"
+            android:name="com.malka.androidappp.newPhase.presentation.addProduct.activity2.ChooseCategoryActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities_main.add_product.all_categories.SubCategories"
+            android:name="com.malka.androidappp.newPhase.presentation.addProduct.activity3.SubCategoriesActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities_main.add_product.AddPhoto"
+            android:name="com.malka.androidappp.newPhase.presentation.addProduct.activity4.AddPhotoActivity"
+            android:screenOrientation="portrait"
+            android:exported="true">
+
+        </activity>
+        <activity
+            android:name="com.malka.androidappp.newPhase.presentation.addProduct.activity5.DynamicTemplateActivtiy"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities_main.add_product.DynamicTemplate"
+            android:name="com.malka.androidappp.newPhase.presentation.addProduct.activity6.ListingDetailsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities_main.add_product.ListingDetails"
+            android:name="com.malka.androidappp.newPhase.presentation.addProduct.activity6.PricingActivity"
+            android:screenOrientation="portrait"
+            android:exported="true">
+
+        </activity>
+        <activity
+            android:name="com.malka.androidappp.newPhase.presentation.addProduct.activity7.ListingDurationActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities_main.add_product.PricingActivity"
+            android:name="com.malka.androidappp.newPhase.presentation.addProduct.activity8.PromotionalActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities_main.add_product.ListingDuration"
+            android:name="com.malka.androidappp.newPhase.presentation.addProduct.ConfirmationAddProductActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities_main.add_product.PromotionalActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activities_main.add_product.Confirmation"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activities_main.add_product.SuccessProduct"
+            android:name="com.malka.androidappp.newPhase.presentation.addProduct.SuccessProduct"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.zfdang.multiple_images_selector.ImagesSelectorActivity"

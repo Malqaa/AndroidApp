@@ -55,7 +55,7 @@ class NeighborhoodDialog(context: Context, var regionId:Int, var getSelectedNeig
 
 
     override fun initialization() {
-        tvTitle.text=context.getString(R.string.selectDistrict)
+        tvTitleAr.text=context.getString(R.string.selectDistrict)
         ivClose.setOnClickListener {
             dismiss()
         }

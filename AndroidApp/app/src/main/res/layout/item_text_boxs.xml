@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    android:layout_marginTop="10dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:includeFontPadding="false"
+        android:fontFamily="@font/madani_arabic_medium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:text="description"
+        android:textColor="@color/black"
+        android:textSize="13sp"
+        android:textAlignment="viewStart"
+        android:id="@+id/tvTitleAr"
+        tools:ignore="MissingPrefix" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginBottom="3dp"
+        android:id="@+id/mainContainer"
+        android:layout_marginEnd="26dp">
+
+        <EditText
+            android:id="@+id/etValue"
+            android:includeFontPadding="false"
+            android:fontFamily="@font/cairo_regular"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="12dp"
+            android:background="@android:color/transparent"
+            android:lineSpacingMultiplier=".8"
+            android:maxLines="4"
+            android:imeOptions="actionDone"
+            android:textAlignment="viewStart"
+            android:textColor="@color/textColor"
+            android:textSize="12sp" />
+        <!--        <TextView-->
+        <!--            android:id="@+id/tvDateValue"-->
+        <!--            fontPath="fonts/cairo_regular.ttf"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="match_parent"-->
+        <!--            android:layout_margin="12dp"-->
+        <!--            android:background="@android:color/transparent"-->
+        <!--            android:lineSpacingMultiplier=".8"-->
+        <!--            android:maxLines="4"-->
+        <!--            android:textColor="@color/grayText2"-->
+        <!--            android:textSize="12sp"-->
+        <!--            tools:ignore="MissingPrefix" />-->
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

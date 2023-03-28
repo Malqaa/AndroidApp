@@ -1,15 +1,13 @@
 package com.malka.androidappp.newPhase.presentation
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.malka.androidappp.R
-import com.malka.androidappp.activities_main.add_product.ListanItem
+import com.malka.androidappp.newPhase.presentation.addProduct.activity1.ProductsTagsForAddProductActivity
 import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
 import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
@@ -67,7 +65,7 @@ class MainActivity : BaseActivity() {
 
         floatingActionButtonBottm.setOnClickListener {
             if (HelpFunctions.isUserLoggedIn()) {
-                startActivity(Intent(this, ListanItem::class.java))
+                startActivity(Intent(this, ProductsTagsForAddProductActivity::class.java))
             } else {
                 startActivity(Intent(this, SignInActivity::class.java))
             }

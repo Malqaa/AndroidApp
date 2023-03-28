@@ -14,7 +14,7 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.malka.androidappp.R
-import com.malka.androidappp.fragments.create_ads.StaticClassAdCreate
+import com.malka.androidappp.newPhase.presentation.addProduct.AddProductObjectData
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
 import java.text.DecimalFormat
@@ -58,23 +58,23 @@ object Extension {
 
     fun clearPath() {
 
-        StaticClassAdCreate.subcatone = ""
-        StaticClassAdCreate.subcatonekey = ""
+        AddProductObjectData.subcatone = ""
+        AddProductObjectData.subcatonekey = ""
 
-        StaticClassAdCreate.subcattwo = ""
-        StaticClassAdCreate.subcattwokey = ""
+        AddProductObjectData.subcattwo = ""
+        AddProductObjectData.subcattwokey = ""
 
-        StaticClassAdCreate.subcatthree = ""
-        StaticClassAdCreate.subcatthreekey = ""
+        AddProductObjectData.subcatthree = ""
+        AddProductObjectData.subcatthreekey = ""
 
-        StaticClassAdCreate.subcatfour = ""
-        StaticClassAdCreate.subcatfourkey = ""
+        AddProductObjectData.subcatfour = ""
+        AddProductObjectData.subcatfourkey = ""
 
-        StaticClassAdCreate.subcatfive = ""
-        StaticClassAdCreate.subcatfivekey = ""
+        AddProductObjectData.subcatfive = ""
+        AddProductObjectData.subcatfivekey = ""
 
-        StaticClassAdCreate.subcatsix = ""
-        StaticClassAdCreate.subcatsixkey = ""
+        AddProductObjectData.subcatsix = ""
+        AddProductObjectData.subcatsixkey = ""
     }
 
 

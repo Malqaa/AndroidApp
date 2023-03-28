@@ -11,16 +11,18 @@
     <string name="noResultFound">لا يوجد نتائج</string>
     <string name="searchHere">ابحث هنا</string>
     <string name="noSpecificationFound">لم يتم العثور على مواصفات</string>
-  <string name="noQuestionsFound">لم يتم العثور على أسئله</string>
-  <string name="applyFilter">تطبيق الفلتر</string>
-  <string name="recentlyView">مشاهدة مؤخرا </string>
+    <string name="noQuestionsFound">لم يتم العثور على أسئله</string>
+    <string name="applyFilter">تطبيق الفلتر</string>
+    <string name="recentlyView">مشاهدة مؤخرا </string>
     <string name="City">مدينة</string>
 
     <string name="Confirm">تؤكد</string>
 
     <string name="bidding">مزايدة</string>
     <string name="show">عرض</string>
-  <string name="noProductsAdded">لم يتم إضافه اى منتجات</string>
+    <string name="noProductsAdded">لم يتم إضافه اى منتجات</string>
+    <string name="enterAllSpecificaiton"> أدخل جميع المواصفات</string>
+    <string name="noSubCategoryFound">لم يتم العثور على فئات فرعية</string>
     <string name="NoCategoryMarkedasFavourites">
     لم يتم تمييز أي فئة كمفضلة
   </string>
@@ -2287,7 +2289,9 @@
     <string name="currentimageabannerimage">ملاحظة *: انقر فوق خانة الاختيار لجعل الصورة الحالية صورة لافتة.</string>
 
     <string name="SelectedImages">الصورة (الصور) المحددة</string>
+    <string name="pleaseSelectImages">من فضللك أختر الصور</string>
 
+    <string name="selected_image_limit_reached"> تم الوصول إلى الحد الأقصى للصور</string>
     <string name="SelectAnyoneCountry">حدد أي بلد</string>
 
     <string name="SelectAnyoneRegion">حدد أي منطقة</string>
@@ -2299,7 +2303,7 @@
     <string name="PricingandPayment">التسعير والدفع</string>
 
     <string name="Selectanyoneoption">حدد أي خيار واحد</string>
-
+    <string name="SelectSaleType">حدد أي خيار من نوع البيع</string>
     <string name="Selectanyonepaymentmethod">حدد أي طريقة دفع واحدة</string>
 
     <string name="Startpriceshouldbesmaller">يجب أن يكون سعر البداية أصغر</string>
@@ -2541,6 +2545,8 @@
     <string name="subsection">القسم الفرعى</string>
     <string name="attach_pictures_of_the_item">أرفق صور السلعة</string>
     <string name="item_details">تفاصيل السلعة</string>
+  <string name="item_detailsEN">تفاصيل السلعة بالأنجليزيه</string>
+  <string name="item_detailsAR">تفاصيل السلعة بالعربية</string>
     <string name="attach_a_video_link_of_the_item">ارفق رابط فيديو للسلعة</string>
     <string name="reviews">التقييمات</string>
     <string name="sent">المرسلة</string>
@@ -2604,6 +2610,11 @@
     <string name="new_product_has_been_added">تمت إضافة منتج جديد</string>
     <string name="item_title">عنوان السلعة</string>
     <string name="sub_title">العنوان الفرعي للعنصر</string>
+    <string name="item_title_en">عنوان السلعة بالانجليزيه</string>
+    <string name="sub_title_en">العنوان الفرعي للعنصر بالانجليزيه</string>
+    <string name="item_title_ar">عنوان السلعة بالعربيه</string>
+    <string name="sub_title_ar">العنوان الفرعي للعنصر بالعربيه</string>
+
     <string name="dismiss">رفض</string>
     <string name="account_holder_s_name">اسم صاحب الحساب</string>
     <string name="bank_name">اسم البنك</string>
@@ -2798,5 +2809,5 @@
     <string name="reviews_as_a_seller">التقييمات كبائع</string>
     <string name="following">التالية</string>
     <string name="follow_catgeory">Follow category successfully</string>
-
+  <string name="free_shipping_within_Saudi_Arabia">شحن مجاني داخل المملكة العربية السعودية</string>
 </resources>

@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/madani_arabic_medium"
             android:gravity="center"
-            android:id="@+id/title_tv"
+            android:id="@+id/tvTitleAr"
             android:text="@string/delivery_options"
             android:textSize="@dimen/_14sdp" />
 

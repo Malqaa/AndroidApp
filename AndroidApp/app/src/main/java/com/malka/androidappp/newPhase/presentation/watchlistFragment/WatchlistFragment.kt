@@ -17,26 +17,22 @@ import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.data.helper.hide
 import com.malka.androidappp.newPhase.data.helper.show
 import com.malka.androidappp.newPhase.domain.models.productResp.Product
-import com.malka.androidappp.recycler_browsecat.GenericProductAdapter
+
 import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
-import com.malka.androidappp.newPhase.domain.models.servicemodels.WatchList
+
 import com.malka.androidappp.newPhase.presentation.adapterShared.ProductHorizontalAdapter
 import com.malka.androidappp.newPhase.presentation.adapterShared.SetOnProductItemListeners
-import com.malka.androidappp.newPhase.presentation.homeScreen.adapters.CategoryProductAdapter
+
 import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
 import com.malka.androidappp.newPhase.presentation.productDetailsActivity.ProductDetailsActivity
-import com.malka.androidappp.newPhase.presentation.productDetailsActivity.viewModels.ProductDetailsViewModel
-import kotlinx.android.synthetic.main.fragment_choose_cate.*
-import kotlinx.android.synthetic.main.fragment_homee.*
+
 import kotlinx.android.synthetic.main.fragment_watchlist.*
 import kotlinx.android.synthetic.main.fragment_watchlist.swipe_to_refresh
 import kotlinx.android.synthetic.main.toolbar_main.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.greenrobot.eventbus.EventBus
-import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
+
 
 
 class WatchlistFragment : Fragment(R.layout.fragment_watchlist),

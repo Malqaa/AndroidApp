@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/corner_background_orange_dark">
         <TextView
-            android:id="@+id/tvTitle"
+            android:id="@+id/tvTitleAr"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"

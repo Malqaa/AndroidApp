@@ -24,6 +24,7 @@ import com.malka.androidappp.newPhase.domain.models.resgisterResp.RegisterResp
 import com.malka.androidappp.newPhase.data.network.constants.Constants
 import com.malka.androidappp.newPhase.data.network.constants.Constants.GET_CATEGORY_TAGS_ENDPOINT
 import com.malka.androidappp.newPhase.domain.models.countryResp.CountriesResp
+import com.malka.androidappp.newPhase.domain.models.dynamicSpecification.DynamicSpecificationResp
 import com.malka.androidappp.newPhase.domain.models.homeSilderResp.HomeSliderResp
 import com.malka.androidappp.newPhase.domain.models.productResp.ProductListResp
 import com.malka.androidappp.newPhase.domain.models.productResp.ProductResp
@@ -45,6 +46,7 @@ import com.malka.androidappp.newPhase.domain.models.servicemodels.feedbacks.Feed
 import com.malka.androidappp.newPhase.domain.models.servicemodels.home.visitcount.visit_count_object
 import com.malka.androidappp.newPhase.domain.models.homeCategoryProductResp.HomeCategoryProductResp
 import com.malka.androidappp.newPhase.domain.models.servicemodels.model_wonloss.ModelWonLost
+import com.malka.androidappp.newPhase.domain.models.productTags.CategoryTagsResp
 import com.malka.androidappp.newPhase.domain.models.servicemodels.questionModel.ModelAskQues
 import com.malka.androidappp.newPhase.domain.models.servicemodels.questionModel.ModelPostAns
 import com.malka.androidappp.newPhase.domain.models.servicemodels.questionModel.ModelQuesAnswr
@@ -207,6 +209,25 @@ interface MalqaApiService {
     @GET("ListRateProduct?productId=15&currentPage=1")
     fun getRates(@Query("productId") productID:Int,@Query("lang") language: String = ConstantObjects.currentLanguage): Call<RateResponse>
 
+
+    @GET("GetListCategoriesByProductName")
+    fun getListCategoriesByProductName(@Query("productName")productName:String,@Query("lang") language: String = ConstantObjects.currentLanguage):Call<CategoryTagsResp>
+
+    @GET("ListAllSpecificationAndSubSpecificationByCatId")
+    fun getDynamicSpecificationForCategory(
+        @Query("id") id: String,
+        @Query("lang") language: String = ConstantObjects.currentLanguage,
+        @Query("currentPage") page: String = "1"
+    ): Call<DynamicSpecificationResp>
+
+    @GET("ListAllSpecificationAndSubSpecificationByCatId")
+    fun getSpecification(
+        @Query("id") id: String,
+        @Query("lang") language: String = ConstantObjects.currentLanguage
+    ): Call<GeneralResponse>
+
+
+
     // ?currentPage=1
     //+++++++++++++++++++++++++++++++++++++++++
     //+++++++++++++++++++++++++++++++++++++++++
@@ -329,7 +350,7 @@ interface MalqaApiService {
     @GET("$GET_CATEGORY_TAGS_ENDPOINT?")
     fun getCategoryTags(
         @Query("name") name: String
-    ): Call<CategoryTagsModel>
+    ): Call<CategoryTagsResp>
 
     @GET("BussinessProduct/getall")
     fun getAllProducts(): Call<AllProductsResponseBack>
@@ -466,12 +487,6 @@ interface MalqaApiService {
 
     @GET("GetSubCategoryByMainCategory")
     fun GetSubCategoryByMainCategory(
-        @Query("id") id: String,
-        @Query("lang") language: String = ConstantObjects.currentLanguage
-    ): Call<GeneralResponse>
-
-    @GET("ListAllSpecificationAndSubSpecificationByCatId")
-    fun getSpecification(
         @Query("id") id: String,
         @Query("lang") language: String = ConstantObjects.currentLanguage
     ): Call<GeneralResponse>

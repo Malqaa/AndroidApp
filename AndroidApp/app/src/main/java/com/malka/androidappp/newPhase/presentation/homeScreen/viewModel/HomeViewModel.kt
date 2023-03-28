@@ -128,9 +128,7 @@ class HomeViewModel : BaseViewModel() {
                     if (response.isSuccessful) {
                         lastViewProductsObserver.value = response.body()
                     }
-//                    else{
-//                        errorResponseObserver.value = getErrorResponse(response.errorBody())
-//                    }
+//
                 }
             })
 

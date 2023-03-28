@@ -99,7 +99,7 @@
                 android:background="@drawable/edittext_bg">
 
                 <EditText
-                    android:id="@+id/item_description"
+                    android:id="@+id/tvDescriptionAr"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_100sdp"
                     android:background="@null"

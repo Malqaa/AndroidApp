@@ -42,7 +42,7 @@ class CommonBottomSheet {
     fun showPaymentOption(title:String,list: ArrayList<Selection>,context: Context, onConfirm: (type: Selection) -> Unit) {
         BottomSheetDialog(context).apply {
             setContentView(R.layout.delivery_option)
-            title_tv.text=title
+            tvTitleAr.text=title
             btn_confirm_delivery.text=context.getText(R.string.the_next)
             close_delivery_alert.hide()
             btn_confirm_delivery.setOnClickListener {
@@ -436,7 +436,7 @@ class CommonBottomSheet {
 
 
         view.apply {
-            title_tv.text=title
+            tvTitleAr.text=title
             close_delivery_alert.setOnClickListener {
                 builder.dismiss()
             }

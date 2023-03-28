@@ -75,7 +75,7 @@ class CategoryProductAdapter(var categoryProductHomeList: ArrayList<CategoryProd
             porductList.clear()
             porductList.addAll(product)
         }
-      val porductAdatper = ProductHorizontalAdapter(porductList, this,categoryId,true)
+      var porductAdatper = ProductHorizontalAdapter(porductList, this,categoryId,true)
         productRcv.apply {
             adapter = porductAdatper
             layoutManager = linearLayoutManager(RecyclerView.HORIZONTAL)

@@ -1,0 +1,116 @@
+package com.malka.androidappp.newPhase.presentation.addProduct
+
+import com.malka.androidappp.newPhase.data.helper.widgets.searchdialog.SearchListItem
+import com.malka.androidappp.newPhase.domain.models.ImageSelectModel
+import com.malka.androidappp.newPhase.domain.models.dynamicSpecification.DynamicSpecificationItem
+import com.malka.androidappp.newPhase.domain.models.servicemodels.PromotionModel
+import com.malka.androidappp.newPhase.domain.models.servicemodels.Selection
+import com.malka.androidappp.newPhase.domain.models.servicemodels.TimeSelection
+import com.malka.androidappp.newPhase.domain.models.servicemodels.model.Category
+
+class AddProductObjectData {
+
+    companion object {
+
+
+
+
+        /**activity 1*/
+        // List to store path of categories
+        var subCategoryPath: ArrayList<String> = ArrayList()
+        var selectedCategory:Category?=null
+        var selectedCategoryId:Int=0
+        var selectedCategoryName:String=""
+        var video = ""
+        var images: MutableList<ImageSelectModel> =  mutableListOf()
+
+        var itemTitleAr:String = ""
+        var itemTitleEn: String= ""
+        var subtitleAr:String = ""
+        var subtitleEn: String=""
+        var itemDescriptionAr :String= ""
+        var itemDescriptionEn:String=""
+        /**used =1 , new =2*/
+        var productCondition:Int=0
+        var quantity :String= ""
+        var country: SearchListItem? = null
+        var region: SearchListItem? = null
+        var city: SearchListItem? = null
+        var price:String = ""
+        var reservedPrice:String = ""
+        var startingPrice :String= ""
+        var isnegotiable = false
+        var listingType = ""
+        var isvisapaid = false
+        var productSpecificationList: List<DynamicSpecificationItem>?=null
+        var pickUpOption: Boolean=false
+
+
+
+
+
+
+
+        var brand_new_item = ""
+
+        var id = ""
+        var name = ""
+        var slug = ""
+        var tag = ""
+        var featureexpirydate = ""
+        var urgentexpirydate = ""
+        var highlightexpirydate = ""
+
+        var template = ""
+
+
+        val user = ""
+
+
+        var phone = ""
+
+
+        var address = ""
+
+
+
+
+
+        var iscashpaid = false
+
+        var isbankpaid = false
+
+
+        var fixLength = ""
+        var timepicker = ""
+
+        var duration = ""
+        var endtime = ""
+        var fixlenghtselected: TimeSelection? = null
+
+
+
+        var selectPromotiion: PromotionModel?=null
+        var weekSelection: TimeSelection?=null
+        var shippingOptionSelection: Selection?=null
+
+
+
+
+        // To store path for model
+        var subcatone = ""
+        var subcattwo = ""
+        var subcatthree = ""
+        var subcatfour = ""
+        var subcatfive = ""
+        var subcatsix = ""
+        var subcatonekey = ""
+        var subcattwokey = ""
+        var subcatthreekey = ""
+        var subcatfourkey = ""
+        var subcatfivekey = ""
+        var subcatsixkey = ""
+        var category = ""
+
+    }
+}

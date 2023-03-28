@@ -13,6 +13,8 @@ import com.malka.androidappp.newPhase.domain.models.homeCategoryProductResp.Cate
 
 class ConstantObjects {
     companion object {
+
+
         val ENGLISH = "en"
         val ARABIC = "ar"
 
@@ -53,5 +55,7 @@ class ConstantObjects {
         const val productIdKey = "ProductIdKey"
         const val questionListKey="QuestionListKey"
         const val productFavStatusKey="productFavStatusKey"
+        const val categoryIdKey: String="categoryid"
+        const val categoryName: String="categoryName"
     }
 }

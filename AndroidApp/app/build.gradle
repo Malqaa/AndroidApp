@@ -106,4 +106,5 @@ dependencies {
     implementation 'com.github.HamidrezaAmz:MagicalExoPlayer:2.0.7'
     implementation 'com.joooonho:selectableroundedimageview:1.0.1'
     implementation("org.greenrobot:eventbus:3.3.1")
+    implementation 'io.github.sangcomz:fishbun:1.1.1'
 }

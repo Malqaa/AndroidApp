@@ -54,7 +54,7 @@ class RegionDialog(context: Context,var countryId:Int, var getSelectedRegion: Ge
 
 
     override fun initialization() {
-        tvTitle.text=context.getString(R.string.selectRegionTitle)
+        tvTitleAr.text=context.getString(R.string.selectRegionTitle)
         ivClose.setOnClickListener {
             dismiss()
         }

@@ -11,7 +11,7 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import com.malka.androidappp.newPhase.presentation.splashActivity.SplashActivity
-import com.malka.androidappp.fragments.create_ads.StaticClassAdCreate
+import com.malka.androidappp.newPhase.presentation.addProduct.AddProductObjectData
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
 import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
@@ -79,7 +79,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     fun getCategortList(): String {
         var name = ""
-        StaticClassAdCreate.subCategoryPath.forEach {
+        AddProductObjectData.subCategoryPath.forEach {
             name = name + it + " - "
         }
         if (name.length > 2) {
