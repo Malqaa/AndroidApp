@@ -5,6 +5,7 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
@@ -13,6 +14,7 @@ import android.location.Address
 import android.location.Geocoder
 import android.net.Uri
 import android.os.StrictMode
+import android.provider.MediaStore
 import android.provider.Settings.Secure
 import android.util.Base64
 import android.util.Patterns
@@ -22,6 +24,7 @@ import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.loader.content.CursorLoader
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.gson.Gson
@@ -634,6 +637,21 @@ class HelpFunctions {
             val b = baos.toByteArray()
             //Base64.de
             return Base64.encodeToString(b, Base64.DEFAULT)
+        }
+        fun getFileImage(uri: Uri,context: Context):File {
+            val path: String? = getRealPathFromURI(uri,context)
+            val imagefile = File(path)
+            return imagefile
+        }
+        private fun getRealPathFromURI(contentUri: Uri,context: Context): String? {
+            val proj = arrayOf(MediaStore.Images.Media.DATA)
+            val loader = CursorLoader(context, contentUri, proj, null, null, null)
+            val cursor: Cursor? = loader.loadInBackground()
+            val column_index: Int? = cursor?.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+            cursor?.moveToFirst()
+            val result: String? = column_index?.let { cursor?.getString(it) }
+            cursor?.close()
+            return result
         }
 
 

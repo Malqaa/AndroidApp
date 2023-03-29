@@ -256,35 +256,43 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:gravity="center">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/madani_arabic_medium"
-                        android:text="@string/QuantityAvailable"
-                        android:textColor="#293241"
-                        android:textSize="@dimen/_14sdp" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_2sdp"
-                        android:fontFamily="@font/madani_arabic_medium"
-                        android:text="*"
-                        android:textColor="@color/Red"
-                        android:textSize="@dimen/_14sdp" />
-                </LinearLayout>
-
-
-                <com.malka.androidappp.newPhase.data.helper.widgets.ElegantNumberButton
-                    android:id="@+id/quantityavail"
+                    android:id="@+id/containerQuantity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp" />
+                    android:orientation="vertical"
+                    >
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/madani_arabic_medium"
+                            android:text="@string/QuantityAvailable"
+                            android:textColor="#293241"
+                            android:textSize="@dimen/_14sdp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_2sdp"
+                            android:fontFamily="@font/madani_arabic_medium"
+                            android:text="*"
+                            android:textColor="@color/Red"
+                            android:textSize="@dimen/_14sdp" />
+                    </LinearLayout>
+
+
+                    <com.malka.androidappp.newPhase.data.helper.widgets.ElegantNumberButton
+                        android:id="@+id/quantityavail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp" />
+
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="wrap_content"

@@ -13,5 +13,6 @@ data class HomeSliderResp(
 )
 data class HomeSliderItem(
     val id: Int,
-    var image: String,
+    var img: String,
+    val type: Int,
 )

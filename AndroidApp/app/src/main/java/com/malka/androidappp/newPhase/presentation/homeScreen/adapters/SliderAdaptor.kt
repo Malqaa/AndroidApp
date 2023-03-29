@@ -33,7 +33,7 @@ class SliderAdaptor(context: Context, val sliderList :List<HomeSliderItem>) : Pa
         val loader: ProgressBar = view.findViewById(R.id.loader)
         Extension.loadThumbnail(
             context,
-            sliderList[position].image,
+            sliderList[position].img,
             slider_image, loader
         )
         val vp = container as ViewPager

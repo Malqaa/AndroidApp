@@ -5,13 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
+    <include layout="@layout/toolbar_main"
+        android:id="@+id/toolbar"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar"
+        android:layout_above="@+id/add_product_button4"
         android:orientation="vertical">
 
-        <include layout="@layout/toolbar_main" />
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/allCategoriesRecyclerView"
@@ -25,6 +28,13 @@
 
     </LinearLayout>
 
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:visibility="gone"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/progressBar"/>
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/add_product_button4"
         android:layout_width="match_parent"

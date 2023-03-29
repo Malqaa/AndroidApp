@@ -1,7 +1,6 @@
 package com.malka.androidappp.newPhase.domain.models.dynamicSpecification
 
 import com.google.gson.annotations.SerializedName
-import com.malka.androidappp.newPhase.domain.models.countryResp.Country
 
 data class DynamicSpecificationResp(
     val code: String? = null,
@@ -23,8 +22,9 @@ data class DynamicSpecificationItem(
     var createdAt: String,
     var isActive: Boolean,
     var subSpecifications: List<SubSpecificationItem>? = null,
-    var valueText: String = "",
-var subSpecificationsValue:SubSpecificationItem?=null
+    var valueArText: String = "",
+    var valueEnText: String = "",
+    var subSpecificationsValue:SubSpecificationItem?=null
 ) {
 
 }

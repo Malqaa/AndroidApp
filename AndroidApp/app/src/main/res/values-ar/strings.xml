@@ -2812,4 +2812,6 @@
   <string name="free_shipping_within_Saudi_Arabia">شحن مجاني داخل المملكة العربية السعودية</string>
   <string name="noPackagesFound">لم يتم العثور على باقات</string>
   <string name="notSpecified">لم تحدد</string>
+  <string name="inArabic">بالعربية</string>
+  <string name="inEnglish">بالانجليزية</string>
 </resources>

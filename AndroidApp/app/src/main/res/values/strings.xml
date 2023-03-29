@@ -2992,4 +2992,6 @@ Want to start a business account? Create a Business Account
     <string name="free_shipping_within_Saudi_Arabia">Free shipping within Saudi Arabia</string>
     <string name="noPackagesFound">No Packages Found</string>
     <string name="notSpecified">Not Specified</string>
+    <string name="inArabic">In Arabic</string>
+    <string name="inEnglish">In English</string>
 </resources>

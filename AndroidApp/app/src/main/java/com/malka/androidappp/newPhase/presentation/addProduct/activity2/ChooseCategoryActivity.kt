@@ -56,10 +56,7 @@ class ChooseCategoryActivity : BaseActivity() {
                 AddProductObjectData.selectedCategoryName = allCategoryList[position].name
                 startActivity(Intent(this, SubCategoriesActivity::class.java).apply {
                     putExtra(ConstantObjects.categoryIdKey, allCategoryList[position].id.toString())
-                    putExtra(
-                        ConstantObjects.categoryName,
-                        allCategoryList[position].name.toString()
-                    )
+                    putExtra(ConstantObjects.categoryName, allCategoryList[position].name.toString())
                 })
 //                if (!allCategoryList[position].isCategory) {
 //                    AddProductObjectData.subCategoryPath.add(allCategoryList[position].name.toString())

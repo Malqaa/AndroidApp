@@ -485,7 +485,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
         dotscount = 0
         dots.clear()
         SliderDots.removeAllViews()
-        homeViewModel.getSliderData()
+        homeViewModel.getSliderData(1)
         homeViewModel.getAllCategories()
         if (HelpFunctions.isUserLoggedIn()) {
             homeViewModel.getLastViewedProduct()

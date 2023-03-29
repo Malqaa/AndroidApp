@@ -30,8 +30,10 @@ class DynamicSpecificationsAdapter(
 //        RecyclerView.ViewHolder(viewBinding.root)
 
     class TextBoxViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val tvTitle: TextView = view.findViewById(R.id.tvTitleAr)
-        val etValue: EditText = view.findViewById(R.id.etValue)
+        val tvTitleAr: TextView = view.findViewById(R.id.tvTitleAr)
+        val etValueAr: EditText = view.findViewById(R.id.etValueAr)
+        val tvTitleEn: TextView = view.findViewById(R.id.tvTitleEn)
+        val etValueEn: EditText = view.findViewById(R.id.etValueEn)
     }
 
 //    class SpinnerViewHolder(var viewBinding: ItemDropDownBinding) :
@@ -101,15 +103,25 @@ class DynamicSpecificationsAdapter(
         textBoxViewHolder: TextBoxViewHolder,
         position: Int
     ) {
-        textBoxViewHolder.tvTitle.text = dynamicSpecificationList[position].name
+        textBoxViewHolder.tvTitleAr.text = "${dynamicSpecificationList[position].name} ${context.getString(R.string.inArabic)}"
+        textBoxViewHolder.tvTitleEn.text = "${dynamicSpecificationList[position].name} ${context.getString(R.string.inEnglish)}"
         //textBoxHolder.etValue.setHint(attributesList.get(position).getTitle());
         //if (attributesList.get(position).getTextboxDatatype() != 4)
-        textBoxViewHolder.etValue.addTextChangedListener(object : TextWatcher {
+        textBoxViewHolder.etValueAr.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable) {
-                onChangeValueListener.setOnTextBoxTextChange(
-                    textBoxViewHolder.etValue.text.toString().trim(), position
+                onChangeValueListener.setOnTextBoxTextChangeAR(
+                    textBoxViewHolder.etValueAr.text.toString().trim(), position
+                )
+            }
+        })
+        textBoxViewHolder.etValueEn.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable) {
+                onChangeValueListener.setOnTextBoxTextChangeEN(
+                    textBoxViewHolder.etValueEn.text.toString().trim(), position
                 )
             }
         })
@@ -146,7 +158,8 @@ class DynamicSpecificationsAdapter(
     }
 
     interface OnChangeValueListener {
-        fun setOnTextBoxTextChange(value: String, position: Int)
+        fun setOnTextBoxTextChangeAR(value: String, position: Int)
+        fun setOnTextBoxTextChangeEN(value: String, position: Int)
 //        fun setData(position: Int)
 //        fun setOnCheckBoxSelected(value: String?, position: Int)
         fun setOnSpinnerListSelected(mainAttributesPosition: Int, spinnerPosition: Int)

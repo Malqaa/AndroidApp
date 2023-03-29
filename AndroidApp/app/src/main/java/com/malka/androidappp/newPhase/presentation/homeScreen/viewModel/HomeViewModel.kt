@@ -23,9 +23,9 @@ class HomeViewModel : BaseViewModel() {
     var homeCategoryProductErrorResponseObserver: MutableLiveData<ErrorResponse> = MutableLiveData()
     var isLoadingAllCategory:MutableLiveData<Boolean> =MutableLiveData()
     var lastViewProductsObserver:MutableLiveData<ProductListResp> =MutableLiveData()
-    fun getSliderData() {
+    fun getSliderData(slideType:Int) {
         RetrofitBuilder.GetRetrofitBuilder()
-            .getHomeSlidersImages()
+            .getHomeSlidersImages(slideType)
             .enqueue(object : Callback<HomeSliderResp> {
                 override fun onFailure(call: Call<HomeSliderResp>, t: Throwable) {
                     isNetworkFail.value = t !is HttpException

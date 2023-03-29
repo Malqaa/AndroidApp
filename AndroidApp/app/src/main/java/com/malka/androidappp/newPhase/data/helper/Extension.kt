@@ -17,6 +17,7 @@ import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.presentation.addProduct.AddProductObjectData
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.*
@@ -143,6 +144,9 @@ object Extension {
     }
 
     fun String.requestBody(): RequestBody {
-        return RequestBody.create("text/plain".toMediaTypeOrNull(), this)
+        return this.toRequestBody("text/plain".toMediaTypeOrNull())
     }
+//    fun String.requestBody2(): RequestBody {
+//        return RequestBody.create("text/plain".toMediaTypeOrNull(),this)
+//    }
 }

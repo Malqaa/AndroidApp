@@ -3,38 +3,40 @@ package com.malka.androidappp.newPhase.presentation.addProduct.activity6
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.hbb20.CountryCodePicker
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseActivity
+import com.malka.androidappp.newPhase.data.helper.HelpFunctions
+import com.malka.androidappp.newPhase.data.helper.hide
+import com.malka.androidappp.newPhase.data.helper.show
 import com.malka.androidappp.newPhase.data.helper.widgets.searchdialog.SearchListItem
 import com.malka.androidappp.newPhase.presentation.addProduct.AddProductObjectData
 import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
 import com.malka.androidappp.newPhase.presentation.addProduct.ConfirmationAddProductActivity
+import com.malka.androidappp.newPhase.presentation.addProduct.activity1.SearchTagItem
+import com.malka.androidappp.newPhase.presentation.addProduct.viewmodel.AddProductViewModel
 import com.malka.androidappp.newPhase.presentation.dialogsShared.countryDialog.CountryDialog
 import com.malka.androidappp.newPhase.presentation.dialogsShared.neighborhoodDialog.NeighborhoodDialog
 import com.malka.androidappp.newPhase.presentation.dialogsShared.regionDialog.RegionDialog
 import com.yariksoffice.lingver.Lingver
 import kotlinx.android.synthetic.main.activity_list_details_add_product.*
-import kotlinx.android.synthetic.main.activity_list_details_add_product.countryCodePicker
-import kotlinx.android.synthetic.main.activity_list_details_add_product.countryContainer
-import kotlinx.android.synthetic.main.activity_list_details_add_product.etPhoneNumber
-import kotlinx.android.synthetic.main.activity_list_details_add_product.neighborhoodContainer
-import kotlinx.android.synthetic.main.activity_list_details_add_product.regionContainer
-import kotlinx.android.synthetic.main.item_country_city_in_filter.*
-import kotlinx.android.synthetic.main.item_filter_region.*
-import kotlinx.android.synthetic.main.item_select_city_or_region.*
 import kotlinx.android.synthetic.main.toolbar_main.*
+
 
 class ListingDetailsActivity : BaseActivity() {
     var selectedCountry: SearchListItem? = null
     var selectedRegion: SearchListItem? = null
     var selectedCity: SearchListItem? = null
-//    var selectedCountryId: Int = 0
+
+    //    var selectedCountryId: Int = 0
 //    var selectedRegionId: Int = 0
 //    var selectedNeighborhoodId: Int = 0
-
+    private lateinit var addProductViewModel: AddProductViewModel
     var isEdit: Boolean = false
     var isPhoneNumberValid: Boolean = false
+    val configKey = "ShowProductQuantityInAddProduct"
     override fun onBackPressed() {
         if (isEdit) {
             startActivity(Intent(this, ConfirmationAddProductActivity::class.java))
@@ -50,6 +52,7 @@ class ListingDetailsActivity : BaseActivity() {
         setContentView(R.layout.activity_list_details_add_product)
         toolbar_title.text = getString(R.string.item_details)
         isEdit = intent.getBooleanExtra(ConstantObjects.isEditKey, false)
+        setUpViewModel()
 //        AddProductObjectData.productCondition = 0
 //        AddProductObjectData.quantity = ""
         setViewClickListeners()
@@ -111,6 +114,59 @@ class ListingDetailsActivity : BaseActivity() {
 
     }
 
+    private fun setUpViewModel() {
+        addProductViewModel = ViewModelProvider(this).get(AddProductViewModel::class.java)
+        addProductViewModel.isLoading.observe(this) {
+            if (it)
+                HelpFunctions.startProgressBar(this)
+            else
+                HelpFunctions.dismissProgressBar()
+        }
+        addProductViewModel.isNetworkFail.observe(this) {
+            if (it) {
+                HelpFunctions.ShowLongToast(
+                    getString(R.string.connectionError),
+                    this
+                )
+            } else {
+                HelpFunctions.ShowLongToast(
+                    getString(R.string.serverError),
+                    this
+                )
+            }
+
+        }
+        addProductViewModel.errorResponseObserver.observe(this) {
+            if (it.message != null && it.message != "") {
+                HelpFunctions.ShowLongToast(
+                    it.message,
+                    this
+                )
+            } else {
+                HelpFunctions.ShowLongToast(
+                    getString(R.string.serverError),
+                    this
+                )
+            }
+
+        }
+        addProductViewModel.configurationRespObserver.observe(this) { configurationRespObserver ->
+            if (configurationRespObserver.status_code == 200) {
+                configurationRespObserver.configurationData?.let {
+                    if (it.configValue == "1") {
+                        containerQuantity.show()
+                    } else {
+                        AddProductObjectData.quantity = "1"
+                        quantityavail.number = "1"
+                        containerQuantity.hide()
+                    }
+                }
+            }
+        }
+
+        addProductViewModel.getConfigurationResp(configKey)
+    }
+
     private fun setData() {
         tvTitleAr.setText(AddProductObjectData.itemTitleAr)
         tvTitleEn.setText(AddProductObjectData.itemTitleEn)
@@ -131,7 +187,7 @@ class ListingDetailsActivity : BaseActivity() {
                 ""
             )
         )
-        quantityavail.number=AddProductObjectData.quantity
+        quantityavail.number = AddProductObjectData.quantity
         if (AddProductObjectData.productCondition == 2) {
             tv_New.isSelected = true
             tv_used.isSelected = false

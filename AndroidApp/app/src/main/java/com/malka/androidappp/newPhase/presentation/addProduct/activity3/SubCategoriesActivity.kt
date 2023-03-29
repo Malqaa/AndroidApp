@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.malka.androidappp.R
@@ -11,13 +13,20 @@ import com.malka.androidappp.newPhase.presentation.addProduct.activity4.AddPhoto
 import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.newPhase.presentation.addProduct.AddProductObjectData
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
+import com.malka.androidappp.newPhase.data.helper.hide
+import com.malka.androidappp.newPhase.data.helper.show
 import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
 import com.malka.androidappp.newPhase.data.network.service.MalqaApiService
 import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
 import com.malka.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
 import com.malka.androidappp.newPhase.domain.models.servicemodels.model.Category
+import com.malka.androidappp.newPhase.presentation.addProduct.activity1.SearchTagItem
+import com.malka.androidappp.newPhase.presentation.addProduct.viewmodel.AddProductViewModel
 import kotlinx.android.synthetic.main.fragment_sub_categories.*
 import kotlinx.android.synthetic.main.toolbar_main.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -28,9 +37,9 @@ class SubCategoriesActivity : BaseActivity(), AdapterSubCategories.OnItemClickLi
     var categoryid: String = ""
     var categoryName: String = ""
 
-    var allCategoryList: List<Category> = ArrayList()
-
-
+    var allCategoryList: ArrayList<Category> = ArrayList()
+    private lateinit var addProductViewModel: AddProductViewModel
+    var lastCategoryId = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_sub_categories)
@@ -41,97 +50,157 @@ class SubCategoriesActivity : BaseActivity(), AdapterSubCategories.OnItemClickLi
 
         categoryid = intent.getStringExtra(ConstantObjects.categoryIdKey).toString()
         categoryName = intent.getStringExtra(ConstantObjects.categoryName).toString()
-        getSubCategoriesByTemplateID(categoryid)
+        setUpViewModel()
+        lastCategoryId = AddProductObjectData.selectedCategoryId
+        addProductViewModel.getSubCategoriesByCategoryID(AddProductObjectData.selectedCategoryId)
     }
 
+    private fun setUpViewModel() {
+        addProductViewModel = ViewModelProvider(this).get(AddProductViewModel::class.java)
+        addProductViewModel.isLoading.observe(this) {
+            if (it)
+                progressBar.show()
+            else
+                progressBar.hide()
+        }
+        addProductViewModel.isNetworkFail.observe(this) {
+            if (it) {
+                HelpFunctions.ShowLongToast(
+                    getString(R.string.connectionError),
+                    this
+                )
+            } else {
+                HelpFunctions.ShowLongToast(
+                    getString(R.string.serverError),
+                    this
+                )
+            }
 
-    private fun getSubCategoriesByTemplateID(categoryId: String) {
-        HelpFunctions.startProgressBar(this)
-        try {
+        }
+        addProductViewModel.errorResponseObserver.observe(this) {
+            if (it.message != null && it.message != "") {
+                HelpFunctions.ShowLongToast(
+                    it.message,
+                    this
+                )
+            } else {
+                HelpFunctions.ShowLongToast(
+                    getString(R.string.serverError),
+                    this
+                )
+            }
 
-            val malqaa: MalqaApiService =
-                RetrofitBuilder.GetRetrofitBuilder()
-
-            val call: Call<GeneralResponse> =
-                malqaa.GetSubCategoryByMainCategory(categoryId)
-
-            call.enqueue(object : Callback<GeneralResponse> {
-                @SuppressLint("UseRequireInsteadOfGet")
-                override fun onResponse(
-                    call: Call<GeneralResponse>,
-                    response: Response<GeneralResponse>
-                ) {
-
-                    if (response.isSuccessful) {
-
-                        response.body()?.run {
-                            if (status_code == 200) {
-                                allCategoryList = Gson().fromJson(
-                                    Gson().toJson(data),
-                                    object : TypeToken<ArrayList<Category>>() {}.type
-                                )
-
-                                if (allCategoryList.count() > 0) {
-                                    allCategoriesRecyclerView.adapter =
-                                        AdapterSubCategories(
-                                            allCategoryList,
-                                            this@SubCategoriesActivity
-                                        )
-
-                                    HelpFunctions.dismissProgressBar()
-                                } else {
-                                    HelpFunctions.dismissProgressBar()
-                                    HelpFunctions.ShowLongToast(getString(R.string.noSubCategoryFound),this@SubCategoriesActivity)
-                                      goNextScreen()
-
-                                }
-                            }
-
-                        }
+        }
+        addProductViewModel.categoryListObserver.observe(this) { categoryListObserver ->
+            if (categoryListObserver.status_code == 200) {
+                lifecycleScope.launch(Dispatchers.IO) {
+                    if (categoryListObserver.categoryList != null && categoryListObserver.categoryList.isNotEmpty()) {
+                        allCategoryList.add(categoryListObserver.categoryList[0])
+                        lastCategoryId = categoryListObserver.categoryList[0].id
+                    } else {
+                        lastCategoryId = 0
                     }
 
+                    withContext(Dispatchers.Main) {
+                        if (lastCategoryId != 0) {
+                            addProductViewModel.getSubCategoriesByCategoryID(lastCategoryId)
+                        } else {
+                            allCategoriesRecyclerView.adapter = AdapterSubCategories(allCategoryList, this@SubCategoriesActivity)
+                            if(allCategoryList.isEmpty()){
+                                HelpFunctions.ShowLongToast(
+                                    getString(R.string.noSubCategoryFound),
+                                    this@SubCategoriesActivity
+                                )
+                               goNextScreen(true)
+                            }
+                        }
+                    }
                 }
-
-                override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
-                    HelpFunctions.dismissProgressBar()
-                    Toast.makeText(this@SubCategoriesActivity, t.message, Toast.LENGTH_LONG).show()
-                }
-            })
-        } catch (ex: Exception) {
-            HelpFunctions.dismissProgressBar()
-            throw ex
+            } else {
+                HelpFunctions.ShowLongToast(
+                    getString(R.string.noSubCategoryFound),
+                    this
+                )
+            }
         }
     }
 
-    private fun goNextScreen() {
-        startActivity(Intent(this, AddPhotoActivity::class.java))
-    }
+//    private fun getSubCategoriesByTemplateID(categoryId: String) {
+//        HelpFunctions.startProgressBar(this)
+//        try {
+//            val malqaa: MalqaApiService =
+//                RetrofitBuilder.GetRetrofitBuilder()
+//
+//            val call: Call<GeneralResponse> =
+//                malqaa.GetSubCategoryByMainCategory(categoryId)
+//
+//            call.enqueue(object : Callback<GeneralResponse> {
+//                @SuppressLint("UseRequireInsteadOfGet")
+//                override fun onResponse(
+//                    call: Call<GeneralResponse>,
+//                    response: Response<GeneralResponse>
+//                ) {
+//
+//                    if (response.isSuccessful) {
+//
+//                        response.body()?.run {
+//                            if (status_code == 200) {
+//                                allCategoryList = Gson().fromJson(
+//                                    Gson().toJson(data),
+//                                    object : TypeToken<ArrayList<Category>>() {}.type
+//                                )
+//
+//                                if (allCategoryList.count() > 0) {
+//                                    allCategoriesRecyclerView.adapter =
+//                                        AdapterSubCategories(
+//                                            allCategoryList,
+//                                            this@SubCategoriesActivity
+//                                        )
+//
+//                                    HelpFunctions.dismissProgressBar()
+//                                } else {
+//                                    HelpFunctions.dismissProgressBar()
+//                                    HelpFunctions.ShowLongToast(
+//                                        getString(R.string.noSubCategoryFound),
+//                                        this@SubCategoriesActivity
+//                                    )
+//                                    goNextScreen()
+//
+//                                }
+//                            }
+//
+//                        }
+//                    }
+//
+//                }
+//
+//                override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
+//                    HelpFunctions.dismissProgressBar()
+//                    Toast.makeText(this@SubCategoriesActivity, t.message, Toast.LENGTH_LONG).show()
+//                }
+//            })
+//        } catch (ex: Exception) {
+//            HelpFunctions.dismissProgressBar()
+//            throw ex
+//        }
+//    }
+
+
 
     override fun OnItemClickHandler(position: Int) {
         super.OnItemClickHandler(position)
         AddProductObjectData.selectedCategoryId = allCategoryList[position].id
-        AddProductObjectData.selectedCategoryName== allCategoryList[position].name
-        goNextScreen()
+        AddProductObjectData.selectedCategoryName == allCategoryList[position].name
+        goNextScreen(false)
 
-//        if (!allCategoryList[position].isCategory) {
-//            AddProductObjectData.subCategoryPath.add(allCategoryList[position].name.toString())
-//
-//            val templateName =
-//                truncateString(allCategoryList[position].template.toString())
-//            AddProductObjectData.template = templateName
-//            startActivity(Intent(this, AddPhotoActivity::class.java).apply {
-//                putExtra("Title", allCategoryList[position].name.toString())
-//                putExtra("file_name", allCategoryList[position].jsonFilePath)
-//            })
-//
-//        } else {
-//
-//            AddProductObjectData.subCategoryPath.add(allCategoryList[position].name.toString())
-//
-//            getSubCategoriesByTemplateID(allCategoryList[position].categoryKey!!)
-//
-//        }
     }
-
+    private fun goNextScreen(isFinish:Boolean) {
+        if(isFinish) {
+            startActivity(Intent(this, AddPhotoActivity::class.java))
+            finish()
+        }else{
+            startActivity(Intent(this, AddPhotoActivity::class.java))
+        }
+    }
 
 }

@@ -1,9 +1,7 @@
 package com.malka.androidappp.newPhase.data.network.service
 
 import com.google.gson.JsonObject
-import com.malka.androidappp.newPhase.domain.models.ratingResp.RateResponse
 import com.malka.androidappp.fragments.UserImageResponseBack
-import com.malka.androidappp.newPhase.presentation.prodctListActivity.browse_market.popup_subcategories_list.ModelAddSearchFav
 import com.malka.androidappp.fragments.cardetail_page.ModelAddSellerFav
 import com.malka.androidappp.fragments.cardetail_page.ModelSellerDetails
 import com.malka.androidappp.fragments.cardetail_page.bottomsheet_bidopt.getbidModel.ModelBidingResponse
@@ -19,20 +17,24 @@ import com.malka.androidappp.fragments.my_product.edit_product.ModelEditProduct
 import com.malka.androidappp.fragments.sellerdetails.SellerResponseBack
 import com.malka.androidappp.fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ModelShipAddresses
 import com.malka.androidappp.fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ShippingAddressessData
-import com.malka.androidappp.newPhase.domain.models.loginResp.LoginResp
-import com.malka.androidappp.newPhase.domain.models.resgisterResp.RegisterResp
 import com.malka.androidappp.newPhase.data.network.constants.Constants
 import com.malka.androidappp.newPhase.data.network.constants.Constants.GET_CATEGORY_TAGS_ENDPOINT
+import com.malka.androidappp.newPhase.domain.models.categoryResp.CategoriesResp
+import com.malka.androidappp.newPhase.domain.models.configrationResp.ConfigurationResp
 import com.malka.androidappp.newPhase.domain.models.countryResp.CountriesResp
 import com.malka.androidappp.newPhase.domain.models.dynamicSpecification.DynamicSpecificationResp
+import com.malka.androidappp.newPhase.domain.models.homeCategoryProductResp.HomeCategoryProductResp
 import com.malka.androidappp.newPhase.domain.models.homeSilderResp.HomeSliderResp
+import com.malka.androidappp.newPhase.domain.models.loginResp.LoginResp
+import com.malka.androidappp.newPhase.domain.models.pakatResp.PakatResp
 import com.malka.androidappp.newPhase.domain.models.productResp.ProductListResp
 import com.malka.androidappp.newPhase.domain.models.productResp.ProductResp
+import com.malka.androidappp.newPhase.domain.models.productTags.CategoryTagsResp
 import com.malka.androidappp.newPhase.domain.models.questionResp.AddQuestionResp
 import com.malka.androidappp.newPhase.domain.models.questionsResp.QuestionsResp
+import com.malka.androidappp.newPhase.domain.models.ratingResp.RateResponse
 import com.malka.androidappp.newPhase.domain.models.regionsResp.RegionsResp
-import com.malka.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.UserVerifiedResp
-import com.malka.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.ValidateAndGenerateOTPResp
+import com.malka.androidappp.newPhase.domain.models.resgisterResp.RegisterResp
 import com.malka.androidappp.newPhase.domain.models.servicemodels.*
 import com.malka.androidappp.newPhase.domain.models.servicemodels.addtocart.AddToCartResponseModel
 import com.malka.androidappp.newPhase.domain.models.servicemodels.addtocart.InsertToCartRequestModel
@@ -44,17 +46,19 @@ import com.malka.androidappp.newPhase.domain.models.servicemodels.favourites.Fav
 import com.malka.androidappp.newPhase.domain.models.servicemodels.favourites.favouriteadd
 import com.malka.androidappp.newPhase.domain.models.servicemodels.feedbacks.FeedbackObject
 import com.malka.androidappp.newPhase.domain.models.servicemodels.home.visitcount.visit_count_object
-import com.malka.androidappp.newPhase.domain.models.homeCategoryProductResp.HomeCategoryProductResp
-import com.malka.androidappp.newPhase.domain.models.pakatResp.PakatResp
 import com.malka.androidappp.newPhase.domain.models.servicemodels.model_wonloss.ModelWonLost
-import com.malka.androidappp.newPhase.domain.models.productTags.CategoryTagsResp
 import com.malka.androidappp.newPhase.domain.models.servicemodels.questionModel.ModelAskQues
 import com.malka.androidappp.newPhase.domain.models.servicemodels.questionModel.ModelPostAns
 import com.malka.androidappp.newPhase.domain.models.servicemodels.questionModel.ModelQuesAnswr
 import com.malka.androidappp.newPhase.domain.models.servicemodels.total_members.ModelGetTotalMembers
 import com.malka.androidappp.newPhase.domain.models.servicemodels.total_online_users.ModelGetTotalOnlineUsers
 import com.malka.androidappp.newPhase.domain.models.servicemodels.user.UserObject
+import com.malka.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.UserVerifiedResp
+import com.malka.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.ValidateAndGenerateOTPResp
+import com.malka.androidappp.newPhase.presentation.prodctListActivity.browse_market.popup_subcategories_list.ModelAddSearchFav
+import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -133,10 +137,16 @@ interface MalqaApiService {
     ): Call<HomeCategoryProductResp>
 
 
-    @GET("GetSliderImages")
+//    @GET("GetSliderImages")
+//    fun getHomeSlidersImages(
+//        @Query("lang")
+//        language: String = ConstantObjects.currentLanguage
+//    ): Call<HomeSliderResp>
+
+    @GET("ListAdvertisments")
     fun getHomeSlidersImages(
-        @Query("lang")
-        language: String = ConstantObjects.currentLanguage
+        @Query("type") type:Int,
+        @Query("lang") language: String = ConstantObjects.currentLanguage
     ): Call<HomeSliderResp>
 
     @GET("ListCountryDDL")
@@ -241,9 +251,52 @@ interface MalqaApiService {
         @Query("PakatType") PakatType: Int = 1,
         @Query("isAdmin") isAdmin: Boolean = false,
         @Query("lang") language: String = ConstantObjects.currentLanguage,
+    ): Call<PakatResp>
 
-        ): Call<PakatResp>
+    @Multipart
+    @POST("AddProduct")
+    fun addProduct(
+        @Part("nameAr") nameAr: RequestBody,
+        @Part("nameEn") nameEn: RequestBody,
+        @Part("subTitleAr") subTitleAr: RequestBody,
+        @Part("subTitleEn") subTitleEn: RequestBody,
+        @Part("descriptionAr") descriptionAr: RequestBody,
+        @Part("descriptionEn") descriptionEn: RequestBody,
+        @Part("qty") qty: RequestBody,
+        @Part("price") price: RequestBody,
+        @Part("priceDisc") priceDisc: RequestBody,
+        @Part("acceptQuestion") acceptQuestion: RequestBody,
+        @Part("isNegotiationOffers") isNegotiationOffers: RequestBody,
+        @Part("withFixedPrice") withFixedPrice: RequestBody,
+        @Part("isMazad") isMazad: RequestBody,
+        @Part("isSendOfferForMazad") isSendOfferForMazad: RequestBody,
+        @Part("startPriceMazad") startPriceMazad: RequestBody,
+        @Part("lessPriceMazad") lessPriceMazad: RequestBody,
+        @Part("mazadNegotiatePrice") mazadNegotiatePrice: RequestBody,
+        @Part("mazadNegotiateForWhom") mazadNegotiateForWhom: RequestBody,
+        @Part("appointment") appointment: RequestBody,
+        @Part("status") productCondition: RequestBody,
+        @Part("categoryId") categoryId: RequestBody,
+        @Part("countryId") countryId: RequestBody,
+        @Part("regionId") regionId: RequestBody,
+        @Part("neighborhoodId") neighborhoodId: RequestBody,
+        @Part("Street") Street: RequestBody,
+        @Part("GovernmentCode") GovernmentCode: RequestBody,
+        @Part("pakatId") pakatId: RequestBody,
+        @Part("productSep") productSep: RequestBody,
+        @Part listImageFile: List<MultipartBody.Part>,//listImageFile
+        @Part("MainImageIndex") MainImageIndex: RequestBody,
+        @Part("videoUrl") videoUrl: RequestBody,
+        @Part("PickUpDelivery") PickUpDelivery: RequestBody,
+        @Part("DeliveryOption") DeliveryOption: RequestBody,
+    ): Call<GeneralResponse>
 
+    @Multipart
+    @POST("AddProduct")
+    fun addProduct2(
+        @PartMap partMap: Map<String,  @JvmSuppressWildcards RequestBody>,
+       // @Part files: List<MultipartBody.Part>
+    ): Call<GeneralResponse>
 
     // ?currentPage=1
     //+++++++++++++++++++++++++++++++++++++++++
@@ -507,6 +560,19 @@ interface MalqaApiService {
         @Query("id") id: String,
         @Query("lang") language: String = ConstantObjects.currentLanguage
     ): Call<GeneralResponse>
+
+    @GET("GetSubCategoryByMainCategory")
+    fun getSubCategoryByMainCategory2(
+        @Query("id") id: String,
+        @Query("lang") language: String = ConstantObjects.currentLanguage
+    ): Call<CategoriesResp>
+
+
+    @GET("GetConfigurationByName")
+    fun getConfigurationData(
+        @Query("configKey") configKey: String,
+        @Query("lang") language: String = ConstantObjects.currentLanguage
+    ): Call<ConfigurationResp>
 
 
     @GET("ListCountries")

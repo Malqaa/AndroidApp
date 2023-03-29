@@ -1,15 +1,7 @@
 package com.malka.androidappp.newPhase.presentation.addProduct.activity5
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.text.InputType
-import android.view.LayoutInflater
-import android.view.View
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
@@ -19,14 +11,8 @@ import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.data.helper.hide
 import com.malka.androidappp.newPhase.data.helper.linearLayoutManager
 import com.malka.androidappp.newPhase.data.helper.show
-import com.malka.androidappp.newPhase.data.helper.widgets.DatePickerFragment
-import com.malka.androidappp.newPhase.data.helper.widgets.TimePickerFragment
-import com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
-import com.malka.androidappp.newPhase.data.helper.widgets.searchdialog.SearchListItem
 import com.malka.androidappp.newPhase.domain.models.dynamicSpecification.DynamicSpecificationItem
-import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
 import com.malka.androidappp.newPhase.presentation.addProduct.AddProductObjectData
-import com.malka.androidappp.newPhase.presentation.addProduct.activity1.SearchTagItem
 import com.malka.androidappp.newPhase.presentation.addProduct.activity6.ListingDetailsActivity
 import com.malka.androidappp.newPhase.presentation.addProduct.viewmodel.AddProductViewModel
 import kotlinx.android.synthetic.main.fragment_dynamic_template.*
@@ -61,10 +47,11 @@ class DynamicTemplateActivtiy : BaseActivity(), DynamicSpecificationsAdapter.OnC
         setViewClickListeners()
         setDynamicListAdapter()
         setUpViewModel()
-      //  println("hhh  cat id : ${AddProductObjectData.selectedCategoryId}")
+        //  println("hhh  cat id : ${AddProductObjectData.selectedCategoryId}")
         addProductViewModel.getDynamicSpecification(AddProductObjectData.selectedCategoryId)
-       // addProductViewModel.getDynamicSpecification(50)
+        // addProductViewModel.getDynamicSpecification(50)
     }
+
     private fun setUpViewModel() {
         addProductViewModel = ViewModelProvider(this).get(AddProductViewModel::class.java)
         addProductViewModel.isLoading.observe(this) {
@@ -103,17 +90,17 @@ class DynamicTemplateActivtiy : BaseActivity(), DynamicSpecificationsAdapter.OnC
         }
         addProductViewModel.getDynamicSpecificationObserver.observe(this) { dynamicSpecificationResp ->
             if (dynamicSpecificationResp.status_code == 200) {
-                   if(dynamicSpecificationResp.dynamicList!=null&&dynamicSpecificationResp.dynamicList.isNotEmpty()){
-                       dynamicSpecificationsArrayList.clear()
-                       dynamicSpecificationsArrayList.addAll(dynamicSpecificationResp.dynamicList)
-                       dynamicSpecificationsAdapter.notifyDataSetChanged()
-                   }else{
-                       goNextScreen()
-                       HelpFunctions.ShowLongToast(
-                           getString(R.string.noSpecificationFound),
-                           this
-                       )
-                   }
+                if (dynamicSpecificationResp.dynamicList != null && dynamicSpecificationResp.dynamicList.isNotEmpty()) {
+                    dynamicSpecificationsArrayList.clear()
+                    dynamicSpecificationsArrayList.addAll(dynamicSpecificationResp.dynamicList)
+                    dynamicSpecificationsAdapter.notifyDataSetChanged()
+                } else {
+                    goNextScreen(true)
+                    HelpFunctions.ShowLongToast(
+                        getString(R.string.noSpecificationFound),
+                        this
+                    )
+                }
             } else {
                 HelpFunctions.ShowLongToast(
                     getString(R.string.noSpecificationFound),
@@ -122,11 +109,13 @@ class DynamicTemplateActivtiy : BaseActivity(), DynamicSpecificationsAdapter.OnC
             }
         }
     }
+
     private fun setDynamicListAdapter() {
-        dynamicSpecificationsAdapter= DynamicSpecificationsAdapter(dynamicSpecificationsArrayList,this)
+        dynamicSpecificationsAdapter =
+            DynamicSpecificationsAdapter(dynamicSpecificationsArrayList, this)
         rvDynamicList.apply {
-            adapter=dynamicSpecificationsAdapter
-            layoutManager=linearLayoutManager(RecyclerView.VERTICAL)
+            adapter = dynamicSpecificationsAdapter
+            layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
         }
     }
 
@@ -150,8 +139,8 @@ class DynamicTemplateActivtiy : BaseActivity(), DynamicSpecificationsAdapter.OnC
     }
 
     private fun checkAllDataSet() {
-        lifecycleScope.launch(Dispatchers.IO){
-            var allValuesSet=true
+        lifecycleScope.launch(Dispatchers.IO) {
+            var allValuesSet = true
             dynamicSpecificationsArrayList.forEach { dynamicSpecificationItem ->
 //                if(dynamicSpecificationItem.type==1){
 //                    if(dynamicSpecificationItem.subSpecificationsValue==null){
@@ -163,42 +152,56 @@ class DynamicTemplateActivtiy : BaseActivity(), DynamicSpecificationsAdapter.OnC
 //                        allValuesSet=false
 //                    }
 //                }
-                if(dynamicSpecificationItem.subSpecifications!=null&& dynamicSpecificationItem.subSpecifications!!.isNotEmpty()){
-                    if(dynamicSpecificationItem.subSpecificationsValue==null){
-                        allValuesSet=false
+                if (dynamicSpecificationItem.subSpecifications != null && dynamicSpecificationItem.subSpecifications!!.isNotEmpty()) {
+                    if (dynamicSpecificationItem.subSpecificationsValue == null) {
+                        allValuesSet = false
 
                     }
-                }else {
-                    if(dynamicSpecificationItem.valueText==""||dynamicSpecificationItem.valueText==null){
-                        allValuesSet=false
+                } else {
+                    if (dynamicSpecificationItem.valueArText == "" || dynamicSpecificationItem.valueArText == null||dynamicSpecificationItem.valueEnText==""||dynamicSpecificationItem.valueEnText==null) {
+                        allValuesSet = false
                     }
                 }
 
 
             }
-            withContext(Dispatchers.Main){
-                if(allValuesSet){
-                    AddProductObjectData.productSpecificationList=dynamicSpecificationsArrayList
-                    goNextScreen()
-                }else{
-                    HelpFunctions.ShowLongToast(getString(R.string.enterAllSpecificaiton),this@DynamicTemplateActivtiy)
+            withContext(Dispatchers.Main) {
+                if (allValuesSet) {
+                    AddProductObjectData.productSpecificationList = dynamicSpecificationsArrayList
+                    goNextScreen(false)
+                } else {
+                    HelpFunctions.ShowLongToast(
+                        getString(R.string.enterAllSpecificaiton),
+                        this@DynamicTemplateActivtiy
+                    )
                 }
             }
         }
     }
 
-    private fun goNextScreen() {
-        startActivity(Intent(this, ListingDetailsActivity::class.java).apply {
-        })
+    private fun goNextScreen(isFinished: Boolean) {
+        if (isFinished) {
+            startActivity(Intent(this, ListingDetailsActivity::class.java).apply {})
+            finish()
+        } else {
+            startActivity(Intent(this, ListingDetailsActivity::class.java).apply {})
+        }
+
     }
 
-    override fun setOnTextBoxTextChange(value: String, position: Int) {
-         dynamicSpecificationsArrayList[position].valueText=value
+    override fun setOnTextBoxTextChangeAR(value: String, position: Int) {
+        dynamicSpecificationsArrayList[position].valueArText = value
+    }
+
+    override fun setOnTextBoxTextChangeEN(value: String, position: Int) {
+        dynamicSpecificationsArrayList[position].valueEnText = value
     }
 
     override fun setOnSpinnerListSelected(mainAttributesPosition: Int, spinnerPosition: Int) {
         dynamicSpecificationsArrayList[mainAttributesPosition].subSpecificationsValue =
-            dynamicSpecificationsArrayList[mainAttributesPosition].subSpecifications?.get(spinnerPosition)
+            dynamicSpecificationsArrayList[mainAttributesPosition].subSpecifications?.get(
+                spinnerPosition
+            )
     }
 
 
