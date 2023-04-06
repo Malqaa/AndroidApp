@@ -270,24 +270,29 @@ class HelpFunctions {
         }
         @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
         fun getViewFormatForDateTrack(dateStr: String?): String? {
-//        String outputPattern = "EEEE MMMM d, yyyy";
-            val outputPattern = "dd/MM/yyyy"
-            val outputFormat = SimpleDateFormat(outputPattern, Locale.getDefault())
-             val tz = TimeZone.getTimeZone("UTC")
-//            val tz = TimeZone.getTimeZone("Africa/Cairo")
-            //  SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy",Locale.getDefault());
-            val df: SimpleDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
-            //  val df = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.ENGLISH)
-            df.timeZone = tz
-            val date: Date
-            val str: String
             try {
-                date = df.parse(dateStr)
-                str = outputFormat.format(date)
-            } catch (e: ParseException) {
+//        String outputPattern = "EEEE MMMM d, yyyy";
+                val outputPattern = "dd/MM/yyyy"
+                val outputFormat = SimpleDateFormat(outputPattern, Locale.getDefault())
+                val tz = TimeZone.getTimeZone("UTC")
+//            val tz = TimeZone.getTimeZone("Africa/Cairo")
+                //  SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy",Locale.getDefault());
+                val df: SimpleDateFormat =
+                    SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
+                //  val df = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.ENGLISH)
+                df.timeZone = tz
+                val date: Date
+                val str: String
+                try {
+                    date = df.parse(dateStr)
+                    str = outputFormat.format(date)
+                } catch (e: ParseException) {
+                    return ""
+                }
+                return str
+            }catch ( e:Exception){
                 return ""
             }
-            return str
         }
 
         fun AdAlreadyAddedToWatchList(adreferenceId: String?): Boolean1 {

@@ -682,98 +682,130 @@
 
                     </LinearLayout>
                 </LinearLayout>
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_1sdp"
-                android:layout_gravity="center"
-                android:layout_marginTop="12dp"
-                android:background="@color/light_gray">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_1sdp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/light_gray"/>
 
             </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_14sdp"
-                android:layout_marginTop="@dimen/_14sdp"
-                android:layout_marginEnd="@dimen/_14sdp"
-                android:orientation="horizontal"
-                android:weightSum="2">
-
-                <TextView
-                    android:layout_width="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/containerReviews">
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/madani_arabic_medium"
-                    android:text="@string/product_reviews"
-                    android:textColor="#000000"
-                    android:textSize="@dimen/_14sdp" />
+                    android:layout_marginStart="@dimen/_14sdp"
+                    android:layout_marginTop="@dimen/_14sdp"
+                    android:layout_marginEnd="@dimen/_14sdp"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/madani_arabic_medium"
+                        android:text="@string/product_reviews"
+                        android:textColor="#000000"
+                        android:textSize="@dimen/_14sdp" />
+
+
+                    <TextView
+                        android:id="@+id/tvShowAllReviews"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/madani_arabic_light"
+                        android:gravity="end"
+                        android:text="@string/all_reviews"
+                        android:textColor="@color/bg"
+                        android:textSize="@dimen/_14sdp" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/contianerRateText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_14sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_14sdp"
+                    android:orientation="horizontal">
+
+                    <RatingBar
+                        android:id="@+id/rating_bar"
+                        style="?android:attr/ratingBarStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:rating="4.7" />
+
+                    <TextView
+                        android:id="@+id/rating_bar_detail_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_8sdp"
+                        android:fontFamily="@font/madani_arabic_medium"
+                        android:text="@string/_4_9_from_00_visitors"
+                        android:textColor="#000000"
+                        android:textSize="@dimen/_14sdp" />
+
+
+                </LinearLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_review"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                        app:spanCount="1" />
+                    <TextView
+                        android:id="@+id/tvReviewsError"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/madani_arabic_medium"
+                        android:text="@string/no_Reviews_Found"
+                        android:textAlignment="viewStart"
+                        android:visibility="gone"
+                        android:textColor="@color/gray"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_centerHorizontal="true"
+                        android:textSize="@dimen/_10sdp" />
+                </RelativeLayout>
 
 
                 <TextView
-                    android:id="@+id/tvShowAllReviews"
+                    android:id="@+id/tvAddReview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="@font/madani_arabic_light"
                     android:gravity="end"
-                    android:text="@string/all_reviews"
+                    android:layout_marginEnd="@dimen/_14sdp"
+                    android:layout_gravity="end"
+                    android:text="@string/add_Review"
                     android:textColor="@color/bg"
                     android:textSize="@dimen/_14sdp" />
 
             </LinearLayout>
 
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_14sdp"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:layout_marginEnd="@dimen/_14sdp"
-                android:orientation="horizontal">
-
-                <RatingBar
-                    android:id="@+id/rating_bar"
-                    style="?android:attr/ratingBarStyleSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:rating="4.7" />
-
-                <TextView
-                    android:id="@+id/rating_bar_detail_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_8sdp"
-                    android:fontFamily="@font/madani_arabic_medium"
-                    android:text="@string/_4_9_from_00_visitors"
-                    android:textColor="#000000"
-                    android:textSize="@dimen/_14sdp" />
 
 
-            </LinearLayout>
-
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_review"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:layout_marginBottom="@dimen/_10sdp"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:spanCount="1" />
-
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_1sdp"
-                android:layout_gravity="center"
-                android:layout_marginTop="15dp"
-                android:background="@color/light_gray" />
 
 
             <LinearLayout

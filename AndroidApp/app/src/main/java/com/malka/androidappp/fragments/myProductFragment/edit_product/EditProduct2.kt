@@ -1,4 +1,4 @@
-package com.malka.androidappp.fragments.my_product.edit_product
+package com.malka.androidappp.fragments.myProductFragment.edit_product
 
 import android.annotation.SuppressLint
 import android.content.Intent

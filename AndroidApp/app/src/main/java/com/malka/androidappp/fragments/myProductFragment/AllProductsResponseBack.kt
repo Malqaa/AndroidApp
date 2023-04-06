@@ -1,4 +1,4 @@
-package com.malka.androidappp.fragments.my_product
+package com.malka.androidappp.fragments.myProductFragment
 
 data class AllProductsResponseBack(
     val data: List<ModelMyProduct>,

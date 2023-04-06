@@ -8,3 +8,10 @@ data class GeneralResponse(
 ) {
 
 }
+data class AddProductResponse(
+    val `data`: Int,
+    val message: String,
+    val status_code: Int
+) {
+
+}

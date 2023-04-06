@@ -14,7 +14,6 @@ import com.malka.androidappp.newPhase.domain.models.servicemodels.Reviewmodel
 import com.malka.androidappp.newPhase.domain.models.servicemodels.Selection
 import kotlinx.android.synthetic.main.fragment_seller_rating.*
 import kotlinx.android.synthetic.main.product_review_design.view.*
-import kotlinx.android.synthetic.main.product_reviews1.rvPakat
 import kotlinx.android.synthetic.main.review_dialog_layout.view.*
 import kotlinx.android.synthetic.main.review_filter_design.view.*
 import kotlinx.android.synthetic.main.toolbar_main.*

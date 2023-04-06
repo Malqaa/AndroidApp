@@ -26,7 +26,8 @@ data class LoginUser(
     val token: String,
     val typeUser: Int,
     val userName: String,
-    val zipCode: String
+    val zipCode: String,
+    val createdAt:String?=null,
 )
 {
     val fullName:String

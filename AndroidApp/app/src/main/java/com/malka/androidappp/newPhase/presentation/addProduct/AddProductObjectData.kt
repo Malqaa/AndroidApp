@@ -3,6 +3,7 @@ package com.malka.androidappp.newPhase.presentation.addProduct
 import com.malka.androidappp.newPhase.data.helper.widgets.searchdialog.SearchListItem
 import com.malka.androidappp.newPhase.domain.models.ImageSelectModel
 import com.malka.androidappp.newPhase.domain.models.dynamicSpecification.DynamicSpecificationItem
+import com.malka.androidappp.newPhase.domain.models.dynamicSpecification.DynamicSpecificationSentObject
 import com.malka.androidappp.newPhase.domain.models.pakatResp.PakatDetails
 import com.malka.androidappp.newPhase.domain.models.servicemodels.Selection
 import com.malka.androidappp.newPhase.domain.models.servicemodels.TimeSelection
@@ -46,7 +47,7 @@ class AddProductObjectData {
         var buyingType = ""
         var isvisapaid = false
         var isbankpaid = false
-        var productSpecificationList: List<DynamicSpecificationItem>? = null
+        var productSpecificationList: List<DynamicSpecificationSentObject>? = null
         var pickUpOption: Boolean = false
         var selectedPakat: PakatDetails? = null
         var shippingOptionSelection: Selection? = null

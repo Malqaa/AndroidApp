@@ -12,6 +12,7 @@ import com.malka.androidappp.newPhase.data.helper.hide
 import com.malka.androidappp.newPhase.data.helper.linearLayoutManager
 import com.malka.androidappp.newPhase.data.helper.show
 import com.malka.androidappp.newPhase.domain.models.dynamicSpecification.DynamicSpecificationItem
+import com.malka.androidappp.newPhase.domain.models.dynamicSpecification.DynamicSpecificationSentObject
 import com.malka.androidappp.newPhase.presentation.addProduct.AddProductObjectData
 import com.malka.androidappp.newPhase.presentation.addProduct.activity6.ListingDetailsActivity
 import com.malka.androidappp.newPhase.presentation.addProduct.viewmodel.AddProductViewModel
@@ -141,6 +142,7 @@ class DynamicTemplateActivtiy : BaseActivity(), DynamicSpecificationsAdapter.OnC
     private fun checkAllDataSet() {
         lifecycleScope.launch(Dispatchers.IO) {
             var allValuesSet = true
+            var data:ArrayList<DynamicSpecificationSentObject> = ArrayList()
             dynamicSpecificationsArrayList.forEach { dynamicSpecificationItem ->
 //                if(dynamicSpecificationItem.type==1){
 //                    if(dynamicSpecificationItem.subSpecificationsValue==null){
@@ -153,13 +155,27 @@ class DynamicTemplateActivtiy : BaseActivity(), DynamicSpecificationsAdapter.OnC
 //                    }
 //                }
                 if (dynamicSpecificationItem.subSpecifications != null && dynamicSpecificationItem.subSpecifications!!.isNotEmpty()) {
-                    if (dynamicSpecificationItem.subSpecificationsValue == null) {
+                    if (dynamicSpecificationItem.valueArText == "" || dynamicSpecificationItem.valueArText == null||dynamicSpecificationItem.valueEnText==""||dynamicSpecificationItem.valueEnText==null) {
                         allValuesSet = false
 
+                    }else{
+                        data.add(DynamicSpecificationSentObject(
+                            HeaderSpeAr = dynamicSpecificationItem.nameAr.toString(),
+                            HeaderSpeEn = dynamicSpecificationItem.nameEn.toString(),
+                            ValueSpeAr = dynamicSpecificationItem.valueArText,
+                            ValueSpeEn = dynamicSpecificationItem.valueEnText,
+                        ))
                     }
                 } else {
                     if (dynamicSpecificationItem.valueArText == "" || dynamicSpecificationItem.valueArText == null||dynamicSpecificationItem.valueEnText==""||dynamicSpecificationItem.valueEnText==null) {
                         allValuesSet = false
+                    }else{
+                        data.add(DynamicSpecificationSentObject(
+                            HeaderSpeAr = dynamicSpecificationItem.nameAr.toString(),
+                            HeaderSpeEn = dynamicSpecificationItem.nameEn.toString(),
+                            ValueSpeAr = dynamicSpecificationItem.valueArText,
+                            ValueSpeEn = dynamicSpecificationItem.valueEnText,
+                        ))
                     }
                 }
 
@@ -167,7 +183,7 @@ class DynamicTemplateActivtiy : BaseActivity(), DynamicSpecificationsAdapter.OnC
             }
             withContext(Dispatchers.Main) {
                 if (allValuesSet) {
-                    AddProductObjectData.productSpecificationList = dynamicSpecificationsArrayList
+                    AddProductObjectData.productSpecificationList = data
                     goNextScreen(false)
                 } else {
                     HelpFunctions.ShowLongToast(
@@ -198,10 +214,10 @@ class DynamicTemplateActivtiy : BaseActivity(), DynamicSpecificationsAdapter.OnC
     }
 
     override fun setOnSpinnerListSelected(mainAttributesPosition: Int, spinnerPosition: Int) {
-        dynamicSpecificationsArrayList[mainAttributesPosition].subSpecificationsValue =
-            dynamicSpecificationsArrayList[mainAttributesPosition].subSpecifications?.get(
-                spinnerPosition
-            )
+        dynamicSpecificationsArrayList[mainAttributesPosition].valueArText =
+            dynamicSpecificationsArrayList[mainAttributesPosition].subSpecifications?.get(spinnerPosition)?.nameAr?:""
+        dynamicSpecificationsArrayList[mainAttributesPosition].valueEnText =
+            dynamicSpecificationsArrayList[mainAttributesPosition].subSpecifications?.get(spinnerPosition)?.nameEn?:""
     }
 
 

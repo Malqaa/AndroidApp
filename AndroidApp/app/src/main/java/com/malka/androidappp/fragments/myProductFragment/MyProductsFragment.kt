@@ -1,4 +1,4 @@
-package com.malka.androidappp.fragments.my_product
+package com.malka.androidappp.fragments.myProductFragment
 
 import android.annotation.SuppressLint
 import android.graphics.Color
@@ -22,7 +22,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class MyProduct : Fragment(), AdapterMyProduct.OnItemClickListener {
+class MyProductsFragment : Fragment(), AdapterMyProduct.OnItemClickListener {
     var res: String? = ""
     var count = 1
     val myProductPosts: ArrayList<ModelMyProduct> = ArrayList()
@@ -31,13 +31,8 @@ class MyProduct : Fragment(), AdapterMyProduct.OnItemClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        
-        
-
         HelpFunctions.startProgressBar(requireActivity())
         myProductPosts.clear()
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_my_product, container, false)
     }
 
@@ -104,12 +99,12 @@ class MyProduct : Fragment(), AdapterMyProduct.OnItemClickListener {
                             myProductRecycler.layoutManager =
                                 LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
                             myProductRecycler.adapter =
-                                AdapterMyProduct(myProductPosts, MyProduct(), this@MyProduct)
+                                AdapterMyProduct(myProductPosts, MyProductsFragment(), this@MyProductsFragment)
                             HelpFunctions.dismissProgressBar()
                         } else {
                             HelpFunctions.dismissProgressBar()
                             HelpFunctions.ShowAlert(
-                                this@MyProduct.context,
+                                this@MyProductsFragment.context,
                                 "Information",
                                 "No Products Found"
                             )
@@ -119,7 +114,7 @@ class MyProduct : Fragment(), AdapterMyProduct.OnItemClickListener {
                 } else {
                     HelpFunctions.dismissProgressBar()
                     HelpFunctions.ShowAlert(
-                        this@MyProduct.context, "Information", "No Products Found"
+                        this@MyProductsFragment.context, "Information", "No Products Found"
                     )
                 }
             }
@@ -136,7 +131,7 @@ class MyProduct : Fragment(), AdapterMyProduct.OnItemClickListener {
         val args = Bundle()
         args.putString("AdvId", myProductPosts[position].id)
         args.putString("sellerID", myProductPosts[position].userId)
-        NavHostFragment.findNavController(this@MyProduct)
+        NavHostFragment.findNavController(this@MyProductsFragment)
             .navigate(R.id.my_product_to_product_detail, args)
     }
 
@@ -144,7 +139,7 @@ class MyProduct : Fragment(), AdapterMyProduct.OnItemClickListener {
         super.onEdit(position)
         val args = Bundle()
         args.putString("AdvId", myProductPosts[position].id)
-        NavHostFragment.findNavController(this@MyProduct)
+        NavHostFragment.findNavController(this@MyProductsFragment)
             .navigate(R.id.my_product_to_edit_product, args)
     }
 

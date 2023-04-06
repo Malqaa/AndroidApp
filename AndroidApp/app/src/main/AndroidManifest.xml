@@ -32,13 +32,15 @@
         android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup">
         <activity
+            android:name="com.malka.androidappp.newPhase.presentation.productReviewActivity.AddRateProductActivity"
+            android:exported="false" />
+        <activity
             android:name="com.malka.androidappp.newPhase.presentation.searchActivity.SearchActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
-        </activity>
-        <!-- tools:ignore="AllowBackup" -->
+        </activity> <!-- tools:ignore="AllowBackup" -->
         <activity
             android:name=".activities_main.order.AttachInvoice"
             android:exported="false"
@@ -98,9 +100,8 @@
         <activity
             android:name=".newPhase.presentation.productDetailsActivity.ProductDetailsActivity"
             android:exported="true"
-            android:theme="@style/Theme.splash"
-            android:screenOrientation="portrait" />
-<!--        -->
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.splash" /> <!--  -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:screenOrientation="portrait"
@@ -154,10 +155,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.malka.androidappp.newPhase.presentation.addProduct.activity4.AddPhotoActivity"
-            android:screenOrientation="portrait"
-            android:exported="true">
-
-        </activity>
+            android:exported="true"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name="com.malka.androidappp.newPhase.presentation.addProduct.activity5.DynamicTemplateActivtiy"
             android:screenOrientation="portrait" />
@@ -166,10 +165,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.malka.androidappp.newPhase.presentation.addProduct.activity6.PricingActivity"
-            android:screenOrientation="portrait"
-            android:exported="true">
-
-        </activity>
+            android:exported="true"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name="com.malka.androidappp.newPhase.presentation.addProduct.activity7.ListingDurationActivity"
             android:screenOrientation="portrait" />
@@ -180,7 +177,7 @@
             android:name="com.malka.androidappp.newPhase.presentation.addProduct.ConfirmationAddProductActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.malka.androidappp.newPhase.presentation.addProduct.SuccessProduct"
+            android:name="com.malka.androidappp.newPhase.presentation.addProduct.SuccessProductActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.zfdang.multiple_images_selector.ImagesSelectorActivity"
@@ -189,13 +186,10 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.malka.androidappp.newPhase.presentation.prodctListActivity.browse_market.SearchCategoryActivity"
-            android:screenOrientation="portrait"
-            android:exported="true">
-
-        </activity>
-
+            android:exported="true"
+            android:screenOrientation="portrait"></activity>
         <activity
-            android:name=".fragments.account_fragment.address.AddAddress"
+            android:name="com.malka.androidappp.newPhase.presentation.account_fragment.address.AddAddress"
             android:screenOrientation="portrait" />
     </application>
 

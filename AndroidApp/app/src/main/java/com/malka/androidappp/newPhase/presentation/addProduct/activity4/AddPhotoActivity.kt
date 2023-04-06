@@ -194,6 +194,8 @@ class AddPhotoActivity : BaseActivity(), SelectedImagesAdapter.SetOnSelectedMain
             .setAllDoneButtonDrawable(ContextCompat.getDrawable(this, R.drawable.ic_done))
             .textOnNothingSelected(getString(R.string.Pleaseaddaphoto))
             .textOnImagesSelectionLimitReached(getString(R.string.selected_image_limit_reached))
+            .isStartInAllView(false)
+            .setAllViewTitle(getString(R.string.str_all_view))
             .startAlbumWithOnActivityResult(IMAGE_PICk_CODE_2)
     }
 

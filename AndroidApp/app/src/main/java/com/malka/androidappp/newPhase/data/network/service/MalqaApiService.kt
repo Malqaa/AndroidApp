@@ -11,14 +11,15 @@ import com.malka.androidappp.fragments.create_product.ModelCreateProduct
 import com.malka.androidappp.fragments.create_product.ProductResponseBack
 import com.malka.androidappp.fragments.feedback_frag.insert_feedback.GiveFeedbackResponseBack
 import com.malka.androidappp.fragments.feedback_frag.insert_feedback.ModelGiveFeedBack
-import com.malka.androidappp.fragments.my_product.AllProductsResponseBack
-import com.malka.androidappp.fragments.my_product.edit_product.EditProductResponseBack
-import com.malka.androidappp.fragments.my_product.edit_product.ModelEditProduct
+import com.malka.androidappp.fragments.myProductFragment.AllProductsResponseBack
+import com.malka.androidappp.fragments.myProductFragment.edit_product.EditProductResponseBack
+import com.malka.androidappp.fragments.myProductFragment.edit_product.ModelEditProduct
 import com.malka.androidappp.fragments.sellerdetails.SellerResponseBack
 import com.malka.androidappp.fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ModelShipAddresses
 import com.malka.androidappp.fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ShippingAddressessData
 import com.malka.androidappp.newPhase.data.network.constants.Constants
 import com.malka.androidappp.newPhase.data.network.constants.Constants.GET_CATEGORY_TAGS_ENDPOINT
+import com.malka.androidappp.newPhase.domain.models.addRateResp.AddRateResp
 import com.malka.androidappp.newPhase.domain.models.categoryResp.CategoriesResp
 import com.malka.androidappp.newPhase.domain.models.configrationResp.ConfigurationResp
 import com.malka.androidappp.newPhase.domain.models.countryResp.CountriesResp
@@ -58,7 +59,6 @@ import com.malka.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.V
 import com.malka.androidappp.newPhase.presentation.prodctListActivity.browse_market.popup_subcategories_list.ModelAddSearchFav
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -186,6 +186,15 @@ interface MalqaApiService {
         @Part("lang") lang: RequestBody,
     ): Call<AddQuestionResp>
 
+    @Multipart
+    @POST("ReplyQuestion")
+    fun replayQuestion(
+        @Part("Answer") question: RequestBody,
+        @Part("Id") id: RequestBody,
+        @Query("lang") language: String = ConstantObjects.currentLanguage,
+    ): Call<AddQuestionResp>
+
+
     @GET("ListSimilarProducts")
     fun getSimilarProductForOtherProduct(
         @Query("currentPage") page: Int,
@@ -219,11 +228,7 @@ interface MalqaApiService {
     fun getUserWatchlist(@Query("lang") language: String = ConstantObjects.currentLanguage): Call<ProductListResp>;
 
 
-    @GET("ListRateProduct?productId=15&currentPage=1")
-    fun getRates(
-        @Query("productId") productID: Int,
-        @Query("lang") language: String = ConstantObjects.currentLanguage
-    ): Call<RateResponse>
+
 
 
     @GET("GetListCategoriesByProductName")
@@ -296,8 +301,23 @@ interface MalqaApiService {
     fun addProduct2(
         @PartMap partMap: Map<String,  @JvmSuppressWildcards RequestBody>,
        // @Part files: List<MultipartBody.Part>
-    ): Call<GeneralResponse>
+    ): Call<AddProductResponse>
+    @Multipart
+    @POST("AddRateProduct")
+    fun  AddRateProduct(
+    @PartMap partMap: Map<String,  @JvmSuppressWildcards RequestBody>,
+    ):Call<AddRateResp>
 
+    @GET("ListProductByBusinessAccountId")
+    fun getMyProduct(
+        @Query("lang") language: String = ConstantObjects.currentLanguage
+    ):Call<ProductListResp>
+
+    @GET("ListRateProduct")
+    fun getRates(
+        @Query("productId") productID: Int,
+        @Query("lang") language: String = ConstantObjects.currentLanguage
+    ): Call<RateResponse>
     // ?currentPage=1
     //+++++++++++++++++++++++++++++++++++++++++
     //+++++++++++++++++++++++++++++++++++++++++

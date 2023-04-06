@@ -1,114 +1,163 @@
 package com.malka.androidappp.newPhase.presentation.productReviewActivity
 
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseActivity
-import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.data.helper.HelpFunctions
+import com.malka.androidappp.newPhase.data.helper.hide
+import com.malka.androidappp.newPhase.data.helper.linearLayoutManager
+import com.malka.androidappp.newPhase.data.helper.show
+import com.malka.androidappp.newPhase.domain.models.ratingResp.RateReviewItem
+import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
 import com.malka.androidappp.newPhase.domain.models.servicemodels.Reviewmodel
+import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
+import com.malka.androidappp.newPhase.presentation.productDetailsActivity.viewModels.ProductDetailsViewModel
+import kotlinx.android.synthetic.main.product_reviews1.*
 import kotlinx.android.synthetic.main.toolbar_main.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import com.malka.androidappp.newPhase.domain.models.ratingResp.RateResponse as RateResponse1
 
-class ProductReviewsActivity : BaseActivity() {
+class ProductReviewsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
 
-    lateinit var adapter: RateAdapter
+
 
     val list: ArrayList<Reviewmodel> = ArrayList()
+    var addReviewRequestrCode=1000
+    lateinit var reviewsadapter: RateAdapter
+    lateinit var mainRatesList:ArrayList<RateReviewItem>
+ var productId=0
+    private lateinit var productDetialsViewModel: ProductDetailsViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.product_reviews1)
-
+        productId=intent.getIntExtra(ConstantObjects.productIdKey,0)
+        swipe_to_refresh.setColorSchemeResources(R.color.colorPrimaryDark)
+        swipe_to_refresh.setOnRefreshListener(this)
+        setReviewsAdapter()
         toolbar_title.text = getString(R.string.reviews)
+        setProductDetailsViewModel()
+
+        onRefresh()
         back_btn.setOnClickListener {
             finish()
         }
+        floatingActionButtonBottm.setOnClickListener {
+            if(HelpFunctions.isUserLoggedIn()){
+                startActivityForResult(Intent(this, AddRateProductActivity::class.java).apply {
+                    putExtra(ConstantObjects.productIdKey, productId)
+                },addReviewRequestrCode)
+            }else{
+                startActivity(Intent(this,SignInActivity::class.java))
+            }
+        }
+        //getRates()
 
 
-        getRates()
-
-
-        //        list.add(Reviewmodel("Ahmed1", "15/12/2022","Very good and fast delivery", "4.7", R.drawable.profile_pic ))
-//        list.add(Reviewmodel("Ahmed2", "17/12/2022","Great and fast delivery","4.5", R.drawable.profiledp ))
-//        list.add(Reviewmodel("Ahmed3", "12/12/2022","Good and fast delivery", "4.9", R.drawable.car ))
-//        list.add(Reviewmodel("Ahmed4", "16/12/2022","Great Experience","5.0", R.drawable.car ))
-//        list.add(Reviewmodel("Ahmed5", "10/12/2022","Excelent fast delivery","4.6", R.drawable.car ))
-//        list.add(Reviewmodel("Ahmed6", "5/12/2022","Amazing and fast delivery", "4.9", R.drawable.car ))
-//        list.add(Reviewmodel("Ahmed3", "12/12/2022","Good and fast delivery", "4.9", R.drawable.car ))
-//        list.add(Reviewmodel("Ahmed4", "16/12/2022","Great Experience ","5.0", R.drawable.car ))
-//        list.add(Reviewmodel("Ahmed5", "10/12/2022","Excelent fast delivery","4.6", R.drawable.car ))
-//        list.add(Reviewmodel("Ahmed6", "5/12/2022","Amazing and fast delivery", "4.9", R.drawable.car ))
-//        list.add(Reviewmodel("Ahmed3", "12/12/2022","Good and fast delivery", "4.9", R.drawable.car ))
-//        list.add(Reviewmodel("Ahmed4", "16/12/2022","Great Experience ","5.0", R.drawable.car ))
-//
-//        setCategoryAdaptor()
-//    }
-//
-//
-//
-//    private fun setCategoryAdaptor(list: ArrayList<RateResponse1.RateReview>) {
-//        category_rcv.adapter = object : GenericListAdapter<RateResponse1.RateReview>(
-//            R.layout.product_review_design,
-//            bind = { element, holder, itemCount, position ->
-//                holder.view.run {
-//                    element.run {
-//                        review_name.text = userName
-//                        review_date.text=createdAt
-//                        review_rating.text=rate
-//                        review_comment.text=comment
-//                        review_profile_pic.setImageResource(image)
-//
-//                    }
-//                }
-//            }
-//        ) {
-//            override fun getFilter(): Filter {
-//                TODO("Not yet implemented")
-//            }
-//
-//        }.apply {
-//            submitList(
-//                list
-//            )
-//        }
-//    }
-//
-//
-//    }
-////
     }
-        private fun getRates() {
-            val apiBuilder = RetrofitBuilder.GetRetrofitBuilder()
-            val Rates = apiBuilder.getRates(15)
-            Rates.enqueue(object : Callback<RateResponse1> {
-                override fun onResponse(
-                    call: Call<RateResponse1>,
-                    response: Response<RateResponse1>
-                ) {
-                    val rates = response.body()
-                    if (rates != null) {
-                        Log.d("Api", rates.toString())
-                        val reviewList = findViewById<RecyclerView>(R.id.rvPakat)
-                        adapter = RateAdapter(this@ProductReviewsActivity, rates.data)
-                        reviewList.adapter = adapter
-                        reviewList.layoutManager = LinearLayoutManager(this@ProductReviewsActivity)
 
-
-                    }
-
-                }
-
-                override fun onFailure(call: Call<RateResponse1>, t: Throwable) {
-                    Log.d("Api", "Error in fetching rates", t)
-                }
-
-            })
+    private fun setProductDetailsViewModel() {
+        productDetialsViewModel = ViewModelProvider(this).get(ProductDetailsViewModel::class.java)
+        productDetialsViewModel.isLoading.observe(this) {
+            if (it)
+               progressBar.show()
+            else
+                progressBar.hide()
+        }
+        productDetialsViewModel.isNetworkFail.observe(this) {
+            if (it) {
+                showErrorText(getString(R.string.connectionError))
+            } else {
+                showErrorText(getString(R.string.serverError))
+            }
 
         }
+        productDetialsViewModel.errorResponseObserver.observe(this) {
+            if (it.message != null) {
+                showErrorText(it.message)
+            } else {
+                showErrorText(getString(R.string.serverError))
+            }
+
+        }
+        productDetialsViewModel.getRateResponseObservable.observe(this){rateListResp->
+           // println("hhhh "+rateListResp.status_code+" "+rateListResp.data)
+            if(rateListResp.status_code==200){
+                mainRatesList.clear()
+                mainRatesList.addAll(rateListResp.data)
+                reviewsadapter.notifyDataSetChanged()
+                if(mainRatesList.isEmpty()){
+                    showErrorText(getString(R.string.no_Reviews_Found))
+                }else{
+                    tvError.hide()
+                }
+            }else{
+                showErrorText(rateListResp.message)
+            }
+        }
+
+
+    }
+
+    private fun showErrorText(string: String) {
+        tvError.text=string
+        tvError.show()
+    }
+
+    private fun setReviewsAdapter() {
+        mainRatesList= ArrayList()
+        reviewsadapter = RateAdapter(this,mainRatesList)
+        rvAllReviews.apply {
+            layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
+            adapter = reviewsadapter
+        }
+    }
+
+    override fun onRefresh() {
+        swipe_to_refresh.isRefreshing=false
+        mainRatesList.clear()
+        reviewsadapter.notifyDataSetChanged()
+        productDetialsViewModel.getProductRatesForActivity(productId)
+    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == RESULT_OK&&requestCode == addReviewRequestrCode) {
+            //var addRateItem: AddRateItem? =data?.getParcelableExtra(ConstantObjects.rateObjectKey)
+            productDetialsViewModel.getProductRatesForProductDetails(productId)
+
+        }
+
+    }
+
+//        private fun getRates() {
+//            val apiBuilder = RetrofitBuilder.GetRetrofitBuilder()
+//            val Rates = apiBuilder.getRates(15)
+//            Rates.enqueue(object : Callback<RateResponse1> {
+//                override fun onResponse(
+//                    call: Call<RateResponse1>,
+//                    response: Response<RateResponse1>
+//                ) {
+//                    val rates = response.body()
+//                    if (rates != null) {
+//                        Log.d("Api", rates.toString())
+//                        val reviewList = findViewById<RecyclerView>(R.id.rvPakat)
+//                        adapter = RateAdapter(this@ProductReviewsActivity, rates.data)
+//                        reviewList.adapter = adapter
+//                        reviewList.layoutManager = LinearLayoutManager(this@ProductReviewsActivity)
+//
+//
+//                    }
+//
+//                }
+//
+//                override fun onFailure(call: Call<RateResponse1>, t: Throwable) {
+//                    Log.d("Api", "Error in fetching rates", t)
+//                }
+//
+//            })
+//
+//        }
     }
 
 

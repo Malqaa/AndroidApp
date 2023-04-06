@@ -10,7 +10,7 @@ import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObject
 import kotlinx.android.synthetic.main.fragment_continue.*
 
 
-class SuccessProduct : BaseActivity() {
+class SuccessProductActivity : BaseActivity() {
 
     var AdvId: String = ""
     var template: String = ""
@@ -23,20 +23,18 @@ class SuccessProduct : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_continue)
 
-        AdvId = intent?.getStringExtra("AdvId").toString()
-        template = intent?.getStringExtra("Template").toString()
+        AdvId = intent?.getStringExtra(ConstantObjects.productIdKey).toString()
+        //template = intent?.getStringExtra("Template").toString()
 
         button6.setOnClickListener() {
             startActivity(Intent(this, ProductDetailsActivity::class.java).apply {
-                putExtra("AdvId", AdvId)
-                putExtra("Template", template)
+                putExtra(ConstantObjects.productIdKey, AdvId)
                 putExtra(ConstantObjects.isSuccess, true)
             })
             finish()
         }
         back_to_main.setOnClickListener {
-            startActivity(Intent(this, MainActivity::class.java).apply {
-            })
+            startActivity(Intent(this, MainActivity::class.java).apply {})
             finish()
         }
 

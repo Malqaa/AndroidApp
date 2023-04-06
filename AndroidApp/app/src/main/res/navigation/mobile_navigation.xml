@@ -30,7 +30,7 @@
 
     <fragment
         android:id="@+id/navigation_account"
-        android:name="com.malka.androidappp.fragments.account_fragment.AccountFragment"
+        android:name="com.malka.androidappp.newPhase.presentation.account_fragment.AccountFragment"
         android:label="@string/title_account"
         tools:layout="@layout/fragment_account">
 
@@ -178,14 +178,14 @@
 
     <fragment
         android:id="@+id/myProduct"
-        android:name="com.malka.androidappp.fragments.MyProducts.MyProductsFragment"
+        android:name="com.malka.androidappp.newPhase.presentation.myProducts.MyProductsFragment"
         android:label="Sold"
         tools:layout="@layout/fragment_sold" />
 
 
     <fragment
         android:id="@+id/MySavedAddress"
-        android:name="com.malka.androidappp.fragments.account_fragment.address.AddressList"
+        android:name="com.malka.androidappp.newPhase.presentation.account_fragment.address.AddressList"
         android:label="Sold"
         tools:layout="@layout/address_list_fragment" />
 
@@ -405,7 +405,7 @@
 
     <fragment
         android:id="@+id/myproductview"
-        android:name="com.malka.androidappp.fragments.my_product.MyProduct"
+        android:name="com.malka.androidappp.fragments.myProductFragment.MyProductsFragment"
         android:label="My Products"
         tools:layout="@layout/fragment_my_product">
 
@@ -437,7 +437,7 @@
 
     <fragment
         android:id="@+id/edit_product1"
-        android:name="com.malka.androidappp.fragments.my_product.edit_product.EditProduct1"
+        android:name="com.malka.androidappp.fragments.myProductFragment.edit_product.EditProduct1"
         tools:layout="@layout/fragment_edit_product1">
 
         <action
@@ -452,7 +452,7 @@
 
     <fragment
         android:id="@+id/editproduct2"
-        android:name="com.malka.androidappp.fragments.my_product.edit_product.EditProduct2"
+        android:name="com.malka.androidappp.fragments.myProductFragment.edit_product.EditProduct2"
         tools:layout="@layout/fragment_edit_product2">
 
         <action
@@ -467,7 +467,7 @@
 
     <fragment
         android:id="@+id/editproduct3"
-        android:name="com.malka.androidappp.fragments.my_product.edit_product.EditProduct3"
+        android:name="com.malka.androidappp.fragments.myProductFragment.edit_product.EditProduct3"
         tools:layout="@layout/fragment_edit_product3">
 
         <action
@@ -482,7 +482,7 @@
 
     <fragment
         android:id="@+id/editproduct4"
-        android:name="com.malka.androidappp.fragments.my_product.edit_product.EditProduct4"
+        android:name="com.malka.androidappp.fragments.myProductFragment.edit_product.EditProduct4"
         tools:layout="@layout/fragment_edit_product4">
 
         <action
@@ -497,7 +497,7 @@
 
     <fragment
         android:id="@+id/editproduct5"
-        android:name="com.malka.androidappp.fragments.my_product.edit_product.EditProduct5"
+        android:name="com.malka.androidappp.fragments.myProductFragment.edit_product.EditProduct5"
         tools:layout="@layout/fragment_edit_product5">
 
         <action
@@ -513,7 +513,7 @@
 
     <fragment
         android:id="@+id/continue_edit_product"
-        android:name="com.malka.androidappp.fragments.my_product.edit_product.ContinueEditProduct"
+        android:name="com.malka.androidappp.fragments.myProductFragment.edit_product.ContinueEditProduct"
         tools:layout="@layout/fragment_continue_edit_product">
 
         <action

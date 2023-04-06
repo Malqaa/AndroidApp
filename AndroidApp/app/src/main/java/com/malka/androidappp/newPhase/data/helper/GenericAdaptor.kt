@@ -12,7 +12,7 @@ import com.google.gson.Gson
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
 import com.malka.androidappp.newPhase.presentation.productDetailsActivity.ProductDetailsActivity
-import com.malka.androidappp.fragments.account_fragment.address.AddAddress
+import com.malka.androidappp.newPhase.presentation.account_fragment.address.AddAddress
 import com.malka.androidappp.fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.newPhase.data.helper.Extension.decimalNumberFormat
 import com.malka.androidappp.newPhase.data.helper.widgets.rcv.GenericListAdapter

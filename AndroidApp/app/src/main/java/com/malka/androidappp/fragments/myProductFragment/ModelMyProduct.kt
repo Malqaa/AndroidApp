@@ -1,4 +1,4 @@
-package com.malka.androidappp.fragments.my_product
+package com.malka.androidappp.fragments.myProductFragment
 
 data class ModelMyProduct(
     val images: List<String>? = null,

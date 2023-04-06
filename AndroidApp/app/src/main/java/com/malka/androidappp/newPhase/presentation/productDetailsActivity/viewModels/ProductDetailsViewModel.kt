@@ -5,6 +5,7 @@ import com.google.gson.Gson
 import com.malka.androidappp.newPhase.core.BaseViewModel
 import com.malka.androidappp.newPhase.data.helper.Extension.requestBody
 import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.domain.models.addRateResp.AddRateResp
 import com.malka.androidappp.newPhase.domain.models.productResp.ProductListResp
 import com.malka.androidappp.newPhase.domain.models.productResp.ProductResp
 import com.malka.androidappp.newPhase.domain.models.questionResp.AddQuestionResp
@@ -12,6 +13,8 @@ import com.malka.androidappp.newPhase.domain.models.questionsResp.QuestionsResp
 import com.malka.androidappp.newPhase.domain.models.ratingResp.RateResponse
 import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
 import com.malka.androidappp.newPhase.domain.models.servicemodels.GeneralRespone
+import okhttp3.RequestBody
+import org.w3c.dom.Comment
 
 import retrofit2.Call
 import retrofit2.Callback
@@ -25,7 +28,7 @@ class ProductDetailsViewModel: BaseViewModel() {
     var getSimilarProductObservable :MutableLiveData<ProductListResp> = MutableLiveData()
     var getListOfQuestionsObservable :MutableLiveData<QuestionsResp> = MutableLiveData()
     var getRateResponseObservable: MutableLiveData<RateResponse> = MutableLiveData()
-
+var addRateRespObservable: MutableLiveData<AddRateResp> = MutableLiveData()
 
     fun getProductDetailsById(productId:Int){
         isLoading.value=true
@@ -196,6 +199,33 @@ class ProductDetailsViewModel: BaseViewModel() {
                 ) {
                     if (response.isSuccessful) {
                         getRateResponseObservable.value = response.body()
+                    }
+                }
+            })
+    }
+    fun addRateProduct(productID: Int, rate: Float, comment: String) {
+        isLoading.value = true
+        val map: HashMap<String, RequestBody> = HashMap()
+        map["productId"] = productID.toString().requestBody()
+        map["comment"] = comment.toString().requestBody()
+        map["rate"] = rate.toString().requestBody()
+        RetrofitBuilder.GetRetrofitBuilder()
+            .AddRateProduct(map)
+            .enqueue(object : Callback<AddRateResp> {
+                override fun onFailure(call: Call<AddRateResp>, t: Throwable) {
+                    isNetworkFail.value = t !is HttpException
+                    isLoading.value = false
+                }
+
+                override fun onResponse(
+                    call: Call<AddRateResp>,
+                    response: Response<AddRateResp>
+                ) {
+                    isLoading.value = false
+                    if (response.isSuccessful) {
+                        addRateRespObservable.value = response.body()
+                    } else {
+                        errorResponseObserver.value = getErrorResponse(response.errorBody())
                     }
                 }
             })

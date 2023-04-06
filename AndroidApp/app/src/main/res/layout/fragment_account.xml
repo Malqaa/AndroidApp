@@ -5,7 +5,7 @@
     android:id="@+id/fragment_account"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.account_fragment.AccountFragment">
+    tools:context=".newPhase.presentation.account_fragment.AccountFragment">
 
 
     <LinearLayout
@@ -26,23 +26,38 @@
                 android:orientation="vertical"
                 android:padding="@dimen/_5sdp">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/_60sdp"
-                    android:layout_gravity="center_horizontal"
-                    android:src="@drawable/profiledp" />
+                <RelativeLayout
+                    android:layout_width="@dimen/_54sdp"
+                    android:layout_height="@dimen/_54sdp"
+                    android:layout_gravity="center">
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/ivUserImage"
+                        android:layout_width="@dimen/_54sdp"
+                        android:layout_height="@dimen/_54sdp"
+                        android:src="@mipmap/malqa_iconn_round"/>
+                    <ProgressBar
+                        android:id="@+id/loader"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_centerHorizontal="true"
+                        android:visibility="gone"
+                        />
+                </RelativeLayout>
+
+
 
                 <TextView
-                    android:id="@+id/userName_tv"
+                    android:id="@+id/tvUserName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="Rahma mohamed"
+                    android:text=""
                     android:textColor="@color/white"
                     android:textSize="@dimen/_20sdp" />
 
                 <TextView
-                    android:id="@+id/member_since_tv"
+                    android:id="@+id/tvMemberSince"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_3sdp"
@@ -52,7 +67,7 @@
                     android:textSize="@dimen/_14sdp" />
 
                 <TextView
-                    android:id="@+id/membership_number_tv"
+                    android:id="@+id/tv_membership_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_3sdp"
@@ -79,7 +94,7 @@
                         android:id="@+id/user_rating"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="2.0"
+                        android:text="0.0"
                         android:fontFamily="@font/madani_arabic_light"
                         android:textColor="@color/white"/>
 
@@ -139,7 +154,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:gravity="center"
-                                android:text="25"
+                                android:text="0"
                                 android:textSize="@dimen/_12sdp"
                                 android:textStyle="bold" />
 
@@ -185,7 +200,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:gravity="center"
-                                android:text="200"
+                                android:text="0"
                                 android:textSize="@dimen/_12sdp"
                                 android:textStyle="bold" />
 
@@ -230,7 +245,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:gravity="center"
-                                android:text="200"
+                                android:text="0"
                                 android:textSize="@dimen/_12sdp"
                                 android:textStyle="bold" />
 
@@ -244,14 +259,15 @@
 
             </LinearLayout>
 
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/main_item_rcv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:layout_margin="@dimen/_5sdp"
-                tools:listitem="@layout/account_main_item"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/account_main_item" />
         </LinearLayout>
 
 

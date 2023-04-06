@@ -15,6 +15,8 @@ data class DynamicSpecificationResp(
 data class DynamicSpecificationItem(
     var id: Int,
     var name: String? = null,
+    var nameAr: String? = null,
+    var nameEn: String? = null,
     var isRequired: Boolean,
     var description: String? = null,
     var placeHolder: String? = null,
@@ -24,15 +26,23 @@ data class DynamicSpecificationItem(
     var subSpecifications: List<SubSpecificationItem>? = null,
     var valueArText: String = "",
     var valueEnText: String = "",
-    var subSpecificationsValue:SubSpecificationItem?=null
-) {
+    var subSpecificationsValue: SubSpecificationItem? = null
+)
 
-}
+data class DynamicSpecificationSentObject(
+    var HeaderSpeAr: String = "",
+    var HeaderSpeEn: String = "",
+    var ValueSpeAr: String = "",
+    var ValueSpeEn: String = "",
+    var Type: Int = 1
+)
+
+
 
 data class SubSpecificationItem(
     var id: Int,
     var nameAr: String = "",
     var nameEn: String = "",
-    var createdAt: String="",
-    var isActive: Boolean=false
+    var createdAt: String = "",
+    var isActive: Boolean = false
 )

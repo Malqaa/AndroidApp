@@ -15,7 +15,8 @@ class ConstantObjects {
     companion object {
 
 
-
+        val isMyProduct: String="isMyProductKey"
+        val rateObjectKey: String = "rateObjectKey"
         val ENGLISH = "en"
         val ARABIC = "ar"
 

@@ -9,12 +9,10 @@ import com.google.gson.Gson
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.newPhase.data.helper.*
-import com.malka.androidappp.newPhase.data.network.CommonAPI
 import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
 import com.malka.androidappp.newPhase.domain.models.servicemodels.CreateAdvMainModel
 import com.malka.androidappp.newPhase.domain.models.servicemodels.CreateAdvResponseBack
-import com.malka.androidappp.newPhase.domain.models.servicemodels.Selection
 import com.malka.androidappp.newPhase.presentation.addProduct.activity6.ListingDetailsActivity
 import com.malka.androidappp.newPhase.presentation.addProduct.activity6.PricingActivity
 import com.malka.androidappp.newPhase.presentation.addProduct.activity7.ListingDurationActivity
@@ -76,10 +74,25 @@ class ConfirmationAddProductActivity : BaseActivity() {
         }
         addProductViewModel.confirmAddPorductRespObserver.observe(this) { confirmAddPorductRespObserver ->
             if (confirmAddPorductRespObserver.status_code == 200) {
-                HelpFunctions.ShowLongToast(
-                    getString(R.string.Success),
-                    this
-                )
+//                HelpFunctions.ShowLongToast(
+//                    getString(R.string.Success),
+//                    this
+//                )
+                try {
+                    val productId :Int= confirmAddPorductRespObserver.data
+                    var inten=  Intent(
+                        this@ConfirmationAddProductActivity, SuccessProductActivity::class.java).apply {
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+
+                    }
+                    inten.putExtra(ConstantObjects.productIdKey,productId)
+                    startActivity(inten)
+
+                    finish()
+                }catch (e:java.lang.Exception){
+
+                }
+
             } else {
                 HelpFunctions.ShowLongToast(
                     getString(R.string.failed),
@@ -118,56 +131,97 @@ class ConfirmationAddProductActivity : BaseActivity() {
             finish()
         }
         btn_confirm_details.setOnClickListener {
-            var withFixedPrice = "false"
-            var isMazad = "false"
-            when (AddProductObjectData.buyingType) {
-                "1" -> {
-                    withFixedPrice = true.toString()
-                    tvFixedPrice.show()
-                    purchasing_price_.show()
-                    purchasing_price_tv.text = AddProductObjectData.price
-                }
-                "2" -> {
-                    isMazad = true.toString()
-                    tvAuction.show()
-                    auction_start_price.show()
-                    minimum_price.show()
-                    auction_start_price_tv.text = AddProductObjectData.startingPrice
-                    minimum_price_tv.text = AddProductObjectData.reservedPrice
+          //  HelpFunctions.ShowLongToast("not implemented yet",this)
+          confirmOrder()
+        }
+    }
 
-                }
-                "12" -> {
-                    withFixedPrice = true.toString()
-                    isMazad = true.toString()
-                    tvFixedPrice.show()
-                    tvAuction.show()
-                    purchasing_price_.show()
-                    auction_start_price.show()
-                    minimum_price.show()
-                    purchasing_price_tv.text = AddProductObjectData.price
-                    auction_start_price_tv.text = AddProductObjectData.startingPrice
-                    minimum_price_tv.text = AddProductObjectData.reservedPrice
-                }
+    private fun confirmOrder() {
+        var withFixedPrice = "false"
+        var isMazad = "false"
+        when (AddProductObjectData.buyingType) {
+            "1" -> {
+                withFixedPrice = true.toString()
+                tvFixedPrice.show()
+                purchasing_price_.show()
+                purchasing_price_tv.text = AddProductObjectData.price
             }
-            var listImageFile: ArrayList<File> = ArrayList()
-            var listImageUri: ArrayList<Uri> = ArrayList()
-            var mainIndex = ""
-            for (image in AddProductObjectData.images) {
-                if (image.is_main) {
-                    mainIndex = AddProductObjectData.images.indexOf(image).toString()
-                }
-                listImageFile.add(HelpFunctions.getFileImage(image.uri, this))
-                listImageUri.add(image.uri)
+            "2" -> {
+                isMazad = true.toString()
+                tvAuction.show()
+                auction_start_price.show()
+                minimum_price.show()
+                auction_start_price_tv.text = AddProductObjectData.startingPrice
+                minimum_price_tv.text = AddProductObjectData.reservedPrice
+
             }
-            println("hhh image file numer "+ listImageFile.size)
-
-            var pakatId = ""
-            AddProductObjectData.selectedPakat?.let {
-                pakatId=it.id.toString()
+            "12" -> {
+                withFixedPrice = true.toString()
+                isMazad = true.toString()
+                tvFixedPrice.show()
+                tvAuction.show()
+                purchasing_price_.show()
+                auction_start_price.show()
+                minimum_price.show()
+                purchasing_price_tv.text = AddProductObjectData.price
+                auction_start_price_tv.text = AddProductObjectData.startingPrice
+                minimum_price_tv.text = AddProductObjectData.reservedPrice
             }
+        }
+        var listImageFile: ArrayList<File> = ArrayList()
+        var listImageUri: ArrayList<Uri> = ArrayList()
+        var mainIndex = ""
+        for (image in AddProductObjectData.images) {
+            if (image.is_main) {
+                mainIndex = AddProductObjectData.images.indexOf(image).toString()
+            }
+            listImageFile.add(HelpFunctions.getFileImage(image.uri, this))
+            listImageUri.add(image.uri)
+        }
+        println("hhh image file numer "+ listImageFile.size)
 
+        var pakatId = ""
+        AddProductObjectData.selectedPakat?.let {
+            pakatId=it.id.toString()
+        }
 
-
+        /**********/
+        addProductViewModel.getAddProduct2(
+            this,
+            nameAr = AddProductObjectData.itemTitleAr,
+            nameEn = AddProductObjectData.itemTitleEn,
+            subTitleAr = AddProductObjectData.subtitleAr,
+            subTitleEn = AddProductObjectData.subtitleEn,
+            descriptionAr = AddProductObjectData.itemDescriptionAr,
+            descriptionEn = AddProductObjectData.itemDescriptionEn,
+            qty = AddProductObjectData.quantity,
+            price = AddProductObjectData.price,
+            priceDisc = "0",
+            acceptQuestion = false.toString(),
+            isNegotiationOffers = AddProductObjectData.isnegotiable.toString(),
+            withFixedPrice = withFixedPrice,
+            isMazad = isMazad,
+            isSendOfferForMazad = isMazad,
+            startPriceMazad = "0",
+            lessPriceMazad = "0",
+            mazadNegotiatePrice = "0",
+            mazadNegotiateForWhom = "0",
+            appointment = "".toString(),
+            productCondition = AddProductObjectData.productCondition.toString(),
+            categoryId = AddProductObjectData.selectedCategoryId.toString(),
+            countryId = AddProductObjectData.country!!.id.toString(),
+            regionId = AddProductObjectData.region!!.id.toString(),
+            neighborhoodId = AddProductObjectData.city!!.id.toString(),
+            Street = "",
+            GovernmentCode = "",
+            pakatId =pakatId,
+            productSep = AddProductObjectData.productSpecificationList,
+            listImageFile = listImageUri,//listImageFile
+            MainImageIndex = mainIndex.toString(),
+            videoUrl = AddProductObjectData.video,
+            PickUpDelivery = AddProductObjectData.pickUpOption.toString(),
+            DeliveryOption = "1",
+        )
 
 
 //            addProductViewModel.getAddProduct(
@@ -204,45 +258,9 @@ class ConfirmationAddProductActivity : BaseActivity() {
 //                videoUrl = AddProductObjectData.video,
 //                PickUpDelivery = AddProductObjectData.pickUpOption.toString(),
 //                DeliveryOption = "1",
-  //          )
-            /**********/
-            addProductViewModel.getAddProduct2(
-                this,
-                nameAr = AddProductObjectData.itemTitleAr,
-                nameEn = AddProductObjectData.itemTitleEn,
-                subTitleAr = AddProductObjectData.subtitleAr,
-                subTitleEn = AddProductObjectData.subtitleEn,
-                descriptionAr = AddProductObjectData.itemDescriptionAr,
-                descriptionEn = AddProductObjectData.itemDescriptionEn,
-                qty = AddProductObjectData.quantity,
-                price = AddProductObjectData.price,
-                priceDisc = "0",
-                acceptQuestion = false.toString(),
-                isNegotiationOffers = AddProductObjectData.isnegotiable.toString(),
-                withFixedPrice = withFixedPrice,
-                isMazad = isMazad,
-                isSendOfferForMazad = isMazad,
-                startPriceMazad = "0",
-                lessPriceMazad = "0",
-                mazadNegotiatePrice = "0",
-                mazadNegotiateForWhom = "0",
-                appointment = "".toString(),
-                productCondition = AddProductObjectData.productCondition.toString(),
-                categoryId = AddProductObjectData.selectedCategoryId.toString(),
-                countryId = AddProductObjectData.country!!.id.toString(),
-                regionId = AddProductObjectData.region!!.id.toString(),
-                neighborhoodId = AddProductObjectData.city!!.id.toString(),
-                Street = "",
-                GovernmentCode = "",
-                pakatId=pakatId,
-                productSep = "",
-                listImageFile = listImageUri,//listImageFile
-                MainImageIndex = mainIndex.toString(),
-                videoUrl = AddProductObjectData.video,
-                PickUpDelivery = AddProductObjectData.pickUpOption.toString(),
-                DeliveryOption = "1",
-            )
-            /*************/
+        //          )
+
+        /*************/
 //            val paymentMethodList: ArrayList<Selection> = ArrayList()
 //            paymentMethodList.apply {
 //                clear()
@@ -268,7 +286,6 @@ class ConfirmationAddProductActivity : BaseActivity() {
 //
 //
 //            }
-        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -530,7 +547,7 @@ class ConfirmationAddProductActivity : BaseActivity() {
                     startActivity(
                         Intent(
                             this@ConfirmationAddProductActivity,
-                            SuccessProduct::class.java
+                            SuccessProductActivity::class.java
                         ).apply {
                             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                             putExtra("AdvId", AdvId)

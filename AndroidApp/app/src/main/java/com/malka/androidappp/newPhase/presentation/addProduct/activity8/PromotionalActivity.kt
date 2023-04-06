@@ -125,6 +125,7 @@ class PromotionalActivity : BaseActivity(), PakatAdapter.SetOnPakatSelected {
                     }
                     pakatAdapter.notifyDataSetChanged()
                 } else {
+                    goNextActivity()
                     HelpFunctions.ShowLongToast(
                         getString(R.string.noPackagesFound),
                         this
@@ -166,8 +167,12 @@ class PromotionalActivity : BaseActivity(), PakatAdapter.SetOnPakatSelected {
         no_thank_you.setOnClickListener {
 //            AddProductObjectData.selectPromotiion = null
             AddProductObjectData.selectedPakat = null
-            startActivity(Intent(this, ConfirmationAddProductActivity::class.java))
+            goNextActivity()
         }
+    }
+
+    private fun goNextActivity() {
+        startActivity(Intent(this, ConfirmationAddProductActivity::class.java))
     }
 
 
@@ -188,8 +193,7 @@ class PromotionalActivity : BaseActivity(), PakatAdapter.SetOnPakatSelected {
                     finish()
                 })
             } else {
-                startActivity(Intent(this, ConfirmationAddProductActivity::class.java).apply {
-                })
+                goNextActivity()
 
             }
         }

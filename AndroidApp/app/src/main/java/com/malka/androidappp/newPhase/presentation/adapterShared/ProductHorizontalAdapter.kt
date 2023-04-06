@@ -57,6 +57,7 @@ class ProductHorizontalAdapter(
         }
 
         if (HelpFunctions.isUserLoggedIn()) {
+            println("yyyy "+productList[position].isFavourite)
             if (productList[position].isFavourite) {
                 holder.viewBinding.ivFav.setImageResource(R.drawable.starcolor)
             } else {

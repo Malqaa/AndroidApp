@@ -4,7 +4,6 @@ import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
-import com.google.gson.JsonDeserializationContext
 import com.malka.androidappp.newPhase.core.BaseViewModel
 import com.malka.androidappp.newPhase.data.helper.Extension.requestBody
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
@@ -13,11 +12,11 @@ import com.malka.androidappp.newPhase.domain.models.ErrorResponse
 import com.malka.androidappp.newPhase.domain.models.categoryResp.CategoriesResp
 import com.malka.androidappp.newPhase.domain.models.configrationResp.ConfigurationResp
 import com.malka.androidappp.newPhase.domain.models.dynamicSpecification.DynamicSpecificationResp
+import com.malka.androidappp.newPhase.domain.models.dynamicSpecification.DynamicSpecificationSentObject
 import com.malka.androidappp.newPhase.domain.models.pakatResp.PakatResp
 import com.malka.androidappp.newPhase.domain.models.productTags.CategoryTagsResp
-import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.domain.models.servicemodels.AddProductResponse
 import com.malka.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -43,7 +42,7 @@ class AddProductViewModel : BaseViewModel() {
     var categoryListObserver: MutableLiveData<CategoriesResp> = MutableLiveData()
     var configurationRespObserver: MutableLiveData<ConfigurationResp> = MutableLiveData()
 
-    var confirmAddPorductRespObserver: MutableLiveData<GeneralResponse> = MutableLiveData()
+    var confirmAddPorductRespObserver: MutableLiveData<AddProductResponse> = MutableLiveData()
 
     fun getListCategoriesByProductName(productName: String) {
         isLoading.value = true
@@ -195,108 +194,108 @@ class AddProductViewModel : BaseViewModel() {
             })
     }
 
-    fun getAddProduct(
-        nameAr: String,
-        nameEn: String,
-        subTitleAr: String,
-        subTitleEn: String,
-        descriptionAr: String,
-        descriptionEn: String,
-        qty: String,
-        price: String,
-        priceDisc: String,
-        acceptQuestion: String,
-        isNegotiationOffers: String,
-        withFixedPrice: String,
-        isMazad: String,
-        isSendOfferForMazad: String,
-        startPriceMazad: String,
-        lessPriceMazad: String,
-        mazadNegotiatePrice: String,
-        mazadNegotiateForWhom: String,
-        appointment: String,
-        productCondition: String,
-        categoryId: String,
-        countryId: String,
-        regionId: String,
-        neighborhoodId: String,
-        Street: String,
-        GovernmentCode: String,
-        pakatId: String,
-        productSep: String,
-        listImageFile: List<File>,//listImageFile
-        MainImageIndex: String,
-        videoUrl: String,
-        PickUpDelivery: String,
-        DeliveryOption: String,
-    ) {
-        isLoading.value = true
-        val listOfImages = ArrayList<MultipartBody.Part>()
-        for (i in listImageFile.indices) {
-            listOfImages.add(prepareFilePart("listImageFile", listImageFile[i]))
-        }
-        println("hhh " + nameAr.requestBody())
-//        println("hhh images "+listOfImages.size)
-        RetrofitBuilder.GetRetrofitBuilder()
-            .addProduct(
-                nameAr.requestBody(),
-                nameEn.requestBody(),
-                subTitleAr.requestBody(),
-                subTitleEn.requestBody(),
-                descriptionAr.requestBody(),
-                descriptionEn.requestBody(),
-                qty.requestBody(),
-                price.requestBody(),
-                priceDisc.requestBody(),
-                acceptQuestion.requestBody(),
-                isNegotiationOffers.requestBody(),
-                withFixedPrice.requestBody(),
-                isMazad.requestBody(),
-                isSendOfferForMazad.requestBody(),
-                startPriceMazad.requestBody(),
-                lessPriceMazad.requestBody(),
-                mazadNegotiatePrice.requestBody(),
-                mazadNegotiateForWhom.requestBody(),
-                appointment.requestBody(),
-                productCondition.requestBody(),
-                categoryId.requestBody(),
-                countryId.requestBody(),
-                regionId.requestBody(),
-                neighborhoodId.requestBody(),
-                Street.requestBody(),
-                GovernmentCode.requestBody(),
-                pakatId.requestBody(),
-                productSep.requestBody(),
-                listOfImages,//listImageFile
-                MainImageIndex.requestBody(),
-                videoUrl.requestBody(),
-                PickUpDelivery.requestBody(),
-                DeliveryOption.requestBody(),
-            )
-            .enqueue(object : Callback<GeneralResponse> {
-                override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
-                    isNetworkFail.value = t !is HttpException
-                    isLoading.value = false
-                }
-
-                override fun onResponse(
-                    call: Call<GeneralResponse>,
-                    response: Response<GeneralResponse>
-                ) {
-                    isLoading.value = false
-                    if (response.isSuccessful) {
-                        confirmAddPorductRespObserver.value = response.body()
-                    } else {
-                        println(
-                            "hhhh " + response.code() + " " + Gson().toJson(response.errorBody())
-                                .toString()
-                        )
-                        errorResponseObserver.value =
-                            getErrorResponse(response.errorBody())
-                    }
-                }
-            })
-    }
+//    fun getAddProduct(
+//        nameAr: String,
+//        nameEn: String,
+//        subTitleAr: String,
+//        subTitleEn: String,
+//        descriptionAr: String,
+//        descriptionEn: String,
+//        qty: String,
+//        price: String,
+//        priceDisc: String,
+//        acceptQuestion: String,
+//        isNegotiationOffers: String,
+//        withFixedPrice: String,
+//        isMazad: String,
+//        isSendOfferForMazad: String,
+//        startPriceMazad: String,
+//        lessPriceMazad: String,
+//        mazadNegotiatePrice: String,
+//        mazadNegotiateForWhom: String,
+//        appointment: String,
+//        productCondition: String,
+//        categoryId: String,
+//        countryId: String,
+//        regionId: String,
+//        neighborhoodId: String,
+//        Street: String,
+//        GovernmentCode: String,
+//        pakatId: String,
+//        productSep: String,
+//        listImageFile: List<File>,//listImageFile
+//        MainImageIndex: String,
+//        videoUrl: String,
+//        PickUpDelivery: String,
+//        DeliveryOption: String,
+//    ) {
+//        isLoading.value = true
+//        val listOfImages = ArrayList<MultipartBody.Part>()
+//        for (i in listImageFile.indices) {
+//            listOfImages.add(prepareFilePart("listImageFile", listImageFile[i]))
+//        }
+//        println("hhh " + nameAr.requestBody())
+////        println("hhh images "+listOfImages.size)
+//        RetrofitBuilder.GetRetrofitBuilder()
+//            .addProduct(
+//                nameAr.requestBody(),
+//                nameEn.requestBody(),
+//                subTitleAr.requestBody(),
+//                subTitleEn.requestBody(),
+//                descriptionAr.requestBody(),
+//                descriptionEn.requestBody(),
+//                qty.requestBody(),
+//                price.requestBody(),
+//                priceDisc.requestBody(),
+//                acceptQuestion.requestBody(),
+//                isNegotiationOffers.requestBody(),
+//                withFixedPrice.requestBody(),
+//                isMazad.requestBody(),
+//                isSendOfferForMazad.requestBody(),
+//                startPriceMazad.requestBody(),
+//                lessPriceMazad.requestBody(),
+//                mazadNegotiatePrice.requestBody(),
+//                mazadNegotiateForWhom.requestBody(),
+//                appointment.requestBody(),
+//                productCondition.requestBody(),
+//                categoryId.requestBody(),
+//                countryId.requestBody(),
+//                regionId.requestBody(),
+//                neighborhoodId.requestBody(),
+//                Street.requestBody(),
+//                GovernmentCode.requestBody(),
+//                pakatId.requestBody(),
+//                productSep.requestBody(),
+//                listOfImages,//listImageFile
+//                MainImageIndex.requestBody(),
+//                videoUrl.requestBody(),
+//                PickUpDelivery.requestBody(),
+//                DeliveryOption.requestBody(),
+//            )
+//            .enqueue(object : Callback<GeneralResponse> {
+//                override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
+//                    isNetworkFail.value = t !is HttpException
+//                    isLoading.value = false
+//                }
+//
+//                override fun onResponse(
+//                    call: Call<GeneralResponse>,
+//                    response: Response<GeneralResponse>
+//                ) {
+//                    isLoading.value = false
+//                    if (response.isSuccessful) {
+//                        confirmAddPorductRespObserver.value = response.body()
+//                    } else {
+//                        println(
+//                            "hhhh " + response.code() + " " + Gson().toJson(response.errorBody())
+//                                .toString()
+//                        )
+//                        errorResponseObserver.value =
+//                            getErrorResponse(response.errorBody())
+//                    }
+//                }
+//            })
+//    }
 
 
     fun getAddProduct2(
@@ -328,14 +327,14 @@ class AddProductViewModel : BaseViewModel() {
         Street: String,
         GovernmentCode: String,
         pakatId: String,
-        productSep: String,
+        productSep: List<DynamicSpecificationSentObject>?,
         listImageFile: List<Uri>,//listImageFile
         MainImageIndex: String,
         videoUrl: String,
         PickUpDelivery: String,
         DeliveryOption: String,
     ) {
-
+        isLoading.value=true
         val map: HashMap<String, RequestBody> = HashMap()
         map["nameAr"] = nameAr.requestBody()
         map["nameEn"] = nameEn.requestBody()
@@ -345,7 +344,7 @@ class AddProductViewModel : BaseViewModel() {
         map["descriptionEn"] = descriptionEn.requestBody()
         map["qty"] = qty.requestBody()
         map["price"] = price.requestBody()
-       // map["priceDisc"] = priceDisc.requestBody()
+        map["priceDisc"] = "0".requestBody()
         //  map["acceptQuestion"]=acceptQuestion.requestBody()
         map["isNegotiationOffers"] = isNegotiationOffers.requestBody()
         map["withFixedPrice"] = withFixedPrice.requestBody()
@@ -361,11 +360,17 @@ class AddProductViewModel : BaseViewModel() {
         map["countryId"] = countryId.requestBody()
         map["regionId"] = regionId.requestBody()
         map["neighborhoodId"] = neighborhoodId.requestBody()
-        map["District"] = Street.requestBody()
-        map["Street"] = Street.requestBody()
+        //  map["District"] = Street.requestBody()
+        //  map["Street"] = Street.requestBody()
         //map["GovernmentCode"] = GovernmentCode.requestBody()
-        map["pakatId"] = pakatId.requestBody()
-        map["productSep"] = productSep.requestBody()
+        if (pakatId != "")
+            map["pakatId"] = pakatId.requestBody()
+        productSep.let {
+            map["productSep"] = Gson().toJson(it).toString().requestBody()
+        }
+
+       // map["productSep"] =
+  //          "[{HeaderSpeAr:\"colorAr\",HeaderSpeEn:\"colorEn\", ValueSpeAr:\"redAr\", ValueSpeEn:\"redEn\", Type:1},{HeaderSpeAr:\"colorAr\",HeaderSpeEn:\"colorEn\", ValueSpeAr:\"redAr\", ValueSpeEn:\"redEn\", Type:1}]".requestBody()
         map["MainImageIndex"] = MainImageIndex.requestBody()
         map["PickUpDelivery"] = PickUpDelivery.requestBody()
         map["DeliveryOption"] = DeliveryOption.requestBody()
@@ -375,19 +380,22 @@ class AddProductViewModel : BaseViewModel() {
             listOfImages.add(prepareFilePart("listImageFile", listImageFile[i], context))
             // listOfImages.add(prepareFilePart("listImageFile[$i]", listImageFile[i]))
         }
-        println("hhhh " + map)
-        println("hhhh catId [${categoryId}] countryId [${countryId}] region [${regionId}]  neighborhoodId [${neighborhoodId} pakaId [${pakatId}")
+//        println("hhhh " + map)
+//        println(
+//            "hhhh catId [${categoryId}] countryId [${countryId}] region [${regionId}]  neighborhoodId [${neighborhoodId} pakaId [${pakatId}  productSep $" +
+//                    "$productSep"
+//        )
         RetrofitBuilder.GetRetrofitBuilder()
             .addProduct2(map)
-            .enqueue(object : Callback<GeneralResponse> {
-                override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
+            .enqueue(object : Callback<AddProductResponse> {
+                override fun onFailure(call: Call<AddProductResponse>, t: Throwable) {
                     isNetworkFail.value = t !is HttpException
                     isLoading.value = false
                 }
 
                 override fun onResponse(
-                    call: Call<GeneralResponse>,
-                    response: Response<GeneralResponse>
+                    call: Call<AddProductResponse>,
+                    response: Response<AddProductResponse>
                 ) {
                     isLoading.value = false
                     if (response.isSuccessful) {

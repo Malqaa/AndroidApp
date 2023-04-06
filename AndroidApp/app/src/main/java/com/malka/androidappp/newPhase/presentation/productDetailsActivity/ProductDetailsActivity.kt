@@ -7,7 +7,6 @@ import android.content.Intent
 import android.graphics.PorterDuff
 import android.net.Uri
 import android.os.Bundle
-import android.widget.Filter
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -22,17 +21,19 @@ import com.google.gson.JsonObject
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.PlayActivity
 import com.malka.androidappp.activities_main.order.CartActivity
+import com.malka.androidappp.fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.newPhase.data.helper.*
 import com.malka.androidappp.newPhase.data.helper.Extension.shared
-import com.malka.androidappp.newPhase.data.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.newPhase.data.network.constants.Constants
 import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
 import com.malka.androidappp.newPhase.data.network.service.MalqaApiService
+import com.malka.androidappp.newPhase.domain.models.loginResp.LoginUser
 import com.malka.androidappp.newPhase.domain.models.productResp.Product
 import com.malka.androidappp.newPhase.domain.models.productResp.ProductMediaItemDetails
 import com.malka.androidappp.newPhase.domain.models.productResp.ProductSpecialityItemDetails
 import com.malka.androidappp.newPhase.domain.models.questionResp.QuestionItem
+import com.malka.androidappp.newPhase.domain.models.ratingResp.RateReviewItem
 import com.malka.androidappp.newPhase.domain.models.servicemodels.*
 import com.malka.androidappp.newPhase.domain.models.servicemodels.addtocart.InsertToCartRequestModel
 import com.malka.androidappp.newPhase.domain.models.servicemodels.questionModel.Question
@@ -48,8 +49,10 @@ import com.malka.androidappp.newPhase.presentation.productDetailsActivity.viewMo
 import com.malka.androidappp.newPhase.presentation.productDetailsActivity.viewModels.ProductDetailsViewModel
 import com.malka.androidappp.newPhase.presentation.productQuestionActivity.QuestionActivity
 import com.malka.androidappp.newPhase.presentation.productReviewActivity.ProductReviewsActivity
+import com.malka.androidappp.newPhase.presentation.productReviewActivity.AddRateProductActivity
 import com.malka.androidappp.newPhase.presentation.productsSellerInfoActivity.SellerInformationActivity
 import com.yariksoffice.lingver.Lingver
+import io.paperdb.Paper
 import kotlinx.android.synthetic.main.activity_product_details2.*
 import kotlinx.android.synthetic.main.activity_product_details_item_2.*
 import kotlinx.android.synthetic.main.activity_product_details_item_2.rating_bar
@@ -70,19 +73,21 @@ import kotlin.collections.ArrayList
 
 
 class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
-    SetOnProductItemListeners {
+    SetOnProductItemListeners, QuestionAnswerAdapter.SetonSelectedQuestion {
 
-    var reviewlist: ArrayList<Reviewmodel> = ArrayList()
     var AdvId = ""
     var selectLink = ""
     val attributeList: ArrayList<Attribute> = ArrayList()
 
     //    var questionList: List<Question> = ArrayList()
+    var addReviewRequestrCode = 1000
     lateinit var product: Product
 
     lateinit var productDetailHelper: ProductDetailHelper
     lateinit var questionAnswerAdapter: QuestionAnswerAdapter
     lateinit var reviewProductAdapter: ReviewProductAdapter
+    lateinit var smallRatesList: ArrayList<RateReviewItem>
+    lateinit var mainRatesList: ArrayList<RateReviewItem>
     lateinit var sellerProductAdapter: ProductHorizontalAdapter
     lateinit var similarProductAdapter: ProductHorizontalAdapter
 
@@ -103,19 +108,25 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     val added_from_last_similerProducts_status = 2
     var added_position_from_last_similerProduct = 0
     var status_product_added_to_fav_from = 0
-    var productfavStatus=false
-    var favAddingChange=false
+    var productfavStatus = false
+    var favAddingChange = false
+    private var userData: LoginUser? = null
+    var isMyProduct = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product_details2)
+        productId = intent.getIntExtra(ConstantObjects.productIdKey, -1)
+        isMyProduct = intent.getBooleanExtra(ConstantObjects.isMyProduct, false)
         setViewChanges()
         setProductDetailsViewModel()
         setupViewClickListeners()
         setupViewAdapters()
-        productId = intent.getIntExtra(ConstantObjects.productIdKey, -1)
+
         onRefresh()
-        println("hhhh " + productId)
+        //println("hhhh " + productId)
         if (HelpFunctions.isUserLoggedIn()) {
+            userData = Paper.book().read<LoginUser>(SharedPreferencesStaticClass.user_object)
             productDetialsViewModel.addLastViewedProduct(productId)
         }
 //
@@ -135,6 +146,10 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         btnMoreSpecification.hide()
         btnMoreItemDetails.hide()
         contaienrSimilerProduts.hide()
+        //for reviewa
+        tvReviewsError.hide()
+        contianerRateText.hide()
+        //====
         tvNumberQuestionNotAnswer.text =
             getString(R.string.there_are_2_questions_that_the_seller_did_not_answer, "0")
         if (HelpFunctions.isUserLoggedIn()) {
@@ -143,6 +158,11 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         } else {
             containerMainAskQuestion.hide()
             containerBuyButtons.hide()
+        }
+        if (isMyProduct) {
+            containerMainAskQuestion.hide()
+        } else {
+            containerMainAskQuestion.show()
         }
     }
 
@@ -158,6 +178,19 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     /**set view listeners*/
 
     private fun setupViewClickListeners() {
+        tvAddReview.setOnClickListener {
+            if (HelpFunctions.isUserLoggedIn()) {
+                startActivityForResult(Intent(this, AddRateProductActivity::class.java).apply {
+                    putExtra(ConstantObjects.productIdKey, productId)
+                }, addReviewRequestrCode)
+            } else {
+                startActivity(
+                    Intent(
+                        this,
+                        SignInActivity::class.java
+                    ).apply {})
+            }
+        }
         skype_btn.setOnClickListener {
             if (productDetails?.sellerInformation?.skype != null && productDetails?.sellerInformation?.skype != "") {
                 HelpFunctions.openExternalLInk(productDetails?.sellerInformation?.skype!!, this)
@@ -175,7 +208,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         }
         ivFav.setOnClickListener {
             if (HelpFunctions.isUserLoggedIn()) {
-                status_product_added_to_fav_from=added_from_product_Destails_status
+                status_product_added_to_fav_from = added_from_product_Destails_status
                 productDetialsViewModel.addProductToFav(productId)
             } else {
                 startActivity(
@@ -236,12 +269,15 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         tvQuestionAndAnswersShowAll.setOnClickListener {
             startActivity(Intent(this, QuestionActivity::class.java).apply {
                 putExtra(ConstantObjects.productIdKey, productId)
+                putExtra(ConstantObjects.isMyProduct, isMyProduct)
             })
         }
 
 
         tvShowAllReviews.setOnClickListener {
-            HelpFunctions.ShowLongToast("not implemented yey", this)
+            startActivity(Intent(this, ProductReviewsActivity::class.java).apply {
+                putExtra(ConstantObjects.productIdKey, productId)
+            })
         }
         btnSellerProducts.setOnClickListener {
             HelpFunctions.ShowLongToast("not implemented yey", this)
@@ -383,7 +419,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                         }
                     }
                     added_from_product_Destails_status -> {
-                        favAddingChange=true
+                        favAddingChange = true
                         productDetails?.let { it ->
                             it.isFavourite = !it.isFavourite
                             setProductData(productDetails)
@@ -392,6 +428,11 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                 }
 
 
+            }
+        }
+        productDetialsViewModel.getRateResponseObservable.observe(this) { rateListResp ->
+            if (rateListResp.status_code == 200) {
+                setReviewRateView(rateListResp.data)
             }
         }
     }
@@ -417,6 +458,69 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                 )
 
             }
+        }
+    }
+
+    private fun setReviewRateView(data: List<RateReviewItem>) {
+        mainRatesList.clear()
+        mainRatesList.addAll(data)
+        var datalist = mainRatesList.take(3)
+        smallRatesList.clear()
+        smallRatesList.addAll(datalist)
+        reviewProductAdapter.notifyDataSetChanged()
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            var totalRating = 0.0
+            mainRatesList.forEach {
+                totalRating += it.rate.toDouble()
+
+            }
+            val average = totalRating / mainRatesList.size
+            withContext(Dispatchers.Main) {
+                rating_bar.rating = average.toFloat()
+                rating_bar_detail_tv.text = getString(
+                    R.string._4_9_from_00_visitors,
+                    rating_bar.rating.toString().format("%.2f"),
+                    mainRatesList.size.toString()
+                )
+            }
+        }
+        if (mainRatesList.isEmpty()) {
+            tvReviewsError.show()
+            contianerRateText.hide()
+        } else {
+            tvReviewsError.hide()
+            contianerRateText.show()
+        }
+    }
+
+    private fun setNewAddedItem(data: RateReviewItem) {
+        mainRatesList.add(data)
+        smallRatesList.add(data)
+        reviewProductAdapter.notifyDataSetChanged()
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            var totalRating = 0.0
+            mainRatesList.forEach {
+                totalRating += it.rate.toDouble()
+
+            }
+            val average = totalRating / mainRatesList.size
+            withContext(Dispatchers.Main) {
+                rating_bar.rating = average.toFloat()
+                rating_bar_detail_tv.text = getString(
+                    R.string._4_9_from_00_visitors,
+                    rating_bar.rating.toString().format("%.2f"),
+                    mainRatesList.size.toString()
+                )
+            }
+        }
+        if (mainRatesList.isEmpty()) {
+            tvReviewsError.show()
+            contianerRateText.hide()
+        } else {
+            tvReviewsError.hide()
+            contianerRateText.show()
         }
     }
 
@@ -463,7 +567,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
     private fun setSimilarProductAdapter() {
         similerProductList = ArrayList()
-        similarProductAdapter = ProductHorizontalAdapter(similerProductList, this, 0,true)
+        similarProductAdapter = ProductHorizontalAdapter(similerProductList, this, 0, true)
         rvSimilarProducts.apply {
             layoutManager = linearLayoutManager(RecyclerView.HORIZONTAL)
             adapter = similarProductAdapter
@@ -472,7 +576,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
     private fun setSellerAdapter() {
         sellerSimilerProductList = ArrayList()
-        sellerProductAdapter = ProductHorizontalAdapter(sellerSimilerProductList, this, 0,true)
+        sellerProductAdapter = ProductHorizontalAdapter(sellerSimilerProductList, this, 0, true)
         rv_seller_product.apply {
             layoutManager = linearLayoutManager(RecyclerView.HORIZONTAL)
             adapter = sellerProductAdapter
@@ -480,7 +584,9 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     }
 
     private fun setReviewsAdapter() {
-        reviewProductAdapter = ReviewProductAdapter()
+        mainRatesList = ArrayList()
+        smallRatesList = ArrayList()
+        reviewProductAdapter = ReviewProductAdapter(smallRatesList)
         rv_review.apply {
             layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
             adapter = reviewProductAdapter
@@ -498,7 +604,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
     private fun setQuestionAnswerAdapter() {
         subQuestionsList = ArrayList()
-        questionAnswerAdapter = QuestionAnswerAdapter(subQuestionsList)
+        questionAnswerAdapter = QuestionAnswerAdapter(subQuestionsList, this)
         rvQuestionForProduct.apply {
             layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
             adapter = questionAnswerAdapter
@@ -514,6 +620,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         productDetialsViewModel.getProductDetailsById(productId)
         productDetialsViewModel.getSimilarProduct(productId, 1)
         productDetialsViewModel.getListOfQuestions(productId)
+        productDetialsViewModel.getProductRatesForProductDetails(productId)
     }
 
 
@@ -595,7 +702,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             /**pidding views*/
             containerAuctioncountdownTimer_bar.show()
             tvAuctionNumber.text = "${getString(R.string.bidding)} "
-            productfavStatus=productDetails.isFavourite
+            productfavStatus = productDetails.isFavourite
             if (productDetails.isFavourite) {
                 ivFav.setImageResource(R.drawable.starcolor)
             } else {
@@ -679,6 +786,32 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
     }
 
+    override fun onBackPressed() {
+        var returnIntent = Intent()
+        returnIntent.putExtra(ConstantObjects.productIdKey, productId)
+        returnIntent.putExtra(ConstantObjects.productFavStatusKey, productfavStatus)
+        if (favAddingChange) {
+            returnIntent.getBooleanExtra(ConstantObjects.isSuccess, false).let {
+                if (it) {
+                    startActivity(Intent(this, MainActivity::class.java).apply {})
+                } else {
+                    setResult(Activity.RESULT_OK, returnIntent)
+                    finish()
+                }
+            }
+
+        } else {
+            returnIntent.getBooleanExtra(ConstantObjects.isSuccess, false).let {
+                if (it) {
+                    startActivity(Intent(this, MainActivity::class.java).apply {})
+                } else {
+                    finish()
+                }
+            }
+        }
+
+
+    }
     /****************/
     /**** /****************/************/
     /****************/
@@ -698,11 +831,11 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
             })
         }
-        tvShowAllReviews.setOnClickListener {
-            startActivity(Intent(this, ProductReviewsActivity::class.java).apply {
-
-            })
-        }
+//        tvShowAllReviews.setOnClickListener {
+//            startActivity(Intent(this, ProductReviewsActivity::class.java).apply {
+//
+//            })
+//        }
 
 
 //        Bid_on_price.setOnClickListener {
@@ -786,28 +919,6 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                 )
             )
         })
-
-    }
-
-    override fun onBackPressed() {
-        var returnIntent=Intent()
-        returnIntent.putExtra(ConstantObjects.productIdKey,productId)
-        returnIntent.putExtra(ConstantObjects.productFavStatusKey,productfavStatus)
-        if(favAddingChange){
-            setResult(Activity.RESULT_OK,returnIntent)
-            finish()
-        }else{
-            finish()
-        }
-//        returnIntent.getBooleanExtra(ConstantObjects.isSuccess, false).let {
-//            if (it) {
-//                startActivity(Intent(this, MainActivity::class.java).apply {
-//                })
-//
-//            } else {
-//                finish()
-//            }
-//        }
 
     }
 
@@ -949,34 +1060,34 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
     }
 
-    private fun setReviewsAdapter(list: ArrayList<Reviewmodel>) {
-        rv_review.adapter = object : GenericListAdapter<Reviewmodel>(
-            R.layout.item_review_product,
-            bind = { element, holder, itemCount, position ->
-                holder.view.run {
-                    element.run {
-                        review_name_tv.text = name
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == RESULT_OK && requestCode == addReviewRequestrCode) {
+            //var addRateItem: AddRateItem? =data?.getParcelableExtra(ConstantObjects.rateObjectKey)
+            productDetialsViewModel.getProductRatesForProductDetails(productId)
 
-                        rating_bar.rating = rating.toFloat()
-                        comment_tv.text = comment
-
-
-                    }
-                }
-            }
-        ) {
-            override fun getFilter(): Filter {
-                TODO("Not yet implemented")
-            }
-
-        }.apply {
-            submitList(
-
-                list.take(3)
-            )
         }
+
     }
 
+    override fun onSelectQuestion(position: Int) {
+        if (isMyProduct) {
+            var answerDialog = AnswerQuestionDialog(
+                this,
+                questionsList[position],
+                position,
+                object : AnswerQuestionDialog.SetOnSendAnswer {
+                    override fun onAnswerSuccess(questionItem: QuestionItem, position: Int) {
+                        subQuestionsList[position] = questionItem
+                        questionAnswerAdapter.notifyItemChanged(position)
+                    }
+                })
+            answerDialog.show()
+
+
+        }
+    }
+}
 
     /** NotNeed Function delete latter**/
 
@@ -1404,7 +1515,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 //        itemTouchHelper.attachToRecyclerView(rvQuestionForProduct)
 //
 //    }
-}
+
 
 
 //productDetailHelper = ProductDetailHelper(this)
@@ -1518,3 +1629,32 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 //            reviewlist.size.toString()
 //        )
 //        setReviewsAdapter(reviewlist)
+
+
+//private fun setReviewsAdapter(list: ArrayList<Reviewmodel>) {
+//    rv_review.adapter = object : GenericListAdapter<Reviewmodel>(
+//        R.layout.item_review_product,
+//        bind = { element, holder, itemCount, position ->
+//            holder.view.run {
+//                element.run {
+//                    review_name_tv.text = name
+//
+//                    rating_bar.rating = rating.toFloat()
+//                    comment_tv.text = comment
+//
+//
+//                }
+//            }
+//        }
+//    ) {
+//        override fun getFilter(): Filter {
+//            TODO("Not yet implemented")
+//        }
+//
+//    }.apply {
+//        submitList(
+//
+//            list.take(3)
+//        )
+//    }
+//}

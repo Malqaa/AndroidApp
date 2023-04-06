@@ -21,6 +21,7 @@
     <string name="bidding">مزايدة</string>
     <string name="show">عرض</string>
     <string name="noProductsAdded">لم يتم إضافه اى منتجات</string>
+  <string name="noProductsFound">لم يتم العثور على اى منتجات</string>
     <string name="enterAllSpecificaiton"> أدخل جميع المواصفات</string>
     <string name="noSubCategoryFound">لم يتم العثور على فئات فرعية</string>
     <string name="NoCategoryMarkedasFavourites">
@@ -2651,6 +2652,7 @@
     <string name="please_enter_valid">الرجاء إدخال صالح %s</string>
     <string name="it_will_end">سوف تنتهي</string>
     <string name="all_reviews">جميع المراجعات</string>
+  <string name="add_review">أضف تقيم</string>
     <string name="similar_products">المنتجات المشابهة</string>
     <string name="view_similar_product_from_seller">عرض منتج مماثل من البائع</string>
     <string name="hide_similar_product_from_seller">إخفاء المنتج المشابه عن البائع</string>
@@ -2814,4 +2816,10 @@
   <string name="notSpecified">لم تحدد</string>
   <string name="inArabic">بالعربية</string>
   <string name="inEnglish">بالانجليزية</string>
+  <string name="album">الألبوم</string>
+  <string name="str_all_view">عرض الكل </string>
+  <string name="no_Reviews_Found">لا يوجد تقيمات مضافة</string>
+  <string name="add_Review">أضف تقيم</string>
+  <string name="enterComment">أضف تقييم</string>
+  <string name="addyourAnswer">اضف إجابتك</string>
 </resources>

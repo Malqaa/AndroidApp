@@ -15,10 +15,11 @@
         android:orientation="horizontal">
 
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/ivProfile"
             android:layout_width="@dimen/_40sdp"
             android:layout_height="@dimen/_40sdp"
-            android:src="@drawable/profiledp" />
+            android:src="@mipmap/malqa_iconn_round" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -68,7 +69,7 @@
                 style="?android:attr/ratingBarStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:rating="4." />
+                android:rating="4" />
 
 
         </LinearLayout>
@@ -77,6 +78,7 @@
     </LinearLayout>
 
     <View
+        android:id="@+id/line"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_1sdp"
         android:background="@color/light_gray"

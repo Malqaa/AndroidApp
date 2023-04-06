@@ -1,4 +1,4 @@
-package com.malka.androidappp.fragments.my_product
+package com.malka.androidappp.fragments.myProductFragment
 
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.my_product_cardview.view.*
 
 class AdapterMyProduct(
     val myProductPost: ArrayList<ModelMyProduct>,
-    var context: MyProduct,
+    var context: MyProductsFragment,
     val listener: OnItemClickListener
 ) : RecyclerView.Adapter<AdapterMyProduct.AdapterMyProductViewHolder>() {
 
