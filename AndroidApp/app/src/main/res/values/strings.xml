@@ -16,7 +16,7 @@
     <string name="bidding">Bidding</string>
     <string name="show">Show</string>
     <string name="noProductsAdded">No Products Added</string>
-  <string name="noProductsFound">No Products Found</string>
+    <string name="noProductsFound">No Products Found</string>
     <string name="enterAllSpecificaiton">Enter All Specification</string>
     <string name="noSubCategoryFound">No Sub Categories Found</string>
     <string name="Back_to_login">
@@ -2817,7 +2817,7 @@ Want to start a business account? Create a Business Account
     <string name="please_enter_valid" formatted="true">Please enter valid %s</string>
     <string name="it_will_end">it will end</string>
     <string name="all_reviews">All reviews</string>
-  <string name="add_review">Add Review</string>
+    <string name="add_review">Add Review</string>
     <string name="similar_products">Similar Products</string>
     <string name="view_similar_product_from_seller">View similar product from seller</string>
     <string name="hide_similar_product_from_seller">Hide similar product from seller</string>
@@ -2999,8 +2999,15 @@ Want to start a business account? Create a Business Account
     <string name="album">Album</string>
     <string name="str_all_view">All view</string>
     <string name="no_Reviews_Found">No Reviews Found</string>
-  <string name="add_Review">Add Review</string>
-  <string name="enterComment">Enter Comment</string>
-  <string name="addyourAnswer">Add your answer</string>
-
+    <string name="add_Review">Add Review</string>
+    <string name="enterComment">Enter Comment</string>
+    <string name="addyourAnswer">Add your answer</string>
+    <string name="addDiscount">Add Discount</string>
+    <string name="modifyProduct">Modify Product</string>
+    <string name="deleteProduct">Delete Product</string>
+    <string name="discount">Discount</string>
+    <string name="discountEndTime">Discount End Time</string>
+    <string name="addDiscountEndTime">Add Discount End Time</string>
+    <string name="discountPriceShouldBeLower">Discount price should be Lower than current price</string>
+    <string name="discountAddedSuccessfully">Discount was added Successfully</string>
 </resources>

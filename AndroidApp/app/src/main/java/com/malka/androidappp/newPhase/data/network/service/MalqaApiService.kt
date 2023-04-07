@@ -27,6 +27,7 @@ import com.malka.androidappp.newPhase.domain.models.dynamicSpecification.Dynamic
 import com.malka.androidappp.newPhase.domain.models.homeCategoryProductResp.HomeCategoryProductResp
 import com.malka.androidappp.newPhase.domain.models.homeSilderResp.HomeSliderResp
 import com.malka.androidappp.newPhase.domain.models.loginResp.LoginResp
+import com.malka.androidappp.newPhase.domain.models.orderListResp.OrderListResp
 import com.malka.androidappp.newPhase.domain.models.pakatResp.PakatResp
 import com.malka.androidappp.newPhase.domain.models.productResp.ProductListResp
 import com.malka.androidappp.newPhase.domain.models.productResp.ProductResp
@@ -318,6 +319,21 @@ interface MalqaApiService {
         @Query("productId") productID: Int,
         @Query("lang") language: String = ConstantObjects.currentLanguage
     ): Call<RateResponse>
+
+    @GET("GetBusinessAccountOrders?PageRowsCount=10")
+    fun getBusinessAccountOrders(
+        @Query("pageIndex")page: Int,
+        @Query("lang") language: String = ConstantObjects.currentLanguage
+    ): Call<OrderListResp>
+
+    @POST("ProductDiscount")
+    fun addDiscount(
+        @Query("productId") productID: Int,
+        @Query("PriceDiscount") priceDiscount: Float,
+        @Query("discountEndDate") finaldate: String,
+    ): Call<GeneralResponse>
+
+
     // ?currentPage=1
     //+++++++++++++++++++++++++++++++++++++++++
     //+++++++++++++++++++++++++++++++++++++++++

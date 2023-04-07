@@ -9,10 +9,16 @@ import com.google.gson.Gson
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.newPhase.data.helper.*
+import com.malka.androidappp.newPhase.data.helper.widgets.searchdialog.SearchListItem
 import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.domain.models.ImageSelectModel
+import com.malka.androidappp.newPhase.domain.models.dynamicSpecification.DynamicSpecificationSentObject
+import com.malka.androidappp.newPhase.domain.models.pakatResp.PakatDetails
 import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
 import com.malka.androidappp.newPhase.domain.models.servicemodels.CreateAdvMainModel
 import com.malka.androidappp.newPhase.domain.models.servicemodels.CreateAdvResponseBack
+import com.malka.androidappp.newPhase.domain.models.servicemodels.Selection
+import com.malka.androidappp.newPhase.domain.models.servicemodels.model.Category
 import com.malka.androidappp.newPhase.presentation.addProduct.activity6.ListingDetailsActivity
 import com.malka.androidappp.newPhase.presentation.addProduct.activity6.PricingActivity
 import com.malka.androidappp.newPhase.presentation.addProduct.activity7.ListingDurationActivity
@@ -79,17 +85,19 @@ class ConfirmationAddProductActivity : BaseActivity() {
 //                    this
 //                )
                 try {
-                    val productId :Int= confirmAddPorductRespObserver.data
-                    var inten=  Intent(
-                        this@ConfirmationAddProductActivity, SuccessProductActivity::class.java).apply {
+                    val productId: Int = confirmAddPorductRespObserver.data
+                    resetAddProductObject()
+                    var inten = Intent(
+                        this@ConfirmationAddProductActivity, SuccessProductActivity::class.java
+                    ).apply {
                         flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
 
                     }
-                    inten.putExtra(ConstantObjects.productIdKey,productId)
-                    startActivity(inten)
+                    inten.putExtra(ConstantObjects.productIdKey, productId)
 
+                    startActivity(inten)
                     finish()
-                }catch (e:java.lang.Exception){
+                } catch (e: java.lang.Exception) {
 
                 }
 
@@ -100,6 +108,43 @@ class ConfirmationAddProductActivity : BaseActivity() {
                 )
             }
         }
+    }
+
+    private fun resetAddProductObject() {
+        /**activity 1*/
+        AddProductObjectData.selectedCategory = null
+        AddProductObjectData.selectedCategoryId = 0
+        AddProductObjectData.selectedCategoryName = ""
+        AddProductObjectData.video = ""
+
+        AddProductObjectData.itemTitleAr = ""
+        AddProductObjectData.itemTitleEn = ""
+        AddProductObjectData.subtitleAr = ""
+        AddProductObjectData.subtitleEn = ""
+        AddProductObjectData.itemDescriptionAr = ""
+        AddProductObjectData.itemDescriptionEn = ""
+
+        /**used =1 , new =2*/
+        AddProductObjectData.productCondition = 0
+        AddProductObjectData.quantity = ""
+        AddProductObjectData.country = null
+        AddProductObjectData.region = null
+        AddProductObjectData.city = null
+
+        AddProductObjectData.phone = ""
+        AddProductObjectData.phoneCountryCode = ""
+
+        AddProductObjectData.price = ""
+        AddProductObjectData.reservedPrice = ""
+        AddProductObjectData.startingPrice = ""
+        AddProductObjectData.isnegotiable = false
+        AddProductObjectData.buyingType = ""
+        AddProductObjectData.isvisapaid = false
+        AddProductObjectData.isbankpaid = false
+        AddProductObjectData.productSpecificationList = null
+        AddProductObjectData.pickUpOption = false
+        AddProductObjectData.selectedPakat = null
+        AddProductObjectData.shippingOptionSelection = null
     }
 
     private fun setViewClickListeners() {
@@ -131,8 +176,8 @@ class ConfirmationAddProductActivity : BaseActivity() {
             finish()
         }
         btn_confirm_details.setOnClickListener {
-          //  HelpFunctions.ShowLongToast("not implemented yet",this)
-          confirmOrder()
+            //  HelpFunctions.ShowLongToast("not implemented yet",this)
+            confirmOrder()
         }
     }
 
@@ -178,11 +223,11 @@ class ConfirmationAddProductActivity : BaseActivity() {
             listImageFile.add(HelpFunctions.getFileImage(image.uri, this))
             listImageUri.add(image.uri)
         }
-        println("hhh image file numer "+ listImageFile.size)
+        println("hhh image file numer " + listImageFile.size)
 
         var pakatId = ""
         AddProductObjectData.selectedPakat?.let {
-            pakatId=it.id.toString()
+            pakatId = it.id.toString()
         }
 
         /**********/
@@ -214,7 +259,7 @@ class ConfirmationAddProductActivity : BaseActivity() {
             neighborhoodId = AddProductObjectData.city!!.id.toString(),
             Street = "",
             GovernmentCode = "",
-            pakatId =pakatId,
+            pakatId = pakatId,
             productSep = AddProductObjectData.productSpecificationList,
             listImageFile = listImageUri,//listImageFile
             MainImageIndex = mainIndex.toString(),

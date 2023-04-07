@@ -1,7 +1,6 @@
 package com.malka.androidappp.newPhase.presentation.myProducts
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,20 +8,26 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.malka.androidappp.R
+import com.malka.androidappp.newPhase.data.helper.EndlessRecyclerViewScrollListener
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 
 import com.malka.androidappp.newPhase.data.helper.hide
 import com.malka.androidappp.newPhase.data.helper.show
+import com.malka.androidappp.newPhase.domain.models.orderListResp.OrderItem
 import com.malka.androidappp.newPhase.domain.models.productResp.Product
 
 import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
 import com.malka.androidappp.newPhase.presentation.adapterShared.ProductHorizontalAdapter
 import com.malka.androidappp.newPhase.presentation.adapterShared.SetOnProductItemListeners
 import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
+import com.malka.androidappp.newPhase.presentation.myProducts.adapter.SoldOutOrdersAdapter
+import com.malka.androidappp.newPhase.presentation.myProducts.dialog.AddDiscountDialog
+import com.malka.androidappp.newPhase.presentation.myProducts.dialog.MyProductSettingDialog
+import com.malka.androidappp.newPhase.presentation.myProducts.viewModel.MyProductViewModel
 import com.malka.androidappp.newPhase.presentation.productDetailsActivity.ProductDetailsActivity
 
 import kotlinx.android.synthetic.main.fragment_sold_business.*
@@ -31,18 +36,25 @@ import kotlinx.android.synthetic.main.fragment_sold_business.swipe_to_refresh
 import kotlinx.android.synthetic.main.fragment_sold_business.tvError
 
 import kotlinx.android.synthetic.main.toolbar_main.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 
 class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
     SetOnProductItemListeners {
 
-    private lateinit var  myProductsViewModel: MyProductViewModel
+    private var lastPriceDiscount: Float = 0f
+    private lateinit var myProductsViewModel: MyProductViewModel
     private lateinit var myPorductForSaleListAdapter: ProductHorizontalAdapter
-    private lateinit var productList:ArrayList<Product>
-    private var lastUpdateIndex=-1
+    private lateinit var productList: ArrayList<Product>
+    private var lastUpdateIndex = -1
+
+    //====
+    lateinit var soldOutOrdersList: ArrayList<OrderItem>
+    lateinit var soldOutOrdersAdapter: SoldOutOrdersAdapter
+    lateinit var soldoUtLayOutManager: GridLayoutManager
+
+    //  tap id 1 ,2,3
+    private var tapId: Int = 1
+    lateinit var endlessRecyclerViewScrollListener: EndlessRecyclerViewScrollListener
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -60,6 +72,7 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         swipe_to_refresh.setOnRefreshListener(this)
         setViewClickListeners()
         setAdapterForSaleAdapter()
+        setUpSoldOutAdapter()
 
         sold_out_rcv.hide()
         did_not_sale_rcv.hide()
@@ -67,12 +80,31 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         onRefresh()
     }
 
+    private fun setUpSoldOutAdapter() {
+        soldOutOrdersList = ArrayList()
+        soldoUtLayOutManager = GridLayoutManager(requireActivity(), 1)
+        soldOutOrdersAdapter = SoldOutOrdersAdapter(soldOutOrdersList)
+        sold_out_rcv.apply {
+            adapter = soldOutOrdersAdapter
+            layoutManager = soldoUtLayOutManager
+        }
+        endlessRecyclerViewScrollListener =
+            object : EndlessRecyclerViewScrollListener(soldoUtLayOutManager) {
+                override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
+                    if (tapId == 2) {
+                        myProductsViewModel.getSoldOutOrders(page)
+                    }
+                }
+            }
+        sold_out_rcv.addOnScrollListener(endlessRecyclerViewScrollListener)
+    }
+
     private fun setAdapterForSaleAdapter() {
-        productList= ArrayList()
-        myPorductForSaleListAdapter=ProductHorizontalAdapter(productList,this,0,false)
+        productList = ArrayList()
+        myPorductForSaleListAdapter = ProductHorizontalAdapter(productList, this, 0, false, true)
         for_sale_recycler.apply {
-            adapter=myPorductForSaleListAdapter
-            layoutManager= GridLayoutManager(requireActivity(),2)
+            adapter = myPorductForSaleListAdapter
+            layoutManager = GridLayoutManager(requireActivity(), 2)
         }
     }
 
@@ -80,7 +112,49 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         back_btn.setOnClickListener {
             requireActivity().onBackPressed()
         }
+        for_sale.setOnClickListener {
+            tapId = 1
+            sold_out_rcv.hide()
+            did_not_sale_rcv.hide()
+            for_sale_recycler.show()
+            for_sale.setBackgroundResource(R.drawable.round_btn)
+            for_sale.setTextColor(ContextCompat.getColor(requireActivity(), R.color.white))
+            sold_out.setBackgroundResource(R.drawable.edittext_bg)
+            sold_out.setTextColor(ContextCompat.getColor(requireActivity(), R.color.gray))
+            did_not_Sell.setBackgroundResource(R.drawable.edittext_bg)
+            did_not_Sell.setTextColor(ContextCompat.getColor(requireActivity(), R.color.gray))
+            onRefresh()
+        }
+        sold_out.setOnClickListener {
+            tapId = 2
+            sold_out_rcv.show()
+            did_not_sale_rcv.hide()
+            for_sale_recycler.hide()
+
+            for_sale.setBackgroundResource(R.drawable.edittext_bg)
+            for_sale.setTextColor(ContextCompat.getColor(requireActivity(), R.color.gray))
+            sold_out.setBackgroundResource(R.drawable.round_btn)
+            sold_out.setTextColor(ContextCompat.getColor(requireActivity(), R.color.white))
+            did_not_Sell.setBackgroundResource(R.drawable.edittext_bg)
+            did_not_Sell.setTextColor(ContextCompat.getColor(requireActivity(), R.color.gray))
+            onRefresh()
+        }
+        did_not_Sell.setOnClickListener {
+            tapId = 3
+            sold_out_rcv.hide()
+            did_not_sale_rcv.show()
+            for_sale_recycler.hide()
+
+            for_sale.setBackgroundResource(R.drawable.edittext_bg)
+            for_sale.setTextColor(ContextCompat.getColor(requireActivity(), R.color.gray))
+            sold_out.setBackgroundResource(R.drawable.edittext_bg)
+            sold_out.setTextColor(ContextCompat.getColor(requireActivity(), R.color.gray))
+            did_not_Sell.setBackgroundResource(R.drawable.round_btn)
+            did_not_Sell.setTextColor(ContextCompat.getColor(requireActivity(), R.color.white))
+            onRefresh()
+        }
     }
+
     private fun setupViewModel() {
         myProductsViewModel = ViewModelProvider(this).get(MyProductViewModel::class.java)
         myProductsViewModel.isLoading.observe(this) {
@@ -88,6 +162,19 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
                 progressBar.show()
             else
                 progressBar.hide()
+        }
+        myProductsViewModel.loadingAddDiscountDialog.observe(this) {
+            if (it)
+                HelpFunctions.startProgressBar(requireActivity())
+            else
+                HelpFunctions.dismissProgressBar()
+        }
+
+        myProductsViewModel.isloadingMore.observe(this) {
+            if (it)
+                progressBarMore.show()
+            else
+                progressBarMore.hide()
         }
         myProductsViewModel.isNetworkFail.observe(this) {
             if (it) {
@@ -105,14 +192,14 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
             }
 
         }
-        myProductsViewModel.forSaleProductRespObserver.observe(this){productListResp->
-            if(productListResp.status_code==200){
-                if(productListResp.productList!=null&&productListResp.productList.isNotEmpty()){
+        myProductsViewModel.forSaleProductRespObserver.observe(this) { productListResp ->
+            if (productListResp.status_code == 200) {
+                if (productListResp.productList != null && productListResp.productList.isNotEmpty()) {
                     productList.clear()
                     productList.addAll(productListResp.productList)
                     myPorductForSaleListAdapter.notifyDataSetChanged()
 
-                }else{
+                } else {
                     showProductApiError(getString(R.string.noProductsAdded))
                 }
             }
@@ -147,21 +234,60 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         }
         myProductsViewModel.addProductToFavObserver.observe(viewLifecycleOwner) {
             if (it.status_code == 200) {
-                if(lastUpdateIndex<productList.size){
-                    productList[lastUpdateIndex].isFavourite=!productList[lastUpdateIndex].isFavourite
+                if (lastUpdateIndex < productList.size) {
+                    productList[lastUpdateIndex].isFavourite =
+                        !productList[lastUpdateIndex].isFavourite
                     myPorductForSaleListAdapter.notifyItemChanged(lastUpdateIndex)
                     myPorductForSaleListAdapter.notifyDataSetChanged()
                 }
             }
         }
+        myProductsViewModel.soldOutOrdersRespObserver.observe(viewLifecycleOwner) { orderListResp ->
+            if (orderListResp.status_code == 200) {
+                orderListResp.orderList?.let {
+                    soldOutOrdersList.addAll(it)
+                    soldOutOrdersAdapter.notifyDataSetChanged()
+                }
+            }
+        }
+        myProductsViewModel.addDiscountObserver.observe(viewLifecycleOwner) { addDiscountResp ->
+            if (addDiscountResp.status_code == 200) {
+                if(tapId==1) {
+                    productList[lastUpdateIndex].priceDisc = lastPriceDiscount
+                    myPorductForSaleListAdapter.notifyItemChanged(lastUpdateIndex)
+                }
+                HelpFunctions.ShowLongToast(getString(R.string.discountAddedSuccessfully), requireActivity())
+            } else {
+                if (addDiscountResp.message != null&&addDiscountResp.message != "") {
+                    HelpFunctions.ShowLongToast(addDiscountResp.message, requireActivity())
+                } else {
+                    HelpFunctions.ShowLongToast(
+                        requireActivity().getString(R.string.serverError),
+                        requireActivity()
+                    )
+                }
+
+            }
+        }
     }
 
     override fun onRefresh() {
+        endlessRecyclerViewScrollListener.resetState()
         swipe_to_refresh.isRefreshing = false
         tvError.hide()
-        productList.clear()
-        myPorductForSaleListAdapter.notifyDataSetChanged()
-        myProductsViewModel.getForSaleProduct()
+        when (tapId) {
+            1 -> {
+                productList.clear()
+                myPorductForSaleListAdapter.notifyDataSetChanged()
+                myProductsViewModel.getForSaleProduct()
+            }
+            2 -> {
+                soldOutOrdersList.clear()
+                soldOutOrdersAdapter.notifyDataSetChanged()
+                myProductsViewModel.getSoldOutOrders(1)
+            }
+        }
+
     }
 
     private fun showProductApiError(message: String) {
@@ -189,6 +315,41 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
                     SignInActivity::class.java
                 ).apply {})
         }
+    }
+
+    override fun onShowMoreSetting(position: Int, productID: Int, categoryID: Int) {
+        var myProductSettingDialog = MyProductSettingDialog(requireActivity(), object :
+            MyProductSettingDialog.SetOnSelectedListeners {
+            override fun onAddDiscount() {
+                openDiscountDialog(position, productID, categoryID)
+            }
+
+            override fun onModifyProduct() {
+                HelpFunctions.ShowLongToast("not implemented yet", requireActivity())
+            }
+
+            override fun onDeleteProduct() {
+                HelpFunctions.ShowLongToast("not implemented yet", requireActivity())
+            }
+
+        })
+        myProductSettingDialog.show()
+    }
+
+    private fun openDiscountDialog(position: Int, productID: Int, categoryID: Int) {
+        var addDiscountDialog =
+            AddDiscountDialog(requireActivity(),
+                productList[position].price,
+                requireActivity().supportFragmentManager,
+                object : AddDiscountDialog.SetonClickListeners {
+                    override fun onAddDiscount(finaldate: String, newPrice: Float) {
+                        lastUpdateIndex=position
+                        lastPriceDiscount=newPrice
+                        myProductsViewModel.addDiscount(productID, newPrice, finaldate)
+                    }
+
+                })
+        addDiscountDialog.show()
     }
 
 

@@ -90,6 +90,10 @@ class CategoryProductAdapter(var categoryProductHomeList: ArrayList<CategoryProd
         setOnSelectedProductInCategory.onAddProductInCategoryToFav(position,productID, categoryID)
     }
 
+    override fun onShowMoreSetting(position: Int, productID: Int, categoryID: Int) {
+
+    }
+
 
     interface SetOnSelectedProductInCategory{
         fun onSelectedProductInCategory(position:Int,productID:Int,categoryID:Int)

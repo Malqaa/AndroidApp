@@ -515,6 +515,10 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
         }
     }
 
+    override fun onShowMoreSetting(position: Int, productID: Int, categoryID: Int) {
+
+    }
+
     override fun onSelectedProductInCategory(position: Int, productID: Int, categoryID: Int) {
 //        SharedPreferencesStaticClass.ad_userid = ""
 //        ConstantObjects.is_watch_iv = ivFav

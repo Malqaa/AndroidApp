@@ -2822,4 +2822,12 @@
   <string name="add_Review">أضف تقيم</string>
   <string name="enterComment">أضف تقييم</string>
   <string name="addyourAnswer">اضف إجابتك</string>
+  <string name="addDiscount">اضافه خصم</string>
+  <string name="modifyProduct">تعديل المنتج</string>
+  <string name="deleteProduct">حذف المنتج</string>
+  <string name="discount">تخفيض</string>
+  <string name="discountEndTime">وقت انتهاء الخصم</string>
+  <string name="addDiscountEndTime">أضف وقت انتهاء الخصم</string>
+  <string name="discountPriceShouldBeLower">يجب أن يكون سعر الخصم أقل من السعر الحالي</string>
+  <string name="discountAddedSuccessfully">تمت إضافة الخصم بنجاح</string>
 </resources>

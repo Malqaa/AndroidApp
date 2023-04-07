@@ -204,6 +204,11 @@ class WatchlistFragment : Fragment(R.layout.fragment_watchlist),
                 ).apply {})
         }
     }
+
+    override fun onShowMoreSetting(position: Int, productID: Int, categoryID: Int) {
+
+    }
+
     /**open activity product detials functions**/
     val productDetailsLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->

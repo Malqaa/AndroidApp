@@ -10,7 +10,7 @@ import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.order.OrderDetail
 import com.malka.androidappp.activities_main.order.OrderDetail_1
 import com.malka.androidappp.newPhase.domain.models.servicemodels.getCartModel
-import kotlinx.android.synthetic.main.order_item.view.*
+import kotlinx.android.synthetic.main.item_user_order.view.*
 
 class GenericOrderAdapter(
     var soldOrderDetail: List<getCartModel.Data>,
@@ -24,7 +24,7 @@ class GenericOrderAdapter(
         viewType: Int
     ): BaseViewHolder {
         val view: View =
-            LayoutInflater.from(parent.context).inflate(R.layout.order_item, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_user_order, parent, false)
         return BaseViewHolder(view)
     }
 

@@ -1,5 +1,6 @@
 package com.malka.androidappp.newPhase.presentation.adapterShared
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -21,7 +22,8 @@ class ProductHorizontalAdapter(
     var productList: List<Product>,
     var setOnProductItemListeners: SetOnProductItemListeners,
     var categoryId: Int=0,
-    var isHorizenal:Boolean
+    var isHorizenal:Boolean,
+    var isMyProduct:Boolean=false
 ) : RecyclerView.Adapter<ProductHorizontalAdapter.SellerProductViewHolder>() {
     lateinit var context: Context
 
@@ -37,6 +39,7 @@ class ProductHorizontalAdapter(
 
     override fun getItemCount(): Int = productList.size
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: SellerProductViewHolder, position: Int) {
         if(isHorizenal) {
             val params: ViewGroup.LayoutParams = holder.viewBinding.fullview.layoutParams
@@ -56,15 +59,24 @@ class ProductHorizontalAdapter(
             holder.viewBinding.btnMerchant.hide()
         }
 
-        if (HelpFunctions.isUserLoggedIn()) {
-            println("yyyy "+productList[position].isFavourite)
-            if (productList[position].isFavourite) {
-                holder.viewBinding.ivFav.setImageResource(R.drawable.starcolor)
+        if(isMyProduct) {
+            holder.viewBinding.ivFav.hide()
+            holder.viewBinding.ivSetting.show()
+            holder.viewBinding.ivSetting.setOnClickListener {
+                setOnProductItemListeners.onShowMoreSetting(position,productList[position].id,categoryId)
+            }
+        }else{
+            holder.viewBinding.ivFav.show()
+            holder.viewBinding.ivSetting.hide()
+            if (HelpFunctions.isUserLoggedIn()) {
+                if (productList[position].isFavourite) {
+                    holder.viewBinding.ivFav.setImageResource(R.drawable.starcolor)
+                } else {
+                    holder.viewBinding.ivFav.setImageResource(R.drawable.star)
+                }
             } else {
                 holder.viewBinding.ivFav.setImageResource(R.drawable.star)
             }
-        } else {
-            holder.viewBinding.ivFav.setImageResource(R.drawable.star)
         }
 
         if (Lingver.getInstance().getLanguage() == ConstantObjects.ARABIC) {
@@ -95,9 +107,21 @@ class ProductHorizontalAdapter(
         holder.viewBinding.LowestPriceLayout2.hide()
         holder.viewBinding.lisView.hide()
 
-        holder.viewBinding.productPrice.text = "${productList[position].price.toDouble().decimalNumberFormat()} ${context.getString(
-                R.string.Rayal
-            )}"
+        if(productList[position].priceDisc!=0f) {
+            holder.viewBinding.productPrice.text =
+                "${productList[position].priceDisc.toDouble()} ${
+                    context.getString(
+                        R.string.Rayal
+                    )
+                }"
+        }else{
+            holder.viewBinding.productPrice.text =
+                "${productList[position].price.toDouble()} ${
+                    context.getString(
+                        R.string.Rayal
+                    )
+                }"
+        }
         holder.viewBinding.purchasingPriceTv2.text = "${productList[position].price.toDouble().decimalNumberFormat()} ${context.getString(R.string.Rayal)}"
 
         holder.viewBinding.fullview.setOnClickListener {

@@ -80,7 +80,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:fontFamily="@font/madani_arabic_bold"
-                    android:text="@string/fixed_price"
+                    android:text="...."
+                    android:id="@+id/tv_request_type"
                     android:textColor="#45495E"
                     android:textSize="@dimen/_10sdp" />
 
@@ -127,7 +128,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/madani_arabic_bold"
-                    android:text="20/9/2021"
+                    android:text="...."
                     android:textColor="#45495E"
                     android:textSize="@dimen/_10sdp" />
 
@@ -166,7 +167,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:fontFamily="@font/madani_arabic_bold"
-                    android:text="1"
+                    android:text="...."
                     android:textColor="#45495E"
                     android:textSize="@dimen/_10sdp" />
 
@@ -212,7 +213,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/madani_arabic_bold"
-                    android:text="#"
+                    android:text="...."
                     android:textColor="#45495E"
                     android:textSize="@dimen/_10sdp" />
 
@@ -250,8 +251,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:fontFamily="@font/madani_arabic_bold"
-                    android:text="@string/waiting_for_confirmation"
-                    android:textColor="#45495E"
+                    android:text="...."
+                    android:textColor="@color/orange"
                     android:textSize="@dimen/_10sdp" />
 
             </LinearLayout>
@@ -274,7 +275,7 @@
             android:text="@string/view_and_complete_the_order"
             android:textAllCaps="false"
             android:textColor="#ffffff"
-            android:textSize="@dimen/_14sdp" />
+            android:textSize="@dimen/_12sdp" />
 
 
     </LinearLayout>

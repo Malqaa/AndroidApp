@@ -1,4 +1,4 @@
-package com.malka.androidappp.newPhase.presentation.productReviewActivity
+package com.malka.androidappp.newPhase.presentation.addProductReviewActivity
 
 import android.content.Intent
 import android.os.Bundle

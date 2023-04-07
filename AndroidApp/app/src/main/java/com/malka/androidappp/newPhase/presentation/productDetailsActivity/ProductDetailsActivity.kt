@@ -48,8 +48,8 @@ import com.malka.androidappp.newPhase.presentation.productDetailsActivity.adapte
 import com.malka.androidappp.newPhase.presentation.productDetailsActivity.viewModels.ProductDetailHelper
 import com.malka.androidappp.newPhase.presentation.productDetailsActivity.viewModels.ProductDetailsViewModel
 import com.malka.androidappp.newPhase.presentation.productQuestionActivity.QuestionActivity
-import com.malka.androidappp.newPhase.presentation.productReviewActivity.ProductReviewsActivity
-import com.malka.androidappp.newPhase.presentation.productReviewActivity.AddRateProductActivity
+import com.malka.androidappp.newPhase.presentation.addProductReviewActivity.ProductReviewsActivity
+import com.malka.androidappp.newPhase.presentation.addProductReviewActivity.AddRateProductActivity
 import com.malka.androidappp.newPhase.presentation.productsSellerInfoActivity.SellerInformationActivity
 import com.yariksoffice.lingver.Lingver
 import io.paperdb.Paper
@@ -783,6 +783,10 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                 ).apply {})
         }
 
+
+    }
+
+    override fun onShowMoreSetting(position: Int, productID: Int, categoryID: Int) {
 
     }
 

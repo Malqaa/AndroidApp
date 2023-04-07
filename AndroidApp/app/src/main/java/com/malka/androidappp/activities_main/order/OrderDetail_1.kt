@@ -9,8 +9,9 @@ import com.malka.androidappp.newPhase.data.helper.hide
 import com.malka.androidappp.newPhase.data.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.newPhase.domain.models.servicemodels.Negotiationmodel
 import kotlinx.android.synthetic.main.activity_order_detail1.*
+import kotlinx.android.synthetic.main.item_user_order.view.*
 import kotlinx.android.synthetic.main.order_detail_design_1.view.*
-import kotlinx.android.synthetic.main.order_item.view.*
+
 import kotlinx.android.synthetic.main.toolbar_main.*
 
 class OrderDetail_1 : BaseActivity() {

@@ -81,6 +81,7 @@ class HelpFunctions {
         const val datetimeformat_mmddyyyy_24hrs: String = "MM/dd/yyyyHH:mm:ss"
         const val datetimeformat_24hrs: String = "yyyy-MM-dd'T'HH:mm:ss"
         const val datetimeformat_12hrs: String = "MM/dd/yyyy hh:mm:ss a"
+        const val datetimeformat_12hrs2: String = "dd/MM/yyyy hh:mm a"
         const val appName = "Malqaa"
         const val projectName = "OnRuff"
         const val deviceType = "Android"
@@ -264,6 +265,29 @@ class HelpFunctions {
                 requestDate = requestDateFormat.parse(date)
                 result = dateFormat!!.format(requestDate)
             } catch (e: Exception) {
+                e.printStackTrace()
+            }
+            return result
+        }
+        fun getFormattedDate2(
+            date: String?,
+            givenFormat: String?,
+            requiredFormat: String?
+        ): String {
+            var result = ""
+            var dateFormat: DateFormat? = null
+            var requestDateFormat: DateFormat? = null
+            var requestDate: Date? = null
+            try {
+                dateFormat = SimpleDateFormat(requiredFormat, Locale.ENGLISH)
+                //  dateFormat.setTimeZone(TimeZone.getDefault())
+                requestDateFormat = SimpleDateFormat(givenFormat, Locale.ENGLISH)
+
+                 requestDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"))
+                requestDate = requestDateFormat.parse(date)
+                result = dateFormat!!.format(requestDate)
+            } catch (e: Exception) {
+                println("hhhh "+e.message)
                 e.printStackTrace()
             }
             return result

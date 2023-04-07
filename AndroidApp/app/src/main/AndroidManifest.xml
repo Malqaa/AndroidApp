@@ -32,7 +32,10 @@
         android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup">
         <activity
-            android:name="com.malka.androidappp.newPhase.presentation.productReviewActivity.AddRateProductActivity"
+            android:name=".AddRateSellerActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.malka.androidappp.newPhase.presentation.addProductReviewActivity.AddRateProductActivity"
             android:exported="false" />
         <activity
             android:name="com.malka.androidappp.newPhase.presentation.searchActivity.SearchActivity"
@@ -94,7 +97,7 @@
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".newPhase.presentation.productReviewActivity.ProductReviewsActivity"
+            android:name=".newPhase.presentation.addProductReviewActivity.ProductReviewsActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity
@@ -156,7 +159,7 @@
         <activity
             android:name="com.malka.androidappp.newPhase.presentation.addProduct.activity4.AddPhotoActivity"
             android:exported="true"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.malka.androidappp.newPhase.presentation.addProduct.activity5.DynamicTemplateActivtiy"
             android:screenOrientation="portrait" />
@@ -166,7 +169,7 @@
         <activity
             android:name="com.malka.androidappp.newPhase.presentation.addProduct.activity6.PricingActivity"
             android:exported="true"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.malka.androidappp.newPhase.presentation.addProduct.activity7.ListingDurationActivity"
             android:screenOrientation="portrait" />
@@ -187,7 +190,7 @@
         <activity
             android:name="com.malka.androidappp.newPhase.presentation.prodctListActivity.browse_market.SearchCategoryActivity"
             android:exported="true"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.malka.androidappp.newPhase.presentation.account_fragment.address.AddAddress"
             android:screenOrientation="portrait" />

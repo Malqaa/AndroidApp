@@ -1,16 +1,14 @@
-package com.malka.androidappp.newPhase.presentation.productReviewActivity
+package com.malka.androidappp.newPhase.presentation.addProductReviewActivity
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
-import com.malka.androidappp.newPhase.domain.models.ratingResp.RateResponse
 import com.malka.androidappp.newPhase.domain.models.ratingResp.RateReviewItem
 import de.hdodenhof.circleimageview.CircleImageView
 

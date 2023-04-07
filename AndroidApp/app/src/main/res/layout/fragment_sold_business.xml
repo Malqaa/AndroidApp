@@ -62,6 +62,7 @@
             android:text="@string/did_not_sell"
             android:textColor="#45495E"
             android:textSize="@dimen/_10sdp" />
+
     </LinearLayout>
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_to_refresh"
@@ -70,7 +71,10 @@
         >
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_5sdp">
+
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/for_sale_recycler"
             android:layout_width="match_parent"
@@ -103,7 +107,7 @@
             android:layout_height="wrap_content"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:spanCount="2"
-            tools:listitem="@layout/order_item"
+            tools:listitem="@layout/item_user_order"
             android:layout_marginEnd="@dimen/_5sdp"
             android:layout_marginStart="@dimen/_5sdp" />
         <ProgressBar
@@ -111,7 +115,15 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
+            android:visibility="gone"
             android:id="@+id/progressBar"/>
+        <ProgressBar
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/progressBarMore"/>
         <TextView
             android:id="@+id/tvError"
             android:layout_width="wrap_content"
@@ -120,10 +132,10 @@
             android:text="@string/noProductsFound"
             android:textAlignment="viewStart"
             android:textColor="@color/gray"
-            android:visibility="gone"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            android:textSize="@dimen/_10sdp" />
+            android:textSize="@dimen/_10sdp"
+            android:visibility="gone" />
+
+
     </RelativeLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
