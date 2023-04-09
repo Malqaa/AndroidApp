@@ -349,7 +349,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         }
         productDetialsViewModel.errorResponseObserver.observe(this) {
             if (it.message != null) {
-                showProductApiError(it.message)
+                showProductApiError(it.message!!)
             } else {
                 showProductApiError(getString(R.string.serverError))
             }
@@ -403,7 +403,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         productDetialsViewModel.errorResponseObserverProductToFav.observe(this) {
             if (it.message != null && it.message != "") {
                 HelpFunctions.ShowLongToast(
-                    it.message,
+                    it.message!!,
                     this
                 )
             } else {

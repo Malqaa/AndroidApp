@@ -84,7 +84,7 @@ class QuestionActivity : BaseActivity(), QuestionAnswerAdapter.SetonSelectedQues
         }
         productDetialsViewModel.errorResponseObserver.observe(this) {
             if (it.message != null) {
-                showProductApiError(it.message)
+                showProductApiError(it.message!!)
             } else {
                 showProductApiError(getString(R.string.serverError))
             }

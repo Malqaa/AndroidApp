@@ -2986,6 +2986,8 @@ Want to start a business account? Create a Business Account
     <string name="region" translatable="false">Region</string>
     <string name="specifications" translatable="false">Specifications</string>
     <string name="follow_catgeory">Follow category successfully</string>
+
+
     <string name="in_" translatable="false">in</string>
     <array name="initial_slider_values">
         <item>0</item>

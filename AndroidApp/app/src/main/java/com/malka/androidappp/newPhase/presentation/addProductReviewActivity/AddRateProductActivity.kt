@@ -50,7 +50,7 @@ class AddRateProductActivity : BaseActivity() {
         }
         productDetialsViewModel.errorResponseObserver.observe(this) {
             if (it.message != null) {
-                HelpFunctions.ShowLongToast(it.message, this)
+                HelpFunctions.ShowLongToast(it.message!!, this)
             } else {
                 HelpFunctions.ShowLongToast(getString(R.string.serverError), this)
             }

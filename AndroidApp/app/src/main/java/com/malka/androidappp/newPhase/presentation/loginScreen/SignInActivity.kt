@@ -82,7 +82,7 @@ class SignInActivity : BaseActivity() {
         loginViewModel.errorResponseObserver.observe(this, Observer {
             if (it.message != null) {
                 HelpFunctions.ShowLongToast(
-                    it.message,
+                    it.message!!,
                     this
                 )
             } else {

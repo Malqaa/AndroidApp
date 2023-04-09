@@ -110,7 +110,7 @@ class ChooseCategoryActivity : BaseActivity() {
             //HelpFunctions.ShowLongToast(getString(R.string.NoCategoriesfound), context)
             if (it.message != null && it.message != "") {
                 HelpFunctions.ShowLongToast(
-                    it.message,
+                    it.message!!,
                     this
                 )
             } else {

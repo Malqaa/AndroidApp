@@ -3,6 +3,7 @@ package com.malka.androidappp.newPhase.presentation.searchProductListActivity
 import androidx.lifecycle.MutableLiveData
 import com.malka.androidappp.newPhase.core.BaseViewModel
 import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.domain.models.categoryFollowResp.CategoryFollowResp
 import com.malka.androidappp.newPhase.domain.models.productResp.ProductListResp
 import retrofit2.Call
 import retrofit2.Callback
@@ -11,6 +12,7 @@ import retrofit2.Response
 
 class CategoryProductViewModel : BaseViewModel() {
     var productListRespObserver: MutableLiveData<ProductListResp> = MutableLiveData()
+    var categoryFollowRespObserver:MutableLiveData<CategoryFollowResp> = MutableLiveData()
     fun searchForProduct(
         categoryId: Int,
         currentLanguage: String,
@@ -22,7 +24,6 @@ class CategoryProductViewModel : BaseViewModel() {
         specificationList: List<String>,
         startPrice: Float,
         endProce: Float,
-
     ) {
     //    println("tttt "+queryString)
         if(page==1){
@@ -77,6 +78,27 @@ class CategoryProductViewModel : BaseViewModel() {
                     isloadingMore.value = false
                     if (response.isSuccessful) {
                         productListRespObserver.value = response.body()
+                    } else {
+                        errorResponseObserver.value = getErrorResponse(response.errorBody())
+                    }
+                }
+            })
+    }
+
+    fun getCategoryFollow(){
+        RetrofitBuilder.GetRetrofitBuilder()
+            .getListCategoryFollow()
+            .enqueue(object : Callback<CategoryFollowResp> {
+                override fun onFailure(call: Call<CategoryFollowResp>, t: Throwable) {
+
+                }
+
+                override fun onResponse(
+                    call: Call<CategoryFollowResp>,
+                    response: Response<CategoryFollowResp>
+                ) {
+                    if (response.isSuccessful) {
+                        categoryFollowRespObserver.value = response.body()
                     } else {
                         errorResponseObserver.value = getErrorResponse(response.errorBody())
                     }

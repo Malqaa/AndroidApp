@@ -76,7 +76,7 @@ class ProductReviewsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         }
         productDetialsViewModel.errorResponseObserver.observe(this) {
             if (it.message != null) {
-                showErrorText(it.message)
+                showErrorText(it.message!!)
             } else {
                 showErrorText(getString(R.string.serverError))
             }

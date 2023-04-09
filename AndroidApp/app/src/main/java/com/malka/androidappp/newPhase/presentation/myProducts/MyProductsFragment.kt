@@ -186,7 +186,7 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         }
         myProductsViewModel.errorResponseObserver.observe(this) {
             if (it.message != null) {
-                showProductApiError(it.message)
+                showProductApiError(it.message!!)
             } else {
                 showProductApiError(getString(R.string.serverError))
             }
@@ -221,7 +221,7 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         myProductsViewModel.errorResponseObserverProductToFav.observe(viewLifecycleOwner) {
             if (it.message != null && it.message != "") {
                 HelpFunctions.ShowLongToast(
-                    it.message,
+                    it.message!!,
                     requireActivity()
                 )
             } else {

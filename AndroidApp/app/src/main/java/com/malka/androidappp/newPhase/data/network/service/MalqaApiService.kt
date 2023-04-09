@@ -20,6 +20,7 @@ import com.malka.androidappp.fragments.shoppingcart3_shippingaddress.shipping_ad
 import com.malka.androidappp.newPhase.data.network.constants.Constants
 import com.malka.androidappp.newPhase.data.network.constants.Constants.GET_CATEGORY_TAGS_ENDPOINT
 import com.malka.androidappp.newPhase.domain.models.addRateResp.AddRateResp
+import com.malka.androidappp.newPhase.domain.models.categoryFollowResp.CategoryFollowResp
 import com.malka.androidappp.newPhase.domain.models.categoryResp.CategoriesResp
 import com.malka.androidappp.newPhase.domain.models.configrationResp.ConfigurationResp
 import com.malka.androidappp.newPhase.domain.models.countryResp.CountriesResp
@@ -603,7 +604,7 @@ interface MalqaApiService {
     fun RemoveFollow(@Query("catId") catId: Int): Call<GeneralResponse>
 
     @GET("ListCategoryFollow")
-    fun ListCategoryFollow(@Query("lan") language: String = ConstantObjects.currentLanguage): Call<GeneralResponse>
+    fun getListCategoryFollow(@Query("lang") language: String = ConstantObjects.currentLanguage): Call<CategoryFollowResp>
 
 
     @GET("GetCategoryById")

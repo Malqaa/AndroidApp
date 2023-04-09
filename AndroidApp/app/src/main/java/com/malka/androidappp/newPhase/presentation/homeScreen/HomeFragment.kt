@@ -143,7 +143,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
         homeViewModel.errorResponseObserver.observe(viewLifecycleOwner, Observer {
             if (it.message != null && it.message != "") {
                 HelpFunctions.ShowLongToast(
-                    it.message,
+                    it.message!!,
                     requireActivity()
                 )
             } else {
@@ -195,7 +195,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
             //HelpFunctions.ShowLongToast(getString(R.string.NoCategoriesfound), context)
             if (it.message != null && it.message != "") {
                 HelpFunctions.ShowLongToast(
-                    it.message,
+                    it.message!!,
                     requireActivity()
                 )
             } else {
@@ -251,7 +251,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
         homeViewModel.errorResponseObserverProductToFav.observe(viewLifecycleOwner, Observer {
             if (it.message != null && it.message != "") {
                 HelpFunctions.ShowLongToast(
-                    it.message,
+                    it.message!!,
                     requireActivity()
                 )
             } else {

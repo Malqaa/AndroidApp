@@ -97,7 +97,7 @@ class WatchlistFragment : Fragment(R.layout.fragment_watchlist),
         }
         wishListViewModel.errorResponseObserver.observe(this) {
             if (it.message != null) {
-                showProductApiError(it.message)
+                showProductApiError(it.message!!)
             } else {
                 showProductApiError(getString(R.string.serverError))
             }
@@ -139,7 +139,7 @@ class WatchlistFragment : Fragment(R.layout.fragment_watchlist),
         wishListViewModel.errorResponseObserverProductToFav.observe(viewLifecycleOwner) {
             if (it.message != null && it.message != "") {
                 HelpFunctions.ShowLongToast(
-                    it.message,
+                    it.message!!,
                     requireActivity()
                 )
             } else {

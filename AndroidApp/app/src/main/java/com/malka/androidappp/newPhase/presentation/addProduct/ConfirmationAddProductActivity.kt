@@ -67,7 +67,7 @@ class ConfirmationAddProductActivity : BaseActivity() {
         addProductViewModel.errorResponseObserver.observe(this) {
             if (it.message != null && it.message != "") {
                 HelpFunctions.ShowLongToast(
-                    it.message,
+                    it.message!!,
                     this
                 )
             } else {
