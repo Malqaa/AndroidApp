@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".newPhase.presentation.prodctListActivity.browse_market.SearchCategoryActivity">
+    tools:context=".newPhase.presentation.searchProductListActivity.browse_market.SearchCategoryActivity">
 
 
     <LinearLayout
@@ -120,16 +120,54 @@
                 </LinearLayout>
 
             </RelativeLayout>
-
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_to_refresh"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/bottom_bar"
+            android:layout_below="@+id/contianerChangeLayout"
+            >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_5sdp">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewMarket"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_above="@+id/bottom_bar"
-                android:layout_below="@+id/contianerChangeLayout"
-                android:layout_margin="@dimen/_5sdp" />
-
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_5sdp" />
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:visibility="gone"
+                android:id="@+id/progressBar"/>
+            <ProgressBar
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/progressBarMore"/>
+            <TextView
+                android:id="@+id/tvError"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/madani_arabic_medium"
+                android:text="@string/noProductsFound"
+                android:textAlignment="viewStart"
+                android:textColor="@color/gray"
+                android:textSize="@dimen/_10sdp"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:visibility="gone" />
+        </RelativeLayout>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
             <LinearLayout
                 android:id="@+id/bottom_bar"
                 android:layout_width="match_parent"

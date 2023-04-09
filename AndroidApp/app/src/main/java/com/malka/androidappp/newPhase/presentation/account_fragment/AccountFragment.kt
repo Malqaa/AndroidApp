@@ -313,10 +313,10 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
 //                                                getString(R.string.save_addresses) -> {
 //                                                    findNavController().navigate(R.id.MySavedAddress)
 //                                                }
-//                                                getString(R.string.application_settings) -> {
-//                                                    findNavController().navigate(R.id.applicationSetting)
-//
-//                                                }
+                                                getString(R.string.application_settings) -> {
+                                                    findNavController().navigate(R.id.applicationSetting)
+
+                                                }
 //                                                getString(R.string.help) -> {}
 //                                                getString(R.string.technical_support) -> {
 //
@@ -332,19 +332,13 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
 //                                                        )
 //                                                    )
 //                                                }
-//                                                getString(R.string.logout) -> {
-//                                                    Paper.book().write(
-//                                                        SharedPreferencesStaticClass.islogin,
-//                                                        false
-//                                                    )
-//                                                    ConstantObjects.logged_userid = ""
-//
-//                                                    HelpFunctions.ShowLongToast(
-//                                                        getString(R.string.loggedoutsuccessfully),
-//                                                        context
-//                                                    )
-//                                                    findNavController().navigate(R.id.logout_to_home)
-//                                                }
+                                                getString(R.string.logout) -> {
+                                                    ConstantObjects.logged_userid = ""
+                                                    Paper.book().write(SharedPreferencesStaticClass.islogin, false)
+                                                    Paper.book().delete(SharedPreferencesStaticClass.user_object)
+                                                    HelpFunctions.ShowLongToast(getString(R.string.loggedoutsuccessfully), context)
+                                                    findNavController().navigate(R.id.logout_to_home)
+                                               }
                                             }
                                         }
 

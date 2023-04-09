@@ -13,6 +13,7 @@ import androidx.core.view.WindowInsetsControllerCompat
 import com.malka.androidappp.newPhase.presentation.splashActivity.SplashActivity
 import com.malka.androidappp.newPhase.presentation.addProduct.AddProductObjectData
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
+import com.malka.androidappp.newPhase.domain.models.addRateResp.AddRateItem
 import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
 import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
 import com.yariksoffice.lingver.Lingver
@@ -130,4 +131,6 @@ abstract class BaseActivity : AppCompatActivity() {
      fun goToSignInActivity() {
        startActivity(Intent(this,SignInActivity::class.java))
     }
+
+
 }

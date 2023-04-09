@@ -10,7 +10,9 @@ import com.malka.androidappp.newPhase.domain.models.productResp.ProductListResp
 import com.malka.androidappp.newPhase.domain.models.productResp.ProductResp
 import com.malka.androidappp.newPhase.domain.models.questionResp.AddQuestionResp
 import com.malka.androidappp.newPhase.domain.models.questionsResp.QuestionsResp
+import com.malka.androidappp.newPhase.domain.models.ratingResp.CurrentUserRateResp
 import com.malka.androidappp.newPhase.domain.models.ratingResp.RateResponse
+import com.malka.androidappp.newPhase.domain.models.sellerRateListResp.SellerRateListResp
 import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
 import com.malka.androidappp.newPhase.domain.models.servicemodels.GeneralRespone
 import okhttp3.RequestBody
@@ -28,8 +30,11 @@ class ProductDetailsViewModel: BaseViewModel() {
     var getSimilarProductObservable :MutableLiveData<ProductListResp> = MutableLiveData()
     var getListOfQuestionsObservable :MutableLiveData<QuestionsResp> = MutableLiveData()
     var getRateResponseObservable: MutableLiveData<RateResponse> = MutableLiveData()
-var addRateRespObservable: MutableLiveData<AddRateResp> = MutableLiveData()
-
+    var addRateRespObservable: MutableLiveData<AddRateResp> = MutableLiveData()
+    var editRateRespObservable: MutableLiveData<AddRateResp> = MutableLiveData()
+    var getCurrentUserRateObservable:MutableLiveData<CurrentUserRateResp> = MutableLiveData()
+    var sellerRateListObservable:MutableLiveData<SellerRateListResp> = MutableLiveData()
+    var addSellerRateObservable:MutableLiveData<GeneralRespone> = MutableLiveData()
     fun getProductDetailsById(productId:Int){
         isLoading.value=true
         RetrofitBuilder.GetRetrofitBuilder()
@@ -161,8 +166,6 @@ var addRateRespObservable: MutableLiveData<AddRateResp> = MutableLiveData()
                 }
             })
     }
-
-
     fun getProductRatesForActivity(productID:Int){
         isLoading.value=true
         RetrofitBuilder.GetRetrofitBuilder()
@@ -225,6 +228,115 @@ var addRateRespObservable: MutableLiveData<AddRateResp> = MutableLiveData()
                     if (response.isSuccessful) {
                         addRateRespObservable.value = response.body()
                     } else {
+                        errorResponseObserver.value = getErrorResponse(response.errorBody())
+                    }
+                }
+            })
+    }
+    fun editRateProduct(rateId: Int, rate: Float, comment: String) {
+        isLoading.value = true
+        val map: HashMap<String, RequestBody> = HashMap()
+        map["id"] = rateId.toString().requestBody()
+        map["comment"] = comment.toString().requestBody()
+        map["rate"] = rate.toString().requestBody()
+
+        RetrofitBuilder.GetRetrofitBuilder()
+            .editRateProduct(map)
+            .enqueue(object : Callback<AddRateResp> {
+                override fun onFailure(call: Call<AddRateResp>, t: Throwable) {
+                    isNetworkFail.value = t !is HttpException
+                    isLoading.value = false
+                }
+
+                override fun onResponse(
+                    call: Call<AddRateResp>,
+                    response: Response<AddRateResp>
+                ) {
+                    isLoading.value = false
+                    if (response.isSuccessful) {
+                        editRateRespObservable.value = response.body()
+                    } else {
+                        errorResponseObserver.value = getErrorResponse(response.errorBody())
+                    }
+                }
+            })
+    }
+
+    fun getCurrentUserRate(productId:Int){
+        isLoading.value = true
+        RetrofitBuilder.GetRetrofitBuilder()
+            .getCurrenUserRateForProdust(productId)
+            .enqueue(object : Callback<CurrentUserRateResp> {
+                override fun onFailure(call: Call<CurrentUserRateResp>, t: Throwable) {
+                    isNetworkFail.value = t !is HttpException
+                    isLoading.value = false
+                }
+
+                override fun onResponse(
+                    call: Call<CurrentUserRateResp>,
+                    response: Response<CurrentUserRateResp>
+                ) {
+                    isLoading.value = false
+                    if (response.isSuccessful) {
+                        getCurrentUserRateObservable.value = response.body()
+                    } else {
+                        errorResponseObserver.value = getErrorResponse(response.errorBody())
+                    }
+                }
+            })
+    }
+
+    fun getSellerRates(providerId: String, businessAccountId: String) {
+        isLoading.value=true
+        RetrofitBuilder.GetRetrofitBuilder()
+            .getSellerRates(providerId,businessAccountId)
+            .enqueue(object : Callback<SellerRateListResp> {
+                override fun onFailure(call: Call<SellerRateListResp>, t: Throwable) {
+                    isNetworkFail.value = t !is HttpException
+                    isLoading.value=false
+                }
+
+                override fun onResponse(
+                    call: Call<SellerRateListResp>,
+                    response: Response<SellerRateListResp>
+                ) {
+                    isLoading.value=false
+                    if (response.isSuccessful) {
+                        sellerRateListObservable.value = response.body()
+                    }else {
+                        errorResponseObserver.value = getErrorResponse(response.errorBody())
+                    }
+                }
+            })
+    }
+    fun addSellerRate(
+        providerId: String,
+        businessAccountId: String,
+        rating: Float,
+        comment: String
+    ) {
+        isLoading.value=true
+        var data:HashMap<String,Any> = HashMap()
+        data["providerId"]=providerId
+        data["businessAccountId"]=businessAccountId
+        data["rate"]=rating
+        data["comment"]=comment
+        RetrofitBuilder.GetRetrofitBuilder()
+            .addRateSeller2(data)
+            .enqueue(object : Callback<AddRateResp> {
+                override fun onFailure(call: Call<AddRateResp>, t: Throwable) {
+                    isNetworkFail.value = t !is HttpException
+                    isLoading.value=false
+                }
+
+                override fun onResponse(
+                    call: Call<AddRateResp>,
+                    response: Response<AddRateResp>
+                ) {
+                    isLoading.value=false
+                    if (response.isSuccessful) {
+                        addRateRespObservable.value = response.body()
+                    }else {
                         errorResponseObserver.value = getErrorResponse(response.errorBody())
                     }
                 }

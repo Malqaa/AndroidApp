@@ -21,6 +21,7 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_bottmmm)
+        //====nav control
         nav_view.setupWithNavController(findNavController(R.id.nav_host_fragment))
         nav_view.setOnItemSelectedListener { item ->
             when (item.itemId) {
@@ -56,13 +57,6 @@ class MainActivity : BaseActivity() {
             return@setOnItemSelectedListener true;
 
         }
-        nav_view.getOrCreateBadge(R.id.navigation_notifications).apply {
-            isVisible = true
-            number = 99
-            backgroundColor = ContextCompat.getColor(this@MainActivity, R.color.bg)
-        }
-
-
         floatingActionButtonBottm.setOnClickListener {
             if (HelpFunctions.isUserLoggedIn()) {
                 startActivity(Intent(this, ProductsTagsForAddProductActivity::class.java))
@@ -71,15 +65,24 @@ class MainActivity : BaseActivity() {
             }
         }
         nav_view_ = nav_view
-        val isBid = intent.getBooleanExtra(ConstantObjects.isBid, false)
-        val isMyOrder = intent.getBooleanExtra(ConstantObjects.isMyOrder, false)
-        if (isBid) {
-            nav_view_!!.selectedItemId = R.id.navigation_account
-            myBidTrigger = true
-        } else if (isMyOrder) {
-            nav_view_!!.selectedItemId = R.id.navigation_account
-            myOrderTrigger = true
-        }
+        //============
+//        val isBid = intent.getBooleanExtra(ConstantObjects.isBid, false)
+//        val isMyOrder = intent.getBooleanExtra(ConstantObjects.isMyOrder, false)
+//        if (isBid) {
+//            nav_view_!!.selectedItemId = R.id.navigation_account
+//            myBidTrigger = true
+//        } else if (isMyOrder) {
+//            nav_view_!!.selectedItemId = R.id.navigation_account
+//            myOrderTrigger = true
+//        }
+
+        //notification numberBadge
+//        nav_view.getOrCreateBadge(R.id.navigation_notifications).apply {
+//            isVisible = true
+//            number = 99
+//            backgroundColor = ContextCompat.getColor(this@MainActivity, R.color.bg)
+//        }
+
     }
 
     companion object {

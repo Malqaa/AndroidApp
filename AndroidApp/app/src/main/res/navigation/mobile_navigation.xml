@@ -206,7 +206,7 @@
 
     <fragment
         android:id="@+id/applicationSetting"
-        android:name="com.malka.androidappp.fragments.ApplicationSetting"
+        android:name="com.malka.androidappp.newPhase.presentation.appSettingFragment.ApplicationSettingFragment"
         android:label="Application Setting"
         tools:layout="@layout/activity_application_setting" />
     <fragment

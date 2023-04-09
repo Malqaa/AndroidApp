@@ -46,6 +46,7 @@ data class Product(
     var image: String? = null,
     val codeRegoin: String,
     var priceDisc: Float,
+    var priceDiscount:Float,
     val publishDate: String,
     val streetName: String,
     val stutes: Int,

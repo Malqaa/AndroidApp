@@ -15,10 +15,11 @@ class ConstantObjects {
     companion object {
 
 
-        val isMyProduct: String="isMyProductKey"
-        val rateObjectKey: String = "rateObjectKey"
-        val ENGLISH = "en"
-        val ARABIC = "ar"
+        const val isMyProduct: String = "isMyProductKey"
+        const val rateObjectKey: String = "rateObjectKey"
+        const val editRateKey: String = "editRateKey"
+        const val ENGLISH = "en"
+        const val ARABIC = "ar"
 
         var is_watch_iv: ImageView? = null
 
@@ -55,10 +56,12 @@ class ConstantObjects {
         var Select = "Select"
         const val searchQueryKey = "searchQueryKey"
         const val productIdKey = "ProductIdKey"
-        const val questionListKey="QuestionListKey"
-        const val productFavStatusKey="productFavStatusKey"
-        const val categoryIdKey: String="categoryid"
-        const val categoryName: String="categoryName"
-        const val isEditKey: String="isEdit"
+        const val providerIdKey="providerIdKey"
+        const val businessAccountIdKey="businessAccountIdKey"
+        const val questionListKey = "QuestionListKey"
+        const val productFavStatusKey = "productFavStatusKey"
+        const val categoryIdKey: String = "categoryid"
+        const val categoryName: String = "categoryName"
+        const val isEditKey: String = "isEdit"
     }
 }

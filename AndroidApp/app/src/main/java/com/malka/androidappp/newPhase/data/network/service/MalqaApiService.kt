@@ -34,9 +34,11 @@ import com.malka.androidappp.newPhase.domain.models.productResp.ProductResp
 import com.malka.androidappp.newPhase.domain.models.productTags.CategoryTagsResp
 import com.malka.androidappp.newPhase.domain.models.questionResp.AddQuestionResp
 import com.malka.androidappp.newPhase.domain.models.questionsResp.QuestionsResp
+import com.malka.androidappp.newPhase.domain.models.ratingResp.CurrentUserRateResp
 import com.malka.androidappp.newPhase.domain.models.ratingResp.RateResponse
 import com.malka.androidappp.newPhase.domain.models.regionsResp.RegionsResp
 import com.malka.androidappp.newPhase.domain.models.resgisterResp.RegisterResp
+import com.malka.androidappp.newPhase.domain.models.sellerRateListResp.SellerRateListResp
 import com.malka.androidappp.newPhase.domain.models.servicemodels.*
 import com.malka.androidappp.newPhase.domain.models.servicemodels.addtocart.AddToCartResponseModel
 import com.malka.androidappp.newPhase.domain.models.servicemodels.addtocart.InsertToCartRequestModel
@@ -57,7 +59,7 @@ import com.malka.androidappp.newPhase.domain.models.servicemodels.total_online_u
 import com.malka.androidappp.newPhase.domain.models.servicemodels.user.UserObject
 import com.malka.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.UserVerifiedResp
 import com.malka.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.ValidateAndGenerateOTPResp
-import com.malka.androidappp.newPhase.presentation.prodctListActivity.browse_market.popup_subcategories_list.ModelAddSearchFav
+import com.malka.androidappp.newPhase.presentation.searchProductListActivity.browse_market.popup_subcategories_list.ModelAddSearchFav
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -146,7 +148,7 @@ interface MalqaApiService {
 
     @GET("ListAdvertisments")
     fun getHomeSlidersImages(
-        @Query("type") type:Int,
+        @Query("type") type: Int,
         @Query("lang") language: String = ConstantObjects.currentLanguage
     ): Call<HomeSliderResp>
 
@@ -229,9 +231,6 @@ interface MalqaApiService {
     fun getUserWatchlist(@Query("lang") language: String = ConstantObjects.currentLanguage): Call<ProductListResp>;
 
 
-
-
-
     @GET("GetListCategoriesByProductName")
     fun getListCategoriesByProductName(
         @Query("productName") productName: String,
@@ -300,19 +299,29 @@ interface MalqaApiService {
     @Multipart
     @POST("AddProduct")
     fun addProduct2(
-        @PartMap partMap: Map<String,  @JvmSuppressWildcards RequestBody>,
-       // @Part files: List<MultipartBody.Part>
+        @PartMap partMap: Map<String, @JvmSuppressWildcards RequestBody>,
+        // @Part files: List<MultipartBody.Part>
     ): Call<AddProductResponse>
+
     @Multipart
     @POST("AddRateProduct")
-    fun  AddRateProduct(
-    @PartMap partMap: Map<String,  @JvmSuppressWildcards RequestBody>,
-    ):Call<AddRateResp>
+    fun AddRateProduct(
+        @PartMap partMap: Map<String, @JvmSuppressWildcards RequestBody>,
+    ): Call<AddRateResp>
 
     @GET("ListProductByBusinessAccountId")
     fun getMyProduct(
         @Query("lang") language: String = ConstantObjects.currentLanguage
-    ):Call<ProductListResp>
+    ): Call<ProductListResp>
+
+    //    @GET("AdvancedFilter")
+//    fun searchForProductInCategory(@QueryName(encoded = true) queryString: HashMap<String,String>):Call<ProductListResp>
+//    @GET("AdvancedFilter")
+//    fun searchForProductInCategory(@Query("mainCatId")mainCatId:Int,@QueryName queryString: HashMap<String,String>):Call<ProductListResp>
+    @GET
+    fun searchForProductInCategory(
+        @Url  url:String
+    ): Call<ProductListResp>
 
     @GET("ListRateProduct")
     fun getRates(
@@ -320,9 +329,34 @@ interface MalqaApiService {
         @Query("lang") language: String = ConstantObjects.currentLanguage
     ): Call<RateResponse>
 
+    @GET("CurrenUserRateForProdust")
+    fun getCurrenUserRateForProdust(
+        @Query("productId") productID: Int,
+        @Query("lang") language: String = ConstantObjects.currentLanguage
+    ): Call<CurrentUserRateResp>
+
+    @Multipart
+    @PUT("EditRateProduct")
+    fun editRateProduct(
+        @PartMap partMap: Map<String, @JvmSuppressWildcards RequestBody>,
+    ): Call<AddRateResp>
+
+    @GET("ListRateProvider")
+    fun getSellerRates(
+        @Query("providerId") providerId: String,
+        @Query("BusinessAccountId") BusinessAccountId: String,
+        @Query("lang") language: String = ConstantObjects.currentLanguage
+    ): Call<SellerRateListResp>
+
+    @POST("AddRateProvider")
+    fun addRateSeller2(
+        @Body partMap: HashMap<String, Any>,
+        @Query("lang") language: String = ConstantObjects.currentLanguage
+    ): Call<AddRateResp>
+
     @GET("GetBusinessAccountOrders?PageRowsCount=10")
     fun getBusinessAccountOrders(
-        @Query("pageIndex")page: Int,
+        @Query("pageIndex") page: Int,
         @Query("lang") language: String = ConstantObjects.currentLanguage
     ): Call<OrderListResp>
 
@@ -639,5 +673,6 @@ interface MalqaApiService {
 
     @GET("ListSimilarProducts?currentPage=1&lang=ar")
     fun getsimilar(): Call<BasicResponse>
+
 
 }

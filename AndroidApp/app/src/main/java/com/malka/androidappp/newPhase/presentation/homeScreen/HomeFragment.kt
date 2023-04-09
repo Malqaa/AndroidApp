@@ -12,7 +12,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -33,7 +32,7 @@ import com.malka.androidappp.newPhase.presentation.homeScreen.adapters.CategoryP
 import com.malka.androidappp.newPhase.presentation.homeScreen.adapters.SliderAdaptor
 import com.malka.androidappp.newPhase.presentation.homeScreen.viewModel.HomeViewModel
 import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
-import com.malka.androidappp.newPhase.presentation.prodctListActivity.browse_market.SearchCategoryActivity
+import com.malka.androidappp.newPhase.presentation.searchProductListActivity.browse_market.SearchCategoryActivity
 import com.malka.androidappp.newPhase.presentation.productDetailsActivity.ProductDetailsActivity
 import com.malka.androidappp.newPhase.presentation.searchActivity.SearchActivity
 import com.yariksoffice.lingver.Lingver
@@ -463,7 +462,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
     override fun pnCategorySelected(position: Int) {
         startActivity(Intent(requireContext(), SearchCategoryActivity::class.java).apply {
             putExtra("CategoryDesc", ConstantObjects.categoryList[position].name)
-            putExtra("CategoryID", ConstantObjects.categoryList[position].id.toString())
+            putExtra("CategoryID", ConstantObjects.categoryList[position].id)
             putExtra("SearchQuery", "")
             putExtra("isMapShow", ConstantObjects.categoryList[position].id == 3)
 

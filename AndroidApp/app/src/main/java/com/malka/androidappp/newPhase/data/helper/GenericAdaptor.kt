@@ -110,7 +110,7 @@ class GenericAdaptor {
                     "1" -> {
                         LowestPrice_layout.invisible()
                         LowestPrice_layout_2.hide()
-                        product_price.text = "${price!!.toDouble().decimalNumberFormat()} ${
+                        tvProductPrice.text = "${price!!.toDouble().decimalNumberFormat()} ${
                             context.getString(
                                 R.string.Rayal
                             )

@@ -70,13 +70,13 @@ class RetrofitBuilder {
                     .addHeader("Accept", "*/*")
                     .addHeader("Content-Type", "multipart/form-data")
 //                    .addHeader("Accept-Encoding", "application/json")
-                    .addHeader("Accept-Encoding", "gzip, deflate, br")
+                   // .addHeader("Accept-Encoding", "gzip, deflate, br")
                     .build()
             } else {
                 request = request.newBuilder()
                     .addHeader("User-Language", ConstantObjects.currentLanguage)
 //                   .addHeader("Content-Type", "application/json")
-                    .addHeader("Accept-Encoding", "gzip, deflate, br")
+                   // .addHeader("Accept-Encoding", "gzip, deflate, br")
                     .build()
             }
 //            val response = chain.proceed(request)

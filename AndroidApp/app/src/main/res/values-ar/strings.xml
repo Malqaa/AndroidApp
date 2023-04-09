@@ -2830,4 +2830,5 @@
   <string name="addDiscountEndTime">أضف وقت انتهاء الخصم</string>
   <string name="discountPriceShouldBeLower">يجب أن يكون سعر الخصم أقل من السعر الحالي</string>
   <string name="discountAddedSuccessfully">تمت إضافة الخصم بنجاح</string>
+  <string name="sellerRate">تقيمات البائع</string>
 </resources>

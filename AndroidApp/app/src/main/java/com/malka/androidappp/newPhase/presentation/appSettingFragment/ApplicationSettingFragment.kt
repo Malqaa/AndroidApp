@@ -1,4 +1,4 @@
-package com.malka.androidappp.fragments
+package com.malka.androidappp.newPhase.presentation.appSettingFragment
 
 import android.os.Bundle
 import android.view.View
@@ -9,7 +9,7 @@ import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObject
 import kotlinx.android.synthetic.main.activity_sign_in.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 
-class ApplicationSetting : Fragment(R.layout.activity_application_setting) {
+class ApplicationSettingFragment : Fragment(R.layout.activity_application_setting) {
 
 
 

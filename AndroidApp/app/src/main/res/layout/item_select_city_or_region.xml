@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
+
     <RelativeLayout
+        android:id="@+id/ContainerCity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -12,23 +14,24 @@
             android:id="@+id/tvCityName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toStartOf="@id/containerEnd"
             android:layout_centerVertical="true"
+            android:layout_toStartOf="@id/containerEnd"
             android:fontFamily="@font/madani_arabic_semi_bold"
-            android:textSize="@dimen/_8sdp"
-            android:text="@string/City"/>
+            android:text="@string/City"
+            android:textSize="@dimen/_8sdp" />
+
         <RelativeLayout
+            android:id="@+id/containerEnd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:id="@+id/containerEnd">
-            <CheckBox
+            android:layout_alignParentEnd="true">
 
+            <ImageView
+                android:id="@+id/cbCity"
+                android:src="@drawable/checkbox_un_selected"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minWidth="0dp"
-                android:minHeight="0dp"
-                android:id="@+id/cbCity"/>
+                android:layout_height="wrap_content" />
+
             <ImageView
                 android:id="@+id/iVExpandIcon"
                 android:layout_width="wrap_content"
@@ -37,13 +40,14 @@
         </RelativeLayout>
 
     </RelativeLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvRegions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
         tools:itemCount="1"
         tools:listitem="@layout/item_filter_region"
-        android:layout_marginStart="20dp"
 
         />
 

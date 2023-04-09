@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
+import com.malka.androidappp.newPhase.domain.models.ratingResp.RateReviewItem
 import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
 import com.malka.androidappp.newPhase.presentation.productDetailsActivity.viewModels.ProductDetailsViewModel
 import kotlinx.android.synthetic.main.activity_rate_product.*
@@ -18,7 +19,8 @@ class AddRateProductActivity : BaseActivity() {
 
     var productId: Int = 0
     private lateinit var productDetialsViewModel: ProductDetailsViewModel
-
+    var rateReviewItemEdit: RateReviewItem? = null
+    var editRate = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_rate_product)
@@ -26,6 +28,8 @@ class AddRateProductActivity : BaseActivity() {
         productId = intent.getIntExtra(ConstantObjects.productIdKey, 0)
         setClickListeners()
         setProductDetailsViewModel()
+      //  println("hhhh product id =$productId")
+        productDetialsViewModel.getCurrentUserRate(productId)
     }
 
     private fun setProductDetailsViewModel() {
@@ -69,7 +73,44 @@ class AddRateProductActivity : BaseActivity() {
             }
 
         }
+        productDetialsViewModel.editRateRespObservable.observe(this) { addRateResp ->
+            if (addRateResp.status_code == 200) {
+                var intent = Intent()
+                addRateResp.rateObject?.let {
+                    intent.putExtra(ConstantObjects.rateObjectKey, it);
+                    intent.putExtra(ConstantObjects.editRateKey, true);
+                }
+                setResult(Activity.RESULT_OK, intent);
+                finish();
+            } else {
+                if (addRateResp.message != null) {
+                    HelpFunctions.ShowLongToast(addRateResp.message, this)
+                } else {
+                    HelpFunctions.ShowLongToast(getString(R.string.serverError), this)
+                }
+            }
 
+        }
+        productDetialsViewModel.getCurrentUserRateObservable.observe(this) { currentUserRate ->
+            if (currentUserRate.status_code == 200) {
+                currentUserRate.data?.let { data ->
+                    setPerviosUserRate(data)
+                }
+
+            }
+
+        }
+
+    }
+
+    private fun setPerviosUserRate(data: RateReviewItem) {
+        editRate = true
+        rateReviewItemEdit = data
+        try {
+            rating_bar.rating = data.rate
+            etCommnet.setText(data.comment)
+        } catch (e: Exception) {
+        }
     }
 
     private fun setClickListeners() {
@@ -93,7 +134,19 @@ class AddRateProductActivity : BaseActivity() {
             HelpFunctions.ShowLongToast(getString(R.string.add_Review), this)
         }
         if (readyToSave) {
-          productDetialsViewModel.addRateProduct(productId,rating_bar.rating,etCommnet.text.trim().toString())
+            if (editRate && rateReviewItemEdit != null) {
+                productDetialsViewModel.editRateProduct(
+                    rateReviewItemEdit!!.id,
+                    rating_bar.rating,
+                    etCommnet.text.trim().toString()
+                )
+            } else {
+                productDetialsViewModel.addRateProduct(
+                    productId,
+                    rating_bar.rating,
+                    etCommnet.text.trim().toString()
+                )
+            }
         }
     }
 

@@ -96,13 +96,23 @@
                 android:layout_height="400dp"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
-                android:layout_marginBottom="@dimen/_10sdp"
                 android:orientation="vertical"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-
+            <TextView
+                android:id="@+id/tvError"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/madani_arabic_medium"
+                android:text=""
+                android:textAlignment="viewStart"
+                android:textColor="@color/gray"
+                android:visibility="gone"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:textSize="@dimen/_10sdp" />
         </RelativeLayout>
 
-      <LinearLayout
+      <FrameLayout
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:orientation="vertical"
@@ -115,19 +125,21 @@
               android:layout_marginStart="@dimen/_10sdp"
               android:layout_marginBottom="@dimen/_10sdp"
               android:text="@string/Price"
+              android:layout_marginTop="20dp"
               android:textSize="@dimen/_10sdp"
               android:textColor="@color/gray"
               />
           <com.google.android.material.slider.RangeSlider
               android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
+              android:layout_height="10dp"
               android:valueFrom="0"
-              android:valueTo="10000"
+              android:valueTo="20000"
+              android:id="@+id/rangePrice"
               app:labelBehavior="withinBounds"
               app:values="@array/initial_slider_values"
               />
 
-      </LinearLayout>
+      </FrameLayout>
 
     </LinearLayout>
     <LinearLayout

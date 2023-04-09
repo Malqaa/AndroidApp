@@ -2988,8 +2988,8 @@ Want to start a business account? Create a Business Account
     <string name="follow_catgeory">Follow category successfully</string>
     <string name="in_" translatable="false">in</string>
     <array name="initial_slider_values">
-        <item>2000</item>
-        <item>3500</item>
+        <item>0</item>
+        <item>0</item>
     </array>
     <string name="free_shipping_within_Saudi_Arabia">Free shipping within Saudi Arabia</string>
     <string name="noPackagesFound">No Packages Found</string>
@@ -3010,4 +3010,5 @@ Want to start a business account? Create a Business Account
     <string name="addDiscountEndTime">Add Discount End Time</string>
     <string name="discountPriceShouldBeLower">Discount price should be Lower than current price</string>
     <string name="discountAddedSuccessfully">Discount was added Successfully</string>
+  <string name="sellerRate">Seller Rates</string>
 </resources>

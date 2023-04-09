@@ -26,7 +26,8 @@ data class DynamicSpecificationItem(
     var subSpecifications: List<SubSpecificationItem>? = null,
     var valueArText: String = "",
     var valueEnText: String = "",
-    var subSpecificationsValue: SubSpecificationItem? = null
+    var subSpecificationsValue: SubSpecificationItem? = null,
+    var filterValue: String=""
 )
 
 data class DynamicSpecificationSentObject(
@@ -44,5 +45,6 @@ data class SubSpecificationItem(
     var nameAr: String = "",
     var nameEn: String = "",
     var createdAt: String = "",
-    var isActive: Boolean = false
+    var isActive: Boolean = false,
+ var isSelected:Boolean=false
 )

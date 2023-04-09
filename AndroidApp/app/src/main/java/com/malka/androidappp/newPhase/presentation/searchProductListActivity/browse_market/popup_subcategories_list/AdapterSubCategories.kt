@@ -1,4 +1,4 @@
-package com.malka.androidappp.newPhase.presentation.prodctListActivity.browse_market.popup_subcategories_list
+package com.malka.androidappp.newPhase.presentation.searchProductListActivity.browse_market.popup_subcategories_list
 
 import android.view.LayoutInflater
 import android.view.View

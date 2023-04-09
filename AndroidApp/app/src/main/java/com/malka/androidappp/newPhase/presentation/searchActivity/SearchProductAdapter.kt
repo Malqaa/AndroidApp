@@ -80,7 +80,7 @@ class SearchProductAdapter(
                 lisView.hide()
                 gridview.show()
 
-                product_price.text = "${price!!.toDouble().decimalNumberFormat()} ${
+                tvProductPrice.text = "${price!!.toDouble().decimalNumberFormat()} ${
                     context.getString(
                         R.string.Rayal
                     )

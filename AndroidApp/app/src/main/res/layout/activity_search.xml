@@ -85,6 +85,7 @@
         android:paddingTop="@dimen/_10sdp"
         android:paddingBottom="@dimen/_10sdp"
         android:layout_marginTop="@dimen/_15sdp"
+        android:visibility="gone"
         android:gravity="center_vertical">
         <TextView
             android:layout_width="wrap_content"

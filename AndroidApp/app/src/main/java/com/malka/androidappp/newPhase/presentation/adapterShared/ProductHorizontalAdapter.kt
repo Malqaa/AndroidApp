@@ -2,6 +2,7 @@ package com.malka.androidappp.newPhase.presentation.adapterShared
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -21,9 +22,9 @@ import com.yariksoffice.lingver.Lingver
 class ProductHorizontalAdapter(
     var productList: List<Product>,
     var setOnProductItemListeners: SetOnProductItemListeners,
-    var categoryId: Int=0,
-    var isHorizenal:Boolean,
-    var isMyProduct:Boolean=false
+    var categoryId: Int = 0,
+    var isHorizenal: Boolean,
+    var isMyProduct: Boolean = false
 ) : RecyclerView.Adapter<ProductHorizontalAdapter.SellerProductViewHolder>() {
     lateinit var context: Context
 
@@ -34,38 +35,43 @@ class ProductHorizontalAdapter(
         context = parent.context
         return SellerProductViewHolder(
             ProductItemBinding
-                .inflate(LayoutInflater.from(parent.context), parent, false))
+                .inflate(LayoutInflater.from(parent.context), parent, false)
+        )
     }
 
     override fun getItemCount(): Int = productList.size
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: SellerProductViewHolder, position: Int) {
-        if(isHorizenal) {
+        if (isHorizenal) {
             val params: ViewGroup.LayoutParams = holder.viewBinding.fullview.layoutParams
             params.width = context.resources.getDimension(R.dimen._220sdp).toInt()
             params.height = params.height
             holder.viewBinding.fullview.layoutParams = params
         }
 
-        if(productList[position].isFreeDeleivry){
+        if (productList[position].isFreeDeleivry) {
             holder.viewBinding.btnFreeDelivery.show()
-        }else{
+        } else {
             holder.viewBinding.btnFreeDelivery.hide()
         }
-        if(productList[position].isMerchant){
+        if (productList[position].isMerchant) {
             holder.viewBinding.btnMerchant.show()
-        }else{
+        } else {
             holder.viewBinding.btnMerchant.hide()
         }
 
-        if(isMyProduct) {
+        if (isMyProduct) {
             holder.viewBinding.ivFav.hide()
             holder.viewBinding.ivSetting.show()
             holder.viewBinding.ivSetting.setOnClickListener {
-                setOnProductItemListeners.onShowMoreSetting(position,productList[position].id,categoryId)
+                setOnProductItemListeners.onShowMoreSetting(
+                    position,
+                    productList[position].id,
+                    categoryId
+                )
             }
-        }else{
+        } else {
             holder.viewBinding.ivFav.show()
             holder.viewBinding.ivSetting.hide()
             if (HelpFunctions.isUserLoggedIn()) {
@@ -86,16 +92,16 @@ class ProductHorizontalAdapter(
             holder.viewBinding.containerTimeBar.background =
                 ContextCompat.getDrawable(context, R.drawable.product_attribute_bg1_en)
         }
-        holder.viewBinding.titlenamee.text = productList[position].name?:""
-        holder.viewBinding.cityTv.text = productList[position].regionName?:""
-        if(categoryId!=0){
+        holder.viewBinding.titlenamee.text = productList[position].name ?: ""
+        holder.viewBinding.cityTv.text = productList[position].regionName ?: ""
+        if (categoryId != 0) {
             Extension.loadThumbnail(
                 context,
                 productList[position].image ?: "",
                 holder.viewBinding.productimg,
                 holder.viewBinding.loader
             )
-        }else {
+        } else {
             Extension.loadThumbnail(
                 context,
                 productList[position].productImage ?: "",
@@ -107,28 +113,74 @@ class ProductHorizontalAdapter(
         holder.viewBinding.LowestPriceLayout2.hide()
         holder.viewBinding.lisView.hide()
 
-        if(productList[position].priceDisc!=0f) {
-            holder.viewBinding.productPrice.text =
-                "${productList[position].priceDisc.toDouble()} ${
-                    context.getString(
-                        R.string.Rayal
-                    )
-                }"
-        }else{
-            holder.viewBinding.productPrice.text =
+        if (productList[position].priceDisc == productList[position].price || productList[position].priceDiscount == productList[position].price) {
+            holder.viewBinding.tvProductPrice.text =
                 "${productList[position].price.toDouble()} ${
                     context.getString(
                         R.string.Rayal
                     )
                 }"
+            holder.viewBinding.tvOldPRiceProductPriceForVertiaclView.hide()
+            holder.viewBinding.tvOldPRiceProductPriceForHorizentalView.hide()
+        } else {
+            if (isHorizenal) {
+                // for Horizental View
+                holder.viewBinding.tvOldPRiceProductPriceForHorizentalView.show()
+                holder.viewBinding.tvOldPRiceProductPriceForVertiaclView.hide()
+                holder.viewBinding.tvOldPRiceProductPriceForHorizentalView.paintFlags =
+                    holder.viewBinding.tvOldPRiceProductPriceForHorizentalView.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                holder.viewBinding.tvOldPRiceProductPriceForHorizentalView.text =
+                    "${productList[position].price.toDouble()} ${
+                        context.getString(
+                            R.string.Rayal
+                        )
+                    }"
+                holder.viewBinding.tvProductPrice.text =
+                    "${productList[position].priceDiscount.toDouble()} ${
+                        context.getString(
+                            R.string.Rayal
+                        )
+                    }"
+            } else {
+                // for Vertical View
+                holder.viewBinding.tvOldPRiceProductPriceForHorizentalView.hide()
+                holder.viewBinding.tvOldPRiceProductPriceForVertiaclView.show()
+                holder.viewBinding.tvOldPRiceProductPriceForVertiaclView.paintFlags =
+                    holder.viewBinding.tvOldPRiceProductPriceForVertiaclView.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                holder.viewBinding.tvOldPRiceProductPriceForVertiaclView.text =
+                    "${productList[position].price.toDouble()} ${
+                        context.getString(
+                            R.string.Rayal
+                        )
+                    }"
+                holder.viewBinding.tvProductPrice.text =
+                    "${productList[position].priceDisc.toDouble()} ${
+                        context.getString(
+                            R.string.Rayal
+                        )
+                    }"
+            }
+
+
         }
-        holder.viewBinding.purchasingPriceTv2.text = "${productList[position].price.toDouble().decimalNumberFormat()} ${context.getString(R.string.Rayal)}"
+
+        holder.viewBinding.purchasingPriceTv2.text = "${
+            productList[position].price.toDouble().decimalNumberFormat()
+        } ${context.getString(R.string.Rayal)}"
 
         holder.viewBinding.fullview.setOnClickListener {
-            setOnProductItemListeners.onProductSelect(position,productList[position].id,categoryId)
+            setOnProductItemListeners.onProductSelect(
+                position,
+                productList[position].id,
+                categoryId
+            )
         }
         holder.viewBinding.ivFav.setOnClickListener {
-            setOnProductItemListeners.onAddProductToFav(position,productList[position].id,categoryId)
+            setOnProductItemListeners.onAddProductToFav(
+                position,
+                productList[position].id,
+                categoryId
+            )
         }
 
 

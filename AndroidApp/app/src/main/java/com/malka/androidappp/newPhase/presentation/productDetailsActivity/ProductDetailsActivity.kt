@@ -50,6 +50,8 @@ import com.malka.androidappp.newPhase.presentation.productDetailsActivity.viewMo
 import com.malka.androidappp.newPhase.presentation.productQuestionActivity.QuestionActivity
 import com.malka.androidappp.newPhase.presentation.addProductReviewActivity.ProductReviewsActivity
 import com.malka.androidappp.newPhase.presentation.addProductReviewActivity.AddRateProductActivity
+import com.malka.androidappp.newPhase.presentation.addSellerReviewActivity.AddRateSellerActivity
+import com.malka.androidappp.newPhase.presentation.addSellerReviewActivity.SellerRateListActivity
 import com.malka.androidappp.newPhase.presentation.productsSellerInfoActivity.SellerInformationActivity
 import com.yariksoffice.lingver.Lingver
 import io.paperdb.Paper
@@ -80,7 +82,8 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     val attributeList: ArrayList<Attribute> = ArrayList()
 
     //    var questionList: List<Question> = ArrayList()
-    var addReviewRequestrCode = 1000
+    var addProductReviewRequestCode = 1000
+    var addSellerReviewRequestCode = 2000
     lateinit var product: Product
 
     lateinit var productDetailHelper: ProductDetailHelper
@@ -178,11 +181,19 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     /**set view listeners*/
 
     private fun setupViewClickListeners() {
+
+        containerRateSeller.setOnClickListener {
+            startActivityForResult(Intent(this, SellerRateListActivity::class.java).apply {
+                putExtra(ConstantObjects.providerIdKey, productDetails?.sellerInformation?.providerId?:"")
+                putExtra(ConstantObjects.businessAccountIdKey, productDetails?.sellerInformation?.businessAccountId?:"")
+
+            }, addSellerReviewRequestCode)
+        }
         tvAddReview.setOnClickListener {
             if (HelpFunctions.isUserLoggedIn()) {
                 startActivityForResult(Intent(this, AddRateProductActivity::class.java).apply {
                     putExtra(ConstantObjects.productIdKey, productId)
-                }, addReviewRequestrCode)
+                }, addProductReviewRequestCode)
             } else {
                 startActivity(
                     Intent(
@@ -206,6 +217,35 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                 HelpFunctions.openExternalLInk(productDetails?.sellerInformation?.instagram!!, this)
             }
         }
+        facebook_btn.setOnClickListener {
+            if (productDetails?.sellerInformation?.faceBook != null && productDetails?.sellerInformation?.faceBook != "") {
+                HelpFunctions.openExternalLInk(productDetails?.sellerInformation?.faceBook!!, this)
+            }
+        }
+        twitter_btn.setOnClickListener {
+            if (productDetails?.sellerInformation?.twitter != null && productDetails?.sellerInformation?.twitter != "") {
+                HelpFunctions.openExternalLInk(productDetails?.sellerInformation?.twitter!!, this)
+            }
+        }
+        linked_in_btn.setOnClickListener {
+            if (productDetails?.sellerInformation?.linkedIn != null && productDetails?.sellerInformation?.linkedIn != "") {
+                HelpFunctions.openExternalLInk(productDetails?.sellerInformation?.linkedIn!!, this)
+            }
+        }
+        tiktok_btn.setOnClickListener {
+            if (productDetails?.sellerInformation?.tikTok != null && productDetails?.sellerInformation?.tikTok != "") {
+                HelpFunctions.openExternalLInk(productDetails?.sellerInformation?.tikTok!!, this)
+            }
+        }
+        snapChat_btn.setOnClickListener {
+            if (productDetails?.sellerInformation?.snapchat != null && productDetails?.sellerInformation?.snapchat != "") {
+                HelpFunctions.openExternalLInk(productDetails?.sellerInformation?.snapchat!!, this)
+            }
+        }
+
+
+
+
         ivFav.setOnClickListener {
             if (HelpFunctions.isUserLoggedIn()) {
                 status_product_added_to_fav_from = added_from_product_Destails_status
@@ -217,39 +257,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                         SignInActivity::class.java
                     ).apply {})
             }
-//            if (HelpFunctions.AdAlreadyAddedToWatchList(AdvId)) {
-//                HelpFunctions.DeleteAdFromWatchlist(
-//                    AdvId,
-//                    this@ProductDetailsActivity
-//                ) {
-//                    ivFav.setImageResource(R.drawable.star)
-//                    ConstantObjects.is_watch_iv!!.setImageResource(R.drawable.star)
-//                }
-//            } else {
-//                if (ConstantObjects.logged_userid.isEmpty()) {
-//                    startActivity(
-//                        Intent(
-//                            this@ProductDetailsActivity,
-//                            SignInActivity::class.java
-//                        ).apply {
-//                        })
-//                } else {
-//                    HelpFunctions.InsertAdToWatchlist(
-//                        AdvId, 0,
-//                        this@ProductDetailsActivity
-//                    ) {
-//                        activeWatch(ivFav)
-//                        ConstantObjects.is_watch_iv!!.setImageResource(R.drawable.starcolor)
-//                    }
-//
-//                }
-//            }
-//        }
-//        if (HelpFunctions.AdAlreadyAddedToWatchList(AdvId)) {
-//            activeWatch(ivFav)
-//        } else {
-//            ivFav.setImageResource(R.drawable.star)
-//        }
+
         }
         fbButtonBack.setOnClickListener {
             onBackPressed()
@@ -690,6 +698,31 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             } else {
                 skype_btn.hide()
             }
+            if (productDetails?.sellerInformation?.faceBook != null && productDetails?.sellerInformation?.faceBook != "") {
+                facebook_btn.show()
+            } else {
+                facebook_btn.hide()
+            }
+            if (productDetails?.sellerInformation?.twitter != null && productDetails?.sellerInformation?.twitter != "") {
+                twitter_btn.show()
+            } else {
+                twitter_btn.hide()
+            }
+            if (productDetails?.sellerInformation?.linkedIn != null && productDetails?.sellerInformation?.linkedIn != "") {
+                linked_in_btn.show()
+            } else {
+                linked_in_btn.hide()
+            }
+            if (productDetails?.sellerInformation?.tikTok != null && productDetails?.sellerInformation?.tikTok != "") {
+                tiktok_btn.show()
+            } else {
+                tiktok_btn.hide()
+            }
+            if (productDetails?.sellerInformation?.snapchat != null && productDetails?.sellerInformation?.snapchat != "") {
+                snapChat_btn.show()
+            } else {
+                snapChat_btn.hide()
+            }
             /**specification*/
             if (productDetails.listProductSep != null) {
                 tvErrorNoSpecification.hide()
@@ -1066,7 +1099,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == RESULT_OK && requestCode == addReviewRequestrCode) {
+        if (resultCode == RESULT_OK && requestCode == addProductReviewRequestCode) {
             //var addRateItem: AddRateItem? =data?.getParcelableExtra(ConstantObjects.rateObjectKey)
             productDetialsViewModel.getProductRatesForProductDetails(productId)
 

@@ -246,7 +246,41 @@ class CommonAPI {
 
     }
 
+    fun getRegion(key: Int,onResponse: (list: ArrayList<Country>) -> Unit) {
+        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+        val call = malqa.getRegion(key)
+        call.enqueue(object : Callback<GeneralResponse?> {
+            override fun onFailure(call: Call<GeneralResponse?>?, t: Throwable) {
+                HelpFunctions.dismissProgressBar()
 
+            }
+
+            override fun onResponse(
+                call: Call<GeneralResponse?>,
+                response: Response<GeneralResponse?>
+            ) {
+                HelpFunctions.dismissProgressBar()
+
+                if (response.isSuccessful) {
+
+                    response.body()?.run {
+                        if (status_code == 200) {
+                            val list: ArrayList<Country> = Gson().fromJson(
+                                Gson().toJson(data),
+                                object : TypeToken<ArrayList<Country>>() {}.type
+                            )
+                            onResponse.invoke(list)
+
+                        }
+                    }
+                }
+
+
+            }
+        })
+
+
+    }
     fun getCity(key: Int,activity: Activity, onResponse: (list: ArrayList<Country>) -> Unit) {
         HelpFunctions.startProgressBar(activity)
 

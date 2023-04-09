@@ -5,14 +5,23 @@ data class RateResponse(
     val message: String,
     val status_code: Int
 )
+data class CurrentUserRateResp(
+    val `data`: RateReviewItem?=null,
+    val message: String,
+    val status_code: Int
+)
 data class RateReviewItem(
-    val comment: String,
-    val createdAt: String,
     val id: Int,
+    var rate: Float,
+    var comment: String,
     val productName: String,
+    val userName: String,
+    val createdAt: String,
+    var image:String
 //        val productNameAr: String,
 //        val productNameEn: String,
-    val rate: Float,
-    val userName: String,
-    var image:String
+
+
+
 )
+

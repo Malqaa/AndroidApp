@@ -1,14 +1,13 @@
-package com.malka.androidappp.newPhase.presentation.prodctListActivity.browse_market.recycler_browsecat
+package com.malka.androidappp.newPhase.presentation.searchProductListActivity.browse_market.recycler_browsecat
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.malka.androidappp.databinding.ItemQuestionAnswerDesignBinding
 import com.malka.androidappp.databinding.ProductItemBinding
-import com.malka.androidappp.newPhase.presentation.productDetailsActivity.adapter.QuestionAnswerAdapter
+import com.malka.androidappp.newPhase.domain.models.productResp.Product
 
-class ProductSearchCategoryAdapter :
+class ProductSearchCategoryAdapter(productList: ArrayList<Product>) :
     RecyclerView.Adapter<ProductSearchCategoryAdapter.ProductSearchCategoryViewHolder>(){
     lateinit var context: Context
     class ProductSearchCategoryViewHolder(var viewBinding: ProductItemBinding) :

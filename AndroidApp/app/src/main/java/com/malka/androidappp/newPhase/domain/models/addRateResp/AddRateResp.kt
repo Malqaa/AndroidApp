@@ -17,5 +17,6 @@ val rateObject:AddRateItem?=null
 data class AddRateItem(
     var rate: Float,
     var comment: String,
-    var productId: String,
+    //var productId: String,
+    var id:Int,
 ) : Parcelable
