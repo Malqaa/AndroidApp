@@ -1,5 +1,6 @@
 package com.malka.androidappp.newPhase.data.helper
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.view.View
@@ -12,15 +13,15 @@ import com.google.gson.Gson
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
 import com.malka.androidappp.newPhase.presentation.productDetailsActivity.ProductDetailsActivity
-import com.malka.androidappp.newPhase.presentation.account_fragment.address.AddAddress
-import com.malka.androidappp.fragments.shared_preferences.SharedPreferencesStaticClass
+import com.malka.androidappp.newPhase.presentation.addressUser.addAddressActivity.AddAddressActivity
+import com.malka.androidappp.newPhase.data.helper.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.newPhase.data.helper.Extension.decimalNumberFormat
 import com.malka.androidappp.newPhase.data.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
 import com.malka.androidappp.newPhase.domain.models.servicemodels.GetAddressResponse
 import com.malka.androidappp.newPhase.domain.models.productResp.Product
 import com.malka.androidappp.newPhase.domain.models.servicemodels.questionModel.Question
-import kotlinx.android.synthetic.main.add_address_design.view.*
+import kotlinx.android.synthetic.main.item_address_add.view.*
 import kotlinx.android.synthetic.main.item_question_answer_design.view.*
 import kotlinx.android.synthetic.main.product_item.view.*
 
@@ -239,7 +240,7 @@ class GenericAdaptor {
             )
         }
     }
-
+    @SuppressLint("ResourceType")
     fun AdressAdaptor(
         addAddressLaucher: ActivityResultLauncher<Intent>,
         context: Context,
@@ -248,33 +249,34 @@ class GenericAdaptor {
         type: String, onItemClick:
             (address: GetAddressResponse.AddressModel) -> Unit
     ) {
-        category_rcv.adapter = object : GenericListAdapter<GetAddressResponse.AddressModel>(
-            R.layout.add_address_design,
+        category_rcv.adapter =
+        object : GenericListAdapter<GetAddressResponse.AddressModel>(
+            R.layout.item_address_add,
             bind = { element, holder, itemCount, position ->
                 holder.view.run {
                     element.run {
                         when (type) {
-                            ConstantObjects.View -> {
-                                is_select_.isVisible = false
-                            }
-
-                            ConstantObjects.Select -> {
-                                is_select_.isVisible = true
-                                is_select_.isChecked = is_select
-                                is_select_.setOnCheckedChangeListener { buttonView, isChecked ->
-
-                                    if (isChecked) {
-                                        list.forEach {
-                                            it.is_select = false
-                                        }
-                                        list.get(position).is_select = true
-                                        onItemClick.invoke(element)
-                                        category_rcv.post { category_rcv.adapter?.notifyDataSetChanged() }
-                                    }
-
-
-                                }
-                            }
+//                            ConstantObjects.View -> {
+//                                is_select_.isVisible = false
+//                            }
+//
+//                            ConstantObjects.Select -> {
+//                                is_select_.isVisible = true
+//                                is_select_.isChecked = is_select
+//                                is_select_.setOnCheckedChangeListener { buttonView, isChecked ->
+//
+//                                    if (isChecked) {
+//                                        list.forEach {
+//                                            it.is_select = false
+//                                        }
+//                                        list.get(position).is_select = true
+//                                        onItemClick.invoke(element)
+//                                        category_rcv.post { category_rcv.adapter?.notifyDataSetChanged() }
+//                                    }
+//
+//
+//                                }
+//                            }
                         }
                         address_name.text = "Delivery to my current address"
                         country_name.text = "$country - $region -$city"
@@ -283,7 +285,7 @@ class GenericAdaptor {
 
                         edit_address_btn.setOnClickListener {
 
-                            addAddressLaucher.launch(Intent(context, AddAddress::class.java).apply {
+                            addAddressLaucher.launch(Intent(context, AddAddressActivity::class.java).apply {
                                 putExtra("isEdit", true)
                                 putExtra("addressObject", Gson().toJson(element))
                             })

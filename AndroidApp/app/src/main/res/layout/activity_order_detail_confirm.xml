@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities_main.order.AttachInvoice">
+    tools:context=".newPhase.presentation.cartActivity.AttachInvoice">
 
     <include
         android:id="@+id/toolbar_main"

@@ -48,19 +48,19 @@
                 android:value="" />
         </activity> <!-- tools:ignore="AllowBackup" -->
         <activity
-            android:name=".activities_main.order.AttachInvoice"
+            android:name=".newPhase.presentation.cartActivity.AttachInvoice"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities_main.order.ShipmentRating"
+            android:name=".newPhase.presentation.cartActivity.ShipmentRating"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities_main.order.OrderDetail_1"
+            android:name=".newPhase.presentation.cartActivity.OrderDetail_1"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities_main.order.OrderDetail"
+            android:name=".newPhase.presentation.cartActivity.OrderDetail"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
@@ -68,11 +68,11 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities_main.order.SuccessOrder"
+            android:name=".newPhase.presentation.cartActivity.SuccessOrder"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities_main.order.AddressPaymentActivity"
+            android:name=".newPhase.presentation.cartActivity.activity2.AddressPaymentActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity
@@ -96,7 +96,7 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities_main.order.CartActivity"
+            android:name=".newPhase.presentation.cartActivity.activity1.CartActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity
@@ -195,7 +195,7 @@
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.malka.androidappp.newPhase.presentation.account_fragment.address.AddAddress"
+            android:name="com.malka.androidappp.newPhase.presentation.addressUser.addAddressActivity.AddAddressActivity"
             android:screenOrientation="portrait" />
     </application>
 

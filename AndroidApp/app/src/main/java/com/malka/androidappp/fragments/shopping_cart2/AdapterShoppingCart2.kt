@@ -29,7 +29,7 @@ class AdapterShoppingCart2(
         val imgShopcartproduct: ImageView = itemview.img_shopcart
         val cartproductDescrip: TextView = itemview.tx_productdescription
         val pricebyQuantity: TextView = itemview.tx_after_descrip
-        val totalPrice: TextView = itemview.total_price
+        val totalPrice: TextView = itemview.tvTotalPrice
         val spinner_quantity: Spinner = itemview.spinner_quantity
     }
 

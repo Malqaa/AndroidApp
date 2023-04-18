@@ -27,11 +27,9 @@ import androidx.fragment.app.Fragment
 import androidx.loader.content.CursorLoader
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.google.gson.Gson
 import com.google.gson.JsonObject
-import com.google.gson.reflect.TypeToken
 import com.malka.androidappp.R
-import com.malka.androidappp.fragments.shared_preferences.SharedPreferencesStaticClass
+import com.malka.androidappp.newPhase.data.helper.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ModelShipAddresses
 import com.malka.androidappp.fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ShippingAddressessData
 import com.malka.androidappp.newPhase.data.network.CommonAPI
@@ -39,7 +37,6 @@ import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
 import com.malka.androidappp.newPhase.data.network.constants.Constants
 import com.malka.androidappp.newPhase.data.network.service.MalqaApiService
 import com.malka.androidappp.newPhase.domain.models.loginResp.LoginUser
-import com.malka.androidappp.newPhase.domain.models.productResp.Product
 import com.malka.androidappp.newPhase.domain.models.servicemodels.*
 import com.malka.androidappp.newPhase.domain.models.servicemodels.addtocart.AddToCartResponseModel
 import com.malka.androidappp.newPhase.domain.models.servicemodels.favourites.FavouriteObject
@@ -48,7 +45,6 @@ import com.malka.androidappp.newPhase.domain.models.servicemodels.watchlist.watc
 import io.paperdb.Paper
 import kotlinx.android.synthetic.main.alertpopup.view.*
 import kotlinx.android.synthetic.main.progress_bar.view.*
-import org.greenrobot.eventbus.EventBus
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

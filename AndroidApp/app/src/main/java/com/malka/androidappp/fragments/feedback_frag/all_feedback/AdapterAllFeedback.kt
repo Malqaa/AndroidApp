@@ -7,7 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
-import com.malka.androidappp.fragments.shared_preferences.SharedPreferencesStaticClass
+import com.malka.androidappp.newPhase.data.helper.shared_preferences.SharedPreferencesStaticClass
 import kotlinx.android.synthetic.main.feedback_card.view.*
 
 

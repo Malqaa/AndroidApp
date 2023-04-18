@@ -2,15 +2,13 @@ package com.malka.androidappp.newPhase.presentation.loginScreen
 
 import android.content.Intent
 import android.os.Bundle
-import android.service.autofill.UserData
 import android.util.Patterns
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.google.gson.Gson
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.forgot.ForgotPasswordActivty
-import com.malka.androidappp.fragments.shared_preferences.SharedPreferencesStaticClass
+import com.malka.androidappp.newPhase.data.helper.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.domain.models.loginResp.LoginUser

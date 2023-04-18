@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
-import com.malka.androidappp.activities_main.order.OrderDetail
-import com.malka.androidappp.activities_main.order.OrderDetail_1
+import com.malka.androidappp.newPhase.presentation.cartActivity.OrderDetail
+import com.malka.androidappp.newPhase.presentation.cartActivity.OrderDetail_1
 import com.malka.androidappp.newPhase.domain.models.servicemodels.getCartModel
 import kotlinx.android.synthetic.main.item_user_order.view.*
 

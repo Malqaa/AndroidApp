@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".newPhase.presentation.addressUser.addAddressActivity.AddAddressActivity">
+
+    <include
+        android:id="@+id/toolbar_main"
+        layout="@layout/toolbar_main" />
+
+
+
+
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_150sdp"
+                android:layout_margin="@dimen/_20sdp">
+                <fragment
+                    android:id="@+id/map"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_150sdp"
+                    tools:context=".view.palmLocation.ShowPalmLocationActivity" />
+
+                <RelativeLayout
+                    android:id="@+id/containerLocation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/_10sdp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_margin="@dimen/_10sdp"
+                    android:background="@drawable/corner_background">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/my_location_24"/>
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+                android:id="@+id/tvAddressTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="@string/addressTitle"
+                android:inputType="text" />
+            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+                android:id="@+id/tvAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="@string/address"
+                android:inputType="text" />
+            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+                android:id="@+id/tvStreet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="@string/street"
+                android:inputType="text" />
+            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+                android:id="@+id/tvBuildingNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="@string/buildingNumber"
+                android:inputType="text" />
+            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+                android:id="@+id/tvFloor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="@string/floorNumber"
+                android:inputType="text" />
+            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+                android:id="@+id/tvApartmentNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="@string/apartmentNumber"
+                android:inputType="text" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/itemLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edittext_bg"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/iv_start_icon"
+                        android:layout_width="@dimen/_14sdp"
+                        android:layout_height="@dimen/_14sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:src="@drawable/ic_phone" />
+                    <View
+                        android:id="@+id/line"
+                        android:layout_width="@dimen/_1sdp"
+                        android:layout_height="match_parent"
+                        android:background="@color/line" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_toStartOf="@+id/right_session">
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/tvl_field_phone"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:hint="@string/PhoneNumber"
+                                app:boxBackgroundMode="none"
+                                app:hintTextColor="@color/hint_color">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/etPhoneNumber"
+                                    style="@style/addressCompoEditFieldTextStyle"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:inputType="phone"
+                                    android:maxLines="1"
+                                    android:importantForAutofill="no"
+                                    android:paddingTop="@dimen/_5sdp"
+                                    android:textAlignment="viewStart"
+                                    android:textSize="@dimen/_12sdp" />
+                            </com.google.android.material.textfield.TextInputLayout>
+                        </FrameLayout>
+
+                        <LinearLayout
+                            android:id="@+id/right_session"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerInParent="true"
+                            android:orientation="vertical">
+                            <com.hbb20.CountryCodePicker
+                                android:id="@+id/countryCodePicker"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                app:ccpDialog_backgroundColor="@color/white"
+                                app:ccpDialog_keyboardAutoPopup="false"
+                                app:ccpDialog_textColor="@color/text_color"
+                                app:ccp_autoFormatNumber="false"
+                                app:ccp_contentColor="@color/text_color"
+                                app:ccp_defaultNameCode="SA"
+                                app:ccp_hintExampleNumber="false"
+                                app:ccp_hintExampleNumberFormat="NATIONAL"
+                                app:ccp_hintExampleNumberType="MOBILE"
+                                app:ccp_rememberLastSelection="false"
+                                app:ccp_showNameCode="false"
+                                app:ccp_showPhoneCode="true" />
+                            <!--
+                              app:ccp_autoDetectCountry="true"
+                             app:ccp_countryAutoDetectionPref="SIM_NETWORK_LOCALE"-->
+
+
+                        </LinearLayout>
+
+
+                    </RelativeLayout>
+
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_phone_error"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:paddingTop="@dimen/_2sdp"
+                    android:paddingBottom="@dimen/_2sdp"
+                    android:text=""
+                    android:visibility="gone"
+                    android:textColor="@color/Red" />
+
+            </LinearLayout>
+
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnAddAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:background="@drawable/round_btn"
+                android:fontFamily="@font/madani_arabic_semi_bold"
+                android:text=""
+                android:textAllCaps="false"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/_14sdp"
+                android:layout_marginBottom="20dp"/>
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+
+
+
+</LinearLayout>
+
+
+
+<!--<com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent-->
+<!--android:id="@+id/firstname_tv"-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:layout_marginTop="@dimen/_25sdp"-->
+<!--android:hint="@string/First_Name"-->
+<!--android:inputType="textPersonName"-->
+<!--android:visibility="gone"-->
+<!--app:startIcon="@drawable/ic_user" />-->
+
+
+<!--<com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent-->
+<!--android:id="@+id/lastname_tv"-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:layout_marginTop="@dimen/_10sdp"-->
+<!--android:hint="@string/Last_Name"-->
+<!--android:inputType="textPersonName"-->
+<!--android:visibility="gone"-->
+<!--app:startIcon="@drawable/ic_user" />-->
+
+
+<!--<com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent-->
+<!--android:id="@+id/countryContainer"-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:layout_marginTop="@dimen/_10sdp"-->
+<!--android:hint="@string/Country"-->
+<!--android:inputType="textPersonName"-->
+<!--app:endIcon="@drawable/ic_arrow_down"-->
+<!--app:startIcon="@drawable/ic_region"-->
+<!--app:viewType="spinner" />-->
+
+
+<!--<com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent-->
+<!--android:id="@+id/regionContainer"-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:layout_marginTop="@dimen/_10sdp"-->
+<!--android:hint="@string/Region"-->
+<!--android:inputType="textPersonName"-->
+<!--app:endIcon="@drawable/ic_arrow_down"-->
+<!--app:startIcon="@drawable/ic_region"-->
+<!--app:viewType="spinner" />-->
+
+
+<!--<com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent-->
+<!--android:id="@+id/neighborhoodContainer"-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:layout_marginTop="@dimen/_10sdp"-->
+<!--android:hint="@string/City"-->
+<!--android:inputType="textPersonName"-->
+<!--app:endIcon="@drawable/ic_arrow_down"-->
+<!--app:startIcon="@drawable/ic_city"-->
+<!--app:viewType="spinner" />-->
+
+<!--<com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent-->
+<!--android:id="@+id/area_address"-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:layout_marginTop="@dimen/_10sdp"-->
+<!--android:hint="@string/Area"-->
+<!--android:inputType="text" />-->
+
+
+<!--<com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent-->
+<!--android:id="@+id/streetnumber"-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:layout_marginTop="@dimen/_10sdp"-->
+<!--android:hint="@string/StreetNumber"-->
+<!--android:inputType="text" />-->

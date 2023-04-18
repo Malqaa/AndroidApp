@@ -23,14 +23,16 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-
-                <RadioButton
-                    android:id="@+id/is_select_"
+                <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
-                  />
+                    android:padding="@dimen/_5sdp"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:src="@drawable/ic_radio_button_unchecked"
+                    android:id="@+id/ivSelectedAddress"/>
+
 
 
                 <TextView
@@ -38,7 +40,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_toEndOf="@+id/is_select_"
+                    android:layout_marginStart="5dp"
+                    android:layout_toEndOf="@+id/ivSelectedAddress"
                     android:fontFamily="@font/madani_arabic_medium"
                     android:text="@string/delivery_to_my_current_address"
                     android:textColor="@color/grey"
@@ -52,6 +55,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_gravity="bottom"
+                    android:foreground="?android:attr/selectableItemBackground"
                     android:src="@drawable/edit_button" />
 
 
@@ -59,40 +63,36 @@
 
             <LinearLayout
                 android:layout_marginStart="@dimen/_10sdp"
-
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
                     android:id="@+id/country_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="viewStart"
                     android:fontFamily="@font/madani_arabic_light"
-                    android:gravity="center_vertical"
-                    android:text="First honored"
-
+                    android:text="country name"
                     android:textColor="#000000"
                     android:textSize="@dimen/_10sdp" />
 
                 <TextView
                     android:id="@+id/address_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="viewStart"
                     android:fontFamily="@font/madani_arabic_light"
-                    android:gravity="center_vertical"
-                    android:text="First honored"
-
+                    android:text="address "
                     android:textColor="#000000"
                     android:textSize="@dimen/_10sdp" />
 
                 <TextView
                     android:id="@+id/phonenum"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="viewStart"
                     android:fontFamily="@font/madani_arabic_light"
-                    android:gravity="center_vertical"
-                    android:text="First honored"
-
+                    android:text="phone number"
                     android:textColor="#000000"
                     android:textSize="@dimen/_10sdp" />
 

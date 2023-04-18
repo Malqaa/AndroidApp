@@ -113,7 +113,9 @@ class ProductHorizontalAdapter(
         holder.viewBinding.LowestPriceLayout2.hide()
         holder.viewBinding.lisView.hide()
 
-        if (productList[position].priceDisc == productList[position].price || productList[position].priceDiscount == productList[position].price) {
+        if (productList[position].priceDisc == productList[position].price
+            || productList[position].priceDiscount == productList[position].price)
+        {
             holder.viewBinding.tvProductPrice.text =
                 "${productList[position].price.toDouble()} ${
                     context.getString(

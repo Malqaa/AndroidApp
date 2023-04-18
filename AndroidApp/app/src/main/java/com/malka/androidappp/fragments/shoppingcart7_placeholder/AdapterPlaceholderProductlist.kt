@@ -28,7 +28,7 @@ class AdapterPlaceholderProductlist(
         val shipToPerson:TextView = itemview.shippiedto_personname
         val shipAddress:TextView = itemview.shippiedto_address
         val shiptoPersonNum:TextView = itemview.shippiedto_person_num
-        val totalPrice: TextView = itemview.total_price
+        val totalPrice: TextView = itemview.tvTotalPrice
     }
 
 

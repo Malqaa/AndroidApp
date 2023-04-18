@@ -5,6 +5,7 @@ import com.google.gson.Gson
 import com.malka.androidappp.newPhase.core.BaseViewModel
 import com.malka.androidappp.newPhase.data.helper.Extension.requestBody
 import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.domain.models.addProductToCartResp.AddProductToCartResp
 import com.malka.androidappp.newPhase.domain.models.addRateResp.AddRateResp
 import com.malka.androidappp.newPhase.domain.models.productResp.ProductListResp
 import com.malka.androidappp.newPhase.domain.models.productResp.ProductResp
@@ -23,33 +24,35 @@ import retrofit2.Callback
 import retrofit2.HttpException
 import retrofit2.Response
 
-class ProductDetailsViewModel: BaseViewModel() {
+class ProductDetailsViewModel : BaseViewModel() {
 
-    var productDetailsObservable :MutableLiveData<ProductResp> = MutableLiveData()
-    var addQuestionObservable :MutableLiveData<AddQuestionResp> = MutableLiveData()
-    var getSimilarProductObservable :MutableLiveData<ProductListResp> = MutableLiveData()
-    var getListOfQuestionsObservable :MutableLiveData<QuestionsResp> = MutableLiveData()
+    var productDetailsObservable: MutableLiveData<ProductResp> = MutableLiveData()
+    var addQuestionObservable: MutableLiveData<AddQuestionResp> = MutableLiveData()
+    var getSimilarProductObservable: MutableLiveData<ProductListResp> = MutableLiveData()
+    var getListOfQuestionsObservable: MutableLiveData<QuestionsResp> = MutableLiveData()
     var getRateResponseObservable: MutableLiveData<RateResponse> = MutableLiveData()
     var addRateRespObservable: MutableLiveData<AddRateResp> = MutableLiveData()
     var editRateRespObservable: MutableLiveData<AddRateResp> = MutableLiveData()
-    var getCurrentUserRateObservable:MutableLiveData<CurrentUserRateResp> = MutableLiveData()
-    var sellerRateListObservable:MutableLiveData<SellerRateListResp> = MutableLiveData()
-    var addSellerRateObservable:MutableLiveData<GeneralRespone> = MutableLiveData()
-    fun getProductDetailsById(productId:Int){
-        isLoading.value=true
+    var getCurrentUserRateObservable: MutableLiveData<CurrentUserRateResp> = MutableLiveData()
+    var sellerRateListObservable: MutableLiveData<SellerRateListResp> = MutableLiveData()
+    var addSellerRateObservable: MutableLiveData<GeneralRespone> = MutableLiveData()
+    var addProductToCartObservable: MutableLiveData<AddProductToCartResp> = MutableLiveData()
+
+    fun getProductDetailsById(productId: Int) {
+        isLoading.value = true
         RetrofitBuilder.GetRetrofitBuilder()
             .getProductDetailById2(productId)
             .enqueue(object : Callback<ProductResp> {
                 override fun onFailure(call: Call<ProductResp>, t: Throwable) {
                     isNetworkFail.value = t !is HttpException
-                    isLoading.value=false
+                    isLoading.value = false
                 }
 
                 override fun onResponse(
                     call: Call<ProductResp>,
                     response: Response<ProductResp>
                 ) {
-                    isLoading.value=false
+                    isLoading.value = false
                     if (response.isSuccessful) {
                         productDetailsObservable.value = response.body()
                     } else {
@@ -58,26 +61,31 @@ class ProductDetailsViewModel: BaseViewModel() {
                 }
             })
     }
-    fun addQuestion(productId:Int,question:String){
-        val data:HashMap<String,Any> = HashMap()
-        data["Question"]=question
-        data["ProductId"]=productId
-        data["lang"]=ConstantObjects.currentLanguage
-        isLoading.value=true
+
+    fun addQuestion(productId: Int, question: String) {
+        val data: HashMap<String, Any> = HashMap()
+        data["Question"] = question
+        data["ProductId"] = productId
+        data["lang"] = ConstantObjects.currentLanguage
+        isLoading.value = true
         RetrofitBuilder.GetRetrofitBuilder()
-         .addQuestion(question.requestBody(),productId.toString().requestBody(),ConstantObjects.currentLanguage.requestBody())
+            .addQuestion(
+                question.requestBody(),
+                productId.toString().requestBody(),
+                ConstantObjects.currentLanguage.requestBody()
+            )
             //?.addQuestion(data)
             .enqueue(object : Callback<AddQuestionResp> {
                 override fun onFailure(call: Call<AddQuestionResp>, t: Throwable) {
                     isNetworkFail.value = t !is HttpException
-                    isLoading.value=false
+                    isLoading.value = false
                 }
 
                 override fun onResponse(
                     call: Call<AddQuestionResp>,
                     response: Response<AddQuestionResp>
                 ) {
-                    isLoading.value=false
+                    isLoading.value = false
                     if (response.isSuccessful) {
                         addQuestionObservable.value = response.body()
                     } else {
@@ -87,9 +95,10 @@ class ProductDetailsViewModel: BaseViewModel() {
                 }
             })
     }
-    fun getSimilarProduct(productId:Int,page:Int){
+
+    fun getSimilarProduct(productId: Int, page: Int) {
         RetrofitBuilder.GetRetrofitBuilder()
-            .getSimilarProductForOtherProduct(page,productId)
+            .getSimilarProductForOtherProduct(page, productId)
 
             .enqueue(object : Callback<ProductListResp> {
                 override fun onFailure(call: Call<ProductListResp>, t: Throwable) {
@@ -106,24 +115,26 @@ class ProductDetailsViewModel: BaseViewModel() {
                 }
             })
     }
-    fun addLastViewedProduct(productId:Int){
+
+    fun addLastViewedProduct(productId: Int) {
         RetrofitBuilder.GetRetrofitBuilder()
             .addLastViewProduct(productId)
             .enqueue(object : Callback<GeneralRespone> {
                 override fun onFailure(call: Call<GeneralRespone>, t: Throwable) {
                 }
+
                 override fun onResponse(
                     call: Call<GeneralRespone>,
                     response: Response<GeneralRespone>
                 ) {
                     if (response.isSuccessful) {
-                    //added product to last viewed
+                        //added product to last viewed
                     }
                 }
             })
     }
 
-    fun getListOfQuestions(productId:Int){
+    fun getListOfQuestions(productId: Int) {
         RetrofitBuilder.GetRetrofitBuilder()
             .getQuestionList(productId)
 
@@ -142,54 +153,57 @@ class ProductDetailsViewModel: BaseViewModel() {
                 }
             })
     }
-    fun getListOfQuestionsForActivity(productId:Int){
-        isLoading.value=true
+
+    fun getListOfQuestionsForActivity(productId: Int) {
+        isLoading.value = true
         RetrofitBuilder.GetRetrofitBuilder()
             .getQuestionList(productId)
 
             .enqueue(object : Callback<QuestionsResp> {
                 override fun onFailure(call: Call<QuestionsResp>, t: Throwable) {
                     isNetworkFail.value = t !is HttpException
-                    isLoading.value=false
+                    isLoading.value = false
                 }
 
                 override fun onResponse(
                     call: Call<QuestionsResp>,
                     response: Response<QuestionsResp>
                 ) {
-                    isLoading.value=false
+                    isLoading.value = false
                     if (response.isSuccessful) {
                         getListOfQuestionsObservable.value = response.body()
-                    }else {
+                    } else {
                         errorResponseObserver.value = getErrorResponse(response.errorBody())
                     }
                 }
             })
     }
-    fun getProductRatesForActivity(productID:Int){
-        isLoading.value=true
+
+    fun getProductRatesForActivity(productID: Int) {
+        isLoading.value = true
         RetrofitBuilder.GetRetrofitBuilder()
             .getRates(productID)
             .enqueue(object : Callback<RateResponse> {
                 override fun onFailure(call: Call<RateResponse>, t: Throwable) {
                     isNetworkFail.value = t !is HttpException
-                    isLoading.value=false
+                    isLoading.value = false
                 }
 
                 override fun onResponse(
                     call: Call<RateResponse>,
                     response: Response<RateResponse>
                 ) {
-                    isLoading.value=false
+                    isLoading.value = false
                     if (response.isSuccessful) {
                         getRateResponseObservable.value = response.body()
-                    }else {
+                    } else {
                         errorResponseObserver.value = getErrorResponse(response.errorBody())
                     }
                 }
             })
     }
-    fun getProductRatesForProductDetails(productID:Int){
+
+    fun getProductRatesForProductDetails(productID: Int) {
         RetrofitBuilder.GetRetrofitBuilder()
             .getRates(productID)
             .enqueue(object : Callback<RateResponse> {
@@ -206,6 +220,7 @@ class ProductDetailsViewModel: BaseViewModel() {
                 }
             })
     }
+
     fun addRateProduct(productID: Int, rate: Float, comment: String) {
         isLoading.value = true
         val map: HashMap<String, RequestBody> = HashMap()
@@ -233,6 +248,7 @@ class ProductDetailsViewModel: BaseViewModel() {
                 }
             })
     }
+
     fun editRateProduct(rateId: Int, rate: Float, comment: String) {
         isLoading.value = true
         val map: HashMap<String, RequestBody> = HashMap()
@@ -262,7 +278,7 @@ class ProductDetailsViewModel: BaseViewModel() {
             })
     }
 
-    fun getCurrentUserRate(productId:Int){
+    fun getCurrentUserRate(productId: Int) {
         isLoading.value = true
         RetrofitBuilder.GetRetrofitBuilder()
             .getCurrenUserRateForProdust(productId)
@@ -287,56 +303,86 @@ class ProductDetailsViewModel: BaseViewModel() {
     }
 
     fun getSellerRates(providerId: String, businessAccountId: String) {
-        isLoading.value=true
+        isLoading.value = true
         RetrofitBuilder.GetRetrofitBuilder()
-            .getSellerRates(providerId,businessAccountId)
+            .getSellerRates(providerId, businessAccountId)
             .enqueue(object : Callback<SellerRateListResp> {
                 override fun onFailure(call: Call<SellerRateListResp>, t: Throwable) {
                     isNetworkFail.value = t !is HttpException
-                    isLoading.value=false
+                    isLoading.value = false
                 }
 
                 override fun onResponse(
                     call: Call<SellerRateListResp>,
                     response: Response<SellerRateListResp>
                 ) {
-                    isLoading.value=false
+                    isLoading.value = false
                     if (response.isSuccessful) {
                         sellerRateListObservable.value = response.body()
-                    }else {
+                    } else {
                         errorResponseObserver.value = getErrorResponse(response.errorBody())
                     }
                 }
             })
     }
+
     fun addSellerRate(
         providerId: String,
         businessAccountId: String,
         rating: Float,
         comment: String
     ) {
-        isLoading.value=true
-        var data:HashMap<String,Any> = HashMap()
-        data["providerId"]=providerId
-        data["businessAccountId"]=businessAccountId
-        data["rate"]=rating
-        data["comment"]=comment
+        isLoading.value = true
+        var data: HashMap<String, Any> = HashMap()
+        data["providerId"] = providerId
+        data["businessAccountId"] = businessAccountId
+        data["rate"] = rating
+        data["comment"] = comment
         RetrofitBuilder.GetRetrofitBuilder()
             .addRateSeller2(data)
             .enqueue(object : Callback<AddRateResp> {
                 override fun onFailure(call: Call<AddRateResp>, t: Throwable) {
                     isNetworkFail.value = t !is HttpException
-                    isLoading.value=false
+                    isLoading.value = false
                 }
 
                 override fun onResponse(
                     call: Call<AddRateResp>,
                     response: Response<AddRateResp>
                 ) {
-                    isLoading.value=false
+                    isLoading.value = false
                     if (response.isSuccessful) {
                         addRateRespObservable.value = response.body()
-                    }else {
+                    } else {
+                        errorResponseObserver.value = getErrorResponse(response.errorBody())
+                    }
+                }
+            })
+    }
+
+    fun addProductToCart(masterCartId: String, productId: Int) {
+        isLoading.value = true
+        val map: HashMap<String, RequestBody> = HashMap()
+        map["productId"] = productId.toString().requestBody()
+        map["CartMasterId"] = masterCartId.requestBody()
+        map["quantity"] = "1".requestBody()
+        println("hhhh " + masterCartId + " " + productId)
+        RetrofitBuilder.GetRetrofitBuilder()
+            .addProductToCartProducts(map)
+            .enqueue(object : Callback<AddProductToCartResp> {
+                override fun onFailure(call: Call<AddProductToCartResp>, t: Throwable) {
+                    isNetworkFail.value = t !is HttpException
+                    isLoading.value = false
+                }
+
+                override fun onResponse(
+                    call: Call<AddProductToCartResp>,
+                    response: Response<AddProductToCartResp>
+                ) {
+                    isLoading.value = false
+                    if (response.isSuccessful) {
+                        addProductToCartObservable.value = response.body()
+                    } else {
                         errorResponseObserver.value = getErrorResponse(response.errorBody())
                     }
                 }

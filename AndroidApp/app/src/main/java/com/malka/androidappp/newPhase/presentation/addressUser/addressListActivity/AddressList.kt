@@ -1,4 +1,4 @@
-package com.malka.androidappp.newPhase.presentation.account_fragment.address
+package com.malka.androidappp.newPhase.presentation.addressUser.addressListActivity
 
 import android.app.Activity
 import android.content.Intent
@@ -10,6 +10,7 @@ import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.data.network.CommonAPI
 import com.malka.androidappp.newPhase.data.helper.GenericAdaptor
 import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.presentation.addressUser.addAddressActivity.AddAddressActivity
 import kotlinx.android.synthetic.main.address_list_fragment.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 
@@ -35,7 +36,6 @@ class AddressList : Fragment(R.layout.address_list_fragment) {
         CommonAPI().getAddress(requireContext(), {
             GenericAdaptor().AdressAdaptor(addAddressLaucher, requireContext(), rvPakat, it, ConstantObjects.View, {
 
-
             })
         })
     }
@@ -49,7 +49,7 @@ class AddressList : Fragment(R.layout.address_list_fragment) {
 
     private fun setListenser() {
         add_new_add.setOnClickListener {
-            addAddressLaucher.launch(Intent(requireContext(), AddAddress::class.java))
+            addAddressLaucher.launch(Intent(requireContext(), AddAddressActivity::class.java))
         }
 
 

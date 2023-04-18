@@ -19,7 +19,9 @@ import com.malka.androidappp.fragments.shoppingcart3_shippingaddress.shipping_ad
 import com.malka.androidappp.fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ShippingAddressessData
 import com.malka.androidappp.newPhase.data.network.constants.Constants
 import com.malka.androidappp.newPhase.data.network.constants.Constants.GET_CATEGORY_TAGS_ENDPOINT
+import com.malka.androidappp.newPhase.domain.models.addProductToCartResp.AddProductToCartResp
 import com.malka.androidappp.newPhase.domain.models.addRateResp.AddRateResp
+import com.malka.androidappp.newPhase.domain.models.cartListResp.CartListResp
 import com.malka.androidappp.newPhase.domain.models.categoryFollowResp.CategoryFollowResp
 import com.malka.androidappp.newPhase.domain.models.categoryResp.CategoriesResp
 import com.malka.androidappp.newPhase.domain.models.configrationResp.ConfigurationResp
@@ -58,6 +60,7 @@ import com.malka.androidappp.newPhase.domain.models.servicemodels.questionModel.
 import com.malka.androidappp.newPhase.domain.models.servicemodels.total_members.ModelGetTotalMembers
 import com.malka.androidappp.newPhase.domain.models.servicemodels.total_online_users.ModelGetTotalOnlineUsers
 import com.malka.androidappp.newPhase.domain.models.servicemodels.user.UserObject
+import com.malka.androidappp.newPhase.domain.models.userAddressesResp.UserAddressesResp
 import com.malka.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.UserVerifiedResp
 import com.malka.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.ValidateAndGenerateOTPResp
 import com.malka.androidappp.newPhase.presentation.searchProductListActivity.browse_market.popup_subcategories_list.ModelAddSearchFav
@@ -368,7 +371,56 @@ interface MalqaApiService {
         @Query("discountEndDate") finaldate: String,
     ): Call<GeneralResponse>
 
+    @GET("ListAddressesForUser")
+    fun getListAddressesForUser(
+        @Query("lang") language: String = ConstantObjects.currentLanguage
+    ): Call<UserAddressesResp>
+    @Multipart
+    @POST("AddAddressForUser")
+    fun addAddressForUser(
+        @PartMap partMap: Map<String, @JvmSuppressWildcards RequestBody>,
+    ): Call<GeneralResponse>
+    @Multipart
+    @PUT("EditAddressForUser")
+    fun editAddressForUser(
+        @PartMap partMap: Map<String, @JvmSuppressWildcards RequestBody>,
+    ): Call<GeneralResponse>
 
+    @Multipart
+    @POST("AddProductToCartProducts")
+    fun addProductToCartProducts(
+        @PartMap partMap: Map<String, @JvmSuppressWildcards RequestBody>,
+    ):Call<AddProductToCartResp>
+
+
+    @GET("ListCartProductsForClient")
+    fun getListCartProductsForClient(@Query("cartMasterId")cartMasterId:String):Call<CartListResp>
+    @GET("AssignCartMastetToUser")
+    fun assignCartMastetToUser(
+        @Query("cartMasterId")cartMasterId:String
+    ):Call<GeneralResponse>
+
+    @POST("IncreaseCartProductQuantity")
+   fun increaseCartProductQuantity(@Query("cartproductId")cartproductId:String,@Query("quantity")quantity:String):Call<GeneralResponse>
+    @POST("DecreaseCartProductQuantity")
+    fun decreaseCartProductQuantity(@Query("cartproductId")cartproductId:String,@Query("quantity")quantity:String):Call<GeneralResponse>
+
+    @DELETE("RemoveProductFromCartProducts")
+    fun removeProductFromCartProducts(@Query("cartproductId")cartproductId:String):Call<GeneralResponse>
+
+    @Multipart
+    @POST("AddOrder")
+    fun addOrder(
+        @PartMap partMap: Map<String, @JvmSuppressWildcards RequestBody>,
+    ):Call<GeneralResponse>
+
+
+    /***
+     * ***********************************
+     * ***********************************
+     * ***********************************
+     * ***********************************
+     * **/
     // ?currentPage=1
     //+++++++++++++++++++++++++++++++++++++++++
     //+++++++++++++++++++++++++++++++++++++++++

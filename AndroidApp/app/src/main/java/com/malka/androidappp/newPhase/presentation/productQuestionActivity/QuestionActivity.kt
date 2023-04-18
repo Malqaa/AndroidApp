@@ -1,19 +1,12 @@
 package com.malka.androidappp.newPhase.presentation.productQuestionActivity
 
 import android.os.Bundle
-import android.view.View
-import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseActivity
-import com.malka.androidappp.newPhase.domain.models.servicemodels.questionModel.Question
-import com.malka.androidappp.fragments.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.newPhase.data.helper.*
-import com.malka.androidappp.newPhase.data.helper.swipe.MessageSwipeController
-import com.malka.androidappp.newPhase.data.helper.swipe.SwipeControllerActions
 import com.malka.androidappp.newPhase.domain.models.questionResp.QuestionItem
 import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
 import com.malka.androidappp.newPhase.presentation.productDetailsActivity.AnswerQuestionDialog

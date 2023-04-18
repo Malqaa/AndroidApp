@@ -13,7 +13,7 @@ import android.widget.Filter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.malka.androidappp.R
-import com.malka.androidappp.activities_main.order.AddressPaymentActivity
+import com.malka.androidappp.newPhase.presentation.cartActivity.activity2.AddressPaymentActivity
 import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.newPhase.domain.models.servicemodels.Negotiationmodel
 import com.malka.androidappp.newPhase.data.helper.widgets.rcv.GenericListAdapter

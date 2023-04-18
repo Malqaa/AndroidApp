@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities_main.order.CartActivity">
+    tools:context=".newPhase.presentation.cartActivity.activity1.CartActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,13 +19,30 @@
             layout="@layout/toolbar_main" />
 
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/cart_rcv"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_10sdp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:spanCount="1" />
+            android:layout_height="match_parent">
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:visibility="gone"
+                android:id="@+id/progressBar"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvCart"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:spanCount="1" />
+        </RelativeLayout>
+
 
     </LinearLayout>
 
@@ -119,6 +136,17 @@
         </LinearLayout>
 
     </RelativeLayout>
-
+    <TextView
+        android:id="@+id/tvError"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/madani_arabic_medium"
+        android:text="@string/noProductsFound"
+        android:textAlignment="viewStart"
+        android:textColor="@color/gray"
+        android:textSize="@dimen/_10sdp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:visibility="gone" />
 
 </RelativeLayout>

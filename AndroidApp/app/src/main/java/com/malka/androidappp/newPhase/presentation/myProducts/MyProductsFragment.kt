@@ -169,7 +169,6 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
             else
                 HelpFunctions.dismissProgressBar()
         }
-
         myProductsViewModel.isloadingMore.observe(this) {
             if (it)
                 progressBarMore.show()

@@ -185,7 +185,7 @@
 
     <fragment
         android:id="@+id/MySavedAddress"
-        android:name="com.malka.androidappp.newPhase.presentation.account_fragment.address.AddressList"
+        android:name="com.malka.androidappp.newPhase.presentation.addressUser.addressListActivity.AddressList"
         android:label="Sold"
         tools:layout="@layout/address_list_fragment" />
 

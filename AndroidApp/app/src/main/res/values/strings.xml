@@ -2795,6 +2795,7 @@ Want to start a business account? Create a Business Account
     <string name="my_saved_addresses">My saved addresses</string>
     <string name="delivery_to_my_current_address">Delivery to my current address</string>
     <string name="add_a_new_address">Add a new Address</string>
+  <string name="edit_address">Edit Address</string>
     <string name="close_time">Auction closing time</string>
     <string name="without_additional_expenses">Without additional expenses</string>
     <string name="set_your_own_time_and_time">Set your own date and time</string>
@@ -2879,6 +2880,7 @@ Want to start a business account? Create a Business Account
     <string name="view_my_information_for_members_only">View my information for members only</string>
     <string name="no_one">No one</string>
     <string name="save_edits">Save edits</string>
+  <string name="Add">Add</string>
     <string name="the_language">The Language</string>
     <string name="receive_notification">Receive notification</string>
     <string name="edit_profile">Edit profile</string>
@@ -3013,4 +3015,19 @@ Want to start a business account? Create a Business Account
     <string name="discountPriceShouldBeLower">Discount price should be Lower than current price</string>
     <string name="discountAddedSuccessfully">Discount was added Successfully</string>
   <string name="sellerRate">Seller Rates</string>
+  <string name="noAddressesFound">No Addresses Found</string>
+  <string name="building">Building</string>
+  <string name="floor">Floor</string>
+  <string name="floorNumber">Floor Number</string>
+  <string name="apartmentNumber">Apartment Number</string>
+  <string name="apartment">Apartment</string>
+  <string name="addressTitle">Address Title</string>
+  <string name="address">Address</string>
+  <string name="street">Street</string>
+  <string name="buildingNumber">Building Number</string>
+  <string name="openLocation">Please open  location permission</string>
+  <string name="open">Open</string>
+  <string name="plaseSelectYourLocation">Please Select Your Location</string>
+  <string name="productAddedToCart">Product  Was Added To Your Cart</string>
+  <string name="selectDeliveryAddress">Please, Select Delivery Address</string>
 </resources>

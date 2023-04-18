@@ -19,7 +19,7 @@ import com.malka.androidappp.fragments.cardetail_page.bottomsheet_bidopt.Bottoms
 import com.malka.androidappp.fragments.cardetail_page.bottomsheet_bidopt.StoreDataForAdDetail
 import com.malka.androidappp.fragments.cardetail_page.bottomsheet_bidopt.getbidModel.ModelBidingResponse
 import com.malka.androidappp.newPhase.domain.models.servicemodels.questionModel.ModelQuesAnswr
-import com.malka.androidappp.fragments.shared_preferences.SharedPreferencesStaticClass
+import com.malka.androidappp.newPhase.data.helper.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
 import com.malka.androidappp.newPhase.data.network.service.MalqaApiService

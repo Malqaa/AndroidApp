@@ -16,7 +16,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.malka.androidappp.R
-import com.malka.androidappp.activities_main.order.CartActivity
+import com.malka.androidappp.newPhase.presentation.cartActivity.activity1.CartActivity
 import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.newPhase.data.helper.*
 import com.malka.androidappp.newPhase.data.helper.widgets.viewpager2.AutoScrollViewPager
@@ -413,7 +413,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
 
 
     private fun setListenser() {
-        ic_cart.setOnClickListener {
+        ivCart.setOnClickListener {
             if (ConstantObjects.logged_userid.isEmpty()) {
                 startActivity(Intent(context, SignInActivity::class.java).apply {
                 })

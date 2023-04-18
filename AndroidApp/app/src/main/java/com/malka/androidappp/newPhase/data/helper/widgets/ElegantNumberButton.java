@@ -132,6 +132,7 @@ public class ElegantNumberButton extends RelativeLayout {
 
     public interface OnValueChangeListener {
         void onValueChange(ElegantNumberButton view, int oldValue, int newValue);
+     //   void onIncreaseQuantity(),
     }
 
 }

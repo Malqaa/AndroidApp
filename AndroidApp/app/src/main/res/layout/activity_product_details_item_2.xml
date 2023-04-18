@@ -802,6 +802,7 @@
                     android:fontFamily="@font/madani_arabic_light"
                     android:gravity="end"
                     android:text="@string/add_Review"
+                    android:visibility="gone"
                     android:textColor="@color/bg"
                     android:textSize="@dimen/_14sdp" />
 
@@ -1156,7 +1157,7 @@
             <LinearLayout
                 android:id="@+id/contaienrSimilerProduts"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_14sdp"
                 android:layout_marginTop="@dimen/_14sdp"
                 android:layout_marginEnd="@dimen/_14sdp"

@@ -120,7 +120,7 @@
  </RelativeLayout>
 
  <TextView
-     android:id="@+id/total_price"
+     android:id="@+id/tvTotalPrice"
      android:layout_width="wrap_content"
      android:layout_height="wrap_content"
      android:text="AED 18.95"

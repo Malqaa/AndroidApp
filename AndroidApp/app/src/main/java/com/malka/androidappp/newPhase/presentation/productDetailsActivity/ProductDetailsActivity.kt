@@ -20,8 +20,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.JsonObject
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.PlayActivity
-import com.malka.androidappp.activities_main.order.CartActivity
-import com.malka.androidappp.fragments.shared_preferences.SharedPreferencesStaticClass
+import com.malka.androidappp.newPhase.presentation.cartActivity.activity1.CartActivity
+import com.malka.androidappp.newPhase.data.helper.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.newPhase.data.helper.*
 import com.malka.androidappp.newPhase.data.helper.Extension.shared
@@ -50,7 +50,6 @@ import com.malka.androidappp.newPhase.presentation.productDetailsActivity.viewMo
 import com.malka.androidappp.newPhase.presentation.productQuestionActivity.QuestionActivity
 import com.malka.androidappp.newPhase.presentation.addProductReviewActivity.ProductReviewsActivity
 import com.malka.androidappp.newPhase.presentation.addProductReviewActivity.AddRateProductActivity
-import com.malka.androidappp.newPhase.presentation.addSellerReviewActivity.AddRateSellerActivity
 import com.malka.androidappp.newPhase.presentation.addSellerReviewActivity.SellerRateListActivity
 import com.malka.androidappp.newPhase.presentation.productsSellerInfoActivity.SellerInformationActivity
 import com.yariksoffice.lingver.Lingver
@@ -157,10 +156,10 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             getString(R.string.there_are_2_questions_that_the_seller_did_not_answer, "0")
         if (HelpFunctions.isUserLoggedIn()) {
             containerMainAskQuestion.show()
-            containerBuyButtons.show()
+            //  containerBuyButtons.show()
         } else {
             containerMainAskQuestion.hide()
-            containerBuyButtons.hide()
+            // containerBuyButtons.hide()
         }
         if (isMyProduct) {
             containerMainAskQuestion.hide()
@@ -184,8 +183,14 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
         containerRateSeller.setOnClickListener {
             startActivityForResult(Intent(this, SellerRateListActivity::class.java).apply {
-                putExtra(ConstantObjects.providerIdKey, productDetails?.sellerInformation?.providerId?:"")
-                putExtra(ConstantObjects.businessAccountIdKey, productDetails?.sellerInformation?.businessAccountId?:"")
+                putExtra(
+                    ConstantObjects.providerIdKey,
+                    productDetails?.sellerInformation?.providerId ?: ""
+                )
+                putExtra(
+                    ConstantObjects.businessAccountIdKey,
+                    productDetails?.sellerInformation?.businessAccountId ?: ""
+                )
 
             }, addSellerReviewRequestCode)
         }
@@ -291,7 +296,10 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             HelpFunctions.ShowLongToast("not implemented yey", this)
         }
         containerCurrentPriceBuy.setOnClickListener {
-            HelpFunctions.ShowLongToast("not implemented yey", this)
+            productDetialsViewModel.addProductToCart(
+                SharedPreferencesStaticClass.getMasterCartId(),
+                productId
+            )
         }
         containerBidOnPrice.setOnClickListener {
             HelpFunctions.ShowLongToast("not implemented yey", this)
@@ -441,6 +449,26 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         productDetialsViewModel.getRateResponseObservable.observe(this) { rateListResp ->
             if (rateListResp.status_code == 200) {
                 setReviewRateView(rateListResp.data)
+            }
+        }
+        productDetialsViewModel.addProductToCartObservable.observe(this) { addproductToCartResp ->
+            if (addproductToCartResp.status_code == 200) {
+                addproductToCartResp.addProductToCartData?.let {
+                    SharedPreferencesStaticClass.saveMasterCartId(it.cartMasterId)
+//                    if (HelpFunctions.isUserLoggedIn()) {
+//                        SharedPreferencesStaticClass.saveAssignCartToUser(true)
+//                    }else{
+//                        SharedPreferencesStaticClass.saveAssignCartToUser(false)
+//                    }
+                }
+                HelpFunctions.ShowLongToast(getString(R.string.productAddedToCart), this)
+            } else {
+                if (addproductToCartResp.message != null) {
+                    HelpFunctions.ShowLongToast(addproductToCartResp.message, this)
+                } else {
+                    HelpFunctions.ShowLongToast(getString(R.string.serverError), this)
+
+                }
             }
         }
     }
@@ -663,7 +691,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             tvProductSubtitle.text = productDetails.subTitle ?: ""
             tvProductDescription.text = productDetails.description ?: ""
             current_price_buy_tv.text =
-                "${productDetails.price.toString()} ${getString(R.string.sar)}"
+                "${productDetails.priceDisc.toString()} ${getString(R.string.sar)}"
             Bid_on_price_tv.text = " ${getString(R.string.sar)}"
             /**seller info*/
             if (productDetails.sellerInformation != null) {
@@ -1126,9 +1154,9 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     }
 }
 
-    /** NotNeed Function delete latter**/
+/** NotNeed Function delete latter**/
 
-    //    fun getadbyidapi(advid: String) {
+//    fun getadbyidapi(advid: String) {
 //        HelpFunctions.startProgressBar(this)
 //        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
 //        val call = malqa.getAdDetailById2(advid)
@@ -1539,7 +1567,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 //        })
 //
 //    }
-    //    private fun enableSwipeToDeleteAndUndo() {
+//    private fun enableSwipeToDeleteAndUndo() {
 //        val messageSwipeController =
 //            MessageSwipeController(this, object : SwipeControllerActions {
 //                override fun showReplyUI(position: Int) {
@@ -1552,7 +1580,6 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 //        itemTouchHelper.attachToRecyclerView(rvQuestionForProduct)
 //
 //    }
-
 
 
 //productDetailHelper = ProductDetailHelper(this)

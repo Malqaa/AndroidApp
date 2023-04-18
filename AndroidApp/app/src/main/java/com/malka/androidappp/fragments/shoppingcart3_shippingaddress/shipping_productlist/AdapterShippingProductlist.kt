@@ -23,7 +23,7 @@ class AdapterShippingProductlist (
         val closeproductCard : ImageButton = itemview.close_card_product
         val imgShopcartproduct: ImageView = itemview.img_shopcart
         val cartproductDescrip : TextView = itemview.tx_productdescription
-        val totalPrice: TextView = itemview.total_price
+        val totalPrice: TextView = itemview.tvTotalPrice
     }
 
 

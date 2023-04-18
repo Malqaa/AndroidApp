@@ -11,10 +11,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.presentation.MainActivity
-import com.malka.androidappp.activities_main.business_signup.Switch_Account
 import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
-import com.malka.androidappp.activities_main.order.CartActivity
-import com.malka.androidappp.fragments.shared_preferences.SharedPreferencesStaticClass
+import com.malka.androidappp.newPhase.data.helper.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.newPhase.data.helper.Extension
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.data.helper.hide
