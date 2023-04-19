@@ -94,6 +94,10 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
         super.onViewCreated(view, savedInstanceState)
         userData = Paper.book().read<LoginUser>(SharedPreferencesStaticClass.user_object)
         setUserData(userData)
+        if(MainActivity.myOrderTrigger){
+            MainActivity.myOrderTrigger=false
+            findNavController().navigate(R.id.myRequest)
+        }
       //  setListenser()
 //        if (!isProfileLoad) {
 //            CommonAPI().GetUserInfo(requireContext(), ConstantObjects.logged_userid) {
@@ -162,7 +166,6 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
 
 
         profilecardv.setOnClickListener() {
-
             findNavController().navigate(R.id.accountsettingtoprofile)
         }
         settingcardv.setOnClickListener() {
@@ -267,10 +270,10 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
                                                 getString(R.string.MyProducts) -> {
                                                     findNavController().navigate(R.id.myProduct)
                                                 }
-//                                                getString(R.string.my_orders) -> {
-//                                                    findNavController().navigate(R.id.myRequest)
-//
-//                                                }
+                                                getString(R.string.my_orders) -> {
+                                                    findNavController().navigate(R.id.myRequest)
+
+                                                }
 //                                                getString(R.string.my_bids) -> {
 //                                                    findNavController().navigate(R.id.mybids)
 //

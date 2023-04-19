@@ -19,6 +19,7 @@ import com.malka.androidappp.fragments.shoppingcart3_shippingaddress.shipping_ad
 import com.malka.androidappp.fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ShippingAddressessData
 import com.malka.androidappp.newPhase.data.network.constants.Constants
 import com.malka.androidappp.newPhase.data.network.constants.Constants.GET_CATEGORY_TAGS_ENDPOINT
+import com.malka.androidappp.newPhase.domain.models.addOrderResp.AddOrderResp
 import com.malka.androidappp.newPhase.domain.models.addProductToCartResp.AddProductToCartResp
 import com.malka.androidappp.newPhase.domain.models.addRateResp.AddRateResp
 import com.malka.androidappp.newPhase.domain.models.cartListResp.CartListResp
@@ -412,9 +413,19 @@ interface MalqaApiService {
     @POST("AddOrder")
     fun addOrder(
         @PartMap partMap: Map<String, @JvmSuppressWildcards RequestBody>,
+    ):Call<AddOrderResp>
+
+    @POST("ApplyCouponOnCart")
+    fun applyCouponOnCart(
+        @Query("cartMasterId")cartMasterId:String,@Query("couponCode")couponCode:String,@Query("buyWithFixedRpriceOrNegotiation")buyWithFixedRpriceOrNegotiation:String
     ):Call<GeneralResponse>
-
-
+    @POST("ApplyCouponOnCart")
+    fun applyCouponOnCart(
+        @Query("cartMasterId")cartMasterId:String,
+        @Query("couponCode")couponCode:String,
+        @Query("buyWithFixedRpriceOrNegotiation")buyWithFixedRpriceOrNegotiation:String,
+        @Query("couponForbusinessAccountId")couponForbusinessAccountId:String
+    ):Call<GeneralResponse>
     /***
      * ***********************************
      * ***********************************

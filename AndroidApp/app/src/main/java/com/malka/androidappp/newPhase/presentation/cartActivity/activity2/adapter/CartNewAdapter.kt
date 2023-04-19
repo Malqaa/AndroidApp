@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
 import com.malka.androidappp.databinding.ItemCartDesignNewBinding
-import com.malka.androidappp.newPhase.data.helper.Extension
 import com.malka.androidappp.newPhase.data.helper.hide
 import com.malka.androidappp.newPhase.data.helper.linearLayoutManager
 import com.malka.androidappp.newPhase.data.helper.show
@@ -16,7 +15,6 @@ import com.malka.androidappp.newPhase.domain.models.cartListResp.CartProductDeta
 import com.malka.androidappp.newPhase.domain.models.cartListResp.ProductCartItem
 import com.malka.androidappp.newPhase.presentation.cartActivity.activity1.adapter.CartAdapter
 import kotlinx.android.synthetic.main.item_cart_design_new.view.*
-import java.util.Objects
 
 
 class CartNewAdapter(
@@ -45,7 +43,8 @@ class CartNewAdapter(
     override fun onBindViewHolder(holder: CartNewViewHolder, position: Int) {
         holder.itemView.tvSellerName.text = productsCartListResp[position].providerName ?: ""
         setAdapter(holder.viewBinding.rvCart, productsCartListResp[position].listProduct,position)
-        if (productsCartListResp[position].couponAppliedBussinessAccountDto != null) {
+        if (productsCartListResp[position].couponAppliedBussinessAccountDto != null)
+        {
             holder.viewBinding.tvTotalPrice.text = "${productsCartListResp[position].couponAppliedBussinessAccountDto!!.finalTotalPriceForBusinessAccount} ${context.getString(R.string.Rayal)}"
             if (productsCartListResp[position].couponAppliedBussinessAccountDto!!.businessAccountAmountBeforeCoupon
                 == productsCartListResp[position].couponAppliedBussinessAccountDto!!.businessAccountAmountAfterCoupon
@@ -53,12 +52,32 @@ class CartNewAdapter(
                 holder.viewBinding.tvOldTotalPrice.hide()
             }else{
                 holder.viewBinding.tvOldTotalPrice.show()
+                holder.viewBinding.tvOldTotalPrice.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
                 holder.viewBinding.tvOldTotalPrice.text= "${productsCartListResp[position].couponAppliedBussinessAccountDto!!.businessAccountAmountBeforeCoupon} ${context.getString(R.string.Rayal)}"
             }
+            if(productsCartListResp[position].couponAppliedBussinessAccountDto!!.businessAccountId!=null){
+                holder.viewBinding.couponContainer.show()
+                holder.viewBinding.btnApplyCode.setOnClickListener {
+                    if(holder.viewBinding.etCoupon.text.toString().trim()==""){
+                        holder.viewBinding.etCoupon.error=context.getString(R.string.enter_the_coupon)
+                    }else{
+                        setProductCartListeners.onApplyBusinessCardCoupon(position,
+                            productsCartListResp[position].couponAppliedBussinessAccountDto!!.businessAccountId!!,
+                            holder.viewBinding.etCoupon.text.toString().trim()
+                        )
+                    }
+
+                }
+            }else{
+                holder.viewBinding.couponContainer.hide()
+            }
         } else {
+            holder.viewBinding.couponContainer.hide()
             holder.viewBinding.tvOldTotalPrice.hide()
             holder.viewBinding.tvTotalPrice.text ="0${context.getString(R.string.Rayal)}"
         }
+
+
 //        var productItem: ProductCartItem? = productsCartListResp[position].listProduct?.get(0)
 //        if (productItem != null) {
 //            Extension.loadThumbnail(
@@ -149,5 +168,7 @@ class CartNewAdapter(
         fun onIncreaseQuantityProduct(position: Int,mainPosition:Int)
         fun onDecreaseQuantityProduct(position: Int,mainPosition:Int)
         fun onDeleteProduct(position: Int,mainPosition:Int)
+
+        fun onApplyBusinessCardCoupon(mainPosition: Int,businessAccountId:String,coupon:String)
     }
 }

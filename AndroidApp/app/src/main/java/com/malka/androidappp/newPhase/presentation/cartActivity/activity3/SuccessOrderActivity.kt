@@ -1,4 +1,4 @@
-package com.malka.androidappp.newPhase.presentation.cartActivity
+package com.malka.androidappp.newPhase.presentation.cartActivity.activity3
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,7 +8,7 @@ import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
 import kotlinx.android.synthetic.main.activity_success_order.*
 
-class SuccessOrder : BaseActivity() {
+class SuccessOrderActivity : BaseActivity() {
 
     override fun onBackPressed() {
         back_to_main.performClick()
@@ -19,7 +19,7 @@ class SuccessOrder : BaseActivity() {
         setContentView(R.layout.activity_success_order)
 
         track_your_order_btn.setOnClickListener {
-            startActivity(Intent(this@SuccessOrder, MainActivity::class.java).apply {
+            startActivity(Intent(this@SuccessOrderActivity, MainActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 putExtra(ConstantObjects.isMyOrder,true)
             })
@@ -32,8 +32,8 @@ class SuccessOrder : BaseActivity() {
             })
             finish()
         }
-        order_number_tv.text=intent.getStringExtra("order_number")
-        shipments_tv.text=intent.getStringExtra("shipments")
-        total_order_tv.text = "${intent.getStringExtra("total_order")} ${getString(R.string.rial)}"
+        order_number_tv.text=intent.getStringExtra(ConstantObjects.orderNumberKey)
+        shipments_tv.text=intent.getStringExtra(ConstantObjects.orderShippingSectionNumberKey)
+        total_order_tv.text = "${intent.getStringExtra(ConstantObjects.orderPriceKey)} ${getString(R.string.rial)}"
     }
 }

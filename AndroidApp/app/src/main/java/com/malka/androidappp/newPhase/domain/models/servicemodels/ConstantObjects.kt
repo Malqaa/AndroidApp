@@ -2,7 +2,6 @@ package com.malka.androidappp.newPhase.domain.models.servicemodels
 
 import android.widget.ImageView
 import com.malka.androidappp.fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ShippingAddressessData
-import com.malka.androidappp.newPhase.domain.models.cartListResp.CartProductDetails
 import com.malka.androidappp.newPhase.domain.models.cartListResp.ProductCartItem
 import com.malka.androidappp.newPhase.domain.models.countryResp.Country
 import com.malka.androidappp.newPhase.domain.models.productResp.Product
@@ -21,6 +20,9 @@ class ConstantObjects {
         const val rateObjectKey: String = "rateObjectKey"
         const val editRateKey: String = "editRateKey"
         const val  addressKey: String = "addressKey"
+        const val  orderNumberKey: String = "orderNumberKey"
+        const val  orderShippingSectionNumberKey: String = "orderShippingNumber"
+        const val  orderPriceKey: String = "orderPriceKey"
         const val ENGLISH = "en"
         const val ARABIC = "ar"
 

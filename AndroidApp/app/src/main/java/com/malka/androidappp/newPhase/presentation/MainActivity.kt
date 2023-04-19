@@ -67,14 +67,15 @@ class MainActivity : BaseActivity() {
         nav_view_ = nav_view
         //============
 //        val isBid = intent.getBooleanExtra(ConstantObjects.isBid, false)
-//        val isMyOrder = intent.getBooleanExtra(ConstantObjects.isMyOrder, false)
+        val isMyOrder = intent.getBooleanExtra(ConstantObjects.isMyOrder, false)
 //        if (isBid) {
 //            nav_view_!!.selectedItemId = R.id.navigation_account
 //            myBidTrigger = true
-//        } else if (isMyOrder) {
-//            nav_view_!!.selectedItemId = R.id.navigation_account
-//            myOrderTrigger = true
 //        }
+        if (isMyOrder) {
+            nav_view_!!.selectedItemId = R.id.navigation_account
+            myOrderTrigger = true
+        }
 
         //notification numberBadge
 //        nav_view.getOrCreateBadge(R.id.navigation_notifications).apply {
