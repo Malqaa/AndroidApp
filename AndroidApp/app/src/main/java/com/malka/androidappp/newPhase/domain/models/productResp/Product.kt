@@ -1,6 +1,7 @@
 package com.malka.androidappp.newPhase.domain.models.productResp
 
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
+import com.malka.androidappp.newPhase.domain.models.sellerInfoResp.SellerInformation
 
 
 data class Product(
@@ -27,7 +28,7 @@ data class Product(
     val createdAt: String? = null,
     val updatedAt: String? = null,
     val categoryId: Int,
-    val category: String ,
+    val category: String,
     val countryId: Int,
     val country: String? = null,
     val regionId: Int,
@@ -42,7 +43,7 @@ data class Product(
     val listMedia: List<ProductMediaItemDetails>? = null,
     val listProductSep: List<ProductSpecialityItemDetails>? = null,
     val productMazadNegotiate:ProductMazadNegotiateObject?=null,
-    val sellerInformation:SellerInformation?=null,
+   // val sellerInformation: SellerInformation?=null,
     var image: String? = null,
     val codeRegoin: String,
     var priceDisc: Float,
@@ -52,9 +53,9 @@ data class Product(
     val stutes: Int,
     val updateDate: String? = null,
     val isFreeDeleivry:Boolean,
-    val isMerchant:Boolean
+    val isMerchant:Boolean,
 
-) {
+    ) {
 
     val createdOnFormated: String
         get() {

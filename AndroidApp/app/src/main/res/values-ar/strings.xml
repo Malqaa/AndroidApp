@@ -22,6 +22,7 @@
     <string name="show">عرض</string>
     <string name="noProductsAdded">لم يتم إضافه اى منتجات</string>
     <string name="noProductsFound">لم يتم العثور على اى منتجات</string>
+  <string name="noOrdersFound">لم يتم العثور على اى طلبات</string>
     <string name="enterAllSpecificaiton"> أدخل جميع المواصفات</string>
     <string name="noSubCategoryFound">لم يتم العثور على فئات فرعية</string>
     <string name="NoCategoryMarkedasFavourites">
@@ -2848,4 +2849,6 @@
   <string name="plaseSelectYourLocation">الرجاء تحديد موقعك</string>
   <string name="productAddedToCart">تمت إضافة المنتج إلى عربة التسوق الخاصة بك</string>
   <string name="selectDeliveryAddress">من فضللك حدد عنوان التسليم</string>
+  <string name="noLocationFound">لم يتم العثور على الموقع</string>
+  <string name="showLess">عرض أقل</string>
 </resources>

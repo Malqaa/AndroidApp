@@ -23,6 +23,7 @@ class ConstantObjects {
         const val  orderNumberKey: String = "orderNumberKey"
         const val  orderShippingSectionNumberKey: String = "orderShippingNumber"
         const val  orderPriceKey: String = "orderPriceKey"
+        const val sellerObjectKey:String="sellerObjectKey"
         const val ENGLISH = "en"
         const val ARABIC = "ar"
 

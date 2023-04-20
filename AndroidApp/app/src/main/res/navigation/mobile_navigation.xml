@@ -224,7 +224,7 @@
 
     <fragment
         android:id="@+id/myRequest"
-        android:name="com.malka.androidappp.fragments.MyOrdersFragment"
+        android:name="com.malka.androidappp.newPhase.presentation.myOrderFragment.MyOrdersFragment"
         android:label="My Request"
         tools:layout="@layout/fragment_my_orders" />
 
@@ -280,7 +280,7 @@
 
     <fragment
         android:id="@+id/sellerRating"
-        android:name="com.malka.androidappp.fragments.seller_rating"
+        android:name="com.malka.androidappp.newPhase.presentation.sellerDetailsActivity.seller_rating"
         android:label="My Points"
         tools:layout="@layout/fragment_seller_rating">
 

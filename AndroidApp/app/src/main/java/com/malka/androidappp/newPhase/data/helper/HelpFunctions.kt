@@ -101,9 +101,11 @@ class HelpFunctions {
         fun isUserLoggedIn(): Boolean1 {
             val islogin = Paper.book().read(SharedPreferencesStaticClass.islogin, false) ?: false
             if (islogin) {
-                val user_object :LoginUser?= Paper.book().read<LoginUser>(SharedPreferencesStaticClass.user_object)
+                val user_object: LoginUser? =
+                    Paper.book().read<LoginUser>(SharedPreferencesStaticClass.user_object)
                 ConstantObjects.logged_userid = user_object?.id.toString()
                 ConstantObjects.logged_authtoken = user_object?.token.toString()
+               // ConstantObjects.loggin_businessAccountId=user_object?.
             }
             return islogin
         }
@@ -265,6 +267,7 @@ class HelpFunctions {
             }
             return result
         }
+
         fun getFormattedDate2(
             date: String?,
             givenFormat: String?,
@@ -279,15 +282,16 @@ class HelpFunctions {
                 //  dateFormat.setTimeZone(TimeZone.getDefault())
                 requestDateFormat = SimpleDateFormat(givenFormat, Locale.ENGLISH)
 
-                 requestDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"))
+                requestDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"))
                 requestDate = requestDateFormat.parse(date)
                 result = dateFormat!!.format(requestDate)
             } catch (e: Exception) {
-                println("hhhh "+e.message)
+                println("hhhh " + e.message)
                 e.printStackTrace()
             }
             return result
         }
+
         @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
         fun getViewFormatForDateTrack(dateStr: String?): String? {
             try {
@@ -310,7 +314,7 @@ class HelpFunctions {
                     return ""
                 }
                 return str
-            }catch ( e:Exception){
+            } catch (e: Exception) {
                 return ""
             }
         }
@@ -342,7 +346,6 @@ class HelpFunctions {
         }
 
 
-       
         //Date: 11/13/2020
         fun GetUserFavourites(context: Fragment) {
             try {
@@ -408,7 +411,7 @@ class HelpFunctions {
                             if (response.body() != null) {
                                 val resp: AddFavResponse = response.body()!!;
                                 if (resp.status_code == 200) {
-                                  //  GetUserWatchlist()
+                                    //  GetUserWatchlist()
                                     onSuccess?.invoke()
                                     ShowLongToast(
                                         resp.message,
@@ -471,7 +474,7 @@ class HelpFunctions {
                             if (response.body() != null) {
                                 val resp: BasicResponse = response.body()!!;
                                 if (resp.status_code == 200 && (resp.data == true || resp.data == 1 || resp.data == 1.0)) {
-                                   // GetUserWatchlist()
+                                    // GetUserWatchlist()
                                     onSuccess?.invoke()
                                     ShowLongToast(
                                         "Removed Successfully",
@@ -554,7 +557,6 @@ class HelpFunctions {
 //                }
 //            })
 //        }
-
 
 
         fun DeleteFromFavourite(
@@ -663,12 +665,14 @@ class HelpFunctions {
             //Base64.de
             return Base64.encodeToString(b, Base64.DEFAULT)
         }
-        fun getFileImage(uri: Uri,context: Context):File {
-            val path: String? = getRealPathFromURI(uri,context)
+
+        fun getFileImage(uri: Uri, context: Context): File {
+            val path: String? = getRealPathFromURI(uri, context)
             val imagefile = File(path)
             return imagefile
         }
-        private fun getRealPathFromURI(contentUri: Uri,context: Context): String? {
+
+        private fun getRealPathFromURI(contentUri: Uri, context: Context): String? {
             val proj = arrayOf(MediaStore.Images.Media.DATA)
             val loader = CursorLoader(context, contentUri, proj, null, null, null)
             val cursor: Cursor? = loader.loadInBackground()
@@ -884,7 +888,7 @@ class HelpFunctions {
 //        }
 //
 
-         var isdialog: AlertDialog?=null
+        var isdialog: AlertDialog? = null
 
         fun startProgressBar(mActivity: Activity) {
             val infalter = mActivity.layoutInflater
@@ -982,13 +986,19 @@ class HelpFunctions {
 
 
         fun openExternalLInk(link: String, context: Context) {
-            context.startActivity(
-                Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse(link)
+            try {
+                context.startActivity(
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse(link)
+                    )
                 )
-            )
+            } catch (e: java.lang.Exception) {
+                HelpFunctions.ShowLongToast(context.getString(R.string.serverError),context)
+            }
+
         }
+
         fun loadCompanyImage(context: Context, iv: ImageView, url: String?) {
             Glide.with(context)
                 .load(url)
@@ -1000,7 +1010,6 @@ class HelpFunctions {
                 .into(iv)
         }
     }
-
 
 
 }

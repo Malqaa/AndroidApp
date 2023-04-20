@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".newPhase.presentation.sellerDetailsActivity.seller_rating">
-
+    tools:context=".newPhase.presentation.productsSellerInfoActivity.SellerRateActivity">
     <include
         android:id="@+id/toolbar_main"
         layout="@layout/toolbar_main" />
@@ -15,6 +14,7 @@
         android:layout_below="@+id/toolbar_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@+id/bottom_btns"
         android:orientation="vertical">
 
 
@@ -24,7 +24,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_10sdp"
-            android:layout_marginBottom="@dimen/_10sdp"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:spanCount="1"
             tools:listitem="@layout/product_review_design" />
@@ -44,7 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/_45sdp"
             android:layout_marginStart="@dimen/_15sdp"
-            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_marginTop="@dimen/_5sdp"
             android:layout_marginEnd="@dimen/_15sdp"
             android:layout_marginBottom="@dimen/_15sdp"
             android:background="@drawable/add_product_attribte">
@@ -99,7 +98,4 @@
         </LinearLayout>
 
     </RelativeLayout>
-
-
-
 </RelativeLayout>

@@ -32,6 +32,9 @@
         android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup">
         <activity
+            android:name="com.malka.androidappp.newPhase.presentation.productsSellerInfoActivity.SellerRateActivity"
+            android:exported="false" />
+        <activity
             android:name="com.malka.androidappp.newPhase.presentation.addSellerReviewActivity.SellerRateListActivity"
             android:exported="false" />
         <activity

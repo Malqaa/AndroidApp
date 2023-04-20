@@ -13,6 +13,7 @@ import com.malka.androidappp.newPhase.domain.models.questionResp.AddQuestionResp
 import com.malka.androidappp.newPhase.domain.models.questionsResp.QuestionsResp
 import com.malka.androidappp.newPhase.domain.models.ratingResp.CurrentUserRateResp
 import com.malka.androidappp.newPhase.domain.models.ratingResp.RateResponse
+import com.malka.androidappp.newPhase.domain.models.sellerInfoResp.SellerInfoResp
 import com.malka.androidappp.newPhase.domain.models.sellerRateListResp.SellerRateListResp
 import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
 import com.malka.androidappp.newPhase.domain.models.servicemodels.GeneralRespone
@@ -37,7 +38,8 @@ class ProductDetailsViewModel : BaseViewModel() {
     var sellerRateListObservable: MutableLiveData<SellerRateListResp> = MutableLiveData()
     var addSellerRateObservable: MutableLiveData<GeneralRespone> = MutableLiveData()
     var addProductToCartObservable: MutableLiveData<AddProductToCartResp> = MutableLiveData()
-
+    var sellerInfoObservable: MutableLiveData<SellerInfoResp> = MutableLiveData()
+    var sellerInfoLoadingObservable: MutableLiveData<Boolean> = MutableLiveData()
     fun getProductDetailsById(productId: Int) {
         isLoading.value = true
         RetrofitBuilder.GetRetrofitBuilder()
@@ -57,6 +59,26 @@ class ProductDetailsViewModel : BaseViewModel() {
                         productDetailsObservable.value = response.body()
                     } else {
                         errorResponseObserver.value = getErrorResponse(response.errorBody())
+                    }
+                }
+            })
+    }
+    fun getSellerInfo(productId: Int) {
+        sellerInfoLoadingObservable.value = true
+        RetrofitBuilder.GetRetrofitBuilder()
+            .getSellerInformation(productId)
+            .enqueue(object : Callback<SellerInfoResp> {
+                override fun onFailure(call: Call<SellerInfoResp>, t: Throwable) {
+                    sellerInfoLoadingObservable.value = false
+                }
+
+                override fun onResponse(
+                    call: Call<SellerInfoResp>,
+                    response: Response<SellerInfoResp>
+                ) {
+                    sellerInfoLoadingObservable.value = false
+                    if (response.isSuccessful) {
+                        sellerInfoObservable.value = response.body()
                     }
                 }
             })
@@ -388,4 +410,33 @@ class ProductDetailsViewModel : BaseViewModel() {
                 }
             })
     }
+
+
+    var sellerProductsRespObserver: MutableLiveData<ProductListResp> = MutableLiveData()
+    var sellerLoading: MutableLiveData<Boolean> = MutableLiveData()
+
+    fun getSellerListProduct( sellerProviderID: String, businessAccountId: String) {
+        sellerLoading.value = true
+        RetrofitBuilder.GetRetrofitBuilder()
+            .getListSellerProducts(1,sellerProviderID,businessAccountId)
+            .enqueue(object : Callback<ProductListResp> {
+                override fun onFailure(call: Call<ProductListResp>, t: Throwable) {
+                    isNetworkFail.value = t !is HttpException
+                    sellerLoading.value = false
+                }
+
+                override fun onResponse(
+                    call: Call<ProductListResp>,
+                    response: Response<ProductListResp>
+                ) {
+                    sellerLoading.value = false
+                    if (response.isSuccessful) {
+                        sellerProductsRespObserver.value = response.body()
+                    } else {
+                        errorResponseObserver.value = getErrorResponse(response.errorBody())
+                    }
+                }
+            })
+    }
+
 }

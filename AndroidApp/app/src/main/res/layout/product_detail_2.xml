@@ -901,7 +901,7 @@
 
 
                                 <LinearLayout
-                                    android:id="@+id/maps_btn"
+                                    android:id="@+id/btnMapSeller"
                                     android:layout_width="@dimen/_42sdp"
                                     android:layout_height="@dimen/_42sdp"
                                     android:layout_marginTop="@dimen/_5sdp"

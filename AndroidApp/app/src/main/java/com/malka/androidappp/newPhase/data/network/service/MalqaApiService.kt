@@ -42,6 +42,7 @@ import com.malka.androidappp.newPhase.domain.models.ratingResp.CurrentUserRateRe
 import com.malka.androidappp.newPhase.domain.models.ratingResp.RateResponse
 import com.malka.androidappp.newPhase.domain.models.regionsResp.RegionsResp
 import com.malka.androidappp.newPhase.domain.models.resgisterResp.RegisterResp
+import com.malka.androidappp.newPhase.domain.models.sellerInfoResp.SellerInfoResp
 import com.malka.androidappp.newPhase.domain.models.sellerRateListResp.SellerRateListResp
 import com.malka.androidappp.newPhase.domain.models.servicemodels.*
 import com.malka.androidappp.newPhase.domain.models.servicemodels.addtocart.AddToCartResponseModel
@@ -179,6 +180,11 @@ interface MalqaApiService {
         @Query("id") id: Int,
         @Query("lang") language: String = ConstantObjects.currentLanguage
     ): Call<ProductResp>
+    @GET("GetSellerInformation")
+    fun getSellerInformation(
+        @Query("productId") productId: Int,
+        @Query("lang") language: String = ConstantObjects.currentLanguage
+    ): Call<SellerInfoResp>
 
     @GET("GetProductById")
     fun getAdDetailById(
@@ -364,6 +370,13 @@ interface MalqaApiService {
         @Query("pageIndex") page: Int,
         @Query("lang") language: String = ConstantObjects.currentLanguage
     ): Call<OrderListResp>
+    @GET("GetClientAddedOrders?PageRowsCount=10")
+    fun getCurrentOrders(
+        @Query("pageIndex") page: Int,
+        @Query("userId") userId:String,
+        @Query("lang") language: String = ConstantObjects.currentLanguage
+    ): Call<OrderListResp>
+
 
     @POST("ProductDiscount")
     fun addDiscount(
@@ -426,6 +439,16 @@ interface MalqaApiService {
         @Query("buyWithFixedRpriceOrNegotiation")buyWithFixedRpriceOrNegotiation:String,
         @Query("couponForbusinessAccountId")couponForbusinessAccountId:String
     ):Call<GeneralResponse>
+
+    @GET("ListSellerProducts?PageRowsCount=10")
+    fun getListSellerProducts(
+        @Query("pageIndex")pageIndex:Int,
+        @Query("sellerId")sellerProviderId:String,
+        @Query("sellerBusinssAccountId")sellerBusinssAccountId:String,
+        @Query("lang") language: String = ConstantObjects.currentLanguage
+    ): Call<ProductListResp>;
+
+
     /***
      * ***********************************
      * ***********************************

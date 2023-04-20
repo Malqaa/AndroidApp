@@ -1,9 +1,13 @@
-package com.malka.androidappp.newPhase.domain.models.productResp
+package com.malka.androidappp.newPhase.domain.models.sellerInfoResp
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
 data class SellerInformation(
-    val providerId: String="",
+    val providerId: String?=null,
     val rate: Float,
-    val businessAccountId: String="",
+    val businessAccountId: String?=null,
     val image: String? = null,
     val name: String? = null,
     val city: String? = null,
@@ -17,6 +21,8 @@ data class SellerInformation(
     val linkedIn: String? = null,
     val snapchat: String? = null,
     val tikTok: String? = null,
-
     val createdAt: String? = null,
-)
+    val lat:Double?=null ,
+    val lon:Double?=null,
+    val isFollowed: Boolean,
+):Parcelable

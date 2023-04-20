@@ -34,6 +34,7 @@ import com.malka.androidappp.newPhase.domain.models.productResp.ProductMediaItem
 import com.malka.androidappp.newPhase.domain.models.productResp.ProductSpecialityItemDetails
 import com.malka.androidappp.newPhase.domain.models.questionResp.QuestionItem
 import com.malka.androidappp.newPhase.domain.models.ratingResp.RateReviewItem
+import com.malka.androidappp.newPhase.domain.models.sellerInfoResp.SellerInformation
 import com.malka.androidappp.newPhase.domain.models.servicemodels.*
 import com.malka.androidappp.newPhase.domain.models.servicemodels.addtocart.InsertToCartRequestModel
 import com.malka.androidappp.newPhase.domain.models.servicemodels.questionModel.Question
@@ -50,7 +51,6 @@ import com.malka.androidappp.newPhase.presentation.productDetailsActivity.viewMo
 import com.malka.androidappp.newPhase.presentation.productQuestionActivity.QuestionActivity
 import com.malka.androidappp.newPhase.presentation.addProductReviewActivity.ProductReviewsActivity
 import com.malka.androidappp.newPhase.presentation.addProductReviewActivity.AddRateProductActivity
-import com.malka.androidappp.newPhase.presentation.addSellerReviewActivity.SellerRateListActivity
 import com.malka.androidappp.newPhase.presentation.productsSellerInfoActivity.SellerInformationActivity
 import com.yariksoffice.lingver.Lingver
 import io.paperdb.Paper
@@ -108,13 +108,14 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     /****/
     val added_from_product_Destails_status = 1
     val added_from_last_similerProducts_status = 2
-    var added_position_from_last_similerProduct = 0
+    val added_from_last_seller_Products_status = 3
+    var added_position_from_last_Product = 0
     var status_product_added_to_fav_from = 0
     var productfavStatus = false
     var favAddingChange = false
     private var userData: LoginUser? = null
     var isMyProduct = false
-
+    var sellerInformation: SellerInformation? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product_details2)
@@ -126,7 +127,6 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         setupViewAdapters()
 
         onRefresh()
-        //println("hhhh " + productId)
         if (HelpFunctions.isUserLoggedIn()) {
             userData = Paper.book().read<LoginUser>(SharedPreferencesStaticClass.user_object)
             productDetialsViewModel.addLastViewedProduct(productId)
@@ -151,6 +151,8 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         //for reviewa
         tvReviewsError.hide()
         contianerRateText.hide()
+        containerSellerInfo.hide()
+        containerSellerProduct.hide()
         //====
         tvNumberQuestionNotAnswer.text =
             getString(R.string.there_are_2_questions_that_the_seller_did_not_answer, "0")
@@ -181,19 +183,19 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
     private fun setupViewClickListeners() {
 
-        containerRateSeller.setOnClickListener {
-            startActivityForResult(Intent(this, SellerRateListActivity::class.java).apply {
-                putExtra(
-                    ConstantObjects.providerIdKey,
-                    productDetails?.sellerInformation?.providerId ?: ""
-                )
-                putExtra(
-                    ConstantObjects.businessAccountIdKey,
-                    productDetails?.sellerInformation?.businessAccountId ?: ""
-                )
-
-            }, addSellerReviewRequestCode)
-        }
+//        containerRateSeller.setOnClickListener {
+//            startActivityForResult(Intent(this, SellerRateListActivity::class.java).apply {
+//                putExtra(
+//                    ConstantObjects.providerIdKey,
+//                    sellerInformation?.providerId ?: ""
+//                )
+//                putExtra(
+//                    ConstantObjects.businessAccountIdKey,
+//                    sellerInformation?.businessAccountId ?: ""
+//                )
+//
+//            }, addSellerReviewRequestCode)
+//        }
         tvAddReview.setOnClickListener {
             if (HelpFunctions.isUserLoggedIn()) {
                 startActivityForResult(Intent(this, AddRateProductActivity::class.java).apply {
@@ -208,46 +210,54 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             }
         }
         skype_btn.setOnClickListener {
-            if (productDetails?.sellerInformation?.skype != null && productDetails?.sellerInformation?.skype != "") {
-                HelpFunctions.openExternalLInk(productDetails?.sellerInformation?.skype!!, this)
+            if (sellerInformation?.skype != null && sellerInformation?.skype != "") {
+                HelpFunctions.openExternalLInk(sellerInformation?.skype!!, this)
             }
         }
         youtube_btn.setOnClickListener {
-            if (productDetails?.sellerInformation?.youTube != null && productDetails?.sellerInformation?.youTube != "") {
-                HelpFunctions.openExternalLInk(productDetails?.sellerInformation?.youTube!!, this)
+            if (sellerInformation?.youTube != null && sellerInformation?.youTube != "") {
+                HelpFunctions.openExternalLInk(sellerInformation?.youTube!!, this)
+
             }
         }
         instagram_btn.setOnClickListener {
-            if (productDetails?.sellerInformation?.instagram != null && productDetails?.sellerInformation?.instagram != "") {
-                HelpFunctions.openExternalLInk(productDetails?.sellerInformation?.instagram!!, this)
+            if (sellerInformation?.instagram != null && sellerInformation?.instagram != "") {
+                HelpFunctions.openExternalLInk(sellerInformation?.instagram!!, this)
             }
         }
         facebook_btn.setOnClickListener {
-            if (productDetails?.sellerInformation?.faceBook != null && productDetails?.sellerInformation?.faceBook != "") {
-                HelpFunctions.openExternalLInk(productDetails?.sellerInformation?.faceBook!!, this)
+            if (sellerInformation?.faceBook != null && sellerInformation?.faceBook != "") {
+                HelpFunctions.openExternalLInk(sellerInformation?.faceBook!!, this)
             }
         }
         twitter_btn.setOnClickListener {
-            if (productDetails?.sellerInformation?.twitter != null && productDetails?.sellerInformation?.twitter != "") {
-                HelpFunctions.openExternalLInk(productDetails?.sellerInformation?.twitter!!, this)
+            if (sellerInformation?.twitter != null && sellerInformation?.twitter != "") {
+                HelpFunctions.openExternalLInk(sellerInformation?.twitter!!, this)
             }
         }
         linked_in_btn.setOnClickListener {
-            if (productDetails?.sellerInformation?.linkedIn != null && productDetails?.sellerInformation?.linkedIn != "") {
-                HelpFunctions.openExternalLInk(productDetails?.sellerInformation?.linkedIn!!, this)
+            if (sellerInformation?.linkedIn != null && sellerInformation?.linkedIn != "") {
+                HelpFunctions.openExternalLInk(sellerInformation?.linkedIn!!, this)
             }
         }
         tiktok_btn.setOnClickListener {
-            if (productDetails?.sellerInformation?.tikTok != null && productDetails?.sellerInformation?.tikTok != "") {
-                HelpFunctions.openExternalLInk(productDetails?.sellerInformation?.tikTok!!, this)
+            if (sellerInformation?.tikTok != null && sellerInformation?.tikTok != "") {
+                HelpFunctions.openExternalLInk(sellerInformation?.tikTok!!, this)
             }
         }
         snapChat_btn.setOnClickListener {
-            if (productDetails?.sellerInformation?.snapchat != null && productDetails?.sellerInformation?.snapchat != "") {
-                HelpFunctions.openExternalLInk(productDetails?.sellerInformation?.snapchat!!, this)
+            if (sellerInformation?.snapchat != null && sellerInformation?.snapchat != "") {
+                HelpFunctions.openExternalLInk(sellerInformation?.snapchat!!, this)
             }
         }
-
+        btnMapSeller.setOnClickListener {
+            if (sellerInformation?.lat != null && sellerInformation?.lon != null) {
+                openLocationInMap(sellerInformation?.lat!!,sellerInformation?.lon!!)
+            }else{
+                HelpFunctions.ShowLongToast(getString(R.string.noLocationFound),this)
+            }
+            openLocationInMap(0.0, 0.0)
+        }
 
 
 
@@ -293,7 +303,29 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             })
         }
         btnSellerProducts.setOnClickListener {
-            HelpFunctions.ShowLongToast("not implemented yey", this)
+            if(containerSellerProduct.isVisible){
+                containerSellerProduct.hide()
+                seller_product_tv.text=getString(R.string.view_similar_product_from_seller)
+                isSellerProductHide_iv.setImageResource(R.drawable.down_arrow)
+            }else{
+                containerSellerProduct.show()
+                seller_product_tv.text=getString(R.string.showLess)
+                isSellerProductHide_iv.setImageResource(R.drawable.ic_arrow_up)
+            }
+        }
+        containerSellerInfo.setOnClickListener{
+            if(sellerInformation!=null){
+                startActivity(Intent(this,SellerInformationActivity::class.java).apply {
+                    putExtra(ConstantObjects.sellerObjectKey,sellerInformation)
+                })
+            }
+        }
+        containerSellerImage.setOnClickListener{
+            if(sellerInformation!=null){
+                startActivity(Intent(this,SellerInformationActivity::class.java).apply {
+                    putExtra(ConstantObjects.sellerObjectKey,sellerInformation)
+                })
+            }
         }
         containerCurrentPriceBuy.setOnClickListener {
             productDetialsViewModel.addProductToCart(
@@ -311,6 +343,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                 goToSignInActivity()
             }
         }
+
         btnNextImage.setOnClickListener {
             try {
                 if (productImagesList.size > 0) {
@@ -325,8 +358,18 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             } catch (e: Exception) {
             }
         }
+
+
     }
 
+    private fun openLocationInMap(lat: Double, langtiude: Double) {
+        val URL = ("http://maps.google.com/maps?saddr=&daddr=$lat,$langtiude&dirflg=d")
+        val location = Uri.parse(URL)
+        val mapIntent = Intent(Intent.ACTION_VIEW, location)
+        // Make the Intent explicit by setting the Google Maps package
+        mapIntent.setPackage("com.google.android.apps.maps")
+        startActivity(mapIntent)
+    }
 
     private fun getLastVisiblePosition(rv: RecyclerView?): Int {
         if (rv != null) {
@@ -347,6 +390,13 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             else
                 HelpFunctions.dismissProgressBar()
         }
+//        productDetialsViewModel.sellerInfoLoadingObservable.observe(this){
+//            if(it){
+//                progressBarSellerInfo.show()
+//            }else{
+//                progressBarSellerInfo.hide()
+//            }
+//        }
         productDetialsViewModel.isNetworkFail.observe(this) {
             if (it) {
                 showProductApiError(getString(R.string.connectionError))
@@ -426,11 +476,20 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             if (it.status_code == 200) {
                 when (status_product_added_to_fav_from) {
                     added_from_last_similerProducts_status -> {
-                        if (added_position_from_last_similerProduct < similerProductList.size) {
-                            similerProductList[added_position_from_last_similerProduct].isFavourite =
-                                !similerProductList[added_position_from_last_similerProduct].isFavourite
+                        if (added_position_from_last_Product < similerProductList.size) {
+                            similerProductList[added_position_from_last_Product].isFavourite =
+                                !similerProductList[added_position_from_last_Product].isFavourite
                             similarProductAdapter.notifyItemChanged(
-                                added_position_from_last_similerProduct
+                                added_position_from_last_Product
+                            )
+                        }
+                    }
+                    added_from_last_seller_Products_status -> {
+                        if (added_position_from_last_Product < similerProductList.size) {
+                            sellerSimilerProductList[added_position_from_last_Product].isFavourite =
+                                !sellerSimilerProductList[added_position_from_last_Product].isFavourite
+                            sellerProductAdapter.notifyItemChanged(
+                                added_position_from_last_Product
                             )
                         }
                     }
@@ -471,6 +530,107 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                 }
             }
         }
+        productDetialsViewModel.sellerInfoObservable.observe(this) { sellerInfoResp ->
+            if (sellerInfoResp.status_code == 200) {
+                /**seller info*/
+                sellerInfoResp.sellerInformation?.let {
+                    setSellerInfo(it)
+
+                }
+
+            }
+        }
+        productDetialsViewModel.sellerLoading.observe(this){
+            if(it){
+                sellerProgressBar.show()
+            }else{
+                sellerProgressBar.hide()
+            }
+        }
+        productDetialsViewModel.sellerProductsRespObserver.observe(this){sellerProductListResp->
+            if(sellerProductListResp.status_code==200){
+                sellerSimilerProductList.clear()
+                sellerProductListResp.productList?.let { sellerSimilerProductList.addAll(it) }
+                sellerProductAdapter.notifyDataSetChanged()
+                if(sellerSimilerProductList.isEmpty()){
+                    tvErrorNoSellerProduct.show()
+                }else{
+                    tvErrorNoSellerProduct.hide()
+                }
+            }else{
+                tvErrorNoSellerProduct.show()
+            }
+        }
+    }
+
+    private fun setSellerInfo(it: SellerInformation) {
+        tvErrorNoSellerProduct.hide()
+        productDetialsViewModel.getSellerListProduct(it.providerId?:"",it.businessAccountId?:"")
+        sellerInformation = it
+        containerSellerInfo.show()
+        Extension.loadThumbnail(
+            this,
+            it.image,
+            seller_picture,
+            loader
+        )
+        sellerName.text =it.name ?: ""
+        member_since_Tv.text = HelpFunctions.getViewFormatForDateTrack(
+            it.createdAt ?: ""
+        )
+        seller_city.text = it.city ?: ""
+        seller_number.text = it.phone ?: ""
+        if (it.isFollowed) {
+            ivSellerFollow.setImageResource(R.drawable.notification)
+        } else {
+            ivSellerFollow.setImageResource(R.drawable.notification_log)
+        }
+//        if (it.lat != null && it.lon != null) {
+//            btnMapSeller.show()
+//        } else {
+//            btnMapSeller.hide()
+//        }
+        if (it.instagram != null && it.instagram != "") {
+            instagram_btn.show()
+        } else {
+            instagram_btn.hide()
+        }
+        if (it.youTube != null && it.youTube != "") {
+            youtube_btn.show()
+        } else {
+            youtube_btn.hide()
+        }
+        if (it.skype != null &&it.skype != "") {
+            skype_btn.show()
+        } else {
+            skype_btn.hide()
+        }
+        if (it.faceBook != null && it.faceBook != "") {
+            facebook_btn.show()
+        } else {
+            facebook_btn.hide()
+        }
+        if (it.twitter != null && it.twitter != "") {
+            twitter_btn.show()
+        } else {
+            twitter_btn.hide()
+        }
+        if (it.linkedIn != null && it.linkedIn != "") {
+            linked_in_btn.show()
+        } else {
+            linked_in_btn.hide()
+        }
+        if (it.tikTok != null && it.tikTok != "") {
+            tiktok_btn.show()
+        } else {
+            tiktok_btn.hide()
+        }
+        if (it.snapchat != null && it.snapchat != "") {
+            snapChat_btn.show()
+        } else {
+            snapChat_btn.hide()
+        }
+
     }
 
     private fun setQuestionsView(data: List<QuestionItem>) {
@@ -612,10 +772,38 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
     private fun setSellerAdapter() {
         sellerSimilerProductList = ArrayList()
-        sellerProductAdapter = ProductHorizontalAdapter(sellerSimilerProductList, this, 0, true)
-        rv_seller_product.apply {
+        sellerProductAdapter = ProductHorizontalAdapter(sellerSimilerProductList, object :SetOnProductItemListeners{
+            override fun onProductSelect(position: Int, productID: Int, categoryID: Int) {
+                goToProductDetails(productID)
+            }
+
+            override fun onAddProductToFav(position: Int, productID: Int, categoryID: Int) {
+                addSellerPorductToFav(position,productID)
+
+            }
+
+            override fun onShowMoreSetting(position: Int, productID: Int, categoryID: Int) {
+
+            }
+
+        }, 0, true)
+        rvSellerProduct.apply {
             layoutManager = linearLayoutManager(RecyclerView.HORIZONTAL)
             adapter = sellerProductAdapter
+        }
+    }
+
+    private fun addSellerPorductToFav(position: Int, productID: Int) {
+        if (HelpFunctions.isUserLoggedIn()) {
+            status_product_added_to_fav_from = added_from_last_seller_Products_status
+            added_position_from_last_Product = position
+            productDetialsViewModel.addProductToFav(productID)
+        } else {
+            startActivity(
+                Intent(
+                    this,
+                    SignInActivity::class.java
+                ).apply {})
         }
     }
 
@@ -653,10 +841,12 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         swipe_to_refresh.isRefreshing = false
         containerMainProduct.hide()
         containerShareAndFav.hide()
+        containerSellerInfo.hide()
         productDetialsViewModel.getProductDetailsById(productId)
         productDetialsViewModel.getSimilarProduct(productId, 1)
         productDetialsViewModel.getListOfQuestions(productId)
         productDetialsViewModel.getProductRatesForProductDetails(productId)
+        productDetialsViewModel.getSellerInfo(productId)
     }
 
 
@@ -693,64 +883,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             current_price_buy_tv.text =
                 "${productDetails.priceDisc.toString()} ${getString(R.string.sar)}"
             Bid_on_price_tv.text = " ${getString(R.string.sar)}"
-            /**seller info*/
-            if (productDetails.sellerInformation != null) {
-                containerSellerInfo.show()
-                Extension.loadThumbnail(
-                    this,
-                    productDetails.sellerInformation.image,
-                    seller_picture,
-                    loader
-                )
-                sellerName.text = productDetails.sellerInformation.name ?: ""
-                member_since_Tv.text = HelpFunctions.getViewFormatForDateTrack(
-                    productDetails.sellerInformation.createdAt ?: ""
-                )
-                seller_city.text = productDetails.sellerInformation.city ?: ""
-                seller_number.text = productDetails.sellerInformation.phone ?: ""
-            } else {
-                containerSellerInfo.hide()
-            }
-            if (productDetails?.sellerInformation?.instagram != null && productDetails?.sellerInformation?.instagram != "") {
-                instagram_btn.show()
-            } else {
-                instagram_btn.hide()
-            }
-            if (productDetails?.sellerInformation?.youTube != null && productDetails?.sellerInformation?.youTube != "") {
-                youtube_btn.show()
-            } else {
-                youtube_btn.hide()
-            }
-            if (productDetails?.sellerInformation?.skype != null && productDetails?.sellerInformation?.skype != "") {
-                skype_btn.show()
-            } else {
-                skype_btn.hide()
-            }
-            if (productDetails?.sellerInformation?.faceBook != null && productDetails?.sellerInformation?.faceBook != "") {
-                facebook_btn.show()
-            } else {
-                facebook_btn.hide()
-            }
-            if (productDetails?.sellerInformation?.twitter != null && productDetails?.sellerInformation?.twitter != "") {
-                twitter_btn.show()
-            } else {
-                twitter_btn.hide()
-            }
-            if (productDetails?.sellerInformation?.linkedIn != null && productDetails?.sellerInformation?.linkedIn != "") {
-                linked_in_btn.show()
-            } else {
-                linked_in_btn.hide()
-            }
-            if (productDetails?.sellerInformation?.tikTok != null && productDetails?.sellerInformation?.tikTok != "") {
-                tiktok_btn.show()
-            } else {
-                tiktok_btn.hide()
-            }
-            if (productDetails?.sellerInformation?.snapchat != null && productDetails?.sellerInformation?.snapchat != "") {
-                snapChat_btn.show()
-            } else {
-                snapChat_btn.hide()
-            }
+
             /**specification*/
             if (productDetails.listProductSep != null) {
                 tvErrorNoSpecification.hide()
@@ -824,6 +957,10 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     }
 
     override fun onProductSelect(position: Int, productID: Int, categoryID: Int) {
+       goToProductDetails(productID)
+    }
+
+    private fun goToProductDetails(productID:Int) {
         startActivity(Intent(this, ProductDetailsActivity::class.java).apply {
             putExtra(ConstantObjects.productIdKey, productID)
             putExtra("Template", "")
@@ -834,7 +971,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     override fun onAddProductToFav(position: Int, productID: Int, categoryID: Int) {
         if (HelpFunctions.isUserLoggedIn()) {
             status_product_added_to_fav_from = added_from_last_similerProducts_status
-            added_position_from_last_similerProduct = position
+            added_position_from_last_Product = position
             productDetialsViewModel.addProductToFav(productID)
         } else {
             startActivity(
@@ -975,7 +1112,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 //        }
 
 
-        maps_btn.setOnClickListener({
+        btnMapSeller.setOnClickListener({
             val uri: String =
                 java.lang.String.format(Locale.ENGLISH, "geo:%f,%f", 33.7295, 73.0372)
             startActivity(
@@ -1153,572 +1290,3 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         }
     }
 }
-
-/** NotNeed Function delete latter**/
-
-//    fun getadbyidapi(advid: String) {
-//        HelpFunctions.startProgressBar(this)
-//        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-//        val call = malqa.getAdDetailById2(advid)
-//        call.enqueue(object : Callback<GeneralResponse> {
-//            @SuppressLint("UseRequireInsteadOfGet", "SetTextI18n")
-//            override fun onResponse(
-//                call: Call<GeneralResponse>,
-//                response: Response<GeneralResponse>
-//            ) {
-//
-//
-//                if (response.isSuccessful) {
-//                    response.body()?.run {
-//                        if (status_code == 200) {
-//                            product = Gson().fromJson(
-//                                Gson().toJson(data),
-//                                object : TypeToken<Product>() {}.type
-//                            )
-//                            product.run {
-//                                checkPriceLayout()
-//                                getSellerByID("")
-//                                when ("listingtype") {
-//                                    "1" -> {
-//                                        add_to_cart.show()
-//                                        current_price_buy_tv_2.text =
-//                                            "${price!!.toDouble().decimalNumberFormat()} ${
-//                                                getString(
-//                                                    R.string.sar
-//                                                )
-//                                            }"
-//                                    }
-//                                    "2" -> {
-//                                        Bid_on_price.show()
-////                                        Bid_on_price_tv.text =
-////                                            "${startingPrice!!.toDouble().decimalNumberFormat()} ${
-////                                                getString(
-////                                                    R.string.sar
-////                                                )
-////                                            }"
-//
-//                                    }
-//                                    "12" -> {
-//                                        current_price_buy.show()
-//                                        Bid_on_price.show()
-//                                        current_price_buy_tv.text =
-//                                            "${price!!.toDouble().decimalNumberFormat()} ${
-//                                                getString(
-//                                                    R.string.sar
-//                                                )
-//                                            }"
-//
-////                                        Bid_on_price_tv.text =
-////                                            "${startingPrice!!.toDouble().decimalNumberFormat()} ${
-////                                                getString(
-////                                                    R.string.sar
-////                                                )
-////                                            }"
-//
-//                                    }
-//                                }
-//
-//
-//                                if (!"template".isNullOrEmpty()) {
-//                                    HelpFunctions.GetTemplatesJson(
-//                                        "js"
-//                                    ) { json_string ->
-//                                        if (json_string.trim().length > 0) {
-//                                            val parsed_data = JSONObject(json_string)
-//                                            val controls_array: JSONArray =
-//                                                parsed_data.getJSONArray("data")
-//                                            for (i in 0 until controls_array.length()) {
-//                                                val IndControl = controls_array.getJSONObject(i)
-//                                                val id = IndControl.getString("id")
-////                                                getIgnoreCase(jsonObject!!, id).let { value ->
-////                                                    if (!value.isEmpty()) {
-////                                                        val key = IndControl.getString("title") ?: ""
-////                                                        attributeList.add(Attribute(key, value))
-////
-////                                                    }
-////                                                }
-//
-//                                            }
-////                                            attributeList.add(
-////                                                Attribute(
-////                                                    getString(R.string.item_condition),
-////                                                    brand_new_item ?: ""
-////                                                )
-////                                            )
-////                                            attributeList.add(
-////                                                Attribute(
-////                                                    getString(R.string.quantity),
-////                                                    quantity ?: ""
-////                                                )
-////                                            )
-////                                            attributeAdaptor(attributeList)
-//                                        }
-//                                    }
-//
-//
-//                                }
-//
-//
-//                                //SharedPreferencesStaticClass.ad_userid = product.user!!
-//                                if (listMedia!!.size > 0) {
-////                                    val imageURL = Constants.IMAGE_URL + images.get(0)
-////                                    selectLink = imageURL
-////                                    loadThumbnail(
-////                                        this@ProductDetails,
-////                                        imageURL,
-////                                        productimg, loader
-////                                    )
-////                                    productimg.setOnClickListener {
-////                                        startActivity(
-////                                            Intent(
-////                                                this@ProductDetails,
-////                                                FullImageActivity::class.java
-////                                            ).putExtra(
-////                                                "imageUri",
-////                                                selectLink
-////                                            )
-////                                        )
-////                                    }
-//
-//                                }
-//                                val productImage: ArrayList<ProductImage> = ArrayList()
-//
-////                                if (!video.isNullOrEmpty()) {
-////                                    productImage.add(ProductImage(video, true))
-////                                }
-////                                images.forEachIndexed { index, s ->
-////                                    if (index == 0) {
-////                                        productImage.add(ProductImage(s, is_select = true))
-////                                    } else {
-////                                        productImage.add(ProductImage(s))
-////                                    }
-////                                }
-//
-//                                if (productImage.size > 1) {
-//                                    setCategoryAdaptor(productImage)
-//                                } else {
-//                                    other_image_layout.isVisible = false
-//                                }
-//
-//                                tvProductItemName.text = name
-//                                tvProductSubtitle.text = subTitle
-//                                tvProductDescription.text = description
-//                                tvProductReview.text =
-//                                    getString(R.string.itemView, countView.toString().toInt())
-//                                tvProductReview.text = createdOnFormated
-//                                tvProductReview.text = "#$id"
-//
-////
-////                                try {
-////                                    val format= SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault())
-////                                    if (endTime.equals("") || endTime == null) {
-////                                        countdownTimer_bar.visibility = View.GONE
-////                                    } else {
-////                                        countdownTimer_bar.visibility = View.VISIBLE
-////                                        val endDate = format.parse(endTime)
-////
-////
-////                                        val currentDate = format.parse(format.format(Date()))
-////
-////                                        if (endDate.before(currentDate)) {
-////                                            days.text = "0"
-////                                            hours.text = "0"
-////                                            minutes.text = "0"
-////                                        } else {
-////                                            var diff: Long = endDate!!.getTime() - currentDate!!.getTime()
-////
-////                                            val secondsInMilli: Long = 1000
-////                                            val minutesInMilli = secondsInMilli * 60
-////                                            val hoursInMilli = minutesInMilli * 60
-////                                            val daysInMilli = hoursInMilli * 24
-////
-////                                            val elapsedDays = diff / daysInMilli
-////                                            diff %= daysInMilli
-////
-////                                            val elapsedHours = diff / hoursInMilli
-////                                            diff %= hoursInMilli
-////
-////                                            val elapsedMinutes = diff / minutesInMilli
-////                                            diff %= minutesInMilli
-////
-////
-////                                            days.text = elapsedDays.toString()
-////                                            hours.text = elapsedHours.toString()
-////                                            minutes.text = elapsedMinutes.toString()
-////                                        }
-////
-////                                    }
-////                                } catch (error: Exception) {
-////                                    countdownTimer_bar.visibility = View.GONE
-////                                }
-////
-//
-//
-
-//
-//
-//                            var isSellerProductHide = true
-//                            btnSellerProducts.setOnClickListener {
-//                                if (isSellerProductHide) {
-//                                    isSellerProductHide = false
-//                                    rv_seller_product.isVisible = true
-//                                    isSellerProductHide_iv.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24)
-//                                    seller_product_tv.text =
-//                                        getText(R.string.view_similar_product_from_seller)
-//
-//                                } else {
-//                                    isSellerProductHide = true
-//                                    rv_seller_product.isVisible = false
-//                                    isSellerProductHide_iv.setImageResource(R.drawable.down_arrow)
-//                                    seller_product_tv.text =
-//                                        getText(R.string.view_similar_product_from_seller)
-//
-//
-//                                }
-//                            }
-//
-////                    GenericAdaptor().setHomeProductAdaptor(list, seller_product_rcv)
-//
-//
-//                            mainContainer.isVisible = true
-//                        }
-//                    }
-//
-//
-//                } else {
-//                    HelpFunctions.ShowAlert(
-//                        this@ProductDetailsActivity,
-//                        getString(R.string.Information),
-//                        getString(R.string.NoRecordFound)
-//                    )
-//                }
-//                HelpFunctions.dismissProgressBar()
-//
-//            }
-//
-//
-//            override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
-//                HelpFunctions.ShowLongToast(t.message!!, this@ProductDetailsActivity)
-//                HelpFunctions.dismissProgressBar()
-//
-//            }
-//        })
-//
-//    }
-
-//private fun attributeAdaptor(list: List<Attribute>) {
-//    rvProductSpecification.adapter = object : GenericListAdapter<Attribute>(
-//        R.layout.atrribute_item,
-//        bind = { element, holder, itemCount, position ->
-//            holder.view.run {
-//                element.run {
-//                    key_tv.text = key
-//                    value_tv.text = value
-//                    if (position % 2 == 0) {
-//                        main_layout.background = null
-//                    } else {
-//                        main_layout.background =
-//                            ContextCompat.getDrawable(
-//                                this@ProductDetailsActivity,
-//                                R.drawable.product_attribute_bg_gray
-//                            )
-//                    }
-//                }
-//
-//            }
-//        }
-//    ) {
-//        override fun getFilter(): Filter {
-//            TODO("Not yet implemented")
-//        }
-//
-//    }.apply {
-//        submitList(
-//            list
-//        )
-//    }
-//}
-
-
-//    private fun setCategoryAdaptor(list: List<ProductImage>) {
-//        next_image.isVisible = list.size > 3
-//
-//        rvProductImages.adapter = object : GenericListAdapter<ProductImage>(
-//            R.layout.item_image_for_product_details,
-//            bind = { element, holder, itemCount, position ->
-//                holder.view.run {
-//                    element.run {
-//                        if (is_select) {
-//                            product_image.borderColor = ContextCompat.getColor(
-//                                this@ProductDetailsActivity,
-//                                R.color.bg
-//                            )
-//                        } else {
-//                            product_image.borderColor = ContextCompat.getColor(
-//                                this@ProductDetailsActivity,
-//                                R.color.white
-//                            )
-//                        }
-//
-//
-//                        val imageURL = Constants.IMAGE_URL + link
-//                        if (isVideo) {
-//                            loadThumbnail(
-//                                this@ProductDetailsActivity,
-//                                link,
-//                                product_image, loader
-//                            )
-//                            {
-//                                is_video_iv.isVisible = true
-//                            }
-//                        } else {
-//                            is_video_iv.isVisible = false
-//
-//                            loadThumbnail(
-//                                this@ProductDetailsActivity,
-//                                imageURL,
-//                                product_image, loader
-//                            )
-//
-//                        }
-//                        setOnClickListener {
-//                            if (isVideo) {
-//                                startActivity(
-//                                    Intent(
-//                                        this@ProductDetailsActivity,
-//                                        PlayActivity::class.java
-//                                    ).putExtra(
-//                                        "videourl",
-//                                        link
-//                                    )
-//                                )
-//
-//                            } else {
-//                                list.forEach {
-//                                    it.is_select = false
-//                                }
-//                                is_select = true
-//                                rvProductImages.post({ rvProductImages.adapter!!.notifyDataSetChanged() })
-//                                selectLink = imageURL
-//                                loadThumbnail(
-//                                    this@ProductDetailsActivity,
-//                                    imageURL,
-//                                    productimg, loader
-//                                )
-//                            }
-//
-//
-//                        }
-//                    }
-//
-//                }
-//            }
-//        ) {
-//            override fun getFilter(): Filter {
-//                TODO("Not yet implemented")
-//            }
-//
-//        }.apply {
-//            submitList(
-//                list
-//            )
-//        }
-//    }
-
-//    private fun getSimilarproducts() {
-//
-//        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-//        val call: Call<BasicResponse> = malqa.getsimilar()
-//
-//        call.enqueue(object : Callback<BasicResponse> {
-//            override fun onResponse(
-//                call: Call<BasicResponse>,
-//                response: Response<BasicResponse>
-//            ) {
-//                if (response.isSuccessful) {
-//                    val similarData = response.body()
-//                    similarData?.let {
-//                        it.run {
-//
-//                            if (status_code == 200) {
-//                                if (data != null) {
-//                                    val similarList: ArrayList<Product> = Gson().fromJson(
-//                                        Gson().toJson(data),
-//                                        object :
-//                                            com.google.gson.reflect.TypeToken<ArrayList<Product>>() {}.type
-//
-//                                    )
-//                                    GenericAdaptor().setHomeProductAdaptor(
-//                                        similarList,
-//                                        rvSimilarProducts
-//                                    )
-//                                }
-//                            }
-//
-//
-//                        }
-//                    }
-//                }
-//            }
-//
-//            override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
-//                TODO("Not yet implemented")
-//            }
-//        })
-//
-//    }
-//    private fun enableSwipeToDeleteAndUndo() {
-//        val messageSwipeController =
-//            MessageSwipeController(this, object : SwipeControllerActions {
-//                override fun showReplyUI(position: Int) {
-//                    val question = questionList.get(position)
-//                    replyItemClicked(question)
-//                    vibration()
-//                }
-//            })
-//        val itemTouchHelper = ItemTouchHelper(messageSwipeController)
-//        itemTouchHelper.attachToRecyclerView(rvQuestionForProduct)
-//
-//    }
-
-
-//productDetailHelper = ProductDetailHelper(this)
-//        product_attribute.isVisible = true
-//        quest_ans_rcv.isVisible = true
-//        answerLayout.isVisible = false
-//        getSimilarproducts()
-//        val behavior: BottomSheetBehavior<*> = BottomSheetBehavior.from<View>(bottom_sheet)
-//        behavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-//
-//            override fun onStateChanged(bottomSheet: View, newState: Int) {
-//                if (newState == BottomSheetBehavior.STATE_EXPANDED) {
-//                    icon_layout.setVisibility(View.GONE)
-//                } else if (newState == BottomSheetBehavior.STATE_HIDDEN) {
-//                    icon_layout.setVisibility(View.GONE)
-//                    behavior.state = BottomSheetBehavior.STATE_EXPANDED
-//                } else {
-//                    icon_layout.setVisibility(View.VISIBLE)
-//                }
-//            }
-//
-//            override fun onSlide(bottomSheet: View, slideOffset: Float) {
-//
-//            }
-//        })
-//        behavior.peekHeight = getResources().getDimension(R.dimen._360sdp).toInt()
-//        mainContainer.isVisible = false
-//        AdvId = intent.getIntExtra("AdvId",-1).toString()
-//
-//        getadbyidapi(AdvId)
-//
-//        quesAnss()
-//
-//        setListenser()
-//
-//
-//        reviewlist.add(
-//            Reviewmodel(
-//                "Ahmed3",
-//                "12/12/2022",
-//                "Good and fast delivery",
-//                "2.9",
-//                R.drawable.car
-//            )
-//        )
-//        reviewlist.add(
-//            Reviewmodel(
-//                "Ahmed4",
-//                "16/12/2022",
-//                "Great Experience ",
-//                "3.0",
-//                R.drawable.car
-//            )
-//        )
-//        reviewlist.add(
-//            Reviewmodel(
-//                "Ahmed5",
-//                "10/12/2022",
-//                "Excelent fast delivery",
-//                "3.6",
-//                R.drawable.car
-//            )
-//        )
-//        reviewlist.add(
-//            Reviewmodel(
-//                "Ahmed6",
-//                "5/12/2022",
-//                "Amazing and fast delivery",
-//                "4.9",
-//                R.drawable.car
-//            )
-//        )
-//        reviewlist.add(
-//            Reviewmodel(
-//                "Ahmed3",
-//                "12/12/2022",
-//                "Good and fast delivery",
-//                "2.9",
-//                R.drawable.car
-//            )
-//        )
-//        reviewlist.add(
-//            Reviewmodel(
-//                "Ahmed4",
-//                "16/12/2022",
-//                "Great Experience ",
-//                "2.0",
-//                R.drawable.car
-//            )
-//        )
-//        reviewlist.add(
-//            Reviewmodel(
-//                "Ahmed4",
-//                "16/12/2022",
-//                "Great Experience ",
-//                "4.0",
-//                R.drawable.car
-//            )
-//        )
-//
-//        var totalRating = 0.0
-//        reviewlist.forEach {
-//            totalRating += it.rating.toDouble()
-//
-//        }
-//        val average = totalRating / reviewlist.size
-//        rating_bar.rating = average.toFloat()
-//        rating_bar_detail_tv.text = getString(
-//            R.string._4_9_from_00_visitors,
-//            rating_bar.rating.toString().format("%.2f"),
-//            reviewlist.size.toString()
-//        )
-//        setReviewsAdapter(reviewlist)
-
-
-//private fun setReviewsAdapter(list: ArrayList<Reviewmodel>) {
-//    rv_review.adapter = object : GenericListAdapter<Reviewmodel>(
-//        R.layout.item_review_product,
-//        bind = { element, holder, itemCount, position ->
-//            holder.view.run {
-//                element.run {
-//                    review_name_tv.text = name
-//
-//                    rating_bar.rating = rating.toFloat()
-//                    comment_tv.text = comment
-//
-//
-//                }
-//            }
-//        }
-//    ) {
-//        override fun getFilter(): Filter {
-//            TODO("Not yet implemented")
-//        }
-//
-//    }.apply {
-//        submitList(
-//
-//            list.take(3)
-//        )
-//    }
-//}

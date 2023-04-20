@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragments.MyOrdersFragment">
+    tools:context=".newPhase.presentation.myOrderFragment.MyOrdersFragment">
 
 
     <include
@@ -29,7 +29,7 @@
             android:textSize="@dimen/_12sdp">
 
             <TextView
-                android:id="@+id/current"
+                android:id="@+id/btnCurrent"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/_5sdp"
@@ -37,13 +37,13 @@
                 android:background="@drawable/round_btn"
                 android:fontFamily="@font/madani_arabic_medium"
                 android:gravity="center"
-                android:padding="@dimen/_10sdp"
                 android:text="@string/Current"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:textColor="#ffffff" />
 
 
             <TextView
-                android:id="@+id/received"
+                android:id="@+id/btnReceived"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/_5sdp"
@@ -53,9 +53,19 @@
                 android:padding="@dimen/_10sdp"
                 android:text="@string/received"
                 android:textColor="#45495E"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:textSize="@dimen/_12sdp" />
         </LinearLayout>
 
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_to_refresh"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/_5sdp">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/current_recycler"
@@ -70,6 +80,32 @@
             android:layout_height="wrap_content"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             tools:listitem="@layout/item_user_order" />
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:visibility="gone"
+                android:id="@+id/progressBar"/>
+            <ProgressBar
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/progressBarMore"/>
+            <TextView
+                android:id="@+id/tvError"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/madani_arabic_medium"
+                android:text="@string/noOrdersFound"
+                android:textAlignment="viewStart"
+                android:textColor="@color/gray"
+                android:textSize="@dimen/_10sdp"
+                android:visibility="gone" />
+        </RelativeLayout>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
     </LinearLayout>

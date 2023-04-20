@@ -14,6 +14,7 @@ data class OrderListResp(
 
 data class OrderItem(
     var orderId: Int,
+    var orderMasterId: Int,
     var totalOrderAmountBeforDiscount: Float,
     var totalOrderAmountAfterDiscount: Float,
     var providersCount: Int,

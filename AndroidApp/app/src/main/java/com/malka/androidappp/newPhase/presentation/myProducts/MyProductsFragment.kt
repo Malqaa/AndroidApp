@@ -24,7 +24,7 @@ import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObject
 import com.malka.androidappp.newPhase.presentation.adapterShared.ProductHorizontalAdapter
 import com.malka.androidappp.newPhase.presentation.adapterShared.SetOnProductItemListeners
 import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
-import com.malka.androidappp.newPhase.presentation.myProducts.adapter.SoldOutOrdersAdapter
+import com.malka.androidappp.newPhase.presentation.myOrderFragment.adapter.SoldOutOrdersAdapter
 import com.malka.androidappp.newPhase.presentation.myProducts.dialog.AddDiscountDialog
 import com.malka.androidappp.newPhase.presentation.myProducts.dialog.MyProductSettingDialog
 import com.malka.androidappp.newPhase.presentation.myProducts.viewModel.MyProductViewModel
