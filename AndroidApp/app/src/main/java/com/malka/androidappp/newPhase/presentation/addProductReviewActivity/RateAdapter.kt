@@ -18,7 +18,7 @@ class RateAdapter(val context: Context, var rateData: List<RateReviewItem>):
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RateViewHolder {
-       val view = LayoutInflater.from(context).inflate(R.layout.product_review_design,parent,false)
+       val view = LayoutInflater.from(context).inflate(R.layout.item_seller_review,parent,false)
         return RateViewHolder(view)
     }
     override fun getItemCount(): Int {

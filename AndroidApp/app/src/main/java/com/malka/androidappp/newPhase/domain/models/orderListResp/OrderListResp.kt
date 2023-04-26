@@ -1,7 +1,9 @@
 package com.malka.androidappp.newPhase.domain.models.orderListResp
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import com.malka.androidappp.newPhase.domain.models.loginResp.LoginUser
+import kotlinx.android.parcel.Parcelize
 
 data class OrderListResp(
     val code: String? = null,
@@ -11,7 +13,7 @@ data class OrderListResp(
     @SerializedName("data")
     val orderList: List<OrderItem>? = null
 )
-
+@Parcelize
 data class OrderItem(
     var orderId: Int,
     var orderMasterId: Int,
@@ -24,5 +26,5 @@ data class OrderItem(
     var shippingAddress: String? = null,
     var requestType: String? = null,
     var payType: String? = null,
-)
+):Parcelable
 

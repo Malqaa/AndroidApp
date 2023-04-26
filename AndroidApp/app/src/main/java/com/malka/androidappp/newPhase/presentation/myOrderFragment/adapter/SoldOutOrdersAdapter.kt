@@ -14,7 +14,7 @@ import com.malka.androidappp.newPhase.data.helper.hide
 import com.malka.androidappp.newPhase.data.helper.show
 import com.malka.androidappp.newPhase.domain.models.orderListResp.OrderItem
 
-class SoldOutOrdersAdapter(var orderList: List<OrderItem>) :
+class SoldOutOrdersAdapter(var orderList: List<OrderItem>,var setOnClickListeners:SetOnClickListeners) :
     Adapter<SoldOutOrdersAdapter.SoldOutOrdersViewHolder>() {
     var currentOrder=true
     class SoldOutOrdersViewHolder(var viewBinding: ItemUserOrderBinding) :
@@ -47,8 +47,14 @@ class SoldOutOrdersAdapter(var orderList: List<OrderItem>) :
         }else{
             holder.viewBinding.completeOrderBtn.hide()
         }
+     holder.viewBinding.itemView.setOnClickListener {
+         setOnClickListeners.onOrderSelected(position)
+     }
 
+    }
 
+    interface SetOnClickListeners{
+        fun onOrderSelected(position: Int)
     }
 
 }

@@ -64,6 +64,7 @@ class ProductDetailsViewModel : BaseViewModel() {
             })
     }
     fun getSellerInfo(productId: Int) {
+        println("hhhh tt " + productId)
         sellerInfoLoadingObservable.value = true
         RetrofitBuilder.GetRetrofitBuilder()
             .getSellerInformation(productId)
@@ -388,7 +389,7 @@ class ProductDetailsViewModel : BaseViewModel() {
         map["productId"] = productId.toString().requestBody()
         map["CartMasterId"] = masterCartId.requestBody()
         map["quantity"] = "1".requestBody()
-        println("hhhh " + masterCartId + " " + productId)
+        println("hhhh tt " + masterCartId + " " + productId)
         RetrofitBuilder.GetRetrofitBuilder()
             .addProductToCartProducts(map)
             .enqueue(object : Callback<AddProductToCartResp> {

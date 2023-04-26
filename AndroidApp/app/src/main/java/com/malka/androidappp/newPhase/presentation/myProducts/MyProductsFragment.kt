@@ -83,7 +83,12 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
     private fun setUpSoldOutAdapter() {
         soldOutOrdersList = ArrayList()
         soldoUtLayOutManager = GridLayoutManager(requireActivity(), 1)
-        soldOutOrdersAdapter = SoldOutOrdersAdapter(soldOutOrdersList)
+        soldOutOrdersAdapter = SoldOutOrdersAdapter(soldOutOrdersList,object:SoldOutOrdersAdapter.SetOnClickListeners{
+            override fun onOrderSelected(position: Int) {
+
+            }
+
+        })
         sold_out_rcv.apply {
             adapter = soldOutOrdersAdapter
             layoutManager = soldoUtLayOutManager

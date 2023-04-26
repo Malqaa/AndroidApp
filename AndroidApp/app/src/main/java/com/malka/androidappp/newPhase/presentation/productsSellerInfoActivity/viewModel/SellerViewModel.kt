@@ -1,4 +1,4 @@
-package com.malka.androidappp.newPhase.presentation.productsSellerInfoActivity
+package com.malka.androidappp.newPhase.presentation.productsSellerInfoActivity.viewModel
 
 import androidx.lifecycle.MutableLiveData
 import com.malka.androidappp.newPhase.core.BaseViewModel

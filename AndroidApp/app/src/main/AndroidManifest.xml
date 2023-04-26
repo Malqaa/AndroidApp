@@ -32,6 +32,12 @@
         android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup">
         <activity
+            android:name="com.malka.androidappp.newPhase.presentation.shipmentRateActivity.ShipmentRateActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.malka.androidappp.newPhase.presentation.myOrderDetails.OrderDetailsActivity"
+            android:exported="false" />
+        <activity
             android:name="com.malka.androidappp.newPhase.presentation.productsSellerInfoActivity.SellerRateActivity"
             android:exported="false" />
         <activity

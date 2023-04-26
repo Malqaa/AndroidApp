@@ -17,7 +17,7 @@
     <string name="show">Show</string>
     <string name="noProductsAdded">No Products Added</string>
     <string name="noProductsFound">No Products Found</string>
-  <string name="noOrdersFound">No Orders Found</string>
+    <string name="noOrdersFound">No Orders Found</string>
     <string name="enterAllSpecificaiton">Enter All Specification</string>
     <string name="noSubCategoryFound">No Sub Categories Found</string>
     <string name="Back_to_login">
@@ -2867,6 +2867,7 @@ Want to start a business account? Create a Business Account
     <string name="request_type">Request type</string>
     <string name="order_time">Order Time</string>
     <string name="shipments">Shipments</string>
+    <string name="shipments2">Shipments</string>
     <string name="total_order">Total order</string>
     <string name="view_and_complete_the_order">View and complete the order</string>
     <string name="we_are_glad_to_contact_you">We are glad to contact you</string>
@@ -2939,6 +2940,8 @@ Want to start a business account? Create a Business Account
     <string name="we_are_pleased_to_deal_with_you_through_onruf">We are pleased to deal with you through Onruf</string>
     <string name="help_us_give_your_rating">Help us give your rating</string>
     <string name="what_is_your_evaluation_of_the_seller">What is your evaluation of the seller?</string>
+  <string name="what_is_your_evaluation_of_the_Products">What is your evaluation of the products?</string>
+  <string name="what_is_your_evaluation_of_the_shipment">What is your evaluation of the shipment?</string>
     <string name="do_you_have_a_comment">Do you have a comment?</string>
     <string name="your_rating_for_the_product">Your rating for the product</string>
     <string name="your_rating_for_shipping">Your rating for shipping</string>
@@ -3032,6 +3035,10 @@ Want to start a business account? Create a Business Account
     <string name="productAddedToCart">Product  Was Added To Your Cart</string>
     <string name="selectDeliveryAddress">Please, Select Delivery Address</string>
     <string name="noLocationFound">No Location Found</string>
-  <string name="showLess">Show Less</string>
+    <string name="showLess">Show Less</string>
+    <string name="order_details">Order Details</string>
+    <string name="clientAddress">Client Address</string>
+    <string name="billOfLading">Bill Of Lading</string>
+    <string name="rateShipment">Rate Shipment</string>
 
 </resources>

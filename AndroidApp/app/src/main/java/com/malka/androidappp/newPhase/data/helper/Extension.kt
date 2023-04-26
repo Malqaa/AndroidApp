@@ -88,7 +88,6 @@ object Extension {
     ) {
 
 
-
         GlideApp.with(context)
             .load(path).addListener(object : RequestListener<Drawable?> {
                 override fun onLoadFailed(
@@ -122,6 +121,7 @@ object Extension {
 
 
             })
+            .error(R.mipmap.malqa_iconn)
             .into(imageView)
     }
 

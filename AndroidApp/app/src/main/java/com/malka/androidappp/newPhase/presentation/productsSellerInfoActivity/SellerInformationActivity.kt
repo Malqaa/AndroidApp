@@ -4,7 +4,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -18,11 +17,9 @@ import com.malka.androidappp.newPhase.presentation.adapterShared.ProductHorizont
 import com.malka.androidappp.newPhase.presentation.adapterShared.SetOnProductItemListeners
 import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
 import com.malka.androidappp.newPhase.presentation.productDetailsActivity.ProductDetailsActivity
+import com.malka.androidappp.newPhase.presentation.productsSellerInfoActivity.viewModel.SellerViewModel
 import kotlinx.android.synthetic.main.activity_seller_information.*
 import kotlinx.android.synthetic.main.toolbar_main.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.util.*
 
 class SellerInformationActivity : BaseActivity(), SetOnProductItemListeners,

@@ -1,4 +1,4 @@
-package com.malka.androidappp.newPhase.presentation.addSellerReviewActivity
+package com.malka.androidappp.newPhase.presentation.productsSellerInfoActivity.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -16,7 +16,7 @@ class SellerRateAdapter(val context: Context, var sellerRateList: ArrayList<Sell
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SellerViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.product_review_design,parent,false)
+        val view = LayoutInflater.from(context).inflate(R.layout.item_seller_review,parent,false)
         return SellerViewHolder(view)
     }
     override fun getItemCount(): Int {
@@ -24,7 +24,7 @@ class SellerRateAdapter(val context: Context, var sellerRateList: ArrayList<Sell
     }
 
     override fun onBindViewHolder(holder: SellerViewHolder, position: Int) {
-//        val rate = rateData[position]
+//        val rate = sellerRateList[position]
 //        holder.name.text = rate.userName
 //        holder.comment.text = rate.comment
 //        holder.ratetext.text = rate.rate.toString()

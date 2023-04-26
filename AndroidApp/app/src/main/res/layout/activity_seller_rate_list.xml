@@ -49,7 +49,7 @@
                 android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:layout_marginBottom="@dimen/_10sdp"
-                tools:listitem="@layout/product_review_design" />
+                tools:listitem="@layout/item_seller_review" />
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 

@@ -1,5 +1,6 @@
 package com.malka.androidappp.newPhase.presentation.myOrderFragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
@@ -12,6 +13,7 @@ import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.data.helper.*
 import com.malka.androidappp.newPhase.domain.models.orderListResp.OrderItem
 import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.presentation.myOrderDetails.OrderDetailsActivity
 import com.malka.androidappp.newPhase.presentation.myOrderFragment.adapter.SoldOutOrdersAdapter
 import kotlinx.android.synthetic.main.fragment_my_orders.*
 import kotlinx.android.synthetic.main.fragment_my_orders.progressBar
@@ -102,7 +104,18 @@ class MyOrdersFragment : Fragment(R.layout.fragment_my_orders),
     private fun setUpCurrentOrderAdapter() {
         currentOrdersList = ArrayList()
         currentOrderLayOutManager = GridLayoutManager(requireActivity(), 1)
-        currentOrderAdapter = SoldOutOrdersAdapter(currentOrdersList)
+        currentOrderAdapter = SoldOutOrdersAdapter(currentOrdersList,
+            object : SoldOutOrdersAdapter.SetOnClickListeners {
+                override fun onOrderSelected(position: Int) {
+                    if(tapId==1){
+                        goToOrderDetails(currentOrdersList[position].orderMasterId,currentOrdersList[position])
+                    }else if(tapId==2){
+                        goToOrderDetails(currentOrdersList[position].orderId,currentOrdersList[position])
+                    }
+
+                }
+
+            })
         current_recycler.apply {
             adapter = currentOrderAdapter
             layoutManager = currentOrderLayOutManager
@@ -112,12 +125,20 @@ class MyOrdersFragment : Fragment(R.layout.fragment_my_orders),
                 override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
                     if (tapId == 1) {
                         myOrdersViewModel.getCurrentOrderOrders(page, ConstantObjects.logged_userid)
-                    }else if (tapId==2){
+                    } else if (tapId == 2) {
                         myOrdersViewModel.getSoldOutOrders(1)
                     }
                 }
             }
         current_recycler.addOnScrollListener(endlessRecyclerViewScrollListener)
+    }
+
+    private fun goToOrderDetails(orderId: Int, orderItem: OrderItem) {
+        startActivity(Intent(requireActivity(), OrderDetailsActivity::class.java).apply {
+            putExtra(ConstantObjects.orderItemKey,orderItem)
+            putExtra(ConstantObjects.orderNumberKey,orderId)
+            putExtra(ConstantObjects.orderTypeKey,tapId)
+        })
     }
 
     private fun showApiError(message: String) {
@@ -136,7 +157,6 @@ class MyOrdersFragment : Fragment(R.layout.fragment_my_orders),
         }
         btnCurrent.setOnClickListener {
             tapId = 1
-
             btnCurrent.setBackgroundResource(R.drawable.round_btn)
             btnCurrent.setTextColor(ContextCompat.getColor(requireActivity(), R.color.white))
             btnReceived.setBackgroundResource(R.drawable.edittext_bg)
@@ -161,10 +181,10 @@ class MyOrdersFragment : Fragment(R.layout.fragment_my_orders),
         tvError.hide()
         endlessRecyclerViewScrollListener.resetState()
         if (tapId == 1) {
-            currentOrderAdapter.currentOrder=true
+            currentOrderAdapter.currentOrder = true
             myOrdersViewModel.getCurrentOrderOrders(1, ConstantObjects.logged_userid)
-        }else if (tapId==2){
-            currentOrderAdapter.currentOrder=false
+        } else if (tapId == 2) {
+            currentOrderAdapter.currentOrder = false
             myOrdersViewModel.getSoldOutOrders(1)
         }
     }

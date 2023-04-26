@@ -16,6 +16,7 @@ import com.malka.androidappp.newPhase.domain.models.sellerRateListResp.SellerRat
 import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
 import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
 import com.malka.androidappp.newPhase.presentation.productDetailsActivity.viewModels.ProductDetailsViewModel
+import com.malka.androidappp.newPhase.presentation.productsSellerInfoActivity.adapter.SellerRateAdapter
 import kotlinx.android.synthetic.main.activity_seller_rate_list.progressBar
 import kotlinx.android.synthetic.main.activity_seller_rate_list.rvAllReviews
 import kotlinx.android.synthetic.main.activity_seller_rate_list.swipe_to_refresh
