@@ -43,13 +43,16 @@ class SoldOutOrdersAdapter(var orderList: List<OrderItem>,var setOnClickListener
         holder.viewBinding.totalOrderTv.text = "${orderList[position].totalOrderAmountAfterDiscount} ${context.getString(R.string.rial)}"
         holder.viewBinding.orderStatusTv.text = orderList[position].status ?: ""
         if(currentOrder){
-            holder.viewBinding.completeOrderBtn.show()
-        }else{
             holder.viewBinding.completeOrderBtn.hide()
+        }else{
+            holder.viewBinding.completeOrderBtn.show()
         }
      holder.viewBinding.itemView.setOnClickListener {
          setOnClickListeners.onOrderSelected(position)
      }
+        holder.viewBinding.completeOrderBtn.setOnClickListener {
+            setOnClickListeners.onOrderSelected(position)
+        }
 
     }
 

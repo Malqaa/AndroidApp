@@ -68,15 +68,15 @@
                 <ImageView
                     android:layout_width="@dimen/_30sdp"
                     android:layout_height="@dimen/_25sdp"
-                    android:src="@drawable/smile"/>
+                    android:src="@drawable/smile3"/>
                 <ImageView
                     android:layout_width="@dimen/_30sdp"
                     android:layout_height="@dimen/_25sdp"
-                    android:src="@drawable/smile"/>
+                    android:src="@drawable/smile3"/>
                 <ImageView
                     android:layout_width="@dimen/_30sdp"
                     android:layout_height="@dimen/_25sdp"
-                    android:src="@drawable/smile"/>
+                    android:src="@drawable/smile3"/>
 
             </LinearLayout>
 
@@ -145,16 +145,16 @@
                 <ImageView
                     android:layout_width="@dimen/_30sdp"
                     android:layout_height="@dimen/_25sdp"
-                    android:src="@drawable/smile"/>
+                    android:src="@drawable/smile3"/>
                 <ImageView
                     android:layout_width="@dimen/_30sdp"
                     android:layout_height="@dimen/_25sdp"
-                    android:src="@drawable/smile"/>
+                    android:src="@drawable/smile3"/>
                 <ImageView
                     android:layout_width="@dimen/_30sdp"
                     android:layout_height="@dimen/_25sdp"
 
-                    android:src="@drawable/smile"/>
+                    android:src="@drawable/smile3"/>
 
             </LinearLayout>
 
@@ -212,15 +212,15 @@
                 <ImageView
                     android:layout_width="@dimen/_30sdp"
                     android:layout_height="@dimen/_25sdp"
-                    android:src="@drawable/smile"/>
+                    android:src="@drawable/smile3"/>
                 <ImageView
                     android:layout_width="@dimen/_30sdp"
                     android:layout_height="@dimen/_25sdp"
-                    android:src="@drawable/smile"/>
+                    android:src="@drawable/smile3"/>
                 <ImageView
                     android:layout_width="@dimen/_30sdp"
                     android:layout_height="@dimen/_25sdp"
-                    android:src="@drawable/smile"/>
+                    android:src="@drawable/smile3"/>
 
             </LinearLayout>
 

@@ -33,6 +33,7 @@ import com.malka.androidappp.newPhase.domain.models.homeSilderResp.HomeSliderRes
 import com.malka.androidappp.newPhase.domain.models.loginResp.LoginResp
 import com.malka.androidappp.newPhase.domain.models.orderDetails.OrderDetailsResp
 import com.malka.androidappp.newPhase.domain.models.orderDetailsByMasterID.OrderDetailsByMasterIDResp
+import com.malka.androidappp.newPhase.domain.models.orderDetailsByMasterID.RateObject
 import com.malka.androidappp.newPhase.domain.models.orderListResp.OrderListResp
 import com.malka.androidappp.newPhase.domain.models.pakatResp.PakatResp
 import com.malka.androidappp.newPhase.domain.models.productResp.ProductListResp
@@ -182,6 +183,7 @@ interface MalqaApiService {
         @Query("id") id: Int,
         @Query("lang") language: String = ConstantObjects.currentLanguage
     ): Call<ProductResp>
+
     @GET("GetSellerInformation")
     fun getSellerInformation(
         @Query("productId") productId: Int,
@@ -333,7 +335,7 @@ interface MalqaApiService {
 //    fun searchForProductInCategory(@Query("mainCatId")mainCatId:Int,@QueryName queryString: HashMap<String,String>):Call<ProductListResp>
     @GET
     fun searchForProductInCategory(
-        @Url  url:String
+        @Url url: String
     ): Call<ProductListResp>
 
     @GET("ListRateProduct")
@@ -357,7 +359,25 @@ interface MalqaApiService {
     @GET("ListRateProvider")
     fun getSellerRates(
         @Query("providerId") providerId: String,
-        @Query("BusinessAccountId") BusinessAccountId: String,
+        @Query("BusinessAccountId") BusinessAccountId: String?,
+        @Query("lang") language: String = ConstantObjects.currentLanguage
+    ): Call<SellerRateListResp>
+
+    @GET("ListRateSeller?PageRowsCount=10")
+    fun getSellerRates2AsAsseller(
+        @Query("providerId") providerId: String,
+        @Query("BusinessAccountId") BusinessAccountId: String?,
+        @Query("pageIndex") page: Int,
+        @Query("rate") rate: Int?,
+        @Query("lang") language: String = ConstantObjects.currentLanguage
+    ): Call<SellerRateListResp>
+
+    @GET("ListRateBuyer?PageRowsCount=10")
+    fun getSellerRates2AsAsABuyer(
+        @Query("providerId") providerId: String,
+        @Query("BusinessAccountId") BusinessAccountId: String?,
+        @Query("pageIndex") page: Int,
+        @Query("rate") rate: Int?,
         @Query("lang") language: String = ConstantObjects.currentLanguage
     ): Call<SellerRateListResp>
 
@@ -372,10 +392,11 @@ interface MalqaApiService {
         @Query("pageIndex") page: Int,
         @Query("lang") language: String = ConstantObjects.currentLanguage
     ): Call<OrderListResp>
+
     @GET("GetClientAddedOrders?PageRowsCount=10")
     fun getCurrentOrders(
         @Query("pageIndex") page: Int,
-        @Query("userId") userId:String,
+        @Query("userId") userId: String,
         @Query("lang") language: String = ConstantObjects.currentLanguage
     ): Call<OrderListResp>
 
@@ -391,11 +412,13 @@ interface MalqaApiService {
     fun getListAddressesForUser(
         @Query("lang") language: String = ConstantObjects.currentLanguage
     ): Call<UserAddressesResp>
+
     @Multipart
     @POST("AddAddressForUser")
     fun addAddressForUser(
         @PartMap partMap: Map<String, @JvmSuppressWildcards RequestBody>,
     ): Call<GeneralResponse>
+
     @Multipart
     @PUT("EditAddressForUser")
     fun editAddressForUser(
@@ -406,61 +429,79 @@ interface MalqaApiService {
     @POST("AddProductToCartProducts")
     fun addProductToCartProducts(
         @PartMap partMap: Map<String, @JvmSuppressWildcards RequestBody>,
-    ):Call<AddProductToCartResp>
+    ): Call<AddProductToCartResp>
 
 
     @GET("ListCartProductsForClient")
-    fun getListCartProductsForClient(@Query("cartMasterId")cartMasterId:String):Call<CartListResp>
+    fun getListCartProductsForClient(@Query("cartMasterId") cartMasterId: String): Call<CartListResp>
+
     @GET("AssignCartMastetToUser")
     fun assignCartMastetToUser(
-        @Query("cartMasterId")cartMasterId:String
-    ):Call<GeneralResponse>
+        @Query("cartMasterId") cartMasterId: String
+    ): Call<GeneralResponse>
 
     @POST("IncreaseCartProductQuantity")
-   fun increaseCartProductQuantity(@Query("cartproductId")cartproductId:String,@Query("quantity")quantity:String):Call<GeneralResponse>
+    fun increaseCartProductQuantity(
+        @Query("cartproductId") cartproductId: String,
+        @Query("quantity") quantity: String
+    ): Call<GeneralResponse>
+
     @POST("DecreaseCartProductQuantity")
-    fun decreaseCartProductQuantity(@Query("cartproductId")cartproductId:String,@Query("quantity")quantity:String):Call<GeneralResponse>
+    fun decreaseCartProductQuantity(
+        @Query("cartproductId") cartproductId: String,
+        @Query("quantity") quantity: String
+    ): Call<GeneralResponse>
 
     @DELETE("RemoveProductFromCartProducts")
-    fun removeProductFromCartProducts(@Query("cartproductId")cartproductId:String):Call<GeneralResponse>
+    fun removeProductFromCartProducts(@Query("cartproductId") cartproductId: String): Call<GeneralResponse>
 
     @Multipart
     @POST("AddOrder")
     fun addOrder(
         @PartMap partMap: Map<String, @JvmSuppressWildcards RequestBody>,
-    ):Call<AddOrderResp>
+    ): Call<AddOrderResp>
 
     @POST("ApplyCouponOnCart")
     fun applyCouponOnCart(
-        @Query("cartMasterId")cartMasterId:String,@Query("couponCode")couponCode:String,@Query("buyWithFixedRpriceOrNegotiation")buyWithFixedRpriceOrNegotiation:String
-    ):Call<GeneralResponse>
+        @Query("cartMasterId") cartMasterId: String,
+        @Query("couponCode") couponCode: String,
+        @Query("buyWithFixedRpriceOrNegotiation") buyWithFixedRpriceOrNegotiation: String
+    ): Call<GeneralResponse>
+
     @POST("ApplyCouponOnCart")
     fun applyCouponOnCart(
-        @Query("cartMasterId")cartMasterId:String,
-        @Query("couponCode")couponCode:String,
-        @Query("buyWithFixedRpriceOrNegotiation")buyWithFixedRpriceOrNegotiation:String,
-        @Query("couponForbusinessAccountId")couponForbusinessAccountId:String
-    ):Call<GeneralResponse>
+        @Query("cartMasterId") cartMasterId: String,
+        @Query("couponCode") couponCode: String,
+        @Query("buyWithFixedRpriceOrNegotiation") buyWithFixedRpriceOrNegotiation: String,
+        @Query("couponForbusinessAccountId") couponForbusinessAccountId: String
+    ): Call<GeneralResponse>
 
     @GET("ListSellerProducts?PageRowsCount=10")
     fun getListSellerProducts(
-        @Query("pageIndex")pageIndex:Int,
-        @Query("sellerId")sellerProviderId:String,
-        @Query("sellerBusinssAccountId")sellerBusinssAccountId:String,
+        @Query("pageIndex") pageIndex: Int,
+        @Query("sellerId") sellerProviderId: String,
+        @Query("sellerBusinssAccountId") sellerBusinssAccountId: String,
         @Query("lang") language: String = ConstantObjects.currentLanguage
     ): Call<ProductListResp>;
 
     @GET("GetOrderDetailsByOrderId")
     fun getOrderDetailsByOrderID(
-        @Query("orderId")orderId:Int,
-    ):Call<OrderDetailsResp>
+        @Query("orderId") orderId: Int,
+    ): Call<OrderDetailsResp>
+
     @GET("GetOrderMasterDetailsByMasterOrderId")
     fun getOrderMasterDetailsByMasterOrderId(
-        @Query("masterOrderId")masterOrderId:Int,
-    ):Call<OrderDetailsByMasterIDResp>
+        @Query("masterOrderId") masterOrderId: Int,
+    ): Call<OrderDetailsByMasterIDResp>
 
-
-
+    @POST("OrderRate")
+    fun addShipmentRate(
+        @Body shimpentRateObject: RateObject
+    ): Call<GeneralResponse>
+    @GET("CurrenUserRateForEdit")
+    fun getShipmentRate(
+        @Body shimmentRatgeObject: RateObject
+    ): Call<GeneralResponse>
 
 
     /***

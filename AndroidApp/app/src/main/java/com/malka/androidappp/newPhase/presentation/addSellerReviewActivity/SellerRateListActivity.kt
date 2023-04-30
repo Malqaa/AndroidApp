@@ -101,7 +101,11 @@ class SellerRateListActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefresh
             // println("hhhh "+rateListResp.status_code+" "+rateListResp.data)
             if (sellerRateListResp.status_code == 200) {
                 sellerRateList.clear()
-                sellerRateList.addAll(sellerRateListResp.data)
+                sellerRateListResp.SellerRateObject?.rateSellerListDto?.let {
+                    sellerRateList.addAll(
+                        it
+                    )
+                }
                 sellerRateAdapter.notifyDataSetChanged()
                 if (sellerRateList.isEmpty()) {
                     showErrorText(getString(R.string.no_Reviews_Found))

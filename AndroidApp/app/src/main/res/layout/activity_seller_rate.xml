@@ -40,8 +40,21 @@
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
                        android:layout_centerHorizontal="true"
+                       android:visibility="gone"
                        android:layout_centerVertical="true"
                        android:id="@+id/progressbar"/>
+                <TextView
+                    android:id="@+id/tvError"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/madani_arabic_medium"
+                    android:text="@string/no_Reviews_Found"
+                    android:textAlignment="viewStart"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="@color/gray"
+                    android:textSize="@dimen/_10sdp"
+                    android:visibility="gone" />
 
             </RelativeLayout>
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

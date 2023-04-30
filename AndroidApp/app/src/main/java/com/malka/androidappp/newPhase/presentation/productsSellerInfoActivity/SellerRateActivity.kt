@@ -1,333 +1,224 @@
 package com.malka.androidappp.newPhase.presentation.productsSellerInfoActivity
 
 import android.os.Bundle
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseActivity
-import com.malka.androidappp.newPhase.data.helper.linearLayoutManager
-import com.malka.androidappp.newPhase.data.helper.widgets.rcv.GenericListAdapter
+import com.malka.androidappp.newPhase.data.helper.*
+import com.malka.androidappp.newPhase.domain.models.sellerInfoResp.SellerInformation
 import com.malka.androidappp.newPhase.domain.models.sellerRateListResp.SellerRateItem
+import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
 import com.malka.androidappp.newPhase.domain.models.servicemodels.Reviewmodel
 import com.malka.androidappp.newPhase.domain.models.servicemodels.Selection
+import com.malka.androidappp.newPhase.presentation.productDetailsActivity.viewModels.ProductDetailsViewModel
 import com.malka.androidappp.newPhase.presentation.productsSellerInfoActivity.adapter.SellerRateAdapter
+import com.malka.androidappp.newPhase.presentation.productsSellerInfoActivity.dialog.SellerFilterReviewDialog
+import kotlinx.android.synthetic.main.activity_product_details_item_2.*
 import kotlinx.android.synthetic.main.activity_seller_rate.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 
-class SellerRateActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
+class SellerRateActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
+    SellerFilterReviewDialog.ApplySellerReviewFilter {
+    private lateinit var linerlayoutManager: LinearLayoutManager
     val list: ArrayList<Reviewmodel> = ArrayList()
     val sampleOption: ArrayList<Selection> = ArrayList()
     val typeOption: ArrayList<Selection> = ArrayList()
     var selection: Selection? = null
+    private lateinit var productDetialsViewModel: ProductDetailsViewModel
 
     //=====
     lateinit var sellerRateAdapter: SellerRateAdapter
     lateinit var sellerRateList: ArrayList<SellerRateItem>
+    var sellerInformation: SellerInformation? = null
+    lateinit var endlessRecyclerViewScrollListener: EndlessRecyclerViewScrollListener
+
+    lateinit var sellerFilterReviewDialog: SellerFilterReviewDialog
+    var sellerAsASeller: Int = SellerFilterReviewDialog.sellerAsASeller
+    var retReviewType: Int = SellerFilterReviewDialog.allReview
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_seller_rate)
+        sellerInformation = intent.getParcelableExtra(ConstantObjects.sellerObjectKey)
         initView()
         setListenser()
         setSellerRateAdapter()
+        setProductDetailsViewModel()
+        onRefresh()
+    }
 
-//        list.add(
-//            Reviewmodel(
-//                "Ahmed1",
-//                "15/12/2022",
-//                "Very good and fast delivery",
-//                "4.7",
-//                R.drawable.profile_pic
-//            )
-//        )
-//        list.add(
-//            Reviewmodel(
-//                "Ahmed2",
-//                "17/12/2022",
-//                "Great and fast delivery",
-//                "4.5",
-//                R.drawable.profiledp
-//            )
-//        )
-//        list.add(
-//            Reviewmodel(
-//                "Ahmed3",
-//                "12/12/2022",
-//                "Good and fast delivery",
-//                "4.9",
-//                R.drawable.car
-//            )
-//        )
-//        list.add(Reviewmodel("Ahmed4", "16/12/2022", "Great Experience", "5.0", R.drawable.car))
-//        list.add(
-//            Reviewmodel(
-//                "Ahmed5",
-//                "10/12/2022",
-//                "Excelent fast delivery",
-//                "4.6",
-//                R.drawable.car
-//            )
-//        )
-//        list.add(
-//            Reviewmodel(
-//                "Ahmed6",
-//                "5/12/2022",
-//                "Amazing and fast delivery",
-//                "4.9",
-//                R.drawable.car
-//            )
-//        )
-//        list.add(
-//            Reviewmodel(
-//                "Ahmed3",
-//                "12/12/2022",
-//                "Good and fast delivery",
-//                "4.9",
-//                R.drawable.car
-//            )
-//        )
-//        list.add(Reviewmodel("Ahmed4", "16/12/2022", "Great Experience ", "5.0", R.drawable.car))
-//        list.add(
-//            Reviewmodel(
-//                "Ahmed5",
-//                "10/12/2022",
-//                "Excelent fast delivery",
-//                "4.6",
-//                R.drawable.car
-//            )
-//        )
-//        list.add(
-//            Reviewmodel(
-//                "Ahmed6",
-//                "5/12/2022",
-//                "Amazing and fast delivery",
-//                "4.9",
-//                R.drawable.car
-//            )
-//        )
-//        list.add(
-//            Reviewmodel(
-//                "Ahmed3",
-//                "12/12/2022",
-//                "Good and fast delivery",
-//                "4.9",
-//                R.drawable.car
-//            )
-//        )
-//        list.add(Reviewmodel("Ahmed4", "16/12/2022", "Great Experience ", "5.0", R.drawable.car))
-//
-//        reviewAdaptor(list)
-//
-//
-//        sampleOption.apply {
-//            add(Selection("option 1"))
-//            add(Selection("option 2"))
-//            add(Selection("option 3"))
-//        }
-//
-//        typeOption.apply {
-//            add(Selection("Option 1"))
-//            add(Selection("Option 2"))
-//
-//        }
+    private fun setProductDetailsViewModel() {
+        productDetialsViewModel = ViewModelProvider(this).get(ProductDetailsViewModel::class.java)
+        productDetialsViewModel.isLoading.observe(this) {
+            if (it)
+                progressbar.show()
+            else
+                progressbar.hide()
+        }
+        productDetialsViewModel.isNetworkFail.observe(this) {
+            if (it) {
+                HelpFunctions.ShowLongToast(getString(R.string.connectionError), this)
+            } else {
+                HelpFunctions.ShowLongToast(getString(R.string.serverError), this)
+            }
 
+        }
+        productDetialsViewModel.errorResponseObserver.observe(this) {
+            if (it.message != null) {
+                HelpFunctions.ShowLongToast((it.message!!), this)
+            } else {
+                HelpFunctions.ShowLongToast(getString(R.string.serverError), this)
+            }
+
+        }
+        productDetialsViewModel.sellerRateListObservable.observe(this) { sellerRateListResp ->
+            if (sellerRateListResp.status_code == 200) {
+                sellerRateListResp.SellerRateObject?.let {
+                    it.rateSellerListDto?.let { it1 -> sellerRateList.addAll(it1) }
+                }
+                sellerRateAdapter.notifyDataSetChanged()
+                if (sellerRateList.isEmpty()) {
+                    tvError.show()
+                } else {
+                    tvError.hide()
+                }
+            } else {
+                if (sellerRateList.isEmpty()) {
+                    if (sellerRateListResp.message != null) {
+                        HelpFunctions.ShowLongToast((sellerRateListResp.message), this)
+                    } else {
+                        HelpFunctions.ShowLongToast(getString(R.string.serverError), this)
+                    }
+                } else {
+                    tvError.hide()
+                }
+            }
+            //tvError
+        }
     }
 
     private fun initView() {
         swipe_to_refresh.setColorSchemeResources(R.color.colorPrimaryDark)
         swipe_to_refresh.setOnRefreshListener(this)
         toolbar_title.text = getString(R.string.all_reviews)
+        sellerFilterReviewDialog = SellerFilterReviewDialog(this, this)
     }
 
     private fun setSellerRateAdapter() {
         sellerRateList = ArrayList()
         sellerRateAdapter = SellerRateAdapter(this, sellerRateList);
+        linerlayoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         rvRate.apply {
             adapter = sellerRateAdapter
-            layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
+            layoutManager = linerlayoutManager
         }
+        endlessRecyclerViewScrollListener =
+            object : EndlessRecyclerViewScrollListener(linerlayoutManager) {
+                override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
+                    if (sellerAsASeller == SellerFilterReviewDialog.sellerAsASeller) {
+                        var sendRate:Int?=null
+                        if(retReviewType!=SellerFilterReviewDialog.allReview){
+                            sendRate=retReviewType
+                        }
+                        productDetialsViewModel.getSellerRates2AsSeller(
+                            sellerInformation?.providerId ?: "",
+                            sellerInformation?.businessAccountId,
+                            page,
+                            sendRate
+                        )
+                    }else{
+                        var sendRate:Int?=null
+                        if(retReviewType!=SellerFilterReviewDialog.allReview){
+                            sendRate=retReviewType
+                        }
+                        productDetialsViewModel.getSellerRates2AsAbuyer(
+                            sellerInformation?.providerId ?: "",
+                            sellerInformation?.businessAccountId,
+                            page,
+                            sendRate
+                        )
+                    }
+
+                }
+            }
+        rvRate.addOnScrollListener(endlessRecyclerViewScrollListener)
     }
 
+    override fun onRefresh() {
+        endlessRecyclerViewScrollListener.resetState()
+        swipe_to_refresh.isRefreshing = false
+        sellerRateList.clear()
+        sellerRateAdapter.notifyDataSetChanged()
+        tvError.hide()
+        if (sellerAsASeller == SellerFilterReviewDialog.sellerAsASeller) {
+            var sendRate:Int?=null
+            if(retReviewType!=SellerFilterReviewDialog.allReview){
+                sendRate=retReviewType
+            }
+            productDetialsViewModel.getSellerRates2AsSeller(
+                sellerInformation?.providerId ?: "",
+                sellerInformation?.businessAccountId,
+                1,
+                sendRate
+            )
+        }else{
+            var sendRate:Int?=null
+            if(retReviewType!=SellerFilterReviewDialog.allReview){
+                sendRate=retReviewType
+            }
+            productDetialsViewModel.getSellerRates2AsAbuyer(
+                sellerInformation?.providerId ?: "",
+                sellerInformation?.businessAccountId,
+                1,
+                sendRate
+            )
+        }
+
+    }
 
     private fun setListenser() {
         back_btn.setOnClickListener {
             onBackPressed()
         }
+        review_type2.setOnClickListener {
+            sellerFilterReviewDialog.show()
+            sellerFilterReviewDialog.setSelectedTap(
+                SellerFilterReviewDialog.sellerOrBayerFilterTap,
+                sellerAsASeller,
+                retReviewType
+            )
 
-//        review_type1.setOnClickListener {
-//            val builder = AlertDialog.Builder(this)
-//                .create()
-//            val view = layoutInflater.inflate(R.layout.review_dialog_layout, null)
-//            builder.setView(view)
-//            bottom_btns.hide()
-//
-//
-//            fun reviewAdaptor(list: List<Selection>, rcv: RecyclerView) {
-//                rcv.adapter = object : GenericListAdapter<Selection>(
-//                    R.layout.review_filter_design,
-//                    bind = { element, holder, itemCount, position ->
-//                        holder.view.run {
-//                            element.run {
-//                                checkbox.isChecked = isSelected
-//                                review_filter_layout.setSelected(isSelected)
-//                                filter_tv.text = name
-//                                review_filter_layout.setOnClickListener {
-//                                    list.forEach {
-//                                        it.isSelected = false
-//
-//                                    }
-//                                    list.get(position).isSelected = true
-//                                    rcv.post { rcv.adapter?.notifyDataSetChanged() }
-//                                    selection = element
-//                                }
-//
-//                                checkbox.setOnCheckedChangeListener { buttonView, isChecked ->
-//                                    if (isChecked) {
-//                                        review_filter_layout.performClick()
-//                                    }
-//                                }
-//
-//                            }
-//                        }
-//                    }
-//                ) {
-//                    override fun getFilter(): android.widget.Filter? {
-//                        TODO("Not yet implemented")
-//                    }
-//
-//                }.apply {
-//                    submitList(
-//                        list
-//                    )
-//                }
-//            }
-//
-//            builder.setCanceledOnTouchOutside(true)
-//            builder.show()
-//            builder.setOnCancelListener {
-//                bottom_btns.show()
-//            }
-//            view.filter_application.setOnClickListener {
-//                builder.dismiss()
-//                bottom_btns.show()
-//            }
-//            view.reset_tv.setOnClickListener {
-//                builder.dismiss()
-//                bottom_btns.show()
-//            }
-//
-//            view.review_type_btn.setOnClickListener {
-//                builder.dismiss()
-//                review_type2.performClick()
-//            }
-//            reviewAdaptor(sampleOption, view.review_type1_rcv)
-//
-//        }
-//
-//        review_type2.setOnClickListener {
-//            val builder = AlertDialog.Builder(this)
-//                .create()
-//            val view = layoutInflater.inflate(R.layout.review_dialog_layout, null)
-//            builder.setView(view)
-//            bottom_btns.hide()
-//
-//            fun reviewAdaptor(list: List<Selection>, rcv: RecyclerView) {
-//                rcv.adapter = object : GenericListAdapter<Selection>(
-//                    R.layout.review_filter_design,
-//                    bind = { element, holder, itemCount, position ->
-//                        holder.view.run {
-//                            element.run {
-//                                checkbox.isChecked = isSelected
-//                                filter_tv.setSelected(isSelected)
-//                                review_filter_layout.setSelected(isSelected)
-//                                filter_tv.text = name
-//                                review_filter_layout.setOnClickListener {
-//                                    list.forEach {
-//                                        it.isSelected = false
-//                                    }
-//                                    element.isSelected = true
-//                                    rcv.post { rcv.adapter?.notifyDataSetChanged() }
-//                                    selection = element
-//                                }
-//
-//                                checkbox.setOnCheckedChangeListener { buttonView, isChecked ->
-//                                    if (isChecked) {
-//                                        review_filter_layout.performClick()
-//                                    }
-//                                }
-//
-//                            }
-//                        }
-//                    }
-//                ) {
-//                    override fun getFilter(): android.widget.Filter? {
-//                        TODO("Not yet implemented")
-//                    }
-//
-//                }.apply {
-//                    submitList(
-//                        list
-//                    )
-//                }
-//            }
-//
-//            builder.setCanceledOnTouchOutside(true)
-//            builder.show()
-//            builder.setOnCancelListener {
-//                bottom_btns.show()
-//            }
-//
-//            view.filter_application.setOnClickListener {
-//                builder.dismiss()
-//                bottom_btns.show()
-//            }
-//            view.reset_tv.setOnClickListener {
-//                builder.dismiss()
-//                bottom_btns.show()
-//            }
-//            view.review_btn.setOnClickListener {
-//                builder.dismiss()
-//                review_type1.performClick()
-//            }
-//
-//            reviewAdaptor(typeOption, view.reviews_type2_rcv)
-//        }
+        }
+        review_type1.setOnClickListener {
+            sellerFilterReviewDialog.show()
+            sellerFilterReviewDialog.setSelectedTap(
+                SellerFilterReviewDialog.reviewTypeTap,
+                sellerAsASeller,
+                retReviewType
+            )
 
+        }
 
     }
 
-    override fun onRefresh() {
-        swipe_to_refresh.isRefreshing = false
-        sellerRateList.clear()
-        sellerRateAdapter.notifyDataSetChanged()
+    override fun onApplyFilter(reviewType: Int, rateAsSellerOrBuyer: Int) {
+        sellerFilterReviewDialog.dismiss()
+        sellerAsASeller = rateAsSellerOrBuyer
+        retReviewType = reviewType
+        when(sellerAsASeller){
+            SellerFilterReviewDialog.sellerAsASeller->{
+                review_type2.text=getString(R.string.reviews_as_a_seller)
+            }
+            SellerFilterReviewDialog.sellerAsABuyer->{
+                review_type2.text=getString(R.string.reviews_as_a_buyer)
+            }
+        }
+        onRefresh()
 
     }
 
 
-//    private fun reviewAdaptor(list: ArrayList<Reviewmodel>) {
-//        rvPakat.adapter = object : GenericListAdapter<Reviewmodel>(
-//            R.layout.item_seller_review,
-//            bind = { element, holder, itemCount, position ->
-//                holder.view.run {
-//                    element.run {
-////                        review_name.text = name
-////                        review_date.text = date
-////                        review_rating.text = rating
-////                        review_comment.text = comment
-//                      //  review_profile_pic.setImageResource(image)
-//
-//                    }
-//                }
-//            }
-//        ) {
-//            override fun getFilter(): android.widget.Filter? {
-//                TODO("Not yet implemented")
-//            }
-//
-//        }.apply {
-//            submitList(
-//                list
-//            )
-//        }
-//    }
 
 }

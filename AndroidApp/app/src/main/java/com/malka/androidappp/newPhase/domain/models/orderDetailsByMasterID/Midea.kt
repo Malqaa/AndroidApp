@@ -1,4 +1,4 @@
-package com.malka.androidappp.newPhase.domain.models.orderDetails
+package com.malka.androidappp.newPhase.domain.models.orderDetailsByMasterID
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

@@ -67,7 +67,7 @@
                     android:id="@+id/ivSellerHappyRate"
                     android:layout_width="@dimen/_30sdp"
                     android:layout_height="@dimen/_25sdp"
-                    android:src="@drawable/smile" />
+                    android:src="@drawable/smile3" />
 
                 <ImageView
                     android:id="@+id/ivSellerNeutralRate"
@@ -142,7 +142,7 @@
                     android:id="@+id/ivProductHappyRate"
                     android:layout_width="@dimen/_30sdp"
                     android:layout_height="@dimen/_25sdp"
-                    android:src="@drawable/smile" />
+                    android:src="@drawable/smile3" />
 
                 <ImageView
                     android:id="@+id/ivProductNeutralRate"
@@ -175,7 +175,7 @@
                 android:background="@drawable/edittext_bg">
 
                 <EditText
-                    android:id="@+id/etProductCommnet"
+                    android:id="@+id/etProductComment"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_100sdp"
                     android:background="@null"
@@ -212,7 +212,7 @@
                     android:id="@+id/ivShipmentHappyRate"
                     android:layout_width="@dimen/_30sdp"
                     android:layout_height="@dimen/_25sdp"
-                    android:src="@drawable/smile" />
+                    android:src="@drawable/smile3" />
 
                 <ImageView
                     android:id="@+id/ivShipmentNeutralRate"

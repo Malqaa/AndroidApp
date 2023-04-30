@@ -1,5 +1,7 @@
 package com.malka.androidappp.newPhase.domain.models.orderDetails
 
+import com.malka.androidappp.newPhase.domain.models.orderDetailsByMasterID.OrderProductFullInfoDto
+
 data class OrderDetailsData(
     val branchId: Int,
     val businessAcountName: String?=null,

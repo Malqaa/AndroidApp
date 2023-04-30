@@ -13,7 +13,8 @@ import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.data.helper.*
 import com.malka.androidappp.newPhase.domain.models.orderListResp.OrderItem
 import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
-import com.malka.androidappp.newPhase.presentation.myOrderDetails.OrderDetailsActivity
+import com.malka.androidappp.newPhase.presentation.myOrderDetails.MyOrderDetailsActivity
+import com.malka.androidappp.newPhase.presentation.myOrderDetails.MyOrderDetailsRequestedFromMeActivity
 import com.malka.androidappp.newPhase.presentation.myOrderFragment.adapter.SoldOutOrdersAdapter
 import kotlinx.android.synthetic.main.fragment_my_orders.*
 import kotlinx.android.synthetic.main.fragment_my_orders.progressBar
@@ -108,9 +109,9 @@ class MyOrdersFragment : Fragment(R.layout.fragment_my_orders),
             object : SoldOutOrdersAdapter.SetOnClickListeners {
                 override fun onOrderSelected(position: Int) {
                     if(tapId==1){
-                        goToOrderDetails(currentOrdersList[position].orderMasterId,currentOrdersList[position])
+                        goToMyOrderDetails(currentOrdersList[position].orderMasterId,currentOrdersList[position])
                     }else if(tapId==2){
-                        goToOrderDetails(currentOrdersList[position].orderId,currentOrdersList[position])
+                        goToOrderDetailsRequestedFromMe(currentOrdersList[position].orderId,currentOrdersList[position])
                     }
 
                 }
@@ -133,8 +134,15 @@ class MyOrdersFragment : Fragment(R.layout.fragment_my_orders),
         current_recycler.addOnScrollListener(endlessRecyclerViewScrollListener)
     }
 
-    private fun goToOrderDetails(orderId: Int, orderItem: OrderItem) {
-        startActivity(Intent(requireActivity(), OrderDetailsActivity::class.java).apply {
+    private fun goToMyOrderDetails(orderId: Int, orderItem: OrderItem) {
+        startActivity(Intent(requireActivity(), MyOrderDetailsActivity::class.java).apply {
+            putExtra(ConstantObjects.orderItemKey,orderItem)
+            putExtra(ConstantObjects.orderNumberKey,orderId)
+            putExtra(ConstantObjects.orderTypeKey,tapId)
+        })
+    }
+    private fun goToOrderDetailsRequestedFromMe(orderId: Int, orderItem: OrderItem) {
+        startActivity(Intent(requireActivity(), MyOrderDetailsRequestedFromMeActivity::class.java).apply {
             putExtra(ConstantObjects.orderItemKey,orderItem)
             putExtra(ConstantObjects.orderNumberKey,orderId)
             putExtra(ConstantObjects.orderTypeKey,tapId)

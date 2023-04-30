@@ -22,7 +22,7 @@ import com.malka.androidappp.newPhase.presentation.shipmentRateActivity.Shipment
 import kotlinx.android.synthetic.main.activity_order_details.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 
-class OrderDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
+class MyOrderDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
     CurrentOrderAdapter.SetOnClickListeners {
 
     lateinit var myOrdersViewModel: MyOrdersViewModel
@@ -176,6 +176,9 @@ class OrderDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListene
         startActivity(Intent(this, ShipmentRateActivity::class.java).apply {
             putExtra(ConstantObjects.shipmentOrderDataKey,
                 orderDetailsByMasterIDResp.orderDetailsByMasterIDData?.orderFullInfoDtoList?.get(position)
+            )
+            putExtra(ConstantObjects.orderMasterIdKey,
+                orderDetailsByMasterIDResp.orderDetailsByMasterIDData?.orderMasterId
             )
         })
     }

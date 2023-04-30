@@ -74,6 +74,21 @@ class SellerInformationActivity : BaseActivity(), SetOnProductItemListeners,
         } else {
             ivSellerFollow.setImageResource(R.drawable.notification_log)
         }
+        //   tvRateText.text=it.rate.toString()
+        when (it.rate) {
+            1f -> {
+                ivRateSeller.setImageResource(R.drawable.smile3)
+            }
+            2f -> {
+                ivRateSeller.setImageResource(R.drawable.neutral)
+            }
+            3f -> {
+                ivRateSeller.setImageResource(R.drawable.sad)
+            }
+            else -> {
+                ivRateSeller.setImageResource(R.drawable.smile3)
+            }
+        }
 //        if (it.lat != null && it.lon != null) {
 //            btnMapSeller.show()
 //        } else {
@@ -241,7 +256,9 @@ class SellerInformationActivity : BaseActivity(), SetOnProductItemListeners,
             finish()
         }
         btnRate.setOnClickListener {
-            startActivity(Intent(this,SellerRateActivity::class.java))
+            startActivity(Intent(this, SellerRateActivity::class.java).apply {
+                putExtra(ConstantObjects.sellerObjectKey, sellerInformation)
+            })
         }
 
         skype_btn.setOnClickListener {

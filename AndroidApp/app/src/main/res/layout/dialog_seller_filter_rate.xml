@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginStart="20dp"
+    android:layout_alignParentBottom="true"
+    android:layout_marginEnd="20dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/dialog_curve_background"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:weightSum="3">
+
+            <TextView
+                android:id="@+id/btnApplyFilter"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/applyFilter"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:textColor="@color/bg"
+                android:fontFamily="@font/madani_arabic_light"
+                android:textSize="@dimen/_12sdp"
+                android:gravity="start"
+                />
+
+            <TextView
+                android:id="@+id/btnFilter"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/Filter"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:fontFamily="@font/madani_arabic_medium"
+                android:textSize="@dimen/_12sdp"
+                />
+
+
+            <TextView
+                android:id="@+id/btnResetFilter"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/reset"
+                android:textColor="@color/bg"
+                android:gravity="end"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:fontFamily="@font/madani_arabic_light"
+                android:textSize="@dimen/_12sdp"
+                />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/containerSellerOrBuyer">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/ContainerReviewAsAsAsSellerOrBuyer">
+                <CheckBox
+                    android:id="@+id/cbReviewsAsSeller"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/reviews_as_a_seller"
+                    />
+                <CheckBox
+                    android:id="@+id/cbReviewsAsBuyer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/reviews_as_a_buyer"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/containerReviewTypes">
+
+                <CheckBox
+                    android:id="@+id/cbReviewsHappy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/happy"
+                    />
+                <CheckBox
+                    android:id="@+id/cbReviewsSatisfied"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/satisfied"
+                    />
+                <CheckBox
+                    android:id="@+id/cbReviewsNotSatisfied"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/unsatisfied"
+                    />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_45sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginBottom="@dimen/_15sdp"
+        android:background="@drawable/add_product_attribte">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:id="@+id/review_type1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="20dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/madani_arabic_semi_bold"
+                android:gravity="center"
+                android:text="@string/reviews_type"
+                android:textColor="@color/grey"
+                android:textSize="@dimen/_11sdp" />
+
+            <LinearLayout
+                android:layout_width="@dimen/_1sdp"
+                android:layout_height="match_parent"
+                android:background="@color/light_gray">
+
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/review_type2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="20dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/madani_arabic_semi_bold"
+                android:gravity="center"
+                android:text="@string/reviews_as_a_seller"
+                android:textColor="@color/grey"
+                android:textSize="@dimen/_11sdp" />
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+</LinearLayout>

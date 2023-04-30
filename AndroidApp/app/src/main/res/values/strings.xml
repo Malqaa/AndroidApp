@@ -2940,8 +2940,8 @@ Want to start a business account? Create a Business Account
     <string name="we_are_pleased_to_deal_with_you_through_onruf">We are pleased to deal with you through Onruf</string>
     <string name="help_us_give_your_rating">Help us give your rating</string>
     <string name="what_is_your_evaluation_of_the_seller">What is your evaluation of the seller?</string>
-  <string name="what_is_your_evaluation_of_the_Products">What is your evaluation of the products?</string>
-  <string name="what_is_your_evaluation_of_the_shipment">What is your evaluation of the shipment?</string>
+    <string name="what_is_your_evaluation_of_the_Products">What is your evaluation of the products?</string>
+    <string name="what_is_your_evaluation_of_the_shipment">What is your evaluation of the shipment?</string>
     <string name="do_you_have_a_comment">Do you have a comment?</string>
     <string name="your_rating_for_the_product">Your rating for the product</string>
     <string name="your_rating_for_shipping">Your rating for shipping</string>
@@ -2986,7 +2986,9 @@ Want to start a business account? Create a Business Account
     <string name="favorite_subcategories">Favorite subcategories</string>
     <string name="filter_application">Filter application</string>
     <string name="reviews_type">Reviews type</string>
+    <string name="reviews_as">Reviews as</string>
     <string name="reviews_as_a_seller">Reviews as a seller</string>
+    <string name="reviews_as_a_buyer">Reviews as a buyer</string>
     <string name="following">Following</string>
     <string name="sub_categories" translatable="false">Sub Categories</string>
     <string name="region" translatable="false">Region</string>
@@ -3040,5 +3042,11 @@ Want to start a business account? Create a Business Account
     <string name="clientAddress">Client Address</string>
     <string name="billOfLading">Bill Of Lading</string>
     <string name="rateShipment">Rate Shipment</string>
-
+    <string name="selectSellerRate">Select Seller Rate</string>
+    <string name="addComment">Add Comment</string>
+    <string name="selectShipmentRate">Select Shipment Rate</string>
+    <string name="addAllProductsRates">Add All Products Rates Data</string>
+    <string name="happy">Happy</string>
+    <string name="satisfied">Satisfied</string>
+    <string name="unsatisfied">Unsatisfied</string>
 </resources>

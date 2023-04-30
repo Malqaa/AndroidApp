@@ -1,7 +1,6 @@
 package com.malka.androidappp.newPhase.presentation.productDetailsActivity.viewModels
 
 import androidx.lifecycle.MutableLiveData
-import com.google.gson.Gson
 import com.malka.androidappp.newPhase.core.BaseViewModel
 import com.malka.androidappp.newPhase.data.helper.Extension.requestBody
 import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
@@ -18,7 +17,6 @@ import com.malka.androidappp.newPhase.domain.models.sellerRateListResp.SellerRat
 import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
 import com.malka.androidappp.newPhase.domain.models.servicemodels.GeneralRespone
 import okhttp3.RequestBody
-import org.w3c.dom.Comment
 
 import retrofit2.Call
 import retrofit2.Callback
@@ -63,6 +61,7 @@ class ProductDetailsViewModel : BaseViewModel() {
                 }
             })
     }
+
     fun getSellerInfo(productId: Int) {
         println("hhhh tt " + productId)
         sellerInfoLoadingObservable.value = true
@@ -325,7 +324,7 @@ class ProductDetailsViewModel : BaseViewModel() {
             })
     }
 
-    fun getSellerRates(providerId: String, businessAccountId: String) {
+    fun getSellerRates(providerId: String, businessAccountId: String?) {
         isLoading.value = true
         RetrofitBuilder.GetRetrofitBuilder()
             .getSellerRates(providerId, businessAccountId)
@@ -349,6 +348,62 @@ class ProductDetailsViewModel : BaseViewModel() {
             })
     }
 
+    fun getSellerRates2AsSeller(providerId: String, businessAccountId: String?, page: Int, sendRate: Int?) {
+        if (page == 1)
+            isLoading.value = true
+        else
+            isloadingMore .value = true
+        RetrofitBuilder.GetRetrofitBuilder()
+            .getSellerRates2AsAsseller(providerId, businessAccountId, page,sendRate)
+            .enqueue(object : Callback<SellerRateListResp> {
+                override fun onFailure(call: Call<SellerRateListResp>, t: Throwable) {
+                    isNetworkFail.value = t !is HttpException
+                    isLoading.value = false
+                    isloadingMore.value=false
+                }
+
+                override fun onResponse(
+                    call: Call<SellerRateListResp>,
+                    response: Response<SellerRateListResp>
+                ) {
+                    isLoading.value = false
+                    isloadingMore.value=false
+                    if (response.isSuccessful) {
+                        sellerRateListObservable.value = response.body()
+                    } else {
+                        errorResponseObserver.value = getErrorResponse(response.errorBody())
+                    }
+                }
+            })
+    }
+    fun getSellerRates2AsAbuyer(providerId: String, businessAccountId: String?, page: Int, sendRate: Int?) {
+        if (page == 1)
+            isLoading.value = true
+        else
+            isloadingMore .value = true
+        RetrofitBuilder.GetRetrofitBuilder()
+            .getSellerRates2AsAsABuyer(providerId, businessAccountId, page,sendRate)
+            .enqueue(object : Callback<SellerRateListResp> {
+                override fun onFailure(call: Call<SellerRateListResp>, t: Throwable) {
+                    isNetworkFail.value = t !is HttpException
+                    isLoading.value = false
+                    isloadingMore.value=false
+                }
+
+                override fun onResponse(
+                    call: Call<SellerRateListResp>,
+                    response: Response<SellerRateListResp>
+                ) {
+                    isLoading.value = false
+                    isloadingMore.value=false
+                    if (response.isSuccessful) {
+                        sellerRateListObservable.value = response.body()
+                    } else {
+                        errorResponseObserver.value = getErrorResponse(response.errorBody())
+                    }
+                }
+            })
+    }
     fun addSellerRate(
         providerId: String,
         businessAccountId: String,
@@ -416,10 +471,10 @@ class ProductDetailsViewModel : BaseViewModel() {
     var sellerProductsRespObserver: MutableLiveData<ProductListResp> = MutableLiveData()
     var sellerLoading: MutableLiveData<Boolean> = MutableLiveData()
 
-    fun getSellerListProduct( sellerProviderID: String, businessAccountId: String) {
+    fun getSellerListProduct(sellerProviderID: String, businessAccountId: String) {
         sellerLoading.value = true
         RetrofitBuilder.GetRetrofitBuilder()
-            .getListSellerProducts(1,sellerProviderID,businessAccountId)
+            .getListSellerProducts(1, sellerProviderID, businessAccountId)
             .enqueue(object : Callback<ProductListResp> {
                 override fun onFailure(call: Call<ProductListResp>, t: Throwable) {
                     isNetworkFail.value = t !is HttpException

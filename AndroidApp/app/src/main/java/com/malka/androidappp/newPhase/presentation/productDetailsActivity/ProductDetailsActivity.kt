@@ -252,9 +252,9 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         }
         btnMapSeller.setOnClickListener {
             if (sellerInformation?.lat != null && sellerInformation?.lon != null) {
-                openLocationInMap(sellerInformation?.lat!!,sellerInformation?.lon!!)
-            }else{
-                HelpFunctions.ShowLongToast(getString(R.string.noLocationFound),this)
+                openLocationInMap(sellerInformation?.lat!!, sellerInformation?.lon!!)
+            } else {
+                HelpFunctions.ShowLongToast(getString(R.string.noLocationFound), this)
             }
             openLocationInMap(0.0, 0.0)
         }
@@ -303,27 +303,27 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             })
         }
         btnSellerProducts.setOnClickListener {
-            if(containerSellerProduct.isVisible){
+            if (containerSellerProduct.isVisible) {
                 containerSellerProduct.hide()
-                seller_product_tv.text=getString(R.string.view_similar_product_from_seller)
+                seller_product_tv.text = getString(R.string.view_similar_product_from_seller)
                 isSellerProductHide_iv.setImageResource(R.drawable.down_arrow)
-            }else{
+            } else {
                 containerSellerProduct.show()
-                seller_product_tv.text=getString(R.string.showLess)
+                seller_product_tv.text = getString(R.string.showLess)
                 isSellerProductHide_iv.setImageResource(R.drawable.ic_arrow_up)
             }
         }
-        containerSellerInfo.setOnClickListener{
-            if(sellerInformation!=null){
-                startActivity(Intent(this,SellerInformationActivity::class.java).apply {
-                    putExtra(ConstantObjects.sellerObjectKey,sellerInformation)
+        containerSellerInfo.setOnClickListener {
+            if (sellerInformation != null) {
+                startActivity(Intent(this, SellerInformationActivity::class.java).apply {
+                    putExtra(ConstantObjects.sellerObjectKey, sellerInformation)
                 })
             }
         }
-        containerSellerImage.setOnClickListener{
-            if(sellerInformation!=null){
-                startActivity(Intent(this,SellerInformationActivity::class.java).apply {
-                    putExtra(ConstantObjects.sellerObjectKey,sellerInformation)
+        containerSellerImage.setOnClickListener {
+            if (sellerInformation != null) {
+                startActivity(Intent(this, SellerInformationActivity::class.java).apply {
+                    putExtra(ConstantObjects.sellerObjectKey, sellerInformation)
                 })
             }
         }
@@ -540,24 +540,24 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
             }
         }
-        productDetialsViewModel.sellerLoading.observe(this){
-            if(it){
+        productDetialsViewModel.sellerLoading.observe(this) {
+            if (it) {
                 sellerProgressBar.show()
-            }else{
+            } else {
                 sellerProgressBar.hide()
             }
         }
-        productDetialsViewModel.sellerProductsRespObserver.observe(this){sellerProductListResp->
-            if(sellerProductListResp.status_code==200){
+        productDetialsViewModel.sellerProductsRespObserver.observe(this) { sellerProductListResp ->
+            if (sellerProductListResp.status_code == 200) {
                 sellerSimilerProductList.clear()
                 sellerProductListResp.productList?.let { sellerSimilerProductList.addAll(it) }
                 sellerProductAdapter.notifyDataSetChanged()
-                if(sellerSimilerProductList.isEmpty()){
+                if (sellerSimilerProductList.isEmpty()) {
                     tvErrorNoSellerProduct.show()
-                }else{
+                } else {
                     tvErrorNoSellerProduct.hide()
                 }
-            }else{
+            } else {
                 tvErrorNoSellerProduct.show()
             }
         }
@@ -565,7 +565,10 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
     private fun setSellerInfo(it: SellerInformation) {
         tvErrorNoSellerProduct.hide()
-        productDetialsViewModel.getSellerListProduct(it.providerId?:"",it.businessAccountId?:"")
+        productDetialsViewModel.getSellerListProduct(
+            it.providerId ?: "",
+            it.businessAccountId ?: ""
+        )
         sellerInformation = it
         containerSellerInfo.show()
         Extension.loadThumbnail(
@@ -574,7 +577,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             seller_picture,
             loader
         )
-        sellerName.text =it.name ?: ""
+        sellerName.text = it.name ?: ""
         member_since_Tv.text = HelpFunctions.getViewFormatForDateTrack(
             it.createdAt ?: ""
         )
@@ -585,11 +588,26 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         } else {
             ivSellerFollow.setImageResource(R.drawable.notification_log)
         }
+//        tvRateText.text = it.rate.toString()
 //        if (it.lat != null && it.lon != null) {
 //            btnMapSeller.show()
 //        } else {
 //            btnMapSeller.hide()
 //        }
+        when(it.rate){
+            1f->{
+                ivRateSeller.setImageResource(R.drawable.smile3)
+            }
+            2f->{
+                ivRateSeller.setImageResource(R.drawable.neutral)
+            }
+            3f->{
+                ivRateSeller.setImageResource(R.drawable.sad)
+            }
+            else->{
+                ivRateSeller.setImageResource(R.drawable.smile3)
+            }
+        }
         if (it.instagram != null && it.instagram != "") {
             instagram_btn.show()
         } else {
@@ -600,7 +618,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         } else {
             youtube_btn.hide()
         }
-        if (it.skype != null &&it.skype != "") {
+        if (it.skype != null && it.skype != "") {
             skype_btn.show()
         } else {
             skype_btn.hide()
@@ -772,21 +790,22 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
     private fun setSellerAdapter() {
         sellerSimilerProductList = ArrayList()
-        sellerProductAdapter = ProductHorizontalAdapter(sellerSimilerProductList, object :SetOnProductItemListeners{
-            override fun onProductSelect(position: Int, productID: Int, categoryID: Int) {
-                goToProductDetails(productID)
-            }
+        sellerProductAdapter =
+            ProductHorizontalAdapter(sellerSimilerProductList, object : SetOnProductItemListeners {
+                override fun onProductSelect(position: Int, productID: Int, categoryID: Int) {
+                    goToProductDetails(productID)
+                }
 
-            override fun onAddProductToFav(position: Int, productID: Int, categoryID: Int) {
-                addSellerPorductToFav(position,productID)
+                override fun onAddProductToFav(position: Int, productID: Int, categoryID: Int) {
+                    addSellerPorductToFav(position, productID)
 
-            }
+                }
 
-            override fun onShowMoreSetting(position: Int, productID: Int, categoryID: Int) {
+                override fun onShowMoreSetting(position: Int, productID: Int, categoryID: Int) {
 
-            }
+                }
 
-        }, 0, true)
+            }, 0, true)
         rvSellerProduct.apply {
             layoutManager = linearLayoutManager(RecyclerView.HORIZONTAL)
             adapter = sellerProductAdapter
@@ -957,10 +976,10 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     }
 
     override fun onProductSelect(position: Int, productID: Int, categoryID: Int) {
-       goToProductDetails(productID)
+        goToProductDetails(productID)
     }
 
-    private fun goToProductDetails(productID:Int) {
+    private fun goToProductDetails(productID: Int) {
         startActivity(Intent(this, ProductDetailsActivity::class.java).apply {
             putExtra(ConstantObjects.productIdKey, productID)
             putExtra("Template", "")

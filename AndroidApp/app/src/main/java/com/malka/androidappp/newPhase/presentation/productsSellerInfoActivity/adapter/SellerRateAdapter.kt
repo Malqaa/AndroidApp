@@ -20,12 +20,12 @@ class SellerRateAdapter(val context: Context, var sellerRateList: ArrayList<Sell
         return SellerViewHolder(view)
     }
     override fun getItemCount(): Int {
-        return 5
+        return sellerRateList.size
     }
 
     override fun onBindViewHolder(holder: SellerViewHolder, position: Int) {
-//        val rate = sellerRateList[position]
-//        holder.name.text = rate.userName
+        val rate = sellerRateList[position]
+        holder.name.text = rate.userName
 //        holder.comment.text = rate.comment
 //        holder.ratetext.text = rate.rate.toString()
 //        holder.date.text = HelpFunctions.getViewFormatForDateTrack(rate.createdAt)
