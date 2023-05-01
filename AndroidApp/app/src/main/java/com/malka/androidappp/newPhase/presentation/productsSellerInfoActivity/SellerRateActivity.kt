@@ -219,6 +219,21 @@ class SellerRateActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
 
     }
 
+    override fun onResetFilter() {
+        sellerFilterReviewDialog.dismiss()
+        sellerAsASeller =SellerFilterReviewDialog.sellerOrBayerFilterTap;
+        retReviewType = SellerFilterReviewDialog.allReview
+        when(sellerAsASeller){
+            SellerFilterReviewDialog.sellerAsASeller->{
+                review_type2.text=getString(R.string.reviews_as_a_seller)
+            }
+            SellerFilterReviewDialog.sellerAsABuyer->{
+                review_type2.text=getString(R.string.reviews_as_a_buyer)
+            }
+        }
+        onRefresh()
+
+    }
 
 
 }

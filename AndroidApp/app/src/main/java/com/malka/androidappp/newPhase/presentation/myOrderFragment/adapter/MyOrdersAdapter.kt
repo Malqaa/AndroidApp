@@ -14,8 +14,8 @@ import com.malka.androidappp.newPhase.data.helper.hide
 import com.malka.androidappp.newPhase.data.helper.show
 import com.malka.androidappp.newPhase.domain.models.orderListResp.OrderItem
 
-class SoldOutOrdersAdapter(var orderList: List<OrderItem>,var setOnClickListeners:SetOnClickListeners) :
-    Adapter<SoldOutOrdersAdapter.SoldOutOrdersViewHolder>() {
+class MyOrdersAdapter(var orderList: List<OrderItem>, var setOnClickListeners:SetOnClickListeners) :
+    Adapter<MyOrdersAdapter.SoldOutOrdersViewHolder>() {
     var currentOrder=true
     class SoldOutOrdersViewHolder(var viewBinding: ItemUserOrderBinding) :
         RecyclerView.ViewHolder(viewBinding.root)

@@ -24,7 +24,7 @@ import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObject
 import com.malka.androidappp.newPhase.presentation.adapterShared.ProductHorizontalAdapter
 import com.malka.androidappp.newPhase.presentation.adapterShared.SetOnProductItemListeners
 import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
-import com.malka.androidappp.newPhase.presentation.myOrderFragment.adapter.SoldOutOrdersAdapter
+import com.malka.androidappp.newPhase.presentation.myOrderFragment.adapter.MyOrdersAdapter
 import com.malka.androidappp.newPhase.presentation.myProducts.dialog.AddDiscountDialog
 import com.malka.androidappp.newPhase.presentation.myProducts.dialog.MyProductSettingDialog
 import com.malka.androidappp.newPhase.presentation.myProducts.viewModel.MyProductViewModel
@@ -49,7 +49,7 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
 
     //====
     lateinit var soldOutOrdersList: ArrayList<OrderItem>
-    lateinit var soldOutOrdersAdapter: SoldOutOrdersAdapter
+    lateinit var myOrdersAdapter: MyOrdersAdapter
     lateinit var soldoUtLayOutManager: GridLayoutManager
 
     //  tap id 1 ,2,3
@@ -83,14 +83,14 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
     private fun setUpSoldOutAdapter() {
         soldOutOrdersList = ArrayList()
         soldoUtLayOutManager = GridLayoutManager(requireActivity(), 1)
-        soldOutOrdersAdapter = SoldOutOrdersAdapter(soldOutOrdersList,object:SoldOutOrdersAdapter.SetOnClickListeners{
+        myOrdersAdapter = MyOrdersAdapter(soldOutOrdersList,object:MyOrdersAdapter.SetOnClickListeners{
             override fun onOrderSelected(position: Int) {
 
             }
 
         })
         sold_out_rcv.apply {
-            adapter = soldOutOrdersAdapter
+            adapter = myOrdersAdapter
             layoutManager = soldoUtLayOutManager
         }
         endlessRecyclerViewScrollListener =
@@ -250,7 +250,7 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
             if (orderListResp.status_code == 200) {
                 orderListResp.orderList?.let {
                     soldOutOrdersList.addAll(it)
-                    soldOutOrdersAdapter.notifyDataSetChanged()
+                    myOrdersAdapter.notifyDataSetChanged()
                 }
             }
         }
@@ -287,7 +287,7 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
             }
             2 -> {
                 soldOutOrdersList.clear()
-                soldOutOrdersAdapter.notifyDataSetChanged()
+                myOrdersAdapter.notifyDataSetChanged()
                 myProductsViewModel.getSoldOutOrders(1)
             }
         }

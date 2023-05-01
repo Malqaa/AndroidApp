@@ -103,7 +103,10 @@
                 android:textAlignment="viewStart"
                 android:textColor="@color/gray"
                 android:textSize="@dimen/_10sdp"
-                android:visibility="gone" />
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:visibility="gone"
+                 />
         </RelativeLayout>
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

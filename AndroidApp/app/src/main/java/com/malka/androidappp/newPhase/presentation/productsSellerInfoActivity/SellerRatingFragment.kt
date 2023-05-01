@@ -224,8 +224,8 @@ class seller_rating : Fragment(R.layout.fragment_seller_rating) {
                 holder.view.run {
                     element.run {
                         review_name.text=name
-                        review_date.text=date
-                        review_rating.text=rating
+//                        review_date.text=date
+//                        review_rating.text=rating
                         review_comment.text=comment
                         review_profile_pic.setImageResource(image)
 

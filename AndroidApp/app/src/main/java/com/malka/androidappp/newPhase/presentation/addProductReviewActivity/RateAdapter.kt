@@ -30,7 +30,7 @@ class RateAdapter(val context: Context, var rateData: List<RateReviewItem>):
         holder.name.text = rate.userName
         holder.comment.text = rate.comment
         holder.ratetext.text = rate.rate.toString()
-        holder.date.text = HelpFunctions.getViewFormatForDateTrack(rate.createdAt)
+       // holder.date.text = HelpFunctions.getViewFormatForDateTrack(rate.createdAt)
         Glide.with(context).load(rate.image).error(R.mipmap.malqa_iconn_round).into(holder.image)
     }
 
@@ -41,6 +41,6 @@ class RateAdapter(val context: Context, var rateData: List<RateReviewItem>):
         val name = itemView.findViewById<TextView>(R.id.review_name)
         val comment = itemView.findViewById<TextView>(R.id.review_comment)
         val ratetext = itemView.findViewById<TextView>(R.id.review_rating)
-        val date = itemView.findViewById<TextView>(R.id.review_date)
+       // val date = itemView.findViewById<TextView>(R.id.review_date)
     }
 }

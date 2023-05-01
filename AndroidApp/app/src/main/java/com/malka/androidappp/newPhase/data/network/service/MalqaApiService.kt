@@ -33,8 +33,9 @@ import com.malka.androidappp.newPhase.domain.models.homeSilderResp.HomeSliderRes
 import com.malka.androidappp.newPhase.domain.models.loginResp.LoginResp
 import com.malka.androidappp.newPhase.domain.models.orderDetails.OrderDetailsResp
 import com.malka.androidappp.newPhase.domain.models.orderDetailsByMasterID.OrderDetailsByMasterIDResp
-import com.malka.androidappp.newPhase.domain.models.orderDetailsByMasterID.RateObject
 import com.malka.androidappp.newPhase.domain.models.orderListResp.OrderListResp
+import com.malka.androidappp.newPhase.domain.models.orderRateResp.RateObject
+import com.malka.androidappp.newPhase.domain.models.orderRateResp.ShipmentRateResp
 import com.malka.androidappp.newPhase.domain.models.pakatResp.PakatResp
 import com.malka.androidappp.newPhase.domain.models.productResp.ProductListResp
 import com.malka.androidappp.newPhase.domain.models.productResp.ProductResp
@@ -374,7 +375,7 @@ interface MalqaApiService {
 
     @GET("ListRateBuyer?PageRowsCount=10")
     fun getSellerRates2AsAsABuyer(
-        @Query("providerId") providerId: String,
+        @Query("buyerId") providerId: String,
         @Query("BusinessAccountId") BusinessAccountId: String?,
         @Query("pageIndex") page: Int,
         @Query("rate") rate: Int?,
@@ -393,13 +394,19 @@ interface MalqaApiService {
         @Query("lang") language: String = ConstantObjects.currentLanguage
     ): Call<OrderListResp>
 
-    @GET("GetClientAddedOrders?PageRowsCount=10")
+    @GET("GetClientAddedOrders?PageRowsCount=10&OrderStatus!=5")
     fun getCurrentOrders(
         @Query("pageIndex") page: Int,
         @Query("userId") userId: String,
         @Query("lang") language: String = ConstantObjects.currentLanguage
     ): Call<OrderListResp>
 
+    @GET("GetClientAddedOrders?PageRowsCount=10&OrderStatus=5")
+    fun getFinishedOrders(
+        @Query("pageIndex") page: Int,
+        @Query("userId") userId: String,
+        @Query("lang") language: String = ConstantObjects.currentLanguage
+    ): Call<OrderListResp>
 
     @POST("ProductDiscount")
     fun addDiscount(
@@ -498,11 +505,16 @@ interface MalqaApiService {
     fun addShipmentRate(
         @Body shimpentRateObject: RateObject
     ): Call<GeneralResponse>
-    @GET("CurrenUserRateForEdit")
-    fun getShipmentRate(
-        @Body shimmentRatgeObject: RateObject
-    ): Call<GeneralResponse>
 
+    @GET("CurrenUserRateForEdit")
+    fun getShipmentRate(@Query("orderId")orderId:Int): Call<ShipmentRateResp>
+
+
+    @POST("ChangeOrderStatus")
+    fun changeOrderStatus(
+        @Query("orderId") orderId: Int,
+        @Query("status") orderStatus: Int
+    ): Call<GeneralResponse>
 
     /***
      * ***********************************

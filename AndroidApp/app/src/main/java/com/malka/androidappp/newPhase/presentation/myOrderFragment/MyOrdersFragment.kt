@@ -15,7 +15,7 @@ import com.malka.androidappp.newPhase.domain.models.orderListResp.OrderItem
 import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
 import com.malka.androidappp.newPhase.presentation.myOrderDetails.MyOrderDetailsActivity
 import com.malka.androidappp.newPhase.presentation.myOrderDetails.MyOrderDetailsRequestedFromMeActivity
-import com.malka.androidappp.newPhase.presentation.myOrderFragment.adapter.SoldOutOrdersAdapter
+import com.malka.androidappp.newPhase.presentation.myOrderFragment.adapter.MyOrdersAdapter
 import kotlinx.android.synthetic.main.fragment_my_orders.*
 import kotlinx.android.synthetic.main.fragment_my_orders.progressBar
 import kotlinx.android.synthetic.main.fragment_my_orders.progressBarMore
@@ -28,7 +28,7 @@ class MyOrdersFragment : Fragment(R.layout.fragment_my_orders),
     SwipeRefreshLayout.OnRefreshListener {
     //====
     lateinit var currentOrdersList: ArrayList<OrderItem>
-    lateinit var currentOrderAdapter: SoldOutOrdersAdapter
+    lateinit var currentOrderAdapter: MyOrdersAdapter
     lateinit var currentOrderLayOutManager: GridLayoutManager
     lateinit var endlessRecyclerViewScrollListener: EndlessRecyclerViewScrollListener
 
@@ -97,6 +97,9 @@ class MyOrdersFragment : Fragment(R.layout.fragment_my_orders),
                 orderListResp.orderList?.let {
                     currentOrdersList.addAll(it)
                     currentOrderAdapter.notifyDataSetChanged()
+                    if (currentOrdersList.isEmpty()) {
+                        showApiError(getString(R.string.noOrdersFound))
+                    }
                 }
             }
         }
@@ -105,15 +108,13 @@ class MyOrdersFragment : Fragment(R.layout.fragment_my_orders),
     private fun setUpCurrentOrderAdapter() {
         currentOrdersList = ArrayList()
         currentOrderLayOutManager = GridLayoutManager(requireActivity(), 1)
-        currentOrderAdapter = SoldOutOrdersAdapter(currentOrdersList,
-            object : SoldOutOrdersAdapter.SetOnClickListeners {
+        currentOrderAdapter = MyOrdersAdapter(currentOrdersList,
+            object : MyOrdersAdapter.SetOnClickListeners {
                 override fun onOrderSelected(position: Int) {
-                    if(tapId==1){
-                        goToMyOrderDetails(currentOrdersList[position].orderMasterId,currentOrdersList[position])
-                    }else if(tapId==2){
-                        goToOrderDetailsRequestedFromMe(currentOrdersList[position].orderId,currentOrdersList[position])
-                    }
-
+                    goToMyOrderDetails(
+                        currentOrdersList[position].orderMasterId,
+                        currentOrdersList[position]
+                    )
                 }
 
             })
@@ -127,7 +128,7 @@ class MyOrdersFragment : Fragment(R.layout.fragment_my_orders),
                     if (tapId == 1) {
                         myOrdersViewModel.getCurrentOrderOrders(page, ConstantObjects.logged_userid)
                     } else if (tapId == 2) {
-                        myOrdersViewModel.getSoldOutOrders(1)
+                        myOrdersViewModel.getFinishOOrders(page, ConstantObjects.logged_userid)
                     }
                 }
             }
@@ -136,18 +137,18 @@ class MyOrdersFragment : Fragment(R.layout.fragment_my_orders),
 
     private fun goToMyOrderDetails(orderId: Int, orderItem: OrderItem) {
         startActivity(Intent(requireActivity(), MyOrderDetailsActivity::class.java).apply {
-            putExtra(ConstantObjects.orderItemKey,orderItem)
-            putExtra(ConstantObjects.orderNumberKey,orderId)
-            putExtra(ConstantObjects.orderTypeKey,tapId)
+            putExtra(ConstantObjects.orderItemKey, orderItem)
+            putExtra(ConstantObjects.orderNumberKey, orderId)
+            putExtra(ConstantObjects.orderTypeKey, tapId)
         })
     }
-    private fun goToOrderDetailsRequestedFromMe(orderId: Int, orderItem: OrderItem) {
-        startActivity(Intent(requireActivity(), MyOrderDetailsRequestedFromMeActivity::class.java).apply {
-            putExtra(ConstantObjects.orderItemKey,orderItem)
-            putExtra(ConstantObjects.orderNumberKey,orderId)
-            putExtra(ConstantObjects.orderTypeKey,tapId)
-        })
-    }
+//    private fun goToOrderDetailsRequestedFromMe(orderId: Int, orderItem: OrderItem) {
+//        startActivity(Intent(requireActivity(), MyOrderDetailsRequestedFromMeActivity::class.java).apply {
+//            putExtra(ConstantObjects.orderItemKey,orderItem)
+//            putExtra(ConstantObjects.orderNumberKey,orderId)
+//            putExtra(ConstantObjects.orderTypeKey,tapId)
+//        })
+//    }
 
     private fun showApiError(message: String) {
         tvError.show()
@@ -193,110 +194,9 @@ class MyOrdersFragment : Fragment(R.layout.fragment_my_orders),
             myOrdersViewModel.getCurrentOrderOrders(1, ConstantObjects.logged_userid)
         } else if (tapId == 2) {
             currentOrderAdapter.currentOrder = false
-            myOrdersViewModel.getSoldOutOrders(1)
+            myOrdersViewModel.getFinishOOrders(1, ConstantObjects.logged_userid)
         }
     }
-
-//    fun myRequestsItemApi() {
-//        HelpFunctions.startProgressBar(requireActivity())
-//
-//        val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-//        val call: Call<getCartModel> = malqaa.getMyRequest(ConstantObjects.logged_userid)
-//
-//
-//        call.enqueue(object : Callback<getCartModel> {
-//            @SuppressLint("ResourceType")
-//            override fun onResponse(
-//                call: Call<getCartModel>,
-//                response: Response<getCartModel>
-//            ) {
-//                if (response.isSuccessful) {
-//                    if (response.body() != null) {
-//
-//                        current_recycler.adapter =
-//                            GenericOrderAdapter(response.body()!!.data, requireContext())
-//
-//                        current.setOnClickListener {
-//                            current_recycler.adapter =
-//                                GenericOrderAdapter(response.body()!!.data, requireContext())
-//                            received_recycler.hide()
-//                            current_recycler.show()
-//
-//                            current.setBackground(
-//                                ContextCompat.getDrawable(
-//                                    requireContext(),
-//                                    R.drawable.round_btn
-//                                )
-//                            )
-//
-//                            received.setBackground(
-//                                ContextCompat.getDrawable(
-//                                    requireContext(),
-//                                    R.drawable.product_attribute_bg3
-//                                )
-//                            )
-//
-//                            current.setTextColor(Color.parseColor("#FFFFFF"));
-//                            received.setTextColor(Color.parseColor("#45495E"));
-//
-//                        }
-//
-//                        received.setOnClickListener {
-//
-//                            received_recycler.adapter =
-//                                GenericOrderAdapter(
-//                                    response.body()!!.data,
-//                                    requireContext(),
-//                                    false
-//                                )
-//                            current_recycler.hide()
-//                            received_recycler.show()
-//                            current.setBackground(
-//                                ContextCompat.getDrawable(
-//                                    requireContext(),
-//                                    R.drawable.product_attribute_bg3
-//                                )
-//                            )
-//
-//                            received.setBackground(
-//                                ContextCompat.getDrawable(
-//                                    requireContext(),
-//                                    R.drawable.round_btn
-//                                )
-//                            )
-//
-//                            received.setTextColor(Color.parseColor("#FFFFFF"));
-//                            current.setTextColor(Color.parseColor("#45495E"));
-//
-//                        }
-//
-//
-//                    }
-//
-//                } else {
-//                    HelpFunctions.ShowLongToast(
-//                        getString(R.string.ErrorOccur),
-//                        requireContext()
-//                    )
-//
-//                }
-//                HelpFunctions.dismissProgressBar()
-//
-//            }
-//
-//            override fun onFailure(call: Call<getCartModel>, t: Throwable) {
-//                t.message?.let {
-//                    HelpFunctions.ShowLongToast(
-//                        it,
-//                        requireContext()
-//                    )
-//                }
-//                HelpFunctions.dismissProgressBar()
-//
-//            }
-//        })
-//
-//    }
 
 
 }

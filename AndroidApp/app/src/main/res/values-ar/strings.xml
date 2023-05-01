@@ -1169,7 +1169,10 @@
     الموقد وصفيحة التسخين
   </string>
     <string name="Cancel">
-    يلغي
+    ألغاء
+  </string>
+  <string name="Canceled">
+   تم الألغاء
   </string>
     <string name="Cash3367annuzhahMakkah">
     3367 ج، النزهة، مكة المكرمة

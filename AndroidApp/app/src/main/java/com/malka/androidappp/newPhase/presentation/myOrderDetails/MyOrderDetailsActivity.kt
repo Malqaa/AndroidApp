@@ -47,7 +47,6 @@ class MyOrderDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         setOrderDetailsAdapter()
         setupViewModel()
         onRefresh()
-
         back_btn.setOnClickListener {
             onBackPressed()
         }
@@ -57,11 +56,11 @@ class MyOrderDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
     private fun setOrderDetails(orderItem: OrderItem?) {
         orderItem?.let {
-            if (tapId == 1) {
-                order_number_tv.text = "#${orderItem.orderMasterId}"
-            } else {
-                order_number_tv.text = "#${orderItem.orderId}"
-            }
+            //  if (tapId == 1) {
+            order_number_tv.text = "#${orderItem.orderMasterId}"
+//            } else {
+//                order_number_tv.text = "#${orderItem.orderId}"
+//            }
             tv_request_type.text = orderItem.requestType
             order_time_tv.text = HelpFunctions.getViewFormatForDateTrack(orderItem.createdAt)
             shipments_tv.text = orderItem.providersCount.toString()
@@ -74,7 +73,7 @@ class MyOrderDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
     private fun setOrderDetailsAdapter() {
         orderFullInfoDtoList = ArrayList<OrderFullInfoDto>()
-        currentOrderAdapter = CurrentOrderAdapter(orderFullInfoDtoList,this)
+        currentOrderAdapter = CurrentOrderAdapter(orderFullInfoDtoList, this)
         rvCurentOrder.apply {
             adapter = currentOrderAdapter
             layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
@@ -105,6 +104,22 @@ class MyOrderDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             }
 
         }
+        myOrdersViewModel.isNetworkFailCancel.observe(this) {
+            if (it) {
+                HelpFunctions.ShowLongToast(getString(R.string.connectionError), this)
+            } else {
+                HelpFunctions.ShowLongToast(getString(R.string.serverError), this)
+            }
+
+        }
+        myOrdersViewModel.errorResponseCancelObserver.observe(this) {
+            if (it.message != null) {
+                HelpFunctions.ShowLongToast(it.message!!, this)
+            } else {
+                HelpFunctions.ShowLongToast(getString(R.string.serverError), this)
+            }
+
+        }
 
         myOrdersViewModel.currentOrderByMusterIdRespObserver.observe(this) { resp ->
             if (resp.status_code == 200) {
@@ -116,6 +131,20 @@ class MyOrderDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                     showApiError(resp.message)
                 } else {
                     showApiError(getString(R.string.serverError))
+                }
+            }
+        }
+        myOrdersViewModel.cancelOrderRespObserver.observe(this) { resp ->
+            if (resp.status_code == 200) {
+                onRefresh()
+                if (resp.message != null) {
+                    HelpFunctions.ShowLongToast(resp.message, this)
+                }
+            } else {
+                if (resp.message != null) {
+                    HelpFunctions.ShowLongToast(resp.message, this)
+                } else {
+                    HelpFunctions.ShowLongToast(getString(R.string.serverError), this)
                 }
             }
         }
@@ -165,22 +194,31 @@ class MyOrderDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         swipe_to_refresh.isRefreshing = false
         tvError.hide()
         mainContainer.hide()
-        if (tapId == 1) {
-            myOrdersViewModel.getCurrentOrderDetailsByMasterID(orderId)
-        } else {
-
-        }
+        //if (tapId == 1) {
+        myOrdersViewModel.getCurrentOrderDetailsByMasterID(orderId)
+//        } else {
+//
+//        }
     }
 
     override fun onAddRateToShipmentSelected(position: Int) {
+
         startActivity(Intent(this, ShipmentRateActivity::class.java).apply {
-            putExtra(ConstantObjects.shipmentOrderDataKey,
-                orderDetailsByMasterIDResp.orderDetailsByMasterIDData?.orderFullInfoDtoList?.get(position)
+            putExtra(
+                ConstantObjects.shipmentOrderDataKey,
+                orderDetailsByMasterIDResp.orderDetailsByMasterIDData?.orderFullInfoDtoList?.get(
+                    position
+                )
             )
-            putExtra(ConstantObjects.orderMasterIdKey,
-                orderDetailsByMasterIDResp.orderDetailsByMasterIDData?.orderMasterId
+            putExtra(
+                ConstantObjects.orderMasterIdKey,
+                orderDetailsByMasterIDResp.orderDetailsByMasterIDData?.orderFullInfoDtoList?.get(position)?.orderId
             )
         })
+    }
+
+    override fun onCancelOrder(position: Int) {
+        myOrdersViewModel.cancelOrder(orderFullInfoDtoList[position].orderId, 6)
     }
 }
 

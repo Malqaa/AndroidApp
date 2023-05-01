@@ -155,11 +155,11 @@ class MyOrderDetailsRequestedFromMeActivity : BaseActivity(), SwipeRefreshLayout
         swipe_to_refresh.isRefreshing = false
         tvError.hide()
         mainContainer.hide()
-        if (tapId == 1) {
-            myOrdersViewModel.getCurrentOrderDetailsByMasterID(orderId)
-        } else {
-            myOrdersViewModel.getSoldOutOrderDetailsByOrderId(orderId)
-        }
+//        if (tapId == 1) {
+//            myOrdersViewModel.getCurrentOrderDetailsByMasterID(orderId)
+//        } else {
+//            myOrdersViewModel.getSoldOutOrderDetailsByOrderId(orderId)
+//        }
     }
 
 }

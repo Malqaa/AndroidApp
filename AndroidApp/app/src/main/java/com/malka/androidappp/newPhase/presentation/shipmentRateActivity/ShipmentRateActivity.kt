@@ -7,15 +7,18 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
-import com.google.gson.JsonObject
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.data.helper.linearLayoutManager
 import com.malka.androidappp.newPhase.domain.models.orderDetailsByMasterID.*
+import com.malka.androidappp.newPhase.domain.models.orderRateResp.RateObject
+import com.malka.androidappp.newPhase.domain.models.orderRateResp.RateProductObject
+import com.malka.androidappp.newPhase.domain.models.orderRateResp.SellerDateDto
+import com.malka.androidappp.newPhase.domain.models.orderRateResp.ShippmentRateDto
 import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
-import com.malka.androidappp.newPhase.presentation.myProducts.viewModel.MyProductViewModel
 import kotlinx.android.synthetic.main.activity_shipment_rate.*
+import kotlinx.android.synthetic.main.fragment_account.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -30,19 +33,22 @@ class ShipmentRateActivity : BaseActivity(), ProductRateAdapter.SetOnClickListen
     var selectedProductPosition: Int = 0
     var sellerRate = 0
     var shipmentRate = 0
-    var orderMasterId = 0
-
+    var orderId = 0
+    var sellerRateId = 0
+    var shippmentRateId = 0
+    lateinit var rateObject: RateObject
     private lateinit var shipmentRateViewModel: ShipmentRateViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_shipment_rate)
         toolbar_title.text = getString(R.string.add_Review)
         orderFullInfoDto = intent.getParcelableExtra(ConstantObjects.shipmentOrderDataKey)
-        orderMasterId = intent.getIntExtra(ConstantObjects.orderMasterIdKey, 0)
+        orderId = intent.getIntExtra(ConstantObjects.orderMasterIdKey, 0)
         setonClickListeners()
         setProductRateAdapter()
         setData()
         setupViewModel()
+        shipmentRateViewModel.getShipmentRate(orderId)
 
     }
 
@@ -73,6 +79,98 @@ class ShipmentRateActivity : BaseActivity(), ProductRateAdapter.SetOnClickListen
             HelpFunctions.ShowLongToast(it.message.toString(), this)
             if (it.status_code == 200) {
                 onBackPressed()
+            }
+        }
+        shipmentRateViewModel.getShipmentRate.observe(this) {
+            if (it.status_code == 200) {
+                setRateData(it.rateObject)
+            }
+        }
+    }
+
+    private fun setRateData(rateObject: RateObject?) {
+        rateObject?.let {
+            if (rateObject.sellerDateDto != null) {
+                //setSellerInfo
+                sellerRateId = rateObject.sellerDateDto.sellerRateId
+                when (rateObject.sellerDateDto.rate) {
+                    1 -> {
+                        sellerRate = 1
+                        ivSellerHappyRate.setBackgroundResource(R.color.gray)
+                        ivSellerNeutralRate.setBackgroundResource(R.color.white)
+                        ivSellerSadeRate.setBackgroundResource(R.color.white)
+                    }
+                    2 -> {
+                        sellerRate = 2
+                        ivSellerHappyRate.setBackgroundResource(R.color.white)
+                        ivSellerNeutralRate.setBackgroundResource(R.color.gray)
+                        ivSellerSadeRate.setBackgroundResource(R.color.white)
+                    }
+                    3 -> {
+                        sellerRate = 3
+                        ivSellerHappyRate.setBackgroundResource(R.color.white)
+                        ivSellerNeutralRate.setBackgroundResource(R.color.white)
+                        ivSellerSadeRate.setBackgroundResource(R.color.gray)
+                    }
+                }
+                etSellerCommnet.setText(rateObject.sellerDateDto.comment ?: "")
+            }
+            //shipment
+            if (rateObject.shippmentRateDto != null) {
+                shippmentRateId = rateObject.shippmentRateDto.shippmentRateId
+                when (rateObject.shippmentRateDto.rate) {
+                    1 -> {
+                        shipmentRate = 1
+                        ivShipmentHappyRate.setBackgroundResource(R.color.gray)
+                        ivShipmentNeutralRate.setBackgroundResource(R.color.white)
+                        ivShipmentSadeRate.setBackgroundResource(R.color.white)
+                    }
+                    2 -> {
+                        shipmentRate = 2
+                        ivShipmentHappyRate.setBackgroundResource(R.color.white)
+                        ivShipmentNeutralRate.setBackgroundResource(R.color.gray)
+                        ivShipmentSadeRate.setBackgroundResource(R.color.white)
+                    }
+                    3 -> {
+                        shipmentRate = 3
+                        ivShipmentHappyRate.setBackgroundResource(R.color.white)
+                        ivShipmentNeutralRate.setBackgroundResource(R.color.white)
+                        ivShipmentSadeRate.setBackgroundResource(R.color.gray)
+                    }
+                }
+                etShipmentCommnet.setText(rateObject.shippmentRateDto.comment ?: "")
+            }
+            rateObject.productsRate?.let { productsRateList ->
+                for (item in orderProductFullInfoDtoList) {
+                    for (product in productsRateList) {
+                        if (item.productId == product.productId) {
+                            item.productRateId = product.productRateId
+                            item.comment = product.comment
+                            item.rate = product.rate
+                        }
+                    }
+                }
+                productRateAdapter.notifyDataSetChanged()
+                if (orderProductFullInfoDtoList.isNotEmpty()) {
+                    etProductComment.setText(orderProductFullInfoDtoList[0].comment)
+                    when (orderProductFullInfoDtoList[0].rate) {
+                        1 -> {
+                            ivProductHappyRate.setBackgroundResource(R.color.gray)
+                            ivProductNeutralRate.setBackgroundResource(R.color.white)
+                            ivProductSadeRate.setBackgroundResource(R.color.white)
+                        }
+                        2 -> {
+                            ivProductHappyRate.setBackgroundResource(R.color.white)
+                            ivProductNeutralRate.setBackgroundResource(R.color.gray)
+                            ivProductSadeRate.setBackgroundResource(R.color.white)
+                        }
+                        3 -> {
+                            ivProductHappyRate.setBackgroundResource(R.color.white)
+                            ivProductNeutralRate.setBackgroundResource(R.color.white)
+                            ivProductSadeRate.setBackgroundResource(R.color.gray)
+                        }
+                    }
+                }
             }
         }
     }
@@ -144,9 +242,12 @@ class ShipmentRateActivity : BaseActivity(), ProductRateAdapter.SetOnClickListen
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable) {
-                orderProductFullInfoDtoList[selectedProductPosition].comment =
-                    etProductComment.text.toString().trim()
-                productRateAdapter.notifyItemChanged(selectedProductPosition)
+                // println("hhhh  2"+etProductComment.text.toString().trim())
+                if (orderProductFullInfoDtoList.isNotEmpty()) {
+                    orderProductFullInfoDtoList[selectedProductPosition].comment =
+                        etProductComment.text.toString().trim()
+                    productRateAdapter.notifyItemChanged(selectedProductPosition)
+                }
             }
         })
         /**shipment rate */
@@ -199,7 +300,7 @@ class ShipmentRateActivity : BaseActivity(), ProductRateAdapter.SetOnClickListen
                 } else {
                     productRateList.add(
                         RateProductObject(
-                            0,
+                            item.productRateId,
                             item.productId,
                             item.rate,
                             item.comment ?: ""
@@ -209,24 +310,24 @@ class ShipmentRateActivity : BaseActivity(), ProductRateAdapter.SetOnClickListen
             }
             withContext(Dispatchers.Main) {
                 if (readToAdd) {
-                    var rateObject = RateObject(
-                        orderMasterId = orderMasterId,
+                    rateObject = RateObject(
+                        orderId = orderId,
                         productsRate = productRateList,
                         sellerDateDto = SellerDateDto(
-                            sellerRateId = 0,
+                            sellerRateId = sellerRateId,
                             sellerId = orderFullInfoDto?.providerId ?: "",
                             businessAccountId = orderFullInfoDto?.businessAcountId ?: 0,
                             rate = sellerRate,
                             comment = etSellerCommnet.text.toString().trim()
                         ),
                         shippmentRateDto = ShippmentRateDto(
-                            shippmentRateId = 0,
+                            shippmentRateId = shippmentRateId,
                             shippmentId = 0,
                             rate = shipmentRate,
                             comment = etShipmentCommnet.text.toString().toString(),
                         )
                     )
-//                    println("hhhh " + Gson().toJson(rateObject))
+                    //  println("hhhh " + Gson().toJson(rateObject))
                     shipmentRateViewModel.addShipmentRate(rateObject)
                 } else {
                     HelpFunctions.ShowLongToast(
