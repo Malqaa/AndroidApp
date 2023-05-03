@@ -1169,9 +1169,13 @@ Invalid Username or Password
     <string name="Cancel">
     Cancel
   </string>
-  <string name="Canceled">
-    Canceled
+  <string name="cancelAshipmentOrder">
+    Cancel a shipment order
   </string>
+  <string name="Canceled">
+   shipment has been cancelled
+  </string>
+  <string name="download_invoice">Download Invoice</string>
     <string name="Cash3367annuzhahMakkah">
     Cash, 3367 an, nuzhah, Makkah
   </string>

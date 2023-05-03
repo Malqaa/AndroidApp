@@ -334,7 +334,7 @@ class AddProductViewModel : BaseViewModel() {
         PickUpDelivery: String,
         DeliveryOption: String,
     ) {
-        isLoading.value=true
+        isLoading.value = true
         val map: HashMap<String, RequestBody> = HashMap()
         map["nameAr"] = nameAr.requestBody()
         map["nameEn"] = nameEn.requestBody()
@@ -369,16 +369,17 @@ class AddProductViewModel : BaseViewModel() {
             map["productSep"] = Gson().toJson(it).toString().requestBody()
         }
 
-       // map["productSep"] =
-  //          "[{HeaderSpeAr:\"colorAr\",HeaderSpeEn:\"colorEn\", ValueSpeAr:\"redAr\", ValueSpeEn:\"redEn\", Type:1},{HeaderSpeAr:\"colorAr\",HeaderSpeEn:\"colorEn\", ValueSpeAr:\"redAr\", ValueSpeEn:\"redEn\", Type:1}]".requestBody()
+        // map["productSep"] =
+        //          "[{HeaderSpeAr:\"colorAr\",HeaderSpeEn:\"colorEn\", ValueSpeAr:\"redAr\", ValueSpeEn:\"redEn\", Type:1},{HeaderSpeAr:\"colorAr\",HeaderSpeEn:\"colorEn\", ValueSpeAr:\"redAr\", ValueSpeEn:\"redEn\", Type:1}]".requestBody()
         map["MainImageIndex"] = MainImageIndex.requestBody()
         map["PickUpDelivery"] = PickUpDelivery.requestBody()
         map["DeliveryOption"] = DeliveryOption.requestBody()
 
         val listOfImages = ArrayList<MultipartBody.Part>()
         for (i in listImageFile.indices) {
-            listOfImages.add(prepareFilePart("listImageFile", listImageFile[i], context))
-            // listOfImages.add(prepareFilePart("listImageFile[$i]", listImageFile[i]))
+             listOfImages.add(prepareFilePart("listImageFile", listImageFile[i], context))
+          //  listOfImages.add(prepareFilePart2("listImageFile", listImageFile[i], context))
+             //listOfImages.add(prepareFilePart("listImageFile[$i]", listImageFile[i]))
         }
 //        println("hhhh " + map)
 //        println(
@@ -441,6 +442,17 @@ class AddProductViewModel : BaseViewModel() {
 
         // MultipartBody.Part is used to send also the actual file name
         return MultipartBody.Part.createFormData(partName, file.name, requestFile);
+    }
+
+    private fun prepareFilePart2(
+        partName: String,
+        fileUri: ByteArray,
+        context: Context
+    ): MultipartBody.Part {
+        // create RequestBody instance from file
+        val requestFile: RequestBody = fileUri.toRequestBody()
+        // MultipartBody.Part is used to send also the actual file name
+        return MultipartBody.Part.createFormData(partName, "image", requestFile);
     }
 
 

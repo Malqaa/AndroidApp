@@ -1171,9 +1171,13 @@
     <string name="Cancel">
     ألغاء
   </string>
-  <string name="Canceled">
-   تم الألغاء
+  <string name="cancelAshipmentOrder">
+   إلغاء طلب الشحن
   </string>
+  <string name="Canceled">
+   تم إلغاء طلب الشحن
+  </string>
+  <string name="download_invoice">تحميل فاتورة</string>
     <string name="Cash3367annuzhahMakkah">
     3367 ج، النزهة، مكة المكرمة
   </string>

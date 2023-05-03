@@ -28,7 +28,7 @@ data class RateProductObject(
 data class SellerDateDto(
     var sellerRateId: Int,
     var sellerId: String,
-    var businessAccountId:Int,
+    var businessAccountId:Int? = null,
     var rate: Int ,
     var comment: String ,
 )

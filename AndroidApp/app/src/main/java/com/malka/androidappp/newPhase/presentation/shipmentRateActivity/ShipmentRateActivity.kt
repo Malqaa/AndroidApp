@@ -316,7 +316,7 @@ class ShipmentRateActivity : BaseActivity(), ProductRateAdapter.SetOnClickListen
                         sellerDateDto = SellerDateDto(
                             sellerRateId = sellerRateId,
                             sellerId = orderFullInfoDto?.providerId ?: "",
-                            businessAccountId = orderFullInfoDto?.businessAcountId ?: 0,
+                            businessAccountId = orderFullInfoDto?.businessAcountId ,
                             rate = sellerRate,
                             comment = etSellerCommnet.text.toString().trim()
                         ),
@@ -327,7 +327,7 @@ class ShipmentRateActivity : BaseActivity(), ProductRateAdapter.SetOnClickListen
                             comment = etShipmentCommnet.text.toString().toString(),
                         )
                     )
-                    //  println("hhhh " + Gson().toJson(rateObject))
+                     println("hhhh " + Gson().toJson(rateObject))
                     shipmentRateViewModel.addShipmentRate(rateObject)
                 } else {
                     HelpFunctions.ShowLongToast(

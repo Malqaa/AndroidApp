@@ -190,10 +190,44 @@
             android:layout_height="@dimen/_1sdp"
             android:layout_marginTop="@dimen/_5sdp"
             android:background="@color/light_gray" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnCancel"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:background="@drawable/round_btn"
+            android:fontFamily="@font/madani_arabic_semi_bold"
+            android:text="@string/cancelAshipmentOrder"
+            android:textAllCaps="false"
+            android:visibility="gone"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/_12sdp" />
         <LinearLayout
+            android:id="@+id/finishOrderStatusContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone"
             android:weightSum="2">
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnDownloadInvoice"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:background="@drawable/round_black"
+                android:fontFamily="@font/madani_arabic_semi_bold"
+                android:text="@string/download_invoice"
+                android:textAllCaps="false"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/_12sdp" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnRateShipment"
@@ -210,21 +244,7 @@
                 android:layout_marginTop="@dimen/_5sdp"
                 android:textColor="#ffffff"
                 android:textSize="@dimen/_12sdp" />
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnCancel"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
-                android:layout_marginBottom="@dimen/_10sdp"
-                android:background="@drawable/round_btn"
-                android:fontFamily="@font/madani_arabic_semi_bold"
-                android:text="@string/Cancel"
-                android:textAllCaps="false"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:textColor="#ffffff"
-                android:textSize="@dimen/_12sdp" />
+
 
 
         </LinearLayout>

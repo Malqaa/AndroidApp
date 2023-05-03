@@ -16,7 +16,7 @@ data class OrderFullInfoDto(
     val phoneNumber: String? = null,
     val providerName: String? = null,
     val providerId: String? = null,
-    val businessAcountId: Int,
+    val businessAcountId: Int? = null,
     val requestType: String? = null,
     val shippingAddress: String? = null,
     val shippingCount: Int,

@@ -329,7 +329,10 @@ interface MalqaApiService {
     fun getMyProduct(
         @Query("lang") language: String = ConstantObjects.currentLanguage
     ): Call<ProductListResp>
-
+    @GET("ListDidntSellProducts")
+    fun getListDidntSellProducts(
+        @Query("lang") language: String = ConstantObjects.currentLanguage
+    ): Call<ProductListResp>
     //    @GET("AdvancedFilter")
 //    fun searchForProductInCategory(@QueryName(encoded = true) queryString: HashMap<String,String>):Call<ProductListResp>
 //    @GET("AdvancedFilter")

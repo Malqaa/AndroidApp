@@ -51,29 +51,29 @@ class MyOrdersViewModel: BaseViewModel() {
 //            })
 //    }
 //
-//    fun getSoldOutOrderDetailsByOrderId(orderId:Int){
-//        isLoading.value = true
-//        RetrofitBuilder.GetRetrofitBuilder()
-//            .getOrderDetailsByOrderID(orderId)
-//            .enqueue(object : Callback<OrderDetailsResp> {
-//                override fun onFailure(call: Call<OrderDetailsResp>, t: Throwable) {
-//                    isNetworkFail.value = t !is HttpException
-//                    isLoading.value = false
-//                }
-//
-//                override fun onResponse(
-//                    call: Call<OrderDetailsResp>,
-//                    response: Response<OrderDetailsResp>
-//                ) {
-//                    isLoading.value = false
-//                    if (response.isSuccessful) {
-//                        soldOutOrderDetailsByOrderIdRespObserver.value = response.body()
-//                    } else {
-//                        errorResponseObserver.value = getErrorResponse(response.errorBody())
-//                    }
-//                }
-//            })
-//    }
+    fun getSoldOutOrderDetailsByOrderId(orderId:Int){
+        isLoading.value = true
+        RetrofitBuilder.GetRetrofitBuilder()
+            .getOrderDetailsByOrderID(orderId)
+            .enqueue(object : Callback<OrderDetailsResp> {
+                override fun onFailure(call: Call<OrderDetailsResp>, t: Throwable) {
+                    isNetworkFail.value = t !is HttpException
+                    isLoading.value = false
+                }
+
+                override fun onResponse(
+                    call: Call<OrderDetailsResp>,
+                    response: Response<OrderDetailsResp>
+                ) {
+                    isLoading.value = false
+                    if (response.isSuccessful) {
+                        soldOutOrderDetailsByOrderIdRespObserver.value = response.body()
+                    } else {
+                        errorResponseObserver.value = getErrorResponse(response.errorBody())
+                    }
+                }
+            })
+    }
     fun getCurrentOrderOrders(pageIndes: Int,userId:String) {
         if (pageIndes == 1)
             isLoading.value = true

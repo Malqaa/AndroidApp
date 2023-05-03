@@ -214,6 +214,7 @@ class ConfirmationAddProductActivity : BaseActivity() {
             }
         }
         var listImageFile: ArrayList<File> = ArrayList()
+        var listImageByts: ArrayList<ByteArray> = ArrayList()
         var listImageUri: ArrayList<Uri> = ArrayList()
         var mainIndex = ""
         for (image in AddProductObjectData.images) {
@@ -221,9 +222,13 @@ class ConfirmationAddProductActivity : BaseActivity() {
                 mainIndex = AddProductObjectData.images.indexOf(image).toString()
             }
             listImageFile.add(HelpFunctions.getFileImage(image.uri, this))
+            var bytes=HelpFunctions.getBytesImage(image.uri,this)
+            if(bytes!=null){
+                listImageByts.add(bytes)
+            }
             listImageUri.add(image.uri)
         }
-        println("hhh image file numer " + listImageFile.size)
+        println("hhh image file numer " + listImageFile.size+" "+listImageByts.size)
 
         var pakatId = ""
         AddProductObjectData.selectedPakat?.let {
@@ -261,6 +266,7 @@ class ConfirmationAddProductActivity : BaseActivity() {
             GovernmentCode = "",
             pakatId = pakatId,
             productSep = AddProductObjectData.productSpecificationList,
+//            listImageFile = listImageUri,//listImageFile
             listImageFile = listImageUri,//listImageFile
             MainImageIndex = mainIndex.toString(),
             videoUrl = AddProductObjectData.video,

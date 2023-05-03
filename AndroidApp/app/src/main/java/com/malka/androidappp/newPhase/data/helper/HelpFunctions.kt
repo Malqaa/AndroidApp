@@ -665,6 +665,23 @@ class HelpFunctions {
             //Base64.de
             return Base64.encodeToString(b, Base64.DEFAULT)
         }
+        fun encodeImage2(path: String): ByteArray {
+            val imagefile = File(path)
+            var fis: FileInputStream? = null
+            fis = FileInputStream(imagefile)
+
+            val bm = BitmapFactory.decodeStream(fis)
+            val baos = ByteArrayOutputStream()
+            bm.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+            val b = baos.toByteArray()
+            //Base64.de
+            return b
+        }
+        fun getBytesImage(uri: Uri, context: Context): ByteArray? {
+            val path: String? = getRealPathFromURI(uri, context)
+            return path?.let { encodeImage2(it) }
+
+        }
 
         fun getFileImage(uri: Uri, context: Context): File {
             val path: String? = getRealPathFromURI(uri, context)

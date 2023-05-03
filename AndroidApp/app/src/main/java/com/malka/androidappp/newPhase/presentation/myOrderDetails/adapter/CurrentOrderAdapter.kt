@@ -53,20 +53,49 @@ class CurrentOrderAdapter(
                 setOnClickListeners.onCancelOrder(position)
             }
         }
-        if (orderFullInfoDto[position].orderStatus == 6 || orderFullInfoDto[position].orderStatus == 5) {
-            holder.viewBinding.btnCancel.setBackgroundResource(R.drawable.edittext_bg)
-            holder.viewBinding.btnCancel.setTextColor(ContextCompat.getColor(context, R.color.gray))
-            holder.viewBinding.btnCancel.text = context.getString(R.string.Canceled)
+//        if (orderFullInfoDto[position].orderStatus == 6 || orderFullInfoDto[position].orderStatus == 5) {
+//            holder.viewBinding.btnCancel.setBackgroundResource(R.drawable.edittext_bg)
+//            holder.viewBinding.btnCancel.setTextColor(ContextCompat.getColor(context, R.color.gray))
+//            holder.viewBinding.btnCancel.text = context.getString(R.string.Canceled)
+//        } else {
+//            holder.viewBinding.btnCancel.text = context.getString(R.string.Cancel)
+//            holder.viewBinding.btnCancel.setBackgroundResource(R.drawable.round_btn)
+//            holder.viewBinding.btnCancel.setTextColor(
+//                ContextCompat.getColor(
+//                    context,
+//                    R.color.white
+//                )
+//            )
+//        }
+        holder.viewBinding.btnCancel.hide()
+        holder.viewBinding.finishOrderStatusContainer.hide()
+        if (orderFullInfoDto[position].orderStatus == 5) {
+            holder.viewBinding.btnCancel.hide()
+            holder.viewBinding.finishOrderStatusContainer.show()
         } else {
-            holder.viewBinding.btnCancel.text = context.getString(R.string.Cancel)
-            holder.viewBinding.btnCancel.setBackgroundResource(R.drawable.round_btn)
-            holder.viewBinding.btnCancel.setTextColor(
-                ContextCompat.getColor(
-                    context,
-                    R.color.white
+            holder.viewBinding.btnCancel.show()
+            if (orderFullInfoDto[position].orderStatus == 6) {
+                holder.viewBinding.btnCancel.setBackgroundResource(R.drawable.edittext_bg)
+                holder.viewBinding.btnCancel.setTextColor(
+                    ContextCompat.getColor(
+                        context,
+                        R.color.gray
+                    )
                 )
-            )
+                holder.viewBinding.btnCancel.text = context.getString(R.string.Canceled)
+            } else {
+                holder.viewBinding.btnCancel.text = context.getString(R.string.cancelAshipmentOrder)
+                holder.viewBinding.btnCancel.setBackgroundResource(R.drawable.round_btn)
+                holder.viewBinding.btnCancel.setTextColor(
+                    ContextCompat.getColor(
+                        context,
+                        R.color.white
+                    )
+                )
+            }
+
         }
+      //  holder.viewBinding.finishOrderStatusContainer.show()
 
     }
 

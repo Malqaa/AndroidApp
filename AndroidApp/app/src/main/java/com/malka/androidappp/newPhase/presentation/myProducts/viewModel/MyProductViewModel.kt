@@ -15,6 +15,7 @@ import retrofit2.Response
 class MyProductViewModel : BaseViewModel() {
 
     var forSaleProductRespObserver: MutableLiveData<ProductListResp> = MutableLiveData()
+    var notForSaleProductRespObserver: MutableLiveData<ProductListResp> = MutableLiveData()
     var soldOutOrdersRespObserver: MutableLiveData<OrderListResp> = MutableLiveData()
     var addDiscountObserver: MutableLiveData<GeneralResponse> = MutableLiveData()
     var loadingAddDiscountDialog:MutableLiveData<Boolean> = MutableLiveData()
@@ -41,7 +42,29 @@ class MyProductViewModel : BaseViewModel() {
                 }
             })
     }
+   fun getForDidNotSaleProducts(){
+       isLoading.value = true
+       RetrofitBuilder.GetRetrofitBuilder()
+           .getListDidntSellProducts()
+           .enqueue(object : Callback<ProductListResp> {
+               override fun onFailure(call: Call<ProductListResp>, t: Throwable) {
+                   isNetworkFail.value = t !is HttpException
+                   isLoading.value = false
+               }
 
+               override fun onResponse(
+                   call: Call<ProductListResp>,
+                   response: Response<ProductListResp>
+               ) {
+                   isLoading.value = false
+                   if (response.isSuccessful) {
+                       notForSaleProductRespObserver.value = response.body()
+                   } else {
+                       errorResponseObserver.value = getErrorResponse(response.errorBody())
+                   }
+               }
+           })
+   }
     fun getSoldOutOrders(pageIndes: Int) {
         if (pageIndes == 1)
             isLoading.value = true

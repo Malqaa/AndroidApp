@@ -35,7 +35,7 @@ class MyOrderDetailsRequestedFromMeActivity : BaseActivity(), SwipeRefreshLayout
         setContentView(R.layout.activity_my_order_details_requested_from_me)
         toolbar_title.text = getString(R.string.order_details)
         orderId = intent.getIntExtra(ConstantObjects.orderNumberKey, 0)
-        tapId = intent.getIntExtra(ConstantObjects.orderTypeKey, 1)
+        //tapId = intent.getIntExtra(ConstantObjects.orderTypeKey, 1)
         orderItem = intent.getParcelableExtra(ConstantObjects.orderItemKey)
         setOrderDetails(orderItem)
         swipe_to_refresh.setColorSchemeResources(R.color.colorPrimaryDark)
@@ -52,11 +52,11 @@ class MyOrderDetailsRequestedFromMeActivity : BaseActivity(), SwipeRefreshLayout
 
     private fun setOrderDetails(orderItem: OrderItem?) {
         orderItem?.let {
-            if (tapId == 1) {
-                order_number_tv.text = "#${orderItem.orderMasterId}"
-            } else {
+//            if (tapId == 1) {
+//                order_number_tv.text = "#${orderItem.orderMasterId}"
+//            } else {
                 order_number_tv.text = "#${orderItem.orderId}"
-            }
+          //  }
             tv_request_type.text = orderItem.requestType
             order_time_tv.text = HelpFunctions.getViewFormatForDateTrack(orderItem.createdAt)
             shipments_tv.text = orderItem.providersCount.toString()
@@ -155,6 +155,7 @@ class MyOrderDetailsRequestedFromMeActivity : BaseActivity(), SwipeRefreshLayout
         swipe_to_refresh.isRefreshing = false
         tvError.hide()
         mainContainer.hide()
+        myOrdersViewModel.getSoldOutOrderDetailsByOrderId(orderId)
 //        if (tapId == 1) {
 //            myOrdersViewModel.getCurrentOrderDetailsByMasterID(orderId)
 //        } else {
