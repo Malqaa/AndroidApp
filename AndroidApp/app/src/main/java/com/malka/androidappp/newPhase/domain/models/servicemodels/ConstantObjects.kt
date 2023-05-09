@@ -14,7 +14,9 @@ import com.malka.androidappp.newPhase.domain.models.homeCategoryProductResp.Cate
 
 class ConstantObjects {
     companion object {
-
+        const val  transactionType_In="In"
+        const val  transactionType_Out="Out"
+        const val transactionSource_chargeWallet="ChargeWallet"
 
         const val isMyProduct: String = "isMyProductKey"
         const val rateObjectKey: String = "rateObjectKey"

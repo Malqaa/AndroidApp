@@ -17,7 +17,7 @@ import com.malka.androidappp.newPhase.domain.models.orderDetailsByMasterID.Order
 import com.malka.androidappp.newPhase.domain.models.orderListResp.OrderItem
 import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
 import com.malka.androidappp.newPhase.presentation.myOrderDetails.adapter.CurrentOrderAdapter
-import com.malka.androidappp.newPhase.presentation.myOrderFragment.MyOrdersViewModel
+import com.malka.androidappp.newPhase.presentation.account_fragment.myOrderFragment.MyOrdersViewModel
 import com.malka.androidappp.newPhase.presentation.shipmentRateActivity.ShipmentRateActivity
 import kotlinx.android.synthetic.main.activity_order_details.*
 import kotlinx.android.synthetic.main.toolbar_main.*

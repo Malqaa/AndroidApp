@@ -2,12 +2,13 @@ package com.malka.androidappp.newPhase.presentation.addProduct
 
 import com.malka.androidappp.newPhase.data.helper.widgets.searchdialog.SearchListItem
 import com.malka.androidappp.newPhase.domain.models.ImageSelectModel
-import com.malka.androidappp.newPhase.domain.models.dynamicSpecification.DynamicSpecificationItem
 import com.malka.androidappp.newPhase.domain.models.dynamicSpecification.DynamicSpecificationSentObject
 import com.malka.androidappp.newPhase.domain.models.pakatResp.PakatDetails
 import com.malka.androidappp.newPhase.domain.models.servicemodels.Selection
 import com.malka.androidappp.newPhase.domain.models.servicemodels.TimeSelection
 import com.malka.androidappp.newPhase.domain.models.servicemodels.model.Category
+import com.malka.androidappp.newPhase.domain.models.userPointsDataResp.UserPointData
+import com.malka.androidappp.newPhase.domain.models.walletDetailsResp.WalletDetails
 
 class AddProductObjectData {
 
@@ -53,12 +54,6 @@ class AddProductObjectData {
         var shippingOptionSelection: Selection? = null
 
 
-
-
-
-
-
-
         var brand_new_item = ""
 
         var id = ""
@@ -75,13 +70,10 @@ class AddProductObjectData {
         val user = ""
 
 
-
         var address = ""
 
 
         var iscashpaid = false
-
-
 
 
         var fixLength = ""
@@ -92,9 +84,8 @@ class AddProductObjectData {
         var fixlenghtselected: TimeSelection? = null
 
 
-//        var selectPromotiion: PromotionModel? = null
+        //        var selectPromotiion: PromotionModel? = null
         var weekSelection: TimeSelection? = null
-
 
 
         // To store path for model
@@ -112,5 +103,12 @@ class AddProductObjectData {
         var subcatsixkey = ""
         var category = ""
 
+    }
+}
+
+class AccountObject {
+    companion object {
+        var walletDetails: WalletDetails? = null;
+        var userPointData: UserPointData?=null
     }
 }

@@ -1,7 +1,6 @@
-package com.malka.androidappp.newPhase.presentation.myProducts.viewModel
+package com.malka.androidappp.newPhase.presentation.account_fragment.myProducts.viewModel
 
 import androidx.lifecycle.MutableLiveData
-import com.google.gson.Gson
 import com.malka.androidappp.newPhase.core.BaseViewModel
 import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.orderListResp.OrderListResp

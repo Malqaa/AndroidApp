@@ -1,4 +1,4 @@
-package com.malka.androidappp.newPhase.presentation.myOrderFragment.adapter
+package com.malka.androidappp.newPhase.presentation.account_fragment.myOrderFragment.adapter
 
 import android.content.Context
 import android.view.LayoutInflater

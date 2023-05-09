@@ -1,4 +1,4 @@
-package com.malka.androidappp.newPhase.presentation.myProducts.dialog
+package com.malka.androidappp.newPhase.presentation.account_fragment.myProducts.dialog
 
 import android.content.Context
 import com.malka.androidappp.databinding.DialogMyProductSttingBinding

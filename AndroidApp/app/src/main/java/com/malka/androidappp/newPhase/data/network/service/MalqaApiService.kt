@@ -22,6 +22,7 @@ import com.malka.androidappp.newPhase.data.network.constants.Constants.GET_CATEG
 import com.malka.androidappp.newPhase.domain.models.addOrderResp.AddOrderResp
 import com.malka.androidappp.newPhase.domain.models.addProductToCartResp.AddProductToCartResp
 import com.malka.androidappp.newPhase.domain.models.addRateResp.AddRateResp
+import com.malka.androidappp.newPhase.domain.models.addWaletTransactionResp.AddWalletTranactionResp
 import com.malka.androidappp.newPhase.domain.models.cartListResp.CartListResp
 import com.malka.androidappp.newPhase.domain.models.categoryFollowResp.CategoryFollowResp
 import com.malka.androidappp.newPhase.domain.models.categoryResp.CategoriesResp
@@ -67,8 +68,11 @@ import com.malka.androidappp.newPhase.domain.models.servicemodels.total_members.
 import com.malka.androidappp.newPhase.domain.models.servicemodels.total_online_users.ModelGetTotalOnlineUsers
 import com.malka.androidappp.newPhase.domain.models.servicemodels.user.UserObject
 import com.malka.androidappp.newPhase.domain.models.userAddressesResp.UserAddressesResp
+import com.malka.androidappp.newPhase.domain.models.userPointsDataResp.ConvertMoneyToPointResp
+import com.malka.androidappp.newPhase.domain.models.userPointsDataResp.UserPointDataResp
 import com.malka.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.UserVerifiedResp
 import com.malka.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.ValidateAndGenerateOTPResp
+import com.malka.androidappp.newPhase.domain.models.walletDetailsResp.WalletDetailsResp
 import com.malka.androidappp.newPhase.presentation.searchProductListActivity.browse_market.popup_subcategories_list.ModelAddSearchFav
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -518,6 +522,29 @@ interface MalqaApiService {
         @Query("orderId") orderId: Int,
         @Query("status") orderStatus: Int
     ): Call<GeneralResponse>
+    @GET("GetUserWalletTransactions")
+    fun getWalletDetails(
+        @Query("lang") language: String = ConstantObjects.currentLanguage
+    ): Call<WalletDetailsResp>
+    @Multipart
+    @POST("AddWalletTransaction")
+    fun addWalletTransaction(
+        @PartMap partMap: Map<String, @JvmSuppressWildcards RequestBody>,
+    ): Call<AddWalletTranactionResp>
+
+    @GET("GetUserPointsTransactions")
+    fun getUserPointsTransactions(
+        @Query("lang") language: String = ConstantObjects.currentLanguage
+    ): Call<UserPointDataResp>
+    @POST("TransferPointsToMoney")
+    fun transferPointsToMoney(
+        @Query("transactionPointsAmount") transactionPointsAmount: String,
+        @Query("lang") language: String = ConstantObjects.currentLanguage
+    ): Call<ConvertMoneyToPointResp>
+
+
+    @GET("ListLostProducts")
+    fun getLostProducts(): Call<ProductListResp>
 
     /***
      * ***********************************
@@ -684,8 +711,6 @@ interface MalqaApiService {
     @POST("BusinessUser/Insertbusinessuser")
     fun busiRegis(@Body busiReg: ModelBusinessRegistration): Call<ModelBusinessRegistration>
 
-    @GET("Bid/UserWonNLostList")
-    fun getWonLost(@Query("loginId") wonLogin: String): Call<ModelWonLost>
 
     @GET("GetAllOnlineUsers")
     fun GetTotalOnlineUers(): Call<ModelGetTotalOnlineUsers>

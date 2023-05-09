@@ -178,7 +178,7 @@
 
     <fragment
         android:id="@+id/myProduct"
-        android:name="com.malka.androidappp.newPhase.presentation.myProducts.MyProductsFragment"
+        android:name="com.malka.androidappp.newPhase.presentation.account_fragment.myProducts.MyProductsFragment"
         android:label="Sold"
         tools:layout="@layout/fragment_sold" />
 
@@ -224,7 +224,7 @@
 
     <fragment
         android:id="@+id/myRequest"
-        android:name="com.malka.androidappp.newPhase.presentation.myOrderFragment.MyOrdersFragment"
+        android:name="com.malka.androidappp.newPhase.presentation.account_fragment.myOrderFragment.MyOrdersFragment"
         android:label="My Request"
         tools:layout="@layout/fragment_my_orders" />
 
@@ -237,7 +237,7 @@
 
     <fragment
         android:id="@+id/myWallet"
-        android:name="com.malka.androidappp.fragments.my_wallet.my_wallet_fragment"
+        android:name="com.malka.androidappp.newPhase.presentation.account_fragment.myWalletFragment.MyWalletFragment"
         android:label="@string/my_wallet"
         tools:layout="@layout/fragment_my_wallet_fragment">
 
@@ -271,7 +271,7 @@
 
     <fragment
         android:id="@+id/myPoints"
-        android:name="com.malka.androidappp.fragments.my_points.my_points_fragment"
+        android:name="com.malka.androidappp.newPhase.presentation.account_fragment.myPointFragment.MyPointsFragment"
         android:label="@string/my_points"
         tools:layout="@layout/fragment_my_points_fragment">
 
@@ -532,7 +532,7 @@
 
     <fragment
         android:id="@+id/lost_frag"
-        android:name="com.malka.androidappp.fragments.won_n_loss.LostFrag"
+        android:name="com.malka.androidappp.newPhase.presentation.account_fragment.productsLostFragment.ProductsLostFragment"
         tools:layout="@layout/fragment_lost">
 
     </fragment>

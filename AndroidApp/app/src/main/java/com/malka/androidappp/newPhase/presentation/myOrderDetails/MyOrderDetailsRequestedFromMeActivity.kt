@@ -16,7 +16,7 @@ import com.malka.androidappp.newPhase.domain.models.orderDetailsByMasterID.Order
 import com.malka.androidappp.newPhase.domain.models.orderListResp.OrderItem
 import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
 import com.malka.androidappp.newPhase.presentation.myOrderDetails.adapter.OrderProductAdapter
-import com.malka.androidappp.newPhase.presentation.myOrderFragment.MyOrdersViewModel
+import com.malka.androidappp.newPhase.presentation.account_fragment.myOrderFragment.MyOrdersViewModel
 import kotlinx.android.synthetic.main.activity_my_order_details_requested_from_me.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 

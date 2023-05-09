@@ -3056,4 +3056,5 @@ Want to start a business account? Create a Business Account
     <string name="happy">Happy</string>
     <string name="satisfied">Satisfied</string>
     <string name="unsatisfied">Unsatisfied</string>
+  <string name="enterAmount">Enter Amount</string>
 </resources>

@@ -2822,6 +2822,8 @@
     <string name="filter_application">تطبيق الفلتر</string>
     <string name="reviews_type">نوع التقييم</string>
     <string name="reviews_as_a_seller">التقييمات كبائع</string>
+  <string name="reviews_as">قيمنا</string>
+
     <string name="reviews_as_a_buyer">التقييمات كمشترى</string>
     <string name="following">التالية</string>
     <string name="follow_catgeory">Follow category successfully</string>
@@ -2873,5 +2875,5 @@
   <string name="happy">سعيد</string>
   <string name="satisfied">راضي</string>
   <string name="unsatisfied">غير راضي</string>
-
+  <string name="enterAmount">أدخل الكميه </string>
 </resources>

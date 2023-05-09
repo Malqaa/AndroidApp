@@ -1,4 +1,4 @@
-package com.malka.androidappp.newPhase.presentation.myProducts
+package com.malka.androidappp.newPhase.presentation.account_fragment.myProducts
 
 import android.content.Intent
 import android.os.Bundle
@@ -25,10 +25,10 @@ import com.malka.androidappp.newPhase.presentation.adapterShared.ProductHorizont
 import com.malka.androidappp.newPhase.presentation.adapterShared.SetOnProductItemListeners
 import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
 import com.malka.androidappp.newPhase.presentation.myOrderDetails.MyOrderDetailsRequestedFromMeActivity
-import com.malka.androidappp.newPhase.presentation.myOrderFragment.adapter.MyOrdersAdapter
-import com.malka.androidappp.newPhase.presentation.myProducts.dialog.AddDiscountDialog
-import com.malka.androidappp.newPhase.presentation.myProducts.dialog.MyProductSettingDialog
-import com.malka.androidappp.newPhase.presentation.myProducts.viewModel.MyProductViewModel
+import com.malka.androidappp.newPhase.presentation.account_fragment.myOrderFragment.adapter.MyOrdersAdapter
+import com.malka.androidappp.newPhase.presentation.account_fragment.myProducts.dialog.AddDiscountDialog
+import com.malka.androidappp.newPhase.presentation.account_fragment.myProducts.dialog.MyProductSettingDialog
+import com.malka.androidappp.newPhase.presentation.account_fragment.myProducts.viewModel.MyProductViewModel
 import com.malka.androidappp.newPhase.presentation.productDetailsActivity.ProductDetailsActivity
 
 import kotlinx.android.synthetic.main.fragment_sold_business.*

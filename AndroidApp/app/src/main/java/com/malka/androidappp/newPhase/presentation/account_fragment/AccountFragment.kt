@@ -8,6 +8,7 @@ import android.widget.Filter
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.presentation.MainActivity
@@ -22,6 +23,7 @@ import com.malka.androidappp.newPhase.domain.models.loginResp.LoginUser
 import com.malka.androidappp.newPhase.domain.models.servicemodels.AccountItem
 import com.malka.androidappp.newPhase.domain.models.servicemodels.AccountSubItem
 import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.presentation.addProduct.AccountObject
 import io.paperdb.Paper
 import kotlinx.android.synthetic.main.account_main_item.view.*
 import kotlinx.android.synthetic.main.account_sub_item.view.*
@@ -31,7 +33,7 @@ import kotlinx.android.synthetic.main.fragment_account.*
 class AccountFragment : Fragment(R.layout.fragment_account) {
     private var userData: LoginUser? = null
     val list: ArrayList<AccountItem> = ArrayList()
-
+    private lateinit var accountViewModel: AccountViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         list.apply {
@@ -83,6 +85,7 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
                 )
             )
         }
+
     }
 
 
@@ -94,11 +97,13 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
         super.onViewCreated(view, savedInstanceState)
         userData = Paper.book().read<LoginUser>(SharedPreferencesStaticClass.user_object)
         setUserData(userData)
-        if(MainActivity.myOrderTrigger){
-            MainActivity.myOrderTrigger=false
+        if (MainActivity.myOrderTrigger) {
+            MainActivity.myOrderTrigger = false
             findNavController().navigate(R.id.myRequest)
         }
-      //  setListenser()
+        setViewCliclListeners()
+        setUpViewModel()
+        //  setListenser()
 //        if (!isProfileLoad) {
 //            CommonAPI().GetUserInfo(requireContext(), ConstantObjects.logged_userid) {
 //                isProfileLoad = true
@@ -110,6 +115,50 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
 //        userType()
 
 
+    }
+
+    private fun setUpViewModel() {
+        accountViewModel = ViewModelProvider(this).get(AccountViewModel::class.java)
+        accountViewModel.isLoading.observe(this) {
+            if (it)
+                HelpFunctions.startProgressBar(requireActivity())
+            else
+                HelpFunctions.dismissProgressBar()
+        }
+        accountViewModel.isNetworkFail.observe(this) {
+            if (it) {
+                HelpFunctions.ShowLongToast(getString(R.string.connectionError), requireActivity())
+            } else {
+                HelpFunctions.ShowLongToast(getString(R.string.serverError), requireActivity())
+            }
+
+        }
+        accountViewModel.errorResponseObserver.observe(this) {
+            if (it.message != null) {
+                HelpFunctions.ShowLongToast(it.message!!, requireActivity())
+            } else {
+                HelpFunctions.ShowLongToast(getString(R.string.serverError), requireActivity())
+            }
+        }
+        accountViewModel.walletDetailsObserver.observe(this) { walletDetailsResp ->
+            if (walletDetailsResp.status_code == 200) {
+                AccountObject.walletDetails = walletDetailsResp.walletDetails
+                walletDetailsResp.walletDetails?.let {
+                    tvWalletTotalBalance.text = "${it.walletBalance} ${getString(R.string.Rayal)}"
+                }
+
+            }
+        }
+        accountViewModel.userPointsDetailsObserver.observe(this){userPointsResp->
+            if(userPointsResp.status_code==200){
+                AccountObject.userPointData = userPointsResp.userPointData
+                userPointsResp.userPointData?.let {
+                    tvUserPointTotalBalance.text = "${it.pointsBalance} "
+                }
+            }
+        }
+        accountViewModel.getWalletDetailsInAccountTap()
+        accountViewModel.getUserPointDetailsInAccountTap()
     }
 
     private fun setUserData(userData: LoginUser?) {
@@ -130,8 +179,20 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
                 tv_membership_number.text = "${getString(R.string.membership_number)} not found"
                 setAdaptor()
             }
-        }catch (e:Exception){}
+        } catch (e: Exception) {
+        }
     }
+
+    private fun setViewCliclListeners() {
+        my_wallet.setOnClickListener() {
+            findNavController().navigate(R.id.myWallet)
+        }
+
+        my_points.setOnClickListener() {
+            findNavController().navigate(R.id.myPoints)
+        }
+    }
+
 
     private fun loadProfile() {
         try {
@@ -151,13 +212,7 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
         follow_up.setOnClickListener() {
             findNavController().navigate(R.id.followUp)
         }
-        my_wallet.setOnClickListener() {
-            findNavController().navigate(R.id.myWallet)
-        }
 
-        my_points.setOnClickListener() {
-            findNavController().navigate(R.id.myPoints)
-        }
         rating_btn.setOnClickListener() {
             findNavController().navigate(R.id.sellerRating)
         }
@@ -212,76 +267,76 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
     @SuppressLint("ResourceType")
     private fun setAdaptor() {
         main_item_rcv.adapter =
-        object : GenericListAdapter<AccountItem>(
-            R.layout.account_main_item,
-            bind = { element, holder, itemCount, position ->
-                holder.view.run {
-                    element.run {
-                        main_item_tv.text = name
+            object : GenericListAdapter<AccountItem>(
+                R.layout.account_main_item,
+                bind = { element, holder, itemCount, position ->
+                    holder.view.run {
+                        element.run {
+                            main_item_tv.text = name
 
-                        sub_item_rcv.adapter = object : GenericListAdapter<AccountSubItem>(
-                            R.layout.account_sub_item,
-                            bind = { element, holder, itemCount, position ->
-                                holder.view.run {
-                                    element.run {
-                                        sub_item_tv.text = name
-                                        item_icon.setImageResource(image)
-                                        if (MainActivity.myOrderTrigger) {
-                                            MainActivity.myOrderTrigger = false
-                                            findNavController().navigate(R.id.myRequest)
-                                        }
-                                        else if (MainActivity.myBidTrigger) {
-                                            MainActivity.myBidTrigger = false
-                                            findNavController().navigate(R.id.mybids)
-                                        }
+                            sub_item_rcv.adapter = object : GenericListAdapter<AccountSubItem>(
+                                R.layout.account_sub_item,
+                                bind = { element, holder, itemCount, position ->
+                                    holder.view.run {
+                                        element.run {
+                                            sub_item_tv.text = name
+                                            item_icon.setImageResource(image)
+                                            if (MainActivity.myOrderTrigger) {
+                                                MainActivity.myOrderTrigger = false
+                                                findNavController().navigate(R.id.myRequest)
+                                            } else if (MainActivity.myBidTrigger) {
+                                                MainActivity.myBidTrigger = false
+                                                findNavController().navigate(R.id.mybids)
+                                            }
 
-                                        if (name.equals(getString(R.string.logout))) {
-                                            sub_item_tv.setTextColor(
-                                                ContextCompat.getColor(
-                                                    requireContext(),
-                                                    R.color.bg
+                                            if (name.equals(getString(R.string.logout))) {
+                                                sub_item_tv.setTextColor(
+                                                    ContextCompat.getColor(
+                                                        requireContext(),
+                                                        R.color.bg
+                                                    )
                                                 )
-                                            )
-                                            item_right_icon.setColorFilter(
-                                                ContextCompat.getColor(
-                                                    context,
-                                                    R.color.bg
-                                                ), android.graphics.PorterDuff.Mode.SRC_IN
-                                            );
-                                            line.hide()
-                                        } else {
-                                            sub_item_tv.setTextColor(
-                                                ContextCompat.getColor(
-                                                    requireContext(),
-                                                    R.color.black
+                                                item_right_icon.setColorFilter(
+                                                    ContextCompat.getColor(
+                                                        context,
+                                                        R.color.bg
+                                                    ), android.graphics.PorterDuff.Mode.SRC_IN
+                                                );
+                                                line.hide()
+                                            } else {
+                                                sub_item_tv.setTextColor(
+                                                    ContextCompat.getColor(
+                                                        requireContext(),
+                                                        R.color.black
+                                                    )
                                                 )
-                                            )
-                                            item_right_icon.setColorFilter(
-                                                ContextCompat.getColor(
-                                                    context,
-                                                    R.color.black
-                                                ), android.graphics.PorterDuff.Mode.SRC_IN
-                                            );
-                                            line.show()
+                                                item_right_icon.setColorFilter(
+                                                    ContextCompat.getColor(
+                                                        context,
+                                                        R.color.black
+                                                    ), android.graphics.PorterDuff.Mode.SRC_IN
+                                                );
+                                                line.show()
 
-                                        }
-                                        setOnClickListener {
-                                            when (name) {
-                                                getString(R.string.MyProducts) -> {
-                                                    findNavController().navigate(R.id.myProduct)
-                                                }
-                                                getString(R.string.my_orders) -> {
-                                                    findNavController().navigate(R.id.myRequest)
+                                            }
+                                            setOnClickListener {
+                                                when (name) {
+                                                    getString(R.string.MyProducts) -> {
+                                                        findNavController().navigate(R.id.myProduct)
+                                                    }
+                                                    getString(R.string.my_orders) -> {
+                                                        findNavController().navigate(R.id.myRequest)
 
-                                                }
+                                                    }
+                                                    getString(R.string.Loser) -> {
+                                                        findNavController().navigate(R.id.lost_frag)
+
+                                                    }
 //                                                getString(R.string.my_bids) -> {
 //                                                    findNavController().navigate(R.id.mybids)
 //
 //                                                }
-//                                                getString(R.string.Loser) -> {
-//                                                    findNavController().navigate(R.id.lost_frag)
-//
-//                                                }
+
 //                                                getString(R.string.shopping_basket) -> {
 //                                                    if (ConstantObjects.logged_userid.isEmpty()) {
 //                                                        startActivity(
@@ -314,10 +369,10 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
 //                                                getString(R.string.save_addresses) -> {
 //                                                    findNavController().navigate(R.id.MySavedAddress)
 //                                                }
-                                                getString(R.string.application_settings) -> {
-                                                    findNavController().navigate(R.id.applicationSetting)
+                                                    getString(R.string.application_settings) -> {
+                                                        findNavController().navigate(R.id.applicationSetting)
 
-                                                }
+                                                    }
 //                                                getString(R.string.help) -> {}
 //                                                getString(R.string.technical_support) -> {
 //
@@ -333,44 +388,51 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
 //                                                        )
 //                                                    )
 //                                                }
-                                                getString(R.string.logout) -> {
-                                                    ConstantObjects.logged_userid = ""
-                                                    Paper.book().write(SharedPreferencesStaticClass.islogin, false)
-                                                    Paper.book().delete(SharedPreferencesStaticClass.user_object)
-                                                    HelpFunctions.ShowLongToast(getString(R.string.loggedoutsuccessfully), context)
-                                                    findNavController().navigate(R.id.logout_to_home)
-                                               }
+                                                    getString(R.string.logout) -> {
+                                                        ConstantObjects.logged_userid = ""
+                                                        Paper.book().write(
+                                                            SharedPreferencesStaticClass.islogin,
+                                                            false
+                                                        )
+                                                        Paper.book()
+                                                            .delete(SharedPreferencesStaticClass.user_object)
+                                                        HelpFunctions.ShowLongToast(
+                                                            getString(R.string.loggedoutsuccessfully),
+                                                            context
+                                                        )
+                                                        findNavController().navigate(R.id.logout_to_home)
+                                                    }
+                                                }
                                             }
+
+
                                         }
-
-
                                     }
                                 }
-                            }
-                        ) {
-                            override fun getFilter(): Filter {
-                                TODO("Not yet implemented")
+                            ) {
+                                override fun getFilter(): Filter {
+                                    TODO("Not yet implemented")
+                                }
+
+                            }.apply {
+                                submitList(
+                                    list
+                                )
                             }
 
-                        }.apply {
-                            submitList(
-                                list
-                            )
                         }
-
                     }
                 }
-            }
-        ) {
-            override fun getFilter(): Filter {
-                TODO("Not yet implemented")
-            }
+            ) {
+                override fun getFilter(): Filter {
+                    TODO("Not yet implemented")
+                }
 
-        }.apply {
-            submitList(
-                list
-            )
-        }
+            }.apply {
+                submitList(
+                    list
+                )
+            }
 
     }
 

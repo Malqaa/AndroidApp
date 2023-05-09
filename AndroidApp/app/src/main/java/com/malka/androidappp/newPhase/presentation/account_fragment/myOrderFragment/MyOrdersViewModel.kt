@@ -1,4 +1,4 @@
-package com.malka.androidappp.newPhase.presentation.myOrderFragment
+package com.malka.androidappp.newPhase.presentation.account_fragment.myOrderFragment
 
 import androidx.lifecycle.MutableLiveData
 import com.malka.androidappp.newPhase.core.BaseViewModel
