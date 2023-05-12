@@ -15,7 +15,7 @@ import com.malka.androidappp.newPhase.data.helper.shared_preferences.SharedPrefe
 import com.malka.androidappp.newPhase.presentation.addressUser.addAddressActivity.AddAddressActivity
 import com.malka.androidappp.newPhase.domain.models.cartListResp.CartDataObject
 import com.malka.androidappp.newPhase.domain.models.cartListResp.CartProductDetails
-import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.domain.models.servicemodels.GetAddressResponse
 import com.malka.androidappp.newPhase.domain.models.servicemodels.Selection
 import com.malka.androidappp.newPhase.domain.models.userAddressesResp.AddressItem

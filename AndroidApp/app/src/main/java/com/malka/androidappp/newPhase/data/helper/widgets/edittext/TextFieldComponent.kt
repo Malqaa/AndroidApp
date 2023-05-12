@@ -26,7 +26,7 @@ import com.malka.androidappp.newPhase.data.helper.show
 import com.malka.androidappp.newPhase.data.helper.widgets.searchdialog.OnSearchItemSelected
 import com.malka.androidappp.newPhase.data.helper.widgets.searchdialog.SearchListItem
 import com.malka.androidappp.newPhase.data.helper.widgets.searchdialog.SearchableDialog
-import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_detailed_text_field_description.view.*
 

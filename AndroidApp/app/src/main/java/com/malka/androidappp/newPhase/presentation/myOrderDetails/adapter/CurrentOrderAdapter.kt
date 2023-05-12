@@ -8,11 +8,13 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.malka.androidappp.R
 import com.malka.androidappp.databinding.ItemShipmentInOrderBinding
+import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.data.helper.hide
 import com.malka.androidappp.newPhase.data.helper.linearLayoutManager
 import com.malka.androidappp.newPhase.data.helper.show
 import com.malka.androidappp.newPhase.domain.models.orderDetailsByMasterID.OrderFullInfoDto
 import com.malka.androidappp.newPhase.domain.models.orderDetailsByMasterID.OrderProductFullInfoDto
+import kotlinx.android.synthetic.main.activity_my_order_details_requested_from_me.*
 import kotlinx.android.synthetic.main.fragment_my_orders.*
 
 
@@ -40,7 +42,22 @@ class CurrentOrderAdapter(
         holder.viewBinding.shipmentNoTv.text =
             "${context.getString(R.string.shipment_no_1)} ${orderFullInfoDto[position].orderId}"
         holder.viewBinding.tvSellerName.text = "(${orderFullInfoDto[position].providerName ?: ""})"
-        holder.viewBinding.tvShippingStatus.text = orderFullInfoDto[position].status ?: ""
+//        holder.viewBinding.tvShippingStatus.text = orderFullInfoDto[position].status ?: ""
+        when ( orderFullInfoDto[position].orderStatus) {
+            ConstantObjects.orderStatus_provider_new -> {
+                holder.viewBinding.tvShippingStatus.text =context.getString(R.string.order_new)
+            }
+            ConstantObjects.orderStatus_provider_inProgress -> {
+                holder.viewBinding.tvShippingStatus.text = context.getString(R.string.order_productsProcessing)
+            }
+            ConstantObjects.orderStatus_provider_inDelivery -> {
+                holder.viewBinding.tvShippingStatus.text = context.getString(R.string.order_deliveryPhase)
+            }
+            ConstantObjects.orderStatus_provider_finished -> {
+                holder.viewBinding.tvShippingStatus.text = context.getString(R.string.order_deliveryConfirmation)
+            }
+        }
+
         holder.viewBinding.tvPaymentType.text = orderFullInfoDto[position].payType ?: ""
         holder.viewBinding.tvOldTotalPrice.text =
             orderFullInfoDto[position].totalOrderPrice.toString()

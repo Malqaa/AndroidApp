@@ -12,7 +12,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.presentation.MainActivity
-import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
 import com.malka.androidappp.newPhase.data.helper.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.newPhase.data.helper.Extension
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
@@ -22,7 +21,9 @@ import com.malka.androidappp.newPhase.data.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.newPhase.domain.models.loginResp.LoginUser
 import com.malka.androidappp.newPhase.domain.models.servicemodels.AccountItem
 import com.malka.androidappp.newPhase.domain.models.servicemodels.AccountSubItem
-import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.data.helper.ConstantObjects
+import com.malka.androidappp.newPhase.presentation.account_fragment.editProfileActivity.EditProfileActivity
+import com.malka.androidappp.newPhase.presentation.account_fragment.technicalSupportActivity.listtechincalSupportMessage.TechnicalSupportListActivity
 import com.malka.androidappp.newPhase.presentation.addProduct.AccountObject
 import io.paperdb.Paper
 import kotlinx.android.synthetic.main.account_main_item.view.*
@@ -149,8 +150,8 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
 
             }
         }
-        accountViewModel.userPointsDetailsObserver.observe(this){userPointsResp->
-            if(userPointsResp.status_code==200){
+        accountViewModel.userPointsDetailsObserver.observe(this) { userPointsResp ->
+            if (userPointsResp.status_code == 200) {
                 AccountObject.userPointData = userPointsResp.userPointData
                 userPointsResp.userPointData?.let {
                     tvUserPointTotalBalance.text = "${it.pointsBalance} "
@@ -176,7 +177,7 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
                         HelpFunctions.getViewFormatForDateTrack(it)
                     }".toString()
                 }
-                tv_membership_number.text = "${getString(R.string.membership_number)} not found"
+                tv_membership_number.text = "${getString(R.string.membership_number)}"
                 setAdaptor()
             }
         } catch (e: Exception) {
@@ -191,77 +192,6 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
         my_points.setOnClickListener() {
             findNavController().navigate(R.id.myPoints)
         }
-    }
-
-
-    private fun loadProfile() {
-        try {
-            fragment_account.isVisible = true
-            ConstantObjects.userobj!!.run {
-                tvUserName.text = fullName
-                tvMemberSince.text = "${getString(R.string.member_since)}: $member_since"
-                tv_membership_number.text = "${getString(R.string.membership_number)}: "
-            }
-            setAdaptor()
-        } catch (er: Exception) {
-        }
-
-    }
-
-    private fun setListenser() {
-        follow_up.setOnClickListener() {
-            findNavController().navigate(R.id.followUp)
-        }
-
-        rating_btn.setOnClickListener() {
-            findNavController().navigate(R.id.sellerRating)
-        }
-
-
-
-
-        profilecardv.setOnClickListener() {
-            findNavController().navigate(R.id.accountsettingtoprofile)
-        }
-        settingcardv.setOnClickListener() {
-            findNavController().navigate(R.id.accountsettingtosettings)
-        }
-        tvFixedPrice.setOnClickListener() {
-            findNavController().navigate(R.id.account_fixedprice)
-        }
-        watchlist_card.setOnClickListener() {
-            findNavController().navigate(R.id.acc_watchlist)
-        }
-        fav_card.setOnClickListener() {
-            //  findNavController().navigate(R.id.acc_fav)
-        }
-
-
-        selling_opt.setOnClickListener() {
-            findNavController().navigate(R.id.account_sellingopt)
-        }
-
-        product.setOnClickListener() {
-            findNavController().navigate(R.id.account_products)
-        }
-
-        btn_signin.setOnClickListener() {
-            val intentt = Intent(this.activity, SignInActivity::class.java)
-            startActivity(intentt)
-            requireActivity().finish()
-        }
-
-
-    }
-
-
-    fun userType() {
-        if (!ConstantObjects.isBusinessUser) {
-            productview.visibility = View.GONE
-        } else {
-            productview.visibility = View.VISIBLE
-        }
-
     }
 
     @SuppressLint("ResourceType")
@@ -358,10 +288,15 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
 //                                                    findNavController().navigate(R.id.negotiationOffer)
 //
 //                                                }
-//                                                getString(R.string.edit_profile) -> {
-//                                                    findNavController().navigate(R.id.editProfile)
-//
-//                                                }
+                                                getString(R.string.edit_profile) -> {
+                                                  //  findNavController().navigate(R.id.editProfile)
+                                                    startActivity(
+                                                        Intent(
+                                                            requireActivity(),
+                                                            EditProfileActivity::class.java
+                                                        )
+                                                    )
+                                                }
 //                                                getString(R.string.payment_cards) -> {
 //                                                    findNavController().navigate(R.id.paymentCard)
 //
@@ -374,12 +309,15 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
 
                                                     }
 //                                                getString(R.string.help) -> {}
-//                                                getString(R.string.technical_support) -> {
-//
-//
-//                                                    findNavController().navigate(R.id.technicalSupport)
-//
-//                                                }
+                                                    getString(R.string.technical_support) -> {
+                                                        startActivity(
+                                                            Intent(
+                                                                requireActivity(),
+                                                                TechnicalSupportListActivity::class.java
+                                                            )
+                                                        )
+
+                                                    }
 //                                                getString(R.string.switch_accounts_and_business_account) -> {
 //                                                    startActivity(
 //                                                        Intent(
@@ -433,7 +371,77 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
                     list
                 )
             }
+        main_item_rcv.isNestedScrollingEnabled = false
 
     }
+
+    private fun loadProfile() {
+        try {
+            fragment_account.isVisible = true
+            ConstantObjects.userobj!!.run {
+                tvUserName.text = fullName
+                tvMemberSince.text = "${getString(R.string.member_since)}: $member_since"
+                tv_membership_number.text = "${getString(R.string.membership_number)}: "
+            }
+            setAdaptor()
+        } catch (er: Exception) {
+        }
+
+    }
+
+    private fun setListenser() {
+        follow_up.setOnClickListener() {
+            findNavController().navigate(R.id.followUp)
+        }
+
+        rating_btn.setOnClickListener() {
+            findNavController().navigate(R.id.sellerRating)
+        }
+
+
+//        profilecardv.setOnClickListener() {
+//            findNavController().navigate(R.id.accountsettingtoprofile)
+//        }
+//        settingcardv.setOnClickListener() {
+//            findNavController().navigate(R.id.accountsettingtosettings)
+//        }
+//        tvFixedPrice.setOnClickListener() {
+//            findNavController().navigate(R.id.account_fixedprice)
+//        }
+//        watchlist_card.setOnClickListener() {
+//            findNavController().navigate(R.id.acc_watchlist)
+//        }
+//        fav_card.setOnClickListener() {
+//            //  findNavController().navigate(R.id.acc_fav)
+//        }
+//
+//
+//        selling_opt.setOnClickListener() {
+//            findNavController().navigate(R.id.account_sellingopt)
+//        }
+//
+//        product.setOnClickListener() {
+//            findNavController().navigate(R.id.account_products)
+//        }
+//
+//        btn_signin.setOnClickListener() {
+//            val intentt = Intent(this.activity, SignInActivity::class.java)
+//            startActivity(intentt)
+//            requireActivity().finish()
+//        }
+
+
+    }
+
+
+//    fun userType() {
+//        if (!ConstantObjects.isBusinessUser) {
+//            productview.visibility = View.GONE
+//        } else {
+//            productview.visibility = View.VISIBLE
+//        }
+//
+//    }
+
 
 }

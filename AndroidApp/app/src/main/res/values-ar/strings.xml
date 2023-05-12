@@ -248,9 +248,7 @@
     <string name="FixedLenght">
     طول ثابت
   </string>
-    <string name="Home">
-    الصفحة الرئيسية
-  </string>
+    <string name="Home">الرئيسية</string>
     <string name="ListingDetails">
     تفاصيل قائمة
   </string>
@@ -2093,9 +2091,7 @@
     <string name="Saudiabankdeposit">
     وديعة بنك السعودية
   </string>
-    <string name="Save">
-    يحفظ
-  </string>
+    <string name="Save">حفظ</string>
     <string name="SelectDate">
     اختر التاريخ
   </string>
@@ -2708,7 +2704,9 @@
     <string name="we_are_glad_to_contact_you">يسعدنا تواصلك معنا</string>
     <string name="what_kind_of_help_do_you_need">مانوع المساعدة التي تحتاجها؟</string>
     <string name="type_of_communication">نوع التواصل</string>
+  <string name="select_type_of_communication">اختر نوع التواصل</string>
     <string name="problem_title">عنوان المشكلة</string>
+  <string name="enter_problem_title">أدخل عنوان المشكلة</string>
     <string name="message_details">تفاصيل الرسالة</string>
     <string name="send">ارسال</string>
     <string name="my_personal_settings">اعداداتى الشخصية</string>
@@ -2847,6 +2845,7 @@
     <string name="discountPriceShouldBeLower">يجب أن يكون سعر الخصم أقل من السعر الحالي</string>
     <string name="discountAddedSuccessfully">تمت إضافة الخصم بنجاح</string>
     <string name="sellerRate">تقيمات البائع</string>
+  <string name="rateBuyer">تقيم المشترى</string>
     <string name="noAddressesFound">لم يتم العثور على عناوين</string>
     <string name="building">مبنى</string>
     <string name="floor">طابق</string>
@@ -2876,4 +2875,14 @@
   <string name="satisfied">راضي</string>
   <string name="unsatisfied">غير راضي</string>
   <string name="enterAmount">أدخل الكميه </string>
+  <string name="suggestions">اقتراحات</string>
+  <string name="complaint">شكوى</string>
+  <string name="changeOrderStatus">تغير حاله الطلب</string>
+
+
+  <string name="order_new">طلب جديد</string>
+  <string name="order_productsProcessing">تجهيز المنتجات</string>
+  <string name="order_deliveryPhase">مرحلة التسليم</string>
+  <string name="order_deliveryConfirmation">تأكيد التسليم</string>
+  <string name="order_canceledBySeller"> ألغاء من البائع</string>
 </resources>

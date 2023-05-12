@@ -8,7 +8,7 @@ import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.newPhase.data.helper.*
 import com.malka.androidappp.newPhase.domain.models.questionResp.QuestionItem
-import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.presentation.productDetailsActivity.AnswerQuestionDialog
 import com.malka.androidappp.newPhase.presentation.productDetailsActivity.adapter.QuestionAnswerAdapter
 import com.malka.androidappp.newPhase.presentation.productDetailsActivity.viewModels.ProductDetailHelper

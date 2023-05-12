@@ -17,6 +17,7 @@ import com.malka.androidappp.fragments.myProductFragment.edit_product.ModelEditP
 import com.malka.androidappp.fragments.sellerdetails.SellerResponseBack
 import com.malka.androidappp.fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ModelShipAddresses
 import com.malka.androidappp.fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ShippingAddressessData
+import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.data.network.constants.Constants
 import com.malka.androidappp.newPhase.data.network.constants.Constants.GET_CATEGORY_TAGS_ENDPOINT
 import com.malka.androidappp.newPhase.domain.models.addOrderResp.AddOrderResp
@@ -27,6 +28,8 @@ import com.malka.androidappp.newPhase.domain.models.cartListResp.CartListResp
 import com.malka.androidappp.newPhase.domain.models.categoryFollowResp.CategoryFollowResp
 import com.malka.androidappp.newPhase.domain.models.categoryResp.CategoriesResp
 import com.malka.androidappp.newPhase.domain.models.configrationResp.ConfigurationResp
+import com.malka.androidappp.newPhase.domain.models.contauctUsMessage.ContactUsMessageResp
+import com.malka.androidappp.newPhase.domain.models.contauctUsMessage.TechnicalSupportMessageListResp
 import com.malka.androidappp.newPhase.domain.models.countryResp.CountriesResp
 import com.malka.androidappp.newPhase.domain.models.dynamicSpecification.DynamicSpecificationResp
 import com.malka.androidappp.newPhase.domain.models.homeCategoryProductResp.HomeCategoryProductResp
@@ -60,7 +63,6 @@ import com.malka.androidappp.newPhase.domain.models.servicemodels.favourites.Fav
 import com.malka.androidappp.newPhase.domain.models.servicemodels.favourites.favouriteadd
 import com.malka.androidappp.newPhase.domain.models.servicemodels.feedbacks.FeedbackObject
 import com.malka.androidappp.newPhase.domain.models.servicemodels.home.visitcount.visit_count_object
-import com.malka.androidappp.newPhase.domain.models.servicemodels.model_wonloss.ModelWonLost
 import com.malka.androidappp.newPhase.domain.models.servicemodels.questionModel.ModelAskQues
 import com.malka.androidappp.newPhase.domain.models.servicemodels.questionModel.ModelPostAns
 import com.malka.androidappp.newPhase.domain.models.servicemodels.questionModel.ModelQuesAnswr
@@ -546,6 +548,11 @@ interface MalqaApiService {
     @GET("ListLostProducts")
     fun getLostProducts(): Call<ProductListResp>
 
+
+    @POST("AddEditContactUs")
+    fun addEditContactUs(@Body data:HashMap<String,Any>): Call<ContactUsMessageResp>
+    @GET("ListContactUs?isAdmin=false")
+    fun getListContactUs(): Call<TechnicalSupportMessageListResp>
     /***
      * ***********************************
      * ***********************************

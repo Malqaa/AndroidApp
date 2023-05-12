@@ -12,7 +12,7 @@ import com.malka.androidappp.newPhase.presentation.productDetailsActivity.Produc
 import com.malka.androidappp.newPhase.data.helper.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.newPhase.data.helper.*
 import com.malka.androidappp.newPhase.data.helper.Extension.decimalNumberFormat
-import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.domain.models.productResp.Product
 import com.yariksoffice.lingver.Lingver
 import kotlinx.android.synthetic.main.product_item.view.*

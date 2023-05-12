@@ -5,34 +5,20 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.presentation.addProduct.activity3.SubCategoriesActivity
 import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.newPhase.presentation.addProduct.AddProductObjectData
-import com.malka.androidappp.newPhase.data.helper.Extension.truncateString
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.data.helper.hide
-import com.malka.androidappp.newPhase.data.helper.linearLayoutManager
 import com.malka.androidappp.newPhase.data.helper.show
-import com.malka.androidappp.newPhase.domain.models.homeCategoryProductResp.CategoryProductItem
-import com.malka.androidappp.newPhase.domain.models.productResp.Product
-import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.domain.models.servicemodels.model.Category
-import com.malka.androidappp.newPhase.presentation.adapterShared.ProductHorizontalAdapter
-import com.malka.androidappp.newPhase.presentation.addProduct.activity4.AddPhotoActivity
 import com.malka.androidappp.newPhase.presentation.addProduct.viewmodel.AddProductViewModel
-import com.malka.androidappp.newPhase.presentation.homeScreen.adapters.AdapterAllCategories
-import com.malka.androidappp.newPhase.presentation.homeScreen.adapters.CategoryProductAdapter
-import com.malka.androidappp.newPhase.presentation.homeScreen.viewModel.HomeViewModel
 import kotlinx.android.synthetic.main.activity_choose_category.*
 import kotlinx.android.synthetic.main.toolbar_main.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class ChooseCategoryActivity : BaseActivity() {
     var allCategoryList: List<Category> = ArrayList()

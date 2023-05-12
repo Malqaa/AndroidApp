@@ -10,13 +10,12 @@ import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.newPhase.data.helper.*
 import com.malka.androidappp.newPhase.domain.models.sellerInfoResp.SellerInformation
 import com.malka.androidappp.newPhase.domain.models.sellerRateListResp.SellerRateItem
-import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.domain.models.servicemodels.Reviewmodel
 import com.malka.androidappp.newPhase.domain.models.servicemodels.Selection
 import com.malka.androidappp.newPhase.presentation.productDetailsActivity.viewModels.ProductDetailsViewModel
 import com.malka.androidappp.newPhase.presentation.productsSellerInfoActivity.adapter.SellerRateAdapter
 import com.malka.androidappp.newPhase.presentation.productsSellerInfoActivity.dialog.SellerFilterReviewDialog
-import kotlinx.android.synthetic.main.activity_product_details_item_2.*
 import kotlinx.android.synthetic.main.activity_seller_rate.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 

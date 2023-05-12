@@ -67,9 +67,9 @@ object Constants {
 
     const val GET_CATEGORY_TAGS_ENDPOINT = "Category/Tags"
 
-    const val otpDataKey="OtpDataKey"
-    const val  male=0
-    const val female=1
+    const val otpDataKey = "OtpDataKey"
+    const val male = 0
+    const val female = 1
 
 
 }

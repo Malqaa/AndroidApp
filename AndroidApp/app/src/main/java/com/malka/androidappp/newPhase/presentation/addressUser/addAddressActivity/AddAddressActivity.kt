@@ -27,7 +27,7 @@ import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.data.helper.widgets.searchdialog.SearchListItem
-import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.domain.models.servicemodels.GetAddressResponse
 import com.malka.androidappp.newPhase.domain.models.userAddressesResp.AddressItem
 import com.malka.androidappp.newPhase.presentation.addressUser.AddressViewModel

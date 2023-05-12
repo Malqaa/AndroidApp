@@ -12,7 +12,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.data.helper.*
 import com.malka.androidappp.newPhase.domain.models.orderListResp.OrderItem
-import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.presentation.myOrderDetails.MyOrderDetailsActivity
 import com.malka.androidappp.newPhase.presentation.account_fragment.myOrderFragment.adapter.MyOrdersAdapter
 import kotlinx.android.synthetic.main.fragment_my_orders.*

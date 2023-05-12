@@ -1,5 +1,6 @@
 package com.malka.androidappp.newPhase.domain.models.servicemodels
 
+import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.yariksoffice.lingver.Lingver
 
 data class SubSpecification(

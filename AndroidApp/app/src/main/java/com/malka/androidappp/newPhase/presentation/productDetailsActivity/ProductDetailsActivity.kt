@@ -20,11 +20,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.JsonObject
 import com.malka.androidappp.R
 import com.malka.androidappp.activities_main.PlayActivity
-import com.malka.androidappp.newPhase.presentation.cartActivity.activity1.CartActivity
-import com.malka.androidappp.newPhase.data.helper.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.newPhase.data.helper.*
 import com.malka.androidappp.newPhase.data.helper.Extension.shared
+import com.malka.androidappp.newPhase.data.helper.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.newPhase.data.network.constants.Constants
 import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
 import com.malka.androidappp.newPhase.data.network.service.MalqaApiService
@@ -41,6 +40,9 @@ import com.malka.androidappp.newPhase.domain.models.servicemodels.questionModel.
 import com.malka.androidappp.newPhase.presentation.MainActivity
 import com.malka.androidappp.newPhase.presentation.adapterShared.ProductHorizontalAdapter
 import com.malka.androidappp.newPhase.presentation.adapterShared.SetOnProductItemListeners
+import com.malka.androidappp.newPhase.presentation.addProductReviewActivity.AddRateProductActivity
+import com.malka.androidappp.newPhase.presentation.addProductReviewActivity.ProductReviewsActivity
+import com.malka.androidappp.newPhase.presentation.cartActivity.activity1.CartActivity
 import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
 import com.malka.androidappp.newPhase.presentation.productDetailsActivity.adapter.ProductImagesAdapter
 import com.malka.androidappp.newPhase.presentation.productDetailsActivity.adapter.QuestionAnswerAdapter
@@ -49,8 +51,6 @@ import com.malka.androidappp.newPhase.presentation.productDetailsActivity.adapte
 import com.malka.androidappp.newPhase.presentation.productDetailsActivity.viewModels.ProductDetailHelper
 import com.malka.androidappp.newPhase.presentation.productDetailsActivity.viewModels.ProductDetailsViewModel
 import com.malka.androidappp.newPhase.presentation.productQuestionActivity.QuestionActivity
-import com.malka.androidappp.newPhase.presentation.addProductReviewActivity.ProductReviewsActivity
-import com.malka.androidappp.newPhase.presentation.addProductReviewActivity.AddRateProductActivity
 import com.malka.androidappp.newPhase.presentation.productsSellerInfoActivity.SellerInformationActivity
 import com.yariksoffice.lingver.Lingver
 import io.paperdb.Paper
@@ -70,7 +70,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
@@ -594,17 +593,17 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 //        } else {
 //            btnMapSeller.hide()
 //        }
-        when(it.rate){
-            1f->{
+        when (it.rate) {
+            1f -> {
                 ivRateSeller.setImageResource(R.drawable.smile3)
             }
-            2f->{
+            2f -> {
                 ivRateSeller.setImageResource(R.drawable.neutral)
             }
-            3f->{
+            3f -> {
                 ivRateSeller.setImageResource(R.drawable.sad)
             }
-            else->{
+            else -> {
                 ivRateSeller.setImageResource(R.drawable.smile3)
             }
         }
@@ -757,6 +756,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             object : ProductImagesAdapter.SetOnSelectedImage {
                 override fun onSelectImage(position: Int) {
                     if (productImagesList[position].type == 2) {
+
                         //video
                         startActivity(
                             Intent(
@@ -898,7 +898,30 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                 }"
             tvProductItemName.text = productDetails.name ?: ""
             tvProductSubtitle.text = productDetails.subTitle ?: ""
-            tvProductDescription.text = productDetails.description ?: ""
+            tvProductDescriptionShort.text =
+                productDetails.description ?: ""
+            tvProductDescriptionLong.text =
+                productDetails.description  ?: ""
+            val isEllipsize: Boolean = tvProductDescriptionShort.text.toString().trim() != productDetails.description?.trim()
+            if(isEllipsize) {
+                btnMoreItemDetails.show()
+            }else{
+                btnMoreItemDetails.hide()
+            }
+            btnMoreItemDetails.setOnClickListener {
+
+                if (getString(R.string.Showmore) == btnMoreItemDetails.text.toString() && isEllipsize) {
+                    btnMoreItemDetails.text = getString(R.string.showLess)
+                    tvProductDescriptionLong.show()
+                    tvProductDescriptionShort.hide()
+                } else if (getString(R.string.showLess) == btnMoreItemDetails.text.toString()) {
+                    btnMoreItemDetails.text = getString(R.string.Showmore)
+                    tvProductDescriptionLong.hide()
+                    tvProductDescriptionShort.show()
+                }
+
+            }
+
             current_price_buy_tv.text =
                 "${productDetails.priceDisc.toString()} ${getString(R.string.sar)}"
             Bid_on_price_tv.text = " ${getString(R.string.sar)}"

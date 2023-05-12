@@ -17,7 +17,7 @@ import com.malka.androidappp.newPhase.data.helper.shared_preferences.SharedPrefe
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
 import com.malka.androidappp.newPhase.data.network.service.MalqaApiService
-import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import kotlinx.android.synthetic.main.fragment_member_listing.*
 import retrofit2.Call
 import retrofit2.Callback

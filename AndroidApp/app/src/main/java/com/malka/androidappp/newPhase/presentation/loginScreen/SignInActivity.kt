@@ -12,7 +12,7 @@ import com.malka.androidappp.newPhase.data.helper.shared_preferences.SharedPrefe
 import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.domain.models.loginResp.LoginUser
-import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.presentation.signup.SignupConfirmNewUserActivity
 import io.paperdb.Paper
 import kotlinx.android.synthetic.main.activity_sign_in.*

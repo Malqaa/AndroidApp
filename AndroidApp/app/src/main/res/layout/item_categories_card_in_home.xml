@@ -16,13 +16,24 @@
             android:background="@color/gray_2"
             android:orientation="vertical">
 
-            <com.joooonho.SelectableRoundedImageView
-                android:id="@+id/category_icon"
+            <RelativeLayout
                 android:layout_width="115dp"
-                android:layout_height="130dp"
-                android:scaleType="centerCrop"
-                app:sriv_border_color="@color/white"
-                />
+                android:layout_height="130dp">
+                <ImageView
+                    android:id="@+id/category_icon"
+                    android:layout_width="115dp"
+                    android:layout_height="130dp"
+                    app:sriv_border_color="@color/white"
+                    />
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true"
+                    android:visibility="gone"
+                    android:id="@+id/progressBar"/>
+            </RelativeLayout>
+
 
             <TextView
                 android:id="@+id/category_name_tv"

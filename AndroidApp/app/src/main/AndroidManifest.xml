@@ -32,9 +32,17 @@
         android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup">
         <activity
+            android:name="com.malka.androidappp.newPhase.presentation.account_fragment.editProfileActivity.EditProfileActivity"
+            android:exported="false" />
+        <activity
             android:name="com.malka.androidappp.newPhase.presentation.myOrderDetails.MyOrderDetailsRequestedFromMeActivity"
             android:exported="false" />
-
+        <activity
+            android:name="com.malka.androidappp.newPhase.presentation.account_fragment.technicalSupportActivity.addTechencalSupport.AddTechnicalSupportMessageActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.malka.androidappp.newPhase.presentation.account_fragment.technicalSupportActivity.listtechincalSupportMessage.TechnicalSupportListActivity"
+            android:exported="false" />
         <activity
             android:name="com.malka.androidappp.newPhase.presentation.shipmentRateActivity.ShipmentRateActivity"
             android:exported="false" />

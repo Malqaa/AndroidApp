@@ -29,6 +29,7 @@ class ProductImagesAdapter(var productImagesList: ArrayList<ProductMediaItemDeta
     override fun onBindViewHolder(holder: ProductImagesViewHolder, position: Int) {
 
         if (productImagesList[position].type==2) {
+
             //video
             Extension.loadThumbnail(
                 context,

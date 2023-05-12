@@ -42,6 +42,7 @@ import com.malka.androidappp.newPhase.domain.models.servicemodels.addtocart.AddT
 import com.malka.androidappp.newPhase.domain.models.servicemodels.favourites.FavouriteObject
 import com.malka.androidappp.newPhase.domain.models.servicemodels.favourites.favouriteadd
 import com.malka.androidappp.newPhase.domain.models.servicemodels.watchlist.watchlistadd
+import com.squareup.picasso.Picasso
 import io.paperdb.Paper
 import kotlinx.android.synthetic.main.alertpopup.view.*
 import kotlinx.android.synthetic.main.progress_bar.view.*
@@ -1017,6 +1018,23 @@ class HelpFunctions {
         }
 
         fun loadCompanyImage(context: Context, iv: ImageView, url: String?) {
+//            Glide.with(context)
+//                .load(url?.replace("http","https"))
+//                .apply(
+//                    RequestOptions()
+//                        .placeholder(R.mipmap.malqa_iconn)
+//                        .error(R.mipmap.malqa_iconn)
+//                )
+//                .into(iv)
+//
+            Picasso.get()
+                .load(url)
+                .placeholder(R.drawable.splash_logo)
+                .error(R.drawable.splash_logo)
+                .into(iv)
+        }
+
+        fun loadImage(context: Context, iv: ImageView, url: String?) {
             Glide.with(context)
                 .load(url)
                 .apply(

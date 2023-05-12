@@ -15,7 +15,7 @@ import com.malka.androidappp.newPhase.domain.models.orderDetailsByMasterID.Order
 import com.malka.androidappp.newPhase.domain.models.orderDetailsByMasterID.OrderDetailsByMasterIDResp
 import com.malka.androidappp.newPhase.domain.models.orderDetailsByMasterID.OrderFullInfoDto
 import com.malka.androidappp.newPhase.domain.models.orderListResp.OrderItem
-import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.presentation.myOrderDetails.adapter.CurrentOrderAdapter
 import com.malka.androidappp.newPhase.presentation.account_fragment.myOrderFragment.MyOrdersViewModel
 import com.malka.androidappp.newPhase.presentation.shipmentRateActivity.ShipmentRateActivity
@@ -134,7 +134,7 @@ class MyOrderDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                 }
             }
         }
-        myOrdersViewModel.cancelOrderRespObserver.observe(this) { resp ->
+        myOrdersViewModel.changeOrderRespObserver.observe(this) { resp ->
             if (resp.status_code == 200) {
                 onRefresh()
                 if (resp.message != null) {
@@ -218,7 +218,7 @@ class MyOrderDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     }
 
     override fun onCancelOrder(position: Int) {
-        myOrdersViewModel.cancelOrder(orderFullInfoDtoList[position].orderId, 6)
+        myOrdersViewModel.cancelOrder(orderFullInfoDtoList[position].orderId, ConstantObjects.orderStatus_client_cancel)
     }
 }
 

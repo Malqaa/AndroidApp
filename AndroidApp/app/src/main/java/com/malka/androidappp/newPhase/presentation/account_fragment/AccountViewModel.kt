@@ -5,9 +5,10 @@ import com.malka.androidappp.newPhase.core.BaseViewModel
 import com.malka.androidappp.newPhase.data.helper.Extension.requestBody
 import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.addWaletTransactionResp.AddWalletTranactionResp
+import com.malka.androidappp.newPhase.domain.models.contauctUsMessage.ContactUsMessageResp
+import com.malka.androidappp.newPhase.domain.models.contauctUsMessage.TechnicalSupportMessageListResp
 import com.malka.androidappp.newPhase.domain.models.productResp.ProductListResp
-import com.malka.androidappp.newPhase.domain.models.productTags.CategoryTagsResp
-import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.domain.models.userPointsDataResp.ConvertMoneyToPointResp
 import com.malka.androidappp.newPhase.domain.models.userPointsDataResp.UserPointDataResp
 import com.malka.androidappp.newPhase.domain.models.walletDetailsResp.WalletDetailsResp
@@ -24,6 +25,8 @@ class AccountViewModel: BaseViewModel()  {
     var addWalletTransactionObserver:MutableLiveData<AddWalletTranactionResp> = MutableLiveData()
     var convertMoneyToPointObserver:MutableLiveData<ConvertMoneyToPointResp> = MutableLiveData()
     var productListObserver:MutableLiveData<ProductListResp> = MutableLiveData()
+    var contactsMessageObserver:MutableLiveData<ContactUsMessageResp> = MutableLiveData()
+    var technicalSupportMessageListObserver:MutableLiveData<TechnicalSupportMessageListResp> = MutableLiveData()
     fun getWalletDetailsInAccountTap(){
       //  isLoading.value = true
         RetrofitBuilder.GetRetrofitBuilder()
@@ -179,6 +182,65 @@ class AccountViewModel: BaseViewModel()  {
                     isLoading.value = false
                     if (response.isSuccessful) {
                         productListObserver.value = response.body()
+                    } else {
+                        errorResponseObserver.value =
+                            getErrorResponse(response.errorBody())
+                    }
+                }
+            })
+    }
+
+    fun addContactUsMessage(typeCommunication:Int,phoneNumber:String,email:String,title:String,message:String,id:Int?){
+        isLoading.value = true
+        val map: HashMap<String, Any> = HashMap()
+        map["typeOfCommunication"] = typeCommunication
+        map["problemTitle"] = title
+        map["mobileNumber"] = phoneNumber
+        map["email"] = email
+        map["meassageDetails"] = message
+        if(id!=null){
+            map["id"] = id
+        }
+
+        RetrofitBuilder.GetRetrofitBuilder()
+            .addEditContactUs(map)
+            .enqueue(object : Callback<ContactUsMessageResp> {
+                override fun onFailure(call: Call<ContactUsMessageResp>, t: Throwable) {
+                    isNetworkFail.value = t !is HttpException
+                    isLoading.value = false
+                }
+
+                override fun onResponse(
+                    call: Call<ContactUsMessageResp>,
+                    response: Response<ContactUsMessageResp>
+                ) {
+                    isLoading.value = false
+                    if (response.isSuccessful) {
+                        contactsMessageObserver.value = response.body()
+                    } else {
+                        errorResponseObserver.value =
+                            getErrorResponse(response.errorBody())
+                    }
+                }
+            })
+    }
+    fun getListContactUs() {
+        isLoading.value = true
+        RetrofitBuilder.GetRetrofitBuilder()
+            .getListContactUs()
+            .enqueue(object : Callback<TechnicalSupportMessageListResp> {
+                override fun onFailure(call: Call<TechnicalSupportMessageListResp>, t: Throwable) {
+                    isNetworkFail.value = t !is HttpException
+                    isLoading.value = false
+                }
+
+                override fun onResponse(
+                    call: Call<TechnicalSupportMessageListResp>,
+                    response: Response<TechnicalSupportMessageListResp>
+                ) {
+                    isLoading.value = false
+                    if (response.isSuccessful) {
+                        technicalSupportMessageListObserver.value = response.body()
                     } else {
                         errorResponseObserver.value =
                             getErrorResponse(response.errorBody())

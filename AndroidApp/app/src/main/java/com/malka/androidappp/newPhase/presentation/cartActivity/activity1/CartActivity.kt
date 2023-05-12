@@ -5,7 +5,6 @@ import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
-import com.google.gson.Gson
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
@@ -15,7 +14,7 @@ import com.malka.androidappp.newPhase.data.helper.shared_preferences.SharedPrefe
 import com.malka.androidappp.newPhase.data.helper.show
 import com.malka.androidappp.newPhase.domain.models.cartListResp.CartProductDetails
 import com.malka.androidappp.newPhase.domain.models.cartListResp.ProductCartItem
-import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.presentation.cartActivity.activity1.adapter.CartAdapter
 import com.malka.androidappp.newPhase.presentation.cartActivity.activity2.AddressPaymentActivity
 import com.malka.androidappp.newPhase.presentation.cartActivity.viewModel.CartViewModel

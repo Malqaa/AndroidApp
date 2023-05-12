@@ -23,7 +23,7 @@ import com.malka.androidappp.newPhase.data.helper.shared_preferences.SharedPrefe
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
 import com.malka.androidappp.newPhase.data.network.service.MalqaApiService
-import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.domain.models.servicemodels.addtocart.InsertToCartRequestModel
 import kotlinx.android.synthetic.main.carspec_card1.*
 import kotlinx.android.synthetic.main.carspec_card5.*

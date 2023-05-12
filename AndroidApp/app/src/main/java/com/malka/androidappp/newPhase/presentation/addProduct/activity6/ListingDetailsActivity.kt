@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import com.hbb20.CountryCodePicker
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseActivity
@@ -13,9 +12,8 @@ import com.malka.androidappp.newPhase.data.helper.hide
 import com.malka.androidappp.newPhase.data.helper.show
 import com.malka.androidappp.newPhase.data.helper.widgets.searchdialog.SearchListItem
 import com.malka.androidappp.newPhase.presentation.addProduct.AddProductObjectData
-import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.presentation.addProduct.ConfirmationAddProductActivity
-import com.malka.androidappp.newPhase.presentation.addProduct.activity1.SearchTagItem
 import com.malka.androidappp.newPhase.presentation.addProduct.viewmodel.AddProductViewModel
 import com.malka.androidappp.newPhase.presentation.dialogsShared.countryDialog.CountryDialog
 import com.malka.androidappp.newPhase.presentation.dialogsShared.neighborhoodDialog.NeighborhoodDialog

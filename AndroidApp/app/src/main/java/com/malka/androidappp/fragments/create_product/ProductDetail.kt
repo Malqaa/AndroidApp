@@ -26,7 +26,7 @@ import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.fragments.create_product.imageslider.ViewPagerAdapter
 import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
 import com.malka.androidappp.newPhase.data.network.service.MalqaApiService
-import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import kotlinx.android.synthetic.main.carspce_card2.*
 import kotlinx.android.synthetic.main.carspec_card1.*
 import kotlinx.android.synthetic.main.carspec_card3.*

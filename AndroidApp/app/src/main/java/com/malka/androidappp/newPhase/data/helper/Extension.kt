@@ -10,11 +10,15 @@ import android.view.View
 import android.widget.ImageView
 import androidx.annotation.Nullable
 import androidx.core.view.isVisible
+import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.presentation.addProduct.AddProductObjectData
+import com.squareup.picasso.Callback
+import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.item_categories_card_in_home.view.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -27,7 +31,7 @@ object Extension {
 
     fun Double.decimalNumberFormat(): String {
 
-        val limit =  3
+        val limit = 3
 
         var aNumber = ""
         try {
@@ -86,43 +90,61 @@ object Extension {
         pb_loading: View? = null,
         onComplete: (() -> Unit)? = null
     ) {
-
-
-        GlideApp.with(context)
-            .load(path).addListener(object : RequestListener<Drawable?> {
-                override fun onLoadFailed(
-                    @Nullable e: GlideException?,
-                    model: Any?,
-                    target: com.bumptech.glide.request.target.Target<Drawable?>?,
-                    isFirstResource: Boolean,
-                ): Boolean {
-                    if (pb_loading != null) {
-                        pb_loading.isVisible=false
-                        onComplete?.invoke()
-                    }
-                    imageView.setImageDrawable(context.getDrawableCompat(R.mipmap.malqa_iconn_round))
-                    return false
+//        Glide.with(context)
+//            .load(path)
+//            .addListener(object : RequestListener<Drawable?> {
+//                override fun onLoadFailed(
+//                    @Nullable e: GlideException?,
+//                    model: Any?,
+//                    target: com.bumptech.glide.request.target.Target<Drawable?>?,
+//                    isFirstResource: Boolean,
+//                ): Boolean {
+//                    //  println("yyyy "+e?.message)
+//                    if (pb_loading != null) {
+//                        pb_loading.isVisible = false
+//                        onComplete?.invoke()
+//                    }
+//                    imageView.setImageDrawable(context.getDrawableCompat(R.mipmap.malqa_iconn_round))
+//                    return false
+//                }
+//
+//                override fun onResourceReady(
+//                    resource: Drawable?,
+//                    model: Any?,
+//                    target: com.bumptech.glide.request.target.Target<Drawable?>?,
+//                    dataSource: DataSource?,
+//                    isFirstResource: Boolean,
+//                ): Boolean {
+//                    println("yyyy ready ")
+//                    if (pb_loading != null) {
+//                        pb_loading.isVisible = false
+//                        onComplete?.invoke()
+//
+//                    }
+//                    return false
+//                }
+//
+//
+//            })
+//            .error(R.mipmap.malqa_iconn)
+//            .into(imageView)
+        pb_loading?.show()
+        var imagePath= if(path==""||path==null) "emptyPath" else path
+        Picasso.get()
+            .load(imagePath)
+            .error(R.drawable.main_logo)
+            .into(imageView, object : Callback {
+                override fun onSuccess() {
+                    pb_loading?.hide()
+                  //  onComplete?.invoke()
                 }
 
-                override fun onResourceReady(
-                    resource: Drawable?,
-                    model: Any?,
-                    target: com.bumptech.glide.request.target.Target<Drawable?>?,
-                    dataSource: DataSource?,
-                    isFirstResource: Boolean,
-                ): Boolean {
-                    if (pb_loading != null) {
-                        pb_loading.isVisible=false
-                        onComplete?.invoke()
-
-                    }
-                    return false
+                override fun onError(e: java.lang.Exception?) {
+                    pb_loading?.hide()
+                   // onComplete?.invoke()
                 }
-
 
             })
-            .error(R.mipmap.malqa_iconn)
-            .into(imageView)
     }
 
     fun Activity.shared(shareBody: String) {

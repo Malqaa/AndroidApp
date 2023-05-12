@@ -15,7 +15,7 @@ import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.data.helper.hide
 import com.malka.androidappp.newPhase.data.helper.show
 import com.malka.androidappp.newPhase.domain.models.productResp.Product
-import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.yariksoffice.lingver.Lingver
 
 
@@ -94,14 +94,15 @@ class ProductHorizontalAdapter(
         }
         holder.viewBinding.titlenamee.text = productList[position].name ?: ""
         holder.viewBinding.cityTv.text = productList[position].regionName ?: ""
-        if (categoryId != 0) {
+
+        if(productList[position].image!=null&&productList[position].image!=""){
             Extension.loadThumbnail(
                 context,
                 productList[position].image ?: "",
                 holder.viewBinding.productimg,
                 holder.viewBinding.loader
             )
-        } else {
+        }else{
             Extension.loadThumbnail(
                 context,
                 productList[position].productImage ?: "",
@@ -109,6 +110,21 @@ class ProductHorizontalAdapter(
                 holder.viewBinding.loader
             )
         }
+//        if (categoryId != 0) {
+//            Extension.loadThumbnail(
+//                context,
+//                productList[position].image ?: "",
+//                holder.viewBinding.productimg,
+//                holder.viewBinding.loader
+//            )
+//        } else {
+//            Extension.loadThumbnail(
+//                context,
+//                productList[position].productImage ?: "",
+//                holder.viewBinding.productimg,
+//                holder.viewBinding.loader
+//            )
+//        }
         holder.viewBinding.LowestPriceLayout.hide()
         holder.viewBinding.LowestPriceLayout2.hide()
         holder.viewBinding.lisView.hide()

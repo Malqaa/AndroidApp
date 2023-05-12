@@ -16,9 +16,8 @@ import com.malka.androidappp.newPhase.domain.models.orderRateResp.RateObject
 import com.malka.androidappp.newPhase.domain.models.orderRateResp.RateProductObject
 import com.malka.androidappp.newPhase.domain.models.orderRateResp.SellerDateDto
 import com.malka.androidappp.newPhase.domain.models.orderRateResp.ShippmentRateDto
-import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import kotlinx.android.synthetic.main.activity_shipment_rate.*
-import kotlinx.android.synthetic.main.fragment_account.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

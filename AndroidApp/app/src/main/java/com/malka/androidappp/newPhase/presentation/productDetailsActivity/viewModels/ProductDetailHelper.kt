@@ -8,7 +8,7 @@ import com.malka.androidappp.newPhase.domain.models.servicemodels.questionModel.
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
 import com.malka.androidappp.newPhase.data.network.service.MalqaApiService
-import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.domain.models.servicemodels.questionModel.ModelPostAns
 import retrofit2.Call
 import retrofit2.Callback

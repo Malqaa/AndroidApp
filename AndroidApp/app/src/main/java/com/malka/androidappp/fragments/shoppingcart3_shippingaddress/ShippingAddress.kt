@@ -14,7 +14,7 @@ import com.malka.androidappp.fragments.shopping_cart2.AdapterShoppingCart2
 import com.malka.androidappp.fragments.shopping_cart2.ModelShoppingcart2
 import com.malka.androidappp.fragments.shoppingcart3_shippingaddress.shipping_addresslist.adapter_shippingaddress.AdapterCartShipppingAdress
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
-import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import kotlinx.android.synthetic.main.fragment_shipping_address.*
 
 

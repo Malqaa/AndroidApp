@@ -222,9 +222,7 @@
     <string name="FixedLenght">
     Fixed Length
   </string>
-    <string name="Home">
-    Home
-  </string>
+    <string name="Home">Home</string>
     <string name="ListingDetails">
     Listing Details
   </string>
@@ -1169,13 +1167,13 @@ Invalid Username or Password
     <string name="Cancel">
     Cancel
   </string>
-  <string name="cancelAshipmentOrder">
+    <string name="cancelAshipmentOrder">
     Cancel a shipment order
   </string>
-  <string name="Canceled">
+    <string name="Canceled">
    shipment has been cancelled
   </string>
-  <string name="download_invoice">Download Invoice</string>
+    <string name="download_invoice">Download Invoice</string>
     <string name="Cash3367annuzhahMakkah">
     Cash, 3367 an, nuzhah, Makkah
   </string>
@@ -1594,9 +1592,7 @@ Invalid Username or Password
     <string name="shipto">
     Ship to
   </string>
-    <string name="Showmore">
-    Show more
-  </string>
+    <string name="Showmore">Show more</string>
     <string name="Start">
     Start
   </string>
@@ -1827,9 +1823,7 @@ Invalid Username or Password
     <string name="Saudiabankdeposit">
     Saudia bank deposit
   </string>
-    <string name="Save">
-    Save
-  </string>
+    <string name="Save">Save</string>
     <string name="SelectDate">
     Select Date
   </string>
@@ -2880,7 +2874,9 @@ Want to start a business account? Create a Business Account
     <string name="we_are_glad_to_contact_you">We are glad to contact you</string>
     <string name="what_kind_of_help_do_you_need">What kind of help do you need?</string>
     <string name="type_of_communication">Type of communication</string>
+    <string name="select_type_of_communication">Select type of communication</string>
     <string name="problem_title">Problem title</string>
+    <string name="enter_problem_title">Enter problem title</string>
     <string name="message_details">Message details</string>
     <string name="send">Send</string>
     <string name="my_personal_settings">My personal settings</string>
@@ -3028,6 +3024,7 @@ Want to start a business account? Create a Business Account
     <string name="discountPriceShouldBeLower">Discount price should be Lower than current price</string>
     <string name="discountAddedSuccessfully">Discount was added Successfully</string>
     <string name="sellerRate">Seller Rates</string>
+    <string name="rateBuyer">Rate Buyer</string>
     <string name="noAddressesFound">No Addresses Found</string>
     <string name="building">Building</string>
     <string name="floor">Floor</string>
@@ -3056,5 +3053,15 @@ Want to start a business account? Create a Business Account
     <string name="happy">Happy</string>
     <string name="satisfied">Satisfied</string>
     <string name="unsatisfied">Unsatisfied</string>
-  <string name="enterAmount">Enter Amount</string>
+    <string name="enterAmount">Enter Amount</string>
+    <string name="suggestions">Suggestions</string>
+    <string name="complaint">Complaint</string>
+    <string name="changeOrderStatus">Change Order Status</string>
+
+    <string name="order_new">New Order</string>
+  <string name="order_productsProcessing">Products Processing</string>
+  <string name="order_deliveryPhase">Delivery Phase</string>
+  <string name="order_deliveryConfirmation">Delivery Confirmation</string>
+  <string name="order_canceledBySeller">Canceled By Seller</string>
+
 </resources>

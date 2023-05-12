@@ -4,11 +4,9 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.malka.androidappp.R
 import com.malka.androidappp.databinding.ItemFilterSpecificationSubItemBinding
-import com.malka.androidappp.newPhase.data.helper.getDrawableCompat
 import com.malka.androidappp.newPhase.domain.models.dynamicSpecification.SubSpecificationItem
-import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 
 class SpecificationSubItemAdapter(
     var subSpecifications: List<SubSpecificationItem>,
@@ -30,7 +28,7 @@ class SpecificationSubItemAdapter(
     override fun getItemCount(): Int = subSpecifications.size
 
     override fun onBindViewHolder(holder: SpecificationSubItemViewHolder, position: Int) {
-        if(ConstantObjects.currentLanguage==ConstantObjects.ARABIC) {
+        if(ConstantObjects.currentLanguage== ConstantObjects.ARABIC) {
             holder.viewBinding.specificationTv.text = subSpecifications[position].nameEn
         }else{
             holder.viewBinding.specificationTv.text = subSpecifications[position].nameAr

@@ -14,7 +14,7 @@ import com.malka.androidappp.newPhase.domain.models.ratingResp.CurrentUserRateRe
 import com.malka.androidappp.newPhase.domain.models.ratingResp.RateResponse
 import com.malka.androidappp.newPhase.domain.models.sellerInfoResp.SellerInfoResp
 import com.malka.androidappp.newPhase.domain.models.sellerRateListResp.SellerRateListResp
-import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.domain.models.servicemodels.GeneralRespone
 import okhttp3.RequestBody
 

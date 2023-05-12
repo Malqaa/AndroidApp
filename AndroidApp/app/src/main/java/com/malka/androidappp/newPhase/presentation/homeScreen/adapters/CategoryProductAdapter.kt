@@ -1,5 +1,6 @@
 package com.malka.androidappp.newPhase.presentation.homeScreen.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -65,6 +66,7 @@ class CategoryProductAdapter(var categoryProductHomeList: ArrayList<CategoryProd
         setHomeProductAdaptor(categoryProductHomeList[position].listProducts, holder.viewBinding.productRcv,categoryProductHomeList[position].catId)
     }
 
+    @SuppressLint("SuspiciousIndentation")
     private fun setHomeProductAdaptor(
         product: List<Product>?,
         productRcv: RecyclerView,
@@ -75,7 +77,7 @@ class CategoryProductAdapter(var categoryProductHomeList: ArrayList<CategoryProd
             porductList.clear()
             porductList.addAll(product)
         }
-      var porductAdatper = ProductHorizontalAdapter(porductList, this,categoryId,true)
+      val porductAdatper = ProductHorizontalAdapter(porductList, this,categoryId,true)
         productRcv.apply {
             adapter = porductAdatper
             layoutManager = linearLayoutManager(RecyclerView.HORIZONTAL)

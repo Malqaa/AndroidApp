@@ -11,7 +11,7 @@ import com.malka.androidappp.newPhase.domain.models.servicemodels.Negotiationmod
 import com.malka.androidappp.newPhase.data.helper.CommonBottomSheet
 import com.malka.androidappp.newPhase.data.helper.hide
 import com.malka.androidappp.newPhase.data.helper.widgets.rcv.GenericListAdapter
-import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import kotlinx.android.synthetic.main.activity_order_detail.*
 import kotlinx.android.synthetic.main.activity_order_detail.order_item
 import kotlinx.android.synthetic.main.item_user_order.view.*

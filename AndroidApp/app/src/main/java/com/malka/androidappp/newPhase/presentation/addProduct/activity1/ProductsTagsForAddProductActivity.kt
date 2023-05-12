@@ -11,7 +11,6 @@ import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.newPhase.presentation.addProduct.AddProductObjectData
 import com.malka.androidappp.newPhase.data.helper.*
-import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
 import com.malka.androidappp.newPhase.domain.models.productTags.Tags
 import com.malka.androidappp.newPhase.presentation.addProduct.activity4.AddPhotoActivity
 import com.malka.androidappp.newPhase.presentation.addProduct.activity2.ChooseCategoryActivity

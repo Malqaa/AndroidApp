@@ -20,15 +20,15 @@ import com.malka.androidappp.newPhase.data.helper.show
 import com.malka.androidappp.newPhase.domain.models.orderListResp.OrderItem
 import com.malka.androidappp.newPhase.domain.models.productResp.Product
 
-import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.presentation.adapterShared.ProductHorizontalAdapter
 import com.malka.androidappp.newPhase.presentation.adapterShared.SetOnProductItemListeners
 import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
-import com.malka.androidappp.newPhase.presentation.myOrderDetails.MyOrderDetailsRequestedFromMeActivity
 import com.malka.androidappp.newPhase.presentation.account_fragment.myOrderFragment.adapter.MyOrdersAdapter
 import com.malka.androidappp.newPhase.presentation.account_fragment.myProducts.dialog.AddDiscountDialog
 import com.malka.androidappp.newPhase.presentation.account_fragment.myProducts.dialog.MyProductSettingDialog
 import com.malka.androidappp.newPhase.presentation.account_fragment.myProducts.viewModel.MyProductViewModel
+import com.malka.androidappp.newPhase.presentation.myOrderDetails.MyOrderDetailsRequestedFromMeActivity
 import com.malka.androidappp.newPhase.presentation.productDetailsActivity.ProductDetailsActivity
 
 import kotlinx.android.synthetic.main.fragment_sold_business.*

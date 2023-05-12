@@ -75,6 +75,7 @@ class OrderProductAdapter(var dataList: ArrayList<OrderProductFullInfoDto>) :Ada
         }
         holder.viewBinding.tvQuentity.text =dataList[position].quantity.toString()
 
+
     }
 
 }

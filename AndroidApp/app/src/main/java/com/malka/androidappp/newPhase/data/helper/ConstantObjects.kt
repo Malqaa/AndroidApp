@@ -1,4 +1,4 @@
-package com.malka.androidappp.newPhase.domain.models.servicemodels
+package com.malka.androidappp.newPhase.data.helper
 
 import android.widget.ImageView
 import com.malka.androidappp.fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ShippingAddressessData
@@ -11,6 +11,7 @@ import com.malka.androidappp.newPhase.domain.models.servicemodels.favourites.Fav
 import com.malka.androidappp.newPhase.domain.models.servicemodels.feedbacks.FeedbackObject
 import com.malka.androidappp.newPhase.domain.models.servicemodels.model.Category
 import com.malka.androidappp.newPhase.domain.models.homeCategoryProductResp.CategoryProductItem
+import com.malka.androidappp.newPhase.domain.models.servicemodels.User
 
 class ConstantObjects {
     companion object {
@@ -23,6 +24,8 @@ class ConstantObjects {
         const val editRateKey: String = "editRateKey"
         const val  addressKey: String = "addressKey"
         const val  orderNumberKey: String = "orderNumberKey"
+        const val idKey:String="idKey"
+        const val objectKey:String="objectKey"
         const val orderItemKey:String="orderItemKey"
         const val orderTypeKey:String="orderTypeKey"
         const val orderMasterIdKey:String="orderMasterIdKey"
@@ -76,5 +79,13 @@ class ConstantObjects {
         const val categoryIdKey: String = "categoryid"
         const val categoryName: String = "categoryName"
         const val isEditKey: String = "isEdit"
+
+
+        const val orderStatus_provider_new=1
+        const val orderStatus_provider_inProgress=8
+        const val orderStatus_provider_inDelivery=3
+        const val orderStatus_provider_finished=5
+        const val orderStatus_provider_cancel=9
+        const val orderStatus_client_cancel=6
     }
 }

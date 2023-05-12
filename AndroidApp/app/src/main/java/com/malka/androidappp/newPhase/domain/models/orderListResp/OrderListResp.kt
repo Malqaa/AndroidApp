@@ -22,6 +22,7 @@ data class OrderItem(
     var providersCount: Int,
     var status: String? = null,
     var createdAt: String? = null,
+    var orderStatus:Int ,
     var clientName: String? = null,
     var shippingAddress: String? = null,
     var requestType: String? = null,

@@ -9,16 +9,10 @@ import com.google.gson.Gson
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.newPhase.data.helper.*
-import com.malka.androidappp.newPhase.data.helper.widgets.searchdialog.SearchListItem
 import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
-import com.malka.androidappp.newPhase.domain.models.ImageSelectModel
-import com.malka.androidappp.newPhase.domain.models.dynamicSpecification.DynamicSpecificationSentObject
-import com.malka.androidappp.newPhase.domain.models.pakatResp.PakatDetails
-import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.domain.models.servicemodels.CreateAdvMainModel
 import com.malka.androidappp.newPhase.domain.models.servicemodels.CreateAdvResponseBack
-import com.malka.androidappp.newPhase.domain.models.servicemodels.Selection
-import com.malka.androidappp.newPhase.domain.models.servicemodels.model.Category
 import com.malka.androidappp.newPhase.presentation.addProduct.activity6.ListingDetailsActivity
 import com.malka.androidappp.newPhase.presentation.addProduct.activity6.PricingActivity
 import com.malka.androidappp.newPhase.presentation.addProduct.activity7.ListingDurationActivity

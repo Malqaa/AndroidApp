@@ -7,7 +7,7 @@ import android.widget.BaseAdapter
 import android.widget.TextView
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.domain.models.dynamicSpecification.SubSpecificationItem
-import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 
 
 class SpinnerVisitAdapter(var context: Context, var types: List<SubSpecificationItem>) :

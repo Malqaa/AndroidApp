@@ -8,7 +8,7 @@ import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.presentation.addProduct.activity2.AdapterAllCategoriesAdapter
 import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
-import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.domain.models.servicemodels.model.Category
 import kotlinx.android.synthetic.main.fragment_favorite_category.*
 import kotlinx.android.synthetic.main.toolbar_main.*

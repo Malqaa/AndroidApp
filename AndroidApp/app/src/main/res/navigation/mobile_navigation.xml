@@ -211,7 +211,7 @@
         tools:layout="@layout/activity_application_setting" />
     <fragment
         android:id="@+id/technicalSupport"
-        android:name="com.malka.androidappp.fragments.TechnicalSupport"
+        android:name="com.malka.androidappp.fragments.TechnicalSupportFragment"
         android:label="Application Setting"
         tools:layout="@layout/activity_application_setting" />
 

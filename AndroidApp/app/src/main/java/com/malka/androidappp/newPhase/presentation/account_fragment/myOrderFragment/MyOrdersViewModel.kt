@@ -18,9 +18,10 @@ class MyOrdersViewModel: BaseViewModel() {
     var currentOrderRespObserver: MutableLiveData<OrderListResp> = MutableLiveData()
     var currentOrderByMusterIdRespObserver: MutableLiveData<OrderDetailsByMasterIDResp> = MutableLiveData()
     var soldOutOrderDetailsByOrderIdRespObserver: MutableLiveData<OrderDetailsResp> = MutableLiveData()
-    var cancelOrderRespObserver: MutableLiveData<GeneralResponse> = MutableLiveData()
+    var changeOrderRespObserver: MutableLiveData<GeneralResponse> = MutableLiveData()
     var isNetworkFailCancel: MutableLiveData<Boolean> = MutableLiveData()
     var errorResponseCancelObserver: MutableLiveData<ErrorResponse> = MutableLiveData()
+
 
 //    fun getSoldOutOrders(pageIndes: Int) {
 //        if (pageIndes == 1)
@@ -170,7 +171,7 @@ class MyOrdersViewModel: BaseViewModel() {
                 ) {
                     isLoading.value = false
                     if (response.isSuccessful) {
-                        cancelOrderRespObserver.value = response.body()
+                        changeOrderRespObserver.value = response.body()
                     } else {
                         errorResponseCancelObserver.value = getErrorResponse(response.errorBody())
                     }

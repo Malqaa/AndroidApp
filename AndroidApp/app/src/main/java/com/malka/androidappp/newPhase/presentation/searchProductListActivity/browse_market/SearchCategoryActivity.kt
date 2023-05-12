@@ -1,12 +1,8 @@
 package com.malka.androidappp.newPhase.presentation.searchProductListActivity.browse_market
 
-import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import android.widget.Filter
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
@@ -17,27 +13,19 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.gson.Gson
 import com.google.gson.TypeAdapter
-import com.google.gson.reflect.TypeToken
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
 import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.newPhase.data.helper.EndlessRecyclerViewScrollListener
-import com.malka.androidappp.newPhase.presentation.searchProductListActivity.browse_market.popup_subcategories_list.ModelAddSearchFav
-import com.malka.androidappp.newPhase.presentation.searchProductListActivity.browse_market.popup_subcategories_list.SubcategoriesDialogFragment
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.data.helper.hide
 import com.malka.androidappp.newPhase.data.helper.show
-import com.malka.androidappp.newPhase.data.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
 import com.malka.androidappp.newPhase.data.network.service.MalqaApiService
 import com.malka.androidappp.newPhase.domain.models.ErrorResponse
 import com.malka.androidappp.newPhase.domain.models.productResp.Product
-import com.malka.androidappp.newPhase.domain.models.servicemodels.CategorySpecification
-import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
-import com.malka.androidappp.newPhase.domain.models.servicemodels.SubSpecification
-import com.malka.androidappp.recycler_browsecat.GenericProductAdapter
-import com.malka.androidappp.newPhase.domain.models.servicemodels.model.Category
 import com.malka.androidappp.newPhase.presentation.adapterShared.ProductHorizontalAdapter
 import com.malka.androidappp.newPhase.presentation.adapterShared.SetOnProductItemListeners
 import com.malka.androidappp.newPhase.presentation.productDetailsActivity.ProductDetailsActivity
@@ -48,11 +36,6 @@ import kotlinx.android.synthetic.main.fragment_browse_market.progressBar
 import kotlinx.android.synthetic.main.fragment_browse_market.progressBarMore
 import kotlinx.android.synthetic.main.fragment_browse_market.swipe_to_refresh
 import kotlinx.android.synthetic.main.fragment_browse_market.tvError
-import kotlinx.android.synthetic.main.fragment_sold_business.*
-import kotlinx.android.synthetic.main.item_filter_specification.*
-import kotlinx.android.synthetic.main.item_filter_specification_sub_item.*
-import kotlinx.android.synthetic.main.item_filtter_sub_category_design.*
-import kotlinx.android.synthetic.main.sub_category_layout.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -102,6 +85,7 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         setProductSearchCategoryAdapter()
         setVeiwClickListeners()
         categoryID = intent.getIntExtra("CategoryID", 0)
+        println("hhhh "+categoryID)
         filterCategoryProductsDialog = FilterCategoryProductsDialog(
             this,
             FilterCategoryProductsDialog.subCategoryType,

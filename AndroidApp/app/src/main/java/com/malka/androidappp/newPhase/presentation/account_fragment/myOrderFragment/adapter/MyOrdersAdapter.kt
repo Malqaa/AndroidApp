@@ -13,6 +13,7 @@ import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.data.helper.hide
 import com.malka.androidappp.newPhase.data.helper.show
 import com.malka.androidappp.newPhase.domain.models.orderListResp.OrderItem
+import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 
 class MyOrdersAdapter(var orderList: List<OrderItem>, var setOnClickListeners:SetOnClickListeners) :
     Adapter<MyOrdersAdapter.SoldOutOrdersViewHolder>() {
@@ -53,7 +54,7 @@ class MyOrdersAdapter(var orderList: List<OrderItem>, var setOnClickListeners:Se
         holder.viewBinding.completeOrderBtn.setOnClickListener {
             setOnClickListeners.onOrderSelected(position)
         }
-
+   ConstantObjects
     }
 
     interface SetOnClickListeners{

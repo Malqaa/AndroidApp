@@ -1,14 +1,8 @@
 package com.malka.androidappp.newPhase.presentation.addProduct.activity8
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.widget.Filter
-import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseActivity
@@ -17,20 +11,14 @@ import com.malka.androidappp.newPhase.presentation.addProduct.AddProductObjectDa
 import com.malka.androidappp.newPhase.data.helper.hide
 import com.malka.androidappp.newPhase.data.helper.linearLayoutManager
 import com.malka.androidappp.newPhase.data.helper.show
-import com.malka.androidappp.newPhase.data.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.newPhase.domain.models.pakatResp.PakatDetails
-import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.domain.models.servicemodels.PromotionModel
 import com.malka.androidappp.newPhase.presentation.addProduct.ConfirmationAddProductActivity
-import com.malka.androidappp.newPhase.presentation.addProduct.activity1.SearchTagItem
 import com.malka.androidappp.newPhase.presentation.addProduct.viewmodel.AddProductViewModel
 import kotlinx.android.synthetic.main.activity_promotional.*
 import kotlinx.android.synthetic.main.activity_promotional.progressBar
-import kotlinx.android.synthetic.main.item_pakat_desgin.view.*
 import kotlinx.android.synthetic.main.toolbar_main.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 
 class PromotionalActivity : BaseActivity(), PakatAdapter.SetOnPakatSelected {

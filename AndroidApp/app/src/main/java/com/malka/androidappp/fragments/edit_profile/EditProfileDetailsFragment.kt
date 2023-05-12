@@ -20,7 +20,7 @@ import com.malka.androidappp.newPhase.domain.models.servicemodels.User
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
 import com.malka.androidappp.newPhase.data.network.service.MalqaApiService
-import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.domain.models.servicemodels.user.UserObject
 import kotlinx.android.synthetic.main.fragment_edit_profile_details.*
 import retrofit2.Call

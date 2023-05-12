@@ -1,7 +1,7 @@
 package com.malka.androidappp.newPhase.data.network.retrofit
 
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
-import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
@@ -13,8 +13,8 @@ class AuthenticationInterceptor : Interceptor {
         var original: Request = chain.request()
         var builder: Request.Builder =
             if (HelpFunctions.isUserLoggedIn()) {
-                println("hhhh "+ConstantObjects.logged_userid)
-                println("hhhh "+ConstantObjects.logged_authtoken)
+                println("hhhh "+ ConstantObjects.logged_userid)
+                println("hhhh "+ ConstantObjects.logged_authtoken)
                 original.newBuilder()
                     .addHeader("User-Language", ConstantObjects.currentLanguage)
                     .addHeader("Provider-Id", ConstantObjects.logged_userid)

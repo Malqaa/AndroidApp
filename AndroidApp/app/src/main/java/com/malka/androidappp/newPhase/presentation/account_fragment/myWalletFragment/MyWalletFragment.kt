@@ -13,7 +13,7 @@ import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.data.helper.hide
 import com.malka.androidappp.newPhase.data.helper.linearLayoutManager
 import com.malka.androidappp.newPhase.data.helper.show
-import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.domain.models.walletDetailsResp.WalletDetails
 import com.malka.androidappp.newPhase.domain.models.walletDetailsResp.WalletTransactionsDetails
 import com.malka.androidappp.newPhase.presentation.account_fragment.AccountViewModel

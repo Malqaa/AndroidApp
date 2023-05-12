@@ -23,7 +23,7 @@ import com.malka.androidappp.newPhase.data.helper.widgets.viewpager2.AutoScrollV
 import com.malka.androidappp.newPhase.domain.models.homeCategoryProductResp.CategoryProductItem
 import com.malka.androidappp.newPhase.domain.models.homeSilderResp.HomeSliderItem
 import com.malka.androidappp.newPhase.domain.models.productResp.Product
-import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.domain.models.servicemodels.model.Category
 import com.malka.androidappp.newPhase.presentation.adapterShared.ProductHorizontalAdapter
 import com.malka.androidappp.newPhase.presentation.adapterShared.SetOnProductItemListeners
@@ -186,7 +186,6 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
             )
             all_categories_recycler.adapter = AdapterAllCategories(
                 ConstantObjects.categoryList,
-                requireContext(),
                 this@HomeFragment
             )
             homeViewModel.getListHomeCategoryProduct()

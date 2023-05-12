@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.data.network.CommonAPI
 import com.malka.androidappp.newPhase.data.helper.GenericAdaptor
-import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.presentation.addressUser.addAddressActivity.AddAddressActivity
 import kotlinx.android.synthetic.main.address_list_fragment.*
 import kotlinx.android.synthetic.main.toolbar_main.*

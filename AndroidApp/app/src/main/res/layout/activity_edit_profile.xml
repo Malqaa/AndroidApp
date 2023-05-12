@@ -59,21 +59,89 @@
                     android:layout_height="match_parent"
                     android:background="@color/line" />
 
-                <EditText
-                    android:id="@+id/PhoneNumber"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
+                <RelativeLayout
                     android:layout_height="match_parent"
-                    android:hint="@string/PhoneNumber"
-                    android:inputType="phone"
+                    android:layout_weight="1"
                     android:layout_gravity="center"
-                    android:layout_marginStart="@dimen/_12sdp"
+                    android:layout_width="0dp">
 
-                    android:background="@null"
-                    app:imeOptions="done"
-                    android:textColor="#808080"
-                    android:textSize="@dimen/_12sdp"
-                    app:startIcon="@drawable/ic_phone" />
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_toStartOf="@+id/right_session">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/tvl_field_phone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_1sdp"
+                            android:hint="@string/PhoneNumber"
+                            app:boxBackgroundMode="none"
+                            app:hintTextColor="@color/hint_color">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etPhoneNumber"
+                                style="@style/addressCompoEditFieldTextStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:importantForAutofill="no"
+                                android:inputType="phone"
+                                android:maxLines="1"
+                                android:paddingTop="@dimen/_5sdp"
+                                android:textColor="#808080"
+                                android:textAlignment="viewStart"
+                                android:textSize="@dimen/_12sdp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </FrameLayout>
+
+                    <LinearLayout
+                        android:id="@+id/right_session"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerInParent="true"
+                        android:orientation="vertical">
+
+                        <com.hbb20.CountryCodePicker
+                            android:id="@+id/countryCodePicker"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            app:ccpDialog_backgroundColor="@color/white"
+                            app:ccpDialog_keyboardAutoPopup="false"
+                            app:ccpDialog_textColor="@color/text_color"
+                            app:ccp_autoFormatNumber="false"
+                            app:ccp_contentColor="@color/text_color"
+                            app:ccp_defaultNameCode="SA"
+                            app:ccp_hintExampleNumber="false"
+                            app:ccp_hintExampleNumberFormat="NATIONAL"
+                            app:ccp_hintExampleNumberType="MOBILE"
+                            app:ccp_rememberLastSelection="false"
+                            app:ccp_showNameCode="false"
+                            app:ccp_showPhoneCode="false" />
+                        <!--
+                          app:ccp_autoDetectCountry="true"
+                         app:ccp_countryAutoDetectionPref="SIM_NETWORK_LOCALE"-->
+
+
+                    </LinearLayout>
+
+
+                </RelativeLayout>
+
+<!--                <EditText-->
+<!--                    android:id="@+id/PhoneNumber"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:hint="@string/PhoneNumber"-->
+<!--                    android:inputType="phone"-->
+<!--                    android:background="@null"-->
+<!--                    app:imeOptions="done"-->
+<!--                    android:textColor="#808080"-->
+<!--                    android:textSize="@dimen/_12sdp"-->
+<!--                    app:startIcon="@drawable/ic_phone" />-->
                 <LinearLayout
 
                     android:id="@+id/reset_btn"
@@ -114,19 +182,19 @@
 
                 <EditText
                     android:id="@+id/textEmail"
-                    android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:hint="@string/Email"
-                    android:inputType="textEmailAddress"
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/_12sdp"
-                    
+                    android:layout_weight="1"
                     android:background="@null"
-                    app:imeOptions="done"
+                    android:hint="@string/Email"
+                    android:inputType="textEmailAddress"
                     android:textColor="#808080"
                     android:textSize="@dimen/_12sdp"
+                    app:imeOptions="done"
                     app:startIcon="@drawable/ic_phone" />
+
                 <LinearLayout
                     android:id="@+id/activate_email"
                     android:layout_width="@dimen/_90sdp"
@@ -166,22 +234,35 @@
                     android:layout_width="@dimen/_1sdp"
                     android:layout_height="match_parent"
                     android:background="@color/line" />
-
-                <EditText
-                    android:id="@+id/password"
-                    android:layout_weight="1"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/etPasswordLayout"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:hint="@string/Password"
-                    android:inputType="textPassword"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="@dimen/_12sdp"
-                    
-                    android:background="@null"
-                    app:imeOptions="done"
-                    android:textColor="#808080"
-                    android:textSize="@dimen/_12sdp"
-                    app:startIcon="@drawable/ic_phone" />
+                    app:hintEnabled="false"
+                    app:boxStrokeWidth="0dp"
+                    android:layout_weight="1"
+                    app:errorIconDrawable="@null"
+                    app:boxStrokeWidthFocused="0dp"
+                    app:passwordToggleEnabled="true">
+                    <EditText
+                        android:id="@+id/password"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="@string/Password"
+                        android:background="@color/white"
+                        android:imeOptions="actionDone"
+                        android:includeFontPadding="false"
+                        android:inputType="textPassword"
+                        android:maxLines="1"
+                        android:padding="13dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginBottom="2dp"
+                        android:textAlignment="viewStart"
+                        android:textColor="#808080"
+                        app:startIcon="@drawable/ic_phone"
+                        android:textSize="16sp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
                 <LinearLayout
                     android:id="@+id/reset_password_btn"
                     android:layout_width="@dimen/_90sdp"

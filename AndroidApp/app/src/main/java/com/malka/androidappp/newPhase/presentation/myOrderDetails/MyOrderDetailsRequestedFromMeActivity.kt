@@ -14,9 +14,10 @@ import com.malka.androidappp.newPhase.domain.models.orderDetails.OrderDetailsDat
 import com.malka.androidappp.newPhase.domain.models.orderDetails.OrderDetailsResp
 import com.malka.androidappp.newPhase.domain.models.orderDetailsByMasterID.OrderProductFullInfoDto
 import com.malka.androidappp.newPhase.domain.models.orderListResp.OrderItem
-import com.malka.androidappp.newPhase.domain.models.servicemodels.ConstantObjects
+import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.presentation.myOrderDetails.adapter.OrderProductAdapter
 import com.malka.androidappp.newPhase.presentation.account_fragment.myOrderFragment.MyOrdersViewModel
+import com.malka.androidappp.newPhase.presentation.myOrderDetails.dialogs.OrderStatusDialog
 import kotlinx.android.synthetic.main.activity_my_order_details_requested_from_me.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 
@@ -27,6 +28,7 @@ class MyOrderDetailsRequestedFromMeActivity : BaseActivity(), SwipeRefreshLayout
     lateinit var productsList: ArrayList<OrderProductFullInfoDto>
     var orderId: Int = 0
     var orderItem: OrderItem? = null
+    lateinit var orderStatusDialog: OrderStatusDialog
 
     //  tap id 1 ,2,3
     private var tapId: Int = 1
@@ -43,11 +45,26 @@ class MyOrderDetailsRequestedFromMeActivity : BaseActivity(), SwipeRefreshLayout
         setOrderDetailsAdapter()
         setupViewModel()
         onRefresh()
+        setUpViewClickListeners()
 
+
+    }
+
+    private fun setUpViewClickListeners() {
         back_btn.setOnClickListener {
             onBackPressed()
         }
+        btnChangeOrderStatus.setOnClickListener {
+            var orderStatusDialog =
+                OrderStatusDialog(this, object : OrderStatusDialog.SetOnSelectOrderStatus {
+                    override fun onSelectOrderStatus(orderStatus: Int) {
+                        myOrdersViewModel.cancelOrder(orderId, orderStatus)
 
+                    }
+
+                })
+            orderStatusDialog.show()
+        }
     }
 
     private fun setOrderDetails(orderItem: OrderItem?) {
@@ -55,14 +72,28 @@ class MyOrderDetailsRequestedFromMeActivity : BaseActivity(), SwipeRefreshLayout
 //            if (tapId == 1) {
 //                order_number_tv.text = "#${orderItem.orderMasterId}"
 //            } else {
-                order_number_tv.text = "#${orderItem.orderId}"
-          //  }
+            order_number_tv.text = "#${orderItem.orderId}"
+            //  }
             tv_request_type.text = orderItem.requestType
             order_time_tv.text = HelpFunctions.getViewFormatForDateTrack(orderItem.createdAt)
             shipments_tv.text = orderItem.providersCount.toString()
             total_order_tv.text =
                 "${orderItem.totalOrderAmountAfterDiscount} ${getString(R.string.rial)}"
-            order_status_tv.text = orderItem.status ?: ""
+            when (orderItem.orderStatus) {
+                ConstantObjects.orderStatus_provider_new -> {
+                    order_status_tv.text = getString(R.string.order_new)
+                }
+                ConstantObjects.orderStatus_provider_inProgress -> {
+                    order_status_tv.text = getString(R.string.order_productsProcessing)
+                }
+                ConstantObjects.orderStatus_provider_inDelivery -> {
+                    order_status_tv.text = getString(R.string.order_deliveryPhase)
+                }
+                ConstantObjects.orderStatus_provider_finished -> {
+                    order_status_tv.text = getString(R.string.order_deliveryConfirmation)
+                }
+            }
+
         }
 
     }
@@ -114,6 +145,20 @@ class MyOrderDetailsRequestedFromMeActivity : BaseActivity(), SwipeRefreshLayout
                 }
             }
         }
+        myOrdersViewModel.changeOrderRespObserver.observe(this) { resp ->
+            if (resp.status_code == 200) {
+                onRefresh()
+                if (resp.message != null) {
+                    HelpFunctions.ShowLongToast(resp.message, this)
+                }
+            } else {
+                if (resp.message != null) {
+                    HelpFunctions.ShowLongToast(resp.message, this)
+                } else {
+                    HelpFunctions.ShowLongToast(getString(R.string.serverError), this)
+                }
+            }
+        }
     }
 
     private fun setOrderData(orderDetailsData: OrderDetailsData?) {
@@ -123,6 +168,21 @@ class MyOrderDetailsRequestedFromMeActivity : BaseActivity(), SwipeRefreshLayout
                 total_tv.text =
                     orderDetailsData.totalOrderPrice!!.toString()
             }
+            when (orderDetailsData.orderStatus) {
+                ConstantObjects.orderStatus_provider_new -> {
+                    order_status_tv.text = getString(R.string.order_new)
+                }
+                ConstantObjects.orderStatus_provider_inProgress -> {
+                    order_status_tv.text = getString(R.string.order_productsProcessing)
+                }
+                ConstantObjects.orderStatus_provider_inDelivery -> {
+                    order_status_tv.text = getString(R.string.order_deliveryPhase)
+                }
+                ConstantObjects.orderStatus_provider_finished -> {
+                    order_status_tv.text = getString(R.string.order_deliveryConfirmation)
+                }
+            }
+
 //            if (it.totalOrderMasterAmountBeforDiscount != null) {
 //                subtotal_tv.text =
 //                    orderDetailsByMasterIDData.totalOrderMasterAmountBeforDiscount!!.toString()
