@@ -13,7 +13,7 @@ import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.domain.models.loginResp.LoginUser
 import com.malka.androidappp.newPhase.data.helper.ConstantObjects
-import com.malka.androidappp.newPhase.presentation.signup.SignupConfirmNewUserActivity
+import com.malka.androidappp.newPhase.presentation.signup.activity1.SignupConfirmNewUserActivity
 import io.paperdb.Paper
 import kotlinx.android.synthetic.main.activity_sign_in.*
 

@@ -2854,6 +2854,7 @@
     <string name="apartmentNumber">رقم الشقة</string>
     <string name="addressTitle">أسم العنوان</string>
     <string name="address">العنوان</string>
+  <string name="addresses">العناوين</string>
     <string name="street">الشارع</string>
     <string name="buildingNumber">رقم البنايه</string>
     <string name="openLocation">الرجاء تفعيل إذن الموقع</string>

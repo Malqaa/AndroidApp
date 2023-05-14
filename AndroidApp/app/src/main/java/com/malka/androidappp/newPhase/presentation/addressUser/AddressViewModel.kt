@@ -16,6 +16,8 @@ import retrofit2.Response
 class AddressViewModel : BaseViewModel() {
     var addUserAddressesListObserver: MutableLiveData<GeneralResponse> = MutableLiveData()
     var userAddressesListObserver: MutableLiveData<UserAddressesResp> = MutableLiveData()
+    var deleteUserAddressesObserver: MutableLiveData<GeneralResponse> = MutableLiveData()
+   var isLoadingDeleteAddress:MutableLiveData<Boolean> = MutableLiveData()
     fun getUserAddress() {
         isLoading.value = true
         RetrofitBuilder.GetRetrofitBuilder()
@@ -23,6 +25,7 @@ class AddressViewModel : BaseViewModel() {
             .enqueue(object : Callback<UserAddressesResp> {
                 override fun onFailure(call: Call<UserAddressesResp>, t: Throwable) {
                     isLoading.value = false
+                    isNetworkFail.value = t !is HttpException
                 }
 
                 override fun onResponse(
@@ -39,6 +42,29 @@ class AddressViewModel : BaseViewModel() {
             })
     }
 
+    fun deleteUSerAddress(addressId:Int) {
+        isLoadingDeleteAddress.value = true
+        RetrofitBuilder.GetRetrofitBuilder()
+            .deleteUserAddress(addressId)
+            .enqueue(object : Callback<GeneralResponse> {
+                override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
+                    isLoadingDeleteAddress.value = false
+                    isNetworkFail.value = t !is HttpException
+                }
+
+                override fun onResponse(
+                    call: Call<GeneralResponse>,
+                    response: Response<GeneralResponse>
+                ) {
+                    isLoadingDeleteAddress.value = false
+                    if (response.isSuccessful) {
+                        deleteUserAddressesObserver.value = response.body()
+                    } else {
+                        errorResponseObserver.value = getErrorResponse(response.errorBody())
+                    }
+                }
+            })
+    }
 
     fun addUserAddress(
         title: String,

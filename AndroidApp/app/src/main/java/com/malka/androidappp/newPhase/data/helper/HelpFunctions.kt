@@ -934,7 +934,7 @@ class HelpFunctions {
                     "(?=.*[a-zA-Z])" +  //any letter
                     // "(?=.*[@#$%^&+=])" +  //at least 1 special character
                     "(?=\\S+$)" +  //no white spaces
-                    ".{4,}" +  //at least 4 characters
+                    ".{6,}" +  //at least 4 characters
                     "$"
         )
 

@@ -1,4 +1,4 @@
-package com.malka.androidappp.newPhase.presentation.cartActivity.activity2.adapter
+package com.malka.androidappp.newPhase.presentation.addressUser.addressListActivity
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -7,12 +7,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
 import com.malka.androidappp.databinding.ItemAddressAddBinding
+import com.malka.androidappp.newPhase.data.helper.hide
+import com.malka.androidappp.newPhase.data.helper.show
 import com.malka.androidappp.newPhase.domain.models.userAddressesResp.AddressItem
 import kotlinx.android.synthetic.main.item_address_add.view.*
 
 class AddressesAdapter(
     var userAddressesList: ArrayList<AddressItem>,
-    var setOnSelectedAddress: SetOnSelectedAddress
+    var setOnSelectedAddress: SetOnSelectedAddress,
+    var isSelectable:Boolean
 ) : RecyclerView.Adapter<AddressesAdapter.AddressesViewHolder>() {
 
     lateinit var context: Context
@@ -45,6 +48,15 @@ class AddressesAdapter(
                     "${context.getString(R.string.building)}:${userAddressesList[position].building} - " +
                     "${context.getString(R.string.floor)}:${userAddressesList[position].floor} - " +
                     "${context.getString(R.string.apartment)}:${userAddressesList[position].appartment}"
+
+        if(isSelectable){
+            holder.viewBinding.ivSelectedAddress.show()
+            holder.viewBinding.btnDeleteAddress.hide()
+        }else{
+            holder.viewBinding.ivSelectedAddress.hide()
+            holder.viewBinding.btnDeleteAddress.show()
+        }
+
         if(userAddressesList[position].isSelected){
             holder.viewBinding.ivSelectedAddress.setImageResource(R.drawable.ic_radio_button_checked)
         }else{
@@ -56,10 +68,14 @@ class AddressesAdapter(
         holder.viewBinding.editAddressBtn.setOnClickListener {
             setOnSelectedAddress.setOnSelectedEditAddress(position)
         }
+        holder.viewBinding.btnDeleteAddress.setOnClickListener {
+            setOnSelectedAddress.onDeleteAddress(position)
+        }
     }
 
     interface SetOnSelectedAddress {
         fun setOnSelectedAddress(position: Int)
         fun setOnSelectedEditAddress(position: Int)
+        fun onDeleteAddress(position: Int)
     }
 }

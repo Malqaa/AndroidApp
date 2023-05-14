@@ -25,6 +25,7 @@ import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.presentation.account_fragment.editProfileActivity.EditProfileActivity
 import com.malka.androidappp.newPhase.presentation.account_fragment.technicalSupportActivity.listtechincalSupportMessage.TechnicalSupportListActivity
 import com.malka.androidappp.newPhase.presentation.addProduct.AccountObject
+import com.malka.androidappp.newPhase.presentation.addressUser.addressListActivity.ListAddressesActivity
 import io.paperdb.Paper
 import kotlinx.android.synthetic.main.account_main_item.view.*
 import kotlinx.android.synthetic.main.account_sub_item.view.*
@@ -288,22 +289,27 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
 //                                                    findNavController().navigate(R.id.negotiationOffer)
 //
 //                                                }
-                                                getString(R.string.edit_profile) -> {
-                                                  //  findNavController().navigate(R.id.editProfile)
-                                                    startActivity(
-                                                        Intent(
-                                                            requireActivity(),
-                                                            EditProfileActivity::class.java
-                                                        )
-                                                    )
-                                                }
+//                                                getString(R.string.edit_profile) -> {
+//                                                  //  findNavController().navigate(R.id.editProfile)
+//                                                    startActivity(
+//                                                        Intent(
+//                                                            requireActivity(),
+//                                                            EditProfileActivity::class.java
+//                                                        )
+//                                                    )
+//                                                }
 //                                                getString(R.string.payment_cards) -> {
 //                                                    findNavController().navigate(R.id.paymentCard)
 //
 //                                                }
-//                                                getString(R.string.save_addresses) -> {
-//                                                    findNavController().navigate(R.id.MySavedAddress)
-//                                                }
+                                                    getString(R.string.save_addresses) -> {
+                                                        startActivity(
+                                                            Intent(
+                                                                requireActivity(),
+                                                                ListAddressesActivity::class.java
+                                                            )
+                                                        )
+                                                    }
                                                     getString(R.string.application_settings) -> {
                                                         findNavController().navigate(R.id.applicationSetting)
 

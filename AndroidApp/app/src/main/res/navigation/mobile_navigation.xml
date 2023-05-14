@@ -183,11 +183,6 @@
         tools:layout="@layout/fragment_sold" />
 
 
-    <fragment
-        android:id="@+id/MySavedAddress"
-        android:name="com.malka.androidappp.newPhase.presentation.addressUser.addressListActivity.AddressList"
-        android:label="Sold"
-        tools:layout="@layout/address_list_fragment" />
 
 
     <fragment

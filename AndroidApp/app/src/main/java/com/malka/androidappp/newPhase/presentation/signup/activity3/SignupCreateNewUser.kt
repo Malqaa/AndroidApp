@@ -1,4 +1,4 @@
-package com.malka.androidappp.newPhase.presentation.signup
+package com.malka.androidappp.newPhase.presentation.signup.activity3
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,7 +9,6 @@ import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.newPhase.data.helper.Extension.getDeviceId
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.data.helper.widgets.DatePickerFragment
-import com.malka.androidappp.newPhase.data.helper.widgets.searchdialog.SearchListItem
 import com.malka.androidappp.newPhase.data.network.constants.Constants
 import com.malka.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.OtpData
 import com.malka.androidappp.newPhase.presentation.dialogsShared.countryDialog.CountryDialog

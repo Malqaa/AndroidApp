@@ -20,7 +20,7 @@ import com.malka.androidappp.newPhase.domain.models.servicemodels.GetAddressResp
 import com.malka.androidappp.newPhase.domain.models.servicemodels.Selection
 import com.malka.androidappp.newPhase.domain.models.userAddressesResp.AddressItem
 
-import com.malka.androidappp.newPhase.presentation.cartActivity.activity2.adapter.AddressesAdapter
+import com.malka.androidappp.newPhase.presentation.addressUser.addressListActivity.AddressesAdapter
 import com.malka.androidappp.newPhase.presentation.cartActivity.activity2.adapter.CartNewAdapter
 import com.malka.androidappp.newPhase.presentation.cartActivity.activity3.SuccessOrderActivity
 import com.malka.androidappp.newPhase.presentation.cartActivity.viewModel.CartViewModel
@@ -357,7 +357,7 @@ class AddressPaymentActivity : BaseActivity(),
 
     private fun setAddressesAdapter() {
         userAddressesList = ArrayList()
-        addressesAdapter = AddressesAdapter(userAddressesList, this)
+        addressesAdapter = AddressesAdapter(userAddressesList, this,true)
         rvAddress.apply {
             adapter = addressesAdapter
             layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
@@ -412,6 +412,10 @@ class AddressPaymentActivity : BaseActivity(),
             putExtra(ConstantObjects.isEditKey, true)
             putExtra(ConstantObjects.addressKey, userAddressesList[position])
         })
+    }
+
+    override fun onDeleteAddress(position: Int) {
+        //not used here
     }
 
     override fun onRefresh() {

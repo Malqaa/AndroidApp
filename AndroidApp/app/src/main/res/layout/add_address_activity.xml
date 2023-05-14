@@ -10,10 +10,32 @@
     <include
         android:id="@+id/toolbar_main"
         layout="@layout/toolbar_main" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_150sdp">
+        <fragment
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_150sdp"
+            tools:context=".view.palmLocation.ShowPalmLocationActivity" />
 
-
-
-
+        <RelativeLayout
+            android:id="@+id/containerLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_10sdp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="@dimen/_10sdp"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:background="@drawable/corner_background">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/my_location_24"/>
+        </RelativeLayout>
+    </RelativeLayout>
 
 
     <ScrollView
@@ -26,32 +48,7 @@
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_10sdp"
             android:orientation="vertical">
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_150sdp"
-                android:layout_margin="@dimen/_20sdp">
-                <fragment
-                    android:id="@+id/map"
-                    android:name="com.google.android.gms.maps.SupportMapFragment"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_150sdp"
-                    tools:context=".view.palmLocation.ShowPalmLocationActivity" />
 
-                <RelativeLayout
-                    android:id="@+id/containerLocation"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/_10sdp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_margin="@dimen/_10sdp"
-                    android:background="@drawable/corner_background">
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/my_location_24"/>
-                </RelativeLayout>
-            </RelativeLayout>
 
             <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/tvAddressTitle"

@@ -553,6 +553,16 @@ interface MalqaApiService {
     fun addEditContactUs(@Body data:HashMap<String,Any>): Call<ContactUsMessageResp>
     @GET("ListContactUs?isAdmin=false")
     fun getListContactUs(): Call<TechnicalSupportMessageListResp>
+
+    @DELETE("RemoveAddressForUser")
+    fun deleteUserAddress(@Query("id") addressID: Int): Call<GeneralResponse>
+
+
+
+
+
+
+
     /***
      * ***********************************
      * ***********************************

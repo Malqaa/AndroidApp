@@ -1,4 +1,4 @@
-package com.malka.androidappp.newPhase.presentation.signup
+package com.malka.androidappp.newPhase.presentation.signup.activity1
 
 import android.content.Intent
 import android.os.Bundle
@@ -15,6 +15,7 @@ import com.malka.androidappp.newPhase.data.helper.HelpFunctions.Companion.PASSWO
 import com.malka.androidappp.newPhase.data.network.constants.Constants
 import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.OtpData
+import com.malka.androidappp.newPhase.presentation.signup.activity2.SignupOTPVerificationActivity
 import com.malka.androidappp.newPhase.presentation.signup.signupViewModel.SignupViewModel
 import com.yariksoffice.lingver.Lingver
 import kotlinx.android.synthetic.main.activity_signup_pg1.*

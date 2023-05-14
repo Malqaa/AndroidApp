@@ -32,6 +32,9 @@
         android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup">
         <activity
+            android:name="com.malka.androidappp.newPhase.presentation.addressUser.addressListActivity.ListAddressesActivity"
+            android:exported="false" />
+        <activity
             android:name="com.malka.androidappp.newPhase.presentation.account_fragment.editProfileActivity.EditProfileActivity"
             android:exported="false" />
         <activity
@@ -160,13 +163,13 @@
             android:name=".newPhase.presentation.loginScreen.SignInActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".newPhase.presentation.signup.SignupConfirmNewUserActivity"
+            android:name=".newPhase.presentation.signup.activity1.SignupConfirmNewUserActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".newPhase.presentation.signup.SignupOTPVerificationActivity"
+            android:name=".newPhase.presentation.signup.activity2.SignupOTPVerificationActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".newPhase.presentation.signup.SignupCreateNewUser"
+            android:name=".newPhase.presentation.signup.activity3.SignupCreateNewUser"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities_main.forgot.ForgotPasswordActivty"
