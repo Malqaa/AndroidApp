@@ -13,14 +13,19 @@ class AuthenticationInterceptor : Interceptor {
         var original: Request = chain.request()
         var builder: Request.Builder =
             if (HelpFunctions.isUserLoggedIn()) {
-                println("hhhh "+ ConstantObjects.logged_userid)
-                println("hhhh "+ ConstantObjects.logged_authtoken)
-                original.newBuilder()
-                    .addHeader("User-Language", ConstantObjects.currentLanguage)
-                    .addHeader("Provider-Id", ConstantObjects.logged_userid)
-                    .addHeader("Authorization", "Bearer ${ConstantObjects.logged_authtoken}")
-
-
+                println("hhhh " + ConstantObjects.logged_userid)
+                println("hhhh " + ConstantObjects.logged_authtoken)
+                if (ConstantObjects.businessAccountUser == null)
+                    original.newBuilder()
+                        .addHeader("User-Language", ConstantObjects.currentLanguage)
+                        .addHeader("Provider-Id", ConstantObjects.logged_userid)
+                        .addHeader("Authorization", "Bearer ${ConstantObjects.logged_authtoken}")
+                else
+                    original.newBuilder()
+                        .addHeader("User-Language", ConstantObjects.currentLanguage)
+                        .addHeader("Provider-Id", ConstantObjects.logged_userid)
+                        .addHeader("Business-Account-Id", ConstantObjects.businessAccountUser!!.businessAccountId.toString())
+                        .addHeader("Authorization", "Bearer ${ConstantObjects.logged_authtoken}")
             } else {
                 original.newBuilder()
                     .addHeader("User-Language", ConstantObjects.currentLanguage)

@@ -24,8 +24,10 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
+import java.nio.file.Files
 
 class ConfirmationAddProductActivity : BaseActivity() {
+
     private lateinit var addProductViewModel: AddProductViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -216,7 +218,8 @@ class ConfirmationAddProductActivity : BaseActivity() {
                 mainIndex = AddProductObjectData.images.indexOf(image).toString()
             }
             listImageFile.add(HelpFunctions.getFileImage(image.uri, this))
-            var bytes=HelpFunctions.getBytesImage(image.uri,this)
+            //var bytes=HelpFunctions.getBytesImage(image.uri,this)
+           var   bytes:ByteArray=HelpFunctions.getFileImage(image.uri, this).readBytes()
             if(bytes!=null){
                 listImageByts.add(bytes)
             }

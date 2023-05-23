@@ -327,7 +327,7 @@ class ListingDetailsActivity : BaseActivity() {
     /**countries , region and Neighborhood Dialogs**/
     private fun openCountryDialog() {
         val countryDialog = CountryDialog(this, object : CountryDialog.GetSelectedCountry {
-            override fun onSelectedCountry(id: Int, countryName: String, countryFlag: String?) {
+            override fun onSelectedCountry(id: Int, countryName: String, countryFlag: String?, countryCode: String?) {
                 /**setCountryData*/
                 /**setCountryData*/
                 selectedCountry = SearchListItem(id, countryName)

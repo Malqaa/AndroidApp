@@ -10,7 +10,10 @@ import androidx.lifecycle.ViewModelProvider
 import com.malka.androidappp.BuildConfig
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseActivity
+import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
+import com.malka.androidappp.newPhase.data.helper.hide
+import com.malka.androidappp.newPhase.data.helper.show
 import com.malka.androidappp.newPhase.data.network.constants.Constants
 import com.malka.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.OtpData
 import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
@@ -18,7 +21,6 @@ import com.malka.androidappp.newPhase.presentation.signup.activity3.SignupCreate
 import com.malka.androidappp.newPhase.presentation.signup.signupViewModel.SignupViewModel
 import com.yariksoffice.lingver.Lingver
 import kotlinx.android.synthetic.main.activity_signup_pg2.*
-import kotlinx.android.synthetic.main.activity_signup_pg2.button3
 
 
 class SignupOTPVerificationActivity : BaseActivity() {
@@ -28,6 +30,7 @@ class SignupOTPVerificationActivity : BaseActivity() {
     private var mTimeLeftInMillis = START_TIME_IN_MILLIS
     private var otpData: OtpData? = null
     private lateinit var signupViewModel: SignupViewModel
+    var expireMinutes: Int = 1
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signup_pg2)
@@ -35,15 +38,15 @@ class SignupOTPVerificationActivity : BaseActivity() {
         otpData = intent.getParcelableExtra(Constants.otpDataKey)
         setupRegisterViewModel()
         setClickListeners()
-
+        resendCodeAfterExpire.hide()
         /***thisForTest*/
         if (BuildConfig.DEBUG) {
             val datacode: String? = otpData?.otpCode
             // println("hhh $datacode")
             pinview.value = datacode!!
         }
+        signupViewModel.getConfigurationResp(ConstantObjects.otpExpiryTime)
 
-        startTimeCounter()
     }
 
     private fun setupRegisterViewModel() {
@@ -69,22 +72,53 @@ class SignupOTPVerificationActivity : BaseActivity() {
 
         })
         signupViewModel.errorResponseObserver.observe(this, Observer {
-            if (it.message != null) {
-                HelpFunctions.ShowLongToast(
-                    it.message!!,
-                    this
-                )
-            } else {
-                HelpFunctions.ShowLongToast(
-                    getString(R.string.serverError),
-                    this
-                )
+            when (it.message) {
+                "OTPExpired" -> {
+                    showError(getString(R.string.CodeExpired))
+                }
+                "OTPWrongTrialsExcced" -> {
+                    showError(getString(R.string.OTPWrongTrialsExcced))
+                }
+                "WrongTrialsLimitexceeds" -> {
+                    showError(getString(R.string.OTPWrongTrialsExcced))
+                }
+                "ResetPasswordCodeExpired" -> {
+
+                }
+                "InvalidOTP" -> {
+                    showError(getString(R.string.InvalidOTP))
+                }
+
+                "CodeNotCorrect" -> {
+                    showError(getString(R.string.InvalidOTP))
+                }
+                "Success" -> {
+                    HelpFunctions.ShowLongToast(
+                        getString(R.string.VerificationSuccessful),
+                        this@SignupOTPVerificationActivity
+                    )
+                    signup2next()
+                }
+                else -> {
+                    if (it.message != null) {
+                        HelpFunctions.ShowLongToast(
+                            it.message!!,
+                            this
+                        )
+                    } else {
+                        HelpFunctions.ShowLongToast(
+                            getString(R.string.serverError),
+                            this
+                        )
+                    }
+                }
             }
 
+
         })
-        signupViewModel.validateAndGenerateOTPObserver.observe(this){validateUserAndGenerateOTP->
+        signupViewModel.validateAndGenerateOTPObserver.observe(this) { validateUserAndGenerateOTP ->
             if (validateUserAndGenerateOTP.otpData != null) {
-                startTimeCounter()
+                startTimeCounter(expireMinutes)
                 button3.isEnabled = true
                 /***thisForTest*/
                 val otppcode = validateUserAndGenerateOTP.otpData!!.otpCode
@@ -98,31 +132,86 @@ class SignupOTPVerificationActivity : BaseActivity() {
                 )
             }
         }
-        signupViewModel.userVerifiedObserver.observe(this){userVerified->
-            if (userVerified.status_code == 200) {
-                HelpFunctions.ShowLongToast(
-                    getString(R.string.VerificationSuccessful),
-                    this@SignupOTPVerificationActivity
-                )
-                signup2next()
-            } else {
-                showError(getString(R.string.serverError))
+        signupViewModel.userVerifiedObserver.observe(this) { userVerified ->
+//         *****      Api response status: *****
+//            ResetPasswordCodeExpired
+//            WrongTrialsLimitexceeds
+//            CodeNotCorrect
+//            Failed
+//            Success
+//          *****  Api resonse status  :****
+//            OTPExpired
+//            OTPWrongTrialsExcced
+//            InvalidOTP
+//            Success
+            println("hhhh "+userVerified.message)
+            when (userVerified.message) {
+                "OTPExpired" -> {
+                    showError(getString(R.string.CodeExpired))
+                }
+                "OTPWrongTrialsExcced" -> {
+                    showError(getString(R.string.OTPWrongTrialsExcced))
+                }
+                "WrongTrialsLimitexceeds" -> {
+                    showError(getString(R.string.OTPWrongTrialsExcced))
+                }
+                "ResetPasswordCodeExpired" -> {
+
+                }
+                "InvalidOTP" -> {
+                    showError(getString(R.string.InvalidOTP))
+                }
+
+                "CodeNotCorrect" -> {
+                    showError(getString(R.string.InvalidOTP))
+                }
+                "Success","Otp verified successfully" -> {
+                    HelpFunctions.ShowLongToast(
+                        getString(R.string.VerificationSuccessful),
+                        this@SignupOTPVerificationActivity
+                    )
+                    signup2next()
+                }
+                else -> {
+                    showError(getString(R.string.serverError))
+                }
             }
 
+        }
+        signupViewModel.configurationRespObserver.observe(this) { configratinoResp ->
+            if (configratinoResp.configurationData != null) {
+                try {
+                    expireMinutes = configratinoResp.configurationData.configValue.toInt()
+                } catch (e: Exception) {
+                }
+                startTimeCounter(expireMinutes)
+            }
         }
     }
 
     /**clickEvents*/
-    fun startTimeCounter() {
-        object : CountDownTimer(START_TIME_IN_MILLIS, 1000) {
+    fun startTimeCounter(expireMinutes: Int) {
+        var expireSeconds = expireMinutes * 60
+        var expireMilliSeconds = expireSeconds * 1000
+        object : CountDownTimer(expireMilliSeconds.toLong(), 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 mTimeLeftInMillis = millisUntilFinished
-                val seconds = (mTimeLeftInMillis / 1000).toInt() % 60
-                countdownTimer.text = getString(R.string.Seconds, seconds)
+                var seconds = (mTimeLeftInMillis / 1000).toInt()
+                val minutes = seconds / 60
+                seconds %= 60
+                var timeText = (String.format("%02d", minutes) + ":" + String.format(
+                    "%02d",
+                    seconds
+                )).toString()
+
+                countdownTimer.text = "${getString(R.string.Seconds2)}: $timeText"
+//                val seconds = (mTimeLeftInMillis / 1000).toInt() % 60
+//                countdownTimer.text = getString(R.string.Seconds, seconds)
 
             }
 
             override fun onFinish() {
+                resendCodeAfterExpire.show()
                 countdownTimer.text = getString(R.string.CodeExpired)
                 button3.isEnabled = false
             }
@@ -130,7 +219,7 @@ class SignupOTPVerificationActivity : BaseActivity() {
         }.start()
     }
 
-   private fun setClickListeners() {
+    private fun setClickListeners() {
         resend_btn.setOnClickListener {
             if (mTimeLeftInMillis >= 1000) {
                 HelpFunctions.ShowLongToast(
@@ -168,6 +257,7 @@ class SignupOTPVerificationActivity : BaseActivity() {
             signupViewModel.verifyOtp(otpData?.phoneNumber.toString(), otpcode.toString())
         }
     }
+
     fun signup2next() {
         val userIdupdate: String? = intent.getStringExtra("userid")
         val intent2 = Intent(this@SignupOTPVerificationActivity, SignupCreateNewUser::class.java)
@@ -188,11 +278,6 @@ class SignupOTPVerificationActivity : BaseActivity() {
         super.finish()
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
     }
-
-
-
-
-
 
 
 //    //////////////////////////////////////Api Post Verify//////////////////////////////////////////////////
@@ -241,8 +326,6 @@ class SignupOTPVerificationActivity : BaseActivity() {
 //    }
 
 
-
-
 //    /**resend OTP*/
 //    fun resendOTPApi() {
 //        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
@@ -275,8 +358,6 @@ class SignupOTPVerificationActivity : BaseActivity() {
 //            }
 //        })
 //    }
-
-
 
 
 //    fun apicallSignup2() {

@@ -40,7 +40,6 @@
                         android:id="@+id/ivUserImage"
                         android:layout_width="@dimen/_54sdp"
                         android:layout_height="@dimen/_54sdp"
-
                         android:src="@mipmap/malqa_iconn_round"/>
                     <ProgressBar
                         android:id="@+id/loader"
@@ -48,7 +47,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_centerHorizontal="true"
-                        android:visibility="gone"
+                        android:indeterminateTint="@color/white"
                         />
                 </RelativeLayout>
 

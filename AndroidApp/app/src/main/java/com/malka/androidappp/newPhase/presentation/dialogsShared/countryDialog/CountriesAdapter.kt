@@ -38,7 +38,7 @@ class CountriesAdapter(
         var countryName:String = countries[position].name
         holder.btnCountry.text = countryName
         holder.btnCountry.setOnClickListener {
-            onCountrySelected.onCountrySelected(countries[position].id,countryName,countries[position].countryFlag)
+            onCountrySelected.onCountrySelected(countries[position].id,countryName,countries[position].countryFlag,countries[position].countryCode)
         }
     }
 
@@ -47,7 +47,7 @@ class CountriesAdapter(
         var btnCountry: TextView = view.findViewById(R.id.btnCity)
     }
     interface OnCountrySelected{
-        public fun onCountrySelected(id:Int, countryName:String, countryFlag: String?)
+        public fun onCountrySelected(id:Int, countryName:String, countryFlag: String?,countryCode:String?)
     }
 
 }

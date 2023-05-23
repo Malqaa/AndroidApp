@@ -16,5 +16,4 @@ data class OtpData(
     var userPass: String? = null,
     var isBusinessAccount: Boolean = false,
     var invitationCode: String
-
     ):Parcelable

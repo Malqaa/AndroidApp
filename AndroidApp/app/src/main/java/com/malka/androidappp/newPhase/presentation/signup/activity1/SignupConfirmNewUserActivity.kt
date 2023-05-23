@@ -15,24 +15,27 @@ import com.malka.androidappp.newPhase.data.helper.HelpFunctions.Companion.PASSWO
 import com.malka.androidappp.newPhase.data.network.constants.Constants
 import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.OtpData
+import com.malka.androidappp.newPhase.presentation.dialogsShared.countryDialog.CountryDialog
 import com.malka.androidappp.newPhase.presentation.signup.activity2.SignupOTPVerificationActivity
 import com.malka.androidappp.newPhase.presentation.signup.signupViewModel.SignupViewModel
+import com.squareup.picasso.Picasso
 import com.yariksoffice.lingver.Lingver
 import kotlinx.android.synthetic.main.activity_signup_pg1.*
 import kotlinx.android.synthetic.main.activity_signup_pg1.userNamee
 
-class SignupConfirmNewUserActivity : BaseActivity() {
+class SignupConfirmNewUserActivity : BaseActivity(), CountryDialog.GetSelectedCountry {
 
-    var isPhoneNumberValid:Boolean=false
-    var isBusinessAccount=false
+    var isPhoneNumberValid: Boolean = false
+    var isBusinessAccount = false
+    lateinit var countryDialog: CountryDialog
     private lateinit var signupViewModel: SignupViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signup_pg1)
-
-        if (ConstantObjects.currentLanguage == ConstantObjects. ENGLISH) {
+        countryDialog = CountryDialog(this, this)
+        if (ConstantObjects.currentLanguage == ConstantObjects.ENGLISH) {
             language_toggle.checkedTogglePosition = 0
         } else {
             language_toggle.checkedTogglePosition = 1
@@ -65,21 +68,53 @@ class SignupConfirmNewUserActivity : BaseActivity() {
             }
 
         })
-        signupViewModel.validateAndGenerateOTPObserver.observe(this, Observer { validateUserAndGenerateOTP ->
-            if (validateUserAndGenerateOTP.otpData != null) {
-                validateUserAndGenerateOTP.otpData!!.userName=userNamee.text.toString().trim()
-                validateUserAndGenerateOTP.otpData!!.userPass=textPass.text.toString().trim()
-                validateUserAndGenerateOTP.otpData!!.userEmail=textEmaill.text.toString().trim()
-                validateUserAndGenerateOTP.otpData!!.isBusinessAccount=isBusinessAccount
-                validateUserAndGenerateOTP.otpData!!.invitationCode=invitation_code.text.toString().trim()
-                goToOTPVerificationScreen(validateUserAndGenerateOTP.otpData!!)
-            } else {
-                HelpFunctions.ShowLongToast(
-                    getString(R.string.serverError),
-                    this
-                )
-            }
-        })
+        signupViewModel.validateAndGenerateOTPObserver.observe(
+            this,
+            Observer { validateUserAndGenerateOTP ->
+//            UsernameExists
+//            PhoneNumberExists
+//            EmailExists
+//            Failed
+//            Success
+                println("hhh " + validateUserAndGenerateOTP.message)
+                when (validateUserAndGenerateOTP.status) {
+                    "UsernameExists" -> {
+                        userNamee.error = getString(R.string.userNameExists)
+                    }
+                    "PhoneNumberExists" -> {
+                        textEmaill.error = getString(R.string.userPhoneExists)
+                    }
+                    "EmailExists" -> {
+                        textEmaill.error = getString(R.string.userEmailExists)
+                    }
+                    "Success" -> {
+                        validateUserAndGenerateOTP.otpData!!.userName =
+                            userNamee.text.toString().trim()
+                        validateUserAndGenerateOTP.otpData!!.userPass =
+                            textPass.text.toString().trim()
+                        validateUserAndGenerateOTP.otpData!!.userEmail =
+                            textEmaill.text.toString().trim()
+                        validateUserAndGenerateOTP.otpData!!.isBusinessAccount = isBusinessAccount
+                        validateUserAndGenerateOTP.otpData!!.invitationCode =
+                            invitation_code.text.toString().trim()
+                        goToOTPVerificationScreen(validateUserAndGenerateOTP.otpData!!)
+                    }
+                    else -> {
+                        if (validateUserAndGenerateOTP.message != null) {
+                            HelpFunctions.ShowLongToast(
+                                validateUserAndGenerateOTP.message!!,
+                                this
+                            )
+                        } else {
+                            HelpFunctions.ShowLongToast(
+                                getString(R.string.serverError),
+                                this
+                            )
+                        }
+                    }
+                }
+
+            })
         signupViewModel.errorResponseObserver.observe(this, Observer {
             if (it.message != null) {
                 HelpFunctions.ShowLongToast(
@@ -104,7 +139,11 @@ class SignupConfirmNewUserActivity : BaseActivity() {
         btnLogin.setOnClickListener {
             onBackPressed()
         }
+        right_session2.setOnClickListener {
+            countryDialog.show()
+        }
     }
+
     private fun setupCountryCodePiker() {
         if (Lingver.getInstance().getLanguage() == ConstantObjects.ARABIC) {
             countryCodePicker.changeDefaultLanguage(CountryCodePicker.Language.ARABIC)
@@ -120,34 +159,44 @@ class SignupConfirmNewUserActivity : BaseActivity() {
             etPhoneNumber.text = Editable.Factory.getInstance().newEditable("")
         }
     }
+
     fun SignuuPg1confirmInput(v: View) {
         if (!validateSignupEmail() or !validateSignupPassword()
             or !validateNumber() or !validateSignupConfrmPassword() or
-            !validateSignupUser() ) {
+            !validateSignupUser()
+        ) {
             return
         } else {
-            if(switch_term_condition._getChecked()){
+            if (switch_term_condition._getChecked()) {
                 //apicallcreateuser()
+//                signupViewModel.validateUserAndGenerateOTP(
+//                    userNamee.text.toString().trim(),
+//                    textEmaill.text.toString().trim(),
+//                    countryCodePicker.fullNumberWithPlus,
+//                    Lingver.getInstance().getLanguage()
+//                )
                 signupViewModel.validateUserAndGenerateOTP(
                     userNamee.text.toString().trim(),
                     textEmaill.text.toString().trim(),
-                    countryCodePicker.fullNumberWithPlus,
+                    "${tvCode.text}${etPhoneNumber.text.toString().trim()}",
                     Lingver.getInstance().getLanguage()
                 )
 
-            }else{
-                showError(getString(R.string.Please_select,getString(R.string.term_condition)))
+            } else {
+                showError(getString(R.string.Please_select, getString(R.string.term_condition)))
             }
 
         }
 
     }
+
     private fun goToOTPVerificationScreen(otpData: OtpData) {
         val intent = Intent(this, SignupOTPVerificationActivity::class.java)
         intent.putExtra(Constants.otpDataKey, otpData)
         startActivity(intent)
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
     }
+
     /**Validation**/
     //Email Validation
     private fun validateSignupEmail(): Boolean {
@@ -164,6 +213,7 @@ class SignupConfirmNewUserActivity : BaseActivity() {
             true
         }
     }
+
     //PassswordValidation
     private fun validateSignupPassword(): Boolean {
         val passwordInput = textPass!!.text.toString().trim { it <= ' ' }
@@ -178,25 +228,29 @@ class SignupConfirmNewUserActivity : BaseActivity() {
             true
         }
     }
+
     //phone no validation///
     private fun validateNumber(): Boolean {
         val numberInput =
             etPhoneNumber!!.text.toString().trim { it <= ' ' }
         return if (numberInput.isEmpty()) {
-            tv_phone_error.visibility=View.VISIBLE
+            tv_phone_error.visibility = View.VISIBLE
             tv_phone_error.text = getString(R.string.Fieldcantbeempty)
             false
-        } else if(!isPhoneNumberValid){
-            tv_phone_error.visibility=View.VISIBLE
-            tv_phone_error.text = getString(R.string.PleaseenteravalidPhoneNumber)
-            false
-        }else{
+        }
+//        else if (!isPhoneNumberValid) {
+//            tv_phone_error.visibility = View.VISIBLE
+//            tv_phone_error.text = getString(R.string.PleaseenteravalidPhoneNumber)
+//            false
+//        }
+        else {
             tv_phone_error.text = null
-            tv_phone_error.visibility=View.GONE
+            tv_phone_error.visibility = View.GONE
             true
         }
 
     }
+
     //confirmpass validation
     private fun validateSignupConfrmPassword(): Boolean {
         val passwordInput = textPass!!.text.toString().trim { it <= ' ' }
@@ -212,6 +266,7 @@ class SignupConfirmNewUserActivity : BaseActivity() {
             true
         }
     }
+
     //User Validation
     private fun validateSignupUser(): Boolean {
         val Input =
@@ -227,7 +282,8 @@ class SignupConfirmNewUserActivity : BaseActivity() {
             true
         }
     }
-     /***/
+
+    /***/
     fun signuppg1prev(view: View) {
         onBackPressed()
         finish()
@@ -236,6 +292,19 @@ class SignupConfirmNewUserActivity : BaseActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
         finish()
+    }
+
+    override fun onSelectedCountry(
+        id: Int,
+        countryName: String,
+        countryFlag: String?,
+        countryCode: String?
+    ) {
+        tvCode.text = countryCode
+        ivFlag.setImageDrawable(null);
+        Picasso.get()
+            .load(countryFlag)
+            .into(ivFlag)
     }
 
 //    private fun persistImage(bitmap: Bitmap, name: String) :File?{

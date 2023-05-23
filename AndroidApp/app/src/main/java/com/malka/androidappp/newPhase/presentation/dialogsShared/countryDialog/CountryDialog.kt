@@ -112,11 +112,11 @@ class CountryDialog(context: Context, var getSelectedCountry: GetSelectedCountry
 
 
     interface GetSelectedCountry {
-        fun onSelectedCountry(id: Int, countryName: String, countryFlag: String?)
+        fun onSelectedCountry(id: Int, countryName: String, countryFlag: String?,countryCode:String?)
     }
 
-    override fun onCountrySelected(id: Int, countryName: String, countryFlag: String?) {
-        getSelectedCountry.onSelectedCountry(id, countryName, countryFlag)
+    override fun onCountrySelected(id: Int, countryName: String, countryFlag: String?,countryCode:String?) {
+        getSelectedCountry.onSelectedCountry(id, countryName, countryFlag,countryCode)
         dismiss()
     }
 

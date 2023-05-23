@@ -108,7 +108,7 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities_main.business_signup.Switch_Account"
+            android:name="com.malka.androidappp.newPhase.presentation.account_fragment.businessAccount.businessAccountsList.SwitchAccountActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity
@@ -138,13 +138,13 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".fragments.activities_main.business_signup.BusinessAccountCreate"
+            android:name=".newPhase.presentation.account_fragment.businessAccount.addBusinessAccount.BusinessAccountCreateActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities_main.forgot.ForgotChangepassActivity"
+            android:name="com.malka.androidappp.newPhase.presentation.forgotPasswordActivity.ForgotChangepassActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities_main.forgot.ActivityForgotPassOtpcode"
+            android:name="com.malka.androidappp.newPhase.presentation.forgotPasswordActivity.activity2.ActivityForgotPassOtpcode"
             android:screenOrientation="portrait" />
         <activity
             android:name=".newPhase.presentation.splashActivity.SplashActivity"
@@ -155,6 +155,13 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".newPhase.presentation.signup.activity3.SignupCreateNewUser"
+            android:screenOrientation="portrait"
+            android:exported="true">
+
         </activity>
         <activity
             android:name=".newPhase.presentation.MainActivity"
@@ -168,11 +175,9 @@
         <activity
             android:name=".newPhase.presentation.signup.activity2.SignupOTPVerificationActivity"
             android:screenOrientation="portrait" />
+
         <activity
-            android:name=".newPhase.presentation.signup.activity3.SignupCreateNewUser"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activities_main.forgot.ForgotPasswordActivty"
+            android:name="com.malka.androidappp.newPhase.presentation.forgotPasswordActivity.activtiy1.ForgotPasswordActivty"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.malka.androidappp.newPhase.presentation.addProduct.activity1.ProductsTagsForAddProductActivity"
@@ -221,6 +226,15 @@
         <activity
             android:name="com.malka.androidappp.newPhase.presentation.addressUser.addAddressActivity.AddAddressActivity"
             android:screenOrientation="portrait" />
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.malka.androidappp"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
     </application>
 
 </manifest>

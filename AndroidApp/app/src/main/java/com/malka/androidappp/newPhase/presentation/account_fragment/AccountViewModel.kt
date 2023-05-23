@@ -9,26 +9,60 @@ import com.malka.androidappp.newPhase.domain.models.contauctUsMessage.ContactUsM
 import com.malka.androidappp.newPhase.domain.models.contauctUsMessage.TechnicalSupportMessageListResp
 import com.malka.androidappp.newPhase.domain.models.productResp.ProductListResp
 import com.malka.androidappp.newPhase.data.helper.ConstantObjects
+import com.malka.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
 import com.malka.androidappp.newPhase.domain.models.userPointsDataResp.ConvertMoneyToPointResp
 import com.malka.androidappp.newPhase.domain.models.userPointsDataResp.UserPointDataResp
 import com.malka.androidappp.newPhase.domain.models.walletDetailsResp.WalletDetailsResp
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.HttpException
 import retrofit2.Response
+import java.io.File
 
-class AccountViewModel: BaseViewModel()  {
+class AccountViewModel : BaseViewModel() {
 
-    var walletDetailsObserver:MutableLiveData<WalletDetailsResp> = MutableLiveData()
-    var userPointsDetailsObserver:MutableLiveData<UserPointDataResp> = MutableLiveData()
-    var addWalletTransactionObserver:MutableLiveData<AddWalletTranactionResp> = MutableLiveData()
-    var convertMoneyToPointObserver:MutableLiveData<ConvertMoneyToPointResp> = MutableLiveData()
-    var productListObserver:MutableLiveData<ProductListResp> = MutableLiveData()
-    var contactsMessageObserver:MutableLiveData<ContactUsMessageResp> = MutableLiveData()
-    var technicalSupportMessageListObserver:MutableLiveData<TechnicalSupportMessageListResp> = MutableLiveData()
-    fun getWalletDetailsInAccountTap(){
-      //  isLoading.value = true
+    var walletDetailsObserver: MutableLiveData<WalletDetailsResp> = MutableLiveData()
+    var userPointsDetailsObserver: MutableLiveData<UserPointDataResp> = MutableLiveData()
+    var addWalletTransactionObserver: MutableLiveData<AddWalletTranactionResp> = MutableLiveData()
+    var convertMoneyToPointObserver: MutableLiveData<ConvertMoneyToPointResp> = MutableLiveData()
+    var productListObserver: MutableLiveData<ProductListResp> = MutableLiveData()
+    var contactsMessageObserver: MutableLiveData<ContactUsMessageResp> = MutableLiveData()
+    var technicalSupportMessageListObserver: MutableLiveData<TechnicalSupportMessageListResp> =
+        MutableLiveData()
+    var editProfileObserver: MutableLiveData<GeneralResponse> = MutableLiveData()
+    fun editProfile(file: File) {
+        isLoading.value = true
+        var requestbody:RequestBody=file.asRequestBody("image/*".toMediaTypeOrNull())
+        var multipartBody :MultipartBody.Part=MultipartBody.Part.createFormData("imgProfile",file.name,requestbody)
+        RetrofitBuilder.GetRetrofitBuilder()
+            .editProfileImage(multipartBody)
+            .enqueue(object : Callback<GeneralResponse> {
+                override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
+                    isNetworkFail.value = t !is HttpException
+                    isLoading.value = false
+                }
+
+                override fun onResponse(
+                    call: Call<GeneralResponse>,
+                    response: Response<GeneralResponse>
+                ) {
+                    isLoading.value = false
+                    if (response.isSuccessful) {
+                        editProfileObserver.value = response.body()
+                    } else {
+                        errorResponseObserver.value =
+                            getErrorResponse(response.errorBody())
+                    }
+                }
+            })
+    }
+
+    fun getWalletDetailsInAccountTap() {
+        //  isLoading.value = true
         RetrofitBuilder.GetRetrofitBuilder()
             .getWalletDetails()
             .enqueue(object : Callback<WalletDetailsResp> {
@@ -45,8 +79,9 @@ class AccountViewModel: BaseViewModel()  {
                 }
             })
     }
-    fun getWalletDetailsInWallet(){
-          isLoading.value = true
+
+    fun getWalletDetailsInWallet() {
+        isLoading.value = true
         RetrofitBuilder.GetRetrofitBuilder()
             .getWalletDetails()
             .enqueue(object : Callback<WalletDetailsResp> {
@@ -69,7 +104,8 @@ class AccountViewModel: BaseViewModel()  {
                 }
             })
     }
-    fun addWalletTransaction( transactionType:String, amount:String){
+
+    fun addWalletTransaction(transactionType: String, amount: String) {
         isLoading.value = true
         val map: HashMap<String, RequestBody> = HashMap()
         map["TransactionSource"] = ConstantObjects.transactionSource_chargeWallet.requestBody()
@@ -97,7 +133,8 @@ class AccountViewModel: BaseViewModel()  {
                 }
             })
     }
-    fun getUserPointDetailsInAccountTap(){
+
+    fun getUserPointDetailsInAccountTap() {
         //  isLoading.value = true
         RetrofitBuilder.GetRetrofitBuilder()
             .getUserPointsTransactions()
@@ -115,7 +152,8 @@ class AccountViewModel: BaseViewModel()  {
                 }
             })
     }
-    fun getUserPointDetailsInWallet(){
+
+    fun getUserPointDetailsInWallet() {
         isLoading.value = true
         RetrofitBuilder.GetRetrofitBuilder()
             .getUserPointsTransactions()
@@ -190,7 +228,14 @@ class AccountViewModel: BaseViewModel()  {
             })
     }
 
-    fun addContactUsMessage(typeCommunication:Int,phoneNumber:String,email:String,title:String,message:String,id:Int?){
+    fun addContactUsMessage(
+        typeCommunication: Int,
+        phoneNumber: String,
+        email: String,
+        title: String,
+        message: String,
+        id: Int?
+    ) {
         isLoading.value = true
         val map: HashMap<String, Any> = HashMap()
         map["typeOfCommunication"] = typeCommunication
@@ -198,7 +243,7 @@ class AccountViewModel: BaseViewModel()  {
         map["mobileNumber"] = phoneNumber
         map["email"] = email
         map["meassageDetails"] = message
-        if(id!=null){
+        if (id != null) {
             map["id"] = id
         }
 
@@ -224,6 +269,7 @@ class AccountViewModel: BaseViewModel()  {
                 }
             })
     }
+
     fun getListContactUs() {
         isLoading.value = true
         RetrofitBuilder.GetRetrofitBuilder()

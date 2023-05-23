@@ -1,4 +1,4 @@
-package com.malka.androidappp.fragments.activities_main.business_signup
+package com.malka.androidappp.newPhase.presentation.account_fragment.businessAccount.addBusinessAccount
 
 import android.Manifest
 import android.app.Activity
@@ -42,7 +42,7 @@ import com.zfdang.multiple_images_selector.SelectorSettings
 import kotlinx.android.synthetic.main.activity_business_signup.*
 
 
-class BusinessAccountCreate : BaseActivity() {
+class BusinessAccountCreateActivity : BaseActivity() {
     var youtube = false
     var twitter = false
     var whatsApp = false
@@ -254,13 +254,13 @@ class BusinessAccountCreate : BaseActivity() {
 
     private fun checkLocationPermission() {
         if (ContextCompat.checkSelfPermission(
-                this@BusinessAccountCreate,
+                this@BusinessAccountCreateActivity,
                 Manifest.permission.ACCESS_FINE_LOCATION
             )
             != PackageManager.PERMISSION_GRANTED
         ) {
             ActivityCompat.requestPermissions(
-                this@BusinessAccountCreate,
+                this@BusinessAccountCreateActivity,
                 arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                 PERMISSION_REQUEST_ACCESS_FINE_LOCATION
             )
@@ -271,7 +271,7 @@ class BusinessAccountCreate : BaseActivity() {
     }
 
     private fun openPlacePicker() {
-        val intent = Intent(this@BusinessAccountCreate, LocationPickerActivity::class.java)
+        val intent = Intent(this@BusinessAccountCreateActivity, LocationPickerActivity::class.java)
         chooseLocationLuncher.launch(intent)
     }
 
@@ -414,7 +414,7 @@ class BusinessAccountCreate : BaseActivity() {
             ) {
                 HelpFunctions.dismissProgressBar()
 
-                Toast.makeText(this@BusinessAccountCreate, "${t.message}", Toast.LENGTH_LONG).show()
+                Toast.makeText(this@BusinessAccountCreateActivity, "${t.message}", Toast.LENGTH_LONG).show()
             }
 
             override fun onResponse(
@@ -434,7 +434,7 @@ class BusinessAccountCreate : BaseActivity() {
                             HelpFunctions.dismissProgressBar()
 
                             Toast.makeText(
-                                this@BusinessAccountCreate,
+                                this@BusinessAccountCreateActivity,
                                 respone.message,
                                 Toast.LENGTH_LONG
                             ).show()
@@ -672,7 +672,7 @@ class BusinessAccountCreate : BaseActivity() {
                         val resolvable =
                             exception as ResolvableApiException
                         resolvable.startResolutionForResult(
-                            this@BusinessAccountCreate,
+                            this@BusinessAccountCreateActivity,
                             REQUEST_GPS_SETTINGS
                         )
                     } catch (e: IntentSender.SendIntentException) {
@@ -712,7 +712,7 @@ class BusinessAccountCreate : BaseActivity() {
             ) {
                 HelpFunctions.dismissProgressBar()
 
-                Toast.makeText(this@BusinessAccountCreate, "${t.message}", Toast.LENGTH_LONG).show()
+                Toast.makeText(this@BusinessAccountCreateActivity, "${t.message}", Toast.LENGTH_LONG).show()
             }
 
             override fun onResponse(
@@ -731,7 +731,7 @@ class BusinessAccountCreate : BaseActivity() {
                             finish()
 
                             Toast.makeText(
-                                this@BusinessAccountCreate,
+                                this@BusinessAccountCreateActivity,
                                 respone.message,
                                 Toast.LENGTH_LONG
 
@@ -741,7 +741,7 @@ class BusinessAccountCreate : BaseActivity() {
                             HelpFunctions.dismissProgressBar()
 
                             Toast.makeText(
-                                this@BusinessAccountCreate,
+                                this@BusinessAccountCreateActivity,
                                 respone.message,
                                 Toast.LENGTH_LONG
                             ).show()

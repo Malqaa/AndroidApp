@@ -1,7 +1,6 @@
 package com.malka.androidappp.newPhase.domain.models.pakatResp
 
 import com.google.gson.annotations.SerializedName
-import com.malka.androidappp.newPhase.domain.models.loginResp.LoginUser
 
 data class PakatResp(
     val code: String? = null,

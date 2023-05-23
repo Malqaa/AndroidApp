@@ -133,9 +133,7 @@
     <string name="Step">
     Step
   </string>
-    <string name="Username">
-    Username
-  </string>
+    <string name="Username">Username</string>
     <string name="wellsendpasswordresetinstructions.">
     we\'ll send password reset instructions.
   </string>
@@ -2188,6 +2186,8 @@ Business name must have atleast 3 characters
     <string name="OTPwillexpirein">OTP will expire in</string>
 
     <string name="CodeExpired">Code Expired</string>
+    <string name="OTPWrongTrialsExcced">OTP Wrong Trials Exceeded</string>
+    <string name="InvalidOTP">Invalid OTP</string>
 
     <string name="NEXT">NEXT</string>
 
@@ -2412,7 +2412,8 @@ Want to start a business account? Create a Business Account
 
     <string name="VerificationFailed">Verification Failed!...Resend Code</string>
 
-    <string name="Seconds">Resend the code after: %1$d seconds</string>
+    <string name="Seconds">Resend the code after: %1$s seconds</string>
+    <string name="Seconds2">Resend the code after: </string>
     <string name="seconds60">60 seconds</string>
 
     <string name="Pleaseselectagender">Please select a gender</string>
@@ -3033,7 +3034,7 @@ Want to start a business account? Create a Business Account
     <string name="apartment">Apartment</string>
     <string name="addressTitle">Address Title</string>
     <string name="address">Address</string>
-  <string name="addresses">Addresses</string>
+    <string name="addresses">Addresses</string>
     <string name="street">Street</string>
     <string name="buildingNumber">Building Number</string>
     <string name="openLocation">Please open  location permission</string>
@@ -3060,9 +3061,24 @@ Want to start a business account? Create a Business Account
     <string name="changeOrderStatus">Change Order Status</string>
 
     <string name="order_new">New Order</string>
-  <string name="order_productsProcessing">Products Processing</string>
-  <string name="order_deliveryPhase">Delivery Phase</string>
-  <string name="order_deliveryConfirmation">Delivery Confirmation</string>
-  <string name="order_canceledBySeller">Canceled By Seller</string>
-
+    <string name="order_productsProcessing">Products Processing</string>
+    <string name="order_deliveryPhase">Delivery Phase</string>
+    <string name="order_deliveryConfirmation">Delivery Confirmation</string>
+    <string name="order_canceledBySeller">Canceled By Seller</string>
+    <string name="noAccountFound">No Accounts Found</string>
+  <string name="userNameExists">User Name Exists</string>
+  <string name="userEmailExists">Email Exists</string>
+  <string name="userPhoneExists">Phone Number Exists</string>
+  <string name="takePhoto">Take Photo</string>
+  <string name="deletePhoto">Delete Photo</string>
+  //====attach file dialog
+  <string name="addFiles">Add file</string>
+  <string name="selectImage">Select Image</string>
+  <string name="selectFile">Select File PDF</string>
+  <string name="pickRightImage">Please choose the image again</string>
+  <string name="error_happened">Error happened</string>
+  <string name="notsupportedExtension">Not supported file.</string>
+  <string name="noApp">There is no app to open this file.</string>
+  <string name="fromCamera">From Camera</string>
+  <string name="fromGallery">From Gallery</string>
 </resources>

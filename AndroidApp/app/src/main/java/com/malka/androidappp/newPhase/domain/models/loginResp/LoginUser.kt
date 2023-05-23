@@ -2,9 +2,11 @@ package com.malka.androidappp.newPhase.domain.models.loginResp
 
 data class LoginUser(
     val activeCode: Boolean,
+    val businessAccounts: List<BusinessAccountsDetails>?=null,
     val closeNotify: Boolean,
     val code: Int,
-    val countryId: Any,
+    val countryId: Int,
+    val createdAt: String?=null,
     val dateOfBirth: String?=null,
     val districtName: String?=null,
     val email: String?=null,
@@ -13,25 +15,23 @@ data class LoginUser(
     val id: String,
     val img: String?=null,
     val invitationCode: String?=null,
-    val isBusinessAccount: Boolean,
-    val lang: Any,
+    val lang:  String?=null,
     val lastName: String?=null,
     val membershipNumber: Int,
-    val neighborhoodId: Any,
+    val neighborhoodId: Int,
     val password: String?=null,
-    val phone: String?=null,
+    val phone:String?=null,
     val rate: Int,
-    val regoinId: Any,
+    val regionId: Int,
     val streetNumber: String?=null,
     val token: String?=null,
     val typeUser: Int,
     val userName: String?=null,
-    val zipCode: String?=null,
-    val createdAt:String?=null,
+    val zipCode: String?=null
 )
-{
-    val fullName:String
-        get() {
-            return "$firstName $lastName"
-        }
-}
+
+data class BusinessAccountsDetails(
+    var businessAccountId: Int,
+    var businessAccountName: String? = null,
+    var providerId: String? = null,
+)

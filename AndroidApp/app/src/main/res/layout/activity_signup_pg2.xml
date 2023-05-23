@@ -49,6 +49,7 @@
                 app:cursorVisible="false"
                 app:forceKeyboard="true"
                 app:hint=""
+                android:layoutDirection="ltr"
                 app:inputType="number"
                 app:password="false"
                 app:pinBackground="@drawable/edittext_bg"
@@ -67,8 +68,8 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-
                 android:layout_height="wrap_content"
+                android:id="@+id/resendCodeAfterExpire"
                 android:layout_marginTop="@dimen/_10sdp">
 
                 <TextView

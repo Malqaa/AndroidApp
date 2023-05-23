@@ -1,38 +1,63 @@
 package com.malka.androidappp.newPhase.presentation.signup.activity3
 
+import android.Manifest
+import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Matrix
+import android.net.Uri
 import android.os.Bundle
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
+import com.google.gson.Gson
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseActivity
+import com.malka.androidappp.newPhase.data.helper.*
 import com.malka.androidappp.newPhase.data.helper.Extension.getDeviceId
-import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.data.helper.widgets.DatePickerFragment
 import com.malka.androidappp.newPhase.data.network.constants.Constants
+import com.malka.androidappp.newPhase.domain.models.servicemodels.LocationPickerModel
 import com.malka.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.OtpData
+import com.malka.androidappp.newPhase.presentation.dialogsShared.PickImageMethodsDialog
 import com.malka.androidappp.newPhase.presentation.dialogsShared.countryDialog.CountryDialog
 import com.malka.androidappp.newPhase.presentation.dialogsShared.neighborhoodDialog.NeighborhoodDialog
 import com.malka.androidappp.newPhase.presentation.dialogsShared.regionDialog.RegionDialog
 import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
 import com.malka.androidappp.newPhase.presentation.signup.signupViewModel.SignupViewModel
+import com.squareup.picasso.Picasso
 import com.yariksoffice.lingver.Lingver
 import kotlinx.android.synthetic.main.activity_signup_pg4.*
+import java.io.File
+import kotlin.math.roundToInt
 
-class SignupCreateNewUser : BaseActivity() {
+class SignupCreateNewUser : BaseActivity(), PickImageMethodsDialog.OnAttachedImageMethodSelected {
 
     var selectedCountryId: Int = 0
     var selectedRegionId: Int = 0
     var selectedNeighborhoodId: Int = 0
     var gender_ = -1
     private var otpData: OtpData? = null
+    var REQUEST_CHECK_PERMISSION_READ_STORAGE: Int = 1000;
     private lateinit var signupViewModel: SignupViewModel
+    private lateinit var imageMethodsPickerDialog: PickImageMethodsDialog
+    private lateinit var imagePicker: ImagePicker
+    private var userImageUri: Uri? = null
+    val activityLauncher: BetterActivityResult<Intent, ActivityResult> =
+        BetterActivityResult.registerActivityForResult(this)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signup_pg4)
         otpData = intent.getParcelableExtra(Constants.otpDataKey)
         setupRegisterViewModel()
         setupClickListeners()
+
 //        ConstantObjects.countryList.filter {
 //            it.id == ConstantObjects.defaltCountry }.let { if (it.size > 0) {
 //                it.get(0).run{
@@ -133,19 +158,94 @@ class SignupCreateNewUser : BaseActivity() {
             gender_ = Constants.female
 
         }
-
         confirm_button.setOnClickListener {
             if (isValid()) {
                 callCreateUser()
             }
         }
+        ivPickUserImage.setOnClickListener {
+            openCameraChooser()
+        }
     }
 
+    /*****/
+    private fun openCameraChooser() {
+        imageMethodsPickerDialog = PickImageMethodsDialog(this, this)
+        imageMethodsPickerDialog.show()
+    }
+
+    //====camera chooser
+    override fun setOnAttachedImageMethodSelected(attachedMethod: Int) {
+        imagePicker = ImagePicker(this, null, object : SetOnImagePickedListeners {
+            override fun onImagePicked(imageUri: Uri) {
+                setImage(imageUri)
+            }
+
+            override fun launchImageActivityResult(
+                imageIntent: Intent,
+                requestCode: Int,
+            ) {
+                activityLauncher.launch(imageIntent) { activityResult ->
+                    if (activityResult.resultCode == RESULT_OK) {
+                        imagePicker.handleActivityResult(
+                            activityResult.resultCode,
+                            requestCode,
+                            activityResult.data
+                        )
+                    }
+                }
+            }
+        })
+        if (attachedMethod == ConstantObjects.CAMERA) {
+            imagePicker.choosePicture(ImagePicker.CAMERA)
+        } else {
+            imagePicker.choosePicture(ImagePicker.GALLERY)
+        }
+    }
+
+    private fun setImage(imageUri: Uri) {
+        try {
+            val bitmap =
+                BitmapFactory.decodeStream(contentResolver.openInputStream(imageUri))
+            val scaleBitmap = Bitmap.createScaledBitmap(
+                bitmap,
+                (bitmap.width * 0.4f).roundToInt(),
+                (bitmap.height * 0.4f).roundToInt(),
+                true
+            )
+            println("hhhh loaded")
+            Picasso.get()
+                .load(imageUri)
+                .into(ivUserImage)
+            userImageUri = imageUri
+
+
+        } catch (e: Exception) {
+            println("hhhh " + e.message)
+            HelpFunctions.ShowLongToast(getString(R.string.pickRightImage), this)
+        }
+    }
+
+
+    //=======Permissions and data handling
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String?>,
+        grantResults: IntArray,
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        imagePicker.handelPermissionsResult(requestCode, grantResults)
+    }
 
     /**countries , region and Neighborhood Dialogs**/
     private fun openCountryDialog() {
         val countryDialog = CountryDialog(this, object : CountryDialog.GetSelectedCountry {
-            override fun onSelectedCountry(id: Int, countryName: String, countryFlag: String?) {
+            override fun onSelectedCountry(
+                id: Int,
+                countryName: String,
+                countryFlag: String?,
+                countryCode: String?
+            ) {
                 /**setCountryData*/
                 selectedCountryId = id
                 countryContainer.text = countryName.toString()
@@ -251,6 +351,12 @@ class SignupCreateNewUser : BaseActivity() {
         otpData?.let {
             invitationCode = it.invitationCode;
         }
+        println("hhhh data:${date.text.toString().trim()} , gender:${gender_} ,countryId ")
+
+        var  file: File? = null
+        userImageUri?.let {
+            file = File(it.path)
+        }
         signupViewModel.createUser(
             otpData?.userName.toString(),
             otpData?.phoneNumber.toString(),
@@ -271,7 +377,9 @@ class SignupCreateNewUser : BaseActivity() {
             Lingver.getInstance().getLanguage(),
             HelpFunctions.projectName,
             HelpFunctions.deviceType,
-            getDeviceId()
+            getDeviceId(),
+            file,
+            this
         )
     }
 

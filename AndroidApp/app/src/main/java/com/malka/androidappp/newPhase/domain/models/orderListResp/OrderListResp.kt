@@ -2,7 +2,6 @@ package com.malka.androidappp.newPhase.domain.models.orderListResp
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import com.malka.androidappp.newPhase.domain.models.loginResp.LoginUser
 import kotlinx.android.parcel.Parcelize
 
 data class OrderListResp(

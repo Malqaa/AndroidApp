@@ -40,7 +40,7 @@ class AddProductViewModel : BaseViewModel() {
     var categoriesErrorResponseObserver: MutableLiveData<ErrorResponse> = MutableLiveData()
     var isLoadingAllCategory: MutableLiveData<Boolean> = MutableLiveData()
     var categoryListObserver: MutableLiveData<CategoriesResp> = MutableLiveData()
-    var configurationRespObserver: MutableLiveData<ConfigurationResp> = MutableLiveData()
+
 
     var confirmAddPorductRespObserver: MutableLiveData<AddProductResponse> = MutableLiveData()
 
@@ -169,30 +169,6 @@ class AddProductViewModel : BaseViewModel() {
             })
     }
 
-    fun getConfigurationResp(configKey: String) {
-        isLoading.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
-            .getConfigurationData(configKey)
-            .enqueue(object : Callback<ConfigurationResp> {
-                override fun onFailure(call: Call<ConfigurationResp>, t: Throwable) {
-                    isNetworkFail.value = t !is HttpException
-                    isLoading.value = false
-                }
-
-                override fun onResponse(
-                    call: Call<ConfigurationResp>,
-                    response: Response<ConfigurationResp>
-                ) {
-                    isLoading.value = false
-                    if (response.isSuccessful) {
-                        configurationRespObserver.value = response.body()
-                    } else {
-                        errorResponseObserver.value =
-                            getErrorResponse(response.errorBody())
-                    }
-                }
-            })
-    }
 
 //    fun getAddProduct(
 //        nameAr: String,
@@ -375,12 +351,17 @@ class AddProductViewModel : BaseViewModel() {
         map["PickUpDelivery"] = PickUpDelivery.requestBody()
         map["DeliveryOption"] = DeliveryOption.requestBody()
 
+
+
+
         val listOfImages = ArrayList<MultipartBody.Part>()
         for (i in listImageFile.indices) {
-             listOfImages.add(prepareFilePart("listImageFile", listImageFile[i], context))
-          //  listOfImages.add(prepareFilePart2("listImageFile", listImageFile[i], context))
-             //listOfImages.add(prepareFilePart("listImageFile[$i]", listImageFile[i]))
+            listOfImages.add(prepareFilePart("listImageFile", listImageFile[i], context))
+           // map["listImageFile"] = HelpFunctions.getFileImage(listImageFile[i], context).asRequestBody()
+            //  listOfImages.add(prepareFilePart2("listImageFile", listImageFile[i], context))
+            //listOfImages.add(prepareFilePart("listImageFile[$i]", listImageFile[i]))
         }
+
 //        println("hhhh " + map)
 //        println(
 //            "hhhh catId [${categoryId}] countryId [${countryId}] region [${regionId}]  neighborhoodId [${neighborhoodId} pakaId [${pakatId}  productSep $" +

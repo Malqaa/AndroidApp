@@ -11,31 +11,33 @@ import com.malka.androidappp.newPhase.domain.models.servicemodels.favourites.Fav
 import com.malka.androidappp.newPhase.domain.models.servicemodels.feedbacks.FeedbackObject
 import com.malka.androidappp.newPhase.domain.models.servicemodels.model.Category
 import com.malka.androidappp.newPhase.domain.models.homeCategoryProductResp.CategoryProductItem
+import com.malka.androidappp.newPhase.domain.models.loginResp.BusinessAccountsDetails
 import com.malka.androidappp.newPhase.domain.models.servicemodels.User
 
 class ConstantObjects {
     companion object {
-        const val  transactionType_In="In"
-        const val  transactionType_Out="Out"
-        const val transactionSource_chargeWallet="ChargeWallet"
-
+        const val transactionType_In = "In"
+        const val transactionType_Out = "Out"
+        const val transactionSource_chargeWallet = "ChargeWallet"
+        const val emailKey: String = "emailKey"
         const val isMyProduct: String = "isMyProductKey"
         const val rateObjectKey: String = "rateObjectKey"
         const val editRateKey: String = "editRateKey"
-        const val  addressKey: String = "addressKey"
-        const val  orderNumberKey: String = "orderNumberKey"
-        const val idKey:String="idKey"
-        const val objectKey:String="objectKey"
-        const val orderItemKey:String="orderItemKey"
-        const val orderTypeKey:String="orderTypeKey"
-        const val orderMasterIdKey:String="orderMasterIdKey"
-        const val shipmentOrderDataKey="shipmentOrderDataKey"
-        const val  orderShippingSectionNumberKey: String = "orderShippingNumber"
-        const val  orderPriceKey: String = "orderPriceKey"
-        const val sellerObjectKey:String="sellerObjectKey"
+        const val addressKey: String = "addressKey"
+        const val orderNumberKey: String = "orderNumberKey"
+        const val idKey: String = "idKey"
+        const val objectKey: String = "objectKey"
+        const val orderItemKey: String = "orderItemKey"
+        const val orderTypeKey: String = "orderTypeKey"
+        const val orderMasterIdKey: String = "orderMasterIdKey"
+        const val shipmentOrderDataKey = "shipmentOrderDataKey"
+        const val orderShippingSectionNumberKey: String = "orderShippingNumber"
+        const val orderPriceKey: String = "orderPriceKey"
+        const val sellerObjectKey: String = "sellerObjectKey"
         const val ENGLISH = "en"
         const val ARABIC = "ar"
-
+        const val CAMERA = 0
+        const val FILES = 1
         var is_watch_iv: ImageView? = null
 
         val defaltCountry: Int = 31
@@ -54,7 +56,7 @@ class ConstantObjects {
         var selected_credit_card_index: Int = -1
         var logged_userid: String = ""
         var logged_authtoken: String = ""
-        var isBusinessUser: Boolean = false
+        var businessAccountUser: BusinessAccountsDetails? = null
         var dynamic_json_dictionary: HashMap<String, String> = HashMap<String, String>()
 
         var currentLanguage: String = ""
@@ -72,8 +74,8 @@ class ConstantObjects {
         var Select = "Select"
         const val searchQueryKey = "searchQueryKey"
         const val productIdKey = "ProductIdKey"
-        const val providerIdKey="providerIdKey"
-        const val businessAccountIdKey="businessAccountIdKey"
+        const val providerIdKey = "providerIdKey"
+        const val businessAccountIdKey = "businessAccountIdKey"
         const val questionListKey = "QuestionListKey"
         const val productFavStatusKey = "productFavStatusKey"
         const val categoryIdKey: String = "categoryid"
@@ -81,11 +83,17 @@ class ConstantObjects {
         const val isEditKey: String = "isEdit"
 
 
-        const val orderStatus_provider_new=1
-        const val orderStatus_provider_inProgress=8
-        const val orderStatus_provider_inDelivery=3
-        const val orderStatus_provider_finished=5
-        const val orderStatus_provider_cancel=9
-        const val orderStatus_client_cancel=6
+        const val orderStatus_provider_new = 1
+        const val orderStatus_provider_inProgress = 8
+        const val orderStatus_provider_inDelivery = 3
+        const val orderStatus_provider_finished = 5
+        const val orderStatus_provider_cancel = 9
+        const val orderStatus_client_cancel = 6
+
+        /***configration**/
+        const val otpExpiryTime = "OTPExpiryTime"
+        const val resetPasswordExpiryTime = "ResetPasswordExpiryTime"
+        const val resetPasswordWrongTrials = "ResetPasswordWrongTrials"
+        const val otpWrongTrials = "OTPWrongTrials"
     }
 }

@@ -7,6 +7,7 @@ import com.google.gson.Gson
 import com.google.gson.TypeAdapter
 import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.ErrorResponse
+import com.malka.androidappp.newPhase.domain.models.configrationResp.ConfigurationResp
 import com.malka.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -54,6 +55,33 @@ open class BaseViewModel : ViewModel() {
                         addProductToFavObserver.value = response.body()
                     } else {
                         errorResponseObserverProductToFav.value =
+                            getErrorResponse(response.errorBody())
+                    }
+                }
+            })
+    }
+
+
+    var configurationRespObserver: MutableLiveData<ConfigurationResp> = MutableLiveData()
+    fun getConfigurationResp(configKey: String) {
+        isLoading.value = true
+        RetrofitBuilder.GetRetrofitBuilder()
+            .getConfigurationData(configKey)
+            .enqueue(object : Callback<ConfigurationResp> {
+                override fun onFailure(call: Call<ConfigurationResp>, t: Throwable) {
+                    isNetworkFail.value = t !is HttpException
+                    isLoading.value = false
+                }
+
+                override fun onResponse(
+                    call: Call<ConfigurationResp>,
+                    response: Response<ConfigurationResp>
+                ) {
+                    isLoading.value = false
+                    if (response.isSuccessful) {
+                        configurationRespObserver.value = response.body()
+                    } else {
+                        errorResponseObserver.value =
                             getErrorResponse(response.errorBody())
                     }
                 }

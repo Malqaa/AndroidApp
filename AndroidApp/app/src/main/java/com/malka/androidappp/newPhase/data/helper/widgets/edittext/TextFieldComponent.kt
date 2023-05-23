@@ -200,10 +200,9 @@ class TextFieldComponent : LinearLayout {
             etl_Field.setPasswordVisibilityToggleTintList(
                 AppCompatResources.getColorStateList(
                     context,
-                    R.color.line
+                    R.color.orange
                 )
             );
-
         }
 
     }

@@ -56,7 +56,8 @@
   </string>
 
     <string name="CodeExpired">انتهت صلاحية الرمز</string>
-
+  <string name="OTPWrongTrialsExcced">تم تجاوز المحاولات الخاطئة للرمز </string>
+  <string name="InvalidOTP">رمز التحقق غير صحيح</string>
     <string name="NEXT">التالي</string>
 
     <string name="Greattohaveyouonboard">من الرائع أن تكون على متن الطائرة!</string>
@@ -2472,7 +2473,7 @@
     <string name="VerificationFailed">فشل التحقق! ... إعادة إرسال الرمز</string>
 
     <string name="Seconds">إعادة ارسال الكود بعد :%1$d ثانية</string>
-
+  <string name="Seconds2">إعادة ارسال الكود بعد :</string>
     <string name="Pleaseselectagender">الرجاء تحديد الجنس</string>
 
     <string name="NoResponse"></string>
@@ -2886,4 +2887,20 @@
   <string name="order_deliveryPhase">مرحلة التسليم</string>
   <string name="order_deliveryConfirmation">تأكيد التسليم</string>
   <string name="order_canceledBySeller"> ألغاء من البائع</string>
+  <string name="noAccountFound">لم يتم العثور على حسابات</string>
+  <string name="userNameExists">اسم المستخدم موجود من قبل</string>
+  <string name="userEmailExists">البريد الإلكتروني موجود من قبل</string>
+  <string name="userPhoneExists">رقم الهاتف موجود من قبل</string>
+  <string name="takePhoto">رفع الصورة</string>
+  <string name="deletePhoto">حذف الصورة</string>
+  <string name="pickRightImage">يرجى اختيار الصورة مره اخرى</string>
+  //====attach file dialog
+  <string name="addFiles">اضف ملف</string>
+  <string name="selectImage">اختر صورة</string>
+  <string name="selectFile">اختر ملف PDF</string>
+  <string name="error_happened">حدث خطأ</string>
+  <string name="notsupportedExtension">ملف غير معتمد.</string>
+  <string name="noApp">لا يوجد تطبيق لفتح هذا الملف.</string>
+  <string name="fromCamera" >من الكاميرا</string>
+  <string name="fromGallery">من معرض الصور</string>
 </resources>

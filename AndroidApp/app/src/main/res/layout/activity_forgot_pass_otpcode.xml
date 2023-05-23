@@ -5,17 +5,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".activities_main.forgot.ActivityForgotPassOtpcode">
+    tools:context=".newPhase.presentation.forgotPasswordActivity.activity2.ActivityForgotPassOtpcode">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:orientation="vertical"
             android:padding="@dimen/_20sdp">
+
+            <ImageButton
+                android:id="@+id/ibBack"
+                android:layout_width="15dp"
+                android:layout_height="17dp"
+                android:layout_gravity="start"
+                android:background="@drawable/ic_back"
+                android:rotation="@string/mirror_degree" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -40,17 +49,19 @@
                 android:layout_marginTop="@dimen/_5sdp"
                 android:fontFamily="@font/madani_arabic_light"
                 android:text="@string/we_have_sent_the_activation_code_to_your_phone"
+                android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_12sdp" />
 
             <com.goodiebag.pinview.Pinview
-                android:id="@+id/pinview234"
+                android:id="@+id/pinview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_20sdp"
                 app:cursorVisible="false"
                 app:forceKeyboard="true"
                 app:hint=""
+                android:layoutDirection="ltr"
                 app:inputType="number"
                 app:password="false"
                 app:pinBackground="@drawable/edittext_bg"
@@ -67,27 +78,34 @@
                 android:textColor="@color/Red"
                 android:visibility="gone" />
 
-            <TextView
-                android:id="@+id/textView350"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="@string/Ididntreceiveacode"
-                android:textSize="15sp"
-                android:visibility="gone" />
 
-            <TextView
-                android:id="@+id/textView3501"
-
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="4dp"
-                android:text="@string/RESEND"
-                android:textAllCaps="true"
-                android:textColor="#339933"
-                android:textSize="14sp"
-                android:visibility="gone" />
+                android:id="@+id/ContianerResend"
+                android:layout_marginTop="@dimen/_10sdp">
+
+                <TextView
+                    android:id="@+id/textView350"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:fontFamily="@font/madani_arabic_light"
+                    android:text="@string/Ididntreceiveacode"
+                    android:textSize="@dimen/_12sdp" />
+
+                <TextView
+                    android:id="@+id/resend_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:fontFamily="@font/madani_arabic_light"
+                    android:text="@string/RESEND"
+                    android:textAllCaps="true"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12sdp" />
+
+            </RelativeLayout>
 
 
             <TextView
@@ -96,19 +114,37 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:fontFamily="@font/madani_arabic_light"
-                android:text="@string/resend_the_code_after_50_seconds"
+                android:text="@string/Seconds"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_12sdp" />
+            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+                android:id="@+id/textPass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="@string/Password"
+                android:inputType="textPassword"
+                app:enablePasswordToggle="true"
+                app:startIcon="@drawable/symbolpass" />
 
+            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+                android:id="@+id/confirmPass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="@string/Confirm_Password"
+                android:inputType="textPassword"
+                app:enablePasswordToggle="true"
+                app:startIcon="@drawable/symbolpass" />
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/button4"
+                android:id="@+id/button3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_20sdp"
                 android:background="@drawable/round_btn"
                 android:fontFamily="@font/madani_arabic_semi_bold"
-                android:text="@string/activation"
+                android:text="@string/password_reset"
                 android:textAllCaps="false"
                 android:textColor="#ffffff"
                 android:textSize="@dimen/_14sdp" />
@@ -130,25 +166,22 @@
 
 -->
     <TextView
-        android:visibility="gone"
-        android:layout_marginTop="80dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp"
         android:text="Mobile Verification"
         android:textColor="#339933"
         android:textSize="30dp"
         android:textStyle="bold"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 
-
-
     <Button
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="65dp"
         android:layout_alignParentBottom="true"
@@ -156,21 +189,14 @@
         android:text="NEXT"
         android:textColor="#ffffff"
         android:textSize="25dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
 
-
-
-
     <!-- app:pinBackground="@drawable/example_drawable" add on pinview
          app:splitWidth=""-->
-
-
-
-
-
 
 
 </RelativeLayout>

@@ -36,11 +36,30 @@
             android:textColor="@color/black"
             android:textSize="@dimen/_12sdp" />
 
+        <RelativeLayout
+            android:layout_width="@dimen/_60sdp"
+            android:layout_height="@dimen/_60sdp"
+            android:layout_marginTop="@dimen/_30sdp">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/ivUserImage"
+                android:layout_width="@dimen/_54sdp"
+                android:layout_height="@dimen/_54sdp"
+                android:src="@mipmap/malqa_iconn_round"/>
+            <ImageView
+                android:id="@+id/ivPickUserImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:src="@drawable/baseline_camera_alt_24"/>
+        </RelativeLayout>
+
+
         <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
             android:id="@+id/firstName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_25sdp"
+            android:layout_marginTop="@dimen/_10sdp"
             android:hint="@string/First_Name"
             android:inputType="textCapWords"
             app:startIcon="@drawable/ic_user" />

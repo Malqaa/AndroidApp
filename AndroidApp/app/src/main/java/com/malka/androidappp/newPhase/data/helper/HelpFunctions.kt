@@ -100,15 +100,16 @@ class HelpFunctions {
         }
 
         fun isUserLoggedIn(): Boolean1 {
-            val islogin = Paper.book().read(SharedPreferencesStaticClass.islogin, false) ?: false
-            if (islogin) {
-                val user_object: LoginUser? =
+            val isLogin = Paper.book().read(SharedPreferencesStaticClass.islogin, false) ?: false
+            if (isLogin) {
+                val userObject: LoginUser? =
                     Paper.book().read<LoginUser>(SharedPreferencesStaticClass.user_object)
-                ConstantObjects.logged_userid = user_object?.id.toString()
-                ConstantObjects.logged_authtoken = user_object?.token.toString()
+                ConstantObjects.logged_userid = userObject?.id.toString()
+               // ConstantObjects.businessAccountUser=userObject?.businessAccounts
+                ConstantObjects.logged_authtoken = userObject?.token.toString()
                // ConstantObjects.loggin_businessAccountId=user_object?.
             }
-            return islogin
+            return isLogin
         }
 
         fun GetCurrentDateTime(format: String): String {
@@ -1035,6 +1036,8 @@ class HelpFunctions {
         }
 
         fun loadImage(context: Context, iv: ImageView, url: String?) {
+
+
             Glide.with(context)
                 .load(url)
                 .apply(
@@ -1044,6 +1047,34 @@ class HelpFunctions {
                 )
                 .into(iv)
         }
+
+        fun loadProfileImage(
+            context: Context,
+            path: String?,
+            imageView: ImageView,
+            pb_loading: View? = null,
+            onComplete: (() -> Unit)? = null
+        ) {
+
+            pb_loading?.show()
+            var imagePath= if(path==""||path==null) "emptyPath" else path
+            Picasso.get()
+                .load(imagePath)
+                .error(R.mipmap.malqa_iconn_round)
+                .into(imageView, object : com.squareup.picasso.Callback {
+                    override fun onSuccess() {
+                        pb_loading?.hide()
+                        //  onComplete?.invoke()
+                    }
+
+                    override fun onError(e: java.lang.Exception?) {
+                        pb_loading?.hide()
+                        // onComplete?.invoke()
+                    }
+
+                })
+        }
+
     }
 
 

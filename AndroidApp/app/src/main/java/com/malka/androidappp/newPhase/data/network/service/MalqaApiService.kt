@@ -24,6 +24,7 @@ import com.malka.androidappp.newPhase.domain.models.addOrderResp.AddOrderResp
 import com.malka.androidappp.newPhase.domain.models.addProductToCartResp.AddProductToCartResp
 import com.malka.androidappp.newPhase.domain.models.addRateResp.AddRateResp
 import com.malka.androidappp.newPhase.domain.models.addWaletTransactionResp.AddWalletTranactionResp
+import com.malka.androidappp.newPhase.domain.models.bussinessAccountsListResp.BusinessAccountsListResp
 import com.malka.androidappp.newPhase.domain.models.cartListResp.CartListResp
 import com.malka.androidappp.newPhase.domain.models.categoryFollowResp.CategoryFollowResp
 import com.malka.androidappp.newPhase.domain.models.categoryResp.CategoriesResp
@@ -121,14 +122,15 @@ interface MalqaApiService {
         @Part("projectName") projectName: RequestBody,
         @Part("deviceType") deviceType: RequestBody,
         @Part("deviceId") deviceId: RequestBody,
+        @Part image: MultipartBody.Part?
     ): Call<RegisterResp>
 
     @GET("ValidateUserAndGenerateOtp")
     fun validateUserAndGenerateOtp(
         @Query("userName") userName: String,
-        @Query("phoneNumber") userPhone: String,
         @Query("email") userEmail: String,
-        @Query("User-Language") lang: String,
+        @Query("phoneNumber") userPhone: String,
+      //  @Query("User-Language") lang: String,
     ): Call<ValidateAndGenerateOTPResp>
 
     @GET("ResendOtp")
@@ -335,10 +337,12 @@ interface MalqaApiService {
     fun getMyProduct(
         @Query("lang") language: String = ConstantObjects.currentLanguage
     ): Call<ProductListResp>
+
     @GET("ListDidntSellProducts")
     fun getListDidntSellProducts(
         @Query("lang") language: String = ConstantObjects.currentLanguage
     ): Call<ProductListResp>
+
     //    @GET("AdvancedFilter")
 //    fun searchForProductInCategory(@QueryName(encoded = true) queryString: HashMap<String,String>):Call<ProductListResp>
 //    @GET("AdvancedFilter")
@@ -516,7 +520,7 @@ interface MalqaApiService {
     ): Call<GeneralResponse>
 
     @GET("CurrenUserRateForEdit")
-    fun getShipmentRate(@Query("orderId")orderId:Int): Call<ShipmentRateResp>
+    fun getShipmentRate(@Query("orderId") orderId: Int): Call<ShipmentRateResp>
 
 
     @POST("ChangeOrderStatus")
@@ -524,10 +528,12 @@ interface MalqaApiService {
         @Query("orderId") orderId: Int,
         @Query("status") orderStatus: Int
     ): Call<GeneralResponse>
+
     @GET("GetUserWalletTransactions")
     fun getWalletDetails(
         @Query("lang") language: String = ConstantObjects.currentLanguage
     ): Call<WalletDetailsResp>
+
     @Multipart
     @POST("AddWalletTransaction")
     fun addWalletTransaction(
@@ -538,6 +544,7 @@ interface MalqaApiService {
     fun getUserPointsTransactions(
         @Query("lang") language: String = ConstantObjects.currentLanguage
     ): Call<UserPointDataResp>
+
     @POST("TransferPointsToMoney")
     fun transferPointsToMoney(
         @Query("transactionPointsAmount") transactionPointsAmount: String,
@@ -550,7 +557,8 @@ interface MalqaApiService {
 
 
     @POST("AddEditContactUs")
-    fun addEditContactUs(@Body data:HashMap<String,Any>): Call<ContactUsMessageResp>
+    fun addEditContactUs(@Body data: HashMap<String, Any>): Call<ContactUsMessageResp>
+
     @GET("ListContactUs?isAdmin=false")
     fun getListContactUs(): Call<TechnicalSupportMessageListResp>
 
@@ -558,10 +566,19 @@ interface MalqaApiService {
     fun deleteUserAddress(@Query("id") addressID: Int): Call<GeneralResponse>
 
 
+    @POST("ForgetPassword")
+    fun forgetPassword(@Query("email") email: String): Call<GeneralResponse>
+
+    @POST("ChangePassword")
+    fun changePasswordAfterForget(@Body data: HashMap<String, Any>): Call<GeneralResponse>
+
+    @GET("GatAllBusinessAccounts")
+    fun gatAllBusinessAccounts(): Call<BusinessAccountsListResp>
 
 
-
-
+    @Multipart
+    @POST("EditProfileImage")
+    fun editProfileImage(@Part part: MultipartBody.Part): Call<GeneralResponse>
 
     /***
      * ***********************************

@@ -2,40 +2,57 @@ package com.malka.androidappp.newPhase.presentation.account_fragment
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Filter
+import androidx.activity.result.ActivityResult
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.google.gson.Gson
 import com.malka.androidappp.R
+import com.malka.androidappp.newPhase.data.helper.*
+import com.malka.androidappp.newPhase.presentation.account_fragment.businessAccount.businessAccountsList.SwitchAccountActivity
 import com.malka.androidappp.newPhase.presentation.MainActivity
 import com.malka.androidappp.newPhase.data.helper.shared_preferences.SharedPreferencesStaticClass
-import com.malka.androidappp.newPhase.data.helper.Extension
-import com.malka.androidappp.newPhase.data.helper.HelpFunctions
-import com.malka.androidappp.newPhase.data.helper.hide
-import com.malka.androidappp.newPhase.data.helper.show
 import com.malka.androidappp.newPhase.data.helper.widgets.rcv.GenericListAdapter
-import com.malka.androidappp.newPhase.domain.models.loginResp.LoginUser
 import com.malka.androidappp.newPhase.domain.models.servicemodels.AccountItem
 import com.malka.androidappp.newPhase.domain.models.servicemodels.AccountSubItem
-import com.malka.androidappp.newPhase.data.helper.ConstantObjects
-import com.malka.androidappp.newPhase.presentation.account_fragment.editProfileActivity.EditProfileActivity
+import com.malka.androidappp.newPhase.domain.models.loginResp.LoginUser
 import com.malka.androidappp.newPhase.presentation.account_fragment.technicalSupportActivity.listtechincalSupportMessage.TechnicalSupportListActivity
 import com.malka.androidappp.newPhase.presentation.addProduct.AccountObject
 import com.malka.androidappp.newPhase.presentation.addressUser.addressListActivity.ListAddressesActivity
+import com.malka.androidappp.newPhase.presentation.dialogsShared.PickImageMethodsDialog
+import com.squareup.picasso.Picasso
 import io.paperdb.Paper
 import kotlinx.android.synthetic.main.account_main_item.view.*
 import kotlinx.android.synthetic.main.account_sub_item.view.*
+import kotlinx.android.synthetic.main.activity_signup_pg4.*
 import kotlinx.android.synthetic.main.fragment_account.*
+import kotlinx.android.synthetic.main.fragment_account.ivUserImage
+import java.io.File
+import kotlin.math.roundToInt
 
 
-class AccountFragment : Fragment(R.layout.fragment_account) {
+class AccountFragment : Fragment(R.layout.fragment_account),
+    PickImageMethodsDialog.OnAttachedImageMethodSelected {
     private var userData: LoginUser? = null
     val list: ArrayList<AccountItem> = ArrayList()
     private lateinit var accountViewModel: AccountViewModel
+
+    //===image
+    private lateinit var imageMethodsPickerDialog: PickImageMethodsDialog
+    private lateinit var imagePicker: ImagePicker
+    private var userImageUri: Uri? = null
+    val activityLauncher: BetterActivityResult<Intent, ActivityResult> =
+        BetterActivityResult.registerActivityForResult(this)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         list.apply {
@@ -159,18 +176,25 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
                 }
             }
         }
+        accountViewModel.editProfileObserver.observe(this){
+            println("hhhh "+Gson().toJson(it))
+            if(it.status_code==200){
+
+            }
+        }
         accountViewModel.getWalletDetailsInAccountTap()
         accountViewModel.getUserPointDetailsInAccountTap()
+
     }
 
     private fun setUserData(userData: LoginUser?) {
         try {
             userData?.let {
-                Extension.loadThumbnail(
+                HelpFunctions.loadProfileImage(
                     requireContext(),
                     userData.img,
                     ivUserImage,
-                    loader
+                    loader,
                 )
                 tvUserName.text = userData.userName.toString()
                 userData.createdAt?.let {
@@ -178,7 +202,8 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
                         HelpFunctions.getViewFormatForDateTrack(it)
                     }".toString()
                 }
-                tv_membership_number.text = "${getString(R.string.membership_number)}"
+                tv_membership_number.text =
+                    "${getString(R.string.membership_number)} ${userData?.membershipNumber ?: ""}"
                 setAdaptor()
             }
         } catch (e: Exception) {
@@ -192,6 +217,9 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
 
         my_points.setOnClickListener() {
             findNavController().navigate(R.id.myPoints)
+        }
+        ivUserImage.setOnClickListener {
+            openCameraChooser()
         }
     }
 
@@ -324,14 +352,14 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
                                                         )
 
                                                     }
-//                                                getString(R.string.switch_accounts_and_business_account) -> {
-//                                                    startActivity(
-//                                                        Intent(
-//                                                            requireActivity(),
-//                                                            Switch_Account::class.java
-//                                                        )
-//                                                    )
-//                                                }
+                                                    getString(R.string.switch_accounts_and_business_account) -> {
+                                                        startActivity(
+                                                            Intent(
+                                                                requireActivity(),
+                                                                SwitchAccountActivity::class.java
+                                                            )
+                                                        )
+                                                    }
                                                     getString(R.string.logout) -> {
                                                         ConstantObjects.logged_userid = ""
                                                         Paper.book().write(
@@ -380,6 +408,84 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
         main_item_rcv.isNestedScrollingEnabled = false
 
     }
+
+
+    /*****/
+    private fun openCameraChooser() {
+        imageMethodsPickerDialog = PickImageMethodsDialog(requireActivity(), this)
+        imageMethodsPickerDialog.show()
+    }
+
+    //====camera chooser
+    override fun setOnAttachedImageMethodSelected(attachedMethod: Int) {
+        imagePicker = ImagePicker(requireActivity(), null, object : SetOnImagePickedListeners {
+            override fun onImagePicked(imageUri: Uri) {
+                setImage(imageUri)
+            }
+
+            override fun launchImageActivityResult(
+                imageIntent: Intent,
+                requestCode: Int,
+            ) {
+                activityLauncher.launch(imageIntent) { activityResult ->
+                    if (activityResult.resultCode == AppCompatActivity.RESULT_OK) {
+                        imagePicker.handleActivityResult(
+                            activityResult.resultCode,
+                            requestCode,
+                            activityResult.data
+                        )
+                    }
+                }
+            }
+        })
+        if (attachedMethod == ConstantObjects.CAMERA) {
+            imagePicker.choosePicture(ImagePicker.CAMERA)
+        } else {
+            imagePicker.choosePicture(ImagePicker.GALLERY)
+        }
+    }
+
+    private fun setImage(imageUri: Uri) {
+        try {
+            val bitmap =
+                BitmapFactory.decodeStream(
+                    requireActivity().contentResolver.openInputStream(
+                        imageUri
+                    )
+                )
+            val scaleBitmap = Bitmap.createScaledBitmap(
+                bitmap,
+                (bitmap.width * 0.4f).roundToInt(),
+                (bitmap.height * 0.4f).roundToInt(),
+                true
+            )
+            //println("hhhh loaded")
+            Picasso.get()
+                .load(imageUri)
+                .into(ivUserImage)
+            userImageUri = imageUri
+            val file = File(imageUri.path)
+            accountViewModel.editProfile(file)
+
+        } catch (e: Exception) {
+           // println("hhhh " + e.message)
+            HelpFunctions.ShowLongToast(getString(R.string.pickRightImage), requireActivity())
+        }
+    }
+
+
+    //=======Permissions and data handling
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String?>,
+        grantResults: IntArray,
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        imagePicker.handelPermissionsResult(requestCode, grantResults)
+    }
+
+    /****/
+
 
     private fun loadProfile() {
         try {

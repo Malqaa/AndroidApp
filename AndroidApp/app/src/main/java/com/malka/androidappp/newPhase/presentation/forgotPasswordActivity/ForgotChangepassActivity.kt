@@ -1,4 +1,4 @@
-package com.malka.androidappp.activities_main.forgot
+package com.malka.androidappp.newPhase.presentation.forgotPasswordActivity
 
 import android.os.Bundle
 import android.widget.Toast

@@ -440,7 +440,7 @@ class ProfileFrag : Fragment() {
         val alternateEmailText: TextView = requireActivity().findViewById(R.id.alternate_email_text)
 
 
-        if (!ConstantObjects.isBusinessUser) {
+        if (ConstantObjects.businessAccountUser==null) {
             landLineLabel.visibility = View.VISIBLE
             landLineText.visibility = View.VISIBLE
 

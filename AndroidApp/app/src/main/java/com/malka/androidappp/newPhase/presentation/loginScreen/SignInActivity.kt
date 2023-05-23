@@ -7,12 +7,12 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.malka.androidappp.R
-import com.malka.androidappp.activities_main.forgot.ForgotPasswordActivty
+import com.malka.androidappp.newPhase.presentation.forgotPasswordActivity.activtiy1.ForgotPasswordActivty
 import com.malka.androidappp.newPhase.data.helper.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
-import com.malka.androidappp.newPhase.domain.models.loginResp.LoginUser
 import com.malka.androidappp.newPhase.data.helper.ConstantObjects
+import com.malka.androidappp.newPhase.domain.models.loginResp.LoginUser
 import com.malka.androidappp.newPhase.presentation.signup.activity1.SignupConfirmNewUserActivity
 import io.paperdb.Paper
 import kotlinx.android.synthetic.main.activity_sign_in.*
@@ -119,7 +119,7 @@ class SignInActivity : BaseActivity() {
 
     private fun saveUserData(userObject: LoginUser) {
         ConstantObjects.logged_userid = userObject.id
-        ConstantObjects.isBusinessUser = userObject.isBusinessAccount
+       // ConstantObjects.businessAccountUser = userObject.businessAccounts
         val userId: String = userObject.id
         ConstantObjects.logged_userid = userId
         HelpFunctions.ShowLongToast(getString(R.string.LoginSuccessfully), this)

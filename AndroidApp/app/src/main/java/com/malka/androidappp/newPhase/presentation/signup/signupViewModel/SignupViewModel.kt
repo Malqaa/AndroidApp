@@ -1,18 +1,28 @@
 package com.malka.androidappp.newPhase.presentation.signup.signupViewModel
 
+import android.content.Context
+import android.net.Uri
 import androidx.lifecycle.MutableLiveData
+import com.google.gson.Gson
 import com.malka.androidappp.newPhase.core.BaseViewModel
 import com.malka.androidappp.newPhase.data.helper.Extension.requestBody
 import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.resgisterResp.RegisterResp
 import com.malka.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.UserVerifiedResp
 import com.malka.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.ValidateAndGenerateOTPResp
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.HttpException
 import retrofit2.Response
-import retrofit2.http.Part
+import java.io.File
+import java.io.FileInputStream
+import java.io.InputStream
 
 
 class SignupViewModel : BaseViewModel() {
@@ -30,17 +40,20 @@ class SignupViewModel : BaseViewModel() {
         language: String
     ) {
         isLoading.value = true
+        println("hhh $userName $email $fullNumberWithPlus $language" )
         RetrofitBuilder.GetRetrofitBuilder()
-            .validateUserAndGenerateOtp(userName, email, fullNumberWithPlus, language)
+            .validateUserAndGenerateOtp(userName, email, fullNumberWithPlus)
             .enqueue(object : Callback<ValidateAndGenerateOTPResp> {
                 override fun onResponse(
                     call: Call<ValidateAndGenerateOTPResp>,
                     response: Response<ValidateAndGenerateOTPResp>
                 ) {
+
                     if (response.isSuccessful) {
                         val data: ValidateAndGenerateOTPResp? = response.body()
                         validateAndGenerateOTPObserver.value = response.body()
                     } else {
+
                         errorResponseObserver.value = getErrorResponse(response.errorBody())
                     }
                     isLoading.value = false
@@ -120,9 +133,36 @@ class SignupViewModel : BaseViewModel() {
         lang: String,
         projectName: String,
         deviceType: String,
-        deviceId:String)
-    {
+        deviceId: String,
+        file: File?,
+        context: Context
+    ) {
         isLoading.value = true
+         var multipartBody :MultipartBody.Part?=null
+        file?.let {file->
+            var requestbody:RequestBody=file.asRequestBody("image/*".toMediaTypeOrNull())
+            multipartBody=MultipartBody.Part.createFormData("imgProfile",file.name,requestbody)
+        }
+
+//        imageUri?.let {
+//            val file = File(imageUri.path)
+//            //===="application/octet-stream"
+//            requestFile = file.asRequestBody("application/binary".toMediaTypeOrNull())
+//            body = MultipartBody.Part.createFormData("image", file.name, requestFile!!)
+//        }
+//        imageUri?.let {
+//            try {
+//                val file = File(imageUri.path)
+//                val `in`: InputStream = FileInputStream(file)
+//                val buf: ByteArray
+//                buf = ByteArray(`in`.available())
+//                while (`in`.read(buf) !== -1);
+//                requestFile = buf.toRequestBody("application/octet-stream".toMediaTypeOrNull())
+//            } catch (e: java.lang.Exception) {
+//            }
+//        }
+
+
         RetrofitBuilder.GetRetrofitBuilder()
             .createuser2(
                 userName.requestBody(),
@@ -141,10 +181,11 @@ class SignupViewModel : BaseViewModel() {
                 streetNUmber.requestBody(),
                 county_code.requestBody(),
                 isBusinessAccount.requestBody(),
-               lang.requestBody(),
+                lang.requestBody(),
                 projectName.requestBody(),
                 deviceType.requestBody(),
                 deviceId.requestBody(),
+                multipartBody
             ).enqueue(object : Callback<RegisterResp> {
                 override fun onResponse(
                     call: Call<RegisterResp>, response: Response<RegisterResp>
@@ -163,4 +204,5 @@ class SignupViewModel : BaseViewModel() {
                 }
             })
     }
+
 }
