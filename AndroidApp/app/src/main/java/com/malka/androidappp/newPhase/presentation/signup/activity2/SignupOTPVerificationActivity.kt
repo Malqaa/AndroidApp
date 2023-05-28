@@ -228,7 +228,7 @@ class SignupOTPVerificationActivity : BaseActivity() {
                 )
             } else {
                 val userPhone: String? = otpData?.phoneNumber
-                signupViewModel.resendOtp(userPhone.toString(), Lingver.getInstance().getLanguage())
+                signupViewModel.resendOtp(userPhone.toString(), "IndividualUserRegistration",Lingver.getInstance().getLanguage())
                 //resendOTPApi()
             }
         }

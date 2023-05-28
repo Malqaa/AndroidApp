@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class BusinessAccountsListResp(
     @SerializedName("data")
-    val  businessAccountsList: List<businessAccountDetails>?=null,
+    val  businessAccountsList:Any?=null,
     val message: String?=null,
     val status: String?=null,
     val status_code: Int

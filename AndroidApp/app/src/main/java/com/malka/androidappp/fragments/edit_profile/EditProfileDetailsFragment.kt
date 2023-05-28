@@ -101,7 +101,7 @@ class EditProfileDetailsFragment : Fragment() {
 
 
         /////////////Show Api already Saved Profile Data////////////////////////////
-        getuserprofiledataapi()
+       // getuserprofiledataapi()
         ///////////////////////////////////////////////////////////////////////////
 
         ///////////Calender EditText///////////////
@@ -281,166 +281,166 @@ class EditProfileDetailsFragment : Fragment() {
         ) {
             return
         } else {
-            updateapicall()
+            //updateapicall()
         }
     }
 
 
-    fun updateapicall() {
-        var userprop: User? = ConstantObjects.userobj;
-        if (userprop != null) {
-            val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-            val userId4: String = userprop.id!!
-            val firstname: String = fn_id.text.toString().trim()
-            val lastnaam: String = ln_id.text.toString().trim()
-
-
-            val userRegion: Spinner = requireActivity().findViewById(R.id.region_id)
-            val region: String = userRegion.selectedItem.toString().trim()
-
-            val userCity: Spinner = requireActivity().findViewById(R.id.city_id)
-            val city: String = userCity.selectedItem.toString().trim()
-
-            val address: String = address2_id.text.toString().trim()
-            //
-            val dateofbirth: String = d_o_b.text.toString().trim()
-            val districnamee: String = districname.text.toString().trim()
-            val zipCodee: String = zipCode.text.toString().trim()
-            //
-            //////getting gender radiobutton////////
-            var genderRadiobtnnn: String = ""
-            val selectedIdgender: Int = gender_group.checkedRadioButtonId
-            if (selectedIdgender !== null && selectedIdgender > -1) {
-                val genderradioBtn: RadioButton = requireActivity().findViewById(selectedIdgender)
-                if (genderradioBtn != null) {
-                    genderRadiobtnnn = genderradioBtn.getText().toString()
-                }
-            }
-
-            val call: Call<User> = malqaa.updateUserSiginup(
-                User(
-                    id = userId4,
-                    firstName = firstname,
-                    lastname = lastnaam,
-                    gender = genderRadiobtnnn,
-                    phone = null,
-                    region = region,
-                    city = city,
-                    address = address,
-                    dateOfBirth = dateofbirth,
-                    area = areaa,
-                    distric = districnamee,
-                    zipcode = zipCodee
-                )
-            )
-            call.enqueue(object : Callback<User> {
-                override fun onResponse(
-                    call: Call<User>, response: Response<User>
-                ) {
-                    if (response.isSuccessful) {
-//                        Toast.makeText(
-//                            activity,
+//    fun updateapicall() {
+//      //  var userprop: User? = ConstantObjects.userobj;
+//        if (userprop != null) {
+//            val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+//            val userId4: String = userprop.id!!
+//            val firstname: String = fn_id.text.toString().trim()
+//            val lastnaam: String = ln_id.text.toString().trim()
+//
+//
+//            val userRegion: Spinner = requireActivity().findViewById(R.id.region_id)
+//            val region: String = userRegion.selectedItem.toString().trim()
+//
+//            val userCity: Spinner = requireActivity().findViewById(R.id.city_id)
+//            val city: String = userCity.selectedItem.toString().trim()
+//
+//            val address: String = address2_id.text.toString().trim()
+//            //
+//            val dateofbirth: String = d_o_b.text.toString().trim()
+//            val districnamee: String = districname.text.toString().trim()
+//            val zipCodee: String = zipCode.text.toString().trim()
+//            //
+//            //////getting gender radiobutton////////
+//            var genderRadiobtnnn: String = ""
+//            val selectedIdgender: Int = gender_group.checkedRadioButtonId
+//            if (selectedIdgender !== null && selectedIdgender > -1) {
+//                val genderradioBtn: RadioButton = requireActivity().findViewById(selectedIdgender)
+//                if (genderradioBtn != null) {
+//                    genderRadiobtnnn = genderradioBtn.getText().toString()
+//                }
+//            }
+//
+//            val call: Call<User> = malqaa.updateUserSiginup(
+//                User(
+//                    id = userId4,
+//                    firstName = firstname,
+//                    lastname = lastnaam,
+//                    gender = genderRadiobtnnn,
+//                    phone = null,
+//                    region = region,
+//                    city = city,
+//                    address = address,
+//                    dateOfBirth = dateofbirth,
+//                    area = areaa,
+//                    distric = districnamee,
+//                    zipcode = zipCodee
+//                )
+//            )
+//            call.enqueue(object : Callback<User> {
+//                override fun onResponse(
+//                    call: Call<User>, response: Response<User>
+//                ) {
+//                    if (response.isSuccessful) {
+////                        Toast.makeText(
+////                            activity,
+////                            getString(R.string.Profileinformationhasbeenupdated),
+////                            Toast.LENGTH_LONG
+////                        ).show()
+//                        HelpFunctions.ShowLongToast(
 //                            getString(R.string.Profileinformationhasbeenupdated),
-//                            Toast.LENGTH_LONG
-//                        ).show()
-                        HelpFunctions.ShowLongToast(
-                            getString(R.string.Profileinformationhasbeenupdated),
-                            activity
-                        )
-                        findNavController().navigate(R.id.editto_profile)
+//                            activity
+//                        )
+//                        findNavController().navigate(R.id.editto_profile)
+//
+//                    } else {
+//                        HelpFunctions.ShowLongToast(response.message(), activity)
+////                        Toast.makeText(activity, response.message(), Toast.LENGTH_LONG).show()
+//                    }
+//                }
+//
+//                override fun onFailure(call: Call<User>, t: Throwable) {
+//                    t.message?.let { HelpFunctions.ShowLongToast(it, activity) }
+//
+////                    Toast.makeText(activity, t.message, Toast.LENGTH_LONG).show()
+//                }
+//            })
+//        }
+//    }
 
-                    } else {
-                        HelpFunctions.ShowLongToast(response.message(), activity)
-//                        Toast.makeText(activity, response.message(), Toast.LENGTH_LONG).show()
-                    }
-                }
-
-                override fun onFailure(call: Call<User>, t: Throwable) {
-                    t.message?.let { HelpFunctions.ShowLongToast(it, activity) }
-
-//                    Toast.makeText(activity, t.message, Toast.LENGTH_LONG).show()
-                }
-            })
-        }
-    }
-
-    fun getuserprofiledataapi() {
-        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-        val call: Call<UserObject> = malqa.getuser(ConstantObjects.logged_userid)
-        call.enqueue(object : Callback<UserObject> {
-            override fun onResponse(call: Call<UserObject>, response: Response<UserObject>) {
-
-                if (response.isSuccessful) {
-                    ConstantObjects.userobj = response.body()!!.data
-                    var userprop: User? = ConstantObjects.userobj
-                    if (userprop != null) {
-
-                        if (userprop.fullName != null) {
-                            editFullName.setText(userprop.fullName)
-                        }
-
-                        if (userprop.lastname != null) {
-                            editLastName.setText(userprop.lastname)
-                        }
-
-
-
-                        if (userprop.region != null) {
-                            regionSpinner.setSelection(
-                                resources.getStringArray(R.array.regionlist)
-                                    .indexOf(userprop.region)
-                            )
-
-                        }
-
-                        if (userprop.city != null) {
-
-                            citySpinner.setSelection(
-                                resources.getStringArray(R.array.citylist).indexOf(userprop.city)
-                            )
-                        }
-
-                        if (userprop.address != null) {
-
-                            addressUser.setText(userprop.address)
-                        }
-
-                        if (userprop.dateOfBirth != null) dateOfBirth.setText(
-                            userprop.dateOfBirth!!.take(
-                                10
-                            )
-                        )
-                        else ""
-
-
-                        if (userprop.distric != null) district.setText(userprop.distric)
-                        else ""
-
-
-                        if (userprop.zipcode != null) zipcode.setText(userprop.zipcode)
-                        else ""
-
-                        if (userprop.gender != null) checkedgender(userprop.gender!!)
-                        else checkedgender("Male")
-
-                        whocanseeProfile("Everyone")
-                    }
-
-
-                    val returnarea: String =
-                        if (response.body()!!.data.area != null) response.body()!!.data.area.toString() else ""
-                    areaa = returnarea
-                    HelpFunctions.dismissProgressBar()
-
-                }
-            }
-
-            override fun onFailure(call: Call<UserObject>, t: Throwable) {
-                HelpFunctions.dismissProgressBar()
-                Toast.makeText(activity, t.message, Toast.LENGTH_LONG).show()
-            }
-        })
-    }
+//    fun getuserprofiledataapi() {
+//        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+//        val call: Call<UserObject> = malqa.getuser(ConstantObjects.logged_userid)
+//        call.enqueue(object : Callback<UserObject> {
+//            override fun onResponse(call: Call<UserObject>, response: Response<UserObject>) {
+//
+//                if (response.isSuccessful) {
+//                    ConstantObjects.userobj = response.body()!!.data
+//                    var userprop: User? = ConstantObjects.userobj
+//                    if (userprop != null) {
+//
+//                        if (userprop.fullName != null) {
+//                            editFullName.setText(userprop.fullName)
+//                        }
+//
+//                        if (userprop.lastname != null) {
+//                            editLastName.setText(userprop.lastname)
+//                        }
+//
+//
+//
+//                        if (userprop.region != null) {
+//                            regionSpinner.setSelection(
+//                                resources.getStringArray(R.array.regionlist)
+//                                    .indexOf(userprop.region)
+//                            )
+//
+//                        }
+//
+//                        if (userprop.city != null) {
+//
+//                            citySpinner.setSelection(
+//                                resources.getStringArray(R.array.citylist).indexOf(userprop.city)
+//                            )
+//                        }
+//
+//                        if (userprop.address != null) {
+//
+//                            addressUser.setText(userprop.address)
+//                        }
+//
+//                        if (userprop.dateOfBirth != null) dateOfBirth.setText(
+//                            userprop.dateOfBirth!!.take(
+//                                10
+//                            )
+//                        )
+//                        else ""
+//
+//
+//                        if (userprop.distric != null) district.setText(userprop.distric)
+//                        else ""
+//
+//
+//                        if (userprop.zipcode != null) zipcode.setText(userprop.zipcode)
+//                        else ""
+//
+//                        if (userprop.gender != null) checkedgender(userprop.gender!!)
+//                        else checkedgender("Male")
+//
+//                        whocanseeProfile("Everyone")
+//                    }
+//
+//
+//                    val returnarea: String =
+//                        if (response.body()!!.data.area != null) response.body()!!.data.area.toString() else ""
+//                    areaa = returnarea
+//                    HelpFunctions.dismissProgressBar()
+//
+//                }
+//            }
+//
+//            override fun onFailure(call: Call<UserObject>, t: Throwable) {
+//                HelpFunctions.dismissProgressBar()
+//                Toast.makeText(activity, t.message, Toast.LENGTH_LONG).show()
+//            }
+//        })
+//    }
 
     fun hidekeyboard() {
         val inputMethodManager =

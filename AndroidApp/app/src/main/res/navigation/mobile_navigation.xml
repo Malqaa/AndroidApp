@@ -30,7 +30,7 @@
 
     <fragment
         android:id="@+id/navigation_account"
-        android:name="com.malka.androidappp.newPhase.presentation.account_fragment.AccountFragment"
+        android:name="com.malka.androidappp.newPhase.presentation.accountFragment.AccountFragment"
         android:label="@string/title_account"
         tools:layout="@layout/fragment_account">
 
@@ -178,7 +178,7 @@
 
     <fragment
         android:id="@+id/myProduct"
-        android:name="com.malka.androidappp.newPhase.presentation.account_fragment.myProducts.MyProductsFragment"
+        android:name="com.malka.androidappp.newPhase.presentation.accountFragment.myProducts.MyProductsFragment"
         android:label="Sold"
         tools:layout="@layout/fragment_sold" />
 
@@ -219,7 +219,7 @@
 
     <fragment
         android:id="@+id/myRequest"
-        android:name="com.malka.androidappp.newPhase.presentation.account_fragment.myOrderFragment.MyOrdersFragment"
+        android:name="com.malka.androidappp.newPhase.presentation.accountFragment.myOrderFragment.MyOrdersFragment"
         android:label="My Request"
         tools:layout="@layout/fragment_my_orders" />
 
@@ -232,7 +232,7 @@
 
     <fragment
         android:id="@+id/myWallet"
-        android:name="com.malka.androidappp.newPhase.presentation.account_fragment.myWalletFragment.MyWalletFragment"
+        android:name="com.malka.androidappp.newPhase.presentation.accountFragment.myWalletFragment.MyWalletFragment"
         android:label="@string/my_wallet"
         tools:layout="@layout/fragment_my_wallet_fragment">
 
@@ -266,7 +266,7 @@
 
     <fragment
         android:id="@+id/myPoints"
-        android:name="com.malka.androidappp.newPhase.presentation.account_fragment.myPointFragment.MyPointsFragment"
+        android:name="com.malka.androidappp.newPhase.presentation.accountFragment.myPointFragment.MyPointsFragment"
         android:label="@string/my_points"
         tools:layout="@layout/fragment_my_points_fragment">
 
@@ -527,7 +527,7 @@
 
     <fragment
         android:id="@+id/lost_frag"
-        android:name="com.malka.androidappp.newPhase.presentation.account_fragment.productsLostFragment.ProductsLostFragment"
+        android:name="com.malka.androidappp.newPhase.presentation.accountFragment.productsLostFragment.ProductsLostFragment"
         tools:layout="@layout/fragment_lost">
 
     </fragment>

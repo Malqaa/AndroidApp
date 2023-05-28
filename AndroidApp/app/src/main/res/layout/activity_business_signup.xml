@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".newPhase.presentation.account_fragment.businessAccount.addBusinessAccount.BusinessAccountCreateActivity">
+    tools:context=".newPhase.presentation.accountFragment.businessAccount.addBusinessAccount.BusinessAccountCreateActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -51,22 +51,52 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/_12sdp" />
 
+            <RelativeLayout
+                android:layout_width="@dimen/_60sdp"
+                android:layout_height="@dimen/_60sdp"
+                android:layout_marginTop="@dimen/_25sdp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/ivUserImage"
+                    android:layout_width="@dimen/_54sdp"
+                    android:layout_height="@dimen/_54sdp"
+                    android:src="@mipmap/malqa_iconn_round" />
+
+                <ImageView
+                    android:id="@+id/ivPickUserImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:src="@drawable/baseline_camera_alt_24" />
+            </RelativeLayout>
+
+
             <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/userNamee"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_25sdp"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:hint="@string/Username"
                 android:inputType="textPersonName"
                 app:startIcon="@drawable/ic_user" />
 
 
             <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
-                android:id="@+id/company_name"
+                android:id="@+id/company_name_ar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:hint="@string/the_company_s_name"
+                android:hint="@string/the_company_s_name_ar"
+                android:inputType="textPersonName"
+                app:startIcon="@drawable/ic_user" />
+
+            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+                android:id="@+id/company_name_en"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="@string/the_company_s_name_en"
                 android:inputType="textPersonName"
                 app:startIcon="@drawable/ic_user" />
 
@@ -79,22 +109,133 @@
                 android:inputType="textEmailAddress"
                 app:startIcon="@drawable/ic_email" />
 
-            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
-                android:id="@+id/PhoneNumber"
+            <LinearLayout
+                android:id="@+id/itemLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/edittext_bg"
+                android:gravity="center_vertical"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:dropDownVerticalOffset="35dp"
-                android:hint="@string/PhoneNumber"
-                android:inputType="phone"
-                app:endText="+965"
-                app:endIcon="@drawable/down_arrow"
-                app:startIcon="@drawable/ic_phone"
-                app:viewType="country"
-                />
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/iv_start_icon"
+                    android:layout_width="@dimen/_14sdp"
+                    android:layout_height="@dimen/_14sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:src="@drawable/ic_phone" />
+
+                <View
+                    android:id="@+id/line"
+                    android:layout_width="@dimen/_1sdp"
+                    android:layout_height="match_parent"
+                    android:background="@color/line" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_toStartOf="@+id/btnOpenCountry">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/tvl_field_phone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:hint="@string/PhoneNumber"
+                            app:boxBackgroundMode="none"
+                            app:hintTextColor="@color/hint_color">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etPhoneNumber"
+                                style="@style/addressCompoEditFieldTextStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="phone"
+                                android:maxLines="1"
+                                android:importantForAutofill="no"
+                                android:paddingTop="@dimen/_5sdp"
+                                android:textAlignment="viewStart"
+                                android:textSize="@dimen/_12sdp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </FrameLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerInParent="true"
+                        android:id="@+id/btnOpenCountry"
+                        android:layout_marginEnd="10dp"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/ivFlag"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_marginEnd="4dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/flag_saudi_arabia" />
+
+                        <TextView
+                            android:id="@+id/tvCode"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawablePadding="4dp"
+                            android:textSize="@dimen/_12sdp"
+                            android:layout_gravity="center"
+                            android:drawableEnd="@drawable/baseline_arrow_drop_down_24"
+                            android:text="+966" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/right_session"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerInParent="true"
+                        android:visibility="gone"
+                        android:orientation="vertical">
+
+                        <com.hbb20.CountryCodePicker
+                            android:id="@+id/countryCodePicker"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            app:ccpDialog_backgroundColor="@color/white"
+                            app:ccpDialog_keyboardAutoPopup="false"
+                            app:ccpDialog_textColor="@color/text_color"
+                            app:ccp_autoFormatNumber="false"
+                            app:ccp_contentColor="@color/text_color"
+                            app:ccp_defaultNameCode="SA"
+                            app:ccp_hintExampleNumber="false"
+                            app:ccp_hintExampleNumberFormat="NATIONAL"
+                            app:ccp_hintExampleNumberType="MOBILE"
+                            app:ccp_rememberLastSelection="false"
+                            app:ccp_showNameCode="false"
+                            app:ccp_showPhoneCode="true" />
+                        <!--
+                          app:ccp_autoDetectCountry="true"
+                         app:ccp_countryAutoDetectionPref="SIM_NETWORK_LOCALE"-->
+
+
+                    </LinearLayout>
+
+
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
 
             <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
-                android:id="@+id/busi_signup3_edittext2"
+                android:id="@+id/et_web_site"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
@@ -121,37 +262,6 @@
                 android:inputType="textPersonName"
                 app:startIcon="@drawable/ic_instagram" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:fontFamily="@font/madani_arabic_medium"
-                    android:text="@string/profile_picture"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_14sdp" />
-
-
-                <TextView
-                    android:id="@+id/upload_photo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:fontFamily="@font/madani_arabic_light"
-                    android:text="@string/upload_photo"
-                    android:textColor="@color/bg"
-                    android:textSize="@dimen/_12sdp" />
-
-
-            </LinearLayout>
-
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -159,33 +269,32 @@
                 android:layout_gravity="start"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/ic_twitter_select"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/circle_bg_disable"
+                    android:padding="@dimen/_10sdp"
+                    android:src="@drawable/ic_twitter" />
 
                 <ImageView
                     android:id="@+id/ic_youtube_select"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/circle_bg_disable"
-                    android:padding="@dimen/_15sdp"
+                    android:padding="@dimen/_10sdp"
+                    android:layout_marginStart="@dimen/_5sdp"
                     android:src="@drawable/ic_youtube" />
 
                 <ImageView
-                    android:id="@+id/ic_twitter_select"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/ic_linkedin"
+                    android:layout_width="52dp"
+                    android:layout_height="52dp"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:background="@drawable/circle_bg_disable"
-                    android:padding="@dimen/_15sdp"
-                    android:src="@drawable/ic_twitter" />
-
-                <ImageView
-                    android:id="@+id/ic_whatsapp_select"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:background="@drawable/circle_bg_disable"
-                    android:padding="@dimen/_15sdp"
-                    android:src="@drawable/ic_whatsapp" />
-
+                    android:padding="@dimen/_10sdp"
+                    android:src="@drawable/linkedin" />
 
                 <ImageView
                     android:id="@+id/ic_snapshot_select"
@@ -193,19 +302,19 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:background="@drawable/circle_bg_disable"
-                    android:padding="@dimen/_15sdp"
+                    android:padding="@dimen/_10sdp"
                     android:src="@drawable/ic_snapshot" />
+
+                <ImageView
+                    android:id="@+id/ic_ticktok_select"
+                    android:layout_width="52dp"
+                    android:layout_height="52dp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:background="@drawable/circle_bg_disable"
+                    android:padding="@dimen/_10sdp"
+                    android:src="@drawable/tiktok" />
             </LinearLayout>
 
-            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
-                android:id="@+id/ic_youtube"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:hint="@string/youtube"
-                android:inputType="textPersonName"
-                android:visibility="gone"
-                app:startIcon="@drawable/ic_youtube" />
 
             <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/ic_twitter"
@@ -216,18 +325,24 @@
                 android:inputType="textWebEmailAddress"
                 android:visibility="gone"
                 app:startIcon="@drawable/ic_twitter" />
-
-
             <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
-                android:id="@+id/ic_whatsapp"
+                android:id="@+id/ic_youtube"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:hint="@string/whatsapp"
+                android:hint="@string/youtube"
+                android:inputType="textPersonName"
+                android:visibility="gone"
+                app:startIcon="@drawable/ic_youtube" />
+            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+                android:id="@+id/ic_linkedIn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="@string/linkedIn"
                 android:inputType="number"
                 android:visibility="gone"
                 app:startIcon="@drawable/ic_whatsapp" />
-
 
             <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/ic_snapshot"
@@ -239,17 +354,65 @@
                 android:visibility="gone"
                 app:startIcon="@drawable/ic_snapshot" />
 
-
             <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
-                android:id="@+id/employment_type"
+                android:id="@+id/ic_tickTok"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:hint="@string/type_of_employment"
-                app:endIcon="@drawable/ic_arrow_down"
-                app:startIcon="@drawable/ic_office_building"
-                app:viewType="spinner" />
+                android:hint="@string/tickTok"
+                android:inputType="number"
+                android:visibility="gone"
+                app:startIcon="@drawable/ic_whatsapp" />
 
+
+
+
+            <LinearLayout
+                android:id="@+id/itemLayout2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edittext_bg"
+                android:gravity="center_vertical"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/iv_start_icon2"
+                    android:layout_width="@dimen/_14sdp"
+                    android:layout_height="@dimen/_14sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:src="@drawable/ic_office_building" />
+
+                <View
+                    android:id="@+id/line2"
+                    android:layout_width="@dimen/_1sdp"
+                    android:layout_height="match_parent"
+                    android:background="@color/line" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true">
+
+                        <Spinner
+                            android:id="@+id/spinnerCommirecalRegisterationType"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:backgroundTint="@color/orange" />
+                    </FrameLayout>
+
+
+                </RelativeLayout>
+
+
+            </LinearLayout>
 
             <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/commercial_registration_no"
@@ -260,18 +423,57 @@
                 android:inputType="textPersonName"
                 app:startIcon="@drawable/ic_office_building" />
 
-
-            <TextView
-                android:id="@+id/date"
+            <LinearLayout
+                android:id="@+id/itemLayout3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
                 android:background="@drawable/edittext_bg"
-                android:drawablePadding="@dimen/_15sdp"
                 android:gravity="center_vertical"
-                android:padding="@dimen/_12sdp"
-                android:text="@string/SelectDate"
-                app:drawableStartCompat="@drawable/ic_calendar" />
+                android:layout_marginTop="@dimen/_10sdp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/iv_start_icon3"
+                    android:layout_width="@dimen/_14sdp"
+                    android:layout_height="@dimen/_14sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:src="@drawable/ic_office_building" />
+
+                <View
+                    android:id="@+id/line3"
+                    android:layout_width="@dimen/_1sdp"
+                    android:layout_height="match_parent"
+                    android:background="@color/line" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true">
+                        <TextView
+                            android:id="@+id/tvDate"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:paddingTop="12dp"
+                            android:paddingBottom="12dp"
+                            android:paddingStart="12dp"
+                            android:hint="@string/registrationNumberExpiryDate" />
+                    </FrameLayout>
+
+
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+
 
             <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/TaxNumber"
@@ -279,9 +481,21 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:hint="@string/TaxNumber"
-                android:inputType="textPersonName"
+                android:inputType="number"
                 app:imeOptions="done"
                 app:startIcon="@drawable/ic_tax" />
+
+
+            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+                android:id="@+id/etMaroof"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="@string/maroof"
+                android:inputType="textPersonName"
+                app:startIcon="@drawable/ic_tax" />
+
+
 
 
             <androidx.appcompat.widget.AppCompatButton
@@ -296,6 +510,72 @@
                 android:textColor="@color/bg"
                 android:textSize="@dimen/_12sdp" />
 
+
+            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+                android:id="@+id/countryContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="@string/Country"
+                android:inputType="textPersonName"
+                app:endIcon="@drawable/ic_arrow_down"
+                app:startIcon="@drawable/ic_region"
+                app:viewType="spinner" />
+
+            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+                android:id="@+id/regionContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="@string/Region"
+                android:inputType="textPersonName"
+                app:endIcon="@drawable/ic_arrow_down"
+                app:startIcon="@drawable/ic_region"
+                app:viewType="spinner" />
+
+
+
+
+            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+                android:id="@+id/neighborhoodContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="@string/district"
+                android:inputType="textPersonName"
+                app:endIcon="@drawable/ic_arrow_down"
+                app:startIcon="@drawable/ic_city"
+                app:viewType="spinner" />
+
+            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+                android:id="@+id/area"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="@string/Area"
+                android:inputType="text" />
+
+
+            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+                android:id="@+id/streetNUmber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="@string/StreetNumber"
+                android:inputType="text" />
+
+            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+                android:id="@+id/county_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="@string/ZipCode"
+                android:inputType="number"
+                app:imeOptions="done" />
+
+
+
+
             <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/locating_the_company"
                 android:layout_width="match_parent"
@@ -307,14 +587,25 @@
                 app:viewType="text" />
 
 
+            <com.malka.androidappp.newPhase.data.helper.widgets.TermsnConditionsSwitch
+                android:id="@+id/switch_trade"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="@dimen/_10sdp"
+                app:textLink=""
+                app:textSwitch="@string/Trade15Years" />
+
+
+
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/business_signup2_button"
+                android:id="@+id/btnSaveBussinessAccount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_20sdp"
                 android:background="@drawable/round_btn"
                 android:fontFamily="@font/madani_arabic_semi_bold"
-                android:text="@string/NEXT"
+                android:text="@string/Add"
                 android:textAllCaps="false"
                 android:textColor="#ffffff"
                 android:textSize="@dimen/_14sdp" />

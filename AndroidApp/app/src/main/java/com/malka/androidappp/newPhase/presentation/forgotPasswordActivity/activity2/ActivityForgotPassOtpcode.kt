@@ -162,7 +162,7 @@ class ActivityForgotPassOtpcode : BaseActivity() {
                 countdownTimer.show()
                 startTimeCounter(expireMinutes)
                 // val userPhone: String? = otpData?.phoneNumber
-                //   signupViewModel.resendOtp(userPhone.toString(), Lingver.getInstance().getLanguage())
+                loginViewModel.forgetPassword(email)
                 //resendOTPApi()
             }
         }

@@ -5,7 +5,7 @@
     android:id="@+id/fragment_account"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".newPhase.presentation.account_fragment.AccountFragment">
+    tools:context=".newPhase.presentation.accountFragment.AccountFragment">
 
 
     <androidx.core.widget.NestedScrollView
@@ -32,21 +32,27 @@
                 android:padding="@dimen/_5sdp">
 
                 <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/_60sdp"
+                    android:layout_height="@dimen/_60sdp"
                     android:layout_marginTop="30dp"
+                    android:id="@+id/ivUserImageContainer"
                     android:layout_gravity="center">
                     <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/ivUserImage"
                         android:layout_width="@dimen/_54sdp"
                         android:layout_height="@dimen/_54sdp"
+                        android:id="@+id/ivUserImage"
                         android:src="@mipmap/malqa_iconn_round"/>
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:src="@drawable/baseline_camera_alt_24"/>
                     <ProgressBar
                         android:id="@+id/loader"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_centerHorizontal="true"
                         android:indeterminateTint="@color/white"
                         />
                 </RelativeLayout>

@@ -1,28 +1,19 @@
 package com.malka.androidappp.newPhase.presentation.signup.activity3
 
-import android.Manifest
-import android.app.Activity
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.Matrix
 import android.net.Uri
 import android.os.Bundle
 import androidx.activity.result.ActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.bumptech.glide.Glide
-import com.google.gson.Gson
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.newPhase.data.helper.*
 import com.malka.androidappp.newPhase.data.helper.Extension.getDeviceId
 import com.malka.androidappp.newPhase.data.helper.widgets.DatePickerFragment
 import com.malka.androidappp.newPhase.data.network.constants.Constants
-import com.malka.androidappp.newPhase.domain.models.servicemodels.LocationPickerModel
 import com.malka.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.OtpData
 import com.malka.androidappp.newPhase.presentation.dialogsShared.PickImageMethodsDialog
 import com.malka.androidappp.newPhase.presentation.dialogsShared.countryDialog.CountryDialog
@@ -93,28 +84,64 @@ class SignupCreateNewUser : BaseActivity(), PickImageMethodsDialog.OnAttachedIma
 
         })
         signupViewModel.errorResponseObserver.observe(this, Observer {
-            if (it.message != null) {
-                HelpFunctions.ShowLongToast(
-                    it.message!!,
-                    this
-                )
-            } else {
-                HelpFunctions.ShowLongToast(
-                    getString(R.string.serverError),
-                    this
-                )
+
+            when (it.message) {
+                "UsernameExists" -> {
+                    HelpFunctions.ShowLongToast( getString(R.string.userNameExists),this)
+                }
+                "PhoneNumberExists" -> {
+                    HelpFunctions.ShowLongToast( getString(R.string.userPhoneExists),this)
+                }
+                "EmailExists" -> {
+                    HelpFunctions.ShowLongToast( getString(R.string.userEmailExists),this)
+                }
+                else -> {
+                    if (it.message != null) {
+                        HelpFunctions.ShowLongToast(
+                            it.message!!,
+                            this
+                        )
+                    } else {
+                        HelpFunctions.ShowLongToast(
+                            getString(R.string.serverError),
+                            this
+                        )
+                    }
+                }
             }
 
         })
         signupViewModel.registerRespObserver.observe(this) { registerResp ->
-            if (registerResp.status_code == 200) {
-                HelpFunctions.ShowLongToast(
-                    getString(R.string.Accounthasbeencreated),
-                    this@SignupCreateNewUser
-                )
-                signInAfterSignUp()
-            } else {
-                showError(getString(R.string.serverError))
+            when (registerResp.status) {
+                "UsernameExists" -> {
+                    HelpFunctions.ShowLongToast( getString(R.string.userNameExists),this)
+                }
+                "PhoneNumberExists" -> {
+                    HelpFunctions.ShowLongToast( getString(R.string.userPhoneExists),this)
+                }
+                "EmailExists" -> {
+                    HelpFunctions.ShowLongToast( getString(R.string.userEmailExists),this)
+                }
+                "Success" -> {
+                    HelpFunctions.ShowLongToast(
+                        getString(R.string.Accounthasbeencreated),
+                        this@SignupCreateNewUser
+                    )
+                    signInAfterSignUp()
+                }
+                else -> {
+                    if (registerResp.message != null) {
+                        HelpFunctions.ShowLongToast(
+                            registerResp.message!!,
+                            this
+                        )
+                    } else {
+                        HelpFunctions.ShowLongToast(
+                            getString(R.string.serverError),
+                            this
+                        )
+                    }
+                }
             }
 
         }
@@ -170,7 +197,7 @@ class SignupCreateNewUser : BaseActivity(), PickImageMethodsDialog.OnAttachedIma
 
     /*****/
     private fun openCameraChooser() {
-        imageMethodsPickerDialog = PickImageMethodsDialog(this, this)
+        imageMethodsPickerDialog = PickImageMethodsDialog(this, false,this)
         imageMethodsPickerDialog.show()
     }
 
@@ -201,6 +228,10 @@ class SignupCreateNewUser : BaseActivity(), PickImageMethodsDialog.OnAttachedIma
         } else {
             imagePicker.choosePicture(ImagePicker.GALLERY)
         }
+    }
+
+    override fun onDeleteImage() {
+
     }
 
     private fun setImage(imageUri: Uri) {
@@ -299,7 +330,7 @@ class SignupCreateNewUser : BaseActivity(), PickImageMethodsDialog.OnAttachedIma
             return false
         }
 
-        if (editTextlastname!!.text.toString().isEmpty()) {
+        if (lastName!!.text.toString().isEmpty()) {
             showError(getString(R.string.Please_enter, getString(R.string.Last_Name)))
             return false
         }
@@ -364,7 +395,7 @@ class SignupCreateNewUser : BaseActivity(), PickImageMethodsDialog.OnAttachedIma
             otpData?.userPass.toString(),
             invitationCode,
             firstName.text.toString().trim(),
-            editTextlastname.text.toString().trim(),
+            lastName.text.toString().trim(),
             date.text.toString().trim(),
             gender_.toString(),
             selectedCountryId.toString(),

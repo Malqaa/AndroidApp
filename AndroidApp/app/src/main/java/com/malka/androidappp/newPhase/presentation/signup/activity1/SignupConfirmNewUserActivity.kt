@@ -77,14 +77,14 @@ class SignupConfirmNewUserActivity : BaseActivity(), CountryDialog.GetSelectedCo
 //            Failed
 //            Success
                 println("hhh " + validateUserAndGenerateOTP.message)
-                when (validateUserAndGenerateOTP.status) {
+                when (validateUserAndGenerateOTP.message) {
                     "UsernameExists" -> {
                         userNamee.error = getString(R.string.userNameExists)
                     }
                     "PhoneNumberExists" -> {
                         textEmaill.error = getString(R.string.userPhoneExists)
                     }
-                    "EmailExists" -> {
+                    "EmailExists","EmailExisting" -> {
                         textEmaill.error = getString(R.string.userEmailExists)
                     }
                     "Success" -> {
@@ -116,11 +116,25 @@ class SignupConfirmNewUserActivity : BaseActivity(), CountryDialog.GetSelectedCo
 
             })
         signupViewModel.errorResponseObserver.observe(this, Observer {
+            println("hhhh yy"+ it.message)
             if (it.message != null) {
-                HelpFunctions.ShowLongToast(
-                    it.message!!,
-                    this
-                )
+                when (it.message) {
+                    "UsernameExists" -> {
+                        userNamee.error = getString(R.string.userNameExists)
+                    }
+                    "PhoneNumberExists" -> {
+                        etPhoneNumber.error = getString(R.string.userPhoneExists)
+                    }
+                    "EmailExists" ,"EmailExisting" -> {
+                        textEmaill.error = getString(R.string.userEmailExists)
+                    }
+                    else->{
+                        HelpFunctions.ShowLongToast(
+                            it.message!!,
+                            this
+                        )
+                    }
+                }
             } else {
                 HelpFunctions.ShowLongToast(
                     getString(R.string.serverError),
@@ -139,9 +153,10 @@ class SignupConfirmNewUserActivity : BaseActivity(), CountryDialog.GetSelectedCo
         btnLogin.setOnClickListener {
             onBackPressed()
         }
-        right_session2.setOnClickListener {
+        btnOpenCountry.setOnClickListener {
             countryDialog.show()
         }
+
     }
 
     private fun setupCountryCodePiker() {
@@ -178,10 +193,10 @@ class SignupConfirmNewUserActivity : BaseActivity(), CountryDialog.GetSelectedCo
                 signupViewModel.validateUserAndGenerateOTP(
                     userNamee.text.toString().trim(),
                     textEmaill.text.toString().trim(),
-                    "${tvCode.text}${etPhoneNumber.text.toString().trim()}",
+                    "${etPhoneNumber.text.toString().trim()}",
                     Lingver.getInstance().getLanguage()
                 )
-
+                //"${tvCode.text}${etPhoneNumber.text.toString().trim()}",
             } else {
                 showError(getString(R.string.Please_select, getString(R.string.term_condition)))
             }

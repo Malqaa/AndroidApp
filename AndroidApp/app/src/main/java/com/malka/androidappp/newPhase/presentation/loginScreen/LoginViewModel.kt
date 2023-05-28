@@ -7,6 +7,7 @@ import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.loginResp.LoginResp
 import com.malka.androidappp.newPhase.domain.models.servicemodels.GeneralRespone
 import com.malka.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
+import com.malka.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.ValidateAndGenerateOTPResp
 import com.yariksoffice.lingver.Lingver
 import retrofit2.Call
 import retrofit2.Callback
@@ -94,5 +95,6 @@ class LoginViewModel : BaseViewModel(){
             })
 
     }
+
 
 }

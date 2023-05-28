@@ -101,6 +101,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerInParent="true"
+                        android:visibility="gone"
                         android:orientation="vertical">
 
                         <com.hbb20.CountryCodePicker
@@ -144,11 +145,11 @@
 <!--                    app:startIcon="@drawable/ic_phone" />-->
                 <LinearLayout
 
-                    android:id="@+id/reset_btn"
+                    android:id="@+id/btn_reset_phone_number"
                     android:layout_width="@dimen/_90sdp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:background="@color/bg">
+                    android:background="@drawable/background_corener_from_end">
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -184,8 +185,9 @@
                     android:id="@+id/textEmail"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_gravity="center"
+                    android:layout_gravity="center|start"
                     android:layout_marginStart="@dimen/_12sdp"
+                    android:textAlignment="viewStart"
                     android:layout_weight="1"
                     android:background="@null"
                     android:hint="@string/Email"
@@ -199,7 +201,7 @@
                     android:id="@+id/activate_email"
                     android:layout_width="@dimen/_90sdp"
                     android:layout_height="match_parent"
-                    android:background="@color/bg">
+                    android:background="@drawable/background_corener_from_end">
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -208,7 +210,9 @@
                         android:textSize="@dimen/_8sdp"
                         android:gravity="center"
                         android:textColor="@color/white"
-                        android:text="@string/activate_email"/>
+                        android:text="@string/reset"
+                       />
+<!--                    android:text="@string/activate_email"-->
                 </LinearLayout>
 
 
@@ -243,7 +247,7 @@
                     android:layout_weight="1"
                     app:errorIconDrawable="@null"
                     app:boxStrokeWidthFocused="0dp"
-                    app:passwordToggleEnabled="true">
+                    app:passwordToggleEnabled="false">
                     <EditText
                         android:id="@+id/password"
                         android:layout_width="match_parent"
@@ -268,7 +272,7 @@
                     android:layout_width="@dimen/_90sdp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:background="@color/bg">
+                    android:background="@drawable/background_corener_from_end">
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -294,7 +298,7 @@
                 android:textSize="@dimen/_12sdp"/>
 
             <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
-                android:id="@+id/fullNamee"
+                android:id="@+id/fristName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp"
@@ -303,7 +307,7 @@
                 app:startIcon="@drawable/ic_user" />
 
             <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
-                android:id="@+id/editTextlastname"
+                android:id="@+id/lastName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"

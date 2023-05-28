@@ -142,7 +142,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
-                            android:layout_toStartOf="@+id/right_session2">
+                            android:layout_toStartOf="@+id/btnOpenCountry">
                             <com.google.android.material.textfield.TextInputLayout
                                 android:id="@+id/tvl_field_phone"
                                 android:layout_width="match_parent"
@@ -171,7 +171,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:layout_centerInParent="true"
-                            android:id="@+id/right_session2"
+                            android:id="@+id/btnOpenCountry"
                             android:layout_marginEnd="10dp"
                             android:foreground="?android:attr/selectableItemBackground"
                             android:orientation="horizontal">

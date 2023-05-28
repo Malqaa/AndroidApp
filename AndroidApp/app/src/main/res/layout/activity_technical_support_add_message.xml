@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.malka.androidappp.newPhase.presentation.account_fragment.technicalSupportActivity.addTechencalSupport.AddTechnicalSupportMessageActivity">
+    tools:context="com.malka.androidappp.newPhase.presentation.accountFragment.technicalSupportActivity.addTechencalSupport.AddTechnicalSupportMessageActivity">
 
 
     <include

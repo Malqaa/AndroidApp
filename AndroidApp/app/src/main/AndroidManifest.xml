@@ -32,19 +32,28 @@
         android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup">
         <activity
+            android:name="com.malka.androidappp.newPhase.presentation.accountFragment.editProfileActivity.ConfirmChangeEmailActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.malka.androidappp.newPhase.presentation.accountFragment.editProfileActivity.ChangePasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.malka.androidappp.newPhase.presentation.accountFragment.mapActivity.MapActivity"
+            android:exported="false" />
+        <activity
             android:name="com.malka.androidappp.newPhase.presentation.addressUser.addressListActivity.ListAddressesActivity"
             android:exported="false" />
         <activity
-            android:name="com.malka.androidappp.newPhase.presentation.account_fragment.editProfileActivity.EditProfileActivity"
+            android:name="com.malka.androidappp.newPhase.presentation.accountFragment.editProfileActivity.EditProfileActivity"
             android:exported="false" />
         <activity
             android:name="com.malka.androidappp.newPhase.presentation.myOrderDetails.MyOrderDetailsRequestedFromMeActivity"
             android:exported="false" />
         <activity
-            android:name="com.malka.androidappp.newPhase.presentation.account_fragment.technicalSupportActivity.addTechencalSupport.AddTechnicalSupportMessageActivity"
+            android:name="com.malka.androidappp.newPhase.presentation.accountFragment.technicalSupportActivity.addTechencalSupport.AddTechnicalSupportMessageActivity"
             android:exported="false" />
         <activity
-            android:name="com.malka.androidappp.newPhase.presentation.account_fragment.technicalSupportActivity.listtechincalSupportMessage.TechnicalSupportListActivity"
+            android:name="com.malka.androidappp.newPhase.presentation.accountFragment.technicalSupportActivity.listtechincalSupportMessage.TechnicalSupportListActivity"
             android:exported="false" />
         <activity
             android:name="com.malka.androidappp.newPhase.presentation.shipmentRateActivity.ShipmentRateActivity"
@@ -108,7 +117,7 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.malka.androidappp.newPhase.presentation.account_fragment.businessAccount.businessAccountsList.SwitchAccountActivity"
+            android:name="com.malka.androidappp.newPhase.presentation.accountFragment.businessAccount.businessAccountsList.SwitchAccountActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity
@@ -138,7 +147,7 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".newPhase.presentation.account_fragment.businessAccount.addBusinessAccount.BusinessAccountCreateActivity"
+            android:name=".newPhase.presentation.accountFragment.businessAccount.addBusinessAccount.BusinessAccountCreateActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.malka.androidappp.newPhase.presentation.forgotPasswordActivity.ForgotChangepassActivity"
@@ -156,13 +165,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".newPhase.presentation.signup.activity3.SignupCreateNewUser"
-            android:screenOrientation="portrait"
-            android:exported="true">
-
-        </activity>
+            android:exported="true"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".newPhase.presentation.MainActivity"
             android:screenOrientation="portrait" />
@@ -175,7 +181,6 @@
         <activity
             android:name=".newPhase.presentation.signup.activity2.SignupOTPVerificationActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.malka.androidappp.newPhase.presentation.forgotPasswordActivity.activtiy1.ForgotPasswordActivty"
             android:screenOrientation="portrait" />
@@ -226,6 +231,7 @@
         <activity
             android:name="com.malka.androidappp.newPhase.presentation.addressUser.addAddressActivity.AddAddressActivity"
             android:screenOrientation="portrait" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.malka.androidappp"

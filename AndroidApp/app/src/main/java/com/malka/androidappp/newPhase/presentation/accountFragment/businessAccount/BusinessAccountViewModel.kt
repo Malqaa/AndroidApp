@@ -1,0 +1,158 @@
+package com.malka.androidappp.newPhase.presentation.accountFragment.businessAccount
+
+import androidx.lifecycle.MutableLiveData
+import com.malka.androidappp.newPhase.core.BaseViewModel
+import com.malka.androidappp.newPhase.data.helper.Extension.requestBody
+import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.domain.models.bussinessAccountsListResp.BusinessAccountsListResp
+import com.malka.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.HttpException
+import retrofit2.Response
+import java.io.File
+
+class BusinessAccountViewModel : BaseViewModel() {
+    var businessAccountListObserver: MutableLiveData<BusinessAccountsListResp> =
+        MutableLiveData<BusinessAccountsListResp>()
+    var addbusinessAccountListObserver: MutableLiveData<GeneralResponse> =
+        MutableLiveData<GeneralResponse>()
+
+    fun getBusinessAccount() {
+        isLoading.value = true
+        RetrofitBuilder.GetRetrofitBuilder()
+            .gatAllBusinessAccounts()
+            .enqueue(object : Callback<BusinessAccountsListResp> {
+                override fun onFailure(call: Call<BusinessAccountsListResp>, t: Throwable) {
+                    isNetworkFail.value = t !is HttpException
+                    isLoading.value = false
+                }
+
+                override fun onResponse(
+                    call: Call<BusinessAccountsListResp>,
+                    response: Response<BusinessAccountsListResp>
+                ) {
+                    isLoading.value = false
+                    if (response.isSuccessful) {
+                        businessAccountListObserver.value = response.body()
+                    } else {
+                        errorResponseObserver.value = getErrorResponse(response.errorBody())
+                    }
+                }
+            })
+    }
+
+    fun addBusinessAcoount(
+        userNamee: String,
+        providerId: String,
+        company_name_ar: String,
+        company_name_en: String,
+        textEmaill: String,
+        etPhoneNumber: String,
+        userImageFile: File?,
+        et_web_site: String,
+        Facebook: String,
+        Instagram: String,
+        ic_twitter: String,
+        ic_youtube: String,
+        ic_linkedIn: String,
+        ic_snapshot: String,
+        ic_tickTok: String,
+        selectedCommericalRegisterType: Int,
+        commercial_registration_no: String,
+        tvDate: String,
+        TaxNumber: String,
+        etMaroof: String,
+        commercialRegistryFileList: ArrayList<File>,
+        selectedCountryId: Int,
+        selectedRegionId: Int,
+        selectedNeighborhoodId: Int,
+        area: String,
+        streetNUmber: String,
+        county_code: String,
+        lat: Double,
+        longitude: Double,
+        _getChecked: Boolean
+    ) {
+        isLoading.value = true
+        var multipartBodyUserImageFile: MultipartBody.Part? = null
+        userImageFile?.let { userImageFile ->
+            var requestbody: RequestBody =
+                userImageFile.asRequestBody("image/*".toMediaTypeOrNull())
+            multipartBodyUserImageFile = MultipartBody.Part.createFormData(
+                "BusinessAccountImage",
+                userImageFile.name,
+                requestbody
+            )
+        }
+        var multipartBodyCommercialRegistryFileList: ArrayList<MultipartBody.Part> =
+            ArrayList<MultipartBody.Part>()
+        for (file in commercialRegistryFileList) {
+            var requestbody: RequestBody =
+                file.asRequestBody("image/*".toMediaTypeOrNull())
+            var multipartBodyFile = MultipartBody.Part.createFormData(
+                "BusinessAccountCertificates",
+                file.name,
+                requestbody
+            )
+            multipartBodyCommercialRegistryFileList.add(multipartBodyFile)
+        }
+        RetrofitBuilder.GetRetrofitBuilder()
+            .addEditBusinessAccount(
+                businessAccountUserName = userNamee.requestBody(),
+                providerId = providerId.requestBody(),
+                businessAccountNameAr = company_name_ar.requestBody(),
+                BusinessAccountNameEn = company_name_en.requestBody(),
+                BusinessAccountEmail = textEmaill.requestBody(),
+                BusinessAccountPhoneNumber = etPhoneNumber.requestBody(),
+                multipartBodyUserImageFile,
+                BusinessAccountWebsite = et_web_site.requestBody(),
+                BusinessAccountFaceBook = Facebook.requestBody(),
+                BusinessAccountInstagram = Instagram.requestBody(),
+                BusinessAccountTwitter = ic_twitter.toRequestBody(),
+                BusinessAccountYouTube = ic_youtube.requestBody(),
+                BusinessAccountLinkedIn = ic_linkedIn.requestBody(),
+                BusinessAccountSnapchat = ic_snapshot.requestBody(),
+                BusinessAccountTikTok = ic_tickTok.requestBody(),
+                RegistrationDocumentType = selectedCommericalRegisterType.toString().requestBody(),
+                DetailRegistrationNumber = commercial_registration_no.requestBody(),
+                RegistrationNumberExpiryDate = tvDate.requestBody(),
+                VatNumber = TaxNumber.requestBody(),
+                Maroof = etMaroof.requestBody(),
+                if (multipartBodyCommercialRegistryFileList.isEmpty()) null else multipartBodyCommercialRegistryFileList,
+                CountryId=selectedCountryId.toString().requestBody(),
+                RegionId=selectedRegionId.toString().requestBody(),
+                NeighborhoodId=selectedNeighborhoodId.toString().requestBody(),
+                District=area.requestBody(),
+                Street=streetNUmber.requestBody(),
+                ZipCode=county_code.requestBody(),
+                Trade15Years=_getChecked.toString().requestBody(),
+                Lat=lat.toString().requestBody(),
+                Lon=longitude.toString().requestBody()
+            )
+            .enqueue(object : Callback<GeneralResponse> {
+                override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
+                    isNetworkFail.value = t !is HttpException
+                    isLoading.value = false
+                }
+
+                override fun onResponse(
+                    call: Call<GeneralResponse>,
+                    response: Response<GeneralResponse>
+                ) {
+                    isLoading.value = false
+                    if (response.isSuccessful) {
+                        addbusinessAccountListObserver.value = response.body()
+                    } else {
+                        errorResponseObserver.value = getErrorResponse(response.errorBody())
+                    }
+                }
+            })
+    }
+
+}

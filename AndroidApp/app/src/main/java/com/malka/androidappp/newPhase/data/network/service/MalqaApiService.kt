@@ -133,9 +133,11 @@ interface MalqaApiService {
       //  @Query("User-Language") lang: String,
     ): Call<ValidateAndGenerateOTPResp>
 
-    @GET("ResendOtp")
+   // @GET("ResendOtp")
+    @GET("SendOtp")
     fun resendOtp(
         @Query("phoneNumber") userPhone: String,
+        @Query("otpType") otpType: String,
         @Query("User-Language") lang: String,
     ): Call<ValidateAndGenerateOTPResp>
 
@@ -574,12 +576,56 @@ interface MalqaApiService {
 
     @GET("GatAllBusinessAccounts")
     fun gatAllBusinessAccounts(): Call<BusinessAccountsListResp>
+    @Multipart
+    @POST("AddEditBusinessAccount")
+    fun addEditBusinessAccount(
+        @Part("BusinessAccountUserName") businessAccountUserName : RequestBody,
+        @Part("ProviderId") providerId: RequestBody,
+        @Part("BusinessAccountNameAr") businessAccountNameAr: RequestBody,
+        @Part("BusinessAccountNameEn") BusinessAccountNameEn : RequestBody,
+        @Part("BusinessAccountEmail") BusinessAccountEmail: RequestBody,
+        @Part("BusinessAccountPhoneNumber") BusinessAccountPhoneNumber: RequestBody,
+        @Part BusinessAccountImage: MultipartBody.Part?,
+        @Part("BusinessAccountWebsite") BusinessAccountWebsite: RequestBody,
+        @Part("BusinessAccountFaceBook") BusinessAccountFaceBook: RequestBody,
+        @Part("BusinessAccountInstagram") BusinessAccountInstagram: RequestBody,
+        @Part("BusinessAccountTwitter") BusinessAccountTwitter: RequestBody,
+        @Part("BusinessAccountYouTube") BusinessAccountYouTube: RequestBody,
+        @Part("BusinessAccountLinkedIn") BusinessAccountLinkedIn: RequestBody,
+        @Part("BusinessAccountSnapchat") BusinessAccountSnapchat: RequestBody,
+        @Part("BusinessAccountTikTok") BusinessAccountTikTok: RequestBody,
+        @Part("RegistrationDocumentType") RegistrationDocumentType: RequestBody,
+        @Part("DetailRegistrationNumber") DetailRegistrationNumber: RequestBody,
+        @Part("RegistrationNumberExpiryDate") RegistrationNumberExpiryDate: RequestBody,
+        @Part("VatNumber") VatNumber: RequestBody,
+        @Part("Maroof") Maroof: RequestBody,
+        @Part BusinessAccountCertificates: List<MultipartBody.Part>?,
+        @Part("CountryId") CountryId: RequestBody,
+        @Part("RegionId") RegionId: RequestBody,
+        @Part("NeighborhoodId") NeighborhoodId: RequestBody,
+        @Part("District") District: RequestBody,
+        @Part("Street") Street: RequestBody,
+        @Part("ZipCode") ZipCode: RequestBody,
+        @Part("Trade15Years") Trade15Years: RequestBody,
+        @Part("Lat") Lat: RequestBody,
+        @Part("Lon") Lon: RequestBody,
+    ): Call<GeneralResponse>
 
 
     @Multipart
     @POST("EditProfileImage")
-    fun editProfileImage(@Part part: MultipartBody.Part): Call<GeneralResponse>
+    fun editProfileImage(@Part part: MultipartBody.Part?): Call<GeneralResponse>
+    @GET("GetUserData")
+    fun getUserData():Call<LoginResp>
 
+    @POST("EditProfileChangePassword")
+    fun editProfileChangePassword(@Body data:HashMap<String,Any>): Call<GeneralResponse>
+
+    @POST("EditProfileChangeEmail")
+    fun editProfileChangeEmail(@Query("email")email:String): Call<GeneralResponse>
+
+    @POST("ConfirmChangeEmail")
+    fun confirmChangeEmail(@Body data:HashMap<String,Any>): Call<GeneralResponse>
     /***
      * ***********************************
      * ***********************************

@@ -33,7 +33,7 @@ class CommonAPI {
                     if (response.body() != null) {
                         response.body()!!.run {
                             if (status_code == 200) {
-                                ConstantObjects.userobj = response.body()!!.data
+                               // ConstantObjects.userobj = response.body()!!.data
                                 ConstantObjects.logged_userid = response.body()!!.data.id ?: ""
                                 onSuccess.invoke()
                             }

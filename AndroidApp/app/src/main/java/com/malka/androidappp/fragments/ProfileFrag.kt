@@ -198,7 +198,7 @@ class ProfileFrag : Fragment() {
                         if (response.body() != null) {
                             var userinfo: UserObject = response.body()!!;
                             if (userinfo != null) {
-                                ConstantObjects.userobj = userinfo.data;
+                                //ConstantObjects.userobj = userinfo.data;
                                 textName.text = userinfo.data.fullName
                                 textLastName.text = userinfo.data.lastname
                                 textFirstName.text = userinfo.data.fullName

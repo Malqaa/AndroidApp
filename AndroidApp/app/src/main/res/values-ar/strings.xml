@@ -56,8 +56,8 @@
   </string>
 
     <string name="CodeExpired">انتهت صلاحية الرمز</string>
-  <string name="OTPWrongTrialsExcced">تم تجاوز المحاولات الخاطئة للرمز </string>
-  <string name="InvalidOTP">رمز التحقق غير صحيح</string>
+    <string name="OTPWrongTrialsExcced">تم تجاوز المحاولات الخاطئة للرمز </string>
+    <string name="InvalidOTP">رمز التحقق غير صحيح</string>
     <string name="NEXT">التالي</string>
 
     <string name="Greattohaveyouonboard">من الرائع أن تكون على متن الطائرة!</string>
@@ -75,6 +75,7 @@
 
 
     <string name="Confirm_Password">تأكيد كلمة المرور</string>
+    <string name="Confirm_New_Password">تأكيد كلمة المرور الجديده</string>
     <string name="Country"> دولة</string>
     <string name="Create_your_personal_account"> إنشاء حساب شخصي</string>
     <string name="Date_of_Birth">تاريخ الميلاد</string>
@@ -104,9 +105,7 @@
     <string name="Female">
   أنثى
   </string>
-    <string name="First_Name">
-الاسم الاول
-  </string>
+    <string name="First_Name">الاسم الاول</string>
     <string name="Forgot_your_password">
    نسيت كلمة المرور؟
   </string>
@@ -126,15 +125,11 @@
     <string name="Keep_me_Sign_In">
 ابقني مسجل
   </string>
-    <string name="Last_Name">
-    الاسم الاخير
-  </string>
+    <string name="Last_Name">الاسم الاخير</string>
     <string name="Login">
     تسجيل دخول
   </string>
-    <string name="Male">
-    ذكر
-  </string>
+    <string name="Male">ذكر</string>
     <string name="Month">
    شهر
   </string>
@@ -147,9 +142,7 @@
     <string name="P.OBox">
   صندوق بريد
   </string>
-    <string name="Password">
-  كلمه السر
-  </string>
+    <string name="Password">كلمه المرور</string>
     <string name="Region">
     منطقة
   </string>
@@ -171,9 +164,7 @@
     <string name="Step">
     خطوة
   </string>
-    <string name="Username">
-    اسم المستخدم
-  </string>
+    <string name="Username">اسم المستخدم</string>
     <string name="wellsendpasswordresetinstructions.">
     سنرسل تعليمات إعادة تعيين كلمة المرور.
   </string>
@@ -577,7 +568,7 @@
   لم تتم الموافقة على حسابك
   </string>
     <string name="UserNameorPasswordiswrong">
-    اسم المستخدم أو كلمة السر غير صحيحة
+    اسم المستخدم أو كلمة المرور غير صحيحة
   </string>
     <string name="CheckYourEmailForPaswordResetLink">
     تحقق من بريدك الإلكتروني للحصول على رابط إعادة تعيين كلمة المرور
@@ -1170,13 +1161,13 @@
     <string name="Cancel">
     ألغاء
   </string>
-  <string name="cancelAshipmentOrder">
+    <string name="cancelAshipmentOrder">
    إلغاء طلب الشحن
   </string>
-  <string name="Canceled">
+    <string name="Canceled">
    تم إلغاء طلب الشحن
   </string>
-  <string name="download_invoice">تحميل فاتورة</string>
+    <string name="download_invoice">تحميل فاتورة</string>
     <string name="Cash3367annuzhahMakkah">
     3367 ج، النزهة، مكة المكرمة
   </string>
@@ -1323,7 +1314,7 @@
   </string>
 
     <string name="Passworddoesnotmatch">
-      كلمة السر غير متطابقة
+      كلمة المرور غير متطابقة
   </string>
 
     <string name="AccountDetails">
@@ -1515,9 +1506,7 @@
     اشتراك
   </string>
 
-    <string name="PhoneNumber">
-   رقم الهاتف
-  </string>
+    <string name="PhoneNumber">رقم الهاتف</string>
 
     <string name="Youremailwillremainconfidential">
 سيبقى بريدك الإلكتروني سريًا
@@ -2455,16 +2444,18 @@
     <string name="neutrals"> محايدون</string>
     <string name="negatives"> السلبيات</string>
     <string name="positive"> إيجابيات</string>
-    <string name="recoverpass">هل نسيت كلمة السر؟<font color='#339933'>تعافى هنا</font></string>
+    <string name="recoverpass">هل نسيت كلمة المرور؟<font color='#339933'>تعافى هنا</font></string>
     <string name="signuptext">ليس لديك حساب؟<font color='339933'>اشتراك</font></string>
     <string name="alreadyaccount">هل لديك حساب؟ تسجيل الدخول</string>
     <string name="browsemarketnav">All Categories   >   Marketplace</string>
-    <string name="type_your_password_here">كلمه السر</string>
+    <string name="type_your_password_here">كلمه المرور</string>
+    <string name="type_your__curretn_password_here">كلمه المرور الحاليه</string>
+    <string name="type_new_password_here">كلمه المرور الجديده</string>
     <string name="type_your_email_here">اكتب بريدك الإلكتروني هنا</string>
 
     <string name="PleaseenteravalidPhoneNumber">يرجى إدخال رقم هاتف صالح</string>
 
-    <string name="Passworddonotmatch">كلمة السر غير مطابقة</string>
+    <string name="Passworddonotmatch">كلمة المرور غير مطابقة</string>
 
     <string name="Pleasewaituntilthecodeexpires">يرجى الانتظار حتى انتهاء صلاحية الرمز</string>
 
@@ -2473,7 +2464,7 @@
     <string name="VerificationFailed">فشل التحقق! ... إعادة إرسال الرمز</string>
 
     <string name="Seconds">إعادة ارسال الكود بعد :%1$d ثانية</string>
-  <string name="Seconds2">إعادة ارسال الكود بعد :</string>
+    <string name="Seconds2">إعادة ارسال الكود بعد :</string>
     <string name="Pleaseselectagender">الرجاء تحديد الجنس</string>
 
     <string name="NoResponse"></string>
@@ -2500,7 +2491,9 @@
     <string name="term_condition">الشروط والاحكام</string>
     <string name="activation">تفعيل</string>
     <string name="confirm_mobile_number">تأكيد رقم الجوال</string>
+  <string name="confirm_Email">تأكيد البريد الإلكترونى</string>
     <string name="sent_code">لقد ارسلنا كود التفعيل الى الهاتف الخاص بك</string>
+  <string name="sent_code_email">لقد ارسلنا كود التفعيل الى ألبريد الإلكترزنى الخاص بك</string>
     <string name="one_step_left">!تبقت خطوة واحدة</string>
     <string name="enter_your_address_name_and_age_details">ادخل تفاصيل عنوانك/ السم والعمر</string>
     <string name="address_details">تفاصيل العنوان</string>
@@ -2509,8 +2502,11 @@
     <string name="CompanyData">بيانات الشركة</string>
     <string name="please_enter_company_information">من فضلك أدخل بيانات الشركة</string>
     <string name="the_company_s_name">اسم الشركة</string>
+    <string name="the_company_s_name_ar">اسم الشركة بالعربية</string>
+    <string name="the_company_s_name_en">اسم الشركة بالأنجليزيه</string>
     <string name="website">الموقع الالكترونى</string>
     <string name="TaxNumber">الرقم الضريبى</string>>
+    <string name="maroof">معروف</string>
     <string name="download_the_commercial_registry_file">تحميل ملف السجل التجارى</string>
     <string name="locating_the_company">تحديد موقع الشركة</string>
     <string name="commercial_registration_no">رقم السجل التجاري</string>
@@ -2670,8 +2666,10 @@
     <string name="accounts">حسابات</string>
     <string name="user_account">حساب مستخدم</string>
     <string name="currently_registered">مسجل حاليا</string>
-    <string name="whatsapp">WhatsApp</string>
+    <string name="whatsapp">واتس اب</string>
+    <string name="linkedIn">لينكد إن</string>
     <string name="snapchat">سناب شات</string>
+    <string name="tickTok">تيك توك</string>
     <string name="Switch">تبديل</string>
     <string name="business_account">حساب تجاري</string>
     <string name="search_location">موقع البحث</string>
@@ -2705,9 +2703,9 @@
     <string name="we_are_glad_to_contact_you">يسعدنا تواصلك معنا</string>
     <string name="what_kind_of_help_do_you_need">مانوع المساعدة التي تحتاجها؟</string>
     <string name="type_of_communication">نوع التواصل</string>
-  <string name="select_type_of_communication">اختر نوع التواصل</string>
+    <string name="select_type_of_communication">اختر نوع التواصل</string>
     <string name="problem_title">عنوان المشكلة</string>
-  <string name="enter_problem_title">أدخل عنوان المشكلة</string>
+    <string name="enter_problem_title">أدخل عنوان المشكلة</string>
     <string name="message_details">تفاصيل الرسالة</string>
     <string name="send">ارسال</string>
     <string name="my_personal_settings">اعداداتى الشخصية</string>
@@ -2821,7 +2819,7 @@
     <string name="filter_application">تطبيق الفلتر</string>
     <string name="reviews_type">نوع التقييم</string>
     <string name="reviews_as_a_seller">التقييمات كبائع</string>
-  <string name="reviews_as">قيمنا</string>
+    <string name="reviews_as">قيمنا</string>
 
     <string name="reviews_as_a_buyer">التقييمات كمشترى</string>
     <string name="following">التالية</string>
@@ -2846,7 +2844,7 @@
     <string name="discountPriceShouldBeLower">يجب أن يكون سعر الخصم أقل من السعر الحالي</string>
     <string name="discountAddedSuccessfully">تمت إضافة الخصم بنجاح</string>
     <string name="sellerRate">تقيمات البائع</string>
-  <string name="rateBuyer">تقيم المشترى</string>
+    <string name="rateBuyer">تقيم المشترى</string>
     <string name="noAddressesFound">لم يتم العثور على عناوين</string>
     <string name="building">مبنى</string>
     <string name="floor">طابق</string>
@@ -2855,12 +2853,13 @@
     <string name="apartmentNumber">رقم الشقة</string>
     <string name="addressTitle">أسم العنوان</string>
     <string name="address">العنوان</string>
-  <string name="addresses">العناوين</string>
+    <string name="addresses">العناوين</string>
     <string name="street">الشارع</string>
     <string name="buildingNumber">رقم البنايه</string>
     <string name="openLocation">الرجاء تفعيل إذن الموقع</string>
     <string name="open">تفعيل</string>
     <string name="plaseSelectYourLocation">الرجاء تحديد موقعك</string>
+    <string name="selectLocation">حدد الموقع</string>
     <string name="productAddedToCart">تمت إضافة المنتج إلى عربة التسوق الخاصة بك</string>
     <string name="selectDeliveryAddress">من فضللك حدد عنوان التسليم</string>
     <string name="noLocationFound">لم يتم العثور على الموقع</string>
@@ -2873,34 +2872,45 @@
     <string name="addComment">أضف تعليق</string>
     <string name="selectShipmentRate">أختر تقيم الشحنه</string>
     <string name="addAllProductsRates">أضف جميع بيانات تقيمات المنتجات</string>
-  <string name="happy">سعيد</string>
-  <string name="satisfied">راضي</string>
-  <string name="unsatisfied">غير راضي</string>
-  <string name="enterAmount">أدخل الكميه </string>
-  <string name="suggestions">اقتراحات</string>
-  <string name="complaint">شكوى</string>
-  <string name="changeOrderStatus">تغير حاله الطلب</string>
+    <string name="happy">سعيد</string>
+    <string name="satisfied">راضي</string>
+    <string name="unsatisfied">غير راضي</string>
+    <string name="enterAmount">أدخل الكميه </string>
+    <string name="suggestions">اقتراحات</string>
+    <string name="complaint">شكوى</string>
+    <string name="changeOrderStatus">تغير حاله الطلب</string>
 
 
-  <string name="order_new">طلب جديد</string>
-  <string name="order_productsProcessing">تجهيز المنتجات</string>
-  <string name="order_deliveryPhase">مرحلة التسليم</string>
-  <string name="order_deliveryConfirmation">تأكيد التسليم</string>
-  <string name="order_canceledBySeller"> ألغاء من البائع</string>
-  <string name="noAccountFound">لم يتم العثور على حسابات</string>
-  <string name="userNameExists">اسم المستخدم موجود من قبل</string>
-  <string name="userEmailExists">البريد الإلكتروني موجود من قبل</string>
-  <string name="userPhoneExists">رقم الهاتف موجود من قبل</string>
-  <string name="takePhoto">رفع الصورة</string>
-  <string name="deletePhoto">حذف الصورة</string>
-  <string name="pickRightImage">يرجى اختيار الصورة مره اخرى</string>
-  //====attach file dialog
-  <string name="addFiles">اضف ملف</string>
-  <string name="selectImage">اختر صورة</string>
-  <string name="selectFile">اختر ملف PDF</string>
-  <string name="error_happened">حدث خطأ</string>
-  <string name="notsupportedExtension">ملف غير معتمد.</string>
-  <string name="noApp">لا يوجد تطبيق لفتح هذا الملف.</string>
-  <string name="fromCamera" >من الكاميرا</string>
-  <string name="fromGallery">من معرض الصور</string>
+    <string name="order_new">طلب جديد</string>
+    <string name="order_productsProcessing">تجهيز المنتجات</string>
+    <string name="order_deliveryPhase">مرحلة التسليم</string>
+    <string name="order_deliveryConfirmation">تأكيد التسليم</string>
+    <string name="order_canceledBySeller"> ألغاء من البائع</string>
+    <string name="noAccountFound">لم يتم العثور على حسابات</string>
+    <string name="userNameExists">اسم المستخدم موجود من قبل</string>
+    <string name="userEmailExists">البريد الإلكتروني موجود من قبل</string>
+    <string name="userPhoneExists">رقم الهاتف موجود من قبل</string>
+    <string name="takePhoto">رفع الصورة</string>
+    <string name="deletePhoto">حذف الصورة</string>
+    <string name="pickRightImage">يرجى اختيار الصورة مره اخرى</string>
+    //====attach file dialog
+    <string name="addFiles">اضف ملف</string>
+    <string name="selectImage">اختر صورة</string>
+    <string name="selectFile">اختر ملف PDF</string>
+    <string name="error_happened">حدث خطأ</string>
+    <string name="notsupportedExtension">ملف غير معتمد.</string>
+    <string name="noApp">لا يوجد تطبيق لفتح هذا الملف.</string>
+    <string name="fromCamera">من الكاميرا</string>
+    <string name="fromGallery">من معرض الصور</string>
+    <string name="commercialRegister">تسجيل تجاري</string>
+    <string name="freelanceCertificate">شهادة عمل حر</string>
+    <string name="registrationNumberExpiryDate">تاريخ انتهاء رقم التسجيل</string>
+    <string name="Trade15Years">التجارة 15 سنة</string>
+    <string name="changePassword">تغيير كلمه المرور</string>
+  <string name="passwordUpdatedSuccessfully">تم تحديث كلمة المرور بنجاح</string>
+  <string name="emailUpdatedSuccessfully">تم تحديث البريد الإكترونى بنجاح</string>
+  <string name="wrongPassword">كلمه المرور خاطئه</string>
+  <string name="passwordReset">اعاده تعيين كلمه المرور</string>
+  <string name="TypeNewPassword">قم بكتابه كلمه مرور جديده</string>
+  <string name="updateYourEmail">قم بتحديث بريدك الإلكتروني</string>
 </resources>

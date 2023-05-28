@@ -1,5 +1,6 @@
 package com.malka.androidappp.newPhase.data.helper
 
+import android.service.autofill.UserData
 import android.widget.ImageView
 import com.malka.androidappp.fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ShippingAddressessData
 import com.malka.androidappp.newPhase.domain.models.cartListResp.ProductCartItem
@@ -12,6 +13,8 @@ import com.malka.androidappp.newPhase.domain.models.servicemodels.feedbacks.Feed
 import com.malka.androidappp.newPhase.domain.models.servicemodels.model.Category
 import com.malka.androidappp.newPhase.domain.models.homeCategoryProductResp.CategoryProductItem
 import com.malka.androidappp.newPhase.domain.models.loginResp.BusinessAccountsDetails
+import com.malka.androidappp.newPhase.domain.models.loginResp.LoginResp
+import com.malka.androidappp.newPhase.domain.models.loginResp.LoginUser
 import com.malka.androidappp.newPhase.domain.models.servicemodels.User
 
 class ConstantObjects {
@@ -38,13 +41,14 @@ class ConstantObjects {
         const val ARABIC = "ar"
         const val CAMERA = 0
         const val FILES = 1
+        const val DELETEImage =2
         var is_watch_iv: ImageView? = null
 
         val defaltCountry: Int = 31
         val isSuccess: String = "isSuccess";
 
 
-        var userobj: User? = null;
+        var userobj: LoginUser? = null;
         var userfeedback: FeedbackObject? = null;
         var userfavourite: FavouriteObject? = null;
         var userwatchlist = java.util.ArrayList<Product>()

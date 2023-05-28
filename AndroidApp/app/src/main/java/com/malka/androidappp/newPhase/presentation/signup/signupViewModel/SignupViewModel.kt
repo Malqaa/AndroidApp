@@ -20,6 +20,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.HttpException
 import retrofit2.Response
+import retrofit2.http.Query
 import java.io.File
 import java.io.FileInputStream
 import java.io.InputStream
@@ -68,10 +69,10 @@ class SignupViewModel : BaseViewModel() {
     }
 
 
-    fun resendOtp(otpCode: String, language: String) {
+    fun resendOtp(otpCode: String, language: String,otpType: String) {
         isLoading.value = true
         RetrofitBuilder.GetRetrofitBuilder()
-            .resendOtp(otpCode, language).enqueue(object : Callback<ValidateAndGenerateOTPResp> {
+            .resendOtp(otpCode, otpType, language).enqueue(object : Callback<ValidateAndGenerateOTPResp> {
                 override fun onResponse(
                     call: Call<ValidateAndGenerateOTPResp>,
                     response: Response<ValidateAndGenerateOTPResp>

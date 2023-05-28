@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".newPhase.presentation.account_fragment.productsLostFragment.`P\roductsLostFragment`">
+    tools:context=".newPhase.presentation.accountFragment.productsLostFragment.`P\roductsLostFragment`">
 
     <include
         android:id="@+id/toolbar_main"

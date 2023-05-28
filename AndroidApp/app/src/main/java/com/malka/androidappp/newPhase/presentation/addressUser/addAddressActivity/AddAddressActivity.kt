@@ -51,10 +51,11 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
 
     /***/
     private var isPhoneNumberValid = false
+
+
     private lateinit var mMap: GoogleMap
     private lateinit var mapFragment: SupportMapFragment
     private var latLngLocation: LatLng? = null
-
     private lateinit var mFusedLocationClient: FusedLocationProviderClient
     private lateinit var locationRequest: LocationRequest
     private lateinit var mLocationCallback: LocationCallback
@@ -349,6 +350,13 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
             }
         }
     }
+    private fun loadLocation(latLngLocation: LatLng) {
+        mMap.clear()
+        val cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLngLocation, 16f)
+        mMap.animateCamera(cameraUpdate)
+        val marker = MarkerOptions().position(latLngLocation)
+        mMap.addMarker(marker)
+    }
 
     override fun onMapReady(map: GoogleMap) {
         mMap = map
@@ -374,13 +382,6 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
         }
     }
 
-    private fun loadLocation(latLngLocation: LatLng) {
-        mMap.clear()
-        val cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLngLocation, 16f)
-        mMap.animateCamera(cameraUpdate)
-        val marker = MarkerOptions().position(latLngLocation)
-        mMap.addMarker(marker)
-    }
 
     //----------------------------- location setting------------
     private val resolutionForResult =
