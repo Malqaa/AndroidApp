@@ -380,7 +380,7 @@ class SignupCreateNewUser : BaseActivity(), PickImageMethodsDialog.OnAttachedIma
     private fun callCreateUser() {
         var invitationCode = "";
         otpData?.let {
-            invitationCode = it.invitationCode;
+            invitationCode = it.invitationCode?:"";
         }
         println("hhhh data:${date.text.toString().trim()} , gender:${gender_} ,countryId ")
 

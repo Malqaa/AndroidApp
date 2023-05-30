@@ -22,10 +22,11 @@ import com.malka.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.O
 import com.malka.androidappp.newPhase.presentation.accountFragment.AccountViewModel
 import com.yariksoffice.lingver.Lingver
 import io.paperdb.Paper
-import kotlinx.android.synthetic.main.activity_confirm_change_email.*
+import kotlinx.android.synthetic.main.activity_confirm_change_number.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 
-class ConfirmChangeEmailActivity : BaseActivity() {
+class ConfirmChangeNumberActivity : BaseActivity() {
+
 
     private var START_TIME_IN_MILLIS: Long = 60000
     lateinit var countdownTimer: TextView
@@ -33,17 +34,21 @@ class ConfirmChangeEmailActivity : BaseActivity() {
     private var otpData: OtpData? = null
     private lateinit var accountViewModel: AccountViewModel
     var expireMinutes: Int = 1
-    var newEmail: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_confirm_change_email)
-        toolbar_title.text = ""
+        setContentView(R.layout.activity_confirm_change_number)
+        toolbar_title.text =""
         countdownTimer = findViewById(R.id.countdownTimer)
-        newEmail = intent.getStringExtra(ConstantObjects.emailKey)
+        otpData = intent.getParcelableExtra(Constants.otpDataKey)
         setupRegisterViewModel()
         setClickListeners()
         resendCodeAfterExpire.hide()
-
+        /***thisForTest*/
+        if (BuildConfig.DEBUG) {
+            val datacode: String? = otpData?.otpCode
+            // println("hhh $datacode")
+            pinview.value = datacode?:""
+        }
         accountViewModel.getConfigurationResp(ConstantObjects.otpExpiryTime)
 
     }
@@ -75,9 +80,6 @@ class ConfirmChangeEmailActivity : BaseActivity() {
                 "OTPExpired" -> {
                     showError(getString(R.string.CodeExpired))
                 }
-                "EmailExists"->{
-                    showError(getString(R.string.userEmailExists))
-                }
                 "OTPWrongTrialsExcced" -> {
                     showError(getString(R.string.OTPWrongTrialsExcced))
                 }
@@ -95,7 +97,6 @@ class ConfirmChangeEmailActivity : BaseActivity() {
                     showError(getString(R.string.InvalidOTP))
                 }
                 "Success" -> {
-
                 }
                 else -> {
                     if (it.message != null) {
@@ -114,7 +115,22 @@ class ConfirmChangeEmailActivity : BaseActivity() {
 
 
         })
-
+        accountViewModel.validateAndGenerateOTPObserver.observe(this) { validateUserAndGenerateOTP ->
+            if (validateUserAndGenerateOTP.otpData != null) {
+                startTimeCounter(expireMinutes)
+                button3.isEnabled = true
+                /***thisForTest*/
+                val otppcode = validateUserAndGenerateOTP.otpData!!.otpCode
+                if (BuildConfig.DEBUG) {
+                    pinview.value = otppcode
+                }
+            } else {
+                HelpFunctions.ShowLongToast(
+                    getString(R.string.serverError),
+                    this
+                )
+            }
+        }
         accountViewModel.configurationRespObserver.observe(this) { configratinoResp ->
             if (configratinoResp.configurationData != null) {
                 try {
@@ -124,28 +140,25 @@ class ConfirmChangeEmailActivity : BaseActivity() {
                 startTimeCounter(expireMinutes)
             }
         }
-        accountViewModel.changeEmailObserver.observe(this) {
-            if (it.status == "Success") {
-                startTimeCounter(expireMinutes)
-            }
-        }
-        accountViewModel.confirmChangeEmailOtpObserver.observe(this) {
-            if (it.status == "Success") {
+        accountViewModel.updateUserMobielNumberObserver.observe(this){resp->
+            if(resp.status=="Success"){
                 var userData =
                     Paper.book().read<LoginUser>(SharedPreferencesStaticClass.user_object)
-                userData?.email = newEmail
+                userData?.phone = otpData?.phoneNumber
                 userData?.let { userData ->
                     Paper.book()
                         .write<LoginUser>(SharedPreferencesStaticClass.user_object, userData)
                 }
                 ConstantObjects.userobj = userData
                 HelpFunctions.ShowLongToast(
-                    getString(R.string.emailUpdatedSuccessfully),
+                    getString(R.string.phoneUpdatedSuccessfully),
                     this
                 )
-                var intent = Intent()
+
+                var intent= Intent()
                 setResult(Activity.RESULT_OK, intent);
                 finish()
+
             }
         }
     }
@@ -183,7 +196,7 @@ class ConfirmChangeEmailActivity : BaseActivity() {
 
     private fun setClickListeners() {
         back_btn.setOnClickListener {
-            finish()
+            onBackPressed()
         }
         resend_btn.setOnClickListener {
             if (mTimeLeftInMillis >= 1000) {
@@ -192,7 +205,13 @@ class ConfirmChangeEmailActivity : BaseActivity() {
                     applicationContext
                 )
             } else {
-                accountViewModel.changeUserEmail(newEmail ?: "")
+                val userPhone: String? = otpData?.phoneNumber
+                accountViewModel.resendOtp(
+                    userPhone.toString(),
+                    "IndividualUpdateMoileNumber",
+                    ConstantObjects.currentLanguage
+                )
+                //resendOTPApi()
             }
         }
     }
@@ -217,14 +236,12 @@ class ConfirmChangeEmailActivity : BaseActivity() {
         } else {
             //apicallSignup2()
             val otpcode: String? = pinview.value
-            accountViewModel.changeUserEmail(newEmail ?: "", otpcode.toString())
+            accountViewModel.upddateMobileNumber(otpData?.phoneNumber.toString(),ConstantObjects.logged_userid, otpcode.toString())
         }
     }
 
-
-    override fun onBackPressed() {
-        super.onBackPressed()
-
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
     }
-
 }

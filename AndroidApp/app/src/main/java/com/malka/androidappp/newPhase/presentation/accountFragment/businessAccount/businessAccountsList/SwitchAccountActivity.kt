@@ -2,30 +2,33 @@ package com.malka.androidappp.newPhase.presentation.accountFragment.businessAcco
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Browser
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.malka.androidappp.R
-import com.malka.androidappp.newPhase.presentation.accountFragment.businessAccount.addBusinessAccount.BusinessAccountCreateActivity
 import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.newPhase.data.helper.*
 import com.malka.androidappp.newPhase.data.helper.shared_preferences.SharedPreferencesStaticClass
-import com.malka.androidappp.newPhase.domain.models.bussinessAccountsListResp.businessAccountDetails
+import com.malka.androidappp.newPhase.domain.models.bussinessAccountsListResp.BusinessAccountDetials
 import com.malka.androidappp.newPhase.domain.models.loginResp.LoginUser
 import com.malka.androidappp.newPhase.presentation.accountFragment.businessAccount.BusinessAccountViewModel
+import com.malka.androidappp.newPhase.presentation.accountFragment.businessAccount.addBusinessAccount.BusinessAccountCreateActivity
 import com.squareup.picasso.Picasso
 import io.paperdb.Paper
 import kotlinx.android.synthetic.main.activity_switch_account.*
 import kotlinx.android.synthetic.main.toolbar_main.*
+
 
 class SwitchAccountActivity : BaseActivity(), BusinessAccountsAdapter.SetOnBusinessAccountSelected,
     SwipeRefreshLayout.OnRefreshListener {
 
 
     lateinit var businessAccountsAdapter: BusinessAccountsAdapter
-    lateinit var accountList: ArrayList<businessAccountDetails>
+    lateinit var accountList: ArrayList<BusinessAccountDetials>
     private var userData: LoginUser? = null
     private lateinit var businessAccountViewModel: BusinessAccountViewModel
     val creatAccountLauncher =
@@ -62,7 +65,9 @@ class SwitchAccountActivity : BaseActivity(), BusinessAccountsAdapter.SetOnBusin
 
         businessAccountViewModel.isNetworkFail.observe(this) {
             if (it) {
-                showErrorMessage(getString(R.string.connectionError))
+                showErrorMessage(getString(R.string.noAccountFound))
+
+                // showErrorMessage(getString(R.string.connectionError))
             } else {
                 showErrorMessage(getString(R.string.serverError))
             }
@@ -80,19 +85,33 @@ class SwitchAccountActivity : BaseActivity(), BusinessAccountsAdapter.SetOnBusin
                 showErrorMessage(it.message!!)
             } else {
                 showErrorMessage(getString(R.string.serverError))
+            }
+        }
+        businessAccountViewModel.changeBusinessAccountObserver.observe(this) {
+            if (it.status_code == 200 && it.businessAccount != null) {
+                if (it.businessAccount.chanegeAccountUrl != null && it.businessAccount.chanegeAccountUrl != "")
+                    openExternalLInk(it.businessAccount.chanegeAccountUrl,it.businessAccount.token?:"")
+            } else {
+                if (it.message != null) {
+                    showErrorMessage(it.message)
+                } else {
+                    showErrorMessage(getString(R.string.serverError))
+                }
             }
         }
         businessAccountViewModel.businessAccountListObserver.observe(this) {
             if (it.status_code == 200) {
                 if (it.businessAccountsList != null) {
-                    var data: List<businessAccountDetails>
+                    //   var data: List<BusinessAccountDetails>
                     accountList.clear()
                     try {
-                        data = it.businessAccountsList as List<businessAccountDetails>
-                        accountList.addAll(data)
+//                        data = it.businessAccountsList as List<BusinessAccountDetails>
+//                        println("hhhh "+Gson().toJson(it))
+//                        println("hhhh "+Gson().toJson(data))
+                        accountList.addAll(it.businessAccountsList)
                         businessAccountsAdapter.notifyDataSetChanged()
                     } catch (e: Exception) {
-
+                        println("hhhh " + e.message)
                     }
                     if (accountList.isEmpty()) {
                         showErrorMessage(getString(R.string.noAccountFound))
@@ -109,6 +128,23 @@ class SwitchAccountActivity : BaseActivity(), BusinessAccountsAdapter.SetOnBusin
                 }
             }
         }
+    }
+
+    private fun openExternalLInk(
+        chanegeAccountUrl: String,
+        token:String
+    ) {
+        try {
+            val i = Intent(Intent.ACTION_VIEW)
+            i.data = Uri.parse(chanegeAccountUrl)
+            val bundle = Bundle()
+            bundle.putString("Authorization", "Bearer $token")
+            i.putExtra(Browser.EXTRA_HEADERS, bundle)
+            startActivity(i)
+        } catch (e: java.lang.Exception) {
+            HelpFunctions.ShowLongToast(getString(R.string.serverError), this)
+        }
+
     }
 
     private fun showErrorMessage(message: String) {
@@ -154,7 +190,7 @@ class SwitchAccountActivity : BaseActivity(), BusinessAccountsAdapter.SetOnBusin
     }
 
     override fun setOnSwitchAccount(position: Int) {
-
+        businessAccountViewModel.changeBusinessAccount(accountList[position].id)
     }
 
     override fun onRefresh() {

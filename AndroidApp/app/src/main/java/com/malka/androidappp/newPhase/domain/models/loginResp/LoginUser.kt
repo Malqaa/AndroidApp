@@ -20,7 +20,7 @@ data class LoginUser(
     val membershipNumber: Int,
     val neighborhoodId: Int,
     var password: String?=null,
-    val phone:String?=null,
+    var phone:String?=null,
     val rate: Int,
     val regionId: Int,
     val streetNumber: String?=null,

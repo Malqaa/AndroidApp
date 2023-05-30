@@ -33,7 +33,7 @@
     Confirm
   </string>
     <string name="Confirm_Password">Confirm Password</string>
-  <string name="Confirm_New_Password">Confirm New Password</string>
+    <string name="Confirm_New_Password">Confirm New Password</string>
     <string name="Country">
     Country
   </string>
@@ -509,9 +509,7 @@
     <string name="Entercodehere">
     Enter code here
   </string>
-    <string name="Mobile">
-    Mobile
-  </string>
+    <string name="Mobile">Mobile</string>
     <string name="LoginSuccessfully">
     Login Successfully
   </string>
@@ -2461,8 +2459,8 @@ Want to start a business account? Create a Business Account
     <string name="alreadyaccount">Already have an account? Sign In</string>
     <string name="browsemarketnav">All Categories   >   Marketplace</string>
     <string name="type_your_password_here">Type Your Password Here</string>
-  <string name="type_your__curretn_password_here">Type Your Current Password Here</string>
-  <string name="type_new_password_here">Type New Password Here</string>
+    <string name="type_your__curretn_password_here">Type Your Current Password Here</string>
+    <string name="type_new_password_here">Type New Password Here</string>
     <string name="type_your_email_here">Type Your Email Here</string>
 
     <string name="ThisEmailAddressDoesnotExist">This Email Address Does not Exist</string>
@@ -2638,9 +2636,9 @@ Want to start a business account? Create a Business Account
     <string name="term_condition">Terms and Conditions</string>
     <string name="activation">Activation</string>
     <string name="confirm_mobile_number">Confirm mobile number</string>
-  <string name="confirm_Email">Confirm Email</string>
+    <string name="confirm_Email">Confirm Email</string>
     <string name="sent_code">We have sent the activation code to your phone</string>
-  <string name="sent_code_email">We have sent the activation code to your email</string>
+    <string name="sent_code_email">We have sent the activation code to your email</string>
     <string name="one_step_left">One step left!</string>
     <string name="enter_your_address_name_and_age_details">Enter your address/name and age details</string>
     <string name="address_details">Address details</string>
@@ -2655,7 +2653,9 @@ Want to start a business account? Create a Business Account
     <string name="TaxNumber">Tax Number</string>
     <string name="maroof">Maroof</string>
     <string name="download_the_commercial_registry_file">Upload commercial registry file</string>
-    <string name="locating_the_company">Company Location</string>
+  <string name="you_must_download_the_commercial_registry_file">You Must Upload commercial registry file</string>
+
+  <string name="locating_the_company">Company Location</string>
     <string name="commercial_registration_no">Commercial Registration No</string>
     <string name="type_of_employment">Type of employment</string>
     <string name="country_code" translatable="false">Country Code</string>
@@ -3081,11 +3081,12 @@ Want to start a business account? Create a Business Account
     <string name="registrationNumberExpiryDate">Registration Number Expiry Date</string>
     <string name="Trade15Years">Trade 15 Years</string>
     <string name="changePassword">Change Password</string>
-  <string name="passwordUpdatedSuccessfully">Password Updated Successfully</string>
-  <string name="emailUpdatedSuccessfully">Email Updated Successfully</string>
-  <string name="wrongPassword">Wrong Password</string>
-  <string name="passwordReset">password Reset</string>
-  <string name="TypeNewPassword">Type New Password</string>
-  <string name="updateYourEmail">Update Your Email</string>
+    <string name="passwordUpdatedSuccessfully">Password Updated Successfully</string>
+    <string name="emailUpdatedSuccessfully">Email Updated Successfully</string>
+  <string name="phoneUpdatedSuccessfully">Phone Updated Successfully</string>
+    <string name="wrongPassword">Wrong Password</string>
+    <string name="passwordReset">password Reset</string>
+    <string name="TypeNewPassword">Type New Password</string>
+    <string name="updateYourEmail">Update Your Email</string>
 
 </resources>

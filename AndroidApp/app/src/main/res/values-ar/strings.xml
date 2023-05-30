@@ -2508,6 +2508,7 @@
     <string name="TaxNumber">الرقم الضريبى</string>>
     <string name="maroof">معروف</string>
     <string name="download_the_commercial_registry_file">تحميل ملف السجل التجارى</string>
+  <string name="you_must_download_the_commercial_registry_file">يجب عليك تحميل ملف السجل التجارى</string>
     <string name="locating_the_company">تحديد موقع الشركة</string>
     <string name="commercial_registration_no">رقم السجل التجاري</string>
     <string name="type_of_employment">نوع العمل</string>
@@ -2674,6 +2675,7 @@
     <string name="business_account">حساب تجاري</string>
     <string name="search_location">موقع البحث</string>
     <string name="switch_accounts">تبديل الحسابات</string>
+  \\
     <string name="upgrade_my_existing_account_to_a_merchant_account">ترقية حسابي الحالي إلى حساب تاجر</string>
     <string name="Commercial_Record">سجل تجارى</string>
     <string name="Free_work">عمل حر</string>
@@ -2909,6 +2911,7 @@
     <string name="changePassword">تغيير كلمه المرور</string>
   <string name="passwordUpdatedSuccessfully">تم تحديث كلمة المرور بنجاح</string>
   <string name="emailUpdatedSuccessfully">تم تحديث البريد الإكترونى بنجاح</string>
+  <string name="phoneUpdatedSuccessfully">تم تحديث رقم الهاتف بنجاح</string>
   <string name="wrongPassword">كلمه المرور خاطئه</string>
   <string name="passwordReset">اعاده تعيين كلمه المرور</string>
   <string name="TypeNewPassword">قم بكتابه كلمه مرور جديده</string>

@@ -15,11 +15,13 @@ import com.malka.androidappp.newPhase.data.helper.hide
 import com.malka.androidappp.newPhase.data.helper.show
 import com.malka.androidappp.newPhase.presentation.loginScreen.LoginViewModel
 import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
+import com.yariksoffice.lingver.Lingver
 import kotlinx.android.synthetic.main.activity_forgot_pass_otpcode.*
 import kotlinx.android.synthetic.main.activity_forgot_pass_otpcode.button3
 import kotlinx.android.synthetic.main.activity_forgot_pass_otpcode.confirmPass
 import kotlinx.android.synthetic.main.activity_forgot_pass_otpcode.ibBack
 import kotlinx.android.synthetic.main.activity_forgot_pass_otpcode.textPass
+import kotlinx.android.synthetic.main.activity_forgot_password.*
 
 class ActivityForgotPassOtpcode : BaseActivity() {
     private var START_TIME_IN_MILLIS: Long = 60000
@@ -80,7 +82,7 @@ class ActivityForgotPassOtpcode : BaseActivity() {
             }
 
         })
-        loginViewModel.forgetPasswordObserver.observe(this, Observer {
+        loginViewModel.changePasswordAfterForgetObserver.observe(this, Observer {
             if (it.status_code == 200) {
                 if (it.message != null) {
                     HelpFunctions.ShowLongToast(
@@ -89,6 +91,25 @@ class ActivityForgotPassOtpcode : BaseActivity() {
                     )
                 }
                 signInAfterSignUp()
+            } else {
+                if (it.message != null) {
+                    HelpFunctions.ShowLongToast(
+                        it.message!!,
+                        this
+                    )
+                } else {
+                    HelpFunctions.ShowLongToast(
+                        getString(R.string.serverError),
+                        this
+                    )
+                }
+            }
+
+        })
+
+        loginViewModel.changePasswordAfterForgetObserver.observe(this, Observer {
+            if (it.status_code == 200) {
+                startTimeCounter(expireMinutes)
             } else {
                 if (it.message != null) {
                     HelpFunctions.ShowLongToast(
@@ -126,6 +147,8 @@ class ActivityForgotPassOtpcode : BaseActivity() {
     fun startTimeCounter(expireMinutes: Int) {
         object : CountDownTimer(START_TIME_IN_MILLIS, 1000) {
             override fun onTick(millisUntilFinished: Long) {
+                ContianerResend.hide()
+                countdownTimer.show()
                 mTimeLeftInMillis = millisUntilFinished
                 var seconds = (mTimeLeftInMillis / 1000).toInt()
                 val minutes = seconds / 60
@@ -230,7 +253,7 @@ class ActivityForgotPassOtpcode : BaseActivity() {
         } else {
             //apicallSignup2()
             val otpcode: String? = pinview.value
-            //  signupViewModel.verifyOtp(otpData?.phoneNumber.toString(), otpcode.toString())
+            loginViewModel.forgetPassword(email)
         }
     }
     //////////////////////////////////////Api Post Verify//////////////////////////////////////////////////

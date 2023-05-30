@@ -1,10 +1,14 @@
 package com.malka.androidappp.newPhase.presentation.accountFragment.businessAccount
 
 import androidx.lifecycle.MutableLiveData
+import com.google.android.exoplayer2.upstream.HttpDataSource
+import com.google.android.exoplayer2.upstream.HttpDataSource.HttpDataSourceException
+import com.google.gson.Gson
 import com.malka.androidappp.newPhase.core.BaseViewModel
 import com.malka.androidappp.newPhase.data.helper.Extension.requestBody
 import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.bussinessAccountsListResp.BusinessAccountsListResp
+import com.malka.androidappp.newPhase.domain.models.bussinessAccountsListResp.ChangeBussinesAccountResp
 import com.malka.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -20,6 +24,8 @@ import java.io.File
 class BusinessAccountViewModel : BaseViewModel() {
     var businessAccountListObserver: MutableLiveData<BusinessAccountsListResp> =
         MutableLiveData<BusinessAccountsListResp>()
+    var changeBusinessAccountObserver: MutableLiveData<ChangeBussinesAccountResp> =
+        MutableLiveData<ChangeBussinesAccountResp>()
     var addbusinessAccountListObserver: MutableLiveData<GeneralResponse> =
         MutableLiveData<GeneralResponse>()
 
@@ -39,6 +45,7 @@ class BusinessAccountViewModel : BaseViewModel() {
                 ) {
                     isLoading.value = false
                     if (response.isSuccessful) {
+
                         businessAccountListObserver.value = response.body()
                     } else {
                         errorResponseObserver.value = getErrorResponse(response.errorBody())
@@ -47,7 +54,33 @@ class BusinessAccountViewModel : BaseViewModel() {
             })
     }
 
+    fun changeBusinessAccount(id: Int) {
+        isLoading.value = true
+        RetrofitBuilder.GetRetrofitBuilder()
+            .changeBusinessAccount(id)
+            .enqueue(object : Callback<ChangeBussinesAccountResp> {
+                override fun onFailure(call: Call<ChangeBussinesAccountResp>, t: Throwable) {
+                    isNetworkFail.value = t !is HttpException
+                    isLoading.value = false
+                }
+
+                override fun onResponse(
+                    call: Call<ChangeBussinesAccountResp>,
+                    response: Response<ChangeBussinesAccountResp>
+                ) {
+
+                    isLoading.value = false
+                    if (response.isSuccessful) {
+                        changeBusinessAccountObserver.value = response.body()
+                    } else {
+                        errorResponseObserver.value = getErrorResponse(response.errorBody())
+                    }
+                }
+            })
+    }
+
     fun addBusinessAcoount(
+        id: String,
         userNamee: String,
         providerId: String,
         company_name_ar: String,
@@ -104,6 +137,7 @@ class BusinessAccountViewModel : BaseViewModel() {
         }
         RetrofitBuilder.GetRetrofitBuilder()
             .addEditBusinessAccount(
+                id.requestBody(),
                 businessAccountUserName = userNamee.requestBody(),
                 providerId = providerId.requestBody(),
                 businessAccountNameAr = company_name_ar.requestBody(),
@@ -125,15 +159,15 @@ class BusinessAccountViewModel : BaseViewModel() {
                 VatNumber = TaxNumber.requestBody(),
                 Maroof = etMaroof.requestBody(),
                 if (multipartBodyCommercialRegistryFileList.isEmpty()) null else multipartBodyCommercialRegistryFileList,
-                CountryId=selectedCountryId.toString().requestBody(),
-                RegionId=selectedRegionId.toString().requestBody(),
-                NeighborhoodId=selectedNeighborhoodId.toString().requestBody(),
-                District=area.requestBody(),
-                Street=streetNUmber.requestBody(),
-                ZipCode=county_code.requestBody(),
-                Trade15Years=_getChecked.toString().requestBody(),
-                Lat=lat.toString().requestBody(),
-                Lon=longitude.toString().requestBody()
+                CountryId = selectedCountryId.toString().requestBody(),
+                RegionId = selectedRegionId.toString().requestBody(),
+                NeighborhoodId = selectedNeighborhoodId.toString().requestBody(),
+                District = area.requestBody(),
+                Street = streetNUmber.requestBody(),
+                ZipCode = county_code.requestBody(),
+                Trade15Years = _getChecked.toString().requestBody(),
+                Lat = lat.toString().requestBody(),
+                Lon = longitude.toString().requestBody()
             )
             .enqueue(object : Callback<GeneralResponse> {
                 override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {

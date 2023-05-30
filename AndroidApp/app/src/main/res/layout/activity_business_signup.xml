@@ -172,6 +172,7 @@
                         android:layout_centerInParent="true"
                         android:id="@+id/btnOpenCountry"
                         android:layout_marginEnd="10dp"
+                        android:visibility="gone"
                         android:foreground="?android:attr/selectableItemBackground"
                         android:orientation="horizontal">
 

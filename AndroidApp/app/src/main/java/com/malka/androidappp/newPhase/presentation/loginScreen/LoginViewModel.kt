@@ -16,7 +16,8 @@ import retrofit2.Response
 
 class LoginViewModel : BaseViewModel(){
     var userLoginObserver: MutableLiveData<LoginResp> = MutableLiveData()
-   var forgetPasswordObserver:MutableLiveData<GeneralResponse> = MutableLiveData()
+   var changePasswordAfterForgetObserver:MutableLiveData<GeneralResponse> = MutableLiveData()
+    var forgetPasswordObserver:MutableLiveData<GeneralResponse> = MutableLiveData()
     fun signInUser(email:String,pass:String,context:Context) {
         isLoading.value = true
         RetrofitBuilder.GetRetrofitBuilder()
@@ -86,7 +87,7 @@ class LoginViewModel : BaseViewModel(){
                     response: Response<GeneralResponse>
                 ) {
                     if (response.isSuccessful) {
-                        forgetPasswordObserver.value=response.body()
+                        changePasswordAfterForgetObserver.value=response.body()
                     }else{
                         errorResponseObserver.value = getErrorResponse(response.errorBody())
                     }

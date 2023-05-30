@@ -11,7 +11,6 @@ import android.widget.Filter
 import androidx.activity.result.ActivityResult
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -43,9 +42,9 @@ import kotlin.math.roundToInt
 
 class AccountFragment : Fragment(R.layout.fragment_account),
     PickImageMethodsDialog.OnAttachedImageMethodSelected {
-    private var userData: LoginUser? = null
     val list: ArrayList<AccountItem> = ArrayList()
     private lateinit var accountViewModel: AccountViewModel
+    var isDeleteImage = false
 
     //===image
     private lateinit var imageMethodsPickerDialog: PickImageMethodsDialog
@@ -113,10 +112,13 @@ class AccountFragment : Fragment(R.layout.fragment_account),
         var isProfileLoad = false
     }
 
+    override fun onResume() {
+        super.onResume()
+        setUserData(ConstantObjects.userobj)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        userData = Paper.book().read<LoginUser>(SharedPreferencesStaticClass.user_object)
-        setUserData(userData)
         if (MainActivity.myOrderTrigger) {
             MainActivity.myOrderTrigger = false
             findNavController().navigate(R.id.myRequest)
@@ -177,10 +179,26 @@ class AccountFragment : Fragment(R.layout.fragment_account),
                 }
             }
         }
-        accountViewModel.editProfileObserver.observe(this){
-            println("hhhh "+Gson().toJson(it))
-            if(it.status_code==200){
-
+        accountViewModel.editProfileImageObserver.observe(this) {
+            if (it.status_code == 200) {
+                loader.show()
+                accountViewModel.getUserDataForAccountTap()
+            }
+        }
+        accountViewModel.getUserDataObserver.observe(this) {
+            if (it.status == "Success") {
+                if (it.userObject != null) {
+                    var userData =
+                        Paper.book().read<LoginUser>(SharedPreferencesStaticClass.user_object)
+                    var tempUserData = it.userObject
+                    tempUserData.token = userData?.token ?: ""
+                    Paper.book()
+                        .write<LoginUser>(SharedPreferencesStaticClass.user_object, tempUserData)
+                    tempUserData?.let { tempUserData ->
+                        ConstantObjects.userobj = tempUserData
+                    }
+                    setUserData(tempUserData)
+                }
             }
         }
 
@@ -319,15 +337,15 @@ class AccountFragment : Fragment(R.layout.fragment_account),
 //                                                    findNavController().navigate(R.id.negotiationOffer)
 //
 //                                                }
-                                                getString(R.string.edit_profile) -> {
-                                                  //  findNavController().navigate(R.id.editProfile)
-                                                    startActivity(
-                                                        Intent(
-                                                            requireActivity(),
-                                                            EditProfileActivity::class.java
+                                                    getString(R.string.edit_profile) -> {
+                                                        //  findNavController().navigate(R.id.editProfile)
+                                                        startActivity(
+                                                            Intent(
+                                                                requireActivity(),
+                                                                EditProfileActivity::class.java
+                                                            )
                                                         )
-                                                    )
-                                                }
+                                                    }
 //                                                getString(R.string.payment_cards) -> {
 //                                                    findNavController().navigate(R.id.paymentCard)
 //
@@ -414,7 +432,7 @@ class AccountFragment : Fragment(R.layout.fragment_account),
 
     /*****/
     private fun openCameraChooser() {
-        imageMethodsPickerDialog = PickImageMethodsDialog(requireActivity(), true,this)
+        imageMethodsPickerDialog = PickImageMethodsDialog(requireActivity(), true, this)
         imageMethodsPickerDialog.show()
     }
 
@@ -446,8 +464,10 @@ class AccountFragment : Fragment(R.layout.fragment_account),
             imagePicker.choosePicture(ImagePicker.GALLERY)
         }
     }
+
     override fun onDeleteImage() {
-        accountViewModel.editProfile(null)
+        isDeleteImage = true
+        accountViewModel.editProfileImage(null)
     }
 
 
@@ -465,16 +485,16 @@ class AccountFragment : Fragment(R.layout.fragment_account),
                 (bitmap.height * 0.4f).roundToInt(),
                 true
             )
-            //println("hhhh loaded")
+            println("hhhh loaded")
             Picasso.get()
                 .load(imageUri)
                 .into(ivUserImage)
             userImageUri = imageUri
             val file = File(imageUri.path)
-            accountViewModel.editProfile(file)
+            accountViewModel.editProfileImage(file)
 
         } catch (e: Exception) {
-           // println("hhhh " + e.message)
+            // println("hhhh " + e.message)
             HelpFunctions.ShowLongToast(getString(R.string.pickRightImage), requireActivity())
         }
     }
@@ -491,7 +511,6 @@ class AccountFragment : Fragment(R.layout.fragment_account),
     }
 
     /****/
-
 
 
     private fun setListenser() {

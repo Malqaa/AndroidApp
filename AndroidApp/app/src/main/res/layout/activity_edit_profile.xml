@@ -67,32 +67,25 @@
 
                     <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_alignParentStart="true"
+                        android:layout_gravity="center|start"
                         android:layout_toStartOf="@+id/right_session">
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/tvl_field_phone"
+                        <EditText
+                            android:id="@+id/etPhoneNumber"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_1sdp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="@dimen/_12sdp"
+                            android:textAlignment="viewStart"
+                            android:background="@null"
                             android:hint="@string/PhoneNumber"
-                            app:boxBackgroundMode="none"
-                            app:hintTextColor="@color/hint_color">
+                            android:inputType="phone"
+                            android:maxLines="1"
+                            android:textColor="#808080"
+                            android:textSize="@dimen/_12sdp"
+                            app:imeOptions="done"
+                            app:startIcon="@drawable/ic_phone" />
 
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/etPhoneNumber"
-                                style="@style/addressCompoEditFieldTextStyle"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:importantForAutofill="no"
-                                android:inputType="phone"
-                                android:maxLines="1"
-                                android:paddingTop="@dimen/_5sdp"
-                                android:textColor="#808080"
-                                android:textAlignment="viewStart"
-                                android:textSize="@dimen/_12sdp" />
-                        </com.google.android.material.textfield.TextInputLayout>
                     </FrameLayout>
 
                     <LinearLayout

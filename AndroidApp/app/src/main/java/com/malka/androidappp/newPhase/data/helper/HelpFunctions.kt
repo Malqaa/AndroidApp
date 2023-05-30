@@ -105,9 +105,10 @@ class HelpFunctions {
                 val userObject: LoginUser? =
                     Paper.book().read<LoginUser>(SharedPreferencesStaticClass.user_object)
                 ConstantObjects.logged_userid = userObject?.id.toString()
-               // ConstantObjects.businessAccountUser=userObject?.businessAccounts
+                // ConstantObjects.businessAccountUser=userObject?.businessAccounts
                 ConstantObjects.logged_authtoken = userObject?.token.toString()
-               // ConstantObjects.loggin_businessAccountId=user_object?.
+                ConstantObjects.userobj=userObject
+                // ConstantObjects.loggin_businessAccountId=user_object?.
             }
             return isLogin
         }
@@ -667,6 +668,7 @@ class HelpFunctions {
             //Base64.de
             return Base64.encodeToString(b, Base64.DEFAULT)
         }
+
         fun encodeImage2(path: String): ByteArray {
             val imagefile = File(path)
             var fis: FileInputStream? = null
@@ -679,6 +681,7 @@ class HelpFunctions {
             //Base64.de
             return b
         }
+
         fun getBytesImage(uri: Uri, context: Context): ByteArray? {
             val path: String? = getRealPathFromURI(uri, context)
             return path?.let { encodeImage2(it) }
@@ -1013,7 +1016,7 @@ class HelpFunctions {
                     )
                 )
             } catch (e: java.lang.Exception) {
-                HelpFunctions.ShowLongToast(context.getString(R.string.serverError),context)
+                HelpFunctions.ShowLongToast(context.getString(R.string.serverError), context)
             }
 
         }
@@ -1029,7 +1032,7 @@ class HelpFunctions {
 //                .into(iv)
 //
             Picasso.get()
-                .load(url)
+                .load(url?.replace("http","https"))
                 .placeholder(R.drawable.splash_logo)
                 .error(R.drawable.splash_logo)
                 .into(iv)
@@ -1057,17 +1060,19 @@ class HelpFunctions {
         ) {
 
             pb_loading?.show()
-            var imagePath= if(path==""||path==null) "emptyPath" else path
+            var imagePath = if (path == "" || path == null) "emptyPath" else path
             Picasso.get()
-                .load(imagePath)
-                .error(R.mipmap.malqa_iconn_round)
+                .load(imagePath.replace("http","https"))
+                .error(R.drawable.profileicon_bottomnav)
                 .into(imageView, object : com.squareup.picasso.Callback {
                     override fun onSuccess() {
                         pb_loading?.hide()
                         //  onComplete?.invoke()
                     }
 
-                    override fun onError(e: java.lang.Exception?) {
+                    override fun onError(e: java.lang.Exception?)
+                    {
+                        println("hhhh "+e?.message)
                         pb_loading?.hide()
                         // onComplete?.invoke()
                     }

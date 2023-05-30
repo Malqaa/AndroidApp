@@ -25,6 +25,7 @@ import com.malka.androidappp.newPhase.domain.models.addProductToCartResp.AddProd
 import com.malka.androidappp.newPhase.domain.models.addRateResp.AddRateResp
 import com.malka.androidappp.newPhase.domain.models.addWaletTransactionResp.AddWalletTranactionResp
 import com.malka.androidappp.newPhase.domain.models.bussinessAccountsListResp.BusinessAccountsListResp
+import com.malka.androidappp.newPhase.domain.models.bussinessAccountsListResp.ChangeBussinesAccountResp
 import com.malka.androidappp.newPhase.domain.models.cartListResp.CartListResp
 import com.malka.androidappp.newPhase.domain.models.categoryFollowResp.CategoryFollowResp
 import com.malka.androidappp.newPhase.domain.models.categoryResp.CategoriesResp
@@ -576,9 +577,12 @@ interface MalqaApiService {
 
     @GET("GatAllBusinessAccounts")
     fun gatAllBusinessAccounts(): Call<BusinessAccountsListResp>
+    @GET("ChangeAccount")
+    fun changeBusinessAccount(@Query("businessAccountId")businessAccountId:Int): Call<ChangeBussinesAccountResp>
     @Multipart
     @POST("AddEditBusinessAccount")
     fun addEditBusinessAccount(
+        @Part("id") id: RequestBody,
         @Part("BusinessAccountUserName") businessAccountUserName : RequestBody,
         @Part("ProviderId") providerId: RequestBody,
         @Part("BusinessAccountNameAr") businessAccountNameAr: RequestBody,
@@ -626,6 +630,9 @@ interface MalqaApiService {
 
     @POST("ConfirmChangeEmail")
     fun confirmChangeEmail(@Body data:HashMap<String,Any>): Call<GeneralResponse>
+
+    @POST("UpdateUserMobileNumber")
+    fun updateUserMobileNumber(@Body data:HashMap<String,Any>): Call<GeneralResponse>
     /***
      * ***********************************
      * ***********************************

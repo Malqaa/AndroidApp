@@ -20,7 +20,13 @@ import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
 import com.malka.androidappp.newPhase.presentation.signup.activity3.SignupCreateNewUser
 import com.malka.androidappp.newPhase.presentation.signup.signupViewModel.SignupViewModel
 import com.yariksoffice.lingver.Lingver
+import kotlinx.android.synthetic.main.activity_confirm_change_number.*
 import kotlinx.android.synthetic.main.activity_signup_pg2.*
+import kotlinx.android.synthetic.main.activity_signup_pg2.button3
+import kotlinx.android.synthetic.main.activity_signup_pg2.pinview
+import kotlinx.android.synthetic.main.activity_signup_pg2.redmessage
+import kotlinx.android.synthetic.main.activity_signup_pg2.resendCodeAfterExpire
+import kotlinx.android.synthetic.main.activity_signup_pg2.resend_btn
 
 
 class SignupOTPVerificationActivity : BaseActivity() {
@@ -195,6 +201,7 @@ class SignupOTPVerificationActivity : BaseActivity() {
         var expireMilliSeconds = expireSeconds * 1000
         object : CountDownTimer(expireMilliSeconds.toLong(), 1000) {
             override fun onTick(millisUntilFinished: Long) {
+                resendCodeAfterExpire.hide()
                 mTimeLeftInMillis = millisUntilFinished
                 var seconds = (mTimeLeftInMillis / 1000).toInt()
                 val minutes = seconds / 60
@@ -228,7 +235,7 @@ class SignupOTPVerificationActivity : BaseActivity() {
                 )
             } else {
                 val userPhone: String? = otpData?.phoneNumber
-                signupViewModel.resendOtp(userPhone.toString(), "IndividualUserRegistration",Lingver.getInstance().getLanguage())
+                signupViewModel.resendOtp(userPhone.toString(), "1",Lingver.getInstance().getLanguage())
                 //resendOTPApi()
             }
         }

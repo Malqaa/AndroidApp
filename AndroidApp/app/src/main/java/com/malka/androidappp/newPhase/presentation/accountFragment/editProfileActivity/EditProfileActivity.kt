@@ -5,9 +5,11 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Patterns
+import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import com.google.gson.Gson
+import com.malka.androidappp.BuildConfig
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
@@ -15,8 +17,11 @@ import com.malka.androidappp.newPhase.data.helper.shared_preferences.SharedPrefe
 import com.malka.androidappp.newPhase.data.network.constants.Constants
 import com.malka.androidappp.newPhase.domain.models.loginResp.LoginUser
 import com.malka.androidappp.newPhase.domain.models.servicemodels.LocationPickerModel
+import com.malka.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.OtpData
 import com.malka.androidappp.newPhase.presentation.accountFragment.AccountViewModel
+import com.malka.androidappp.newPhase.presentation.signup.activity2.SignupOTPVerificationActivity
 import io.paperdb.Paper
+import kotlinx.android.synthetic.main.activity_confirm_change_number.*
 import kotlinx.android.synthetic.main.activity_edit_profile.*
 import kotlinx.android.synthetic.main.activity_edit_profile.date
 import kotlinx.android.synthetic.main.activity_edit_profile.etPhoneNumber
@@ -25,6 +30,7 @@ import kotlinx.android.synthetic.main.activity_edit_profile.radiofemale
 import kotlinx.android.synthetic.main.activity_edit_profile.radiomale
 import kotlinx.android.synthetic.main.activity_edit_profile.userNamee
 import kotlinx.android.synthetic.main.activity_signup_pg1.*
+import kotlinx.android.synthetic.main.activity_signup_pg1.button3
 import kotlinx.android.synthetic.main.toolbar_main.*
 
 class EditProfileActivity : AppCompatActivity() {
@@ -36,7 +42,12 @@ class EditProfileActivity : AppCompatActivity() {
                 ConstantObjects.userobj?.let { setUserData(it) }
             }
         }
-
+    val changePhoneLuncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                ConstantObjects.userobj?.let { setUserData(it) }
+            }
+        }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_profile)
@@ -44,7 +55,7 @@ class EditProfileActivity : AppCompatActivity() {
         password.isEnabled = false
         etPasswordLayout.isEnabled = false
         userNamee.isEnabled = false
-        etPhoneNumber.isEnabled = false
+        //etPhoneNumber.isEnabled = false
 
         if (ConstantObjects.currentLanguage == "ar") {
             btn_reset_phone_number.setBackgroundResource(R.drawable.background_corener_from_start)
@@ -119,11 +130,29 @@ class EditProfileActivity : AppCompatActivity() {
                     })
             }
         }
-    }
+        accountViewModel.validateAndGenerateOTPObserver.observe(this) { validateUserAndGenerateOTP ->
+            if (validateUserAndGenerateOTP.otpData != null) {
+                goToOTPVerificationScreen(validateUserAndGenerateOTP.otpData!!)
+            } else {
+                HelpFunctions.ShowLongToast(
+                    getString(R.string.serverError),
+                    this
+                )
+            }
+        }
 
+    }
+    private fun goToOTPVerificationScreen(otpData: OtpData) {
+        val intent = Intent(this, ConfirmChangeNumberActivity::class.java).apply {
+            putExtra(Constants.otpDataKey, otpData)
+        }
+        changePhoneLuncher.launch(intent)
+//        startActivity(intent)
+//        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+    }
     private fun setUserData(tempUserData: LoginUser) {
         password.setText(tempUserData.password ?: "")
-        etPhoneNumber.setText(tempUserData.phone ?: "")
+        etPhoneNumber.setHint(tempUserData.phone ?: "")
         userNamee.setText(tempUserData.userName ?: "")
         textEmail.setHint(tempUserData.email ?: "")
         fristName.setText(tempUserData.firstName ?: "")
@@ -155,6 +184,7 @@ class EditProfileActivity : AppCompatActivity() {
             gender_ = Constants.female
 
         }
+
         reset_password_btn.setOnClickListener {
             startActivity(Intent(this, ChangePasswordActivity::class.java))
         }
@@ -169,5 +199,33 @@ class EditProfileActivity : AppCompatActivity() {
                 accountViewModel.changeUserEmail(textEmail.text.toString().trim())
             }
         }
+        btn_reset_phone_number.setOnClickListener {
+            if(validateNumber()){
+                accountViewModel.resendOtp(
+                    etPhoneNumber.text.toString().trim() ,
+                    ConstantObjects.currentLanguage,
+                    "3"
+                )
+            }
+        }
+    }
+
+    private fun validateNumber(): Boolean {
+        val numberInput =
+            etPhoneNumber!!.text.toString().trim { it <= ' ' }
+        return if (numberInput.isEmpty()) {
+            etPhoneNumber.visibility = View.VISIBLE
+            etPhoneNumber.error = getString(R.string.Fieldcantbeempty)
+            false
+        }
+        else if (!Patterns.PHONE.matcher(numberInput).matches()) {
+            etPhoneNumber.error = getString(R.string.PleaseenteravalidPhoneNumber)
+            false
+        }
+        else {
+            etPhoneNumber.error = null
+            true
+        }
+
     }
 }

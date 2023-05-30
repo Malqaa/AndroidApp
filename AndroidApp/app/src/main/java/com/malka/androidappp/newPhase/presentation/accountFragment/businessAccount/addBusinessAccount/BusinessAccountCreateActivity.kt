@@ -130,7 +130,7 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
         commercialRegistryFileList = ArrayList()
         setupCommircalRegisteration()
         setViewClickListeners()
-setupViewModel()
+        setupViewModel()
 
     }
 
@@ -169,12 +169,14 @@ setupViewModel()
         }
         businessAccountViewModel.addbusinessAccountListObserver.observe(this) {
             if (it.status_code == 200) {
-                HelpFunctions.ShowLongToast("done",this)
+                setResult(Activity.RESULT_OK)
+                finish()
+                HelpFunctions.ShowLongToast("done", this)
             } else {
                 if (it.message != null) {
-                    HelpFunctions.ShowLongToast(it.message,this)
+                    HelpFunctions.ShowLongToast(it.message, this)
                 } else {
-                    HelpFunctions.ShowLongToast(getString(R.string.serverError),this)
+                    HelpFunctions.ShowLongToast(getString(R.string.serverError), this)
                 }
             }
         }
@@ -435,7 +437,7 @@ setupViewModel()
 
     /*****/
     private fun openCameraChooser() {
-        imageMethodsPickerDialog = PickImageMethodsDialog(this, false,this)
+        imageMethodsPickerDialog = PickImageMethodsDialog(this, false, this)
         imageMethodsPickerDialog.show()
     }
 
@@ -524,7 +526,10 @@ setupViewModel()
                 showError(getString(R.string.Please_select, getString(R.string.Region)))
             } else if (selectedNeighborhoodId == 0) {
                 showError(getString(R.string.Please_select, getString(R.string.district)))
-            } else {
+            }else if(commercialRegistryFileList.isEmpty()){
+                showError( getString(R.string.you_must_download_the_commercial_registry_file))
+            }
+            else {
                 addBussinessAccount()
             }
         }
@@ -538,6 +543,7 @@ setupViewModel()
         }
 
         businessAccountViewModel.addBusinessAcoount(
+            0.toString(),
             userNamee.text.toString().trim(),
             ConstantObjects.logged_userid,
             company_name_ar.text.toString().trim(),
@@ -844,7 +850,6 @@ setupViewModel()
 
 
         val addBusinessUser = BusinessUserRespone.BusinessUser(
-
             businessName = CompanyName,
             businessEmail = EmailAddress,
             businessURL = WebsiteName,

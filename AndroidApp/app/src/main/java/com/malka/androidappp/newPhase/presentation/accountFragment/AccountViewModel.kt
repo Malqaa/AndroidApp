@@ -13,11 +13,13 @@ import com.malka.androidappp.newPhase.domain.models.loginResp.LoginResp
 import com.malka.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
 import com.malka.androidappp.newPhase.domain.models.userPointsDataResp.ConvertMoneyToPointResp
 import com.malka.androidappp.newPhase.domain.models.userPointsDataResp.UserPointDataResp
+import com.malka.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.ValidateAndGenerateOTPResp
 import com.malka.androidappp.newPhase.domain.models.walletDetailsResp.WalletDetailsResp
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.HttpException
@@ -34,23 +36,25 @@ class AccountViewModel : BaseViewModel() {
     var contactsMessageObserver: MutableLiveData<ContactUsMessageResp> = MutableLiveData()
     var technicalSupportMessageListObserver: MutableLiveData<TechnicalSupportMessageListResp> =
         MutableLiveData()
-    var editProfileObserver: MutableLiveData<GeneralResponse> = MutableLiveData()
+    var editProfileImageObserver: MutableLiveData<GeneralResponse> = MutableLiveData()
     var getUserDataObserver: MutableLiveData<LoginResp> = MutableLiveData()
     var changePasswordObserver: MutableLiveData<GeneralResponse> = MutableLiveData()
     var changeEmailObserver: MutableLiveData<GeneralResponse> = MutableLiveData()
     var confirmChangeEmailOtpObserver: MutableLiveData<GeneralResponse> = MutableLiveData()
-    fun editProfile(file: File?) {
+    fun editProfileImage(file: File?) {
         isLoading.value = true
-        var multipartBody :MultipartBody.Part?=null
-        file?.let {
-            var requestbody:RequestBody=file.asRequestBody("image/*".toMediaTypeOrNull())
-            multipartBody =MultipartBody.Part.createFormData("imgProfile",file.name,requestbody)
-
+        var multipartBody: MultipartBody.Part = if(file != null) {
+            var requestbody: RequestBody = file.asRequestBody("image/*".toMediaTypeOrNull())
+            MultipartBody.Part.createFormData("imgProfile", file.name, requestbody)
+        }else{
+            MultipartBody.Part.createFormData("imgProfile", "null", "null".toRequestBody())
         }
+
         RetrofitBuilder.GetRetrofitBuilder()
             .editProfileImage(multipartBody)
             .enqueue(object : Callback<GeneralResponse> {
                 override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
+                    println("hhhh " + t.message)
                     isNetworkFail.value = t !is HttpException
                     isLoading.value = false
                 }
@@ -61,7 +65,7 @@ class AccountViewModel : BaseViewModel() {
                 ) {
                     isLoading.value = false
                     if (response.isSuccessful) {
-                        editProfileObserver.value = response.body()
+                        editProfileImageObserver.value = response.body()
                     } else {
                         errorResponseObserver.value =
                             getErrorResponse(response.errorBody())
@@ -304,7 +308,7 @@ class AccountViewModel : BaseViewModel() {
             })
     }
 
-    fun getUserData(){
+    fun getUserData() {
         isLoading.value = true
         RetrofitBuilder.GetRetrofitBuilder()
             .getUserData()
@@ -328,13 +332,30 @@ class AccountViewModel : BaseViewModel() {
                 }
             })
     }
+    fun getUserDataForAccountTap() {
+        RetrofitBuilder.GetRetrofitBuilder()
+            .getUserData()
+            .enqueue(object : Callback<LoginResp> {
+                override fun onFailure(call: Call<LoginResp>, t: Throwable) {
+                }
+
+                override fun onResponse(
+                    call: Call<LoginResp>,
+                    response: Response<LoginResp>
+                ) {
+                    if (response.isSuccessful) {
+                        getUserDataObserver.value = response.body()
+                    }
+                }
+            })
+    }
 
     fun changeUserPassword(loggedUserid: String, currentPassword: String, newPassword: String) {
         isLoading.value = true
-        var data:HashMap<String,Any> = HashMap()
-        data["userId"]=loggedUserid
-        data["oldPassword"]=currentPassword
-        data[ "newPassword"]=newPassword
+        var data: HashMap<String, Any> = HashMap()
+        data["userId"] = loggedUserid
+        data["oldPassword"] = currentPassword
+        data["newPassword"] = newPassword
         RetrofitBuilder.GetRetrofitBuilder()
             .editProfileChangePassword(data)
             .enqueue(object : Callback<GeneralResponse> {
@@ -382,12 +403,13 @@ class AccountViewModel : BaseViewModel() {
                 }
             })
     }
-    fun changeUserEmail(newEmail: String,otp:String) {
+
+    fun changeUserEmail(newEmail: String, otp: String) {
 
         isLoading.value = true
-        var data:HashMap<String,Any> = HashMap()
-        data["resetPasswordCode"]=otp
-        data[ "newEmail"]=newEmail
+        var data: HashMap<String, Any> = HashMap()
+        data["resetPasswordCode"] = otp
+        data["newEmail"] = newEmail
         RetrofitBuilder.GetRetrofitBuilder()
             .confirmChangeEmail(data)
             .enqueue(object : Callback<GeneralResponse> {
@@ -410,4 +432,62 @@ class AccountViewModel : BaseViewModel() {
                 }
             })
     }
+
+
+    var validateAndGenerateOTPObserver: MutableLiveData<ValidateAndGenerateOTPResp> =
+        MutableLiveData()
+    var updateUserMobielNumberObserver: MutableLiveData<GeneralResponse> =
+        MutableLiveData()
+
+    fun resendOtp(userPhone: String, language: String, otpType: String) {
+        isLoading.value = true
+        RetrofitBuilder.GetRetrofitBuilder()
+            .resendOtp(userPhone, otpType, language)
+            .enqueue(object : Callback<ValidateAndGenerateOTPResp> {
+                override fun onResponse(
+                    call: Call<ValidateAndGenerateOTPResp>,
+                    response: Response<ValidateAndGenerateOTPResp>
+                ) {
+                    if (response.isSuccessful) {
+                        validateAndGenerateOTPObserver.value = response.body()
+                    } else {
+                        errorResponseObserver.value = getErrorResponse(response.errorBody())
+                    }
+                    isLoading.value = false
+                }
+
+                override fun onFailure(call: Call<ValidateAndGenerateOTPResp>, t: Throwable) {
+                    isNetworkFail.value = t !is HttpException
+                    isLoading.value = false
+                }
+            })
+    }
+
+    fun upddateMobileNumber(userPhone: String, userId: String, otpCode: String) {
+        isLoading.value = true
+        var data: HashMap<String, Any> = HashMap()
+        data["id"] = userId
+        data["mobileNumber"] = userPhone
+        data["otpCode"] = otpCode
+        RetrofitBuilder.GetRetrofitBuilder()
+            .updateUserMobileNumber(data).enqueue(object : Callback<GeneralResponse> {
+                override fun onResponse(
+                    call: Call<GeneralResponse>,
+                    response: Response<GeneralResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        updateUserMobielNumberObserver.value = response.body()
+                    } else {
+                        errorResponseObserver.value = getErrorResponse(response.errorBody())
+                    }
+                    isLoading.value = false
+                }
+
+                override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
+                    isNetworkFail.value = t !is HttpException
+                    isLoading.value = false
+                }
+            })
+    }
+
 }

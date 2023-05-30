@@ -131,7 +131,7 @@ object Extension {
         pb_loading?.show()
         var imagePath= if(path==""||path==null) "emptyPath" else path
         Picasso.get()
-            .load(imagePath)
+            .load(imagePath.replace("http","https"))
             .error(R.drawable.main_logo)
             .into(imageView, object : Callback {
                 override fun onSuccess() {

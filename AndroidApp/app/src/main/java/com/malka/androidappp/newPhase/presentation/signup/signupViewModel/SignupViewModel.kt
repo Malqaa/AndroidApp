@@ -69,10 +69,10 @@ class SignupViewModel : BaseViewModel() {
     }
 
 
-    fun resendOtp(otpCode: String, language: String,otpType: String) {
+    fun resendOtp(userPhone: String, language: String,otpType: String) {
         isLoading.value = true
         RetrofitBuilder.GetRetrofitBuilder()
-            .resendOtp(otpCode, otpType, language).enqueue(object : Callback<ValidateAndGenerateOTPResp> {
+            .resendOtp(userPhone, otpType, language).enqueue(object : Callback<ValidateAndGenerateOTPResp> {
                 override fun onResponse(
                     call: Call<ValidateAndGenerateOTPResp>,
                     response: Response<ValidateAndGenerateOTPResp>
