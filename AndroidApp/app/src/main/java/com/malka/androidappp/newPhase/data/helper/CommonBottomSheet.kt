@@ -71,7 +71,7 @@ class CommonBottomSheet {
         selectCard = null
         BottomSheetDialog(context).apply {
             setContentView(R.layout.card_selection_layout)
-            add_a_new_account._view3().setGravity(Gravity.CENTER)
+            btnAddNewAccount._view3().setGravity(Gravity.CENTER)
             cardAdaptor(card_rcv, list)
             order_amount_tv.text =
                 "${AddressPaymentActivity.totalAMount} ${context.getString(R.string.SAR)}"
@@ -91,7 +91,7 @@ class CommonBottomSheet {
 
             }
 
-            add_a_new_account.setOnClickListener {
+            btnAddNewAccount.setOnClickListener {
                 addCardBottomSheet(context, {
                     onNewCardAdded.invoke()
                 })

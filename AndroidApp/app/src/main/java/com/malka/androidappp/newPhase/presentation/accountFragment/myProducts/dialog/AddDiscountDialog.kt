@@ -53,12 +53,12 @@ class AddDiscountDialog(
         ivClose.setOnClickListener {
             dismiss()
         }
-        own_time_tv.setOnClickListener {
+        tvClosingAuctionCustomDataOption2.setOnClickListener {
             val dateDialog = DatePickerFragment(false, true) { selectdate_ ->
                 selectdate = selectdate_
                 val timeDialog = TimePickerFragment { selectTime_ ->
                     selectTime = selectTime_
-                    own_time_tv.text = "$selectdate $selectTime"
+                    tvClosingAuctionCustomDataOption2.text = "$selectdate $selectTime"
                     dateString = "$selectdate $selectTime"
                 }
                 timeDialog.show(fm, "")

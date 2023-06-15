@@ -7,16 +7,16 @@ data class LoginUser(
     val code: Int,
     val countryId: Int,
     val createdAt: String?=null,
-    val dateOfBirth: String?=null,
+    var dateOfBirth: String?=null,
     val districtName: String?=null,
     var email: String?=null,
     val firstName: String?=null,
-    val gender: Int,
+    var gender: Int,
     val id: String,
     val img: String?=null,
     val invitationCode: String?=null,
     val lang:  String?=null,
-    val lastName: String?=null,
+    var lastName: String?=null,
     val membershipNumber: Int,
     val neighborhoodId: Int,
     var password: String?=null,
@@ -26,8 +26,9 @@ data class LoginUser(
     val streetNumber: String?=null,
     var token: String?=null,
     val typeUser: Int,
-    val userName: String?=null,
-    val zipCode: String?=null
+    var userName: String?=null,
+    val zipCode: String?=null,
+    var showUserInformation: String?=null
 )
 
 data class BusinessAccountsDetails(

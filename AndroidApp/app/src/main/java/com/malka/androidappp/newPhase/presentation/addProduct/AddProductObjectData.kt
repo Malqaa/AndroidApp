@@ -2,6 +2,7 @@ package com.malka.androidappp.newPhase.presentation.addProduct
 
 import com.malka.androidappp.newPhase.data.helper.widgets.searchdialog.SearchListItem
 import com.malka.androidappp.newPhase.domain.models.ImageSelectModel
+import com.malka.androidappp.newPhase.domain.models.accountBackListResp.AccountDetails
 import com.malka.androidappp.newPhase.domain.models.dynamicSpecification.DynamicSpecificationSentObject
 import com.malka.androidappp.newPhase.domain.models.pakatResp.PakatDetails
 import com.malka.androidappp.newPhase.domain.models.servicemodels.Selection
@@ -21,9 +22,8 @@ class AddProductObjectData {
         var selectedCategory: Category? = null
         var selectedCategoryId: Int = 0
         var selectedCategoryName: String = ""
-        var video = ""
+        var videoList: List<String>? = null
         var images: MutableList<ImageSelectModel> = mutableListOf()
-
         var itemTitleAr: String = ""
         var itemTitleEn: String = ""
         var subtitleAr: String = ""
@@ -38,16 +38,25 @@ class AddProductObjectData {
         var region: SearchListItem? = null
         var city: SearchListItem? = null
 
-        var phone = ""
-        var phoneCountryCode = ""
+        /**sale and pricing data*/
+        var priceFixed: String = ""
+        var priceFixedOption: Boolean = false
+        var auctionOption: Boolean = false
+        var auctionStartPrice: String = ""
+        var auctionMinPrice: String = ""
+        var isNegotiablePrice = false
+        // 1 bank , 2 cash
+        var PAYMENT_OPTION_BANk=1
+        var PAYMENT_OPTION_CASH=2
+        var paymentOption: Int = 0
+        var selectedAccountDetails: AccountDetails? = null
 
+
+
+
+        var phone = ""
+        //var phoneCountryCode = ""
         var price: String = ""
-        var reservedPrice: String = ""
-        var startingPrice: String = ""
-        var isnegotiable = false
-        var buyingType = ""
-        var isvisapaid = false
-        var isbankpaid = false
         var productSpecificationList: List<DynamicSpecificationSentObject>? = null
         var pickUpOption: Boolean = false
         var selectedPakat: PakatDetails? = null
@@ -55,7 +64,6 @@ class AddProductObjectData {
 
 
         var brand_new_item = ""
-
         var id = ""
         var name = ""
         var slug = ""
@@ -63,28 +71,16 @@ class AddProductObjectData {
         var featureexpirydate = ""
         var urgentexpirydate = ""
         var highlightexpirydate = ""
-
         var template = ""
-
-
         val user = ""
-
-
         var address = ""
-
-
         var iscashpaid = false
-
-
         var fixLength = ""
         var timepicker = ""
-
         var duration = ""
         var endtime = ""
-        var fixlenghtselected: TimeSelection? = null
-
-
-        //        var selectPromotiion: PromotionModel? = null
+        var fixlenghtselected: TimeSelection? =
+            null//        var selectPromotiion: PromotionModel? = null
         var weekSelection: TimeSelection? = null
 
 
@@ -109,6 +105,6 @@ class AddProductObjectData {
 class AccountObject {
     companion object {
         var walletDetails: WalletDetails? = null;
-        var userPointData: UserPointData?=null
+        var userPointData: UserPointData? = null
     }
 }

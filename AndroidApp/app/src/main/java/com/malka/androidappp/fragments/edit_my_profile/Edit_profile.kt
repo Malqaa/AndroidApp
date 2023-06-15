@@ -29,9 +29,9 @@ class EditProfile : Fragment() {
         back_btn.setOnClickListener {
             requireActivity().onBackPressed()
         }
-        date!!._setOnClickListener {
+        btnDate!!._setOnClickListener {
            DatePickerFragment(true, false) { selectdate_ ->
-                date.text = "$selectdate_ "
+                btnDate.text = "$selectdate_ "
             }.show(requireActivity().supportFragmentManager, "")
         }
 

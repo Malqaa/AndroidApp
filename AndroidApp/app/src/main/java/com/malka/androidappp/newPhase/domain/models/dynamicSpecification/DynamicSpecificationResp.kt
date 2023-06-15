@@ -26,6 +26,7 @@ data class DynamicSpecificationItem(
     var subSpecifications: List<SubSpecificationItem>? = null,
     var valueArText: String = "",
     var valueEnText: String = "",
+    var valueBoolean:Boolean=false,
     var subSpecificationsValue: SubSpecificationItem? = null,
     var filterValue: String=""
 )

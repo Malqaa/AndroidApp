@@ -149,9 +149,9 @@ class SignupCreateNewUser : BaseActivity(), PickImageMethodsDialog.OnAttachedIma
 
     /***clickEvents*/
     private fun setupClickListeners() {
-        date._setOnClickListener {
+        btnDate._setOnClickListener {
             DatePickerFragment(true, false) { selectdate_ ->
-                date.text = "$selectdate_ "
+                btnDate.text = "$selectdate_ "
 
             }.show(supportFragmentManager, "")
 
@@ -335,7 +335,7 @@ class SignupCreateNewUser : BaseActivity(), PickImageMethodsDialog.OnAttachedIma
             return false
         }
 
-        if (date!!.text.toString().isEmpty()) {
+        if (btnDate!!.text.toString().isEmpty()) {
             showError(getString(R.string.Please_select, getString(R.string.Date_of_Birth)))
             return false
         }
@@ -382,7 +382,7 @@ class SignupCreateNewUser : BaseActivity(), PickImageMethodsDialog.OnAttachedIma
         otpData?.let {
             invitationCode = it.invitationCode?:"";
         }
-        println("hhhh data:${date.text.toString().trim()} , gender:${gender_} ,countryId ")
+        println("hhhh data:${btnDate.text.toString().trim()} , gender:${gender_} ,countryId ")
 
         var  file: File? = null
         userImageUri?.let {
@@ -396,7 +396,7 @@ class SignupCreateNewUser : BaseActivity(), PickImageMethodsDialog.OnAttachedIma
             invitationCode,
             firstName.text.toString().trim(),
             lastName.text.toString().trim(),
-            date.text.toString().trim(),
+            btnDate.text.toString().trim(),
             gender_.toString(),
             selectedCountryId.toString(),
             selectedRegionId.toString(),

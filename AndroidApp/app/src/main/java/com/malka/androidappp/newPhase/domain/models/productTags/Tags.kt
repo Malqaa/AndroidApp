@@ -14,4 +14,5 @@ data class Tags(
     var productCategoryId: Int,
     var categories:List<String>?=null,
     var isSelect: Boolean=false,
+    var category:String?=null,
 )

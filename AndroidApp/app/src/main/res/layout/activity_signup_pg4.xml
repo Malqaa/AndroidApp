@@ -74,7 +74,7 @@
             app:startIcon="@drawable/ic_user" />
 
         <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
-            android:id="@+id/date"
+            android:id="@+id/btnDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"

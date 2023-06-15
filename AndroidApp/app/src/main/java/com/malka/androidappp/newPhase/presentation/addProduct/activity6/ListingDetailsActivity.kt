@@ -54,7 +54,7 @@ class ListingDetailsActivity : BaseActivity() {
 //        AddProductObjectData.productCondition = 0
 //        AddProductObjectData.quantity = ""
         setViewClickListeners()
-        setupCountryCodePiker()
+        // setupCountryCodePiker()
 
         if (isEdit) {
             setData()
@@ -178,13 +178,8 @@ class ListingDetailsActivity : BaseActivity() {
         countryContainer.text = selectedCountry?.title ?: ""
         regionContainer.text = selectedRegion?.title ?: ""
         neighborhoodContainer.text = selectedCity?.title ?: ""
-        countryCodePicker.setCountryForNameCode(AddProductObjectData.phoneCountryCode)
-        etPhoneNumber.setText(
-            AddProductObjectData.phone.replace(
-                AddProductObjectData.phoneCountryCode,
-                ""
-            )
-        )
+        //countryCodePicker.setCountryForNameCode(AddProductObjectData.phoneCountryCode)
+        etPhoneNumber.setText(AddProductObjectData.phone)
         quantityavail.number = AddProductObjectData.quantity
         if (AddProductObjectData.productCondition == 2) {
             tv_New.isSelected = true
@@ -198,21 +193,21 @@ class ListingDetailsActivity : BaseActivity() {
 
     }
 
-    private fun setupCountryCodePiker() {
-        if (Lingver.getInstance().getLanguage() == ConstantObjects.ARABIC) {
-            countryCodePicker.changeDefaultLanguage(CountryCodePicker.Language.ARABIC)
-        } else {
-            countryCodePicker.changeDefaultLanguage(CountryCodePicker.Language.ENGLISH)
-            //  etPhoneNumber.textAlignment=View.TEXT_ALIGNMENT_VIEW_START
-        }
-        countryCodePicker.registerCarrierNumberEditText(etPhoneNumber)
-        countryCodePicker.setPhoneNumberValidityChangeListener { isValidNumber ->
-            isPhoneNumberValid = isValidNumber
-        }
-        countryCodePicker.setOnCountryChangeListener {
-            etPhoneNumber.text = Editable.Factory.getInstance().newEditable("")
-        }
-    }
+//    private fun setupCountryCodePiker() {
+//        if (Lingver.getInstance().getLanguage() == ConstantObjects.ARABIC) {
+//            countryCodePicker.changeDefaultLanguage(CountryCodePicker.Language.ARABIC)
+//        } else {
+//            countryCodePicker.changeDefaultLanguage(CountryCodePicker.Language.ENGLISH)
+//            //  etPhoneNumber.textAlignment=View.TEXT_ALIGNMENT_VIEW_START
+//        }
+//        countryCodePicker.registerCarrierNumberEditText(etPhoneNumber)
+//        countryCodePicker.setPhoneNumberValidityChangeListener { isValidNumber ->
+//            isPhoneNumberValid = isValidNumber
+//        }
+//        countryCodePicker.setOnCountryChangeListener {
+//            etPhoneNumber.text = Editable.Factory.getInstance().newEditable("")
+//        }
+//    }
 
     private fun setViewClickListeners() {
         countryContainer._setOnClickListener {
@@ -327,7 +322,12 @@ class ListingDetailsActivity : BaseActivity() {
     /**countries , region and Neighborhood Dialogs**/
     private fun openCountryDialog() {
         val countryDialog = CountryDialog(this, object : CountryDialog.GetSelectedCountry {
-            override fun onSelectedCountry(id: Int, countryName: String, countryFlag: String?, countryCode: String?) {
+            override fun onSelectedCountry(
+                id: Int,
+                countryName: String,
+                countryFlag: String?,
+                countryCode: String?
+            ) {
                 /**setCountryData*/
                 /**setCountryData*/
                 selectedCountry = SearchListItem(id, countryName)
@@ -408,7 +408,7 @@ class ListingDetailsActivity : BaseActivity() {
             showError(getString(R.string.Please_select, getString(R.string.district)))
         } else if (etPhoneNumber.text.toString().isEmpty()) {
             showError(getString(R.string.Please_enter, getString(R.string.PhoneNumber)))
-        } else if (!isPhoneNumberValid) {
+        } else if (etPhoneNumber.text.toString().trim().isEmpty()) {
             showError(getString(R.string.PleaseenteravalidPhoneNumber))
         } else {
             AddProductObjectData.itemTitleAr = tvTitleAr.getText().trim().toString()
@@ -420,8 +420,8 @@ class ListingDetailsActivity : BaseActivity() {
             AddProductObjectData.country = selectedCountry
             AddProductObjectData.region = selectedRegion
             AddProductObjectData.city = selectedCity
-            AddProductObjectData.phone = countryCodePicker.fullNumberWithPlus
-            AddProductObjectData.phoneCountryCode = countryCodePicker.selectedCountryCodeWithPlus
+            AddProductObjectData.phone = etPhoneNumber.text.toString().trim()
+            // AddProductObjectData.phoneCountryCode = countryCodePicker.selectedCountryCodeWithPlus
             if (isEdit) {
                 startActivity(Intent(this, ConfirmationAddProductActivity::class.java).apply {
                     finish()

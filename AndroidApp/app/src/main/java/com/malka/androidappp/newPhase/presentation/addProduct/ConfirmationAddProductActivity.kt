@@ -24,7 +24,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
-import java.nio.file.Files
 
 class ConfirmationAddProductActivity : BaseActivity() {
 
@@ -111,7 +110,7 @@ class ConfirmationAddProductActivity : BaseActivity() {
         AddProductObjectData.selectedCategory = null
         AddProductObjectData.selectedCategoryId = 0
         AddProductObjectData.selectedCategoryName = ""
-        AddProductObjectData.video = ""
+        AddProductObjectData.videoList = null
 
         AddProductObjectData.itemTitleAr = ""
         AddProductObjectData.itemTitleEn = ""
@@ -128,15 +127,15 @@ class ConfirmationAddProductActivity : BaseActivity() {
         AddProductObjectData.city = null
 
         AddProductObjectData.phone = ""
-        AddProductObjectData.phoneCountryCode = ""
+//        AddProductObjectData.phoneCountryCode = ""
 
-        AddProductObjectData.price = ""
-        AddProductObjectData.reservedPrice = ""
-        AddProductObjectData.startingPrice = ""
-        AddProductObjectData.isnegotiable = false
-        AddProductObjectData.buyingType = ""
-        AddProductObjectData.isvisapaid = false
-        AddProductObjectData.isbankpaid = false
+        AddProductObjectData.priceFixed = ""
+        AddProductObjectData.auctionMinPrice = ""
+        AddProductObjectData.auctionStartPrice = ""
+        AddProductObjectData.isNegotiablePrice = false
+//        AddProductObjectData.buyingType = ""
+//        AddProductObjectData.isvisapaid = false
+//        AddProductObjectData.isbankpaid = false
         AddProductObjectData.productSpecificationList = null
         AddProductObjectData.pickUpOption = false
         AddProductObjectData.selectedPakat = null
@@ -180,35 +179,35 @@ class ConfirmationAddProductActivity : BaseActivity() {
     private fun confirmOrder() {
         var withFixedPrice = "false"
         var isMazad = "false"
-        when (AddProductObjectData.buyingType) {
-            "1" -> {
-                withFixedPrice = true.toString()
-                tvFixedPrice.show()
-                purchasing_price_.show()
-                purchasing_price_tv.text = AddProductObjectData.price
-            }
-            "2" -> {
-                isMazad = true.toString()
-                tvAuction.show()
-                auction_start_price.show()
-                minimum_price.show()
-                auction_start_price_tv.text = AddProductObjectData.startingPrice
-                minimum_price_tv.text = AddProductObjectData.reservedPrice
-
-            }
-            "12" -> {
-                withFixedPrice = true.toString()
-                isMazad = true.toString()
-                tvFixedPrice.show()
-                tvAuction.show()
-                purchasing_price_.show()
-                auction_start_price.show()
-                minimum_price.show()
-                purchasing_price_tv.text = AddProductObjectData.price
-                auction_start_price_tv.text = AddProductObjectData.startingPrice
-                minimum_price_tv.text = AddProductObjectData.reservedPrice
-            }
-        }
+//        when (AddProductObjectData.buyingType) {
+//            "1" -> {
+//                withFixedPrice = true.toString()
+//                tvFixedPrice.show()
+//                purchasing_price_.show()
+//                purchasing_price_tv.text = AddProductObjectData.priceFixed
+//            }
+//            "2" -> {
+//                isMazad = true.toString()
+//                tvAuction.show()
+//                auction_start_price.show()
+//                minimum_price.show()
+//                auction_start_price_tv.text = AddProductObjectData.auctionStartPrice
+//                minimum_price_tv.text = AddProductObjectData.auctionMinPrice
+//
+//            }
+//            "12" -> {
+//                withFixedPrice = true.toString()
+//                isMazad = true.toString()
+//                tvFixedPrice.show()
+//                tvAuction.show()
+//                purchasing_price_.show()
+//                auction_start_price.show()
+//                minimum_price.show()
+//                purchasing_price_tv.text = AddProductObjectData.priceFixed
+//                auction_start_price_tv.text = AddProductObjectData.auctionStartPrice
+//                minimum_price_tv.text = AddProductObjectData.auctionMinPrice
+//            }
+//        }
         var listImageFile: ArrayList<File> = ArrayList()
         var listImageByts: ArrayList<ByteArray> = ArrayList()
         var listImageUri: ArrayList<Uri> = ArrayList()
@@ -242,10 +241,10 @@ class ConfirmationAddProductActivity : BaseActivity() {
             descriptionAr = AddProductObjectData.itemDescriptionAr,
             descriptionEn = AddProductObjectData.itemDescriptionEn,
             qty = AddProductObjectData.quantity,
-            price = AddProductObjectData.price,
+            price = AddProductObjectData.priceFixed,
             priceDisc = "0",
             acceptQuestion = false.toString(),
-            isNegotiationOffers = AddProductObjectData.isnegotiable.toString(),
+            isNegotiationOffers = AddProductObjectData.isNegotiablePrice.toString(),
             withFixedPrice = withFixedPrice,
             isMazad = isMazad,
             isSendOfferForMazad = isMazad,
@@ -266,7 +265,7 @@ class ConfirmationAddProductActivity : BaseActivity() {
 //            listImageFile = listImageUri,//listImageFile
             listImageFile = listImageUri,//listImageFile
             MainImageIndex = mainIndex.toString(),
-            videoUrl = AddProductObjectData.video,
+            videoUrl = AddProductObjectData.videoList,
             PickUpDelivery = AddProductObjectData.pickUpOption.toString(),
             DeliveryOption = "1",
         )
@@ -374,44 +373,44 @@ class ConfirmationAddProductActivity : BaseActivity() {
 
         tvQuantityData.text = AddProductObjectData.quantity
 
-        when (AddProductObjectData.buyingType) {
-            "1" -> {
-                tvFixedPrice.show()
-                purchasing_price_.show()
-                purchasing_price_tv.text = AddProductObjectData.price
-            }
-            "2" -> {
-                tvAuction.show()
-                auction_start_price.show()
-                minimum_price.show()
-                auction_start_price_tv.text = AddProductObjectData.startingPrice
-                minimum_price_tv.text = AddProductObjectData.reservedPrice
+//        when (AddProductObjectData.buyingType) {
+//            "1" -> {
+//                tvFixedPrice.show()
+//                purchasing_price_.show()
+//                purchasing_price_tv.text = AddProductObjectData.priceFixed
+//            }
+//            "2" -> {
+//                tvAuction.show()
+//                auction_start_price.show()
+//                minimum_price.show()
+//                auction_start_price_tv.text = AddProductObjectData.auctionStartPrice
+//                minimum_price_tv.text = AddProductObjectData.auctionMinPrice
+//
+//            }
+//            "12" -> {
+//                tvFixedPrice.show()
+//                tvAuction.show()
+//                purchasing_price_.show()
+//                auction_start_price.show()
+//                minimum_price.show()
+//                purchasing_price_tv.text = AddProductObjectData.priceFixed
+//                auction_start_price_tv.text = AddProductObjectData.auctionStartPrice
+//                minimum_price_tv.text = AddProductObjectData.auctionMinPrice
+//            }
+//        }
 
-            }
-            "12" -> {
-                tvFixedPrice.show()
-                tvAuction.show()
-                purchasing_price_.show()
-                auction_start_price.show()
-                minimum_price.show()
-                purchasing_price_tv.text = AddProductObjectData.price
-                auction_start_price_tv.text = AddProductObjectData.startingPrice
-                minimum_price_tv.text = AddProductObjectData.reservedPrice
-            }
-        }
-
-        if (AddProductObjectData.isnegotiable) {
+        if (AddProductObjectData.isNegotiablePrice) {
             negotiable_tv.text = getString(R.string.Yes)
         } else {
             negotiable_tv.text = getString(R.string.No)
         }
 
-        if (AddProductObjectData.isbankpaid) {
-            saudi_bank_deposit.show()
-        }
-        if (AddProductObjectData.isvisapaid) {
-            Visa.show()
-        }
+//        if (AddProductObjectData.isbankpaid) {
+//            saudi_bank_deposit.show()
+//        }
+//        if (AddProductObjectData.isvisapaid) {
+//            Visa.show()
+//        }
         if (AddProductObjectData.pickUpOption) {
             tvPickupOptionData.text = getString(R.string.Yes)
         } else {
@@ -483,10 +482,10 @@ class ConfirmationAddProductActivity : BaseActivity() {
             Region = AddProductObjectData.region!!.title,
             Urgentexpirydate = AddProductObjectData.urgentexpirydate,
             title = AddProductObjectData.itemTitleAr,
-            Price = AddProductObjectData.price,
+            Price = AddProductObjectData.priceFixed,
             user = ConstantObjects.logged_userid,
-            StartingPrice = AddProductObjectData.startingPrice,
-            ReservePrice = AddProductObjectData.reservedPrice,
+            StartingPrice = AddProductObjectData.auctionStartPrice,
+            ReservePrice = AddProductObjectData.auctionMinPrice,
 
             Duration = AddProductObjectData.duration,
             EndTime = AddProductObjectData.endtime,
@@ -497,7 +496,8 @@ class ConfirmationAddProductActivity : BaseActivity() {
             isActive = false,
             isWatching = false,
             Isuserfavorite = false,
-            listingType = AddProductObjectData.buyingType,
+            //listingType = AddProductObjectData.buyingType,
+            listingType = "",
             quantity = AddProductObjectData.quantity.toInt(),
             featureexpirydate = AddProductObjectData.featureexpirydate,
             highlightexpirydate = AddProductObjectData.highlightexpirydate,
@@ -511,9 +511,11 @@ class ConfirmationAddProductActivity : BaseActivity() {
             enddate = AddProductObjectData.endtime,
             platform = "Android",
             iscashpaid = AddProductObjectData.iscashpaid,
-            isvisapaid = AddProductObjectData.isvisapaid,
-            isbankpaid = AddProductObjectData.isbankpaid,
-            isnegotiable = AddProductObjectData.isnegotiable,
+//            isvisapaid = AddProductObjectData.isvisapaid,
+//            isbankpaid = AddProductObjectData.isbankpaid,
+            isvisapaid = true,
+            isbankpaid = true,
+            isnegotiable = AddProductObjectData.isNegotiablePrice,
             subcatone = AddProductObjectData.subcatone,
             subcattwo = AddProductObjectData.subcattwo,
             subcatthree = AddProductObjectData.subcatthree,
@@ -527,7 +529,7 @@ class ConfirmationAddProductActivity : BaseActivity() {
             subcatfivekey = AddProductObjectData.subcatfivekey,
             subcatsixkey = AddProductObjectData.subcatsixkey,
             category = AddProductObjectData.subCategoryPath[0],
-            Video = AddProductObjectData.video,
+            Video = AddProductObjectData.videoList,
             brand_new_item = AddProductObjectData.brand_new_item,
         )
 //        if(AddProductObjectData.selectPromotiion==null){
@@ -583,7 +585,8 @@ class ConfirmationAddProductActivity : BaseActivity() {
                 call: Call<CreateAdvResponseBack>, response: Response<CreateAdvResponseBack>
             ) {
                 if (response.isSuccessful) {
-                    AddProductObjectData.buyingType = ""
+                   // AddProductObjectData.buyingType = ""
+                 //   AddProductObjectData.buyingType = ""
                     AddProductObjectData.brand_new_item = ""
                     AddProductObjectData.shippingOptionSelection = null
 //                    AddProductObjectData.selectPromotiion=null

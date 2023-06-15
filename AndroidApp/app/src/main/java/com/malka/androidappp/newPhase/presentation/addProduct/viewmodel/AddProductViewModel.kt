@@ -9,8 +9,8 @@ import com.malka.androidappp.newPhase.data.helper.Extension.requestBody
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.ErrorResponse
+import com.malka.androidappp.newPhase.domain.models.accountBackListResp.AccountBankListResp
 import com.malka.androidappp.newPhase.domain.models.categoryResp.CategoriesResp
-import com.malka.androidappp.newPhase.domain.models.configrationResp.ConfigurationResp
 import com.malka.androidappp.newPhase.domain.models.dynamicSpecification.DynamicSpecificationResp
 import com.malka.androidappp.newPhase.domain.models.dynamicSpecification.DynamicSpecificationSentObject
 import com.malka.androidappp.newPhase.domain.models.pakatResp.PakatResp
@@ -44,6 +44,9 @@ class AddProductViewModel : BaseViewModel() {
 
     var confirmAddPorductRespObserver: MutableLiveData<AddProductResponse> = MutableLiveData()
 
+    var addBackAccountObserver: MutableLiveData<GeneralResponse> = MutableLiveData()
+    var listBackAccountObserver: MutableLiveData<AccountBankListResp> = MutableLiveData()
+   var isLoadingBackAccountList:MutableLiveData<Boolean> = MutableLiveData()
     fun getListCategoriesByProductName(productName: String) {
         isLoading.value = true
         RetrofitBuilder.GetRetrofitBuilder()
@@ -96,6 +99,7 @@ class AddProductViewModel : BaseViewModel() {
 
     fun getDynamicSpecification(categoryId: Int) {
         isLoading.value = true
+        println("hhhh $categoryId")
         RetrofitBuilder.GetRetrofitBuilder()
             .getDynamicSpecificationForCategory(categoryId.toString())
             .enqueue(object : Callback<DynamicSpecificationResp> {
@@ -163,6 +167,72 @@ class AddProductViewModel : BaseViewModel() {
                         categoriesObserver.value = response.body()
                     } else {
                         categoriesErrorResponseObserver.value =
+                            getErrorResponse(response.errorBody())
+                    }
+                }
+            })
+    }
+
+
+    fun addBackAccountData(
+        accountNumber: String,
+        bankName: String,
+        bankHolderName: String,
+        ibanNumber: String,
+        swiftCode: String,
+        expiaryDate: String,
+        SaveForLaterUse: String
+    ) {
+        isLoading.value = true
+        RetrofitBuilder.GetRetrofitBuilder()
+            .addBankAccount(
+                accountNumber.requestBody(),
+                bankName.requestBody(),
+                bankHolderName.requestBody(),
+                ibanNumber.requestBody(),
+                swiftCode.requestBody(),
+                expiaryDate.requestBody(),
+                SaveForLaterUse.requestBody()
+            )
+            .enqueue(object : Callback<GeneralResponse> {
+                override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
+                    isNetworkFail.value = t !is HttpException
+                    isLoading.value = false
+                }
+
+                override fun onResponse(
+                    call: Call<GeneralResponse>,
+                    response: Response<GeneralResponse>
+                ) {
+                    isLoading.value = false
+                    if (response.isSuccessful) {
+                        addBackAccountObserver.value = response.body()
+                    } else {
+                        errorResponseObserver.value =
+                            getErrorResponse(response.errorBody())
+                    }
+                }
+            })
+    }
+    fun getBankAccountsList() {
+        isLoadingBackAccountList.value = true
+        RetrofitBuilder.GetRetrofitBuilder()
+            .getAllBacksAccount()
+            .enqueue(object : Callback<AccountBankListResp> {
+                override fun onFailure(call: Call<AccountBankListResp>, t: Throwable) {
+                    isNetworkFail.value = t !is HttpException
+                    isLoadingBackAccountList.value = false
+                }
+
+                override fun onResponse(
+                    call: Call<AccountBankListResp>,
+                    response: Response<AccountBankListResp>
+                ) {
+                    isLoadingBackAccountList.value = false
+                    if (response.isSuccessful) {
+                        listBackAccountObserver.value = response.body()
+                    } else {
+                        errorResponseObserver.value =
                             getErrorResponse(response.errorBody())
                     }
                 }
@@ -306,7 +376,7 @@ class AddProductViewModel : BaseViewModel() {
         productSep: List<DynamicSpecificationSentObject>?,
         listImageFile: List<Uri>,//listImageFile
         MainImageIndex: String,
-        videoUrl: String,
+        videoUrl: List<String>?,
         PickUpDelivery: String,
         DeliveryOption: String,
     ) {
@@ -352,12 +422,10 @@ class AddProductViewModel : BaseViewModel() {
         map["DeliveryOption"] = DeliveryOption.requestBody()
 
 
-
-
         val listOfImages = ArrayList<MultipartBody.Part>()
         for (i in listImageFile.indices) {
             listOfImages.add(prepareFilePart("listImageFile", listImageFile[i], context))
-           // map["listImageFile"] = HelpFunctions.getFileImage(listImageFile[i], context).asRequestBody()
+            // map["listImageFile"] = HelpFunctions.getFileImage(listImageFile[i], context).asRequestBody()
             //  listOfImages.add(prepareFilePart2("listImageFile", listImageFile[i], context))
             //listOfImages.add(prepareFilePart("listImageFile[$i]", listImageFile[i]))
         }

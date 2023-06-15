@@ -111,7 +111,6 @@ class SwitchAccountActivity : BaseActivity(), BusinessAccountsAdapter.SetOnBusin
                         accountList.addAll(it.businessAccountsList)
                         businessAccountsAdapter.notifyDataSetChanged()
                     } catch (e: Exception) {
-                        println("hhhh " + e.message)
                     }
                     if (accountList.isEmpty()) {
                         showErrorMessage(getString(R.string.noAccountFound))

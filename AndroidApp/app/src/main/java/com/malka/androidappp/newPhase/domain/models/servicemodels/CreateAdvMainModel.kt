@@ -62,5 +62,5 @@ data class CreateAdvMainModel(
     val subcatfivekey: String? = null,
     val subcatsixkey: String? = null,
     val category: String? = null,
-    val Video: String? = null
+    val Video: List<String>? = null
 )

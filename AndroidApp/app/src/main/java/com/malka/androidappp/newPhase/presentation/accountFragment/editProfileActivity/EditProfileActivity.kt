@@ -8,34 +8,32 @@ import android.util.Patterns
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
-import com.google.gson.Gson
-import com.malka.androidappp.BuildConfig
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.data.helper.shared_preferences.SharedPreferencesStaticClass
+import com.malka.androidappp.newPhase.data.helper.widgets.DatePickerFragment
 import com.malka.androidappp.newPhase.data.network.constants.Constants
 import com.malka.androidappp.newPhase.domain.models.loginResp.LoginUser
-import com.malka.androidappp.newPhase.domain.models.servicemodels.LocationPickerModel
 import com.malka.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.OtpData
 import com.malka.androidappp.newPhase.presentation.accountFragment.AccountViewModel
-import com.malka.androidappp.newPhase.presentation.signup.activity2.SignupOTPVerificationActivity
 import io.paperdb.Paper
-import kotlinx.android.synthetic.main.activity_confirm_change_number.*
 import kotlinx.android.synthetic.main.activity_edit_profile.*
-import kotlinx.android.synthetic.main.activity_edit_profile.date
+import kotlinx.android.synthetic.main.activity_edit_profile.btnDate
 import kotlinx.android.synthetic.main.activity_edit_profile.etPhoneNumber
 import kotlinx.android.synthetic.main.activity_edit_profile.lastName
 import kotlinx.android.synthetic.main.activity_edit_profile.radiofemale
 import kotlinx.android.synthetic.main.activity_edit_profile.radiomale
 import kotlinx.android.synthetic.main.activity_edit_profile.userNamee
 import kotlinx.android.synthetic.main.activity_signup_pg1.*
-import kotlinx.android.synthetic.main.activity_signup_pg1.button3
+import kotlinx.android.synthetic.main.activity_signup_pg4.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 
 class EditProfileActivity : AppCompatActivity() {
     var gender_: Int = 0
     private lateinit var accountViewModel: AccountViewModel
+
+    private var showMYInfo: Int = 0
     val chooseLocationLuncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
@@ -48,6 +46,7 @@ class EditProfileActivity : AppCompatActivity() {
                 ConstantObjects.userobj?.let { setUserData(it) }
             }
         }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_profile)
@@ -140,8 +139,30 @@ class EditProfileActivity : AppCompatActivity() {
                 )
             }
         }
-
+        accountViewModel.updateProfileDataObserver.observe(this) {
+            if (it.status == "Success") {
+                var userObjects = ConstantObjects.userobj
+                userObjects?.userName = fristName.text.toString().trim()
+                userObjects?.lastName = lastName.text.toString().trim()
+                userObjects?.dateOfBirth = btnDate.text.toString().trim()
+                userObjects?.gender = gender_
+                userObjects?.showUserInformation = "EveryOne"
+                userObjects?.let {
+                    ConstantObjects.userobj = userObjects
+                    Paper.book()
+                        .write<LoginUser>(SharedPreferencesStaticClass.user_object, userObjects)
+                }
+                HelpFunctions.ShowLongToast(getString(R.string.profileUpdatedSuccessfully), this)
+            } else {
+                if (it.message != null) {
+                    HelpFunctions.ShowLongToast(it.message, this)
+                } else {
+                    HelpFunctions.ShowLongToast(getString(R.string.serverError), this)
+                }
+            }
+        }
     }
+
     private fun goToOTPVerificationScreen(otpData: OtpData) {
         val intent = Intent(this, ConfirmChangeNumberActivity::class.java).apply {
             putExtra(Constants.otpDataKey, otpData)
@@ -150,6 +171,7 @@ class EditProfileActivity : AppCompatActivity() {
 //        startActivity(intent)
 //        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
     }
+
     private fun setUserData(tempUserData: LoginUser) {
         password.setText(tempUserData.password ?: "")
         etPhoneNumber.setHint(tempUserData.phone ?: "")
@@ -157,19 +179,45 @@ class EditProfileActivity : AppCompatActivity() {
         textEmail.setHint(tempUserData.email ?: "")
         fristName.setText(tempUserData.firstName ?: "")
         lastName.setText(tempUserData.lastName ?: "")
-        date.setText(tempUserData.dateOfBirth ?: "")
+        btnDate.setText(tempUserData.dateOfBirth ?: "")
         gender_ = tempUserData.gender
         when (gender_) {
             Constants.male -> {
-                radiomale.performClick()
+                radiomale._setCheck(true)
             }
             Constants.female -> {
-                radiofemale.performClick()
+                radiofemale._setCheck(true)
             }
         }
     }
 
     private fun setViewClickListeners() {
+        ivShowMyInfoToAll.setOnClickListener {
+            showMYInfo = 1
+            ivShowMyInfoToAll.setImageResource(R.drawable.ic_radio_button_checked)
+            ivShowMyInfoToMembers.setImageResource(R.drawable.ic_radio_button_unchecked)
+            ivShowMyInfoToNoOne.setImageResource(R.drawable.ic_radio_button_unchecked)
+        }
+        ivShowMyInfoToMembers.setOnClickListener {
+            showMYInfo = 2
+            ivShowMyInfoToAll.setImageResource(R.drawable.ic_radio_button_unchecked)
+            ivShowMyInfoToMembers.setImageResource(R.drawable.ic_radio_button_checked)
+            ivShowMyInfoToNoOne.setImageResource(R.drawable.ic_radio_button_unchecked)
+        }
+        ivShowMyInfoToNoOne.setOnClickListener {
+            showMYInfo = 3
+            ivShowMyInfoToAll.setImageResource(R.drawable.ic_radio_button_unchecked)
+            ivShowMyInfoToMembers.setImageResource(R.drawable.ic_radio_button_unchecked)
+            ivShowMyInfoToNoOne.setImageResource(R.drawable.ic_radio_button_checked)
+        }
+
+
+        btnDate.setOnClickListener {
+            DatePickerFragment(true, false) { selectdate_ ->
+                btnDate.text = "$selectdate_ "
+
+            }.show(supportFragmentManager, "")
+        }
         back_btn.setOnClickListener {
             onBackPressed()
         }
@@ -184,7 +232,6 @@ class EditProfileActivity : AppCompatActivity() {
             gender_ = Constants.female
 
         }
-
         reset_password_btn.setOnClickListener {
             startActivity(Intent(this, ChangePasswordActivity::class.java))
         }
@@ -200,13 +247,46 @@ class EditProfileActivity : AppCompatActivity() {
             }
         }
         btn_reset_phone_number.setOnClickListener {
-            if(validateNumber()){
+            if (validateNumber()) {
                 accountViewModel.resendOtp(
-                    etPhoneNumber.text.toString().trim() ,
+                    etPhoneNumber.text.toString().trim(),
                     ConstantObjects.currentLanguage,
                     "3"
                 )
             }
+        }
+        button.setOnClickListener {
+            prepareDataToUpdate()
+        }
+    }
+
+    private fun prepareDataToUpdate() {
+        var readyToSave = true
+        if (fristName.text.toString().trim() == "") {
+            readyToSave = false
+            fristName.error = getString(R.string.Please_enter, getString(R.string.First_Name))
+        }
+        if (lastName.text.toString().trim() == "") {
+            readyToSave = false
+            lastName.error = getString(R.string.Please_enter, getString(R.string.Last_Name))
+        }
+        if (btnDate.text.toString().trim() == "") {
+            readyToSave = false
+            btnDate.error = getString(R.string.Please_select, getString(R.string.Date_of_Birth))
+        }
+        if(showMYInfo==0){
+            readyToSave = false
+            HelpFunctions.ShowLongToast(getString(R.string.statusShowingYourData),this)
+        }
+        if (readyToSave) {
+            accountViewModel.updateMobileNumber(
+                ConstantObjects.logged_userid,
+                fristName.text.toString().trim(),
+                lastName.text.toString().trim(),
+                btnDate.text.toString().trim(),
+                gender_,
+                showMYInfo.toString()
+            )
         }
     }
 
@@ -217,12 +297,10 @@ class EditProfileActivity : AppCompatActivity() {
             etPhoneNumber.visibility = View.VISIBLE
             etPhoneNumber.error = getString(R.string.Fieldcantbeempty)
             false
-        }
-        else if (!Patterns.PHONE.matcher(numberInput).matches()) {
+        } else if (!Patterns.PHONE.matcher(numberInput).matches()) {
             etPhoneNumber.error = getString(R.string.PleaseenteravalidPhoneNumber)
             false
-        }
-        else {
+        } else {
             etPhoneNumber.error = null
             true
         }

@@ -100,7 +100,6 @@
 
                     <LinearLayout
                         android:id="@+id/auction_option"
-                       android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_10sdp"
@@ -133,8 +132,7 @@
 
 
                     <LinearLayout
-                        android:id="@+id/Tender_pickUp_l"
-
+                        android:id="@+id/switchPickUp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_10sdp"
@@ -218,6 +216,7 @@
                                 android:layout_alignParentStart="true"
                                 android:layout_alignParentLeft="true"
                                 android:layout_gravity="center_vertical"
+                                android:layout_centerVertical="true"
                                 android:layout_marginStart="@dimen/_10sdp"
                                 android:layout_toStartOf="@+id/buynowprice_price"
                                 android:background="@null"
@@ -311,6 +310,7 @@
                                 android:layout_height="match_parent"
                                 android:layout_alignParentStart="true"
                                 android:layout_alignParentLeft="true"
+                                android:layout_centerVertical="true"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginStart="@dimen/_10sdp"
                                 android:layout_toStartOf="@+id/startprice_price"
@@ -387,6 +387,7 @@
                                 android:layout_height="match_parent"
                                 android:layout_alignParentStart="true"
                                 android:layout_alignParentLeft="true"
+                                android:layout_centerVertical="true"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginStart="@dimen/_10sdp"
                                 android:layout_toStartOf="@+id/reserveprice_price"
@@ -456,8 +457,7 @@
                         android:layout_marginTop="@dimen/_10sdp"
                         android:background="@drawable/edittext_bg"
                         android:orientation="horizontal"
-                        android:padding="@dimen/_5sdp"
-                        android:visibility="gone">
+                        android:padding="@dimen/_5sdp">
 
 
                         <TextView
@@ -473,7 +473,7 @@
 
 
                         <androidx.appcompat.widget.SwitchCompat
-                            android:id="@+id/swicth_saudi_bank_deposit"
+                            android:id="@+id/switchSaudiBankDeposit1"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_gravity="center_vertical"
@@ -500,16 +500,18 @@
                             android:weightSum="2">
 
                             <TextView
+                                android:id="@+id/tvSelctedBackTitle"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:fontFamily="@font/madani_arabic_light"
                                 android:text="@string/saudi_bank_deposit"
+                                android:textAlignment="viewStart"
                                 android:textColor="@color/bg"
                                 android:textSize="@dimen/_10sdp" />
 
                             <androidx.appcompat.widget.SwitchCompat
-                                android:id="@+id/saudi_bank_deposit_switch"
+                                android:id="@+id/switchSaudiBankDeposit2"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="@dimen/_10sdp"
@@ -518,18 +520,32 @@
                         </LinearLayout>
 
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/addbank_rcv"
+                        <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:nestedScrollingEnabled="false"
-                            android:padding="@dimen/_5sdp"
-                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                            tools:listitem="@layout/add_bank_layout" />
+                            android:layout_height="wrap_content">
 
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/addbank_rcv"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:nestedScrollingEnabled="false"
+                                android:padding="@dimen/_5sdp"
+                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                                tools:itemCount="1"
+                                tools:listitem="@layout/add_bank_layout" />
+
+                            <ProgressBar
+                                android:id="@+id/progressBarBankAccount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:layout_centerVertical="true"
+                                android:visibility="gone" />
+
+                        </RelativeLayout>
 
                         <LinearLayout
-                            android:id="@+id/add_a_new_account"
+                            android:id="@+id/btnAddNewAccount"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/_38sdp"
                             android:layout_marginStart="@dimen/_10sdp"
@@ -558,8 +574,7 @@
 
 
                     <LinearLayout
-                        android:id="@+id/layout_visa_mastercard"
-
+                        android:id="@+id/layoutCashPayment"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_10sdp"
@@ -567,22 +582,21 @@
                         android:orientation="horizontal"
                         android:padding="@dimen/_5sdp">
 
-
                         <TextView
-                            android:id="@+id/visa_mastercard"
+                            android:id="@+id/tvCashPayment"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/_10sdp"
                             android:layout_weight="1"
                             android:fontFamily="@font/madani_arabic_light"
                             android:gravity="center_vertical"
-                            android:text="@string/visa_mastercard"
+                            android:text="@string/cashPayment"
                             android:textColor="@color/grey"
                             android:textSize="@dimen/_12sdp" />
 
 
                         <androidx.appcompat.widget.SwitchCompat
-                            android:id="@+id/swicth_visa_mastercard"
+                            android:id="@+id/switchCashPayment"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_gravity="center_vertical"

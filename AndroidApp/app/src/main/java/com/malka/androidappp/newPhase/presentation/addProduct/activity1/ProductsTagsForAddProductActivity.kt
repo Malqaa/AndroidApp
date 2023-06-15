@@ -87,26 +87,28 @@ class ProductsTagsForAddProductActivity : BaseActivity(),
         }
         addProductViewModel.getListCategoriesByProductNameObserver.observe(this) { categoyProductTagResp ->
             if (categoyProductTagResp.status_code == 200) {
-                lifecycleScope.launch(Dispatchers.IO){
+                lifecycleScope.launch(Dispatchers.IO) {
                     productTagsList.clear()
-                    for(tag in  categoyProductTagResp.tagsList){
-
-                        if(tag.categories!=null){
-                            if(tag.categories!!.isNotEmpty()) {
-                                for (tagCategoryItem in tag.categories!!) {
-                                    productTagsList.add(
-                                        SearchTagItem(
-                                            tag.categoryid,
-                                            "${tag.productTitle}-${tagCategoryItem}"
-                                        )
-                                    )
-                                }
-                            }else{
-                                productTagsList.add(SearchTagItem(tag.categoryid,tag.productTitle))
-                            }
-                        }else{
-                            productTagsList.add(SearchTagItem(tag.categoryid,tag.productTitle))
-                        }
+                    for (tag in categoyProductTagResp.tagsList) {
+                        productTagsList.add(
+                            SearchTagItem(
+                                tag.productCategoryId,
+                                tag.category
+                            )
+                            //  "${tag.productTitle}-${tagCategoryItem}"
+                        )
+//                        if (tag.categories != null) {
+//                            if (tag.categories!!.isNotEmpty()) {
+//                                for (tagCategoryItem in tag.categories!!) {
+//
+//                                }
+//                            }
+//                            else {
+//                                productTagsList.add(SearchTagItem(tag.categoryid, tag.productTitle))
+//                            }
+//                        } else {
+//                            productTagsList.add(SearchTagItem(tag.categoryid, tag.productTitle))
+//                        }
 
                     }
                     withContext(Dispatchers.Main) {
@@ -124,7 +126,6 @@ class ProductsTagsForAddProductActivity : BaseActivity(),
                     }
 
                 }
-
 
 
 //                lists = categoyProductTagResp.tagsList
@@ -147,6 +148,7 @@ class ProductsTagsForAddProductActivity : BaseActivity(),
             }
         }
     }
+
     override fun onSelectTagItem(position: Int) {
         productTagsList.forEach {
             it.isSelect = false
@@ -156,6 +158,7 @@ class ProductsTagsForAddProductActivity : BaseActivity(),
         productTagsAdapter.notifyDataSetChanged()
 
     }
+
     private fun setViewClickListeners() {
         back_btn.setOnClickListener {
             finish()
@@ -169,7 +172,12 @@ class ProductsTagsForAddProductActivity : BaseActivity(),
             if (productTagsList.size > 0 && selectTag != null) {
                 AddProductObjectData.selectedCategoryId = selectTag!!.categoryID
                 AddProductObjectData.selectedCategoryName = selectTag!!.title.toString()
-                startActivity(Intent(this@ProductsTagsForAddProductActivity, AddPhotoActivity::class.java))
+                startActivity(
+                    Intent(
+                        this@ProductsTagsForAddProductActivity,
+                        AddPhotoActivity::class.java
+                    )
+                )
 //                    startActivity(Intent(this, ChooseCategoryActivity::class.java))
 //                    selectTag!!.run {
 //                        ConstantObjects.categoryList.filter {
@@ -239,10 +247,6 @@ class ProductsTagsForAddProductActivity : BaseActivity(),
             true
         }
     }
-
-
-
-
 
 
 //    fun getCategoryTags(category: String) {

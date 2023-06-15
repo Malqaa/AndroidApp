@@ -201,9 +201,7 @@
     <string name="BuyNowPrice">
     إشتري الآن سعر
   </string>
-    <string name="Cash">
-    السيولة النقدية
-  </string>
+    <string name="Cash">السيولة النقدية</string>
     <string name="Category">
     الفئة
   </string>
@@ -331,9 +329,7 @@
     <string name="Appearsinpremiumcarousel">
     يظهر في دائري ممتاز
   </string>
-    <string name="Auction">
-    مزاد علني
-  </string>
+    <string name="Auction">مزاد علني</string>
     <string name="Basic">
     الأساسي
   </string>
@@ -447,9 +443,7 @@
     <string name="NarrowyoursearchforHomeliving">
     ضاقت بحثك عن المنزل والمعيشة
   </string>
-    <string name="New">
-    جديد
-  </string>
+    <string name="New">جديد</string>
     <string name="NoReserve">
     لا الاحتياطي
   </string>
@@ -792,9 +786,7 @@
     <string name="PickupAvailable">
     الاستلام متاح
   </string>
-    <string name="Selectashippingoption">
-    حدد خيار الشحن
-  </string>
+    <string name="Selectashippingoption">حدد خيار الشحن</string>
     <string name="SpecifyShippingCost">
     تحديد تكلفة الشحن
   </string>
@@ -2006,9 +1998,7 @@
     <string name="EightHours">
     8 ساعات
   </string>
-    <string name="ExpiryDate">
-    تاريخ الانتهاء
-  </string>
+    <string name="ExpiryDate">تاريخ الانتهاء</string>
     <string name="ExtrasListingOffers">
     إضافات وعروض الإدراج
   </string>
@@ -2069,9 +2059,7 @@
     <string name="Paypal">
     باي بال
   </string>
-    <string name="PickUp">
-    يلتقط
-  </string>
+    <string name="PickUp">يلتقط</string>
     <string name="Ping">
     بينغ
   </string>
@@ -2588,7 +2576,7 @@
     <string name="one_piece">قطعة واحدة</string>
     <string name="fixed_price">سعر ثابت</string>
     <string name="auction_start_price">سعر بدء المزاد</string>
-    <string name="minimum_price">سعر الحد الادنى</string>
+    <string name="minimum_price">سعر الحد الادنى للأغلاق</string>
     <string name="negotiable">قابل للتفاوض</string>
     <string name="shipping_options">خيارات الشحن</string>
     <string name="auction_closing_time">وقت اغلاق المزاد</string>
@@ -2617,8 +2605,9 @@
     <string name="sub_title_en">العنوان الفرعي للعنصر بالانجليزيه</string>
     <string name="item_title_ar">عنوان السلعة بالعربيه</string>
     <string name="sub_title_ar">العنوان الفرعي للعنصر بالعربيه</string>
-
+  <string name="saudi_bank_deposit" >وديعة بنكية سعودية</string>
     <string name="dismiss">رفض</string>
+  <string name="enter">أدخل</string>
     <string name="account_holder_s_name">اسم صاحب الحساب</string>
     <string name="bank_name">اسم البنك</string>
     <string name="account_number">رقم الحساب</string>
@@ -2916,4 +2905,10 @@
   <string name="passwordReset">اعاده تعيين كلمه المرور</string>
   <string name="TypeNewPassword">قم بكتابه كلمه مرور جديده</string>
   <string name="updateYourEmail">قم بتحديث بريدك الإلكتروني</string>
+  <string name="profileUpdatedSuccessfully">تم تحديث الملف الشخصي بنجاح</string>
+  <string name="statusShowingYourData">حدد حالة إظهار البيانات الخاصة بك</string>
+  <string name="swiftCode">سويفت كود</string>
+  <string name="checkYourDataForamt">تحقق من البيانات الخاصة بك </string>
+  <string name="cashPayment">دفع نقدي</string>
+  <string name="selectBackAccount">حدد حسابك المصرفي</string>
 </resources>

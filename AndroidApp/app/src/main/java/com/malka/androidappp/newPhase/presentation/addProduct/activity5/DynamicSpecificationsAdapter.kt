@@ -8,23 +8,27 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
+import com.malka.androidappp.newPhase.data.helper.ConstantObjects
+import com.malka.androidappp.newPhase.data.network.constants.Constants
 import com.malka.androidappp.newPhase.domain.models.dynamicSpecification.DynamicSpecificationItem
 import com.malka.androidappp.newPhase.domain.models.dynamicSpecification.SubSpecificationItem
 
 
 class DynamicSpecificationsAdapter(
     var dynamicSpecificationList: List<DynamicSpecificationItem>,
-    var onChangeValueListener:OnChangeValueListener
+    var onChangeValueListener: OnChangeValueListener
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     //====viewHolder
     val textBoxType = 2
     val spinnerType = 1
+    val checkType = 3
 
 //    class TextBoxViewHolder(var viewBinding: ItemTextBoxsBinding) :
 //        RecyclerView.ViewHolder(viewBinding.root)
@@ -44,17 +48,26 @@ class DynamicSpecificationsAdapter(
         val spinner: Spinner = view.findViewById(R.id.spinnerValues)
     }
 
+    class CheckViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val tvTitleAr: TextView = view.findViewById(R.id.tvTitleAr)
+        val ivSelect: ImageView = view.findViewById(R.id.ivSelect)
+
+    }
+
 
     lateinit var context: Context
     override fun getItemViewType(position: Int): Int {
-        if (dynamicSpecificationList[position].subSpecifications != null) {
-            if(dynamicSpecificationList[position].subSpecifications!!.isNotEmpty()){
+        //type 1->dropdownlist  ,
+        if (dynamicSpecificationList[position].type == 1) {
+            if (dynamicSpecificationList[position].subSpecifications!!.isNotEmpty()) {
                 //dropDown
                 return spinnerType
-            }else{
+            } else {
                 // text box
                 return textBoxType
             }
+        } else if (dynamicSpecificationList[position].type == 5 && dynamicSpecificationList[position].type == 6) {
+            return checkType
         } else {
             // text box
             return textBoxType
@@ -71,6 +84,14 @@ class DynamicSpecificationsAdapter(
             return SpinnerViewHolder(
                 LayoutInflater.from(parent.context).inflate(
                     R.layout.item_drop_down,
+                    parent,
+                    false
+                )
+            )
+        } else if (viewType == checkType) {
+            return TextBoxViewHolder(
+                LayoutInflater.from(parent.context).inflate(
+                    R.layout.item_check,
                     parent,
                     false
                 )
@@ -94,8 +115,36 @@ class DynamicSpecificationsAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (getItemViewType(position) == spinnerType) {
             setSpinnerView(holder as SpinnerViewHolder, position)
+        } else if (getItemViewType(position) == checkType) {
+            setCheckView(holder as CheckViewHolder, position)
         } else {
             setTextBoxView(holder as TextBoxViewHolder, position)
+        }
+    }
+
+    private fun setCheckView(
+        checkViewHolder: CheckViewHolder,
+        position: Int
+    ) {
+        if (ConstantObjects.currentLanguage == "ar") {
+            checkViewHolder.tvTitleAr.text = "${dynamicSpecificationList[position].nameAr}"
+        } else {
+            checkViewHolder.tvTitleAr.text = "${dynamicSpecificationList[position].nameEn}"
+        }
+        if (dynamicSpecificationList[position].valueBoolean) {
+            checkViewHolder.ivSelect.setImageResource(R.drawable.ic_radio_button_checked)
+        } else {
+            checkViewHolder.ivSelect.setImageResource(R.drawable.ic_radio_button_unchecked)
+        }
+        checkViewHolder.ivSelect.setOnClickListener {
+            if (dynamicSpecificationList[position].valueBoolean) {
+                dynamicSpecificationList[position].valueBoolean = false
+                checkViewHolder.ivSelect.setImageResource(R.drawable.ic_radio_button_unchecked)
+            } else {
+                dynamicSpecificationList[position].valueBoolean = true
+                checkViewHolder.ivSelect.setImageResource(R.drawable.ic_radio_button_checked)
+            }
+            onChangeValueListener.setCheckClicked(position)
         }
     }
 
@@ -103,8 +152,10 @@ class DynamicSpecificationsAdapter(
         textBoxViewHolder: TextBoxViewHolder,
         position: Int
     ) {
-        textBoxViewHolder.tvTitleAr.text = "${dynamicSpecificationList[position].name} ${context.getString(R.string.inArabic)}"
-        textBoxViewHolder.tvTitleEn.text = "${dynamicSpecificationList[position].name} ${context.getString(R.string.inEnglish)}"
+        textBoxViewHolder.tvTitleAr.text =
+            "${dynamicSpecificationList[position].name} ${context.getString(R.string.inArabic)}"
+        textBoxViewHolder.tvTitleEn.text =
+            "${dynamicSpecificationList[position].name} ${context.getString(R.string.inEnglish)}"
         //textBoxHolder.etValue.setHint(attributesList.get(position).getTitle());
         //if (attributesList.get(position).getTextboxDatatype() != 4)
         textBoxViewHolder.etValueAr.addTextChangedListener(object : TextWatcher {
@@ -160,7 +211,9 @@ class DynamicSpecificationsAdapter(
     interface OnChangeValueListener {
         fun setOnTextBoxTextChangeAR(value: String, position: Int)
         fun setOnTextBoxTextChangeEN(value: String, position: Int)
-//        fun setData(position: Int)
+        fun setCheckClicked(position: Int)
+
+        //        fun setData(position: Int)
 //        fun setOnCheckBoxSelected(value: String?, position: Int)
         fun setOnSpinnerListSelected(mainAttributesPosition: Int, spinnerPosition: Int)
     }

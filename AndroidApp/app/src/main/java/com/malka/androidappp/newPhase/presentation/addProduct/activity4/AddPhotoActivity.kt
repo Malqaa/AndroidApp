@@ -15,11 +15,13 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.PermissionChecker
 import androidx.loader.content.CursorLoader
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.newPhase.data.helper.Extension
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.data.helper.getColorCompat
+import com.malka.androidappp.newPhase.data.helper.linearLayoutManager
 import com.malka.androidappp.newPhase.domain.models.ImageSelectModel
 import com.malka.androidappp.newPhase.presentation.addProduct.AddProductObjectData
 import com.malka.androidappp.newPhase.presentation.addProduct.activity5.DynamicTemplateActivtiy
@@ -41,26 +43,48 @@ class AddPhotoActivity : BaseActivity(), SelectedImagesAdapter.SetOnSelectedMain
     private val IMAGE_PICk_CODE_2 = 2000
     private val PERMISSION_CODE = 1001
 
-
+    private lateinit var videoAddLinkAdapter: VideoAddLinkAdapter
+    private lateinit var videoLinks: ArrayList<String>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_photo)
 
         Title = intent?.getStringExtra("Title").toString()
         file_name = intent?.getStringExtra("file_name") ?: ""
-
+        setupVideoLinksAapter()
         toolbar_title.text = getString(R.string.item_details)
         setViewClickListeners()
         setImagesAdapter()
         storePath()
 
+
+    }
+
+    private fun setupVideoLinksAapter() {
+        videoLinks = ArrayList()
+        videoAddLinkAdapter = VideoAddLinkAdapter(videoLinks,
+            object : VideoAddLinkAdapter.SetOnTypingVideoLinkTypingVideoLinks {
+                override fun onTypeTypingVideoLink(value: String, position: Int) {
+                    videoLinks[position] = value
+                }
+
+                override fun onDeleteItem(position: Int) {
+                    videoLinks.removeAt(position)
+                    videoAddLinkAdapter.notifyDataSetChanged()
+                }
+
+            })
+        rvVidoes.apply {
+            adapter = videoAddLinkAdapter
+            layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
+        }
     }
 
     private fun setImagesAdapter() {
         selectedImagesAdapter = SelectedImagesAdapter(selectedImagesURI, this)
         rvPakat.apply {
-            adapter=selectedImagesAdapter
-            layoutManager= GridLayoutManager(this@AddPhotoActivity,2)
+            adapter = selectedImagesAdapter
+            layoutManager = GridLayoutManager(this@AddPhotoActivity, 2)
         }
     }
 
@@ -68,26 +92,59 @@ class AddPhotoActivity : BaseActivity(), SelectedImagesAdapter.SetOnSelectedMain
         back_btn.setOnClickListener {
             finish()
         }
+        containerAddVideo.setOnClickListener {
+            var dialogAddVideoLink =
+                DialogAddVideoLink(this, object : DialogAddVideoLink.SetSaveLinkListeners {
+                    override fun saveLinkListeners(value: String) {
+                        videoLinks.add(value)
+                        videoAddLinkAdapter.notifyDataSetChanged()
+                    }
+
+                })
+            dialogAddVideoLink.show()
+        }
+
         butt555.setOnClickListener {
             if (selectedImagesURI.size == 0) {
                 showError(getString(R.string.Pleaseaddaphoto))
-            } else {
-                val video = addvideo.text.toString()
-                if (video.isEmpty()) {
-                    GO()
-                } else {
-                    if (URLUtil.isValidUrl(video)) {
-                        GO()
-                    } else {
-                        showError(
-                            getString(
-                                R.string.please_enter_valid,
-                                getString(R.string.video_link)
-                            )
-                        )
+            } else if (videoLinks.isNotEmpty()) {
+                var allLinkSet = true
+                for (link in videoLinks) {
+                    if (link.toString().trim() == "") {
+                        allLinkSet = false
+                        break
                     }
                 }
+                if (!allLinkSet) {
+                    showError(
+                        getString(
+                            R.string.please_enter_valid,
+                            getString(R.string.video_link)
+                        )
+                    )
+                } else {
+                    GO()
+                }
+            } else {
+                GO()
             }
+//            else {
+//                val video = addvideo.text.toString()
+//                if (video.isEmpty()) {
+//                    GO()
+//                } else {
+//                    if (URLUtil.isValidUrl(video)) {
+//                        GO()
+//                    } else {
+//                        showError(
+//                            getString(
+//                                R.string.please_enter_valid,
+//                                getString(R.string.video_link)
+//                            )
+//                        )
+//                    }
+//                }
+//            }
 
         }
         floatingActionButton.setOnClickListener() {
@@ -117,7 +174,7 @@ class AddPhotoActivity : BaseActivity(), SelectedImagesAdapter.SetOnSelectedMain
             it.is_main == true
         }.let {
             if (it.size > 0) {
-                AddProductObjectData.video = addvideo.text.toString()
+                AddProductObjectData.videoList = videoLinks
                 categoryTemplate()
             } else {
                 HelpFunctions.ShowLongToast(getString(R.string.mark_main_photo), this)
@@ -145,7 +202,6 @@ class AddPhotoActivity : BaseActivity(), SelectedImagesAdapter.SetOnSelectedMain
             }
         }
     }
-
 
 
     fun pickImageFromGallery2() {
@@ -202,7 +258,7 @@ class AddPhotoActivity : BaseActivity(), SelectedImagesAdapter.SetOnSelectedMain
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK) {
-       if (requestCode == IMAGE_PICk_CODE_2) {
+            if (requestCode == IMAGE_PICk_CODE_2) {
                 if (resultCode == Activity.RESULT_OK) {
                     val data = data?.getParcelableArrayListExtra<Uri>(INTENT_PATH)
                     var path: ArrayList<Uri> = ArrayList()
@@ -222,7 +278,7 @@ class AddPhotoActivity : BaseActivity(), SelectedImagesAdapter.SetOnSelectedMain
                             } catch (e: Exception) {
                             }
                         }
-                      selectedImagesAdapter.notifyDataSetChanged()
+                        selectedImagesAdapter.notifyDataSetChanged()
                     }
                     // you can get an image path(ArrayList<Uri>) on 0.6.2 and later
                 }
@@ -291,8 +347,6 @@ class AddPhotoActivity : BaseActivity(), SelectedImagesAdapter.SetOnSelectedMain
     }
 
 
-
-
     override fun onSelectedMainImage(position: Int, isChecked: Boolean) {
         if (isChecked) {
             selectedImagesURI.forEach {
@@ -301,13 +355,12 @@ class AddPhotoActivity : BaseActivity(), SelectedImagesAdapter.SetOnSelectedMain
             selectedImagesURI[position].is_main = isChecked
 
             selectedImagesAdapter.notifyDataSetChanged()
-        }else{
+        } else {
             selectedImagesURI.forEach {
                 it.is_main = false
             }
         }
     }
-
 
 
 }

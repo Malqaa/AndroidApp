@@ -14,12 +14,14 @@ import com.malka.androidappp.newPhase.data.helper.widgets.DatePickerFragment
 import com.malka.androidappp.newPhase.data.helper.widgets.TimePickerFragment
 import com.malka.androidappp.newPhase.data.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.newPhase.data.helper.ConstantObjects
+import com.malka.androidappp.newPhase.data.helper.hide
+import com.malka.androidappp.newPhase.data.helper.show
 import com.malka.androidappp.newPhase.domain.models.servicemodels.Selection
 import com.malka.androidappp.newPhase.domain.models.servicemodels.TimeSelection
 import com.malka.androidappp.newPhase.presentation.addProduct.ConfirmationAddProductActivity
 import com.malka.androidappp.newPhase.presentation.addProduct.activity8.PromotionalActivity
 import kotlinx.android.synthetic.main.activity_listing_duration.*
-import kotlinx.android.synthetic.main.activity_listing_duration.Tender_pickUp_l
+import kotlinx.android.synthetic.main.activity_listing_duration.switchPickUp
 import kotlinx.android.synthetic.main.activity_listing_duration.Tender_pickUp_tv
 import kotlinx.android.synthetic.main.activity_pricing_payment.*
 import kotlinx.android.synthetic.main.selection_item.view.*
@@ -40,17 +42,6 @@ class ListingDurationActivity : BaseActivity() {
     val shippingOptionList: ArrayList<Selection> = ArrayList()
 
 
-    override fun onBackPressed() {
-
-        if (isEdit) {
-            startActivity(Intent(this, ConfirmationAddProductActivity::class.java).apply {
-                finish()
-            })
-        } else {
-            finish()
-        }
-
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,13 +49,15 @@ class ListingDurationActivity : BaseActivity() {
         toolbar_title.text = getString(R.string.shipping_options)
         isEdit = intent.getBooleanExtra(ConstantObjects.isEditKey, false)
         setVieClickListeners()
-        option_1.isEnabled = false
-        option_2.isEnabled = false
-        /***/
+        if(AddProductObjectData.auctionOption){
+            contianerClosingOption.show()
+        }else{
+            contianerClosingOption.hide()
+        }
 
+        /**set time for normal clossing*/
         val c = Calendar.getInstance()
         val day = c.get(Calendar.DAY_OF_MONTH)
-
         // Variables to get weeks from the current date
         val currentDate = SimpleDateFormat("MM/dd/yyyy")
         val todayDate = Date()
@@ -74,7 +67,6 @@ class ListingDurationActivity : BaseActivity() {
         val week2 = addDay(day.toString(), 14)
         val week3 = addDay(day.toString(), 21)
         val week4 = addDay(day.toString(), 28)
-
         allWeeks.apply {
             add(TimeSelection("1 week", week1))
             add(TimeSelection("2 week", week2))
@@ -82,9 +74,7 @@ class ListingDurationActivity : BaseActivity() {
             add(TimeSelection("4 week", week4))
         }
 
-
         fixLenghtAdaptor(allWeeks)
-
 
         /**shipping data */
         shippingOptionList.apply {
@@ -99,33 +89,15 @@ class ListingDurationActivity : BaseActivity() {
         }else{
             shippingOptionAdaptor(shippingOptionList, shipping_option)
         }
-//        if (isEdit) {
-//            selectTime = AddProductObjectData.timepicker
-//            selectdate = AddProductObjectData.endtime
-//            if (AddProductObjectData.fixLength.equals("fixed_length")) {
-//                allWeeks.forEach {
-//                    it.isSelect = it.text.equals(AddProductObjectData.weekSelection!!.text)
-//                }
-//                fixlenghtselected = AddProductObjectData.fixlenghtselected
-//                option_1.performClick()
-//            } else {
-//                option_2.performClick()
-//            }
-//
-//
-//            btn_listduration.setOnClickListener {
-//                confirmListDuration()
-//            }
-//        }
     }
 
     private fun setData() {
         if(AddProductObjectData.pickUpOption){
-            Tender_pickUp_l.setBackgroundResource(R.drawable.field_selection_border_enable)
+            switchPickUp.setBackgroundResource(R.drawable.field_selection_border_enable)
             Tender_pickUp_tv.setTextColor(ContextCompat.getColor(this, R.color.bg))
             pickup_rb.isChecked =true
         }else{
-            Tender_pickUp_l.setBackgroundResource(R.drawable.edittext_bg)
+            switchPickUp.setBackgroundResource(R.drawable.edittext_bg)
             Tender_pickUp_tv.setTextColor(ContextCompat.getColor(this, R.color.text_color))
             pickup_rb.isChecked =false
         }
@@ -138,87 +110,101 @@ class ListingDurationActivity : BaseActivity() {
     }
 
     private fun setVieClickListeners() {
-        btn_listduration.setOnClickListener {
-            confirmListDuration2()
-        }
-        radiobtn1.setOnCheckedChangeListener { compoundButton, b ->
+        btnRadioClosingAuctionOption1.setOnCheckedChangeListener { compoundButton, b ->
             if (b) {
-                option_1.performClick()
+                closingAuctionOption1.performClick()
             }
         }
-        radiobtn2.setOnCheckedChangeListener { compoundButton, b ->
-            if (b) {
-                option_2.performClick()
-            }
-        }
-        own_time_tv.setOnClickListener {
-            fm = supportFragmentManager
-            val dateDialog = DatePickerFragment(false, true) { selectdate_ ->
-                val timeDialog = TimePickerFragment { selectTime_ ->
-                    selectTime = selectTime_
-                    radiobtn2.isChecked = true
-                }
-                timeDialog.show(fm!!, "")
-                selectdate = selectdate_
-
-            }
-            dateDialog.show(fm!!, "")
-        }
-        option_1.setOnClickListener {
-            option_1.background =
+        closingAuctionOption1.setOnClickListener {
+            closingAuctionOption1.background =
                 ContextCompat.getDrawable(this, R.drawable.field_selection_border_enable)
             FixedLength.setTextColor(ContextCompat.getColor(this, R.color.bg))
-            option_2.setSelected(false)
-            radiobtn1.isChecked = true
-            radiobtn2.isChecked = false
+            closingAuctionOption2.setSelected(false)
+            btnRadioClosingAuctionOption1.isChecked = true
+            btnRadioClosingAuctionOption2.isChecked = false
 
-            own_time_tv.setText("")
-            own_time_tv.hint = getString(R.string.SelectTime)
+            tvClosingAuctionCustomDataOption2.setText("")
+            tvClosingAuctionCustomDataOption2.hint = getString(R.string.SelectTime)
         }
-        option_2.setOnClickListener {
-            option_2.setSelected(true)
-            option_1.background = ContextCompat.getDrawable(this, R.drawable.edittext_bg)
+        btnRadioClosingAuctionOption2.setOnCheckedChangeListener { compoundButton, b ->
+            if (b) {
+                closingAuctionOption2.performClick()
+            }
+        }
+        closingAuctionOption2.setOnClickListener {
+            closingAuctionOption2.setSelected(true)
+            closingAuctionOption1.background = ContextCompat.getDrawable(this, R.drawable.edittext_bg)
             FixedLength.setTextColor(ContextCompat.getColor(this, R.color.text_color))
-            radiobtn1.isChecked = false
-            radiobtn2.isChecked = true
+            btnRadioClosingAuctionOption1.isChecked = false
+            btnRadioClosingAuctionOption2.isChecked = true
             allWeeks.forEach {
                 it.isSelect = false
             }
             fixLenghtAdaptor(allWeeks)
-            own_time_tv.text = "$selectdate - $selectTime"
+            tvClosingAuctionCustomDataOption2.text = "$selectdate - $selectTime"
 
 
         }
+        tvClosingAuctionCustomDataOption2.setOnClickListener {
+            fm = supportFragmentManager
+            val dateDialog = DatePickerFragment(false, true) { selectdate_ ->
+                val timeDialog = TimePickerFragment { selectTime_ ->
+                    selectTime = selectTime_
+                    btnRadioClosingAuctionOption2.isChecked = true
+                }
+                timeDialog.show(fm!!, "")
+                selectdate = selectdate_
+            }
+            dateDialog.show(fm!!, "")
+        }
+
+        btn_listduration.setOnClickListener {
+            confirmListDuration2()
+        }
+
         back_btn.setOnClickListener {
             onBackPressed()
         }
         pickup_rb.setOnCheckedChangeListener { _, b ->
             if (b) {
-                Tender_pickUp_l.setBackgroundResource(R.drawable.field_selection_border_enable)
+                switchPickUp.setBackgroundResource(R.drawable.field_selection_border_enable)
                 Tender_pickUp_tv.setTextColor(ContextCompat.getColor(this, R.color.bg))
 
             } else {
-                Tender_pickUp_l.setBackgroundResource(R.drawable.edittext_bg)
+                switchPickUp.setBackgroundResource(R.drawable.edittext_bg)
                 Tender_pickUp_tv.setTextColor(ContextCompat.getColor(this, R.color.text_color))
 
             }
         }
     }
 
+    override fun onBackPressed() {
+
+        if (isEdit) {
+            startActivity(Intent(this, ConfirmationAddProductActivity::class.java).apply {
+                finish()
+            })
+        } else {
+            finish()
+        }
+
+    }
+
+    /*****************/
 
     private fun validateListDuration(): Boolean {
 
 
-        return if (radiobtn1.isChecked) {
+        return if (btnRadioClosingAuctionOption1.isChecked) {
             if (fixlenghtselected == null) {
                 showError(getString(R.string.Please_select, getString(R.string.close_time)))
                 return false
             } else {
                 return true
             }
-        } else if (radiobtn2.isChecked) {
+        } else if (btnRadioClosingAuctionOption2.isChecked) {
 
-            if (own_time_tv.text.toString().isEmpty()) {
+            if (tvClosingAuctionCustomDataOption2.text.toString().isEmpty()) {
                 showError(getString(R.string.Please_select, getString(R.string.close_time)))
                 return false
             } else {
@@ -274,7 +260,7 @@ class ListingDurationActivity : BaseActivity() {
         if (!validateListDuration() or !ValidateRadiobtmchecked()) {
             return
         } else {
-            if (radiobtn1.isChecked) {
+            if (btnRadioClosingAuctionOption1.isChecked) {
                 AddProductObjectData.fixLength = "fixed_length"
                 val sdf = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
                 AddProductObjectData.timepicker = sdf.format(Date())
@@ -283,7 +269,7 @@ class ListingDurationActivity : BaseActivity() {
                     fixlenghtselected!!.endTime + " " + sdf.format(Date())
                 AddProductObjectData.fixlenghtselected = fixlenghtselected
 
-            } else if (radiobtn2.isChecked) {
+            } else if (btnRadioClosingAuctionOption2.isChecked) {
                 AddProductObjectData.fixLength = "end_time"
                 AddProductObjectData.timepicker = selectTime
                 AddProductObjectData.duration = ""
@@ -319,7 +305,7 @@ class ListingDurationActivity : BaseActivity() {
     }
     @SuppressLint("ResourceType")
     private fun fixLenghtAdaptor(list: ArrayList<TimeSelection>) {
-        fix_lenght_rcv.adapter =
+        rvClosingTimeListOption1.adapter =
         object : GenericListAdapter<TimeSelection>(
             R.layout.selection_item,
             bind = { element, holder, itemCount, position ->
@@ -336,11 +322,11 @@ class ListingDurationActivity : BaseActivity() {
                             list.forEachIndexed { index, addBankDetail ->
                                 addBankDetail.isSelect = index == position
                             }
-                            fix_lenght_rcv.post {
-                                fix_lenght_rcv.adapter!!.notifyDataSetChanged()
+                            rvClosingTimeListOption1.post {
+                                rvClosingTimeListOption1.adapter!!.notifyDataSetChanged()
                             }
                             fixlenghtselected = element
-                            radiobtn1.isChecked = true
+                            btnRadioClosingAuctionOption1.isChecked = true
                         }
 
 

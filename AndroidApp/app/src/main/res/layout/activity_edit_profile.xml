@@ -309,7 +309,7 @@
                 app:startIcon="@drawable/ic_user" />
 
             <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
-                android:id="@+id/date"
+                android:id="@+id/btnDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
@@ -353,64 +353,88 @@
 
             </LinearLayout>
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
                     android:text="@string/view_my_information_for_everyone"
                     android:fontFamily="@font/madani_arabic_light"
                     android:textSize="@dimen/_12sdp"
+                    android:layout_toStartOf="@+id/ivShowMyInfoToAll"
                     android:textColor="#293241"/>
-                <RadioButton
+                <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:padding="@dimen/_5sdp"
+                    android:layout_centerVertical="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:src="@drawable/ic_radio_button_unchecked"
+                    android:id="@+id/ivShowMyInfoToAll"/>
 
-            </LinearLayout>
 
-            <LinearLayout
+            </RelativeLayout>
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
                     android:text="@string/view_my_information_for_members_only"
                     android:fontFamily="@font/madani_arabic_light"
                     android:textSize="@dimen/_12sdp"
+                    android:layout_toStartOf="@+id/ivShowMyInfoToMembers"
                     android:textColor="#293241"/>
-                <RadioButton
+                <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:padding="@dimen/_5sdp"
+                    android:layout_centerVertical="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:src="@drawable/ic_radio_button_unchecked"
+                    android:id="@+id/ivShowMyInfoToMembers"/>
 
-            </LinearLayout>
 
-            <LinearLayout
+            </RelativeLayout>
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:orientation="horizontal">
 
                 <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/no_one"
+                    android:fontFamily="@font/madani_arabic_light"
+                    android:textSize="@dimen/_12sdp"
+                    android:layout_toStartOf="@+id/ivShowMyInfoToNoOne"
+                    android:textColor="#293241"/>
+                <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/madani_arabic_light"
-                    android:text="@string/no_one"
-                    android:textColor="#293241"
-                    android:textSize="@dimen/_12sdp" />
+                    android:layout_alignParentEnd="true"
+                    android:padding="@dimen/_5sdp"
+                    android:layout_centerVertical="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:src="@drawable/ic_radio_button_unchecked"
+                    android:id="@+id/ivShowMyInfoToNoOne"/>
 
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
 
-            </LinearLayout>
+            </RelativeLayout>
+
 
 
             <androidx.appcompat.widget.AppCompatButton

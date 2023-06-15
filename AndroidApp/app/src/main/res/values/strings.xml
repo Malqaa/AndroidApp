@@ -167,9 +167,7 @@
     <string name="BuyNowPrice">
     Buy Now Price
   </string>
-    <string name="Cash">
-    Cash
-  </string>
+    <string name="Cash">Cash</string>
     <string name="Category">
     Category
   </string>
@@ -299,9 +297,7 @@
     <string name="Appearsinpremiumcarousel">
     Appears in premium carousel
   </string>
-    <string name="Auction">
-    Auction
-  </string>
+    <string name="Auction">Auction</string>
     <string name="Basic">
     Basic
   </string>
@@ -404,9 +400,7 @@
     <string name="NarrowyoursearchforHomeliving">
     Narrow your search for Home &amp; living
   </string>
-    <string name="New">
-    New
-  </string>
+    <string name="New">New</string>
     <string name="NoReserve">
     No Reserve
   </string>
@@ -758,9 +752,7 @@ Invalid Username or Password
     <string name="PickupAvailable">
     Pick-up Available
   </string>
-    <string name="Selectashippingoption">
-    Select a shipping option
-  </string>
+    <string name="Selectashippingoption">Select a shipping option</string>
     <string name="SpecifyShippingCost">
     Specify Shipping Cost
   </string>
@@ -1713,9 +1705,7 @@ Invalid Username or Password
     <string name="EightHours">
     8 hours
   </string>
-    <string name="ExpiryDate">
-    Expiry Date
-  </string>
+    <string name="ExpiryDate">Expiry Date</string>
     <string name="ExtrasListingOffers">
     Extras &amp; Listing Offers
   </string>
@@ -1787,9 +1777,7 @@ Invalid Username or Password
     <string name="Onlyallowbidsfrom">
     Only allow bids from Authenticated members
   </string>
-    <string name="PickUp">
-    Pick Up
-  </string>
+    <string name="PickUp">Pick Up</string>
     <string name="Ping">
     Ping
   </string>
@@ -2653,9 +2641,9 @@ Want to start a business account? Create a Business Account
     <string name="TaxNumber">Tax Number</string>
     <string name="maroof">Maroof</string>
     <string name="download_the_commercial_registry_file">Upload commercial registry file</string>
-  <string name="you_must_download_the_commercial_registry_file">You Must Upload commercial registry file</string>
+    <string name="you_must_download_the_commercial_registry_file">You Must Upload commercial registry file</string>
 
-  <string name="locating_the_company">Company Location</string>
+    <string name="locating_the_company">Company Location</string>
     <string name="commercial_registration_no">Commercial Registration No</string>
     <string name="type_of_employment">Type of employment</string>
     <string name="country_code" translatable="false">Country Code</string>
@@ -2740,7 +2728,7 @@ Want to start a business account? Create a Business Account
     <string name="one_piece">One piece</string>
     <string name="fixed_price">Fixed price</string>
     <string name="auction_start_price">Auction start price</string>
-    <string name="minimum_price">Minimum price</string>
+    <string name="minimum_price">Minimum price for closing</string>
     <string name="negotiable">Negotiable</string>
     <string name="shipping_options">Shipping Options</string>
     <string name="auction_closing_time">Auction closing time</string>
@@ -2773,8 +2761,9 @@ Want to start a business account? Create a Business Account
     <string name="sub_title_ar">Item Subtitle In Arabic</string>
 
 
-    <string name="saudi_bank_deposit" translatable="false">Saudi bank deposit</string>
+    <string name="saudi_bank_deposit">Saudi bank deposit</string>
     <string name="dismiss">Dismiss</string>
+    <string name="enter">Enter</string>
     <string name="account_holder_s_name">Account Holder\'s Name</string>
     <string name="bank_name">Bank name</string>
     <string name="account_number">Account number</string>
@@ -3083,10 +3072,15 @@ Want to start a business account? Create a Business Account
     <string name="changePassword">Change Password</string>
     <string name="passwordUpdatedSuccessfully">Password Updated Successfully</string>
     <string name="emailUpdatedSuccessfully">Email Updated Successfully</string>
-  <string name="phoneUpdatedSuccessfully">Phone Updated Successfully</string>
+    <string name="phoneUpdatedSuccessfully">Phone Updated Successfully</string>
     <string name="wrongPassword">Wrong Password</string>
     <string name="passwordReset">password Reset</string>
     <string name="TypeNewPassword">Type New Password</string>
     <string name="updateYourEmail">Update Your Email</string>
-
+    <string name="profileUpdatedSuccessfully">Profile updated successfully</string>
+    <string name="statusShowingYourData">Select status of showing your data</string>
+    <string name="swiftCode">Swift Code</string>
+  <string name="checkYourDataForamt">Check Your Data Format</string>
+  <string name="cashPayment">Cash Payment</string>
+  <string name="selectBackAccount">Select Bank Account</string>
 </resources>

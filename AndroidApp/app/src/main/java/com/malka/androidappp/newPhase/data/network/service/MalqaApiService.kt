@@ -20,6 +20,7 @@ import com.malka.androidappp.fragments.shoppingcart3_shippingaddress.shipping_ad
 import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.data.network.constants.Constants
 import com.malka.androidappp.newPhase.data.network.constants.Constants.GET_CATEGORY_TAGS_ENDPOINT
+import com.malka.androidappp.newPhase.domain.models.accountBackListResp.AccountBankListResp
 import com.malka.androidappp.newPhase.domain.models.addOrderResp.AddOrderResp
 import com.malka.androidappp.newPhase.domain.models.addProductToCartResp.AddProductToCartResp
 import com.malka.androidappp.newPhase.domain.models.addRateResp.AddRateResp
@@ -34,6 +35,7 @@ import com.malka.androidappp.newPhase.domain.models.contauctUsMessage.ContactUsM
 import com.malka.androidappp.newPhase.domain.models.contauctUsMessage.TechnicalSupportMessageListResp
 import com.malka.androidappp.newPhase.domain.models.countryResp.CountriesResp
 import com.malka.androidappp.newPhase.domain.models.dynamicSpecification.DynamicSpecificationResp
+import com.malka.androidappp.newPhase.domain.models.editProfileResp.EditProfileResp
 import com.malka.androidappp.newPhase.domain.models.homeCategoryProductResp.HomeCategoryProductResp
 import com.malka.androidappp.newPhase.domain.models.homeSilderResp.HomeSliderResp
 import com.malka.androidappp.newPhase.domain.models.loginResp.LoginResp
@@ -633,6 +635,26 @@ interface MalqaApiService {
 
     @POST("UpdateUserMobileNumber")
     fun updateUserMobileNumber(@Body data:HashMap<String,Any>): Call<GeneralResponse>
+    @POST("UpdateAccountProfile")
+    fun updateAccountProfile(@Body data:HashMap<String,Any>): Call<EditProfileResp>
+
+
+    @Multipart
+    @POST("AddBankTransfer")
+    fun addBankAccount(
+        @Part("accountNumber") accountNumber: RequestBody,
+        @Part("bankName") bankName : RequestBody,
+        @Part("bankHolderName") bankHolderName: RequestBody,
+        @Part("ibanNumber") ibanNumber: RequestBody,
+        @Part("swiftCode") swiftCode : RequestBody,
+        @Part("expiaryDate") expiaryDate: RequestBody,
+        @Part("SaveForLaterUse") SaveForLaterUse: RequestBody,
+        ): Call<GeneralResponse>
+
+    @GET("ListBankTransfers?pageIndex=1&PageRowsCount=10")
+    fun getAllBacksAccount(): Call<AccountBankListResp>
+
+
     /***
      * ***********************************
      * ***********************************

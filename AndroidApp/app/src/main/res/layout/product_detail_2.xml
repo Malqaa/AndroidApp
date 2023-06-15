@@ -87,7 +87,7 @@
                             android:textSize="@dimen/_12sdp" />
 
                         <TextView
-                            android:id="@+id/date"
+                            android:id="@+id/btnDate"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/_5sdp"

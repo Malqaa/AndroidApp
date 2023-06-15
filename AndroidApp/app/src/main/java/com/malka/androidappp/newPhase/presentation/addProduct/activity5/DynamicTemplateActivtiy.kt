@@ -142,7 +142,7 @@ class DynamicTemplateActivtiy : BaseActivity(), DynamicSpecificationsAdapter.OnC
     private fun checkAllDataSet() {
         lifecycleScope.launch(Dispatchers.IO) {
             var allValuesSet = true
-            var data:ArrayList<DynamicSpecificationSentObject> = ArrayList()
+            var data: ArrayList<DynamicSpecificationSentObject> = ArrayList()
             dynamicSpecificationsArrayList.forEach { dynamicSpecificationItem ->
 //                if(dynamicSpecificationItem.type==1){
 //                    if(dynamicSpecificationItem.subSpecificationsValue==null){
@@ -154,28 +154,43 @@ class DynamicTemplateActivtiy : BaseActivity(), DynamicSpecificationsAdapter.OnC
 //                        allValuesSet=false
 //                    }
 //                }
-                if (dynamicSpecificationItem.subSpecifications != null && dynamicSpecificationItem.subSpecifications!!.isNotEmpty()) {
-                    if (dynamicSpecificationItem.valueArText == "" || dynamicSpecificationItem.valueArText == null||dynamicSpecificationItem.valueEnText==""||dynamicSpecificationItem.valueEnText==null) {
-                        allValuesSet = false
+                if (dynamicSpecificationItem.type == 1) {
+                    if (dynamicSpecificationItem.subSpecifications != null && dynamicSpecificationItem.subSpecifications!!.isNotEmpty()) {
+                        if (dynamicSpecificationItem.valueArText == "" || dynamicSpecificationItem.valueArText == null || dynamicSpecificationItem.valueEnText == "" || dynamicSpecificationItem.valueEnText == null) {
+                            allValuesSet = false
 
-                    }else{
-                        data.add(DynamicSpecificationSentObject(
-                            HeaderSpeAr = dynamicSpecificationItem.nameAr.toString(),
-                            HeaderSpeEn = dynamicSpecificationItem.nameEn.toString(),
-                            ValueSpeAr = dynamicSpecificationItem.valueArText,
-                            ValueSpeEn = dynamicSpecificationItem.valueEnText,
-                        ))
+                        } else {
+                            data.add(
+                                DynamicSpecificationSentObject(
+                                    HeaderSpeAr = dynamicSpecificationItem.nameAr.toString(),
+                                    HeaderSpeEn = dynamicSpecificationItem.nameEn.toString(),
+                                    ValueSpeAr = dynamicSpecificationItem.valueArText,
+                                    ValueSpeEn = dynamicSpecificationItem.valueEnText,
+                                )
+                            )
+                        }
                     }
-                } else {
-                    if (dynamicSpecificationItem.valueArText == "" || dynamicSpecificationItem.valueArText == null||dynamicSpecificationItem.valueEnText==""||dynamicSpecificationItem.valueEnText==null) {
-                        allValuesSet = false
-                    }else{
-                        data.add(DynamicSpecificationSentObject(
+                } else if (dynamicSpecificationItem.type == 3) {
+                    data.add(
+                        DynamicSpecificationSentObject(
                             HeaderSpeAr = dynamicSpecificationItem.nameAr.toString(),
                             HeaderSpeEn = dynamicSpecificationItem.nameEn.toString(),
-                            ValueSpeAr = dynamicSpecificationItem.valueArText,
-                            ValueSpeEn = dynamicSpecificationItem.valueEnText,
-                        ))
+                            ValueSpeAr = dynamicSpecificationItem.valueBoolean.toString(),
+                            ValueSpeEn = dynamicSpecificationItem.valueBoolean.toString(),
+                        )
+                    )
+                } else {
+                    if (dynamicSpecificationItem.valueArText == "" || dynamicSpecificationItem.valueArText == null || dynamicSpecificationItem.valueEnText == "" || dynamicSpecificationItem.valueEnText == null) {
+                        allValuesSet = false
+                    } else {
+                        data.add(
+                            DynamicSpecificationSentObject(
+                                HeaderSpeAr = dynamicSpecificationItem.nameAr.toString(),
+                                HeaderSpeEn = dynamicSpecificationItem.nameEn.toString(),
+                                ValueSpeAr = dynamicSpecificationItem.valueArText,
+                                ValueSpeEn = dynamicSpecificationItem.valueEnText,
+                            )
+                        )
                     }
                 }
 
@@ -213,11 +228,20 @@ class DynamicTemplateActivtiy : BaseActivity(), DynamicSpecificationsAdapter.OnC
         dynamicSpecificationsArrayList[position].valueEnText = value
     }
 
+    override fun setCheckClicked(position: Int) {
+        dynamicSpecificationsArrayList[position].valueBoolean =
+            !dynamicSpecificationsArrayList[position].valueBoolean
+    }
+
     override fun setOnSpinnerListSelected(mainAttributesPosition: Int, spinnerPosition: Int) {
         dynamicSpecificationsArrayList[mainAttributesPosition].valueArText =
-            dynamicSpecificationsArrayList[mainAttributesPosition].subSpecifications?.get(spinnerPosition)?.nameAr?:""
+            dynamicSpecificationsArrayList[mainAttributesPosition].subSpecifications?.get(
+                spinnerPosition
+            )?.nameAr ?: ""
         dynamicSpecificationsArrayList[mainAttributesPosition].valueEnText =
-            dynamicSpecificationsArrayList[mainAttributesPosition].subSpecifications?.get(spinnerPosition)?.nameEn?:""
+            dynamicSpecificationsArrayList[mainAttributesPosition].subSpecifications?.get(
+                spinnerPosition
+            )?.nameEn ?: ""
     }
 
 

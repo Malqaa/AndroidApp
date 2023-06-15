@@ -9,6 +9,7 @@ import com.malka.androidappp.newPhase.domain.models.contauctUsMessage.ContactUsM
 import com.malka.androidappp.newPhase.domain.models.contauctUsMessage.TechnicalSupportMessageListResp
 import com.malka.androidappp.newPhase.domain.models.productResp.ProductListResp
 import com.malka.androidappp.newPhase.data.helper.ConstantObjects
+import com.malka.androidappp.newPhase.domain.models.editProfileResp.EditProfileResp
 import com.malka.androidappp.newPhase.domain.models.loginResp.LoginResp
 import com.malka.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
 import com.malka.androidappp.newPhase.domain.models.userPointsDataResp.ConvertMoneyToPointResp
@@ -433,7 +434,7 @@ class AccountViewModel : BaseViewModel() {
             })
     }
 
-
+    /****/
     var validateAndGenerateOTPObserver: MutableLiveData<ValidateAndGenerateOTPResp> =
         MutableLiveData()
     var updateUserMobielNumberObserver: MutableLiveData<GeneralResponse> =
@@ -489,5 +490,37 @@ class AccountViewModel : BaseViewModel() {
                 }
             })
     }
+    /****/
+    var updateProfileDataObserver: MutableLiveData<EditProfileResp> =
+        MutableLiveData()
 
+    fun updateMobileNumber(userId: String, firstName:String,lastName:String,dateOfBirth:String,gender:Int,showUserInformation:String) {
+        isLoading.value = true
+        var data: HashMap<String, Any> = HashMap()
+        data["id"] = userId
+        data["firstName"] = firstName
+        data["lastName"] = lastName
+        data["dateOfBirth"] = dateOfBirth
+        data["gender"] = gender
+        data["showUserInformation"] = showUserInformation
+        RetrofitBuilder.GetRetrofitBuilder()
+            .updateAccountProfile(data).enqueue(object : Callback<EditProfileResp> {
+                override fun onResponse(
+                    call: Call<EditProfileResp>,
+                    response: Response<EditProfileResp>
+                ) {
+                    if (response.isSuccessful) {
+                        updateProfileDataObserver.value = response.body()
+                    } else {
+                        errorResponseObserver.value = getErrorResponse(response.errorBody())
+                    }
+                    isLoading.value = false
+                }
+
+                override fun onFailure(call: Call<EditProfileResp>, t: Throwable) {
+                    isNetworkFail.value = t !is HttpException
+                    isLoading.value = false
+                }
+            })
+    }
 }

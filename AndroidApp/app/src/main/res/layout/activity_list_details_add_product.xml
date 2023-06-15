@@ -374,7 +374,6 @@
                                     android:id="@+id/tvl_field_phone"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/_5sdp"
                                     android:hint="@string/PhoneNumber"
                                     app:boxBackgroundMode="none"
                                     app:hintTextColor="@color/hint_color">
@@ -400,24 +399,24 @@
                                 android:layout_alignParentEnd="true"
                                 android:layout_centerInParent="true"
                                 android:orientation="vertical">
-                                <com.hbb20.CountryCodePicker
-                                    android:id="@+id/countryCodePicker"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    app:ccpDialog_backgroundColor="@color/white"
-                                    app:ccpDialog_keyboardAutoPopup="false"
-                                    app:ccpDialog_textColor="@color/text_color"
-                                    app:ccp_autoFormatNumber="false"
-                                    app:ccp_contentColor="@color/text_color"
-                                    app:ccp_defaultNameCode="SA"
-                                    app:ccp_hintExampleNumber="false"
-                                    app:ccp_hintExampleNumberFormat="NATIONAL"
-                                    app:ccp_hintExampleNumberType="MOBILE"
-                                    app:ccp_rememberLastSelection="false"
-                                    app:ccp_showNameCode="false"
-                                    app:ccp_showPhoneCode="true" />
-                                <!--
+<!--                                <com.hbb20.CountryCodePicker-->
+<!--                                    android:id="@+id/countryCodePicker"-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:layout_gravity="center"-->
+<!--                                    app:ccpDialog_backgroundColor="@color/white"-->
+<!--                                    app:ccpDialog_keyboardAutoPopup="false"-->
+<!--                                    app:ccpDialog_textColor="@color/text_color"-->
+<!--                                    app:ccp_autoFormatNumber="false"-->
+<!--                                    app:ccp_contentColor="@color/text_color"-->
+<!--                                    app:ccp_defaultNameCode="SA"-->
+<!--                                    app:ccp_hintExampleNumber="false"-->
+<!--                                    app:ccp_hintExampleNumberFormat="NATIONAL"-->
+<!--                                    app:ccp_hintExampleNumberType="MOBILE"-->
+<!--                                    app:ccp_rememberLastSelection="false"-->
+<!--                                    app:ccp_showNameCode="false"-->
+<!--                                    app:ccp_showPhoneCode="true" />-->
+<!--                                &lt;!&ndash;-->
                                   app:ccp_autoDetectCountry="true"
                                  app:ccp_countryAutoDetectionPref="SIM_NETWORK_LOCALE"-->
 
