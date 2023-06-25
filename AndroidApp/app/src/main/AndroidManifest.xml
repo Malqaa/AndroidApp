@@ -227,17 +227,17 @@
             android:name="com.malka.androidappp.newPhase.presentation.addProduct.activity6.PricingActivity"
             android:exported="true"
             android:screenOrientation="portrait" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".newPhase.presentation.splashActivity.SplashActivity"
             android:exported="true"
             android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <provider
             android:name="androidx.core.content.FileProvider"

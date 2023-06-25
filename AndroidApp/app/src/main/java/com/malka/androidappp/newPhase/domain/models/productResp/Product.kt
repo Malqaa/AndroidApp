@@ -1,10 +1,25 @@
 package com.malka.androidappp.newPhase.domain.models.productResp
 
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
-import com.malka.androidappp.newPhase.domain.models.sellerInfoResp.SellerInformation
 
 
 data class Product(
+    val acceptQuestion: Boolean,
+    val isFixedPriceEnabled: Boolean,
+    val isAuctionEnabled: Boolean,
+    val isNegotiationEnabled: Boolean,
+    val price: Float,
+    var priceDisc: Float,
+    var priceDiscount: Float,
+    var paymentOptionId: Int,
+    val isCashEnabled: Boolean,
+    val auctionStartPrice: Float,
+    val disccountEndDate: String? = null,
+    val sendOfferForAuction: Boolean,
+    val auctionMinimumPrice: Float,
+    val auctionNegotiateForWhom: Float,
+    val auctionNegotiatePrice: Float,
+    val auctionClosingTime: String? = null,
     val id: Int,
     val isActive: Boolean,
     val isDelete: Boolean,
@@ -13,53 +28,64 @@ data class Product(
     val description: String? = null,
     val qty: Int,
     val productImage: String? = null,
-    val isPaied: Boolean,
-    val price: Float,
-    val disccountEndDate: String? = null,
-    val acceptQuestion: Boolean,
-    val isNegotiationOffers: Boolean,
-    val withFixedPrice: Boolean,
-    val isMazad: Boolean,
-    val isSendOfferForMazad: Boolean,
-    val startPriceMazad: Int,
-    val lessPriceMazad: Int,
+    val isAuctionPaied: Boolean,
     val status: Int,
     val countView: Int,
     val createdAt: String? = null,
     val updatedAt: String? = null,
     val categoryId: Int,
-    val category: String,
+    val category: String? = null,
     val countryId: Int,
     val country: String? = null,
     val regionId: Int,
     val regionName: String? = null,
-    val neighborhood: String? = null,
     val neighborhoodId: Int,
+    val neighborhood: String? = null,
     val district: String? = null,
     val street: String? = null,
     val governmentCode: String? = null,
     val pakatId: Int,
     var isFavourite: Boolean,
+    val pickUpDeliveryOption: String? = null,
+    val productShippingOptions: List<PorductShippingOptionItem>? = null,
+    val isFreeDelivery: Boolean,
+    val isMerchant: Boolean,
+    val negotiationOffersCount: Int,
+    val purchasedQuantity: Int,
+    val restQuantity: Int,
+    val addedToFavoritsCount: Int,
+    val viewsCount: Int,
+    val lat: String? = null,
+    val lon: String? = null,
     val listMedia: List<ProductMediaItemDetails>? = null,
     val listProductSep: List<ProductSpecialityItemDetails>? = null,
-    val productMazadNegotiate:ProductMazadNegotiateObject?=null,
-   // val sellerInformation: SellerInformation?=null,
-    var image: String? = null,
-    val codeRegoin: String,
-    var priceDisc: Float,
-    var priceDiscount:Float,
-    val publishDate: String,
-    val streetName: String,
-    val stutes: Int,
-    val updateDate: String? = null,
-    val isFreeDeleivry:Boolean,
-    val isMerchant:Boolean,
+    val productMazadNegotiate: ProductMazadNegotiateObject? = null,
+    // val sellerInformation: SellerInformation?=null,
 
-    ) {
+    //*******
+    var image: String? = null,
+
+//    val isPaied: Boolean,
+//    val isNegotiationOffers: Boolean,
+//    val withFixedPrice: Boolean,
+//    val isMazad: Boolean,
+//    val isSendOfferForMazad: Boolean,
+//    val startPriceMazad: Int,
+//    val lessPriceMazad: Int,
+//
+//    val codeRegoin: String,
+//
+//    val publishDate: String,
+//    val streetName: String,
+//    val stutes: Int,
+//    val updateDate: String? = null,
+
+
+) {
 
     val createdOnFormated: String
         get() {
-            updateDate?.let {
+            updatedAt?.let {
                 // val result: String = it.substring(0, updateDate.indexOf("."))
 
                 return HelpFunctions.FormatDateTime(
@@ -73,3 +99,56 @@ data class Product(
 
         }
 }
+
+
+//"sellerInformation":{
+//    "providerId":"string",
+//    "businessAccountId":0,
+//    "image":"string",
+//    "name":"string",
+//    "city":"string",
+//    "phone":"string",
+//    "instagram":"string",
+//    "youTube":"string",
+//    "webSite":"string",
+//    "faceBook":"string",
+//    "twitter":"string",
+//    "linkedIn":"string",
+//    "snapchat":"string",
+//    "tikTok":"string",
+//    "createdAt":"2023-06-24T11:17:21.421Z",
+//    "lat":"string",
+//    "lon":"string",
+//    "isFollowed":true,
+//    "rate":0,
+//    "showUserInformation":"EveryOne",
+//    "branches":[
+//    {
+//        "id":0,
+//        "location":"string",
+//        "lat":"string",
+//        "lng":"string",
+//        "streetName":"string",
+//        "regionCode":"string",
+//        "userName":"string",
+//        "name":"string",
+//        "isActive":true,
+//        "countryName":"string",
+//        "regionName":"string",
+//        "neighborhoodName":"string",
+//        "country":{
+//        "id":0,
+//        "name":"string"
+//    },
+//        "neighborhood":{
+//        "id":0,
+//        "name":"string"
+//    },
+//        "region":{
+//        "id":0,
+//        "name":"string"
+//    }
+//    }
+//    ]
+//},
+//"totalRecords":0

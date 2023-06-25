@@ -6,7 +6,7 @@ import com.malka.androidappp.newPhase.domain.models.accountBackListResp.AccountD
 import com.malka.androidappp.newPhase.domain.models.dynamicSpecification.DynamicSpecificationSentObject
 import com.malka.androidappp.newPhase.domain.models.pakatResp.PakatDetails
 import com.malka.androidappp.newPhase.domain.models.servicemodels.Selection
-import com.malka.androidappp.newPhase.domain.models.servicemodels.TimeSelection
+import com.malka.androidappp.newPhase.domain.models.servicemodels.TimeAuctionSelection
 import com.malka.androidappp.newPhase.domain.models.servicemodels.model.Category
 import com.malka.androidappp.newPhase.domain.models.userPointsDataResp.UserPointData
 import com.malka.androidappp.newPhase.domain.models.walletDetailsResp.WalletDetails
@@ -14,6 +14,8 @@ import com.malka.androidappp.newPhase.domain.models.walletDetailsResp.WalletDeta
 class AddProductObjectData {
 
     companion object {
+
+
 
 
         /**activity 1*/
@@ -50,17 +52,21 @@ class AddProductObjectData {
         var PAYMENT_OPTION_CASH=2
         var paymentOption: Int = 0
         var selectedAccountDetails: AccountDetails? = null
+        var selectTimeAuction: TimeAuctionSelection?= null
+        var shippingOptionSelection: Selection? = null
+        var pickUpOption: Boolean = false
+        var selectedPakat: PakatDetails? = null
+        var productSpecificationList: List<DynamicSpecificationSentObject>? = null
 
-
-
+        /*****/
 
         var phone = ""
         //var phoneCountryCode = ""
         var price: String = ""
-        var productSpecificationList: List<DynamicSpecificationSentObject>? = null
-        var pickUpOption: Boolean = false
-        var selectedPakat: PakatDetails? = null
-        var shippingOptionSelection: Selection? = null
+
+
+
+
 
 
         var brand_new_item = ""
@@ -79,9 +85,9 @@ class AddProductObjectData {
         var timepicker = ""
         var duration = ""
         var endtime = ""
-        var fixlenghtselected: TimeSelection? =
+        var fixlenghtselected: TimeAuctionSelection? =
             null//        var selectPromotiion: PromotionModel? = null
-        var weekSelection: TimeSelection? = null
+        var weekSelection: TimeAuctionSelection? = null
 
 
         // To store path for model

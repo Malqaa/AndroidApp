@@ -99,5 +99,9 @@ class ConstantObjects {
         const val resetPasswordExpiryTime = "ResetPasswordExpiryTime"
         const val resetPasswordWrongTrials = "ResetPasswordWrongTrials"
         const val otpWrongTrials = "OTPWrongTrials"
+        /**auctionClosingPeriodsUnit**/
+        var auctionClosingPeriodsUnit_day=1
+        var auctionClosingPeriodsUnit_week=2
+        var auctionClosingPeriodsUnit_month=3
     }
 }

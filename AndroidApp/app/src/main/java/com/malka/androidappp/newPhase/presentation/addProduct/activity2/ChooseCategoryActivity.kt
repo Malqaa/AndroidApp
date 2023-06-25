@@ -16,6 +16,7 @@ import com.malka.androidappp.newPhase.data.helper.hide
 import com.malka.androidappp.newPhase.data.helper.show
 import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.domain.models.servicemodels.model.Category
+import com.malka.androidappp.newPhase.presentation.addProduct.activity4.AddPhotoActivity
 import com.malka.androidappp.newPhase.presentation.addProduct.viewmodel.AddProductViewModel
 import kotlinx.android.synthetic.main.activity_choose_category.*
 import kotlinx.android.synthetic.main.toolbar_main.*
@@ -40,10 +41,14 @@ class ChooseCategoryActivity : BaseActivity() {
                 //  AddProductObjectData.selectedCategory=allCategoryList[position]
                 AddProductObjectData.selectedCategoryId = allCategoryList[position].id
                 AddProductObjectData.selectedCategoryName = allCategoryList[position].name
-                startActivity(Intent(this, SubCategoriesActivity::class.java).apply {
-                    putExtra(ConstantObjects.categoryIdKey, allCategoryList[position].id.toString())
-                    putExtra(ConstantObjects.categoryName, allCategoryList[position].name.toString())
-                })
+//                startActivity(Intent(this, SubCategoriesActivity::class.java).apply {
+//                    putExtra(ConstantObjects.categoryIdKey, allCategoryList[position].id.toString())
+//                    putExtra(ConstantObjects.categoryName, allCategoryList[position].name.toString())
+//                })
+                AddProductObjectData.selectedCategory = allCategoryList[position]
+                goNextScreen(false)
+
+
 //                if (!allCategoryList[position].isCategory) {
 //                    AddProductObjectData.subCategoryPath.add(allCategoryList[position].name.toString())
 //                    val templateName = truncateString(allCategoryList[position].template.toString())
@@ -128,5 +133,14 @@ class ChooseCategoryActivity : BaseActivity() {
                 .show()
         }
 
+    }
+
+    private fun goNextScreen(isFinish:Boolean) {
+        if(isFinish) {
+            startActivity(Intent(this, AddPhotoActivity::class.java))
+            finish()
+        }else{
+            startActivity(Intent(this, AddPhotoActivity::class.java))
+        }
     }
 }

@@ -29,15 +29,21 @@
                 android:background="@color/gray_light"
                 android:gravity="center"
                 android:orientation="horizontal">
-
-                <CheckBox
+                <ImageView
                     android:id="@+id/is_select_cb"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:checked="false">
+                    android:layout_marginEnd="@dimen/_3sdp"
+                    android:src="@drawable/checkbox_un_selected_2"/>
 
-                </CheckBox>
+<!--                <CheckBox-->
+<!--                   -->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_gravity="center_vertical"-->
+<!--                    android:checked="false">-->
+
+<!--                </CheckBox>-->
 
                 <TextView
                     android:id="@+id/add_product_ctv"

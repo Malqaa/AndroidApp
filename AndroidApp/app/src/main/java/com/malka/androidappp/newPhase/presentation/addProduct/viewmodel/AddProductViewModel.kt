@@ -10,6 +10,7 @@ import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.ErrorResponse
 import com.malka.androidappp.newPhase.domain.models.accountBackListResp.AccountBankListResp
+import com.malka.androidappp.newPhase.domain.models.cartPriceSummery.CartPriceSummeryResp
 import com.malka.androidappp.newPhase.domain.models.categoryResp.CategoriesResp
 import com.malka.androidappp.newPhase.domain.models.dynamicSpecification.DynamicSpecificationResp
 import com.malka.androidappp.newPhase.domain.models.dynamicSpecification.DynamicSpecificationSentObject
@@ -46,7 +47,39 @@ class AddProductViewModel : BaseViewModel() {
 
     var addBackAccountObserver: MutableLiveData<GeneralResponse> = MutableLiveData()
     var listBackAccountObserver: MutableLiveData<AccountBankListResp> = MutableLiveData()
-   var isLoadingBackAccountList:MutableLiveData<Boolean> = MutableLiveData()
+    var isLoadingBackAccountList: MutableLiveData<Boolean> = MutableLiveData()
+
+    var cartPriceSummeryObserver: MutableLiveData<CartPriceSummeryResp> = MutableLiveData()
+    fun checkOutAdditionalPakat(
+        pakatId: Int, categoryId: Int,
+        extraProductImageFee: Float,
+        extraProductVidoeFee: Float,
+        subTitleFee: Float
+    ) {
+        isLoading.value = true
+        RetrofitBuilder.GetRetrofitBuilder()
+            .checkOutAdditionalPakat(pakatId, categoryId,extraProductImageFee,extraProductVidoeFee,subTitleFee)
+            .enqueue(object : Callback<CartPriceSummeryResp> {
+                override fun onFailure(call: Call<CartPriceSummeryResp>, t: Throwable) {
+                    isNetworkFail.value = t !is HttpException
+                    isLoading.value = false
+                }
+
+                override fun onResponse(
+                    call: Call<CartPriceSummeryResp>,
+                    response: Response<CartPriceSummeryResp>
+                ) {
+                    isLoading.value = false
+                    if (response.isSuccessful) {
+                        cartPriceSummeryObserver.value = response.body()
+                    } else {
+                        errorResponseObserver.value =
+                            getErrorResponse(response.errorBody())
+                    }
+                }
+            })
+    }
+
     fun getListCategoriesByProductName(productName: String) {
         isLoading.value = true
         RetrofitBuilder.GetRetrofitBuilder()

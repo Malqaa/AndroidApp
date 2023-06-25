@@ -9,7 +9,6 @@ data class Tags(
     val searchcategory_id: Int,
     val tags: String,
 
-
     var productTitle: String?=null,
     var productCategoryId: Int,
     var categories:List<String>?=null,

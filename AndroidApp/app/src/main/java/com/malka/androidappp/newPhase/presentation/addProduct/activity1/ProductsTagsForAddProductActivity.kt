@@ -9,11 +9,15 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseActivity
-import com.malka.androidappp.newPhase.presentation.addProduct.AddProductObjectData
-import com.malka.androidappp.newPhase.data.helper.*
+import com.malka.androidappp.newPhase.data.helper.HelpFunctions
+import com.malka.androidappp.newPhase.data.helper.hide
+import com.malka.androidappp.newPhase.data.helper.linearLayoutManager
+import com.malka.androidappp.newPhase.data.helper.show
 import com.malka.androidappp.newPhase.domain.models.productTags.Tags
-import com.malka.androidappp.newPhase.presentation.addProduct.activity4.AddPhotoActivity
+import com.malka.androidappp.newPhase.domain.models.servicemodels.model.Category
+import com.malka.androidappp.newPhase.presentation.addProduct.AddProductObjectData
 import com.malka.androidappp.newPhase.presentation.addProduct.activity2.ChooseCategoryActivity
+import com.malka.androidappp.newPhase.presentation.addProduct.activity4.AddPhotoActivity
 import com.malka.androidappp.newPhase.presentation.addProduct.viewmodel.AddProductViewModel
 import kotlinx.android.synthetic.main.activity_product_tage_for_add_product.*
 import kotlinx.android.synthetic.main.toolbar_main.*
@@ -24,11 +28,11 @@ import kotlinx.coroutines.withContext
 
 class ProductsTagsForAddProductActivity : BaseActivity(),
     ProductTagsAdapter.SetOnSelectedListeners {
-    var selectTag: SearchTagItem? = null
+    var selectTag: Category? = null
     var lists: List<Tags> = ArrayList()
     private lateinit var addProductViewModel: AddProductViewModel
     private lateinit var productTagsAdapter: ProductTagsAdapter
-    private lateinit var productTagsList: ArrayList<SearchTagItem>
+    private lateinit var productTagsList: ArrayList<Category>
     private var addedProductObjectData: AddProductObjectData = AddProductObjectData()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,28 +93,18 @@ class ProductsTagsForAddProductActivity : BaseActivity(),
             if (categoyProductTagResp.status_code == 200) {
                 lifecycleScope.launch(Dispatchers.IO) {
                     productTagsList.clear()
-                    for (tag in categoyProductTagResp.tagsList) {
-                        productTagsList.add(
-                            SearchTagItem(
-                                tag.productCategoryId,
-                                tag.category
-                            )
-                            //  "${tag.productTitle}-${tagCategoryItem}"
-                        )
-//                        if (tag.categories != null) {
-//                            if (tag.categories!!.isNotEmpty()) {
-//                                for (tagCategoryItem in tag.categories!!) {
+                    categoyProductTagResp.tagsList?.let { productTagsList.addAll(it) }
+//                    for (tag in categoyProductTagResp.tagsList) {
+////                        productTagsList.add(
+////                            SearchTagItem(
+////                                tag.productCategoryId,
+////                                tag.category
+////                            )
+////                            //  "${tag.productTitle}-${tagCategoryItem}"
+////                        )
+//                        productTagsList.add(tag)
 //
-//                                }
-//                            }
-//                            else {
-//                                productTagsList.add(SearchTagItem(tag.categoryid, tag.productTitle))
-//                            }
-//                        } else {
-//                            productTagsList.add(SearchTagItem(tag.categoryid, tag.productTitle))
-//                        }
-
-                    }
+//                    }
                     withContext(Dispatchers.Main) {
                         productTagsAdapter.notifyDataSetChanged()
                         if (productTagsList.size > 0) {
@@ -128,18 +122,7 @@ class ProductsTagsForAddProductActivity : BaseActivity(),
                 }
 
 
-//                lists = categoyProductTagResp.tagsList
-//                if (lists.count() > 0) {
-//                    recycler_suggested_category.visibility = View.VISIBLE
-//                    setCategoryAdaptor(lists)
-//                } else {
-//                    recycler_suggested_category.visibility = View.GONE
-//                    Toast.makeText(
-//                        this@ProductsTagsForAddProductActivity,
-//                        getString(R.string.no_tag_found),
-//                        Toast.LENGTH_LONG
-//                    ).show()
-//                }
+
             } else {
                 HelpFunctions.ShowLongToast(
                     getString(R.string.no_tag_found),
@@ -170,36 +153,17 @@ class ProductsTagsForAddProductActivity : BaseActivity(),
         }
         button_2.setOnClickListener {
             if (productTagsList.size > 0 && selectTag != null) {
-                AddProductObjectData.selectedCategoryId = selectTag!!.categoryID
-                AddProductObjectData.selectedCategoryName = selectTag!!.title.toString()
+                AddProductObjectData.selectedCategoryId = selectTag!!.id
+                AddProductObjectData.selectedCategoryName = selectTag!!.category.toString()
+                AddProductObjectData.selectedCategory = selectTag
                 startActivity(
                     Intent(
                         this@ProductsTagsForAddProductActivity,
                         AddPhotoActivity::class.java
                     )
                 )
-//                    startActivity(Intent(this, ChooseCategoryActivity::class.java))
-//                    selectTag!!.run {
-//                        ConstantObjects.categoryList.filter {
-//                            it.id == categoryID
-//                        }.let {
-//                            if (it.size > 0) {
-//                                it.get(0).run {
-//                                    AddProductObjectData.subCategoryPath.add(name.toString())
-//                                    val templateName = Extension.truncateString(template.toString())
-//                                    AddProductObjectData.template = templateName
-//                                    startActivity(Intent(this@ProductsTagsForAddProductActivity, AddPhotoActivity::class.java).apply { putExtra("Title", name.toString()) })
-//                                }
-//
-//                            }
-//                        }
-//
-//
-//                    }
 
             } else {
-//                val producttitle: String = textInputLayout11.getText()
-//                AddProductObjectData.productTitle = producttitle
                 startActivity(Intent(this, ChooseCategoryActivity::class.java))
             }
 
@@ -225,16 +189,6 @@ class ProductsTagsForAddProductActivity : BaseActivity(),
     }
 
 
-//    fun confirmListItem() {
-//        if (!validateitem()) {
-//            return
-//        } else {
-//            val producttitle: String = textInputLayout11.getText()
-//            AddProductObjectData.productTitle = producttitle
-//            startActivity(Intent(this, ChooseCategoryActivity::class.java))
-//        }
-//
-//    }
 
     private fun validateitem(): Boolean {
 
@@ -249,139 +203,5 @@ class ProductsTagsForAddProductActivity : BaseActivity(),
     }
 
 
-//    fun getCategoryTags(category: String) {
-//        HelpFunctions.startProgressBar(this)
-//        try {
-//            val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-//
-//            val call: Call<CategoryTagsResp> = malqaa.getCategoryTags(category)
-//
-//            call.enqueue(object : Callback<CategoryTagsResp> {
-//                override fun onResponse(
-//                    call: Call<CategoryTagsResp>, response: Response<CategoryTagsResp>
-//                ) {
-//                    if (response.isSuccessful) {
-//                        if (response.body() != null) {
-//                            val resp: CategoryTagsResp = response.body()!!
-//                            lists = resp.tagsList
-//                            if (lists.count() > 0) {
-//                                recycler_suggested_category.visibility = View.VISIBLE
-//                                setCategoryAdaptor(lists)
-//                            } else {
-//                                recycler_suggested_category.visibility = View.GONE
-//                                Toast.makeText(
-//                                    this@ProductsTagsForAddProductActivity,
-//                                    getString(R.string.no_tag_found),
-//                                    Toast.LENGTH_LONG
-//                                ).show()
-//                            }
-//                        }
-//
-//
-//                    } else {
-//                        Toast.makeText(
-//                            this@ProductsTagsForAddProductActivity,
-//                            "Failed to get tags",
-//                            Toast.LENGTH_LONG
-//                        )
-//                            .show()
-//                    }
-//                    HelpFunctions.dismissProgressBar()
-//
-//                }
-//
-//                override fun onFailure(call: Call<CategoryTagsResp>, t: Throwable) {
-//                    Toast.makeText(
-//                        this@ProductsTagsForAddProductActivity,
-//                        t.message,
-//                        Toast.LENGTH_LONG
-//                    ).show()
-//                    HelpFunctions.dismissProgressBar()
-//
-//                }
-//            })
-//        } catch (ex: Exception) {
-//            throw ex
-//        }
-//    }
-//
-//    private fun setCategoryAdaptor(list: List<Tags>) {
-//        recycler_suggested_category.adapter = object : GenericListAdapter<Tags>(
-//            R.layout.item_suggested_categories,
-//            bind = { element, holder, itemCount, position ->
-//                holder.view.run {
-//                    element.run {
-//                        category_name_tv.text = name
-//                        radioButtonSelect.isChecked = isSelect
-//                        radioButtonSelect.setOnCheckedChangeListener { buttonView, isChecked ->
-//                            if (isChecked) {
-//                                list.forEach {
-//                                    it.isSelect = false
-//                                }
-//                                list.get(position).isSelect = true
-//                                recycler_suggested_category.post {
-//                                    recycler_suggested_category.adapter!!.notifyDataSetChanged()
-//                                }
-//                            }
-//                            selectTag = element
-//                        }
-//                    }
-//                }
-//            }
-//        ) {
-//            override fun getFilter(): Filter {
-//                TODO("Not yet implemented")
-//            }
-//
-//        }.apply {
-//            submitList(
-//                list
-//            )
-//        }
-//    }
-
-    /**importnat comment code*/
-//    button2.setOnClickListener {
-//        confirmListItem()
-//    }
-//    button_2.setOnClickListener {
-//        if (validateitem()) {
-//            if (productTagsList.size > 0 && selectTag != null) {
-//                selectTag!!.run {
-//                    ConstantObjects.categoryList.filter {
-//                        it.id == categoryid
-//                    }.let {
-//                        if (it.size > 0) {
-//                            it.get(0).run {
-//                                StaticClassAdCreate.subCategoryPath.add(name.toString())
-//                                val templateName =
-//                                    Extension.truncateString(template.toString())
-//                                StaticClassAdCreate.template = templateName
-//                                startActivity(
-//                                    Intent(
-//                                        this@ProductsTagsForAddProductActivity,
-//                                        AddPhotoActivity::class.java
-//                                    ).apply {
-//                                        putExtra("Title", name.toString())
-//                                    })
-//                            }
-//
-//                        }
-//                    }
-//
-//
-//                }
-//
-//
-//            } else {
-//                val producttitle: String = textInputLayout11.getText()
-//                StaticClassAdCreate.producttitle = producttitle
-//                startActivity(Intent(this, ChooseCategoryActivity::class.java))
-//            }
-//
-//
-//        }
-//
-//    }
 
 }

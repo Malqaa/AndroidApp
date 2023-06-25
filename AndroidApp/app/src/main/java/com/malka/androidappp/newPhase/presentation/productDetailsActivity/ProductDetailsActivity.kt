@@ -58,8 +58,6 @@ import kotlinx.android.synthetic.main.activity_product_details2.*
 import kotlinx.android.synthetic.main.activity_product_details_item_2.*
 import kotlinx.android.synthetic.main.activity_product_details_item_2.rating_bar
 import kotlinx.android.synthetic.main.atrribute_item.view.*
-import kotlinx.android.synthetic.main.bid_alert_box.view.*
-import kotlinx.android.synthetic.main.bid_confirmation.view.*
 import kotlinx.android.synthetic.main.item_image_for_product_details.view.*
 import kotlinx.android.synthetic.main.item_review_product.*
 import kotlinx.android.synthetic.main.product_item.view.*
@@ -119,6 +117,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product_details2)
         productId = intent.getIntExtra(ConstantObjects.productIdKey, -1)
+      println("hhhh product if $productId")
         isMyProduct = intent.getBooleanExtra(ConstantObjects.isMyProduct, false)
         setViewChanges()
         setProductDetailsViewModel()
@@ -147,6 +146,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         btnMoreSpecification.hide()
         btnMoreItemDetails.hide()
         contaienrSimilerProduts.hide()
+        containerBidOnPrice.hide()
         //for reviewa
         tvReviewsError.hide()
         contianerRateText.hide()
@@ -333,7 +333,22 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             )
         }
         containerBidOnPrice.setOnClickListener {
-            HelpFunctions.ShowLongToast("not implemented yey", this)
+            productDetails?.let {
+                var auctionDialog: AuctionDialog = AuctionDialog(this,
+                    productId,
+                    it.auctionStartPrice,
+                    it.auctionMinimumPrice,
+                    it.auctionNegotiatePrice,
+                    object : AuctionDialog.SetClickListeners {
+                        override fun setOnSuccessListeners() {
+                            onRefresh()
+                        }
+
+                    })
+                auctionDialog.show()
+            }
+
+//            HelpFunctions.ShowLongToast("not implemented yey", this)
         }
         contianerAskQuestion.setOnClickListener {
             if (HelpFunctions.isUserLoggedIn()) {
@@ -943,6 +958,19 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                 ivFav.setImageResource(R.drawable.starcolor)
             } else {
                 ivFav.setImageResource(R.drawable.star)
+            }
+            if (productDetails.isNegotiationEnabled) {
+                btnPriceNegotiation.show()
+            } else {
+                btnPriceNegotiation.hide()
+            }
+
+            if (productDetails.isAuctionEnabled) {
+                Bid_on_price_tv.text =
+                    "${productDetails.auctionNegotiatePrice} ${getString(R.string.Rayal)}"
+                containerBidOnPrice.show()
+            } else {
+                containerBidOnPrice.hide()
             }
 
         } else {

@@ -2,6 +2,7 @@ package com.malka.androidappp.newPhase.presentation.productDetailsActivity.viewM
 
 import androidx.lifecycle.MutableLiveData
 import com.malka.androidappp.newPhase.core.BaseViewModel
+import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.data.helper.Extension.requestBody
 import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.addProductToCartResp.AddProductToCartResp
@@ -14,10 +15,8 @@ import com.malka.androidappp.newPhase.domain.models.ratingResp.CurrentUserRateRe
 import com.malka.androidappp.newPhase.domain.models.ratingResp.RateResponse
 import com.malka.androidappp.newPhase.domain.models.sellerInfoResp.SellerInfoResp
 import com.malka.androidappp.newPhase.domain.models.sellerRateListResp.SellerRateListResp
-import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.domain.models.servicemodels.GeneralRespone
 import okhttp3.RequestBody
-
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.HttpException
@@ -38,6 +37,10 @@ class ProductDetailsViewModel : BaseViewModel() {
     var addProductToCartObservable: MutableLiveData<AddProductToCartResp> = MutableLiveData()
     var sellerInfoObservable: MutableLiveData<SellerInfoResp> = MutableLiveData()
     var sellerInfoLoadingObservable: MutableLiveData<Boolean> = MutableLiveData()
+
+
+
+
     fun getProductDetailsById(productId: Int) {
         isLoading.value = true
         RetrofitBuilder.GetRetrofitBuilder()

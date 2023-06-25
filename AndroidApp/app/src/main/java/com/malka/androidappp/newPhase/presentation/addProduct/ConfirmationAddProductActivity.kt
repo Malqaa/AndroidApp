@@ -10,7 +10,6 @@ import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.newPhase.data.helper.*
 import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
-import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.domain.models.servicemodels.CreateAdvMainModel
 import com.malka.androidappp.newPhase.domain.models.servicemodels.CreateAdvResponseBack
 import com.malka.androidappp.newPhase.presentation.addProduct.activity6.ListingDetailsActivity
@@ -19,6 +18,7 @@ import com.malka.androidappp.newPhase.presentation.addProduct.activity7.ListingD
 import com.malka.androidappp.newPhase.presentation.addProduct.activity8.PromotionalActivity
 import com.malka.androidappp.newPhase.presentation.addProduct.viewmodel.AddProductViewModel
 import kotlinx.android.synthetic.main.activity_confirmation_add_product.*
+import kotlinx.android.synthetic.main.activity_listing_duration.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -31,10 +31,45 @@ class ConfirmationAddProductActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_confirmation_add_product)
+        containerAuctionFee.hide()
+        containerNegotiationFee.hide()
+        containerFixedPriceFee.hide()
         toolbar_title.text = getString(R.string.distinguish_your_product)
         setViewClickListeners()
         setData()
         setUpViewModel()
+        println("hhhh " + AddProductObjectData.selectedPakat?.id + " " + AddProductObjectData.selectedCategoryId)
+        getCartSummery()
+    }
+
+    private fun getCartSummery() {
+        AddProductObjectData.selectedCategory?.let { selectedCategory ->
+//            btnFreeProductImagesCount.text = it.freeProductImagesCount.toString()
+//            btnFreeProductVidoesCount.text = it.freeProductVidoesCount.toString()
+//            btnExtraProductVideoFee.text = "${it.extraProductVidoeFee} ${getString(R.string.Rayal)}"
+//            btnExtraProductImageFee.text = "${it.extraProductImageFee} ${getString(R.string.Rayal)}"
+//            btnSubTitleFeeFee.text = "${it.subTitleFee} ${getString(R.string.Rayal)}
+            var extraImagesFee = 0F
+            if (AddProductObjectData.images.size > selectedCategory.freeProductImagesCount) {
+                extraImagesFee =
+                    selectedCategory.extraProductImageFee * (AddProductObjectData.images.size - selectedCategory.freeProductImagesCount)
+            }
+            var extraVideosFee: Float = 0f
+            AddProductObjectData.videoList?.let {
+                if (it.size > selectedCategory.freeProductVidoesCount) {
+                    extraVideosFee =
+                        selectedCategory.extraProductVidoeFee * (it.size - selectedCategory.freeProductVidoesCount)
+
+                }
+            }
+            addProductViewModel.checkOutAdditionalPakat(
+                AddProductObjectData.selectedPakat?.id ?: 0,
+                AddProductObjectData.selectedCategoryId,
+                extraImagesFee,
+                extraVideosFee, 0f
+            )
+        }
+
     }
 
     private fun setUpViewModel() {
@@ -101,6 +136,63 @@ class ConfirmationAddProductActivity : BaseActivity() {
                     getString(R.string.failed),
                     this
                 )
+            }
+        }
+        addProductViewModel.cartPriceSummeryObserver.observe(this) { cartSummery ->
+            if (cartSummery.status_code == 200 && cartSummery.priceSummery != null) {
+                package_cost_tv.text =
+                    "${cartSummery.priceSummery.pakatPrice} ${getString(R.string.Rayal)}"
+                tv_package_price.text =
+                    "${cartSummery.priceSummery.pakatPrice} ${getString(R.string.Rayal)}"
+                tv_package_name.text = AddProductObjectData.selectedPakat?.name ?: ""
+                var discount: Float =
+                    cartSummery.priceSummery.totalPriceBeforeCoupon - cartSummery.priceSummery.totalPriceAfterCoupon
+                discount_tv.text = "${discount} ${getString(R.string.Rayal)}"
+                if (discount != 0f) {
+                    total_tv.text =
+                        "${cartSummery.priceSummery.totalPriceBeforeCoupon} ${getString(R.string.Rayal)}"
+                } else {
+                    total_tv.text =
+                        "${cartSummery.priceSummery.totalPriceAfterCoupon} ${getString(R.string.Rayal)}"
+                }
+                if (cartSummery.priceSummery.enableFixedPriceSaleFee != 0f) {
+                    containerFixedPriceFee.show()
+                    tvFixedPriceFee.text =
+                        "${cartSummery.priceSummery.enableFixedPriceSaleFee} ${getString(R.string.Rayal)}"
+                } else {
+                    containerFixedPriceFee.hide()
+                }
+                if (cartSummery.priceSummery.enableAuctionFee != 0f) {
+                    containerAuctionFee.show()
+                    tvAuctionFee.text =
+                        "${cartSummery.priceSummery.enableAuctionFee} ${getString(R.string.Rayal)}"
+                } else {
+                    containerAuctionFee.hide()
+                }
+                if (cartSummery.priceSummery.enableNegotiationFee != 0f) {
+                    containerNegotiationFee.show()
+                    tvNegotiationFee.text =
+                        "${cartSummery.priceSummery.enableNegotiationFee} ${getString(R.string.Rayal)}"
+                } else {
+                    containerNegotiationFee.hide()
+
+                }
+
+
+//                if (AddProductObjectData.selectedPakat == null) {
+//                    tv_package_price.text = getString(R.string.notSpecified)
+//                    tv_package_name.text = getString(R.string.notSpecified)
+//                    calculation(0f)
+//                } else {
+//                    tv_package_price.text = AddProductObjectData.selectedPakat?.price.toString()
+//                    tv_package_name.text = AddProductObjectData.selectedPakat?.name.toString()
+//                    AddProductObjectData.selectedPakat?.let {
+//                        calculation(it.price)
+//                    }
+//
+////            val package_cost = AddProductObjectData.selectPromotiion!!.packageprice.toInt()
+////            calculation(package_cost)
+//                }
             }
         }
     }
@@ -417,20 +509,16 @@ class ConfirmationAddProductActivity : BaseActivity() {
             tvPickupOptionData.text = getString(R.string.No)
         }
         tvShippingOption.text = AddProductObjectData.shippingOptionSelection?.name ?: ""
-
-        if (AddProductObjectData.selectedPakat == null) {
-            tv_package_price.text = getString(R.string.notSpecified)
-            tv_package_name.text = getString(R.string.notSpecified)
-            calculation(0f)
-        } else {
-            tv_package_price.text = AddProductObjectData.selectedPakat?.price.toString()
-            tv_package_name.text = AddProductObjectData.selectedPakat?.name.toString()
-            AddProductObjectData.selectedPakat?.let {
-                calculation(it.price)
+        if (AddProductObjectData.auctionOption) {
+            containerAuction.show()
+            if (AddProductObjectData.selectTimeAuction?.customOption == true) {
+                tvDateAuction.text = AddProductObjectData.selectTimeAuction?.text
+            } else {
+                tvDateAuction.text = AddProductObjectData.selectTimeAuction?.endTime
             }
 
-//            val package_cost = AddProductObjectData.selectPromotiion!!.packageprice.toInt()
-//            calculation(package_cost)
+        } else {
+            containerAuction.hide()
         }
 
         // timingData.text = "${AddProductObjectData.endtime} ${AddProductObjectData.timepicker}"

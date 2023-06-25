@@ -55,7 +55,7 @@ class AddPhotoActivity : BaseActivity(), SelectedImagesAdapter.SetOnSelectedMain
         toolbar_title.text = getString(R.string.item_details)
         setViewClickListeners()
         setImagesAdapter()
-        storePath()
+    //    storePath()
 
 
     }
@@ -268,12 +268,13 @@ class AddPhotoActivity : BaseActivity(), SelectedImagesAdapter.SetOnSelectedMain
                         path.forEach {
                             try {
                                 val uri: Uri = it
-                                val path: String? = getRealPathFromURI(it)
-                                val base64 = path?.let { it1 -> HelpFunctions.encodeImage(it1) }
-                                base64?.let {
-                                    it
-                                    selectedImagesURI.add(ImageSelectModel(uri, it))
-                                }
+                                selectedImagesURI.add(ImageSelectModel(uri,""))
+                              //  val path: String? = getRealPathFromURI(it)
+                             //   val base64 = path?.let { it1 -> HelpFunctions.encodeImage(it1) }
+//                                base64?.let {
+//                                    it
+//                                    selectedImagesURI.add(ImageSelectModel(uri, it))
+//                                }
 
                             } catch (e: Exception) {
                             }
@@ -309,57 +310,62 @@ class AddPhotoActivity : BaseActivity(), SelectedImagesAdapter.SetOnSelectedMain
         })
     }
 
-    private fun storePath() {
-        Extension.clearPath()
-        for (i in 0 until AddProductObjectData.subCategoryPath.size) {
-            if (i == 0) {
-                AddProductObjectData.subcatone = AddProductObjectData.subCategoryPath[i]
-                AddProductObjectData.subcatonekey =
-                    AddProductObjectData.subCategoryPath[i] + "-${culture()}"
-            }
-            if (i == 1) {
-                AddProductObjectData.subcattwo = AddProductObjectData.subCategoryPath[i]
-                AddProductObjectData.subcattwokey =
-                    AddProductObjectData.subCategoryPath[i] + "-${culture()}"
-            }
-            if (i == 2) {
-                AddProductObjectData.subcatthree = AddProductObjectData.subCategoryPath[i]
-                AddProductObjectData.subcatthreekey =
-                    AddProductObjectData.subCategoryPath[i] + "-${culture()}"
-            }
-            if (i == 3) {
-                AddProductObjectData.subcatfour = AddProductObjectData.subCategoryPath[i]
-                AddProductObjectData.subcatfourkey =
-                    AddProductObjectData.subCategoryPath[i] + "-${culture()}"
-            }
-            if (i == 4) {
-                AddProductObjectData.subcatfive = AddProductObjectData.subCategoryPath[i]
-                AddProductObjectData.subcatfivekey =
-                    AddProductObjectData.subCategoryPath[i] + "-${culture()}"
-            }
-            if (i == 5) {
-                AddProductObjectData.subcatsix = AddProductObjectData.subCategoryPath[i]
-                AddProductObjectData.subcatsixkey =
-                    AddProductObjectData.subCategoryPath[i] + "-${culture()}"
-            }
+//    private fun storePath() {
+//        Extension.clearPath()
+//        for (i in 0 until AddProductObjectData.subCategoryPath.size) {
+//            if (i == 0) {
+//                AddProductObjectData.subcatone = AddProductObjectData.subCategoryPath[i]
+//                AddProductObjectData.subcatonekey =
+//                    AddProductObjectData.subCategoryPath[i] + "-${culture()}"
+//            }
+//            if (i == 1) {
+//                AddProductObjectData.subcattwo = AddProductObjectData.subCategoryPath[i]
+//                AddProductObjectData.subcattwokey =
+//                    AddProductObjectData.subCategoryPath[i] + "-${culture()}"
+//            }
+//            if (i == 2) {
+//                AddProductObjectData.subcatthree = AddProductObjectData.subCategoryPath[i]
+//                AddProductObjectData.subcatthreekey =
+//                    AddProductObjectData.subCategoryPath[i] + "-${culture()}"
+//            }
+//            if (i == 3) {
+//                AddProductObjectData.subcatfour = AddProductObjectData.subCategoryPath[i]
+//                AddProductObjectData.subcatfourkey =
+//                    AddProductObjectData.subCategoryPath[i] + "-${culture()}"
+//            }
+//            if (i == 4) {
+//                AddProductObjectData.subcatfive = AddProductObjectData.subCategoryPath[i]
+//                AddProductObjectData.subcatfivekey =
+//                    AddProductObjectData.subCategoryPath[i] + "-${culture()}"
+//            }
+//            if (i == 5) {
+//                AddProductObjectData.subcatsix = AddProductObjectData.subCategoryPath[i]
+//                AddProductObjectData.subcatsixkey =
+//                    AddProductObjectData.subCategoryPath[i] + "-${culture()}"
+//            }
+//
+//        }
+//    }
 
+
+    override fun onSelectedMainImage(position: Int) {
+        for(item in selectedImagesURI){
+            item.is_main = false
         }
-    }
-
-
-    override fun onSelectedMainImage(position: Int, isChecked: Boolean) {
-        if (isChecked) {
-            selectedImagesURI.forEach {
-                it.is_main = false
-            }
-            selectedImagesURI[position].is_main = isChecked
-
-            selectedImagesAdapter.notifyDataSetChanged()
-        } else {
-            selectedImagesURI.forEach {
-                it.is_main = false
-            }
-        }
+        selectedImagesURI[position].is_main=true
+        selectedImagesAdapter.notifyDataSetChanged()
+//        if (isChecked) {
+//            selectedImagesURI.forEach {
+//                it.is_main = false
+//            }
+//            selectedImagesURI[position].is_main = isChecked
+//
+//            selectedImagesAdapter.notifyDataSetChanged()
+//        } else {
+//            selectedImagesURI.forEach {
+//                it.is_main = false
+//            }
+//        }
     }
 
 

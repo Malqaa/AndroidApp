@@ -3,15 +3,13 @@ package com.malka.androidappp.newPhase.presentation.addProduct.activity1
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.CompoundButton
-import android.widget.RadioGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
 import com.malka.androidappp.databinding.ItemSuggestedCategoriesBinding
-import com.malka.androidappp.newPhase.domain.models.productTags.Tags
+import com.malka.androidappp.newPhase.domain.models.servicemodels.model.Category
 
 
-class ProductTagsAdapter(var data:List<SearchTagItem>,var setOnSelectedListeners:SetOnSelectedListeners) :RecyclerView.Adapter<ProductTagsAdapter.ProductTagsViewHolder>() {
+class ProductTagsAdapter(var data: ArrayList<Category>, var setOnSelectedListeners:SetOnSelectedListeners) :RecyclerView.Adapter<ProductTagsAdapter.ProductTagsViewHolder>() {
     lateinit var context:Context
 
     class ProductTagsViewHolder(var viewBinding:ItemSuggestedCategoriesBinding)  : RecyclerView.ViewHolder(viewBinding.root)
@@ -28,7 +26,7 @@ class ProductTagsAdapter(var data:List<SearchTagItem>,var setOnSelectedListeners
 
     override fun onBindViewHolder(holder: ProductTagsViewHolder, position: Int) {
       val currentPosition=position
-        holder.viewBinding.categoryNameTv.text=data[position].title ?:""
+        holder.viewBinding.categoryNameTv.text=data[position].category ?:""
         holder.viewBinding.ivCheck.setOnClickListener {
             setOnSelectedListeners.onSelectTagItem(
                                 currentPosition)

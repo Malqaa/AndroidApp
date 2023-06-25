@@ -50,8 +50,8 @@ class ProductHorizontalAdapter(
             holder.viewBinding.fullview.layoutParams = params
         }
 
-        if (productList[position].isFreeDeleivry) {
-            holder.viewBinding.btnFreeDelivery.show()
+        if (productList[position].isFreeDelivery) {
+                holder.viewBinding.btnFreeDelivery.show()
         } else {
             holder.viewBinding.btnFreeDelivery.hide()
         }

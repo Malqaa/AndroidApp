@@ -28,6 +28,7 @@ import com.malka.androidappp.newPhase.domain.models.addWaletTransactionResp.AddW
 import com.malka.androidappp.newPhase.domain.models.bussinessAccountsListResp.BusinessAccountsListResp
 import com.malka.androidappp.newPhase.domain.models.bussinessAccountsListResp.ChangeBussinesAccountResp
 import com.malka.androidappp.newPhase.domain.models.cartListResp.CartListResp
+import com.malka.androidappp.newPhase.domain.models.cartPriceSummery.CartPriceSummeryResp
 import com.malka.androidappp.newPhase.domain.models.categoryFollowResp.CategoryFollowResp
 import com.malka.androidappp.newPhase.domain.models.categoryResp.CategoriesResp
 import com.malka.androidappp.newPhase.domain.models.configrationResp.ConfigurationResp
@@ -964,6 +965,19 @@ interface MalqaApiService {
 
     @GET("ListSimilarProducts?currentPage=1&lang=ar")
     fun getsimilar(): Call<BasicResponse>
+
+    @POST("AddBid")
+    fun addBid(@Body body: HashMap<String, Any>): Call<GeneralResponse>
+
+    @GET("CheckOutAdditionalPakat")
+    fun checkOutAdditionalPakat(
+        @Query("pakatId") pakatId: Int,
+        @Query("categoryId") categoryId: Int,
+        @Query("extraProductImageFee") extraProductImageFee: Float,
+        @Query("extraProductVidoeFee") extraProductVidoeFee: Float,
+        @Query("subTitleFee") subTitleFee: Float,
+        @Query("lang") language: String = ConstantObjects.currentLanguage
+    ): Call<CartPriceSummeryResp>
 
 
 }

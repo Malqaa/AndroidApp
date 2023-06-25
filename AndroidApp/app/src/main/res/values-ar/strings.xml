@@ -660,9 +660,7 @@
     <string name="positivefeedback">
     ردود الفعل الإيجابية
   </string>
-    <string name="Price">
-    السعر
-  </string>
+    <string name="Price">السعر</string>
     <string name="Print">
     طباعة
   </string>
@@ -1979,9 +1977,7 @@
     رمز
   </string>
 
-    <string name="Fieldcantbeempty">
-    لا يمكن أن يكون الحقل فارغًا
-  </string>
+    <string name="Fieldcantbeempty">لا يمكن أن يكون الحقل فارغًا</string>
 
     <string name="Create">
     خلق
@@ -2566,6 +2562,7 @@
     <string name="visa_mastercard">فيزا/ماستر كارد</string>
     <string name="sale_details">تفاصيل البيع</string>
     <string name="choose_one_of_our_special_packages">أختر باقة من باقاتنا المميزة</string>
+  <string name="ExtraFee">رسوم اضافية</string>
     <string name="silver_package">الباقة الفضية</string>
     <string name="and_get_many_advantages_of_displaying_your_product">واحصل على مزايا عديدة لعرض منتجك</string>
     <string name="distinguish_your_product">ميز منتجك</string>
@@ -2911,4 +2908,23 @@
   <string name="checkYourDataForamt">تحقق من البيانات الخاصة بك </string>
   <string name="cashPayment">دفع نقدي</string>
   <string name="selectBackAccount">حدد حسابك المصرفي</string>
+  <string name="freeProductImagesCount">عدد صور للمنتج المجانية</string>
+  <string name="freeProductVidoesCount">عدد مقاطع الفيديو للمنتج المجانية</string>
+  <string name="extraProductImageFee">رسوم صورة المنتج الإضافية</string>
+  <string name="extraProductVidoeFee">رسوم فيديو المنتج الإضافية</string>
+  <string name="extraProductImageCount">عدد صورة المنتج الإضافية</string>
+  <string name="extraProductVidoeCount">عدد فيديو المنتج الإضافية</string>
+  <string name="subTitleFee">رسوم العنوان الفرعي</string>
+  <string name="day">يوم</string>
+  <string name="week">أسبوع</string>
+  <string name="month">شهر</string>
+  <string name="increaseForEachTime">الزياده لكل مره</string>
+  <string name="writeIncreaseForEachTime">اكتب الزياده لكل مره</string>
+  <string name="highestBidPrice">أعلى سعر للمزايده</string>
+  <string name="writeHighestBidPrice">اكتب أعلى سعر للمزايده</string>
+  <string name="fixedPriceFee">رسوم السعر الثابت</string>
+  <string name="auctionFee">رسوم المزاد</string>
+  <string name="negotiationFee">رسوم التفاوض</string>
+  <string name="enterBidPrice">أدخل سعر المزايده</string>
+  <string name="enterCorrectBidPrice">أدخل سعر المزايده الصحيح</string>
 </resources>

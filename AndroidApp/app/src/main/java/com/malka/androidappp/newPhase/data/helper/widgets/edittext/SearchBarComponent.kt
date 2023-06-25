@@ -99,7 +99,7 @@ class SearchBarComponent : LinearLayout {
 
                         spannable.setSpan(
                             ForegroundColorSpan(ContextCompat.getColor(context, R.color.colorPrimary)),
-                            result.indexOf(category),
+                            result.indexOf(category?:""),
                             result.length,
                             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
                         )

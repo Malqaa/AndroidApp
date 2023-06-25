@@ -322,6 +322,65 @@ class HelpFunctions {
             }
         }
 
+        fun getAuctionClosingTime(dataStr:String):String{
+            // 23/06/20236:55 PM
+            try {
+//        String outputPattern = "EEEE MMMM d, yyyy";
+                val outputPattern = "yyyy-MM-dd'T'HH:mm:ss"
+                val outputFormat = SimpleDateFormat(outputPattern, Locale.getDefault())
+                val tz = TimeZone.getTimeZone("UTC")
+                outputFormat.timeZone=tz
+               //
+//            val tz = TimeZone.getTimeZone("Africa/Cairo")
+                //  SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy",Locale.getDefault());
+                val df: SimpleDateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm aa", Locale.ENGLISH);
+                //  val df = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.ENGLISH)
+               // df.timeZone = tz
+                val date: Date
+                val str: String
+                try {
+                    date = df.parse(dataStr)
+                    str = outputFormat.format(date)
+                } catch (e: ParseException) {
+                    println("hhhh "+e.message)
+                    return ""
+                }
+                return str
+            } catch (e: Exception) {
+                println("hhhh "+e.message)
+                return ""
+            }
+        }
+        fun getAuctionClosingTime2(dataStr:String):String{
+            // 23/06/20236:55 PM
+            try {
+//        String outputPattern = "EEEE MMMM d, yyyy";
+                val outputPattern = "yyyy-MM-dd'T'HH:mm:ss"
+                val outputFormat = SimpleDateFormat(outputPattern, Locale.getDefault())
+                val tz = TimeZone.getTimeZone("UTC")
+                outputFormat.timeZone=tz
+                //
+//            val tz = TimeZone.getTimeZone("Africa/Cairo")
+                //  SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy",Locale.getDefault());
+                val df: SimpleDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+                //  val df = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.ENGLISH)
+                // df.timeZone = tz
+                val date: Date
+                val str: String
+                try {
+                    date = df.parse(dataStr)
+                    str = outputFormat.format(date)
+                } catch (e: ParseException) {
+                    println("hhhh "+e.message)
+                    return ""
+                }
+                return str
+            } catch (e: Exception) {
+                println("hhhh "+e.message)
+                return ""
+            }
+        }
+
         fun AdAlreadyAddedToWatchList(adreferenceId: String?): Boolean1 {
             var RetVal = false
             adreferenceId?.let {

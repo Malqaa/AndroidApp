@@ -6,18 +6,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseActivity
-import com.malka.androidappp.newPhase.data.helper.HelpFunctions
-import com.malka.androidappp.newPhase.presentation.addProduct.AddProductObjectData
-import com.malka.androidappp.newPhase.data.helper.hide
-import com.malka.androidappp.newPhase.data.helper.linearLayoutManager
-import com.malka.androidappp.newPhase.data.helper.show
+import com.malka.androidappp.newPhase.data.helper.*
 import com.malka.androidappp.newPhase.domain.models.pakatResp.PakatDetails
-import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.domain.models.servicemodels.PromotionModel
+import com.malka.androidappp.newPhase.presentation.addProduct.AddProductObjectData
 import com.malka.androidappp.newPhase.presentation.addProduct.ConfirmationAddProductActivity
 import com.malka.androidappp.newPhase.presentation.addProduct.viewmodel.AddProductViewModel
 import kotlinx.android.synthetic.main.activity_promotional.*
-import kotlinx.android.synthetic.main.activity_promotional.progressBar
 import kotlinx.android.synthetic.main.toolbar_main.*
 
 
@@ -44,6 +39,7 @@ class PromotionalActivity : BaseActivity(), PakatAdapter.SetOnPakatSelected {
         setContentView(R.layout.activity_promotional)
         toolbar_title.text = getString(R.string.distinguish_your_product)
         isEdit = intent.getBooleanExtra(ConstantObjects.isEditKey, false)
+
         setClickViewListenrs()
         setPromotionalAdaptor2()
         setUpViewModel()
@@ -58,8 +54,52 @@ class PromotionalActivity : BaseActivity(), PakatAdapter.SetOnPakatSelected {
 //            }
 //
 //        }
-
+        setFreePakageData()
         addProductViewModel.getPakatList(AddProductObjectData.selectedCategoryId)
+    }
+
+    private fun setFreePakageData() {
+        containerExtraProductImageCount.hide()
+        containerExtraProductVideoCount.hide()
+        containerExtraPakage.hide()
+        AddProductObjectData.selectedCategory?.let { selectedCategory ->
+//            btnFreeProductImagesCount.text = it.freeProductImagesCount.toString()
+//            btnFreeProductVidoesCount.text = it.freeProductVidoesCount.toString()
+//            btnExtraProductVideoFee.text = "${it.extraProductVidoeFee} ${getString(R.string.Rayal)}"
+//            btnExtraProductImageFee.text = "${it.extraProductImageFee} ${getString(R.string.Rayal)}"
+//            btnSubTitleFeeFee.text = "${it.subTitleFee} ${getString(R.string.Rayal)}
+            var extraImages = 0
+            if (AddProductObjectData.images.size > selectedCategory.freeProductImagesCount) {
+                extraImages =
+                    AddProductObjectData.images.size - selectedCategory.freeProductImagesCount
+                btnExtraProductImageCount.text = extraImages.toString()
+                containerExtraProductImageCount.show()
+            } else {
+                containerExtraProductImageCount.hide()
+            }
+            var extraVideos = 0
+            AddProductObjectData.videoList?.let {
+                if (it.size > selectedCategory.freeProductVidoesCount) {
+                    extraVideos = it.size - selectedCategory.freeProductVidoesCount
+                    btnExtraProductVideoCount.text = extraVideos.toString()
+                    containerExtraProductVideoCount.show()
+                } else {
+                    containerExtraProductVideoCount.hide()
+                }
+            }
+
+
+            if (extraVideos != 0 || extraImages != 0) {
+                containerExtraPakage.show()
+                val totalFee =
+                    (selectedCategory.extraProductVidoeFee * extraVideos) + (selectedCategory.extraProductImageFee * extraImages)
+                tvFreePakagePrice.text = "${totalFee} ${getString(R.string.Rayal)}"
+            } else {
+                containerExtraPakage.hide()
+
+            }
+
+        }
     }
 
     private fun setUpViewModel() {
@@ -113,7 +153,7 @@ class PromotionalActivity : BaseActivity(), PakatAdapter.SetOnPakatSelected {
                     }
                     pakatAdapter.notifyDataSetChanged()
                 } else {
-                    goNextActivity()
+                   // goNextActivity()
                     HelpFunctions.ShowLongToast(
                         getString(R.string.noPackagesFound),
                         this
@@ -143,6 +183,7 @@ class PromotionalActivity : BaseActivity(), PakatAdapter.SetOnPakatSelected {
         pakatList[position].isSelected = true
         pakatAdapter.notifyDataSetChanged()
         AddProductObjectData.selectedPakat = pakatList[position]
+        println("hhhh "+pakatList[position].id)
     }
 
     private fun setClickViewListenrs() {

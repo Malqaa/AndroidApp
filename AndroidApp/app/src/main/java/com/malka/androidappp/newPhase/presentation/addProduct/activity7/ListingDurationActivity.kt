@@ -7,22 +7,24 @@ import android.widget.Filter
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseActivity
-import com.malka.androidappp.newPhase.presentation.addProduct.AddProductObjectData
+import com.malka.androidappp.newPhase.data.helper.ConstantObjects
+import com.malka.androidappp.newPhase.data.helper.HelpFunctions
+import com.malka.androidappp.newPhase.data.helper.hide
+import com.malka.androidappp.newPhase.data.helper.show
 import com.malka.androidappp.newPhase.data.helper.widgets.DatePickerFragment
 import com.malka.androidappp.newPhase.data.helper.widgets.TimePickerFragment
 import com.malka.androidappp.newPhase.data.helper.widgets.rcv.GenericListAdapter
-import com.malka.androidappp.newPhase.data.helper.ConstantObjects
-import com.malka.androidappp.newPhase.data.helper.hide
-import com.malka.androidappp.newPhase.data.helper.show
 import com.malka.androidappp.newPhase.domain.models.servicemodels.Selection
-import com.malka.androidappp.newPhase.domain.models.servicemodels.TimeSelection
+import com.malka.androidappp.newPhase.domain.models.servicemodels.TimeAuctionSelection
+import com.malka.androidappp.newPhase.presentation.addProduct.AddProductObjectData
 import com.malka.androidappp.newPhase.presentation.addProduct.ConfirmationAddProductActivity
 import com.malka.androidappp.newPhase.presentation.addProduct.activity8.PromotionalActivity
 import kotlinx.android.synthetic.main.activity_listing_duration.*
-import kotlinx.android.synthetic.main.activity_listing_duration.switchPickUp
 import kotlinx.android.synthetic.main.activity_listing_duration.Tender_pickUp_tv
+import kotlinx.android.synthetic.main.activity_listing_duration.switchPickUp
 import kotlinx.android.synthetic.main.activity_pricing_payment.*
 import kotlinx.android.synthetic.main.selection_item.view.*
 import kotlinx.android.synthetic.main.shipping_option.view.*
@@ -33,12 +35,12 @@ import java.util.*
 
 
 class ListingDurationActivity : BaseActivity() {
-    var fixlenghtselected: TimeSelection? = null
+    var fixlenghtselected: TimeAuctionSelection? = null
     var selectdate = ""
     var selectTime = ""
     var fm: FragmentManager? = null
     var isEdit: Boolean = false
-    val allWeeks: ArrayList<TimeSelection> = ArrayList()
+    val allWeeks: ArrayList<TimeAuctionSelection> = ArrayList()
     val shippingOptionList: ArrayList<Selection> = ArrayList()
 
 
@@ -49,32 +51,79 @@ class ListingDurationActivity : BaseActivity() {
         toolbar_title.text = getString(R.string.shipping_options)
         isEdit = intent.getBooleanExtra(ConstantObjects.isEditKey, false)
         setVieClickListeners()
-        if(AddProductObjectData.auctionOption){
+        if (AddProductObjectData.auctionOption) {
             contianerClosingOption.show()
-        }else{
+        } else {
             contianerClosingOption.hide()
         }
 
         /**set time for normal clossing*/
         val c = Calendar.getInstance()
-        val day = c.get(Calendar.DAY_OF_MONTH)
+        val currentDay = c.get(Calendar.DAY_OF_MONTH)
         // Variables to get weeks from the current date
-        val currentDate = SimpleDateFormat("MM/dd/yyyy")
-        val todayDate = Date()
-        val thisDate = currentDate.format(todayDate)
+//        val currentDate = SimpleDateFormat("MM/dd/yyyy")
+//        val todayDate = Date()
+//        val thisDate = currentDate.format(todayDate)
+//        val week1 = addDay(day.toString(), 7)
+//        val week2 = addDay(day.toString(), 14)
+//        val week3 = addDay(day.toString(), 21)
+//        val week4 = addDay(day.toString(), 28)
+        try {
+            AddProductObjectData.selectedCategory?.let {
+                var characterList = it.auctionClosingPeriods?.toCharArray()
+                if (characterList != null) {
+                    for (c in characterList) {
+                        if (c != ',') {
+                            var cNumer: Int = 1
+                            try {
+                                cNumer = c.toString().toInt()
+                            } catch (e: java.lang.Exception) {
 
-        val week1 = addDay(day.toString(), 7)
-        val week2 = addDay(day.toString(), 14)
-        val week3 = addDay(day.toString(), 21)
-        val week4 = addDay(day.toString(), 28)
-        allWeeks.apply {
-            add(TimeSelection("1 week", week1))
-            add(TimeSelection("2 week", week2))
-            add(TimeSelection("3 week", week3))
-            add(TimeSelection("4 week", week4))
+                            }
+
+                            when (it.auctionClosingPeriodsUnit) {
+                                ConstantObjects.auctionClosingPeriodsUnit_day -> {
+                                    var date = addDay(currentDay.toString(), cNumer)
+                                    allWeeks.add(
+                                        TimeAuctionSelection(
+                                            c.toString(),
+                                            date,
+                                            HelpFunctions.getAuctionClosingTime2(date),
+                                            it.auctionClosingPeriodsUnit
+                                        )
+                                    )
+                                }
+                                ConstantObjects.auctionClosingPeriodsUnit_month -> {
+                                    var date = addMonth(currentDay.toString(), cNumer)
+                                    allWeeks.add(
+                                        TimeAuctionSelection(
+                                            c.toString(),
+                                            date,
+                                            HelpFunctions.getAuctionClosingTime2(date),
+                                            it.auctionClosingPeriodsUnit
+                                        )
+                                    )
+                                }
+                                else -> {
+                                    var date = addDay(currentDay.toString(), cNumer * 7)
+                                    allWeeks.add(
+                                        TimeAuctionSelection(
+                                            c.toString(),
+                                            date,
+                                            HelpFunctions.getAuctionClosingTime2(date),
+                                            it.auctionClosingPeriodsUnit
+                                        )
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            fixLenghtAdaptor(allWeeks)
+        } catch (e: Exception) {
         }
 
-        fixLenghtAdaptor(allWeeks)
 
         /**shipping data */
         shippingOptionList.apply {
@@ -83,10 +132,15 @@ class ListingDurationActivity : BaseActivity() {
 //            add(Selection("To be Arranged" ))
 //            add(Selection("Specify Shipping Cost" ))
         }
-
+        /**adding price off custom clossing fee*/
+        AddProductObjectData.selectedCategory?.let {
+            tvPriceCustomClosingAuctionOption2.text =
+                "${it.auctionClosingTimeFee} ${getString(R.string.Rayal)}"
+        }
+        /****/
         if (isEdit) {
             setData()
-        }else{
+        } else {
             shippingOptionAdaptor(shippingOptionList, shipping_option)
         }
     }
@@ -99,14 +153,29 @@ class ListingDurationActivity : BaseActivity() {
         }else{
             switchPickUp.setBackgroundResource(R.drawable.edittext_bg)
             Tender_pickUp_tv.setTextColor(ContextCompat.getColor(this, R.color.text_color))
-            pickup_rb.isChecked =false
+            pickup_rb.isChecked = false
         }
-        shippingOptionList.forEach {item->
-            if(item.name==AddProductObjectData.shippingOptionSelection?.name){
-                item.isSelected=true
+        shippingOptionList.forEach { item ->
+            if (item.name == AddProductObjectData.shippingOptionSelection?.name) {
+                item.isSelected = true
             }
         }
         shippingOptionAdaptor(shippingOptionList, shipping_option)
+        AddProductObjectData.selectTimeAuction?.let {
+            if (it.customOption) {
+                closingAuctionOption2.performClick()
+                tvClosingAuctionCustomDataOption2.text = it.text
+            } else {
+                closingAuctionOption1.performClick()
+                for (item in allWeeks) {
+                    if (item.text == it.text) {
+                        item.isSelect = true
+                        break
+                    }
+                }
+                fixLenghtAdaptor(allWeeks)
+            }
+        }
     }
 
     private fun setVieClickListeners() {
@@ -141,27 +210,26 @@ class ListingDurationActivity : BaseActivity() {
                 it.isSelect = false
             }
             fixLenghtAdaptor(allWeeks)
-            tvClosingAuctionCustomDataOption2.text = "$selectdate - $selectTime"
+            //tvClosingAuctionCustomDataOption2.text = "$selectdate - $selectTime"
 
 
         }
         tvClosingAuctionCustomDataOption2.setOnClickListener {
             fm = supportFragmentManager
-            val dateDialog = DatePickerFragment(false, true) { selectdate_ ->
-                val timeDialog = TimePickerFragment { selectTime_ ->
+            var dateDialog = DatePickerFragment(false, true) { selectdate_ ->
+                tvClosingAuctionCustomDataOption2.text = ""
+                selectdate = selectdate_
+                var timeDialog = TimePickerFragment { selectTime_ ->
                     selectTime = selectTime_
                     btnRadioClosingAuctionOption2.isChecked = true
+                    tvClosingAuctionCustomDataOption2.text = selectdate + "-" + selectTime
+                    println("hhhh " + HelpFunctions.getAuctionClosingTime("$selectdate_ $selectTime$"))
+
                 }
                 timeDialog.show(fm!!, "")
-                selectdate = selectdate_
             }
             dateDialog.show(fm!!, "")
         }
-
-        btn_listduration.setOnClickListener {
-            confirmListDuration2()
-        }
-
         back_btn.setOnClickListener {
             onBackPressed()
         }
@@ -176,6 +244,116 @@ class ListingDurationActivity : BaseActivity() {
 
             }
         }
+        btn_listduration.setOnClickListener {
+            confirmListDuration2()
+        }
+    }
+
+    @SuppressLint("ResourceType")
+    private fun fixLenghtAdaptor(list: ArrayList<TimeAuctionSelection>) {
+        println("hhh " + Gson().toJson(list))
+        rvClosingTimeListOption1.adapter =
+            object : GenericListAdapter<TimeAuctionSelection>(
+                R.layout.selection_item,
+                bind = { element, holder, itemCount, position ->
+                    holder.view.run {
+                        element.run {
+                            val unit: String = when (unitType) {
+                                ConstantObjects.auctionClosingPeriodsUnit_day -> {
+                                    getString(R.string.day)
+                                }
+                                ConstantObjects.auctionClosingPeriodsUnit_month -> {
+                                    getString(R.string.month)
+                                }
+                                else -> {
+                                    getString(R.string.week)
+                                }
+                            }
+                            selection_tv.text = "$text $unit"
+                            if (isSelect) {
+                                selection_tv.isSelected = true
+                            } else {
+                                selection_tv.isSelected = false
+                            }
+                            setOnClickListener {
+                                list.forEachIndexed { index, addBankDetail ->
+                                    addBankDetail.isSelect = index == position
+                                }
+                                rvClosingTimeListOption1.post {
+                                    rvClosingTimeListOption1.adapter!!.notifyDataSetChanged()
+                                }
+                                fixlenghtselected = element
+                                btnRadioClosingAuctionOption1.isChecked = true
+                            }
+                        }
+                    }
+                }
+            ) {
+                override fun getFilter(): Filter {
+                    TODO("Not yet implemented")
+                }
+
+            }.apply {
+                submitList(
+                    list
+                )
+            }
+    }
+
+    fun confirmListDuration2() {
+        if (!ValidateRadiobtmchecked()) {
+            return
+        } else if (AddProductObjectData.auctionOption && !validateListDuration()) {
+            return
+        } else {
+            goNextActivity()
+
+        }
+
+    }
+
+    private fun ValidateRadiobtmchecked(): Boolean {
+        shippingOptionList.filter {
+            it.isSelected == true
+        }.isEmpty().let {
+            if (it) {
+                showError(getString(R.string.Please_select, getString(R.string.shipping_options)))
+                return false
+            } else {
+                return true
+            }
+        }
+    }
+
+    private fun validateListDuration(): Boolean {
+        return if (btnRadioClosingAuctionOption1.isChecked) {
+            if (fixlenghtselected == null) {
+                showError(getString(R.string.Please_select, getString(R.string.close_time)))
+                return false
+            } else {
+                AddProductObjectData.selectTimeAuction = fixlenghtselected
+                return true
+            }
+        } else if (btnRadioClosingAuctionOption2.isChecked) {
+            if (tvClosingAuctionCustomDataOption2.text.toString().isEmpty()) {
+
+                showError(getString(R.string.Please_select, getString(R.string.close_time)))
+                return false
+            } else {
+                AddProductObjectData.selectTimeAuction = TimeAuctionSelection(
+                    tvClosingAuctionCustomDataOption2.text.toString(),
+                    tvClosingAuctionCustomDataOption2.text.toString(),
+                    HelpFunctions.getAuctionClosingTime(tvClosingAuctionCustomDataOption2.text.toString()),
+                    0,
+                    customOption = true
+                )
+                return true
+            }
+
+        } else {
+            false
+        }
+
     }
 
     override fun onBackPressed() {
@@ -189,107 +367,6 @@ class ListingDurationActivity : BaseActivity() {
         }
 
     }
-
-    /*****************/
-
-    private fun validateListDuration(): Boolean {
-
-
-        return if (btnRadioClosingAuctionOption1.isChecked) {
-            if (fixlenghtselected == null) {
-                showError(getString(R.string.Please_select, getString(R.string.close_time)))
-                return false
-            } else {
-                return true
-            }
-        } else if (btnRadioClosingAuctionOption2.isChecked) {
-
-            if (tvClosingAuctionCustomDataOption2.text.toString().isEmpty()) {
-                showError(getString(R.string.Please_select, getString(R.string.close_time)))
-                return false
-            } else {
-                return true
-            }
-
-        } else {
-            false
-        }
-
-    }
-
-    private fun ValidateRadiobtmchecked(): Boolean {
-
-
-        shippingOptionList.filter {
-            it.isSelected == true
-        }.isEmpty().let {
-            if (it) {
-                showError(getString(R.string.Please_select, getString(R.string.shipping_options)))
-                return false
-            } else {
-                return true
-            }
-        }
-    }
-
-    fun confirmListDuration2() {
-        if (!ValidateRadiobtmchecked()) {
-            return
-        } else {
-            goNextActivity()
-
-        }
-
-    }
-
-    private fun goNextActivity() {
-        saveShippingOption()
-        AddProductObjectData.pickUpOption = pickup_rb.isChecked
-        if (isEdit) {
-            startActivity(Intent(this, ConfirmationAddProductActivity::class.java).apply {
-                finish()
-            })
-        } else {
-            startActivity(Intent(this, PromotionalActivity::class.java).apply {
-            })
-
-        }
-    }
-
-    fun confirmListDuration() {
-        if (!validateListDuration() or !ValidateRadiobtmchecked()) {
-            return
-        } else {
-            if (btnRadioClosingAuctionOption1.isChecked) {
-                AddProductObjectData.fixLength = "fixed_length"
-                val sdf = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
-                AddProductObjectData.timepicker = sdf.format(Date())
-                AddProductObjectData.duration = fixlenghtselected!!.text
-                AddProductObjectData.endtime =
-                    fixlenghtselected!!.endTime + " " + sdf.format(Date())
-                AddProductObjectData.fixlenghtselected = fixlenghtselected
-
-            } else if (btnRadioClosingAuctionOption2.isChecked) {
-                AddProductObjectData.fixLength = "end_time"
-                AddProductObjectData.timepicker = selectTime
-                AddProductObjectData.duration = ""
-                AddProductObjectData.endtime = selectdate + " " + selectTime
-            }
-            saveSelectedcheckbox()
-            saveShippingOption()
-            if (isEdit) {
-                startActivity(Intent(this, ConfirmationAddProductActivity::class.java).apply {
-                    finish()
-                })
-            } else {
-                startActivity(Intent(this, PromotionalActivity::class.java).apply {
-                })
-
-            }
-        }
-
-    }
-
     fun addDay(oldDate: String?, numberOfDays: Int): String {
         var dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
         val c = Calendar.getInstance()
@@ -303,47 +380,21 @@ class ListingDurationActivity : BaseActivity() {
         val newDate = Date(c.timeInMillis)
         return dateFormat.format(newDate)
     }
-    @SuppressLint("ResourceType")
-    private fun fixLenghtAdaptor(list: ArrayList<TimeSelection>) {
-        rvClosingTimeListOption1.adapter =
-        object : GenericListAdapter<TimeSelection>(
-            R.layout.selection_item,
-            bind = { element, holder, itemCount, position ->
-                holder.view.run {
-                    element.run {
 
-                        selection_tv.text = text
-                        if (isSelect) {
-                            selection_tv.setSelected(true)
-                        } else {
-                            selection_tv.setSelected(false)
-                        }
-                        setOnClickListener {
-                            list.forEachIndexed { index, addBankDetail ->
-                                addBankDetail.isSelect = index == position
-                            }
-                            rvClosingTimeListOption1.post {
-                                rvClosingTimeListOption1.adapter!!.notifyDataSetChanged()
-                            }
-                            fixlenghtselected = element
-                            btnRadioClosingAuctionOption1.isChecked = true
-                        }
-
-
-                    }
-                }
-            }
-        ) {
-            override fun getFilter(): Filter {
-                TODO("Not yet implemented")
-            }
-
-        }.apply {
-            submitList(
-                list
-            )
+    fun addMonth(oldDate: String?, numberOfDays: Int): String {
+        var dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
+        val c = Calendar.getInstance()
+        try {
+            c.time = dateFormat.parse(oldDate)
+        } catch (e: ParseException) {
+            e.printStackTrace()
         }
+        c.add(Calendar.MONTH, numberOfDays)
+        dateFormat = SimpleDateFormat("dd/MM/yyyy")
+        val newDate = Date(c.timeInMillis)
+        return dateFormat.format(newDate)
     }
+
 
     var selection: Selection? = null
 
@@ -385,18 +436,6 @@ class ListingDurationActivity : BaseActivity() {
         }
     }
 
-
-    fun saveSelectedcheckbox() {
-
-        val list = allWeeks.filter {
-            it.isSelect == true
-
-        }
-        list.forEach {
-            AddProductObjectData.weekSelection = it
-        }
-    }
-
     fun saveShippingOption() {
 
         val list = shippingOptionList.filter {
@@ -405,8 +444,71 @@ class ListingDurationActivity : BaseActivity() {
         list.forEach {
             AddProductObjectData.shippingOptionSelection = it
         }
-
     }
+
+    private fun goNextActivity() {
+        saveShippingOption()
+        AddProductObjectData.pickUpOption = pickup_rb.isChecked
+        if (isEdit) {
+            startActivity(Intent(this, ConfirmationAddProductActivity::class.java).apply {
+                finish()
+            })
+        } else {
+            startActivity(Intent(this, PromotionalActivity::class.java).apply {
+            })
+
+        }
+    }
+
+    /*****************/
+
+
+//    fun confirmListDuration() {
+//        if (!validateListDuration() or !ValidateRadiobtmchecked()) {
+//            return
+//        } else {
+//            if (btnRadioClosingAuctionOption1.isChecked) {
+//                AddProductObjectData.fixLength = "fixed_length"
+//                val sdf = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
+//                AddProductObjectData.timepicker = sdf.format(Date())
+//                AddProductObjectData.duration = fixlenghtselected!!.text
+//                AddProductObjectData.endtime =
+//                    fixlenghtselected!!.endTime + " " + sdf.format(Date())
+//                AddProductObjectData.fixlenghtselected = fixlenghtselected
+//
+//            } else if (btnRadioClosingAuctionOption2.isChecked) {
+//                AddProductObjectData.fixLength = "end_time"
+//                AddProductObjectData.timepicker = selectTime
+//                AddProductObjectData.duration = ""
+//                AddProductObjectData.endtime = selectdate + " " + selectTime
+//            }
+//            saveSelectedcheckbox()
+//            saveShippingOption()
+//            if (isEdit) {
+//                startActivity(Intent(this, ConfirmationAddProductActivity::class.java).apply {
+//                    finish()
+//                })
+//            } else {
+//                startActivity(Intent(this, PromotionalActivity::class.java).apply {
+//                })
+//
+//            }
+//        }
+//
+//    }
+
+
+//    fun saveSelectedcheckbox() {
+//
+//        val list = allWeeks.filter {
+//            it.isSelect == true
+//
+//        }
+//        list.forEach {
+//            AddProductObjectData.weekSelection = it
+//        }
+//    }
+
 
 }
 

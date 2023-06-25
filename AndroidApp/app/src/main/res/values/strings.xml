@@ -139,9 +139,7 @@
     Required fields are shown with a star
   </string>
 
-    <string name="Fieldcantbeempty">
-    Field can\'t be empty
-  </string>
+    <string name="Fieldcantbeempty">Field can\'t be empty</string>
 
 
     <string name="Acceptedpaymentmethods">
@@ -616,9 +614,7 @@ Invalid Username or Password
     <string name="positivefeedback">
     positive feedback
   </string>
-    <string name="Price">
-    Price
-  </string>
+    <string name="Price">Price</string>
     <string name="Print">
     Print
   </string>
@@ -2718,6 +2714,7 @@ Want to start a business account? Create a Business Account
     <string name="visa_mastercard">Visa/MasterCard</string>
     <string name="sale_details">Sale details</string>
     <string name="choose_one_of_our_special_packages">Choose one of our special packages</string>
+  <string name="ExtraFee">Extra Fee</string>
     <string name="silver_package">Silver Package</string>
     <string name="and_get_many_advantages_of_displaying_your_product">And get many advantages of displaying your product</string>
     <string name="distinguish_your_product">Distinguish your product</string>
@@ -3073,14 +3070,35 @@ Want to start a business account? Create a Business Account
     <string name="passwordUpdatedSuccessfully">Password Updated Successfully</string>
     <string name="emailUpdatedSuccessfully">Email Updated Successfully</string>
     <string name="phoneUpdatedSuccessfully">Phone Updated Successfully</string>
-    <string name="wrongPassword">Wrong Password</string>
-    <string name="passwordReset">password Reset</string>
-    <string name="TypeNewPassword">Type New Password</string>
-    <string name="updateYourEmail">Update Your Email</string>
-    <string name="profileUpdatedSuccessfully">Profile updated successfully</string>
-    <string name="statusShowingYourData">Select status of showing your data</string>
-    <string name="swiftCode">Swift Code</string>
+  <string name="wrongPassword">Wrong Password</string>
+  <string name="passwordReset">password Reset</string>
+  <string name="TypeNewPassword">Type New Password</string>
+  <string name="updateYourEmail">Update Your Email</string>
+  <string name="profileUpdatedSuccessfully">Profile updated successfully</string>
+  <string name="statusShowingYourData">Select status of showing your data</string>
+  <string name="swiftCode">Swift Code</string>
   <string name="checkYourDataForamt">Check Your Data Format</string>
   <string name="cashPayment">Cash Payment</string>
   <string name="selectBackAccount">Select Bank Account</string>
+  <string name="freeProductImagesCount">Free Product Images Count</string>
+  <string name="freeProductVidoesCount">Free Product Videos Count</string>
+  <string name="extraProductImageFee">Extra Product Image Fee</string>
+  <string name="extraProductVidoeFee">Extra Product Video Fee</string>
+  <string name="extraProductImageCount">Extra Product Image Count</string>
+  <string name="extraProductVidoeCount">Extra Product Video Count</string>
+  <string name="subTitleFee">Sub Title Fee</string>
+  <string name="day">Day</string>
+  <string name="week">Week</string>
+  <string name="month">Month</string>
+  <string name="increaseForEachTime">Increase For Each Time</string>
+  <string name="writeIncreaseForEachTime">Write Increase For Each Time</string>
+  <string name="highestBidPrice">Highest Bid Price</string>
+  <string name="writeHighestBidPrice">Write Highest Bid Price</string>
+<string name="fixedPriceFee">Fixed Price Fee</string>
+  <string name="auctionFee">Auction Fee</string>
+  <string name="negotiationFee">Negotiation Fee</string>
+  <string name="enterBidPrice">Enter Bid Price</string>
+  <string name="enterCorrectBidPrice">Enter Correct Bid Price</string>
+
+
 </resources>
