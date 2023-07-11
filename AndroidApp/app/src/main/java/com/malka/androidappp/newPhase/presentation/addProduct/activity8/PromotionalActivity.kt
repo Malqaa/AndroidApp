@@ -69,14 +69,17 @@ class PromotionalActivity : BaseActivity(), PakatAdapter.SetOnPakatSelected {
 //            btnExtraProductImageFee.text = "${it.extraProductImageFee} ${getString(R.string.Rayal)}"
 //            btnSubTitleFeeFee.text = "${it.subTitleFee} ${getString(R.string.Rayal)}
             var extraImages = 0
-            if (AddProductObjectData.images.size > selectedCategory.freeProductImagesCount) {
-                extraImages =
-                    AddProductObjectData.images.size - selectedCategory.freeProductImagesCount
-                btnExtraProductImageCount.text = extraImages.toString()
-                containerExtraProductImageCount.show()
-            } else {
-                containerExtraProductImageCount.hide()
+            AddProductObjectData.images?.let {
+                if (it.size > selectedCategory.freeProductImagesCount) {
+                    extraImages =
+                        it.size - selectedCategory.freeProductImagesCount
+                    btnExtraProductImageCount.text = extraImages.toString()
+                    containerExtraProductImageCount.show()
+                } else {
+                    containerExtraProductImageCount.hide()
+                }
             }
+
             var extraVideos = 0
             AddProductObjectData.videoList?.let {
                 if (it.size > selectedCategory.freeProductVidoesCount) {

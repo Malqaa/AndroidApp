@@ -29,12 +29,12 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.gson.JsonObject
 import com.malka.androidappp.R
-import com.malka.androidappp.newPhase.data.helper.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ModelShipAddresses
 import com.malka.androidappp.fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ShippingAddressessData
+import com.malka.androidappp.newPhase.data.helper.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.newPhase.data.network.CommonAPI
-import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
 import com.malka.androidappp.newPhase.data.network.constants.Constants
+import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
 import com.malka.androidappp.newPhase.data.network.service.MalqaApiService
 import com.malka.androidappp.newPhase.domain.models.loginResp.LoginUser
 import com.malka.androidappp.newPhase.domain.models.servicemodels.*
@@ -342,23 +342,54 @@ class HelpFunctions {
                     date = df.parse(dataStr)
                     str = outputFormat.format(date)
                 } catch (e: ParseException) {
-                    println("hhhh "+e.message)
+                    println("hhhh " + e.message)
                     return ""
                 }
                 return str
             } catch (e: Exception) {
-                println("hhhh "+e.message)
+                println("hhhh " + e.message)
                 return ""
             }
         }
-        fun getAuctionClosingTime2(dataStr:String):String{
+
+        fun getAuctionClosingTimeByDate(dataStr: String): Date? {
+            // 23/06/20236:55 PM
+            try {
+                println("hhhh "+dataStr)
+                //  =====================;
+                val inputPattern = "yyyy-MM-dd'T'HH:mm:ss"
+                val inputFormat = SimpleDateFormat(inputPattern, Locale.ENGLISH)
+                inputFormat.timeZone = TimeZone.getTimeZone("UTC")
+                val tz = TimeZone.getTimeZone("UTC")
+               //=======
+                val outputFormat: SimpleDateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm aa", Locale.ENGLISH);
+                //  val df = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.ENGLISH)
+                outputFormat.timeZone = TimeZone.getDefault()
+                val date: Date
+                val str: String
+                try {
+                    date = inputFormat.parse(dataStr)
+                    println("hhhh " +date.toString())
+                    str = outputFormat.format(date)
+                } catch (e: ParseException) {
+                    println("hhhh " + e.message)
+                    return null
+                }
+                return date
+            } catch (e: Exception) {
+                println("hhhh " + e.message)
+                return null
+            }
+        }
+
+        fun getAuctionClosingTime2(dataStr: String): String {
             // 23/06/20236:55 PM
             try {
 //        String outputPattern = "EEEE MMMM d, yyyy";
                 val outputPattern = "yyyy-MM-dd'T'HH:mm:ss"
                 val outputFormat = SimpleDateFormat(outputPattern, Locale.getDefault())
                 val tz = TimeZone.getTimeZone("UTC")
-                outputFormat.timeZone=tz
+                outputFormat.timeZone = tz
                 //
 //            val tz = TimeZone.getTimeZone("Africa/Cairo")
                 //  SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy",Locale.getDefault());

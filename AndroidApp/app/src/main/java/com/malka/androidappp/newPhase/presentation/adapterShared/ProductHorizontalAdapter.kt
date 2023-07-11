@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
@@ -17,6 +18,8 @@ import com.malka.androidappp.newPhase.data.helper.show
 import com.malka.androidappp.newPhase.domain.models.productResp.Product
 import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.yariksoffice.lingver.Lingver
+import kotlinx.android.synthetic.main.activity_product_details_item_2.*
+import java.util.*
 
 
 class ProductHorizontalAdapter(
@@ -200,7 +203,54 @@ class ProductHorizontalAdapter(
                 categoryId
             )
         }
+        if(productList[position].auctionClosingTime!=null){
+            holder.viewBinding.containerTimeBar.show()
+            var endDate: Date?=HelpFunctions.getAuctionClosingTimeByDate(productList[position].auctionClosingTime!!)
+//                println("hhhh "+endDate.toString()+" "+Calendar.getInstance().time)
+            if(endDate!=null){
+                getDifference(Calendar.getInstance().time,endDate,holder)
+            }else{
+                holder.viewBinding.containerTimeBar.hide()
+            }
 
+        }else{
+            holder.viewBinding.containerTimeBar.hide()
+        }
+
+        if(productList[position].highestBidPrice!=0f){
+            holder.viewBinding.LowestPriceLayout.show()
+            holder.viewBinding.LowestPriceLayout2.show()
+            holder.viewBinding.LowestPrice.text = "${productList[position].highestBidPrice} ${ context.getString(R.string.Rayal)}"
+            holder.viewBinding.LowestPrice2.text = "${productList[position].highestBidPrice} ${ context.getString(R.string.Rayal)}"
+        }else{
+            holder.viewBinding.LowestPriceLayout.hide()
+            holder.viewBinding.LowestPriceLayout2.hide()
+        }
+    }
+    fun getDifference(curretndate: Date, endDate: Date, holder: SellerProductViewHolder){
+        //milliseconds
+        //milliseconds
+        var different: Long = endDate.time - curretndate.time
+
+        val secondsInMilli: Long = 1000
+        val minutesInMilli = secondsInMilli * 60
+        val hoursInMilli = minutesInMilli * 60
+        val daysInMilli = hoursInMilli * 24
+
+        val elapsedDays = different / daysInMilli
+        different = different % daysInMilli
+
+        val elapsedHours = different / hoursInMilli
+        different = different % hoursInMilli
+
+        val elapsedMinutes = different / minutesInMilli
+        different = different % minutesInMilli
+
+        val elapsedSeconds = different / secondsInMilli
+
+        holder.viewBinding.daysTv.text=elapsedDays.toString()
+        holder.viewBinding.hoursTv.text=elapsedHours.toString()
+        holder.viewBinding.minutesTv.text=elapsedMinutes.toString()
 
     }
 

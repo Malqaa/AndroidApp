@@ -1,52 +1,42 @@
 <resources>
     <string name="app_name" translatable="false">Onruf</string>
-    <string name="serverError">Error happened, please try again later</string>
-    <string name="connectionError">Network Connection Fail</string>
-    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyA-hhR3N_WfZkeHbBvfIjJtfH9_a1SCiHE</string>
-    <string name="saveThisSearch">Save this search</string>
-    <string name="selectCountry">Select Country</string>
-    <string name="selectRegionTitle">Select Region</string>
-    <string name="selectDistrict">Select District</string>
-    <string name="noResultFound">No Results Found</string>
-    <string name="searchHere">Search Here</string>
-    <string name="noSpecificationFound">No Specification Found</string>
-    <string name="noQuestionsFound">No Questions Found</string>
-    <string name="applyFilter">Apply Filter</string>
-    <string name="recentlyView">Recently View</string>
-    <string name="bidding">Bidding</string>
-    <string name="show">Show</string>
-    <string name="noProductsAdded">No Products Added</string>
-    <string name="noProductsFound">No Products Found</string>
-    <string name="noOrdersFound">No Orders Found</string>
-    <string name="enterAllSpecificaiton">Enter All Specification</string>
-    <string name="noSubCategoryFound">No Sub Categories Found</string>
-    <string name="Back_to_login">
-    Back to login
-  </string>
-    <string name="loggedoutsuccessfully">
-    Logged Out Successfully
-  </string>
-    <string name="City">
-    City
-  </string>
-    <string name="Confirm">
-    Confirm
-  </string>
-    <string name="Confirm_Password">Confirm Password</string>
-    <string name="Confirm_New_Password">Confirm New Password</string>
-    <string name="Country">
-    Country
-  </string>
-    <string name="Create_your_personal_account">
+  <string name="serverError">Error happened, please try again later</string>
+  <string name="connectionError">Network Connection Fail</string>
+  <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyA-hhR3N_WfZkeHbBvfIjJtfH9_a1SCiHE</string>
+  <string name="saveThisSearch">Save this search</string>
+  <string name="selectCountry">Select Country</string>
+  <string name="selectRegionTitle">Select Region</string>
+  <string name="selectDistrict">Select District</string>
+  <string name="noResultFound">No Results Found</string>
+  <string name="searchHere">Search Here</string>
+  <string name="noSpecificationFound">No Specification Found</string>
+  <string name="noQuestionsFound">No Questions Found</string>
+  <string name="applyFilter">Apply Filter</string>
+  <string name="recentlyView">Recently View</string>
+  <string name="bidding">Bidding</string>
+  <string name="show">Show</string>
+  <string name="noProductsAdded">No Products Added</string>
+  <string name="noProductsFound">No Products Found</string>
+  <string name="noOrdersFound">No Orders Found</string>
+  <string name="enterAllSpecificaiton">Enter All Specification</string>
+  <string name="noSubCategoryFound">No Sub Categories Found</string>
+  <string name="Back_to_login">Back to login</string>
+  <string name="loggedoutsuccessfully">Logged Out Successfully</string>
+  <string name="City">City</string>
+  <string name="Confirm">Confirm</string>
+  <string name="Confirm_Password">Confirm Password</string>
+  <string name="Confirm_New_Password">Confirm New Password</string>
+  <string name="Country">Country</string>
+  <string name="Create_your_personal_account">
     Create a personal account
   </string>
-    <string name="Date_of_Birth">
+  <string name="Date_of_Birth">
     Date of Birth
   </string>
-    <string name="Day">
+  <string name="Day">
     Day
   </string>
-    <string name="Didntget">
+  <string name="Didntget">
     Didn\'t get?
   </string>
     <string name="District_Name">
@@ -669,9 +659,7 @@ Invalid Username or Password
     <string name="Findoutwhetherimportchargesapply">
     Find out whether import charges apply
   </string>
-    <string name="FreeshippingwithinSaudiArabia">
-    Free shipping within Saudi Arabia
-  </string>
+    <string name="FreeshippingwithinSaudiArabia">Free shipping within Saudi Arabia</string>
     <string name="GSTincluded">
     GST included
   </string>
@@ -739,19 +727,10 @@ Invalid Username or Password
     <string name="Itemaddress">
     Item Address
   </string>
-    <string name="MustPickup">
-    Must Pick-up
-  </string>
-    <string name="NoPickup">
-    No Pick-up
-  </string>
-    <string name="PickupAvailable">
-    Pick-up Available
-  </string>
+
     <string name="Selectashippingoption">Select a shipping option</string>
-    <string name="SpecifyShippingCost">
-    Specify Shipping Cost
-  </string>
+  <string name="selectaPickUpoption">Select a Pick Up option</string>
+    <string name="SpecifyShippingCost">Specify Shipping Cost</string>
     <string name="TobeArranged">
     To be Arranged
   </string>
@@ -1219,9 +1198,7 @@ Invalid Username or Password
     <string name="MotorVehiclesPeriodicInspection">
     Motor Vehicles Periodic Inspection
   </string>
-    <string name="No">
-    No
-  </string>
+    <string name="No">No</string>
     <string name="NoDescriptionAvailable">
     No Description Available
   </string>
@@ -1279,9 +1256,7 @@ Invalid Username or Password
     <string name="Type">
     Type
   </string>
-    <string name="Yes">
-    Yes
-  </string>
+    <string name="Yes">Yes</string>
     <string name="Yourbid">
     Your bid
   </string>
@@ -1544,9 +1519,7 @@ Invalid Username or Password
     <string name="Respondtothisfeedback">
     Respond to this feedback
   </string>
-    <string name="Selectshippingoptions">
-    Select shipping options
-  </string>
+    <string name="Selectshippingoptions">Select shipping options</string>
     <string name="Sell">
     Sell
   </string>
@@ -1764,26 +1737,31 @@ Invalid Username or Password
     <string name="None">
     None
   </string>
-    <string name="OfferDuration">
+  <string name="OfferDuration">
     Offer Duration
   </string>
-    <string name="Offerto">
+  <string name="Offerto">
     Offer to
   </string>
-    <string name="Onlyallowbidsfrom">
+  <string name="Onlyallowbidsfrom">
     Only allow bids from Authenticated members
   </string>
-    <string name="PickUp">Pick Up</string>
-    <string name="Ping">
+  <string name="PickUp">Pick Up</string>
+  <string name="mustPickUp">Must Pick Up</string>
+  <string name="noPickUp">No Pick Up</string>
+  <string name="pickUpAvaliable">Pick Up Available</string>
+
+
+  <string name="Ping">
     Ping
   </string>
-    <string name="PricingandFixedPriceOffer">
+  <string name="PricingandFixedPriceOffer">
     Pricing and Fixed Price Offer
   </string>
-    <string name="RegisterasBussinessUser">
+  <string name="RegisterasBussinessUser">
    Register as a merchant
   </string>
-    <string name="RegisterasPersonalUser">
+  <string name="RegisterasPersonalUser">
    Register as a user
   </string>
     <string name="RegistrationNumber">
@@ -2985,7 +2963,9 @@ Want to start a business account? Create a Business Account
         <item>0</item>
         <item>0</item>
     </array>
+  <string name="integratedShippingCompanies">Integrated Shipping Companies</string>
     <string name="free_shipping_within_Saudi_Arabia">Free shipping within Saudi Arabia</string>
+  <string name="arrangementWillBeMadeWithTheBuyer">Arrangement Will Be Made With The Buyer</string>
     <string name="noPackagesFound">No Packages Found</string>
     <string name="notSpecified">Not Specified</string>
     <string name="inArabic">In Arabic</string>

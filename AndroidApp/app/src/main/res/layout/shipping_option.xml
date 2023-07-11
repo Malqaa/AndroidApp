@@ -2,24 +2,30 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/shipping_option_layout"
     android:layout_width="match_parent"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:layout_marginBottom="@dimen/_7sdp"
     android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
         android:orientation="horizontal">
 
-        <RadioButton
-            android:id="@+id/rb2_1"
-            android:layout_width="@dimen/_30sdp"
+        <ImageView
+            android:id="@+id/rvSelected"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#4d4d33"
+            android:src="@drawable/ic_radio_button_unchecked"
+            android:layout_gravity="center"
             android:textSize="14sp" />
 
         <TextView
             android:id="@+id/shipping_opt_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
             android:text="@string/FreeshippingwithinSaudiArabia"
             android:fontFamily="@font/madani_arabic_medium"
             android:textSize="14sp"

@@ -24,21 +24,27 @@ class AddProductObjectData {
         var selectedCategory: Category? = null
         var selectedCategoryId: Int = 0
         var selectedCategoryName: String = ""
+        /**image and videos**/
         var videoList: List<String>? = null
-        var images: MutableList<ImageSelectModel> = mutableListOf()
+        var images: List<ImageSelectModel> ?= null
+        /**Specification**/
+        var productSpecificationList: List<DynamicSpecificationSentObject>? = null
+        /**productDetails*/
         var itemTitleAr: String = ""
         var itemTitleEn: String = ""
         var subtitleAr: String = ""
         var subtitleEn: String = ""
         var itemDescriptionAr: String = ""
         var itemDescriptionEn: String = ""
-
-        /**used =1 , new =2*/
+        //**used =1 , new =2*/
         var productCondition: Int = 0
+        var brand_new_item = ""
         var quantity: String = ""
         var country: SearchListItem? = null
         var region: SearchListItem? = null
         var city: SearchListItem? = null
+        var phone = ""
+
 
         /**sale and pricing data*/
         var priceFixed: String = ""
@@ -53,57 +59,58 @@ class AddProductObjectData {
         var paymentOption: Int = 0
         var selectedAccountDetails: AccountDetails? = null
         var selectTimeAuction: TimeAuctionSelection?= null
-        var shippingOptionSelection: Selection? = null
-        var pickUpOption: Boolean = false
+/**       MustPickUp = 1, NoPickUp = 2, PickUpAvailable=3*/
+        var pickUpOption: Int = 0
+        var shippingOptionSelection: List<Selection>? = null
         var selectedPakat: PakatDetails? = null
-        var productSpecificationList: List<DynamicSpecificationSentObject>? = null
+
 
         /*****/
 
-        var phone = ""
-        //var phoneCountryCode = ""
-        var price: String = ""
+
+//        //var phoneCountryCode = ""
+//        var price: String = ""
 
 
 
 
 
-
-        var brand_new_item = ""
-        var id = ""
-        var name = ""
-        var slug = ""
-        var tag = ""
-        var featureexpirydate = ""
-        var urgentexpirydate = ""
-        var highlightexpirydate = ""
-        var template = ""
-        val user = ""
-        var address = ""
-        var iscashpaid = false
-        var fixLength = ""
-        var timepicker = ""
-        var duration = ""
-        var endtime = ""
-        var fixlenghtselected: TimeAuctionSelection? =
-            null//        var selectPromotiion: PromotionModel? = null
-        var weekSelection: TimeAuctionSelection? = null
-
-
-        // To store path for model
-        var subcatone = ""
-        var subcattwo = ""
-        var subcatthree = ""
-        var subcatfour = ""
-        var subcatfive = ""
-        var subcatsix = ""
-        var subcatonekey = ""
-        var subcattwokey = ""
-        var subcatthreekey = ""
-        var subcatfourkey = ""
-        var subcatfivekey = ""
-        var subcatsixkey = ""
-        var category = ""
+//
+//
+//        var id = ""
+//        var name = ""
+//        var slug = ""
+//        var tag = ""
+//        var featureexpirydate = ""
+//        var urgentexpirydate = ""
+//        var highlightexpirydate = ""
+//        var template = ""
+//        val user = ""
+//        var address = ""
+//        var iscashpaid = false
+//        var fixLength = ""
+//        var timepicker = ""
+//        var duration = ""
+//        var endtime = ""
+//        var fixlenghtselected: TimeAuctionSelection? =
+//            null//        var selectPromotiion: PromotionModel? = null
+//        var weekSelection: TimeAuctionSelection? = null
+//
+//
+//        // To store path for model
+//        var subcatone = ""
+//        var subcattwo = ""
+//        var subcatthree = ""
+//        var subcatfour = ""
+//        var subcatfive = ""
+//        var subcatsix = ""
+//        var subcatonekey = ""
+//        var subcattwokey = ""
+//        var subcatthreekey = ""
+//        var subcatfourkey = ""
+//        var subcatfivekey = ""
+//        var subcatsixkey = ""
+//        var category = ""
 
     }
 }

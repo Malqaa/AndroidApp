@@ -26,14 +26,14 @@ class favorite_sub_category : Fragment(R.layout.fragment_favorite_sub_category) 
 
 
         subCategory.apply {
-            add(Selection("Hyundai - Cars"))
-            add(Selection("Honda - Cars" ))
-            add(Selection("Toyota - Cars" ))
-            add(Selection("Suzuki - Cars" ))
-            add(Selection("Honda - Cars" ))
-            add(Selection("Toyota - Cars" ))
-            add(Selection("Suzuki - Cars" ))
-            add(Selection("Hyundai - Cars"))
+//            add(Selection("Hyundai - Cars"))
+//            add(Selection("Honda - Cars" ))
+//            add(Selection("Toyota - Cars" ))
+//            add(Selection("Suzuki - Cars" ))
+//            add(Selection("Honda - Cars" ))
+//            add(Selection("Toyota - Cars" ))
+//            add(Selection("Suzuki - Cars" ))
+//            add(Selection("Hyundai - Cars"))
 
         }
 

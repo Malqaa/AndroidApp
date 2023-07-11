@@ -105,7 +105,6 @@
                 android:layout_weight="1"
                 android:background="@color/white"
                 android:gravity="center"
-                android:maxLength="3"
                 android:text="1"
                 android:textColor="@color/textColor" />
 

@@ -775,16 +775,9 @@
     <string name="Itemaddress">
     عنوان البند
   </string>
-    <string name="MustPickup">
-    يجب الاستلام
-  </string>
-    <string name="NoPickup">
-    لا تلتقط
-  </string>
-    <string name="PickupAvailable">
-    الاستلام متاح
-  </string>
+
     <string name="Selectashippingoption">حدد خيار الشحن</string>
+  <string name="selectaPickUpoption">حدد خيار الاستلام</string>
     <string name="SpecifyShippingCost">
     تحديد تكلفة الشحن
   </string>
@@ -1230,9 +1223,7 @@
     <string name="MotorVehiclesPeriodicInspection">
     محركمركباتدوريتفتيش
   </string>
-    <string name="No">
-    لا
-  </string>
+    <string name="No">لا</string>
     <string name="NoDescriptionAvailable">
     لا يوجد وصف متاح
   </string>
@@ -1290,9 +1281,7 @@
     <string name="Type">
     اكتب
   </string>
-    <string name="Yes">
-    نعم
-  </string>
+    <string name="Yes">نعم</string>
     <string name="Yourbid">
     رهان
   </string>
@@ -2055,7 +2044,12 @@
     <string name="Paypal">
     باي بال
   </string>
-    <string name="PickUp">يلتقط</string>
+    <string name="PickUp">الاستلام</string>
+  <string name="mustPickUp">يجب الاستلام</string>
+  <string name="noPickUp">الاستلام غير متاح</string>
+  <string name="pickUpAvaliable">الاستلام متاح</string>
+
+
     <string name="Ping">
     بينغ
   </string>
@@ -2812,7 +2806,9 @@
     <string name="reviews_as_a_buyer">التقييمات كمشترى</string>
     <string name="following">التالية</string>
     <string name="follow_catgeory">Follow category successfully</string>
+  <string name="integratedShippingCompanies"> شركات الشحن المتكاملة</string>
     <string name="free_shipping_within_Saudi_Arabia">شحن مجاني داخل المملكة العربية السعودية</string>
+  <string name="arrangementWillBeMadeWithTheBuyer">الترتيب سوف يتم مع المشتري</string>
     <string name="noPackagesFound">لم يتم العثور على باقات</string>
     <string name="notSpecified">لم تحدد</string>
     <string name="inArabic">بالعربية</string>

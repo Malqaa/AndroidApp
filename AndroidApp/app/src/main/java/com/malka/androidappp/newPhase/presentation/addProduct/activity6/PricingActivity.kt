@@ -143,8 +143,8 @@ class PricingActivity : BaseActivity() {
         }
         if (AddProductObjectData.isNegotiablePrice) {
             priceNegotiable_rb3.isChecked = true
-            switchPickUp.setBackgroundResource(R.drawable.field_selection_border_enable)
-            Tender_pickUp_tv.setTextColor(ContextCompat.getColor(this, R.color.bg))
+            switchMustPickUp.setBackgroundResource(R.drawable.field_selection_border_enable)
+            tvMustPickUp.setTextColor(ContextCompat.getColor(this, R.color.bg))
 
         }
         if (AddProductObjectData.paymentOption == AddProductObjectData.PAYMENT_OPTION_CASH) {
@@ -243,12 +243,12 @@ class PricingActivity : BaseActivity() {
         }
         priceNegotiable_rb3.setOnCheckedChangeListener { _, b ->
             if (b) {
-                switchPickUp.setBackgroundResource(R.drawable.field_selection_border_enable)
-                Tender_pickUp_tv.setTextColor(ContextCompat.getColor(this, R.color.bg))
+                switchMustPickUp.setBackgroundResource(R.drawable.field_selection_border_enable)
+                tvMustPickUp.setTextColor(ContextCompat.getColor(this, R.color.bg))
 
             } else {
-                switchPickUp.setBackgroundResource(R.drawable.edittext_bg)
-                Tender_pickUp_tv.setTextColor(ContextCompat.getColor(this, R.color.text_color))
+                switchMustPickUp.setBackgroundResource(R.drawable.edittext_bg)
+                tvMustPickUp.setTextColor(ContextCompat.getColor(this, R.color.text_color))
 
             }
         }

@@ -1,5 +1,7 @@
 package com.malka.androidappp.newPhase.domain.models.servicemodels
 
+import com.google.gson.annotations.SerializedName
+
 
 data class GeneralResponse(
     val `data`: Any,
@@ -10,7 +12,8 @@ data class GeneralResponse(
 
 }
 data class AddProductResponse(
-    val `data`: Int,
+    @SerializedName("data")
+    val productId: Int,
     val message: String,
     val status_code: Int
 ) {

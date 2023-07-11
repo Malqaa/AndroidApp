@@ -61,26 +61,26 @@ object Extension {
         return res
     }
 
-    fun clearPath() {
-
-        AddProductObjectData.subcatone = ""
-        AddProductObjectData.subcatonekey = ""
-
-        AddProductObjectData.subcattwo = ""
-        AddProductObjectData.subcattwokey = ""
-
-        AddProductObjectData.subcatthree = ""
-        AddProductObjectData.subcatthreekey = ""
-
-        AddProductObjectData.subcatfour = ""
-        AddProductObjectData.subcatfourkey = ""
-
-        AddProductObjectData.subcatfive = ""
-        AddProductObjectData.subcatfivekey = ""
-
-        AddProductObjectData.subcatsix = ""
-        AddProductObjectData.subcatsixkey = ""
-    }
+//    fun clearPath() {
+//
+//        AddProductObjectData.subcatone = ""
+//        AddProductObjectData.subcatonekey = ""
+//
+//        AddProductObjectData.subcattwo = ""
+//        AddProductObjectData.subcattwokey = ""
+//
+//        AddProductObjectData.subcatthree = ""
+//        AddProductObjectData.subcatthreekey = ""
+//
+//        AddProductObjectData.subcatfour = ""
+//        AddProductObjectData.subcatfourkey = ""
+//
+//        AddProductObjectData.subcatfive = ""
+//        AddProductObjectData.subcatfivekey = ""
+//
+//        AddProductObjectData.subcatsix = ""
+//        AddProductObjectData.subcatsixkey = ""
+//    }
 
 
     fun loadThumbnail(

@@ -1,21 +1,18 @@
 package com.malka.androidappp.newPhase.data.helper
 
-import android.service.autofill.UserData
 import android.widget.ImageView
 import com.malka.androidappp.fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ShippingAddressessData
 import com.malka.androidappp.newPhase.domain.models.cartListResp.ProductCartItem
 import com.malka.androidappp.newPhase.domain.models.countryResp.Country
+import com.malka.androidappp.newPhase.domain.models.homeCategoryProductResp.CategoryProductItem
+import com.malka.androidappp.newPhase.domain.models.loginResp.BusinessAccountsDetails
+import com.malka.androidappp.newPhase.domain.models.loginResp.LoginUser
 import com.malka.androidappp.newPhase.domain.models.productResp.Product
 import com.malka.androidappp.newPhase.domain.models.servicemodels.addtocart.CartItemModel
 import com.malka.androidappp.newPhase.domain.models.servicemodels.creditcard.CreditCardModel
 import com.malka.androidappp.newPhase.domain.models.servicemodels.favourites.FavouriteObject
 import com.malka.androidappp.newPhase.domain.models.servicemodels.feedbacks.FeedbackObject
 import com.malka.androidappp.newPhase.domain.models.servicemodels.model.Category
-import com.malka.androidappp.newPhase.domain.models.homeCategoryProductResp.CategoryProductItem
-import com.malka.androidappp.newPhase.domain.models.loginResp.BusinessAccountsDetails
-import com.malka.androidappp.newPhase.domain.models.loginResp.LoginResp
-import com.malka.androidappp.newPhase.domain.models.loginResp.LoginUser
-import com.malka.androidappp.newPhase.domain.models.servicemodels.User
 
 class ConstantObjects {
     companion object {
@@ -99,9 +96,19 @@ class ConstantObjects {
         const val resetPasswordExpiryTime = "ResetPasswordExpiryTime"
         const val resetPasswordWrongTrials = "ResetPasswordWrongTrials"
         const val otpWrongTrials = "OTPWrongTrials"
+
         /**auctionClosingPeriodsUnit**/
-        var auctionClosingPeriodsUnit_day=1
-        var auctionClosingPeriodsUnit_week=2
-        var auctionClosingPeriodsUnit_month=3
+        var auctionClosingPeriodsUnit_day = 1
+        var auctionClosingPeriodsUnit_week = 2
+        var auctionClosingPeriodsUnit_month = 3
+
+        /**PickUpOption**/
+        const val pickUp_Must = 1
+        const val pickUp_No = 2
+        const val pickUp_Available = 3
+        /**shipping options*/
+        const val shippingOption_integratedShippingCompanyOptions = 1
+        const val shippingOption_freeShippingWithinSaudiArabia = 2
+        const val  shippingOption_arrangementWillBeMadeWithTheBuyer=3
     }
 }

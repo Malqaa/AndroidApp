@@ -23,8 +23,8 @@ import com.malka.androidappp.newPhase.presentation.addProduct.AddProductObjectDa
 import com.malka.androidappp.newPhase.presentation.addProduct.ConfirmationAddProductActivity
 import com.malka.androidappp.newPhase.presentation.addProduct.activity8.PromotionalActivity
 import kotlinx.android.synthetic.main.activity_listing_duration.*
-import kotlinx.android.synthetic.main.activity_listing_duration.Tender_pickUp_tv
-import kotlinx.android.synthetic.main.activity_listing_duration.switchPickUp
+import kotlinx.android.synthetic.main.activity_listing_duration.switchMustPickUp
+import kotlinx.android.synthetic.main.activity_listing_duration.tvMustPickUp
 import kotlinx.android.synthetic.main.activity_pricing_payment.*
 import kotlinx.android.synthetic.main.selection_item.view.*
 import kotlinx.android.synthetic.main.shipping_option.view.*
@@ -42,8 +42,7 @@ class ListingDurationActivity : BaseActivity() {
     var isEdit: Boolean = false
     val allWeeks: ArrayList<TimeAuctionSelection> = ArrayList()
     val shippingOptionList: ArrayList<Selection> = ArrayList()
-
-
+    var pickUpOption: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +50,7 @@ class ListingDurationActivity : BaseActivity() {
         toolbar_title.text = getString(R.string.shipping_options)
         isEdit = intent.getBooleanExtra(ConstantObjects.isEditKey, false)
         setVieClickListeners()
+        containerPickUpOption.hide()
         if (AddProductObjectData.auctionOption) {
             contianerClosingOption.show()
         } else {
@@ -127,7 +127,24 @@ class ListingDurationActivity : BaseActivity() {
 
         /**shipping data */
         shippingOptionList.apply {
-            add(Selection(getString(R.string.free_shipping_within_Saudi_Arabia)))
+            add(
+                Selection(
+                    getString(R.string.integratedShippingCompanies),
+                    ConstantObjects.shippingOption_integratedShippingCompanyOptions
+                )
+            )
+            add(
+                Selection(
+                    getString(R.string.free_shipping_within_Saudi_Arabia),
+                    ConstantObjects.shippingOption_freeShippingWithinSaudiArabia
+                )
+            )
+            add(
+                Selection(
+                    getString(R.string.arrangementWillBeMadeWithTheBuyer),
+                    ConstantObjects.shippingOption_arrangementWillBeMadeWithTheBuyer
+                )
+            )
 //            add(Selection("Shipping Not Available" ))
 //            add(Selection("To be Arranged" ))
 //            add(Selection("Specify Shipping Cost" ))
@@ -141,26 +158,41 @@ class ListingDurationActivity : BaseActivity() {
         if (isEdit) {
             setData()
         } else {
-            shippingOptionAdaptor(shippingOptionList, shipping_option)
+            shippingOptionAdaptor(shippingOptionList, rvShippingOption)
         }
     }
 
     private fun setData() {
-        if(AddProductObjectData.pickUpOption){
-            switchPickUp.setBackgroundResource(R.drawable.field_selection_border_enable)
-            Tender_pickUp_tv.setTextColor(ContextCompat.getColor(this, R.color.bg))
-            pickup_rb.isChecked =true
-        }else{
-            switchPickUp.setBackgroundResource(R.drawable.edittext_bg)
-            Tender_pickUp_tv.setTextColor(ContextCompat.getColor(this, R.color.text_color))
-            pickup_rb.isChecked = false
-        }
-        shippingOptionList.forEach { item ->
-            if (item.name == AddProductObjectData.shippingOptionSelection?.name) {
-                item.isSelected = true
+        pickUpOption = AddProductObjectData.pickUpOption
+        when (AddProductObjectData.pickUpOption) {
+            ConstantObjects.pickUp_Must -> {
+                setPickUpMust()
+                containerPickUpOption.hide()
             }
+            ConstantObjects.pickUp_No -> {
+                setPickUpNo()
+                containerPickUpOption.show()
+            }
+            ConstantObjects.pickUp_Available -> {
+                setPickUpAvailable()
+                containerPickUpOption.show()
+            }
+
         }
-        shippingOptionAdaptor(shippingOptionList, shipping_option)
+
+        shippingOptionList.forEach { item ->
+            AddProductObjectData.shippingOptionSelection?.let {
+                for (item2 in it) {
+                    if (item.id == item2.id) {
+                        item.isSelected = true
+                        break
+                    }
+                }
+
+            }
+
+        }
+        shippingOptionAdaptor(shippingOptionList, rvShippingOption)
         AddProductObjectData.selectTimeAuction?.let {
             if (it.customOption) {
                 closingAuctionOption2.performClick()
@@ -176,6 +208,53 @@ class ListingDurationActivity : BaseActivity() {
                 fixLenghtAdaptor(allWeeks)
             }
         }
+    }
+
+    private fun setPickUpMust() {
+
+        /**pickUpNo*/
+        switchNoPickUp.setBackgroundResource(R.drawable.edittext_bg)
+        tvNoPickUp.setTextColor(ContextCompat.getColor(this, R.color.text_color))
+        rbNoPickup.isChecked = false
+        /**pickUpAvailable*/
+        switchAvailablePickUp.setBackgroundResource(R.drawable.edittext_bg)
+        tvAvailablePickUp.setTextColor(ContextCompat.getColor(this, R.color.text_color))
+        rbAvailablePickup.isChecked = false
+        /**pickUpMust*/
+        switchMustPickUp.setBackgroundResource(R.drawable.field_selection_border_enable)
+        tvMustPickUp.setTextColor(ContextCompat.getColor(this, R.color.bg))
+        rbMustPickup.isChecked = true
+    }
+
+    private fun setPickUpNo() {
+        /**pickUpMust*/
+        switchMustPickUp.setBackgroundResource(R.drawable.edittext_bg)
+        tvMustPickUp.setTextColor(ContextCompat.getColor(this, R.color.text_color))
+        rbMustPickup.isChecked = false
+
+        /**pickUpAvailable*/
+        switchAvailablePickUp.setBackgroundResource(R.drawable.edittext_bg)
+        tvAvailablePickUp.setTextColor(ContextCompat.getColor(this, R.color.text_color))
+        rbAvailablePickup.isChecked = false
+        /**pickUpNo*/
+        switchNoPickUp.setBackgroundResource(R.drawable.field_selection_border_enable)
+        tvNoPickUp.setTextColor(ContextCompat.getColor(this, R.color.bg))
+        rbNoPickup.isChecked = true
+    }
+
+    private fun setPickUpAvailable() {
+        /**pickUpMust*/
+        switchMustPickUp.setBackgroundResource(R.drawable.edittext_bg)
+        tvMustPickUp.setTextColor(ContextCompat.getColor(this, R.color.text_color))
+        rbMustPickup.isChecked = false
+        /**pickUpNo*/
+        switchNoPickUp.setBackgroundResource(R.drawable.edittext_bg)
+        tvNoPickUp.setTextColor(ContextCompat.getColor(this, R.color.text_color))
+        rbNoPickup.isChecked = false
+        /**pickUpAvailable*/
+        switchAvailablePickUp.setBackgroundResource(R.drawable.field_selection_border_enable)
+        tvAvailablePickUp.setTextColor(ContextCompat.getColor(this, R.color.bg))
+        rbAvailablePickup.isChecked = true
     }
 
     private fun setVieClickListeners() {
@@ -233,15 +312,41 @@ class ListingDurationActivity : BaseActivity() {
         back_btn.setOnClickListener {
             onBackPressed()
         }
-        pickup_rb.setOnCheckedChangeListener { _, b ->
+
+        rbMustPickup.setOnCheckedChangeListener { _, b ->
             if (b) {
-                switchPickUp.setBackgroundResource(R.drawable.field_selection_border_enable)
-                Tender_pickUp_tv.setTextColor(ContextCompat.getColor(this, R.color.bg))
-
+                pickUpOption = ConstantObjects.pickUp_Must
+                setPickUpMust()
             } else {
-                switchPickUp.setBackgroundResource(R.drawable.edittext_bg)
-                Tender_pickUp_tv.setTextColor(ContextCompat.getColor(this, R.color.text_color))
+                pickUpOption = 0
+                switchMustPickUp.setBackgroundResource(R.drawable.edittext_bg)
+                tvMustPickUp.setTextColor(ContextCompat.getColor(this, R.color.text_color))
+            }
+            containerPickUpOption.hide()
 
+        }
+        rbNoPickup.setOnCheckedChangeListener { _, b ->
+            if (b) {
+                pickUpOption = ConstantObjects.pickUp_No
+                setPickUpNo()
+                containerPickUpOption.show()
+            } else {
+                pickUpOption = 0
+                switchNoPickUp.setBackgroundResource(R.drawable.edittext_bg)
+                tvNoPickUp.setTextColor(ContextCompat.getColor(this, R.color.text_color))
+                containerPickUpOption.hide()
+            }
+        }
+        rbAvailablePickup.setOnCheckedChangeListener { _, b ->
+            if (b) {
+                pickUpOption = ConstantObjects.pickUp_Available
+                setPickUpAvailable()
+                containerPickUpOption.show()
+            } else {
+                pickUpOption = 0
+                switchAvailablePickUp.setBackgroundResource(R.drawable.edittext_bg)
+                tvAvailablePickUp.setTextColor(ContextCompat.getColor(this, R.color.text_color))
+                containerPickUpOption.hide()
             }
         }
         btn_listduration.setOnClickListener {
@@ -301,29 +406,63 @@ class ListingDurationActivity : BaseActivity() {
     }
 
     fun confirmListDuration2() {
-        if (!ValidateRadiobtmchecked()) {
+//        if (!ValidateRadiobtmchecked()) {
+//            return
+//        } else
+        if (rbMustPickup.isChecked) {
+            pickUpOption = ConstantObjects.pickUp_Must
+        } else if (rbNoPickup.isChecked) {
+            pickUpOption = ConstantObjects.pickUp_No
+        } else if (rbAvailablePickup.isChecked) {
+            pickUpOption = ConstantObjects.pickUp_Available
+        }
+
+        if (AddProductObjectData.auctionOption && !validateListDuration()) {
             return
-        } else if (AddProductObjectData.auctionOption && !validateListDuration()) {
+        } else if (!validatePickUpOption()) {
             return
         } else {
+            println("hhh date "+Gson().toJson(AddProductObjectData.selectTimeAuction))
             goNextActivity()
 
         }
 
     }
 
-    private fun ValidateRadiobtmchecked(): Boolean {
-        shippingOptionList.filter {
-            it.isSelected == true
-        }.isEmpty().let {
-            if (it) {
-                showError(getString(R.string.Please_select, getString(R.string.shipping_options)))
+    private fun validatePickUpOption(): Boolean {
+        if (pickUpOption == 0) {
+            showError(getString(R.string.Please_select, getString(R.string.SelectaPickupOption)))
+            return false
+        } else if (pickUpOption == ConstantObjects.pickUp_No || pickUpOption == ConstantObjects.pickUp_Available) {
+            val list = shippingOptionList.filter { it.isSelected == true }
+            if (list.isEmpty()) {
+                showError(
+                    getString(
+                        R.string.Please_select,
+                        getString(R.string.Selectshippingoptions)
+                    )
+                )
                 return false
             } else {
+                AddProductObjectData.shippingOptionSelection = list
                 return true
             }
         }
+        return true
     }
+
+//    private fun ValidateRadiobtmchecked(): Boolean {
+//        shippingOptionList.filter {
+//            it.isSelected == true
+//        }.isEmpty().let {
+//            if (it) {
+//                showError(getString(R.string.Please_select, getString(R.string.shipping_options)))
+//                return false
+//            } else {
+//                return true
+//            }
+//        }
+//    }
 
     private fun validateListDuration(): Boolean {
         return if (btnRadioClosingAuctionOption1.isChecked) {
@@ -331,6 +470,7 @@ class ListingDurationActivity : BaseActivity() {
                 showError(getString(R.string.Please_select, getString(R.string.close_time)))
                 return false
             } else {
+                println("hhhh "+fixlenghtselected)
                 AddProductObjectData.selectTimeAuction = fixlenghtselected
                 return true
             }
@@ -406,20 +546,21 @@ class ListingDurationActivity : BaseActivity() {
                 holder.view.run {
                     element.run {
                         shipping_opt_tv.text = name
-                        rb2_1.isChecked = isSelected
-                        shipping_option_layout.setOnClickListener {
-                            list.forEach {
-                                it.isSelected = false
-                            }
-                            list.get(position).isSelected = true
-                            rcv.post { rcv.adapter?.notifyDataSetChanged() }
-                            selection = element
+                        if (isSelected) {
+                            rvSelected.setImageResource(R.drawable.ic_radio_button_checked)
+                        } else {
+                            rvSelected.setImageResource(R.drawable.ic_radio_button_unchecked)
                         }
-                        rb2_1.setOnCheckedChangeListener { buttonView, isChecked ->
-                            if (isChecked) {
-                                shipping_option_layout.performClick()
+                        shipping_option_layout.setOnClickListener {
+                            list.forEach { item->
+                                item.isSelected=false
                             }
-
+                            list[position].isSelected = true
+                            rcv.post { rcv.adapter?.notifyDataSetChanged() }
+                            // selection = element
+                        }
+                        rvSelected.setOnClickListener {
+                            shipping_option_layout.performClick()
                         }
                     }
                 }
@@ -436,19 +577,8 @@ class ListingDurationActivity : BaseActivity() {
         }
     }
 
-    fun saveShippingOption() {
-
-        val list = shippingOptionList.filter {
-            it.isSelected == true
-        }
-        list.forEach {
-            AddProductObjectData.shippingOptionSelection = it
-        }
-    }
 
     private fun goNextActivity() {
-        saveShippingOption()
-        AddProductObjectData.pickUpOption = pickup_rb.isChecked
         if (isEdit) {
             startActivity(Intent(this, ConfirmationAddProductActivity::class.java).apply {
                 finish()

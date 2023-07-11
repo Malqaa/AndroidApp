@@ -147,6 +147,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         btnMoreItemDetails.hide()
         contaienrSimilerProduts.hide()
         containerBidOnPrice.hide()
+        containerAuctioncountdownTimer_bar.hide()
         //for reviewa
         tvReviewsError.hide()
         contianerRateText.hide()
@@ -338,10 +339,12 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                     productId,
                     it.auctionStartPrice,
                     it.auctionMinimumPrice,
-                    it.auctionNegotiatePrice,
+                    it.highestBidPrice,
                     object : AuctionDialog.SetClickListeners {
-                        override fun setOnSuccessListeners() {
-                            onRefresh()
+                        override fun setOnSuccessListeners(highestBidPrice: Float) {
+                            productDetails?.highestBidPrice = highestBidPrice
+                            Bid_on_price_tv.text =
+                                "${productDetails?.highestBidPrice} ${getString(R.string.Rayal)}"
                         }
 
                     })
@@ -889,6 +892,20 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         if (productDetails != null) {
             containerMainProduct.show()
             containerShareAndFav.show()
+            /**Action endTime**/
+            if(productDetails.auctionClosingTime!=null){
+                containerAuctioncountdownTimer_bar.show()
+                var endDate:Date?=HelpFunctions.getAuctionClosingTimeByDate(productDetails.auctionClosingTime)
+//                println("hhhh "+endDate.toString()+" "+Calendar.getInstance().time)
+                if(endDate!=null){
+                    getDifference(Calendar.getInstance().time,endDate)
+                }else{
+                    containerAuctioncountdownTimer_bar.hide()
+                }
+
+            }else{
+                containerAuctioncountdownTimer_bar.hide()
+            }
             /**product iamges*/
             Extension.loadThumbnail(
                 this,
@@ -951,7 +968,6 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                 tvErrorNoSpecification.show()
             }
             /**pidding views*/
-            containerAuctioncountdownTimer_bar.show()
             tvAuctionNumber.text = "${getString(R.string.bidding)} "
             productfavStatus = productDetails.isFavourite
             if (productDetails.isFavourite) {
@@ -967,7 +983,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
             if (productDetails.isAuctionEnabled) {
                 Bid_on_price_tv.text =
-                    "${productDetails.auctionNegotiatePrice} ${getString(R.string.Rayal)}"
+                    "${productDetails.highestBidPrice} ${getString(R.string.Rayal)}"
                 containerBidOnPrice.show()
             } else {
                 containerBidOnPrice.hide()
@@ -976,6 +992,37 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         } else {
             showError(getString(R.string.serverError))
         }
+    }
+    fun getDifference(curretndate:Date,endDate:Date){
+        //milliseconds
+        //milliseconds
+        var different: Long = endDate.time - curretndate.time
+
+        val secondsInMilli: Long = 1000
+        val minutesInMilli = secondsInMilli * 60
+        val hoursInMilli = minutesInMilli * 60
+        val daysInMilli = hoursInMilli * 24
+
+        val elapsedDays = different / daysInMilli
+        different = different % daysInMilli
+
+        val elapsedHours = different / hoursInMilli
+        different = different % hoursInMilli
+
+        val elapsedMinutes = different / minutesInMilli
+        different = different % minutesInMilli
+
+        val elapsedSeconds = different / secondsInMilli
+
+//        Toast.makeText(
+//            this,
+//            "$elapsedDays $elapsedHours $elapsedMinutes $elapsedSeconds",
+//            Toast.LENGTH_LONG
+//        ).show()
+        days.text=elapsedDays.toString()
+        hours.text=elapsedHours.toString()
+        minutes.text=elapsedMinutes.toString()
+
     }
 
 

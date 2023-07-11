@@ -132,7 +132,7 @@
 
 
                     <LinearLayout
-                        android:id="@+id/switchPickUp"
+                        android:id="@+id/switchMustPickUp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_10sdp"
@@ -142,7 +142,7 @@
                         android:weightSum="2">
 
                         <TextView
-                            android:id="@+id/Tender_pickUp_tv"
+                            android:id="@+id/tvMustPickUp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"

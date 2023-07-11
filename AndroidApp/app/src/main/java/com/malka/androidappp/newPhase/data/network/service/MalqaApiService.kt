@@ -21,6 +21,7 @@ import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.data.network.constants.Constants
 import com.malka.androidappp.newPhase.data.network.constants.Constants.GET_CATEGORY_TAGS_ENDPOINT
 import com.malka.androidappp.newPhase.domain.models.accountBackListResp.AccountBankListResp
+import com.malka.androidappp.newPhase.domain.models.addBidResp.AddBidResp
 import com.malka.androidappp.newPhase.domain.models.addOrderResp.AddOrderResp
 import com.malka.androidappp.newPhase.domain.models.addProductToCartResp.AddProductToCartResp
 import com.malka.androidappp.newPhase.domain.models.addRateResp.AddRateResp
@@ -332,6 +333,21 @@ interface MalqaApiService {
         @PartMap partMap: Map<String, @JvmSuppressWildcards RequestBody>,
         // @Part files: List<MultipartBody.Part>
     ): Call<AddProductResponse>
+    @Multipart
+    @POST("AddProduct")
+    fun addProduct3(
+        @PartMap partMap: Map<String, @JvmSuppressWildcards RequestBody>,
+        @Part part: List<MultipartBody.Part>?,
+        @Part shippingOptionsList: ArrayList<MultipartBody.Part>,
+        @Part videoUrlList: ArrayList<MultipartBody.Part>
+    ): Call<AddProductResponse>
+    @Multipart
+    @POST("AddProduct")
+    fun addProduct3(
+        @PartMap partMap: Map<String, @JvmSuppressWildcards RequestBody>,
+        @Part part: List<MultipartBody.Part>?,
+    ): Call<AddProductResponse>
+
 
     @Multipart
     @POST("AddRateProduct")
@@ -967,7 +983,7 @@ interface MalqaApiService {
     fun getsimilar(): Call<BasicResponse>
 
     @POST("AddBid")
-    fun addBid(@Body body: HashMap<String, Any>): Call<GeneralResponse>
+    fun addBid(@Body body: HashMap<String, Any>): Call<AddBidResp>
 
     @GET("CheckOutAdditionalPakat")
     fun checkOutAdditionalPakat(

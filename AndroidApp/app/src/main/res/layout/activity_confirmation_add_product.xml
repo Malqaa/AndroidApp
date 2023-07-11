@@ -289,7 +289,7 @@
                         android:layout_alignParentEnd="true">
 
                         <TextView
-                            android:id="@+id/tvAuction"
+                            android:id="@+id/tvAuctionOpitonSale"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="@dimen/_5sdp"
@@ -304,7 +304,7 @@
 
 
                         <TextView
-                            android:id="@+id/tvFixedPrice"
+                            android:id="@+id/tvFixedPriceOptionSale"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="@dimen/_5sdp"
@@ -502,6 +502,7 @@
                         android:layout_marginStart="@dimen/_15sdp"
                         android:fontFamily="@font/madani_arabic_medium"
                         android:text="@string/negotiable"
+                        android:layout_centerVertical="true"
                         android:textColor="@color/grey"
                         android:textSize="@dimen/_10sdp" />
 
@@ -513,6 +514,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_marginEnd="@dimen/_15sdp"
                         android:drawablePadding="@dimen/_5sdp"
+                        android:layout_centerVertical="true"
                         android:fontFamily="@font/madani_arabic_medium"
                         android:gravity="end"
                         android:text="@string/Yes"
@@ -550,14 +552,14 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/Visa"
+                            android:id="@+id/tvCashOptionPayment"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="@dimen/_15sdp"
                             android:drawablePadding="@dimen/_5sdp"
                             android:fontFamily="@font/madani_arabic_medium"
                             android:gravity="end"
-                            android:text="@string/visa_mastercard"
+                            android:text="@string/cashPayment"
                             android:textColor="@color/grey"
                             android:textSize="@dimen/_10sdp"
                             android:visibility="gone"
@@ -565,7 +567,7 @@
 
 
                         <TextView
-                            android:id="@+id/saudi_bank_deposit"
+                            android:id="@+id/tvSaudiBankDepositOptionPayment"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_5sdp"
@@ -679,7 +681,6 @@
                                 android:drawablePadding="@dimen/_5sdp"
                                 android:fontFamily="@font/madani_arabic_medium"
                                 android:gravity="end"
-                                android:text="@string/PickUp"
                                 android:textColor="@color/grey"
                                 android:textSize="@dimen/_10sdp"
                                 app:drawableStartCompat="@drawable/ic_check" />
@@ -698,6 +699,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_40sdp"
                     android:layout_marginTop="@dimen/_10sdp"
+                    android:id="@+id/contianerPickUp"
                     android:background="@drawable/product_attribute_bg4"
                     android:orientation="vertical">
 

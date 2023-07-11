@@ -60,6 +60,7 @@ data class Product(
     val listMedia: List<ProductMediaItemDetails>? = null,
     val listProductSep: List<ProductSpecialityItemDetails>? = null,
     val productMazadNegotiate: ProductMazadNegotiateObject? = null,
+    var highestBidPrice:Float,
     // val sellerInformation: SellerInformation?=null,
 
     //*******

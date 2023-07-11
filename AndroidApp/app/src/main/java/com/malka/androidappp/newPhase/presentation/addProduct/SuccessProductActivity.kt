@@ -4,15 +4,15 @@ import android.content.Intent
 import android.os.Bundle
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseActivity
+import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.presentation.MainActivity
 import com.malka.androidappp.newPhase.presentation.productDetailsActivity.ProductDetailsActivity
-import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import kotlinx.android.synthetic.main.fragment_continue.*
 
 
 class SuccessProductActivity : BaseActivity() {
 
-    var AdvId: String = ""
+    var AdvId: Int = 0
     var template: String = ""
 
     override fun onBackPressed() {
@@ -23,7 +23,8 @@ class SuccessProductActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_continue)
 
-        AdvId = intent?.getStringExtra(ConstantObjects.productIdKey).toString()
+        AdvId = intent?.getIntExtra(ConstantObjects.productIdKey,0)?:0
+        println("hhhh product id " + AdvId)
         //template = intent?.getStringExtra("Template").toString()
 
         button6.setOnClickListener() {

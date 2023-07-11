@@ -10,6 +10,7 @@ import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.data.helper.hide
 import com.malka.androidappp.newPhase.data.helper.show
 import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.domain.models.addBidResp.AddBidResp
 
 import com.malka.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
 import kotlinx.android.synthetic.main.dialog_auction.*
@@ -27,8 +28,8 @@ class AuctionDialog(
     var setClickListeners: SetClickListeners
 ) : BaseDialog(context) {
 
-    var countriesCallback: Call<GeneralResponse>? = null
-    var generalRespone: GeneralResponse? = null
+    var countriesCallback: Call<AddBidResp>? = null
+    var generalRespone: AddBidResp? = null
     override fun getViewId(): Int {
         return R.layout.dialog_auction
     }
@@ -62,18 +63,18 @@ class AuctionDialog(
                 containerAutomaticBidding.hide()
             }
         }
-        btnSubtract.setOnClickListener {
-            var count = etCountNumber.text.toString().toInt()
+        btnAdd.setOnClickListener {
+            var count = etCountNumber.text.toString().toFloat()
             count += 1
             println(count)
             etCountNumber.setText(count.toString())
         }
-        btn_bid.setOnClickListener {
+        btnSubtract.setOnClickListener {
             if (etCountNumber.text.toString().trim()
                     .toFloat() > auctionStartPrice && etCountNumber.text.toString().trim()
                     .toFloat() > auctionNegotiatePrice
             ) {
-                var count = etCountNumber.text.toString().toInt()
+                var count = etCountNumber.text.toString().toFloat()
                 count -= 1
                 etCountNumber.setText(count.toString())
             }
@@ -95,17 +96,20 @@ class AuctionDialog(
                 )
             } else if (switchAutoBid.isChecked) {
                 var ready = true
-                if (etIncreaseForEachTIme.text.toString().trim() == "") {
+                if (etIncreaseForEachTIme.text.toString().trim() == ""|| etIncreaseForEachTIme.text.toString().trim().toFloat()== 0f ){
                     ready = false
                     etIncreaseForEachTIme.error = context.getString(R.string.Fieldcantbeempty)
                 }
+
                 if (etHighestBidPrice.text.toString().trim() == "") {
                     ready = false
                     etHighestBidPrice.error = context.getString(R.string.Fieldcantbeempty)
-                }else if(etHighestBidPrice.text.toString().trim().toFloat()>etCountNumber.text.toString().trim().toFloat()){
+                }
+                if(etHighestBidPrice.text.toString().trim().toFloat()>etCountNumber.text.toString().trim().toFloat()){
                     ready = false
                     etHighestBidPrice.error = context.getString(R.string.enterCorrectBidPrice)
                 }
+
                 if (ready) {
                     addBid(
                         productId,
@@ -132,13 +136,14 @@ class AuctionDialog(
         btn_bid.isEnabled = false
         var data: HashMap<String, Any> = HashMap()
         data["productId"] = productId
+        data["id"] = 0
         data["bidPrice"] = bidPrice
         data["activateAutomaticBidding"] = autoBidding
         data["increaseEachTimePrice"] = increaseEachTimePrice
         data["highestBidPrice"] = highestBidPrice
         countriesCallback = RetrofitBuilder.GetRetrofitBuilder().addBid(data)
-        countriesCallback?.enqueue(object : Callback<GeneralResponse> {
-            override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
+        countriesCallback?.enqueue(object : Callback<AddBidResp> {
+            override fun onFailure(call: Call<AddBidResp>, t: Throwable) {
                 progressBar.visibility = View.GONE
                 btn_bid.isEnabled = true
                 close_alert_bid.isEnabled = true
@@ -156,8 +161,8 @@ class AuctionDialog(
             }
 
             override fun onResponse(
-                call: Call<GeneralResponse>,
-                response: Response<GeneralResponse>
+                call: Call<AddBidResp>,
+                response: Response<AddBidResp>
             ) {
                 btn_bid.isEnabled = true
                 close_alert_bid.isEnabled = true
@@ -168,7 +173,7 @@ class AuctionDialog(
                             generalRespone = it
                             if (generalRespone?.status_code == 200) {
                                 dismiss()
-                                setClickListeners.setOnSuccessListeners()
+                                setClickListeners.setOnSuccessListeners(generalRespone?.BidObject?.highestBidPrice?:0f)
 
                             }
 
@@ -195,7 +200,7 @@ class AuctionDialog(
     }
 
     interface SetClickListeners {
-        fun setOnSuccessListeners()
+        fun setOnSuccessListeners(highestBidPrice:Float)
     }
 
 }

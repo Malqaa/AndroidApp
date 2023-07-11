@@ -18,6 +18,7 @@ import com.malka.androidappp.newPhase.domain.models.pakatResp.PakatResp
 import com.malka.androidappp.newPhase.domain.models.productTags.CategoryTagsResp
 import com.malka.androidappp.newPhase.domain.models.servicemodels.AddProductResponse
 import com.malka.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
+import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -375,7 +376,146 @@ class AddProductViewModel : BaseViewModel() {
 //                }
 //            })
 //    }
+fun getAddProduct3(
+    context: Context,
+    nameAr: String,
+    nameEn: String,
+    subTitleAr: String,
+    subTitleEn: String,
+    descriptionAr: String,
+    descriptionEn: String,
+    qty: String,
+    productCondition: String,
+    categoryId: String,
+    countryId: String,
+    regionId: String,
+    neighborhoodId: String,
+    Street: String,
+    GovernmentCode: String,
+    pakatId: String,
+    productSep: List<DynamicSpecificationSentObject>?,
+    listImageFile: List<File>,//listImageFile
+    MainImageIndex: String,
+    videoUrl: List<String>?,
+    PickUpDelivery: String,
+    DeliveryOption: List<String>,
+    isFixedPriceEnabled: Boolean,
+    isAuctionEnabled: Boolean,
+    isNegotiationEnabled: Boolean,
+    price: String,
+    priceDisc: String,
+    paymentOptionId: String,
+    isCashEnabled: String,
+    disccountEndDate: String,
+    auctionStartPrice: String,
+    auctionMinimumPrice: String,
+    auctionClosingTime: String
 
+) {
+    isLoading.value = true
+    var imageListTOSend: ArrayList<MultipartBody.Part> = ArrayList()
+    for (file in listImageFile) {
+        var multipartBody: MultipartBody.Part = if (file != null) {
+            var requestbody: RequestBody = file.asRequestBody("image/*".toMediaTypeOrNull())
+            MultipartBody.Part.createFormData("listImageFile", file.name, requestbody)
+        } else {
+            MultipartBody.Part.createFormData("listImageFile", "null", "null".toRequestBody())
+        }
+        imageListTOSend.add(multipartBody)
+    }
+    var shippingOptionsList: ArrayList<MultipartBody.Part> = ArrayList()
+    for(item in DeliveryOption){
+       // var requestbody: RequestBody = item.requestBody()
+        var multipartBody: MultipartBody.Part =   MultipartBody.Part.createFormData("ShippingOptions",item)
+            shippingOptionsList.add(multipartBody)
+    }
+    var videoUrlList: ArrayList<MultipartBody.Part> = ArrayList()
+    videoUrl?.let {
+        for(item in videoUrl){
+            // var requestbody: RequestBody = item.requestBody()
+            var multipartBody: MultipartBody.Part =   MultipartBody.Part.createFormData("videoUrl",item)
+            videoUrlList.add(multipartBody)
+        }
+
+    }
+
+
+
+    val map: HashMap<String, RequestBody> = HashMap()
+    map["nameAr"] = nameAr.requestBody()
+    map["nameEn"] = nameEn.requestBody()
+    map["subTitleAr"] = subTitleAr.requestBody()
+    map["subTitleEn"] = subTitleEn.requestBody()
+    map["descriptionAr"] = descriptionAr.requestBody()
+    map["descriptionEn"] = descriptionEn.requestBody()
+    map["qty"] = qty.requestBody()
+    // map["appointment"]="".requestBody()
+    map["status"] = productCondition.requestBody()
+    map["categoryId"] = categoryId.requestBody()
+    map["countryId"] = countryId.requestBody()
+    map["regionId"] = regionId.requestBody()
+    map["neighborhoodId"] = neighborhoodId.requestBody()
+    //  map["District"] = Street.requestBody()
+    //  map["Street"] = Street.requestBody()
+    //map["GovernmentCode"] = GovernmentCode.requestBody()
+    if (pakatId != "")
+        map["pakatId"] = pakatId.requestBody()
+    productSep.let {
+        map["productSep"] = Gson().toJson(it).toString().requestBody()
+    }
+    map["MainImageIndex"] = MainImageIndex.requestBody()
+   // map["videoUrl"] = videoUrl.toString().requestBody()
+    map["PickUpDelivery"] = PickUpDelivery.requestBody()
+   // map["ShippingOptions"] = DeliveryOption.toString().requestBody()
+    println("hhhh d "+DeliveryOption.toString())
+//    map["Lat"] = "".requestBody()
+//    map["Lon"] = "".requestBody()
+    // map["AcceptQuestion"]="".requestBody()
+    map["IsFixedPriceEnabled"] = isFixedPriceEnabled.toString().requestBody()
+    map["IsAuctionEnabled"] = isAuctionEnabled.toString().requestBody()
+    map["IsNegotiationEnabled"] = isNegotiationEnabled.toString().requestBody()
+    map["price"] = price.requestBody()
+    map["priceDisc"] = price.requestBody()
+    map["PaymentOptionId"] = paymentOptionId.toRequestBody()
+    //map["IsCashEnabled"] = isCashEnabled.toRequestBody()
+    map["AuctionStartPrice"] = auctionStartPrice.toRequestBody()
+   // map["DisccountEndDate"] = disccountEndDate.toRequestBody()
+    //map["IsAuctionPaied"]="".requestBody()
+    //map["SendOfferForAuction"]="".requestBody()
+    map["AuctionMinimumPrice"] = auctionMinimumPrice.toRequestBody()
+    //map["AuctionNegotiateForWhom"]="".requestBody()
+    //map["AuctionNegotiatePrice]="".requestBody()
+    map["AuctionClosingTime"] = auctionClosingTime.toRequestBody()
+    // map["HighestBidPrice"]="".toRequestBody()
+    RetrofitBuilder.GetRetrofitBuilder()
+        .addProduct3(map, imageListTOSend,shippingOptionsList,videoUrlList)
+        .enqueue(object : Callback<AddProductResponse> {
+            override fun onFailure(call: Call<AddProductResponse>, t: Throwable) {
+                println(
+                    "hhhh " + t.message
+                )
+                isNetworkFail.value = t !is HttpException
+                isLoading.value = false
+            }
+
+            override fun onResponse(
+                call: Call<AddProductResponse>,
+                response: Response<AddProductResponse>
+            ) {
+                isLoading.value = false
+                if (response.isSuccessful) {
+                    confirmAddPorductRespObserver.value = response.body()
+                } else {
+                    println(
+                        "hhhh " + response.code() + " " + Gson().toJson(response.errorBody())
+                            .toString()+ " "+Gson().toJson(getErrorResponse(response.errorBody()))
+                    )
+                    errorResponseObserver.value =
+                        getErrorResponse(response.errorBody())
+                }
+            }
+        })
+}
 
     fun getAddProduct2(
         context: Context,
@@ -407,7 +547,7 @@ class AddProductViewModel : BaseViewModel() {
         GovernmentCode: String,
         pakatId: String,
         productSep: List<DynamicSpecificationSentObject>?,
-        listImageFile: List<Uri>,//listImageFile
+        listImageFile: List<File>,//listImageFile
         MainImageIndex: String,
         videoUrl: List<String>?,
         PickUpDelivery: String,
@@ -455,19 +595,19 @@ class AddProductViewModel : BaseViewModel() {
         map["DeliveryOption"] = DeliveryOption.requestBody()
 
 
-        val listOfImages = ArrayList<MultipartBody.Part>()
-        for (i in listImageFile.indices) {
-            listOfImages.add(prepareFilePart("listImageFile", listImageFile[i], context))
-            // map["listImageFile"] = HelpFunctions.getFileImage(listImageFile[i], context).asRequestBody()
-            //  listOfImages.add(prepareFilePart2("listImageFile", listImageFile[i], context))
-            //listOfImages.add(prepareFilePart("listImageFile[$i]", listImageFile[i]))
-        }
-
-//        println("hhhh " + map)
-//        println(
-//            "hhhh catId [${categoryId}] countryId [${countryId}] region [${regionId}]  neighborhoodId [${neighborhoodId} pakaId [${pakatId}  productSep $" +
-//                    "$productSep"
-//        )
+//        val listOfImages = ArrayList<MultipartBody.Part>()
+//        for (i in listImageFile.indices) {
+//            listOfImages.add(prepareFilePart("listImageFile", listImageFile[i], context))
+//            // map["listImageFile"] = HelpFunctions.getFileImage(listImageFile[i], context).asRequestBody()
+//            //  listOfImages.add(prepareFilePart2("listImageFile", listImageFile[i], context))
+//            //listOfImages.add(prepareFilePart("listImageFile[$i]", listImageFile[i]))
+//        }
+//
+////        println("hhhh " + map)
+////        println(
+////            "hhhh catId [${categoryId}] countryId [${countryId}] region [${regionId}]  neighborhoodId [${neighborhoodId} pakaId [${pakatId}  productSep $" +
+////                    "$productSep"
+////        )
         RetrofitBuilder.GetRetrofitBuilder()
             .addProduct2(map)
             .enqueue(object : Callback<AddProductResponse> {
