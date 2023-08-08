@@ -91,17 +91,22 @@ class ConfirmationAddProductActivity : BaseActivity() {
         } else {
             negotiable_tv.text = getString(R.string.No)
         }
-
-        when (AddProductObjectData.paymentOption) {
-            AddProductObjectData.PAYMENT_OPTION_BANk -> {
-                tvCashOptionPayment.hide()
-                tvSaudiBankDepositOptionPayment.show()
-            }
-            AddProductObjectData.PAYMENT_OPTION_CASH -> {
-                tvCashOptionPayment.show()
-                tvSaudiBankDepositOptionPayment.hide()
+        /**Back**/
+        tvCashOptionPayment.hide()
+        tvSaudiBankDepositOptionPayment.hide()
+        AddProductObjectData.paymentOptionList?.let {paymentOptionList->
+            for (item in paymentOptionList) {
+                when (item) {
+                    AddProductObjectData.PAYMENT_OPTION_BANk -> {
+                        tvSaudiBankDepositOptionPayment.show()
+                    }
+                    AddProductObjectData.PAYMENT_OPTION_CASH -> {
+                        tvCashOptionPayment.show()
+                    }
+                }
             }
         }
+
         var shippingOptionText = ""
         tvShippingOption.text = shippingOptionText
         AddProductObjectData.shippingOptionSelection?.let {
@@ -337,37 +342,33 @@ class ConfirmationAddProductActivity : BaseActivity() {
     }
 
     private fun resetAddProductObject() {
-        /**activity 1*/
         AddProductObjectData.selectedCategory = null
         AddProductObjectData.selectedCategoryId = 0
         AddProductObjectData.selectedCategoryName = ""
         AddProductObjectData.videoList = null
-
+        AddProductObjectData.images = null
+        AddProductObjectData.productSpecificationList = null
         AddProductObjectData.itemTitleAr = ""
         AddProductObjectData.itemTitleEn = ""
         AddProductObjectData.subtitleAr = ""
         AddProductObjectData.subtitleEn = ""
         AddProductObjectData.itemDescriptionAr = ""
         AddProductObjectData.itemDescriptionEn = ""
-
-        /**used =1 , new =2*/
         AddProductObjectData.productCondition = 0
         AddProductObjectData.quantity = ""
         AddProductObjectData.country = null
         AddProductObjectData.region = null
         AddProductObjectData.city = null
-
         AddProductObjectData.phone = ""
-//        AddProductObjectData.phoneCountryCode = ""
-
         AddProductObjectData.priceFixed = ""
+        AddProductObjectData.priceFixedOption = false
+        AddProductObjectData.auctionOption = false
         AddProductObjectData.auctionMinPrice = ""
         AddProductObjectData.auctionStartPrice = ""
         AddProductObjectData.isNegotiablePrice = false
-//        AddProductObjectData.buyingType = ""
-//        AddProductObjectData.isvisapaid = false
-//        AddProductObjectData.isbankpaid = false
-        AddProductObjectData.productSpecificationList = null
+        AddProductObjectData.selectedAccountDetails = null
+        AddProductObjectData.selectTimeAuction = null
+        AddProductObjectData.paymentOptionList = null
         AddProductObjectData.pickUpOption = 0
         AddProductObjectData.selectedPakat = null
         AddProductObjectData.shippingOptionSelection = null
@@ -470,12 +471,13 @@ class ConfirmationAddProductActivity : BaseActivity() {
             isNegotiationEnabled = AddProductObjectData.isNegotiablePrice,
             price = AddProductObjectData.priceFixed,
             priceDisc = AddProductObjectData.priceFixed,
-            paymentOptionId = AddProductObjectData.paymentOption.toString(),
+            paymentOptionIdList = AddProductObjectData.paymentOptionList,
             isCashEnabled = "false".toString(), //same as  paymentOptionId
             disccountEndDate = "",
             auctionStartPrice = AddProductObjectData.auctionStartPrice,
             auctionMinimumPrice = AddProductObjectData.auctionMinPrice,
             auctionClosingTime = AddProductObjectData.selectTimeAuction?.endTimeUTC ?: "",
+            backAccountId = AddProductObjectData.selectedAccountDetails?.id?:0
 
             )
         /**********/

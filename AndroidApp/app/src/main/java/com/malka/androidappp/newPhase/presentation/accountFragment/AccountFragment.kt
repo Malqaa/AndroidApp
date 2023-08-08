@@ -14,17 +14,19 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.google.gson.Gson
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.data.helper.*
-import com.malka.androidappp.newPhase.presentation.accountFragment.businessAccount.businessAccountsList.SwitchAccountActivity
-import com.malka.androidappp.newPhase.presentation.MainActivity
 import com.malka.androidappp.newPhase.data.helper.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.newPhase.data.helper.widgets.rcv.GenericListAdapter
+import com.malka.androidappp.newPhase.domain.models.loginResp.LoginUser
 import com.malka.androidappp.newPhase.domain.models.servicemodels.AccountItem
 import com.malka.androidappp.newPhase.domain.models.servicemodels.AccountSubItem
-import com.malka.androidappp.newPhase.domain.models.loginResp.LoginUser
+import com.malka.androidappp.newPhase.presentation.MainActivity
+import com.malka.androidappp.newPhase.presentation.accountFragment.businessAccount.businessAccountsList.SwitchAccountActivity
 import com.malka.androidappp.newPhase.presentation.accountFragment.editProfileActivity.EditProfileActivity
+import com.malka.androidappp.newPhase.presentation.accountFragment.myBids.MyBidsActivity
+import com.malka.androidappp.newPhase.presentation.accountFragment.negotiationOffersPurchase.negotiationOfferPurchase.NegotiationOffersPurchaseActivity
+import com.malka.androidappp.newPhase.presentation.accountFragment.negotiationOffersPurchase.negotiationOfferSale.NegotiationOffersSaleActivity
 import com.malka.androidappp.newPhase.presentation.accountFragment.technicalSupportActivity.listtechincalSupportMessage.TechnicalSupportListActivity
 import com.malka.androidappp.newPhase.presentation.addProduct.AccountObject
 import com.malka.androidappp.newPhase.presentation.addressUser.addressListActivity.ListAddressesActivity
@@ -59,7 +61,10 @@ class AccountFragment : Fragment(R.layout.fragment_account),
             add(
                 AccountItem(
                     getString(R.string.Sale),
-                    arrayListOf(AccountSubItem(getString(R.string.MyProducts), R.drawable.newslogo))
+                    arrayListOf(
+                        AccountSubItem(getString(R.string.MyProducts), R.drawable.newslogo),
+                        AccountSubItem(getString(R.string.MyProductsOffers), R.drawable.path),
+                    )
                 )
             )
 
@@ -311,10 +316,16 @@ class AccountFragment : Fragment(R.layout.fragment_account),
                                                         findNavController().navigate(R.id.lost_frag)
 
                                                     }
-//                                                getString(R.string.my_bids) -> {
+                                                    getString(R.string.my_bids) -> {
+                                                        startActivity(
+                                                            Intent(
+                                                                requireActivity(),
+                                                                MyBidsActivity::class.java
+                                                            )
+                                                        )
 //                                                    findNavController().navigate(R.id.mybids)
-//
-//                                                }
+
+                                                    }
 
 //                                                getString(R.string.shopping_basket) -> {
 //                                                    if (ConstantObjects.logged_userid.isEmpty()) {
@@ -333,10 +344,26 @@ class AccountFragment : Fragment(R.layout.fragment_account),
 //                                                        )
 //                                                    }
 //                                                }
-//                                                getString(R.string.negotiation_offers) -> {
-//                                                    findNavController().navigate(R.id.negotiationOffer)
-//
-//                                                }
+                                                    getString(R.string.negotiation_offers) -> {
+                                                        startActivity(
+                                                            Intent(
+                                                                requireActivity(),
+                                                                NegotiationOffersPurchaseActivity::class.java
+                                                            )
+                                                        )
+                                                        // findNavController().navigate(R.id.negotiationOffer)
+
+                                                    }
+                                                    getString(R.string.MyProductsOffers) -> {
+                                                        startActivity(
+                                                            Intent(
+                                                                requireActivity(),
+                                                                NegotiationOffersSaleActivity::class.java
+                                                            )
+                                                        )
+                                                        // findNavController().navigate(R.id.negotiationOffer)
+
+                                                    }
                                                     getString(R.string.edit_profile) -> {
                                                         //  findNavController().navigate(R.id.editProfile)
                                                         startActivity(

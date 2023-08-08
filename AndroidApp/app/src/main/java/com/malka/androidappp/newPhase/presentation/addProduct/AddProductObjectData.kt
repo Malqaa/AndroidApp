@@ -56,7 +56,7 @@ class AddProductObjectData {
         // 1 bank , 2 cash
         var PAYMENT_OPTION_BANk=1
         var PAYMENT_OPTION_CASH=2
-        var paymentOption: Int = 0
+        var paymentOptionList: List<Int> ?=null
         var selectedAccountDetails: AccountDetails? = null
         var selectTimeAuction: TimeAuctionSelection?= null
 /**       MustPickUp = 1, NoPickUp = 2, PickUpAvailable=3*/

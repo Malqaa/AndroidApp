@@ -20,8 +20,6 @@ import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
 import com.malka.androidappp.newPhase.presentation.signup.activity3.SignupCreateNewUser
 import com.malka.androidappp.newPhase.presentation.signup.signupViewModel.SignupViewModel
 import com.yariksoffice.lingver.Lingver
-import kotlinx.android.synthetic.main.activity_confirm_change_number.*
-import kotlinx.android.synthetic.main.activity_signup_pg2.*
 import kotlinx.android.synthetic.main.activity_signup_pg2.button3
 import kotlinx.android.synthetic.main.activity_signup_pg2.pinview
 import kotlinx.android.synthetic.main.activity_signup_pg2.redmessage
@@ -51,7 +49,7 @@ class SignupOTPVerificationActivity : BaseActivity() {
             // println("hhh $datacode")
             pinview.value = datacode!!
         }
-        signupViewModel.getConfigurationResp(ConstantObjects.otpExpiryTime)
+        signupViewModel.getConfigurationResp(ConstantObjects.configration_otpExpiryTime)
 
     }
 

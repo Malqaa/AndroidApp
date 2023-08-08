@@ -65,11 +65,13 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="400dp">
+
             <ProgressBar
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"
+                android:visibility="gone"
                 android:id="@+id/progressBar"/>
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_sub_category"
@@ -110,6 +112,40 @@
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"
                 android:textSize="@dimen/_10sdp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/containerCategory"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
+                    android:paddingStart="12dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/edittext_bg">
+
+                    <Spinner
+                        android:id="@+id/spinnerDegree"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/orange" />
+                </LinearLayout>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_sub_category_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:orientation="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+            </LinearLayout>
+
         </RelativeLayout>
 
       <FrameLayout
@@ -133,7 +169,7 @@
               android:layout_width="wrap_content"
               android:layout_height="10dp"
               android:valueFrom="0"
-              android:valueTo="20000"
+              android:valueTo="2000000"
               android:id="@+id/rangePrice"
               app:labelBehavior="withinBounds"
               app:values="@array/initial_slider_values"

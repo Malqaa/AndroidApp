@@ -282,7 +282,7 @@
             android:layout_marginBottom="@dimen/_5sdp"
             android:background="@drawable/round_btn_grey"
             android:fontFamily="@font/madani_arabic_semi_bold"
-            android:text="BID"
+            android:text="@string/bidding"
             android:textAllCaps="false"
             android:textColor="#ffffff"
             android:textSize="@dimen/_14sdp" />

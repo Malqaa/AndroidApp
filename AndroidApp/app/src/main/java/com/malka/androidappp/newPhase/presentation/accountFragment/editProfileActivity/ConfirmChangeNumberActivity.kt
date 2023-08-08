@@ -20,7 +20,6 @@ import com.malka.androidappp.newPhase.data.network.constants.Constants
 import com.malka.androidappp.newPhase.domain.models.loginResp.LoginUser
 import com.malka.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.OtpData
 import com.malka.androidappp.newPhase.presentation.accountFragment.AccountViewModel
-import com.yariksoffice.lingver.Lingver
 import io.paperdb.Paper
 import kotlinx.android.synthetic.main.activity_confirm_change_number.*
 import kotlinx.android.synthetic.main.toolbar_main.*
@@ -49,7 +48,7 @@ class ConfirmChangeNumberActivity : BaseActivity() {
             // println("hhh $datacode")
             pinview.value = datacode?:""
         }
-        accountViewModel.getConfigurationResp(ConstantObjects.otpExpiryTime)
+        accountViewModel.getConfigurationResp(ConstantObjects.configration_otpExpiryTime)
 
     }
 

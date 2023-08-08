@@ -10,7 +10,8 @@ import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.domain.models.servicemodels.Negotiationmodel
 import com.malka.androidappp.newPhase.data.helper.widgets.rcv.GenericListAdapter
 import kotlinx.android.synthetic.main.fragment_negotiation_offer.*
-import kotlinx.android.synthetic.main.negotiation_offers_design.view.*
+import kotlinx.android.synthetic.main.item_negotiation_offers.*
+
 import kotlinx.android.synthetic.main.toolbar_main.*
 
 class negotiation_offers : Fragment(R.layout.fragment_negotiation_offer) {
@@ -100,7 +101,7 @@ class negotiation_offers : Fragment(R.layout.fragment_negotiation_offer) {
 
     private fun NegotiationOffersAdaptor(list: List<Negotiationmodel>) {
         negotiation_rcv.adapter = object : GenericListAdapter<Negotiationmodel>(
-            R.layout.negotiation_offers_design,
+            R.layout.item_negotiation_offers,
             bind = { element, holder, itemCount, position ->
                 holder.view.run {
                     element.run {
@@ -109,7 +110,7 @@ class negotiation_offers : Fragment(R.layout.fragment_negotiation_offer) {
                         product_city.text=procity
                         product_image.setImageResource(proimage)
                         person_name.text=pername
-                        person_since.text=persince
+                        tvStatus.text=persince
                     }
                 }
             }

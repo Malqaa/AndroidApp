@@ -3,8 +3,11 @@ package com.malka.androidappp.newPhase.presentation.homeScreen
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
@@ -168,6 +171,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
             }
         })
         homeViewModel.searchObserver.observe(viewLifecycleOwner) { searchResp ->
+          // println("hhhh "+Gson().toJson(searchResp))
             if (searchResp != null) {
                 if (searchResp.status_code == 200) {
                     var list: ArrayList<Product> = Gson().fromJson(
@@ -420,6 +424,30 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
                 startActivity(Intent(context, CartActivity::class.java))
             }
         }
+        ivSearchIcon.setOnClickListener {
+            if(etSearch.text.trim().toString()==""){
+                etSearch.error=getString(R.string.enter_the_name_of_the_product_you_want_to_sell)
+            }else{
+                startActivity(Intent(requireContext(), SearchCategoryActivity::class.java).apply {
+                    putExtra("ComeFrom",ConstantObjects.search_product)
+                    putExtra("productName",etSearch.text.trim().toString())
+                })
+            }
+        }
+        etSearch.setOnEditorActionListener(object: TextView.OnEditorActionListener{
+            override fun onEditorAction(p0: TextView?, actionId: Int, p2: KeyEvent?): Boolean {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    startActivity(Intent(requireContext(), SearchCategoryActivity::class.java).apply {
+                        putExtra("ComeFrom",ConstantObjects.search_product)
+                        putExtra("productName",etSearch.text.trim().toString())
+                    })
+                    return true;
+                }
+                return false;
+            }
+
+        });
+
 /*       textInputLayout11._view2()
 //            .setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
 //                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
@@ -442,13 +470,19 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
 //                putExtra("CategoryID", it.categoryId.toString())
 //            })
 //            (requireActivity() as BaseActivity).hideSoftKeyboard(textInputLayout11._view2())
+            startActivity(Intent(requireContext(), SearchCategoryActivity::class.java).apply {
+                putExtra("ComeFrom",ConstantObjects.search_product)
+                putExtra("productName", it.name)
 
-            startActivity(Intent(requireContext(), SearchActivity::class.java).apply {
-                putExtra(ConstantObjects.searchQueryKey, it.name)
+
             })
+//            startActivity(Intent(requireContext(), SearchActivity::class.java).apply {
+//                putExtra(ConstantObjects.searchQueryKey, it.name)
+//            })
             (requireActivity() as BaseActivity).hideSoftKeyboard(textInputLayout11._view2())
         }
         textInputLayout11._onChange { query ->
+            println("hhhh "+query)
             if (!query.isEmpty()) {
                 homeViewModel.doSearch(mapOf("productName" to query))
             } else {
@@ -462,6 +496,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
         startActivity(Intent(requireContext(), SearchCategoryActivity::class.java).apply {
             putExtra("CategoryDesc", ConstantObjects.categoryList[position].name)
             putExtra("CategoryID", ConstantObjects.categoryList[position].id)
+            putExtra("ComeFrom",ConstantObjects.search_categoriesDetails)
             putExtra("SearchQuery", "")
             putExtra("isMapShow", ConstantObjects.categoryList[position].id == 3)
 

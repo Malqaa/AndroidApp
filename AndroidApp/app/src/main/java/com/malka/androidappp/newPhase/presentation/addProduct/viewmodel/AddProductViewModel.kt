@@ -18,7 +18,6 @@ import com.malka.androidappp.newPhase.domain.models.pakatResp.PakatResp
 import com.malka.androidappp.newPhase.domain.models.productTags.CategoryTagsResp
 import com.malka.androidappp.newPhase.domain.models.servicemodels.AddProductResponse
 import com.malka.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -404,14 +403,15 @@ fun getAddProduct3(
     isNegotiationEnabled: Boolean,
     price: String,
     priceDisc: String,
-    paymentOptionId: String,
+    paymentOptionIdList: List<Int>?,
     isCashEnabled: String,
     disccountEndDate: String,
     auctionStartPrice: String,
     auctionMinimumPrice: String,
-    auctionClosingTime: String
+    auctionClosingTime: String,
+    backAccountId: Int,
 
-) {
+    ) {
     isLoading.value = true
     var imageListTOSend: ArrayList<MultipartBody.Part> = ArrayList()
     for (file in listImageFile) {
@@ -424,6 +424,7 @@ fun getAddProduct3(
         imageListTOSend.add(multipartBody)
     }
     var shippingOptionsList: ArrayList<MultipartBody.Part> = ArrayList()
+
     for(item in DeliveryOption){
        // var requestbody: RequestBody = item.requestBody()
         var multipartBody: MultipartBody.Part =   MultipartBody.Part.createFormData("ShippingOptions",item)
@@ -431,14 +432,24 @@ fun getAddProduct3(
     }
     var videoUrlList: ArrayList<MultipartBody.Part> = ArrayList()
     videoUrl?.let {
-        for(item in videoUrl){
+        for (item in videoUrl) {
             // var requestbody: RequestBody = item.requestBody()
-            var multipartBody: MultipartBody.Part =   MultipartBody.Part.createFormData("videoUrl",item)
+            var multipartBody: MultipartBody.Part =
+                MultipartBody.Part.createFormData("videoUrl", item)
             videoUrlList.add(multipartBody)
         }
 
     }
+    var sendPaymentOptionList: ArrayList<MultipartBody.Part> = ArrayList()
+    paymentOptionIdList?.let {
+        for (item in paymentOptionIdList) {
+            // var requestbody: RequestBody = item.requestBody()
+            var multipartBody: MultipartBody.Part =
+                MultipartBody.Part.createFormData("PaymentOptions", item.toString())
+            sendPaymentOptionList.add(multipartBody)
+        }
 
+    }
 
 
     val map: HashMap<String, RequestBody> = HashMap()
@@ -476,10 +487,10 @@ fun getAddProduct3(
     map["IsNegotiationEnabled"] = isNegotiationEnabled.toString().requestBody()
     map["price"] = price.requestBody()
     map["priceDisc"] = price.requestBody()
-    map["PaymentOptionId"] = paymentOptionId.toRequestBody()
+
     //map["IsCashEnabled"] = isCashEnabled.toRequestBody()
     map["AuctionStartPrice"] = auctionStartPrice.toRequestBody()
-   // map["DisccountEndDate"] = disccountEndDate.toRequestBody()
+    // map["DisccountEndDate"] = disccountEndDate.toRequestBody()
     //map["IsAuctionPaied"]="".requestBody()
     //map["SendOfferForAuction"]="".requestBody()
     map["AuctionMinimumPrice"] = auctionMinimumPrice.toRequestBody()
@@ -487,8 +498,11 @@ fun getAddProduct3(
     //map["AuctionNegotiatePrice]="".requestBody()
     map["AuctionClosingTime"] = auctionClosingTime.toRequestBody()
     // map["HighestBidPrice"]="".toRequestBody()
+    if (backAccountId != 0) {
+        map["BankAccountId"] = backAccountId.toString().toRequestBody()
+    }
     RetrofitBuilder.GetRetrofitBuilder()
-        .addProduct3(map, imageListTOSend,shippingOptionsList,videoUrlList)
+        .addProduct3(map, imageListTOSend, shippingOptionsList, videoUrlList, sendPaymentOptionList)
         .enqueue(object : Callback<AddProductResponse> {
             override fun onFailure(call: Call<AddProductResponse>, t: Throwable) {
                 println(

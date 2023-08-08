@@ -14,33 +14,25 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.gson.Gson
 import com.google.gson.TypeAdapter
 import com.malka.androidappp.R
-import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
 import com.malka.androidappp.newPhase.core.BaseActivity
-import com.malka.androidappp.newPhase.data.helper.EndlessRecyclerViewScrollListener
-import com.malka.androidappp.newPhase.data.helper.HelpFunctions
-import com.malka.androidappp.newPhase.data.helper.hide
-import com.malka.androidappp.newPhase.data.helper.show
+import com.malka.androidappp.newPhase.data.helper.*
 import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
 import com.malka.androidappp.newPhase.data.network.service.MalqaApiService
 import com.malka.androidappp.newPhase.domain.models.ErrorResponse
+import com.malka.androidappp.newPhase.domain.models.productResp.CategoriesSearchItem
 import com.malka.androidappp.newPhase.domain.models.productResp.Product
-import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
 import com.malka.androidappp.newPhase.presentation.adapterShared.ProductHorizontalAdapter
 import com.malka.androidappp.newPhase.presentation.adapterShared.SetOnProductItemListeners
+import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
 import com.malka.androidappp.newPhase.presentation.productDetailsActivity.ProductDetailsActivity
 import com.malka.androidappp.newPhase.presentation.searchProductListActivity.CategoryProductViewModel
 import com.malka.androidappp.newPhase.presentation.searchProductListActivity.browse_market.filterDialog.FilterCategoryProductsDialog
 import kotlinx.android.synthetic.main.fragment_browse_market.*
-import kotlinx.android.synthetic.main.fragment_browse_market.progressBar
-import kotlinx.android.synthetic.main.fragment_browse_market.progressBarMore
-import kotlinx.android.synthetic.main.fragment_browse_market.swipe_to_refresh
-import kotlinx.android.synthetic.main.fragment_browse_market.tvError
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.ResponseBody
-
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -57,6 +49,7 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     var specificationList: List<String> = ArrayList()
     var startPrice: Float = 0f
     var endProce: Float = 0f
+    var comeFrom = 1
 
     //    lateinit var productSearchCategoryAdapter: ProductSearchCategoryAdapter
     lateinit var productSearchCategoryAdapter: ProductHorizontalAdapter
@@ -72,11 +65,13 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     var pageIndexQuery = "pageIndex="
     var langQuery = "lang="
     var queryString = ""
-
+    var productName: String? = null
     var added_product_id_to_fav = 0
     lateinit var endlessRecyclerViewScrollListener: EndlessRecyclerViewScrollListener
     lateinit var endlessRecyclerViewScrollListener2: EndlessRecyclerViewScrollListener
     var isFollowCategory: Boolean = false
+    var categoriesForProductList: ArrayList<CategoriesSearchItem> = ArrayList()
+    var getCategoryForFirstTimeOnlyToUseInFilter = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_browse_market)
@@ -85,20 +80,33 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         setProductSearchCategoryAdapter()
         setVeiwClickListeners()
         categoryID = intent.getIntExtra("CategoryID", 0)
-        println("hhhh "+categoryID)
+        comeFrom = intent.getIntExtra("ComeFrom", 0)
+        productName = intent.getStringExtra("productName")
+        println("hhhh " + categoryID)
         filterCategoryProductsDialog = FilterCategoryProductsDialog(
             this,
             FilterCategoryProductsDialog.subCategoryType,
             categoryID,
-            this
+            this,
+            comeFrom
         )
+        filterCategoryProductsDialog.setCategories(categoriesForProductList)
         setupViewModel()
-        queryString =
-            "${categoryQuery}${categoryID}&${pageCountQuery}&${langQuery}${ConstantObjects.currentLanguage}&${pageIndexQuery}${1}"
-
+//        queryString =
+//            "${categoryQuery}${categoryID}&${pageCountQuery}&${langQuery}${ConstantObjects.currentLanguage}&${pageIndexQuery}${1}"
+        when (comeFrom) {
+            ConstantObjects.search_categoriesDetails -> {
+                btnSubCatgeoryFilter.text = getText(R.string.sub_categories)
+            }
+            ConstantObjects.search_product -> {
+                btnSubCatgeoryFilter.text = getText(R.string.Categories)
+            }
+            ConstantObjects.search_seller -> {
+                btnSubCatgeoryFilter.text = getText(R.string.Categories)
+            }
+        }
         onRefresh()
-        if (HelpFunctions.isUserLoggedIn())
-            productsListViewModel.getCategoryFollow()
+
     }
 
     private fun setupViewModel() {
@@ -133,15 +141,24 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             }
 
         }
-        productsListViewModel.productListRespObserver.observe(this) { productListResp ->
+        productsListViewModel.searchProductListRespObserver.observe(this) { productListResp ->
             if (productListResp.status_code == 200) {
-                if (productListResp.productList != null && productListResp.productList.isNotEmpty()) {
-                    productList.clear()
-                    productList.addAll(productListResp.productList)
+                if (productListResp.data?.products != null && productListResp.data.products.isNotEmpty()) {
+                    //productList.clear()
+                    productList.addAll(productListResp.data.products)
                     productSearchCategoryAdapter.notifyDataSetChanged()
                 } else {
                     if (productList.isEmpty())
-                        showProductApiError(getString(R.string.noProductsAdded))
+                        showProductApiError(getString(R.string.noProductsFound))
+                }
+
+                if (!getCategoryForFirstTimeOnlyToUseInFilter) {
+                    if (productListResp.data?.categories != null) {
+                        categoriesForProductList.clear()
+                        categoriesForProductList.addAll(productListResp.data?.categories)
+                        filterCategoryProductsDialog.setCategories(categoriesForProductList)
+                        getCategoryForFirstTimeOnlyToUseInFilter = true
+                    }
                 }
             }
         }
@@ -202,6 +219,7 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                         }
                     }
                 }
+
             }
         }
         productsListViewModel.categoryFollowRespObserver.observe(this) { categoryFolloeResp ->
@@ -249,19 +267,26 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             //GetSubCategoryByMainCategory(CategoryID)
 
             filterCategoryProductsDialog.show()
+            filterCategoryProductsDialog.setCategories(categoriesForProductList)
             filterCategoryProductsDialog.setSelectedTap(FilterCategoryProductsDialog.subCategoryType)
+
         }
         btnRegion.setOnClickListener {
             //GetSubCategoryByMainCategory(CategoryID)
             // var filterCategoryProductsDialog = FilterCategoryProductsDialog(this,FilterCategoryProductsDialog.regionType,categoryID)
+
             filterCategoryProductsDialog.show()
+            filterCategoryProductsDialog.setCategories(categoriesForProductList)
             filterCategoryProductsDialog.setSelectedTap(FilterCategoryProductsDialog.regionType)
+
         }
         btnSpecification.setOnClickListener {
             //GetSubCategoryByMainCategory(CategoryID)
             // var filterCategoryProductsDialog = FilterCategoryProductsDialog(this,FilterCategoryProductsDialog.specificationType,categoryID)
             filterCategoryProductsDialog.show()
+            filterCategoryProductsDialog.setCategories(categoriesForProductList)
             filterCategoryProductsDialog.setSelectedTap(FilterCategoryProductsDialog.specificationType)
+
         }
         follow_category.setOnClickListener {
             if (HelpFunctions.isUserLoggedIn()) {
@@ -302,9 +327,10 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                         subCategoryList,
                         specificationList,
                         startPrice,
-                        endProce
+                        endProce,
+                        productName,
+                        comeFrom
                     )
-
                 }
             }
         endlessRecyclerViewScrollListener2 =
@@ -321,7 +347,9 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                         subCategoryList,
                         specificationList,
                         startPrice,
-                        endProce
+                        endProce,
+                        productName,
+                        comeFrom
                     )
 
                 }
@@ -331,24 +359,52 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     }
 
     override fun onRefresh() {
+        tvError.hide()
         endlessRecyclerViewScrollListener.resetState()
-
         endlessRecyclerViewScrollListener2.resetState()
         swipe_to_refresh.isRefreshing = false
         productList.clear()
         productSearchCategoryAdapter.notifyDataSetChanged()
-        productsListViewModel.searchForProduct(
-            categoryID,
-            ConstantObjects.currentLanguage,
-            1,
-            countryList,
-            regionList,
-            neighoodList,
-            subCategoryList,
-            specificationList,
-            startPrice,
-            endProce
-        )
+        when (comeFrom) {
+            ConstantObjects.search_categoriesDetails -> {
+                follow_category.show()
+                if (HelpFunctions.isUserLoggedIn())
+                    productsListViewModel.getCategoryFollow()
+                productsListViewModel.searchForProduct(
+                    categoryID,
+                    ConstantObjects.currentLanguage,
+                    1,
+                    countryList,
+                    regionList,
+                    neighoodList,
+                    subCategoryList,
+                    specificationList,
+                    startPrice,
+                    endProce,
+                    productName,
+                    comeFrom
+                )
+            }
+            ConstantObjects.search_product -> {
+                follow_category.hide()
+                productsListViewModel.searchForProduct(
+                    categoryID,
+                    ConstantObjects.currentLanguage,
+                    1,
+                    countryList,
+                    regionList,
+                    neighoodList,
+                    subCategoryList,
+                    specificationList,
+                    startPrice,
+                    endProce,
+                    productName,
+                    comeFrom
+                )
+            }
+        }
+
+
     }
 
     /**open activity product detials functions**/
@@ -420,7 +476,8 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         subCategoryList: List<Int>,
         specificationList: List<String>,
         startPrice: Float,
-        endProce: Float
+        endProce: Float,
+        mainCategoryId:Int
     ) {
         productList.clear()
         productSearchCategoryAdapter.notifyDataSetChanged()
@@ -431,6 +488,7 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         this.specificationList = specificationList
         this.startPrice = startPrice
         this.endProce = endProce
+        this.categoryID=mainCategoryId
         onRefresh()
         // productsListViewModel.searchForProduct(categoryID, ConstantObjects.currentLanguage, 1,countryList,regionList,neighoodList,subCategoryList,specificationList,startPrice,endProce)
     }
@@ -445,6 +503,14 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         this.specificationList = ArrayList()
         this.startPrice = 0f
         this.endProce = 0f
+        when(comeFrom){
+            ConstantObjects.search_categoriesDetails->{
+
+            }
+            else->{
+                this.categoryID=0
+            }
+        }
         onRefresh()
         //  productsListViewModel.searchForProduct(categoryID, ConstantObjects.currentLanguage, 1,countryList,regionList,neighoodList,subCategoryList,specificationList,startPrice,endProce)
 

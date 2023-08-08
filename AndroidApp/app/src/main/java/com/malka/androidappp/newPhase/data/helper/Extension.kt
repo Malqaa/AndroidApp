@@ -131,17 +131,46 @@ object Extension {
         pb_loading?.show()
         var imagePath= if(path==""||path==null) "emptyPath" else path
         Picasso.get()
-            .load(imagePath.replace("http","https"))
+            .load(imagePath)//.replace("http","https")
             .error(R.drawable.main_logo)
             .into(imageView, object : Callback {
                 override fun onSuccess() {
                     pb_loading?.hide()
-                  //  onComplete?.invoke()
+                    onComplete?.invoke()
                 }
 
                 override fun onError(e: java.lang.Exception?) {
                     pb_loading?.hide()
-                   // onComplete?.invoke()
+                    println("hhh "+e?.message)
+                   onComplete?.invoke()
+                }
+
+            })
+    }
+    fun loadThumbnail2(
+        context: Context,
+        path: String?,
+        imageView: ImageView,
+        pb_loading: View? = null,
+        onComplete: (() -> Unit)? = null
+    ) {
+
+        pb_loading?.show()
+        var imagePath= if(path==""||path==null) "emptyPath" else path
+        Picasso.get()
+            .load(imagePath)//.replace("http","https")
+            .error(R.drawable.main_logo)
+            .resize(60,60)
+            .into(imageView, object : Callback {
+                override fun onSuccess() {
+                    pb_loading?.hide()
+                    //  onComplete?.invoke()
+                }
+
+                override fun onError(e: java.lang.Exception?) {
+                    pb_loading?.hide()
+                    println("hhh "+e?.message)
+                    // onComplete?.invoke()
                 }
 
             })

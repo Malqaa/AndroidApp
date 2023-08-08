@@ -814,9 +814,7 @@
     <string name="Buying">
     شراء
   </string>
-    <string name="Categories">
-    التصنيفات
-  </string>
+    <string name="Categories">التصنيفات</string>
     <string name="CurrentListings">
     القوائم الحالية
   </string>
@@ -844,9 +842,7 @@
     <string name="Searches">
     عمليات البحث
   </string>
-    <string name="Selectall">
-    اختر الكل
-  </string>
+    <string name="Selectall">اختر الكل</string>
     <string name="Sellers">
     الباعة
   </string>
@@ -1141,9 +1137,7 @@
     <string name="burnerandhotplatenumber">
     الموقد وصفيحة التسخين
   </string>
-    <string name="Cancel">
-    ألغاء
-  </string>
+    <string name="Cancel">ألغاء</string>
     <string name="cancelAshipmentOrder">
    إلغاء طلب الشحن
   </string>
@@ -1581,9 +1575,8 @@
     <string name="Mar">
     مارس
   </string>
-    <string name="MyProducts">
-    منتجاتي
-  </string>
+    <string name="MyProducts">منتجاتي</string>
+  <string name="MyProductsOffers">عروص منتجاتي</string>
     <string name="Oops">
     وجه الفتاة
   </string>
@@ -2512,6 +2505,7 @@
     <string name="List_Auctions_detail">أشترك في المزادات او اشترى بالسعر المعروض</string>
     <string name="follow_news">متابعة كل جديد لهذا القسم</string>
     <string name="price_negotiation">التفاوض على الأسعار</string>
+  <string name="negotiationPrice">سعر التفاوض</string>
     <string name="have_a_question">لدي سؤال؟</string>
     <string name="merchant">تاجر</string>
     <string name="add_product">إضافة منتج</string>
@@ -2533,7 +2527,7 @@
     <string name="sent">المرسلة</string>
     <string name="received">المستلمة</string>
     <string name="sent_to_buyers">مرسلة لمشترين</string>
-    <string name="_3_days_after_the_offer_ends">3 أيام على انتهاء العرض</string>
+    <string name="_3_days_after_the_offer_ends"> ساعات على انتهاء العرض</string>
     <string name="no_response_yet">لم يتم الرد بعد</string>
     <string name="sent_to_sellers">مرسلة لبائعين</string>
     <string name="what_do_you_want_to_sell">ماذا تريد ان تبيع ؟</string>
@@ -2551,7 +2545,7 @@
     <string name="purchasing_price_">سعر الشراء</string>
     <string name="payment_options">خيارات الدفع</string>
     <string name="rial">ريال</string>
-    <string name="saudi_national_bank">البنك السعودى الوطنى</string>
+    <string name="bank_transfer_2">تحويل بنكي</string>
     <string name="add_a_new_account">إضافة حساب جديد</string>
     <string name="visa_mastercard">فيزا/ماستر كارد</string>
     <string name="sale_details">تفاصيل البيع</string>
@@ -2596,7 +2590,7 @@
     <string name="sub_title_en">العنوان الفرعي للعنصر بالانجليزيه</string>
     <string name="item_title_ar">عنوان السلعة بالعربيه</string>
     <string name="sub_title_ar">العنوان الفرعي للعنصر بالعربيه</string>
-  <string name="saudi_bank_deposit" >وديعة بنكية سعودية</string>
+  <string name="bank_transfer" >تحويل بنكي</string>
     <string name="dismiss">رفض</string>
   <string name="enter">أدخل</string>
     <string name="account_holder_s_name">اسم صاحب الحساب</string>
@@ -2702,7 +2696,9 @@
     <string name="edit_profile">تعديل بياناتى</string>
     <string name="application_settings">اعدادات التطبيق</string>
     <string name="my_bids">مزايداتى</string>
+  <string name="myBid">عرضي</string>
     <string name="negotiation_offers">عروض التفاوض</string>
+  <string name="offerPrice">سعر العرض</string>
     <string name="save_addresses">العناوين المحفوظة</string>
     <string name="update_address">تحديث العناوين</string>
     <string name="member_since">عضو منذ</string>
@@ -2923,4 +2919,25 @@
   <string name="negotiationFee">رسوم التفاوض</string>
   <string name="enterBidPrice">أدخل سعر المزايده</string>
   <string name="enterCorrectBidPrice">أدخل سعر المزايده الصحيح</string>
+  <string name="writeNegotionPrice">من فضللك اكتب السعرالذى تريد ارساله للبائع</string>
+  <string name="writeNegotiationPrice2">أدخل سعر التفاوض</string>
+  <string name="negotiationPriceSent"> تم إرسال سعر التفاوض</string>
+  <string name="followNegotiationsOffers">متابعة عروض التفاوض</string>
+  <string name="noOffersFound">لم يتم العثور على عروض</string>
+  <string name="noResponse">لم يتم الرد</string>
+  <string name="waitForYourResponse">فى أنتظار الرد</string>
+  <string name="acceptNegotiationsOffers">قبول عرض التفاوض</string>
+  <string name="rejectNegotiationsOffers">رفض عرض التفاوض</string>
+  <string name="OfferCanceled">تم إلغاء العرض</string>
+  <string name="accept">قبول</string>
+  <string name="reject">رفض</string>
+  <string name="selectExpirationHours">الرجاء تحديد ساعات الانتهاء</string>
+  <string name="refuseReason">سبب الرفض</string>
+  <string name="accepted">تم القبول</string>
+  <string name="rejected">تم الرفض</string>
+  <string name="sendOffer">إرسال عرض</string>
+  <string name="repostTheProduct">أعاده نشر المنتج</string>
+  <string name="user">عميل</string>
+  <string name="selectUser">أختر عميل</string>
+  <string name="you">أنت</string>
 </resources>

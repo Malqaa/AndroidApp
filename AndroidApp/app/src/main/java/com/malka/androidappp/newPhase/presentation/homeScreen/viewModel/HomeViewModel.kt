@@ -1,6 +1,7 @@
 package com.malka.androidappp.newPhase.presentation.homeScreen.viewModel
 
 import androidx.lifecycle.MutableLiveData
+import com.google.gson.Gson
 import com.malka.androidappp.newPhase.core.BaseViewModel
 import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.ErrorResponse
@@ -53,12 +54,14 @@ class HomeViewModel : BaseViewModel() {
             .enqueue(object : Callback<GeneralResponse> {
                 override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
                    // isNetworkFail.value = t !is HttpException
+                //    println("hhhh error ")
                 }
 
                 override fun onResponse(
                     call: Call<GeneralResponse>,
                     response: Response<GeneralResponse>
                 ) {
+                  //  println("hhhh  "+response.code())
                     if (response.isSuccessful) {
                         searchObserver.value = response.body()
                     }

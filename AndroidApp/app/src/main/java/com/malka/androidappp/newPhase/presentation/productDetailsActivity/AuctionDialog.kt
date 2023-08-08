@@ -3,6 +3,7 @@ package com.malka.androidappp.newPhase.presentation.productDetailsActivity
 import android.content.Context
 import android.content.DialogInterface
 import android.view.View
+import com.google.gson.Gson
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseDialog
 import com.malka.androidappp.newPhase.data.helper.ConstantObjects
@@ -132,6 +133,7 @@ class AuctionDialog(
         increaseEachTimePrice: Float,
         highestBidPrice: Float
     ) {
+        progressBar.visibility = View.VISIBLE
         close_alert_bid.isEnabled = false
         btn_bid.isEnabled = false
         var data: HashMap<String, Any> = HashMap()
@@ -141,6 +143,7 @@ class AuctionDialog(
         data["activateAutomaticBidding"] = autoBidding
         data["increaseEachTimePrice"] = increaseEachTimePrice
         data["highestBidPrice"] = highestBidPrice
+        println("hhhh "+Gson().toJson(data))
         countriesCallback = RetrofitBuilder.GetRetrofitBuilder().addBid(data)
         countriesCallback?.enqueue(object : Callback<AddBidResp> {
             override fun onFailure(call: Call<AddBidResp>, t: Throwable) {
@@ -173,7 +176,7 @@ class AuctionDialog(
                             generalRespone = it
                             if (generalRespone?.status_code == 200) {
                                 dismiss()
-                                setClickListeners.setOnSuccessListeners(generalRespone?.BidObject?.highestBidPrice?:0f)
+                                setClickListeners.setOnSuccessListeners(generalRespone?.BidObject?.bidPrice?:0f)
 
                             }
 

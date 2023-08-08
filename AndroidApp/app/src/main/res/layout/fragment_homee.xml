@@ -52,12 +52,60 @@
                 android:text="@string/want_to_search_for_a_commodity_or_an_auction"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_12sdp" />
+
             <com.malka.androidappp.newPhase.data.helper.widgets.edittext.SearchBarComponent
                 android:id="@+id/textInputLayout11"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:layout_marginTop="@dimen/_10sdp"
                 app:hint="@string/search_by_name_auction_number_or_item" />
+
+        <LinearLayout
+            android:id="@+id/itemLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edittext_bg"
+            android:backgroundTint="#F9F9F9"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <EditText
+                    android:layout_alignParentStart="true"
+                    android:layout_toStartOf="@+id/ivSearchIcon"
+                    android:id="@+id/etSearch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="viewStart"
+                    android:background="@null"
+                    android:imeOptions="actionSearch"
+                    android:fontFamily="@font/madani_arabic_medium"
+                    android:hint="@string/enter_the_name_of_the_product_you_want_to_sell"
+                    android:maxLines="1"
+                    android:inputType="text"
+                    android:padding="@dimen/_10sdp"
+                    android:textSize="@dimen/_10sdp"
+                    />
+
+
+                <ImageView
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"
+                    android:id="@+id/ivSearchIcon"
+                    android:layout_width="@dimen/_14sdp"
+                    android:layout_height="@dimen/_14sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_marginStart="10dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/search_icon" />
+
+
+            </RelativeLayout>
+        </LinearLayout>
             <RelativeLayout
                 android:id="@+id/sliderLayout"
                 android:layout_width="match_parent"

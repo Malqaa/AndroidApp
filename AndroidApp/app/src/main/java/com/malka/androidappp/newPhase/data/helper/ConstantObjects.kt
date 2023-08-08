@@ -92,10 +92,11 @@ class ConstantObjects {
         const val orderStatus_client_cancel = 6
 
         /***configration**/
-        const val otpExpiryTime = "OTPExpiryTime"
-        const val resetPasswordExpiryTime = "ResetPasswordExpiryTime"
-        const val resetPasswordWrongTrials = "ResetPasswordWrongTrials"
+        const val configration_otpExpiryTime = "OTPExpiryTime"
+        const val configration_resetPasswordExpiryTime = "ResetPasswordExpiryTime"
+        const val configration_resetPasswordWrongTrials = "ResetPasswordWrongTrials"
         const val otpWrongTrials = "OTPWrongTrials"
+        const val configration_OfferExpiredHours = "OfferExpiredHours"
 
         /**auctionClosingPeriodsUnit**/
         var auctionClosingPeriodsUnit_day = 1
@@ -110,5 +111,11 @@ class ConstantObjects {
         const val shippingOption_integratedShippingCompanyOptions = 1
         const val shippingOption_freeShippingWithinSaudiArabia = 2
         const val  shippingOption_arrangementWillBeMadeWithTheBuyer=3
+        /**SearchCategories**/
+        const val search_categoriesDetails=1
+        const val search_seller=2
+        const val search_product=3
+
+
     }
 }

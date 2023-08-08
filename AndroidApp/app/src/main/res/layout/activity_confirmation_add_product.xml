@@ -575,7 +575,7 @@
                             android:drawablePadding="@dimen/_5sdp"
                             android:fontFamily="@font/madani_arabic_medium"
                             android:gravity="end"
-                            android:text="@string/saudi_bank_deposit"
+                            android:text="@string/bank_transfer"
                             android:textColor="@color/grey"
                             android:textSize="@dimen/_10sdp"
                             android:visibility="gone"

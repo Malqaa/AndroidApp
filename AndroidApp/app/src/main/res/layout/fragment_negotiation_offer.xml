@@ -96,7 +96,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/negotiation_offers_design" />
+            tools:listitem="@layout/item_negotiation_offers" />
 
 
     </LinearLayout>

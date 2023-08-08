@@ -17,13 +17,13 @@
             android:background="@color/bg">
 
             <TextView
+                android:id="@+id/tvExpireHours"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:backgroundTint="@color/bg"
                 android:fontFamily="@font/madani_arabic_extra_light"
                 android:gravity="center"
-                android:text="@string/_3_days_after_the_offer_ends"
                 android:textColor="@color/white" />
         </LinearLayout>
 
@@ -35,12 +35,24 @@
             android:layout_marginBottom="@dimen/_5sdp"
             android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/product_image"
-                android:layout_width="@dimen/_110sdp"
-                android:layout_height="@dimen/_104sdp"
-                android:src="@drawable/detailpic1"
-                android:padding="@dimen/_5sdp"/>
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/product_image"
+                    android:layout_width="@dimen/_110sdp"
+                    android:layout_height="@dimen/_104sdp"
+                    android:padding="@dimen/_5sdp"
+                    android:src="@drawable/detailpic1" />
+
+                <ProgressBar
+                    android:id="@+id/loader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true" />
+            </RelativeLayout>
+
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -111,13 +123,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/_1sdp"
-            android:background="@color/light_gray">
-
-        </LinearLayout>
+            android:background="@color/light_gray" />
 
 
-        <LinearLayout
-            android:weightSum="3"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/_5sdp"
@@ -128,15 +137,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_5sdp"
+                android:id="@+id/ivImageContainer"
                 android:layout_gravity="center_vertical">
-
-
                 <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center">
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
-                    <ImageView
+                    <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/seller_picture"
                         android:layout_width="@dimen/_54sdp"
                         android:layout_height="@dimen/_54sdp"
@@ -155,24 +162,28 @@
                         android:gravity="center"
                         android:text="@string/seller"
                         android:textAllCaps="false"
-                        android:visibility="visible"
+                        android:visibility="gone"
                         android:textColor="#ffffff"
                         android:textSize="@dimen/_6sdp" />
+
+                    <ProgressBar
+                        android:id="@+id/loader2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true" />
 
                 </RelativeLayout>
 
 
             </LinearLayout>
 
-
-
-
             <LinearLayout
-                android:layout_weight="1"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_marginStart="@dimen/_5sdp"
+                android:layout_toEndOf="@+id/ivImageContainer"
+                android:layout_toStartOf="@+id/containerButton"
                 android:gravity="center_vertical">
 
                 <TextView
@@ -180,16 +191,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/madani_arabic_medium"
-                    android:text="Ahmed Mohamed "
+                    android:text=""
                     android:textSize="@dimen/_14sdp"
                     android:textColor="#262626" />
-
                 <TextView
-                    android:id="@+id/person_since"
+                    android:id="@+id/tvOfferedPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/madani_arabic_light"
-                    android:text="@string/member_since"
+                    android:textSize="@dimen/_12sdp"
+                    android:textColor="@color/bg" />
+
+                <TextView
+                    android:id="@+id/tvStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/madani_arabic_light"
                     android:textSize="@dimen/_12sdp"
                     android:textColor="#6D6C74" />
 
@@ -197,38 +214,77 @@
             </LinearLayout>
 
 
-            <LinearLayout
-                android:weightSum="2"
+            <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
                 android:orientation="horizontal"
-                android:gravity="center">
+                android:id="@+id/containerButton"
+                >
 
                 <TextView
-                    android:id="@+id/btn"
-                    android:layout_weight="1"
+                    android:id="@+id/btnCancel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
                     android:layout_gravity="center_vertical"
+                    android:padding="@dimen/_5sdp"
+                    android:paddingStart="@dimen/_20sdp"
                     android:background="@drawable/product_attribute_bg4"
                     android:backgroundTint="@color/bg"
                     android:fontFamily="@font/madani_arabic_semi_bold"
                     android:gravity="center"
                     android:layout_marginEnd="@dimen/_5sdp"
-                    android:padding="@dimen/_8sdp"
+                    android:paddingEnd="@dimen/_20sdp"
                     android:text="@string/Cancel"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_12sdp" />
 
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/containerSaleButton"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/btnAccept"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:padding="@dimen/_5sdp"
+                        android:paddingStart="@dimen/_20sdp"
+                        android:background="@drawable/product_attribute_bg4"
+                        android:backgroundTint="@color/bg"
+                        android:fontFamily="@font/madani_arabic_semi_bold"
+                        android:gravity="center"
+                        android:layout_marginEnd="@dimen/_5sdp"
+                        android:paddingEnd="@dimen/_20sdp"
+                        android:text="@string/accept"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_12sdp" />
+                    <TextView
+                        android:id="@+id/btnReject"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:padding="@dimen/_5sdp"
+                        android:paddingStart="@dimen/_20sdp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/product_attribute_bg4"
+                        android:backgroundTint="#293241"
+                        android:fontFamily="@font/madani_arabic_semi_bold"
+                        android:gravity="center"
+                        android:layout_marginEnd="@dimen/_5sdp"
+                        android:paddingEnd="@dimen/_20sdp"
+                        android:text="@string/reject"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_12sdp" />
+
+                </LinearLayout>
 
 
-            </LinearLayout>
+            </RelativeLayout>
 
 
-        </LinearLayout>
+        </RelativeLayout>
 
 
     </LinearLayout>

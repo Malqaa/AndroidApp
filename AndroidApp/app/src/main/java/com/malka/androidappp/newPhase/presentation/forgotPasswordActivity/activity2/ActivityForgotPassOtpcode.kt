@@ -6,7 +6,6 @@ import android.os.CountDownTimer
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.google.gson.Gson
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.newPhase.data.helper.ConstantObjects
@@ -15,13 +14,11 @@ import com.malka.androidappp.newPhase.data.helper.hide
 import com.malka.androidappp.newPhase.data.helper.show
 import com.malka.androidappp.newPhase.presentation.loginScreen.LoginViewModel
 import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
-import com.yariksoffice.lingver.Lingver
 import kotlinx.android.synthetic.main.activity_forgot_pass_otpcode.*
 import kotlinx.android.synthetic.main.activity_forgot_pass_otpcode.button3
 import kotlinx.android.synthetic.main.activity_forgot_pass_otpcode.confirmPass
 import kotlinx.android.synthetic.main.activity_forgot_pass_otpcode.ibBack
 import kotlinx.android.synthetic.main.activity_forgot_pass_otpcode.textPass
-import kotlinx.android.synthetic.main.activity_forgot_password.*
 
 class ActivityForgotPassOtpcode : BaseActivity() {
     private var START_TIME_IN_MILLIS: Long = 60000
@@ -43,7 +40,7 @@ class ActivityForgotPassOtpcode : BaseActivity() {
         countdownTimer.hide()
         setClickListeners()
 
-        loginViewModel.getConfigurationResp(ConstantObjects.otpExpiryTime)
+        loginViewModel.getConfigurationResp(ConstantObjects.configration_otpExpiryTime)
     }
 
     private fun setupLoginViewModel() {

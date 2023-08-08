@@ -1,10 +1,12 @@
 package com.malka.androidappp.newPhase.presentation.searchProductListActivity
 
 import androidx.lifecycle.MutableLiveData
+import com.google.gson.Gson
 import com.malka.androidappp.newPhase.core.BaseViewModel
 import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.categoryFollowResp.CategoryFollowResp
 import com.malka.androidappp.newPhase.domain.models.productResp.ProductListResp
+import com.malka.androidappp.newPhase.domain.models.productResp.ProductListSearchResp
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.HttpException
@@ -12,7 +14,8 @@ import retrofit2.Response
 
 class CategoryProductViewModel : BaseViewModel() {
     var productListRespObserver: MutableLiveData<ProductListResp> = MutableLiveData()
-    var categoryFollowRespObserver:MutableLiveData<CategoryFollowResp> = MutableLiveData()
+    var searchProductListRespObserver: MutableLiveData<ProductListSearchResp> = MutableLiveData()
+    var categoryFollowRespObserver: MutableLiveData<CategoryFollowResp> = MutableLiveData()
     fun searchForProduct(
         categoryId: Int,
         currentLanguage: String,
@@ -24,11 +27,13 @@ class CategoryProductViewModel : BaseViewModel() {
         specificationList: List<String>,
         startPrice: Float,
         endProce: Float,
+        productName: String?,
+        comeFrom: Int
     ) {
     //    println("tttt "+queryString)
         if(page==1){
             isLoading.value = true
-        }else{
+        } else {
             isloadingMore.value = true
         }
 
@@ -37,21 +42,29 @@ class CategoryProductViewModel : BaseViewModel() {
 //        data["PageRowsCount"]=10.toString()
 //        data["pageIndex"]=page.toString()
 //        data["lang"]=currentLanguage
-        var stringUrl="AdvancedFilter?mainCatId=${categoryId}&lang=${currentLanguage}&PageRowsCount=50&pageIndex=${page}"
-        subCategoryList.forEach { item->
-            stringUrl+="&subCatIds=${item}"
+        var stringUrl =
+            "AdvancedFilter?lang=${currentLanguage}&PageRowsCount=5&pageIndex=${page}&Screen=$comeFrom"
+        if (categoryId != 0) {
+            stringUrl += "&mainCatId=${categoryId}"
         }
-        countryList.forEach { item->
-            stringUrl+="&Countries=${item}"
+        if (productName != null) {
+            stringUrl += "&productName=${productName} "
         }
-        regionList.forEach { item->
-            stringUrl+="&Regions=${item}"
+        subCategoryList.forEach { item ->
+            stringUrl += "&subCatIds=${item} "
         }
-        neighoodList.forEach { item->
+        countryList.forEach { item ->
+            stringUrl += "&Countries=${item}"
+        }
+        regionList.forEach { item ->
+            stringUrl += "&Regions=${item}"
+        }
+        neighoodList.forEach { item ->
             stringUrl+="&Neighborhoods=${item}"
         }
         specificationList.forEach { item->
-            stringUrl+="&sepNames=${item}"
+            if (item != null)
+                stringUrl += "&sepNames=${item}"
         }
         if(startPrice!=0f){
             stringUrl+="&priceFrom=${startPrice}"
@@ -63,21 +76,23 @@ class CategoryProductViewModel : BaseViewModel() {
         println("hhhh "+stringUrl)
         RetrofitBuilder.GetRetrofitBuilder()
             .searchForProductInCategory(stringUrl)
-            .enqueue(object : Callback<ProductListResp> {
-                override fun onFailure(call: Call<ProductListResp>, t: Throwable) {
+            .enqueue(object : Callback<ProductListSearchResp> {
+                override fun onFailure(call: Call<ProductListSearchResp>, t: Throwable) {
+                    println("hhhh " + t.message)
                     isNetworkFail.value = t !is HttpException
                     isLoading.value = false
                     isloadingMore.value = false
                 }
 
                 override fun onResponse(
-                    call: Call<ProductListResp>,
-                    response: Response<ProductListResp>
+                    call: Call<ProductListSearchResp>,
+                    response: Response<ProductListSearchResp>
                 ) {
                     isLoading.value = false
                     isloadingMore.value = false
+                    println("hhhh  t " + response.code() + " " + Gson().toJson(response.body()))
                     if (response.isSuccessful) {
-                        productListRespObserver.value = response.body()
+                        searchProductListRespObserver.value = response.body()
                     } else {
                         errorResponseObserver.value = getErrorResponse(response.errorBody())
                     }
@@ -101,6 +116,31 @@ class CategoryProductViewModel : BaseViewModel() {
                         categoryFollowRespObserver.value = response.body()
                     } else {
                         errorResponseObserver.value = getErrorResponse(response.errorBody())
+                    }
+                }
+            })
+    }
+
+    fun getMyBids() {
+        isLoading.value = true
+        RetrofitBuilder.GetRetrofitBuilder()
+            .getMyBids()
+            .enqueue(object : Callback<ProductListResp> {
+                override fun onFailure(call: Call<ProductListResp>, t: Throwable) {
+                    isNetworkFail.value = t !is HttpException
+                    isLoading.value = false
+                }
+
+                override fun onResponse(
+                    call: Call<ProductListResp>,
+                    response: Response<ProductListResp>
+                ) {
+                    isLoading.value = false
+                    if (response.isSuccessful) {
+                        productListRespObserver.value = response.body()
+                    } else {
+                        errorResponseObserver.value =
+                            getErrorResponse(response.errorBody())
                     }
                 }
             })

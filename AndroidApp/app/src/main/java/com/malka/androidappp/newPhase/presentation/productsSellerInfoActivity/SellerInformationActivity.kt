@@ -1,5 +1,6 @@
 package com.malka.androidappp.newPhase.presentation.productsSellerInfoActivity
 
+import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -19,6 +20,23 @@ import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
 import com.malka.androidappp.newPhase.presentation.productDetailsActivity.ProductDetailsActivity
 import com.malka.androidappp.newPhase.presentation.productsSellerInfoActivity.viewModel.SellerViewModel
 import kotlinx.android.synthetic.main.activity_seller_information.*
+import kotlinx.android.synthetic.main.activity_seller_information.btnMapSeller
+import kotlinx.android.synthetic.main.activity_seller_information.facebook_btn
+import kotlinx.android.synthetic.main.activity_seller_information.instagram_btn
+import kotlinx.android.synthetic.main.activity_seller_information.ivRateSeller
+import kotlinx.android.synthetic.main.activity_seller_information.ivSellerFollow
+import kotlinx.android.synthetic.main.activity_seller_information.linked_in_btn
+import kotlinx.android.synthetic.main.activity_seller_information.member_since_Tv
+import kotlinx.android.synthetic.main.activity_seller_information.sellerName
+import kotlinx.android.synthetic.main.activity_seller_information.sellerProgressBar
+import kotlinx.android.synthetic.main.activity_seller_information.seller_city
+import kotlinx.android.synthetic.main.activity_seller_information.seller_number
+import kotlinx.android.synthetic.main.activity_seller_information.seller_picture
+import kotlinx.android.synthetic.main.activity_seller_information.skype_btn
+import kotlinx.android.synthetic.main.activity_seller_information.snapChat_btn
+import kotlinx.android.synthetic.main.activity_seller_information.tiktok_btn
+import kotlinx.android.synthetic.main.activity_seller_information.twitter_btn
+import kotlinx.android.synthetic.main.activity_seller_information.youtube_btn
 import kotlinx.android.synthetic.main.toolbar_main.*
 import java.util.*
 
@@ -34,7 +52,7 @@ class SellerInformationActivity : BaseActivity(), SetOnProductItemListeners,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_seller_information)
-
+        btnMapSeller.hide()
 //        getSellerByID(ConstantObjects.logged_userid, ConstantObjects.logged_userid)
 
         toolbar_title.text = getString(R.string.merchant_page)
@@ -134,7 +152,15 @@ class SellerInformationActivity : BaseActivity(), SetOnProductItemListeners,
         } else {
             snapChat_btn.hide()
         }
-
+        if(it.lat!=null&&it.lon!=null){
+            if(it.lat!=0.0&&it.lon!=0.0){
+                btnMapSeller.show()
+            }else{
+                btnMapSeller.hide()
+            }
+        }else{
+            btnMapSeller.hide()
+        }
     }
 
     private fun setAdapterForSellerProduct() {
@@ -165,6 +191,13 @@ class SellerInformationActivity : BaseActivity(), SetOnProductItemListeners,
                 progressBar.show()
             else
                 progressBar.hide()
+        }
+        sellerViewModel.sellerLoading.observe(this) {
+            if (it) {
+                sellerProgressBar.show()
+            } else {
+                sellerProgressBar.hide()
+            }
         }
         sellerViewModel.isNetworkFail.observe(this) {
             if (it) {
@@ -230,6 +263,18 @@ class SellerInformationActivity : BaseActivity(), SetOnProductItemListeners,
 
             }
         }
+        sellerViewModel.addSellerToFavObserver.observe(this) {
+            if (it.status_code == 200) {
+                sellerInformation?.isFollowed = true
+                ivSellerFollow.setImageResource(R.drawable.notification)
+            }
+        }
+        sellerViewModel.removeSellerToFavObserver.observe(this) {
+            if (it.status_code == 200) {
+                sellerInformation?.isFollowed = false
+                ivSellerFollow.setImageResource(R.drawable.notification_log)
+            }
+        }
         onRefresh()
     }
 
@@ -252,8 +297,17 @@ class SellerInformationActivity : BaseActivity(), SetOnProductItemListeners,
     }
 
     private fun setViewClickListeners() {
+        ivSellerFollow.setOnClickListener {
+            sellerInformation?.let{
+                if(it.isFollowed){
+                    sellerViewModel.removeSellerToFav(it.providerId,it.businessAccountId)
+                }else{
+                    sellerViewModel.addSellerToFav(it.providerId,it.businessAccountId)
+                }
+            }
+        }
         back_btn.setOnClickListener {
-            finish()
+            onBackPressed()
         }
         btnRate.setOnClickListener {
             startActivity(Intent(this, SellerRateActivity::class.java).apply {
@@ -308,7 +362,7 @@ class SellerInformationActivity : BaseActivity(), SetOnProductItemListeners,
             } else {
                 HelpFunctions.ShowLongToast(getString(R.string.noLocationFound), this)
             }
-            openLocationInMap(0.0, 0.0)
+          //  openLocationInMap(0.0, 0.0)
         }
 
     }
@@ -348,8 +402,13 @@ class SellerInformationActivity : BaseActivity(), SetOnProductItemListeners,
 
     }
 
-
-//    private fun getSellerByID(id: String, loggedUserID: String) {
+    override fun onBackPressed() {
+        var intent:Intent=Intent()
+        intent.putExtra("isFollow",sellerInformation?.isFollowed)
+        setResult(Activity.RESULT_OK,intent)
+        finish()
+    }
+    //    private fun getSellerByID(id: String, loggedUserID: String) {
 //
 //        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
 //        val call: Call<SellerResponseBack> = malqa.getAdSeller(id, loggedUserID)

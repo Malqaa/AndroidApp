@@ -38,8 +38,10 @@ import com.malka.androidappp.newPhase.domain.models.servicemodels.*
 import com.malka.androidappp.newPhase.domain.models.servicemodels.addtocart.InsertToCartRequestModel
 import com.malka.androidappp.newPhase.domain.models.servicemodels.questionModel.Question
 import com.malka.androidappp.newPhase.presentation.MainActivity
+import com.malka.androidappp.newPhase.presentation.accountFragment.myProducts.dialog.BidPersonsDialog
 import com.malka.androidappp.newPhase.presentation.adapterShared.ProductHorizontalAdapter
 import com.malka.androidappp.newPhase.presentation.adapterShared.SetOnProductItemListeners
+import com.malka.androidappp.newPhase.presentation.addProduct.AddProductObjectData
 import com.malka.androidappp.newPhase.presentation.addProductReviewActivity.AddRateProductActivity
 import com.malka.androidappp.newPhase.presentation.addProductReviewActivity.ProductReviewsActivity
 import com.malka.androidappp.newPhase.presentation.cartActivity.activity1.CartActivity
@@ -113,11 +115,28 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     private var userData: LoginUser? = null
     var isMyProduct = false
     var sellerInformation: SellerInformation? = null
+    lateinit var priceNegotiationDialog: PriceNegotiationDialog
+    var bidCount: Int = 0
+    val sellerInformationLaucher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                var intent: Intent? =result.data
+                if(intent!=null) {
+                    var isFollow = intent.getBooleanExtra("isFollow", false)
+                    sellerInformation?.isFollowed = isFollow
+                    if (isFollow) {
+                        ivSellerFollow.setImageResource(R.drawable.notification)
+                    } else {
+                        ivSellerFollow.setImageResource(R.drawable.notification_log)
+                    }
+                }
+            }
+        }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product_details2)
         productId = intent.getIntExtra(ConstantObjects.productIdKey, -1)
-      println("hhhh product if $productId")
+        println("hhhh product if $productId")
         isMyProduct = intent.getBooleanExtra(ConstantObjects.isMyProduct, false)
         setViewChanges()
         setProductDetailsViewModel()
@@ -141,12 +160,18 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         } else {
             fbButtonBack.scaleX = -1f
         }
+        btnMapSeller.hide()
+        containerMyBid.hide()
+        containerAuctionNumber.hide()
         containerMainProduct.hide()
         other_image_layout.hide()
         btnMoreSpecification.hide()
         btnMoreItemDetails.hide()
         contaienrSimilerProduts.hide()
         containerBidOnPrice.hide()
+        tvShippingOptions.hide()
+        contianerBankAccount.hide()
+        contianerCash.hide()
         containerAuctioncountdownTimer_bar.hide()
         //for reviewa
         tvReviewsError.hide()
@@ -196,6 +221,27 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 //
 //            }, addSellerReviewRequestCode)
 //        }
+        ivSellerFollow.setOnClickListener {
+            sellerInformation?.let {
+                if (it.isFollowed) {
+                    productDetialsViewModel.removeSellerToFav(it.providerId, it.businessAccountId)
+                } else {
+                    productDetialsViewModel.addSellerToFav(it.providerId, it.businessAccountId)
+                }
+            }
+        }
+        containerAuctionNumber.setOnClickListener {
+            val bidPersonsDialog = BidPersonsDialog(
+                this,
+                productId,
+                object : BidPersonsDialog.SetOnAddBidOffersListeners {
+                    override fun onAddOpenBidOfferDailog(bidsList: List<Int>) {
+                    }
+
+                }, true
+            )
+            bidPersonsDialog.show()
+        }
         tvAddReview.setOnClickListener {
             if (HelpFunctions.isUserLoggedIn()) {
                 startActivityForResult(Intent(this, AddRateProductActivity::class.java).apply {
@@ -256,7 +302,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             } else {
                 HelpFunctions.ShowLongToast(getString(R.string.noLocationFound), this)
             }
-            openLocationInMap(0.0, 0.0)
+          //  openLocationInMap(0.0, 0.0)
         }
 
 
@@ -277,11 +323,8 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         fbButtonBack.setOnClickListener {
             onBackPressed()
         }
-        tvShowAllPidding.setOnClickListener {
-            HelpFunctions.ShowLongToast("not implemented yey", this)
-        }
         btnPriceNegotiation.setOnClickListener {
-            HelpFunctions.ShowLongToast("not implemented yey", this)
+            openPriceNegotiationDialog()
         }
         btnShare.setOnClickListener {
             shared("${Constants.HTTP_PROTOCOL}://${Constants.SERVER_LOCATION}/Advertisement/Detail/$AdvId")
@@ -313,16 +356,18 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                 isSellerProductHide_iv.setImageResource(R.drawable.ic_arrow_up)
             }
         }
+
         containerSellerInfo.setOnClickListener {
             if (sellerInformation != null) {
-                startActivity(Intent(this, SellerInformationActivity::class.java).apply {
+                sellerInformationLaucher.launch(Intent(this, SellerInformationActivity::class.java).apply {
                     putExtra(ConstantObjects.sellerObjectKey, sellerInformation)
                 })
+//                startActivity(Intent(this, SellerInformationActivity::class.java))
             }
         }
         containerSellerImage.setOnClickListener {
             if (sellerInformation != null) {
-                startActivity(Intent(this, SellerInformationActivity::class.java).apply {
+                sellerInformationLaucher.launch(Intent(this, SellerInformationActivity::class.java).apply {
                     putExtra(ConstantObjects.sellerObjectKey, sellerInformation)
                 })
             }
@@ -345,6 +390,9 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                             productDetails?.highestBidPrice = highestBidPrice
                             Bid_on_price_tv.text =
                                 "${productDetails?.highestBidPrice} ${getString(R.string.Rayal)}"
+                            bidCount += 1
+                            tvAuctionNumber.text =
+                                "${getString(R.string.bidding)} ${bidCount.toString()}"
                         }
 
                     })
@@ -377,6 +425,28 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         }
 
 
+    }
+
+    private fun openPriceNegotiationDialog() {
+        priceNegotiationDialog = PriceNegotiationDialog(
+            this,
+            productId,
+            object : PriceNegotiationDialog.SetClickListeners {
+                override fun setOnSuccessListeners(highestBidPrice: String) {
+                    priceNegotiationDialog.dismiss()
+                    openPriceNegotiationDoneSuccess(highestBidPrice)
+                }
+
+            })
+        priceNegotiationDialog.show()
+    }
+
+    private fun openPriceNegotiationDoneSuccess(highestBidPrice: String) {
+        println("hhhh success")
+        var intent = Intent(this, SuccessAddProductPriceNegotiationActivity::class.java).apply {
+            putExtra("price", highestBidPrice)
+        }
+        startActivity(intent)
     }
 
     private fun openLocationInMap(lat: Double, langtiude: Double) {
@@ -578,6 +648,73 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                 tvErrorNoSellerProduct.show()
             }
         }
+        productDetialsViewModel.shippingOptionObserver.observe(this) {
+            if (it.status_code == 200) {
+                if (it.shippingOptionObject != null && it.shippingOptionObject.isNotEmpty()) {
+                    when (it.shippingOptionObject[0].shippingOptionId) {
+                        ConstantObjects.shippingOption_integratedShippingCompanyOptions -> {
+                            tvShippingOptions.show()
+                            tvShippingOptions.text = getString(R.string.integratedShippingCompanies)
+                        }
+                        ConstantObjects.shippingOption_freeShippingWithinSaudiArabia -> {
+                            tvShippingOptions.show()
+                            tvShippingOptions.text =
+                                getString(R.string.free_shipping_within_Saudi_Arabia)
+                        }
+                        ConstantObjects.shippingOption_arrangementWillBeMadeWithTheBuyer -> {
+                            tvShippingOptions.show()
+                            tvShippingOptions.text =
+                                getString(R.string.arrangementWillBeMadeWithTheBuyer)
+                        }
+                    }
+                } else {
+                    tvShippingOptions.show()
+                    tvShippingOptions.text = getString(R.string.mustPickUp)
+                }
+            }
+        }
+        productDetialsViewModel.paymentOptionObserver.observe(this) {
+            if (it.status_code == 200) {
+                it.shippingOptionObject?.let { list ->
+                    for (item in list) {
+                        when (item.paymentOptionId) {
+                            AddProductObjectData.PAYMENT_OPTION_CASH -> {
+                                contianerCash.show()
+                            }
+                            AddProductObjectData.PAYMENT_OPTION_BANk -> {
+                                contianerBankAccount.show()
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        productDetialsViewModel.bidsPersonsObserver.observe(this) {
+            if (it.status_code == 200) {
+                if (it.bidPersonsDataList != null && it.bidPersonsDataList.isNotEmpty()) {
+                    containerAuctionNumber.show()
+                    bidCount = it.bidPersonsDataList.size
+                    tvAuctionNumber.text = "${getString(R.string.bidding)} ${bidCount.toString()}"
+                } else {
+                    containerAuctionNumber.hide()
+                }
+            } else {
+                containerAuctionNumber.hide()
+            }
+        }
+        productDetialsViewModel.addSellerToFavObserver.observe(this) {
+            if (it.status_code == 200) {
+                sellerInformation?.isFollowed = true
+                ivSellerFollow.setImageResource(R.drawable.notification)
+            }
+        }
+        productDetialsViewModel.removeSellerToFavObserver.observe(this) {
+            if (it.status_code == 200) {
+                sellerInformation?.isFollowed = false
+                ivSellerFollow.setImageResource(R.drawable.notification_log)
+            }
+        }
+
     }
 
     private fun setSellerInfo(it: SellerInformation) {
@@ -665,6 +802,17 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         } else {
             snapChat_btn.hide()
         }
+        //println("hhh "+it.providerId+" "+it.businessAccountId)
+        if(it.lat!=null&&it.lon!=null){
+            if(it.lat!=0.0&&it.lon!=0.0){
+                btnMapSeller.show()
+            }else{
+                btnMapSeller.hide()
+            }
+        }else{
+            btnMapSeller.hide()
+        }
+
 
     }
 
@@ -787,6 +935,12 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                         )
                     } else {
                         //==zoom image
+                        Extension.loadThumbnail(
+                            this@ProductDetailsActivity,
+                            productImagesList[position].url,
+                            productimg,
+                            loader
+                        )
                     }
                 }
 
@@ -884,6 +1038,9 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         productDetialsViewModel.getListOfQuestions(productId)
         productDetialsViewModel.getProductRatesForProductDetails(productId)
         productDetialsViewModel.getSellerInfo(productId)
+        productDetialsViewModel.getProductShippingOptions(productId)
+        productDetialsViewModel.getProductPaymentOptions(productId)
+        productDetialsViewModel.getBidsPersons(productId)
     }
 
 
@@ -987,6 +1144,12 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                 containerBidOnPrice.show()
             } else {
                 containerBidOnPrice.hide()
+            }
+            if (productDetails.myBid != 0f) {
+                containerMyBid.show()
+                tvMyBidPrice.text = "${productDetails.myBid} ${getString(R.string.sar)}"
+            } else {
+                containerMyBid.hide()
             }
 
         } else {
@@ -1146,9 +1309,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
         }
         sellerName.setOnClickListener {
-            startActivity(Intent(this, SellerInformationActivity::class.java).apply {
 
-            })
         }
 //        tvShowAllReviews.setOnClickListener {
 //            startActivity(Intent(this, ProductReviewsActivity::class.java).apply {

@@ -3,6 +3,7 @@ package com.malka.androidappp.newPhase.presentation.searchProductListActivity.br
 import android.content.Context
 import android.content.DialogInterface
 import android.view.View
+import android.widget.AdapterView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.malka.androidappp.R
@@ -14,14 +15,12 @@ import com.malka.androidappp.newPhase.domain.models.countryResp.CountriesResp
 import com.malka.androidappp.newPhase.domain.models.countryResp.Country
 import com.malka.androidappp.newPhase.domain.models.dynamicSpecification.DynamicSpecificationItem
 import com.malka.androidappp.newPhase.domain.models.dynamicSpecification.DynamicSpecificationResp
+import com.malka.androidappp.newPhase.domain.models.productResp.CategoriesSearchItem
 import com.malka.androidappp.newPhase.domain.models.regionsResp.Region
 import com.malka.androidappp.newPhase.domain.models.regionsResp.RegionsResp
 import com.malka.androidappp.newPhase.domain.models.servicemodels.model.Category
-import com.malka.androidappp.newPhase.presentation.searchProductListActivity.browse_market.filterDialog.adapter.CountryFilterAdapter
-import com.malka.androidappp.newPhase.presentation.searchProductListActivity.browse_market.filterDialog.adapter.SpecificationFilterAdapter
-import com.malka.androidappp.newPhase.presentation.searchProductListActivity.browse_market.filterDialog.adapter.SubCategoryFilterAdapter
+import com.malka.androidappp.newPhase.presentation.searchProductListActivity.browse_market.filterDialog.adapter.*
 import kotlinx.android.synthetic.main.dialog_filter_category_products.*
-import kotlinx.android.synthetic.main.dialog_filter_category_products.progressBar
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -30,9 +29,9 @@ class FilterCategoryProductsDialog(
     context: Context,
     var selectionType: Int,
     var mianCategoryId: Int,
-    var setOnClickListeners: SetOnClickListeners
-) : BaseDialog(context), CountryFilterAdapter.SetonClickListeners,
-    SpecificationFilterAdapter.OnChangeValueListener {
+    var setOnClickListeners: SetOnClickListeners,
+    var comeFrom: Int
+) : BaseDialog(context), CountryFilterAdapter.SetonClickListeners {
 
     private var dynamicSpecificationCallback: Call<DynamicSpecificationResp>? = null
     private var neighborhoodsCallback: Call<RegionsResp>? = null
@@ -41,13 +40,15 @@ class FilterCategoryProductsDialog(
     lateinit var countryFilterAdapter: CountryFilterAdapter
     lateinit var specificationFilterAdapter: SpecificationFilterAdapter
     lateinit var subCategoryAdaper: SubCategoryFilterAdapter
-    lateinit var categoryList: ArrayList<Category>
+    lateinit var categorySearchFilterSpinnerAdapter: CategorySearchFilterSpinnerAdapter
+    var categoryList: ArrayList<CategoriesSearchItem> = ArrayList()
+    lateinit var subCategoryFromCategoryList: ArrayList<Category>
+    lateinit var subCategorySearchFilterAdapter: SubCategorySearchFilterAdapter
 
     //========
     lateinit var mainCountriesList: ArrayList<Country>
     lateinit var countryResp: CountriesResp
     var countriesCallback: Call<CountriesResp>? = null
-
     var lastSelectedCountryPosition = 0
     var lastSelectedCityPosition = 0
     var countryIdsList: ArrayList<Int> = ArrayList()
@@ -55,6 +56,9 @@ class FilterCategoryProductsDialog(
     var neiberhoodIdsList: ArrayList<Int> = ArrayList()
     var subCategoryIdsList: ArrayList<Int> = ArrayList()
     var dynamicSpecificationsArrayList: ArrayList<DynamicSpecificationItem> = ArrayList()
+
+    var subCategoriesCall: Call<CategoriesResp>? = null
+
     override fun getViewId(): Int = R.layout.dialog_filter_category_products
 
     companion object { // 1 for region ,2 for sub category  ,3 for specification
@@ -70,7 +74,21 @@ class FilterCategoryProductsDialog(
     override fun initialization() {
         setupCountryAdapter()
         setupSpecificationAdapter()
-        setupSubCategoryAdapetr()
+        setupSubCategoryFromCategoryAdapetr()
+        when (comeFrom) {
+            ConstantObjects.search_categoriesDetails -> {
+                setupSubCategoryAdapetr()
+            }
+            ConstantObjects.search_product -> {
+                setupCategorySpinnerAdapter()
+            }
+            ConstantObjects.search_seller -> {
+                setupCategorySpinnerAdapter()
+
+            }
+
+        }
+
         restViewForTargetFilter(selectionType)
         when (selectionType) {
             regionType -> {
@@ -83,28 +101,51 @@ class FilterCategoryProductsDialog(
                 btnSpecification.performClick()
             }
         }
+        when (comeFrom) {
+            ConstantObjects.search_categoriesDetails -> {
+                btnSubCategory.text = context.getText(R.string.sub_categories)
+            }
+            ConstantObjects.search_product -> {
+                btnSubCategory.text = context.getText(R.string.Categories)
+            }
+            ConstantObjects.search_seller -> {
+                btnSubCategory.text = context.getText(R.string.Categories)
+            }
+        }
         setClickListeners()
 
     }
 
-    fun setSelectedTap(selectedOne: Int) {
-        selectionType = selectedOne
-        when (selectionType) {
-            regionType -> {
-                btnRegion.performClick()
-            }
-            subCategoryType -> {
-                btnSubCategory.performClick()
-            }
-            specificationType -> {
-                btnSpecification.performClick()
-            }
+    private fun setupSubCategoryFromCategoryAdapetr() {
+        subCategoryFromCategoryList = ArrayList()
+        subCategorySearchFilterAdapter = SubCategorySearchFilterAdapter(subCategoryFromCategoryList,
+            object : SubCategorySearchFilterAdapter.SetOnselectedListerner {
+                override fun setOnSelectSubCategories(position: Int, subCategoryId: Int) {
+                    if (subCategoryFromCategoryList[position].isSelected) {
+                        if (subCategoryIdsList.contains(subCategoryFromCategoryList[position].id)) {
+                            subCategoryIdsList.remove(subCategoryFromCategoryList[position].id)
+                        }
+                    } else {
+                        if (!subCategoryIdsList.contains(subCategoryFromCategoryList[position].id)) {
+                            subCategoryIdsList.add(subCategoryFromCategoryList[position].id)
+                        }
+                    }
+                    subCategoryFromCategoryList[position].isSelected =
+                        !subCategoryFromCategoryList[position].isSelected
+                    subCategorySearchFilterAdapter.notifyDataSetChanged()
+                }
+
+            })
+        rv_sub_category_2.apply {
+            adapter = subCategorySearchFilterAdapter
+            layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
         }
     }
 
     private fun setupSubCategoryAdapetr() {
-        categoryList = ArrayList()
-        subCategoryAdaper = SubCategoryFilterAdapter(categoryList,
+        //  categoryList = ArrayList()
+        subCategoryAdaper = SubCategoryFilterAdapter(
+            categoryList,
             object : SubCategoryFilterAdapter.SetOnSubCategorySelectListents {
                 override fun onSubCategorySelected(position: Int) {
                     if (categoryList[position].isSelected) {
@@ -117,7 +158,7 @@ class FilterCategoryProductsDialog(
                         }
                     }
                     categoryList[position].isSelected = !categoryList[position].isSelected
-                    updateCategoryAdapter()
+                    updateSubCategoryAdapter()
                     // println("hhhh subCategories "+Gson().toJson(subCategoryIdsList))
                 }
 
@@ -128,10 +169,63 @@ class FilterCategoryProductsDialog(
         }
     }
 
-    private fun updateCategoryAdapter() {
+    private fun updateSubCategoryAdapter() {
         subCategoryAdaper.notifyDataSetChanged()
     }
 
+    private fun setupCategorySpinnerAdapter() {
+        categoryList = ArrayList()
+        val header = CategoriesSearchItem(
+            id = 0,
+            name = context.getString(R.string.Categories)
+        )
+        categoryList.add(header)
+        categorySearchFilterSpinnerAdapter =
+            CategorySearchFilterSpinnerAdapter(context, categoryList)
+        spinnerDegree.adapter = categorySearchFilterSpinnerAdapter
+        spinnerDegree.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
+                if (position != 0) {
+                    mianCategoryId = categoryList[position].id
+                    getSubCategoryForCategory(mianCategoryId)
+
+                }
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+
+            }
+
+        }
+//        spinnerDegree.onItemSelectedListener =
+//            object : AdapterView.OnItemSelectedListener {
+//                override fun onItemSelected(
+//                    adapterView: AdapterView<*>?,
+//                    view: View,
+//                    position: Int,
+//                    l: Long
+//                ) {
+//                    if (position != 0) {
+//
+//                    }
+//
+//                }
+//
+//                override fun onNothingSelected(adapterView: AdapterView<*>?) {}
+//            }
+//        categorySearchFilterAdapter = CategorySearchFilterAdapter(categoryList,
+//            object :CategorySearchFilterAdapter.SetonClickListeners{
+//            override fun onSelectedCategory(position: Int, categoryId: Int) {
+//                getSubCategoryForCategory(position,categoryId)
+//            }
+//
+//        })
+//        rv_sub_category.apply {
+//            adapter = categorySearchFilterAdapter
+//            layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
+//        }
+
+    }
 
     private fun setupCountryAdapter() {
         mainCountriesList = ArrayList()
@@ -144,37 +238,104 @@ class FilterCategoryProductsDialog(
 
     private fun setupSpecificationAdapter() {
         specificationFilterAdapter =
-            SpecificationFilterAdapter(dynamicSpecificationsArrayList, this)
+            SpecificationFilterAdapter(
+                dynamicSpecificationsArrayList,
+                object : SpecificationFilterAdapter.OnChangeValueListener {
+                    override fun setOnTextBoxTextChange(value: String, position: Int) {
+                        dynamicSpecificationsArrayList[position].filterValue = value
+                    }
+
+                    override fun setOnSelectedSpecificationItemFromList(
+                        parentPosition: Int,
+                        childPosition: Int
+                    ) {
+                        var isSelected: Boolean? =
+                            dynamicSpecificationsArrayList[parentPosition].subSpecifications?.get(
+                                childPosition
+                            )?.isSelected
+                        if (isSelected == true) {
+                            dynamicSpecificationsArrayList[parentPosition].subSpecifications?.get(
+                                childPosition
+                            )?.isSelected =
+                                false
+                            specificationFilterAdapter.notifyItemChanged(parentPosition)
+                        } else {
+                            dynamicSpecificationsArrayList[parentPosition].subSpecifications?.get(
+                                childPosition
+                            )?.isSelected =
+                                true
+                            specificationFilterAdapter.notifyItemChanged(parentPosition)
+                        }
+
+                        //     println("hhhh "+Gson().toJson(dynamicSpecificationsArrayList))
+                    }
+
+                })
         rv_specification.apply {
             adapter = specificationFilterAdapter
             layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
         }
     }
 
-    override fun setOnTextBoxTextChange(value: String, position: Int) {
-        dynamicSpecificationsArrayList[position].filterValue = value
 
+    private fun getSubCategoryForCategory(categoryId: Int) {
+        progressBar.visibility = View.VISIBLE
+        tvError.hide()
+        subCategoriesCall =
+            RetrofitBuilder.GetRetrofitBuilder()
+                .getSubCategoryByMainCategory2(categoryId.toString())
+        subCategoriesCall?.enqueue(object : Callback<CategoriesResp> {
+            override fun onFailure(call: Call<CategoriesResp>, t: Throwable) {
+                tvError.show()
+                tvError.text = context.getString(R.string.noSubCategoryFound)
+//                var categoryArrayList: ArrayList<CategoriesSearchItem> = ArrayList()
+//                categoryArrayList.add(
+//                    CategoriesSearchItem(
+//                        categoryId,
+//                        context.getString(R.string.all)
+//                    )
+//                )
+//                categoryList[position].categoryList = categoryArrayList
+//                updateCategoryWithSubCategoriesAdapter()
+            }
+
+            override fun onResponse(
+                call: Call<CategoriesResp>,
+                response: Response<CategoriesResp>
+            ) {
+                progressBar.visibility = View.GONE
+                try {
+                    if (response.isSuccessful) {
+                        response.body()?.let {
+                            it.categoryList?.let { categoryList2 ->
+                                subCategoryFromCategoryList.clear()
+                                subCategoryFromCategoryList.addAll(categoryList2)
+
+                                if (subCategoryFromCategoryList.isEmpty()) {
+                                    tvError.show()
+                                    tvError.text = context.getString(R.string.noSubCategoryFound)
+                                } else {
+                                    updateCategoryWithSubCategoriesAdapter()
+                                }
+                            }
+                        }
+
+                    }
+                } catch (e: Exception) {
+                    tvError.show()
+                    tvError.text = context.getString(R.string.noSubCategoryFound)
+                }
+            }
+
+        })
     }
 
-    override fun setOnSelectedSpecificationItemFromList(
-        parentPosition: Int,
-        childPosition: Int
-    ) {
-        var isSelected: Boolean? =
-            dynamicSpecificationsArrayList[parentPosition].subSpecifications?.get(childPosition)?.isSelected
-        if (isSelected == true) {
-            dynamicSpecificationsArrayList[parentPosition].subSpecifications?.get(childPosition)?.isSelected =
-                false
-            specificationFilterAdapter.notifyItemChanged(parentPosition)
-        } else {
-            dynamicSpecificationsArrayList[parentPosition].subSpecifications?.get(childPosition)?.isSelected =
-                true
-            specificationFilterAdapter.notifyItemChanged(parentPosition)
-        }
-
-        //     println("hhhh "+Gson().toJson(dynamicSpecificationsArrayList))
+    private fun updateCategoryWithSubCategoriesAdapter() {
+        subCategorySearchFilterAdapter.notifyDataSetChanged()
     }
 
+
+    /***click Listeners**/
     private fun setClickListeners() {
         btnRegion.setOnClickListener {
             tvError.hide()
@@ -189,31 +350,75 @@ class FilterCategoryProductsDialog(
             restViewForTargetFilter(selectionType)
             tvError.hide()
             if (categoryList.isEmpty()) {
-                getSubCategoriesByCategoryID(categoryId = mianCategoryId)
+                tvError.show()
+                tvError.text = context.getString(R.string.noSubCategoryFound)
             }
+//            if (categoryList.isEmpty()) {
+//                getSubCategoriesByCategoryID(categoryId = mianCategoryId)
+//            }
 
         }
         btnSpecification.setOnClickListener {
             tvError.hide()
-            selectionType = specificationType
-            restViewForTargetFilter(selectionType)
-            if (dynamicSpecificationsArrayList.isEmpty()) {
-                getDynamicSpecification(mianCategoryId)
+            when (comeFrom) {
+                ConstantObjects.search_categoriesDetails -> {
+                    selectionType = specificationType
+                    restViewForTargetFilter(selectionType)
+                    if (dynamicSpecificationsArrayList.isEmpty()) {
+                        getDynamicSpecification(mianCategoryId)
+                    }
+                }
+                ConstantObjects.search_product -> {
+                    selectionType = specificationType
+                    restViewForTargetFilter(selectionType)
+                    if (mianCategoryId == 0) {
+                        tvError.show()
+                        tvError.text = context.getString(R.string.SelectCategory)
+                    } else {
+                        dynamicSpecificationsArrayList.clear()
+                        // if (dynamicSpecificationsArrayList.isEmpty()) {
+                        getDynamicSpecification(mianCategoryId)
+                        //   }
+                    }
+
+                }
+                ConstantObjects.search_seller -> {
+                    selectionType = specificationType
+                    restViewForTargetFilter(selectionType)
+                    if (mianCategoryId == 0) {
+                        tvError.show()
+                        tvError.text = context.getString(R.string.SelectCategory)
+                    } else {
+                        dynamicSpecificationsArrayList.clear()
+                        // if (dynamicSpecificationsArrayList.isEmpty()) {
+                        getDynamicSpecification(mianCategoryId)
+                        //   }
+                    }
+
+                }
+
             }
+
         }
         btnApplyFilter.setOnClickListener {
             var stringSpecification: ArrayList<String> = ArrayList()
+            println("hhhh " + Gson().toJson(dynamicSpecificationsArrayList))
             for (item in dynamicSpecificationsArrayList) {
                 if (item.subSpecifications != null && item.subSpecifications?.isNotEmpty() == true) {
                     for (spec in item.subSpecifications!!) {
                         if (spec.isSelected) {
-                            item.nameEn?.let { it1 -> stringSpecification.add(it1) }
+                            if (ConstantObjects.currentLanguage == ConstantObjects.ARABIC) {
+                                spec.nameAr?.let { it1 -> stringSpecification.add(it1) }
+                            } else {
+                                spec.nameEn?.let { it1 -> stringSpecification.add(it1) }
+                            }
                         }
                     }
                 } else if (item.filterValue != "") {
                     stringSpecification.add(item.filterValue)
                 }
             }
+
             setOnClickListeners.onApplyFilter(
                 countryList = countryIdsList,
                 regionList = cityIdsList,
@@ -221,7 +426,8 @@ class FilterCategoryProductsDialog(
                 subCategoryList = subCategoryIdsList,
                 specificationList = stringSpecification,
                 startPrice = rangePrice.valueFrom,
-                endProce = rangePrice.valueTo
+                endProce = rangePrice.valueTo,
+                mainCategoryId = mianCategoryId
             )
             dismiss()
         }
@@ -237,13 +443,32 @@ class FilterCategoryProductsDialog(
                     }
                 }
                 specificationFilterAdapter.notifyDataSetChanged()
-                rangePrice.setValues(0f,0f)
+                rangePrice.setValues(0f, 0f)
                 //===resetSubCategory
-                for (item in categoryList) {
-                    item.isSelected = false
+                when (comeFrom) {
+                    ConstantObjects.search_categoriesDetails -> {
+                        for (item in categoryList) {
+                            item.isSelected = false
+                        }
+                        subCategoryIdsList.clear()
+                        subCategoryAdaper.notifyDataSetChanged()
+                    }
+                    ConstantObjects.search_product -> {
+                        subCategoryIdsList.clear()
+                        for (item in subCategoryFromCategoryList) {
+                            item.isSelected = false
+                        }
+                        subCategorySearchFilterAdapter.notifyDataSetChanged()
+                    }
+                    ConstantObjects.search_seller -> {
+                        subCategoryIdsList.clear()
+                        for (item in subCategoryFromCategoryList) {
+                            item.isSelected = false
+                        }
+                        subCategorySearchFilterAdapter.notifyDataSetChanged()
+                    }
                 }
-                subCategoryIdsList.clear()
-                subCategoryAdaper.notifyDataSetChanged()
+
                 //=========reset country
                 countryIdsList.clear()
                 cityIdsList.clear()
@@ -262,10 +487,26 @@ class FilterCategoryProductsDialog(
                 }
                 countryFilterAdapter.notifyDataSetChanged()
                 setOnClickListeners.resetFilter()
-            }catch (e:java.lang.Exception){}
+                dismiss()
+            } catch (e: java.lang.Exception) {
+            }
         }
     }
 
+    fun setSelectedTap(selectedOne: Int) {
+        selectionType = selectedOne
+        when (selectionType) {
+            regionType -> {
+                btnRegion.performClick()
+            }
+            subCategoryType -> {
+                btnSubCategory.performClick()
+            }
+            specificationType -> {
+                btnSpecification.performClick()
+            }
+        }
+    }
 
     private fun restViewForTargetFilter(type: Int) {
         when (type) {
@@ -276,6 +517,7 @@ class FilterCategoryProductsDialog(
                 btnSpecification.setTextColor(context.getColorCompat(R.color.black))
                 rv_region.show()
                 rv_sub_category.hide()
+                containerCategory.hide()
                 rv_specification.hide()
                 containerPriceSpecification.hide()
             }
@@ -285,9 +527,22 @@ class FilterCategoryProductsDialog(
                 btnSubCategory.setTextColor(context.getColorCompat(R.color.orange))
                 btnSpecification.setTextColor(context.getColorCompat(R.color.black))
                 rv_region.hide()
-                rv_sub_category.show()
                 rv_specification.hide()
                 containerPriceSpecification.hide()
+                when (comeFrom) {
+                    ConstantObjects.search_categoriesDetails -> {
+                        rv_sub_category.show()
+                        containerCategory.hide()
+                    }
+                    ConstantObjects.search_product -> {
+                        rv_sub_category.hide()
+                        containerCategory.show()
+                    }
+                    ConstantObjects.search_seller -> {
+                        rv_sub_category.hide()
+                        containerCategory.show()
+                    }
+                }
             }
             specificationType -> {
                 //specification
@@ -296,6 +551,7 @@ class FilterCategoryProductsDialog(
                 btnSpecification.setTextColor(context.getColorCompat(R.color.orange))
                 rv_region.hide()
                 rv_sub_category.hide()
+                containerCategory.hide()
                 rv_specification.show()
                 containerPriceSpecification.show()
             }
@@ -304,40 +560,74 @@ class FilterCategoryProductsDialog(
     }
 
 
-    fun getSubCategoriesByCategoryID(categoryId: Int) {
-        progressBar.show()
-        subCagtegoryCallback = RetrofitBuilder.GetRetrofitBuilder()
-            .getSubCategoryByMainCategory2(categoryId.toString())
-        subCagtegoryCallback?.enqueue(object : Callback<CategoriesResp> {
-            override fun onFailure(call: Call<CategoriesResp>, t: Throwable) {
-                progressBar.hide()
-            }
+//    fun getSubCategoriesByCategoryID(categoryId: Int) {
+//        progressBar.show()
+//        subCagtegoryCallback = RetrofitBuilder.GetRetrofitBuilder()
+//            .getSubCategoryByMainCategory2(categoryId.toString())
+//        subCagtegoryCallback?.enqueue(object : Callback<CategoriesResp> {
+//            override fun onFailure(call: Call<CategoriesResp>, t: Throwable) {
+//                progressBar.hide()
+//            }
+//
+//            override fun onResponse(
+//                call: Call<CategoriesResp>,
+//                response: Response<CategoriesResp>
+//            ) {
+//                progressBar.hide()
+//                if (response.isSuccessful) {
+//                    var categoriesResp: CategoriesResp? = response.body()
+//                    categoriesResp?.let { categoriesResp ->
+//                        if (categoriesResp.status_code == 200) {
+//                            if (categoriesResp.categoryList == null || categoriesResp.categoryList.isEmpty()) {
+//                                tvError.text = context.getString(R.string.noSubCategoryFound)
+//                                tvError.show()
+//                            } else {
+//                                categoryList.clear()
+//                                categoryList.addAll(categoriesResp.categoryList)
+//                                subCategoryAdaper.notifyDataSetChanged()
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        })
+//    }
 
-            override fun onResponse(
-                call: Call<CategoriesResp>,
-                response: Response<CategoriesResp>
-            ) {
-                progressBar.hide()
-                if (response.isSuccessful) {
-                    var categoriesResp: CategoriesResp? = response.body()
-                    categoriesResp?.let { categoriesResp ->
-                        if (categoriesResp.status_code == 200) {
-                            if (categoriesResp.categoryList == null || categoriesResp.categoryList.isEmpty()) {
-                                tvError.text = context.getString(R.string.noSubCategoryFound)
-                                tvError.show()
-                            } else {
-                                categoryList.clear()
-                                categoryList.addAll(categoriesResp.categoryList)
-                                subCategoryAdaper.notifyDataSetChanged()
-                            }
-                        }
-                    }
+    fun setCategories(categories: List<CategoriesSearchItem>) {
+        categoryList.clear()
+
+        if (isShowing) {
+            when (comeFrom) {
+                ConstantObjects.search_categoriesDetails -> {
+                    categoryList.addAll(categories)
+                    subCategoryAdaper.notifyDataSetChanged()
+                }
+                ConstantObjects.search_product -> {
+                    val header = CategoriesSearchItem(
+                        id = 0,
+                        name = context.getString(R.string.Categories)
+                    )
+                    categoryList.add(header)
+                    categoryList.addAll(categories)
+                    categorySearchFilterSpinnerAdapter.notifyDataSetChanged()
+                }
+                ConstantObjects.search_seller -> {
+                    val header = CategoriesSearchItem(
+                        id = 0,
+                        name = context.getString(R.string.Categories)
+                    )
+                    categoryList.add(header)
+                    categoryList.addAll(categories)
+                    categorySearchFilterSpinnerAdapter.notifyDataSetChanged()
                 }
             }
-        })
+        }
     }
-
-
+    /*************/
+    /*************/
+    /*************/
+    /*************/
+    /***region**/
     fun getCountries() {
         progressBar.visibility = View.VISIBLE
         countriesCallback = RetrofitBuilder.GetRetrofitBuilder().getCountryNew()
@@ -631,6 +921,11 @@ class FilterCategoryProductsDialog(
         //  println("hhhh neigberhood ids "+Gson().toJson(neiberhoodIdsList))
     }
 
+    /*****************************/
+    /*****************************/
+    /*****************************/
+    /*****************************/
+
     /***get Specification**/
     fun getDynamicSpecification(categoryId: Int) {
         progressBar.visibility = View.VISIBLE
@@ -665,6 +960,7 @@ class FilterCategoryProductsDialog(
         })
     }
 
+
     interface SetOnClickListeners {
         fun onApplyFilter(
             countryList: List<Int>,
@@ -673,7 +969,8 @@ class FilterCategoryProductsDialog(
             subCategoryList: List<Int>,
             specificationList: List<String>,
             startPrice: Float,
-            endProce: Float
+            endProce: Float,
+            mainCategoryId: Int
         )
         fun resetFilter()
     }

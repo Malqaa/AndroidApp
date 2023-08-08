@@ -7,6 +7,7 @@ import com.malka.androidappp.newPhase.data.helper.Extension.requestBody
 import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.addProductToCartResp.AddProductToCartResp
 import com.malka.androidappp.newPhase.domain.models.addRateResp.AddRateResp
+import com.malka.androidappp.newPhase.domain.models.bidPersonsResp.BidPersonsResp
 import com.malka.androidappp.newPhase.domain.models.productResp.ProductListResp
 import com.malka.androidappp.newPhase.domain.models.productResp.ProductResp
 import com.malka.androidappp.newPhase.domain.models.questionResp.AddQuestionResp
@@ -16,6 +17,8 @@ import com.malka.androidappp.newPhase.domain.models.ratingResp.RateResponse
 import com.malka.androidappp.newPhase.domain.models.sellerInfoResp.SellerInfoResp
 import com.malka.androidappp.newPhase.domain.models.sellerRateListResp.SellerRateListResp
 import com.malka.androidappp.newPhase.domain.models.servicemodels.GeneralRespone
+import com.malka.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
+import com.malka.androidappp.newPhase.domain.models.shippingOptionsResp.ShippingOptionResp
 import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -37,9 +40,59 @@ class ProductDetailsViewModel : BaseViewModel() {
     var addProductToCartObservable: MutableLiveData<AddProductToCartResp> = MutableLiveData()
     var sellerInfoObservable: MutableLiveData<SellerInfoResp> = MutableLiveData()
     var sellerInfoLoadingObservable: MutableLiveData<Boolean> = MutableLiveData()
+    var shippingOptionObserver: MutableLiveData<ShippingOptionResp> = MutableLiveData()
+    var paymentOptionObserver: MutableLiveData<ShippingOptionResp> = MutableLiveData()
+    var bidsPersonsObserver: MutableLiveData<BidPersonsResp> = MutableLiveData()
 
+    fun getProductShippingOptions(productId: Int) {
+        //isLoading.value = true
+        RetrofitBuilder.GetRetrofitBuilder()
+            .getProductShippingOptions(productId)
+            .enqueue(object : Callback<ShippingOptionResp> {
+                override fun onFailure(call: Call<ShippingOptionResp>, t: Throwable) {
+//                    isNetworkFail.value = t !is HttpException
+//                    isLoading.value = false
+                }
 
+                override fun onResponse(
+                    call: Call<ShippingOptionResp>,
+                    response: Response<ShippingOptionResp>
+                ) {
+                    // isLoading.value = false
+                    if (response.isSuccessful) {
+                        shippingOptionObserver.value = response.body()
+                    }
+//                    else {
+//                        errorResponseObserver.value = getErrorResponse(response.errorBody())
+//                    }
+                }
+            })
+    }
 
+    fun getProductPaymentOptions(productId: Int) {
+        //isLoading.value = true
+        RetrofitBuilder.GetRetrofitBuilder()
+            .getProductPaymentOptions(productId)
+            .enqueue(object : Callback<ShippingOptionResp> {
+                override fun onFailure(call: Call<ShippingOptionResp>, t: Throwable) {
+//                    isNetworkFail.value = t !is HttpException
+//                    isLoading.value = false
+                }
+
+                override fun onResponse(
+                    call: Call<ShippingOptionResp>,
+                    response: Response<ShippingOptionResp>
+                ) {
+                    //isLoading.value = false
+                    if (response.isSuccessful) {
+                        paymentOptionObserver.value = response.body()
+                    }
+//                    else {
+//                        errorResponseObserver.value = getErrorResponse(response.errorBody())
+//                    }
+                }
+            })
+    }
 
     fun getProductDetailsById(productId: Int) {
         isLoading.value = true
@@ -65,6 +118,23 @@ class ProductDetailsViewModel : BaseViewModel() {
             })
     }
 
+    fun getBidsPersons(productId: Int) {
+        RetrofitBuilder.GetRetrofitBuilder().getBidsPersons(productId)
+            .enqueue(object : Callback<BidPersonsResp> {
+                override fun onFailure(call: Call<BidPersonsResp>, t: Throwable) {
+
+                }
+
+                override fun onResponse(
+                    call: Call<BidPersonsResp>,
+                    response: Response<BidPersonsResp>
+                ) {
+                    if (response.isSuccessful) {
+                        bidsPersonsObserver.value = response.body()
+                    }
+                }
+            })
+    }
     fun getSellerInfo(productId: Int) {
         println("hhhh tt " + productId)
         sellerInfoLoadingObservable.value = true
@@ -498,4 +568,52 @@ class ProductDetailsViewModel : BaseViewModel() {
             })
     }
 
+    var addSellerToFavObserver: MutableLiveData<GeneralResponse> = MutableLiveData()
+    var removeSellerToFavObserver: MutableLiveData<GeneralResponse> = MutableLiveData()
+    fun addSellerToFav(sellerProviderID:String?,businessAccountId:String?){
+        sellerLoading.value = true
+        RetrofitBuilder.GetRetrofitBuilder()
+            .addFavoriteSeller(sellerProviderID, businessAccountId)
+            .enqueue(object : Callback<GeneralResponse> {
+                override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
+                    isNetworkFail.value = t !is HttpException
+                    sellerLoading.value = false
+                }
+
+                override fun onResponse(
+                    call: Call<GeneralResponse>,
+                    response: Response<GeneralResponse>
+                ) {
+                    sellerLoading.value = false
+                    if (response.isSuccessful) {
+                        addSellerToFavObserver.value = response.body()
+                    } else {
+                        errorResponseObserver.value = getErrorResponse(response.errorBody())
+                    }
+                }
+            })
+    }
+    fun removeSellerToFav(sellerProviderID:String?,businessAccountId:String?){
+        sellerLoading.value = true
+        RetrofitBuilder.GetRetrofitBuilder()
+            .removeFavoriteSeller(sellerProviderID, businessAccountId)
+            .enqueue(object : Callback<GeneralResponse> {
+                override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
+                    isNetworkFail.value = t !is HttpException
+                    sellerLoading.value = false
+                }
+
+                override fun onResponse(
+                    call: Call<GeneralResponse>,
+                    response: Response<GeneralResponse>
+                ) {
+                    sellerLoading.value = false
+                    if (response.isSuccessful) {
+                        removeSellerToFavObserver.value = response.body()
+                    } else {
+                        errorResponseObserver.value = getErrorResponse(response.errorBody())
+                    }
+                }
+            })
+    }
 }

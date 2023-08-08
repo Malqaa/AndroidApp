@@ -8,7 +8,6 @@ import android.view.View
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.malka.androidappp.BuildConfig
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.newPhase.data.helper.ConstantObjects
@@ -16,11 +15,9 @@ import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.data.helper.hide
 import com.malka.androidappp.newPhase.data.helper.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.newPhase.data.helper.show
-import com.malka.androidappp.newPhase.data.network.constants.Constants
 import com.malka.androidappp.newPhase.domain.models.loginResp.LoginUser
 import com.malka.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.OtpData
 import com.malka.androidappp.newPhase.presentation.accountFragment.AccountViewModel
-import com.yariksoffice.lingver.Lingver
 import io.paperdb.Paper
 import kotlinx.android.synthetic.main.activity_confirm_change_email.*
 import kotlinx.android.synthetic.main.toolbar_main.*
@@ -44,7 +41,7 @@ class ConfirmChangeEmailActivity : BaseActivity() {
         setClickListeners()
         resendCodeAfterExpire.hide()
 
-        accountViewModel.getConfigurationResp(ConstantObjects.otpExpiryTime)
+        accountViewModel.getConfigurationResp(ConstantObjects.configration_otpExpiryTime)
 
     }
 

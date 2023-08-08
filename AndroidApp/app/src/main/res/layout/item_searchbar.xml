@@ -39,13 +39,13 @@
 
 
             <ImageView
-                android:layout_alignParentEnd="true"
-                android:layout_centerInParent="true"
                 android:id="@+id/iv_end_icon"
                 android:layout_width="@dimen/_14sdp"
                 android:layout_height="@dimen/_14sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true"
                 android:layout_gravity="center"
+                android:layout_marginEnd="@dimen/_10sdp"
                 android:src="@drawable/search_icon" />
 
 

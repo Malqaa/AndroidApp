@@ -1,42 +1,42 @@
 <resources>
     <string name="app_name" translatable="false">Onruf</string>
-  <string name="serverError">Error happened, please try again later</string>
-  <string name="connectionError">Network Connection Fail</string>
-  <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyA-hhR3N_WfZkeHbBvfIjJtfH9_a1SCiHE</string>
-  <string name="saveThisSearch">Save this search</string>
-  <string name="selectCountry">Select Country</string>
-  <string name="selectRegionTitle">Select Region</string>
-  <string name="selectDistrict">Select District</string>
-  <string name="noResultFound">No Results Found</string>
-  <string name="searchHere">Search Here</string>
-  <string name="noSpecificationFound">No Specification Found</string>
-  <string name="noQuestionsFound">No Questions Found</string>
-  <string name="applyFilter">Apply Filter</string>
-  <string name="recentlyView">Recently View</string>
-  <string name="bidding">Bidding</string>
-  <string name="show">Show</string>
-  <string name="noProductsAdded">No Products Added</string>
-  <string name="noProductsFound">No Products Found</string>
-  <string name="noOrdersFound">No Orders Found</string>
-  <string name="enterAllSpecificaiton">Enter All Specification</string>
-  <string name="noSubCategoryFound">No Sub Categories Found</string>
-  <string name="Back_to_login">Back to login</string>
-  <string name="loggedoutsuccessfully">Logged Out Successfully</string>
-  <string name="City">City</string>
-  <string name="Confirm">Confirm</string>
-  <string name="Confirm_Password">Confirm Password</string>
-  <string name="Confirm_New_Password">Confirm New Password</string>
-  <string name="Country">Country</string>
-  <string name="Create_your_personal_account">
+    <string name="serverError">Error happened, please try again later</string>
+    <string name="connectionError">Network Connection Fail</string>
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyA-hhR3N_WfZkeHbBvfIjJtfH9_a1SCiHE</string>
+    <string name="saveThisSearch">Save this search</string>
+    <string name="selectCountry">Select Country</string>
+    <string name="selectRegionTitle">Select Region</string>
+    <string name="selectDistrict">Select District</string>
+    <string name="noResultFound">No Results Found</string>
+    <string name="searchHere">Search Here</string>
+    <string name="noSpecificationFound">No Specification Found</string>
+    <string name="noQuestionsFound">No Questions Found</string>
+    <string name="applyFilter">Apply Filter</string>
+    <string name="recentlyView">Recently View</string>
+    <string name="bidding">Bidding</string>
+    <string name="show">Show</string>
+    <string name="noProductsAdded">No Products Added</string>
+    <string name="noProductsFound">No Products Found</string>
+    <string name="noOrdersFound">No Orders Found</string>
+    <string name="enterAllSpecificaiton">Enter All Specification</string>
+    <string name="noSubCategoryFound">No Sub Categories Found</string>
+    <string name="Back_to_login">Back to login</string>
+    <string name="loggedoutsuccessfully">Logged Out Successfully</string>
+    <string name="City">City</string>
+    <string name="Confirm">Confirm</string>
+    <string name="Confirm_Password">Confirm Password</string>
+    <string name="Confirm_New_Password">Confirm New Password</string>
+    <string name="Country">Country</string>
+    <string name="Create_your_personal_account">
     Create a personal account
   </string>
-  <string name="Date_of_Birth">
+    <string name="Date_of_Birth">
     Date of Birth
   </string>
-  <string name="Day">
+    <string name="Day">
     Day
   </string>
-  <string name="Didntget">
+    <string name="Didntget">
     Didn\'t get?
   </string>
     <string name="District_Name">
@@ -729,7 +729,7 @@ Invalid Username or Password
   </string>
 
     <string name="Selectashippingoption">Select a shipping option</string>
-  <string name="selectaPickUpoption">Select a Pick Up option</string>
+    <string name="selectaPickUpoption">Select a Pick Up option</string>
     <string name="SpecifyShippingCost">Specify Shipping Cost</string>
     <string name="TobeArranged">
     To be Arranged
@@ -764,9 +764,7 @@ Invalid Username or Password
     <string name="Buying">
     Buying
   </string>
-    <string name="Categories">
-    Categories
-  </string>
+    <string name="Categories">Categories</string>
     <string name="CurrentListings">
     Current Listings
   </string>
@@ -794,9 +792,7 @@ Invalid Username or Password
     <string name="Searches">
     Searches
   </string>
-    <string name="Selectall">
-    Select all
-  </string>
+    <string name="Selectall">Select all</string>
     <string name="Sellers">
     Sellers
   </string>
@@ -1116,9 +1112,7 @@ Invalid Username or Password
     <string name="burnerandhotplatenumber">
     burnerandhotplatenumber
   </string>
-    <string name="Cancel">
-    Cancel
-  </string>
+    <string name="Cancel">Cancel</string>
     <string name="cancelAshipmentOrder">
     Cancel a shipment order
   </string>
@@ -1448,9 +1442,8 @@ Invalid Username or Password
     <string name="MemberOnly">
     Member Only
   </string>
-    <string name="MyProducts">
-    My Products
-  </string>
+    <string name="MyProducts">My Products</string>
+    <string name="MyProductsOffers">My Products Offers</string>
     <string name="negativefeedback">
     negative feedback
   </string>
@@ -1737,31 +1730,31 @@ Invalid Username or Password
     <string name="None">
     None
   </string>
-  <string name="OfferDuration">
+    <string name="OfferDuration">
     Offer Duration
   </string>
-  <string name="Offerto">
+    <string name="Offerto">
     Offer to
   </string>
-  <string name="Onlyallowbidsfrom">
+    <string name="Onlyallowbidsfrom">
     Only allow bids from Authenticated members
   </string>
-  <string name="PickUp">Pick Up</string>
-  <string name="mustPickUp">Must Pick Up</string>
-  <string name="noPickUp">No Pick Up</string>
-  <string name="pickUpAvaliable">Pick Up Available</string>
+    <string name="PickUp">Pick Up</string>
+    <string name="mustPickUp">Must Pick Up</string>
+    <string name="noPickUp">No Pick Up</string>
+    <string name="pickUpAvaliable">Pick Up Available</string>
 
 
-  <string name="Ping">
+    <string name="Ping">
     Ping
   </string>
-  <string name="PricingandFixedPriceOffer">
+    <string name="PricingandFixedPriceOffer">
     Pricing and Fixed Price Offer
   </string>
-  <string name="RegisterasBussinessUser">
+    <string name="RegisterasBussinessUser">
    Register as a merchant
   </string>
-  <string name="RegisterasPersonalUser">
+    <string name="RegisterasPersonalUser">
    Register as a user
   </string>
     <string name="RegistrationNumber">
@@ -2626,6 +2619,7 @@ Want to start a business account? Create a Business Account
     <string name="enter_your_personal_information" translatable="false">Enter your personal information</string>
     <string name="sign_up" translatable="false">Sign Up</string>
     <string name="it_was_completed">It was completed</string>
+    <string name="negotiationPrice">Negotiation Price</string>
     <string name="price_negotiation">Price Negotiation</string>
     <string name="have_a_question">Have a question?</string>
     <string name="merchant">Merchant</string>
@@ -2669,7 +2663,7 @@ Want to start a business account? Create a Business Account
     <string name="sent">Sent</string>
     <string name="received">Received</string>
     <string name="sent_to_buyers">Sent to buyers</string>
-    <string name="_3_days_after_the_offer_ends">3 days after the offer ends</string>
+    <string name="_3_days_after_the_offer_ends"> hours after the offer ends</string>
     <string name="no_response_yet">No response yet</string>
     <string name="sent_to_sellers">sent to sellers</string>
     <string name="what_do_you_want_to_sell">What do you want to sell?</string>
@@ -2687,12 +2681,12 @@ Want to start a business account? Create a Business Account
     <string name="purchasing_price_">Purchasing Price</string>
     <string name="payment_options">Payment Options</string>
     <string name="rial">Rial</string>
-    <string name="saudi_national_bank">Saudi National Bank</string>
+    <string name="bank_transfer_2">Bank Transfer</string>
     <string name="add_a_new_account">Add a new account</string>
     <string name="visa_mastercard">Visa/MasterCard</string>
     <string name="sale_details">Sale details</string>
     <string name="choose_one_of_our_special_packages">Choose one of our special packages</string>
-  <string name="ExtraFee">Extra Fee</string>
+    <string name="ExtraFee">Extra Fee</string>
     <string name="silver_package">Silver Package</string>
     <string name="and_get_many_advantages_of_displaying_your_product">And get many advantages of displaying your product</string>
     <string name="distinguish_your_product">Distinguish your product</string>
@@ -2736,7 +2730,7 @@ Want to start a business account? Create a Business Account
     <string name="sub_title_ar">Item Subtitle In Arabic</string>
 
 
-    <string name="saudi_bank_deposit">Saudi bank deposit</string>
+    <string name="bank_transfer">Bank Transfer</string>
     <string name="dismiss">Dismiss</string>
     <string name="enter">Enter</string>
     <string name="account_holder_s_name">Account Holder\'s Name</string>
@@ -2849,8 +2843,10 @@ Want to start a business account? Create a Business Account
     <string name="receive_notification">Receive notification</string>
     <string name="edit_profile">Edit profile</string>
     <string name="application_settings">Application settings</string>
-    <string name="my_bids">My bids</string>
+    <string name="my_bids">My Bids</string>
+  <string name="myBid">My Bid</string>
     <string name="negotiation_offers">Negotiation offers</string>
+    <string name="offerPrice">Offer Price</string>
     <string name="save_addresses">Save Addresses</string>
     <string name="update_address">Update Address</string>
     <string name="member_since">Member since</string>
@@ -2963,9 +2959,9 @@ Want to start a business account? Create a Business Account
         <item>0</item>
         <item>0</item>
     </array>
-  <string name="integratedShippingCompanies">Integrated Shipping Companies</string>
+    <string name="integratedShippingCompanies">Integrated Shipping Companies</string>
     <string name="free_shipping_within_Saudi_Arabia">Free shipping within Saudi Arabia</string>
-  <string name="arrangementWillBeMadeWithTheBuyer">Arrangement Will Be Made With The Buyer</string>
+    <string name="arrangementWillBeMadeWithTheBuyer">Arrangement Will Be Made With The Buyer</string>
     <string name="noPackagesFound">No Packages Found</string>
     <string name="notSpecified">Not Specified</string>
     <string name="inArabic">In Arabic</string>
@@ -3050,35 +3046,56 @@ Want to start a business account? Create a Business Account
     <string name="passwordUpdatedSuccessfully">Password Updated Successfully</string>
     <string name="emailUpdatedSuccessfully">Email Updated Successfully</string>
     <string name="phoneUpdatedSuccessfully">Phone Updated Successfully</string>
-  <string name="wrongPassword">Wrong Password</string>
-  <string name="passwordReset">password Reset</string>
-  <string name="TypeNewPassword">Type New Password</string>
-  <string name="updateYourEmail">Update Your Email</string>
-  <string name="profileUpdatedSuccessfully">Profile updated successfully</string>
-  <string name="statusShowingYourData">Select status of showing your data</string>
-  <string name="swiftCode">Swift Code</string>
-  <string name="checkYourDataForamt">Check Your Data Format</string>
-  <string name="cashPayment">Cash Payment</string>
-  <string name="selectBackAccount">Select Bank Account</string>
-  <string name="freeProductImagesCount">Free Product Images Count</string>
-  <string name="freeProductVidoesCount">Free Product Videos Count</string>
-  <string name="extraProductImageFee">Extra Product Image Fee</string>
-  <string name="extraProductVidoeFee">Extra Product Video Fee</string>
-  <string name="extraProductImageCount">Extra Product Image Count</string>
-  <string name="extraProductVidoeCount">Extra Product Video Count</string>
-  <string name="subTitleFee">Sub Title Fee</string>
-  <string name="day">Day</string>
-  <string name="week">Week</string>
-  <string name="month">Month</string>
-  <string name="increaseForEachTime">Increase For Each Time</string>
-  <string name="writeIncreaseForEachTime">Write Increase For Each Time</string>
-  <string name="highestBidPrice">Highest Bid Price</string>
-  <string name="writeHighestBidPrice">Write Highest Bid Price</string>
-<string name="fixedPriceFee">Fixed Price Fee</string>
-  <string name="auctionFee">Auction Fee</string>
-  <string name="negotiationFee">Negotiation Fee</string>
-  <string name="enterBidPrice">Enter Bid Price</string>
-  <string name="enterCorrectBidPrice">Enter Correct Bid Price</string>
+    <string name="wrongPassword">Wrong Password</string>
+    <string name="passwordReset">password Reset</string>
+    <string name="TypeNewPassword">Type New Password</string>
+    <string name="updateYourEmail">Update Your Email</string>
+    <string name="profileUpdatedSuccessfully">Profile updated successfully</string>
+    <string name="statusShowingYourData">Select status of showing your data</string>
+    <string name="swiftCode">Swift Code</string>
+    <string name="checkYourDataForamt">Check Your Data Format</string>
+    <string name="cashPayment">Cash Payment</string>
+    <string name="selectBackAccount">Select Bank Account</string>
+    <string name="freeProductImagesCount">Free Product Images Count</string>
+    <string name="freeProductVidoesCount">Free Product Videos Count</string>
+    <string name="extraProductImageFee">Extra Product Image Fee</string>
+    <string name="extraProductVidoeFee">Extra Product Video Fee</string>
+    <string name="extraProductImageCount">Extra Product Image Count</string>
+    <string name="extraProductVidoeCount">Extra Product Video Count</string>
+    <string name="subTitleFee">Sub Title Fee</string>
+    <string name="day">Day</string>
+    <string name="week">Week</string>
+    <string name="month">Month</string>
+    <string name="increaseForEachTime">Increase For Each Time</string>
+    <string name="writeIncreaseForEachTime">Write Increase For Each Time</string>
+    <string name="highestBidPrice">Highest Bid Price</string>
+    <string name="writeHighestBidPrice">Write Highest Bid Price</string>
+    <string name="fixedPriceFee">Fixed Price Fee</string>
+    <string name="auctionFee">Auction Fee</string>
+    <string name="negotiationFee">Negotiation Fee</string>
+    <string name="enterBidPrice">Enter Bid Price</string>
+    <string name="enterCorrectBidPrice">Enter Correct Bid Price</string>
+    <string name="writeNegotionPrice">Please type the price you want to send to the seller</string>
+    <string name="writeNegotiationPrice2">Write Negotiation Price</string>
+    <string name="negotiationPriceSent">Negotiation Price Sent</string>
 
+    <string name="followNegotiationsOffers">Follow Negotiations Offers</string>
+    <string name="noOffersFound">No Offers Found</string>
+    <string name="noResponse">No Response</string>
+    <string name="waitForYourResponse">Wait for your response</string>
+    <string name="acceptNegotiationsOffers">Accept Negotiation Offer</string>
+    <string name="rejectNegotiationsOffers">Reject Negotiation Offer</string>
+    <string name="OfferCanceled">Offer Canceled</string>
+    <string name="accept">Accept</string>
+    <string name="reject">Reject</string>
+    <string name="selectExpirationHours">Please select expiration hours</string>
+    <string name="refuseReason">Refuse Reason</string>
+    <string name="accepted">Accepted</string>
+    <string name="rejected">Rejected</string>
+    <string name="sendOffer">Send Offer</string>
+    <string name="repostTheProduct">Repost The Product</string>
+    <string name="user">User</string>
+    <string name="selectUser">Select User</string>
+  <string name="you">You</string>
 
 </resources>

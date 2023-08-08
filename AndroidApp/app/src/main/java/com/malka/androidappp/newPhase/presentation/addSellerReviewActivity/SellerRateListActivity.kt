@@ -1,19 +1,15 @@
 package com.malka.androidappp.newPhase.presentation.addSellerReviewActivity
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.malka.androidappp.R
-import com.malka.androidappp.newPhase.data.helper.HelpFunctions
-import com.malka.androidappp.newPhase.data.helper.hide
-import com.malka.androidappp.newPhase.data.helper.linearLayoutManager
-import com.malka.androidappp.newPhase.data.helper.show
+import com.malka.androidappp.newPhase.data.helper.*
 import com.malka.androidappp.newPhase.domain.models.addRateResp.AddRateItem
 import com.malka.androidappp.newPhase.domain.models.sellerRateListResp.SellerRateItem
-import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
 import com.malka.androidappp.newPhase.presentation.productDetailsActivity.viewModels.ProductDetailsViewModel
 import com.malka.androidappp.newPhase.presentation.productsSellerInfoActivity.adapter.SellerRateAdapter
@@ -51,6 +47,7 @@ class SellerRateListActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefresh
         back_btn.setOnClickListener {
             finish()
         }
+        floatingActionButtonBottm.hide()
         floatingActionButtonBottm.setOnClickListener {
             if (HelpFunctions.isUserLoggedIn()) {
                 startActivityForResult(Intent(this, AddRateSellerActivity::class.java).apply {

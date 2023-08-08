@@ -17,7 +17,7 @@ data class Product(
     val disccountEndDate: String? = null,
     val sendOfferForAuction: Boolean,
     val auctionMinimumPrice: Float,
-    val auctionNegotiateForWhom: Float,
+    val auctionNegotiateForWhom: String?=null,
     val auctionNegotiatePrice: Float,
     val auctionClosingTime: String? = null,
     val id: Int,
@@ -61,10 +61,12 @@ data class Product(
     val listProductSep: List<ProductSpecialityItemDetails>? = null,
     val productMazadNegotiate: ProductMazadNegotiateObject? = null,
     var highestBidPrice:Float,
+    var bankAccountId:Int,
     // val sellerInformation: SellerInformation?=null,
 
     //*******
     var image: String? = null,
+    var myBid:Float
 
 //    val isPaied: Boolean,
 //    val isNegotiationOffers: Boolean,
@@ -84,21 +86,21 @@ data class Product(
 
 ) {
 
-    val createdOnFormated: String
-        get() {
-            updatedAt?.let {
-                // val result: String = it.substring(0, updateDate.indexOf("."))
-
-                return HelpFunctions.FormatDateTime(
-                    it,
-                    HelpFunctions.datetimeformat_24hrs,
-                    HelpFunctions.datetimeformat_mmddyyyy
-                )
-            } ?: kotlin.run {
-                return ""
-            }
-
-        }
+//    val createdOnFormated: String
+//        get() {
+//            updatedAt?.let {
+//                // val result: String = it.substring(0, updateDate.indexOf("."))
+//
+//                return HelpFunctions.FormatDateTime(
+//                    it,
+//                    HelpFunctions.datetimeformat_24hrs,
+//                    HelpFunctions.datetimeformat_mmddyyyy
+//                )
+//            } ?: kotlin.run {
+//                return ""
+//            }
+//
+//        }
 }
 
 

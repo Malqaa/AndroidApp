@@ -207,11 +207,14 @@
 
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:gravity="center"
-                    android:visibility="gone"
+                    android:layout_gravity="center"
+                    android:padding="5dp"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:id="@+id/containerAuctionNumber"
                     android:orientation="horizontal">
 
                     <TextView
@@ -224,13 +227,11 @@
                         android:textSize="@dimen/_10sdp" />
 
                     <TextView
-                        android:id="@+id/tvShowAllPidding"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_2sdp"
                         android:fontFamily="@font/madani_arabic_light"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        android:text="@string/show"
+                         android:text="@string/show"
                         android:textColor="@color/bg"
                         android:textSize="@dimen/_10sdp"
                         android:textStyle="bold" />
@@ -395,6 +396,7 @@
                     android:textSize="@dimen/_13sdp" />
 
                 <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/tvShippingOptions"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/_35sdp"
                     android:layout_gravity="start"
@@ -415,18 +417,25 @@
                     android:orientation="horizontal">
 
                     <LinearLayout
+                        android:id="@+id/contianerBankAccount"
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/_32sdp"
                         android:layout_gravity="center_vertical"
                         android:background="@drawable/product_attribute_bg4"
                         android:orientation="horizontal">
 
-                        <ImageView
-                            android:layout_width="@dimen/_50sdp"
-                            android:layout_height="@dimen/_20sdp"
+<!--                        <ImageView-->
+<!--                            android:layout_width="@dimen/_50sdp"-->
+<!--                            android:layout_height="@dimen/_20sdp"-->
+<!--                            android:layout_gravity="center_vertical"-->
+<!--                            android:src="@drawable/mastercard" />-->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:src="@drawable/mastercard" />
-
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:text="@string/bank_transfer"
+                            android:textSize="@dimen/_13sdp" />
                         <ImageView
                             android:layout_width="@dimen/_50sdp"
                             android:layout_height="@dimen/_20sdp"
@@ -437,6 +446,7 @@
 
 
                     <LinearLayout
+                        android:id="@+id/contianerCash"
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/_32sdp"
                         android:layout_gravity="center_vertical"
@@ -450,7 +460,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="@dimen/_10sdp"
-                            android:text="Saudi bank deposit"
+                            android:text="@string/cashPayment"
                             android:textSize="@dimen/_13sdp" />
 
                         <ImageView
@@ -1333,6 +1343,46 @@
 
 
                 </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/containerMyBid"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:background="@drawable/edittext_bg"
+                    android:padding="@dimen/_10sdp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:fontFamily="@font/madani_arabic_semi_bold"
+                        android:text="@string/myBid"
+                        android:textAllCaps="false"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12sdp" />
+
+
+                    <TextView
+                        android:id="@+id/tvMyBidPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:fontFamily="@font/madani_arabic_semi_bold"
+                        android:text="@string/sar"
+                        android:textAllCaps="false"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12sdp" />
+
+
+                </RelativeLayout>
+
+
             </LinearLayout>
         </LinearLayout>
 

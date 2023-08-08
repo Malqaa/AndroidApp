@@ -12,30 +12,21 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.malka.androidappp.R
-import com.malka.androidappp.newPhase.data.helper.EndlessRecyclerViewScrollListener
-import com.malka.androidappp.newPhase.data.helper.HelpFunctions
-
-import com.malka.androidappp.newPhase.data.helper.hide
-import com.malka.androidappp.newPhase.data.helper.show
+import com.malka.androidappp.newPhase.data.helper.*
 import com.malka.androidappp.newPhase.domain.models.orderListResp.OrderItem
 import com.malka.androidappp.newPhase.domain.models.productResp.Product
-
-import com.malka.androidappp.newPhase.data.helper.ConstantObjects
+import com.malka.androidappp.newPhase.presentation.accountFragment.myOrderFragment.adapter.MyOrdersAdapter
+import com.malka.androidappp.newPhase.presentation.accountFragment.myProducts.dialog.AddDiscountDialog
+import com.malka.androidappp.newPhase.presentation.accountFragment.myProducts.dialog.AddProductBidOffersDialog
+import com.malka.androidappp.newPhase.presentation.accountFragment.myProducts.dialog.BidPersonsDialog
+import com.malka.androidappp.newPhase.presentation.accountFragment.myProducts.dialog.MyProductSettingDialog
+import com.malka.androidappp.newPhase.presentation.accountFragment.myProducts.viewModel.MyProductViewModel
 import com.malka.androidappp.newPhase.presentation.adapterShared.ProductHorizontalAdapter
 import com.malka.androidappp.newPhase.presentation.adapterShared.SetOnProductItemListeners
 import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
-import com.malka.androidappp.newPhase.presentation.accountFragment.myOrderFragment.adapter.MyOrdersAdapter
-import com.malka.androidappp.newPhase.presentation.accountFragment.myProducts.dialog.AddDiscountDialog
-import com.malka.androidappp.newPhase.presentation.accountFragment.myProducts.dialog.MyProductSettingDialog
-import com.malka.androidappp.newPhase.presentation.accountFragment.myProducts.viewModel.MyProductViewModel
 import com.malka.androidappp.newPhase.presentation.myOrderDetails.MyOrderDetailsRequestedFromMeActivity
 import com.malka.androidappp.newPhase.presentation.productDetailsActivity.ProductDetailsActivity
-
 import kotlinx.android.synthetic.main.fragment_sold_business.*
-import kotlinx.android.synthetic.main.fragment_sold_business.progressBar
-import kotlinx.android.synthetic.main.fragment_sold_business.swipe_to_refresh
-import kotlinx.android.synthetic.main.fragment_sold_business.tvError
-
 import kotlinx.android.synthetic.main.toolbar_main.*
 
 
@@ -349,27 +340,65 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
     }
 
     override fun onShowMoreSetting(position: Int, productID: Int, categoryID: Int) {
-        var myProductSettingDialog = MyProductSettingDialog(requireActivity(), object :
-            MyProductSettingDialog.SetOnSelectedListeners {
-            override fun onAddDiscount() {
-                openDiscountDialog(position, productID, categoryID)
-            }
+        var productForeSale = tapId == 1
+        var myProductSettingDialog =
+            MyProductSettingDialog(requireActivity(), productForeSale, object :
+                MyProductSettingDialog.SetOnSelectedListeners {
+                override fun onAddDiscount() {
+                    openDiscountDialog(position, productID, categoryID)
+                }
 
-            override fun onModifyProduct() {
-                HelpFunctions.ShowLongToast("not implemented yet", requireActivity())
-            }
+                override fun onModifyProduct() {
+                    HelpFunctions.ShowLongToast("not implemented yet", requireActivity())
+                }
 
-            override fun onDeleteProduct() {
-                HelpFunctions.ShowLongToast("not implemented yet", requireActivity())
-            }
+                override fun onDeleteProduct() {
+                    HelpFunctions.ShowLongToast("not implemented yet", requireActivity())
+                }
 
-        })
+                override fun onSendOfferProductToBidPersons() {
+                    openAddOfferDailog(productID)
+                }
+
+                override fun onRepostProduct() {
+                    HelpFunctions.ShowLongToast("not implemented yet", requireActivity())
+                }
+
+            })
         myProductSettingDialog.show()
+    }
+
+    private fun openAddOfferDailog(productID: Int) {
+        val bidPersonsDialog = BidPersonsDialog(
+            requireActivity(),
+            productID,
+            object : BidPersonsDialog.SetOnAddBidOffersListeners {
+                override fun onAddOpenBidOfferDailog(bidsList: List<Int>) {
+                    openAddProductOffers(bidsList, productID)
+                }
+
+            })
+        bidPersonsDialog.show()
+    }
+
+    private fun openAddProductOffers(bidsList: List<Int>, productID: Int) {
+        var addProductBidOffersDialog = AddProductBidOffersDialog(
+            requireActivity(),
+            productID,
+            bidsList,
+            object : AddProductBidOffersDialog.SetClickListeners {
+                override fun setOnSuccessListeners() {
+
+                }
+
+            })
+        addProductBidOffersDialog.show()
     }
 
     private fun openDiscountDialog(position: Int, productID: Int, categoryID: Int) {
         var addDiscountDialog =
-            AddDiscountDialog(requireActivity(),
+            AddDiscountDialog(
+                requireActivity(),
                 productList[position].price,
                 requireActivity().supportFragmentManager,
                 object : AddDiscountDialog.SetonClickListeners {

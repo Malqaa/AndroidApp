@@ -22,7 +22,7 @@ data class SellerInformation(
     val snapchat: String? = null,
     val tikTok: String? = null,
     val createdAt: String? = null,
-    val lat:Double?=null ,
+    val lat:Double?=null,
     val lon:Double?=null,
-    val isFollowed: Boolean,
+    var isFollowed: Boolean,
 ):Parcelable
