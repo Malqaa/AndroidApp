@@ -13,6 +13,7 @@ import com.malka.androidappp.newPhase.data.helper.hide
 import com.malka.androidappp.newPhase.data.helper.linearLayoutManager
 import com.malka.androidappp.newPhase.data.helper.show
 import com.malka.androidappp.newPhase.domain.models.negotiationOfferResp.NegotiationOfferDetails
+import com.malka.androidappp.newPhase.presentation.accountFragment.negotiationOffersPurchase.AcceptOfferDialog
 import com.malka.androidappp.newPhase.presentation.accountFragment.negotiationOffersPurchase.adapter.NegotiationOffersAdapter
 import com.malka.androidappp.newPhase.presentation.accountFragment.negotiationOffersPurchase.NegotiationOffersViewModel
 import kotlinx.android.synthetic.main.activity_negotiation_offers_purchase.*
@@ -155,6 +156,7 @@ class NegotiationOffersPurchaseActivity : BaseActivity(), SwipeRefreshLayout.OnR
         negotiationOfferDetailsList.clear()
         negotiationOffersAdapter.notifyDataSetChanged()
         negotiationOffersViewModel.getPurchaseProductsOffers(isSent)
+        negotiationOffersAdapter.setIsSend(isSent)
     }
 
     override fun onCancelOffer(offerID: Int, position: Int) {
@@ -164,10 +166,36 @@ class NegotiationOffersPurchaseActivity : BaseActivity(), SwipeRefreshLayout.OnR
     }
 
     override fun onAcceptOffer(position: Int) {
+        var acceptOfferDialog: AcceptOfferDialog = AcceptOfferDialog(this,
+            true,
+            position,
+            negotiationOfferDetailsList[position].offerId,
+            negotiationOfferDetailsList[position].productId,
+            object : AcceptOfferDialog.SetClickListeners {
+                override fun setOnSuccessListeners(offerID: Int, position: Int, accept: Boolean) {
+                    negotiationOfferDetailsList[position].offerStatus =
+                        if (accept) "Accepted" else "Reject"
+                    negotiationOffersAdapter.notifyItemChanged(position)
+                }
 
+            })
+        acceptOfferDialog.show()
     }
 
     override fun onRejectOffer(position: Int) {
+        var acceptOfferDialog: AcceptOfferDialog = AcceptOfferDialog(this,
+            false,
+            position,
+            negotiationOfferDetailsList[position].offerId,
+            negotiationOfferDetailsList[position].productId,
+            object : AcceptOfferDialog.SetClickListeners {
+                override fun setOnSuccessListeners(offerID: Int, position: Int, accept: Boolean) {
+                    negotiationOfferDetailsList[position].offerStatus =
+                        if (accept) "Accepted" else "Refused"
+                    negotiationOffersAdapter.notifyItemChanged(position)
+                }
 
+            })
+        acceptOfferDialog.show()
     }
 }

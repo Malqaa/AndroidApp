@@ -73,10 +73,8 @@ class NegotiationOffersSaleActivity : BaseActivity(),
         }
         negotiationOffersViewModel.purchaseProductsOffersObserver.observe(this) {
             if (it.status_code == 200 && it.negotiationOfferDetailsList != null) {
-                var datalist: List<NegotiationOfferDetails> =
-                    it.negotiationOfferDetailsList as List<NegotiationOfferDetails>
                 negotiationOfferDetailsList.clear()
-                negotiationOfferDetailsList.addAll(datalist)
+                negotiationOfferDetailsList.addAll(it.negotiationOfferDetailsList)
                 negotiationOffersAdapter.notifyDataSetChanged()
             } else if (it.status_code == 400 && it.message == "No offers found") {
                 showApiError(getString(R.string.noOffersFound))
@@ -155,6 +153,7 @@ class NegotiationOffersSaleActivity : BaseActivity(),
         negotiationOfferDetailsList.clear()
         negotiationOffersAdapter.notifyDataSetChanged()
         negotiationOffersViewModel.getSaleProductsOffers(isSent)
+        negotiationOffersAdapter.setIsSend(isSent)
     }
 
     override fun onCancelOffer(offerID: Int, position: Int) {

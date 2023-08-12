@@ -138,7 +138,7 @@ class ProductHorizontalAdapter(
             holder.viewBinding.tvProductPrice.text =
                 "${productList[position].price.toDouble()} ${
                     context.getString(
-                        R.string.Rayal
+                        R.string.SAR
                     )
                 }"
             holder.viewBinding.tvOldPRiceProductPriceForVertiaclView.hide()
@@ -153,13 +153,13 @@ class ProductHorizontalAdapter(
                 holder.viewBinding.tvOldPRiceProductPriceForHorizentalView.text =
                     "${productList[position].price.toDouble()} ${
                         context.getString(
-                            R.string.Rayal
+                            R.string.SAR
                         )
                     }"
                 holder.viewBinding.tvProductPrice.text =
                     "${productList[position].priceDiscount.toDouble()} ${
                         context.getString(
-                            R.string.Rayal
+                            R.string.SAR
                         )
                     }"
             } else {
@@ -171,13 +171,13 @@ class ProductHorizontalAdapter(
                 holder.viewBinding.tvOldPRiceProductPriceForVertiaclView.text =
                     "${productList[position].price.toDouble()} ${
                         context.getString(
-                            R.string.Rayal
+                            R.string.SAR
                         )
                     }"
                 holder.viewBinding.tvProductPrice.text =
                     "${productList[position].priceDisc.toDouble()} ${
                         context.getString(
-                            R.string.Rayal
+                            R.string.SAR
                         )
                     }"
             }
@@ -187,7 +187,7 @@ class ProductHorizontalAdapter(
 
         holder.viewBinding.purchasingPriceTv2.text = "${
             productList[position].price.toDouble().decimalNumberFormat()
-        } ${context.getString(R.string.Rayal)}"
+        } ${context.getString(R.string.SAR)}"
 
         holder.viewBinding.fullview.setOnClickListener {
             setOnProductItemListeners.onProductSelect(
@@ -220,8 +220,8 @@ class ProductHorizontalAdapter(
         if(productList[position].highestBidPrice!=0f){
             holder.viewBinding.LowestPriceLayout.show()
             holder.viewBinding.LowestPriceLayout2.show()
-            holder.viewBinding.LowestPrice.text = "${productList[position].highestBidPrice} ${ context.getString(R.string.Rayal)}"
-            holder.viewBinding.LowestPrice2.text = "${productList[position].highestBidPrice} ${ context.getString(R.string.Rayal)}"
+            holder.viewBinding.LowestPrice.text = "${productList[position].highestBidPrice} ${ context.getString(R.string.SAR)}"
+            holder.viewBinding.LowestPrice2.text = "${productList[position].highestBidPrice} ${ context.getString(R.string.SAR)}"
         }else{
             holder.viewBinding.LowestPriceLayout.hide()
             holder.viewBinding.LowestPriceLayout2.hide()

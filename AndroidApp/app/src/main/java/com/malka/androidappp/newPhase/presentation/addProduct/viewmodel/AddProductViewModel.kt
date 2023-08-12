@@ -1,5 +1,6 @@
 package com.malka.androidappp.newPhase.presentation.addProduct.viewmodel
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
@@ -12,6 +13,7 @@ import com.malka.androidappp.newPhase.domain.models.ErrorResponse
 import com.malka.androidappp.newPhase.domain.models.accountBackListResp.AccountBankListResp
 import com.malka.androidappp.newPhase.domain.models.cartPriceSummery.CartPriceSummeryResp
 import com.malka.androidappp.newPhase.domain.models.categoryResp.CategoriesResp
+import com.malka.androidappp.newPhase.domain.models.discopuntResp.DiscountCouponResp
 import com.malka.androidappp.newPhase.domain.models.dynamicSpecification.DynamicSpecificationResp
 import com.malka.androidappp.newPhase.domain.models.dynamicSpecification.DynamicSpecificationSentObject
 import com.malka.androidappp.newPhase.domain.models.pakatResp.PakatResp
@@ -50,6 +52,36 @@ class AddProductViewModel : BaseViewModel() {
     var isLoadingBackAccountList: MutableLiveData<Boolean> = MutableLiveData()
 
     var cartPriceSummeryObserver: MutableLiveData<CartPriceSummeryResp> = MutableLiveData()
+    var couponByCodeObserver: MutableLiveData<DiscountCouponResp> = MutableLiveData()
+
+
+    fun getCouponByCode(couponCode:String){
+        isLoading.value = true
+        RetrofitBuilder.GetRetrofitBuilder()
+            .getCouponByCode(couponCode)
+            .enqueue(object : Callback<DiscountCouponResp> {
+                override fun onFailure(call: Call<DiscountCouponResp>, t: Throwable) {
+                    isNetworkFail.value = t !is HttpException
+                    isLoading.value = false
+                }
+
+                override fun onResponse(
+                    call: Call<DiscountCouponResp>,
+                    response: Response<DiscountCouponResp>
+                ) {
+                    isLoading.value = false
+                    if (response.isSuccessful) {
+                        couponByCodeObserver.value = response.body()
+                    } else {
+                        errorResponseObserver.value =
+                            getErrorResponse(response.errorBody())
+                    }
+                }
+            })
+    }
+
+
+
     fun checkOutAdditionalPakat(
         pakatId: Int, categoryId: Int,
         extraProductImageFee: Float,
@@ -375,6 +407,7 @@ class AddProductViewModel : BaseViewModel() {
 //                }
 //            })
 //    }
+@SuppressLint("SuspiciousIndentation")
 fun getAddProduct3(
     context: Context,
     nameAr: String,
@@ -410,9 +443,22 @@ fun getAddProduct3(
     auctionMinimumPrice: String,
     auctionClosingTime: String,
     backAccountId: Int,
-
-    ) {
+    ProductPaymentDetailsDto_AdditionalPakatId: String,
+    ProductPaymentDetailsDto_ProductPublishPrice: Float,
+    ProductPaymentDetailsDto_EnableAuctionFee: Float,
+    ProductPaymentDetailsDto_EnableNegotiationFee: Float,
+    ProductPaymentDetailsDto_ExtraProductImageFee: Float,
+    ProductPaymentDetailsDto_ExtraProductVidoeFee: Float,
+    ProductPaymentDetailsDto_SubTitleFee: Float,
+    ProductPaymentDetailsDto_CouponId: Int,
+    ProductPaymentDetailsDto_CouponDiscountValue:Float,
+    ProductPaymentDetailsDto_TotalAmountAfterCoupon:Float,
+    ProductPaymentDetailsDto_TotalAmountBeforeCoupon:Float,
+) {
     isLoading.value = true
+
+
+    /**Image**/
     var imageListTOSend: ArrayList<MultipartBody.Part> = ArrayList()
     for (file in listImageFile) {
         var multipartBody: MultipartBody.Part = if (file != null) {
@@ -424,12 +470,13 @@ fun getAddProduct3(
         imageListTOSend.add(multipartBody)
     }
     var shippingOptionsList: ArrayList<MultipartBody.Part> = ArrayList()
-
+    /**DeliveryOption**/
     for(item in DeliveryOption){
        // var requestbody: RequestBody = item.requestBody()
         var multipartBody: MultipartBody.Part =   MultipartBody.Part.createFormData("ShippingOptions",item)
             shippingOptionsList.add(multipartBody)
     }
+    /**Video**/
     var videoUrlList: ArrayList<MultipartBody.Part> = ArrayList()
     videoUrl?.let {
         for (item in videoUrl) {
@@ -440,6 +487,7 @@ fun getAddProduct3(
         }
 
     }
+    /**PaymentOption**/
     var sendPaymentOptionList: ArrayList<MultipartBody.Part> = ArrayList()
     paymentOptionIdList?.let {
         for (item in paymentOptionIdList) {
@@ -451,7 +499,7 @@ fun getAddProduct3(
 
     }
 
-
+    /**data**/
     val map: HashMap<String, RequestBody> = HashMap()
     map["nameAr"] = nameAr.requestBody()
     map["nameEn"] = nameEn.requestBody()
@@ -501,6 +549,47 @@ fun getAddProduct3(
     if (backAccountId != 0) {
         map["BankAccountId"] = backAccountId.toString().toRequestBody()
     }
+    /***PaymentObject*/
+    //map["ProductPaymentDetailsDto.PakatId"] = "".toRequestBody()
+    if (ProductPaymentDetailsDto_AdditionalPakatId != "")
+        map["ProductPaymentDetailsDto.AdditionalPakatId"] = pakatId.toRequestBody()
+    if (ProductPaymentDetailsDto_ProductPublishPrice != 0f)
+        map["ProductPaymentDetailsDto.ProductPublishPrice"] =
+            ProductPaymentDetailsDto_ProductPublishPrice.toString().toRequestBody()
+//    map["ProductPaymentDetailsDto.EnableFixedPriceSaleFee"] = "".toRequestBody()
+    if (ProductPaymentDetailsDto_EnableAuctionFee != 0f) {
+        map["ProductPaymentDetailsDto.EnableAuctionFee"] =
+            ProductPaymentDetailsDto_EnableAuctionFee.toString().toRequestBody()
+    }
+    if (ProductPaymentDetailsDto_EnableNegotiationFee != 0f) {
+        map["ProductPaymentDetailsDto.EnableNegotiationFee"] =
+            ProductPaymentDetailsDto_EnableNegotiationFee.toString().toRequestBody()
+    }
+    if (ProductPaymentDetailsDto_ExtraProductImageFee != 0f) {
+        map["ProductPaymentDetailsDto.ExtraProductImageFee"] =
+            ProductPaymentDetailsDto_ExtraProductImageFee.toString().toRequestBody()
+    }
+    if (ProductPaymentDetailsDto_ExtraProductVidoeFee != 0f) {
+        map["ProductPaymentDetailsDto.ExtraProductVidoeFee"] =
+            ProductPaymentDetailsDto_ExtraProductVidoeFee.toString().toRequestBody()
+    }
+    if (ProductPaymentDetailsDto_SubTitleFee != 0f) {
+        map["ProductPaymentDetailsDto.SubTitleFee"] =
+            ProductPaymentDetailsDto_SubTitleFee.toString().toRequestBody()
+    }
+    if (ProductPaymentDetailsDto_CouponId != 0) {
+        map["ProductPaymentDetailsDto.CouponId"] = ProductPaymentDetailsDto_CouponId.toString().toRequestBody()
+        map["ProductPaymentDetailsDto.CouponDiscountValue"] = ProductPaymentDetailsDto_CouponDiscountValue.toString().toRequestBody()
+        map["ProductPaymentDetailsDto.TotalAmountAfterCoupon"] = ProductPaymentDetailsDto_TotalAmountAfterCoupon.toString().toRequestBody()
+    }
+    if( ProductPaymentDetailsDto_TotalAmountBeforeCoupon!=0f){
+        map["ProductPaymentDetailsDto.TotalAmountBeforeCoupon"] =  ProductPaymentDetailsDto_TotalAmountBeforeCoupon.toString().toRequestBody()
+    }
+    map["ProductPaymentDetailsDto.typePay"] = "1".toRequestBody()
+
+
+
+
     RetrofitBuilder.GetRetrofitBuilder()
         .addProduct3(map, imageListTOSend, shippingOptionsList, videoUrlList, sendPaymentOptionList)
         .enqueue(object : Callback<AddProductResponse> {

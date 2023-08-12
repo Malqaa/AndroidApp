@@ -492,33 +492,33 @@
                         android:visibility="gone">
 
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_10sdp"
-                            android:layout_marginTop="@dimen/_10sdp"
-                            android:layout_marginEnd="@dimen/_10sdp"
-                            android:weightSum="2">
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginStart="@dimen/_10sdp"-->
+<!--                            android:layout_marginTop="@dimen/_10sdp"-->
+<!--                            android:layout_marginEnd="@dimen/_10sdp"-->
+<!--                            android:weightSum="2">-->
 
-                            <TextView
-                                android:id="@+id/tvSelctedBackTitle"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:fontFamily="@font/madani_arabic_light"
-                                android:text="@string/bank_transfer"
-                                android:textAlignment="viewStart"
-                                android:textColor="@color/bg"
-                                android:textSize="@dimen/_10sdp" />
+<!--                            <TextView-->
+<!--                                android:id="@+id/tvSelctedBackTitle"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_weight="1"-->
+<!--                                android:fontFamily="@font/madani_arabic_light"-->
+<!--                                android:text="@string/bank_transfer"-->
+<!--                                android:textAlignment="viewStart"-->
+<!--                                android:textColor="@color/bg"-->
+<!--                                android:textSize="@dimen/_10sdp" />-->
 
-                            <androidx.appcompat.widget.SwitchCompat
-                                android:id="@+id/switchSaudiBankDeposit2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="@dimen/_10sdp"
-                                android:layout_weight="1"
-                                android:checked="true" />
-                        </LinearLayout>
+<!--                            <androidx.appcompat.widget.SwitchCompat-->
+<!--                                android:id="@+id/switchSaudiBankDeposit2"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_marginEnd="@dimen/_10sdp"-->
+<!--                                android:layout_weight="1"-->
+<!--                                android:checked="true" />-->
+<!--                        </LinearLayout>-->
 
 
                         <RelativeLayout

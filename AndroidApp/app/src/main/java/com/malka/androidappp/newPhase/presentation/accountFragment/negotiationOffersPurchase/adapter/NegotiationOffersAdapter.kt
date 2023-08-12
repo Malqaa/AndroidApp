@@ -19,6 +19,7 @@ class NegotiationOffersAdapter(
     var saleOrNot: Boolean = false
 ) :
     Adapter<NegotiationOffersAdapter.NegotiationOffersViewHolder>() {
+    private var isSend: Boolean = false
     lateinit var context: Context
 
     class NegotiationOffersViewHolder(var viewBinding: ItemNegotiationOffersBinding) :
@@ -69,13 +70,11 @@ class NegotiationOffersAdapter(
         holder.viewBinding.tvProductPrice.text =
             "${negotiationOfferDetailsList[position].productPrice} ${
                 context.getString(
-                    R.string.Rayal
+                    R.string.SAR
                 )
             }"
 
         if (saleOrNot) {
-            holder.viewBinding.btnCancel.hide()
-            holder.viewBinding.containerSaleButton.hide()
             Extension.loadThumbnail(
                 context,
                 negotiationOfferDetailsList[position].senderImage,
@@ -85,28 +84,59 @@ class NegotiationOffersAdapter(
             holder.viewBinding.personName.text =
                 negotiationOfferDetailsList[position].sellerName ?: ""
             holder.viewBinding.containerSaleButton.hide()
-            when (negotiationOfferDetailsList[position].offerStatus) {
-                "New" -> {
-                    holder.viewBinding.tvStatus.text = context.getString(R.string.waitForYourResponse)
-                    holder.viewBinding.containerSaleButton.show()
+            holder.viewBinding.btnCancel.hide()
+            if (isSend) {
+                when (negotiationOfferDetailsList[position].offerStatus) {
+                    "New" -> {
+                        holder.viewBinding.tvStatus.text =
+                            context.getString(R.string.waitForYourResponse)
+                        holder.viewBinding.containerSaleButton.hide()
+                        holder.viewBinding.btnCancel.show()
+                    }
+                    "Canceled" -> {
+                        holder.viewBinding.containerSaleButton.hide()
+                        holder.viewBinding.btnCancel.hide()
+                        holder.viewBinding.tvStatus.text = context.getString(R.string.OfferCanceled)
+                    }
+                    "Accepted" -> {
+                        holder.viewBinding.containerSaleButton.hide()
+                        holder.viewBinding.btnCancel.hide()
+                        holder.viewBinding.tvStatus.text = context.getString(R.string.accepted)
+                    }
+                    "Refused" -> {
+                        holder.viewBinding.containerSaleButton.hide()
+                        holder.viewBinding.btnCancel.hide()
+                        holder.viewBinding.tvStatus.text = context.getString(R.string.rejected)
+                    }
+                    else -> {
+                        holder.viewBinding.tvStatus.text = ""
+                    }
                 }
-                "Canceled" -> {
-                    holder.viewBinding.containerSaleButton.hide()
-                    holder.viewBinding.tvStatus.text = context.getString(R.string.OfferCanceled)
-                }
-                "Accepted" -> {
-                    holder.viewBinding.containerSaleButton.hide()
-                    holder.viewBinding.tvStatus.text = context.getString(R.string.accepted)
-                }
-                "Refused"->{
-                    holder.viewBinding.containerSaleButton.hide()
-                    holder.viewBinding.tvStatus.text = context.getString(R.string.rejected)
-                }
-                else -> {
-                    holder.viewBinding.tvStatus.text = ""
+
+            } else {
+                when (negotiationOfferDetailsList[position].offerStatus) {
+                    "New" -> {
+                        holder.viewBinding.tvStatus.text =
+                            context.getString(R.string.waitForYourResponse)
+                        holder.viewBinding.containerSaleButton.show()
+                    }
+                    "Canceled" -> {
+                        holder.viewBinding.containerSaleButton.hide()
+                        holder.viewBinding.tvStatus.text = context.getString(R.string.OfferCanceled)
+                    }
+                    "Accepted" -> {
+                        holder.viewBinding.containerSaleButton.hide()
+                        holder.viewBinding.tvStatus.text = context.getString(R.string.accepted)
+                    }
+                    "Refused" -> {
+                        holder.viewBinding.containerSaleButton.hide()
+                        holder.viewBinding.tvStatus.text = context.getString(R.string.rejected)
+                    }
+                    else -> {
+                        holder.viewBinding.tvStatus.text = ""
+                    }
                 }
             }
-
         } else {
             Extension.loadThumbnail(
                 context,
@@ -118,26 +148,55 @@ class NegotiationOffersAdapter(
                 negotiationOfferDetailsList[position].buyerName ?: ""
             holder.viewBinding.btnCancel.show()
             holder.viewBinding.containerSaleButton.hide()
-            when (negotiationOfferDetailsList[position].offerStatus) {
-                "New" -> {
-                    holder.viewBinding.tvStatus.text = context.getString(R.string.noResponse)
+            if(isSend){
+                when (negotiationOfferDetailsList[position].offerStatus) {
+                    "New" -> {
+                        holder.viewBinding.tvStatus.text = context.getString(R.string.noResponse)
+                    }
+                    "Canceled" -> {
+                        holder.viewBinding.btnCancel.hide()
+                        holder.viewBinding.tvStatus.text = context.getString(R.string.OfferCanceled)
+                    }
+                    "Accepted" -> {
+                        holder.viewBinding.btnCancel.hide()
+                        holder.viewBinding.tvStatus.text = context.getString(R.string.accepted)
+                    }
+                    "Refused"->{
+                        holder.viewBinding.btnCancel.hide()
+                        holder.viewBinding.tvStatus.text = context.getString(R.string.rejected)
+                    }
+                    else -> {
+                        holder.viewBinding.tvStatus.text = ""
+                    }
                 }
-                "Canceled" -> {
-                    holder.viewBinding.btnCancel.hide()
-                    holder.viewBinding.tvStatus.text = context.getString(R.string.OfferCanceled)
-                }
-                "Accepted" -> {
-                    holder.viewBinding.btnCancel.hide()
-                    holder.viewBinding.tvStatus.text = context.getString(R.string.accepted)
-                }
-                "Refused"->{
-                    holder.viewBinding.btnCancel.hide()
-                    holder.viewBinding.tvStatus.text = context.getString(R.string.rejected)
-                }
-                else -> {
-                    holder.viewBinding.tvStatus.text = ""
+            }else{
+                when (negotiationOfferDetailsList[position].offerStatus) {
+                    "New" -> {
+                        holder.viewBinding.tvStatus.text = context.getString(R.string.noResponse)
+                        holder.viewBinding.containerSaleButton.show()
+                        holder.viewBinding.btnCancel.hide()
+                    }
+                    "Canceled" -> {
+                        holder.viewBinding.btnCancel.hide()
+                        holder.viewBinding.containerSaleButton.hide()
+                        holder.viewBinding.tvStatus.text = context.getString(R.string.OfferCanceled)
+                    }
+                    "Accepted" -> {
+                        holder.viewBinding.btnCancel.hide()
+                        holder.viewBinding.containerSaleButton.hide()
+                        holder.viewBinding.tvStatus.text = context.getString(R.string.accepted)
+                    }
+                    "Refused"->{
+                        holder.viewBinding.btnCancel.hide()
+                        holder.viewBinding.containerSaleButton.hide()
+                        holder.viewBinding.tvStatus.text = context.getString(R.string.rejected)
+                    }
+                    else -> {
+                        holder.viewBinding.tvStatus.text = ""
+                    }
                 }
             }
+
         }
 
         holder.viewBinding.btnCancel.setOnClickListener {
@@ -152,6 +211,10 @@ class NegotiationOffersAdapter(
         holder.viewBinding.btnReject.setOnClickListener {
             setOnOfferClickListeners.onRejectOffer(position)
         }
+    }
+
+    fun setIsSend(sent: Boolean) {
+        isSend = sent
     }
 
     interface SetOnOfferClickListeners {

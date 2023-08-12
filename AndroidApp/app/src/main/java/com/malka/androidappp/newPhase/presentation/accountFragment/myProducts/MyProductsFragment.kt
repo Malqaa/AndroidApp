@@ -373,7 +373,7 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
             requireActivity(),
             productID,
             object : BidPersonsDialog.SetOnAddBidOffersListeners {
-                override fun onAddOpenBidOfferDailog(bidsList: List<Int>) {
+                override fun onAddOpenBidOfferDailog(bidsList: List<String>) {
                     openAddProductOffers(bidsList, productID)
                 }
 
@@ -381,14 +381,14 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         bidPersonsDialog.show()
     }
 
-    private fun openAddProductOffers(bidsList: List<Int>, productID: Int) {
+    private fun openAddProductOffers(bidsList: List<String>, productID: Int) {
         var addProductBidOffersDialog = AddProductBidOffersDialog(
             requireActivity(),
             productID,
             bidsList,
             object : AddProductBidOffersDialog.SetClickListeners {
                 override fun setOnSuccessListeners() {
-
+                  HelpFunctions.ShowLongToast(getString(R.string.offerSent),context)
                 }
 
             })

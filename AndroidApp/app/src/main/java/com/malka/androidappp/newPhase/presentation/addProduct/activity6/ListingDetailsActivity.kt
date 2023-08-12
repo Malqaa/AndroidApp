@@ -386,11 +386,13 @@ class ListingDetailsActivity : BaseActivity() {
             showError(getString(R.string.Please_enter, getString(R.string.item_title)))
         } else if (tvTitleEn.getText().isEmpty()) {
             showError(getString(R.string.Please_enter, getString(R.string.item_title)))
-        } else if (tvSubtitleAr.getText().isEmpty()) {
-            showError(getString(R.string.Please_enter, getString(R.string.sub_title)))
-        } else if (tvSubtitleEn.getText().isEmpty()) {
-            showError(getString(R.string.Please_enter, getString(R.string.sub_title)))
-        } else if (tvDescriptionAr.getText().toString().isEmpty()) {
+        }
+//        else if (tvSubtitleAr.getText().isEmpty()) {
+//            showError(getString(R.string.Please_enter, getString(R.string.sub_title)))
+//        } else if (tvSubtitleEn.getText().isEmpty()) {
+//            showError(getString(R.string.Please_enter, getString(R.string.sub_title)))
+//        }
+        else if (tvDescriptionAr.getText().toString().isEmpty()) {
             showError(getString(R.string.Please_enter, getString(R.string.item_details)))
         } else if (tvDescriptionEn.getText().toString().isEmpty()) {
             showError(getString(R.string.Please_enter, getString(R.string.item_details)))

@@ -155,15 +155,14 @@ class PricingActivity : BaseActivity() {
                     saudi_bank_option.visibility = View.GONE
                     switchSaudiBankDeposit1.isChecked = false
                     switchCashPayment.isChecked = true
-                    layoutCashPayment.background =
-                        ContextCompat.getDrawable(this, R.drawable.field_selection_border_enable)
+                    layoutCashPayment.background = ContextCompat.getDrawable(this, R.drawable.field_selection_border_enable)
                     tvCashPayment.setTextColor(ContextCompat.getColor(this, R.color.bg))
                 } else if (item == AddProductObjectData.PAYMENT_OPTION_BANk) {
                     switchCashPayment.isChecked = false
                     switchSaudiBankDeposit1.isChecked = true
                     //  saudi_bank_auction.visibility = View.GONE
                     saudi_bank_option.visibility = View.VISIBLE
-                    switchSaudiBankDeposit2.isChecked = true
+                    //switchSaudiBankDeposit2.isChecked = true
                     addProductViewModel.getBankAccountsList()
                 }
             }
@@ -203,31 +202,31 @@ class PricingActivity : BaseActivity() {
                 // switchCashPayment.isChecked = false
                 // saudi_bank_auction.visibility = View.GONE
                 saudi_bank_option.visibility = View.VISIBLE
-                switchSaudiBankDeposit2.isChecked = true
+                //switchSaudiBankDeposit2.isChecked = true
                 addProductViewModel.getBankAccountsList()
             } else {
                 saudi_bank_option.visibility = View.GONE
-                switchSaudiBankDeposit2.isChecked = false
+               //switchSaudiBankDeposit2.isChecked = false
             }
         }
-        switchSaudiBankDeposit2.setOnCheckedChangeListener { _, b ->
-            if (b) {
-                // switchCashPayment.isChecked = false
-                saudi_bank_auction.background =
-                    ContextCompat.getDrawable(this, R.drawable.field_selection_border_enable)
-                tvBackAccount.setTextColor(ContextCompat.getColor(this, R.color.bg))
-                saudi_bank_option.visibility = View.VISIBLE
-                switchSaudiBankDeposit1.isChecked = true
-                addProductViewModel.getBankAccountsList()
-            } else {
-                saudi_bank_option.visibility = View.GONE
-                switchSaudiBankDeposit1.isChecked = false
-                saudi_bank_auction.background =
-                    ContextCompat.getDrawable(this, R.drawable.edittext_bg)
-                tvBackAccount.setTextColor(ContextCompat.getColor(this, R.color.text_color))
-                // saudi_bank_auction.visibility = View.VISIBLE
-            }
-        }
+//        switchSaudiBankDeposit2.setOnCheckedChangeListener { _, b ->
+//            if (b) {
+//                // switchCashPayment.isChecked = false
+//                saudi_bank_auction.background =
+//                    ContextCompat.getDrawable(this, R.drawable.field_selection_border_enable)
+//                tvBackAccount.setTextColor(ContextCompat.getColor(this, R.color.bg))
+//                saudi_bank_option.visibility = View.VISIBLE
+//                switchSaudiBankDeposit1.isChecked = true
+//                addProductViewModel.getBankAccountsList()
+//            } else {
+//                saudi_bank_option.visibility = View.GONE
+//                switchSaudiBankDeposit1.isChecked = false
+//                saudi_bank_auction.background =
+//                    ContextCompat.getDrawable(this, R.drawable.edittext_bg)
+//                tvBackAccount.setTextColor(ContextCompat.getColor(this, R.color.text_color))
+//                // saudi_bank_auction.visibility = View.VISIBLE
+//            }
+//        }
         switchCashPayment.setOnCheckedChangeListener { _, b ->
             if (b) {
                 // saudi_bank_auction.visibility = View.VISIBLE
@@ -530,7 +529,7 @@ class PricingActivity : BaseActivity() {
             false
         }
 
-        if (switchCashPayment.isChecked && selectedAccountDetails == null) {
+        if (switchSaudiBankDeposit1.isChecked && selectedAccountDetails == null) {
             ready = false
             showError(getString(R.string.selectBackAccount))
         }

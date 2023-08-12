@@ -2,6 +2,7 @@ package com.malka.androidappp.newPhase.presentation.addProduct
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Paint
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import com.google.gson.Gson
@@ -14,25 +15,37 @@ import com.malka.androidappp.newPhase.presentation.addProduct.activity7.ListingD
 import com.malka.androidappp.newPhase.presentation.addProduct.activity8.PromotionalActivity
 import com.malka.androidappp.newPhase.presentation.addProduct.viewmodel.AddProductViewModel
 import kotlinx.android.synthetic.main.activity_confirmation_add_product.*
-import kotlinx.android.synthetic.main.activity_listing_duration.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 import java.io.File
 
 class ConfirmationAddProductActivity : BaseActivity() {
 
     private lateinit var addProductViewModel: AddProductViewModel
+    var pakagePrice = 0f
+    var fixedPriceFee = 0f
+    var auctionEnableFee = 0f
+    var negotiationFee = 0f
+    var subTitleFee = 0f
+    var extraImageFee = 0f
+    var extraVideoFee = 0f
+    var totalPrice = 0f
+    var productPublishPriceFee = 0f
+    var couponId = 0
+    var couponDiscountValue = 0f
+    var totalAfterDiscount = 0f
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_confirmation_add_product)
-        containerAuctionFee.hide()
-        containerNegotiationFee.hide()
-        containerFixedPriceFee.hide()
+//        containerAuctionFee.hide()
+//        containerNegotiationFee.hide()
+//        containerFixedPriceFee.hide()
         toolbar_title.text = getString(R.string.distinguish_your_product)
         setViewClickListeners()
         setData()
         setUpViewModel()
-        println("hhhh " + AddProductObjectData.selectedPakat?.id + " " + AddProductObjectData.selectedCategoryId)
-        getCartSummery()
+        // println("hhhh " + AddProductObjectData.selectedPakat?.id + " " + AddProductObjectData.selectedCategoryId)
+        //  getCartSummery()
+        setSummeryData()
     }
 
     @SuppressLint("SetTextI18n")
@@ -174,7 +187,8 @@ class ConfirmationAddProductActivity : BaseActivity() {
 //            package_price_tv.text =
 //                "${AddProductObjectData.selectPromotiion!!.packageprice} ${getString(R.string.rial)}"
 //        }
-
+        //=====setSum
+        setSummeryData()
 
     }
 
@@ -258,10 +272,10 @@ class ConfirmationAddProductActivity : BaseActivity() {
                     cartSummery.priceSummery.totalPriceBeforeCoupon - cartSummery.priceSummery.totalPriceAfterCoupon
                 discount_tv.text = "${discount} ${getString(R.string.Rayal)}"
                 if (discount != 0f) {
-                    total_tv.text =
+                    tvTotal.text =
                         "${cartSummery.priceSummery.totalPriceBeforeCoupon} ${getString(R.string.Rayal)}"
                 } else {
-                    total_tv.text =
+                    tvTotal.text =
                         "${cartSummery.priceSummery.totalPriceAfterCoupon} ${getString(R.string.Rayal)}"
                 }
                 if (cartSummery.priceSummery.enableFixedPriceSaleFee != 0f) {
@@ -304,6 +318,27 @@ class ConfirmationAddProductActivity : BaseActivity() {
 //                }
             }
         }
+        addProductViewModel.couponByCodeObserver.observe(this) { couponDiscountResp ->
+            if (couponDiscountResp.status_code == 200) {
+                if (couponDiscountResp.discountCouponObject != null) {
+                    couponId = couponDiscountResp.discountCouponObject.id
+                    if (couponDiscountResp.discountCouponObject.discountTypeID == "FixedAmount") {
+                        couponDiscountValue = couponDiscountResp.discountCouponObject.discountValue
+                        totalAfterDiscount = totalPrice - couponDiscountValue
+                    } else {
+                        var disc =
+                            ((couponDiscountResp.discountCouponObject.discountValue * totalPrice) / 100)
+                        couponDiscountValue = disc
+                        totalAfterDiscount = totalPrice - disc
+                    }
+                    tvTotalAfterDiscount.show()
+                    tvTotalAfterDiscount.text = "${totalAfterDiscount} ${getString(R.string.SAR)}"
+                    tvTotal.paintFlags = tvTotal.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                } else {
+                    HelpFunctions.ShowLongToast(getString(R.string.invalidCoupon),this)
+                }
+            }
+        }
     }
 
     private fun getCartSummery() {
@@ -341,6 +376,95 @@ class ConfirmationAddProductActivity : BaseActivity() {
 
     }
 
+    private fun setSummeryData() {
+        ContainerPackge.hide()
+        containerFixedPriceFee.hide()
+        containerAuctionFee.hide()
+        containerNegotiationFee.hide()
+        containerSubTitleFee.hide()
+        containerImageExtraFee.hide()
+        containerVideoExtraFee.hide()
+        containerProductPublishPriceFee.hide()
+        /**productPublishFeee**/
+        if (AddProductObjectData.selectedCategory?.productPublishPrice != 0f) {
+            containerProductPublishPriceFee.show()
+            productPublishPriceFee =
+                AddProductObjectData.selectedCategory?.productPublishPrice ?: 0f
+            tvProductPublishPriceFee.text = "$productPublishPriceFee ${getString(R.string.SAR)}"
+        }
+        /**package fee*/
+        if (AddProductObjectData.selectedPakat != null) {
+            ContainerPackge.show()
+            pakagePrice = AddProductObjectData.selectedPakat?.price ?: 0f
+            package_cost_tv.text = "$pakagePrice ${getString(R.string.SAR)}"
+            tv_package_price.text = "$pakagePrice ${getString(R.string.SAR)}"
+        }
+        /**fixedPrice fee*/
+        if (AddProductObjectData.priceFixedOption
+            && AddProductObjectData.selectedCategory?.enableFixedPriceSaleFee != 0f
+        ) {
+            containerFixedPriceFee.show()
+            fixedPriceFee = AddProductObjectData.selectedCategory?.enableFixedPriceSaleFee ?: 0f
+            tvFixedPriceFee.text =
+                "$fixedPriceFee ${getString(R.string.SAR)}"
+        }
+        /**AuctionFee fee*/
+        if (AddProductObjectData.auctionOption && AddProductObjectData.selectedCategory?.enableAuctionFee != 0f) {
+            containerAuctionFee.show()
+            auctionEnableFee = AddProductObjectData.selectedCategory?.enableAuctionFee ?: 0f
+            tvAuctionFee.text = "$auctionEnableFee ${getString(R.string.SAR)}"
+        }
+        /**negotiation fee*/
+        if (AddProductObjectData.isNegotiablePrice && AddProductObjectData.selectedCategory?.enableNegotiationFee != 0f) {
+            containerNegotiationFee.show()
+            negotiationFee = AddProductObjectData.selectedCategory?.enableNegotiationFee ?: 0f
+            tvNegotiationFee.text = "$negotiationFee ${getString(R.string.SAR)}"
+        }
+        /**subTitle fee*/
+        if (AddProductObjectData.subtitleAr != "" && AddProductObjectData.subtitleEn != "" && AddProductObjectData.selectedCategory?.subTitleFee != 0f) {
+            containerSubTitleFee.show()
+            subTitleFee = AddProductObjectData.selectedCategory?.subTitleFee ?: 0f
+            tvSubTitleFee.text = "$subTitleFee ${getString(R.string.SAR)}"
+        }
+        /**ExtreImageFee*/
+        AddProductObjectData.selectedCategory?.let { selectedCategory ->
+            var extraImages = 0
+            AddProductObjectData.images?.let {
+                if (it.size > selectedCategory.freeProductImagesCount) {
+                    extraImages = it.size - selectedCategory.freeProductImagesCount
+                }
+            }
+            if (extraImages > 0) {
+                extraImageFee = selectedCategory.extraProductImageFee * extraImages
+                if (extraImageFee != 0f) {
+                    containerImageExtraFee.show()
+                    tvImageExtraFee.text = "$extraImageFee ${getString(R.string.SAR)}"
+                }
+            }
+        }
+        /**ExtreVideoFee*/
+        AddProductObjectData.selectedCategory?.let { selectedCategory ->
+            var extraVideo = 0
+            AddProductObjectData.videoList?.let {
+                if (it.size > selectedCategory.freeProductVidoesCount) {
+                    extraVideo = it.size - selectedCategory.freeProductVidoesCount
+                }
+            }
+            if (extraVideo > 0) {
+                extraVideoFee = selectedCategory.extraProductVidoeFee * extraVideo
+                if (extraVideoFee != 0f) {
+                    containerVideoExtraFee.show()
+                    tvVideoExtraFee.text = "$extraVideoFee ${getString(R.string.SAR)}"
+                }
+            }
+        }
+
+        /**total*/
+        totalPrice = (pakagePrice + fixedPriceFee + auctionEnableFee
+                + negotiationFee + subTitleFee + extraImageFee + extraVideoFee + productPublishPriceFee)
+        tvTotal.text = "$totalPrice ${getString(R.string.SAR)}"
+    }
+
     private fun resetAddProductObject() {
         AddProductObjectData.selectedCategory = null
         AddProductObjectData.selectedCategoryId = 0
@@ -375,6 +499,13 @@ class ConfirmationAddProductActivity : BaseActivity() {
     }
 
     private fun setViewClickListeners() {
+        conatinerSendCoupon.setOnClickListener {
+            if (etCoupon.text.toString().trim() != "") {
+                addProductViewModel.getCouponByCode(etCoupon.text.toString().trim())
+            } else {
+                etCoupon.error = getString(R.string.enter_the_coupon)
+            }
+        }
         back_btn.setOnClickListener {
             finish()
         }
@@ -477,7 +608,18 @@ class ConfirmationAddProductActivity : BaseActivity() {
             auctionStartPrice = AddProductObjectData.auctionStartPrice,
             auctionMinimumPrice = AddProductObjectData.auctionMinPrice,
             auctionClosingTime = AddProductObjectData.selectTimeAuction?.endTimeUTC ?: "",
-            backAccountId = AddProductObjectData.selectedAccountDetails?.id?:0
+            backAccountId = AddProductObjectData.selectedAccountDetails?.id ?: 0,
+            ProductPaymentDetailsDto_AdditionalPakatId = pakatId,
+            ProductPaymentDetailsDto_ProductPublishPrice = productPublishPriceFee,
+            ProductPaymentDetailsDto_EnableAuctionFee = auctionEnableFee,
+            ProductPaymentDetailsDto_EnableNegotiationFee = negotiationFee,
+            ProductPaymentDetailsDto_ExtraProductImageFee = extraImageFee,
+            ProductPaymentDetailsDto_ExtraProductVidoeFee = extraVideoFee,
+            ProductPaymentDetailsDto_SubTitleFee = subTitleFee,
+            ProductPaymentDetailsDto_CouponId = couponId,
+            ProductPaymentDetailsDto_CouponDiscountValue = couponDiscountValue,
+            ProductPaymentDetailsDto_TotalAmountAfterCoupon = totalAfterDiscount,
+            ProductPaymentDetailsDto_TotalAmountBeforeCoupon = totalPrice,
 
             )
         /**********/
@@ -527,11 +669,11 @@ class ConfirmationAddProductActivity : BaseActivity() {
 //        val TaxAmount = package_cost * 12 / 100
 //        val total = package_cost + TaxAmount
 //        package_cost_tv.text = "${package_cost} ${getString(R.string.rial)}"
-//        added_tax.text = "${TaxAmount} ${getString(R.string.rial)}"
+//        //added_tax.text = "${TaxAmount} ${getString(R.string.rial)}"
 //        total_tv.text = "${total} ${getString(R.string.rial)}"
 //        discount_tv.text = "${"0"} ${getString(R.string.rial)}"
 //    }
-//
+
 //
 //    // Methods to handle dynamic ad creation
 //    private fun mainModelToJSON() {

@@ -48,6 +48,7 @@ class NegotiationOffersViewModel:BaseViewModel() {
     }
     fun getSaleProductsOffers(isSent:Boolean){
         isLoading.value = true
+
         RetrofitBuilder.GetRetrofitBuilder()
             .getSaleProductsOffers(isSent)
             .enqueue(object : Callback<NegotiationOfferResp> {

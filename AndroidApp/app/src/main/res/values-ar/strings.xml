@@ -777,7 +777,7 @@
   </string>
 
     <string name="Selectashippingoption">حدد خيار الشحن</string>
-  <string name="selectaPickUpoption">حدد خيار الاستلام</string>
+    <string name="selectaPickUpoption">حدد خيار الاستلام</string>
     <string name="SpecifyShippingCost">
     تحديد تكلفة الشحن
   </string>
@@ -1576,7 +1576,7 @@
     مارس
   </string>
     <string name="MyProducts">منتجاتي</string>
-  <string name="MyProductsOffers">عروص منتجاتي</string>
+    <string name="MyProductsOffers">عروص منتجاتي</string>
     <string name="Oops">
     وجه الفتاة
   </string>
@@ -2038,9 +2038,9 @@
     باي بال
   </string>
     <string name="PickUp">الاستلام</string>
-  <string name="mustPickUp">يجب الاستلام</string>
-  <string name="noPickUp">الاستلام غير متاح</string>
-  <string name="pickUpAvaliable">الاستلام متاح</string>
+    <string name="mustPickUp">يجب الاستلام</string>
+    <string name="noPickUp">الاستلام غير متاح</string>
+    <string name="pickUpAvaliable">الاستلام متاح</string>
 
 
     <string name="Ping">
@@ -2462,9 +2462,9 @@
     <string name="term_condition">الشروط والاحكام</string>
     <string name="activation">تفعيل</string>
     <string name="confirm_mobile_number">تأكيد رقم الجوال</string>
-  <string name="confirm_Email">تأكيد البريد الإلكترونى</string>
+    <string name="confirm_Email">تأكيد البريد الإلكترونى</string>
     <string name="sent_code">لقد ارسلنا كود التفعيل الى الهاتف الخاص بك</string>
-  <string name="sent_code_email">لقد ارسلنا كود التفعيل الى ألبريد الإلكترزنى الخاص بك</string>
+    <string name="sent_code_email">لقد ارسلنا كود التفعيل الى ألبريد الإلكترزنى الخاص بك</string>
     <string name="one_step_left">!تبقت خطوة واحدة</string>
     <string name="enter_your_address_name_and_age_details">ادخل تفاصيل عنوانك/ السم والعمر</string>
     <string name="address_details">تفاصيل العنوان</string>
@@ -2479,7 +2479,7 @@
     <string name="TaxNumber">الرقم الضريبى</string>>
     <string name="maroof">معروف</string>
     <string name="download_the_commercial_registry_file">تحميل ملف السجل التجارى</string>
-  <string name="you_must_download_the_commercial_registry_file">يجب عليك تحميل ملف السجل التجارى</string>
+    <string name="you_must_download_the_commercial_registry_file">يجب عليك تحميل ملف السجل التجارى</string>
     <string name="locating_the_company">تحديد موقع الشركة</string>
     <string name="commercial_registration_no">رقم السجل التجاري</string>
     <string name="type_of_employment">نوع العمل</string>
@@ -2505,7 +2505,7 @@
     <string name="List_Auctions_detail">أشترك في المزادات او اشترى بالسعر المعروض</string>
     <string name="follow_news">متابعة كل جديد لهذا القسم</string>
     <string name="price_negotiation">التفاوض على الأسعار</string>
-  <string name="negotiationPrice">سعر التفاوض</string>
+    <string name="negotiationPrice">سعر التفاوض</string>
     <string name="have_a_question">لدي سؤال؟</string>
     <string name="merchant">تاجر</string>
     <string name="add_product">إضافة منتج</string>
@@ -2550,7 +2550,7 @@
     <string name="visa_mastercard">فيزا/ماستر كارد</string>
     <string name="sale_details">تفاصيل البيع</string>
     <string name="choose_one_of_our_special_packages">أختر باقة من باقاتنا المميزة</string>
-  <string name="ExtraFee">رسوم اضافية</string>
+    <string name="ExtraFee">رسوم اضافية</string>
     <string name="silver_package">الباقة الفضية</string>
     <string name="and_get_many_advantages_of_displaying_your_product">واحصل على مزايا عديدة لعرض منتجك</string>
     <string name="distinguish_your_product">ميز منتجك</string>
@@ -2570,8 +2570,9 @@
     <string name="a_change">تغيير</string>
     <string name="bronze_package">الباقة البرونزية</string>
     <string name="do_you_have_a_discount_coupon">لديك كوبون خصم؟</string>
-    <string name="enter_the_coupon">ادخل الكوبون</string>
-    <string name="discount_coupon">كوبون الخصم</string>
+    <string name="enter_the_coupon">ادخل كود الخصم</string>
+    <string name="invalidCoupon">كود الخصم غير صحيح</string>
+    <string name="discount_coupon">كود الخصم</string>
     <string name="package_cost">تكلفة الباقة</string>
     <string name="added_tax">الضريبة المضافة</string>
     <string name="total">الاجمالى</string>
@@ -2590,9 +2591,9 @@
     <string name="sub_title_en">العنوان الفرعي للعنصر بالانجليزيه</string>
     <string name="item_title_ar">عنوان السلعة بالعربيه</string>
     <string name="sub_title_ar">العنوان الفرعي للعنصر بالعربيه</string>
-  <string name="bank_transfer" >تحويل بنكي</string>
+    <string name="bank_transfer">تحويل بنكي</string>
     <string name="dismiss">رفض</string>
-  <string name="enter">أدخل</string>
+    <string name="enter">أدخل</string>
     <string name="account_holder_s_name">اسم صاحب الحساب</string>
     <string name="bank_name">اسم البنك</string>
     <string name="account_number">رقم الحساب</string>
@@ -2649,7 +2650,7 @@
     <string name="business_account">حساب تجاري</string>
     <string name="search_location">موقع البحث</string>
     <string name="switch_accounts">تبديل الحسابات</string>
-  \\
+    \\
     <string name="upgrade_my_existing_account_to_a_merchant_account">ترقية حسابي الحالي إلى حساب تاجر</string>
     <string name="Commercial_Record">سجل تجارى</string>
     <string name="Free_work">عمل حر</string>
@@ -2696,9 +2697,9 @@
     <string name="edit_profile">تعديل بياناتى</string>
     <string name="application_settings">اعدادات التطبيق</string>
     <string name="my_bids">مزايداتى</string>
-  <string name="myBid">عرضي</string>
+    <string name="myBid">عرضي</string>
     <string name="negotiation_offers">عروض التفاوض</string>
-  <string name="offerPrice">سعر العرض</string>
+    <string name="offerPrice">سعر العرض</string>
     <string name="save_addresses">العناوين المحفوظة</string>
     <string name="update_address">تحديث العناوين</string>
     <string name="member_since">عضو منذ</string>
@@ -2802,9 +2803,9 @@
     <string name="reviews_as_a_buyer">التقييمات كمشترى</string>
     <string name="following">التالية</string>
     <string name="follow_catgeory">Follow category successfully</string>
-  <string name="integratedShippingCompanies"> شركات الشحن المتكاملة</string>
+    <string name="integratedShippingCompanies"> شركات الشحن المتكاملة</string>
     <string name="free_shipping_within_Saudi_Arabia">شحن مجاني داخل المملكة العربية السعودية</string>
-  <string name="arrangementWillBeMadeWithTheBuyer">الترتيب سوف يتم مع المشتري</string>
+    <string name="arrangementWillBeMadeWithTheBuyer">الترتيب سوف يتم مع المشتري</string>
     <string name="noPackagesFound">لم يتم العثور على باقات</string>
     <string name="notSpecified">لم تحدد</string>
     <string name="inArabic">بالعربية</string>
@@ -2887,57 +2888,62 @@
     <string name="registrationNumberExpiryDate">تاريخ انتهاء رقم التسجيل</string>
     <string name="Trade15Years">التجارة 15 سنة</string>
     <string name="changePassword">تغيير كلمه المرور</string>
-  <string name="passwordUpdatedSuccessfully">تم تحديث كلمة المرور بنجاح</string>
-  <string name="emailUpdatedSuccessfully">تم تحديث البريد الإكترونى بنجاح</string>
-  <string name="phoneUpdatedSuccessfully">تم تحديث رقم الهاتف بنجاح</string>
-  <string name="wrongPassword">كلمه المرور خاطئه</string>
-  <string name="passwordReset">اعاده تعيين كلمه المرور</string>
-  <string name="TypeNewPassword">قم بكتابه كلمه مرور جديده</string>
-  <string name="updateYourEmail">قم بتحديث بريدك الإلكتروني</string>
-  <string name="profileUpdatedSuccessfully">تم تحديث الملف الشخصي بنجاح</string>
-  <string name="statusShowingYourData">حدد حالة إظهار البيانات الخاصة بك</string>
-  <string name="swiftCode">سويفت كود</string>
-  <string name="checkYourDataForamt">تحقق من البيانات الخاصة بك </string>
-  <string name="cashPayment">دفع نقدي</string>
-  <string name="selectBackAccount">حدد حسابك المصرفي</string>
-  <string name="freeProductImagesCount">عدد صور للمنتج المجانية</string>
-  <string name="freeProductVidoesCount">عدد مقاطع الفيديو للمنتج المجانية</string>
-  <string name="extraProductImageFee">رسوم صورة المنتج الإضافية</string>
-  <string name="extraProductVidoeFee">رسوم فيديو المنتج الإضافية</string>
-  <string name="extraProductImageCount">عدد صورة المنتج الإضافية</string>
-  <string name="extraProductVidoeCount">عدد فيديو المنتج الإضافية</string>
-  <string name="subTitleFee">رسوم العنوان الفرعي</string>
-  <string name="day">يوم</string>
-  <string name="week">أسبوع</string>
-  <string name="month">شهر</string>
-  <string name="increaseForEachTime">الزياده لكل مره</string>
-  <string name="writeIncreaseForEachTime">اكتب الزياده لكل مره</string>
-  <string name="highestBidPrice">أعلى سعر للمزايده</string>
-  <string name="writeHighestBidPrice">اكتب أعلى سعر للمزايده</string>
-  <string name="fixedPriceFee">رسوم السعر الثابت</string>
-  <string name="auctionFee">رسوم المزاد</string>
-  <string name="negotiationFee">رسوم التفاوض</string>
-  <string name="enterBidPrice">أدخل سعر المزايده</string>
-  <string name="enterCorrectBidPrice">أدخل سعر المزايده الصحيح</string>
-  <string name="writeNegotionPrice">من فضللك اكتب السعرالذى تريد ارساله للبائع</string>
-  <string name="writeNegotiationPrice2">أدخل سعر التفاوض</string>
-  <string name="negotiationPriceSent"> تم إرسال سعر التفاوض</string>
-  <string name="followNegotiationsOffers">متابعة عروض التفاوض</string>
-  <string name="noOffersFound">لم يتم العثور على عروض</string>
-  <string name="noResponse">لم يتم الرد</string>
-  <string name="waitForYourResponse">فى أنتظار الرد</string>
-  <string name="acceptNegotiationsOffers">قبول عرض التفاوض</string>
-  <string name="rejectNegotiationsOffers">رفض عرض التفاوض</string>
-  <string name="OfferCanceled">تم إلغاء العرض</string>
-  <string name="accept">قبول</string>
-  <string name="reject">رفض</string>
-  <string name="selectExpirationHours">الرجاء تحديد ساعات الانتهاء</string>
-  <string name="refuseReason">سبب الرفض</string>
-  <string name="accepted">تم القبول</string>
-  <string name="rejected">تم الرفض</string>
-  <string name="sendOffer">إرسال عرض</string>
-  <string name="repostTheProduct">أعاده نشر المنتج</string>
-  <string name="user">عميل</string>
-  <string name="selectUser">أختر عميل</string>
-  <string name="you">أنت</string>
+    <string name="passwordUpdatedSuccessfully">تم تحديث كلمة المرور بنجاح</string>
+    <string name="emailUpdatedSuccessfully">تم تحديث البريد الإكترونى بنجاح</string>
+    <string name="phoneUpdatedSuccessfully">تم تحديث رقم الهاتف بنجاح</string>
+    <string name="wrongPassword">كلمه المرور خاطئه</string>
+    <string name="passwordReset">اعاده تعيين كلمه المرور</string>
+    <string name="TypeNewPassword">قم بكتابه كلمه مرور جديده</string>
+    <string name="updateYourEmail">قم بتحديث بريدك الإلكتروني</string>
+    <string name="profileUpdatedSuccessfully">تم تحديث الملف الشخصي بنجاح</string>
+    <string name="statusShowingYourData">حدد حالة إظهار البيانات الخاصة بك</string>
+    <string name="swiftCode">سويفت كود</string>
+    <string name="checkYourDataForamt">تحقق من البيانات الخاصة بك </string>
+    <string name="cashPayment">دفع نقدي</string>
+    <string name="selectBackAccount">حدد حسابك المصرفي</string>
+    <string name="freeProductImagesCount">عدد صور للمنتج المجانية</string>
+    <string name="freeProductVidoesCount">عدد مقاطع الفيديو للمنتج المجانية</string>
+    <string name="extraProductImageFee">رسوم صورة المنتج الإضافية</string>
+    <string name="extraProductVidoeFee">رسوم فيديو المنتج الإضافية</string>
+    <string name="extraProductImageCount">عدد صورة المنتج الإضافية</string>
+    <string name="extraProductVidoeCount">عدد فيديو المنتج الإضافية</string>
+    <string name="subTitleFee">رسوم العنوان الفرعي</string>
+    <string name="day">يوم</string>
+    <string name="week">أسبوع</string>
+    <string name="month">شهر</string>
+    <string name="increaseForEachTime">الزياده لكل مره</string>
+    <string name="writeIncreaseForEachTime">اكتب الزياده لكل مره</string>
+    <string name="highestBidPrice">أعلى سعر للمزايده</string>
+    <string name="writeHighestBidPrice">اكتب أعلى سعر للمزايده</string>
+    <string name="fixedPriceFee">رسوم السعر الثابت</string>
+    <string name="auctionFee">رسوم المزاد</string>
+    <string name="negotiationFee">رسوم التفاوض</string>
+    <string name="SubTitleFee">رسوم العنوان الفرعي</string>
+    <string name="productPublishPrice">رسوم رفع الإعلان</string>
+    <string name="imageExtraFee">رسوم الصور الإضافية</string>
+    <string name="videoExtraFee">رسوم الفيديو الإضافية</string>
+    <string name="enterBidPrice">أدخل سعر المزايده</string>
+    <string name="enterCorrectBidPrice">أدخل سعر المزايده الصحيح</string>
+    <string name="writeNegotionPrice">من فضللك اكتب السعرالذى تريد ارساله للبائع</string>
+    <string name="writeNegotiationPrice2">أدخل سعر التفاوض</string>
+    <string name="negotiationPriceSent"> تم إرسال سعر التفاوض</string>
+    <string name="followNegotiationsOffers">متابعة عروض التفاوض</string>
+    <string name="noOffersFound">لم يتم العثور على عروض</string>
+    <string name="noResponse">لم يتم الرد</string>
+    <string name="waitForYourResponse">فى أنتظار الرد</string>
+    <string name="acceptNegotiationsOffers">قبول عرض التفاوض</string>
+    <string name="rejectNegotiationsOffers">رفض عرض التفاوض</string>
+    <string name="OfferCanceled">تم إلغاء العرض</string>
+    <string name="accept">قبول</string>
+    <string name="reject">رفض</string>
+    <string name="selectExpirationHours">الرجاء تحديد ساعات الانتهاء</string>
+    <string name="refuseReason">سبب الرفض</string>
+    <string name="accepted">تم القبول</string>
+    <string name="rejected">تم الرفض</string>
+    <string name="sendOffer">إرسال عرض</string>
+  <string name="offerSent">تم إرسال عرض</string>
+    <string name="repostTheProduct">أعاده نشر المنتج</string>
+    <string name="user">عميل</string>
+    <string name="selectUser">أختر عميل</string>
+    <string name="you">أنت</string>
 </resources>

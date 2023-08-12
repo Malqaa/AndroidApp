@@ -12,7 +12,7 @@ data class Category(
     var category:String?=null,
     val productFeeDuetTime: Int,
     val productPriceType: Int,
-    val productPublishPrice: Int,
+    val productPublishPrice: Float,
     var is_select: Boolean = false,
     var isCategory: Boolean = false,
     var template: String = "",
@@ -30,11 +30,15 @@ data class Category(
     var extraProductVidoeFee: Float,
     var enableAuction: Boolean,
     var enableNegotiation: Boolean,
-    var minimumBidValue: Int,
-    var subTitleFee: Int,
+    var minimumBidValue: Float,
+    var subTitleFee: Float,
     var auctionClosingPeriods: String? = null,
     var auctionClosingPeriodsUnit: Int,
-    var auctionClosingTimeFee: Float
+    var auctionClosingTimeFee: Float,
+    var enableFixedPriceSaleFee: Float,
+    var enableAuctionFee:Float,
+    var enableNegotiationFee:Float,
+
 
 
 //    "isRealState": false,

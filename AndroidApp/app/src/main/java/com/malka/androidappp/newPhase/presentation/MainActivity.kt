@@ -11,6 +11,7 @@ import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
 import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.data.helper.ConstantObjects
+import com.malka.androidappp.newPhase.presentation.productDetailsActivity.ProductDetailsActivity
 import kotlinx.android.synthetic.main.activity_bottmmm.*
 
 
@@ -82,6 +83,13 @@ class MainActivity : BaseActivity() {
 //            number = 99
 //            backgroundColor = ContextCompat.getColor(this@MainActivity, R.color.bg)
 //        }
+        var productId=intent.getIntExtra("productId",0)
+        if(productId!=0){
+            startActivity(Intent(this, ProductDetailsActivity::class.java).apply {
+                putExtra(ConstantObjects.productIdKey, productId)
+
+            })
+        }
 
     }
 

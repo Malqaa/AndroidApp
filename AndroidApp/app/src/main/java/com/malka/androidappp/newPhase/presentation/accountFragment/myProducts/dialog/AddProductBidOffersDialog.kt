@@ -16,7 +16,7 @@ import retrofit2.Response
 
 class AddProductBidOffersDialog  (context: Context,
                                   var productId: Int,
-                                  var bidIDsList:List<Int>,
+                                  var bidIDsList:List<String>,
                                   var listener:AddProductBidOffersDialog.SetClickListeners): BaseDialog(context){
     var countriesCallback: Call<GeneralResponse>? = null
     var generalRespone: GeneralResponse? = null
@@ -62,12 +62,12 @@ class AddProductBidOffersDialog  (context: Context,
 //        data["productId"] = productId
 //        data["quantity"] = quentity
 //        data["price"] = price
-        var list:ArrayList<String> = ArrayList()
-          for(item in bidIDsList){
-              list.add(item.toString())
-          }
-        println("hhhh "+productId+" " +price+" "+quentity+" "+ list.toString() )
-        countriesCallback = RetrofitBuilder.GetRetrofitBuilder().addProductBidOffers(productId,quentity,price,list)
+//        var list:ArrayList<String> = ArrayList()
+//          for(item in bidIDsList){
+//              list.add(item.toString())
+//          }
+        println("hhhh "+productId+" " +price+" "+quentity+" "+ bidIDsList.toString() )
+        countriesCallback = RetrofitBuilder.GetRetrofitBuilder().addProductBidOffers(productId,quentity,price,bidIDsList)
         countriesCallback?.enqueue(object : Callback<GeneralResponse> {
             override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
                 progressBar.visibility = View.GONE
@@ -99,6 +99,7 @@ class AddProductBidOffersDialog  (context: Context,
                             generalRespone = it
                             if (generalRespone?.status_code == 200) {
                                 listener.setOnSuccessListeners()
+                                dismiss()
                             }
                         }
                     } else {

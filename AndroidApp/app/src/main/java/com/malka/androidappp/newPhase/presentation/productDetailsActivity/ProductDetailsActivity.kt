@@ -75,8 +75,6 @@ import java.util.*
 class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
     SetOnProductItemListeners, QuestionAnswerAdapter.SetonSelectedQuestion {
 
-    var AdvId = ""
-    var selectLink = ""
     val attributeList: ArrayList<Attribute> = ArrayList()
 
     //    var questionList: List<Question> = ArrayList()
@@ -235,7 +233,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                 this,
                 productId,
                 object : BidPersonsDialog.SetOnAddBidOffersListeners {
-                    override fun onAddOpenBidOfferDailog(bidsList: List<Int>) {
+                    override fun onAddOpenBidOfferDailog(bidsList: List<String>) {
                     }
 
                 }, true
@@ -327,7 +325,8 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             openPriceNegotiationDialog()
         }
         btnShare.setOnClickListener {
-            shared("${Constants.HTTP_PROTOCOL}://${Constants.SERVER_LOCATION}/Advertisement/Detail/$AdvId")
+            shared("http://advdev-001-site1.dtempurl.com/Home/GetProductById?id=$productId")
+            //shared("${Constants.HTTP_PROTOCOL}://${Constants.SERVER_LOCATION}/Advertisement/Detail/$AdvId")
         }
         tvQuestionAndAnswersShowAll.setOnClickListener {
             HelpFunctions.ShowLongToast("not implemented yey", this)
@@ -1463,83 +1462,11 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
     }
 
-
-    val loginLuncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                checkPriceLayout()
-            }
-        }
-
     private fun checkPriceLayout() {
         if (HelpFunctions.isUserLoggedIn()) {
             //price_layout.isVisible = ConstantObjects.logged_userid != product.user
         }
     }
-
-
-    fun AddToCart() {
-        if (HelpFunctions.isUserLoggedIn()) {
-            AddToUserCart(this)
-        } else {
-            loginLuncher.launch(Intent(this, SignInActivity::class.java))
-        }
-    }
-
-    fun AddToUserCart(context: Context) {
-        HelpFunctions.startProgressBar(this)
-        val cartobj = InsertToCartRequestModel()
-        cartobj.advertisementId = AdvId
-        cartobj.userid = ConstantObjects.logged_userid
-
-        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-        val call: Call<BasicResponse> = malqa.AddToUserCart(cartobj)
-        call.enqueue(object : Callback<BasicResponse> {
-            override fun onResponse(
-                call: Call<BasicResponse>, response: Response<BasicResponse>
-            ) {
-                if (response.isSuccessful) {
-                    if (response.body() != null) {
-                        val resp: BasicResponse = response.body()!!
-                        if (resp.status_code == 200 || resp.status_code == 403 && (resp.data == true || resp.data == 1 || resp.data == 1.0)) {
-                            startActivity(
-                                Intent(
-                                    this@ProductDetailsActivity,
-                                    CartActivity::class.java
-                                )
-                            )
-                        } else {
-                            HelpFunctions.ShowLongToast(
-                                resp.message,
-                                context
-                            )
-                        }
-                    } else {
-                        HelpFunctions.ShowLongToast(
-                            "Error",
-                            context
-                        );
-                    }
-                } else {
-                    HelpFunctions.ShowLongToast(
-                        "Error",
-                        context
-                    );
-                }
-                HelpFunctions.dismissProgressBar()
-
-            }
-
-            override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
-                Toast.makeText(this@ProductDetailsActivity, t.message, Toast.LENGTH_LONG).show()
-                HelpFunctions.dismissProgressBar()
-
-            }
-        })
-
-
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK && requestCode == addProductReviewRequestCode) {
@@ -1567,4 +1494,75 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
         }
     }
+
+//    val loginLuncher =
+//        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+//            if (result.resultCode == Activity.RESULT_OK) {
+//                checkPriceLayout()
+//            }
+//        }
+
+//    fun AddToCart() {
+//        if (HelpFunctions.isUserLoggedIn()) {
+//            AddToUserCart(this)
+//        } else {
+//            loginLuncher.launch(Intent(this, SignInActivity::class.java))
+//        }
+//    }
+//
+//    fun AddToUserCart(context: Context) {
+//        HelpFunctions.startProgressBar(this)
+//        val cartobj = InsertToCartRequestModel()
+//        cartobj.advertisementId = AdvId
+//        cartobj.userid = ConstantObjects.logged_userid
+//
+//        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+//        val call: Call<BasicResponse> = malqa.AddToUserCart(cartobj)
+//        call.enqueue(object : Callback<BasicResponse> {
+//            override fun onResponse(
+//                call: Call<BasicResponse>, response: Response<BasicResponse>
+//            ) {
+//                if (response.isSuccessful) {
+//                    if (response.body() != null) {
+//                        val resp: BasicResponse = response.body()!!
+//                        if (resp.status_code == 200 || resp.status_code == 403 && (resp.data == true || resp.data == 1 || resp.data == 1.0)) {
+//                            startActivity(
+//                                Intent(
+//                                    this@ProductDetailsActivity,
+//                                    CartActivity::class.java
+//                                )
+//                            )
+//                        } else {
+//                            HelpFunctions.ShowLongToast(
+//                                resp.message,
+//                                context
+//                            )
+//                        }
+//                    } else {
+//                        HelpFunctions.ShowLongToast(
+//                            "Error",
+//                            context
+//                        );
+//                    }
+//                } else {
+//                    HelpFunctions.ShowLongToast(
+//                        "Error",
+//                        context
+//                    );
+//                }
+//                HelpFunctions.dismissProgressBar()
+//
+//            }
+//
+//            override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
+//                Toast.makeText(this@ProductDetailsActivity, t.message, Toast.LENGTH_LONG).show()
+//                HelpFunctions.dismissProgressBar()
+//
+//            }
+//        })
+//
+//
+//    }
+
+
 }

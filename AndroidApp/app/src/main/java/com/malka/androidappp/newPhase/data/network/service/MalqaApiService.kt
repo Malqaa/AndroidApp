@@ -37,6 +37,7 @@ import com.malka.androidappp.newPhase.domain.models.configrationResp.Configurati
 import com.malka.androidappp.newPhase.domain.models.contauctUsMessage.ContactUsMessageResp
 import com.malka.androidappp.newPhase.domain.models.contauctUsMessage.TechnicalSupportMessageListResp
 import com.malka.androidappp.newPhase.domain.models.countryResp.CountriesResp
+import com.malka.androidappp.newPhase.domain.models.discopuntResp.DiscountCouponResp
 import com.malka.androidappp.newPhase.domain.models.dynamicSpecification.DynamicSpecificationResp
 import com.malka.androidappp.newPhase.domain.models.editProfileResp.EditProfileResp
 import com.malka.androidappp.newPhase.domain.models.homeCategoryProductResp.HomeCategoryProductResp
@@ -706,6 +707,11 @@ interface MalqaApiService {
         @Query("sellerId") sellerId: String?,
         @Query("sellerBusinessAccountId") sellerBusinessAccountId: String?
     ): Call<GeneralResponse>
+    @GET("GetCouponByCode")
+    fun getCouponByCode(
+        @Query("couponCode") couponCode: String,
+    ): Call<DiscountCouponResp>
+
     @POST("RemoveFavoriteSeller")
     fun removeFavoriteSeller(
         @Query("sellerId") sellerId: String?,
@@ -1048,7 +1054,7 @@ interface MalqaApiService {
         @Query("productId") productId: Int,
         @Query("quantity") quantity: Int,
         @Query("price") price: Float,
-        @Body bidsID: ArrayList<String>,
+        @Body bidsID: List<String>,
     ): Call<GeneralResponse>
 
     @GET("MyBids")

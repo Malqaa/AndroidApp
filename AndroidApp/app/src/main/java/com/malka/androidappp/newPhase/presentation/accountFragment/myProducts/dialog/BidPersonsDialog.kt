@@ -29,7 +29,7 @@ class BidPersonsDialog(
     lateinit var bidPersonsDataList: ArrayList<BidPersonData>
     var countriesCallback: Call<BidPersonsResp>? = null
     var bidPersonsResp: BidPersonsResp? = null
-    var bidIdList: ArrayList<Int> = ArrayList()
+    var bidIdList: ArrayList<String> = ArrayList()
     override fun getViewId(): Int = R.layout.dialog_bid_persons
 
     override fun isFullScreen(): Boolean = false
@@ -65,7 +65,7 @@ class BidPersonsDialog(
             bidIdList.clear()
             for (item in bidPersonsDataList) {
                 item.isSelected = true
-                bidIdList.add(item.bidId)
+                item.userId?.let { it1 -> bidIdList.add(it1) }
             }
             bidPersonsAdapter.notifyDataSetChanged()
             tvUserCount.text = "${bidIdList.size} ${context.getString(R.string.user)}"
@@ -147,13 +147,13 @@ class BidPersonsDialog(
     override fun setOnBidSelect(position: Int) {
         if (bidPersonsDataList[position].isSelected) {
             bidPersonsDataList[position].isSelected = false
-            if (!bidIdList.contains(bidPersonsDataList[position].bidId)) {
-                bidIdList.remove(bidPersonsDataList[position].bidId)
+            if (!bidIdList.contains(bidPersonsDataList[position].userId)) {
+                bidIdList.remove(bidPersonsDataList[position].userId)
             }
         } else {
             bidPersonsDataList[position].isSelected = true
-            if (!bidIdList.contains(bidPersonsDataList[position].bidId)) {
-                bidIdList.add(bidPersonsDataList[position].bidId)
+            if (!bidIdList.contains(bidPersonsDataList[position].userId)) {
+                bidPersonsDataList[position].userId?.let { bidIdList.add(it) }
             }
         }
         bidPersonsAdapter.notifyDataSetChanged()
@@ -162,6 +162,6 @@ class BidPersonsDialog(
     }
 
     interface SetOnAddBidOffersListeners {
-        fun onAddOpenBidOfferDailog(bidsList: List<Int>)
+        fun onAddOpenBidOfferDailog(bidsList: List<String>)
     }
 }

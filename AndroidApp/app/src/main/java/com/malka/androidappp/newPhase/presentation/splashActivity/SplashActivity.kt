@@ -1,21 +1,19 @@
 package com.malka.androidappp.newPhase.presentation.splashActivity
 
 import android.content.Intent
-import android.media.MediaPlayer
+import android.net.Uri
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
 import com.malka.androidappp.R
-import com.malka.androidappp.newPhase.presentation.MainActivity
 import com.malka.androidappp.newPhase.core.BaseActivity
-import com.malka.androidappp.newPhase.data.network.CommonAPI
-import com.malka.androidappp.newPhase.data.helper.HelpFunctions
+import com.malka.androidappp.newPhase.presentation.MainActivity
 import kotlinx.android.synthetic.main.activity_splash.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class SplashActivity : BaseActivity() {
-
+    var productId = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,15 +22,44 @@ class SplashActivity : BaseActivity() {
         // CommonAPI().getCountry()
         // GoToHomeScreen()
         lifecycleScope.launch(Dispatchers.IO) {
+            /**get Product id from share product link*/
+            val mainIntent = intent
+            if (mainIntent != null && mainIntent.data != null) {
+                if (mainIntent.data?.scheme == "http") {
+                    val data = mainIntent.data
+                    if (data?.query != null) {
+                       // println("hhhh "+ getLinkFromLocalPassedData(data))
+                        productId=getLinkFromLocalPassedData(data)
+                    }
+                }
+            }
             delay(1500)
-            val intentt = Intent(this@SplashActivity, MainActivity::class.java)
+            val intentt = Intent(this@SplashActivity, MainActivity::class.java).apply {
+                putExtra("productId",productId)
+            }
             startActivity(intentt)
             finish()
-           overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
         }
+
 
     }
 
+    private fun getLinkFromLocalPassedData(data: Uri): Int {
+        //System.out.println("hhhh q not null")
+        val linkQuery: String = data.query.toString()
+        var porductId = 0
+        return try {
+            productId =
+                linkQuery.substring(linkQuery.indexOf('=') + 1, linkQuery.length)
+                    .toInt()
+            productId
+            //  System.out.println("hhhh " + data.path + linkQuery + " " + prefix + " " + jobID)
+        } catch (e: Exception) {
+            //System.out.println("hhhh e" + e.message)
+            productId
+        }
+    }
 //    fun GoToHomeScreen() {
 //        try {
 //            splash_view.setVideoPath("android.resource://" + getPackageName() + "/" + R.raw.splash)
