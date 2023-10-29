@@ -26,10 +26,11 @@ class NegotiationOffersSaleActivity : BaseActivity(),
     lateinit var negotiationOffersViewModel: NegotiationOffersViewModel
     var isSent = false
     var lastCancelPosition = -1
+    var purchasePosition = -1
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_negotiation_offers_sale)
-        toolbar_title.text = getString(R.string.negotiation_offers)
+        toolbar_title.text = getString(R.string.MyProductsOffers)
         swipeToRefresh.setColorSchemeResources(R.color.colorPrimaryDark)
         swipeToRefresh.setOnRefreshListener(this)
         setViewClickListeners()
@@ -87,6 +88,20 @@ class NegotiationOffersSaleActivity : BaseActivity(),
                 negotiationOfferDetailsList[lastCancelPosition].offerStatus = "Canceled"
                 negotiationOffersAdapter.notifyItemChanged(lastCancelPosition)
                 lastCancelPosition = -1
+            } else {
+                if (it.message != null) {
+                    HelpFunctions.ShowLongToast(it.message, this)
+                } else {
+                    HelpFunctions.ShowLongToast(getString(R.string.serverError), this)
+                }
+            }
+        }
+
+        negotiationOffersViewModel.cancelOfferObserver.observe(this) {
+            if (it.status_code == 200) {
+                negotiationOfferDetailsList[purchasePosition].offerStatus = "Purchcased"
+                negotiationOffersAdapter.notifyItemChanged(purchasePosition)
+                purchasePosition = -1
             } else {
                 if (it.message != null) {
                     HelpFunctions.ShowLongToast(it.message, this)
@@ -162,6 +177,11 @@ class NegotiationOffersSaleActivity : BaseActivity(),
         negotiationOffersViewModel.cancelOffer(offerID)
     }
 
+    override fun onPurchaseOffer(offerID: Int, position: Int) {
+        println("hhhh " + offerID + " " + negotiationOfferDetailsList[position].offerId)
+        purchasePosition = position
+        negotiationOffersViewModel.purchaseOffer(offerID)
+    }
     override fun onAcceptOffer(position: Int) {
         var acceptOfferDialog: AcceptOfferDialog = AcceptOfferDialog(this,
             true,

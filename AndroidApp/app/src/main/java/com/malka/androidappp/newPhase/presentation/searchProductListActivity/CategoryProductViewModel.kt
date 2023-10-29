@@ -20,13 +20,13 @@ class CategoryProductViewModel : BaseViewModel() {
         categoryId: Int,
         currentLanguage: String,
         page: Int,
-        countryList: List<Int>,
-        regionList: List<Int>,
-        neighoodList: List<Int>,
-        subCategoryList: List<Int>,
-        specificationList: List<String>,
-        startPrice: Float,
-        endProce: Float,
+        countryList: List<Int>?,
+        regionList: List<Int>?,
+        neighoodList: List<Int>?,
+        subCategoryList: List<Int>?,
+        specificationList: List<String>?,
+        startPrice: Float?,
+        endProce: Float?,
         productName: String?,
         comeFrom: Int
     ) {
@@ -43,26 +43,26 @@ class CategoryProductViewModel : BaseViewModel() {
 //        data["pageIndex"]=page.toString()
 //        data["lang"]=currentLanguage
         var stringUrl =
-            "AdvancedFilter?lang=${currentLanguage}&PageRowsCount=5&pageIndex=${page}&Screen=$comeFrom"
+            "AdvancedFilter?lang=${currentLanguage}&PageRowsCount=10&pageIndex=${page}&Screen=$comeFrom"
         if (categoryId != 0) {
             stringUrl += "&mainCatId=${categoryId}"
         }
         if (productName != null) {
             stringUrl += "&productName=${productName} "
         }
-        subCategoryList.forEach { item ->
+        subCategoryList?.forEach { item ->
             stringUrl += "&subCatIds=${item} "
         }
-        countryList.forEach { item ->
+        countryList?.forEach { item ->
             stringUrl += "&Countries=${item}"
         }
-        regionList.forEach { item ->
+        regionList?.forEach { item ->
             stringUrl += "&Regions=${item}"
         }
-        neighoodList.forEach { item ->
+        neighoodList?.forEach { item ->
             stringUrl+="&Neighborhoods=${item}"
         }
-        specificationList.forEach { item->
+        specificationList?.forEach { item->
             if (item != null)
                 stringUrl += "&sepNames=${item}"
         }
@@ -94,7 +94,7 @@ class CategoryProductViewModel : BaseViewModel() {
                     if (response.isSuccessful) {
                         searchProductListRespObserver.value = response.body()
                     } else {
-                        errorResponseObserver.value = getErrorResponse(response.errorBody())
+                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
                     }
                 }
             })
@@ -115,7 +115,7 @@ class CategoryProductViewModel : BaseViewModel() {
                     if (response.isSuccessful) {
                         categoryFollowRespObserver.value = response.body()
                     } else {
-                        errorResponseObserver.value = getErrorResponse(response.errorBody())
+                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
                     }
                 }
             })
@@ -140,7 +140,7 @@ class CategoryProductViewModel : BaseViewModel() {
                         productListRespObserver.value = response.body()
                     } else {
                         errorResponseObserver.value =
-                            getErrorResponse(response.errorBody())
+                            getErrorResponse(response.code(),response.errorBody())
                     }
                 }
             })

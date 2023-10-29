@@ -3,6 +3,7 @@ package com.malka.androidappp.newPhase.presentation.addProduct.activity8
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -10,12 +11,14 @@ import com.malka.androidappp.R
 import com.malka.androidappp.databinding.ItemPakatDesginBinding
 import com.malka.androidappp.newPhase.data.helper.hide
 import com.malka.androidappp.newPhase.data.helper.show
+import com.malka.androidappp.newPhase.domain.models.pakatResp.ItemPacket
 import com.malka.androidappp.newPhase.domain.models.pakatResp.PakatDetails
 import kotlinx.android.synthetic.main.item_pakat_desgin.view.*
 
 class PakatAdapter(val pakatList: List<PakatDetails>,var setOnPakatSelected:SetOnPakatSelected ) :RecyclerView.Adapter<PakatAdapter.PakatViewHolder>() {
 
     lateinit var context:Context
+    var  itemPackets: ArrayList<ItemPacket> = ArrayList<ItemPacket>()
     class PakatViewHolder(var viewBinding:ItemPakatDesginBinding):RecyclerView.ViewHolder(viewBinding.root)
     lateinit var inflater :LayoutInflater
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PakatViewHolder {
@@ -28,6 +31,7 @@ class PakatAdapter(val pakatList: List<PakatDetails>,var setOnPakatSelected:SetO
     override fun getItemCount(): Int =pakatList.size
 
     override fun onBindViewHolder(holder: PakatViewHolder, position: Int) {
+        itemPackets = arrayListOf()
         holder.viewBinding.pkgName.text = pakatList[position].name
         holder.viewBinding.pkgPrice.text = "${pakatList[position].price} ${context.getString(R.string.Rayal)}"
 
@@ -59,11 +63,25 @@ class PakatAdapter(val pakatList: List<PakatDetails>,var setOnPakatSelected:SetO
             holder.viewBinding.isSelectimage.hide()
         }
 
+        itemPackets.add(ItemPacket(context.getString(R.string.numMonth),pakatList[position].numMonth))
+        itemPackets.add(ItemPacket(context.getString(R.string.countImage),pakatList[position].countImage))
+        itemPackets.add(ItemPacket(context.getString(R.string.countVideo),pakatList[position].countVideo))
+        itemPackets.add(ItemPacket(context.getString(R.string.productPosition),pakatList[position].productPosition))
+        itemPackets.add(ItemPacket(context.getString(R.string.showSupTitle),pakatList[position].showSupTitle))
+        itemPackets.add(ItemPacket(context.getString(R.string.showHighLight),pakatList[position].showHighLight))
+
         holder.viewBinding.parentLayout.removeAllViews()
-        pakatList[position].listCategories.forEach { itemPakatCategory->
+        itemPackets.forEach { itemPakatCategory->
             val _view = inflater.inflate(R.layout.promotion_item, null)
             val pkg_service1: TextView = _view.findViewById(R.id.pkg_service1)
-            pkg_service1.text = itemPakatCategory.name
+            val value_service: TextView = _view.findViewById(R.id.value_service)
+            val imgCheck:ImageView = _view.findViewById(R.id.imgCheck)
+            if(itemPakatCategory.value.toString()!="true"){
+                value_service.text = itemPakatCategory.value.toString()
+            }else{
+                imgCheck.setImageResource(R.drawable.ic_check)
+            }
+            pkg_service1.text = itemPakatCategory.Title
             holder.viewBinding.parentLayout.addView(_view)
         }
         holder.viewBinding.mainLayout.setOnClickListener {

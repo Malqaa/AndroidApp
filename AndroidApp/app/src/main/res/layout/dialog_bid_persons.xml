@@ -50,7 +50,6 @@
             android:layout_below="@id/tvTitle"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/_5sdp"
-            android:layout_marginBottom="@dimen/_10sdp"
             android:orientation="horizontal">
 
             <TextView
@@ -126,6 +125,47 @@
     </RelativeLayout>
 
 
+
+
+    <RelativeLayout
+        android:id="@+id/containerBidOnPrice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:background="@drawable/round_btn_grey"
+        android:padding="@dimen/_10sdp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:fontFamily="@font/madani_arabic_semi_bold"
+            android:text="@string/Bid_on_price"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_12sdp" />
+
+
+        <TextView
+            android:id="@+id/Bid_on_price_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:fontFamily="@font/madani_arabic_semi_bold"
+            android:text="@string/sar"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_12sdp" />
+
+
+    </RelativeLayout>
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnSend"
         android:layout_width="match_parent"
@@ -135,7 +175,7 @@
         android:layout_marginEnd="@dimen/_20sdp"
         android:background="@drawable/round_btn"
         android:fontFamily="@font/madani_arabic_semi_bold"
-        android:text="@string/send"
+        android:text="@string/NEXT"
         android:textAllCaps="false"
         android:textColor="#ffffff"
         android:textSize="@dimen/_12sdp" />

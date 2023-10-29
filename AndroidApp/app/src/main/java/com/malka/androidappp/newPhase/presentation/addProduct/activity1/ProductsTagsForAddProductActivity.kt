@@ -76,18 +76,22 @@ class ProductsTagsForAddProductActivity : BaseActivity(),
 
         }
         addProductViewModel.errorResponseObserver.observe(this) {
-            if (it.message != null && it.message != "") {
-                HelpFunctions.ShowLongToast(
-                    it.message!!,
-                    this
-                )
+            if (it.status != null && it.status == "409") {
+                HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), this)
             } else {
-                HelpFunctions.ShowLongToast(
-                    getString(R.string.serverError),
-                    this
-                )
-            }
 
+                if (it.message != null && it.message != "") {
+                    HelpFunctions.ShowLongToast(
+                        it.message!!,
+                        this
+                    )
+                } else {
+                    HelpFunctions.ShowLongToast(
+                        getString(R.string.serverError),
+                        this
+                    )
+                }
+            }
         }
         addProductViewModel.getListCategoriesByProductNameObserver.observe(this) { categoyProductTagResp ->
             if (categoyProductTagResp.status_code == 200) {
@@ -120,7 +124,6 @@ class ProductsTagsForAddProductActivity : BaseActivity(),
                     }
 
                 }
-
 
 
             } else {
@@ -189,7 +192,6 @@ class ProductsTagsForAddProductActivity : BaseActivity(),
     }
 
 
-
     private fun validateitem(): Boolean {
 
         val Inputname = textInputLayout11.getText().trim { it <= ' ' }
@@ -201,7 +203,6 @@ class ProductsTagsForAddProductActivity : BaseActivity(),
             true
         }
     }
-
 
 
 }

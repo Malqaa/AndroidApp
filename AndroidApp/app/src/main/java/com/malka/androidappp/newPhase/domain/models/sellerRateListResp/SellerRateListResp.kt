@@ -23,7 +23,8 @@ data class SellerRateItem(
     var imgProfile: String? = null,
     var userName: String? = null,
     var comment: String? = null,
-    var rate: Float
+    var rate: Float,
+    var createdAt :String?=null
 
 )
 

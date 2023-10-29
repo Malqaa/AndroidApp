@@ -20,9 +20,12 @@ import com.malka.androidappp.fragments.shoppingcart3_shippingaddress.shipping_ad
 import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.data.network.constants.Constants
 import com.malka.androidappp.newPhase.data.network.constants.Constants.GET_CATEGORY_TAGS_ENDPOINT
+import com.malka.androidappp.newPhase.domain.models.GeneralResponses
 import com.malka.androidappp.newPhase.domain.models.accountBackListResp.AccountBankListResp
+import com.malka.androidappp.newPhase.domain.models.accountProfile.AccountInfo
 import com.malka.androidappp.newPhase.domain.models.addBidResp.AddBidResp
 import com.malka.androidappp.newPhase.domain.models.addOrderResp.AddOrderResp
+import com.malka.androidappp.newPhase.domain.models.addOrderResp.ProductOrderPaymentDetailsDto
 import com.malka.androidappp.newPhase.domain.models.addProductToCartResp.AddProductToCartResp
 import com.malka.androidappp.newPhase.domain.models.addRateResp.AddRateResp
 import com.malka.androidappp.newPhase.domain.models.addWaletTransactionResp.AddWalletTranactionResp
@@ -31,7 +34,10 @@ import com.malka.androidappp.newPhase.domain.models.bussinessAccountsListResp.Bu
 import com.malka.androidappp.newPhase.domain.models.bussinessAccountsListResp.ChangeBussinesAccountResp
 import com.malka.androidappp.newPhase.domain.models.cartListResp.CartListResp
 import com.malka.androidappp.newPhase.domain.models.cartPriceSummery.CartPriceSummeryResp
+import com.malka.androidappp.newPhase.domain.models.categoryFollowResp.AddFollowObj
 import com.malka.androidappp.newPhase.domain.models.categoryFollowResp.CategoryFollowResp
+import com.malka.androidappp.newPhase.domain.models.categoryFollowResp.FavoriteSeller
+import com.malka.androidappp.newPhase.domain.models.categoryFollowResp.SavedSearch
 import com.malka.androidappp.newPhase.domain.models.categoryResp.CategoriesResp
 import com.malka.androidappp.newPhase.domain.models.configrationResp.ConfigurationResp
 import com.malka.androidappp.newPhase.domain.models.contauctUsMessage.ContactUsMessageResp
@@ -47,16 +53,19 @@ import com.malka.androidappp.newPhase.domain.models.negotiationOfferResp.Negotia
 import com.malka.androidappp.newPhase.domain.models.orderDetails.OrderDetailsResp
 import com.malka.androidappp.newPhase.domain.models.orderDetailsByMasterID.OrderDetailsByMasterIDResp
 import com.malka.androidappp.newPhase.domain.models.orderListResp.OrderListResp
+import com.malka.androidappp.newPhase.domain.models.orderRateResp.BuyerRateResp
 import com.malka.androidappp.newPhase.domain.models.orderRateResp.RateObject
 import com.malka.androidappp.newPhase.domain.models.orderRateResp.ShipmentRateResp
 import com.malka.androidappp.newPhase.domain.models.pakatResp.PakatResp
 import com.malka.androidappp.newPhase.domain.models.productResp.ProductListResp
 import com.malka.androidappp.newPhase.domain.models.productResp.ProductListSearchResp
 import com.malka.androidappp.newPhase.domain.models.productResp.ProductResp
+import com.malka.androidappp.newPhase.domain.models.productResp.RequestBidOffers
 import com.malka.androidappp.newPhase.domain.models.productTags.CategoryTagsResp
 import com.malka.androidappp.newPhase.domain.models.questionResp.AddQuestionResp
 import com.malka.androidappp.newPhase.domain.models.questionsResp.QuestionsResp
 import com.malka.androidappp.newPhase.domain.models.ratingResp.CurrentUserRateResp
+import com.malka.androidappp.newPhase.domain.models.ratingResp.RateProductResponse
 import com.malka.androidappp.newPhase.domain.models.ratingResp.RateResponse
 import com.malka.androidappp.newPhase.domain.models.regionsResp.RegionsResp
 import com.malka.androidappp.newPhase.domain.models.resgisterResp.RegisterResp
@@ -253,7 +262,7 @@ interface MalqaApiService {
         @Query("productId") productId: Int
     ): Call<GeneralRespone>
 
-    @GET("ListQuestions")
+    @GET("ListQuestions?pageIndex=1&PageRowsCount=30")
     fun getQuestionList(
         @Query("productId") productId: Int
     ): Call<QuestionsResp>
@@ -346,6 +355,7 @@ interface MalqaApiService {
         @Part shippingOptionsList: ArrayList<MultipartBody.Part>,
         @Part videoUrlList: ArrayList<MultipartBody.Part>,
         @Part sendPaymentOptionList: ArrayList<MultipartBody.Part>,
+        @Part productBankAccounts: ArrayList<MultipartBody.Part>,
     ): Call<AddProductResponse>
     @Multipart
     @POST("AddProduct")
@@ -360,6 +370,18 @@ interface MalqaApiService {
     fun AddRateProduct(
         @PartMap partMap: Map<String, @JvmSuppressWildcards RequestBody>,
     ): Call<AddRateResp>
+
+
+    @POST("AddEditBuyerRate")
+    fun addRateBuyer(
+        @Body partMap: HashMap<String, Any>,
+    ): Call<GeneralRespone>
+
+    @GET("BuyerRateForEdit")
+    fun getRateBuyer(
+        @Query("orderId") orderId: Int
+    ): Call<BuyerRateResp>
+
 
     @GET("ListProductByBusinessAccountId")
     fun getMyProduct(
@@ -380,11 +402,11 @@ interface MalqaApiService {
         @Url url: String
     ): Call<ProductListSearchResp>
 
-    @GET("ListRateProduct")
+    @GET("ListRateProduct?pageIndex=1&PageRowsCount=1000")
     fun getRates(
         @Query("productId") productID: Int,
         @Query("lang") language: String = ConstantObjects.currentLanguage
-    ): Call<RateResponse>
+    ): Call<RateProductResponse>
 
     @GET("CurrenUserRateForProdust")
     fun getCurrenUserRateForProdust(
@@ -397,6 +419,13 @@ interface MalqaApiService {
     fun editRateProduct(
         @PartMap partMap: Map<String, @JvmSuppressWildcards RequestBody>,
     ): Call<AddRateResp>
+
+    @GET("GetCartTotalPrice")
+    fun getCartTotalPrice(
+        @Query("cartMasterId") cartMasterId: String,
+        @Query("lang") language: String = ConstantObjects.currentLanguage
+    ): Call<GeneralResponse>
+
 
     @GET("ListRateProvider")
     fun getSellerRates(
@@ -411,6 +440,24 @@ interface MalqaApiService {
         @Query("BusinessAccountId") BusinessAccountId: String?,
         @Query("pageIndex") page: Int,
         @Query("rate") rate: Int?,
+        @Query("lang") language: String = ConstantObjects.currentLanguage
+    ): Call<SellerRateListResp>
+
+
+    @GET("ListRateSeller?PageRowsCount=10")
+    fun getSellerRates(
+        @Query("pageIndex") page: Int,
+        @Query("rate") rate: Int?,
+        @Query("providerId")providerId : String =ConstantObjects.logged_userid,
+        @Query("lang") language: String = ConstantObjects.currentLanguage
+    ): Call<SellerRateListResp>
+
+
+    @GET("ListRateBuyer?PageRowsCount=10")
+    fun getBuyerRates(
+        @Query("pageIndex") page: Int,
+        @Query("rate") rate: Int?,
+        @Query("buyerId")providerId : String =ConstantObjects.logged_userid,
         @Query("lang") language: String = ConstantObjects.currentLanguage
     ): Call<SellerRateListResp>
 
@@ -435,14 +482,14 @@ interface MalqaApiService {
         @Query("lang") language: String = ConstantObjects.currentLanguage
     ): Call<OrderListResp>
 
-    @GET("GetClientAddedOrders?PageRowsCount=10&OrderStatus!=5")
+    @GET("GetClientAddedOrders?PageRowsCount=10&OrderStatus!=6")
     fun getCurrentOrders(
         @Query("pageIndex") page: Int,
         @Query("userId") userId: String,
         @Query("lang") language: String = ConstantObjects.currentLanguage
     ): Call<OrderListResp>
 
-    @GET("GetClientAddedOrders?PageRowsCount=10&OrderStatus=5")
+    @GET("GetClientAddedOrders?PageRowsCount=10&OrderStatus=6")
     fun getFinishedOrders(
         @Query("pageIndex") page: Int,
         @Query("userId") userId: String,
@@ -461,6 +508,9 @@ interface MalqaApiService {
         @Query("lang") language: String = ConstantObjects.currentLanguage
     ): Call<UserAddressesResp>
 
+    @Multipart
+    @POST("ConfirmBankTransferPayment")
+    fun confirmBankTransferPayment( @PartMap partMap: Map<String, @JvmSuppressWildcards RequestBody>,@Part part: MultipartBody.Part?): Call<GeneralResponse>
     @Multipart
     @POST("AddAddressForUser")
     fun addAddressForUser(
@@ -503,12 +553,24 @@ interface MalqaApiService {
     @DELETE("RemoveProductFromCartProducts")
     fun removeProductFromCartProducts(@Query("cartproductId") cartproductId: String): Call<GeneralResponse>
 
+
+    @DELETE("RemoveProduct")
+    fun removeProduct(@Query("id") productId: Int): Call<GeneralResponse>
+    @POST("RepostProduct")
+    fun repostProduct(@Query("productId") productId: Int): Call<GeneralResponse>
+
+
     @Multipart
     @POST("AddOrder")
     fun addOrder(
         @PartMap partMap: Map<String, @JvmSuppressWildcards RequestBody>,
-    ): Call<AddOrderResp>
+        @Part productOrderPaymentDetailsDto: List<MultipartBody.Part>?
 
+    ): Call<AddOrderResp>
+    @POST("addPaymentTransaction")
+    fun addPaymentTransaction(
+        @Body partMap: HashMap<String, Any>,
+    ): Call<GeneralResponse>
     @POST("ApplyCouponOnCart")
     fun applyCouponOnCart(
         @Query("cartMasterId") cartMasterId: String,
@@ -520,8 +582,18 @@ interface MalqaApiService {
     fun applyCouponOnCart(
         @Query("cartMasterId") cartMasterId: String,
         @Query("couponCode") couponCode: String,
+        @Query("couponForProviderId") providerId:String,
         @Query("buyWithFixedRpriceOrNegotiation") buyWithFixedRpriceOrNegotiation: String,
-        @Query("couponForbusinessAccountId") couponForbusinessAccountId: String
+        @Query("couponForbusinessAccountId") couponForbusinessAccountId: String?
+    ): Call<GeneralResponse>
+
+    @POST("UnApplyCouponOnCart")
+    fun unApplyCouponOnCart(
+        @Query("cartMasterId") cartMasterId: String,
+        @Query("couponCode") couponCode: String,
+        @Query("couponForProviderId") providerId:String,
+        @Query("buyWithFixedRpriceOrNegotiation") buyWithFixedRpriceOrNegotiation: String,
+        @Query("couponForbusinessAccountId") couponForbusinessAccountId: String?
     ): Call<GeneralResponse>
 
     @GET("ListSellerProducts?PageRowsCount=10")
@@ -557,10 +629,26 @@ interface MalqaApiService {
         @Query("status") orderStatus: Int
     ): Call<GeneralResponse>
 
+    @DELETE("RemoveShippmentProductsFromCart")
+    fun removeShipmentProductsFromCart(
+        @Query("businessAccountId") businessAccountId: String?,
+        @Query("cartMasterId") cartMasterId: String,
+        @Query("providerId") providerId:String,
+    ): Call<GeneralResponse>
+
     @GET("GetUserWalletTransactions")
     fun getWalletDetails(
         @Query("lang") language: String = ConstantObjects.currentLanguage
     ): Call<WalletDetailsResp>
+
+
+
+
+    @GET("GetMyAccountMainPageData")
+    fun getMyAccountInfo(
+        @Query("lang") language: String = ConstantObjects.currentLanguage
+    ): Call<AccountInfo>
+
 
     @Multipart
     @POST("AddWalletTransaction")
@@ -607,6 +695,35 @@ interface MalqaApiService {
     @Multipart
     @POST("AddEditBusinessAccount")
     fun addEditBusinessAccount(
+//        BusinessAccountNameAr: تست2
+//        BusinessAccountNameEn: Test2
+//        BusinessAccountUserName: Test2
+//        BusinessAccountEmail: test2@gmail.com
+//    BusinessAccountImage: (binary)
+//    CountryId: 1
+//    RegionId: 1
+//    BusinessAccountPhoneNumber: 7410
+//    NeighborhoodId: 1
+//    districtName:
+//    BusinessAccountWebsite:
+//    BusinessAccountFaceBook:
+//    BusinessAccountYouTube:
+//    BusinessAccountLinkedIn:
+//    streetNumber:
+//    BusinessAccountTwitter:
+//    BusinessAccountInstagram:
+//    BusinessAccountTikTok:
+//    DetailRegistrationNumber: 7410
+//    RegistrationNumberExpiryDate: 2023-10-31
+//    VatNumber: 10
+//    Maroof: maroof@gmail.com
+//    RegistrationDocumentType: 1
+//    ZipCode:
+//    Trade15Years: true
+//    ProviderId: dcefff0d-ed28-4013-9ce5-1ba652b0d3e8
+//    IsDeleted: false
+//    IsActive: true
+//    BusinessAccountCertificates: (binary)
         @Part("id") id: RequestBody,
         @Part("BusinessAccountUserName") businessAccountUserName : RequestBody,
         @Part("ProviderId") providerId: RequestBody,
@@ -621,7 +738,7 @@ interface MalqaApiService {
         @Part("BusinessAccountTwitter") BusinessAccountTwitter: RequestBody,
         @Part("BusinessAccountYouTube") BusinessAccountYouTube: RequestBody,
         @Part("BusinessAccountLinkedIn") BusinessAccountLinkedIn: RequestBody,
-        @Part("BusinessAccountSnapchat") BusinessAccountSnapchat: RequestBody,
+//        @Part("BusinessAccountSnapchat") BusinessAccountSnapchat: RequestBody,
         @Part("BusinessAccountTikTok") BusinessAccountTikTok: RequestBody,
         @Part("RegistrationDocumentType") RegistrationDocumentType: RequestBody,
         @Part("DetailRegistrationNumber") DetailRegistrationNumber: RequestBody,
@@ -632,12 +749,15 @@ interface MalqaApiService {
         @Part("CountryId") CountryId: RequestBody,
         @Part("RegionId") RegionId: RequestBody,
         @Part("NeighborhoodId") NeighborhoodId: RequestBody,
-        @Part("District") District: RequestBody,
-        @Part("Street") Street: RequestBody,
+        @Part("districtName") District: RequestBody,
+        @Part("streetNumber") Street: RequestBody,
         @Part("ZipCode") ZipCode: RequestBody,
         @Part("Trade15Years") Trade15Years: RequestBody,
         @Part("Lat") Lat: RequestBody,
         @Part("Lon") Lon: RequestBody,
+        @Part("IsDeleted") IsDeleted: RequestBody,
+        @Part("IsActive") IsActive: RequestBody,
+
     ): Call<GeneralResponse>
 
 
@@ -674,7 +794,7 @@ interface MalqaApiService {
         @Part("SaveForLaterUse") SaveForLaterUse: RequestBody,
     ): Call<GeneralResponse>
 
-    @GET("ListBankTransfers?pageIndex=1&PageRowsCount=10")
+    @GET("BankTransfersList?pageIndex=1&PageRowsCount=100")
     fun getAllBacksAccount(): Call<AccountBankListResp>
 
     @POST("AddProductClientOffer")
@@ -682,6 +802,12 @@ interface MalqaApiService {
         @Query("productId") productId: Int,
         @Query("quantity") quantity: Int,
         @Query("price") price: Float
+    ): Call<GeneralResponse>
+
+
+    @POST("PurchaseProductByOffer")
+    fun purchaseProductByOffer(
+        @Query("offerId") offerId: Int,
     ): Call<GeneralResponse>
 
     @POST("GetPurchaseProductsOffers")
@@ -914,7 +1040,7 @@ interface MalqaApiService {
     fun editBusinessProduct(@Body editproduct: ModelEditProduct): Call<EditProductResponseBack>
 
 
-    //  GeneralResponse
+    //  GeneralResponses
     @GET("CardDetail/getbyuserid")
     fun GetUserCreditCards(@Query("usid") userid: String): Call<CreditCardResponse>;
 
@@ -949,7 +1075,7 @@ interface MalqaApiService {
     // NEw API START HERE
 
     @POST("AddFollow")
-    fun AddFollow(@Body body: List<Int>): Call<GeneralResponse>
+    fun AddFollow(@Body addFollow: AddFollowObj): Call<GeneralResponse>
 
 
     @DELETE("RemoveFollow")
@@ -958,6 +1084,16 @@ interface MalqaApiService {
     @GET("ListCategoryFollow")
     fun getListCategoryFollow(@Query("lang") language: String = ConstantObjects.currentLanguage): Call<CategoryFollowResp>
 
+    @GET("ListFavoriteSeller")
+    fun getListFavoriteSeller(@Query("lang") language: String = ConstantObjects.currentLanguage): Call<GeneralResponses<List<FavoriteSeller>>>
+
+    @GET("ListSavedSearch")
+    fun getListSaveSearch(@Query("lang") language: String = ConstantObjects.currentLanguage): Call<GeneralResponses<List<SavedSearch>>>
+    @POST("RemoveSavedSearch")
+    fun removeSavedSearch(@Query ("savedSearchId") savedSearchId :Int,@Query("lang") language: String = ConstantObjects.currentLanguage): Call<GeneralResponse>
+
+    @POST("SaveSearch")
+    fun savedSearch(@Query ("searchString") searchString :String,@Query("lang") language: String = ConstantObjects.currentLanguage): Call<GeneralResponse>
 
     @GET("GetCategoryById")
     fun GetCategoryById(
@@ -1051,10 +1187,7 @@ interface MalqaApiService {
 
     @POST("AddProductBidOffers")
     fun addProductBidOffers(
-        @Query("productId") productId: Int,
-        @Query("quantity") quantity: Int,
-        @Query("price") price: Float,
-        @Body bidsID: List<String>,
+@Body requestBidOffers: RequestBidOffers,
     ): Call<GeneralResponse>
 
     @GET("MyBids")

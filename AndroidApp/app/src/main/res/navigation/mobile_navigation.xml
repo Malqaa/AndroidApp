@@ -9,10 +9,7 @@
         android:id="@+id/navigation_home"
         android:name="com.malka.androidappp.newPhase.presentation.homeScreen.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_homee"/>
-
-
-
+        tools:layout="@layout/fragment_homee" />
 
 
     <fragment
@@ -33,7 +30,6 @@
         android:name="com.malka.androidappp.newPhase.presentation.accountFragment.AccountFragment"
         android:label="@string/title_account"
         tools:layout="@layout/fragment_account">
-
 
 
         <action
@@ -183,8 +179,6 @@
         tools:layout="@layout/fragment_sold" />
 
 
-
-
     <fragment
         android:id="@+id/editProfile"
         android:name="com.malka.androidappp.fragments.edit_my_profile.EditProfile"
@@ -242,25 +236,31 @@
 
     <fragment
         android:id="@+id/followUp"
-        android:name="com.malka.androidappp.fragments.Follow_Up.follow_up_fragment"
+        android:name="com.malka.androidappp.fragments.follow_Up.FollowUpFragment"
         android:label="@string/follow_up"
-        tools:layout="@layout/fragment_follow_up_fragment"/>
+        tools:layout="@layout/fragment_follow_up_fragment" />
 
     <fragment
         android:id="@+id/newCategory"
-        android:name="com.malka.androidappp.fragments.Follow_Up.favorite_category"
+        android:name="com.malka.androidappp.fragments.follow_Up.FavoriteCategory"
         android:label=" Follow Up"
         tools:layout="@layout/fragment_favorite_category">
 
 
     </fragment>
 
- <fragment
+    <fragment
         android:id="@+id/newSubCategory"
-        android:name="com.malka.androidappp.fragments.Follow_Up.favorite_sub_category"
+        android:name="com.malka.androidappp.fragments.follow_Up.FavoriteSubCategory"
         android:label=" Follow Up"
         tools:layout="@layout/fragment_sub_categories">
-
+        <argument
+            android:name="categoryId"
+            app:argType="integer"
+            />
+<!--        <argument-->
+<!--            android:name="CategoryIds"-->
+<!--            app:argType="integer[]" />-->
 
     </fragment>
 
@@ -275,7 +275,7 @@
 
     <fragment
         android:id="@+id/sellerRating"
-        android:name="com.malka.androidappp.newPhase.presentation.sellerDetailsActivity.seller_rating"
+        android:name="com.malka.androidappp.newPhase.presentation.sellerDetailsActivity.SellerRatingFragment"
         android:label="My Points"
         tools:layout="@layout/fragment_seller_rating">
 
@@ -283,14 +283,11 @@
     </fragment>
 
 
-
-
     <fragment
         android:id="@+id/feedback_frag"
         android:name="com.malka.androidappp.fragments.feedback_frag.FeedbackFragment"
         android:label="Feedback"
-        tools:layout="@layout/fragment_feedback"/>
-
+        tools:layout="@layout/fragment_feedback" />
 
 
     <fragment
@@ -361,8 +358,6 @@
         tools:layout="@layout/fragment_logout_notification">
 
     </fragment>
-
-
 
 
     <fragment
@@ -522,9 +517,6 @@
     </fragment>
 
 
-
-
-
     <fragment
         android:id="@+id/lost_frag"
         android:name="com.malka.androidappp.newPhase.presentation.accountFragment.productsLostFragment.ProductsLostFragment"
@@ -581,7 +573,6 @@
 
 
     </fragment>
-
 
 
     <fragment
@@ -649,8 +640,6 @@
 
 
     </fragment>
-
-
 
 
     <fragment

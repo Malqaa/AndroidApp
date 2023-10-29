@@ -1,7 +1,9 @@
 package com.malka.androidappp.newPhase.presentation.myOrderDetails.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -14,6 +16,7 @@ import com.malka.androidappp.newPhase.data.helper.linearLayoutManager
 import com.malka.androidappp.newPhase.data.helper.show
 import com.malka.androidappp.newPhase.domain.models.orderDetailsByMasterID.OrderFullInfoDto
 import com.malka.androidappp.newPhase.domain.models.orderDetailsByMasterID.OrderProductFullInfoDto
+import com.malka.androidappp.newPhase.presentation.cartActivity.AttachInvoice
 import kotlinx.android.synthetic.main.activity_my_order_details_requested_from_me.*
 import kotlinx.android.synthetic.main.fragment_my_orders.*
 
@@ -42,31 +45,47 @@ class CurrentOrderAdapter(
         holder.viewBinding.shipmentNoTv.text =
             "${context.getString(R.string.shipment_no_1)} ${orderFullInfoDto[position].orderId}"
         holder.viewBinding.tvSellerName.text = "(${orderFullInfoDto[position].providerName ?: ""})"
-//        holder.viewBinding.tvShippingStatus.text = orderFullInfoDto[position].status ?: ""
-        when ( orderFullInfoDto[position].orderStatus) {
-            ConstantObjects.orderStatus_provider_new -> {
-                holder.viewBinding.tvShippingStatus.text =context.getString(R.string.order_new)
-            }
-            ConstantObjects.orderStatus_provider_inProgress -> {
-                holder.viewBinding.tvShippingStatus.text = context.getString(R.string.order_productsProcessing)
-            }
-            ConstantObjects.orderStatus_provider_inDelivery -> {
-                holder.viewBinding.tvShippingStatus.text = context.getString(R.string.order_deliveryPhase)
-            }
-            ConstantObjects.orderStatus_provider_finished -> {
-                holder.viewBinding.tvShippingStatus.text = context.getString(R.string.order_deliveryConfirmation)
-            }
+        holder.viewBinding.tvShippingStatus.text = orderFullInfoDto[position].status ?: ""
+//        when (orderFullInfoDto[position].orderStatus) {
+//            ConstantObjects.WaitingForPayment -> {
+//                holder.viewBinding.tvShippingStatus.text =
+//                    context.getString(R.string.WaitingForPayment)
+//            }
+//
+//            ConstantObjects.Retrieved -> {
+//                holder.viewBinding.tvShippingStatus.text =
+//                    context.getString(R.string.order_productsProcessing)
+//            }
+//
+//            ConstantObjects.InProgress -> {
+//                holder.viewBinding.tvShippingStatus.text =
+//                    context.getString(R.string.order_deliveryPhase)
+//            }
+//
+//            ConstantObjects.DeliveryInProgress -> {
+//                holder.viewBinding.tvShippingStatus.text =
+//                    context.getString(R.string.order_deliveryConfirmation)
+//            }
+//        }
+
+        for (item in orderFullInfoDto[position].orderProductFullInfoDto!!) {
+
+            val customDropDownAdapter =
+                CustomDropDownAdapter(context, item.productBankAccountsDto ?: arrayListOf())
+            holder.viewBinding.spPaymentType.adapter = customDropDownAdapter
         }
 
-        holder.viewBinding.tvPaymentType.text = orderFullInfoDto[position].payType ?: ""
+
         holder.viewBinding.tvOldTotalPrice.text =
             orderFullInfoDto[position].totalOrderPrice.toString()
         setadapter(holder.viewBinding.rvCart, orderFullInfoDto[position].orderProductFullInfoDto)
         holder.viewBinding.btnRateShipment.setOnClickListener {
             setOnClickListeners.onAddRateToShipmentSelected(position)
         }
+
+
         holder.viewBinding.btnCancel.setOnClickListener {
-            if (orderFullInfoDto[position].orderStatus != 6) {
+            if ((orderFullInfoDto[position].orderStatus == ConstantObjects.InProgress) || (orderFullInfoDto[position].orderStatus == ConstantObjects.WaitingForReview || (orderFullInfoDto[position].orderStatus == ConstantObjects.WaitingForPayment))) {
                 setOnClickListeners.onCancelOrder(position)
             }
         }
@@ -84,14 +103,50 @@ class CurrentOrderAdapter(
 //                )
 //            )
 //        }
-        holder.viewBinding.btnCancel.hide()
-        holder.viewBinding.finishOrderStatusContainer.hide()
-        if (orderFullInfoDto[position].orderStatus == 5) {
+
+        holder.viewBinding.confirmBankTr.setOnClickListener {
+            val intent = Intent(context, AttachInvoice::class.java)
+            intent.putExtra("orderId", orderFullInfoDto[position].orderId)
+            context.startActivity(intent)
+        }
+
+        holder.viewBinding.confirmBank.hide()
+        holder.viewBinding.laySelectBank.hide()
+        holder.viewBinding.tvBank.hide()
+        if(!orderFullInfoDto[position].orderProductFullInfoDto.isNullOrEmpty()){
+            holder.viewBinding.tvTypePayment.text=
+                orderFullInfoDto[position].orderProductFullInfoDto?.get(0)?.paymentOption
+        }
+
+        if (orderFullInfoDto[position].orderStatus == ConstantObjects.WaitingForPayment) {
+
+            if (orderFullInfoDto[position].orderSaleType == "Auction" || (orderFullInfoDto[position].orderSaleType == "Negotiation")) {
+                holder.viewBinding.btnCancel.hide()
+            } else {
+                holder.viewBinding.btnCancel.show()
+                holder.viewBinding.laySelectBank.show()
+            }
+
+        } else if (orderFullInfoDto[position].orderStatus == ConstantObjects.WaitingForReview || orderFullInfoDto[position].orderStatus == ConstantObjects.InProgress || (orderFullInfoDto[position].orderStatus == ConstantObjects.DeliveryInProgress) ) {
+            if (orderFullInfoDto[position].paymentTypeId == 2) {
+                holder.viewBinding.tvBank.show()
+                holder.viewBinding.confirmBank.show()
+            }else
+                holder.viewBinding.tvTypePayment.show()
+
+            holder.viewBinding.btnCancel.show()
+        } else if (orderFullInfoDto[position].orderStatus == ConstantObjects.Delivered) {
             holder.viewBinding.btnCancel.hide()
             holder.viewBinding.finishOrderStatusContainer.show()
+            if (orderFullInfoDto[position].paymentTypeId == 2) {
+                holder.viewBinding.tvBank.show()
+                holder.viewBinding.confirmBank.show()
+            }else
+            holder.viewBinding.tvTypePayment.show()
+
+
         } else {
-            holder.viewBinding.btnCancel.show()
-            if (orderFullInfoDto[position].orderStatus == 6) {
+            if (orderFullInfoDto[position].orderStatus == ConstantObjects.Canceled) {
                 holder.viewBinding.btnCancel.setBackgroundResource(R.drawable.edittext_bg)
                 holder.viewBinding.btnCancel.setTextColor(
                     ContextCompat.getColor(
@@ -110,9 +165,7 @@ class CurrentOrderAdapter(
                     )
                 )
             }
-
         }
-      //  holder.viewBinding.finishOrderStatusContainer.show()
 
     }
 

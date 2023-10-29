@@ -33,7 +33,7 @@ class WishListViewModel:BaseViewModel() {
                     if (response.isSuccessful) {
                         wishListRespObserver.value = response.body()
                     } else {
-                        errorResponseObserver.value = getErrorResponse(response.errorBody())
+                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
                     }
                 }
             })

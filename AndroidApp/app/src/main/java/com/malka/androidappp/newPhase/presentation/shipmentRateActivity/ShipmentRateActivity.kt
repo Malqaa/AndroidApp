@@ -1,5 +1,6 @@
 package com.malka.androidappp.newPhase.presentation.shipmentRateActivity
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -17,6 +18,7 @@ import com.malka.androidappp.newPhase.domain.models.orderRateResp.RateProductObj
 import com.malka.androidappp.newPhase.domain.models.orderRateResp.SellerDateDto
 import com.malka.androidappp.newPhase.domain.models.orderRateResp.ShippmentRateDto
 import com.malka.androidappp.newPhase.data.helper.ConstantObjects
+import com.malka.androidappp.newPhase.presentation.addProduct.SuccessProductActivity
 import kotlinx.android.synthetic.main.activity_shipment_rate.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 import kotlinx.coroutines.Dispatchers
@@ -68,16 +70,30 @@ class ShipmentRateActivity : BaseActivity(), ProductRateAdapter.SetOnClickListen
 
         }
         shipmentRateViewModel.errorResponseObserver.observe(this) {
-            if (it.message != null) {
-                HelpFunctions.ShowLongToast(it.message!!, this)
+            if (it.status != null && it.status == "409") {
+                HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), this)
             } else {
-                HelpFunctions.ShowLongToast(getString(R.string.serverError), this)
+                if (it.message != null) {
+                    HelpFunctions.ShowLongToast(it.message!!, this)
+                } else {
+                    HelpFunctions.ShowLongToast(getString(R.string.serverError), this)
+                }
             }
         }
         shipmentRateViewModel.addShipmentRateObserver.observe(this) {
             HelpFunctions.ShowLongToast(it.message.toString(), this)
             if (it.status_code == 200) {
-                onBackPressed()
+
+                val intent = Intent(
+                    this@ShipmentRateActivity, SuccessProductActivity::class.java
+                ).apply {
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    putExtra("comeFrom", "RatingShipping")
+
+                }
+
+                startActivity(intent)
+                finish()
             }
         }
         shipmentRateViewModel.getShipmentRate.observe(this) {
@@ -93,23 +109,25 @@ class ShipmentRateActivity : BaseActivity(), ProductRateAdapter.SetOnClickListen
                 //setSellerInfo
                 sellerRateId = rateObject.sellerDateDto.sellerRateId
                 when (rateObject.sellerDateDto.rate) {
-                    1 -> {
-                        sellerRate = 1
-                        ivSellerHappyRate.setBackgroundResource(R.color.gray)
-                        ivSellerNeutralRate.setBackgroundResource(R.color.white)
-                        ivSellerSadeRate.setBackgroundResource(R.color.white)
-                    }
-                    2 -> {
-                        sellerRate = 2
-                        ivSellerHappyRate.setBackgroundResource(R.color.white)
-                        ivSellerNeutralRate.setBackgroundResource(R.color.gray)
-                        ivSellerSadeRate.setBackgroundResource(R.color.white)
-                    }
                     3 -> {
                         sellerRate = 3
-                        ivSellerHappyRate.setBackgroundResource(R.color.white)
-                        ivSellerNeutralRate.setBackgroundResource(R.color.white)
-                        ivSellerSadeRate.setBackgroundResource(R.color.gray)
+                        ivSellerHappyRate.setImageResource(R.drawable.happyface_color)
+                        ivSellerNeutralRate.setImageResource(R.drawable.smileface_gray)
+                        ivSellerSadeRate.setImageResource(R.drawable.sadface_gray)
+                    }
+
+                    2 -> {
+                        sellerRate = 2
+                        ivSellerHappyRate.setImageResource(R.drawable.happyface_gray)
+                        ivSellerNeutralRate.setImageResource(R.drawable.smileface_color)
+                        ivSellerSadeRate.setImageResource(R.drawable.sadface_gray)
+                    }
+
+                    1 -> {
+                        sellerRate = 1
+                        ivSellerHappyRate.setImageResource(R.drawable.happyface_gray)
+                        ivSellerNeutralRate.setImageResource(R.drawable.smileface_gray)
+                        ivSellerSadeRate.setImageResource(R.drawable.sadcolor_gray)
                     }
                 }
                 etSellerCommnet.setText(rateObject.sellerDateDto.comment ?: "")
@@ -118,28 +136,30 @@ class ShipmentRateActivity : BaseActivity(), ProductRateAdapter.SetOnClickListen
             if (rateObject.shippmentRateDto != null) {
                 shippmentRateId = rateObject.shippmentRateDto.shippmentRateId
                 when (rateObject.shippmentRateDto.rate) {
-                    1 -> {
-                        shipmentRate = 1
-                        ivShipmentHappyRate.setBackgroundResource(R.color.gray)
-                        ivShipmentNeutralRate.setBackgroundResource(R.color.white)
-                        ivShipmentSadeRate.setBackgroundResource(R.color.white)
-                    }
-                    2 -> {
-                        shipmentRate = 2
-                        ivShipmentHappyRate.setBackgroundResource(R.color.white)
-                        ivShipmentNeutralRate.setBackgroundResource(R.color.gray)
-                        ivShipmentSadeRate.setBackgroundResource(R.color.white)
-                    }
                     3 -> {
                         shipmentRate = 3
-                        ivShipmentHappyRate.setBackgroundResource(R.color.white)
-                        ivShipmentNeutralRate.setBackgroundResource(R.color.white)
-                        ivShipmentSadeRate.setBackgroundResource(R.color.gray)
+                        ivShipmentHappyRate.setImageResource(R.drawable.happyface_color)
+                        ivShipmentNeutralRate.setImageResource(R.drawable.smileface_gray)
+                        ivShipmentSadeRate.setImageResource(R.drawable.sadface_gray)
+                    }
+
+                    2 -> {
+                        shipmentRate = 2
+                        ivShipmentHappyRate.setImageResource(R.drawable.happyface_gray)
+                        ivShipmentNeutralRate.setImageResource(R.drawable.smileface_color)
+                        ivShipmentSadeRate.setImageResource(R.drawable.sadface_gray)
+                    }
+
+                    1 -> {
+                        shipmentRate = 1
+                        ivShipmentHappyRate.setImageResource(R.drawable.happyface_gray)
+                        ivShipmentNeutralRate.setImageResource(R.drawable.smileface_gray)
+                        ivShipmentSadeRate.setImageResource(R.drawable.sadcolor_gray)
                     }
                 }
                 etShipmentCommnet.setText(rateObject.shippmentRateDto.comment ?: "")
             }
-            rateObject.productsRate?.let { productsRateList ->
+            rateObject.productsRate.let { productsRateList ->
                 for (item in orderProductFullInfoDtoList) {
                     for (product in productsRateList) {
                         if (item.productId == product.productId) {
@@ -153,20 +173,22 @@ class ShipmentRateActivity : BaseActivity(), ProductRateAdapter.SetOnClickListen
                 if (orderProductFullInfoDtoList.isNotEmpty()) {
                     etProductComment.setText(orderProductFullInfoDtoList[0].comment)
                     when (orderProductFullInfoDtoList[0].rate) {
-                        1 -> {
-                            ivProductHappyRate.setBackgroundResource(R.color.gray)
-                            ivProductNeutralRate.setBackgroundResource(R.color.white)
-                            ivProductSadeRate.setBackgroundResource(R.color.white)
-                        }
-                        2 -> {
-                            ivProductHappyRate.setBackgroundResource(R.color.white)
-                            ivProductNeutralRate.setBackgroundResource(R.color.gray)
-                            ivProductSadeRate.setBackgroundResource(R.color.white)
-                        }
                         3 -> {
-                            ivProductHappyRate.setBackgroundResource(R.color.white)
-                            ivProductNeutralRate.setBackgroundResource(R.color.white)
-                            ivProductSadeRate.setBackgroundResource(R.color.gray)
+                            ivProductHappyRate.setImageResource(R.drawable.happyface_color)
+                            ivProductNeutralRate.setImageResource(R.drawable.smileface_gray)
+                            ivProductSadeRate.setImageResource(R.drawable.sadface_gray)
+                        }
+
+                        2 -> {
+                            ivProductHappyRate.setImageResource(R.drawable.happyface_gray)
+                            ivProductNeutralRate.setImageResource(R.drawable.smileface_color)
+                            ivProductSadeRate.setImageResource(R.drawable.sadface_gray)
+                        }
+
+                        1 -> {
+                            ivProductHappyRate.setImageResource(R.drawable.happyface_gray)
+                            ivProductNeutralRate.setImageResource(R.drawable.smileface_gray)
+                            ivProductSadeRate.setImageResource(R.drawable.sadcolor_gray)
                         }
                     }
                 }
@@ -197,46 +219,44 @@ class ShipmentRateActivity : BaseActivity(), ProductRateAdapter.SetOnClickListen
 
         /**seller rate */
         ivSellerHappyRate.setOnClickListener {
-            sellerRate = 1
-            ivSellerHappyRate.setBackgroundResource(R.color.gray)
-            ivSellerNeutralRate.setBackgroundResource(R.color.white)
-            ivSellerSadeRate.setBackgroundResource(R.color.white)
-
+            sellerRate =3
+            ivSellerHappyRate.setImageResource(R.drawable.happyface_color)
+            ivSellerNeutralRate.setImageResource(R.drawable.smileface_gray)
+            ivSellerSadeRate.setImageResource(R.drawable.sadface_gray)
         }
         ivSellerNeutralRate.setOnClickListener {
             sellerRate = 2
-            ivSellerHappyRate.setBackgroundResource(R.color.white)
-            ivSellerNeutralRate.setBackgroundResource(R.color.gray)
-            ivSellerSadeRate.setBackgroundResource(R.color.white)
+            ivSellerHappyRate.setImageResource(R.drawable.happyface_gray)
+            ivSellerNeutralRate.setImageResource(R.drawable.smileface_color)
+            ivSellerSadeRate.setImageResource(R.drawable.sadface_gray)
         }
         ivSellerSadeRate.setOnClickListener {
-            sellerRate = 3
-            ivSellerHappyRate.setBackgroundResource(R.color.white)
-            ivSellerNeutralRate.setBackgroundResource(R.color.white)
-            ivSellerSadeRate.setBackgroundResource(R.color.gray)
+            sellerRate = 1
+            ivSellerHappyRate.setImageResource(R.drawable.happyface_gray)
+            ivSellerNeutralRate.setImageResource(R.drawable.smileface_gray)
+            ivSellerSadeRate.setImageResource(R.drawable.sadface_gray)
         }
         /**producct rate */
         ivProductHappyRate.setOnClickListener {
-            orderProductFullInfoDtoList[selectedProductPosition].rate = 1
-            ivProductHappyRate.setBackgroundResource(R.color.gray)
-            ivProductNeutralRate.setBackgroundResource(R.color.white)
-            ivProductSadeRate.setBackgroundResource(R.color.white)
-            productRateAdapter.notifyItemChanged(selectedProductPosition)
+            orderProductFullInfoDtoList[selectedProductPosition].rate = 3
+            ivProductHappyRate.setImageResource(R.drawable.happyface_color)
+            ivProductNeutralRate.setImageResource(R.drawable.smileface_gray)
+            ivProductSadeRate.setImageResource(R.drawable.sadface_gray)
         }
         ivProductNeutralRate.setOnClickListener {
             orderProductFullInfoDtoList[selectedProductPosition].rate = 2
-            ivProductHappyRate.setBackgroundResource(R.color.white)
-            ivProductNeutralRate.setBackgroundResource(R.color.gray)
-            ivProductSadeRate.setBackgroundResource(R.color.white)
-            productRateAdapter.notifyItemChanged(selectedProductPosition)
+            ivProductHappyRate.setImageResource(R.drawable.happyface_gray)
+            ivProductNeutralRate.setImageResource(R.drawable.smileface_color)
+            ivProductSadeRate.setImageResource(R.drawable.sadface_gray)
         }
         ivProductSadeRate.setOnClickListener {
-            orderProductFullInfoDtoList[selectedProductPosition].rate = 3
-            ivProductHappyRate.setBackgroundResource(R.color.white)
-            ivProductNeutralRate.setBackgroundResource(R.color.white)
-            ivProductSadeRate.setBackgroundResource(R.color.gray)
-            productRateAdapter.notifyItemChanged(selectedProductPosition)
+            orderProductFullInfoDtoList[selectedProductPosition].rate = 1
+            ivProductHappyRate.setImageResource(R.drawable.happyface_gray)
+            ivProductNeutralRate.setImageResource(R.drawable.smileface_gray)
+            ivProductSadeRate.setImageResource(R.drawable.sadcolor_gray)
         }
+
+
         etProductComment.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
@@ -250,25 +270,27 @@ class ShipmentRateActivity : BaseActivity(), ProductRateAdapter.SetOnClickListen
             }
         })
         /**shipment rate */
+
         ivShipmentHappyRate.setOnClickListener {
             shipmentRate = 1
-            ivShipmentHappyRate.setBackgroundResource(R.color.gray)
-            ivShipmentNeutralRate.setBackgroundResource(R.color.white)
-            ivShipmentSadeRate.setBackgroundResource(R.color.white)
-
+            ivShipmentHappyRate.setImageResource(R.drawable.happyface_color)
+            ivShipmentNeutralRate.setImageResource(R.drawable.smileface_gray)
+            ivShipmentSadeRate.setImageResource(R.drawable.sadface_gray)
         }
         ivShipmentNeutralRate.setOnClickListener {
             shipmentRate = 2
-            ivShipmentHappyRate.setBackgroundResource(R.color.white)
-            ivShipmentNeutralRate.setBackgroundResource(R.color.gray)
-            ivShipmentSadeRate.setBackgroundResource(R.color.white)
+            ivShipmentHappyRate.setImageResource(R.drawable.happyface_gray)
+            ivShipmentNeutralRate.setImageResource(R.drawable.smileface_color)
+            ivShipmentSadeRate.setImageResource(R.drawable.sadface_gray)
         }
         ivShipmentSadeRate.setOnClickListener {
             shipmentRate = 3
-            ivShipmentHappyRate.setBackgroundResource(R.color.white)
-            ivShipmentNeutralRate.setBackgroundResource(R.color.white)
-            ivShipmentSadeRate.setBackgroundResource(R.color.gray)
+            ivShipmentHappyRate.setImageResource(R.drawable.happyface_gray)
+            ivShipmentNeutralRate.setImageResource(R.drawable.smileface_gray)
+            ivShipmentSadeRate.setImageResource(R.drawable.sadface_gray)
         }
+
+
         /*****/
         btnSend.setOnClickListener {
             checkRateData()
@@ -315,7 +337,7 @@ class ShipmentRateActivity : BaseActivity(), ProductRateAdapter.SetOnClickListen
                         sellerDateDto = SellerDateDto(
                             sellerRateId = sellerRateId,
                             sellerId = orderFullInfoDto?.providerId ?: "",
-                            businessAccountId = orderFullInfoDto?.businessAcountId ,
+                            businessAccountId = orderFullInfoDto?.businessAcountId,
                             rate = sellerRate,
                             comment = etSellerCommnet.text.toString().trim()
                         ),
@@ -326,7 +348,7 @@ class ShipmentRateActivity : BaseActivity(), ProductRateAdapter.SetOnClickListen
                             comment = etShipmentCommnet.text.toString().toString(),
                         )
                     )
-                     println("hhhh " + Gson().toJson(rateObject))
+                    println("hhhh " + Gson().toJson(rateObject))
                     shipmentRateViewModel.addShipmentRate(rateObject)
                 } else {
                     HelpFunctions.ShowLongToast(
@@ -342,25 +364,30 @@ class ShipmentRateActivity : BaseActivity(), ProductRateAdapter.SetOnClickListen
         selectedProductPosition = position
         etProductComment.setText(orderProductFullInfoDtoList[selectedProductPosition].comment)
         when (orderProductFullInfoDtoList[selectedProductPosition].rate) {
-            1 -> {
-                ivProductHappyRate.setBackgroundResource(R.color.gray)
-                ivProductNeutralRate.setBackgroundResource(R.color.white)
-                ivProductSadeRate.setBackgroundResource(R.color.white)
-            }
-            2 -> {
-                ivProductHappyRate.setBackgroundResource(R.color.white)
-                ivProductNeutralRate.setBackgroundResource(R.color.gray)
-                ivProductSadeRate.setBackgroundResource(R.color.white)
-            }
+
             3 -> {
-                ivProductHappyRate.setBackgroundResource(R.color.white)
-                ivProductNeutralRate.setBackgroundResource(R.color.white)
-                ivProductSadeRate.setBackgroundResource(R.color.gray)
+                ivProductHappyRate.setImageResource(R.drawable.happyface_color)
+                ivProductNeutralRate.setImageResource(R.drawable.smileface_gray)
+                ivProductSadeRate.setImageResource(R.drawable.sadface_gray)
             }
+
+            2 -> {
+                ivProductHappyRate.setImageResource(R.drawable.happyface_gray)
+                ivProductNeutralRate.setImageResource(R.drawable.smileface_color)
+                ivProductSadeRate.setImageResource(R.drawable.sadface_gray)
+            }
+
+            1 -> {
+                ivProductHappyRate.setImageResource(R.drawable.happyface_gray)
+                ivProductNeutralRate.setImageResource(R.drawable.smileface_gray)
+                ivProductSadeRate.setImageResource(R.drawable.sadcolor_gray)
+            }
+
             else -> {
-                ivProductHappyRate.setBackgroundResource(R.color.white)
-                ivProductNeutralRate.setBackgroundResource(R.color.white)
-                ivProductSadeRate.setBackgroundResource(R.color.white)
+                ivProductHappyRate.setImageResource(R.drawable.happyface_gray)
+                ivProductNeutralRate.setImageResource(R.drawable.smileface_gray)
+                ivProductSadeRate.setImageResource(R.drawable.sadface_gray)
+
             }
         }
     }

@@ -78,18 +78,21 @@ class SignInActivity : BaseActivity() {
             }
         })
         loginViewModel.errorResponseObserver.observe(this, Observer {
-            if (it.message != null) {
-                HelpFunctions.ShowLongToast(
-                    it.message!!,
-                    this
-                )
-            } else {
-                HelpFunctions.ShowLongToast(
-                    getString(R.string.serverError),
-                    this
-                )
+            if(it.status!=null && it.status=="409"){
+                HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), this)
+            }else {
+                if (it.message != null) {
+                    HelpFunctions.ShowLongToast(
+                        it.message!!,
+                        this
+                    )
+                } else {
+                    HelpFunctions.ShowLongToast(
+                        getString(R.string.serverError),
+                        this
+                    )
+                }
             }
-
         })
     }
     /**event clicks*/

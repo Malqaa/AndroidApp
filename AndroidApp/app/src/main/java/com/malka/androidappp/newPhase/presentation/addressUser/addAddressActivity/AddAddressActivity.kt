@@ -215,14 +215,19 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
 
         }
         addressViewModel.errorResponseObserver.observe(this) {
-            if (it.message != null) {
-                HelpFunctions.ShowLongToast(it.message!!, this)
-            } else {
-                HelpFunctions.ShowLongToast(getString(R.string.serverError), this)
+            if(it.status!=null && it.status=="409"){
+                HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), this)
+            }else {
+                if (it.message != null) {
+                    HelpFunctions.ShowLongToast(it.message!!, this)
+                } else {
+                    HelpFunctions.ShowLongToast(getString(R.string.serverError), this)
+                }
             }
         }
         addressViewModel.addUserAddressesListObserver.observe(this) { addAddressResp ->
             if (addAddressResp.status_code == 200) {
+                addAddressResp.addressTitle
                // HelpFunctions.ShowLongToast(addAddressResp.message, this)
                 var intent = Intent()
                 setResult(RESULT_OK, intent)

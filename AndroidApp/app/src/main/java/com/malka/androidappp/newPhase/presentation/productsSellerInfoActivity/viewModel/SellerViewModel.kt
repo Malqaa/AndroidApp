@@ -39,7 +39,7 @@ class SellerViewModel : BaseViewModel() {
                     if (response.isSuccessful) {
                         sellerProductsRespObserver.value = response.body()
                     } else {
-                        errorResponseObserver.value = getErrorResponse(response.errorBody())
+                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
                     }
                 }
             })
@@ -63,7 +63,7 @@ class SellerViewModel : BaseViewModel() {
                     if (response.isSuccessful) {
                         addSellerToFavObserver.value = response.body()
                     } else {
-                        errorResponseObserver.value = getErrorResponse(response.errorBody())
+                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
                     }
                 }
             })
@@ -86,7 +86,7 @@ class SellerViewModel : BaseViewModel() {
                     if (response.isSuccessful) {
                         removeSellerToFavObserver.value = response.body()
                     } else {
-                        errorResponseObserver.value = getErrorResponse(response.errorBody())
+                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
                     }
                 }
             })

@@ -35,7 +35,7 @@ data class BusinessAccountDetials(
     val trade15Years: Boolean,
     val updatedBy: String? = null,
     val updatedByAt: String? = null,
-    val vatNumber: Int,
+    val vatNumber: String,
     val zipCode: String? = null,
     val chanegeAccountUrl: String? = null,
     var token: String? = null

@@ -1,7 +1,7 @@
 package com.malka.androidappp.newPhase.domain.models.ratingResp
 
 data class RateResponse(
-    val `data`: List<RateReviewItem>,
+    val `data`: RateReviewItem,
     val message: String,
     val status_code: Int
 )
@@ -17,7 +17,14 @@ data class RateReviewItem(
     val productName: String,
     val userName: String,
     val createdAt: String,
-    var image:String
+    var image:String,
+
+    val disgustedCount: Int,
+    val satisfiedCount: Int,
+    val happyCount: Int,
+    val totalRecords: Int,
+    val rateProductListDto: List<RateReviewItem>,
+
 //        val productNameAr: String,
 //        val productNameEn: String,
 
@@ -25,3 +32,17 @@ data class RateReviewItem(
 
 )
 
+data class RateProductResponse(
+    val `data`: RateProductReviewItem,
+    val message: String,
+    val status_code: Int
+)
+
+data class RateProductReviewItem(
+    val disgustedCount: Int,
+    val satisfiedCount: Int,
+    val happyCount: Int,
+    val totalRecords: Int,
+    val rateProductListDto: List<RateReviewItem>,
+
+    )

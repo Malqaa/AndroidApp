@@ -9,6 +9,7 @@ import com.google.gson.Gson
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.newPhase.data.helper.*
+import com.malka.androidappp.newPhase.presentation.MainActivity
 import com.malka.androidappp.newPhase.presentation.addProduct.activity6.ListingDetailsActivity
 import com.malka.androidappp.newPhase.presentation.addProduct.activity6.PricingActivity
 import com.malka.androidappp.newPhase.presentation.addProduct.activity7.ListingDurationActivity
@@ -107,14 +108,23 @@ class ConfirmationAddProductActivity : BaseActivity() {
         /**Back**/
         tvCashOptionPayment.hide()
         tvSaudiBankDepositOptionPayment.hide()
-        AddProductObjectData.paymentOptionList?.let {paymentOptionList->
+        tvMadaOptionPayment.hide()
+        tvCardOptionPayment.hide()
+        AddProductObjectData.paymentOptionList?.let { paymentOptionList ->
             for (item in paymentOptionList) {
                 when (item) {
                     AddProductObjectData.PAYMENT_OPTION_BANk -> {
                         tvSaudiBankDepositOptionPayment.show()
                     }
+
                     AddProductObjectData.PAYMENT_OPTION_CASH -> {
                         tvCashOptionPayment.show()
+                    }
+                    AddProductObjectData.PAYMENT_OPTION_Mada->{
+                        tvMadaOptionPayment.show()
+                    }
+                    AddProductObjectData.PAYMENT_OPTION_MasterCard->{
+                        tvCardOptionPayment.show()
                     }
                 }
             }
@@ -132,29 +142,35 @@ class ConfirmationAddProductActivity : BaseActivity() {
                 ConstantObjects.pickUp_Must -> {
                     contianerPickUp.hide()
                 }
+
                 ConstantObjects.pickUp_No -> {
                     contianerPickUp.show()
                     when (AddProductObjectData.pickUpOption) {
                         ConstantObjects.pickUp_Must -> {
                             tvPickupOptionData.text = getString(R.string.mustPickUp)
                         }
+
                         ConstantObjects.pickUp_No -> {
                             tvPickupOptionData.text = getString(R.string.noPickUp)
                         }
+
                         ConstantObjects.pickUp_Available -> {
                             tvPickupOptionData.text = getString(R.string.pickUpAvaliable)
                         }
                     }
                 }
+
                 ConstantObjects.pickUp_Available -> {
                     contianerPickUp.show()
                     when (AddProductObjectData.pickUpOption) {
                         ConstantObjects.pickUp_Must -> {
                             tvPickupOptionData.text = getString(R.string.mustPickUp)
                         }
+
                         ConstantObjects.pickUp_No -> {
                             tvPickupOptionData.text = getString(R.string.noPickUp)
                         }
+
                         ConstantObjects.pickUp_Available -> {
                             tvPickupOptionData.text = getString(R.string.pickUpAvaliable)
                         }
@@ -216,16 +232,20 @@ class ConfirmationAddProductActivity : BaseActivity() {
 
         }
         addProductViewModel.errorResponseObserver.observe(this) {
-            if (it.message != null && it.message != "") {
-                HelpFunctions.ShowLongToast(
-                    it.message!!,
-                    this
-                )
+            if (it.status != null && it.status == "409") {
+                HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), this)
             } else {
-                HelpFunctions.ShowLongToast(
-                    getString(R.string.serverError),
-                    this
-                )
+                if (it.message != null && it.message != "") {
+                    HelpFunctions.ShowLongToast(
+                        it.message!!,
+                        this
+                    )
+                } else {
+                    HelpFunctions.ShowLongToast(
+                        getString(R.string.serverError),
+                        this
+                    )
+                }
             }
 
         }
@@ -238,17 +258,22 @@ class ConfirmationAddProductActivity : BaseActivity() {
                 try {
 
                     val productId: Int = confirmAddPorductRespObserver.productId
-                    println("hhhh product id $productId "+ Gson().toJson(confirmAddPorductRespObserver))
+                    println(
+                        "hhhh product id $productId " + Gson().toJson(
+                            confirmAddPorductRespObserver
+                        )
+                    )
                     resetAddProductObject()
-                    var inten = Intent(
+                    val intent = Intent(
                         this@ConfirmationAddProductActivity, SuccessProductActivity::class.java
                     ).apply {
                         flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         putExtra(ConstantObjects.productIdKey, productId)
+                        putExtra("comeFrom", "AddProduct")
 
                     }
 
-                    startActivity(inten)
+                    startActivity(intent)
                     finish()
                 } catch (e: java.lang.Exception) {
 
@@ -335,7 +360,7 @@ class ConfirmationAddProductActivity : BaseActivity() {
                     tvTotalAfterDiscount.text = "${totalAfterDiscount} ${getString(R.string.SAR)}"
                     tvTotal.paintFlags = tvTotal.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
                 } else {
-                    HelpFunctions.ShowLongToast(getString(R.string.invalidCoupon),this)
+                    HelpFunctions.ShowLongToast(getString(R.string.invalidCoupon), this)
                 }
             }
         }
@@ -499,7 +524,7 @@ class ConfirmationAddProductActivity : BaseActivity() {
     }
 
     private fun setViewClickListeners() {
-        conatinerSendCoupon.setOnClickListener {
+        btnCoupon.setOnClickListener {
             if (etCoupon.text.toString().trim() != "") {
                 addProductViewModel.getCouponByCode(etCoupon.text.toString().trim())
             } else {
@@ -537,6 +562,12 @@ class ConfirmationAddProductActivity : BaseActivity() {
             //  HelpFunctions.ShowLongToast("not implemented yet",this)
             confirmOrder()
         }
+        btn_cancel.setOnClickListener {
+            //  HelpFunctions.ShowLongToast("not implemented yet",this)
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
+
+        }
     }
 
     private fun confirmOrder() {
@@ -548,7 +579,7 @@ class ConfirmationAddProductActivity : BaseActivity() {
                     mainIndex = imageList.indexOf(image).toString()
                 }
                 try {
-                   // val file = File(image.uri.path)
+                    // val file = File(image.uri.path)
                     val file = HelpFunctions.getFileImage(image.uri, this)
 
                     listImageFile.add(file)
@@ -574,6 +605,8 @@ class ConfirmationAddProductActivity : BaseActivity() {
         AddProductObjectData.shippingOptionSelection?.let {
             shippingOption.add(it[0].id.toString())
         }
+
+        val bankList = AddProductObjectData.selectedAccountDetails?.map { it.id }
         addProductViewModel.getAddProduct3(
             this,
             nameAr = AddProductObjectData.itemTitleAr,
@@ -607,8 +640,8 @@ class ConfirmationAddProductActivity : BaseActivity() {
             disccountEndDate = "",
             auctionStartPrice = AddProductObjectData.auctionStartPrice,
             auctionMinimumPrice = AddProductObjectData.auctionMinPrice,
-            auctionClosingTime = AddProductObjectData.selectTimeAuction?.endTimeUTC ?: "",
-            backAccountId = AddProductObjectData.selectedAccountDetails?.id ?: 0,
+            auctionClosingTime = AddProductObjectData.selectTimeAuction?.endTime ?: "",
+            productBankAccounts = bankList,
             ProductPaymentDetailsDto_AdditionalPakatId = pakatId,
             ProductPaymentDetailsDto_ProductPublishPrice = productPublishPriceFee,
             ProductPaymentDetailsDto_EnableAuctionFee = auctionEnableFee,
@@ -622,6 +655,7 @@ class ConfirmationAddProductActivity : BaseActivity() {
             ProductPaymentDetailsDto_TotalAmountBeforeCoupon = totalPrice,
 
             )
+
         /**********/
 //        addProductViewModel.getAddProduct2(
 //            this,

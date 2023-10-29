@@ -75,6 +75,8 @@
 
 
     <string name="Confirm_Password">تأكيد كلمة المرور</string>
+    <string name="password_reset">إعادة تعيين كلمة المرور</string>
+
     <string name="Confirm_New_Password">تأكيد كلمة المرور الجديده</string>
     <string name="Country"> دولة</string>
     <string name="Create_your_personal_account"> إنشاء حساب شخصي</string>
@@ -158,9 +160,7 @@
     <string name="SendInstruction">
     إرسال التعليمات
   </string>
-    <string name="Signin">
-    تسجيل الدخول
-  </string>
+    <string name="Signin">تسجيل الدخول</string>
     <string name="Step">
     خطوة
   </string>
@@ -514,7 +514,7 @@
     الرسوم الكلية
   </string>
     <string name="used">
-    مستخدم
+    مستعمل
   </string>
     <string name="View">
     رأي
@@ -648,9 +648,7 @@
     <string name="Location">
     موقعك
   </string>
-    <string name="Membersince">
-    عضو منذ
-  </string>
+    <string name="Membersince">عضو منذ</string>
     <string name="NZBankDeposit">
     الإيداع المصرفي في NZ
   </string>
@@ -1023,9 +1021,7 @@
     <string name="Reservemet">
     التقى الاحتياطي
   </string>
-    <string name="Riyadh">
-    مدينة الرياض
-  </string>
+    <string name="Riyadh">مدينة الرياض</string>
     <string name="SellerlocatedinRiyadh">
     بائع موجود في الرياض
   </string>
@@ -1360,8 +1356,8 @@
 يجب أن يتكون اسم النشاط التجاري من 3 أحرف على الأقل
   </string>
 
-    <string name="Usernamemusthaveatleast4characters">
-يجب أن يحتوي اسم المستخدم على 4 أحرف على الأقل
+    <string name="Usernamemusthaveatleast2characters">
+يجب أن يحتوي اسم المستخدم على 2 أحرف على الأقل
   </string>
 
     <string name="c">
@@ -2270,7 +2266,7 @@
 
     <string name="Selectanyoneoption">حدد أي خيار واحد</string>
     <string name="SelectSaleType">حدد أي خيار من نوع البيع</string>
-    <string name="Selectanyonepaymentmethod">حدد أي طريقة دفع واحدة</string>
+    <string name="Selectanyonepaymentmethod">حدد أي طريقة دفع</string>
 
     <string name="Startpriceshouldbesmaller">يجب أن يكون سعر البداية أصغر</string>
 
@@ -2451,7 +2447,7 @@
     <string name="InternetIssue">مشكلة الإنترنت</string>
 
     <string name="welcome_back">مرحبا بعودتك</string>
-    <string name="login_with_mobile">قم بتسجيل الدخول برقم الجوال</string>
+    <string name="login_with_mobile">قم بتسجيل الدخول  بالبريد  الالكتروني</string>
     <string name="new_registration">تسجيل جديد</string>
     <string name="don_t_have_an_account">ليس لديك حساب ؟</string>
     <string name="please_choose_an_account_type">من فضلك أختر نوع الحساب</string>
@@ -2461,12 +2457,13 @@
     <string name="register_term">التسجيل في التطبيق يعنى انك توافق على </string>
     <string name="term_condition">الشروط والاحكام</string>
     <string name="activation">تفعيل</string>
+    <string name="we_have_sent_the_activation_code_to_your_phone">لقد أرسلنا رمز التفعيل إلى هاتفك</string>
     <string name="confirm_mobile_number">تأكيد رقم الجوال</string>
     <string name="confirm_Email">تأكيد البريد الإلكترونى</string>
-    <string name="sent_code">لقد ارسلنا كود التفعيل الى الهاتف الخاص بك</string>
+    <string name="sent_code">لقد ارسلنا كود التفعيل الى رقم الهاتف الخاص بك</string>
     <string name="sent_code_email">لقد ارسلنا كود التفعيل الى ألبريد الإلكترزنى الخاص بك</string>
     <string name="one_step_left">!تبقت خطوة واحدة</string>
-    <string name="enter_your_address_name_and_age_details">ادخل تفاصيل عنوانك/ السم والعمر</string>
+    <string name="enter_your_address_name_and_age_details">ادخل تفاصيل عنوانك / الاسم /العمر</string>
     <string name="address_details">تفاصيل العنوان</string>
     <string name="county_code">كود المحافظة</string>
     <string name="district">الحى</string>
@@ -2555,6 +2552,8 @@
     <string name="and_get_many_advantages_of_displaying_your_product">واحصل على مزايا عديدة لعرض منتجك</string>
     <string name="distinguish_your_product">ميز منتجك</string>
     <string name="item_specification">مواصفات السلعة</string>
+    <string name="specifications">المواصفات</string>
+    <string name="region">المنطقة</string>
     <string name="amendment">تعديل</string>
     <string name="it_has_no_scratches">لا يوجد به اى خدوش</string>
     <string name="quantity">الكمية</string>
@@ -2581,7 +2580,7 @@
     <string name="your_order_is_now_being_delivered">طلبك قيد التوصيل الان !</string>
     <string name="order_number">رقم الطلب</string>
     <string name="waiting_for_confirmation">بأنتظار التأكيد</string>
-    <string name="subtotal">الجمموع الفرعى</string>
+    <string name="subtotal">الاجمالي</string>
     <string name="no_thank_you">لا، شكرا</string>
     <string name="your_favorite_merchant_added_a_product">أضاف التاجر المفضل لديك منتجًا</string>
     <string name="new_product_has_been_added">تمت إضافة منتج جديد</string>
@@ -2609,7 +2608,7 @@
     <string name="delivery_to_my_current_address">التوصيل الى عنوانى الحالى</string>
     <string name="add_a_new_address">أضف عنوانا جديدا</string>
     <string name="edit_address">تعديل عنوان</string>
-    <string name="close_time">وقت اغلاف المزاد</string>
+    <string name="close_time">برجاء  تحديد وقت اغلاق المزاد</string>
     <string name="without_additional_expenses">بدون مصاريف اضافية</string>
     <string name="set_your_own_time_and_time">حدد التاريخ والوقت الخاصين بك</string>
     <string name="_20_riyals">+20 ريال</string>
@@ -2711,7 +2710,7 @@
     <string name="pay_by_card">الدفع بالبطاقة</string>
     <string name="order_completed_successfully">اكتمل الطلب بنجاح</string>
     <string name="track_your_order">أتبع طلبك</string>
-    <string name="back_to_shopping">العودة إلى التسوق</string>
+    <string name="back_to_shopping">اكمال التسوق</string>
     <string name="payment_cards">بطاقات الدفع</string>
     <string name="favorite_products">المنتجات المفضلة</string>
     <string name="favorite_sellers">البائعين المفضلين</string>
@@ -2723,7 +2722,7 @@
     <string name="choose_the_account">أختر الحساب</string>
     <string name="recharge_the_balance">شحن رصيد</string>
     <string name="recent_operations">أخر العمليات</string>
-    <string name="a_security_deposit_has_been_added_to_the_losing_auction">تم إضافة مبلغ تأمينى للمزاد الخاسر</string>
+    <string name="a_security_deposit_has_been_added_to_the_losing_auction">تم إضافة مبلغ تأمينى للمزاد الضائع</string>
     <string name="share_the_invite_code">شارك كود الدعوة</string>
     <string name="and_get_100_points_for_every_new_store">واحصل على 100 نقطة على كل متجر جديد</string>
     <string name="convert_points_into_credit">تحويل النقاط الى رصيد</string>
@@ -2763,7 +2762,7 @@
     <string name="highest_price">اغلى سعر</string>
     <string name="bidding_completed_successfully">تمت المزايدة بنجاح</string>
     <string name="manage_your_bid">متابعة مزايداتك</string>
-    <string name="seller">تاجر</string>
+    <string name="seller">بائع</string>
     <string name="_4_9_from_00_visitors" formatted="true">%s من %s الزائرين</string>
     <string name="profile_picture">صورة الملف الشخصي</string>
     <string name="upload_photo">تحميل الصور</string>
@@ -2790,7 +2789,7 @@
     <string name="reset">إعادة تعيين</string>
     <string name="activate_email">تفعيل البريد الإلكتروني</string>
     <string name="Sale">تخفيض السعر</string>
-    <string name="Loser">الخاسر</string>
+    <string name="Loser">الضائع</string>
     <string name="add_a_new_category">إضافة فئة جديدة</string>
     <string name="choose_the_category_you_prefer_to_receive_all_new_about_it">أختر الفئة التي تفضلها ليصلك عنها كل جديد</string>
     <string name="balance_withdrawal">سحب رصيد</string>
@@ -2799,6 +2798,7 @@
     <string name="reviews_type">نوع التقييم</string>
     <string name="reviews_as_a_seller">التقييمات كبائع</string>
     <string name="reviews_as">قيمنا</string>
+    <string name="sub_categories">القسم الفرعى</string>
 
     <string name="reviews_as_a_buyer">التقييمات كمشترى</string>
     <string name="following">التالية</string>
@@ -2941,9 +2941,66 @@
     <string name="accepted">تم القبول</string>
     <string name="rejected">تم الرفض</string>
     <string name="sendOffer">إرسال عرض</string>
-  <string name="offerSent">تم إرسال عرض</string>
+    <string name="offerSent">تم إرسال عرض</string>
     <string name="repostTheProduct">أعاده نشر المنتج</string>
     <string name="user">عميل</string>
     <string name="selectUser">أختر عميل</string>
     <string name="you">أنت</string>
+    <string name="errorEmail">الرجاء إدخال عنوان البريد الإلكتروني المرتبط بحسابك</string>
+    <string name="titleForget">أدخل بريدك الإلكتروني وسنرسل لك تعليمات إعادة تعيين كلمة المرور</string>
+    <string name="select_gender">لا يتم حفظ البيانات دون اختيار الجنس</string>
+    <string name="enterNewPhone">يجب إدخال رقم جديد لاعادة التعيين</string>
+    <string name="enterNewEmail">يجب إدخال عنوان البريد الإلكتروني الجديد لاعادة التعيين</string>
+    <string name="doneAdd">تم إضافة</string>
+    <string name="totalCard">مجموع السلة</string>
+    <string name="goCart">الذهاب للسلة</string>
+    <string name="goFollowing">متابعة التسوق</string>
+    <string name="rates">التقييمات</string>
+    <string name="dataAlreadyExit">البيانات موجودة بالفعل من قبل</string>
+    <string name="highestPrice">اعلى سعر : </string>
+    <string name="doneCategory">تم</string>
+    <string name="saveDone">تم حفظ هذا البحث</string>
+    <string name="creditCard">فيزا/مستر كارد</string>
+    <string name="MadaPayment">مدى</string>
+    <string name="WaitingForPayment">في انتظار الدفع</string>
+    <string name="InProgress">فى تقدم</string>
+    <string name="withoutCharging">بدون شحن</string>
+    <string name="confirmed">مؤكد</string>
+    <string name="unactivate">إلغاء التفعيل</string>
+    <string name="canceled">مغلي</string>
+    <string name="WaitingForReview">فى انتظار المراجعة</string>
+    <string name="ReadyForDelivery">مستعد للتوصيل</string>
+    <string name="DeliveryInProgress">التسليم قيد التقدم</string>
+    <string name="Delivered">تم التوصيل</string>
+    <string name="Retrieved">تم الاسترجاع</string>
+    <string name="doneRate">تم التقييم بنجاح شكرا لك</string>
+    <string name="removeProductSuccessfully">تم حذف المنتج بنجاح</string>
+    <string name="highauction">اعلى مزايدة</string>
+    <string name="lowAuction">اقل مزايدة</string>
+    <string name="deleteAuction">حذف المزاد</string>
+    <string name="cars_real_estate_animals">سيارات , عقارات , حيوانات ...</string>
+    <string name="cancel_the_order">إلغاء الطلب</string>
+    <string name="bankName">"اسم البنك : "</string>
+    <string name="accountNumber">"رقم الحساب : "</string>
+    <string name="userName">"اسم حامل البطاقة : "</string>
+    <string name="iban_number">"الأيبان : "</string>
+    <string name="your_rating_for_the_buyer">ماهو تقييمك للمشترى</string>
+    <string name="add_Review_success">تم التقييم بنجاح</string>
+    <string name="noFoundUserOffers">لا يوجد مستخدمين للاختيار</string>
+    <string name="viewCategory">عرض</string>
+  <string name="visitors">الزائرين</string>
+    <string name="deleteall">إزالة الكل</string>
+    <string name="CheckoutProduct">إتمام الطلب</string>
+    <string name="editProduct">تعديل المنتج</string>
+    <string name="_discount">"تخفيض : "</string>
+    <string name="purchaseOrder">عدد مرات الشراء</string>
+    <string name="QuentitiyClosed">الكميه المتاحة نفذت</string>
+  <string name="numMonth">عدد الأشهر</string>
+  <string name="countImage">عدد الصور</string>
+  <string name="countVideo">عدد مقاطع الفيديو</string>
+  <string name="productPosition">موضع المنتج</string>
+  <string name="showSupTitle">إظهار عنوان فرعي</string>
+  <string name="showHighLight">إظهار التمييز</string>
+    <string name="expired">Expired</string>
+
 </resources>

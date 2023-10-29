@@ -19,6 +19,7 @@ data class PakatDetails(
     val countImage:Int,
     val countVideo:Int,
     val image: String? = null,
+    val productPosition: String? = null,
     val popular:Boolean,
     val showSupTitle:Boolean,
     val showHighLight:Boolean,
@@ -41,3 +42,7 @@ data class CategoryItemBakat(
     val image: String? = null,
 )
 
+data class ItemPacket(
+    val Title: String? = null,
+    val value: Any? = null,
+)

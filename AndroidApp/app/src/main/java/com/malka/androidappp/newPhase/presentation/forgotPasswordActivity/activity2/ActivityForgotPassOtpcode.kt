@@ -26,14 +26,16 @@ class ActivityForgotPassOtpcode : BaseActivity() {
     private var mTimeLeftInMillis = START_TIME_IN_MILLIS
     private lateinit var loginViewModel: LoginViewModel
     var email: String = ""
+    var codeOtp: String = ""
     var expireMinutes: Int = 1
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_forgot_pass_otpcode)
         email = intent.getStringExtra(ConstantObjects.emailKey) ?: ""
+//        codeOtp = intent.getStringExtra("codeOtp").toString().split(".0")[0]
 //        val getcodee:String? = intent.getStringExtra("getcode")
 //        if(BuildConfig.DEBUG){
-//            pinview.setValue(getcodee?:"")
+//        pinview.value = codeOtp
 //        }
         setupLoginViewModel()
         ContianerResend.hide()
@@ -80,26 +82,26 @@ class ActivityForgotPassOtpcode : BaseActivity() {
 
         })
         loginViewModel.changePasswordAfterForgetObserver.observe(this, Observer {
-            if (it.status_code == 200) {
+//            if (it.status_code == 200) {
                 if (it.message != null) {
                     HelpFunctions.ShowLongToast(
-                        it.message!!,
+                        it.message,
                         this
                     )
-                }
-                signInAfterSignUp()
-            } else {
-                if (it.message != null) {
-                    HelpFunctions.ShowLongToast(
-                        it.message!!,
-                        this
-                    )
-                } else {
-                    HelpFunctions.ShowLongToast(
-                        getString(R.string.serverError),
-                        this
-                    )
-                }
+                    signInAfterSignUp()
+//                }
+//            } else {
+//                if (it.message != null) {
+//                    HelpFunctions.ShowLongToast(
+//                        it.message,
+//                        this
+//                    )
+//                } else {
+//                    HelpFunctions.ShowLongToast(
+//                        getString(R.string.serverError),
+//                        this
+//                    )
+//                }
             }
 
         })
@@ -110,7 +112,7 @@ class ActivityForgotPassOtpcode : BaseActivity() {
             } else {
                 if (it.message != null) {
                     HelpFunctions.ShowLongToast(
-                        it.message!!,
+                        it.message,
                         this
                     )
                 } else {
@@ -127,11 +129,31 @@ class ActivityForgotPassOtpcode : BaseActivity() {
                 countdownTimer.show()
                 try {
                     expireMinutes = configratinoResp.configurationData.configValue.toInt()
-                } catch (e: Exception) {
+                } catch (_: Exception) {
                 }
                 startTimeCounter(expireMinutes)
             }
         }
+
+        loginViewModel.forgetPasswordObserver.observe(this, Observer {
+            if (it.status_code == 200) {
+                pinview.value = it.data.toString().split(".0")[0]
+            } else {
+                if (it.message != null) {
+                    HelpFunctions.ShowLongToast(
+                        it.message,
+                        this
+                    )
+                } else {
+                    HelpFunctions.ShowLongToast(
+                        getString(R.string.serverError),
+                        this
+                    )
+                }
+            }
+
+        })
+
     }
 
     fun signInAfterSignUp() {
@@ -150,7 +172,7 @@ class ActivityForgotPassOtpcode : BaseActivity() {
                 var seconds = (mTimeLeftInMillis / 1000).toInt()
                 val minutes = seconds / 60
                 seconds %= 60
-                var timeText = (String.format("%02d", minutes) + ":" + String.format(
+                val timeText = (String.format("%02d", minutes) + ":" + String.format(
                     "%02d",
                     seconds
                 )).toString()

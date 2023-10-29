@@ -102,14 +102,14 @@
                         android:textSize="@dimen/_14sdp"/>
 
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/sar"
-                        android:fontFamily="@font/madani_arabic_medium"
-                        android:textColor="@color/bg"
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:textSize="@dimen/_14sdp"/>
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="@string/sar"-->
+<!--                        android:fontFamily="@font/madani_arabic_medium"-->
+<!--                        android:textColor="@color/bg"-->
+<!--                        android:layout_marginStart="@dimen/_5sdp"-->
+<!--                        android:textSize="@dimen/_14sdp"/>-->
 
 
                 </LinearLayout>
@@ -224,6 +224,7 @@
 
                 <TextView
                     android:id="@+id/btnCancel"
+                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -239,10 +240,30 @@
                     android:textColor="@color/white"
                     android:textSize="@dimen/_12sdp" />
 
+
+                <TextView
+                    android:id="@+id/btnPurchase"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:padding="@dimen/_5sdp"
+                    android:paddingStart="@dimen/_20sdp"
+                    android:visibility="gone"
+                    android:background="@drawable/product_attribute_bg4"
+                    android:backgroundTint="@color/bg"
+                    android:fontFamily="@font/madani_arabic_semi_bold"
+                    android:gravity="center"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:paddingEnd="@dimen/_20sdp"
+                    android:text="@string/purchase"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_12sdp" />
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/containerSaleButton"
+                    android:visibility="gone"
                     android:orientation="vertical">
                     <TextView
                         android:id="@+id/btnAccept"

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.malka.androidappp">
+    package="com.malka.androidappp" >
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -30,75 +30,85 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
-        tools:replace="android:allowBackup">
+        tools:replace="android:allowBackup" >
         <activity
-            android:name="com.malka.androidappp.newPhase.presentation.accountFragment.myBids.MyBidsActivity"
+            android:name=".newPhase.presentation.productDetailsActivity.ShowBranchesMapActivity"
+            android:exported="false"
+            android:label="@string/title_activity_show_branches_map"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".newPhase.presentation.accountFragment.myBids.MyBidsActivity"
             android:exported="false" />
         <activity
-            android:name="com.malka.androidappp.newPhase.presentation.accountFragment.negotiationOffersPurchase.negotiationOfferSale.NegotiationOffersSaleActivity"
+            android:name=".newPhase.presentation.accountFragment.negotiationOffersPurchase.negotiationOfferSale.NegotiationOffersSaleActivity"
             android:exported="false" />
         <activity
-            android:name="com.malka.androidappp.newPhase.presentation.accountFragment.negotiationOffersPurchase.negotiationOfferPurchase.NegotiationOffersPurchaseActivity"
+            android:name=".newPhase.presentation.accountFragment.negotiationOffersPurchase.negotiationOfferPurchase.NegotiationOffersPurchaseActivity"
             android:exported="false" />
         <activity
-            android:name="com.malka.androidappp.newPhase.presentation.productDetailsActivity.SuccessAddProductPriceNegotiationActivity"
+            android:name=".newPhase.presentation.productDetailsActivity.SuccessAddProductPriceNegotiationActivity"
             android:exported="false" />
         <activity
-            android:name="com.malka.androidappp.newPhase.presentation.accountFragment.editProfileActivity.ConfirmChangeNumberActivity"
+            android:name=".newPhase.presentation.accountFragment.editProfileActivity.ConfirmChangeNumberActivity"
             android:exported="false" />
         <activity
-            android:name="com.malka.androidappp.newPhase.presentation.accountFragment.editProfileActivity.ConfirmChangeEmailActivity"
+            android:name=".newPhase.presentation.accountFragment.editProfileActivity.ConfirmChangeEmailActivity"
             android:exported="false" />
         <activity
-            android:name="com.malka.androidappp.newPhase.presentation.accountFragment.editProfileActivity.ChangePasswordActivity"
+            android:name=".newPhase.presentation.accountFragment.editProfileActivity.ChangePasswordActivity"
             android:exported="false" />
         <activity
-            android:name="com.malka.androidappp.newPhase.presentation.accountFragment.mapActivity.MapActivity"
+            android:name=".newPhase.presentation.accountFragment.mapActivity.MapActivity"
             android:exported="false" />
         <activity
-            android:name="com.malka.androidappp.newPhase.presentation.addressUser.addressListActivity.ListAddressesActivity"
+            android:name=".newPhase.presentation.addressUser.addressListActivity.ListAddressesActivity"
             android:exported="false" />
         <activity
-            android:name="com.malka.androidappp.newPhase.presentation.accountFragment.editProfileActivity.EditProfileActivity"
+            android:name=".newPhase.presentation.accountFragment.editProfileActivity.EditProfileActivity"
             android:exported="false" />
         <activity
-            android:name="com.malka.androidappp.newPhase.presentation.myOrderDetails.MyOrderDetailsRequestedFromMeActivity"
+            android:name=".newPhase.presentation.myOrderDetails.MyOrderDetailsRequestedFromMeActivity"
             android:exported="false" />
         <activity
-            android:name="com.malka.androidappp.newPhase.presentation.accountFragment.technicalSupportActivity.addTechencalSupport.AddTechnicalSupportMessageActivity"
+            android:name=".newPhase.presentation.accountFragment.technicalSupportActivity.addTechencalSupport.AddTechnicalSupportMessageActivity"
             android:exported="false" />
         <activity
-            android:name="com.malka.androidappp.newPhase.presentation.accountFragment.technicalSupportActivity.listtechincalSupportMessage.TechnicalSupportListActivity"
+            android:name=".newPhase.presentation.accountFragment.technicalSupportActivity.listtechincalSupportMessage.TechnicalSupportListActivity"
             android:exported="false" />
         <activity
-            android:name="com.malka.androidappp.newPhase.presentation.shipmentRateActivity.ShipmentRateActivity"
+            android:name=".newPhase.presentation.shipmentRateActivity.ShipmentRateActivity"
             android:exported="false" />
         <activity
-            android:name="com.malka.androidappp.newPhase.presentation.myOrderDetails.MyOrderDetailsActivity"
+            android:name=".newPhase.presentation.myOrderDetails.MyOrderDetailsActivity"
             android:exported="false" />
         <activity
-            android:name="com.malka.androidappp.newPhase.presentation.productsSellerInfoActivity.SellerRateActivity"
+            android:name=".newPhase.presentation.productsSellerInfoActivity.SellerRateActivity"
             android:exported="false" />
         <activity
-            android:name="com.malka.androidappp.newPhase.presentation.addSellerReviewActivity.SellerRateListActivity"
+            android:name=".newPhase.presentation.addSellerReviewActivity.SellerRateListActivity"
             android:exported="false" />
         <activity
-            android:name="com.malka.androidappp.newPhase.presentation.addSellerReviewActivity.AddRateSellerActivity"
+            android:name=".newPhase.presentation.addSellerReviewActivity.AddRateSellerActivity"
             android:exported="false" />
         <activity
-            android:name="com.malka.androidappp.newPhase.presentation.addProductReviewActivity.AddRateProductActivity"
+            android:name=".newPhase.presentation.myOrderDetails.AddRateBuyerActivity"
             android:exported="false" />
         <activity
-            android:name="com.malka.androidappp.newPhase.presentation.searchActivity.SearchActivity"
-            android:exported="false">
+            android:name=".newPhase.presentation.addProductReviewActivity.AddRateProductActivity"
+            android:exported="false" />
+        <activity
+            android:name=".newPhase.presentation.searchActivity.SearchActivity"
+            android:exported="false" >
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity> <!-- tools:ignore="AllowBackup" -->
         <activity
             android:name=".newPhase.presentation.cartActivity.AttachInvoice"
+            android:excludeFromRecents="true"
             android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppDialogTheme" />
         <activity
             android:name=".newPhase.presentation.cartActivity.ShipmentRating"
             android:exported="false"
@@ -132,7 +142,7 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".businessAccount.businessAccountsList.SwitchAccountActivity"
+            android:name=".newPhase.presentation.accountFragment.businessAccount.businessAccountsList.SwitchAccountActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity
@@ -156,6 +166,11 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.splash" /> <!--  -->
+        <activity
+            android:name=".newPhase.presentation.productDetailsActivity.MyProductDetailsActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.splash" /> <!--  -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:screenOrientation="portrait"
@@ -165,10 +180,10 @@
             android:name=".newPhase.presentation.accountFragment.businessAccount.addBusinessAccount.BusinessAccountCreateActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.malka.androidappp.newPhase.presentation.forgotPasswordActivity.ForgotChangepassActivity"
+            android:name=".newPhase.presentation.forgotPasswordActivity.ForgotChangepassActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.malka.androidappp.newPhase.presentation.forgotPasswordActivity.activity2.ActivityForgotPassOtpcode"
+            android:name=".newPhase.presentation.forgotPasswordActivity.activity2.ActivityForgotPassOtpcode"
             android:screenOrientation="portrait" />
         <activity
             android:name=".newPhase.presentation.signup.activity3.SignupCreateNewUser"
@@ -187,38 +202,38 @@
             android:name=".newPhase.presentation.signup.activity2.SignupOTPVerificationActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.malka.androidappp.newPhase.presentation.forgotPasswordActivity.activtiy1.ForgotPasswordActivty"
+            android:name=".newPhase.presentation.forgotPasswordActivity.activtiy1.ForgotPasswordActivty"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.malka.androidappp.newPhase.presentation.addProduct.activity1.ProductsTagsForAddProductActivity"
+            android:name=".newPhase.presentation.addProduct.activity1.ProductsTagsForAddProductActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.malka.androidappp.newPhase.presentation.addProduct.activity2.ChooseCategoryActivity"
+            android:name=".newPhase.presentation.addProduct.activity2.ChooseCategoryActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.malka.androidappp.newPhase.presentation.addProduct.activity3.SubCategoriesActivity"
+            android:name=".newPhase.presentation.addProduct.activity3.SubCategoriesActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.malka.androidappp.newPhase.presentation.addProduct.activity4.AddPhotoActivity"
+            android:name=".newPhase.presentation.addProduct.activity4.AddPhotoActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.malka.androidappp.newPhase.presentation.addProduct.activity5.DynamicTemplateActivtiy"
+            android:name=".newPhase.presentation.addProduct.activity5.DynamicTemplateActivtiy"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.malka.androidappp.newPhase.presentation.addProduct.activity6.ListingDetailsActivity"
+            android:name=".newPhase.presentation.addProduct.activity6.ListingDetailsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.malka.androidappp.newPhase.presentation.addProduct.activity7.ListingDurationActivity"
+            android:name=".newPhase.presentation.addProduct.activity7.ListingDurationActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.malka.androidappp.newPhase.presentation.addProduct.activity8.PromotionalActivity"
+            android:name=".newPhase.presentation.addProduct.activity8.PromotionalActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.malka.androidappp.newPhase.presentation.addProduct.ConfirmationAddProductActivity"
+            android:name=".newPhase.presentation.addProduct.ConfirmationAddProductActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.malka.androidappp.newPhase.presentation.addProduct.SuccessProductActivity"
+            android:name=".newPhase.presentation.addProduct.SuccessProductActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.zfdang.multiple_images_selector.ImagesSelectorActivity"
@@ -226,22 +241,23 @@
             android:hardwareAccelerated="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.malka.androidappp.newPhase.presentation.searchProductListActivity.browse_market.SearchCategoryActivity"
+            android:name=".newPhase.presentation.searchProductListActivity.browse_market.SearchCategoryActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.malka.androidappp.newPhase.presentation.addressUser.addAddressActivity.AddAddressActivity"
+            android:name=".newPhase.presentation.addressUser.addAddressActivity.AddAddressActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.malka.androidappp.newPhase.presentation.addProduct.activity6.PricingActivity"
+            android:name=".newPhase.presentation.addProduct.activity6.PricingActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity
             android:name=".newPhase.presentation.splashActivity.SplashActivity"
             android:exported="true"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>
@@ -254,27 +270,26 @@
                     android:host="advdev-001-site1.dtempurl.com"
                     android:scheme="http" />
                 <!-- =========== -->
-                <!--                <data-->
-                <!--                    android:host="jobplus.page.link"-->
-                <!--                    android:scheme="https" />-->
+                <!-- <data -->
+                <!-- android:host="jobplus.page.link" -->
+                <!-- android:scheme="https" /> -->
                 <!-- android:pathPrefix="/job" -->
-                <!--                <data-->
-                <!--                    android:host="www.advdev-001-site1.dtempurl.com"-->
-                <!--                    android:pathPrefix="/Home/"-->
-                <!--                    android:scheme="http" />-->
-                <!--                <data-->
-                <!--                    android:host="advdev-001-site1.dtempurl.com"-->
-                <!--                    android:pathPrefix="/Home/"-->
-                <!--                    android:scheme="http" />-->
+                <!-- <data -->
+                <!-- android:host="www.advdev-001-site1.dtempurl.com" -->
+                <!-- android:pathPrefix="/Home/" -->
+                <!-- android:scheme="http" /> -->
+                <!-- <data -->
+                <!-- android:host="advdev-001-site1.dtempurl.com" -->
+                <!-- android:pathPrefix="/Home/" -->
+                <!-- android:scheme="http" /> -->
             </intent-filter>
-
         </activity>
 
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.malka.androidappp"
             android:exported="false"
-            android:grantUriPermissions="true">
+            android:grantUriPermissions="true" >
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />

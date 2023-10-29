@@ -26,9 +26,9 @@ data class DynamicSpecificationItem(
     var subSpecifications: List<SubSpecificationItem>? = null,
     var valueArText: String = "",
     var valueEnText: String = "",
-    var valueBoolean:Boolean=false,
+    var valueBoolean: Boolean = false,
     var subSpecificationsValue: SubSpecificationItem? = null,
-    var filterValue: String=""
+    var filterValue: String = ""
 )
 
 data class DynamicSpecificationSentObject(
@@ -36,9 +36,9 @@ data class DynamicSpecificationSentObject(
     var HeaderSpeEn: String = "",
     var ValueSpeAr: String = "",
     var ValueSpeEn: String = "",
-    var Type: Int = 1
+    var Type: Int = 1,
+    var SpecificationId :Int= 0
 )
-
 
 
 data class SubSpecificationItem(
@@ -47,5 +47,5 @@ data class SubSpecificationItem(
     var nameEn: String = "",
     var createdAt: String = "",
     var isActive: Boolean = false,
- var isSelected:Boolean=false
+    var isSelected: Boolean = false
 )

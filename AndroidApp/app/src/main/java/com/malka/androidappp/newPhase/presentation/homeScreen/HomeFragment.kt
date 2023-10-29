@@ -27,6 +27,7 @@ import com.malka.androidappp.newPhase.domain.models.homeCategoryProductResp.Cate
 import com.malka.androidappp.newPhase.domain.models.homeSilderResp.HomeSliderItem
 import com.malka.androidappp.newPhase.domain.models.productResp.Product
 import com.malka.androidappp.newPhase.data.helper.ConstantObjects
+import com.malka.androidappp.newPhase.data.helper.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.newPhase.domain.models.servicemodels.model.Category
 import com.malka.androidappp.newPhase.presentation.adapterShared.ProductHorizontalAdapter
 import com.malka.androidappp.newPhase.presentation.adapterShared.SetOnProductItemListeners
@@ -38,7 +39,10 @@ import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
 import com.malka.androidappp.newPhase.presentation.searchProductListActivity.browse_market.SearchCategoryActivity
 import com.malka.androidappp.newPhase.presentation.productDetailsActivity.ProductDetailsActivity
 import com.malka.androidappp.newPhase.presentation.searchActivity.SearchActivity
+import com.malka.androidappp.newPhase.presentation.splashActivity.SplashActivity
 import com.yariksoffice.lingver.Lingver
+import kotlinx.android.synthetic.main.activity_search.saveSearch
+import kotlinx.android.synthetic.main.activity_sign_in.language_toggle
 import kotlinx.android.synthetic.main.fragment_homee.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -78,11 +82,29 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
                 activity!!.finish()
             }
         }
+
+        if (ConstantObjects.currentLanguage == ConstantObjects.ENGLISH) {
+            language_toggle.checkedTogglePosition = 0
+        } else {
+            language_toggle.checkedTogglePosition = 1
+        }
+
+        language_toggle.setOnToggleSwitchChangeListener { position, isChecked ->
+            setLocate()
+        }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
 
 
     }
-
+    private fun setLocate() {
+        ConstantObjects.categoryList= ArrayList()
+        ConstantObjects.categoryProductHomeList= ArrayList()
+        Lingver.getInstance().setLocale(requireContext(), if (Lingver.getInstance().getLanguage() == ConstantObjects.ARABIC) ConstantObjects.ENGLISH else ConstantObjects.ARABIC)
+        startActivity(Intent(requireContext(), SplashActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        })
+        requireActivity().finish()
+    }
 
     private fun settingUpView() {
         swipe_to_refresh.setColorSchemeResources(R.color.colorPrimaryDark)
@@ -92,6 +114,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
         } else {
             ivNewImage.scaleX = -1f
         }
+
         containerLastView.hide()
     }
 
@@ -144,6 +167,9 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
 
         })
         homeViewModel.errorResponseObserver.observe(viewLifecycleOwner, Observer {
+            if(it.status!=null && it.status=="409"){
+                HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), requireActivity())
+            }else{
             if (it.message != null && it.message != "") {
                 HelpFunctions.ShowLongToast(
                     it.message!!,
@@ -155,6 +181,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
                     requireActivity()
                 )
             }
+        }
 
         })
 
@@ -196,18 +223,21 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
         }
         homeViewModel.categoriesErrorResponseObserver.observe(viewLifecycleOwner) {
             //HelpFunctions.ShowLongToast(getString(R.string.NoCategoriesfound), context)
-            if (it.message != null && it.message != "") {
-                HelpFunctions.ShowLongToast(
-                    it.message!!,
-                    requireActivity()
-                )
-            } else {
-                HelpFunctions.ShowLongToast(
-                    getString(R.string.serverError),
-                    requireActivity()
-                )
+            if(it.status!=null && it.status=="409"){
+                HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), requireActivity())
+            }else {
+                if (it.message != null && it.message != "") {
+                    HelpFunctions.ShowLongToast(
+                        it.message!!,
+                        requireActivity()
+                    )
+                } else {
+                    HelpFunctions.ShowLongToast(
+                        getString(R.string.serverError),
+                        requireActivity()
+                    )
+                }
             }
-
         }
         homeViewModel.homeCategoryProductObserver.observe(viewLifecycleOwner) { homeCategoriesProdcutResp ->
 
@@ -221,8 +251,11 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
         }
         homeViewModel.homeCategoryProductErrorResponseObserver.observe(viewLifecycleOwner) {
             //HelpFunctions.ShowLongToast(getString(R.string.NoCategoriesfound), context)
-            HelpFunctions.ShowLongToast(it.message.toString(), context)
-
+            if(it.status!=null && it.status=="409"){
+                HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), requireActivity())
+            }else {
+                HelpFunctions.ShowLongToast(it.message.toString(), context)
+            }
         }
         homeViewModel.lastViewProductsObserver.observe(viewLifecycleOwner) { productListResp ->
             if (productListResp.productList != null) {
@@ -252,16 +285,20 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
 
         })
         homeViewModel.errorResponseObserverProductToFav.observe(viewLifecycleOwner, Observer {
-            if (it.message != null && it.message != "") {
-                HelpFunctions.ShowLongToast(
-                    it.message!!,
-                    requireActivity()
-                )
-            } else {
-                HelpFunctions.ShowLongToast(
-                    getString(R.string.serverError),
-                    requireActivity()
-                )
+            if(it.status!=null && it.status=="409"){
+                HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), requireActivity())
+            }else {
+                if (it.message != null && it.message != "") {
+                    HelpFunctions.ShowLongToast(
+                        it.message!!,
+                        requireActivity()
+                    )
+                } else {
+                    HelpFunctions.ShowLongToast(
+                        getString(R.string.serverError),
+                        requireActivity()
+                    )
+                }
             }
 
         })
@@ -428,25 +465,31 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
             if(etSearch.text.trim().toString()==""){
                 etSearch.error=getString(R.string.enter_the_name_of_the_product_you_want_to_sell)
             }else{
-                startActivity(Intent(requireContext(), SearchCategoryActivity::class.java).apply {
+                startActivity(Intent(requireContext(), SearchActivity::class.java).apply {
                     putExtra("ComeFrom",ConstantObjects.search_product)
                     putExtra("productName",etSearch.text.trim().toString())
                 })
+                etSearch.setText("")
             }
         }
         etSearch.setOnEditorActionListener(object: TextView.OnEditorActionListener{
             override fun onEditorAction(p0: TextView?, actionId: Int, p2: KeyEvent?): Boolean {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    startActivity(Intent(requireContext(), SearchCategoryActivity::class.java).apply {
-                        putExtra("ComeFrom",ConstantObjects.search_product)
-                        putExtra("productName",etSearch.text.trim().toString())
-                    })
-                    return true;
+                    if(etSearch.text.trim().toString()==""){
+                        etSearch.error=getString(R.string.enter_the_name_of_the_product_you_want_to_sell)
+                    }else{
+                        startActivity(Intent(requireContext(), SearchActivity::class.java).apply {
+                            putExtra("ComeFrom",ConstantObjects.search_product)
+                            putExtra("productName",etSearch.text.trim().toString())
+                        })
+                        etSearch.setText("")
+                    }
+                    return true
                 }
-                return false;
+                return false
             }
 
-        });
+        })
 
 /*       textInputLayout11._view2()
 //            .setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
@@ -595,6 +638,15 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
         })
     }
 
+    override fun onResume() {
+        super.onResume()
+        if(SharedPreferencesStaticClass.getCartCount()==0){
+            txtCount.hide()
+        }else{
+            txtCount.show()
+            txtCount.text= SharedPreferencesStaticClass.getCartCount().toString()
+        }
+    }
     private fun refreshFavProductStatus(productId: Int, productFavStatusKey: Boolean) {
         /***for similer product*/
         lifecycleScope.launch(Dispatchers.IO) {

@@ -1,5 +1,6 @@
 package com.malka.androidappp.newPhase.presentation.accountFragment.negotiationOffersPurchase.negotiationOfferPurchase
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import androidx.core.content.ContextCompat
@@ -13,6 +14,7 @@ import com.malka.androidappp.newPhase.data.helper.hide
 import com.malka.androidappp.newPhase.data.helper.linearLayoutManager
 import com.malka.androidappp.newPhase.data.helper.show
 import com.malka.androidappp.newPhase.domain.models.negotiationOfferResp.NegotiationOfferDetails
+import com.malka.androidappp.newPhase.presentation.MainActivity
 import com.malka.androidappp.newPhase.presentation.accountFragment.negotiationOffersPurchase.AcceptOfferDialog
 import com.malka.androidappp.newPhase.presentation.accountFragment.negotiationOffersPurchase.adapter.NegotiationOffersAdapter
 import com.malka.androidappp.newPhase.presentation.accountFragment.negotiationOffersPurchase.NegotiationOffersViewModel
@@ -25,12 +27,15 @@ class NegotiationOffersPurchaseActivity : BaseActivity(), SwipeRefreshLayout.OnR
     lateinit var negotiationOffersAdapter: NegotiationOffersAdapter
     lateinit var negotiationOfferDetailsList: ArrayList<NegotiationOfferDetails>
     lateinit var negotiationOffersViewModel: NegotiationOffersViewModel
-    var isSent = false
+    var isSent = true
     var lastCancelPosition = -1
+    var purchasePosition = -1
+    var comeFrom =""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_negotiation_offers_purchase)
         toolbar_title.text = getString(R.string.negotiation_offers)
+        comeFrom=   intent.getStringExtra("ComeFrom")?:""
         swipeToRefresh.setColorSchemeResources(R.color.colorPrimaryDark)
         swipeToRefresh.setOnRefreshListener(this)
         setViewClickListeners()
@@ -98,6 +103,19 @@ class NegotiationOffersPurchaseActivity : BaseActivity(), SwipeRefreshLayout.OnR
                 }
             }
         }
+        negotiationOffersViewModel.purchaseOfferObserver.observe(this) {
+            if (it.status_code == 200) {
+                negotiationOfferDetailsList[purchasePosition].offerStatus="Purchcased"
+                negotiationOffersAdapter.notifyItemChanged(purchasePosition)
+                purchasePosition=-1
+            } else {
+                if (it.message != null) {
+                    HelpFunctions.ShowLongToast(it.message, this)
+                } else {
+                    HelpFunctions.ShowLongToast(getString(R.string.serverError), this)
+                }
+            }
+        }
     }
 
     private fun showApiError(message: String) {
@@ -121,33 +139,40 @@ class NegotiationOffersPurchaseActivity : BaseActivity(), SwipeRefreshLayout.OnR
 
     private fun setViewClickListeners() {
         back_btn.setOnClickListener {
-            finish()
+            onBackPressed()
         }
         sent.setOnClickListener {
-            sent.background = ContextCompat.getDrawable(
-                this,
-                R.drawable.round_btn
-            )
-            sent.setTextColor(Color.parseColor("#FFFFFF"))
-            received.setTextColor(Color.parseColor("#45495E"))
-//            btn.setText("Accept")
-            received.background = null
-            isSent = true
-            onRefresh()
+            onSentNegotiation()
         }
 
         received.setOnClickListener {
-            received.background = ContextCompat.getDrawable(
-                this,
-                R.drawable.round_btn
-            )
-            received.setTextColor(Color.parseColor("#FFFFFF"))
-            sent.setTextColor(Color.parseColor("#45495E"))
-            sent.background = null
-            isSent = false
-            onRefresh()
+            onReceivedNegotiation()
         }
 
+    }
+
+    private fun onReceivedNegotiation(){
+        received.background = ContextCompat.getDrawable(
+            this,
+            R.drawable.round_btn
+        )
+        received.setTextColor(Color.parseColor("#FFFFFF"))
+        sent.setTextColor(Color.parseColor("#45495E"))
+        sent.background = null
+        isSent = false
+        onRefresh()
+    }
+    private fun onSentNegotiation(){
+        sent.background = ContextCompat.getDrawable(
+            this,
+            R.drawable.round_btn
+        )
+        sent.setTextColor(Color.parseColor("#FFFFFF"))
+        received.setTextColor(Color.parseColor("#45495E"))
+//            btn.setText("Accept")
+        received.background = null
+        isSent = true
+        onRefresh()
     }
 
     override fun onRefresh() {
@@ -164,7 +189,11 @@ class NegotiationOffersPurchaseActivity : BaseActivity(), SwipeRefreshLayout.OnR
         lastCancelPosition = position
         negotiationOffersViewModel.cancelOffer(offerID)
     }
-
+    override fun onPurchaseOffer(offerID: Int, position: Int) {
+        println("hhhh " + offerID + " " + negotiationOfferDetailsList[position].offerId)
+        purchasePosition = position
+        negotiationOffersViewModel.purchaseOffer(offerID)
+    }
     override fun onAcceptOffer(position: Int) {
         var acceptOfferDialog: AcceptOfferDialog = AcceptOfferDialog(this,
             true,
@@ -197,5 +226,15 @@ class NegotiationOffersPurchaseActivity : BaseActivity(), SwipeRefreshLayout.OnR
 
             })
         acceptOfferDialog.show()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        if(comeFrom=="AccountFragment"){
+            finish()
+        }else{
+            startActivity(Intent(this, MainActivity::class.java).apply {})
+            finish()
+        }
     }
 }

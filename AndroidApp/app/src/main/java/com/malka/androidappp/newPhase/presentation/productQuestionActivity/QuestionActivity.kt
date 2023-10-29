@@ -76,12 +76,15 @@ class QuestionActivity : BaseActivity(), QuestionAnswerAdapter.SetonSelectedQues
 
         }
         productDetialsViewModel.errorResponseObserver.observe(this) {
-            if (it.message != null) {
-                showProductApiError(it.message!!)
-            } else {
-                showProductApiError(getString(R.string.serverError))
+            if(it.status!=null && it.status=="409"){
+                HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), this)
+            }else {
+                if (it.message != null) {
+                    showProductApiError(it.message!!)
+                } else {
+                    showProductApiError(getString(R.string.serverError))
+                }
             }
-
         }
 
         productDetialsViewModel.addQuestionObservable.observe(this) { questResp ->

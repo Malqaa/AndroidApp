@@ -5,8 +5,7 @@
     android:id="@+id/fullview"
     android:layout_width="@dimen/_90sdp"
     android:layout_height="@dimen/_120sdp"
-    android:layout_margin="5dp"
->
+    android:layout_margin="5dp">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -15,9 +14,9 @@
         android:orientation="vertical">
 
         <RelativeLayout
-            android:layout_marginTop="@dimen/_5sdp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
             android:orientation="vertical">
 
             <com.joooonho.SelectableRoundedImageView
@@ -37,29 +36,30 @@
                 android:id="@+id/category_name_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
                 android:layout_marginStart="@dimen/_5sdp"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:layout_marginEnd="@dimen/_5sdp"
                 android:layout_marginBottom="@dimen/_5sdp"
                 android:fontFamily="@font/madani_arabic_light"
                 android:text="Vehicles"
-                android:layout_alignParentEnd="true"
                 android:textColor="#1D223B"
                 android:textSize="@dimen/_9sdp" />
 
-           <!-- <ImageView
-                android:scaleType="fitXY"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:src="@drawable/dummy_cat" />-->
+            <!-- <ImageView
+                 android:scaleType="fitXY"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:src="@drawable/dummy_cat" />-->
         </RelativeLayout>
+
         <LinearLayout
-            android:visibility="gone"
             android:id="@+id/bgline"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/product_attribute_linebg"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
 
         </LinearLayout>

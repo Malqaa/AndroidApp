@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
 import com.malka.androidappp.databinding.ItemAddressAddBinding
 import com.malka.androidappp.newPhase.data.helper.hide
+import com.malka.androidappp.newPhase.data.helper.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.newPhase.data.helper.show
 import com.malka.androidappp.newPhase.domain.models.userAddressesResp.AddressItem
 import kotlinx.android.synthetic.main.item_address_add.view.*
@@ -15,7 +16,7 @@ import kotlinx.android.synthetic.main.item_address_add.view.*
 class AddressesAdapter(
     var userAddressesList: ArrayList<AddressItem>,
     var setOnSelectedAddress: SetOnSelectedAddress,
-    var isSelectable:Boolean
+    var isSelectable: Boolean
 ) : RecyclerView.Adapter<AddressesAdapter.AddressesViewHolder>() {
 
     lateinit var context: Context
@@ -49,20 +50,28 @@ class AddressesAdapter(
                     "${context.getString(R.string.floor)}:${userAddressesList[position].floor} - " +
                     "${context.getString(R.string.apartment)}:${userAddressesList[position].appartment}"
 
-        if(isSelectable){
+        if (isSelectable) {
             holder.viewBinding.ivSelectedAddress.show()
             holder.viewBinding.btnDeleteAddress.hide()
-        }else{
+        } else {
             holder.viewBinding.ivSelectedAddress.hide()
             holder.viewBinding.btnDeleteAddress.show()
         }
-
-        if(userAddressesList[position].isSelected){
+        if (SharedPreferencesStaticClass.getAddressTitle() == userAddressesList[position].title) {
+            userAddressesList[position].isSelected = true
+        }
+        if (userAddressesList[position].isSelected) {
             holder.viewBinding.ivSelectedAddress.setImageResource(R.drawable.ic_radio_button_checked)
-        }else{
+        } else {
             holder.viewBinding.ivSelectedAddress.setImageResource(R.drawable.ic_radio_button_unchecked)
         }
+
+
+
         holder.viewBinding.ivSelectedAddress.setOnClickListener {
+            setOnSelectedAddress.setOnSelectedAddress(position)
+        }
+        holder.viewBinding.addressLay.setOnClickListener {
             setOnSelectedAddress.setOnSelectedAddress(position)
         }
         holder.viewBinding.editAddressBtn.setOnClickListener {

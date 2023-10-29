@@ -26,9 +26,10 @@ class DynamicSpecificationsAdapter(
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     //====viewHolder
-    val textBoxType = 2
     val spinnerType = 1
-    val checkType = 3
+    val textBoxType = 2
+    val radioType = 5
+    val checkType = 6
 
 //    class TextBoxViewHolder(var viewBinding: ItemTextBoxsBinding) :
 //        RecyclerView.ViewHolder(viewBinding.root)
@@ -51,6 +52,9 @@ class DynamicSpecificationsAdapter(
     class CheckViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val tvTitleAr: TextView = view.findViewById(R.id.tvTitleAr)
         val ivSelect: ImageView = view.findViewById(R.id.ivSelect)
+        val ivSelect2: ImageView = view.findViewById(R.id.ivSelect2)
+        val type1: TextView = view.findViewById(R.id.type1)
+        val type2: TextView = view.findViewById(R.id.type2)
 
     }
 
@@ -66,9 +70,15 @@ class DynamicSpecificationsAdapter(
                 // text box
                 return textBoxType
             }
-        } else if (dynamicSpecificationList[position].type == 5 && dynamicSpecificationList[position].type == 6) {
+        } else if (dynamicSpecificationList[position].type == 6 ) {
             return checkType
-        } else {
+        }
+        else if ( dynamicSpecificationList[position].type ==5) {
+            return radioType
+        }
+
+
+        else {
             // text box
             return textBoxType
 
@@ -89,14 +99,23 @@ class DynamicSpecificationsAdapter(
                 )
             )
         } else if (viewType == checkType) {
-            return TextBoxViewHolder(
+            return CheckViewHolder(
                 LayoutInflater.from(parent.context).inflate(
                     R.layout.item_check,
                     parent,
                     false
                 )
             )
-        } else {
+        } else if (viewType == radioType) {
+            return CheckViewHolder(
+                LayoutInflater.from(parent.context).inflate(
+                    R.layout.item_check,
+                    parent,
+                    false
+                )
+            )
+        }
+        else {
             return TextBoxViewHolder(
                 LayoutInflater.from(parent.context).inflate(
                     R.layout.item_text_boxs,
@@ -117,6 +136,8 @@ class DynamicSpecificationsAdapter(
             setSpinnerView(holder as SpinnerViewHolder, position)
         } else if (getItemViewType(position) == checkType) {
             setCheckView(holder as CheckViewHolder, position)
+        }else if (getItemViewType(position) == radioType) {
+            setCheckView(holder as CheckViewHolder, position)
         } else {
             setTextBoxView(holder as TextBoxViewHolder, position)
         }
@@ -127,8 +148,12 @@ class DynamicSpecificationsAdapter(
         position: Int
     ) {
         if (ConstantObjects.currentLanguage == "ar") {
+            checkViewHolder.type1.text= dynamicSpecificationList[position].subSpecifications?.get(0)?.nameAr
+            checkViewHolder.type2.text= dynamicSpecificationList[position].subSpecifications?.get(1)?.nameAr
             checkViewHolder.tvTitleAr.text = "${dynamicSpecificationList[position].nameAr}"
         } else {
+            checkViewHolder.type1.text= dynamicSpecificationList[position].subSpecifications?.get(0)?.nameEn
+            checkViewHolder.type2.text= dynamicSpecificationList[position].subSpecifications?.get(1)?.nameEn
             checkViewHolder.tvTitleAr.text = "${dynamicSpecificationList[position].nameEn}"
         }
         if (dynamicSpecificationList[position].valueBoolean) {
@@ -140,9 +165,24 @@ class DynamicSpecificationsAdapter(
             if (dynamicSpecificationList[position].valueBoolean) {
                 dynamicSpecificationList[position].valueBoolean = false
                 checkViewHolder.ivSelect.setImageResource(R.drawable.ic_radio_button_unchecked)
+                checkViewHolder.ivSelect2.setImageResource(R.drawable.ic_radio_button_checked)
             } else {
                 dynamicSpecificationList[position].valueBoolean = true
                 checkViewHolder.ivSelect.setImageResource(R.drawable.ic_radio_button_checked)
+                checkViewHolder.ivSelect2.setImageResource(R.drawable.ic_radio_button_unchecked)
+            }
+            onChangeValueListener.setCheckClicked(position)
+        }
+
+        checkViewHolder.ivSelect2.setOnClickListener {
+            if (dynamicSpecificationList[position].valueBoolean) {
+                checkViewHolder.ivSelect.setImageResource(R.drawable.ic_radio_button_checked)
+                dynamicSpecificationList[position].valueBoolean = false
+                checkViewHolder.ivSelect2.setImageResource(R.drawable.ic_radio_button_unchecked)
+            } else {
+                dynamicSpecificationList[position].valueBoolean = true
+                checkViewHolder.ivSelect.setImageResource(R.drawable.ic_radio_button_unchecked)
+                checkViewHolder.ivSelect2.setImageResource(R.drawable.ic_radio_button_checked)
             }
             onChangeValueListener.setCheckClicked(position)
         }

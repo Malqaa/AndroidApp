@@ -76,7 +76,7 @@ class ForgotPasswordActivty : BaseActivity() {
         loginViewModel.errorResponseObserver.observe(this, Observer {
             if (it.message != null) {
                 HelpFunctions.ShowLongToast(
-                    it.message!!,
+                    getString(R.string.errorEmail),
                     this
                 )
             } else {
@@ -95,6 +95,7 @@ class ForgotPasswordActivty : BaseActivity() {
                         ActivityForgotPassOtpcode::class.java
                     ).apply {
                         putExtra(ConstantObjects.emailKey,tvEmail.text.toString().trim())
+//                        putExtra("codeOtp",it.data.toString())
                     }
                 )
             } else {

@@ -1,11 +1,20 @@
 package com.malka.androidappp.newPhase.presentation.accountFragment.myProducts.viewModel
 
+import android.view.View
 import androidx.lifecycle.MutableLiveData
+import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseViewModel
+import com.malka.androidappp.newPhase.data.helper.ConstantObjects
+import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.domain.models.configrationResp.ConfigurationData
+import com.malka.androidappp.newPhase.domain.models.configrationResp.ConfigurationResp
 import com.malka.androidappp.newPhase.domain.models.orderListResp.OrderListResp
 import com.malka.androidappp.newPhase.domain.models.productResp.ProductListResp
 import com.malka.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
+import kotlinx.android.synthetic.main.dialog_acceot_offer.btnSend
+import kotlinx.android.synthetic.main.dialog_acceot_offer.close_alert_bid
+import kotlinx.android.synthetic.main.dialog_acceot_offer.progressBar
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.HttpException
@@ -17,7 +26,10 @@ class MyProductViewModel : BaseViewModel() {
     var notForSaleProductRespObserver: MutableLiveData<ProductListResp> = MutableLiveData()
     var soldOutOrdersRespObserver: MutableLiveData<OrderListResp> = MutableLiveData()
     var addDiscountObserver: MutableLiveData<GeneralResponse> = MutableLiveData()
-    var loadingAddDiscountDialog:MutableLiveData<Boolean> = MutableLiveData()
+    var removeProductObserver: MutableLiveData<GeneralResponse> = MutableLiveData()
+    var repostProductObserver: MutableLiveData<GeneralResponse> = MutableLiveData()
+    var configurationDataObserver:MutableLiveData<ConfigurationData> =MutableLiveData()
+    var loadingAddDiscountDialog: MutableLiveData<Boolean> = MutableLiveData()
     fun getForSaleProduct() {
         isLoading.value = true
         RetrofitBuilder.GetRetrofitBuilder()
@@ -36,34 +48,38 @@ class MyProductViewModel : BaseViewModel() {
                     if (response.isSuccessful) {
                         forSaleProductRespObserver.value = response.body()
                     } else {
-                        errorResponseObserver.value = getErrorResponse(response.errorBody())
+                        errorResponseObserver.value =
+                            getErrorResponse(response.code(), response.errorBody())
                     }
                 }
             })
     }
-   fun getForDidNotSaleProducts(){
-       isLoading.value = true
-       RetrofitBuilder.GetRetrofitBuilder()
-           .getListDidntSellProducts()
-           .enqueue(object : Callback<ProductListResp> {
-               override fun onFailure(call: Call<ProductListResp>, t: Throwable) {
-                   isNetworkFail.value = t !is HttpException
-                   isLoading.value = false
-               }
 
-               override fun onResponse(
-                   call: Call<ProductListResp>,
-                   response: Response<ProductListResp>
-               ) {
-                   isLoading.value = false
-                   if (response.isSuccessful) {
-                       notForSaleProductRespObserver.value = response.body()
-                   } else {
-                       errorResponseObserver.value = getErrorResponse(response.errorBody())
-                   }
-               }
-           })
-   }
+    fun getForDidNotSaleProducts() {
+        isLoading.value = true
+        RetrofitBuilder.GetRetrofitBuilder()
+            .getListDidntSellProducts()
+            .enqueue(object : Callback<ProductListResp> {
+                override fun onFailure(call: Call<ProductListResp>, t: Throwable) {
+                    isNetworkFail.value = t !is HttpException
+                    isLoading.value = false
+                }
+
+                override fun onResponse(
+                    call: Call<ProductListResp>,
+                    response: Response<ProductListResp>
+                ) {
+                    isLoading.value = false
+                    if (response.isSuccessful) {
+                        notForSaleProductRespObserver.value = response.body()
+                    } else {
+                        errorResponseObserver.value =
+                            getErrorResponse(response.code(), response.errorBody())
+                    }
+                }
+            })
+    }
+
     fun getSoldOutOrders(pageIndes: Int) {
         if (pageIndes == 1)
             isLoading.value = true
@@ -87,16 +103,17 @@ class MyProductViewModel : BaseViewModel() {
                     if (response.isSuccessful) {
                         soldOutOrdersRespObserver.value = response.body()
                     } else {
-                        errorResponseObserver.value = getErrorResponse(response.errorBody())
+                        errorResponseObserver.value =
+                            getErrorResponse(response.code(), response.errorBody())
                     }
                 }
             })
     }
 
-    fun addDiscount(productId: Int, discountPrice: Float, finaldate: String){
+    fun addDiscount(productId: Int, discountPrice: Float, finaldate: String) {
         loadingAddDiscountDialog.value = true
         RetrofitBuilder.GetRetrofitBuilder()
-            .addDiscount(productId,discountPrice,finaldate)
+            .addDiscount(productId, discountPrice, finaldate)
             .enqueue(object : Callback<GeneralResponse> {
                 override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
                     isNetworkFail.value = t !is HttpException
@@ -111,9 +128,92 @@ class MyProductViewModel : BaseViewModel() {
                     if (response.isSuccessful) {
                         addDiscountObserver.value = response.body()
                     } else {
-                        errorResponseObserver.value = getErrorResponse(response.errorBody())
+                        errorResponseObserver.value =
+                            getErrorResponse(response.code(), response.errorBody())
                     }
                 }
             })
+    }
+
+
+    fun removeProduct(productId: Int) {
+        loadingAddDiscountDialog.value = true
+        RetrofitBuilder.GetRetrofitBuilder()
+            .removeProduct(productId)
+            .enqueue(object : Callback<GeneralResponse> {
+                override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
+                    isNetworkFail.value = t !is HttpException
+                    loadingAddDiscountDialog.value = false
+                }
+
+                override fun onResponse(
+                    call: Call<GeneralResponse>,
+                    response: Response<GeneralResponse>
+                ) {
+                    loadingAddDiscountDialog.value = false
+                    if (response.isSuccessful) {
+                        removeProductObserver.value = response.body()
+
+                    } else {
+                        errorResponseObserver.value =
+                            getErrorResponse(response.code(), response.errorBody())
+                    }
+                }
+            })
+    }
+
+
+    fun repostProduct(productId: Int) {
+        loadingAddDiscountDialog.value = true
+        RetrofitBuilder.GetRetrofitBuilder()
+            .repostProduct(productId)
+            .enqueue(object : Callback<GeneralResponse> {
+                override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
+                    isNetworkFail.value = t !is HttpException
+                    loadingAddDiscountDialog.value = false
+                }
+
+                override fun onResponse(
+                    call: Call<GeneralResponse>,
+                    response: Response<GeneralResponse>
+                ) {
+                    loadingAddDiscountDialog.value = false
+                    if (response.isSuccessful) {
+                        repostProductObserver.value = response.body()
+
+                    } else {
+                        errorResponseObserver.value =
+                            getErrorResponse(response.code(), response.errorBody())
+                    }
+                }
+            })
+    }
+
+    fun getExpireHours() {
+        RetrofitBuilder.GetRetrofitBuilder().getConfigurationData(
+            ConstantObjects.configration_OfferExpiredHours
+        ).enqueue(object : Callback<ConfigurationResp> {
+            override fun onFailure(call: Call<ConfigurationResp>, t: Throwable) {
+                isNetworkFail.value = t !is HttpException
+                loadingAddDiscountDialog.value = false
+            }
+
+            override fun onResponse(
+                call: Call<ConfigurationResp>,
+                response: Response<ConfigurationResp>
+            ) {
+                if (response.isSuccessful) {
+                    response.body()?.let {
+                        if (it.status_code == 200) {
+                            configurationDataObserver.value=it?.configurationData
+                        }
+                    }
+                } else {
+                    errorResponseObserver.value =
+                        getErrorResponse(response.code(), response.errorBody())
+                }
+
+            }
+        })
     }
 }

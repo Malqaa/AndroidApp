@@ -92,8 +92,8 @@ class AddDiscountDialog(
             } else {
                 var finaldate = HelpFunctions.getFormattedDate2(
                     dateString,
-                    HelpFunctions.datetimeformat_12hrs2,
-                    HelpFunctions.datetimeformat_24hrs
+                    HelpFunctions.datetimeformat_hrs,
+                    HelpFunctions.datetimeformat_hrs
                 )
                 var newPrice = etPriceDiscound.text.trim().toString().toFloat()
                 setonClickListeners.onAddDiscount(finaldate, newPrice)

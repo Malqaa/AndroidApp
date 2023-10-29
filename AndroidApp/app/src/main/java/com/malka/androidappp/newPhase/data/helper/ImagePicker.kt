@@ -168,6 +168,7 @@ class ImagePicker(
                 openCameraIntent()
             }
             GALLERY -> {
+
                 openGalleryIntent(false)
             }
             else -> {

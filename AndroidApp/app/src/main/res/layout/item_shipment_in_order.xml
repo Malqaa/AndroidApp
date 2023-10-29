@@ -5,18 +5,22 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_5sdp"
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_5sdp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/shipment_no_tv"
@@ -25,7 +29,9 @@
                 android:fontFamily="@font/madani_arabic_medium"
                 android:text="@string/shipment_no_1"
                 android:textColor="#45495E"
-                android:textSize="@dimen/_10sdp" />
+                android:textSize="@dimen/_10sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tvSellerName"
@@ -35,27 +41,28 @@
                 android:fontFamily="@font/madani_arabic_medium"
                 android:text=""
                 android:textColor="@color/bg"
-                android:textSize="@dimen/_10sdp" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/tvShippingStatus"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:fontFamily="@font/madani_arabic_medium"
-                    android:text="shippingStatus"
-                    android:textColor="#45495E"
-                    android:textSize="@dimen/_10sdp" />
+                android:textSize="@dimen/_10sdp"
+                app:layout_constraintStart_toEndOf="@+id/shipment_no_tv"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
-            </RelativeLayout>
+            <TextView
+                android:id="@+id/tvShippingStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:fontFamily="@font/madani_arabic_medium"
+                android:text="shippingStatus"
+                android:textColor="#45495E"
+                android:textSize="@dimen/_10sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
-        </LinearLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvCart"
@@ -65,13 +72,20 @@
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_10sdp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title"
             app:spanCount="1"
             tools:itemCount="1"
             tools:listitem="@layout/item_shipment_in_order_product" />
 
         <RelativeLayout
+            android:id="@+id/shipping"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rvCart">
 
             <TextView
                 android:id="@+id/tvShippingTittle"
@@ -100,14 +114,18 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/lay_paymentMethod"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/shipping">
 
             <TextView
                 android:id="@+id/tvPaymentTittle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:fontFamily="@font/madani_arabic_light"
@@ -116,33 +134,111 @@
                 android:textSize="12sp" />
 
             <TextView
-                android:id="@+id/tvPaymentType"
-                android:layout_width="match_parent"
+                android:id="@+id/tvBank"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
-                android:layout_toEndOf="@+id/tvPaymentTittle"
                 android:fontFamily="@font/madani_arabic_light"
-                android:text=""
-                android:textAlignment="viewEnd"
+                android:text="@string/bank_transfer"
                 android:textColor="#8B959E"
                 android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tvTypePayment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:fontFamily="@font/madani_arabic_light"
+                android:textColor="#8B959E"
+                android:textSize="12sp" />
+
         </RelativeLayout>
 
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/laySelectBank"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_3sdp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lay_paymentMethod">
+
+            <TextView
+                android:id="@+id/confirmBankTr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:background="@drawable/round_btn"
+                android:fontFamily="@font/madani_arabic_light"
+                android:padding="@dimen/_10sdp"
+                android:text="@string/confirmed"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/spPaymentType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_toEndOf="@+id/tvPaymentTittle"
+                android:layout_weight="1"
+                android:background="@drawable/shape_spinner" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+        <TextView
+            android:id="@+id/confirmBank"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:background="@drawable/round_btn"
+            android:backgroundTint="@color/lightOrange2"
+            android:fontFamily="@font/madani_arabic_light"
+            android:padding="@dimen/_10sdp"
+            android:text="@string/confirmed"
+            android:textAlignment="center"
+            android:textColor="@color/orange"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/laySelectBank" />
+
         <View
+            android:id="@+id/vBack"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_1sdp"
-            android:background="@color/light_gray" />
+            android:layout_marginTop="@dimen/_3sdp"
+            android:background="@color/light_gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/confirmBank" />
 
 
         <RelativeLayout
+            android:id="@+id/total"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_15sdp"
             android:layout_marginTop="@dimen/_5sdp"
             android:layout_marginEnd="@dimen/_15sdp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/vBack">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -177,83 +273,92 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/madani_arabic_medium"
                     android:text="0"
-                    android:visibility="gone"
                     android:textColor="@color/bg"
-                    android:textSize="@dimen/_10sdp" />
+                    android:textSize="@dimen/_10sdp"
+                    android:visibility="gone" />
             </LinearLayout>
 
 
         </RelativeLayout>
 
         <View
+            android:id="@+id/vBack2"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_1sdp"
             android:layout_marginTop="@dimen/_5sdp"
-            android:background="@color/light_gray" />
+            android:background="@color/light_gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/total" />
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnCancel"
             android:layout_width="match_parent"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_5sdp"
             android:layout_marginEnd="@dimen/_10sdp"
             android:layout_marginBottom="@dimen/_10sdp"
+            android:layout_weight="1"
             android:background="@drawable/round_btn"
             android:fontFamily="@font/madani_arabic_semi_bold"
             android:text="@string/cancelAshipmentOrder"
             android:textAllCaps="false"
-            android:visibility="gone"
-            android:layout_marginTop="@dimen/_5sdp"
             android:textColor="#ffffff"
-            android:textSize="@dimen/_12sdp" />
+            android:textSize="@dimen/_12sdp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/vBack2" />
+
         <LinearLayout
             android:id="@+id/finishOrderStatusContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:visibility="gone"
-            android:weightSum="2">
+            android:weightSum="2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnCancel">
+
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnDownloadInvoice"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_5sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:layout_marginBottom="@dimen/_10sdp"
+                android:layout_weight="1"
                 android:background="@drawable/round_black"
                 android:fontFamily="@font/madani_arabic_semi_bold"
                 android:text="@string/download_invoice"
                 android:textAllCaps="false"
-                android:layout_marginTop="@dimen/_5sdp"
                 android:textColor="#ffffff"
                 android:textSize="@dimen/_12sdp" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnRateShipment"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_5sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:layout_marginBottom="@dimen/_10sdp"
+                android:layout_weight="1"
                 android:background="@drawable/round_btn"
                 android:fontFamily="@font/madani_arabic_semi_bold"
                 android:text="@string/rateShipment"
                 android:textAllCaps="false"
-                android:layout_marginTop="@dimen/_5sdp"
                 android:textColor="#ffffff"
                 android:textSize="@dimen/_12sdp" />
-
 
 
         </LinearLayout>
 
 
-
-
-
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </RelativeLayout>

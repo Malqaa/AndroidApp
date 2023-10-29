@@ -3,24 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/round_btn_white"
     tools:context=".newPhase.presentation.cartActivity.AttachInvoice">
 
-    <include
-        android:id="@+id/toolbar_main"
-        layout="@layout/toolbar_main" />
+<!--    <include-->
+<!--        android:id="@+id/toolbar_main"-->
+<!--        layout="@layout/toolbar_main" />-->
 
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/toolbar_main"
+        android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="vertical">
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="@dimen/_100sdp"
+            android:layout_marginTop="@dimen/_15sdp"
             android:src="@drawable/bill"/>
 
         <TextView
@@ -56,6 +57,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/round_btn"
+            android:layout_marginBottom="@dimen/_15sdp"
             android:layout_marginEnd="@dimen/_10sdp"
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_10sdp"

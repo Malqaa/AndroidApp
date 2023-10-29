@@ -1,8 +1,11 @@
 package com.malka.androidappp.newPhase.presentation.homeScreen.viewModel
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
+import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseViewModel
+import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.ErrorResponse
 import com.malka.androidappp.newPhase.domain.models.homeSilderResp.HomeSliderResp
@@ -17,14 +20,16 @@ import retrofit2.Response
 
 class HomeViewModel : BaseViewModel() {
     var sliderObserver: MutableLiveData<HomeSliderResp> = MutableLiveData()
+    var saveSearchObserver: MutableLiveData<GeneralResponse> = MutableLiveData()
     var searchObserver: MutableLiveData<GeneralResponse> = MutableLiveData()
     var categoriesObserver: MutableLiveData<GeneralResponse> = MutableLiveData()
     var categoriesErrorResponseObserver: MutableLiveData<ErrorResponse> = MutableLiveData()
     var homeCategoryProductObserver: MutableLiveData<HomeCategoryProductResp> = MutableLiveData()
     var homeCategoryProductErrorResponseObserver: MutableLiveData<ErrorResponse> = MutableLiveData()
-    var isLoadingAllCategory:MutableLiveData<Boolean> =MutableLiveData()
-    var lastViewProductsObserver:MutableLiveData<ProductListResp> =MutableLiveData()
-    fun getSliderData(slideType:Int) {
+    var isLoadingAllCategory: MutableLiveData<Boolean> = MutableLiveData()
+
+    var lastViewProductsObserver: MutableLiveData<ProductListResp> = MutableLiveData()
+    fun getSliderData(slideType: Int) {
         RetrofitBuilder.GetRetrofitBuilder()
             .getHomeSlidersImages(slideType)
             .enqueue(object : Callback<HomeSliderResp> {
@@ -40,7 +45,7 @@ class HomeViewModel : BaseViewModel() {
                         sliderObserver.value = response.body()
                     }
 //                    else{
-//                        errorResponseObserver.value = getErrorResponse(response.errorBody())
+//                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
 //                    }
                 }
             })
@@ -53,43 +58,59 @@ class HomeViewModel : BaseViewModel() {
             .Serach(filter)
             .enqueue(object : Callback<GeneralResponse> {
                 override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
-                   // isNetworkFail.value = t !is HttpException
-                //    println("hhhh error ")
+                    // isNetworkFail.value = t !is HttpException
+                    //    println("hhhh error ")
                 }
 
                 override fun onResponse(
                     call: Call<GeneralResponse>,
                     response: Response<GeneralResponse>
                 ) {
-                  //  println("hhhh  "+response.code())
-                    if (response.isSuccessful) {
-                        searchObserver.value = response.body()
-                    }
+                    //  println("hhhh  "+response.code())
+
+                    searchObserver.value = response.body()
+
                 }
             })
 
     }
 
+    fun saveSearch(searchString: String) {
+        RetrofitBuilder.GetRetrofitBuilder().savedSearch(searchString)
+            .enqueue(object : Callback<GeneralResponse?> {
+                override fun onFailure(call: Call<GeneralResponse?>, t: Throwable) {
+                }
+
+                override fun onResponse(
+                    call: Call<GeneralResponse?>,
+                    response: Response<GeneralResponse?>
+                ) {
+                    saveSearchObserver.value = response.body()
+
+                }
+            })
+    }
+
     fun getAllCategories() {
-        isLoadingAllCategory.value=true
+        isLoadingAllCategory.value = true
         RetrofitBuilder.GetRetrofitBuilder()
             .getAllCategories()
             .enqueue(object : Callback<GeneralResponse> {
                 override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
                     isNetworkFail.value = t !is HttpException
-                    isLoadingAllCategory.value=false
+                    isLoadingAllCategory.value = false
                 }
 
                 override fun onResponse(
                     call: Call<GeneralResponse>,
                     response: Response<GeneralResponse>
                 ) {
-                    isLoadingAllCategory.value=false
+                    isLoadingAllCategory.value = false
                     if (response.isSuccessful) {
                         categoriesObserver.value = response.body()
                     } else {
                         categoriesErrorResponseObserver.value =
-                            getErrorResponse(response.errorBody())
+                            getErrorResponse(response.code(), response.errorBody())
                     }
                 }
             })
@@ -112,7 +133,7 @@ class HomeViewModel : BaseViewModel() {
                         homeCategoryProductObserver.value = response.body()
                     } else {
                         homeCategoryProductErrorResponseObserver.value =
-                            getErrorResponse(response.errorBody())
+                            getErrorResponse(response.code(), response.errorBody())
                     }
                 }
             })
@@ -124,6 +145,7 @@ class HomeViewModel : BaseViewModel() {
             .enqueue(object : Callback<ProductListResp> {
                 override fun onFailure(call: Call<ProductListResp>, t: Throwable) {
                 }
+
                 override fun onResponse(
                     call: Call<ProductListResp>,
                     response: Response<ProductListResp>

@@ -54,7 +54,7 @@ class ProductHorizontalAdapter(
         }
 
         if (productList[position].isFreeDelivery) {
-                holder.viewBinding.btnFreeDelivery.show()
+            holder.viewBinding.btnFreeDelivery.show()
         } else {
             holder.viewBinding.btnFreeDelivery.hide()
         }
@@ -98,14 +98,14 @@ class ProductHorizontalAdapter(
         holder.viewBinding.titlenamee.text = productList[position].name ?: ""
         holder.viewBinding.cityTv.text = productList[position].regionName ?: ""
 
-        if(productList[position].image!=null&&productList[position].image!=""){
+        if (productList[position].image != null && productList[position].image != "") {
             Extension.loadThumbnail(
                 context,
                 productList[position].image ?: "",
                 holder.viewBinding.productimg,
                 holder.viewBinding.loader
             )
-        }else{
+        } else {
             Extension.loadThumbnail(
                 context,
                 productList[position].productImage ?: "",
@@ -133,8 +133,8 @@ class ProductHorizontalAdapter(
         holder.viewBinding.lisView.hide()
 
         if (productList[position].priceDisc == productList[position].price
-            || productList[position].priceDiscount == productList[position].price)
-        {
+            || productList[position].priceDiscount == productList[position].price
+        ) {
             holder.viewBinding.tvProductPrice.text =
                 "${productList[position].price.toDouble()} ${
                     context.getString(
@@ -203,31 +203,42 @@ class ProductHorizontalAdapter(
                 categoryId
             )
         }
-        if(productList[position].auctionClosingTime!=null){
+        if (productList[position].auctionClosingTime != null) {
             holder.viewBinding.containerTimeBar.show()
-            var endDate: Date?=HelpFunctions.getAuctionClosingTimeByDate(productList[position].auctionClosingTime!!)
+            var endDate: Date? =
+                HelpFunctions.getAuctionClosingTimeByDate(productList[position].auctionClosingTime!!)
 //                println("hhhh "+endDate.toString()+" "+Calendar.getInstance().time)
-            if(endDate!=null){
-                getDifference(Calendar.getInstance().time,endDate,holder)
-            }else{
+            if (endDate != null) {
+                getDifference(Calendar.getInstance().time, endDate, holder)
+            } else {
                 holder.viewBinding.containerTimeBar.hide()
             }
 
-        }else{
+        } else {
             holder.viewBinding.containerTimeBar.hide()
         }
 
-        if(productList[position].highestBidPrice!=0f){
+        if (productList[position].highestBidPrice != 0f) {
             holder.viewBinding.LowestPriceLayout.show()
             holder.viewBinding.LowestPriceLayout2.show()
-            holder.viewBinding.LowestPrice.text = "${productList[position].highestBidPrice} ${ context.getString(R.string.SAR)}"
-            holder.viewBinding.LowestPrice2.text = "${productList[position].highestBidPrice} ${ context.getString(R.string.SAR)}"
-        }else{
+            holder.viewBinding.LowestPrice.text =
+                "${productList[position].highestBidPrice} ${context.getString(R.string.SAR)}"
+            holder.viewBinding.LowestPrice2.text =
+                "${productList[position].highestBidPrice} ${context.getString(R.string.SAR)}"
+        } else {
             holder.viewBinding.LowestPriceLayout.hide()
             holder.viewBinding.LowestPriceLayout2.hide()
         }
     }
-    fun getDifference(curretndate: Date, endDate: Date, holder: SellerProductViewHolder){
+
+    fun updateAdapter(productList: List<Product>, isHorizontal: Boolean = false, isMyProduct: Boolean = false) {
+        this.productList = productList
+        isHorizenal = isHorizontal
+        this.isMyProduct = isMyProduct
+        notifyDataSetChanged()
+    }
+
+    fun getDifference(curretndate: Date, endDate: Date, holder: SellerProductViewHolder) {
         //milliseconds
         //milliseconds
         var different: Long = endDate.time - curretndate.time
@@ -248,9 +259,9 @@ class ProductHorizontalAdapter(
 
         val elapsedSeconds = different / secondsInMilli
 
-        holder.viewBinding.daysTv.text=elapsedDays.toString()
-        holder.viewBinding.hoursTv.text=elapsedHours.toString()
-        holder.viewBinding.minutesTv.text=elapsedMinutes.toString()
+        holder.viewBinding.daysTv.text = elapsedDays.toString()
+        holder.viewBinding.hoursTv.text = elapsedHours.toString()
+        holder.viewBinding.minutesTv.text = elapsedMinutes.toString()
 
     }
 

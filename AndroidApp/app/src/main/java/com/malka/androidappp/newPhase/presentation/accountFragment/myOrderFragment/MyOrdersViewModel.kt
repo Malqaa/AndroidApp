@@ -12,6 +12,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.HttpException
 import retrofit2.Response
+import retrofit2.http.Query
 
 class MyOrdersViewModel: BaseViewModel() {
     //var soldOutOrdersRespObserver: MutableLiveData<OrderListResp> = MutableLiveData()
@@ -46,7 +47,7 @@ class MyOrdersViewModel: BaseViewModel() {
 //                    if (response.isSuccessful) {
 //                        currentOrderRespObserver.value = response.body()
 //                    } else {
-//                        errorResponseObserver.value = getErrorResponse(response.errorBody())
+//                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
 //                    }
 //                }
 //            })
@@ -70,7 +71,7 @@ class MyOrdersViewModel: BaseViewModel() {
                     if (response.isSuccessful) {
                         soldOutOrderDetailsByOrderIdRespObserver.value = response.body()
                     } else {
-                        errorResponseObserver.value = getErrorResponse(response.errorBody())
+                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
                     }
                 }
             })
@@ -98,7 +99,7 @@ class MyOrdersViewModel: BaseViewModel() {
                     if (response.isSuccessful) {
                         currentOrderRespObserver.value = response.body()
                     } else {
-                        errorResponseObserver.value = getErrorResponse(response.errorBody())
+                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
                     }
                 }
             })
@@ -126,7 +127,7 @@ class MyOrdersViewModel: BaseViewModel() {
                     if (response.isSuccessful) {
                         currentOrderRespObserver.value = response.body()
                     } else {
-                        errorResponseObserver.value = getErrorResponse(response.errorBody())
+                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
                     }
                 }
             })
@@ -149,7 +150,7 @@ class MyOrdersViewModel: BaseViewModel() {
                     if (response.isSuccessful) {
                         currentOrderByMusterIdRespObserver.value = response.body()
                     } else {
-                        errorResponseObserver.value = getErrorResponse(response.errorBody())
+                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
                     }
                 }
             })
@@ -173,9 +174,11 @@ class MyOrdersViewModel: BaseViewModel() {
                     if (response.isSuccessful) {
                         changeOrderRespObserver.value = response.body()
                     } else {
-                        errorResponseCancelObserver.value = getErrorResponse(response.errorBody())
+                        errorResponseCancelObserver.value = getErrorResponse(response.code(),response.errorBody())
                     }
                 }
             })
     }
+
+
 }

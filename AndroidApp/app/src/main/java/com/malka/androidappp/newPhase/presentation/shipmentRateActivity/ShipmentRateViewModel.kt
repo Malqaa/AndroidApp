@@ -33,7 +33,7 @@ class ShipmentRateViewModel :BaseViewModel() {
                     if (response.isSuccessful) {
                         addShipmentRateObserver.value = response.body()
                     } else {
-                        errorResponseObserver.value = getErrorResponse(response.errorBody())
+                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
                     }
                 }
             })
@@ -56,7 +56,7 @@ class ShipmentRateViewModel :BaseViewModel() {
                     if (response.isSuccessful) {
                         getShipmentRate.value = response.body()
                     } else {
-                        errorResponseObserver.value = getErrorResponse(response.errorBody())
+                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
                     }
                 }
             })

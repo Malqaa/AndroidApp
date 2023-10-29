@@ -64,19 +64,24 @@
                 android:orientation="horizontal"
                 android:gravity="center">
 
+                <ImageView
+                    android:id="@+id/ivSellerHappyRate"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_25sdp"
+                    android:src="@drawable/happyface_gray" />
 
                 <ImageView
+                    android:id="@+id/ivSellerNeutralRate"
                     android:layout_width="@dimen/_30sdp"
                     android:layout_height="@dimen/_25sdp"
-                    android:src="@drawable/smile3"/>
+                    android:src="@drawable/smileface_gray"/>
+
                 <ImageView
+                    android:id="@+id/ivSellerSadeRate"
                     android:layout_width="@dimen/_30sdp"
                     android:layout_height="@dimen/_25sdp"
-                    android:src="@drawable/smile3"/>
-                <ImageView
-                    android:layout_width="@dimen/_30sdp"
-                    android:layout_height="@dimen/_25sdp"
-                    android:src="@drawable/smile3"/>
+                    android:src="@drawable/sadface_gray" />
+
 
             </LinearLayout>
 
@@ -141,20 +146,23 @@
                 android:orientation="horizontal"
                 android:gravity="center">
 
+                <ImageView
+                    android:id="@+id/ivProductHappyRate"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_25sdp"
+                    android:src="@drawable/happyface_gray" />
 
                 <ImageView
+                    android:id="@+id/ivProductNeutralRate"
                     android:layout_width="@dimen/_30sdp"
                     android:layout_height="@dimen/_25sdp"
-                    android:src="@drawable/smile3"/>
-                <ImageView
-                    android:layout_width="@dimen/_30sdp"
-                    android:layout_height="@dimen/_25sdp"
-                    android:src="@drawable/smile3"/>
-                <ImageView
-                    android:layout_width="@dimen/_30sdp"
-                    android:layout_height="@dimen/_25sdp"
+                    android:src="@drawable/smileface_gray"/>
 
-                    android:src="@drawable/smile3"/>
+                <ImageView
+                    android:id="@+id/ivProductSadeRate"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_25sdp"
+                    android:src="@drawable/sadface_gray" />
 
             </LinearLayout>
 
@@ -210,17 +218,22 @@
 
 
                 <ImageView
+                    android:id="@+id/ivShippingHappyRate"
                     android:layout_width="@dimen/_30sdp"
                     android:layout_height="@dimen/_25sdp"
-                    android:src="@drawable/smile3"/>
+                    android:src="@drawable/happyface_gray" />
+
                 <ImageView
+                    android:id="@+id/ivShippingNeutralRate"
                     android:layout_width="@dimen/_30sdp"
                     android:layout_height="@dimen/_25sdp"
-                    android:src="@drawable/smile3"/>
+                    android:src="@drawable/smileface_gray"/>
+
                 <ImageView
+                    android:id="@+id/ivShippingSadeRate"
                     android:layout_width="@dimen/_30sdp"
                     android:layout_height="@dimen/_25sdp"
-                    android:src="@drawable/smile3"/>
+                    android:src="@drawable/sadface_gray" />
 
             </LinearLayout>
 

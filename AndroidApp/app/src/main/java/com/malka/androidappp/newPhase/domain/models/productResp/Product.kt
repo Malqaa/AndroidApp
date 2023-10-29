@@ -21,6 +21,7 @@ data class Product(
     val auctionNegotiatePrice: Float,
     val auctionClosingTime: String? = null,
     val id: Int,
+    var productPosition: Int,
     val isActive: Boolean,
     val isDelete: Boolean,
     val name: String? = null,

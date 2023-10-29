@@ -556,13 +556,13 @@
 
                     <ImageView
                         android:id="@+id/imageView17"
-                        android:layout_width="0dp"
+                        android:layout_width="25dp"
                         android:layout_height="40dp"
                         android:layout_marginStart="24dp"
                         android:layout_marginTop="8dp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/smile3" />
+                        app:srcCompat="@drawable/happyface_color" />
 
                     <TextView
                         android:id="@+id/lbl_positive_count"
@@ -597,13 +597,13 @@
 
                     <ImageView
                         android:id="@+id/imageView18"
-                        android:layout_width="0dp"
+                        android:layout_width="25dp"
                         android:layout_height="40dp"
                         android:layout_marginStart="24dp"
                         android:layout_marginTop="8dp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/neutral" />
+                        app:srcCompat="@drawable/smileface_color" />
 
                     <TextView
                         android:id="@+id/lbl_neutral_count"
@@ -629,13 +629,13 @@
 
                     <ImageView
                         android:id="@+id/imageView19"
-                        android:layout_width="0dp"
+                        android:layout_width="25dp"
                         android:layout_height="40dp"
                         android:layout_marginStart="24dp"
                         android:layout_marginTop="8dp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/sad" />
+                        app:srcCompat="@drawable/sadcolor_gray" />
 
                     <TextView
                         android:id="@+id/lbl_negative_count"

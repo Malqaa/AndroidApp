@@ -1,6 +1,7 @@
 package com.malka.androidappp.newPhase.presentation.accountFragment.myProducts.dialog
 
 import android.content.Context
+import android.content.Intent
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
@@ -19,10 +20,11 @@ import retrofit2.HttpException
 import retrofit2.Response
 
 class BidPersonsDialog(
+    var priceAuction:String,
     context: Context,
     var productId: Int,
     var setOnAddBidOffersListeners: SetOnAddBidOffersListeners,
-    var fromProductDetails:Boolean=false
+    var fromProductDetails: Boolean = false
 ) :
     BaseDialog(context), BidPersonsAdapter.SetOnViewClickListeners {
     lateinit var bidPersonsAdapter: BidPersonsAdapter
@@ -30,6 +32,7 @@ class BidPersonsDialog(
     var countriesCallback: Call<BidPersonsResp>? = null
     var bidPersonsResp: BidPersonsResp? = null
     var bidIdList: ArrayList<String> = ArrayList()
+    var offerList: ArrayList<BidPersonData> = ArrayList()
     override fun getViewId(): Int = R.layout.dialog_bid_persons
 
     override fun isFullScreen(): Boolean = false
@@ -39,18 +42,28 @@ class BidPersonsDialog(
         setViewClickListners()
         setRecyclerView()
         getBidsPersons()
-        if(fromProductDetails){
+        if (fromProductDetails) {
             tvSelctAll.hide()
             tvUserCount.hide()
-        }else{
+            tvTitle.text = context.getString(R.string.my_bids)
+            btnSend.hide()
+            containerBidOnPrice.show()
+            Bid_on_price_tv.text=priceAuction
+        } else {
             tvSelctAll.show()
             tvUserCount.show()
+            tvTitle.text = context.getString(R.string.sendOffer)
+            btnSend.show()
+            containerBidOnPrice.hide()
         }
+
+
+
     }
 
     private fun setRecyclerView() {
         bidPersonsDataList = ArrayList()
-        bidPersonsAdapter = BidPersonsAdapter(bidPersonsDataList, this,fromProductDetails)
+        bidPersonsAdapter = BidPersonsAdapter(bidPersonsDataList, this, fromProductDetails)
         rvBid.apply {
             layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
             adapter = bidPersonsAdapter
@@ -71,15 +84,28 @@ class BidPersonsDialog(
             tvUserCount.text = "${bidIdList.size} ${context.getString(R.string.user)}"
         }
         btnSend.setOnClickListener {
-            if (bidIdList.isNotEmpty()) {
-                setOnAddBidOffersListeners.onAddOpenBidOfferDailog(bidIdList)
-                dismiss()
-            } else {
+            if (offerList.isNullOrEmpty()) {
                 HelpFunctions.ShowLongToast(
-                    context.getString(R.string.selectUser),
+                    context.getString(R.string.noFoundUserOffers),
                     context
                 )
+                dismiss()
+            } else {
+
+                if (bidIdList.isNotEmpty()) {
+                    setOnAddBidOffersListeners.onAddOpenBidOfferDailog(bidIdList)
+                    dismiss()
+                } else {
+                    HelpFunctions.ShowLongToast(
+                        context.getString(R.string.selectUser),
+                        context
+                    )
+                }
             }
+        }
+        containerBidOnPrice.setOnClickListener {
+            setOnAddBidOffersListeners.onOpenAuctionDialog()
+            dismiss()
         }
     }
 
@@ -125,6 +151,7 @@ class BidPersonsDialog(
                         response.body()?.let {
                             bidPersonsResp = it
                             if (bidPersonsResp?.status_code == 200) {
+                                offerList = bidPersonsResp?.bidPersonsDataList ?: arrayListOf()
                                 bidPersonsResp?.bidPersonsDataList?.let { list ->
                                     bidPersonsDataList.clear()
                                     bidPersonsDataList.addAll(list)
@@ -163,5 +190,6 @@ class BidPersonsDialog(
 
     interface SetOnAddBidOffersListeners {
         fun onAddOpenBidOfferDailog(bidsList: List<String>)
+        fun onOpenAuctionDialog()
     }
 }

@@ -41,7 +41,8 @@ class MyPointsFragment : Fragment(R.layout.fragment_my_points_fragment),
             userPointData = AccountObject.userPointData
             setData(userPointData!!)
         } else {
-            accountViewModel.getWalletDetailsInWallet()
+            accountViewModel.getUserPointDetailsInWallet()
+//            accountViewModel.getWalletDetailsInWallet()
         }
     }
 

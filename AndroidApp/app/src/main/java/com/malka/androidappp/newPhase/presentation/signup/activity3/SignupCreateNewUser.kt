@@ -84,44 +84,52 @@ class SignupCreateNewUser : BaseActivity(), PickImageMethodsDialog.OnAttachedIma
 
         })
         signupViewModel.errorResponseObserver.observe(this, Observer {
+            if (it.status != null && it.status == "409") {
+                HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), this)
+            } else {
+                when (it.message) {
+                    "UsernameExists" -> {
+                        HelpFunctions.ShowLongToast(getString(R.string.userNameExists), this)
+                    }
 
-            when (it.message) {
-                "UsernameExists" -> {
-                    HelpFunctions.ShowLongToast( getString(R.string.userNameExists),this)
-                }
-                "PhoneNumberExists" -> {
-                    HelpFunctions.ShowLongToast( getString(R.string.userPhoneExists),this)
-                }
-                "EmailExists" -> {
-                    HelpFunctions.ShowLongToast( getString(R.string.userEmailExists),this)
-                }
-                else -> {
-                    if (it.message != null) {
-                        HelpFunctions.ShowLongToast(
-                            it.message!!,
-                            this
-                        )
-                    } else {
-                        HelpFunctions.ShowLongToast(
-                            getString(R.string.serverError),
-                            this
-                        )
+                    "PhoneNumberExists" -> {
+                        HelpFunctions.ShowLongToast(getString(R.string.userPhoneExists), this)
+                    }
+
+                    "EmailExists" -> {
+                        HelpFunctions.ShowLongToast(getString(R.string.userEmailExists), this)
+                    }
+
+                    else -> {
+                        if (it.message != null) {
+                            HelpFunctions.ShowLongToast(
+                                it.message!!,
+                                this
+                            )
+                        } else {
+                            HelpFunctions.ShowLongToast(
+                                getString(R.string.serverError),
+                                this
+                            )
+                        }
                     }
                 }
             }
-
         })
         signupViewModel.registerRespObserver.observe(this) { registerResp ->
             when (registerResp.status) {
                 "UsernameExists" -> {
-                    HelpFunctions.ShowLongToast( getString(R.string.userNameExists),this)
+                    HelpFunctions.ShowLongToast(getString(R.string.userNameExists), this)
                 }
+
                 "PhoneNumberExists" -> {
-                    HelpFunctions.ShowLongToast( getString(R.string.userPhoneExists),this)
+                    HelpFunctions.ShowLongToast(getString(R.string.userPhoneExists), this)
                 }
+
                 "EmailExists" -> {
-                    HelpFunctions.ShowLongToast( getString(R.string.userEmailExists),this)
+                    HelpFunctions.ShowLongToast(getString(R.string.userEmailExists), this)
                 }
+
                 "Success" -> {
                     HelpFunctions.ShowLongToast(
                         getString(R.string.Accounthasbeencreated),
@@ -129,6 +137,7 @@ class SignupCreateNewUser : BaseActivity(), PickImageMethodsDialog.OnAttachedIma
                     )
                     signInAfterSignUp()
                 }
+
                 else -> {
                     if (registerResp.message != null) {
                         HelpFunctions.ShowLongToast(
@@ -197,7 +206,7 @@ class SignupCreateNewUser : BaseActivity(), PickImageMethodsDialog.OnAttachedIma
 
     /*****/
     private fun openCameraChooser() {
-        imageMethodsPickerDialog = PickImageMethodsDialog(this, false,this)
+        imageMethodsPickerDialog = PickImageMethodsDialog(this, false, this)
         imageMethodsPickerDialog.show()
     }
 
@@ -380,11 +389,11 @@ class SignupCreateNewUser : BaseActivity(), PickImageMethodsDialog.OnAttachedIma
     private fun callCreateUser() {
         var invitationCode = "";
         otpData?.let {
-            invitationCode = it.invitationCode?:"";
+            invitationCode = it.invitationCode ?: "";
         }
         println("hhhh data:${btnDate.text.toString().trim()} , gender:${gender_} ,countryId ")
 
-        var  file: File? = null
+        var file: File? = null
         userImageUri?.let {
             file = File(it.path)
         }

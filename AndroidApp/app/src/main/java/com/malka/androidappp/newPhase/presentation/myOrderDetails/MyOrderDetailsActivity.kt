@@ -1,5 +1,6 @@
 package com.malka.androidappp.newPhase.presentation.myOrderDetails
 
+import android.app.PendingIntent.CanceledException
 import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
@@ -16,6 +17,7 @@ import com.malka.androidappp.newPhase.domain.models.orderDetailsByMasterID.Order
 import com.malka.androidappp.newPhase.domain.models.orderDetailsByMasterID.OrderFullInfoDto
 import com.malka.androidappp.newPhase.domain.models.orderListResp.OrderItem
 import com.malka.androidappp.newPhase.data.helper.ConstantObjects
+import com.malka.androidappp.newPhase.data.helper.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.newPhase.presentation.myOrderDetails.adapter.CurrentOrderAdapter
 import com.malka.androidappp.newPhase.presentation.accountFragment.myOrderFragment.MyOrdersViewModel
 import com.malka.androidappp.newPhase.presentation.shipmentRateActivity.ShipmentRateActivity
@@ -66,7 +68,8 @@ class MyOrderDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             shipments_tv.text = orderItem.providersCount.toString()
             total_order_tv.text =
                 "${orderItem.totalOrderAmountAfterDiscount} ${getString(R.string.rial)}"
-            order_status_tv.text = orderItem.status ?: ""
+
+
         }
 
     }
@@ -97,12 +100,15 @@ class MyOrderDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
         }
         myOrdersViewModel.errorResponseObserver.observe(this) {
-            if (it.message != null) {
-                showApiError(it.message!!)
+            if (it.status != null && it.status == "409") {
+                HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), this)
             } else {
-                showApiError(getString(R.string.serverError))
+                if (it.message != null) {
+                    showApiError(it.message!!)
+                } else {
+                    showApiError(getString(R.string.serverError))
+                }
             }
-
         }
         myOrdersViewModel.isNetworkFailCancel.observe(this) {
             if (it) {
@@ -121,10 +127,21 @@ class MyOrderDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
         }
 
+        myOrdersViewModel.errorResponseCancelObserver.observe(this) {
+            if (it.message != null) {
+                HelpFunctions.ShowLongToast(it.message!!, this)
+            } else {
+                HelpFunctions.ShowLongToast(getString(R.string.serverError), this)
+            }
+
+        }
         myOrdersViewModel.currentOrderByMusterIdRespObserver.observe(this) { resp ->
             if (resp.status_code == 200) {
                 mainContainer.show()
                 orderDetailsByMasterIDResp = resp
+
+                order_status_tv.text = resp.orderDetailsByMasterIDData?.status.toString()
+
                 setCurrentOrderData(orderDetailsByMasterIDResp.orderDetailsByMasterIDData)
             } else {
                 if (resp.message != null) {
@@ -212,14 +229,21 @@ class MyOrderDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             )
             putExtra(
                 ConstantObjects.orderMasterIdKey,
-                orderDetailsByMasterIDResp.orderDetailsByMasterIDData?.orderFullInfoDtoList?.get(position)?.orderId
+                orderDetailsByMasterIDResp.orderDetailsByMasterIDData?.orderFullInfoDtoList?.get(
+                    position
+                )?.orderId
             )
         })
     }
 
     override fun onCancelOrder(position: Int) {
-        myOrdersViewModel.cancelOrder(orderFullInfoDtoList[position].orderId, ConstantObjects.orderStatus_client_cancel)
+        myOrdersViewModel.cancelOrder(
+            orderFullInfoDtoList[position].orderId,
+            ConstantObjects.Canceled
+        )
     }
+
+
 }
 
 

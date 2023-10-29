@@ -12,6 +12,9 @@ import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.data.helper.hide
 import com.malka.androidappp.newPhase.data.helper.show
 import com.malka.androidappp.newPhase.domain.models.ratingResp.RateReviewItem
+import kotlinx.android.synthetic.main.activity_rate_buyer.ivSellerHappyRate
+import kotlinx.android.synthetic.main.activity_rate_buyer.ivSellerNeutralRate
+import kotlinx.android.synthetic.main.activity_rate_buyer.ivSellerSadeRate
 
 class ReviewProductAdapter(var smallRatesList: ArrayList<RateReviewItem>) :
     RecyclerView.Adapter<ReviewProductAdapter.ReviewViewHolder>() {
@@ -33,7 +36,17 @@ class ReviewProductAdapter(var smallRatesList: ArrayList<RateReviewItem>) :
         holder.viewBinding.tvDate.text=HelpFunctions.getViewFormatForDateTrack(smallRatesList[position].createdAt)
         holder.viewBinding.reviewNameTv.text=smallRatesList[position].userName
         holder.viewBinding.commentTv.text=smallRatesList[position].comment
-        holder.viewBinding.ratingBar.rating=smallRatesList[position].rate
+        when(smallRatesList[position].rate){
+            3f->{
+                holder.viewBinding.ratingBar.setImageResource(R.drawable.happyface_color)
+            }
+            2f->{
+                holder.viewBinding.ratingBar.setImageResource(R.drawable.smileface_color)
+            }
+            1f->{
+                holder.viewBinding.ratingBar.setImageResource(R.drawable.sadcolor_gray)
+            }
+        }
         Glide.with(context).load(smallRatesList[position].image).error(R.mipmap.malqa_iconn_round).into( holder.viewBinding.ivProfile)
         if(position==smallRatesList.size-1){
             holder.viewBinding.line.hide()

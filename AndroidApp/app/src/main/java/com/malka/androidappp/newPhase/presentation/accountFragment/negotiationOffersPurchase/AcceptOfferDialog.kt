@@ -46,10 +46,14 @@ class AcceptOfferDialog(
     override fun initialization() {
         println("hhhh "+"offer if " +offerID+ " "+ productId)
         if (accept) {
+            spTHours.visibility=View.VISIBLE
+            txtTHours.visibility=View.VISIBLE
             tvAcceptAndRejectTitle.text = context.getString(R.string.acceptNegotiationsOffers)
             btnSend.text=context.getString(R.string.accept)
             contianerRefuseReason.hide()
         } else {
+            spTHours.visibility=View.GONE
+            txtTHours.visibility=View.GONE
             btnSend.text=context.getString(R.string.reject)
             tvAcceptAndRejectTitle.text = context.getString(R.string.rejectNegotiationsOffers)
             contianerRefuseReason.show()
@@ -84,13 +88,16 @@ class AcceptOfferDialog(
         }
         btnSend.setOnClickListener {
             var readytosend = true
-            if (expireHour == 0f) {
-                readytosend = false
-                HelpFunctions.ShowLongToast(
-                    context.getString(R.string.selectExpirationHours),
-                    context
-                )
+            if (accept) {
+                if (expireHour == 0f) {
+                    readytosend = false
+                    HelpFunctions.ShowLongToast(
+                        context.getString(R.string.selectExpirationHours),
+                        context
+                    )
+                }
             }
+
             if (!accept && etRefuseReason.text.toString().trim() == "") {
                 readytosend = false
                 etRefuseReason.error = context.getString(R.string.refuseReason)

@@ -46,7 +46,12 @@ class ChooseCategoryActivity : BaseActivity() {
 //                    putExtra(ConstantObjects.categoryName, allCategoryList[position].name.toString())
 //                })
                 AddProductObjectData.selectedCategory = allCategoryList[position]
-                goNextScreen(false)
+
+                startActivity(Intent(this, SubCategoriesActivity::class.java).apply {
+                    putExtra(ConstantObjects.categoryIdKey, allCategoryList[position].id)
+                    putExtra(ConstantObjects.categoryName, allCategoryList[position].name)
+                })
+//                goNextScreen(false)
 
 
 //                if (!allCategoryList[position].isCategory) {
@@ -99,6 +104,9 @@ class ChooseCategoryActivity : BaseActivity() {
         }
         addProductViewModel.categoriesErrorResponseObserver.observe(this) {
             //HelpFunctions.ShowLongToast(getString(R.string.NoCategoriesfound), context)
+            if(it.status!=null && it.status=="409"){
+                HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), this)
+            }else{
             if (it.message != null && it.message != "") {
                 HelpFunctions.ShowLongToast(
                     it.message!!,
@@ -110,7 +118,7 @@ class ChooseCategoryActivity : BaseActivity() {
                     this
                 )
             }
-
+        }
         }
     }
 

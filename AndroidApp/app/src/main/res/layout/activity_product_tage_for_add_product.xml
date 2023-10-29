@@ -87,7 +87,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:text="Cars, Real estate, Animals..."
+                    android:text="@string/cars_real_estate_animals"
                     app:endIcon="@drawable/right_arrow"
                     app:viewType="text" />
 

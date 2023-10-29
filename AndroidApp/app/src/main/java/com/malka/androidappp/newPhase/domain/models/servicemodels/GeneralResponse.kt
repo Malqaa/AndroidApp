@@ -8,9 +8,10 @@ data class GeneralResponse(
     val message: String,
     val status_code: Int,
     val status: String,
-) {
+    var addressTitle:String
+)
 
-}
+
 data class AddProductResponse(
     @SerializedName("data")
     val productId: Int,

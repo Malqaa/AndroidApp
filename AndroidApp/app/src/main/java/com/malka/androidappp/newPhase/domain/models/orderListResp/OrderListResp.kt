@@ -25,6 +25,6 @@ data class OrderItem(
     var clientName: String? = null,
     var shippingAddress: String? = null,
     var requestType: String? = null,
-    var payType: String? = null,
+    var paymentType: String? = null,
 ):Parcelable
 

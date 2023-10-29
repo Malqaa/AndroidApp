@@ -79,6 +79,7 @@ class HelpFunctions {
         const val datetimeformat_24hrs: String = "yyyy-MM-dd'T'HH:mm:ss"
         const val datetimeformat_12hrs: String = "MM/dd/yyyy hh:mm:ss a"
         const val datetimeformat_12hrs2: String = "dd/MM/yyyy hh:mm a"
+        const val datetimeformat_hrs: String = "yyyy-MM-dd HH:mm"
         const val appName = "Malqaa"
         const val projectName = "OnRuff"
         const val deviceType = "Android"

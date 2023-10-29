@@ -14,7 +14,6 @@ import com.malka.androidappp.newPhase.data.helper.hide
 import com.malka.androidappp.newPhase.data.helper.show
 import com.malka.androidappp.newPhase.domain.models.orderListResp.OrderItem
 import com.malka.androidappp.newPhase.data.helper.ConstantObjects
-
 class MyOrdersAdapter(var orderList: List<OrderItem>, var setOnClickListeners:SetOnClickListeners) :
     Adapter<MyOrdersAdapter.SoldOutOrdersViewHolder>() {
     var currentOrder=true
@@ -42,7 +41,28 @@ class MyOrdersAdapter(var orderList: List<OrderItem>, var setOnClickListeners:Se
         holder.viewBinding.orderTimeTv.text = HelpFunctions.getViewFormatForDateTrack(orderList[position].createdAt)
         holder.viewBinding.shipmentsTv.text=orderList[position].providersCount.toString()
         holder.viewBinding.totalOrderTv.text = "${orderList[position].totalOrderAmountAfterDiscount} ${context.getString(R.string.rial)}"
-        holder.viewBinding.orderStatusTv.text = orderList[position].status ?: ""
+
+//        when ( orderList[position].orderStatus) {
+//            ConstantObjects.WaitingForPayment -> {
+//                holder.viewBinding.orderStatusTv.text =context.getString(R.string.WaitingForPayment)
+//            }
+//            ConstantObjects.Retrieved -> {
+//                holder.viewBinding.orderStatusTv.text = context.getString(R.string.order_productsProcessing)
+//            }
+//            ConstantObjects.InProgress -> {
+//                holder.viewBinding.orderStatusTv.text = context.getString(R.string.InProgress)
+//            }
+//            ConstantObjects.DeliveryInProgress -> {
+//                holder.viewBinding.orderStatusTv.text = context.getString(R.string.order_deliveryConfirmation)
+//            }
+//            ConstantObjects.Canceled -> {
+//                holder.viewBinding.orderStatusTv.text = context.getString(R.string.canceled)
+//            }
+//            else ->{
+                holder.viewBinding.orderStatusTv.text = orderList[position].status ?: ""
+//            }
+//        }
+
         if(currentOrder){
             holder.viewBinding.completeOrderBtn.hide()
         }else{

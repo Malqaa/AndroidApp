@@ -64,12 +64,12 @@
             android:gravity="end"
             android:orientation="horizontal">
 
-            <RatingBar
+            <ImageView
                 android:id="@+id/rating_bar"
-                style="?android:attr/ratingBarStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:rating="4" />
+                android:src="@drawable/smileface_color"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+              />
 
 
         </LinearLayout>

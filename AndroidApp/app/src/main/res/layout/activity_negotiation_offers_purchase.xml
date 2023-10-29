@@ -30,12 +30,11 @@
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/_5sdp"
                 android:layout_weight="1"
-                android:background="@drawable/round_btn"
                 android:fontFamily="@font/madani_arabic_medium"
                 android:gravity="center"
+                android:textColor="#45495E"
                 android:padding="@dimen/_10sdp"
-                android:text="@string/received"
-                android:textColor="#ffffff" />
+                android:text="@string/received" />
 
 
             <TextView
@@ -44,11 +43,13 @@
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/_5sdp"
                 android:layout_weight="1"
+                android:background="@drawable/round_btn"
+
                 android:fontFamily="@font/madani_arabic_medium"
                 android:gravity="center"
                 android:padding="@dimen/_10sdp"
+                android:textColor="@color/white"
                 android:text="@string/sent"
-                android:textColor="#45495E"
                 android:textSize="@dimen/_12sdp" />
         </LinearLayout>
 

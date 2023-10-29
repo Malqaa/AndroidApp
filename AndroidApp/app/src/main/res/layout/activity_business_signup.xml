@@ -57,7 +57,7 @@
                 android:layout_marginTop="@dimen/_25sdp">
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/ivUserImage"
+                    android:id="@+id/ivUserImageBusiness"
                     android:layout_width="@dimen/_54sdp"
                     android:layout_height="@dimen/_54sdp"
                     android:src="@mipmap/malqa_iconn_round" />
@@ -341,7 +341,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:hint="@string/linkedIn"
-                android:inputType="number"
+                android:inputType="text"
                 android:visibility="gone"
                 app:startIcon="@drawable/ic_whatsapp" />
 
@@ -361,7 +361,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:hint="@string/tickTok"
-                android:inputType="number"
+                android:inputType="textWebEmailAddress"
                 android:visibility="gone"
                 app:startIcon="@drawable/ic_whatsapp" />
 

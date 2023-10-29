@@ -171,10 +171,11 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/business_rcv"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginEnd="@dimen/_10sdp"
                     android:layout_marginBottom="@dimen/_10sdp"
-                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    tools:listitem="@layout/item_switch_account_design"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:spanCount="1" />
 
                 <ProgressBar

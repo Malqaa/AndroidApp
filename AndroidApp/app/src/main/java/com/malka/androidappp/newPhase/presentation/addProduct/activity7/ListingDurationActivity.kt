@@ -301,7 +301,7 @@ class ListingDurationActivity : BaseActivity() {
                 var timeDialog = TimePickerFragment { selectTime_ ->
                     selectTime = selectTime_
                     btnRadioClosingAuctionOption2.isChecked = true
-                    tvClosingAuctionCustomDataOption2.text = selectdate + "-" + selectTime
+                    tvClosingAuctionCustomDataOption2.text = selectdate +" "+ selectTime
                     println("hhhh " + HelpFunctions.getAuctionClosingTime("$selectdate_ $selectTime$"))
 
                 }
@@ -467,7 +467,7 @@ class ListingDurationActivity : BaseActivity() {
     private fun validateListDuration(): Boolean {
         return if (btnRadioClosingAuctionOption1.isChecked) {
             if (fixlenghtselected == null) {
-                showError(getString(R.string.Please_select, getString(R.string.close_time)))
+                showError( getString(R.string.close_time))
                 return false
             } else {
                 println("hhhh "+fixlenghtselected)
@@ -477,7 +477,7 @@ class ListingDurationActivity : BaseActivity() {
         } else if (btnRadioClosingAuctionOption2.isChecked) {
             if (tvClosingAuctionCustomDataOption2.text.toString().isEmpty()) {
 
-                showError(getString(R.string.Please_select, getString(R.string.close_time)))
+                showError( getString(R.string.close_time))
                 return false
             } else {
                 AddProductObjectData.selectTimeAuction = TimeAuctionSelection(
@@ -491,6 +491,8 @@ class ListingDurationActivity : BaseActivity() {
             }
 
         } else {
+
+            showError(getString(R.string.close_time))
             false
         }
 

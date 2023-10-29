@@ -139,7 +139,7 @@
                 android:layout_marginBottom="@dimen/_10sdp"
                 android:background="@drawable/round_btn"
                 android:fontFamily="@font/madani_arabic_semi_bold"
-                android:text="@string/the_next"
+                android:text="@string/CheckoutProduct"
                 android:textAllCaps="false"
                 android:textColor="#ffffff"
                 android:textSize="@dimen/_14sdp" />

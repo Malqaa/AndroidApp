@@ -15,6 +15,7 @@ import com.malka.androidappp.newPhase.data.helper.show
 import com.malka.androidappp.newPhase.domain.models.cartListResp.CartProductDetails
 import com.malka.androidappp.newPhase.domain.models.cartListResp.ProductCartItem
 import com.malka.androidappp.newPhase.data.helper.ConstantObjects
+import com.malka.androidappp.newPhase.data.helper.shared_preferences.SharedPreferencesStaticClass.Companion.removeItemCart
 import com.malka.androidappp.newPhase.presentation.cartActivity.activity1.adapter.CartAdapter
 import com.malka.androidappp.newPhase.presentation.cartActivity.activity2.AddressPaymentActivity
 import com.malka.androidappp.newPhase.presentation.cartActivity.viewModel.CartViewModel
@@ -73,10 +74,14 @@ class CartActivity : BaseActivity(), CartAdapter.SetProductCartListeners {
 
         }
         cartViewModel.errorResponseObserver.observe(this) {
-            if (it.message != null) {
-                HelpFunctions.ShowLongToast(it.message!!, this)
-            } else {
-                HelpFunctions.ShowLongToast(getString(R.string.serverError), this)
+            if(it.status!=null && it.status=="409"){
+                HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), this)
+            }else {
+                if (it.message != null) {
+                    HelpFunctions.ShowLongToast(it.message!!, this)
+                } else {
+                    HelpFunctions.ShowLongToast(getString(R.string.serverError), this)
+                }
             }
         }
         cartViewModel.cartListRespObserver.observe(this) { cartListResp ->
@@ -90,6 +95,7 @@ class CartActivity : BaseActivity(), CartAdapter.SetProductCartListeners {
                             productCartItemRespList.addAll(it)
                         }
                     }
+                    removeItemCart(productCartItemRespList.size)
                     setCartTotalPrice()
                 }
             } else {
@@ -104,7 +110,7 @@ class CartActivity : BaseActivity(), CartAdapter.SetProductCartListeners {
         cartViewModel.increaseCartProductQuantityObserver.observe(this) { increaseProductResp ->
             if (increaseProductResp.status_code == 200) {
                 productCartItemRespList[lastUpdatePosition].let {
-                    it.qty = it.qty + 1
+                    it.cartProductQuantity = it.cartProductQuantity + 1
                 }
                 cartAdapter.notifyItemChanged(lastUpdatePosition)
                 setCartTotalPrice()
@@ -113,7 +119,7 @@ class CartActivity : BaseActivity(), CartAdapter.SetProductCartListeners {
         cartViewModel.decreaseCartProductQuantityObserver.observe(this) { decreaseProductResp ->
             if (decreaseProductResp.status_code == 200) {
                 productCartItemRespList[lastUpdatePosition].let {
-                    it.qty = it.qty - 1
+                    it.cartProductQuantity = it.cartProductQuantity - 1
                 }
                 cartAdapter.notifyItemChanged(lastUpdatePosition)
                 setCartTotalPrice()
@@ -124,6 +130,7 @@ class CartActivity : BaseActivity(), CartAdapter.SetProductCartListeners {
                 productCartItemRespList.removeAt(
                     lastUpdatePosition
                 )
+                removeItemCart(productCartItemRespList.size)
                 cartAdapter.notifyDataSetChanged()
                 setCartTotalPrice()
             }
@@ -142,9 +149,9 @@ class CartActivity : BaseActivity(), CartAdapter.SetProductCartListeners {
             for (item in productCartItemRespList) {
                 item.let { product ->
                     if (product.priceDiscount == product.price) {
-                        totalPrice += (product.price * product.qty)
+                        totalPrice += (product.price * product.cartProductQuantity)
                     } else {
-                        totalPrice += (product.priceDiscount * product.qty)
+                        totalPrice += (product.priceDiscount * product.cartProductQuantity)
                     }
                 }
             }
@@ -208,8 +215,10 @@ class CartActivity : BaseActivity(), CartAdapter.SetProductCartListeners {
     }
 
     override fun onDeleteProduct(position: Int) {
-
+        val productCartId = productCartItemRespList[position].cartproductId
+        cartViewModel.removeProductFromCartProducts(productCartId.toString())
     }
+
 
     override fun onResume() {
         super.onResume()

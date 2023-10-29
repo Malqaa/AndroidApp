@@ -42,6 +42,7 @@ abstract class BaseDialog(context: Context) : Dialog(context) {
             setCancelable(false)
             setCanceledOnTouchOutside(false)
         }
+
         initialization()
     }
     abstract fun getViewId(): Int

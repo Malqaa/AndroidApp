@@ -23,7 +23,7 @@ import kotlinx.coroutines.withContext
 
 class SubCategoriesActivity : BaseActivity(), AdapterSubCategories.OnItemClickListener {
 
-    var categoryid: String = ""
+    var categoryid: Int = 0
     var categoryName: String = ""
 
     var allCategoryList: ArrayList<Category> = ArrayList()
@@ -37,11 +37,11 @@ class SubCategoriesActivity : BaseActivity(), AdapterSubCategories.OnItemClickLi
             finish()
         }
 
-        categoryid = intent.getStringExtra(ConstantObjects.categoryIdKey).toString()
+        categoryid = intent.getIntExtra(ConstantObjects.categoryIdKey,0)
         categoryName = intent.getStringExtra(ConstantObjects.categoryName).toString()
         setUpViewModel()
         lastCategoryId = AddProductObjectData.selectedCategoryId
-        addProductViewModel.getSubCategoriesByCategoryID(AddProductObjectData.selectedCategoryId)
+        addProductViewModel.getSubCategoriesByCategoryID(categoryid)
     }
 
     private fun setUpViewModel() {
@@ -67,18 +67,21 @@ class SubCategoriesActivity : BaseActivity(), AdapterSubCategories.OnItemClickLi
 
         }
         addProductViewModel.errorResponseObserver.observe(this) {
-            if (it.message != null && it.message != "") {
-                HelpFunctions.ShowLongToast(
-                    it.message!!,
-                    this
-                )
-            } else {
-                HelpFunctions.ShowLongToast(
-                    getString(R.string.serverError),
-                    this
-                )
+            if(it.status!=null && it.status=="409"){
+                HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), this)
+            }else {
+                if (it.message != null && it.message != "") {
+                    HelpFunctions.ShowLongToast(
+                        it.message!!,
+                        this
+                    )
+                } else {
+                    HelpFunctions.ShowLongToast(
+                        getString(R.string.serverError),
+                        this
+                    )
+                }
             }
-
         }
         addProductViewModel.categoryListObserver.observe(this) { categoryListObserver ->
             if (categoryListObserver.status_code == 200) {
@@ -120,14 +123,14 @@ class SubCategoriesActivity : BaseActivity(), AdapterSubCategories.OnItemClickLi
 //            val malqaa: MalqaApiService =
 //                RetrofitBuilder.GetRetrofitBuilder()
 //
-//            val call: Call<GeneralResponse> =
+//            val call: Call<GeneralResponses> =
 //                malqaa.GetSubCategoryByMainCategory(categoryId)
 //
-//            call.enqueue(object : Callback<GeneralResponse> {
+//            call.enqueue(object : Callback<GeneralResponses> {
 //                @SuppressLint("UseRequireInsteadOfGet")
 //                override fun onResponse(
-//                    call: Call<GeneralResponse>,
-//                    response: Response<GeneralResponse>
+//                    call: Call<GeneralResponses>,
+//                    response: Response<GeneralResponses>
 //                ) {
 //
 //                    if (response.isSuccessful) {
@@ -163,7 +166,7 @@ class SubCategoriesActivity : BaseActivity(), AdapterSubCategories.OnItemClickLi
 //
 //                }
 //
-//                override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
+//                override fun onFailure(call: Call<GeneralResponses>, t: Throwable) {
 //                    HelpFunctions.dismissProgressBar()
 //                    Toast.makeText(this@SubCategoriesActivity, t.message, Toast.LENGTH_LONG).show()
 //                }

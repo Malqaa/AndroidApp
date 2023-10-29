@@ -7,7 +7,7 @@ object Constants {
 
     //   const val SERVER_LOCATION = "89.40.10.168:85"
 //    const val SERVER_LOCATION = "advertleap-001-site1.itempurl.com"
-    const val SERVER_LOCATION = "devadvertleap-001-site1.gtempurl.com"
+    const val SERVER_LOCATION = "onrufwebsite2-001-site1.btempurl.com"
     const val Api = "api"
     const val API_VERSION = "v1"
     const val IMAGE_FOLDER = "ImageFile"

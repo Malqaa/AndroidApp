@@ -33,15 +33,14 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 
-
 class WatchlistFragment : Fragment(R.layout.fragment_watchlist),
     SwipeRefreshLayout.OnRefreshListener, SetOnProductItemListeners {
 
 
     private lateinit var wishListViewModel: WishListViewModel
-    private lateinit var wishListAdapter:ProductHorizontalAdapter
-    private lateinit var productList:ArrayList<Product>
-    private var lastUpdateIndex=-1
+    private lateinit var wishListAdapter: ProductHorizontalAdapter
+    private lateinit var productList: ArrayList<Product>
+    private var lastUpdateIndex = -1
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         toolbar_title.text = getString(R.string.favorite)
@@ -70,11 +69,11 @@ class WatchlistFragment : Fragment(R.layout.fragment_watchlist),
     }
 
     private fun setAdapterForWhisList() {
-        productList= ArrayList()
-        wishListAdapter=ProductHorizontalAdapter(productList,this,0,false)
+        productList = ArrayList()
+        wishListAdapter = ProductHorizontalAdapter(productList, this, 0, false)
         fav_rcv.apply {
-            adapter=wishListAdapter
-            layoutManager=GridLayoutManager(requireActivity(),2)
+            adapter = wishListAdapter
+            layoutManager = GridLayoutManager(requireActivity(), 2)
         }
     }
 
@@ -95,28 +94,34 @@ class WatchlistFragment : Fragment(R.layout.fragment_watchlist),
 
         }
         wishListViewModel.errorResponseObserver.observe(this) {
-            if (it.message != null) {
-                showProductApiError(it.message!!)
+            if (it.status != null && it.status == "409") {
+                HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), requireActivity())
             } else {
-                showProductApiError(getString(R.string.serverError))
-            }
+                if (it.message != null) {
+                    showProductApiError(it.message!!)
+                } else {
+                    showProductApiError(getString(R.string.serverError))
+                }
 
+            }
         }
-        wishListViewModel.wishListRespObserver.observe(this){productListResp->
-            if(productListResp.status_code==200){
-                if(productListResp.productList!=null&&productListResp.productList.isNotEmpty()){
+        wishListViewModel.wishListRespObserver.observe(this) { productListResp ->
+            if (productListResp.status_code == 200) {
+                if (productListResp.productList != null && productListResp.productList.isNotEmpty()) {
                     productList.clear()
                     productList.addAll(productListResp.productList)
-                    lifecycleScope.launch (Dispatchers.IO){
-                        for(product in productList){
-                            product.isFavourite=true
+                    lifecycleScope.launch(Dispatchers.IO) {
+//                        productList.filter { !it.isFavourite }.forEach { it.isFavourite = true}
+
+                        for (product in productList) {
+                            product.isFavourite = true
                         }
-                        withContext(Dispatchers.Main){
+                        withContext(Dispatchers.Main) {
                             wishListAdapter.notifyDataSetChanged()
                         }
                     }
 
-                }else{
+                } else {
                     showProductApiError(getString(R.string.noProductsAdded))
                 }
             }
@@ -136,29 +141,32 @@ class WatchlistFragment : Fragment(R.layout.fragment_watchlist),
 
         }
         wishListViewModel.errorResponseObserverProductToFav.observe(viewLifecycleOwner) {
-            if (it.message != null && it.message != "") {
-                HelpFunctions.ShowLongToast(
-                    it.message!!,
-                    requireActivity()
-                )
-            } else {
-                HelpFunctions.ShowLongToast(
-                    getString(R.string.serverError),
-                    requireActivity()
-                )
+            if(it.status!=null && it.status=="409"){
+                HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), requireActivity())
+            }else {
+                if (it.message != null && it.message != "") {
+                    HelpFunctions.ShowLongToast(
+                        it.message!!,
+                        requireActivity()
+                    )
+                } else {
+                    HelpFunctions.ShowLongToast(
+                        getString(R.string.serverError),
+                        requireActivity()
+                    )
+                }
             }
-
         }
         wishListViewModel.addProductToFavObserver.observe(viewLifecycleOwner) {
             if (it.status_code == 200) {
-               if(lastUpdateIndex<productList.size){
-                   productList.removeAt(lastUpdateIndex)
-                   wishListAdapter.notifyItemRemoved(lastUpdateIndex)
-                   wishListAdapter.notifyDataSetChanged();
-                   if(productList.isEmpty()){
-                       showProductApiError(getString(R.string.noProductsAdded))
-                   }
-               }
+                if (lastUpdateIndex < productList.size) {
+                    productList.removeAt(lastUpdateIndex)
+                    wishListAdapter.notifyItemRemoved(lastUpdateIndex)
+                    wishListAdapter.notifyDataSetChanged();
+                    if (productList.isEmpty()) {
+                        showProductApiError(getString(R.string.noProductsAdded))
+                    }
+                }
             }
         }
         onRefresh()
@@ -212,11 +220,14 @@ class WatchlistFragment : Fragment(R.layout.fragment_watchlist),
     val productDetailsLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
-                val productId:Int= result.data?.getIntExtra(ConstantObjects.productIdKey,0) ?: 0
-                val productFavStatusKey:Boolean= result.data?.getBooleanExtra(ConstantObjects.productFavStatusKey,false) ?:false
-                refreshFavProductStatus(productId,productFavStatusKey)
+                val productId: Int = result.data?.getIntExtra(ConstantObjects.productIdKey, 0) ?: 0
+                val productFavStatusKey: Boolean =
+                    result.data?.getBooleanExtra(ConstantObjects.productFavStatusKey, false)
+                        ?: false
+                refreshFavProductStatus(productId, productFavStatusKey)
             }
         }
+
     private fun goToProductDetails(productId: Int) {
         productDetailsLauncher.launch(Intent(context, ProductDetailsActivity::class.java).apply {
             putExtra(ConstantObjects.productIdKey, productId)
@@ -241,7 +252,7 @@ class WatchlistFragment : Fragment(R.layout.fragment_watchlist),
                     productList.removeAt(productList.indexOf(product))
                     wishListAdapter.notifyItemRemoved(productList.indexOf(product))
                     wishListAdapter.notifyDataSetChanged();
-                    if(productList.isEmpty()){
+                    if (productList.isEmpty()) {
                         showProductApiError(getString(R.string.noProductsAdded))
                     }
                 }

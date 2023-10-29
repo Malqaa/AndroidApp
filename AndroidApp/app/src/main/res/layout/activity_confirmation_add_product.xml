@@ -499,10 +499,10 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
                         android:layout_marginStart="@dimen/_15sdp"
                         android:fontFamily="@font/madani_arabic_medium"
                         android:text="@string/negotiable"
-                        android:layout_centerVertical="true"
                         android:textColor="@color/grey"
                         android:textSize="@dimen/_10sdp" />
 
@@ -512,9 +512,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
                         android:layout_marginEnd="@dimen/_15sdp"
                         android:drawablePadding="@dimen/_5sdp"
-                        android:layout_centerVertical="true"
                         android:fontFamily="@font/madani_arabic_medium"
                         android:gravity="end"
                         android:text="@string/Yes"
@@ -526,7 +526,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_40sdp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:background="@drawable/product_attribute_bg4"
                     android:gravity="center_vertical"
@@ -547,9 +547,11 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
                         android:layout_weight="2"
                         android:gravity="end"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:paddingBottom="@dimen/_7sdp">
 
                         <TextView
                             android:id="@+id/tvCashOptionPayment"
@@ -576,6 +578,39 @@
                             android:fontFamily="@font/madani_arabic_medium"
                             android:gravity="end"
                             android:text="@string/bank_transfer"
+                            android:textColor="@color/grey"
+                            android:textSize="@dimen/_10sdp"
+                            android:visibility="gone"
+                            app:drawableStartCompat="@drawable/ic_check" />
+
+
+                        <TextView
+                            android:id="@+id/tvMadaOptionPayment"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:layout_marginEnd="@dimen/_15sdp"
+                            android:drawablePadding="@dimen/_5sdp"
+                            android:fontFamily="@font/madani_arabic_medium"
+                            android:gravity="end"
+                            android:text="@string/MadaPayment"
+                            android:textColor="@color/grey"
+                            android:textSize="@dimen/_10sdp"
+                            android:visibility="gone"
+                            app:drawableStartCompat="@drawable/ic_check" />
+
+
+                        <TextView
+                            android:id="@+id/tvCardOptionPayment"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:layout_marginEnd="@dimen/_15sdp"
+                            android:layout_marginBottom="@dimen/_5sdp"
+                            android:drawablePadding="@dimen/_5sdp"
+                            android:fontFamily="@font/madani_arabic_medium"
+                            android:gravity="end"
+                            android:text="@string/visa_mastercard"
                             android:textColor="@color/grey"
                             android:textSize="@dimen/_10sdp"
                             android:visibility="gone"
@@ -664,13 +699,13 @@
                             android:text="@string/shipping_options"
                             android:textColor="@color/grey"
                             android:textSize="@dimen/_10sdp" />
+
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="2"
                             android:gravity="end"
                             android:orientation="horizontal">
-
 
 
                             <TextView
@@ -686,7 +721,6 @@
                                 app:drawableStartCompat="@drawable/ic_check" />
 
 
-
                         </LinearLayout>
 
 
@@ -696,10 +730,10 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/contianerPickUp"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_40sdp"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:id="@+id/contianerPickUp"
                     android:background="@drawable/product_attribute_bg4"
                     android:orientation="vertical">
 
@@ -721,15 +755,16 @@
                             android:text="@string/PickUp"
                             android:textColor="@color/grey"
                             android:textSize="@dimen/_10sdp" />
+
                         <TextView
                             android:id="@+id/tvPickupOptionData"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
                             android:layout_marginEnd="@dimen/_15sdp"
                             android:drawablePadding="@dimen/_5sdp"
                             android:fontFamily="@font/madani_arabic_medium"
                             android:gravity="end"
-                            android:layout_alignParentEnd="true"
                             android:text="@string/PickUp"
                             android:textColor="@color/grey"
                             android:textSize="@dimen/_10sdp"
@@ -741,12 +776,12 @@
                 </LinearLayout>
 
                 <RelativeLayout
+                    android:id="@+id/containerAuction"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_40sdp"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:background="@drawable/product_attribute_bg4"
                     android:gravity="center_vertical"
-                    android:id="@+id/containerAuction"
                     android:orientation="horizontal"
                     android:weightSum="2">
 
@@ -849,9 +884,9 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/_15sdp"
                             android:layout_weight="1"
-                            android:textAlignment="viewStart"
                             android:fontFamily="@font/madani_arabic_medium"
                             android:text="@string/bronze_package"
+                            android:textAlignment="viewStart"
                             android:textColor="@color/grey"
                             android:textSize="@dimen/_10sdp" />
 
@@ -930,37 +965,48 @@
                         android:textColor="@color/grey"
                         android:textSize="@dimen/_10sdp" />
 
-                    <LinearLayout
-                        android:layout_width="@dimen/_70sdp"
+                    <!--                    <LinearLayout-->
+                    <!--                        android:layout_width="@dimen/_70sdp"-->
+                    <!--                        android:layout_height="match_parent"-->
+                    <!--                        android:id="@+id/conatinerSendCoupon"-->
+                    <!--                        android:gravity="center">-->
+
+                    <!--                        <TextView-->
+                    <!--                            android:id="@+id/btnCoupon"-->
+                    <!--                            android:layout_width="match_parent"-->
+                    <!--                            android:layout_height="match_parent"-->
+                    <!--                            android:fontFamily="@font/madani_arabic_medium"-->
+                    <!--                            android:gravity="center"-->
+                    <!--                            android:text="@string/activation"-->
+                    <!--                            android:textColor="@color/white"-->
+                    <!--                            android:textSize="@dimen/_10sdp" />-->
+
+                    <TextView
+                        android:id="@+id/btnCoupon"
+                        android:layout_width="@dimen/_85sdp"
                         android:layout_height="match_parent"
-                        android:background="@color/bg"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        android:id="@+id/conatinerSendCoupon"
-                        android:gravity="center">
+                        android:background="@drawable/round_btn"
+                        android:fontFamily="@font/madani_arabic_medium"
+                        android:gravity="center"
+                        android:paddingStart="@dimen/_10sdp"
+                        android:paddingEnd="@dimen/_10sdp"
+                        android:text="@string/activation"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_10sdp" />
 
-                        <TextView
-                            android:id="@+id/btnCoupon"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:fontFamily="@font/madani_arabic_medium"
-                            android:gravity="center"
-                            android:text="@string/activation"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/_10sdp" />
-
-
-                    </LinearLayout>
+                    <!--                    </LinearLayout>-->
 
 
                 </LinearLayout>
 
 
                 <LinearLayout
+                    android:id="@+id/ContainerPackge"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:gravity="center_vertical"
-                    android:id="@+id/ContainerPackge"
                     android:orientation="horizontal">
 
 
@@ -1002,8 +1048,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:gravity="center_vertical"
-                    android:visibility="gone"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
 
                     <TextView
@@ -1080,11 +1126,11 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/containerFixedPriceFee"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:gravity="center_vertical"
-                    android:id="@+id/containerFixedPriceFee"
                     android:orientation="horizontal">
 
 
@@ -1119,12 +1165,13 @@
 
 
                 </LinearLayout>
+
                 <LinearLayout
+                    android:id="@+id/containerAuctionFee"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:gravity="center_vertical"
-                    android:id="@+id/containerAuctionFee"
                     android:orientation="horizontal">
 
 
@@ -1159,12 +1206,13 @@
 
 
                 </LinearLayout>
+
                 <LinearLayout
+                    android:id="@+id/containerNegotiationFee"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:gravity="center_vertical"
-                    android:id="@+id/containerNegotiationFee"
                     android:orientation="horizontal">
 
 
@@ -1199,12 +1247,13 @@
 
 
                 </LinearLayout>
+
                 <LinearLayout
+                    android:id="@+id/containerSubTitleFee"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:gravity="center_vertical"
-                    android:id="@+id/containerSubTitleFee"
                     android:orientation="horizontal">
 
 
@@ -1356,6 +1405,7 @@
                             android:text="0"
                             android:textColor="@color/grey"
                             android:textSize="@dimen/_14sdp" />
+
                         <TextView
                             android:id="@+id/tvTotalAfterDiscount"
                             android:layout_width="wrap_content"
@@ -1364,9 +1414,9 @@
                             android:layout_marginEnd="@dimen/_15sdp"
                             android:fontFamily="@font/madani_arabic_semi_bold"
                             android:text="0"
-                            android:visibility="gone"
                             android:textColor="@color/grey"
-                            android:textSize="@dimen/_14sdp" />
+                            android:textSize="@dimen/_14sdp"
+                            android:visibility="gone" />
 
 
                     </LinearLayout>
@@ -1376,23 +1426,44 @@
 
             </LinearLayout>
 
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_confirm_details"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_15sdp"
-                android:layout_marginTop="@dimen/_20sdp"
-                android:layout_marginEnd="@dimen/_15sdp"
                 android:layout_marginBottom="@dimen/_10sdp"
-                android:background="@drawable/round_btn"
-                android:fontFamily="@font/madani_arabic_semi_bold"
-                android:text="@string/complete_the_order"
-                android:textAllCaps="false"
-                android:textColor="#ffffff"
-                android:textSize="@dimen/_14sdp" />
+                android:layout_marginTop="@dimen/_20sdp">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_confirm_details"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    app:layout_constraintEnd_toStartOf="@id/btn_cancel"
+                    android:background="@drawable/round_btn"
+                    android:fontFamily="@font/madani_arabic_semi_bold"
+                    android:text="@string/CheckoutProduct"
+                    android:textAllCaps="false"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/_14sdp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
 
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_cancel"
+                    app:layout_constraintStart_toEndOf="@id/btn_confirm_details"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:background="@drawable/round_btn"
+                    android:fontFamily="@font/madani_arabic_semi_bold"
+                    android:text="@string/cancel_the_order"
+                    android:textAllCaps="false"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/_14sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
 
     </ScrollView>

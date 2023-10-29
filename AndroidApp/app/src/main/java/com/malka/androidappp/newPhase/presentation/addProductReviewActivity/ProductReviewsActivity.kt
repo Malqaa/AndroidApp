@@ -75,18 +75,22 @@ class ProductReviewsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
         }
         productDetialsViewModel.errorResponseObserver.observe(this) {
-            if (it.message != null) {
-                showErrorText(it.message!!)
-            } else {
-                showErrorText(getString(R.string.serverError))
+            if(it.status!=null && it.status=="409"){
+                HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), this)
+            }else {
+                if (it.message != null) {
+                    showErrorText(it.message!!)
+                } else {
+                    showErrorText(getString(R.string.serverError))
+                }
             }
-
         }
         productDetialsViewModel.getRateResponseObservable.observe(this) { rateListResp ->
             // println("hhhh "+rateListResp.status_code+" "+rateListResp.data)
             if (rateListResp.status_code == 200) {
                 mainRatesList.clear()
-                mainRatesList.addAll(rateListResp.data)
+
+                mainRatesList.addAll(rateListResp.data.rateProductListDto)
                 reviewsadapter.notifyDataSetChanged()
                 if (mainRatesList.isEmpty()) {
                     showErrorText(getString(R.string.no_Reviews_Found))

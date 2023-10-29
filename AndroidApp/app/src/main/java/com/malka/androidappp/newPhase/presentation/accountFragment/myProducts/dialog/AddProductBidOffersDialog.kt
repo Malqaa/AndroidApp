@@ -3,23 +3,32 @@ package com.malka.androidappp.newPhase.presentation.accountFragment.myProducts.d
 import android.content.Context
 import android.content.DialogInterface
 import android.view.View
+import android.widget.AdapterView
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseDialog
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.domain.models.productResp.RequestBidOffers
 import com.malka.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
+import com.malka.androidappp.newPhase.presentation.accountFragment.negotiationOffersPurchase.adapter.SpinnerExpireHoursAdapter
+import kotlinx.android.synthetic.main.dialog_acceot_offer.spinnerValues
 import kotlinx.android.synthetic.main.dialog_add_product_bid_offers.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.HttpException
 import retrofit2.Response
 
-class AddProductBidOffersDialog  (context: Context,
-                                  var productId: Int,
-                                  var bidIDsList:List<String>,
-                                  var listener:AddProductBidOffersDialog.SetClickListeners): BaseDialog(context){
+class AddProductBidOffersDialog(
+    val expireHoursList: ArrayList<Float>,
+    context: Context,
+    var productId: Int,
+    var bidIDsList: List<String>,
+    var listener: AddProductBidOffersDialog.SetClickListeners
+) : BaseDialog(context) {
     var countriesCallback: Call<GeneralResponse>? = null
     var generalRespone: GeneralResponse? = null
+    var expireHour: Float = 0f
+    private lateinit var spinnerExpireHoursAdapter: SpinnerExpireHoursAdapter
     override fun getViewId(): Int {
         return R.layout.dialog_add_product_bid_offers
     }
@@ -28,6 +37,7 @@ class AddProductBidOffersDialog  (context: Context,
     override fun isCancelable(): Boolean = true
     override fun isLoadingDialog(): Boolean = false
     override fun initialization() {
+        setSpinnerExpireHoursAdapter()
         setOnClickListenres()
     }
 
@@ -36,38 +46,65 @@ class AddProductBidOffersDialog  (context: Context,
             dismiss()
         }
         btnSend.setOnClickListener {
-            var readytosend=true
-            if(etNegotiationPrice.text.toString().trim()==""){
-                readytosend=false
-                etNegotiationPrice.error=context.getString(R.string.writeNegotiationPrice2)
+            var readytosend = true
+            if (etNegotiationPrice.text.toString().trim() == "") {
+                readytosend = false
+                etNegotiationPrice.error = context.getString(R.string.writeNegotiationPrice2)
             }
-            if(etQuentity.text.toString().trim()==""){
-                readytosend=false
-                etQuentity.error=context.getString(R.string.quantity)
+            if (etQuentity.text.toString().trim() == "") {
+                readytosend = false
+                etQuentity.error = context.getString(R.string.quantity)
             }
-            if(readytosend){
-                addProductOffer(productId,etNegotiationPrice.text.toString().trim().toFloat(),etQuentity.text.toString().trim().toInt())
+
+            if (readytosend) {
+                addProductOffer(
+                    expireHour,
+                    productId,
+                    etNegotiationPrice.text.toString().trim().toFloat(),
+                    etQuentity.text.toString().trim().toInt()
+                )
             }
         }
     }
+    private fun setSpinnerExpireHoursAdapter() {
+        spinnerExpireHoursAdapter = SpinnerExpireHoursAdapter(context, expireHoursList)
+        spinnerValues.adapter = spinnerExpireHoursAdapter
+        spinnerValues.onItemSelectedListener = object :
+            AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                adapterView: AdapterView<*>?,
+                view: View,
+                spinnerPosition: Int,
+                l: Long
+            ) {
+                expireHour = expireHoursList[spinnerPosition]
+            }
+
+            override fun onNothingSelected(adapterView: AdapterView<*>?) {}
+        }
+    }
+
 
     fun addProductOffer(
+        expire: Float,
         productId: Int,
         price: Float,
         quentity: Int
     ) {
         close_alert_bid.isEnabled = false
         btnSend.isEnabled = false
+
+        val req = RequestBidOffers(expire, price, productId, quentity, bidIDsList)
 //        var data: HashMap<String, Any> = HashMap()
 //        data["productId"] = productId
 //        data["quantity"] = quentity
 //        data["price"] = price
-//        var list:ArrayList<String> = ArrayList()
-//          for(item in bidIDsList){
-//              list.add(item.toString())
-//          }
-        println("hhhh "+productId+" " +price+" "+quentity+" "+ bidIDsList.toString() )
-        countriesCallback = RetrofitBuilder.GetRetrofitBuilder().addProductBidOffers(productId,quentity,price,bidIDsList)
+//        var list: ArrayList<String> = ArrayList()
+//        for (item in bidIDsList) {
+//            list.add(item.toString())
+//        }
+        println("hhhh " + productId + " " + price + " " + quentity + " " + bidIDsList.toString())
+        countriesCallback = RetrofitBuilder.GetRetrofitBuilder().addProductBidOffers(req)
         countriesCallback?.enqueue(object : Callback<GeneralResponse> {
             override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
                 progressBar.visibility = View.GONE

@@ -34,6 +34,8 @@
             android:textSize="@dimen/_14sdp" />
 
         <TextView
+            android:id="@+id/txtTHours"
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -44,6 +46,8 @@
             android:textSize="@dimen/_10sdp" />
 
         <androidx.cardview.widget.CardView
+            android:visibility="gone"
+            android:id="@+id/spTHours"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"

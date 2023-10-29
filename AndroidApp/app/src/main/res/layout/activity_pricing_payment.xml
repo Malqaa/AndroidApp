@@ -69,7 +69,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_10sdp"
-                        android:background="@drawable/edittext_bg"
+                        android:background="@drawable/field_selection_border_enable"
                         android:orientation="horizontal"
                         android:padding="@dimen/_5sdp"
                         android:weightSum="2">
@@ -83,12 +83,13 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/madani_arabic_light"
                             android:text="@string/fixed_price_sale"
-                            android:textColor="@color/grey"
+                            android:textColor="@color/orange"
                             android:textSize="@dimen/_12sdp" />
 
                         <androidx.appcompat.widget.SwitchCompat
                             android:id="@+id/fixedPriceType_rb1"
                             android:layout_width="wrap_content"
+                            android:checked="true"
                             android:layout_height="match_parent"
                             android:layout_gravity="center_vertical"
                             android:layout_weight="1"
@@ -167,8 +168,7 @@
                         android:id="@+id/fixed_price_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:visibility="gone">
+                        android:orientation="vertical">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -605,6 +605,67 @@
 
                     </LinearLayout>
 
+                    <LinearLayout
+                        android:id="@+id/layoutCreditCard"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:background="@drawable/edittext_bg"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_5sdp">
+
+                        <TextView
+                            android:id="@+id/tvCreditCard"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/madani_arabic_light"
+                            android:gravity="center_vertical"
+                            android:text="@string/creditCard"
+                            android:textColor="@color/grey"
+                            android:textSize="@dimen/_12sdp" />
+
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/switchCreditCard"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/layoutMadaPayment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:background="@drawable/edittext_bg"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_5sdp">
+
+                        <TextView
+                            android:id="@+id/tvMadaPayment"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/madani_arabic_light"
+                            android:gravity="center_vertical"
+                            android:text="@string/MadaPayment"
+                            android:textColor="@color/grey"
+                            android:textSize="@dimen/_12sdp" />
+
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/switchMadaPayment"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 

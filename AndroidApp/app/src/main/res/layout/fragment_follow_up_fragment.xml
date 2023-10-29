@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragments.Follow_Up.follow_up_fragment"
+    tools:context=".fragments.follow_Up.FollowUpFragment"
     android:orientation="vertical">
 
 
@@ -39,12 +39,12 @@
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/_5sdp"
                 android:layout_weight="1"
-                android:background="@drawable/edittext_bg"
                 android:fontFamily="@font/madani_arabic_medium"
                 android:gravity="center"
                 android:padding="@dimen/_5sdp"
+                android:background="@drawable/round_btn"
                 android:text="@string/favorite_categories"
-                android:textColor="#45495E"
+                android:textColor="@color/white"
                 android:textSize="@dimen/_10sdp" />
 
             <TextView
@@ -53,12 +53,12 @@
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/_5sdp"
                 android:layout_weight="1"
-                android:background="@drawable/round_btn"
+                android:background="@drawable/edittext_bg"
+                android:textColor="#45495E"
                 android:fontFamily="@font/madani_arabic_medium"
                 android:gravity="center"
                 android:padding="@dimen/_5sdp"
                 android:text="@string/favorite_sellers"
-                android:textColor="@color/white"
                 android:textSize="@dimen/_10sdp" />
 
             <TextView
@@ -76,52 +76,72 @@
                 android:textSize="@dimen/_10sdp" />
         </LinearLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/fav_category_rcv"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_5sdp"
-            android:orientation="vertical"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+            android:layout_height="match_parent">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/fav_category_rcv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_5sdp"
+                tools:listitem="@layout/favorite_categories_design"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/fav_seller_rcv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_5sdp"
-            android:orientation="vertical"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/fav_seller_rcv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_5sdp"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/fav_search_rcv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_5sdp"
-            android:orientation="vertical"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/fav_search_rcv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_5sdp"
+                android:orientation="vertical"
+
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+        </FrameLayout>
 
 
     </LinearLayout>
-
-
-    <LinearLayout
-        android:id="@+id/add_new_category"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="@dimen/_5sdp"
-        android:layout_marginTop="@dimen/_5sdp"
-        android:layout_marginEnd="@dimen/_5sdp"
-        android:layout_marginBottom="@dimen/_5sdp"
-        android:background="@drawable/product_attribute_bg4"
-        android:gravity="center"
+    <TextView
         android:visibility="gone"
-        android:orientation="horizontal"
-        android:padding="@dimen/_12sdp">
+        android:id="@+id/tvError"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:fontFamily="@font/madani_arabic_medium"
+        android:text="@string/noProductsFound"
+        android:textAlignment="viewStart"
+        android:textColor="@color/gray"
+        android:textSize="@dimen/_10sdp" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
 
         <TextView
+            android:id="@+id/add_new_category"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:padding="@dimen/_12sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:layout_alignParentBottom="true"
+            android:visibility="gone"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:background="@drawable/product_attribute_bg4"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:fontFamily="@font/madani_arabic_bold"
             android:gravity="center"
             android:text="@string/add_a_new_category"
@@ -129,7 +149,6 @@
             android:textSize="@dimen/_12sdp" />
 
 
-    </LinearLayout>
 
 
 </RelativeLayout>

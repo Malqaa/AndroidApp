@@ -108,6 +108,47 @@
 <!--                app:startIcon="@drawable/ic_phone"-->
 <!--                app:viewType="country" />-->
 
+
+            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+                android:id="@+id/textEmaill"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="@string/Email"
+                android:inputType="textEmailAddress"
+                app:startIcon="@drawable/ic_email" />
+
+            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+                android:id="@+id/textPass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="@string/Password"
+                android:inputType="textPassword"
+                app:enablePasswordToggle="true"
+                app:startIcon="@drawable/symbolpass" />
+
+            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+                android:id="@+id/confirmPass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="@string/Confirm_Password"
+                android:inputType="textPassword"
+                app:enablePasswordToggle="true"
+                app:startIcon="@drawable/symbolpass" />
+
+
+            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+                android:id="@+id/invitation_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="@string/invitation_code"
+                android:inputType="number"
+                android:maxLength="50"
+                app:startIcon="@drawable/ic_invitation" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -157,8 +198,10 @@
                                     style="@style/addressCompoEditFieldTextStyle"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:inputType="phone"
+                                    android:inputType="number"
                                     android:maxLines="1"
+                                    android:maxLength="15"
+                                    app:imeOptions="done"
                                     android:importantForAutofill="no"
                                     android:paddingTop="@dimen/_5sdp"
                                     android:textAlignment="viewStart"
@@ -217,9 +260,9 @@
                                 app:ccp_rememberLastSelection="false"
                                 app:ccp_showNameCode="false"
                                 app:ccp_showPhoneCode="true" />
-<!--
-  app:ccp_autoDetectCountry="true"
- app:ccp_countryAutoDetectionPref="SIM_NETWORK_LOCALE"-->
+                            <!--
+                              app:ccp_autoDetectCountry="true"
+                             app:ccp_countryAutoDetectionPref="SIM_NETWORK_LOCALE"-->
 
 
                         </LinearLayout>
@@ -243,46 +286,6 @@
 
             </LinearLayout>
 
-            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
-                android:id="@+id/textEmaill"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:hint="@string/Email"
-                android:inputType="textEmailAddress"
-                app:startIcon="@drawable/ic_email" />
-
-            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
-                android:id="@+id/textPass"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:hint="@string/Password"
-                android:inputType="textPassword"
-                app:enablePasswordToggle="true"
-                app:startIcon="@drawable/symbolpass" />
-
-            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
-                android:id="@+id/confirmPass"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:hint="@string/Confirm_Password"
-                android:inputType="textPassword"
-                app:enablePasswordToggle="true"
-                app:startIcon="@drawable/symbolpass" />
-
-
-            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
-                android:id="@+id/invitation_code"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:hint="@string/invitation_code"
-                android:inputType="text"
-                app:imeOptions="done"
-                app:startIcon="@drawable/ic_invitation" />
-
             <com.malka.androidappp.newPhase.data.helper.widgets.TermsnConditionsSwitch
                 android:id="@+id/switch_term_condition"
                 android:layout_width="match_parent"
@@ -300,7 +303,7 @@
                 android:background="@drawable/round_btn"
                 android:fontFamily="@font/madani_arabic_semi_bold"
                 android:onClick="SignuuPg1confirmInput"
-                android:text="@string/new_registration"
+                android:text="@string/NEXT"
                 android:textAllCaps="false"
                 android:textColor="#ffffff"
                 android:textSize="@dimen/_14sdp" />

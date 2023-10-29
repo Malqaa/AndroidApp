@@ -1,5 +1,6 @@
 package com.malka.androidappp.newPhase.presentation.myOrderDetails
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
@@ -17,6 +18,7 @@ import com.malka.androidappp.newPhase.domain.models.orderListResp.OrderItem
 import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.presentation.myOrderDetails.adapter.OrderProductAdapter
 import com.malka.androidappp.newPhase.presentation.accountFragment.myOrderFragment.MyOrdersViewModel
+import com.malka.androidappp.newPhase.presentation.addSellerReviewActivity.AddRateSellerActivity
 import com.malka.androidappp.newPhase.presentation.myOrderDetails.dialogs.OrderStatusDialog
 import kotlinx.android.synthetic.main.activity_my_order_details_requested_from_me.*
 import kotlinx.android.synthetic.main.toolbar_main.*
@@ -56,14 +58,25 @@ class MyOrderDetailsRequestedFromMeActivity : BaseActivity(), SwipeRefreshLayout
         }
         btnChangeOrderStatus.setOnClickListener {
             var orderStatusDialog =
-                OrderStatusDialog(this, object : OrderStatusDialog.SetOnSelectOrderStatus {
-                    override fun onSelectOrderStatus(orderStatus: Int) {
-                        myOrdersViewModel.cancelOrder(orderId, orderStatus)
+                OrderStatusDialog(
+                    this,
+                    orderDetailsResp?.orderDetails?.orderStatus ?: 0,
+                    object : OrderStatusDialog.SetOnSelectOrderStatus {
+                        override fun onSelectOrderStatus(orderStatus: Int) {
+                            myOrdersViewModel.cancelOrder(orderId, orderStatus)
 
-                    }
+                        }
 
-                })
+                    })
             orderStatusDialog.show()
+        }
+
+        btnRateBuyer.setOnClickListener {
+
+            startActivity(Intent(this, AddRateBuyerActivity::class.java).apply {
+                putExtra("orderId",orderDetailsResp?.orderDetails?.orderId)
+                putExtra("clientId",orderDetailsResp?.orderDetails?.clientId)
+            })
         }
     }
 
@@ -79,20 +92,21 @@ class MyOrderDetailsRequestedFromMeActivity : BaseActivity(), SwipeRefreshLayout
             shipments_tv.text = orderItem.providersCount.toString()
             total_order_tv.text =
                 "${orderItem.totalOrderAmountAfterDiscount} ${getString(R.string.rial)}"
-            when (orderItem.orderStatus) {
-                ConstantObjects.orderStatus_provider_new -> {
-                    order_status_tv.text = getString(R.string.order_new)
-                }
-                ConstantObjects.orderStatus_provider_inProgress -> {
-                    order_status_tv.text = getString(R.string.order_productsProcessing)
-                }
-                ConstantObjects.orderStatus_provider_inDelivery -> {
-                    order_status_tv.text = getString(R.string.order_deliveryPhase)
-                }
-                ConstantObjects.orderStatus_provider_finished -> {
-                    order_status_tv.text = getString(R.string.order_deliveryConfirmation)
-                }
-            }
+//            when (orderItem.orderStatus) {
+//                ConstantObjects.WaitingForPayment -> {
+//                    order_status_tv.text = getString(R.string.WaitingForPayment)
+//                }
+//                ConstantObjects.Retrieved -> {
+//                    order_status_tv.text = getString(R.string.Retrieved)
+//                }
+//                ConstantObjects.InProgress -> {
+//                    order_status_tv.text = getString(R.string.InProgress)
+//                }
+//                ConstantObjects.DeliveryInProgress -> {
+//                    order_status_tv.text = getString(R.string.DeliveryInProgress)
+//                }
+//            }
+
 
         }
 
@@ -124,12 +138,15 @@ class MyOrderDetailsRequestedFromMeActivity : BaseActivity(), SwipeRefreshLayout
 
         }
         myOrdersViewModel.errorResponseObserver.observe(this) {
-            if (it.message != null) {
-                showApiError(it.message!!)
+            if (it.status != null && it.status == "409") {
+                HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), this)
             } else {
-                showApiError(getString(R.string.serverError))
+                if (it.message != null) {
+                    showApiError(it.message!!)
+                } else {
+                    showApiError(getString(R.string.serverError))
+                }
             }
-
         }
 
         myOrdersViewModel.soldOutOrderDetailsByOrderIdRespObserver.observe(this) { resp ->
@@ -137,6 +154,7 @@ class MyOrderDetailsRequestedFromMeActivity : BaseActivity(), SwipeRefreshLayout
                 mainContainer.show()
                 orderDetailsResp = resp
                 setOrderData(orderDetailsResp?.orderDetails)
+
             } else {
                 if (resp.message != null) {
                     showApiError(resp.message)
@@ -164,24 +182,40 @@ class MyOrderDetailsRequestedFromMeActivity : BaseActivity(), SwipeRefreshLayout
     private fun setOrderData(orderDetailsData: OrderDetailsData?) {
         orderDetailsData?.let {
             order_number_tv.text = it.orderId.toString()
-            if (it.totalOrderPrice != null) {
-                total_tv.text =
-                    orderDetailsData.totalOrderPrice!!.toString()
+//            if (it.totalOrderPrice != null) {
+//                total_tv.text =
+//                    orderDetailsData.totalOrderPrice!!.toString()
+//            }
+
+            total_tv.text =
+                "${orderDetailsResp?.orderDetails?.totalOrderAmountAfterDiscount} ${getString(R.string.rial)}"
+            shipments_tv.text = "${orderDetailsResp?.orderDetails?.shippingCount}"
+            subtotal_tv.text =
+                "${orderDetailsResp?.orderDetails?.totalOrderAmountBeforDiscount} ${getString(R.string.rial)}"
+            if (orderDetailsResp?.orderDetails?.orderStatus == ConstantObjects.Delivered) {
+                btnChangeOrderStatus.hide()
+                btnRateBuyer.show()
+            }else{
+                btnRateBuyer.hide()
             }
-            when (orderDetailsData.orderStatus) {
-                ConstantObjects.orderStatus_provider_new -> {
-                    order_status_tv.text = getString(R.string.order_new)
-                }
-                ConstantObjects.orderStatus_provider_inProgress -> {
-                    order_status_tv.text = getString(R.string.order_productsProcessing)
-                }
-                ConstantObjects.orderStatus_provider_inDelivery -> {
-                    order_status_tv.text = getString(R.string.order_deliveryPhase)
-                }
-                ConstantObjects.orderStatus_provider_finished -> {
-                    order_status_tv.text = getString(R.string.order_deliveryConfirmation)
-                }
-            }
+
+
+            order_status_tv.text = orderDetailsData.status
+
+//            when (orderDetailsData.orderStatus) {
+//                ConstantObjects.WaitingForPayment -> {
+//                    order_status_tv.text = getString(R.string.WaitingForPayment)
+//                }
+//                ConstantObjects.Retrieved -> {
+//                    order_status_tv.text = getString(R.string.order_productsProcessing)
+//                }
+//                ConstantObjects.InProgress -> {
+//                    order_status_tv.text = getString(R.string.order_deliveryPhase)
+//                }
+//                ConstantObjects.DeliveryInProgress -> {
+//                    order_status_tv.text = getString(R.string.order_deliveryConfirmation)
+//                }
+//            }
 
 //            if (it.totalOrderMasterAmountBeforDiscount != null) {
 //                subtotal_tv.text =

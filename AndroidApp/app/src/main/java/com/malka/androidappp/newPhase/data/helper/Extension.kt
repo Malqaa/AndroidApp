@@ -132,7 +132,7 @@ object Extension {
         var imagePath= if(path==""||path==null) "emptyPath" else path
         Picasso.get()
             .load(imagePath)//.replace("http","https")
-            .error(R.drawable.main_logo)
+            .error(R.mipmap.malqa_iconn)
             .into(imageView, object : Callback {
                 override fun onSuccess() {
                     pb_loading?.hide()

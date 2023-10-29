@@ -35,7 +35,7 @@ class LoginViewModel : BaseViewModel(){
                     if (response.isSuccessful) {
                         userLoginObserver.value=response.body()
                     }else{
-                        errorResponseObserver.value = getErrorResponse(response.errorBody())
+                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
                     }
                     isLoading.value = false
                 }
@@ -60,7 +60,7 @@ class LoginViewModel : BaseViewModel(){
                     if (response.isSuccessful) {
                         forgetPasswordObserver.value=response.body()
                     }else{
-                        errorResponseObserver.value = getErrorResponse(response.errorBody())
+                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
                     }
                     isLoading.value = false
                 }
@@ -70,7 +70,7 @@ class LoginViewModel : BaseViewModel(){
     }
     fun changePasswordAfterForget(email:String,otpCOde:String,password:String){
         isLoading.value = true
-        var hashMap:HashMap<String,Any> = HashMap()
+        val hashMap:HashMap<String,Any> = HashMap()
         hashMap["email"]=email
         hashMap["resetPasswordCode"]=otpCOde
         hashMap["newPassword"]=password
@@ -89,7 +89,7 @@ class LoginViewModel : BaseViewModel(){
                     if (response.isSuccessful) {
                         changePasswordAfterForgetObserver.value=response.body()
                     }else{
-                        errorResponseObserver.value = getErrorResponse(response.errorBody())
+                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
                     }
                     isLoading.value = false
                 }

@@ -1,14 +1,18 @@
 package com.malka.androidappp.newPhase.presentation.myOrderDetails.dialogs
 
 import android.content.Context
+import android.view.View
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseDialog
 import com.malka.androidappp.newPhase.data.helper.ConstantObjects
+import com.malka.androidappp.newPhase.data.helper.hide
+import com.malka.androidappp.newPhase.data.helper.show
 import kotlinx.android.synthetic.main.dialog_order_status.*
 
 
 class OrderStatusDialog(
     context: Context,
+    val status:Int,
     var setOnSelectOrderStatus: OrderStatusDialog.SetOnSelectOrderStatus
 ) :
     BaseDialog(context) {
@@ -25,20 +29,106 @@ class OrderStatusDialog(
     override fun isCancelable(): Boolean = true
     override fun isLoadingDialog(): Boolean = false
     override fun initialization() {
+        if(status>=3){
+            tvCanceled.hide()
+        }
+        when(status){
+            ConstantObjects.WaitingForPayment->{
+                tvWaitingForPayment.hide()
+                tvWaitingForReview.show()
+                tvInProgress.show()
+                tvReadyForDelivery.show()
+                tvDeliveryInProgress.show()
+                tvDelivered.show()
+                tvRetrieved.hide()
+            }
+            ConstantObjects.WaitingForReview->{
+                tvWaitingForReview.hide()
+                tvWaitingForPayment.hide()
+                tvInProgress.show()
+                tvReadyForDelivery.show()
+                tvDeliveryInProgress.show()
+                tvDelivered.show()
+                tvRetrieved.hide()
+            }
+            ConstantObjects.InProgress->{
+                tvInProgress.hide()
+                tvWaitingForReview.hide()
+                tvWaitingForPayment.hide()
+                tvReadyForDelivery.show()
+                tvDeliveryInProgress.show()
+                tvDelivered.show()
+                tvRetrieved.hide()
+
+            }
+            ConstantObjects.ReadyForDelivery->{
+                tvReadyForDelivery.hide()
+                tvInProgress.hide()
+                tvWaitingForReview.hide()
+                tvWaitingForPayment.hide()
+                tvDeliveryInProgress.show()
+                tvDelivered.show()
+                tvRetrieved.hide()
+
+            }
+            ConstantObjects.DeliveryInProgress->{
+                tvDeliveryInProgress.hide()
+                tvReadyForDelivery.hide()
+                tvInProgress.hide()
+                tvWaitingForReview.hide()
+                tvWaitingForPayment.hide()
+                tvDelivered.show()
+                tvRetrieved.hide()
+
+            }
+            ConstantObjects.Delivered->{
+                tvDelivered.hide()
+                tvDeliveryInProgress.hide()
+                tvReadyForDelivery.hide()
+                tvInProgress.hide()
+                tvWaitingForReview.hide()
+                tvWaitingForPayment.hide()
+                tvRetrieved.show()
+
+            }
+        }
+
+
         btnCancel.setOnClickListener {
             dismiss()
         }
         ivClose.setOnClickListener {
             dismiss()
         }
-        tvProductsProcessing.setOnClickListener {
-            setOnSelectOrderStatus.onSelectOrderStatus(ConstantObjects.orderStatus_provider_inProgress)
+
+        tvWaitingForPayment.setOnClickListener {
+            setOnSelectOrderStatus.onSelectOrderStatus(ConstantObjects.WaitingForPayment)
+            dismiss()
         }
-        tvDeliveryPhase.setOnClickListener {
-            setOnSelectOrderStatus.onSelectOrderStatus(ConstantObjects.orderStatus_provider_inDelivery)
+        tvWaitingForReview.setOnClickListener {
+            setOnSelectOrderStatus.onSelectOrderStatus(ConstantObjects.WaitingForReview)
+            dismiss()
         }
-        tvDeliveryConfirmation.setOnClickListener {
-            setOnSelectOrderStatus.onSelectOrderStatus(ConstantObjects.orderStatus_provider_finished)
+        tvInProgress.setOnClickListener {
+            setOnSelectOrderStatus.onSelectOrderStatus(ConstantObjects.InProgress)
+            dismiss()
+        }
+        tvReadyForDelivery.setOnClickListener {
+            setOnSelectOrderStatus.onSelectOrderStatus(ConstantObjects.ReadyForDelivery)
+            dismiss()
+        }
+        tvDeliveryInProgress.setOnClickListener {
+            setOnSelectOrderStatus.onSelectOrderStatus(ConstantObjects.DeliveryInProgress)
+            dismiss()
+        }
+        tvDelivered.setOnClickListener {
+            setOnSelectOrderStatus.onSelectOrderStatus(ConstantObjects.Delivered)
+            dismiss()
+        }
+
+        tvCanceled.setOnClickListener {
+            setOnSelectOrderStatus.onSelectOrderStatus(ConstantObjects.Canceled)
+            dismiss()
         }
 
     }

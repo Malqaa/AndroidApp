@@ -14,13 +14,14 @@ import com.malka.androidappp.newPhase.data.helper.*
 import com.malka.androidappp.newPhase.domain.models.productResp.Product
 import com.malka.androidappp.newPhase.domain.models.sellerInfoResp.SellerInformation
 import com.malka.androidappp.newPhase.data.helper.ConstantObjects
+import com.malka.androidappp.newPhase.domain.models.categoryFollowResp.Branch
 import com.malka.androidappp.newPhase.presentation.adapterShared.ProductHorizontalAdapter
 import com.malka.androidappp.newPhase.presentation.adapterShared.SetOnProductItemListeners
 import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
 import com.malka.androidappp.newPhase.presentation.productDetailsActivity.ProductDetailsActivity
+import com.malka.androidappp.newPhase.presentation.productDetailsActivity.ShowBranchesMapActivity
 import com.malka.androidappp.newPhase.presentation.productsSellerInfoActivity.viewModel.SellerViewModel
 import kotlinx.android.synthetic.main.activity_seller_information.*
-import kotlinx.android.synthetic.main.activity_seller_information.btnMapSeller
 import kotlinx.android.synthetic.main.activity_seller_information.facebook_btn
 import kotlinx.android.synthetic.main.activity_seller_information.instagram_btn
 import kotlinx.android.synthetic.main.activity_seller_information.ivRateSeller
@@ -39,6 +40,7 @@ import kotlinx.android.synthetic.main.activity_seller_information.twitter_btn
 import kotlinx.android.synthetic.main.activity_seller_information.youtube_btn
 import kotlinx.android.synthetic.main.toolbar_main.*
 import java.util.*
+import kotlin.collections.ArrayList
 
 class SellerInformationActivity : BaseActivity(), SetOnProductItemListeners,
     SwipeRefreshLayout.OnRefreshListener {
@@ -95,23 +97,32 @@ class SellerInformationActivity : BaseActivity(), SetOnProductItemListeners,
         //   tvRateText.text=it.rate.toString()
         when (it.rate) {
             1f -> {
-                ivRateSeller.setImageResource(R.drawable.smile3)
+                ivRateSeller.setImageResource(R.drawable.happyface_color)
             }
+
             2f -> {
-                ivRateSeller.setImageResource(R.drawable.neutral)
+                ivRateSeller.setImageResource(R.drawable.smileface_color)
             }
+
             3f -> {
-                ivRateSeller.setImageResource(R.drawable.sad)
+                ivRateSeller.setImageResource(R.drawable.sadcolor_gray)
             }
+
             else -> {
-                ivRateSeller.setImageResource(R.drawable.smile3)
+                ivRateSeller.setImageResource(R.drawable.smileface_color)
             }
         }
-//        if (it.lat != null && it.lon != null) {
-//            btnMapSeller.show()
-//        } else {
-//            btnMapSeller.hide()
-//        }
+        if(it.businessAccountId!=""){
+            btnMapSeller.show()
+        }else{
+            if (it.lat != null && it.lon != null) {
+                btnMapSeller.show()
+            } else {
+                btnMapSeller.hide()
+            }
+        }
+
+
         if (it.instagram != null && it.instagram != "") {
             instagram_btn.show()
         } else {
@@ -152,14 +163,18 @@ class SellerInformationActivity : BaseActivity(), SetOnProductItemListeners,
         } else {
             snapChat_btn.hide()
         }
-        if(it.lat!=null&&it.lon!=null){
-            if(it.lat!=0.0&&it.lon!=0.0){
-                btnMapSeller.show()
-            }else{
+
+
+        if(it.businessAccountId!=""){
+            btnMapSeller.show()
+        }else{
+            if (it.lat != null && it.lon != null) {
+                if (it.lat != 0.0 && it.lon != 0.0) {
+                    btnMapSeller.show()
+                }
+            } else {
                 btnMapSeller.hide()
             }
-        }else{
-            btnMapSeller.hide()
         }
     }
 
@@ -208,12 +223,15 @@ class SellerInformationActivity : BaseActivity(), SetOnProductItemListeners,
 
         }
         sellerViewModel.errorResponseObserver.observe(this) {
-            if (it.message != null) {
-                showProductApiError(it.message!!)
-            } else {
-                showProductApiError(getString(R.string.serverError))
+            if(it.status!=null && it.status=="409"){
+                HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), this)
+            }else {
+                if (it.message != null) {
+                    showProductApiError(it.message!!)
+                } else {
+                    showProductApiError(getString(R.string.serverError))
+                }
             }
-
         }
         sellerViewModel.sellerProductsRespObserver.observe(this) { productListResp ->
             if (productListResp.status_code == 200) {
@@ -243,18 +261,21 @@ class SellerInformationActivity : BaseActivity(), SetOnProductItemListeners,
 
         }
         sellerViewModel.errorResponseObserverProductToFav.observe(this) {
-            if (it.message != null && it.message != "") {
-                HelpFunctions.ShowLongToast(
-                    it.message!!,
-                    this
-                )
-            } else {
-                HelpFunctions.ShowLongToast(
-                    getString(R.string.serverError),
-                    this
-                )
+            if(it.status!=null && it.status=="409"){
+                HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), this)
+            }else {
+                if (it.message != null && it.message != "") {
+                    HelpFunctions.ShowLongToast(
+                        it.message!!,
+                        this
+                    )
+                } else {
+                    HelpFunctions.ShowLongToast(
+                        getString(R.string.serverError),
+                        this
+                    )
+                }
             }
-
         }
         sellerViewModel.addProductToFavObserver.observe(this) {
             if (it.status_code == 200) {
@@ -275,6 +296,7 @@ class SellerInformationActivity : BaseActivity(), SetOnProductItemListeners,
                 ivSellerFollow.setImageResource(R.drawable.notification_log)
             }
         }
+
         onRefresh()
     }
 
@@ -357,23 +379,29 @@ class SellerInformationActivity : BaseActivity(), SetOnProductItemListeners,
             }
         }
         btnMapSeller.setOnClickListener {
-            if (sellerInformation?.lat != null && sellerInformation?.lon != null) {
-                openLocationInMap(sellerInformation?.lat!!, sellerInformation?.lon!!)
-            } else {
-                HelpFunctions.ShowLongToast(getString(R.string.noLocationFound), this)
-            }
+            openLocationInMap(sellerInformation?.branches!!)
+//            if (sellerInformation?.lat != null && sellerInformation?.lon != null) {
+//                openLocationInMap(sellerInformation?.lat!!, sellerInformation?.lon!!)
+//            } else {
+//                HelpFunctions.ShowLongToast(getString(R.string.noLocationFound), this)
+//            }
           //  openLocationInMap(0.0, 0.0)
         }
 
     }
 
-    private fun openLocationInMap(lat: Double, langtiude: Double) {
-        val URL = ("http://maps.google.com/maps?saddr=&daddr=$lat,$langtiude&dirflg=d")
-        val location = Uri.parse(URL)
-        val mapIntent = Intent(Intent.ACTION_VIEW, location)
-        // Make the Intent explicit by setting the Google Maps package
-        mapIntent.setPackage("com.google.android.apps.maps")
-        startActivity(mapIntent)
+    private fun openLocationInMap(branches:ArrayList<Branch>) {
+//        val URL = ("http://maps.google.com/maps?saddr=&daddr=$lat,$langtiude&dirflg=d")
+//        val location = Uri.parse(URL)
+//        val mapIntent = Intent(Intent.ACTION_VIEW, location)
+//        // Make the Intent explicit by setting the Google Maps package
+//        mapIntent.setPackage("com.google.android.apps.maps")
+//        startActivity(mapIntent)
+
+        startActivity(Intent(this, ShowBranchesMapActivity::class.java).apply {
+            putParcelableArrayListExtra("customBranches", branches)
+
+        })
     }
 
     override fun onProductSelect(position: Int, productID: Int, categoryID: Int) {

@@ -31,22 +31,22 @@ class SellerRateAdapter(val context: Context, var sellerRateList: ArrayList<Sell
         val rate = sellerRateList[position]
         holder.name.text = rate.userName
         holder.comment.text = rate.comment
-//        holder.ratetext.text = rate.rate.toString()
+        holder.ratetext.text = rate.rate.toString()
         when (rate.rate) {
             1f -> {
-                holder.ivRateSeller.setImageResource(R.drawable.smile3)
+                holder.ivRateSeller.setImageResource(R.drawable.smileface_color)
             }
             2f -> {
-                holder.ivRateSeller.setImageResource(R.drawable.neutral)
+                holder.ivRateSeller.setImageResource(R.drawable.happyface_color)
             }
             3f -> {
-                holder.ivRateSeller.setImageResource(R.drawable.sad)
+                holder.ivRateSeller.setImageResource(R.drawable.sadcolor_gray)
             }
             else -> {
-                holder.ivRateSeller.setImageResource(R.drawable.smile3)
+                holder.ivRateSeller.setImageResource(R.drawable.smileface_color)
             }
         }
-        //  holder.date.text = HelpFunctions.getViewFormatForDateTrack(rate.createdAt)
+          holder.date.text = HelpFunctions.getViewFormatForDateTrack(rate.createdAt)
         Glide.with(context).load(rate.imgProfile).error(R.mipmap.malqa_iconn_round)
             .into(holder.image)
     }
@@ -58,6 +58,6 @@ class SellerRateAdapter(val context: Context, var sellerRateList: ArrayList<Sell
         val comment = itemView.findViewById<TextView>(R.id.review_comment)
         val ratetext = itemView.findViewById<TextView>(R.id.review_rating)
         val ivRateSeller = itemView.findViewById<ImageView>(R.id.ivRateSeller)
-        // val date = itemView.findViewById<TextView>(R.id.review_date)
+         val date = itemView.findViewById<TextView>(R.id.review_date)
     }
 }

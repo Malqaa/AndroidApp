@@ -17,6 +17,7 @@ class NegotiationOffersViewModel:BaseViewModel() {
     var purchaseProductsOffersObserver:MutableLiveData<NegotiationOfferResp> = MutableLiveData()
     var noOffersObserver:MutableLiveData<Boolean> = MutableLiveData()
     var loadingDialogObserver:MutableLiveData<Boolean> = MutableLiveData()
+    var purchaseOfferObserver:MutableLiveData<GeneralResponse> = MutableLiveData()
     var cancelOfferObserver:MutableLiveData<GeneralResponse> = MutableLiveData()
     fun getPurchaseProductsOffers(isSent:Boolean){
         isLoading.value = true
@@ -41,7 +42,7 @@ class NegotiationOffersViewModel:BaseViewModel() {
                     if (response.isSuccessful) {
                         purchaseProductsOffersObserver.value = response.body()
                     } else {
-                        errorResponseObserver.value = getErrorResponse(response.errorBody())
+                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
                     }
                 }
             })
@@ -70,7 +71,7 @@ class NegotiationOffersViewModel:BaseViewModel() {
                     if (response.isSuccessful) {
                         purchaseProductsOffersObserver.value = response.body()
                     } else {
-                        errorResponseObserver.value = getErrorResponse(response.errorBody())
+                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
                     }
                 }
             })
@@ -94,7 +95,31 @@ class NegotiationOffersViewModel:BaseViewModel() {
                     if (response.isSuccessful) {
                         cancelOfferObserver.value = response.body()
                     } else {
-                        errorResponseObserver.value = getErrorResponse(response.errorBody())
+                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
+                    }
+                }
+            })
+    }
+
+
+    fun purchaseOffer(offerId:Int){
+        loadingDialogObserver.value = true
+        RetrofitBuilder.GetRetrofitBuilder()
+            .purchaseProductByOffer(offerId)
+            .enqueue(object : Callback<GeneralResponse> {
+                override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
+                    isNetworkFail.value = t !is HttpException
+                    loadingDialogObserver.value = false
+                }
+                override fun onResponse(
+                    call: Call<GeneralResponse>,
+                    response: Response<GeneralResponse>
+                ) {
+                    loadingDialogObserver.value = false
+                    if (response.isSuccessful) {
+                        purchaseOfferObserver.value = response.body()
+                    } else {
+                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
                     }
                 }
             })

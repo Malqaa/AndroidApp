@@ -1,14 +1,25 @@
 package com.malka.androidappp.newPhase.presentation.accountFragment
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.ActivityNotFoundException
+import android.content.ContentResolver
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Filter
+import android.widget.Toast
 import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -19,6 +30,7 @@ import com.malka.androidappp.newPhase.data.helper.*
 import com.malka.androidappp.newPhase.data.helper.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.newPhase.data.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.newPhase.domain.models.loginResp.LoginUser
+import com.malka.androidappp.newPhase.domain.models.sellerInfoResp.SellerInformation
 import com.malka.androidappp.newPhase.domain.models.servicemodels.AccountItem
 import com.malka.androidappp.newPhase.domain.models.servicemodels.AccountSubItem
 import com.malka.androidappp.newPhase.presentation.MainActivity
@@ -31,6 +43,7 @@ import com.malka.androidappp.newPhase.presentation.accountFragment.technicalSupp
 import com.malka.androidappp.newPhase.presentation.addProduct.AccountObject
 import com.malka.androidappp.newPhase.presentation.addressUser.addressListActivity.ListAddressesActivity
 import com.malka.androidappp.newPhase.presentation.dialogsShared.PickImageMethodsDialog
+import com.malka.androidappp.newPhase.presentation.utils.CameraHelper
 import com.squareup.picasso.Picasso
 import io.paperdb.Paper
 import kotlinx.android.synthetic.main.account_main_item.view.*
@@ -46,14 +59,18 @@ class AccountFragment : Fragment(R.layout.fragment_account),
     PickImageMethodsDialog.OnAttachedImageMethodSelected {
     val list: ArrayList<AccountItem> = ArrayList()
     private lateinit var accountViewModel: AccountViewModel
+    private lateinit var pickSingleMediaLauncher: ActivityResultLauncher<Intent>
+
     var isDeleteImage = false
 
     //===image
     private lateinit var imageMethodsPickerDialog: PickImageMethodsDialog
     private lateinit var imagePicker: ImagePicker
     private var userImageUri: Uri? = null
+    var PICK_IMAGE_REQUEST= 232
     val activityLauncher: BetterActivityResult<Intent, ActivityResult> =
         BetterActivityResult.registerActivityForResult(this)
+    var sellerInformation: SellerInformation? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -110,8 +127,17 @@ class AccountFragment : Fragment(R.layout.fragment_account),
             )
         }
 
+
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return super.onCreateView(inflater, container, savedInstanceState)
+
+    }
 
     companion object {
         var isProfileLoad = false
@@ -128,8 +154,15 @@ class AccountFragment : Fragment(R.layout.fragment_account),
             MainActivity.myOrderTrigger = false
             findNavController().navigate(R.id.myRequest)
         }
+//        rating_btn.setOnClickListener {
+//            startActivity(Intent(requireContext(), SellerRateActivity::class.java).apply {
+//                putExtra(ConstantObjects.sellerObjectKey, sellerInformation)
+//            })
+//        }
         setViewCliclListeners()
         setUpViewModel()
+        setListenser()
+        accountViewModel.getAccountInfo()
         //  setListenser()
 //        if (!isProfileLoad) {
 //            CommonAPI().GetUserInfo(requireContext(), ConstantObjects.logged_userid) {
@@ -161,17 +194,22 @@ class AccountFragment : Fragment(R.layout.fragment_account),
 
         }
         accountViewModel.errorResponseObserver.observe(this) {
-            if (it.message != null) {
-                HelpFunctions.ShowLongToast(it.message!!, requireActivity())
-            } else {
-                HelpFunctions.ShowLongToast(getString(R.string.serverError), requireActivity())
+            if(it.status!=null && it.status=="409"){
+                HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), requireActivity())
+            }else{
+                if (it.message != null) {
+                    HelpFunctions.ShowLongToast(it.message!!, requireActivity())
+                } else {
+                    HelpFunctions.ShowLongToast(getString(R.string.serverError), requireActivity())
+                }
             }
+
         }
         accountViewModel.walletDetailsObserver.observe(this) { walletDetailsResp ->
             if (walletDetailsResp.status_code == 200) {
                 AccountObject.walletDetails = walletDetailsResp.walletDetails
                 walletDetailsResp.walletDetails?.let {
-                    tvWalletTotalBalance.text = "${it.walletBalance} ${getString(R.string.Rayal)}"
+//                    tvWalletTotalBalance.text = "${it.walletBalance} ${getString(R.string.Rayal)}"
                 }
 
             }
@@ -193,23 +231,55 @@ class AccountFragment : Fragment(R.layout.fragment_account),
         accountViewModel.getUserDataObserver.observe(this) {
             if (it.status == "Success") {
                 if (it.userObject != null) {
-                    var userData =
+                    val userData =
                         Paper.book().read<LoginUser>(SharedPreferencesStaticClass.user_object)
-                    var tempUserData = it.userObject
+                    val tempUserData = it.userObject
                     tempUserData.token = userData?.token ?: ""
                     Paper.book()
                         .write<LoginUser>(SharedPreferencesStaticClass.user_object, tempUserData)
-                    tempUserData?.let { tempUserData ->
+                    tempUserData.let { tempUserData ->
                         ConstantObjects.userobj = tempUserData
                     }
                     setUserData(tempUserData)
                 }
             }
         }
+        accountViewModel.accountInfoObserver.observe(this) {
+            tvUserPointTotalBalance.text = it.data.pointsBalance.toString()
+            tvWalletTotalBalance.text = it.data.walletBalance.toString()
+            tvFollowCategory.text = it.data.followCatergoriesCount.toString()
+            user_rating.text = it.data.rate.toString()
+            when (it.data.rate) {
+                3 -> {
+                    rate3.setImageResource(R.drawable.happyface_color)
+                }
+                2 -> {
+                    rate3.setImageResource(R.drawable.smileface_color)
+                }
+                1 -> {
+                    rate3.setImageResource(R.drawable.sadcolor_gray)
+                }
+                else -> {
+                    rate3.setImageResource(R.drawable.smile)
+                }
+            }
+        }
+//        accountViewModel.getWalletDetailsInAccountTap()
+//        accountViewModel.getUserPointDetailsInAccountTap()
 
-        accountViewModel.getWalletDetailsInAccountTap()
-        accountViewModel.getUserPointDetailsInAccountTap()
+    }
 
+    private fun getPhotoGallery(){
+        pickSingleMediaLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                if (it.resultCode != Activity.RESULT_OK) {
+                    Toast.makeText(context, "Failed picking media.", Toast.LENGTH_SHORT).show()
+                } else {
+                    val uri = it.data?.data
+                    Log.e("TAG", "SUCCESS: ${uri?.path}")
+
+                }
+            }
     }
 
     private fun setUserData(userData: LoginUser?) {
@@ -230,6 +300,7 @@ class AccountFragment : Fragment(R.layout.fragment_account),
                 tv_membership_number.text =
                     "${getString(R.string.membership_number)} ${userData?.membershipNumber ?: ""}"
                 setAdaptor()
+
             }
         } catch (e: Exception) {
         }
@@ -308,14 +379,17 @@ class AccountFragment : Fragment(R.layout.fragment_account),
                                                     getString(R.string.MyProducts) -> {
                                                         findNavController().navigate(R.id.myProduct)
                                                     }
+
                                                     getString(R.string.my_orders) -> {
                                                         findNavController().navigate(R.id.myRequest)
 
                                                     }
+
                                                     getString(R.string.Loser) -> {
                                                         findNavController().navigate(R.id.lost_frag)
 
                                                     }
+
                                                     getString(R.string.my_bids) -> {
                                                         startActivity(
                                                             Intent(
@@ -349,11 +423,14 @@ class AccountFragment : Fragment(R.layout.fragment_account),
                                                             Intent(
                                                                 requireActivity(),
                                                                 NegotiationOffersPurchaseActivity::class.java
-                                                            )
+                                                            ).apply {
+                                                                putExtra("ComeFrom","AccountFragment")
+                                                            }
                                                         )
                                                         // findNavController().navigate(R.id.negotiationOffer)
 
                                                     }
+
                                                     getString(R.string.MyProductsOffers) -> {
                                                         startActivity(
                                                             Intent(
@@ -364,6 +441,7 @@ class AccountFragment : Fragment(R.layout.fragment_account),
                                                         // findNavController().navigate(R.id.negotiationOffer)
 
                                                     }
+
                                                     getString(R.string.edit_profile) -> {
                                                         //  findNavController().navigate(R.id.editProfile)
                                                         startActivity(
@@ -385,6 +463,7 @@ class AccountFragment : Fragment(R.layout.fragment_account),
                                                             )
                                                         )
                                                     }
+
                                                     getString(R.string.application_settings) -> {
                                                         findNavController().navigate(R.id.applicationSetting)
 
@@ -399,6 +478,7 @@ class AccountFragment : Fragment(R.layout.fragment_account),
                                                         )
 
                                                     }
+
                                                     getString(R.string.switch_accounts_and_business_account) -> {
                                                         startActivity(
                                                             Intent(
@@ -407,6 +487,7 @@ class AccountFragment : Fragment(R.layout.fragment_account),
                                                             )
                                                         )
                                                     }
+
                                                     getString(R.string.logout) -> {
                                                         ConstantObjects.logged_userid = ""
                                                         Paper.book().write(
@@ -419,6 +500,7 @@ class AccountFragment : Fragment(R.layout.fragment_account),
                                                             getString(R.string.loggedoutsuccessfully),
                                                             context
                                                         )
+                                                        SharedPreferencesStaticClass.clearCartCount()
                                                         findNavController().navigate(R.id.logout_to_home)
                                                     }
                                                 }
@@ -488,15 +570,11 @@ class AccountFragment : Fragment(R.layout.fragment_account),
         if (attachedMethod == ConstantObjects.CAMERA) {
             imagePicker.choosePicture(ImagePicker.CAMERA)
         } else {
-            imagePicker.choosePicture(ImagePicker.GALLERY)
+            openGallery(startForResult)
+//            openGallery()
+//            imagePicker.choosePicture(ImagePicker.GALLERY)
         }
     }
-
-    override fun onDeleteImage() {
-        isDeleteImage = true
-        accountViewModel.editProfileImage(null)
-    }
-
 
     private fun setImage(imageUri: Uri) {
         try {
@@ -517,14 +595,37 @@ class AccountFragment : Fragment(R.layout.fragment_account),
                 .load(imageUri)
                 .into(ivUserImage)
             userImageUri = imageUri
-            val file = File(imageUri.path)
-            accountViewModel.editProfileImage(file)
 
+            val  file = CameraHelper.getMultiPartFromBitmap(bitmap, "attachment", requireContext())
+
+            accountViewModel.editProfileImage(file)
         } catch (e: Exception) {
-            // println("hhhh " + e.message)
             HelpFunctions.ShowLongToast(getString(R.string.pickRightImage), requireActivity())
         }
     }
+
+    private val startForResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                val bitmap = CameraHelper.handleResult(it?.data?.data!!, requireContext())
+              val  file = CameraHelper.getMultiPartFromBitmap(bitmap, "imgProfile", requireContext())
+                accountViewModel.editProfileImage(file)
+                ivUserImage.setImageBitmap(bitmap)
+            }
+        }
+    fun openGallery(startForResult: ActivityResultLauncher<Intent>) {
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        startForResult.launch(intent)
+    }
+
+
+    override fun onDeleteImage() {
+        isDeleteImage = true
+        accountViewModel.editProfileImage(null)
+    }
+
+
+
 
 
     //=======Permissions and data handling

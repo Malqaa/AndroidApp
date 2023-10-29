@@ -11,14 +11,17 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Patterns
 import android.view.View
 import android.webkit.URLUtil
 import android.widget.AdapterView
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.PermissionChecker
@@ -45,6 +48,7 @@ import com.malka.androidappp.newPhase.presentation.dialogsShared.PickImageMethod
 import com.malka.androidappp.newPhase.presentation.dialogsShared.countryDialog.CountryDialog
 import com.malka.androidappp.newPhase.presentation.dialogsShared.neighborhoodDialog.NeighborhoodDialog
 import com.malka.androidappp.newPhase.presentation.dialogsShared.regionDialog.RegionDialog
+import com.malka.androidappp.newPhase.presentation.utils.CameraHelper
 import com.squareup.picasso.Picasso
 import com.zfdang.multiple_images_selector.ImagesSelectorActivity
 import com.zfdang.multiple_images_selector.SelectorSettings
@@ -54,12 +58,14 @@ import kotlinx.android.synthetic.main.activity_business_signup.countryContainer
 import kotlinx.android.synthetic.main.activity_business_signup.etPhoneNumber
 import kotlinx.android.synthetic.main.activity_business_signup.ivFlag
 import kotlinx.android.synthetic.main.activity_business_signup.ivPickUserImage
-import kotlinx.android.synthetic.main.activity_business_signup.ivUserImage
+import kotlinx.android.synthetic.main.activity_business_signup.ivUserImageBusiness
 import kotlinx.android.synthetic.main.activity_business_signup.neighborhoodContainer
 import kotlinx.android.synthetic.main.activity_business_signup.regionContainer
 import kotlinx.android.synthetic.main.activity_business_signup.textEmaill
 import kotlinx.android.synthetic.main.activity_business_signup.tvCode
 import kotlinx.android.synthetic.main.activity_business_signup.userNamee
+import kotlinx.android.synthetic.main.fragment_account.ivUserImage
+import okhttp3.MultipartBody
 import java.io.File
 
 import kotlin.math.roundToInt
@@ -116,8 +122,8 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
         }
     private lateinit var imageMethodsPickerDialog: PickImageMethodsDialog
     private lateinit var imagePicker: ImagePicker
-    private var userImageUri: Uri? = null
-    private lateinit var commercialRegistryFileList: ArrayList<File>
+    private var userImageUri: Bitmap? = null
+    private lateinit var commercialRegistryFileList: ArrayList<MultipartBody.Part>
     val activityLauncher: BetterActivityResult<Intent, ActivityResult> =
         BetterActivityResult.registerActivityForResult(this)
     private lateinit var businessAccountViewModel: BusinessAccountViewModel
@@ -154,19 +160,19 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
 
         }
         businessAccountViewModel.errorResponseObserver.observe(this) {
-            if (it.message != null) {
-                HelpFunctions.ShowLongToast(it.message!!, this)
+            if (it.message2 != null) {
+                HelpFunctions.ShowLongToast(it.message2!!, this)
             } else {
                 HelpFunctions.ShowLongToast(getString(R.string.serverError), this)
             }
         }
-        businessAccountViewModel.errorResponseObserver.observe(this) {
-            if (it.message != null) {
-                HelpFunctions.ShowLongToast(it.message!!, this)
-            } else {
-                HelpFunctions.ShowLongToast(getString(R.string.serverError), this)
-            }
-        }
+//        businessAccountViewModel.errorResponseObserver.observe(this) {
+//            if (it.message != null) {
+//                HelpFunctions.ShowLongToast(it.message!!, this)
+//            } else {
+//                HelpFunctions.ShowLongToast(getString(R.string.serverError), this)
+//            }
+//        }
         businessAccountViewModel.addbusinessAccountListObserver.observe(this) {
             if (it.status_code == 200) {
                 setResult(Activity.RESULT_OK)
@@ -464,8 +470,27 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
         if (attachedMethod == ConstantObjects.CAMERA) {
             imagePicker.choosePicture(ImagePicker.CAMERA)
         } else {
-            imagePicker.choosePicture(ImagePicker.GALLERY)
+            openGallery(startForResult)
+
+//            imagePicker.choosePicture(ImagePicker.GALLERY)
         }
+    }
+
+
+    private val startForResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                val bitmap = CameraHelper.handleResult(it?.data?.data!!, this)
+                setImage(it?.data?.data!!)
+//                val  file = CameraHelper.getMultiPartFromBitmap(bitmap, "imgProfile", this)
+//                accountViewModel.editProfileImage(file)
+//                ivUserImage.setImageBitmap(bitmap)
+            }
+        }
+
+    fun openGallery(startForResult: ActivityResultLauncher<Intent>) {
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        startForResult.launch(intent)
     }
 
     override fun onDeleteImage() {
@@ -483,19 +508,23 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
             )
             println("hhhh loaded")
             if (imageType == 1) {
-                Picasso.get().load(imageUri).into(ivUserImage)
-                userImageUri = imageUri
+                Picasso.get().load(imageUri).into(ivUserImageBusiness)
+                userImageUri = bitmap
             } else if (imageType == 2) {
-                var file: File? = null
-                imageUri.let { imageUri ->
-                    file = File(imageUri.path)
-                    file?.let {
-                        commercialRegistryFileList.add(it)
-                    }
+//                var file: File? = null
+//                imageUri.let { imageUri ->
+//                    file = File(imageUri.path)
 
+                userImageUri = bitmap
+                val file =
+                    CameraHelper.getMultiPartFrom(bitmap, "BusinessAccountImage", this)
+                file.let {
+                    commercialRegistryFileList.add(file)
                 }
 
             }
+
+//            }
 
 
         } catch (e: Exception) {
@@ -517,7 +546,7 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
 
 
     private fun checkAccountData() {
-        if (validateUserName() && validateCompanyNameEn() && validateCompanyNameAr()
+        if (validateUserName() && validateCompanyNameAr() && validateCompanyNameEn()
             && validateCommercialRegisterNo() && validateExpiryDate()
         ) {
             if (selectedCountryId == 0) {
@@ -526,10 +555,9 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
                 showError(getString(R.string.Please_select, getString(R.string.Region)))
             } else if (selectedNeighborhoodId == 0) {
                 showError(getString(R.string.Please_select, getString(R.string.district)))
-            }else if(commercialRegistryFileList.isEmpty()){
-                showError( getString(R.string.you_must_download_the_commercial_registry_file))
-            }
-            else {
+            } else if (commercialRegistryFileList.isEmpty()) {
+                showError(getString(R.string.you_must_download_the_commercial_registry_file))
+            } else {
                 addBussinessAccount()
             }
         }
@@ -537,10 +565,13 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
     }
 
     private fun addBussinessAccount() {
-        var fileUserImage: File? = null
-        userImageUri?.let {
-            fileUserImage = File(it.path)
-        }
+        var fileUserImage: MultipartBody.Part? = null
+//        userImageUri?.let {
+//            fileUserImage = File(it.path)
+//        }
+
+        val file = CameraHelper.getMultiPartFrom(userImageUri!!, "BusinessAccountImage", this)
+        fileUserImage = (file)
 
         businessAccountViewModel.addBusinessAcoount(
             0.toString(),
@@ -550,6 +581,7 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
             company_name_en.text.toString().trim(),
             textEmaill.text.toString().trim(),
             etPhoneNumber!!.text.toString().trim(),
+
             fileUserImage,
             et_web_site.text.toString().trim(),
             Facebook.text.toString().trim(),
@@ -586,6 +618,7 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
             userNamee.error = (getString(R.string.Please_enter, getString(R.string.Username)))
             false
         } else {
+            userNamee.error = null
             true
         }
     }
@@ -602,6 +635,7 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
             ))
             false
         } else {
+            company_name_ar.error = null
             true
         }
     }
@@ -618,6 +652,7 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
             ))
             false
         } else {
+            company_name_en.error = null
             true
         }
     }
@@ -659,6 +694,7 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
                     )
             false
         } else {
+            commercial_registration_no.error = null
             true
         }
     }
@@ -669,6 +705,7 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
             tvDate.error = (getString(R.string.Please_select, getString(R.string.expiry_date)))
             false
         } else {
+            tvDate.error = null
             true
         }
     }
@@ -804,6 +841,7 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
                 Activity.RESULT_OK -> {
                     openPlacePicker()
                 }
+
                 Activity.RESULT_CANCELED -> {
 
                     val builder: AlertDialog.Builder = AlertDialog.Builder(this)
@@ -1038,6 +1076,7 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
                     } catch (e: IntentSender.SendIntentException) {
                     } catch (e: ClassCastException) {
                     }
+
                     LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE -> {
                     }
                 }

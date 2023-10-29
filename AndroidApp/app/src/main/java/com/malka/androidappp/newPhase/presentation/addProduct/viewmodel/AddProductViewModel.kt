@@ -30,6 +30,9 @@ import retrofit2.Callback
 import retrofit2.HttpException
 import retrofit2.Response
 import java.io.File
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 
 class AddProductViewModel : BaseViewModel() {
@@ -55,7 +58,7 @@ class AddProductViewModel : BaseViewModel() {
     var couponByCodeObserver: MutableLiveData<DiscountCouponResp> = MutableLiveData()
 
 
-    fun getCouponByCode(couponCode:String){
+    fun getCouponByCode(couponCode: String) {
         isLoading.value = true
         RetrofitBuilder.GetRetrofitBuilder()
             .getCouponByCode(couponCode)
@@ -74,12 +77,11 @@ class AddProductViewModel : BaseViewModel() {
                         couponByCodeObserver.value = response.body()
                     } else {
                         errorResponseObserver.value =
-                            getErrorResponse(response.errorBody())
+                            getErrorResponse(response.code(), response.errorBody())
                     }
                 }
             })
     }
-
 
 
     fun checkOutAdditionalPakat(
@@ -90,7 +92,13 @@ class AddProductViewModel : BaseViewModel() {
     ) {
         isLoading.value = true
         RetrofitBuilder.GetRetrofitBuilder()
-            .checkOutAdditionalPakat(pakatId, categoryId,extraProductImageFee,extraProductVidoeFee,subTitleFee)
+            .checkOutAdditionalPakat(
+                pakatId,
+                categoryId,
+                extraProductImageFee,
+                extraProductVidoeFee,
+                subTitleFee
+            )
             .enqueue(object : Callback<CartPriceSummeryResp> {
                 override fun onFailure(call: Call<CartPriceSummeryResp>, t: Throwable) {
                     isNetworkFail.value = t !is HttpException
@@ -106,7 +114,7 @@ class AddProductViewModel : BaseViewModel() {
                         cartPriceSummeryObserver.value = response.body()
                     } else {
                         errorResponseObserver.value =
-                            getErrorResponse(response.errorBody())
+                            getErrorResponse(response.code(), response.errorBody())
                     }
                 }
             })
@@ -131,7 +139,7 @@ class AddProductViewModel : BaseViewModel() {
                         getListCategoriesByProductNameObserver.value = response.body()
                     } else {
                         errorResponseObserver.value =
-                            getErrorResponse(response.errorBody())
+                            getErrorResponse(response.code(), response.errorBody())
                     }
                 }
             })
@@ -156,7 +164,7 @@ class AddProductViewModel : BaseViewModel() {
                         categoryListObserver.value = response.body()
                     } else {
                         errorResponseObserver.value =
-                            getErrorResponse(response.errorBody())
+                            getErrorResponse(response.code(), response.errorBody())
                     }
                 }
             })
@@ -182,7 +190,7 @@ class AddProductViewModel : BaseViewModel() {
                         getDynamicSpecificationObserver.value = response.body()
                     } else {
                         errorResponseObserver.value =
-                            getErrorResponse(response.errorBody())
+                            getErrorResponse(response.code(), response.errorBody())
                     }
                 }
             })
@@ -207,7 +215,7 @@ class AddProductViewModel : BaseViewModel() {
                         getPakatRespObserver.value = response.body()
                     } else {
                         errorResponseObserver.value =
-                            getErrorResponse(response.errorBody())
+                            getErrorResponse(response.code(), response.errorBody())
                     }
                 }
             })
@@ -232,7 +240,7 @@ class AddProductViewModel : BaseViewModel() {
                         categoriesObserver.value = response.body()
                     } else {
                         categoriesErrorResponseObserver.value =
-                            getErrorResponse(response.errorBody())
+                            getErrorResponse(response.code(), response.errorBody())
                     }
                 }
             })
@@ -274,11 +282,12 @@ class AddProductViewModel : BaseViewModel() {
                         addBackAccountObserver.value = response.body()
                     } else {
                         errorResponseObserver.value =
-                            getErrorResponse(response.errorBody())
+                            getErrorResponse(response.code(), response.errorBody())
                     }
                 }
             })
     }
+
     fun getBankAccountsList() {
         isLoadingBackAccountList.value = true
         RetrofitBuilder.GetRetrofitBuilder()
@@ -298,14 +307,14 @@ class AddProductViewModel : BaseViewModel() {
                         listBackAccountObserver.value = response.body()
                     } else {
                         errorResponseObserver.value =
-                            getErrorResponse(response.errorBody())
+                            getErrorResponse(response.code(), response.errorBody())
                     }
                 }
             })
     }
 
 
-//    fun getAddProduct(
+    //    fun getAddProduct(
 //        nameAr: String,
 //        nameEn: String,
 //        subTitleAr: String,
@@ -383,15 +392,15 @@ class AddProductViewModel : BaseViewModel() {
 //                PickUpDelivery.requestBody(),
 //                DeliveryOption.requestBody(),
 //            )
-//            .enqueue(object : Callback<GeneralResponse> {
-//                override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
+//            .enqueue(object : Callback<GeneralResponses> {
+//                override fun onFailure(call: Call<GeneralResponses>, t: Throwable) {
 //                    isNetworkFail.value = t !is HttpException
 //                    isLoading.value = false
 //                }
 //
 //                override fun onResponse(
-//                    call: Call<GeneralResponse>,
-//                    response: Response<GeneralResponse>
+//                    call: Call<GeneralResponses>,
+//                    response: Response<GeneralResponses>
 //                ) {
 //                    isLoading.value = false
 //                    if (response.isSuccessful) {
@@ -402,223 +411,269 @@ class AddProductViewModel : BaseViewModel() {
 //                                .toString()
 //                        )
 //                        errorResponseObserver.value =
-//                            getErrorResponse(response.errorBody())
+//                            getErrorResponse(response.code(),response.errorBody())
 //                    }
 //                }
 //            })
 //    }
-@SuppressLint("SuspiciousIndentation")
-fun getAddProduct3(
-    context: Context,
-    nameAr: String,
-    nameEn: String,
-    subTitleAr: String,
-    subTitleEn: String,
-    descriptionAr: String,
-    descriptionEn: String,
-    qty: String,
-    productCondition: String,
-    categoryId: String,
-    countryId: String,
-    regionId: String,
-    neighborhoodId: String,
-    Street: String,
-    GovernmentCode: String,
-    pakatId: String,
-    productSep: List<DynamicSpecificationSentObject>?,
-    listImageFile: List<File>,//listImageFile
-    MainImageIndex: String,
-    videoUrl: List<String>?,
-    PickUpDelivery: String,
-    DeliveryOption: List<String>,
-    isFixedPriceEnabled: Boolean,
-    isAuctionEnabled: Boolean,
-    isNegotiationEnabled: Boolean,
-    price: String,
-    priceDisc: String,
-    paymentOptionIdList: List<Int>?,
-    isCashEnabled: String,
-    disccountEndDate: String,
-    auctionStartPrice: String,
-    auctionMinimumPrice: String,
-    auctionClosingTime: String,
-    backAccountId: Int,
-    ProductPaymentDetailsDto_AdditionalPakatId: String,
-    ProductPaymentDetailsDto_ProductPublishPrice: Float,
-    ProductPaymentDetailsDto_EnableAuctionFee: Float,
-    ProductPaymentDetailsDto_EnableNegotiationFee: Float,
-    ProductPaymentDetailsDto_ExtraProductImageFee: Float,
-    ProductPaymentDetailsDto_ExtraProductVidoeFee: Float,
-    ProductPaymentDetailsDto_SubTitleFee: Float,
-    ProductPaymentDetailsDto_CouponId: Int,
-    ProductPaymentDetailsDto_CouponDiscountValue:Float,
-    ProductPaymentDetailsDto_TotalAmountAfterCoupon:Float,
-    ProductPaymentDetailsDto_TotalAmountBeforeCoupon:Float,
-) {
-    isLoading.value = true
-
-
-    /**Image**/
-    var imageListTOSend: ArrayList<MultipartBody.Part> = ArrayList()
-    for (file in listImageFile) {
-        var multipartBody: MultipartBody.Part = if (file != null) {
-            var requestbody: RequestBody = file.asRequestBody("image/*".toMediaTypeOrNull())
-            MultipartBody.Part.createFormData("listImageFile", file.name, requestbody)
-        } else {
-            MultipartBody.Part.createFormData("listImageFile", "null", "null".toRequestBody())
+    @SuppressLint("SuspiciousIndentation")
+    fun getAddProduct3(
+        context: Context,
+        nameAr: String,
+        nameEn: String,
+        subTitleAr: String,
+        subTitleEn: String,
+        descriptionAr: String,
+        descriptionEn: String,
+        qty: String,
+        productCondition: String,
+        categoryId: String,
+        countryId: String,
+        regionId: String,
+        neighborhoodId: String,
+        Street: String,
+        GovernmentCode: String,
+        pakatId: String,
+        productSep: List<DynamicSpecificationSentObject>?,
+        listImageFile: List<File>,//listImageFile
+        MainImageIndex: String,
+        videoUrl: List<String>?,
+        PickUpDelivery: String,
+        DeliveryOption: List<String>,
+        isFixedPriceEnabled: Boolean,
+        isAuctionEnabled: Boolean,
+        isNegotiationEnabled: Boolean,
+        price: String,
+        priceDisc: String,
+        paymentOptionIdList: List<Int>?,
+        isCashEnabled: String,
+        disccountEndDate: String,
+        auctionStartPrice: String,
+        auctionMinimumPrice: String,
+        auctionClosingTime: String,
+        productBankAccounts: List<Int>?,
+        ProductPaymentDetailsDto_AdditionalPakatId: String,
+        ProductPaymentDetailsDto_ProductPublishPrice: Float,
+        ProductPaymentDetailsDto_EnableAuctionFee: Float,
+        ProductPaymentDetailsDto_EnableNegotiationFee: Float,
+        ProductPaymentDetailsDto_ExtraProductImageFee: Float,
+        ProductPaymentDetailsDto_ExtraProductVidoeFee: Float,
+        ProductPaymentDetailsDto_SubTitleFee: Float,
+        ProductPaymentDetailsDto_CouponId: Int,
+        ProductPaymentDetailsDto_CouponDiscountValue: Float,
+        ProductPaymentDetailsDto_TotalAmountAfterCoupon: Float,
+        ProductPaymentDetailsDto_TotalAmountBeforeCoupon: Float,
+    ) {
+        isLoading.value = true
+        var validTime =""
+        if (!auctionClosingTime.contains(":")) {
+            val currentTime: String = SimpleDateFormat("hh:mm", Locale.getDefault()).format(Date())
+            validTime = auctionClosingTime + " " + currentTime
+        }else{
+            validTime =auctionClosingTime
         }
-        imageListTOSend.add(multipartBody)
-    }
-    var shippingOptionsList: ArrayList<MultipartBody.Part> = ArrayList()
-    /**DeliveryOption**/
-    for(item in DeliveryOption){
-       // var requestbody: RequestBody = item.requestBody()
-        var multipartBody: MultipartBody.Part =   MultipartBody.Part.createFormData("ShippingOptions",item)
+
+
+        /**Image**/
+        var imageListTOSend: ArrayList<MultipartBody.Part> = ArrayList()
+        for (file in listImageFile) {
+            var multipartBody: MultipartBody.Part = if (file != null) {
+                var requestbody: RequestBody = file.asRequestBody("image/*".toMediaTypeOrNull())
+                MultipartBody.Part.createFormData("listImageFile", file.name, requestbody)
+            } else {
+                MultipartBody.Part.createFormData("listImageFile", "null", "null".toRequestBody())
+            }
+            imageListTOSend.add(multipartBody)
+        }
+        var shippingOptionsList: ArrayList<MultipartBody.Part> = ArrayList()
+        /**DeliveryOption**/
+        for (item in DeliveryOption) {
+            // var requestbody: RequestBody = item.requestBody()
+            var multipartBody: MultipartBody.Part =
+                MultipartBody.Part.createFormData("ShippingOptions", item)
             shippingOptionsList.add(multipartBody)
-    }
-    /**Video**/
-    var videoUrlList: ArrayList<MultipartBody.Part> = ArrayList()
-    videoUrl?.let {
-        for (item in videoUrl) {
-            // var requestbody: RequestBody = item.requestBody()
-            var multipartBody: MultipartBody.Part =
-                MultipartBody.Part.createFormData("videoUrl", item)
-            videoUrlList.add(multipartBody)
+        }
+        /**Video**/
+        var videoUrlList: ArrayList<MultipartBody.Part> = ArrayList()
+        videoUrl?.let {
+            for (item in videoUrl) {
+                // var requestbody: RequestBody = item.requestBody()
+                var multipartBody: MultipartBody.Part =
+                    MultipartBody.Part.createFormData("videoUrl", item)
+                videoUrlList.add(multipartBody)
+            }
+
+        }
+        /**PaymentOption**/
+        var sendPaymentOptionList: ArrayList<MultipartBody.Part> = ArrayList()
+        paymentOptionIdList?.let {
+            for (item in paymentOptionIdList) {
+                // var requestbody: RequestBody = item.requestBody()
+                var multipartBody: MultipartBody.Part =
+                    MultipartBody.Part.createFormData("PaymentOptions", item.toString())
+                sendPaymentOptionList.add(multipartBody)
+            }
+
         }
 
-    }
-    /**PaymentOption**/
-    var sendPaymentOptionList: ArrayList<MultipartBody.Part> = ArrayList()
-    paymentOptionIdList?.let {
-        for (item in paymentOptionIdList) {
-            // var requestbody: RequestBody = item.requestBody()
-            var multipartBody: MultipartBody.Part =
-                MultipartBody.Part.createFormData("PaymentOptions", item.toString())
-            sendPaymentOptionList.add(multipartBody)
+        var sendBankList: ArrayList<MultipartBody.Part> = ArrayList()
+        productBankAccounts?.let {
+            for (item in productBankAccounts) {
+                var multipartBody: MultipartBody.Part =
+                    MultipartBody.Part.createFormData("ProductBankAccounts", item.toString())
+                sendBankList.add(multipartBody)
+            }
+
         }
 
-    }
-
-    /**data**/
-    val map: HashMap<String, RequestBody> = HashMap()
-    map["nameAr"] = nameAr.requestBody()
-    map["nameEn"] = nameEn.requestBody()
-    map["subTitleAr"] = subTitleAr.requestBody()
-    map["subTitleEn"] = subTitleEn.requestBody()
-    map["descriptionAr"] = descriptionAr.requestBody()
-    map["descriptionEn"] = descriptionEn.requestBody()
-    map["qty"] = qty.requestBody()
-    // map["appointment"]="".requestBody()
-    map["status"] = productCondition.requestBody()
-    map["categoryId"] = categoryId.requestBody()
-    map["countryId"] = countryId.requestBody()
-    map["regionId"] = regionId.requestBody()
-    map["neighborhoodId"] = neighborhoodId.requestBody()
-    //  map["District"] = Street.requestBody()
-    //  map["Street"] = Street.requestBody()
-    //map["GovernmentCode"] = GovernmentCode.requestBody()
-    if (pakatId != "")
-        map["pakatId"] = pakatId.requestBody()
-    productSep.let {
-        map["productSep"] = Gson().toJson(it).toString().requestBody()
-    }
-    map["MainImageIndex"] = MainImageIndex.requestBody()
-   // map["videoUrl"] = videoUrl.toString().requestBody()
-    map["PickUpDelivery"] = PickUpDelivery.requestBody()
-   // map["ShippingOptions"] = DeliveryOption.toString().requestBody()
-    println("hhhh d "+DeliveryOption.toString())
+        /**data**/
+        val map: HashMap<String, RequestBody> = HashMap()
+        map["nameAr"] = nameAr.requestBody()
+        map["nameEn"] = nameEn.requestBody()
+        if (subTitleAr != "")
+            map["subTitleAr"] = subTitleAr.requestBody()
+        if (subTitleEn != "")
+            map["subTitleEn"] = subTitleEn.requestBody()
+        if (descriptionAr != "")
+            map["descriptionAr"] = descriptionAr.requestBody()
+        if (descriptionEn != "")
+            map["descriptionEn"] = descriptionEn.requestBody()
+        if (qty != "")
+            map["qty"] = qty.requestBody()
+        // map["appointment"]="".requestBody()
+        if (productCondition != "0" && productCondition != "" && productCondition != "null")
+            map["status"] = productCondition.requestBody()
+        if (categoryId != "0" && categoryId != "")
+            map["categoryId"] = categoryId.requestBody()
+        if (countryId != "0" && countryId != "" && countryId != "null")
+            map["countryId"] = countryId.requestBody()
+        if (regionId != "0" && regionId != "" && regionId != "null")
+            map["regionId"] = regionId.requestBody()
+        if (neighborhoodId != "0" && neighborhoodId != "" && neighborhoodId != "null")
+            map["neighborhoodId"] = neighborhoodId.requestBody()
+        //  map["District"] = Street.requestBody()
+        //  map["Street"] = Street.requestBody()
+        //map["GovernmentCode"] = GovernmentCode.requestBody()
+        if (pakatId != "")
+            map["pakatId"] = pakatId.requestBody()
+        productSep.let {
+            map["productSep"] = Gson().toJson(it).toString().requestBody()
+        }
+        map["MainImageIndex"] = MainImageIndex.requestBody()
+        // map["videoUrl"] = videoUrl.toString().requestBody()
+        map["PickUpDelivery"] = PickUpDelivery.requestBody()
+        // map["ShippingOptions"] = DeliveryOption.toString().requestBody()
+        println("hhhh d " + DeliveryOption.toString())
 //    map["Lat"] = "".requestBody()
 //    map["Lon"] = "".requestBody()
-    // map["AcceptQuestion"]="".requestBody()
-    map["IsFixedPriceEnabled"] = isFixedPriceEnabled.toString().requestBody()
-    map["IsAuctionEnabled"] = isAuctionEnabled.toString().requestBody()
-    map["IsNegotiationEnabled"] = isNegotiationEnabled.toString().requestBody()
-    map["price"] = price.requestBody()
-    map["priceDisc"] = price.requestBody()
+        // map["AcceptQuestion"]="".requestBody()
+        map["IsFixedPriceEnabled"] = isFixedPriceEnabled.toString().requestBody()
+        map["IsAuctionEnabled"] = isAuctionEnabled.toString().requestBody()
+        map["IsNegotiationEnabled"] = isNegotiationEnabled.toString().requestBody()
+        if (price != "") {
+            map["price"] = price.requestBody()
+            map["priceDisc"] = priceDisc.requestBody()
+        }
 
-    //map["IsCashEnabled"] = isCashEnabled.toRequestBody()
-    map["AuctionStartPrice"] = auctionStartPrice.toRequestBody()
-    // map["DisccountEndDate"] = disccountEndDate.toRequestBody()
-    //map["IsAuctionPaied"]="".requestBody()
-    //map["SendOfferForAuction"]="".requestBody()
-    map["AuctionMinimumPrice"] = auctionMinimumPrice.toRequestBody()
-    //map["AuctionNegotiateForWhom"]="".requestBody()
-    //map["AuctionNegotiatePrice]="".requestBody()
-    map["AuctionClosingTime"] = auctionClosingTime.toRequestBody()
-    // map["HighestBidPrice"]="".toRequestBody()
-    if (backAccountId != 0) {
-        map["BankAccountId"] = backAccountId.toString().toRequestBody()
-    }
-    /***PaymentObject*/
-    //map["ProductPaymentDetailsDto.PakatId"] = "".toRequestBody()
-    if (ProductPaymentDetailsDto_AdditionalPakatId != "")
-        map["ProductPaymentDetailsDto.AdditionalPakatId"] = pakatId.toRequestBody()
-    if (ProductPaymentDetailsDto_ProductPublishPrice != 0f)
-        map["ProductPaymentDetailsDto.ProductPublishPrice"] =
-            ProductPaymentDetailsDto_ProductPublishPrice.toString().toRequestBody()
-//    map["ProductPaymentDetailsDto.EnableFixedPriceSaleFee"] = "".toRequestBody()
-    if (ProductPaymentDetailsDto_EnableAuctionFee != 0f) {
-        map["ProductPaymentDetailsDto.EnableAuctionFee"] =
-            ProductPaymentDetailsDto_EnableAuctionFee.toString().toRequestBody()
-    }
-    if (ProductPaymentDetailsDto_EnableNegotiationFee != 0f) {
-        map["ProductPaymentDetailsDto.EnableNegotiationFee"] =
-            ProductPaymentDetailsDto_EnableNegotiationFee.toString().toRequestBody()
-    }
-    if (ProductPaymentDetailsDto_ExtraProductImageFee != 0f) {
-        map["ProductPaymentDetailsDto.ExtraProductImageFee"] =
-            ProductPaymentDetailsDto_ExtraProductImageFee.toString().toRequestBody()
-    }
-    if (ProductPaymentDetailsDto_ExtraProductVidoeFee != 0f) {
-        map["ProductPaymentDetailsDto.ExtraProductVidoeFee"] =
-            ProductPaymentDetailsDto_ExtraProductVidoeFee.toString().toRequestBody()
-    }
-    if (ProductPaymentDetailsDto_SubTitleFee != 0f) {
-        map["ProductPaymentDetailsDto.SubTitleFee"] =
-            ProductPaymentDetailsDto_SubTitleFee.toString().toRequestBody()
-    }
-    if (ProductPaymentDetailsDto_CouponId != 0) {
-        map["ProductPaymentDetailsDto.CouponId"] = ProductPaymentDetailsDto_CouponId.toString().toRequestBody()
-        map["ProductPaymentDetailsDto.CouponDiscountValue"] = ProductPaymentDetailsDto_CouponDiscountValue.toString().toRequestBody()
-        map["ProductPaymentDetailsDto.TotalAmountAfterCoupon"] = ProductPaymentDetailsDto_TotalAmountAfterCoupon.toString().toRequestBody()
-    }
-    if( ProductPaymentDetailsDto_TotalAmountBeforeCoupon!=0f){
-        map["ProductPaymentDetailsDto.TotalAmountBeforeCoupon"] =  ProductPaymentDetailsDto_TotalAmountBeforeCoupon.toString().toRequestBody()
-    }
-    map["ProductPaymentDetailsDto.typePay"] = "1".toRequestBody()
+        map["IsCashEnabled"] = isCashEnabled.toRequestBody()
+        map["AuctionStartPrice"] = auctionStartPrice.toRequestBody()
+        // map["DisccountEndDate"] = disccountEndDate.toRequestBody()
+        map["AuctionMinimumPrice"] = auctionMinimumPrice.toRequestBody()
+        //map["AuctionNegotiateForWhom"]="".requestBody()
+        //map["AuctionNegotiatePrice]="".requestBody()
+        map["AuctionClosingTime"] = validTime.toRequestBody()
+        // map["HighestBidPrice"]="".toRequestBody()
+
+//    /***PaymentObject*/
+//    //map["ProductPaymentDetailsDto.PakatId"] = "".toRequestBody()
+//    if (ProductPaymentDetailsDto_AdditionalPakatId != "")
+//        map["ProductPaymentDetailsDto.AdditionalPakatId"] = pakatId.toRequestBody()
+//    if (ProductPaymentDetailsDto_ProductPublishPrice != 0f)
+//        map["ProductPaymentDetailsDto.ProductPublishPrice"] =
+//            ProductPaymentDetailsDto_ProductPublishPrice.toString().toRequestBody()
+////    map["IsAuctionPaied"]="".requestBody()
+////    map["SendOfferForAuction"]="".requestBody()
+////    map["ProductPaymentDetailsDto.EnableFixedPriceSaleFee"] ="".requestBody()
+//    map["SendYourAccountInfoToAuctionWinner"]="1".requestBody()
+
+        if (ProductPaymentDetailsDto_EnableAuctionFee != 0f) {
+            map["ProductPaymentDetailsDto.EnableAuctionFee"] =
+                ProductPaymentDetailsDto_EnableAuctionFee.toString().toRequestBody()
+        }
+        if (ProductPaymentDetailsDto_EnableNegotiationFee != 0f) {
+            map["ProductPaymentDetailsDto.EnableNegotiationFee"] =
+                ProductPaymentDetailsDto_EnableNegotiationFee.toString().toRequestBody()
+        }
+        if (ProductPaymentDetailsDto_ExtraProductImageFee != 0f) {
+            map["ProductPaymentDetailsDto.ExtraProductImageFee"] =
+                ProductPaymentDetailsDto_ExtraProductImageFee.toString().toRequestBody()
+        }
+        if (ProductPaymentDetailsDto_ExtraProductVidoeFee != 0f) {
+            map["ProductPaymentDetailsDto.ExtraProductVidoeFee"] =
+                ProductPaymentDetailsDto_ExtraProductVidoeFee.toString().toRequestBody()
+        }
+        if (ProductPaymentDetailsDto_SubTitleFee != 0f) {
+            map["ProductPaymentDetailsDto.SubTitleFee"] =
+                ProductPaymentDetailsDto_SubTitleFee.toString().toRequestBody()
+        }
+        if (ProductPaymentDetailsDto_CouponId != 0) {
+            map["ProductPaymentDetailsDto.CouponId"] =
+                ProductPaymentDetailsDto_CouponId.toString().toRequestBody()
+            map["ProductPaymentDetailsDto.CouponDiscountValue"] =
+                ProductPaymentDetailsDto_CouponDiscountValue.toString().toRequestBody()
+            map["ProductPaymentDetailsDto.TotalAmountAfterCoupon"] =
+                ProductPaymentDetailsDto_TotalAmountAfterCoupon.toString().toRequestBody()
+        }
+        if (ProductPaymentDetailsDto_TotalAmountBeforeCoupon != 0f) {
+            map["ProductPaymentDetailsDto.TotalAmountBeforeCoupon"] =
+                ProductPaymentDetailsDto_TotalAmountBeforeCoupon.toString().toRequestBody()
+        }
+        map["ProductPaymentDetailsDto.typePay"] = "1".toRequestBody()
 
 
 
 
-    RetrofitBuilder.GetRetrofitBuilder()
-        .addProduct3(map, imageListTOSend, shippingOptionsList, videoUrlList, sendPaymentOptionList)
-        .enqueue(object : Callback<AddProductResponse> {
-            override fun onFailure(call: Call<AddProductResponse>, t: Throwable) {
-                println(
-                    "hhhh " + t.message
-                )
-                isNetworkFail.value = t !is HttpException
-                isLoading.value = false
-            }
-
-            override fun onResponse(
-                call: Call<AddProductResponse>,
-                response: Response<AddProductResponse>
-            ) {
-                isLoading.value = false
-                if (response.isSuccessful) {
-                    confirmAddPorductRespObserver.value = response.body()
-                } else {
+        RetrofitBuilder.GetRetrofitBuilder()
+            .addProduct3(
+                map,
+                imageListTOSend,
+                shippingOptionsList,
+                videoUrlList,
+                sendPaymentOptionList,
+                sendBankList
+            )
+            .enqueue(object : Callback<AddProductResponse> {
+                override fun onFailure(call: Call<AddProductResponse>, t: Throwable) {
                     println(
-                        "hhhh " + response.code() + " " + Gson().toJson(response.errorBody())
-                            .toString()+ " "+Gson().toJson(getErrorResponse(response.errorBody()))
+                        "hhhh " + t.message
                     )
-                    errorResponseObserver.value =
-                        getErrorResponse(response.errorBody())
+                    isNetworkFail.value = t !is HttpException
+                    isLoading.value = false
                 }
-            }
-        })
-}
+
+                override fun onResponse(
+                    call: Call<AddProductResponse>,
+                    response: Response<AddProductResponse>
+                ) {
+                    isLoading.value = false
+                    if (response.isSuccessful) {
+                        confirmAddPorductRespObserver.value = response.body()
+                    } else {
+                        println(
+                            "hhhh " + response.code() + " " + Gson().toJson(response.errorBody())
+                                .toString() + " " + Gson().toJson(
+                                getErrorResponse(
+                                    response.code(),
+                                    response.errorBody()
+                                )
+                            )
+                        )
+                        errorResponseObserver.value =
+                            getErrorResponse(response.code(), response.errorBody())
+                    }
+                }
+            })
+    }
 
     fun getAddProduct2(
         context: Context,
@@ -732,7 +787,7 @@ fun getAddProduct3(
                                 .toString()
                         )
                         errorResponseObserver.value =
-                            getErrorResponse(response.errorBody())
+                            getErrorResponse(response.code(), response.errorBody())
                     }
                 }
             })

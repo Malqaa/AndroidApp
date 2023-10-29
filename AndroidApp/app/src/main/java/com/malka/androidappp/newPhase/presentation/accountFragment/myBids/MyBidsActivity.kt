@@ -85,10 +85,14 @@ class MyBidsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
 
         }
         productsListViewModel.errorResponseObserver.observe(this) {
-            if (it.message != null) {
-                showProductApiError(it.message!!)
+            if (it.status != null && it.status == "409") {
+                HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), this)
             } else {
-                showProductApiError(getString(R.string.serverError))
+                if (it.message != null) {
+                    showProductApiError(it.message!!)
+                } else {
+                    showProductApiError(getString(R.string.serverError))
+                }
             }
 
         }

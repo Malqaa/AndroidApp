@@ -21,7 +21,7 @@ data class LoginUser(
     val neighborhoodId: Int,
     var password: String?=null,
     var phone:String?=null,
-    val rate: Int,
+    val rate: Float,
     val regionId: Int,
     val streetNumber: String?=null,
     var token: String?=null,

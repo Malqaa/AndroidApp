@@ -5,6 +5,7 @@ import com.malka.androidappp.newPhase.domain.models.ImageSelectModel
 import com.malka.androidappp.newPhase.domain.models.accountBackListResp.AccountDetails
 import com.malka.androidappp.newPhase.domain.models.dynamicSpecification.DynamicSpecificationSentObject
 import com.malka.androidappp.newPhase.domain.models.pakatResp.PakatDetails
+import com.malka.androidappp.newPhase.domain.models.servicemodels.Negotiationmodel
 import com.malka.androidappp.newPhase.domain.models.servicemodels.Selection
 import com.malka.androidappp.newPhase.domain.models.servicemodels.TimeAuctionSelection
 import com.malka.androidappp.newPhase.domain.models.servicemodels.model.Category
@@ -12,6 +13,22 @@ import com.malka.androidappp.newPhase.domain.models.userPointsDataResp.UserPoint
 import com.malka.androidappp.newPhase.domain.models.walletDetailsResp.WalletDetails
 
 class AddProductObjectData {
+
+    enum class PaymentType(val value:Int){
+
+        Cash(1),
+        BankTransfer(2),
+        CreditCard(3),
+        Mada(4)
+
+    }
+    enum class ShippingType(val value:Int){
+
+        IntegratedShippingCompanyOptions(1),
+        FreeShippingWithinSaudiArabia (2),
+        ArrangementWillBeMadeWithTheBuyer(3),
+
+    }
 
     companion object {
 
@@ -47,17 +64,20 @@ class AddProductObjectData {
 
 
         /**sale and pricing data*/
-        var priceFixed: String = ""
+        var priceFixed: String = "0"
         var priceFixedOption: Boolean = false
         var auctionOption: Boolean = false
-        var auctionStartPrice: String = ""
+        var auctionStartPrice: String = "0"
         var auctionMinPrice: String = ""
         var isNegotiablePrice = false
         // 1 bank , 2 cash
         var PAYMENT_OPTION_CASH=1
         var PAYMENT_OPTION_BANk=2
+        var PAYMENT_OPTION_MasterCard=3
+        var PAYMENT_OPTION_Mada=4
+
         var paymentOptionList: List<Int> ?=null
-        var selectedAccountDetails: AccountDetails? = null
+        var selectedAccountDetails: ArrayList<AccountDetails>? = null
         var selectTimeAuction: TimeAuctionSelection?= null
 /**       MustPickUp = 1, NoPickUp = 2, PickUpAvailable=3*/
         var pickUpOption: Int = 0

@@ -55,7 +55,7 @@ class SignupViewModel : BaseViewModel() {
                         validateAndGenerateOTPObserver.value = response.body()
                     } else {
 
-                        errorResponseObserver.value = getErrorResponse(response.errorBody())
+                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
                     }
                     isLoading.value = false
                 }
@@ -80,7 +80,7 @@ class SignupViewModel : BaseViewModel() {
                     if (response.isSuccessful) {
                         validateAndGenerateOTPObserver.value = response.body()
                     } else {
-                        errorResponseObserver.value = getErrorResponse(response.errorBody())
+                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
                     }
                     isLoading.value = false
                 }
@@ -102,7 +102,7 @@ class SignupViewModel : BaseViewModel() {
                     if (response.isSuccessful) {
                         userVerifiedObserver.value = response.body()
                     } else {
-                        errorResponseObserver.value = getErrorResponse(response.errorBody())
+                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
                     }
                     isLoading.value = false
                 }
@@ -194,7 +194,7 @@ class SignupViewModel : BaseViewModel() {
                     if (response.isSuccessful) {
                         registerRespObserver.value = response.body()
                     } else {
-                        errorResponseObserver.value = getErrorResponse(response.errorBody())
+                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
                     }
                     isLoading.value = false
                 }

@@ -34,8 +34,7 @@ class DatePickerFragment(val maxdayToday:Boolean=false,val minDateToday:Boolean=
         if (monthString.length == 1) {
             monthString = "0$monthString"
         }
-
-        val selectdate = "$day/${monthString}/$year"
+        val selectdate = "$year-${monthString}-$day"
         onItemClick.invoke(selectdate)
     }
 }

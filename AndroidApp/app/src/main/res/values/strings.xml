@@ -91,9 +91,7 @@
     P.O Box
   </string>
     <string name="Password">Password</string>
-    <string name="Region">
-    Region
-  </string>
+    <string name="Region">Region</string>
     <string name="RegisterNow">
     Register Now
   </string>
@@ -996,9 +994,7 @@ Invalid Username or Password
     <string name="Reservemet">
     Reserve met
   </string>
-    <string name="Riyadh">
-    Riyadh
-  </string>
+    <string name="Riyadh">Riyadh</string>
     <string name="SellerlocatedinRiyadh">
     Seller located in Riyadh
   </string>
@@ -2061,14 +2057,14 @@ Your email will remain confidential
     Views
   </string>
     <string name="Emailisrequired">
-    Email is required
+    please  enter valid  E-mail
   </string>
     <string name="Pleaseenteravalidemailaddress">
     Please enter a valid email address
   </string>
 
-    <string name="Usernamemusthaveatleast4characters">
-Username must have atleast 4 characters
+    <string name="Usernamemusthaveatleast2characters">
+The username must have at least two characters
   </string>
 
     <string name="BusinessDetails">
@@ -2107,9 +2103,7 @@ Business name must have atleast 3 characters
   </string>
 
 
-    <string name="Passwordisrequired">
-    Password is required
-  </string>
+    <string name="Passwordisrequired">Please  enter  password</string>
 
     <string name="BusinessRegistration">
    Business Registration
@@ -2578,7 +2572,7 @@ Want to start a business account? Create a Business Account
     </string-array>
 
     <string name="welcome_back">Welcome back</string>
-    <string name="login_with_mobile">Log in with your mobile number</string>
+    <string name="login_with_mobile">Log in with your email address</string>
     <string name="ar" translatable="false">AR</string>
     <string name="en" translatable="false">EN</string>
     <string name="new_registration">New registration</string>
@@ -2592,10 +2586,10 @@ Want to start a business account? Create a Business Account
     <string name="activation">Activation</string>
     <string name="confirm_mobile_number">Confirm mobile number</string>
     <string name="confirm_Email">Confirm Email</string>
-    <string name="sent_code">We have sent the activation code to your phone</string>
+    <string name="sent_code">we have sent the activation code to your phone no</string>
     <string name="sent_code_email">We have sent the activation code to your email</string>
     <string name="one_step_left">One step left!</string>
-    <string name="enter_your_address_name_and_age_details">Enter your address/name and age details</string>
+    <string name="enter_your_address_name_and_age_details">Enter your address/name /age details</string>
     <string name="address_details">Address details</string>
     <string name="county_code">County Code</string>
     <string name="district">District</string>
@@ -2623,8 +2617,8 @@ Want to start a business account? Create a Business Account
     <string name="price_negotiation">Price Negotiation</string>
     <string name="have_a_question">Have a question?</string>
     <string name="merchant">Merchant</string>
-    <string name="password_reset" translatable="false">Password Reset</string>
-    <string name="we_have_sent_the_activation_code_to_your_phone" translatable="false">We have sent the activation code to your phone</string>
+    <string name="password_reset">Password Reset</string>
+    <string name="we_have_sent_the_activation_code_to_your_phone">We have sent the activation code to your phone</string>
     <string name="resend_the_code_after_50_seconds" translatable="false">Resend the code after: 50 seconds</string>
     <string name="favorite">Favorite</string>
     <string name="purchasing_price">Purchasing price : </string>
@@ -2683,7 +2677,7 @@ Want to start a business account? Create a Business Account
     <string name="rial">Rial</string>
     <string name="bank_transfer_2">Bank Transfer</string>
     <string name="add_a_new_account">Add a new account</string>
-    <string name="visa_mastercard">Visa/MasterCard</string>
+    <string name="visa_mastercard">VisaCard</string>
     <string name="sale_details">Sale details</string>
     <string name="choose_one_of_our_special_packages">Choose one of our special packages</string>
     <string name="ExtraFee">Extra Fee</string>
@@ -2707,12 +2701,12 @@ Want to start a business account? Create a Business Account
     <string name="bronze_package">Bronze Package</string>
     <string name="do_you_have_a_discount_coupon">Do you have a discount coupon?</string>
     <string name="enter_the_coupon">Enter the coupon</string>
-  <string name="invalidCoupon">Invalid Coupon</string>
+    <string name="invalidCoupon">Invalid Coupon</string>
     <string name="discount_coupon">Discount coupon</string>
     <string name="package_cost">Package cost</string>
     <string name="added_tax">Added tax</string>
     <string name="total">Total</string>
-    <string name="complete_the_order">Complete the order</string>
+    <string name="complete_the_order">Complete order</string>
     <string name="auction_options">Auction Options</string>
     <string name="your_order_is_now_being_delivered">Your order is now being delivered!</string>
     <string name="order_number">Order number</string>
@@ -2720,7 +2714,7 @@ Want to start a business account? Create a Business Account
     <string name="waiting_for_confirmation">Waiting for confirmation</string>
     <string name="sar" translatable="false">SAR</string>
     <string name="Rayal">Rayal</string>
-    <string name="shopping_basket">Shopping basket</string>
+    <string name="shopping_basket">Your cart</string>
     <string name="your_favorite_merchant_added_a_product">Your favorite merchant added a product</string>
     <string name="new_product_has_been_added">New product has been added</string>
     <string name="item_title">Item Title</string>
@@ -2743,14 +2737,14 @@ Want to start a business account? Create a Business Account
     <string name="Please_choose_catgeory">Please choose category</string>
     <string name="select_or_search" translatable="false">Select or Search</string>
     <string name="close" translatable="false">Close</string>
-    <string name="subtotal">Subtotal</string>
+    <string name="subtotal">Cart total</string>
     <string name="no_thank_you">No thank you</string>
 
     <string name="my_saved_addresses">My saved addresses</string>
     <string name="delivery_to_my_current_address">Delivery to my current address</string>
     <string name="add_a_new_address">Add a new Address</string>
     <string name="edit_address">Edit Address</string>
-    <string name="close_time">Auction closing time</string>
+    <string name="close_time">Please specify the auction end date</string>
     <string name="without_additional_expenses">Without additional expenses</string>
     <string name="set_your_own_time_and_time">Set your own date and time</string>
     <string name="_20_riyals">+20 riyals</string>
@@ -2845,7 +2839,7 @@ Want to start a business account? Create a Business Account
     <string name="edit_profile">Edit profile</string>
     <string name="application_settings">Application settings</string>
     <string name="my_bids">My Bids</string>
-  <string name="myBid">My Bid</string>
+    <string name="myBid">My Bid</string>
     <string name="negotiation_offers">Negotiation offers</string>
     <string name="offerPrice">Offer Price</string>
     <string name="save_addresses">Save Addresses</string>
@@ -2920,7 +2914,7 @@ Want to start a business account? Create a Business Account
     <string name="participate_in_the_auction">Participate in the auction</string>
     <string name="bid_value">Bid value</string>
     <string name="Sale">Sale</string>
-    <string name="Loser">Loser</string>
+    <string name="Loser">Lost</string>
     <string name="help">Help</string>
     <string name="technical_support">Technical support</string>
     <string name="follow_up">Follow-up</string>
@@ -2949,9 +2943,9 @@ Want to start a business account? Create a Business Account
     <string name="reviews_as_a_seller">Reviews as a seller</string>
     <string name="reviews_as_a_buyer">Reviews as a buyer</string>
     <string name="following">Following</string>
-    <string name="sub_categories" translatable="false">Sub Categories</string>
-    <string name="region" translatable="false">Region</string>
-    <string name="specifications" translatable="false">Specifications</string>
+    <string name="sub_categories">Sub Categories</string>
+    <string name="region">Region</string>
+    <string name="specifications">Specifications</string>
     <string name="follow_catgeory">Follow category successfully</string>
 
 
@@ -3054,55 +3048,154 @@ Want to start a business account? Create a Business Account
     <string name="profileUpdatedSuccessfully">Profile updated successfully</string>
     <string name="statusShowingYourData">Select status of showing your data</string>
     <string name="swiftCode">Swift Code</string>
-  <string name="checkYourDataForamt">Check Your Data Format</string>
-  <string name="cashPayment">Cash Payment</string>
-  <string name="selectBackAccount">Select Bank Account</string>
-  <string name="freeProductImagesCount">Free Product Images Count</string>
-  <string name="freeProductVidoesCount">Free Product Videos Count</string>
-  <string name="extraProductImageFee">Extra Product Image Fee</string>
-  <string name="extraProductVidoeFee">Extra Product Video Fee</string>
-  <string name="extraProductImageCount">Extra Product Image Count</string>
-  <string name="extraProductVidoeCount">Extra Product Video Count</string>
-  <string name="subTitleFee">Sub Title Fee</string>
-  <string name="day">Day</string>
-  <string name="week">Week</string>
-  <string name="month">Month</string>
-  <string name="increaseForEachTime">Increase For Each Time</string>
-  <string name="writeIncreaseForEachTime">Write Increase For Each Time</string>
-  <string name="highestBidPrice">Highest Bid Price</string>
-  <string name="writeHighestBidPrice">Write Highest Bid Price</string>
-  <string name="fixedPriceFee">Fixed Price Fee</string>
-  <string name="auctionFee">Auction Fee</string>
-  <string name="negotiationFee">Negotiation Fee</string>
-  <string name="imageExtraFee">Extra Images Fee</string>
-  <string name="videoExtraFee">Extra Videos Fee</string>
-  <string name="SubTitleFee">Subtitle Fee</string>
-  <string name="productPublishPrice">Product Publish Price</string>
+    <string name="checkYourDataForamt">Check Your Data Format</string>
+    <string name="cashPayment">Cash Payment</string>
+    <string name="selectBackAccount">Select Bank Account</string>
+    <string name="freeProductImagesCount">Free Product Images Count</string>
+    <string name="freeProductVidoesCount">Free Product Videos Count</string>
+    <string name="extraProductImageFee">Extra Product Image Fee</string>
+    <string name="extraProductVidoeFee">Extra Product Video Fee</string>
+    <string name="extraProductImageCount">Extra Product Image Count</string>
+    <string name="extraProductVidoeCount">Extra Product Video Count</string>
+    <string name="subTitleFee">Sub Title Fee</string>
+    <string name="day">Day</string>
+    <string name="week">Week</string>
+    <string name="month">Month</string>
+    <string name="increaseForEachTime">Increase For Each Time</string>
+    <string name="writeIncreaseForEachTime">Write Increase For Each Time</string>
+    <string name="highestBidPrice">Highest Bid Price</string>
+    <string name="writeHighestBidPrice">Write Highest Bid Price</string>
+    <string name="fixedPriceFee">Fixed Price Fee</string>
+    <string name="auctionFee">Auction Fee</string>
+    <string name="negotiationFee">Negotiation Fee</string>
+    <string name="imageExtraFee">Extra Images Fee</string>
+    <string name="videoExtraFee">Extra Videos Fee</string>
+    <string name="SubTitleFee">Subtitle Fee</string>
+    <string name="productPublishPrice">Product Publish Price</string>
 
-  <string name="enterBidPrice">Enter Bid Price</string>
-  <string name="enterCorrectBidPrice">Enter Correct Bid Price</string>
-  <string name="writeNegotionPrice">Please type the price you want to send to the seller</string>
-  <string name="writeNegotiationPrice2">Write Negotiation Price</string>
-  <string name="negotiationPriceSent">Negotiation Price Sent</string>
+    <string name="enterBidPrice">Enter Bid Price</string>
+    <string name="enterCorrectBidPrice">Enter Correct Bid Price</string>
+    <string name="writeNegotionPrice">Please type the price you want to send to the seller</string>
+    <string name="writeNegotiationPrice2">Write Negotiation Price</string>
+    <string name="negotiationPriceSent">Negotiation Price Sent</string>
 
-  <string name="followNegotiationsOffers">Follow Negotiations Offers</string>
-  <string name="noOffersFound">No Offers Found</string>
-  <string name="noResponse">No Response</string>
-  <string name="waitForYourResponse">Wait for your response</string>
-  <string name="acceptNegotiationsOffers">Accept Negotiation Offer</string>
-  <string name="rejectNegotiationsOffers">Reject Negotiation Offer</string>
-  <string name="OfferCanceled">Offer Canceled</string>
-  <string name="accept">Accept</string>
-  <string name="reject">Reject</string>
-  <string name="selectExpirationHours">Please select expiration hours</string>
-  <string name="refuseReason">Refuse Reason</string>
-  <string name="accepted">Accepted</string>
-  <string name="rejected">Rejected</string>
-  <string name="sendOffer">Send Offer</string>
-  <string name="offerSent">Offer Sent</string>
+    <string name="followNegotiationsOffers">Manage Offer</string>
+    <string name="noOffersFound">No Offers Found</string>
+    <string name="noResponse">No Response</string>
+    <string name="waitForYourResponse">Wait for your response</string>
+    <string name="acceptNegotiationsOffers">Accept Negotiation Offer</string>
+    <string name="rejectNegotiationsOffers">Reject Negotiation Offer</string>
+    <string name="OfferCanceled">Offer Canceled</string>
+    <string name="accept">Accept</string>
+    <string name="reject">Reject</string>
+    <string name="selectExpirationHours">Please select expiration hours</string>
+    <string name="refuseReason">Refuse Reason</string>
+    <string name="accepted">Accepted</string>
+    <string name="rejected">Rejected</string>
+    <string name="sendOffer">Send Offer</string>
+    <string name="offerSent">Offer Sent</string>
     <string name="repostTheProduct">Repost The Product</string>
     <string name="user">User</string>
     <string name="selectUser">Select User</string>
-  <string name="you">You</string>
+    <string name="you">You</string>
+    <string name="errorEmail">Please enter the email address  associated with your account</string>
+    <string name="titleForget">Enter your email and we\'ll send password reset instructions</string>
+    <string name="select_gender">don\'t  save  data  with out choose  gender   </string>
+    <string name="enterNewPhone">Please enter new number to reset</string>
+    <string name="enterNewEmail">Please enter new email address to reset</string>
+    <string name="doneAdd">Added</string>
+    <string name="totalCard">Cart total</string>
+    <string name="goCart">Go to cart</string>
+    <string name="goFollowing">Go shopping</string>
+    <string name="rates">Ratings</string>
+    <string name="dataAlreadyExit">The data already exists before</string>
+    <string name="highestPrice">Highest Price: </string>
+    <string name="doneCategory">Done</string>
+    <string name="saveDone">This search has been saved</string>
+    <string name="creditCard">VisaCard</string>
+    <string name="MadaPayment">Mada</string>
+    <string name="WaitingForPayment">Waiting for payment</string>
+    <string name="InProgress">In Progress</string>
+    <string name="withoutCharging">Without Charging</string>
+    <string name="confirmed">Confirmed</string>
+    <string name="unactivate">Unactivate</string>
+    <string name="canceled">Boiled</string>
+    <string name="WaitingForReview">Waiting for review</string>
+    <string name="ReadyForDelivery">Ready for delivery</string>
+    <string name="DeliveryInProgress">Delivery in progress</string>
+    <string name="Delivered">Delivered</string>
+    <string name="Retrieved">Retrieved</string>
+    <string name="doneRate">Effectively rated, thank you</string>
+    <string name="removeProductSuccessfully">The active product has been deleted</string>
+    <string name="highauction">Highest bid</string>
+    <string name="lowAuction">Lowest increment</string>
+    <string name="deleteAuction">Delete auction</string>
+    <string name="cars_real_estate_animals">Cars, Real estate, Animals...</string>
+    <string name="bankName">"Bank Name : "</string>
+    <string name="accountNumber">"Account Number : "</string>
+    <string name="userName">"Card holder's name : "</string>
+    <string name="iban_number">"Iban : "</string>
+    <string name="cancel_the_order">Cancel the order</string>
+    <string name="your_rating_for_the_buyer">What is your rating for the buyer</string>
+    <string name="add_Review_success">Evaluation completed successfully</string>
+    <string name="noFoundUserOffers">No users to select</string>
+    <string name="viewCategory">View</string>
+    <string name="visitors">الزائرين</string>
+    <string name="deleteall">إزالة الكل</string>
+    <string name="CheckoutProduct">Checkout</string>
+    <string name="editProduct">تعديل المنتج</string>
+    <string name="_discount">"Discount : "</string>
+    <string name="purchaseOrder">Purchase order times</string>
+    <string name="QuentitiyClosed">Quentity Closed</string>
+    <string name="numMonth">Number Of Monthes</string>
+    <string name="countImage">Count Of Image</string>
+    <string name="countVideo">Count Of Video</string>
+    <string name="productPosition">Product Position</string>
+    <string name="showSupTitle">Show SupTitle</string>
+    <string name="showHighLight">Show HighLight</string>
+    <string name="expired">Expired</string>
+    <string name="title_activity_show_branches_map">ShowBranchesMapActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="lorem_ipsum">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
+        volutpat, dolor id interdum ullamcorper, risus dolor egestas lectus, sit amet mattis purus
+        dui nec risus. Maecenas non sodales nisi, vel dictum dolor. Class aptent taciti sociosqu ad
+        litora torquent per conubia nostra, per inceptos himenaeos. Suspendisse blandit eleifend
+        diam, vel rutrum tellus vulputate quis. Aliquam eget libero aliquet, imperdiet nisl a,
+        ornare ex. Sed rhoncus est ut libero porta lobortis. Fusce in dictum tellus.\n\n
+        Suspendisse interdum ornare ante. Aliquam nec cursus lorem. Morbi id magna felis. Vivamus
+        egestas, est a condimentum egestas, turpis nisl iaculis ipsum, in dictum tellus dolor sed
+        neque. Morbi tellus erat, dapibus ut sem a, iaculis tincidunt dui. Interdum et malesuada
+        fames ac ante ipsum primis in faucibus. Curabitur et eros porttitor, ultricies urna vitae,
+        molestie nibh. Phasellus at commodo eros, non aliquet metus. Sed maximus nisl nec dolor
+        bibendum, vel congue leo egestas.\n\n
+        Sed interdum tortor nibh, in sagittis risus mollis quis. Curabitur mi odio, condimentum sit
+        amet auctor at, mollis non turpis. Nullam pretium libero vestibulum, finibus orci vel,
+        molestie quam. Fusce blandit tincidunt nulla, quis sollicitudin libero facilisis et. Integer
+        interdum nunc ligula, et fermentum metus hendrerit id. Vestibulum lectus felis, dictum at
+        lacinia sit amet, tristique id quam. Cras eu consequat dui. Suspendisse sodales nunc ligula,
+        in lobortis sem porta sed. Integer id ultrices magna, in luctus elit. Sed a pellentesque
+        est.\n\n
+        Aenean nunc velit, lacinia sed dolor sed, ultrices viverra nulla. Etiam a venenatis nibh.
+        Morbi laoreet, tortor sed facilisis varius, nibh orci rhoncus nulla, id elementum leo dui
+        non lorem. Nam mollis ipsum quis auctor varius. Quisque elementum eu libero sed commodo. In
+        eros nisl, imperdiet vel imperdiet et, scelerisque a mauris. Pellentesque varius ex nunc,
+        quis imperdiet eros placerat ac. Duis finibus orci et est auctor tincidunt. Sed non viverra
+        ipsum. Nunc quis augue egestas, cursus lorem at, molestie sem. Morbi a consectetur ipsum, a
+        placerat diam. Etiam vulputate dignissim convallis. Integer faucibus mauris sit amet finibus
+        convallis.\n\n
+        Phasellus in aliquet mi. Pellentesque habitant morbi tristique senectus et netus et
+        malesuada fames ac turpis egestas. In volutpat arcu ut felis sagittis, in finibus massa
+        gravida. Pellentesque id tellus orci. Integer dictum, lorem sed efficitur ullamcorper,
+        libero justo consectetur ipsum, in mollis nisl ex sed nisl. Donec maximus ullamcorper
+        sodales. Praesent bibendum rhoncus tellus nec feugiat. In a ornare nulla. Donec rhoncus
+        libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
+        vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
+    </string>
 
 </resources>

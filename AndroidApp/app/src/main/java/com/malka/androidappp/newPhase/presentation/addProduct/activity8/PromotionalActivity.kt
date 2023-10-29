@@ -55,7 +55,7 @@ class PromotionalActivity : BaseActivity(), PakatAdapter.SetOnPakatSelected {
 //
 //        }
         setFreePakageData()
-        addProductViewModel.getPakatList(AddProductObjectData.selectedCategoryId)
+        addProductViewModel.getPakatList(2)
     }
 
     private fun setFreePakageData() {
@@ -128,6 +128,9 @@ class PromotionalActivity : BaseActivity(), PakatAdapter.SetOnPakatSelected {
 
         }
         addProductViewModel.errorResponseObserver.observe(this) {
+            if(it.status!=null && it.status=="409"){
+                HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), this)
+            }else{
             if (it.message != null && it.message != "") {
                 HelpFunctions.ShowLongToast(
                     it.message!!,
@@ -138,6 +141,7 @@ class PromotionalActivity : BaseActivity(), PakatAdapter.SetOnPakatSelected {
                     getString(R.string.serverError),
                     this
                 )
+            }
             }
 
         }

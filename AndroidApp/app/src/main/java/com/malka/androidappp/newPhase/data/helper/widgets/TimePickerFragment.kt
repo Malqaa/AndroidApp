@@ -31,16 +31,16 @@ class TimePickerFragment(val onItemClick: (selectTime: String) -> Unit) : Dialog
             minuteString = "0$minuteString"
         }
         var other = ""
-        if (hourString.toInt() >= 12) {
-            other = getString(R.string.PM)
-            hourString = (hourString.toInt() - 12).toString()
-        } else {
-            other = getString(R.string.AM)
-        }
+//        if (hourString.toInt() >= 12) {
+//            other = getString(R.string.PM)
+//            hourString = (hourString.toInt() - 12).toString()
+//        } else {
+//            other = getString(R.string.AM)
+//        }
         if (hourString.equals("00")) {
             hourString = "12"
         }
-        val selectTime = "$hourString:$minuteString ${other}"
+        val selectTime = "$hourString:$minuteString"
         onItemClick.invoke(selectTime)
     }
 }

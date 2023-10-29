@@ -25,6 +25,7 @@ import com.malka.androidappp.newPhase.presentation.adapterShared.ProductHorizont
 import com.malka.androidappp.newPhase.presentation.adapterShared.SetOnProductItemListeners
 import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
 import com.malka.androidappp.newPhase.presentation.myOrderDetails.MyOrderDetailsRequestedFromMeActivity
+import com.malka.androidappp.newPhase.presentation.productDetailsActivity.MyProductDetailsActivity
 import com.malka.androidappp.newPhase.presentation.productDetailsActivity.ProductDetailsActivity
 import kotlinx.android.synthetic.main.fragment_sold_business.*
 import kotlinx.android.synthetic.main.toolbar_main.*
@@ -38,6 +39,7 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
     private lateinit var myPorductForSaleListAdapter: ProductHorizontalAdapter
     private lateinit var productList: ArrayList<Product>
     private var lastUpdateIndex = -1
+    private lateinit var expireHoursList: ArrayList<Float>
 
     //====
     lateinit var soldOutOrdersList: ArrayList<OrderItem>
@@ -69,6 +71,10 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         sold_out_rcv.hide()
         did_not_sale_rcv.hide()
         for_sale_recycler.show()
+    }
+
+    override fun onResume() {
+        super.onResume()
         onRefresh()
     }
 
@@ -78,10 +84,17 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         myOrdersAdapter =
             MyOrdersAdapter(soldOutOrdersList, object : MyOrdersAdapter.SetOnClickListeners {
                 override fun onOrderSelected(position: Int) {
-                    startActivity(Intent(requireActivity(), MyOrderDetailsRequestedFromMeActivity::class.java).apply {
-                        putExtra(ConstantObjects.orderItemKey,soldOutOrdersList[position])
-                        putExtra(ConstantObjects.orderNumberKey,soldOutOrdersList[position].orderId)
-                    })
+                    startActivity(
+                        Intent(
+                            requireActivity(),
+                            MyOrderDetailsRequestedFromMeActivity::class.java
+                        ).apply {
+                            putExtra(ConstantObjects.orderItemKey, soldOutOrdersList[position])
+                            putExtra(
+                                ConstantObjects.orderNumberKey,
+                                soldOutOrdersList[position].orderId
+                            )
+                        })
                 }
 
             })
@@ -118,7 +131,7 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         for_sale.setOnClickListener {
             tapId = 1
             sold_out_rcv.hide()
-         //   did_not_sale_rcv.hide()
+            //   did_not_sale_rcv.hide()
             for_sale_recycler.show()
             for_sale.setBackgroundResource(R.drawable.round_btn)
             for_sale.setTextColor(ContextCompat.getColor(requireActivity(), R.color.white))
@@ -131,7 +144,7 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         sold_out.setOnClickListener {
             tapId = 2
             sold_out_rcv.show()
-          //  did_not_sale_rcv.hide()
+            //  did_not_sale_rcv.hide()
             for_sale_recycler.hide()
 
             for_sale.setBackgroundResource(R.drawable.edittext_bg)
@@ -145,7 +158,7 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         did_not_Sell.setOnClickListener {
             tapId = 3
             sold_out_rcv.hide()
-         //   did_not_sale_rcv.show()
+            //   did_not_sale_rcv.show()
             for_sale_recycler.show()
 
             for_sale.setBackgroundResource(R.drawable.edittext_bg)
@@ -187,16 +200,20 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
 
         }
         myProductsViewModel.errorResponseObserver.observe(this) {
-            if (it.message != null) {
-                showProductApiError(it.message!!)
+            if (it.status != null && it.status == "409") {
+                HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), requireActivity())
             } else {
-                showProductApiError(getString(R.string.serverError))
+                if (it.message != null) {
+                    showProductApiError(it.message!!)
+                } else {
+                    showProductApiError(getString(R.string.serverError))
+                }
             }
 
         }
         myProductsViewModel.forSaleProductRespObserver.observe(this) { productListResp ->
             if (productListResp.status_code == 200) {
-                if (productListResp.productList != null && productListResp.productList.isNotEmpty()) {
+                if (!productListResp.productList.isNullOrEmpty()) {
                     productList.clear()
                     productList.addAll(productListResp.productList)
                     myPorductForSaleListAdapter.notifyDataSetChanged()
@@ -233,16 +250,20 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
 
         }
         myProductsViewModel.errorResponseObserverProductToFav.observe(viewLifecycleOwner) {
-            if (it.message != null && it.message != "") {
-                HelpFunctions.ShowLongToast(
-                    it.message!!,
-                    requireActivity()
-                )
+            if (it.status != null && it.status == "409") {
+                HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), requireActivity())
             } else {
-                HelpFunctions.ShowLongToast(
-                    getString(R.string.serverError),
-                    requireActivity()
-                )
+                if (it.message != null && it.message != "") {
+                    HelpFunctions.ShowLongToast(
+                        it.message!!,
+                        requireActivity()
+                    )
+                } else {
+                    HelpFunctions.ShowLongToast(
+                        getString(R.string.serverError),
+                        requireActivity()
+                    )
+                }
             }
 
         }
@@ -286,6 +307,34 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
 
             }
         }
+
+
+        myProductsViewModel.repostProductObserver.observe(viewLifecycleOwner) {
+            HelpFunctions.ShowLongToast(getString(R.string.repostTheProduct), requireActivity())
+            if (tapId == 3)
+                myProductsViewModel.getForDidNotSaleProducts()
+
+        }
+
+        myProductsViewModel.removeProductObserver.observe(viewLifecycleOwner) {
+            HelpFunctions.ShowLongToast(
+                getString(R.string.removeProductSuccessfully),
+                requireActivity()
+            )
+            if (tapId == 1)
+                myProductsViewModel.getForSaleProduct()
+            else {
+                myProductsViewModel.getForDidNotSaleProducts()
+            }
+        }
+
+        myProductsViewModel.configurationDataObserver.observe(viewLifecycleOwner) {
+            expireHoursList = arrayListOf()
+            val result: List<Float>? = it?.configValue?.split(",")?.map { it.trim().toFloat() }
+            result?.let { it1 ->
+                expireHoursList.addAll(it1)
+            }
+        }
     }
 
     override fun onRefresh() {
@@ -298,12 +347,14 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
                 myPorductForSaleListAdapter.notifyDataSetChanged()
                 myProductsViewModel.getForSaleProduct()
             }
+
             2 -> {
                 soldOutOrdersList.clear()
                 myOrdersAdapter.notifyDataSetChanged()
                 myProductsViewModel.getSoldOutOrders(1)
             }
-            3->{
+
+            3 -> {
                 productList.clear()
                 myPorductForSaleListAdapter.notifyDataSetChanged()
                 myProductsViewModel.getForDidNotSaleProducts()
@@ -319,9 +370,13 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
 
     override fun onProductSelect(position: Int, productID: Int, categoryID: Int) {
         startActivity(
-            Intent(requireActivity(), ProductDetailsActivity::class.java).apply {
+            Intent(requireActivity(), MyProductDetailsActivity::class.java).apply {
                 putExtra(ConstantObjects.productIdKey, productID)
                 putExtra(ConstantObjects.isMyProduct, true)
+                if (tapId == 1)
+                    putExtra("isMyProductForSale", true)
+                else if (tapId == 3)
+                    putExtra("isMyProductForSale", false)
             })
     }
 
@@ -340,36 +395,42 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
     }
 
     override fun onShowMoreSetting(position: Int, productID: Int, categoryID: Int) {
-        var productForeSale = tapId == 1
-        var myProductSettingDialog =
-            MyProductSettingDialog(requireActivity(), productForeSale, object :
-                MyProductSettingDialog.SetOnSelectedListeners {
-                override fun onAddDiscount() {
-                    openDiscountDialog(position, productID, categoryID)
-                }
+        val productForeSale = tapId == 1
+        val myProductSettingDialog =
+            MyProductSettingDialog(
+                productList[position].isAuctionEnabled,
+                productList[position].auctionClosingTime ?: "",
+                requireActivity(),
+                productForeSale,
+                object :
+                    MyProductSettingDialog.SetOnSelectedListeners {
+                    override fun onAddDiscount() {
+                        openDiscountDialog(position, productID, categoryID)
+                    }
 
-                override fun onModifyProduct() {
-                    HelpFunctions.ShowLongToast("not implemented yet", requireActivity())
-                }
+                    override fun onModifyProduct() {
+                        HelpFunctions.ShowLongToast("not implemented yet", requireActivity())
+                    }
 
-                override fun onDeleteProduct() {
-                    HelpFunctions.ShowLongToast("not implemented yet", requireActivity())
-                }
+                    override fun onDeleteProduct() {
+                        myProductsViewModel.removeProduct(productID)
+                    }
 
-                override fun onSendOfferProductToBidPersons() {
-                    openAddOfferDailog(productID)
-                }
+                    override fun onSendOfferProductToBidPersons() {
+                        myProductsViewModel.getExpireHours()
+                        openAddOfferDailog(productID)
+                    }
 
-                override fun onRepostProduct() {
-                    HelpFunctions.ShowLongToast("not implemented yet", requireActivity())
-                }
+                    override fun onRepostProduct() {
+                        myProductsViewModel.repostProduct(productID)
+                    }
 
-            })
+                })
         myProductSettingDialog.show()
     }
 
     private fun openAddOfferDailog(productID: Int) {
-        val bidPersonsDialog = BidPersonsDialog(
+        val bidPersonsDialog = BidPersonsDialog("",
             requireActivity(),
             productID,
             object : BidPersonsDialog.SetOnAddBidOffersListeners {
@@ -377,18 +438,23 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
                     openAddProductOffers(bidsList, productID)
                 }
 
+                override fun onOpenAuctionDialog() {
+
+                }
+
             })
         bidPersonsDialog.show()
     }
 
     private fun openAddProductOffers(bidsList: List<String>, productID: Int) {
-        var addProductBidOffersDialog = AddProductBidOffersDialog(
+        val addProductBidOffersDialog = AddProductBidOffersDialog(
+            expireHoursList,
             requireActivity(),
             productID,
             bidsList,
             object : AddProductBidOffersDialog.SetClickListeners {
                 override fun setOnSuccessListeners() {
-                  HelpFunctions.ShowLongToast(getString(R.string.offerSent),context)
+                    HelpFunctions.ShowLongToast(getString(R.string.offerSent), context)
                 }
 
             })
@@ -406,6 +472,7 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
                         lastUpdateIndex = position
                         lastPriceDiscount = newPrice
                         myProductsViewModel.addDiscount(productID, newPrice, finaldate)
+
                     }
 
                 })

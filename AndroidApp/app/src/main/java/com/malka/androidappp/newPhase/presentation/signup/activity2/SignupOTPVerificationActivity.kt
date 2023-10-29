@@ -44,11 +44,11 @@ class SignupOTPVerificationActivity : BaseActivity() {
         setClickListeners()
         resendCodeAfterExpire.hide()
         /***thisForTest*/
-        if (BuildConfig.DEBUG) {
-            val datacode: String? = otpData?.otpCode
-            // println("hhh $datacode")
-            pinview.value = datacode!!
-        }
+//        if (BuildConfig.DEBUG) {
+//            val datacode: String? = otpData?.otpCode
+//            // println("hhh $datacode")
+//            pinview.value = datacode!!
+//        }
         signupViewModel.getConfigurationResp(ConstantObjects.configration_otpExpiryTime)
 
     }
@@ -76,44 +76,54 @@ class SignupOTPVerificationActivity : BaseActivity() {
 
         })
         signupViewModel.errorResponseObserver.observe(this, Observer {
-            when (it.message) {
-                "OTPExpired" -> {
-                    showError(getString(R.string.CodeExpired))
-                }
-                "OTPWrongTrialsExcced" -> {
-                    showError(getString(R.string.OTPWrongTrialsExcced))
-                }
-                "WrongTrialsLimitexceeds" -> {
-                    showError(getString(R.string.OTPWrongTrialsExcced))
-                }
-                "ResetPasswordCodeExpired" -> {
+            if (it.status != null && it.status == "409") {
+                HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), this)
+            } else {
+                when (it.message) {
+                    "OTPExpired" -> {
+                        showError(getString(R.string.CodeExpired))
+                    }
 
-                }
-                "InvalidOTP" -> {
-                    showError(getString(R.string.InvalidOTP))
-                }
+                    "OTPWrongTrialsExcced" -> {
+                        showError(getString(R.string.OTPWrongTrialsExcced))
+                    }
 
-                "CodeNotCorrect" -> {
-                    showError(getString(R.string.InvalidOTP))
-                }
-                "Success" -> {
-                    HelpFunctions.ShowLongToast(
-                        getString(R.string.VerificationSuccessful),
-                        this@SignupOTPVerificationActivity
-                    )
-                    signup2next()
-                }
-                else -> {
-                    if (it.message != null) {
+                    "WrongTrialsLimitexceeds" -> {
+                        showError(getString(R.string.OTPWrongTrialsExcced))
+                    }
+
+                    "ResetPasswordCodeExpired" -> {
+
+                    }
+
+                    "InvalidOTP" -> {
+                        showError(getString(R.string.InvalidOTP))
+                    }
+
+                    "CodeNotCorrect" -> {
+                        showError(getString(R.string.InvalidOTP))
+                    }
+
+                    "Success" -> {
                         HelpFunctions.ShowLongToast(
-                            it.message!!,
-                            this
+                            getString(R.string.VerificationSuccessful),
+                            this@SignupOTPVerificationActivity
                         )
-                    } else {
-                        HelpFunctions.ShowLongToast(
-                            getString(R.string.serverError),
-                            this
-                        )
+                        signup2next()
+                    }
+
+                    else -> {
+                        if (it.message != null) {
+                            HelpFunctions.ShowLongToast(
+                                it.message!!,
+                                this
+                            )
+                        } else {
+                            HelpFunctions.ShowLongToast(
+                                getString(R.string.serverError),
+                                this
+                            )
+                        }
                     }
                 }
             }
@@ -126,9 +136,9 @@ class SignupOTPVerificationActivity : BaseActivity() {
                 button3.isEnabled = true
                 /***thisForTest*/
                 val otppcode = validateUserAndGenerateOTP.otpData!!.otpCode
-                if (BuildConfig.DEBUG) {
-                    pinview.value = otppcode
-                }
+//                if (BuildConfig.DEBUG) {
+//                    pinview.value = otppcode
+//                }
             } else {
                 HelpFunctions.ShowLongToast(
                     getString(R.string.serverError),
@@ -148,20 +158,24 @@ class SignupOTPVerificationActivity : BaseActivity() {
 //            OTPWrongTrialsExcced
 //            InvalidOTP
 //            Success
-            println("hhhh "+userVerified.message)
+            println("hhhh " + userVerified.message)
             when (userVerified.message) {
                 "OTPExpired" -> {
                     showError(getString(R.string.CodeExpired))
                 }
+
                 "OTPWrongTrialsExcced" -> {
                     showError(getString(R.string.OTPWrongTrialsExcced))
                 }
+
                 "WrongTrialsLimitexceeds" -> {
                     showError(getString(R.string.OTPWrongTrialsExcced))
                 }
+
                 "ResetPasswordCodeExpired" -> {
 
                 }
+
                 "InvalidOTP" -> {
                     showError(getString(R.string.InvalidOTP))
                 }
@@ -169,13 +183,15 @@ class SignupOTPVerificationActivity : BaseActivity() {
                 "CodeNotCorrect" -> {
                     showError(getString(R.string.InvalidOTP))
                 }
-                "Success","Otp verified successfully" -> {
+
+                "Success", "Otp verified successfully" -> {
                     HelpFunctions.ShowLongToast(
                         getString(R.string.VerificationSuccessful),
                         this@SignupOTPVerificationActivity
                     )
                     signup2next()
                 }
+
                 else -> {
                     showError(getString(R.string.serverError))
                 }
@@ -233,7 +249,11 @@ class SignupOTPVerificationActivity : BaseActivity() {
                 )
             } else {
                 val userPhone: String? = otpData?.phoneNumber
-                signupViewModel.resendOtp(userPhone.toString(), "1",Lingver.getInstance().getLanguage())
+                signupViewModel.resendOtp(
+                    userPhone.toString(),
+                    Lingver.getInstance().getLanguage(),
+                    "3"
+                )
                 //resendOTPApi()
             }
         }
@@ -415,39 +435,39 @@ class SignupOTPVerificationActivity : BaseActivity() {
     ////////////////////////////////Switch Activities/////////////////////////////////////////
 
 
-/*    fun resendCodeApi() {
-//        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-//        val email: String? = intent.getStringExtra("dataemail")
-//        val passcode: String? = intent.getStringExtra("datapassword")
-//        val resendmodel = User(email=email!!, password = passcode!!)
-//        val call = malqa.resendcode(resendmodel)
-//        call.enqueue(object : Callback<BasicResponse> {
-//
-//            override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
-//
-//                t.message?.let { HelpFunctions.ShowLongToast(it, this@SignupPg2) }
-//
-//            }
-//
-//            override fun onResponse(call: Call<BasicResponse>, response: Response<BasicResponse>) {
-//
-//                if (response.isSuccessful) {
-//                    val otppcode = response.body()?.data.toString()
-//                    if(BuildConfig.DEBUG){
-//                        pinview.value = otppcode
-//                    }
-//                    startTimeCounter()
-//                    button3.isEnabled = true
-//                } else {
-//                    HelpFunctions.ShowLongToast(
-//                        getString(R.string.VerificationFailed),
-//                        this@SignupPg2
-//                    )
-//                }
-//            }
-//        })
-//}
-*/
+    /*    fun resendCodeApi() {
+    //        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+    //        val email: String? = intent.getStringExtra("dataemail")
+    //        val passcode: String? = intent.getStringExtra("datapassword")
+    //        val resendmodel = User(email=email!!, password = passcode!!)
+    //        val call = malqa.resendcode(resendmodel)
+    //        call.enqueue(object : Callback<BasicResponse> {
+    //
+    //            override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
+    //
+    //                t.message?.let { HelpFunctions.ShowLongToast(it, this@SignupPg2) }
+    //
+    //            }
+    //
+    //            override fun onResponse(call: Call<BasicResponse>, response: Response<BasicResponse>) {
+    //
+    //                if (response.isSuccessful) {
+    //                    val otppcode = response.body()?.data.toString()
+    //                    if(BuildConfig.DEBUG){
+    //                        pinview.value = otppcode
+    //                    }
+    //                    startTimeCounter()
+    //                    button3.isEnabled = true
+    //                } else {
+    //                    HelpFunctions.ShowLongToast(
+    //                        getString(R.string.VerificationFailed),
+    //                        this@SignupPg2
+    //                    )
+    //                }
+    //            }
+    //        })
+    //}
+    */
 
 
 }

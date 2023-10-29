@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
     <LinearLayout
@@ -216,6 +217,76 @@
 
 
         </LinearLayout>
+
+<!--        <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent-->
+<!--            android:id="@+id/delivery_option"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_margin="@dimen/_10sdp"-->
+<!--            android:gravity="center"-->
+<!--            -->
+<!--            android:text="@string/delivery_options"-->
+<!--            app:viewType="text" />-->
+
+
+<!--        <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent-->
+<!--            android:id="@+id/payment_option_btn"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="@dimen/_10sdp"-->
+<!--            android:layout_marginEnd="@dimen/_10sdp"-->
+<!--            android:gravity="center"-->
+<!--            android:text="@string/payment_options"-->
+<!--            app:viewType="text" />-->
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="@dimen/_40sdp"-->
+<!--            android:layout_margin="@dimen/_10sdp"-->
+<!--            android:background="@drawable/product_attribute_bg4"-->
+<!--            android:gravity="center_vertical"-->
+<!--            android:id="@+id/couponContainer"-->
+<!--            android:orientation="horizontal">-->
+
+
+<!--            <EditText-->
+<!--                android:id="@+id/etCoupon"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_marginStart="@dimen/_15sdp"-->
+<!--                android:layout_weight="1"-->
+<!--                android:background="@null"-->
+<!--                android:fontFamily="@font/madani_arabic_extra_light"-->
+<!--                android:hint="@string/enter_the_coupon"-->
+<!--                android:imeOptions="actionDone"-->
+<!--                android:inputType="text"-->
+<!--                android:maxLines="1"-->
+<!--                android:textColor="@color/grey"-->
+<!--                android:textSize="@dimen/_10sdp" />-->
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="@dimen/_70sdp"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:background="@color/bg"-->
+<!--                android:id="@+id/btnApplyCode"-->
+<!--                android:foreground="?android:attr/selectableItemBackground"-->
+<!--                android:gravity="center">-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/item_coupon"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:fontFamily="@font/madani_arabic_medium"-->
+<!--                    android:gravity="center"-->
+<!--                    android:text="@string/activation"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:textSize="@dimen/_10sdp" />-->
+
+
+<!--            </LinearLayout>-->
+
+
+<!--        </LinearLayout>-->
+
 
 
     </LinearLayout>

@@ -2,11 +2,12 @@ package com.malka.androidappp.newPhase.presentation.accountFragment.editProfileA
 
 import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Patterns
 import android.view.View
+import android.widget.AdapterView
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.data.helper.ConstantObjects
@@ -17,6 +18,7 @@ import com.malka.androidappp.newPhase.data.network.constants.Constants
 import com.malka.androidappp.newPhase.domain.models.loginResp.LoginUser
 import com.malka.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.OtpData
 import com.malka.androidappp.newPhase.presentation.accountFragment.AccountViewModel
+import com.malka.androidappp.newPhase.presentation.utils.ConstantsHelper.readJson
 import io.paperdb.Paper
 import kotlinx.android.synthetic.main.activity_edit_profile.*
 import kotlinx.android.synthetic.main.activity_edit_profile.btnDate
@@ -26,11 +28,13 @@ import kotlinx.android.synthetic.main.activity_edit_profile.radiofemale
 import kotlinx.android.synthetic.main.activity_edit_profile.radiomale
 import kotlinx.android.synthetic.main.activity_edit_profile.userNamee
 import kotlinx.android.synthetic.main.activity_signup_pg1.*
-import kotlinx.android.synthetic.main.activity_signup_pg4.*
+import kotlinx.android.synthetic.main.dialog_acceot_offer.spinnerValues
 import kotlinx.android.synthetic.main.toolbar_main.*
+
 
 class EditProfileActivity : AppCompatActivity() {
     var gender_: Int = 0
+    var phoneCode = ""
     private lateinit var accountViewModel: AccountViewModel
 
     private var showMYInfo: Int = 0
@@ -52,8 +56,8 @@ class EditProfileActivity : AppCompatActivity() {
         setContentView(R.layout.activity_edit_profile)
         toolbar_title.text = getString(R.string.edit_profile)
         password.isEnabled = false
+        userNamee.isClickable=false
         etPasswordLayout.isEnabled = false
-        userNamee.isEnabled = false
         //etPhoneNumber.isEnabled = false
 
         if (ConstantObjects.currentLanguage == "ar") {
@@ -67,6 +71,24 @@ class EditProfileActivity : AppCompatActivity() {
         }
         setViewClickListeners()
         setUpViewModel()
+
+
+        val adapter = CustomSpinnerAdapter(this, readJson(this)!!)
+        spCode.adapter = adapter
+        spCode.onItemSelectedListener = object :
+            AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                adapterView: AdapterView<*>?,
+                view: View,
+                spinnerPosition: Int,
+                l: Long
+            ) {
+                phoneCode =   readJson(this@EditProfileActivity)?.get(spinnerPosition)?.dialCode?:""
+            }
+
+            override fun onNothingSelected(adapterView: AdapterView<*>?) {}
+        }
+
         accountViewModel.getUserData()
     }
 
@@ -92,6 +114,7 @@ class EditProfileActivity : AppCompatActivity() {
                     "EmailExists", "EmailExisting" -> {
                         textEmaill.error = getString(R.string.userEmailExists)
                     }
+
                     else -> {
                         HelpFunctions.ShowLongToast(it.status!!, this)
                     }
@@ -185,8 +208,33 @@ class EditProfileActivity : AppCompatActivity() {
             Constants.male -> {
                 radiomale._setCheck(true)
             }
+
             Constants.female -> {
                 radiofemale._setCheck(true)
+            }
+        }
+        setInfoUser((tempUserData.showUserInformation ?: "0").toInt())
+        showMYInfo = (tempUserData.showUserInformation ?: "0").toInt()
+    }
+
+    private fun setInfoUser(showMYInfo: Int) {
+        when (showMYInfo) {
+            1 -> {
+                ivShowMyInfoToAll.setImageResource(R.drawable.ic_radio_button_checked)
+                ivShowMyInfoToMembers.setImageResource(R.drawable.ic_radio_button_unchecked)
+                ivShowMyInfoToNoOne.setImageResource(R.drawable.ic_radio_button_unchecked)
+            }
+
+            2 -> {
+                ivShowMyInfoToAll.setImageResource(R.drawable.ic_radio_button_unchecked)
+                ivShowMyInfoToMembers.setImageResource(R.drawable.ic_radio_button_checked)
+                ivShowMyInfoToNoOne.setImageResource(R.drawable.ic_radio_button_unchecked)
+            }
+
+            3 -> {
+                ivShowMyInfoToAll.setImageResource(R.drawable.ic_radio_button_unchecked)
+                ivShowMyInfoToMembers.setImageResource(R.drawable.ic_radio_button_unchecked)
+                ivShowMyInfoToNoOne.setImageResource(R.drawable.ic_radio_button_checked)
             }
         }
     }
@@ -194,21 +242,15 @@ class EditProfileActivity : AppCompatActivity() {
     private fun setViewClickListeners() {
         ivShowMyInfoToAll.setOnClickListener {
             showMYInfo = 1
-            ivShowMyInfoToAll.setImageResource(R.drawable.ic_radio_button_checked)
-            ivShowMyInfoToMembers.setImageResource(R.drawable.ic_radio_button_unchecked)
-            ivShowMyInfoToNoOne.setImageResource(R.drawable.ic_radio_button_unchecked)
+            setInfoUser(1)
         }
         ivShowMyInfoToMembers.setOnClickListener {
             showMYInfo = 2
-            ivShowMyInfoToAll.setImageResource(R.drawable.ic_radio_button_unchecked)
-            ivShowMyInfoToMembers.setImageResource(R.drawable.ic_radio_button_checked)
-            ivShowMyInfoToNoOne.setImageResource(R.drawable.ic_radio_button_unchecked)
+            setInfoUser(2)
         }
         ivShowMyInfoToNoOne.setOnClickListener {
             showMYInfo = 3
-            ivShowMyInfoToAll.setImageResource(R.drawable.ic_radio_button_unchecked)
-            ivShowMyInfoToMembers.setImageResource(R.drawable.ic_radio_button_unchecked)
-            ivShowMyInfoToNoOne.setImageResource(R.drawable.ic_radio_button_checked)
+            setInfoUser(3)
         }
 
 
@@ -224,12 +266,20 @@ class EditProfileActivity : AppCompatActivity() {
         radiomale._setOnClickListener() {
             radiomale._setCheck(!radiomale.getCheck())
             radiofemale._setCheck(false)
-            gender_ = Constants.male
+            if (radiomale.getCheck()) {
+                gender_ = Constants.male
+            } else {
+                gender_ = -1
+            }
         }
         radiofemale._setOnClickListener {
             radiofemale._setCheck(!radiofemale.getCheck())
+            if (radiofemale.getCheck()) {
+                gender_ = Constants.female
+            } else {
+                gender_ = -1
+            }
             radiomale._setCheck(false)
-            gender_ = Constants.female
 
         }
         reset_password_btn.setOnClickListener {
@@ -237,7 +287,7 @@ class EditProfileActivity : AppCompatActivity() {
         }
         activate_email.setOnClickListener {
             if (textEmail.text.toString().trim() == "") {
-                textEmail.error = getString(R.string.Fieldcantbeempty)
+                textEmail.error = getString(R.string.enterNewEmail)
             } else if (!Patterns.EMAIL_ADDRESS.matcher(textEmail.text).matches()) {
                 textEmail.error = getString(R.string.Pleaseenteravalidemailaddress)
             } else if (textEmail.text.toString().trim() == ConstantObjects.userobj?.email) {
@@ -249,7 +299,7 @@ class EditProfileActivity : AppCompatActivity() {
         btn_reset_phone_number.setOnClickListener {
             if (validateNumber()) {
                 accountViewModel.resendOtp(
-                    etPhoneNumber.text.toString().trim(),
+                    phoneCode + etPhoneNumber.text.toString().trim(),
                     ConstantObjects.currentLanguage,
                     "3"
                 )
@@ -261,32 +311,34 @@ class EditProfileActivity : AppCompatActivity() {
     }
 
     private fun prepareDataToUpdate() {
-        var readyToSave = true
+        var readyToSave = false
         if (fristName.text.toString().trim() == "") {
             readyToSave = false
             fristName.error = getString(R.string.Please_enter, getString(R.string.First_Name))
-        }
-        if (lastName.text.toString().trim() == "") {
+        } else if (lastName.text.toString().trim() == "") {
             readyToSave = false
             lastName.error = getString(R.string.Please_enter, getString(R.string.Last_Name))
-        }
-        if (btnDate.text.toString().trim() == "") {
+        } else if (btnDate.text.toString().trim() == "") {
             readyToSave = false
             btnDate.error = getString(R.string.Please_select, getString(R.string.Date_of_Birth))
-        }
-        if(showMYInfo==0){
+        } else if (gender_ == -1) {
+            HelpFunctions.ShowLongToast(getString(R.string.select_gender), this)
             readyToSave = false
-            HelpFunctions.ShowLongToast(getString(R.string.statusShowingYourData),this)
-        }
-        if (readyToSave) {
-            accountViewModel.updateMobileNumber(
-                ConstantObjects.logged_userid,
-                fristName.text.toString().trim(),
-                lastName.text.toString().trim(),
-                btnDate.text.toString().trim(),
-                gender_,
-                showMYInfo.toString()
-            )
+        } else if (showMYInfo == 0) {
+            readyToSave = false
+            HelpFunctions.ShowLongToast(getString(R.string.statusShowingYourData), this)
+        } else {
+            readyToSave = true
+            if (readyToSave) {
+                accountViewModel.updateMobileNumber(
+                    ConstantObjects.logged_userid,
+                    fristName.text.toString().trim(),
+                    lastName.text.toString().trim(),
+                    btnDate.text.toString().trim(),
+                    gender_,
+                    showMYInfo.toString()
+                )
+            }
         }
     }
 
@@ -295,10 +347,13 @@ class EditProfileActivity : AppCompatActivity() {
             etPhoneNumber!!.text.toString().trim { it <= ' ' }
         return if (numberInput.isEmpty()) {
             etPhoneNumber.visibility = View.VISIBLE
-            etPhoneNumber.error = getString(R.string.Fieldcantbeempty)
+            etPhoneNumber.error = getString(R.string.enterNewPhone)
             false
         } else if (!Patterns.PHONE.matcher(numberInput).matches()) {
             etPhoneNumber.error = getString(R.string.PleaseenteravalidPhoneNumber)
+            false
+        } else if (phoneCode.isEmpty()) {
+            etPhoneNumber.error = getString(R.string.selectCountry)
             false
         } else {
             etPhoneNumber.error = null

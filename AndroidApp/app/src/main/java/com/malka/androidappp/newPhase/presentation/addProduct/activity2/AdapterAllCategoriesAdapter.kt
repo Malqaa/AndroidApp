@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.data.helper.BaseViewHolder
+import com.malka.androidappp.newPhase.data.helper.Extension
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.data.helper.hide
 import com.malka.androidappp.newPhase.data.helper.show
@@ -43,7 +44,7 @@ class AdapterAllCategoriesAdapter(
         holder.view.run {
             allCategories[position].run {
                 category_name_tv.text = name
-                if (allCategories.get(position).is_select) {
+                if (allCategories[position].is_select) {
                    // bgline.show()
                     is_selectimage.show()
                     category_icon.borderColor=  ContextCompat.getColor(
@@ -66,7 +67,13 @@ class AdapterAllCategoriesAdapter(
                 if(image.isNullOrEmpty()){
                     category_icon.setImageResource(R.mipmap.malqa_iconn)
                 }else{
-                    HelpFunctions.loadCompanyImage(context,category_icon,image)
+                    Extension.loadThumbnail(
+                        context,
+                        image,
+                        category_icon,
+                        null
+                    )
+
 //                    Picasso.get()
 //                        .load(Constants.IMAGE_URL + image)
 //                        .into(category_icon)

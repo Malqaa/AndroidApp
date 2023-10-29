@@ -15,6 +15,7 @@ import com.malka.androidappp.newPhase.domain.models.orderListResp.OrderItem
 import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.presentation.myOrderDetails.MyOrderDetailsActivity
 import com.malka.androidappp.newPhase.presentation.accountFragment.myOrderFragment.adapter.MyOrdersAdapter
+import com.malka.androidappp.newPhase.presentation.cartActivity.activity2.AddressPaymentActivity
 import kotlinx.android.synthetic.main.fragment_my_orders.*
 import kotlinx.android.synthetic.main.fragment_my_orders.progressBar
 import kotlinx.android.synthetic.main.fragment_my_orders.progressBarMore
@@ -70,24 +71,32 @@ class MyOrdersFragment : Fragment(R.layout.fragment_my_orders),
 
         }
         myOrdersViewModel.errorResponseObserver.observe(this) {
-            if (it.message != null) {
-                showApiError(it.message!!)
+            if (it.status != null && it.status == "409") {
+                HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), requireActivity())
             } else {
-                showApiError(getString(R.string.serverError))
+                if (it.message != null) {
+                    showApiError(it.message!!)
+                } else {
+                    showApiError(getString(R.string.serverError))
+                }
             }
 
         }
         myOrdersViewModel.errorResponseObserverProductToFav.observe(viewLifecycleOwner) {
-            if (it.message != null && it.message != "") {
-                HelpFunctions.ShowLongToast(
-                    it.message!!,
-                    requireActivity()
-                )
+            if (it.status != null && it.status == "409") {
+                HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), requireActivity())
             } else {
-                HelpFunctions.ShowLongToast(
-                    getString(R.string.serverError),
-                    requireActivity()
-                )
+                if (it.message != null && it.message != "") {
+                    HelpFunctions.ShowLongToast(
+                        it.message!!,
+                        requireActivity()
+                    )
+                } else {
+                    HelpFunctions.ShowLongToast(
+                        getString(R.string.serverError),
+                        requireActivity()
+                    )
+                }
             }
 
         }
@@ -135,11 +144,20 @@ class MyOrdersFragment : Fragment(R.layout.fragment_my_orders),
     }
 
     private fun goToMyOrderDetails(orderId: Int, orderItem: OrderItem) {
-        startActivity(Intent(requireActivity(), MyOrderDetailsActivity::class.java).apply {
-            putExtra(ConstantObjects.orderItemKey, orderItem)
-            putExtra(ConstantObjects.orderNumberKey, orderId)
-            putExtra(ConstantObjects.orderTypeKey, tapId)
-        })
+        if (orderItem.orderStatus == ConstantObjects.WaitingForPayment && (orderItem.requestType != ConstantObjects.Fixed_Price)) {
+            startActivity(Intent(requireContext(), AddressPaymentActivity::class.java).apply {
+                putExtra("flagTypeSale", false)
+                putExtra(ConstantObjects.orderNumberKey, orderId)
+            })
+        } else {
+            startActivity(Intent(requireActivity(), MyOrderDetailsActivity::class.java).apply {
+                putExtra(ConstantObjects.orderItemKey, orderItem)
+                putExtra(ConstantObjects.orderNumberKey, orderId)
+                putExtra(ConstantObjects.orderTypeKey, tapId)
+                putExtra("flagTypeSale", true)
+            })
+        }
+
     }
 //    private fun goToOrderDetailsRequestedFromMe(orderId: Int, orderItem: OrderItem) {
 //        startActivity(Intent(requireActivity(), MyOrderDetailsRequestedFromMeActivity::class.java).apply {
@@ -167,13 +185,13 @@ class MyOrdersFragment : Fragment(R.layout.fragment_my_orders),
             tapId = 1
             btnCurrent.setBackgroundResource(R.drawable.round_btn)
             btnCurrent.setTextColor(ContextCompat.getColor(requireActivity(), R.color.white))
-            btnReceived.setBackgroundResource(R.drawable.edittext_bg)
+            btnReceived.setBackgroundResource(R.drawable.round_btn_white)
             btnReceived.setTextColor(ContextCompat.getColor(requireActivity(), R.color.gray))
             onRefresh()
         }
         btnReceived.setOnClickListener {
             tapId = 2
-            btnCurrent.setBackgroundResource(R.drawable.edittext_bg)
+            btnCurrent.setBackgroundResource(R.drawable.round_btn_white)
             btnCurrent.setTextColor(ContextCompat.getColor(requireActivity(), R.color.gray))
             btnReceived.setBackgroundResource(R.drawable.round_btn)
             btnReceived.setTextColor(ContextCompat.getColor(requireActivity(), R.color.white))

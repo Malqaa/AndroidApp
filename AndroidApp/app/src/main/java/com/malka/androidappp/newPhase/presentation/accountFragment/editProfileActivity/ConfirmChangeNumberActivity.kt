@@ -43,11 +43,11 @@ class ConfirmChangeNumberActivity : BaseActivity() {
         setClickListeners()
         resendCodeAfterExpire.hide()
         /***thisForTest*/
-        if (BuildConfig.DEBUG) {
-            val datacode: String? = otpData?.otpCode
-            // println("hhh $datacode")
-            pinview.value = datacode?:""
-        }
+//        if (BuildConfig.DEBUG) {
+//            val datacode: String? = otpData?.otpCode
+//            // println("hhh $datacode")
+//            pinview.value = datacode?:""
+//        }
         accountViewModel.getConfigurationResp(ConstantObjects.configration_otpExpiryTime)
 
     }
@@ -121,7 +121,7 @@ class ConfirmChangeNumberActivity : BaseActivity() {
                 /***thisForTest*/
                 val otppcode = validateUserAndGenerateOTP.otpData!!.otpCode
                 if (BuildConfig.DEBUG) {
-                    pinview.value = otppcode
+//                    pinview.value = otppcode
                 }
             } else {
                 HelpFunctions.ShowLongToast(
@@ -208,7 +208,7 @@ class ConfirmChangeNumberActivity : BaseActivity() {
                 accountViewModel.resendOtp(
                     userPhone.toString(),
                     "IndividualUpdateMoileNumber",
-                    ConstantObjects.currentLanguage
+                   "3"
                 )
                 //resendOTPApi()
             }

@@ -1,6 +1,7 @@
 package com.malka.androidappp.newPhase.domain.models.sellerInfoResp
 
 import android.os.Parcelable
+import com.malka.androidappp.newPhase.domain.models.categoryFollowResp.Branch
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
@@ -25,4 +26,5 @@ data class SellerInformation(
     val lat:Double?=null,
     val lon:Double?=null,
     var isFollowed: Boolean,
+    var branches: ArrayList<Branch> = arrayListOf()
 ):Parcelable

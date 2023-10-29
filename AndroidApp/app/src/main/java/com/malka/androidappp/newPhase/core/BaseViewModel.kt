@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
 import com.google.gson.TypeAdapter
+import com.google.gson.reflect.TypeToken
 import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.ErrorResponse
 import com.malka.androidappp.newPhase.domain.models.configrationResp.ConfigurationResp
@@ -26,11 +27,13 @@ open class BaseViewModel : ViewModel() {
     var addProductToFavObserver:MutableLiveData<GeneralResponse> = MutableLiveData()
     var isNetworkFailProductToFav: MutableLiveData<Boolean> = MutableLiveData()
     var errorResponseObserverProductToFav: MutableLiveData<ErrorResponse> = MutableLiveData()
-    fun getErrorResponse(body: ResponseBody?): ErrorResponse {
+    fun getErrorResponse(code:Int,body: ResponseBody?): ErrorResponse {
         try {
-            val adapter: TypeAdapter<ErrorResponse> =
-                Gson().getAdapter<ErrorResponse>(ErrorResponse::class.java)
-            return adapter.fromJson(body?.string())
+            val gson = Gson()
+            val type = object : TypeToken<ErrorResponse>() {}.type
+            val errorResponse: ErrorResponse? = gson.fromJson(body!!.charStream(), type)
+
+            return errorResponse!!
         } catch (e: Exception) {
             return ErrorResponse()
         }
@@ -55,7 +58,7 @@ open class BaseViewModel : ViewModel() {
                         addProductToFavObserver.value = response.body()
                     } else {
                         errorResponseObserverProductToFav.value =
-                            getErrorResponse(response.errorBody())
+                            getErrorResponse(response.code(),response.errorBody())
                     }
                 }
             })
@@ -82,7 +85,7 @@ open class BaseViewModel : ViewModel() {
                         configurationRespObserver.value = response.body()
                     } else {
                         errorResponseObserver.value =
-                            getErrorResponse(response.errorBody())
+                            getErrorResponse(response.code(),response.errorBody())
                     }
                 }
             })

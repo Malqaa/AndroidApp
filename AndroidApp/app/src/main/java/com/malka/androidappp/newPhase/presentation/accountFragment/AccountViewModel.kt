@@ -9,6 +9,7 @@ import com.malka.androidappp.newPhase.domain.models.contauctUsMessage.ContactUsM
 import com.malka.androidappp.newPhase.domain.models.contauctUsMessage.TechnicalSupportMessageListResp
 import com.malka.androidappp.newPhase.domain.models.productResp.ProductListResp
 import com.malka.androidappp.newPhase.data.helper.ConstantObjects
+import com.malka.androidappp.newPhase.domain.models.accountProfile.AccountInfo
 import com.malka.androidappp.newPhase.domain.models.editProfileResp.EditProfileResp
 import com.malka.androidappp.newPhase.domain.models.loginResp.LoginResp
 import com.malka.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
@@ -26,6 +27,7 @@ import retrofit2.Callback
 import retrofit2.HttpException
 import retrofit2.Response
 import java.io.File
+import java.lang.Exception
 
 class AccountViewModel : BaseViewModel() {
 
@@ -42,14 +44,27 @@ class AccountViewModel : BaseViewModel() {
     var changePasswordObserver: MutableLiveData<GeneralResponse> = MutableLiveData()
     var changeEmailObserver: MutableLiveData<GeneralResponse> = MutableLiveData()
     var confirmChangeEmailOtpObserver: MutableLiveData<GeneralResponse> = MutableLiveData()
-    fun editProfileImage(file: File?) {
+    var accountInfoObserver: MutableLiveData<AccountInfo> = MutableLiveData()
+    fun editProfileImage( multipartBody: MultipartBody.Part?) {
         isLoading.value = true
-        var multipartBody: MultipartBody.Part = if(file != null) {
-            var requestbody: RequestBody = file.asRequestBody("image/*".toMediaTypeOrNull())
-            MultipartBody.Part.createFormData("imgProfile", file.name, requestbody)
-        }else{
-            MultipartBody.Part.createFormData("imgProfile", "null", "null".toRequestBody())
-        }
+
+
+//        val path = Environment.getExternalStoragePublicDirectory(
+//                Environment.DIRECTORY_PICTURES);
+//        val file =  File(path, "DemoPicture.jpg");
+//
+//        try {
+//            // Make sure the Pictures directory exists.
+//            path.mkdirs();
+//        }catch (e:Exception){
+//
+//        }
+//        var multipartBody: MultipartBody.Part = if (file != null) {
+//            var requestbody: RequestBody = file.asRequestBody("image/*".toMediaTypeOrNull())
+//            MultipartBody.Part.createFormData("imgProfile", file.name, requestbody)
+//        } else {
+//            MultipartBody.Part.createFormData("imgProfile", "null", "null".toRequestBody())
+//        }
 
         RetrofitBuilder.GetRetrofitBuilder()
             .editProfileImage(multipartBody)
@@ -69,7 +84,25 @@ class AccountViewModel : BaseViewModel() {
                         editProfileImageObserver.value = response.body()
                     } else {
                         errorResponseObserver.value =
-                            getErrorResponse(response.errorBody())
+                            getErrorResponse(response.code(), response.errorBody())
+                    }
+                }
+            })
+    }
+
+    fun getAccountInfo() {
+        RetrofitBuilder.GetRetrofitBuilder()
+            .getMyAccountInfo()
+            .enqueue(object : Callback<AccountInfo> {
+                override fun onFailure(call: Call<AccountInfo>, t: Throwable) {
+                }
+
+                override fun onResponse(
+                    call: Call<AccountInfo>,
+                    response: Response<AccountInfo>
+                ) {
+                    if (response.isSuccessful) {
+                        accountInfoObserver.value = response.body()
                     }
                 }
             })
@@ -113,7 +146,7 @@ class AccountViewModel : BaseViewModel() {
                         walletDetailsObserver.value = response.body()
                     } else {
                         errorResponseObserver.value =
-                            getErrorResponse(response.errorBody())
+                            getErrorResponse(response.code(), response.errorBody())
                     }
                 }
             })
@@ -142,7 +175,7 @@ class AccountViewModel : BaseViewModel() {
                         addWalletTransactionObserver.value = response.body()
                     } else {
                         errorResponseObserver.value =
-                            getErrorResponse(response.errorBody())
+                            getErrorResponse(response.code(), response.errorBody())
                     }
                 }
             })
@@ -186,7 +219,7 @@ class AccountViewModel : BaseViewModel() {
                         userPointsDetailsObserver.value = response.body()
                     } else {
                         errorResponseObserver.value =
-                            getErrorResponse(response.errorBody())
+                            getErrorResponse(response.code(), response.errorBody())
                     }
                 }
             })
@@ -211,7 +244,7 @@ class AccountViewModel : BaseViewModel() {
                         convertMoneyToPointObserver.value = response.body()
                     } else {
                         errorResponseObserver.value =
-                            getErrorResponse(response.errorBody())
+                            getErrorResponse(response.code(), response.errorBody())
                     }
                 }
             })
@@ -236,7 +269,7 @@ class AccountViewModel : BaseViewModel() {
                         productListObserver.value = response.body()
                     } else {
                         errorResponseObserver.value =
-                            getErrorResponse(response.errorBody())
+                            getErrorResponse(response.code(), response.errorBody())
                     }
                 }
             })
@@ -278,7 +311,7 @@ class AccountViewModel : BaseViewModel() {
                         contactsMessageObserver.value = response.body()
                     } else {
                         errorResponseObserver.value =
-                            getErrorResponse(response.errorBody())
+                            getErrorResponse(response.code(), response.errorBody())
                     }
                 }
             })
@@ -303,7 +336,7 @@ class AccountViewModel : BaseViewModel() {
                         technicalSupportMessageListObserver.value = response.body()
                     } else {
                         errorResponseObserver.value =
-                            getErrorResponse(response.errorBody())
+                            getErrorResponse(response.code(), response.errorBody())
                     }
                 }
             })
@@ -328,11 +361,12 @@ class AccountViewModel : BaseViewModel() {
                         getUserDataObserver.value = response.body()
                     } else {
                         errorResponseObserver.value =
-                            getErrorResponse(response.errorBody())
+                            getErrorResponse(response.code(), response.errorBody())
                     }
                 }
             })
     }
+
     fun getUserDataForAccountTap() {
         RetrofitBuilder.GetRetrofitBuilder()
             .getUserData()
@@ -374,7 +408,7 @@ class AccountViewModel : BaseViewModel() {
                         changePasswordObserver.value = response.body()
                     } else {
                         errorResponseObserver.value =
-                            getErrorResponse(response.errorBody())
+                            getErrorResponse(response.code(), response.errorBody())
                     }
                 }
             })
@@ -399,7 +433,7 @@ class AccountViewModel : BaseViewModel() {
                         changeEmailObserver.value = response.body()
                     } else {
                         errorResponseObserver.value =
-                            getErrorResponse(response.errorBody())
+                            getErrorResponse(response.code(), response.errorBody())
                     }
                 }
             })
@@ -428,7 +462,7 @@ class AccountViewModel : BaseViewModel() {
                         confirmChangeEmailOtpObserver.value = response.body()
                     } else {
                         errorResponseObserver.value =
-                            getErrorResponse(response.errorBody())
+                            getErrorResponse(response.code(), response.errorBody())
                     }
                 }
             })
@@ -452,7 +486,8 @@ class AccountViewModel : BaseViewModel() {
                     if (response.isSuccessful) {
                         validateAndGenerateOTPObserver.value = response.body()
                     } else {
-                        errorResponseObserver.value = getErrorResponse(response.errorBody())
+                        errorResponseObserver.value =
+                            getErrorResponse(response.code(), response.errorBody())
                     }
                     isLoading.value = false
                 }
@@ -479,7 +514,8 @@ class AccountViewModel : BaseViewModel() {
                     if (response.isSuccessful) {
                         updateUserMobielNumberObserver.value = response.body()
                     } else {
-                        errorResponseObserver.value = getErrorResponse(response.errorBody())
+                        errorResponseObserver.value =
+                            getErrorResponse(response.code(), response.errorBody())
                     }
                     isLoading.value = false
                 }
@@ -490,11 +526,19 @@ class AccountViewModel : BaseViewModel() {
                 }
             })
     }
+
     /****/
     var updateProfileDataObserver: MutableLiveData<EditProfileResp> =
         MutableLiveData()
 
-    fun updateMobileNumber(userId: String, firstName:String,lastName:String,dateOfBirth:String,gender:Int,showUserInformation:String) {
+    fun updateMobileNumber(
+        userId: String,
+        firstName: String,
+        lastName: String,
+        dateOfBirth: String,
+        gender: Int,
+        showUserInformation: String
+    ) {
         isLoading.value = true
         var data: HashMap<String, Any> = HashMap()
         data["id"] = userId
@@ -512,7 +556,7 @@ class AccountViewModel : BaseViewModel() {
                     if (response.isSuccessful) {
                         updateProfileDataObserver.value = response.body()
                     } else {
-                        errorResponseObserver.value = getErrorResponse(response.errorBody())
+                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
                     }
                     isLoading.value = false
                 }

@@ -76,18 +76,22 @@ class DynamicTemplateActivtiy : BaseActivity(), DynamicSpecificationsAdapter.OnC
 
         }
         addProductViewModel.errorResponseObserver.observe(this) {
-            if (it.message != null && it.message != "") {
-                HelpFunctions.ShowLongToast(
-                    it.message!!,
-                    this
-                )
+            if (it.status != null && it.status == "409") {
+                HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), this)
             } else {
-                HelpFunctions.ShowLongToast(
-                    getString(R.string.serverError),
-                    this
-                )
-            }
+                if (it.message != null && it.message != "") {
+                    HelpFunctions.ShowLongToast(
+                        it.message!!,
+                        this
+                    )
+                } else {
+                    HelpFunctions.ShowLongToast(
+                        getString(R.string.serverError),
+                        this
+                    )
+                }
 
+            }
         }
         addProductViewModel.getDynamicSpecificationObserver.observe(this) { dynamicSpecificationResp ->
             if (dynamicSpecificationResp.status_code == 200) {
@@ -154,6 +158,12 @@ class DynamicTemplateActivtiy : BaseActivity(), DynamicSpecificationsAdapter.OnC
 //                        allValuesSet=false
 //                    }
 //                }
+
+                val supIdAr =
+                    dynamicSpecificationItem.subSpecifications?.find { it.nameAr == dynamicSpecificationItem.valueArText }
+                val supIdEn =
+                    dynamicSpecificationItem.subSpecifications?.find { it.nameEn == dynamicSpecificationItem.valueEnText }
+
                 if (dynamicSpecificationItem.type == 1) {
                     if (dynamicSpecificationItem.subSpecifications != null && dynamicSpecificationItem.subSpecifications!!.isNotEmpty()) {
                         if (dynamicSpecificationItem.valueArText == "" || dynamicSpecificationItem.valueArText == null || dynamicSpecificationItem.valueEnText == "" || dynamicSpecificationItem.valueEnText == null) {
@@ -164,8 +174,10 @@ class DynamicTemplateActivtiy : BaseActivity(), DynamicSpecificationsAdapter.OnC
                                 DynamicSpecificationSentObject(
                                     HeaderSpeAr = dynamicSpecificationItem.nameAr.toString(),
                                     HeaderSpeEn = dynamicSpecificationItem.nameEn.toString(),
-                                    ValueSpeAr = dynamicSpecificationItem.valueArText,
-                                    ValueSpeEn = dynamicSpecificationItem.valueEnText,
+                                    ValueSpeAr = supIdAr?.id.toString(),
+                                    ValueSpeEn = supIdEn?.id.toString(),
+                                    Type = dynamicSpecificationItem.type,
+                                    SpecificationId = dynamicSpecificationItem.id
                                 )
                             )
                         }
@@ -177,9 +189,24 @@ class DynamicTemplateActivtiy : BaseActivity(), DynamicSpecificationsAdapter.OnC
                             HeaderSpeEn = dynamicSpecificationItem.nameEn.toString(),
                             ValueSpeAr = dynamicSpecificationItem.valueBoolean.toString(),
                             ValueSpeEn = dynamicSpecificationItem.valueBoolean.toString(),
+                            Type = dynamicSpecificationItem.type,
+                            SpecificationId = dynamicSpecificationItem.id
+                        )
+                    )
+                } else if (dynamicSpecificationItem.type == 5 || (dynamicSpecificationItem.type == 6)) {
+                    val supIdAr =
+                        dynamicSpecificationItem.subSpecifications?.find { dynamicSpecificationItem.valueBoolean }
+
+                    data.add(
+                        DynamicSpecificationSentObject(
+                            ValueSpeAr = supIdAr?.id.toString(),
+                            ValueSpeEn = supIdAr?.id.toString(),
+                            Type = dynamicSpecificationItem.type,
+                            SpecificationId = dynamicSpecificationItem.id
                         )
                     )
                 } else {
+
                     if (dynamicSpecificationItem.valueArText == "" || dynamicSpecificationItem.valueArText == null || dynamicSpecificationItem.valueEnText == "" || dynamicSpecificationItem.valueEnText == null) {
                         allValuesSet = false
                     } else {
@@ -188,7 +215,9 @@ class DynamicTemplateActivtiy : BaseActivity(), DynamicSpecificationsAdapter.OnC
                                 HeaderSpeAr = dynamicSpecificationItem.nameAr.toString(),
                                 HeaderSpeEn = dynamicSpecificationItem.nameEn.toString(),
                                 ValueSpeAr = dynamicSpecificationItem.valueArText,
+                                Type = dynamicSpecificationItem.type,
                                 ValueSpeEn = dynamicSpecificationItem.valueEnText,
+                                SpecificationId = dynamicSpecificationItem.id
                             )
                         )
                     }

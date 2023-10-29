@@ -15,54 +15,119 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@null"
-        android:padding="@dimen/_4sdp"
         android:foreground="?android:attr/selectableItemBackground"
+        android:padding="@dimen/_4sdp"
         android:src="@drawable/delete_x_rounded" />
 
+
     <TextView
-        android:id="@+id/tvProductsProcessing"
+        android:id="@+id/tvWaitingForPayment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginStart="10dp"
         android:fontFamily="@font/madani_arabic_medium"
         android:includeFontPadding="false"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        android:text="@string/order_productsProcessing"
-        android:foreground="?android:attr/selectableItemBackground"
+        android:text="@string/WaitingForPayment"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="14sp" />
 
     <TextView
-        android:id="@+id/tvDeliveryPhase"
+        android:id="@+id/tvWaitingForReview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginStart="10dp"
         android:fontFamily="@font/madani_arabic_medium"
         android:includeFontPadding="false"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        android:text="@string/order_deliveryPhase"
-        android:foreground="?android:attr/selectableItemBackground"
+        android:text="@string/WaitingForReview"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="14sp" />
 
     <TextView
-        android:id="@+id/tvDeliveryConfirmation"
+        android:id="@+id/tvInProgress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginStart="10dp"
         android:fontFamily="@font/madani_arabic_medium"
         android:includeFontPadding="false"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        android:text="@string/order_deliveryConfirmation"
-        android:foreground="?android:attr/selectableItemBackground"
+        android:text="@string/InProgress"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tvReadyForDelivery"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:fontFamily="@font/madani_arabic_medium"
+        android:includeFontPadding="false"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:text="@string/ReadyForDelivery"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tvDeliveryInProgress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:fontFamily="@font/madani_arabic_medium"
+        android:includeFontPadding="false"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:text="@string/DeliveryInProgress"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tvDelivered"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:fontFamily="@font/madani_arabic_medium"
+        android:includeFontPadding="false"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:text="@string/Delivered"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tvCanceled"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:fontFamily="@font/madani_arabic_medium"
+        android:includeFontPadding="false"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:text="@string/cancel_a_shipment_order"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tvRetrieved"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:fontFamily="@font/madani_arabic_medium"
+        android:includeFontPadding="false"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:text="@string/Retrieved"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="14sp" />
@@ -77,12 +142,11 @@
         android:layout_marginBottom="@dimen/_10sdp"
         android:background="@drawable/round_btn"
         android:fontFamily="@font/madani_arabic_semi_bold"
-        android:text="@string/Cancel"
-        android:textAllCaps="false"
-        android:textColor="#ffffff"
         android:gravity="center"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
-        android:foreground="?android:attr/selectableItemBackground"
+        android:text="@string/Cancel"
+        android:textAllCaps="false"
+        android:textColor="#ffffff"
         android:textSize="@dimen/_10sdp" />
 </LinearLayout>

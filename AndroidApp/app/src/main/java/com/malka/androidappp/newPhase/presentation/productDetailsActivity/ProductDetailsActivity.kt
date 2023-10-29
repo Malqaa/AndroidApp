@@ -2,12 +2,14 @@ package com.malka.androidappp.newPhase.presentation.productDetailsActivity
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.Context
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.PorterDuff
 import android.net.Uri
 import android.os.Bundle
-import android.widget.Toast
+import android.view.ViewGroup
+import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -24,9 +26,7 @@ import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.newPhase.data.helper.*
 import com.malka.androidappp.newPhase.data.helper.Extension.shared
 import com.malka.androidappp.newPhase.data.helper.shared_preferences.SharedPreferencesStaticClass
-import com.malka.androidappp.newPhase.data.network.constants.Constants
-import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
-import com.malka.androidappp.newPhase.data.network.service.MalqaApiService
+import com.malka.androidappp.newPhase.domain.models.categoryFollowResp.Branch
 import com.malka.androidappp.newPhase.domain.models.loginResp.LoginUser
 import com.malka.androidappp.newPhase.domain.models.productResp.Product
 import com.malka.androidappp.newPhase.domain.models.productResp.ProductMediaItemDetails
@@ -35,7 +35,6 @@ import com.malka.androidappp.newPhase.domain.models.questionResp.QuestionItem
 import com.malka.androidappp.newPhase.domain.models.ratingResp.RateReviewItem
 import com.malka.androidappp.newPhase.domain.models.sellerInfoResp.SellerInformation
 import com.malka.androidappp.newPhase.domain.models.servicemodels.*
-import com.malka.androidappp.newPhase.domain.models.servicemodels.addtocart.InsertToCartRequestModel
 import com.malka.androidappp.newPhase.domain.models.servicemodels.questionModel.Question
 import com.malka.androidappp.newPhase.presentation.MainActivity
 import com.malka.androidappp.newPhase.presentation.accountFragment.myProducts.dialog.BidPersonsDialog
@@ -45,6 +44,8 @@ import com.malka.androidappp.newPhase.presentation.addProduct.AddProductObjectDa
 import com.malka.androidappp.newPhase.presentation.addProductReviewActivity.AddRateProductActivity
 import com.malka.androidappp.newPhase.presentation.addProductReviewActivity.ProductReviewsActivity
 import com.malka.androidappp.newPhase.presentation.cartActivity.activity1.CartActivity
+import com.malka.androidappp.newPhase.presentation.dialogsShared.PickImageMethodsDialog
+import com.malka.androidappp.newPhase.presentation.dialogsShared.currentPriceDialog.BuyCurrentPriceDialog
 import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
 import com.malka.androidappp.newPhase.presentation.productDetailsActivity.adapter.ProductImagesAdapter
 import com.malka.androidappp.newPhase.presentation.productDetailsActivity.adapter.QuestionAnswerAdapter
@@ -66,14 +67,13 @@ import kotlinx.android.synthetic.main.product_item.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
-    SetOnProductItemListeners, QuestionAnswerAdapter.SetonSelectedQuestion {
+    SetOnProductItemListeners, QuestionAnswerAdapter.SetonSelectedQuestion,
+    BuyCurrentPriceDialog.OnAttachedCartMethodSelected {
 
     val attributeList: ArrayList<Attribute> = ArrayList()
 
@@ -81,6 +81,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     var addProductReviewRequestCode = 1000
     var addSellerReviewRequestCode = 2000
     lateinit var product: Product
+    var elapsedDays = 0L
 
     lateinit var productDetailHelper: ProductDetailHelper
     lateinit var questionAnswerAdapter: QuestionAnswerAdapter
@@ -115,11 +116,17 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     var sellerInformation: SellerInformation? = null
     lateinit var priceNegotiationDialog: PriceNegotiationDialog
     var bidCount: Int = 0
+    var productPrice: Float = 0f
+    var isAuction = false
+    var isFixed = true
+    var comeFrom = ""
+
+    private lateinit var buyCurrentPriceDialog: BuyCurrentPriceDialog
     val sellerInformationLaucher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
-                var intent: Intent? =result.data
-                if(intent!=null) {
+                var intent: Intent? = result.data
+                if (intent != null) {
                     var isFollow = intent.getBooleanExtra("isFollow", false)
                     sellerInformation?.isFollowed = isFollow
                     if (isFollow) {
@@ -130,11 +137,14 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                 }
             }
         }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product_details2)
         productId = intent.getIntExtra(ConstantObjects.productIdKey, -1)
         println("hhhh product if $productId")
+        comeFrom = intent.getStringExtra("ComeFrom") ?: ""
+
         isMyProduct = intent.getBooleanExtra(ConstantObjects.isMyProduct, false)
         setViewChanges()
         setProductDetailsViewModel()
@@ -147,6 +157,46 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             productDetialsViewModel.addLastViewedProduct(productId)
         }
 //
+    }
+
+    private fun callGetPriceCart(nameProduct: String) {
+
+        if (SharedPreferencesStaticClass.getMasterCartId().toInt() != 0) {
+            productDetialsViewModel.getCartTotalPrice()
+            productDetialsViewModel.getCartPrice.observe(this) {
+                openBuyCurrentPriceDialog(
+                    "${
+                        productPrice + it.data.toString().toFloat()
+                    } ${getString(R.string.sar)}", nameProduct
+                )
+                productDetialsViewModel.getCartPrice.removeObservers(this)
+
+            }
+        } else {
+            openBuyCurrentPriceDialog(
+                "${productDetails?.priceDisc} ${getString(R.string.sar)}",
+                nameProduct
+            )
+        }
+    }
+
+    private fun openBuyCurrentPriceDialog(price: String, nameProduct: String) {
+        buyCurrentPriceDialog = BuyCurrentPriceDialog(this, price, nameProduct, this)
+        if (!buyCurrentPriceDialog.isShowing)
+            buyCurrentPriceDialog.show()
+    }
+
+    override fun setOnGoCart() {
+        productDetialsViewModel.addProductToCart(
+            SharedPreferencesStaticClass.getMasterCartId(),
+            productId
+        )
+        buyCurrentPriceDialog.dismiss()
+    }
+
+    override fun setOnFollowShopping() {
+
+        buyCurrentPriceDialog.dismiss()
     }
 
     /**set view changes*/
@@ -169,6 +219,8 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         containerBidOnPrice.hide()
         tvShippingOptions.hide()
         contianerBankAccount.hide()
+        containerMada.hide()
+        containerMaster.hide()
         contianerCash.hide()
         containerAuctioncountdownTimer_bar.hide()
         //for reviewa
@@ -220,20 +272,39 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 //            }, addSellerReviewRequestCode)
 //        }
         ivSellerFollow.setOnClickListener {
-            sellerInformation?.let {
-                if (it.isFollowed) {
-                    productDetialsViewModel.removeSellerToFav(it.providerId, it.businessAccountId)
-                } else {
-                    productDetialsViewModel.addSellerToFav(it.providerId, it.businessAccountId)
+            if (HelpFunctions.isUserLoggedIn()) {
+                sellerInformation?.let {
+                    if (it.isFollowed) {
+                        productDetialsViewModel.removeSellerToFav(
+                            it.providerId,
+                            it.businessAccountId
+                        )
+                    } else {
+                        productDetialsViewModel.addSellerToFav(it.providerId, it.businessAccountId)
+                    }
                 }
+            } else {
+                startActivity(
+                    Intent(
+                        this,
+                        SignInActivity::class.java
+                    ).apply {})
             }
+
+
         }
         containerAuctionNumber.setOnClickListener {
+
             val bidPersonsDialog = BidPersonsDialog(
+                "${productDetails?.highestBidPrice} ${getString(R.string.Rayal)}",
                 this,
                 productId,
                 object : BidPersonsDialog.SetOnAddBidOffersListeners {
                     override fun onAddOpenBidOfferDailog(bidsList: List<String>) {
+                    }
+
+                    override fun onOpenAuctionDialog() {
+                        openBidPrice()
                     }
 
                 }, true
@@ -295,12 +366,14 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             }
         }
         btnMapSeller.setOnClickListener {
-            if (sellerInformation?.lat != null && sellerInformation?.lon != null) {
-                openLocationInMap(sellerInformation?.lat!!, sellerInformation?.lon!!)
-            } else {
-                HelpFunctions.ShowLongToast(getString(R.string.noLocationFound), this)
-            }
-          //  openLocationInMap(0.0, 0.0)
+            openLocationInMap(sellerInformation?.branches?: arrayListOf())
+
+//            if (sellerInformation?.lat != null && sellerInformation?.lon != null) {
+//                openLocationInMap(sellerInformation?.lat!!, sellerInformation?.lon!!)
+//            } else {
+//                HelpFunctions.ShowLongToast(getString(R.string.noLocationFound), this)
+//            }
+            //  openLocationInMap(0.0, 0.0)
         }
 
 
@@ -322,20 +395,27 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             onBackPressed()
         }
         btnPriceNegotiation.setOnClickListener {
-            openPriceNegotiationDialog()
+            if (HelpFunctions.isUserLoggedIn()) {
+                openPriceNegotiationDialog()
+            } else {
+                startActivity(Intent(this, SignInActivity::class.java))
+            }
         }
         btnShare.setOnClickListener {
             shared("http://advdev-001-site1.dtempurl.com/Home/GetProductById?id=$productId")
             //shared("${Constants.HTTP_PROTOCOL}://${Constants.SERVER_LOCATION}/Advertisement/Detail/$AdvId")
         }
+
         tvQuestionAndAnswersShowAll.setOnClickListener {
-            HelpFunctions.ShowLongToast("not implemented yey", this)
-        }
-        tvQuestionAndAnswersShowAll.setOnClickListener {
-            startActivity(Intent(this, QuestionActivity::class.java).apply {
-                putExtra(ConstantObjects.productIdKey, productId)
-                putExtra(ConstantObjects.isMyProduct, isMyProduct)
-            })
+            if (HelpFunctions.isUserLoggedIn()) {
+                startActivity(Intent(this, QuestionActivity::class.java).apply {
+                    putExtra(ConstantObjects.productIdKey, productId)
+                    putExtra(ConstantObjects.isMyProduct, isMyProduct)
+                })
+            } else {
+                startActivity(Intent(this, SignInActivity::class.java))
+            }
+
         }
 
 
@@ -343,6 +423,8 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             startActivity(Intent(this, ProductReviewsActivity::class.java).apply {
                 putExtra(ConstantObjects.productIdKey, productId)
             })
+
+
         }
         btnSellerProducts.setOnClickListener {
             if (containerSellerProduct.isVisible) {
@@ -358,45 +440,33 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
         containerSellerInfo.setOnClickListener {
             if (sellerInformation != null) {
-                sellerInformationLaucher.launch(Intent(this, SellerInformationActivity::class.java).apply {
-                    putExtra(ConstantObjects.sellerObjectKey, sellerInformation)
-                })
+                sellerInformationLaucher.launch(
+                    Intent(
+                        this,
+                        SellerInformationActivity::class.java
+                    ).apply {
+                        putExtra(ConstantObjects.sellerObjectKey, sellerInformation)
+                    })
 //                startActivity(Intent(this, SellerInformationActivity::class.java))
             }
         }
         containerSellerImage.setOnClickListener {
             if (sellerInformation != null) {
-                sellerInformationLaucher.launch(Intent(this, SellerInformationActivity::class.java).apply {
-                    putExtra(ConstantObjects.sellerObjectKey, sellerInformation)
-                })
+                sellerInformationLaucher.launch(
+                    Intent(
+                        this,
+                        SellerInformationActivity::class.java
+                    ).apply {
+                        putExtra(ConstantObjects.sellerObjectKey, sellerInformation)
+                    })
             }
         }
         containerCurrentPriceBuy.setOnClickListener {
-            productDetialsViewModel.addProductToCart(
-                SharedPreferencesStaticClass.getMasterCartId(),
-                productId
-            )
+            callGetPriceCart(productDetails?.name ?: "")
+
         }
         containerBidOnPrice.setOnClickListener {
-            productDetails?.let {
-                var auctionDialog: AuctionDialog = AuctionDialog(this,
-                    productId,
-                    it.auctionStartPrice,
-                    it.auctionMinimumPrice,
-                    it.highestBidPrice,
-                    object : AuctionDialog.SetClickListeners {
-                        override fun setOnSuccessListeners(highestBidPrice: Float) {
-                            productDetails?.highestBidPrice = highestBidPrice
-                            Bid_on_price_tv.text =
-                                "${productDetails?.highestBidPrice} ${getString(R.string.Rayal)}"
-                            bidCount += 1
-                            tvAuctionNumber.text =
-                                "${getString(R.string.bidding)} ${bidCount.toString()}"
-                        }
-
-                    })
-                auctionDialog.show()
-            }
+            openBidPrice()
 
 //            HelpFunctions.ShowLongToast("not implemented yey", this)
         }
@@ -423,6 +493,37 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             }
         }
 
+
+    }
+
+    private fun openBidPrice() {
+        if (HelpFunctions.isUserLoggedIn()) {
+            productDetails?.let {
+                var auctionDialog: AuctionDialog = AuctionDialog(this,
+                    productId,
+                    it.auctionStartPrice,
+                    it.auctionMinimumPrice,
+                    it.highestBidPrice,
+                    object : AuctionDialog.SetClickListeners {
+                        override fun setOnSuccessListeners(highestBidPrice: Float) {
+                            productDetails?.highestBidPrice = highestBidPrice
+                            Bid_on_price_tv.text =
+                                "${productDetails?.highestBidPrice} ${getString(R.string.Rayal)}"
+                            bidCount += 1
+                            tvAuctionNumber.text =
+                                "${getString(R.string.bidding)} ${bidCount.toString()}"
+                        }
+
+                    })
+                auctionDialog.show()
+            }
+        } else {
+            startActivity(
+                Intent(
+                    this,
+                    SignInActivity::class.java
+                ).apply {})
+        }
 
     }
 
@@ -455,6 +556,21 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         // Make the Intent explicit by setting the Google Maps package
         mapIntent.setPackage("com.google.android.apps.maps")
         startActivity(mapIntent)
+    }
+
+    private fun openLocationInMap(branches: ArrayList<Branch>) {
+//        branches.get(0).location
+//        val URL = ("http://maps.google.com/maps?saddr=&daddr=30.2424242,30.54364547&dirflg=d")
+//        val location = Uri.parse(URL)
+//        val mapIntent = Intent(Intent.ACTION_VIEW, location)
+//        // Make the Intent explicit by setting the Google Maps package
+//        mapIntent.setPackage("com.google.android.apps.maps")
+//        startActivity(mapIntent)
+//
+        startActivity(Intent(this,ShowBranchesMapActivity::class.java).apply {
+            putParcelableArrayListExtra("customBranches", branches)
+
+        })
     }
 
     private fun getLastVisiblePosition(rv: RecyclerView?): Int {
@@ -492,16 +608,22 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
         }
         productDetialsViewModel.errorResponseObserver.observe(this) {
-            if (it.message != null) {
-                showProductApiError(it.message!!)
+            if (it.status != null && it.status == "409") {
+                HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), this)
             } else {
-                showProductApiError(getString(R.string.serverError))
+                if (it.message != null) {
+                    showProductApiError(it.message!!)
+                } else {
+                    showProductApiError(getString(R.string.serverError))
+                }
             }
-
         }
         productDetialsViewModel.productDetailsObservable.observe(this) { productResp ->
+
             if (productResp.productDetails != null) {
                 productDetails = productResp.productDetails
+
+                productPrice = productResp.productDetails.priceDisc
                 setProductData(productDetails)
             } else {
                 showProductApiError(productResp.message)
@@ -511,7 +633,9 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             HelpFunctions.ShowLongToast(questResp.message, this)
             if (questResp.status_code == 200) {
                 etWriteQuestion.setText("")
-                resetQuestionAndAnswerAdapter()
+
+                productDetialsViewModel.getListOfQuestions(productId)
+//                resetQuestionAndAnswerAdapter()
             }
         }
         productDetialsViewModel.getSimilarProductObservable.observe(this) { similarProductRes ->
@@ -545,16 +669,21 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
         }
         productDetialsViewModel.errorResponseObserverProductToFav.observe(this) {
-            if (it.message != null && it.message != "") {
-                HelpFunctions.ShowLongToast(
-                    it.message!!,
-                    this
-                )
+            if (it.status != null && it.status == "409") {
+                HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), this)
             } else {
-                HelpFunctions.ShowLongToast(
-                    getString(R.string.serverError),
-                    this
-                )
+
+                if (it.message != null && it.message != "") {
+                    HelpFunctions.ShowLongToast(
+                        it.message!!,
+                        this
+                    )
+                } else {
+                    HelpFunctions.ShowLongToast(
+                        getString(R.string.serverError),
+                        this
+                    )
+                }
             }
 
         }
@@ -570,6 +699,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                             )
                         }
                     }
+
                     added_from_last_seller_Products_status -> {
                         if (added_position_from_last_Product < similerProductList.size) {
                             sellerSimilerProductList[added_position_from_last_Product].isFavourite =
@@ -579,6 +709,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                             )
                         }
                     }
+
                     added_from_product_Destails_status -> {
                         favAddingChange = true
                         productDetails?.let { it ->
@@ -592,12 +723,33 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             }
         }
         productDetialsViewModel.getRateResponseObservable.observe(this) { rateListResp ->
+            if (rateListResp.data.happyCount != 0) {
+                linHappy.show()
+                txtHappy.text = rateListResp.data.happyCount.toString()
+            }
+            if (rateListResp.data.satisfiedCount != 0) {
+                linSmile.show()
+                txtSmile.text = rateListResp.data.satisfiedCount.toString()
+            }
+            if (rateListResp.data.disgustedCount != 0) {
+                linSad.show()
+                txtSad.text = rateListResp.data.disgustedCount.toString()
+            }
+
+            rating_bar_detail_tv.text =
+                "${rateListResp.data.totalRecords} ${getString(R.string.visitors)} "
             if (rateListResp.status_code == 200) {
-                setReviewRateView(rateListResp.data)
+                setReviewRateView(rateListResp.data.rateProductListDto)
             }
         }
         productDetialsViewModel.addProductToCartObservable.observe(this) { addproductToCartResp ->
             if (addproductToCartResp.status_code == 200) {
+                if (SharedPreferencesStaticClass.getCartCount() == 0) {
+                    SharedPreferencesStaticClass.saveCartCount(1)
+                } else {
+                    SharedPreferencesStaticClass.saveCartCount(SharedPreferencesStaticClass.getCartCount() + 1)
+                }
+
                 addproductToCartResp.addProductToCartData?.let {
                     SharedPreferencesStaticClass.saveMasterCartId(it.cartMasterId)
 //                    if (HelpFunctions.isUserLoggedIn()) {
@@ -607,6 +759,8 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 //                    }
                 }
                 HelpFunctions.ShowLongToast(getString(R.string.productAddedToCart), this)
+                startActivity(Intent(this, CartActivity::class.java))
+
             } else {
                 if (addproductToCartResp.message != null) {
                     HelpFunctions.ShowLongToast(addproductToCartResp.message, this)
@@ -655,11 +809,13 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                             tvShippingOptions.show()
                             tvShippingOptions.text = getString(R.string.integratedShippingCompanies)
                         }
+
                         ConstantObjects.shippingOption_freeShippingWithinSaudiArabia -> {
                             tvShippingOptions.show()
                             tvShippingOptions.text =
                                 getString(R.string.free_shipping_within_Saudi_Arabia)
                         }
+
                         ConstantObjects.shippingOption_arrangementWillBeMadeWithTheBuyer -> {
                             tvShippingOptions.show()
                             tvShippingOptions.text =
@@ -680,8 +836,17 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                             AddProductObjectData.PAYMENT_OPTION_CASH -> {
                                 contianerCash.show()
                             }
+
                             AddProductObjectData.PAYMENT_OPTION_BANk -> {
                                 contianerBankAccount.show()
+                            }
+
+                            AddProductObjectData.PAYMENT_OPTION_Mada -> {
+                                containerMada.show()
+                            }
+
+                            AddProductObjectData.PAYMENT_OPTION_MasterCard -> {
+                                containerMaster.show()
                             }
                         }
                     }
@@ -691,9 +856,12 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         productDetialsViewModel.bidsPersonsObserver.observe(this) {
             if (it.status_code == 200) {
                 if (it.bidPersonsDataList != null && it.bidPersonsDataList.isNotEmpty()) {
-                    containerAuctionNumber.show()
                     bidCount = it.bidPersonsDataList.size
                     tvAuctionNumber.text = "${getString(R.string.bidding)} ${bidCount.toString()}"
+                    if (elapsedDays < 1) {
+                        containerAuctionNumber.hide()
+                    } else
+                        containerAuctionNumber.show()
                 } else {
                     containerAuctionNumber.hide()
                 }
@@ -742,23 +910,31 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             ivSellerFollow.setImageResource(R.drawable.notification_log)
         }
 //        tvRateText.text = it.rate.toString()
-//        if (it.lat != null && it.lon != null) {
-//            btnMapSeller.show()
-//        } else {
-//            btnMapSeller.hide()
-//        }
+        if(it.businessAccountId!=""){
+            btnMapSeller.show()
+        }else{
+            if (it.lat != null && it.lon != null) {
+                btnMapSeller.show()
+            } else {
+                btnMapSeller.hide()
+            }
+        }
+
         when (it.rate) {
             1f -> {
-                ivRateSeller.setImageResource(R.drawable.smile3)
+                ivRateSeller.setImageResource(R.drawable.happyface_color)
             }
+
             2f -> {
-                ivRateSeller.setImageResource(R.drawable.neutral)
+                ivRateSeller.setImageResource(R.drawable.smileface_color)
             }
+
             3f -> {
-                ivRateSeller.setImageResource(R.drawable.sad)
+                ivRateSeller.setImageResource(R.drawable.sadcolor_gray)
             }
+
             else -> {
-                ivRateSeller.setImageResource(R.drawable.smile3)
+                ivRateSeller.setImageResource(R.drawable.smileface_color)
             }
         }
         if (it.instagram != null && it.instagram != "") {
@@ -802,17 +978,18 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             snapChat_btn.hide()
         }
         //println("hhh "+it.providerId+" "+it.businessAccountId)
-        if(it.lat!=null&&it.lon!=null){
-            if(it.lat!=0.0&&it.lon!=0.0){
-                btnMapSeller.show()
-            }else{
+
+        if(it.businessAccountId!=""){
+            btnMapSeller.show()
+        }else{
+            if (it.lat != null && it.lon != null) {
+                if (it.lat != 0.0 && it.lon != 0.0) {
+                    btnMapSeller.show()
+                }
+            } else {
                 btnMapSeller.hide()
             }
-        }else{
-            btnMapSeller.hide()
         }
-
-
     }
 
     private fun setQuestionsView(data: List<QuestionItem>) {
@@ -847,22 +1024,22 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         smallRatesList.addAll(datalist)
         reviewProductAdapter.notifyDataSetChanged()
 
-        lifecycleScope.launch(Dispatchers.IO) {
-            var totalRating = 0.0
-            mainRatesList.forEach {
-                totalRating += it.rate.toDouble()
-
-            }
-            val average = totalRating / mainRatesList.size
-            withContext(Dispatchers.Main) {
-                rating_bar.rating = average.toFloat()
-                rating_bar_detail_tv.text = getString(
-                    R.string._4_9_from_00_visitors,
-                    rating_bar.rating.toString().format("%.2f"),
-                    mainRatesList.size.toString()
-                )
-            }
-        }
+//        lifecycleScope.launch(Dispatchers.IO) {
+//            var totalRating = 0.0
+//            mainRatesList.forEach {
+//                totalRating += it.rate.toDouble()
+//
+//            }
+//            val average = totalRating / mainRatesList.size
+//            withContext(Dispatchers.Main) {
+////                rating_bar.rating = average.toFloat()
+//                rating_bar_detail_tv.text = getString(
+//                    R.string._4_9_from_00_visitors,
+//                    rating_bar.rating.toString().format("%.2f"),
+//                    mainRatesList.size.toString()
+//                )
+//            }
+//        }
         if (mainRatesList.isEmpty()) {
             tvReviewsError.show()
             contianerRateText.hide()
@@ -877,22 +1054,22 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         smallRatesList.add(data)
         reviewProductAdapter.notifyDataSetChanged()
 
-        lifecycleScope.launch(Dispatchers.IO) {
-            var totalRating = 0.0
-            mainRatesList.forEach {
-                totalRating += it.rate.toDouble()
-
-            }
-            val average = totalRating / mainRatesList.size
-            withContext(Dispatchers.Main) {
-                rating_bar.rating = average.toFloat()
-                rating_bar_detail_tv.text = getString(
-                    R.string._4_9_from_00_visitors,
-                    rating_bar.rating.toString().format("%.2f"),
-                    mainRatesList.size.toString()
-                )
-            }
-        }
+//        lifecycleScope.launch(Dispatchers.IO) {
+//            var totalRating = 0.0
+//            mainRatesList.forEach {
+//                totalRating += it.rate.toDouble()
+//
+//            }
+//            val average = totalRating / mainRatesList.size
+//            withContext(Dispatchers.Main) {
+//                rating_bar.rating = average.toFloat()
+//                rating_bar_detail_tv.text = getString(
+//                    R.string._4_9_from_00_visitors,
+//                    rating_bar.rating.toString().format("%.2f"),
+//                    mainRatesList.size.toString()
+//                )
+//            }
+//        }
         if (mainRatesList.isEmpty()) {
             tvReviewsError.show()
             contianerRateText.hide()
@@ -1049,17 +1226,29 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             containerMainProduct.show()
             containerShareAndFav.show()
             /**Action endTime**/
-            if(productDetails.auctionClosingTime!=null){
-                containerAuctioncountdownTimer_bar.show()
-                var endDate:Date?=HelpFunctions.getAuctionClosingTimeByDate(productDetails.auctionClosingTime)
+
+
+
+            if (productDetails.auctionClosingTime != null) {
+                val endDate: Date? =
+                    HelpFunctions.getAuctionClosingTimeByDate(productDetails?.auctionClosingTime!!)
 //                println("hhhh "+endDate.toString()+" "+Calendar.getInstance().time)
-                if(endDate!=null){
-                    getDifference(Calendar.getInstance().time,endDate)
-                }else{
+                if (endDate != null) {
+                    getDifference(Calendar.getInstance().time, endDate)
+                } else {
                     containerAuctioncountdownTimer_bar.hide()
                 }
 
-            }else{
+                if (elapsedDays < 1) {
+                    containerAuctionNumber.hide()
+                    containerAuctioncountdownTimer_bar.hide()
+                } else{
+
+                    containerAuctionNumber.show()
+                    containerAuctioncountdownTimer_bar.show()
+                }
+
+            } else {
                 containerAuctioncountdownTimer_bar.hide()
             }
             /**product iamges*/
@@ -1089,11 +1278,12 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             tvProductDescriptionShort.text =
                 productDetails.description ?: ""
             tvProductDescriptionLong.text =
-                productDetails.description  ?: ""
-            val isEllipsize: Boolean = tvProductDescriptionShort.text.toString().trim() != productDetails.description?.trim()
-            if(isEllipsize) {
+                productDetails.description ?: ""
+            val isEllipsize: Boolean = tvProductDescriptionShort.text.toString()
+                .trim() != productDetails.description?.trim()
+            if (isEllipsize) {
                 btnMoreItemDetails.show()
-            }else{
+            } else {
                 btnMoreItemDetails.hide()
             }
             btnMoreItemDetails.setOnClickListener {
@@ -1128,6 +1318,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             productfavStatus = productDetails.isFavourite
             if (productDetails.isFavourite) {
                 ivFav.setImageResource(R.drawable.starcolor)
+                ivFav.setColorFilter(resources.getColor(R.color.orange))
             } else {
                 ivFav.setImageResource(R.drawable.star)
             }
@@ -1140,7 +1331,10 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             if (productDetails.isAuctionEnabled) {
                 Bid_on_price_tv.text =
                     "${productDetails.highestBidPrice} ${getString(R.string.Rayal)}"
-                containerBidOnPrice.show()
+                if (elapsedDays < 1) {
+                    containerBidOnPrice.hide()
+                } else
+                    containerBidOnPrice.show()
             } else {
                 containerBidOnPrice.hide()
             }
@@ -1155,7 +1349,8 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             showError(getString(R.string.serverError))
         }
     }
-    fun getDifference(curretndate:Date,endDate:Date){
+
+    fun getDifference(curretndate: Date, endDate: Date) {
         //milliseconds
         //milliseconds
         var different: Long = endDate.time - curretndate.time
@@ -1165,7 +1360,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         val hoursInMilli = minutesInMilli * 60
         val daysInMilli = hoursInMilli * 24
 
-        val elapsedDays = different / daysInMilli
+        elapsedDays = different / daysInMilli
         different = different % daysInMilli
 
         val elapsedHours = different / hoursInMilli
@@ -1181,9 +1376,9 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 //            "$elapsedDays $elapsedHours $elapsedMinutes $elapsedSeconds",
 //            Toast.LENGTH_LONG
 //        ).show()
-        days.text=elapsedDays.toString()
-        hours.text=elapsedHours.toString()
-        minutes.text=elapsedMinutes.toString()
+        days.text = elapsedDays.toString()
+        hours.text = elapsedHours.toString()
+        minutes.text = elapsedMinutes.toString()
 
     }
 
@@ -1275,6 +1470,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             returnIntent.getBooleanExtra(ConstantObjects.isSuccess, false).let {
                 if (it) {
                     startActivity(Intent(this, MainActivity::class.java).apply {})
+                    finish()
                 } else {
                     setResult(Activity.RESULT_OK, returnIntent)
                     finish()
@@ -1285,7 +1481,9 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             returnIntent.getBooleanExtra(ConstantObjects.isSuccess, false).let {
                 if (it) {
                     startActivity(Intent(this, MainActivity::class.java).apply {})
+                    finish()
                 } else {
+                    startActivity(Intent(this, MainActivity::class.java).apply {})
                     finish()
                 }
             }
@@ -1467,6 +1665,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             //price_layout.isVisible = ConstantObjects.logged_userid != product.user
         }
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK && requestCode == addProductReviewRequestCode) {
@@ -1494,6 +1693,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
         }
     }
+
 
 //    val loginLuncher =
 //        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->

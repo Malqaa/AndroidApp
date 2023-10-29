@@ -9,317 +9,371 @@
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_to_refresh"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/homeee"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:id="@+id/homelayout"
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/homeee"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="#F6F7FB"
-            android:orientation="vertical"
-            android:padding="@dimen/_10sdp">
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
-                <ImageView
-                    android:layout_width="@dimen/_120sdp"
-                    android:layout_height="@dimen/_40sdp"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
-                    android:background="@drawable/main_logo" />
-
-                <ImageView
-                    android:id="@+id/ivCart"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:background="@drawable/ic_cart" />
-
-            </RelativeLayout>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:fontFamily="@font/madani_arabic_semi_bold"
-                android:text="@string/want_to_search_for_a_commodity_or_an_auction"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_12sdp" />
-
-            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.SearchBarComponent
-                android:id="@+id/textInputLayout11"
+            <LinearLayout
+                android:id="@+id/homelayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:layout_marginTop="@dimen/_10sdp"
-                app:hint="@string/search_by_name_auction_number_or_item" />
+                android:backgroundTint="#F6F7FB"
+                android:orientation="vertical"
+                android:padding="@dimen/_10sdp">
 
-        <LinearLayout
-            android:id="@+id/itemLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/edittext_bg"
-            android:backgroundTint="#F9F9F9"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-
-                <EditText
-                    android:layout_alignParentStart="true"
-                    android:layout_toStartOf="@+id/ivSearchIcon"
-                    android:id="@+id/etSearch"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAlignment="viewStart"
-                    android:background="@null"
-                    android:imeOptions="actionSearch"
-                    android:fontFamily="@font/madani_arabic_medium"
-                    android:hint="@string/enter_the_name_of_the_product_you_want_to_sell"
-                    android:maxLines="1"
-                    android:inputType="text"
-                    android:padding="@dimen/_10sdp"
-                    android:textSize="@dimen/_10sdp"
-                    />
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/imgLogo"
+                        android:layout_width="@dimen/_120sdp"
+                        android:layout_height="@dimen/_40sdp"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/main_logo" />
 
 
-                <ImageView
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerInParent="true"
-                    android:id="@+id/ivSearchIcon"
-                    android:layout_width="@dimen/_14sdp"
-                    android:layout_height="@dimen/_14sdp"
-                    android:layout_marginEnd="@dimen/_10sdp"
-                    android:layout_marginStart="10dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/search_icon" />
+                    <FrameLayout
+                        android:id="@+id/layCart"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true">
 
+                        <ImageView
+                            android:id="@+id/ivCart"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/ic_cart" />
 
-            </RelativeLayout>
-        </LinearLayout>
-            <RelativeLayout
-                android:id="@+id/sliderLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:visibility="gone"
-                >
+                        <TextView
+                            android:id="@+id/txtCount"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:background="@drawable/circle_bg"
+                            android:backgroundTint="@color/orange"
+                            android:textAlignment="center"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_10sdp" />
 
-                <com.malka.androidappp.newPhase.data.helper.widgets.viewpager2.AutoScrollViewPager
-                    android:id="@+id/slider_home"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_140sdp"
-                    android:layout_above="@+id/SliderDots"
-                    android:layout_marginBottom="@dimen/_5sdp"
-                    app:cycle="true"
-                    app:slideDirection="right"
-                    app:slideInterval="5000"
-                    app:stopWhenTouch="true" />
-                <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
-                    android:id="@+id/dots_indicator"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:dotsColor="@color/lightOrange"
-                    app:dotsCornerRadius="5dp"
-                    app:dotsSize="10dp"
-                    app:dotsSpacing="4dp"
-                    app:dotsWidthFactor="2.5"
-                    android:layout_centerHorizontal="true"
-                    app:selectedDotColor="@color/orange"
-                    app:progressMode="false"
-                    android:layout_below="@+id/slider_home"
-                    />
+                    </FrameLayout>
+                </RelativeLayout>
 
                 <LinearLayout
-                    android:visibility="gone"
-                    android:id="@+id/SliderDots"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:gravity="center_vertical|center_horizontal"
-                    android:orientation="horizontal" />
-            </RelativeLayout>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:fontFamily="@font/madani_arabic_medium"
-                android:text="@string/Browse_our_departments"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_12sdp" />
-            <TextView
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/madani_arabic_extra_light"
-                android:text="@string/lot_of_things"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_12sdp" />
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/all_categories_recycler"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:orientation="horizontal"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:listitem="@layout/item_categories_card_in_home" />
-                <ProgressBar
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/_25sdp"
-                    android:visibility="gone"
-                    android:id="@+id/progressBarAllCAtegory"/>
-            </RelativeLayout>
+                    android:orientation="horizontal">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp">
 
-                <androidx.cardview.widget.CardView
+                    <TextView
+                        android:layout_weight="1"
+                        android:layout_gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/madani_arabic_semi_bold"
+                        android:text="@string/want_to_search_for_a_commodity_or_an_auction"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12sdp" />
+
+                    <com.malka.androidappp.newPhase.data.helper.widgets.language_switch.ToggleSwitch
+                        android:id="@+id/language_toggle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:background="@drawable/tab_bg"
+                        android:textSize="@dimen/_12sdp"
+                        app:activeBgColor="@color/bg"
+                        app:activeTextColor="@android:color/white"
+                        app:cornerRadius="@dimen/_15sdp"
+                        app:inactiveBgColor="@color/tab_bg"
+                        app:inactiveTextColor="@android:color/black"
+                        app:separatorColor="@color/gray_very_light"
+                        app:textToggleLeft="EN"
+                        app:textToggleRight="AR"
+                        app:toggleWidth="@dimen/_50sdp" />
+
+                </LinearLayout>
+
+                <com.malka.androidappp.newPhase.data.helper.widgets.edittext.SearchBarComponent
+                    android:id="@+id/textInputLayout11"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_130sdp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
-                    app:cardBackgroundColor="@color/bg"
-                    app:cardCornerRadius="@dimen/_10sdp">
+                    android:visibility="gone"
+                    app:hint="@string/search_by_name_auction_number_or_item" />
+
+                <LinearLayout
+                    android:layout_marginTop="15dp"
+                    android:id="@+id/itemLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edittext_bg"
+                    android:backgroundTint="#F9F9F9"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_130sdp"
-                        android:orientation="vertical">
+                        android:layout_height="wrap_content">
+
+
+                        <EditText
+                            android:id="@+id/etSearch"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_toStartOf="@+id/ivSearchIcon"
+                            android:background="@null"
+                            android:fontFamily="@font/madani_arabic_medium"
+                            android:hint="@string/enter_the_name_of_the_product_you_want_to_sell"
+                            android:imeOptions="actionSearch"
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:padding="@dimen/_10sdp"
+                            android:textAlignment="viewStart"
+                            android:textSize="@dimen/_10sdp" />
+
 
                         <ImageView
-                            android:id="@+id/ivNewImage"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/market_place" />
-
-                        <androidx.appcompat.widget.AppCompatButton
-                            android:layout_width="wrap_content"
-                            android:layout_height="@dimen/_30sdp"
+                            android:id="@+id/ivSearchIcon"
+                            android:layout_width="@dimen/_14sdp"
+                            android:layout_height="@dimen/_14sdp"
                             android:layout_alignParentEnd="true"
-                            android:layout_alignParentBottom="true"
-                            android:background="@drawable/round_btn"
-                            android:backgroundTint="@color/white"
-                            android:fontFamily="@font/madani_arabic_semi_bold"
-                            android:text="@string/shopping"
-                            android:textAllCaps="false"
-                            android:layout_margin="@dimen/_20sdp"
-                            android:textColor="@color/bg"
-                            android:textSize="@dimen/_12sdp" />
+                            android:layout_centerInParent="true"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="@dimen/_10sdp"
+                            android:src="@drawable/search_icon" />
 
+
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:id="@+id/sliderLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:visibility="gone">
+
+                    <com.malka.androidappp.newPhase.data.helper.widgets.viewpager2.AutoScrollViewPager
+                        android:id="@+id/slider_home"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_140sdp"
+                        android:layout_above="@+id/SliderDots"
+                        android:layout_marginBottom="@dimen/_5sdp"
+                        app:cycle="true"
+                        app:slideDirection="right"
+                        app:slideInterval="5000"
+                        app:stopWhenTouch="true" />
+
+                    <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+                        android:id="@+id/dots_indicator"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/slider_home"
+                        android:layout_centerHorizontal="true"
+                        app:dotsColor="@color/lightOrange"
+                        app:dotsCornerRadius="5dp"
+                        app:dotsSize="10dp"
+                        app:dotsSpacing="4dp"
+                        app:dotsWidthFactor="2.5"
+                        app:progressMode="false"
+                        app:selectedDotColor="@color/orange" />
+
+                    <LinearLayout
+                        android:id="@+id/SliderDots"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:orientation="horizontal"
+                        android:visibility="gone" />
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:fontFamily="@font/madani_arabic_medium"
+                    android:text="@string/Browse_our_departments"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12sdp" />
+
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/madani_arabic_extra_light"
+                    android:text="@string/lot_of_things"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12sdp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/all_categories_recycler"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_categories_card_in_home" />
+
+                    <ProgressBar
+                        android:id="@+id/progressBarAllCAtegory"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:padding="@dimen/_25sdp"
+                        android:visibility="gone" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_130sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        app:cardBackgroundColor="@color/bg"
+                        app:cardCornerRadius="@dimen/_10sdp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_130sdp"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/ivNewImage"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/market_place" />
+
+                            <androidx.appcompat.widget.AppCompatButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="@dimen/_30sdp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentBottom="true"
+                                android:layout_margin="@dimen/_20sdp"
+                                android:background="@drawable/round_btn"
+                                android:backgroundTint="@color/white"
+                                android:fontFamily="@font/madani_arabic_semi_bold"
+                                android:text="@string/shopping"
+                                android:textAllCaps="false"
+                                android:textColor="@color/bg"
+                                android:textSize="@dimen/_12sdp" />
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_marginStart="@dimen/_13sdp"
+                                android:layout_marginTop="@dimen/_20sdp"
+                                android:layout_marginEnd="@dimen/_13sdp"
+                                android:layout_marginBottom="@dimen/_20sdp"
+                                android:fontFamily="@font/madani_arabic_light"
+                                android:text="@string/market_place"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/_12sdp" />
+
+
+                        </RelativeLayout>
+
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/_25sdp"
+                        android:layout_alignParentTop="true"
+                        android:background="@drawable/round_market_place"
+                        android:fontFamily="@font/madani_arabic_semi_bold"
+                        android:text="@string/new_"
+                        android:textAlignment="center"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_12sdp" />
+
+
+                </RelativeLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/dynamic_product_rcv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+                <LinearLayout
+                    android:id="@+id/containerLastView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/category_bg"
+                        android:gravity="center_vertical"
+                        android:padding="@dimen/_5sdp">
+
+                        <ImageView
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_20sdp"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_marginLeft="@dimen/_5sdp"
+                            android:background="@drawable/product_attribute_bg2"
+                            android:padding="@dimen/_5sdp"
+                            android:src="@drawable/ic_vechile" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_marginStart="@dimen/_13sdp"
-                            android:layout_marginTop="@dimen/_20sdp"
-                            android:layout_marginEnd="@dimen/_13sdp"
-                            android:layout_marginBottom="@dimen/_20sdp"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_weight="1"
                             android:fontFamily="@font/madani_arabic_light"
-                            android:text="@string/market_place"
-                            android:textColor="@color/white"
+                            android:text="@string/recentlyView"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/black"
                             android:textSize="@dimen/_12sdp" />
 
+                        <TextView
+                            android:id="@+id/viewAllRecentlyView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/_10sdp"
+                            android:fontFamily="@font/madani_arabic_light"
+                            android:text="@string/Viewall"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_12sdp"
+                            android:visibility="gone" />
+                    </LinearLayout>
 
-                    </RelativeLayout>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvLastViewedProducts"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
 
 
-                </androidx.cardview.widget.CardView>
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/_25sdp"
-                    android:layout_alignParentTop="true"
-                    android:background="@drawable/round_market_place"
-                    android:fontFamily="@font/madani_arabic_semi_bold"
-                    android:text="@string/new_"
-                    android:textAllCaps="false"
-                    android:textAlignment="center"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/_12sdp" />
-
-
-            </RelativeLayout>
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/dynamic_product_rcv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-            <LinearLayout
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/containerLastView"
-                android:orientation="vertical">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/category_bg"
-                    android:gravity="center_vertical"
-                    android:padding="@dimen/_5sdp">
-
-                    <ImageView
-                        android:layout_marginLeft="@dimen/_5sdp"
-                        android:layout_width="@dimen/_20sdp"
-                        android:layout_height="@dimen/_20sdp"
-                        android:background="@drawable/product_attribute_bg2"
-                        android:padding="@dimen/_5sdp"
-                        android:src="@drawable/ic_vechile"
-                        android:layout_marginStart="@dimen/_5sdp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginStart="@dimen/_10sdp"
-                        android:fontFamily="@font/madani_arabic_light"
-                        android:text="@string/recentlyView"
-                        android:textAlignment="viewStart"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_12sdp" />
-
-                    <TextView
-                        android:id="@+id/viewAllRecentlyView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/_10sdp"
-                        android:fontFamily="@font/madani_arabic_light"
-                        android:text="@string/Viewall"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_12sdp" />
                 </LinearLayout>
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvLastViewedProducts"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                 />
 
 
             </LinearLayout>
-
-
-
-        </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
+        </androidx.core.widget.NestedScrollView>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </RelativeLayout>

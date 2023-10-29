@@ -61,25 +61,23 @@
                 android:layout_marginTop="@dimen/_5sdp"
                 android:gravity="center"
                 android:orientation="horizontal">
-
-
                 <ImageView
                     android:id="@+id/ivSellerHappyRate"
                     android:layout_width="@dimen/_30sdp"
                     android:layout_height="@dimen/_25sdp"
-                    android:src="@drawable/smile3" />
+                    android:src="@drawable/happyface_gray" />
 
                 <ImageView
                     android:id="@+id/ivSellerNeutralRate"
                     android:layout_width="@dimen/_30sdp"
                     android:layout_height="@dimen/_25sdp"
-                    android:src="@drawable/neutral" />
+                    android:src="@drawable/smileface_gray"/>
 
                 <ImageView
                     android:id="@+id/ivSellerSadeRate"
                     android:layout_width="@dimen/_30sdp"
                     android:layout_height="@dimen/_25sdp"
-                    android:src="@drawable/sad" />
+                    android:src="@drawable/sadface_gray" />
 
             </LinearLayout>
 
@@ -137,24 +135,24 @@
                 android:gravity="center"
                 android:orientation="horizontal">
 
-
                 <ImageView
                     android:id="@+id/ivProductHappyRate"
                     android:layout_width="@dimen/_30sdp"
                     android:layout_height="@dimen/_25sdp"
-                    android:src="@drawable/smile3" />
+                    android:src="@drawable/happyface_gray" />
 
                 <ImageView
                     android:id="@+id/ivProductNeutralRate"
                     android:layout_width="@dimen/_30sdp"
                     android:layout_height="@dimen/_25sdp"
-                    android:src="@drawable/neutral" />
+                    android:src="@drawable/smileface_gray"/>
 
                 <ImageView
                     android:id="@+id/ivProductSadeRate"
                     android:layout_width="@dimen/_30sdp"
                     android:layout_height="@dimen/_25sdp"
-                    android:src="@drawable/sad" />
+                    android:src="@drawable/sadface_gray" />
+
 
             </LinearLayout>
 
@@ -207,24 +205,24 @@
                 android:gravity="center"
                 android:orientation="horizontal">
 
-
                 <ImageView
                     android:id="@+id/ivShipmentHappyRate"
                     android:layout_width="@dimen/_30sdp"
                     android:layout_height="@dimen/_25sdp"
-                    android:src="@drawable/smile3" />
+                    android:src="@drawable/happyface_gray" />
 
                 <ImageView
                     android:id="@+id/ivShipmentNeutralRate"
                     android:layout_width="@dimen/_30sdp"
                     android:layout_height="@dimen/_25sdp"
-                    android:src="@drawable/neutral" />
+                    android:src="@drawable/smileface_gray"/>
 
                 <ImageView
                     android:id="@+id/ivShipmentSadeRate"
                     android:layout_width="@dimen/_30sdp"
                     android:layout_height="@dimen/_25sdp"
-                    android:src="@drawable/sad" />
+                    android:src="@drawable/sadface_gray" />
+
 
             </LinearLayout>
 

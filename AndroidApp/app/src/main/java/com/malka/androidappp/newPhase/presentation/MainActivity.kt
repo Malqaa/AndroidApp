@@ -23,6 +23,7 @@ class MainActivity : BaseActivity() {
         setContentView(R.layout.activity_bottmmm)
         //====nav control
         nav_view.setupWithNavController(findNavController(R.id.nav_host_fragment))
+
         nav_view.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_notifications -> {
@@ -93,6 +94,10 @@ class MainActivity : BaseActivity() {
 
     }
 
+//    override fun onResume() {
+//        super.onResume()
+//        nav_view.selectedItemId=R.id.navigation_home
+//    }
     companion object {
         var nav_view_: BottomNavigationView? = null
         var myOrderTrigger = false

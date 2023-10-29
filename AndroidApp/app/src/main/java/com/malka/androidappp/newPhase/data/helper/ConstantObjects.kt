@@ -38,7 +38,7 @@ class ConstantObjects {
         const val ARABIC = "ar"
         const val CAMERA = 0
         const val FILES = 1
-        const val DELETEImage =2
+        const val DELETEImage = 2
         var is_watch_iv: ImageView? = null
 
         val defaltCountry: Int = 31
@@ -84,12 +84,26 @@ class ConstantObjects {
         const val isEditKey: String = "isEdit"
 
 
-        const val orderStatus_provider_new = 1
-        const val orderStatus_provider_inProgress = 8
-        const val orderStatus_provider_inDelivery = 3
-        const val orderStatus_provider_finished = 5
-        const val orderStatus_provider_cancel = 9
-        const val orderStatus_client_cancel = 6
+//        const val orderStatus_provider_new = 1
+//        const val orderStatus_provider_inProgress = 8
+//        const val orderStatus_provider_inDelivery = 3
+//        const val orderStatus_provider_finished = 5
+//        const val orderStatus_provider_cancel = 9
+//        const val orderStatus_client_cancel = 6
+
+        const val WaitingForPayment = 1
+        const val WaitingForReview = 2
+        const val InProgress = 3
+        const val ReadyForDelivery = 4
+        const val DeliveryInProgress = 5
+        const val Delivered = 6
+        const val Canceled = 7
+        const val Retrieved = 8
+
+
+        const val Fixed_Price ="FixedPrice"
+        const val Auction ="Auction"
+        const val Negotiation ="Negotiation"
 
         /***configration**/
         const val configration_otpExpiryTime = "OTPExpiryTime"
@@ -107,14 +121,16 @@ class ConstantObjects {
         const val pickUp_Must = 1
         const val pickUp_No = 2
         const val pickUp_Available = 3
+
         /**shipping options*/
         const val shippingOption_integratedShippingCompanyOptions = 1
         const val shippingOption_freeShippingWithinSaudiArabia = 2
-        const val  shippingOption_arrangementWillBeMadeWithTheBuyer=3
+        const val shippingOption_arrangementWillBeMadeWithTheBuyer = 3
+
         /**SearchCategories**/
-        const val search_categoriesDetails=1
-        const val search_seller=2
-        const val search_product=3
+        const val search_categoriesDetails = 1
+        const val search_seller = 2
+        const val search_product = 3
 
 
     }

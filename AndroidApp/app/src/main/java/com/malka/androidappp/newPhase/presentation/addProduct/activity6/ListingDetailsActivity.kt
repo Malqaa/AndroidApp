@@ -135,18 +135,21 @@ class ListingDetailsActivity : BaseActivity() {
 
         }
         addProductViewModel.errorResponseObserver.observe(this) {
-            if (it.message != null && it.message != "") {
-                HelpFunctions.ShowLongToast(
-                    it.message!!,
-                    this
-                )
-            } else {
-                HelpFunctions.ShowLongToast(
-                    getString(R.string.serverError),
-                    this
-                )
+            if(it.status!=null && it.status=="409"){
+                HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit),this)
+            }else {
+                if (it.message != null && it.message != "") {
+                    HelpFunctions.ShowLongToast(
+                        it.message!!,
+                        this
+                    )
+                } else {
+                    HelpFunctions.ShowLongToast(
+                        getString(R.string.serverError),
+                        this
+                    )
+                }
             }
-
         }
         addProductViewModel.configurationRespObserver.observe(this) { configurationRespObserver ->
             if (configurationRespObserver.status_code == 200) {
@@ -392,27 +395,35 @@ class ListingDetailsActivity : BaseActivity() {
 //        } else if (tvSubtitleEn.getText().isEmpty()) {
 //            showError(getString(R.string.Please_enter, getString(R.string.sub_title)))
 //        }
-        else if (tvDescriptionAr.getText().toString().isEmpty()) {
-            showError(getString(R.string.Please_enter, getString(R.string.item_details)))
-        } else if (tvDescriptionEn.getText().toString().isEmpty()) {
-            showError(getString(R.string.Please_enter, getString(R.string.item_details)))
-        } else if (AddProductObjectData.productCondition == 0) {
+//        else if (tvDescriptionAr.getText().toString().isEmpty()) {
+//            showError(getString(R.string.Please_enter, getString(R.string.item_details)))
+//        } else if (tvDescriptionEn.getText().toString().isEmpty()) {
+//            showError(getString(R.string.Please_enter, getString(R.string.item_details)))
+//        }
+
+        else if (AddProductObjectData.productCondition == 0) {
             showError(getString(R.string.Please_select, getString(R.string.item_condition)))
         } else if (AddProductObjectData.quantity.isEmpty()) {
             showError(getString(R.string.Please_select, getString(R.string.QuantityAvailable)))
         } else if (AddProductObjectData.quantity.toInt() <= 0) {
             showError(getString(R.string.Please_select, getString(R.string.QuantityAvailable)))
-        } else if (countryContainer.text.toString().isEmpty()) {
+        }
+
+        else if (countryContainer.text.toString().isEmpty()) {
             showError(getString(R.string.Please_select, getString(R.string.selectCountry)))
         } else if (regionContainer.text.toString().isEmpty()) {
             showError(getString(R.string.Please_select, getString(R.string.selectCountry)))
         } else if (neighborhoodContainer.text.toString().isEmpty()) {
             showError(getString(R.string.Please_select, getString(R.string.district)))
-        } else if (etPhoneNumber.text.toString().isEmpty()) {
-            showError(getString(R.string.Please_enter, getString(R.string.PhoneNumber)))
-        } else if (etPhoneNumber.text.toString().trim().isEmpty()) {
-            showError(getString(R.string.PleaseenteravalidPhoneNumber))
-        } else {
+        }
+//        else if (etPhoneNumber.text.toString().isEmpty()) {
+//            showError(getString(R.string.Please_enter, getString(R.string.PhoneNumber)))
+//        }
+//        else if (etPhoneNumber.text.toString().trim().isEmpty()) {
+//            showError(getString(R.string.PleaseenteravalidPhoneNumber))
+//        }
+
+        else {
             AddProductObjectData.itemTitleAr = tvTitleAr.getText().trim().toString()
             AddProductObjectData.itemTitleEn = tvTitleEn.getText().trim().toString()
             AddProductObjectData.subtitleAr = tvSubtitleAr.getText().trim().toString()

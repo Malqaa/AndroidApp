@@ -48,7 +48,7 @@ class BusinessAccountViewModel : BaseViewModel() {
 
                         businessAccountListObserver.value = response.body()
                     } else {
-                        errorResponseObserver.value = getErrorResponse(response.errorBody())
+                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
                     }
                 }
             })
@@ -73,7 +73,7 @@ class BusinessAccountViewModel : BaseViewModel() {
                     if (response.isSuccessful) {
                         changeBusinessAccountObserver.value = response.body()
                     } else {
-                        errorResponseObserver.value = getErrorResponse(response.errorBody())
+                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
                     }
                 }
             })
@@ -87,7 +87,7 @@ class BusinessAccountViewModel : BaseViewModel() {
         company_name_en: String,
         textEmaill: String,
         etPhoneNumber: String,
-        userImageFile: File?,
+        userImageFile: MultipartBody.Part?,
         et_web_site: String,
         Facebook: String,
         Instagram: String,
@@ -101,7 +101,7 @@ class BusinessAccountViewModel : BaseViewModel() {
         tvDate: String,
         TaxNumber: String,
         etMaroof: String,
-        commercialRegistryFileList: ArrayList<File>,
+        commercialRegistryFileList: ArrayList<MultipartBody.Part>,
         selectedCountryId: Int,
         selectedRegionId: Int,
         selectedNeighborhoodId: Int,
@@ -113,52 +113,46 @@ class BusinessAccountViewModel : BaseViewModel() {
         _getChecked: Boolean
     ) {
         isLoading.value = true
-        var multipartBodyUserImageFile: MultipartBody.Part? = null
-        userImageFile?.let { userImageFile ->
-            var requestbody: RequestBody =
-                userImageFile.asRequestBody("image/*".toMediaTypeOrNull())
-            multipartBodyUserImageFile = MultipartBody.Part.createFormData(
-                "BusinessAccountImage",
-                userImageFile.name,
-                requestbody
-            )
-        }
-        var multipartBodyCommercialRegistryFileList: ArrayList<MultipartBody.Part> =
+        val multipartBodyCommercialRegistryFileList: ArrayList<MultipartBody.Part> =
             ArrayList<MultipartBody.Part>()
-        for (file in commercialRegistryFileList) {
-            var requestbody: RequestBody =
-                file.asRequestBody("image/*".toMediaTypeOrNull())
-            var multipartBodyFile = MultipartBody.Part.createFormData(
-                "BusinessAccountCertificates",
-                file.name,
-                requestbody
-            )
-            multipartBodyCommercialRegistryFileList.add(multipartBodyFile)
+
+        commercialRegistryFileList.let {
+            for (item in commercialRegistryFileList) {
+                // var requestbody: RequestBody = item.requestBody()
+                val multipartBody: MultipartBody.Part =
+                    MultipartBody.Part.createFormData( "",item.toString())
+                multipartBodyCommercialRegistryFileList.add(multipartBody)
+            }
+
         }
+
         RetrofitBuilder.GetRetrofitBuilder()
             .addEditBusinessAccount(
                 id.requestBody(),
+
                 businessAccountUserName = userNamee.requestBody(),
                 providerId = providerId.requestBody(),
                 businessAccountNameAr = company_name_ar.requestBody(),
                 BusinessAccountNameEn = company_name_en.requestBody(),
                 BusinessAccountEmail = textEmaill.requestBody(),
                 BusinessAccountPhoneNumber = etPhoneNumber.requestBody(),
-                multipartBodyUserImageFile,
+                userImageFile,
                 BusinessAccountWebsite = et_web_site.requestBody(),
                 BusinessAccountFaceBook = Facebook.requestBody(),
                 BusinessAccountInstagram = Instagram.requestBody(),
                 BusinessAccountTwitter = ic_twitter.toRequestBody(),
                 BusinessAccountYouTube = ic_youtube.requestBody(),
                 BusinessAccountLinkedIn = ic_linkedIn.requestBody(),
-                BusinessAccountSnapchat = ic_snapshot.requestBody(),
+//                BusinessAccountSnapchat = ic_snapshot.requestBody(),
                 BusinessAccountTikTok = ic_tickTok.requestBody(),
                 RegistrationDocumentType = selectedCommericalRegisterType.toString().requestBody(),
                 DetailRegistrationNumber = commercial_registration_no.requestBody(),
                 RegistrationNumberExpiryDate = tvDate.requestBody(),
                 VatNumber = TaxNumber.requestBody(),
                 Maroof = etMaroof.requestBody(),
-                if (multipartBodyCommercialRegistryFileList.isEmpty()) null else multipartBodyCommercialRegistryFileList,
+                if (multipartBodyCommercialRegistryFileList.isEmpty())
+                    null
+                else multipartBodyCommercialRegistryFileList,
                 CountryId = selectedCountryId.toString().requestBody(),
                 RegionId = selectedRegionId.toString().requestBody(),
                 NeighborhoodId = selectedNeighborhoodId.toString().requestBody(),
@@ -167,7 +161,9 @@ class BusinessAccountViewModel : BaseViewModel() {
                 ZipCode = county_code.requestBody(),
                 Trade15Years = _getChecked.toString().requestBody(),
                 Lat = lat.toString().requestBody(),
-                Lon = longitude.toString().requestBody()
+                Lon = longitude.toString().requestBody(),
+                "true".requestBody(),
+                "false".requestBody()
             )
             .enqueue(object : Callback<GeneralResponse> {
                 override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
@@ -183,7 +179,7 @@ class BusinessAccountViewModel : BaseViewModel() {
                     if (response.isSuccessful) {
                         addbusinessAccountListObserver.value = response.body()
                     } else {
-                        errorResponseObserver.value = getErrorResponse(response.errorBody())
+                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
                     }
                 }
             })

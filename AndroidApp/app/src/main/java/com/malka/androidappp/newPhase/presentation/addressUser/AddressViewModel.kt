@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.malka.androidappp.newPhase.core.BaseViewModel
 import com.malka.androidappp.newPhase.data.helper.Extension.requestBody
+import com.malka.androidappp.newPhase.data.helper.shared_preferences.SharedPreferencesStaticClass.Companion.saveAddressTitle
 import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
 import com.malka.androidappp.newPhase.domain.models.userAddressesResp.UserAddressesResp
@@ -36,7 +37,7 @@ class AddressViewModel : BaseViewModel() {
                     if (response.isSuccessful) {
                         userAddressesListObserver.value = response.body()
                     } else {
-                        errorResponseObserver.value = getErrorResponse(response.errorBody())
+                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
                     }
                 }
             })
@@ -60,7 +61,7 @@ class AddressViewModel : BaseViewModel() {
                     if (response.isSuccessful) {
                         deleteUserAddressesObserver.value = response.body()
                     } else {
-                        errorResponseObserver.value = getErrorResponse(response.errorBody())
+                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
                     }
                 }
             })
@@ -107,10 +108,11 @@ class AddressViewModel : BaseViewModel() {
                     isLoading.value = false
 
                     if (response.isSuccessful) {
+                        saveAddressTitle(title)
                         addUserAddressesListObserver.value = response.body()
                     } else {
-                        println("hhhh "+Gson().toJson(getErrorResponse(response.errorBody())))
-                        errorResponseObserver.value = getErrorResponse(response.errorBody())
+                        println("hhhh "+Gson().toJson(getErrorResponse(response.code(),response.errorBody())))
+                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
                     }
                 }
             })
@@ -161,7 +163,7 @@ class AddressViewModel : BaseViewModel() {
                     if (response.isSuccessful) {
                         addUserAddressesListObserver.value = response.body()
                     } else {
-                        errorResponseObserver.value = getErrorResponse(response.errorBody())
+                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
                     }
                 }
             })

@@ -5,10 +5,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -22,6 +24,7 @@ import com.malka.androidappp.newPhase.presentation.adapterShared.SetOnProductIte
 import com.malka.androidappp.newPhase.presentation.homeScreen.viewModel.HomeViewModel
 import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
 import com.malka.androidappp.newPhase.presentation.productDetailsActivity.ProductDetailsActivity
+import com.malka.androidappp.newPhase.presentation.searchProductListActivity.CategoryProductViewModel
 import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -39,17 +42,28 @@ class SearchActivity : BaseActivity(),
     private lateinit var productArrayList: ArrayList<Product>
 
     var status_product_added_to_fav_from = 0
+    var comeFrom = 1
+    var strSearch = ""
+    var productName: String? = null
     var added_product_id_to_fav = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
         searchQuery = intent.getStringExtra(ConstantObjects.searchQueryKey)
-        setupSaerchListAdapter()
+
+//        comeFrom = intent.getIntExtra("ComeFrom", 0)
+        productName = intent.getStringExtra("productName")
+
+        setupSearchListAdapter()
         setupSearchViewModel()
         if (searchQuery != null) {
             homeViewModel.doSearch(mapOf("productName" to searchQuery!!))
         }
         setClickListeners()
+
+        etSearch.setText(productName)
+        homeViewModel.doSearch(mapOf("productName" to productName.toString().trim()))
+
 
     }
 
@@ -57,6 +71,21 @@ class SearchActivity : BaseActivity(),
         fbButtonBack.setOnClickListener {
             onBackPressed()
         }
+
+        saveSearch.setOnClickListener {
+            if (!HelpFunctions.isUserLoggedIn()) {
+                startActivity(Intent(this, SignInActivity::class.java))
+            } else {
+
+                if (strSearch != etSearch.text.toString()) {
+                    homeViewModel.saveSearch(etSearch.text.toString())
+                } else
+                    HelpFunctions.ShowLongToast(getString(R.string.saveDone), this)
+
+
+            }
+        }
+
         etSearch.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
@@ -78,7 +107,7 @@ class SearchActivity : BaseActivity(),
         }
     }
 
-    private fun setupSaerchListAdapter() {
+    private fun setupSearchListAdapter() {
         productArrayList = ArrayList()
         viewManagerProduct = GridLayoutManager(this, 2)
         searchAdapter = ProductHorizontalAdapter(productArrayList, this, 0, false)
@@ -90,6 +119,16 @@ class SearchActivity : BaseActivity(),
 
     private fun setupSearchViewModel() {
         homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+
+        homeViewModel.saveSearchObserver.observe(this) {
+            if (it != null) {
+                if (it.status_code == 200) {
+                    strSearch = etSearch.text.toString()
+                    HelpFunctions.ShowLongToast(getString(R.string.saveDone), this)
+                    imgFollow.setImageResource(R.drawable.notification)
+                }
+            }
+        }
         homeViewModel.isLoading.observe(this, Observer {
             if (it)
                 HelpFunctions.startProgressBar(this)
@@ -111,22 +150,28 @@ class SearchActivity : BaseActivity(),
 
         })
         homeViewModel.errorResponseObserver.observe(this, Observer {
-            if (it.message != null) {
-                HelpFunctions.ShowLongToast(
-                    it.message!!,
-                    this
-                )
+            if (it.status != null && it.status == "409") {
+                HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), this)
             } else {
-                HelpFunctions.ShowLongToast(
-                    getString(R.string.serverError),
-                    this
-                )
+                if (it.message != null) {
+                    HelpFunctions.ShowLongToast(
+                        it.message!!,
+                        this
+                    )
+                } else {
+                    HelpFunctions.ShowLongToast(
+                        getString(R.string.serverError),
+                        this
+                    )
+                }
             }
 
         })
         homeViewModel.searchObserver.observe(this) { searchResp ->
             if (searchResp != null) {
                 if (searchResp.status_code == 200) {
+                    recyclerProduct.visibility = View.VISIBLE
+                    tvNoResult.visibility = View.GONE
                     val list: ArrayList<Product> = Gson().fromJson(
                         Gson().toJson(searchResp.data),
                         object : TypeToken<ArrayList<Product>>() {}.type
@@ -134,7 +179,15 @@ class SearchActivity : BaseActivity(),
                     productArrayList.clear()
                     productArrayList.addAll(list)
                     searchAdapter.notifyDataSetChanged()
+                } else {
+                    productArrayList.clear()
+                    recyclerProduct.visibility = View.GONE
+                    tvNoResult.visibility = View.VISIBLE
                 }
+            } else {
+                productArrayList.clear()
+                recyclerProduct.visibility = View.GONE
+                tvNoResult.visibility = View.VISIBLE
             }
 
         }

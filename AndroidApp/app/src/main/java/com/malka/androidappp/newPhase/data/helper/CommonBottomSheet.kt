@@ -430,6 +430,7 @@ class CommonBottomSheet {
         val builder = AlertDialog.Builder(context)
             .create()
 
+        builder.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         val view = (context as Activity).layoutInflater.inflate(R.layout.delivery_option, null)
         builder.setView(view)
 

@@ -87,7 +87,7 @@ class SignupConfirmNewUserActivity : BaseActivity(), CountryDialog.GetSelectedCo
                     "EmailExists","EmailExisting" -> {
                         textEmaill.error = getString(R.string.userEmailExists)
                     }
-                    "Success" -> {
+                    "OTP generetd successfully" -> {
                         validateUserAndGenerateOTP.otpData!!.userName =
                             userNamee.text.toString().trim()
                         validateUserAndGenerateOTP.otpData!!.userPass =
@@ -117,31 +117,37 @@ class SignupConfirmNewUserActivity : BaseActivity(), CountryDialog.GetSelectedCo
             })
         signupViewModel.errorResponseObserver.observe(this, Observer {
             println("hhhh yy"+ it.message)
-            if (it.message != null) {
-                when (it.message) {
-                    "UsernameExists" -> {
-                        userNamee.error = getString(R.string.userNameExists)
-                    }
-                    "PhoneNumberExists" -> {
-                        etPhoneNumber.error = getString(R.string.userPhoneExists)
-                    }
-                    "EmailExists" ,"EmailExisting" -> {
-                        textEmaill.error = getString(R.string.userEmailExists)
-                    }
-                    else->{
-                        HelpFunctions.ShowLongToast(
-                            it.message!!,
-                            this
-                        )
-                    }
-                }
-            } else {
-                HelpFunctions.ShowLongToast(
-                    getString(R.string.serverError),
-                    this
-                )
-            }
+            if(it.status!=null && it.status=="409"){
+                HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit),this)
+            }else {
+                if (it.message != null) {
+                    when (it.message) {
+                        "UsernameExists" -> {
+                            userNamee.error = getString(R.string.userNameExists)
+                        }
 
+                        "PhoneNumberExists" -> {
+                            etPhoneNumber.error = getString(R.string.userPhoneExists)
+                        }
+
+                        "EmailExists", "EmailExisting" -> {
+                            textEmaill.error = getString(R.string.userEmailExists)
+                        }
+
+                        else -> {
+                            HelpFunctions.ShowLongToast(
+                                it.message!!,
+                                this
+                            )
+                        }
+                    }
+                } else {
+                    HelpFunctions.ShowLongToast(
+                        getString(R.string.serverError),
+                        this
+                    )
+                }
+            }
         })
     }
 
@@ -289,8 +295,8 @@ class SignupConfirmNewUserActivity : BaseActivity(), CountryDialog.GetSelectedCo
         return if (Input.isEmpty()) {
             userNamee!!.error = getString(R.string.Fieldcantbeempty)
             false
-        } else if (Input.length < 4) {
-            userNamee!!.error = getString(R.string.Usernamemusthaveatleast4characters)
+        } else if (Input.length < 2) {
+            userNamee!!.error = getString(R.string.Usernamemusthaveatleast2characters)
             false
         } else {
             userNamee!!.error = null
