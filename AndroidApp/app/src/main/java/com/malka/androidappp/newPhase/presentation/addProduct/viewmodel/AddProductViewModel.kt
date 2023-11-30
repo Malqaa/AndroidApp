@@ -439,7 +439,7 @@ class AddProductViewModel : BaseViewModel() {
         MainImageIndex: String,
         videoUrl: List<String>?,
         PickUpDelivery: String,
-        DeliveryOption: List<String>,
+        DeliveryOption: List<Int>,
         isFixedPriceEnabled: Boolean,
         isAuctionEnabled: Boolean,
         isNegotiationEnabled: Boolean,
@@ -465,12 +465,15 @@ class AddProductViewModel : BaseViewModel() {
         ProductPaymentDetailsDto_TotalAmountBeforeCoupon: Float,
     ) {
         isLoading.value = true
-        var validTime =""
-        if (!auctionClosingTime.contains(":")) {
-            val currentTime: String = SimpleDateFormat("hh:mm", Locale.getDefault()).format(Date())
-            validTime = auctionClosingTime + " " + currentTime
-        }else{
-            validTime =auctionClosingTime
+        var validTime: String? = null
+        if (auctionClosingTime.isNotEmpty()) {
+            if (!auctionClosingTime.contains(":")) {
+                val currentTime: String =
+                    SimpleDateFormat("hh:mm", Locale.getDefault()).format(Date())
+                validTime = ("$auctionClosingTime $currentTime")
+            } else {
+                validTime = auctionClosingTime
+            }
         }
 
 
@@ -490,7 +493,7 @@ class AddProductViewModel : BaseViewModel() {
         for (item in DeliveryOption) {
             // var requestbody: RequestBody = item.requestBody()
             var multipartBody: MultipartBody.Part =
-                MultipartBody.Part.createFormData("ShippingOptions", item)
+                MultipartBody.Part.createFormData("ShippingOptions", item.toString())
             shippingOptionsList.add(multipartBody)
         }
         /**Video**/
@@ -552,7 +555,7 @@ class AddProductViewModel : BaseViewModel() {
         if (neighborhoodId != "0" && neighborhoodId != "" && neighborhoodId != "null")
             map["neighborhoodId"] = neighborhoodId.requestBody()
         //  map["District"] = Street.requestBody()
-        //  map["Street"] = Street.requestBody()
+        map["Street"] = Street.requestBody()
         //map["GovernmentCode"] = GovernmentCode.requestBody()
         if (pakatId != "")
             map["pakatId"] = pakatId.requestBody()
@@ -566,7 +569,7 @@ class AddProductViewModel : BaseViewModel() {
         println("hhhh d " + DeliveryOption.toString())
 //    map["Lat"] = "".requestBody()
 //    map["Lon"] = "".requestBody()
-        // map["AcceptQuestion"]="".requestBody()
+        map["AcceptQuestion"] = "false".requestBody()
         map["IsFixedPriceEnabled"] = isFixedPriceEnabled.toString().requestBody()
         map["IsAuctionEnabled"] = isAuctionEnabled.toString().requestBody()
         map["IsNegotiationEnabled"] = isNegotiationEnabled.toString().requestBody()
@@ -575,13 +578,23 @@ class AddProductViewModel : BaseViewModel() {
             map["priceDisc"] = priceDisc.requestBody()
         }
 
+//        if (isFixedPriceEnabled) {
+//            map["isMazad"] = "false".requestBody()
+//            map["isSendOfferForMazad"] = "false".requestBody()
+//            map["startPriceMazad"] = "0".requestBody()
+//            map["lessPriceMazad"] = "0".requestBody()
+//            map["mazadNegotiatePrice"] = "0".requestBody()
+//            map["appointment"] = "".requestBody()
+//            map["mazadNegotiateForWhom"] = "1".requestBody()
+//        }
         map["IsCashEnabled"] = isCashEnabled.toRequestBody()
         map["AuctionStartPrice"] = auctionStartPrice.toRequestBody()
         // map["DisccountEndDate"] = disccountEndDate.toRequestBody()
         map["AuctionMinimumPrice"] = auctionMinimumPrice.toRequestBody()
         //map["AuctionNegotiateForWhom"]="".requestBody()
         //map["AuctionNegotiatePrice]="".requestBody()
-        map["AuctionClosingTime"] = validTime.toRequestBody()
+        if (validTime != null)
+            map["AuctionClosingTime"] = validTime.toRequestBody()
         // map["HighestBidPrice"]="".toRequestBody()
 
 //    /***PaymentObject*/
@@ -689,13 +702,15 @@ class AddProductViewModel : BaseViewModel() {
         acceptQuestion: String,
         isNegotiationOffers: String,
         withFixedPrice: String,
+
         isMazad: String,
         isSendOfferForMazad: String,
         startPriceMazad: String,
         lessPriceMazad: String,
         mazadNegotiatePrice: String,
-        mazadNegotiateForWhom: String,
         appointment: String,
+
+        mazadNegotiateForWhom: String,
         productCondition: String,
         categoryId: String,
         countryId: String,

@@ -221,7 +221,7 @@ class AddressPaymentActivity : BaseActivity(),
             if (increaseProductResp.status_code == 200) {
                 productsCartList[lastUpdateMainPosition].listProduct?.get(lastUpdateProductPosition)
                     ?.let {
-                        it.qty = it.qty + 1
+                        it.qty = (it.qty?:0) + 1
                         cartDataObject?.let { cartDataObject ->
                             cartDataObject.totalPriceForCartFinal += it.priceDiscount
                             cartDataObject.totalPriceForCartBeforeDiscount += it.priceDiscount
@@ -242,7 +242,7 @@ class AddressPaymentActivity : BaseActivity(),
             if (decreaseProductResp.status_code == 200) {
                 productsCartList[lastUpdateMainPosition].listProduct?.get(lastUpdateProductPosition)
                     ?.let {
-                        it.qty = it.qty - 1
+                        it.cartProductQuantity = (it.cartProductQuantity?:0) - 1
                         cartDataObject?.let { cartDataObject ->
                             cartDataObject.totalPriceForCartFinal -= it.priceDiscount
                             cartDataObject.totalPriceForCartBeforeDiscount -= it.priceDiscount

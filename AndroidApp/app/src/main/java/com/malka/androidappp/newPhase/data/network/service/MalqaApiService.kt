@@ -99,6 +99,7 @@ import com.malka.androidappp.newPhase.presentation.searchProductListActivity.bro
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.*
 
 
@@ -196,14 +197,14 @@ interface MalqaApiService {
 
     @GET("ListRegionsByCountryIdDDL")
     fun getRegionNew(
-        @Query("id") Id: Int,
+        @Query("countriesIds") Id: Int,
         @Query("lang") language: String = ConstantObjects.currentLanguage
     ): Call<RegionsResp>
 
 
     @GET("ListNeighborhoodByRegionIdDDL")
     fun getNeighborhoodByRegionNew(
-        @Query("id") Id: Int,
+        @Query("regionsIds") Id: Int,
         @Query("lang") language: String = ConstantObjects.currentLanguage
     ): Call<RegionsResp>
 
@@ -213,6 +214,14 @@ interface MalqaApiService {
         @Query("id") id: Int,
         @Query("lang") language: String = ConstantObjects.currentLanguage
     ): Call<ProductResp>
+
+
+    @POST("BuyNow")
+    fun getBuyNow(
+        @Query("productId") productId: Int,
+        @Query("lang") language: String = ConstantObjects.currentLanguage
+    ): Call<GeneralRespone>
+
 
     @GET("GetSellerInformation")
     fun getSellerInformation(
@@ -444,6 +453,16 @@ interface MalqaApiService {
     ): Call<SellerRateListResp>
 
 
+
+
+
+    @GET("GetAllShippingOptions")
+    fun getAllShippingOptions(
+//        @Query("providerId") providerId: String,
+//        @Query("BusinessAccountId") BusinessAccountId: String?,
+//        @Query("lang") language: String = ConstantObjects.currentLanguage
+    ): Call<ShippingOptionResp>
+
     @GET("ListRateSeller?PageRowsCount=10")
     fun getSellerRates(
         @Query("pageIndex") page: Int,
@@ -530,7 +549,7 @@ interface MalqaApiService {
     ): Call<AddProductToCartResp>
 
 
-    @GET("ListCartProductsForClient")
+    @GET("ListCartProductsForClient?currentPage=1&maxRows=10")
     fun getListCartProductsForClient(@Query("cartMasterId") cartMasterId: String): Call<CartListResp>
 
     @GET("AssignCartMastetToUser")
@@ -818,6 +837,10 @@ interface MalqaApiService {
 
     @POST("CancelProductOfferByClient")
     fun cancelProductOfferByClient(@Query("offerId") offerId: Int): Call<GeneralResponse>
+
+
+    @POST("CancelProductOfferByProvider")
+    fun cancelProductOfferByProvider(@Query("offerId") offerId: Int): Call<GeneralResponse>
 
     @POST("AcceptRejectOffer")
     fun acceptRejectOffer(

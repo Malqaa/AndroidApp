@@ -7,10 +7,12 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
@@ -44,6 +46,7 @@ import com.malka.androidappp.newPhase.presentation.addProduct.AddProductObjectDa
 import com.malka.androidappp.newPhase.presentation.addProductReviewActivity.AddRateProductActivity
 import com.malka.androidappp.newPhase.presentation.addProductReviewActivity.ProductReviewsActivity
 import com.malka.androidappp.newPhase.presentation.cartActivity.activity1.CartActivity
+import com.malka.androidappp.newPhase.presentation.cartActivity.activity2.AddressPaymentActivity
 import com.malka.androidappp.newPhase.presentation.dialogsShared.PickImageMethodsDialog
 import com.malka.androidappp.newPhase.presentation.dialogsShared.currentPriceDialog.BuyCurrentPriceDialog
 import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
@@ -69,6 +72,14 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.*
 import kotlin.collections.ArrayList
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import org.joda.time.DateTime
+import org.joda.time.Duration
+import org.joda.time.format.DateTimeFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import kotlin.math.abs
 
 
 class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
@@ -81,8 +92,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     var addProductReviewRequestCode = 1000
     var addSellerReviewRequestCode = 2000
     lateinit var product: Product
-    var elapsedDays = 0L
-
+    var hideBars = false
     lateinit var productDetailHelper: ProductDetailHelper
     lateinit var questionAnswerAdapter: QuestionAnswerAdapter
     lateinit var reviewProductAdapter: ReviewProductAdapter
@@ -138,6 +148,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             }
         }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product_details2)
@@ -157,20 +168,27 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             productDetialsViewModel.addLastViewedProduct(productId)
         }
 //
+
+
     }
 
     private fun callGetPriceCart(nameProduct: String) {
 
         if (SharedPreferencesStaticClass.getMasterCartId().toInt() != 0) {
-            productDetialsViewModel.getCartTotalPrice()
-            productDetialsViewModel.getCartPrice.observe(this) {
-                openBuyCurrentPriceDialog(
-                    "${
-                        productPrice + it.data.toString().toFloat()
-                    } ${getString(R.string.sar)}", nameProduct
-                )
-                productDetialsViewModel.getCartPrice.removeObservers(this)
+            if (productPrice != 0f) {
+                productDetialsViewModel.getCartTotalPrice()
+                productDetialsViewModel.getCartPrice.observe(this) {
 
+                    openBuyCurrentPriceDialog(
+                        "${
+                            productPrice + it.data.toString().toFloat()
+                        } ${getString(R.string.sar)}", nameProduct
+                    )
+                    productDetialsViewModel.getCartPrice.removeObservers(this)
+
+                }
+            } else {
+                HelpFunctions.ShowLongToast(getString(R.string.productPriceRequire), this)
             }
         } else {
             openBuyCurrentPriceDialog(
@@ -366,7 +384,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             }
         }
         btnMapSeller.setOnClickListener {
-            openLocationInMap(sellerInformation?.branches?: arrayListOf())
+            openLocationInMap(sellerInformation?.branches ?: arrayListOf())
 
 //            if (sellerInformation?.lat != null && sellerInformation?.lon != null) {
 //                openLocationInMap(sellerInformation?.lat!!, sellerInformation?.lon!!)
@@ -445,6 +463,9 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                         this,
                         SellerInformationActivity::class.java
                     ).apply {
+                        if (sellerInformation?.branches == null)
+                            sellerInformation?.branches = arrayListOf()
+
                         putExtra(ConstantObjects.sellerObjectKey, sellerInformation)
                     })
 //                startActivity(Intent(this, SellerInformationActivity::class.java))
@@ -463,6 +484,15 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         }
         containerCurrentPriceBuy.setOnClickListener {
             callGetPriceCart(productDetails?.name ?: "")
+
+        }
+
+        containerBuyNow.setOnClickListener {
+            if (HelpFunctions.isUserLoggedIn()) {
+                productDetialsViewModel.callBuyNow(productDetails?.id ?: 0)
+            } else {
+                goToSignInActivity()
+            }
 
         }
         containerBidOnPrice.setOnClickListener {
@@ -567,7 +597,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 //        mapIntent.setPackage("com.google.android.apps.maps")
 //        startActivity(mapIntent)
 //
-        startActivity(Intent(this,ShowBranchesMapActivity::class.java).apply {
+        startActivity(Intent(this, ShowBranchesMapActivity::class.java).apply {
             putParcelableArrayListExtra("customBranches", branches)
 
         })
@@ -666,6 +696,13 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                     this
                 )
             }
+
+        }
+
+        productDetialsViewModel.getMasterFromBuyNow.observe(this) {
+            SharedPreferencesStaticClass.saveMasterCartId(it.data)
+            startActivity(Intent(this, AddressPaymentActivity::class.java).apply {
+            })
 
         }
         productDetialsViewModel.errorResponseObserverProductToFav.observe(this) {
@@ -858,7 +895,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                 if (it.bidPersonsDataList != null && it.bidPersonsDataList.isNotEmpty()) {
                     bidCount = it.bidPersonsDataList.size
                     tvAuctionNumber.text = "${getString(R.string.bidding)} ${bidCount.toString()}"
-                    if (elapsedDays < 1) {
+                    if (hideBars) {
                         containerAuctionNumber.hide()
                     } else
                         containerAuctionNumber.show()
@@ -891,6 +928,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             it.businessAccountId ?: ""
         )
         sellerInformation = it
+        showButtons()
         containerSellerInfo.show()
         Extension.loadThumbnail(
             this,
@@ -910,9 +948,9 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             ivSellerFollow.setImageResource(R.drawable.notification_log)
         }
 //        tvRateText.text = it.rate.toString()
-        if(it.businessAccountId!=""){
+        if (it.businessAccountId != "") {
             btnMapSeller.show()
-        }else{
+        } else {
             if (it.lat != null && it.lon != null) {
                 btnMapSeller.show()
             } else {
@@ -979,9 +1017,9 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         }
         //println("hhh "+it.providerId+" "+it.businessAccountId)
 
-        if(it.businessAccountId!=""){
+        if (it.businessAccountId != "") {
             btnMapSeller.show()
-        }else{
+        } else {
             if (it.lat != null && it.lon != null) {
                 if (it.lat != 0.0 && it.lon != 0.0) {
                     btnMapSeller.show()
@@ -1227,27 +1265,17 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             containerShareAndFav.show()
             /**Action endTime**/
 
-
-
+            showButtons()
             if (productDetails.auctionClosingTime != null) {
                 val endDate: Date? =
                     HelpFunctions.getAuctionClosingTimeByDate(productDetails?.auctionClosingTime!!)
 //                println("hhhh "+endDate.toString()+" "+Calendar.getInstance().time)
                 if (endDate != null) {
-                    getDifference(Calendar.getInstance().time, endDate)
+//                    getDifference(Calendar.getInstance().time, endDate)
+                    timeDifferent(productDetails?.auctionClosingTime!!)
                 } else {
                     containerAuctioncountdownTimer_bar.hide()
                 }
-
-                if (elapsedDays < 1) {
-                    containerAuctionNumber.hide()
-                    containerAuctioncountdownTimer_bar.hide()
-                } else{
-
-                    containerAuctionNumber.show()
-                    containerAuctioncountdownTimer_bar.show()
-                }
-
             } else {
                 containerAuctioncountdownTimer_bar.hide()
             }
@@ -1328,10 +1356,12 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                 btnPriceNegotiation.hide()
             }
 
+            tvNegotiationPrice.text=productDetails.price.toString()
+
             if (productDetails.isAuctionEnabled) {
                 Bid_on_price_tv.text =
                     "${productDetails.highestBidPrice} ${getString(R.string.Rayal)}"
-                if (elapsedDays < 1) {
+                if (hideBars) {
                     containerBidOnPrice.hide()
                 } else
                     containerBidOnPrice.show()
@@ -1349,39 +1379,58 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             showError(getString(R.string.serverError))
         }
     }
-
-    fun getDifference(curretndate: Date, endDate: Date) {
-        //milliseconds
-        //milliseconds
-        var different: Long = endDate.time - curretndate.time
-
-        val secondsInMilli: Long = 1000
-        val minutesInMilli = secondsInMilli * 60
-        val hoursInMilli = minutesInMilli * 60
-        val daysInMilli = hoursInMilli * 24
-
-        elapsedDays = different / daysInMilli
-        different = different % daysInMilli
-
-        val elapsedHours = different / hoursInMilli
-        different = different % hoursInMilli
-
-        val elapsedMinutes = different / minutesInMilli
-        different = different % minutesInMilli
-
-        val elapsedSeconds = different / secondsInMilli
-
-//        Toast.makeText(
-//            this,
-//            "$elapsedDays $elapsedHours $elapsedMinutes $elapsedSeconds",
-//            Toast.LENGTH_LONG
-//        ).show()
-        days.text = elapsedDays.toString()
-        hours.text = elapsedHours.toString()
-        minutes.text = elapsedMinutes.toString()
-
+    private fun showButtons(){
+        if (productDetails?.isFixedPriceEnabled == true) {
+            containerBuyNow.show()
+            txtPriceNow.text = "${productDetails?.priceDisc} ${getString(R.string.sar)}"
+            if (sellerInformation?.businessAccountId != null) {
+                containerCurrentPriceBuy.show()
+            } else {
+                containerCurrentPriceBuy.hide()
+            }
+        } else {
+            containerBuyNow.hide()
+        }
     }
 
+
+    private fun timeDifferent(targetDateTimeString:String){
+        // Specify the target date and time
+
+        val formatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss")
+        val targetDateTime = formatter.parseDateTime(targetDateTimeString)
+
+        // Get the current date and time
+        val currentDateTime = DateTime()
+
+        // Calculate the duration between the current time and the target time
+        val duration = Duration(currentDateTime, targetDateTime)
+
+        // Get the difference in days, hours, and minutes as Long values
+        val daysDifference = duration.standardDays
+        val hoursDifference = duration.standardHours % 24
+        val minutesDifference = duration.standardMinutes % 60
+
+        // Display the difference
+        val differenceMessage = String.format(
+            "Difference: %d days, %d hours, %d minutes",
+            daysDifference, hoursDifference, minutesDifference
+        )
+
+        if (daysDifference <= 0 && (hoursDifference <= 0) && (minutesDifference <= 0)) {
+            hideBars = true
+            containerAuctionNumber.hide()
+            containerAuctioncountdownTimer_bar.hide()
+        } else {
+            hideBars = false
+            containerAuctionNumber.show()
+            containerAuctioncountdownTimer_bar.show()
+        }
+
+        days.text = daysDifference.toString()
+        hours.text = hoursDifference.toString()
+        minutes.text = minutesDifference.toString()
+    }
 
     /**send QUestion for sller**/
     private fun confirmAskQues() {

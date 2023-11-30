@@ -52,6 +52,10 @@ class AddPhotoActivity : BaseActivity(), SelectedImagesAdapter.SetOnSelectedMain
         Title = intent?.getStringExtra("Title").toString()
         file_name = intent?.getStringExtra("file_name") ?: ""
         setupVideoLinksAapter()
+        HelpFunctions.ShowLongToast(
+            getString(R.string.noSubCategoryFound),
+            this@AddPhotoActivity
+        )
         toolbar_title.text = getString(R.string.item_details)
         setViewClickListeners()
         setImagesAdapter()

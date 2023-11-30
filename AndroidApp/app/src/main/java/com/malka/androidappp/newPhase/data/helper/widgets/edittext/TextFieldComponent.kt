@@ -15,8 +15,10 @@ import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.appcompat.widget.AppCompatSpinner
 import androidx.core.content.ContextCompat
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -27,6 +29,7 @@ import com.malka.androidappp.newPhase.data.helper.widgets.searchdialog.OnSearchI
 import com.malka.androidappp.newPhase.data.helper.widgets.searchdialog.SearchListItem
 import com.malka.androidappp.newPhase.data.helper.widgets.searchdialog.SearchableDialog
 import com.malka.androidappp.newPhase.data.helper.ConstantObjects
+import com.malka.androidappp.newPhase.presentation.signup.activity3.SpinnerCountryAdapter
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_detailed_text_field_description.view.*
 
@@ -45,6 +48,7 @@ class TextFieldComponent : LinearLayout {
     private lateinit var et_Field: TextInputEditText
     private lateinit var itemLayout: LinearLayout
     private lateinit var end_text_tv: TextView
+    lateinit var spinnerCode : AppCompatSpinner
     var selectedCountry: SearchListItem? = null
 
 
@@ -123,7 +127,8 @@ class TextFieldComponent : LinearLayout {
         line.id = TextFieldIdGenerator.viwId.getlllId(id)
 
 
-
+        spinnerCode = findViewById(R.id.spinnerCode)
+        spinnerCode.id = TextFieldIdGenerator.viwId.getllllId(id)
 
         et_Field = findViewById(R.id.tv_field)
         et_Field.id = TextFieldIdGenerator.viwId.getlllllId(id)
@@ -272,7 +277,18 @@ class TextFieldComponent : LinearLayout {
         }
     }
 
+    public fun _setVisibleSpinner(value: Int?) {
+        if (value == 1) {
+            spinnerCode.show()
+//            iv_end_icon.hide()
+        } else {
+            spinnerCode.hide()
+        }
+    }
+    public fun _setDataAdapter(spinnerAdapter: SpinnerCountryAdapter) {
+        spinnerCode.adapter = spinnerAdapter
 
+    }
     public fun _getEndText():String {
        return end_text_tv.text.toString()
     }

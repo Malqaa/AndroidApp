@@ -3,6 +3,7 @@ package com.malka.androidappp.newPhase.presentation.accountFragment.myWalletFrag
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -30,20 +31,20 @@ class MyWalletFragment : Fragment(R.layout.fragment_my_wallet_fragment),
     private lateinit var accountViewModel: AccountViewModel
     var walletDetails: WalletDetails? = null;
 
-    var transactionType: String = ""
+    var transactionType: String = ConstantObjects.transactionType_Out
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
         setRecentOperationAdapter()
         setViewsClickListeners()
         setUpViewModel()
-        if (AccountObject.walletDetails != null) {
-            walletDetails = AccountObject.walletDetails
-            setData(walletDetails!!)
-        } else {
-            accountViewModel.getWalletDetailsInWallet()
-        }
-
+//        if (AccountObject.walletDetails != null) {
+//            walletDetails = AccountObject.walletDetails
+//            setData(walletDetails!!)
+//        } else {
+//            accountViewModel.getWalletDetailsInWallet()
+//        }
+        accountViewModel.getWalletDetailsInWallet()
     }
 
     private fun setData(walletDetails: WalletDetails) {
@@ -143,6 +144,7 @@ class MyWalletFragment : Fragment(R.layout.fragment_my_wallet_fragment),
             )
 
 
+            btnAddTranasction.text= getString(R.string.balance_withdrawal)
             balance_withdraw.setTextColor(Color.parseColor("#FFFFFF"));
             recharge_the_balance.setTextColor(Color.parseColor("#45495E"));
 
@@ -164,7 +166,7 @@ class MyWalletFragment : Fragment(R.layout.fragment_my_wallet_fragment),
                     R.drawable.round_btn
                 )
             )
-
+            btnAddTranasction.text= getString(R.string.recharge_the_balance)
             recharge_the_balance.setTextColor(Color.parseColor("#FFFFFF"));
             balance_withdraw.setTextColor(Color.parseColor("#45495E"));
         }
@@ -172,12 +174,34 @@ class MyWalletFragment : Fragment(R.layout.fragment_my_wallet_fragment),
             if (etAmount.text.toString().trim() == "") {
                 etAmount.error = getString(R.string.enterAmount)
             } else {
-                accountViewModel.addWalletTransaction(
-                    transactionType,
-                    etAmount.text.toString().trim()
-                )
+                if (transactionType ==ConstantObjects.transactionType_Out){
+                    if(etAmount.text.toString().toFloat() > tvTotalBalance.text.toString().toFloat()){
+
+                        Toast.makeText(
+                            requireContext(),
+                            getString(R.string.cannotWithdrawal),
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }else{
+                        accountViewModel.addWalletTransaction(
+                            "3",
+                            transactionType,
+                            etAmount.text.toString().trim()
+                        )
+                    }
+                }else{
+                    accountViewModel.addWalletTransaction(
+                        "1",
+                        transactionType,
+                        etAmount.text.toString().trim()
+                    )
+                }
+
+
             }
         }
+
+
     }
 
     override fun onRefresh() {

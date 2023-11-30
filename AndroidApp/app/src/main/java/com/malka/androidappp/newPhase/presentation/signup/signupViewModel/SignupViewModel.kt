@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.malka.androidappp.newPhase.core.BaseViewModel
 import com.malka.androidappp.newPhase.data.helper.Extension.requestBody
+import com.malka.androidappp.newPhase.data.network.callApi
 import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.resgisterResp.RegisterResp
 import com.malka.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.UserVerifiedResp
@@ -41,7 +42,7 @@ class SignupViewModel : BaseViewModel() {
         language: String
     ) {
         isLoading.value = true
-        println("hhh $userName $email $fullNumberWithPlus $language" )
+        println("hhh $userName $email $fullNumberWithPlus $language")
         RetrofitBuilder.GetRetrofitBuilder()
             .validateUserAndGenerateOtp(userName, email, fullNumberWithPlus)
             .enqueue(object : Callback<ValidateAndGenerateOTPResp> {
@@ -55,7 +56,8 @@ class SignupViewModel : BaseViewModel() {
                         validateAndGenerateOTPObserver.value = response.body()
                     } else {
 
-                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
+                        errorResponseObserver.value =
+                            getErrorResponse(response.code(), response.errorBody())
                     }
                     isLoading.value = false
                 }
@@ -69,10 +71,11 @@ class SignupViewModel : BaseViewModel() {
     }
 
 
-    fun resendOtp(userPhone: String, language: String,otpType: String) {
+    fun resendOtp(userPhone: String, language: String, otpType: String) {
         isLoading.value = true
         RetrofitBuilder.GetRetrofitBuilder()
-            .resendOtp(userPhone, otpType, language).enqueue(object : Callback<ValidateAndGenerateOTPResp> {
+            .resendOtp(userPhone, otpType, language)
+            .enqueue(object : Callback<ValidateAndGenerateOTPResp> {
                 override fun onResponse(
                     call: Call<ValidateAndGenerateOTPResp>,
                     response: Response<ValidateAndGenerateOTPResp>
@@ -80,7 +83,8 @@ class SignupViewModel : BaseViewModel() {
                     if (response.isSuccessful) {
                         validateAndGenerateOTPObserver.value = response.body()
                     } else {
-                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
+                        errorResponseObserver.value =
+                            getErrorResponse(response.code(), response.errorBody())
                     }
                     isLoading.value = false
                 }
@@ -102,7 +106,8 @@ class SignupViewModel : BaseViewModel() {
                     if (response.isSuccessful) {
                         userVerifiedObserver.value = response.body()
                     } else {
-                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
+                        errorResponseObserver.value =
+                            getErrorResponse(response.code(), response.errorBody())
                     }
                     isLoading.value = false
                 }
@@ -139,10 +144,10 @@ class SignupViewModel : BaseViewModel() {
         context: Context
     ) {
         isLoading.value = true
-         var multipartBody :MultipartBody.Part?=null
-        file?.let {file->
-            var requestbody:RequestBody=file.asRequestBody("image/*".toMediaTypeOrNull())
-            multipartBody=MultipartBody.Part.createFormData("imgProfile",file.name,requestbody)
+        var multipartBody: MultipartBody.Part? = null
+        file?.let { file ->
+            var requestbody: RequestBody = file.asRequestBody("image/*".toMediaTypeOrNull())
+            multipartBody = MultipartBody.Part.createFormData("imgProfile", file.name, requestbody)
         }
 
 //        imageUri?.let {
@@ -162,6 +167,8 @@ class SignupViewModel : BaseViewModel() {
 //            } catch (e: java.lang.Exception) {
 //            }
 //        }
+
+
 
 
         RetrofitBuilder.GetRetrofitBuilder()
@@ -194,7 +201,8 @@ class SignupViewModel : BaseViewModel() {
                     if (response.isSuccessful) {
                         registerRespObserver.value = response.body()
                     } else {
-                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
+                        errorResponseObserver.value =
+                            getErrorResponse(response.code(), response.errorBody())
                     }
                     isLoading.value = false
                 }

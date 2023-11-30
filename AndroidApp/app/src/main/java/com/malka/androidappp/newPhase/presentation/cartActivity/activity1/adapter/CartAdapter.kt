@@ -88,13 +88,13 @@ class CartAdapter(
             holder.viewBinding.tvQuentitiy.text =listProduct[position].cartProductQuantity.toString()
 
             holder.viewBinding.btnSubtract.setOnClickListener {
-                if (listProduct[position].cartProductQuantity > 1) {
+                if ((listProduct[position].cartProductQuantity?:0) > 1) {
                     setProductCartListeners.onDecreaseQuantityProduct(position)
                 }
 
             }
             holder.viewBinding.btnAdd.setOnClickListener {
-                if (holder.viewBinding.tvQuentitiy.text.toString().toInt() < listProduct[position].qty)
+                if (holder.viewBinding.tvQuentitiy.text.toString().toInt() < (listProduct[position].qty?:0))
                 setProductCartListeners.onIncreaseQuantityProduct(position)
                 else
                     HelpFunctions.ShowLongToast(

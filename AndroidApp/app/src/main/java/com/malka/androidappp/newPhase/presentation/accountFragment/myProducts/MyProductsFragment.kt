@@ -471,7 +471,12 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
                     override fun onAddDiscount(finaldate: String, newPrice: Float) {
                         lastUpdateIndex = position
                         lastPriceDiscount = newPrice
-                        myProductsViewModel.addDiscount(productID, newPrice, finaldate)
+                        if(newPrice<productList[position].price && (newPrice>1)){
+                            myProductsViewModel.addDiscount(productID, newPrice, finaldate)
+                        }else{
+                            HelpFunctions.ShowLongToast(getString(R.string.notAbleToApplyDiscount), context)
+                        }
+
 
                     }
 

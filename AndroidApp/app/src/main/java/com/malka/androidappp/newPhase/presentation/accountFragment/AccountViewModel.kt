@@ -152,10 +152,10 @@ class AccountViewModel : BaseViewModel() {
             })
     }
 
-    fun addWalletTransaction(transactionType: String, amount: String) {
+    fun addWalletTransaction(transactionSource:String,transactionType: String, amount: String) {
         isLoading.value = true
         val map: HashMap<String, RequestBody> = HashMap()
-        map["TransactionSource"] = ConstantObjects.transactionSource_chargeWallet.requestBody()
+        map["TransactionSource"] = transactionSource.requestBody()
         map["TransactionType"] = transactionType.requestBody()
         map["TransactionAmount"] = amount.requestBody()
         RetrofitBuilder.GetRetrofitBuilder()

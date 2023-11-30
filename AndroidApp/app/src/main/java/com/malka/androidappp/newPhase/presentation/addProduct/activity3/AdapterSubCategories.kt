@@ -13,7 +13,7 @@ import com.malka.androidappp.newPhase.domain.models.servicemodels.model.Category
 import kotlinx.android.synthetic.main.all_categories_card.view.*
 
 class AdapterSubCategories(
-    private val allSubCategories: List<Category>,
+    private var allSubCategories: List<Category>,
     val listener: OnItemClickListener
 ) : RecyclerView.Adapter<AdapterSubCategories.AdapterSubCategoriesViewHolder>() {
 
@@ -62,6 +62,10 @@ class AdapterSubCategories(
         }
     }
 
+    fun updateAdapter(allSubCategories :List<Category>){
+        this.allSubCategories =allSubCategories
+        notifyDataSetChanged()
+    }
     interface OnItemClickListener {
         fun OnItemClickHandler(position: Int) {}
     }

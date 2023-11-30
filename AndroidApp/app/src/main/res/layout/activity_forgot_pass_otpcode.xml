@@ -87,7 +87,8 @@
                 android:layout_marginTop="@dimen/_10sdp">
 
                 <TextView
-                    android:id="@+id/textView350"
+                    android:visibility="gone"
+                    android:id="@+id/txtDontReceive"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"

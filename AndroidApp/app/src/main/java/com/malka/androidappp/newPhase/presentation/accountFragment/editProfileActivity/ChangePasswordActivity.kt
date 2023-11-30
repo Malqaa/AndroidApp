@@ -112,7 +112,7 @@ class ChangePasswordActivity : BaseActivity() {
             tvCurrentPassword.error = getString(R.string.Fieldcantbeempty)
             false
         } else if (!PASSWORD_PATTERN.matcher(passwordInput).matches()) {
-            tvCurrentPassword.error = getString(R.string.Passwordtooweak)
+            tvCurrentPassword.error = getString(R.string.regexPassword)
             false
         } else {
             tvCurrentPassword.error = null
@@ -126,7 +126,7 @@ class ChangePasswordActivity : BaseActivity() {
             tvNewPassword.error = getString(R.string.Fieldcantbeempty)
             false
         } else if (!PASSWORD_PATTERN.matcher(passwordInput).matches()) {
-            tvNewPassword.error = getString(R.string.Passwordtooweak)
+            tvNewPassword.error = getString(R.string.regexPassword)
             false
         } else {
             tvNewPassword.error = null

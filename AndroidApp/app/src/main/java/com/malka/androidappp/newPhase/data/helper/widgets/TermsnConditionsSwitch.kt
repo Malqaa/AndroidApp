@@ -17,6 +17,7 @@ import androidx.appcompat.widget.SwitchCompat
 import androidx.core.content.ContextCompat
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldIdGenerator
+import com.malka.androidappp.newPhase.presentation.signup.activity1.TermsDialog
 
 
 class TermsnConditionsSwitch : LinearLayout {
@@ -81,12 +82,13 @@ class TermsnConditionsSwitch : LinearLayout {
         text = textSwitch
 //        texturl = textLink
 
-        ctv_Link.setOnClickListener {
-            val defaultLink="https://www.google.com/"
-            defaultLink.viewTextIntent(context!! as Activity) {
-                print(it)
-            }
-        }
+//        ctv_Link.setOnClickListener {
+//            TermsDialog(ctv_Link.context).show()
+////            val defaultLink="https://www.google.com/"
+////            defaultLink.viewTextIntent(context!! as Activity) {
+////                print(it)
+////            }
+//        }
     }
     // This extension function is used to open link  externally
     fun String.viewTextIntent(activity: Activity, onFailed: (error: String) -> Unit) {

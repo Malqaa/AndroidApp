@@ -2,6 +2,7 @@ package com.malka.androidappp.newPhase.presentation.accountFragment.negotiationO
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
@@ -96,20 +97,6 @@ class NegotiationOffersSaleActivity : BaseActivity(),
                 }
             }
         }
-
-        negotiationOffersViewModel.cancelOfferObserver.observe(this) {
-            if (it.status_code == 200) {
-                negotiationOfferDetailsList[purchasePosition].offerStatus = "Purchcased"
-                negotiationOffersAdapter.notifyItemChanged(purchasePosition)
-                purchasePosition = -1
-            } else {
-                if (it.message != null) {
-                    HelpFunctions.ShowLongToast(it.message, this)
-                } else {
-                    HelpFunctions.ShowLongToast(getString(R.string.serverError), this)
-                }
-            }
-        }
     }
 
     private fun showApiError(message: String) {
@@ -171,10 +158,17 @@ class NegotiationOffersSaleActivity : BaseActivity(),
         negotiationOffersAdapter.setIsSend(isSent)
     }
 
-    override fun onCancelOffer(offerID: Int, position: Int) {
-        println("hhhh " + offerID + " " + negotiationOfferDetailsList[position].offerId)
-        lastCancelPosition = position
-        negotiationOffersViewModel.cancelOffer(offerID)
+    override fun onCancelOffer(type:Boolean,offerID: Int, position: Int) {
+        if(type){
+            println("hhhh " + offerID + " " + negotiationOfferDetailsList[position].offerId)
+            lastCancelPosition = position
+            negotiationOffersViewModel.cancelOfferProvider(offerID)
+        }else{
+            println("hhhh " + offerID + " " + negotiationOfferDetailsList[position].offerId)
+            lastCancelPosition = position
+            negotiationOffersViewModel.cancelOffer(offerID)
+        }
+
     }
 
     override fun onPurchaseOffer(offerID: Int, position: Int) {

@@ -77,6 +77,30 @@ class NegotiationOffersViewModel:BaseViewModel() {
             })
     }
 
+    fun cancelOfferProvider(offerId:Int){
+        loadingDialogObserver.value = true
+        RetrofitBuilder.GetRetrofitBuilder()
+            .cancelProductOfferByProvider(offerId)
+            .enqueue(object : Callback<GeneralResponse> {
+                override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
+                    isNetworkFail.value = t !is HttpException
+                    loadingDialogObserver.value = false
+                }
+
+                override fun onResponse(
+                    call: Call<GeneralResponse>,
+                    response: Response<GeneralResponse>
+                ) {
+                    loadingDialogObserver.value = false
+                    if (response.isSuccessful) {
+                        cancelOfferObserver.value = response.body()
+                    } else {
+                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
+                    }
+                }
+            })
+    }
+
     fun cancelOffer(offerId:Int){
         loadingDialogObserver.value = true
         RetrofitBuilder.GetRetrofitBuilder()

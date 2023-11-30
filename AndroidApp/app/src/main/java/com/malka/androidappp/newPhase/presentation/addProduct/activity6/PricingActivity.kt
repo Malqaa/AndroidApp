@@ -158,6 +158,7 @@ class PricingActivity : BaseActivity() {
             reserveprice.setText(AddProductObjectData.auctionMinPrice)
         }
         if (AddProductObjectData.isNegotiablePrice) {
+            fixed_price_layout.isVisible = true
             priceNegotiable_rb3.isChecked = true
             switchMustPickUp.setBackgroundResource(R.drawable.field_selection_border_enable)
             tvMustPickUp.setTextColor(ContextCompat.getColor(this, R.color.bg))
@@ -321,6 +322,7 @@ class PricingActivity : BaseActivity() {
         }
         priceNegotiable_rb3.setOnCheckedChangeListener { _, b ->
             if (b) {
+                fixed_price_layout.isVisible = true
                 switchMustPickUp.setBackgroundResource(R.drawable.field_selection_border_enable)
                 tvMustPickUp.setTextColor(ContextCompat.getColor(this, R.color.bg))
 

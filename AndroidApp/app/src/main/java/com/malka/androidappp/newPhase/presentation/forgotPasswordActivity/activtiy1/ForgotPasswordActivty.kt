@@ -95,7 +95,7 @@ class ForgotPasswordActivty : BaseActivity() {
                         ActivityForgotPassOtpcode::class.java
                     ).apply {
                         putExtra(ConstantObjects.emailKey,tvEmail.text.toString().trim())
-//                        putExtra("codeOtp",it.data.toString())
+                        putExtra("codeOtp",it.data.toString())
                     }
                 )
             } else {

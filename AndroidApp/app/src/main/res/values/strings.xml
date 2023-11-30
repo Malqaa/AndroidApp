@@ -104,9 +104,7 @@
     <string name="SendInstruction">
     Send Instruction
   </string>
-    <string name="Signin">
-    Sign In
-  </string>
+    <string name="Signin">Sign In</string>
     <string name="Step">
     Step
   </string>
@@ -234,13 +232,13 @@
     Publish
   </string>
     <string name="PublishDatetime">
-    Publish Date
+    Publish date
   </string>
     <string name="PublishType">
-    Publish Type
+    Publish type
   </string>
     <string name="QuantityAvailable">
-    Quantity Available
+    Quantity available
   </string>
     <string name="SAbankdeposit">
     SA bank deposit
@@ -727,28 +725,28 @@ Invalid Username or Password
   </string>
 
     <string name="Selectashippingoption">Select a shipping option</string>
-    <string name="selectaPickUpoption">Select a Pick Up option</string>
-    <string name="SpecifyShippingCost">Specify Shipping Cost</string>
+    <string name="selectaPickUpoption">Select a pick up option</string>
+    <string name="SpecifyShippingCost">Specify shipping cost</string>
     <string name="TobeArranged">
     To be Arranged
   </string>
     <string name="ShippingDescription">
-    Shipping Description
+    Shipping description
   </string>
     <string name="Non">
     Non
   </string>
     <string name="ShippingNotAvailable">
-    Shipping Not Available
+    Shipping not available
   </string>
     <string name="PackageName">
-    Package Name
+    Package name
   </string>
     <string name="AlreadyaMember">
-    Already a Member?
+    Already a member?
   </string>
     <string name="AddtoFavouriteSellers">
-    Add to Favourite Sellers
+    Add to favourite sellers
   </string>
     <string name="Details">
     Details
@@ -764,7 +762,7 @@ Invalid Username or Password
   </string>
     <string name="Categories">Categories</string>
     <string name="CurrentListings">
-    Current Listings
+    Current listings
   </string>
     <string name="Emailmeevery3rdday">
     Email me every 3rd day
@@ -773,16 +771,16 @@ Invalid Username or Password
     Favourite
   </string>
     <string name="FavouriteSearches">
-    Favourite Searches
+    Favourite searches
   </string>
     <string name="FavouriteSellers">
-    Favourite Sellers
+    Favourite sellers
   </string>
     <string name="Favourites">
     Favourites
   </string>
     <string name="MyFavourites">
-    My Favourites
+    My favourites
   </string>
     <string name="Remove">
     Remove
@@ -795,16 +793,16 @@ Invalid Username or Password
     Sellers
   </string>
     <string name="UserNeedtobesignedinToAskaquestion">
-    User Need to be signed in To Ask a question
+    User need to be signed in to ask a question
   </string>
     <string name="NoCategoryMarkedasFavourites">
-    No Category Marked as Favourites
+    No category marked as favourites
   </string>
     <string name="NoSearchMarkedasFavourites">
-    No Search Marked as Favourites
+    No search marked as favourites
   </string>
     <string name="NoSellerMarkedasFavourites">
-    No Seller Marked as Favourites
+    No seller marked as favourites
   </string>
     <string name="Profile">
     Profile
@@ -1733,19 +1731,19 @@ Invalid Username or Password
     Offer to
   </string>
     <string name="Onlyallowbidsfrom">
-    Only allow bids from Authenticated members
+    Only allow bids from authenticated members
   </string>
-    <string name="PickUp">Pick Up</string>
-    <string name="mustPickUp">Must Pick Up</string>
-    <string name="noPickUp">No Pick Up</string>
-    <string name="pickUpAvaliable">Pick Up Available</string>
+    <string name="PickUp">Pick up</string>
+    <string name="mustPickUp">Must pick up</string>
+    <string name="noPickUp">No pick up</string>
+    <string name="pickUpAvaliable">Pick up available</string>
 
 
     <string name="Ping">
     Ping
   </string>
     <string name="PricingandFixedPriceOffer">
-    Pricing and Fixed Price Offer
+    Pricing and fixed price offer
   </string>
     <string name="RegisterasBussinessUser">
    Register as a merchant
@@ -1754,13 +1752,13 @@ Invalid Username or Password
    Register as a user
   </string>
     <string name="RegistrationNumber">
-    Registration Number
+    Registration number
   </string>
     <string name="Saudiabankdeposit">
     Saudia bank deposit
   </string>
     <string name="Save">Save</string>
-    <string name="SelectDate">Select Date</string>
+    <string name="SelectDate">Select date</string>
     <string name="Shoes">
     Shoes
   </string>
@@ -1771,28 +1769,28 @@ Invalid Username or Password
     SKU
   </string>
     <string name="SpecifyEndTime">
-    Specify End Time
+    Specify end time
   </string>
     <string name="SpecifyReserve">
-    Specify Reserve (25c)
+    Specify reserve (25c)
   </string>
     <string name="StartPrice">
-    Start Price
+    Start price
   </string>
     <string name="SuggestedValues">
-    Suggested Values
+    Suggested values
   </string>
     <string name="TenHours">
     10 hours
   </string>
     <string name="UnsavedChanges">
-    Unsaved Changes
+    Unsaved changes
   </string>
     <string name="UnwantedChristmasgift">
-    Unwanted Christmas gift
+    Unwanted christmas gift
   </string>
     <string name="UploadYourFiles">
-    Upload Your Files
+    Upload your files
   </string>
     <string name="UseBookaCouriershippingcosts">
     Use \'Book a Courier\' shipping costs
@@ -2645,13 +2643,13 @@ Want to start a business account? Create a Business Account
     <string name="phone">phone</string>
     <string name="electronics_phones">Electronics - Phones</string>
     <string name="services_mobile_phone_services">Services - mobile phone services</string>
-    <string name="choose_department">Choose Department</string>
+    <string name="choose_department">Choose department</string>
     <string name="the_next">Next</string>
     <string name="subsection">Subsection</string>
     <string name="attach_pictures_of_the_item">Attach pictures of the item</string>
-    <string name="item_details">Item Details</string>
-    <string name="item_detailsEN">Item Details In English</string>
-    <string name="item_detailsAR">Item Details In Arabic</string>
+    <string name="item_details">Item details</string>
+    <string name="item_detailsEN">Item details in English</string>
+    <string name="item_detailsAR">Item details in Arabic</string>
     <string name="attach_a_video_link_of_the_item">Attach a video link of the item</string>
     <string name="reviews">Reviews</string>
     <string name="sent">Sent</string>
@@ -2668,20 +2666,20 @@ Want to start a business account? Create a Business Account
     <string name="type_the_item_s_title">Type the item\'s title</string>
     <string name="type_the_item_s_subtitle">Type the item\'s subtitle</string>
     <string name="sub_address">Sub-address</string>
-    <string name="item_condition">Item Condition</string>
+    <string name="item_condition">Item condition</string>
     <string name="sale_type">Sale type</string>
     <string name="fixed_price_sale">Fixed price sale</string>
     <string name="tender">Tender</string>
-    <string name="purchasing_price_">Purchasing Price</string>
-    <string name="payment_options">Payment Options</string>
+    <string name="purchasing_price_">Purchasing price</string>
+    <string name="payment_options">Payment options</string>
     <string name="rial">Rial</string>
-    <string name="bank_transfer_2">Bank Transfer</string>
+    <string name="bank_transfer_2">Bank transfer</string>
     <string name="add_a_new_account">Add a new account</string>
     <string name="visa_mastercard">VisaCard</string>
     <string name="sale_details">Sale details</string>
     <string name="choose_one_of_our_special_packages">Choose one of our special packages</string>
-    <string name="ExtraFee">Extra Fee</string>
-    <string name="silver_package">Silver Package</string>
+    <string name="ExtraFee">Extra fee</string>
+    <string name="silver_package">Silver package</string>
     <string name="and_get_many_advantages_of_displaying_your_product">And get many advantages of displaying your product</string>
     <string name="distinguish_your_product">Distinguish your product</string>
     <string name="item_specification">Item specification</string>
@@ -2717,15 +2715,15 @@ Want to start a business account? Create a Business Account
     <string name="shopping_basket">Your cart</string>
     <string name="your_favorite_merchant_added_a_product">Your favorite merchant added a product</string>
     <string name="new_product_has_been_added">New product has been added</string>
-    <string name="item_title">Item Title</string>
-    <string name="sub_title">Item Subtitle</string>
-    <string name="item_title_en">Item Title In English</string>
-    <string name="sub_title_en">Item Subtitle In English</string>
-    <string name="item_title_ar">Item Title In Arabic</string>
-    <string name="sub_title_ar">Item Subtitle In Arabic</string>
+    <string name="item_title">Item title</string>
+    <string name="sub_title">Item subtitle</string>
+    <string name="item_title_en">Item title in english</string>
+    <string name="sub_title_en">Item subtitle in english</string>
+    <string name="item_title_ar">Item title in arabic</string>
+    <string name="sub_title_ar">Item subtitle in arabic</string>
 
 
-    <string name="bank_transfer">Bank Transfer</string>
+    <string name="bank_transfer">Bank transfer</string>
     <string name="dismiss">Dismiss</string>
     <string name="enter">Enter</string>
     <string name="account_holder_s_name">Account Holder\'s Name</string>
@@ -2748,10 +2746,10 @@ Want to start a business account? Create a Business Account
     <string name="without_additional_expenses">Without additional expenses</string>
     <string name="set_your_own_time_and_time">Set your own date and time</string>
     <string name="_20_riyals">+20 riyals</string>
-    <string name="Golden_Package">Golden Package</string>
-    <string name="Silver_Package">Silver Package</string>
-    <string name="Bronze_Package">Bronze Package</string>
-    <string name="Standard_Package">Standard Package</string>
+    <string name="Golden_Package">Golden package</string>
+    <string name="Silver_Package">Silver package</string>
+    <string name="Bronze_Package">Bronze package</string>
+    <string name="Standard_Package">Standard package</string>
     <string name="your_product_will_be_displayed_on_the_home_page">Your product will be displayed on the home page</string>
     <string name="common">Common</string>
     <string name="choose_your_payment_method">Choose your payment method</string>
@@ -3048,16 +3046,16 @@ Want to start a business account? Create a Business Account
     <string name="profileUpdatedSuccessfully">Profile updated successfully</string>
     <string name="statusShowingYourData">Select status of showing your data</string>
     <string name="swiftCode">Swift Code</string>
-    <string name="checkYourDataForamt">Check Your Data Format</string>
-    <string name="cashPayment">Cash Payment</string>
-    <string name="selectBackAccount">Select Bank Account</string>
-    <string name="freeProductImagesCount">Free Product Images Count</string>
-    <string name="freeProductVidoesCount">Free Product Videos Count</string>
-    <string name="extraProductImageFee">Extra Product Image Fee</string>
-    <string name="extraProductVidoeFee">Extra Product Video Fee</string>
-    <string name="extraProductImageCount">Extra Product Image Count</string>
-    <string name="extraProductVidoeCount">Extra Product Video Count</string>
-    <string name="subTitleFee">Sub Title Fee</string>
+    <string name="checkYourDataForamt">Check your data format</string>
+    <string name="cashPayment">Cash payment</string>
+    <string name="selectBackAccount">Select bank account</string>
+    <string name="freeProductImagesCount">Free product images count</string>
+    <string name="freeProductVidoesCount">Free product videos count</string>
+    <string name="extraProductImageFee">Extra product image fee</string>
+    <string name="extraProductVidoeFee">Extra product video fee</string>
+    <string name="extraProductImageCount">Extra product image count</string>
+    <string name="extraProductVidoeCount">Extra product video count</string>
+    <string name="subTitleFee">Sub title fee</string>
     <string name="day">Day</string>
     <string name="week">Week</string>
     <string name="month">Month</string>
@@ -3098,7 +3096,7 @@ Want to start a business account? Create a Business Account
     <string name="user">User</string>
     <string name="selectUser">Select User</string>
     <string name="you">You</string>
-    <string name="errorEmail">Please enter the email address  associated with your account</string>
+    <string name="errorEmail">The entered email is not registered in our system</string>
     <string name="titleForget">Enter your email and we\'ll send password reset instructions</string>
     <string name="select_gender">don\'t  save  data  with out choose  gender   </string>
     <string name="enterNewPhone">Please enter new number to reset</string>
@@ -3197,5 +3195,14 @@ Want to start a business account? Create a Business Account
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
+    <string name="productPriceRequire">not found product price</string>
+    <string name="regexPassword">password must contain 6 characters at least it should contains one number and both lower and uppercase letters and special characters</string>
+    <string name="convert">Convert</string>
+  <string name="Recentـtransaction">Recent transaction</string>
+  <string name="enterAmountPoint">Please enter number of points</string>
+    <string name="msgShowCode">You can register using this code</string>
+    <string name="cannotWithdrawal">" can't be withdrawal value more than available balance"</string>
+    <string name="typingTwoLetter">Please Typing (minimum 2 letter) in </string>
+    <string name="notAbleToApplyDiscount">Not able to apply discount</string>
 
 </resources>

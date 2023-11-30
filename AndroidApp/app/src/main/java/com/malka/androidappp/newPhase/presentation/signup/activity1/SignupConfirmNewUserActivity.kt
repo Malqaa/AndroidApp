@@ -1,8 +1,10 @@
 package com.malka.androidappp.newPhase.presentation.signup.activity1
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
+import android.text.TextWatcher
 import android.util.Patterns
 import android.view.View
 import androidx.lifecycle.Observer
@@ -10,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.hbb20.CountryCodePicker
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseActivity
+import com.malka.androidappp.newPhase.core.BaseDialog
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions.Companion.PASSWORD_PATTERN
 import com.malka.androidappp.newPhase.data.network.constants.Constants
@@ -22,8 +25,10 @@ import com.squareup.picasso.Picasso
 import com.yariksoffice.lingver.Lingver
 import kotlinx.android.synthetic.main.activity_signup_pg1.*
 import kotlinx.android.synthetic.main.activity_signup_pg1.userNamee
+import kotlinx.android.synthetic.main.dialog_terms.btnAccept
 
-class SignupConfirmNewUserActivity : BaseActivity(), CountryDialog.GetSelectedCountry {
+class SignupConfirmNewUserActivity : BaseActivity(), CountryDialog.GetSelectedCountry,
+    TermsDialog.AcceptTermsListener {
 
     var isPhoneNumberValid: Boolean = false
     var isBusinessAccount = false
@@ -43,6 +48,19 @@ class SignupConfirmNewUserActivity : BaseActivity(), CountryDialog.GetSelectedCo
         setupRegisterViewModel()
         setClickListeners()
         setupCountryCodePiker()
+
+        confirmPass!!._addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                validateSignupConfrmPassword()
+            }
+
+        })
 
     }
 
@@ -81,12 +99,15 @@ class SignupConfirmNewUserActivity : BaseActivity(), CountryDialog.GetSelectedCo
                     "UsernameExists" -> {
                         userNamee.error = getString(R.string.userNameExists)
                     }
+
                     "PhoneNumberExists" -> {
                         textEmaill.error = getString(R.string.userPhoneExists)
                     }
-                    "EmailExists","EmailExisting" -> {
+
+                    "EmailExists", "EmailExisting" -> {
                         textEmaill.error = getString(R.string.userEmailExists)
                     }
+
                     "OTP generetd successfully" -> {
                         validateUserAndGenerateOTP.otpData!!.userName =
                             userNamee.text.toString().trim()
@@ -99,6 +120,7 @@ class SignupConfirmNewUserActivity : BaseActivity(), CountryDialog.GetSelectedCo
                             invitation_code.text.toString().trim()
                         goToOTPVerificationScreen(validateUserAndGenerateOTP.otpData!!)
                     }
+
                     else -> {
                         if (validateUserAndGenerateOTP.message != null) {
                             HelpFunctions.ShowLongToast(
@@ -116,10 +138,10 @@ class SignupConfirmNewUserActivity : BaseActivity(), CountryDialog.GetSelectedCo
 
             })
         signupViewModel.errorResponseObserver.observe(this, Observer {
-            println("hhhh yy"+ it.message)
-            if(it.status!=null && it.status=="409"){
-                HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit),this)
-            }else {
+            println("hhhh yy" + it.message)
+            if (it.status != null && it.status == "409") {
+                HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), this)
+            } else {
                 if (it.message != null) {
                     when (it.message) {
                         "UsernameExists" -> {
@@ -161,6 +183,11 @@ class SignupConfirmNewUserActivity : BaseActivity(), CountryDialog.GetSelectedCo
         }
         btnOpenCountry.setOnClickListener {
             countryDialog.show()
+        }
+
+        switch_term_condition.setOnClickListener {
+                        TermsDialog(this@SignupConfirmNewUserActivity,this).show()
+
         }
 
     }
@@ -242,7 +269,7 @@ class SignupConfirmNewUserActivity : BaseActivity(), CountryDialog.GetSelectedCo
             textPass!!.error = getString(R.string.Fieldcantbeempty)
             false
         } else if (!PASSWORD_PATTERN.matcher(passwordInput).matches()) {
-            textPass!!.error = getString(R.string.Passwordtooweak)
+            textPass!!.error = getString(R.string.regexPassword)
             false
         } else {
             textPass!!.error = null
@@ -327,6 +354,13 @@ class SignupConfirmNewUserActivity : BaseActivity(), CountryDialog.GetSelectedCo
             .load(countryFlag)
             .into(ivFlag)
     }
+
+    override fun onAccept() {
+        if (ConstantObjects.acceptTerms) {
+            switch_term_condition._setChecked(true)
+        }
+    }
+
 
 //    private fun persistImage(bitmap: Bitmap, name: String) :File?{
 //        val filesDir: File = getFilesDir()

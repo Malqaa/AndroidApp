@@ -20,11 +20,11 @@ import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
 import com.malka.androidappp.newPhase.presentation.signup.activity3.SignupCreateNewUser
 import com.malka.androidappp.newPhase.presentation.signup.signupViewModel.SignupViewModel
 import com.yariksoffice.lingver.Lingver
+import kotlinx.android.synthetic.main.activity_signup_pg2.resend_btn
+import kotlinx.android.synthetic.main.activity_signup_pg2.dontReceive
 import kotlinx.android.synthetic.main.activity_signup_pg2.button3
 import kotlinx.android.synthetic.main.activity_signup_pg2.pinview
 import kotlinx.android.synthetic.main.activity_signup_pg2.redmessage
-import kotlinx.android.synthetic.main.activity_signup_pg2.resendCodeAfterExpire
-import kotlinx.android.synthetic.main.activity_signup_pg2.resend_btn
 
 
 class SignupOTPVerificationActivity : BaseActivity() {
@@ -35,6 +35,8 @@ class SignupOTPVerificationActivity : BaseActivity() {
     private var otpData: OtpData? = null
     private lateinit var signupViewModel: SignupViewModel
     var expireMinutes: Int = 1
+    var expireReceiveMinutes = 1
+    var typeClick = 1
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signup_pg2)
@@ -42,14 +44,15 @@ class SignupOTPVerificationActivity : BaseActivity() {
         otpData = intent.getParcelableExtra(Constants.otpDataKey)
         setupRegisterViewModel()
         setClickListeners()
-        resendCodeAfterExpire.hide()
+        resend_btn.hide()
         /***thisForTest*/
 //        if (BuildConfig.DEBUG) {
-//            val datacode: String? = otpData?.otpCode
-//            // println("hhh $datacode")
-//            pinview.value = datacode!!
+        val datacode: String? = otpData?.otpCode
+        // println("hhh $datacode")
+        pinview.value = datacode!!
 //        }
         signupViewModel.getConfigurationResp(ConstantObjects.configration_otpExpiryTime)
+        signupViewModel.getConfigurationResp(ConstantObjects.Configuration_DidNotReceiveCodeTime)
 
     }
 
@@ -132,12 +135,13 @@ class SignupOTPVerificationActivity : BaseActivity() {
         })
         signupViewModel.validateAndGenerateOTPObserver.observe(this) { validateUserAndGenerateOTP ->
             if (validateUserAndGenerateOTP.otpData != null) {
-                startTimeCounter(expireMinutes)
+                if (typeClick == 1)
+                    startTimeCounter(expireMinutes)
                 button3.isEnabled = true
                 /***thisForTest*/
                 val otppcode = validateUserAndGenerateOTP.otpData!!.otpCode
 //                if (BuildConfig.DEBUG) {
-//                    pinview.value = otppcode
+                pinview.value = otppcode
 //                }
             } else {
                 HelpFunctions.ShowLongToast(
@@ -204,9 +208,20 @@ class SignupOTPVerificationActivity : BaseActivity() {
                     expireMinutes = configratinoResp.configurationData.configValue.toInt()
                 } catch (e: Exception) {
                 }
-                startTimeCounter(expireMinutes)
+                if (typeClick == 1)
+                    startTimeCounter(expireMinutes)
             }
         }
+
+        signupViewModel.configurationRespDidNotReceive.observe(this) { configratinoResp ->
+            if (configratinoResp.configurationData != null) {
+                try {
+                    expireReceiveMinutes = configratinoResp.configurationData.configValue.toInt()
+                } catch (e: Exception) {
+                }
+            }
+        }
+
     }
 
     /**clickEvents*/
@@ -215,7 +230,7 @@ class SignupOTPVerificationActivity : BaseActivity() {
         var expireMilliSeconds = expireSeconds * 1000
         object : CountDownTimer(expireMilliSeconds.toLong(), 1000) {
             override fun onTick(millisUntilFinished: Long) {
-                resendCodeAfterExpire.hide()
+                resend_btn.hide()
                 mTimeLeftInMillis = millisUntilFinished
                 var seconds = (mTimeLeftInMillis / 1000).toInt()
                 val minutes = seconds / 60
@@ -224,7 +239,11 @@ class SignupOTPVerificationActivity : BaseActivity() {
                     "%02d",
                     seconds
                 )).toString()
-
+                val timeReceive = "${String.format("%02d", expireReceiveMinutes)}:00"
+                if (timeText == timeReceive) {
+                    resend_btn.hide()
+                    dontReceive.show()
+                }
                 countdownTimer.text = "${getString(R.string.Seconds2)}: $timeText"
 //                val seconds = (mTimeLeftInMillis / 1000).toInt() % 60
 //                countdownTimer.text = getString(R.string.Seconds, seconds)
@@ -232,7 +251,7 @@ class SignupOTPVerificationActivity : BaseActivity() {
             }
 
             override fun onFinish() {
-                resendCodeAfterExpire.show()
+                resend_btn.show()
                 countdownTimer.text = getString(R.string.CodeExpired)
                 button3.isEnabled = false
             }
@@ -248,6 +267,7 @@ class SignupOTPVerificationActivity : BaseActivity() {
                     applicationContext
                 )
             } else {
+                typeClick = 1
                 val userPhone: String? = otpData?.phoneNumber
                 signupViewModel.resendOtp(
                     userPhone.toString(),
@@ -256,6 +276,18 @@ class SignupOTPVerificationActivity : BaseActivity() {
                 )
                 //resendOTPApi()
             }
+        }
+
+        dontReceive.setOnClickListener {
+            resend_btn.hide()
+            countdownTimer.show()
+            typeClick = 2
+            val userPhone: String? = otpData?.phoneNumber
+            signupViewModel.resendOtp(
+                userPhone.toString(),
+                Lingver.getInstance().getLanguage(),
+                "3"
+            )
         }
     }
 

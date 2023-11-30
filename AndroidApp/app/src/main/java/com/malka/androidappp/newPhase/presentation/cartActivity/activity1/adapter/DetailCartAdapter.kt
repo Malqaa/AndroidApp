@@ -9,6 +9,7 @@ import com.malka.androidappp.R
 import com.malka.androidappp.databinding.ItemCartSellNewBinding
 import com.malka.androidappp.newPhase.data.helper.CommonBottomSheet
 import com.malka.androidappp.newPhase.data.helper.Extension
+import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.data.helper.hide
 import com.malka.androidappp.newPhase.data.helper.show
 import com.malka.androidappp.newPhase.domain.models.cartListResp.CouponAppliedBussinessAccountDto
@@ -91,14 +92,21 @@ class DetailCartAdapter(
         holder.viewBinding.tvQuentitiy.text = listProduct[position].cartProductQuantity.toString()
 
         holder.viewBinding.btnSubtract.setOnClickListener {
-            if (listProduct[position].qty > 1) {
+            if ((listProduct[position].cartProductQuantity?:0) > 1) {
                 setProductCartListeners.onDecreaseQuantityProduct(position)
             }
 
         }
         holder.viewBinding.btnAdd.setOnClickListener {
-            setProductCartListeners.onIncreaseQuantityProduct(position)
+            if (holder.viewBinding.tvQuentitiy.text.toString().toInt() < (listProduct[position].qty?:0))
+                setProductCartListeners.onIncreaseQuantityProduct(position)
+            else
+                HelpFunctions.ShowLongToast(
+                    holder.viewBinding.tvQuentitiy.context.getString(R.string.QuentitiyClosed),
+                    holder.viewBinding.tvQuentitiy.context
+                )
         }
+
         holder.viewBinding.btnDelete.setOnClickListener {
             setProductCartListeners.onDeleteProduct(position)
         }

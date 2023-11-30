@@ -246,10 +246,20 @@ class NegotiationOffersAdapter(
                 position)
         }
         holder.viewBinding.btnCancel.setOnClickListener {
-            setOnOfferClickListeners.onCancelOffer(
-                offerID = negotiationOfferDetailsList[position].offerId.toInt(),
-                position
-            )
+            if (saleOrNot) {
+                setOnOfferClickListeners.onCancelOffer(
+                    saleOrNot,
+                    offerID = negotiationOfferDetailsList[position].offerId.toInt(),
+                    position
+                )
+            }else{
+                setOnOfferClickListeners.onCancelOffer(
+                    saleOrNot,
+                    offerID = negotiationOfferDetailsList[position].offerId.toInt(),
+                    position
+                )
+            }
+
         }
         holder.viewBinding.btnAccept.setOnClickListener {
             setOnOfferClickListeners.onAcceptOffer(position)
@@ -259,12 +269,14 @@ class NegotiationOffersAdapter(
         }
     }
 
+
+
     fun setIsSend(sent: Boolean) {
         isSend = sent
     }
 
     interface SetOnOfferClickListeners {
-        fun onCancelOffer(offerID: Int, position: Int)
+        fun onCancelOffer(type:Boolean ,offerID: Int, position: Int)
         fun onAcceptOffer(position: Int)
         fun onRejectOffer(position: Int)
         fun onPurchaseOffer(offerID: Int, position: Int)

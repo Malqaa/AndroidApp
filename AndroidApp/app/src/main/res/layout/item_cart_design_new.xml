@@ -316,7 +316,7 @@
         <!--        </LinearLayout>-->
 
 
-        <!--        <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent-->
+        <!--        <com.malka.androidappp.newPhase.data.helper.widgets.edittext.SpinnerComponent-->
         <!--            android:id="@+id/delivery_option"-->
         <!--            android:layout_width="match_parent"-->
         <!--            android:layout_height="wrap_content"-->
@@ -326,7 +326,7 @@
         <!--            app:viewType="text" />-->
 
 
-        <!--        <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent-->
+        <!--        <com.malka.androidappp.newPhase.data.helper.widgets.edittext.SpinnerComponent-->
         <!--            android:id="@+id/payment_option_btn"-->
         <!--            android:layout_width="match_parent"-->
         <!--            android:layout_height="wrap_content"-->

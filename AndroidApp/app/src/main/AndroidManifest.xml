@@ -164,8 +164,7 @@
         <activity
             android:name=".newPhase.presentation.productDetailsActivity.ProductDetailsActivity"
             android:exported="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.splash" /> <!--  -->
+            android:screenOrientation="portrait" /> <!--  -->
         <activity
             android:name=".newPhase.presentation.productDetailsActivity.MyProductDetailsActivity"
             android:exported="true"
@@ -194,6 +193,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".newPhase.presentation.loginScreen.SignInActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
             android:name=".newPhase.presentation.signup.activity1.SignupConfirmNewUserActivity"

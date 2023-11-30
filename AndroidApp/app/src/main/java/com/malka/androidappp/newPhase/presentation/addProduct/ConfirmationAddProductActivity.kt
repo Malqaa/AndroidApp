@@ -16,6 +16,7 @@ import com.malka.androidappp.newPhase.presentation.addProduct.activity7.ListingD
 import com.malka.androidappp.newPhase.presentation.addProduct.activity8.PromotionalActivity
 import com.malka.androidappp.newPhase.presentation.addProduct.viewmodel.AddProductViewModel
 import kotlinx.android.synthetic.main.activity_confirmation_add_product.*
+import kotlinx.android.synthetic.main.activity_my_product_details2.tvShippingOptions
 import kotlinx.android.synthetic.main.toolbar_main.*
 import java.io.File
 
@@ -120,64 +121,124 @@ class ConfirmationAddProductActivity : BaseActivity() {
                     AddProductObjectData.PAYMENT_OPTION_CASH -> {
                         tvCashOptionPayment.show()
                     }
-                    AddProductObjectData.PAYMENT_OPTION_Mada->{
+
+                    AddProductObjectData.PAYMENT_OPTION_Mada -> {
                         tvMadaOptionPayment.show()
                     }
-                    AddProductObjectData.PAYMENT_OPTION_MasterCard->{
+
+                    AddProductObjectData.PAYMENT_OPTION_MasterCard -> {
                         tvCardOptionPayment.show()
                     }
                 }
             }
         }
 
-        var shippingOptionText = ""
+        var shippingOptionText = StringBuilder("")
         tvShippingOption.text = shippingOptionText
-        AddProductObjectData.shippingOptionSelection?.let {
+        AddProductObjectData.shippingOptionSelections?.let {
+
 //            for (item in it) {
 //                shippingOptionText += "${item.name},"
 //            }
-            shippingOptionText = it[0].name
-            tvShippingOption.text = shippingOptionText
-            when (it[0].id) {
-                ConstantObjects.pickUp_Must -> {
-                    contianerPickUp.hide()
-                }
+//            shippingOptionText = it[0].name
 
-                ConstantObjects.pickUp_No -> {
-                    contianerPickUp.show()
-                    when (AddProductObjectData.pickUpOption) {
-                        ConstantObjects.pickUp_Must -> {
-                            tvPickupOptionData.text = getString(R.string.mustPickUp)
-                        }
-
-                        ConstantObjects.pickUp_No -> {
-                            tvPickupOptionData.text = getString(R.string.noPickUp)
-                        }
-
-                        ConstantObjects.pickUp_Available -> {
-                            tvPickupOptionData.text = getString(R.string.pickUpAvaliable)
-                        }
+            for (i in it) {
+                tvShippingOption.text = shippingOptionText
+                when (i) {
+                    ConstantObjects.pickUp_Must -> {
+                        shippingOptionText.append(getString(R.string.mustPickUp))
                     }
-                }
-
-                ConstantObjects.pickUp_Available -> {
-                    contianerPickUp.show()
-                    when (AddProductObjectData.pickUpOption) {
-                        ConstantObjects.pickUp_Must -> {
-                            tvPickupOptionData.text = getString(R.string.mustPickUp)
-                        }
-
-                        ConstantObjects.pickUp_No -> {
-                            tvPickupOptionData.text = getString(R.string.noPickUp)
-                        }
-
-                        ConstantObjects.pickUp_Available -> {
-                            tvPickupOptionData.text = getString(R.string.pickUpAvaliable)
-                        }
+                    ConstantObjects.pickUp_No -> {
+                        shippingOptionText.append(getString(R.string.noPickUp))
+                    }
+                    ConstantObjects.pickUp_Available -> {
+                        shippingOptionText.append(getString(R.string.pickUpAvaliable))
+                    }
+                    ConstantObjects.shippingOption_integratedShippingCompanyOptions -> {
+                        shippingOptionText.append(getString(R.string.integratedShippingCompanies))
+                    }
+                    ConstantObjects.shippingOption_freeShippingWithinSaudiArabia -> {
+                        shippingOptionText.append(getString(R.string.free_shipping_within_Saudi_Arabia))
+                    }
+                    ConstantObjects.shippingOption_arrangementWillBeMadeWithTheBuyer -> {
+                        shippingOptionText.append(getString(R.string.arrangementWillBeMadeWithTheBuyer))
                     }
                 }
             }
+
+//                if(i == ConstantObjects.pickUp_Must){
+//                    contianerPickUp.hide()
+//                }else if(i ==ConstantObjects.pickUp_No){
+//                    contianerPickUp.show()
+//                    when (AddProductObjectData.pickUpOption) {
+//                        ConstantObjects.pickUp_Must -> {
+//                            tvShippingOption.text = getString(R.string.mustPickUp)
+//                        }
+//
+//                        ConstantObjects.pickUp_No -> {
+//                            tvShippingOption.text = getString(R.string.noPickUp)
+//                        }
+//
+//                        ConstantObjects.pickUp_Available -> {
+//                            tvShippingOption.text = getString(R.string.pickUpAvaliable)
+//                        }
+//                    }
+//                }else if(i ==ConstantObjects.pickUp_Available){
+//                    contianerPickUp.show()
+//                    when (AddProductObjectData.pickUpOption) {
+//                        ConstantObjects.pickUp_Must -> {
+//                            tvShippingOption.text = getString(R.string.mustPickUp)
+//                        }
+//
+//                        ConstantObjects.pickUp_No -> {
+//                            tvShippingOption.text = getString(R.string.noPickUp)
+//                        }
+//
+//                        ConstantObjects.pickUp_Available -> {
+//                            tvShippingOption.text = getString(R.string.pickUpAvaliable)
+//                        }
+//                    }
+//                }
         }
+//            when (it) {
+//                ConstantObjects.pickUp_Must -> {
+//                    contianerPickUp.hide()
+//                }
+//
+//                ConstantObjects.pickUp_No -> {
+//                    contianerPickUp.show()
+//                    when (AddProductObjectData.pickUpOption) {
+//                        ConstantObjects.pickUp_Must -> {
+//                            tvPickupOptionData.text = getString(R.string.mustPickUp)
+//                        }
+//
+//                        ConstantObjects.pickUp_No -> {
+//                            tvPickupOptionData.text = getString(R.string.noPickUp)
+//                        }
+//
+//                        ConstantObjects.pickUp_Available -> {
+//                            tvPickupOptionData.text = getString(R.string.pickUpAvaliable)
+//                        }
+//                    }
+//                }
+//
+//                ConstantObjects.pickUp_Available -> {
+//                    contianerPickUp.show()
+//                    when (AddProductObjectData.pickUpOption) {
+//                        ConstantObjects.pickUp_Must -> {
+//                            tvPickupOptionData.text = getString(R.string.mustPickUp)
+//                        }
+//
+//                        ConstantObjects.pickUp_No -> {
+//                            tvPickupOptionData.text = getString(R.string.noPickUp)
+//                        }
+//
+//                        ConstantObjects.pickUp_Available -> {
+//                            tvPickupOptionData.text = getString(R.string.pickUpAvaliable)
+//                        }
+//                    }
+//                }
+//            }
 
 
         if (AddProductObjectData.auctionOption) {
@@ -629,7 +690,7 @@ class ConfirmationAddProductActivity : BaseActivity() {
             MainImageIndex = mainIndex,
             videoUrl = AddProductObjectData.videoList,
             PickUpDelivery = AddProductObjectData.pickUpOption.toString(),
-            DeliveryOption = shippingOption,
+            DeliveryOption = AddProductObjectData.shippingOptionSelections ?: arrayListOf(),
             isFixedPriceEnabled = AddProductObjectData.priceFixedOption,
             isAuctionEnabled = AddProductObjectData.auctionOption,
             isNegotiationEnabled = AddProductObjectData.isNegotiablePrice,

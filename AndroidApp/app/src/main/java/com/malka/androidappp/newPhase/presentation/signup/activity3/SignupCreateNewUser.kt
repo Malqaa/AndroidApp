@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
+import android.view.View
 import androidx.activity.result.ActivityResult
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -14,6 +15,9 @@ import com.malka.androidappp.newPhase.data.helper.*
 import com.malka.androidappp.newPhase.data.helper.Extension.getDeviceId
 import com.malka.androidappp.newPhase.data.helper.widgets.DatePickerFragment
 import com.malka.androidappp.newPhase.data.network.constants.Constants
+import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.domain.models.countryResp.CountriesResp
+import com.malka.androidappp.newPhase.domain.models.countryResp.Country
 import com.malka.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.OtpData
 import com.malka.androidappp.newPhase.presentation.dialogsShared.PickImageMethodsDialog
 import com.malka.androidappp.newPhase.presentation.dialogsShared.countryDialog.CountryDialog
@@ -24,6 +28,11 @@ import com.malka.androidappp.newPhase.presentation.signup.signupViewModel.Signup
 import com.squareup.picasso.Picasso
 import com.yariksoffice.lingver.Lingver
 import kotlinx.android.synthetic.main.activity_signup_pg4.*
+import kotlinx.android.synthetic.main.dialog_countries.progressBar
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.HttpException
+import retrofit2.Response
 import java.io.File
 import kotlin.math.roundToInt
 
@@ -166,6 +175,8 @@ class SignupCreateNewUser : BaseActivity(), PickImageMethodsDialog.OnAttachedIma
 
         }
         countryContainer._setOnClickListener {
+//            countryContainer._setVisibleSpinner(1)
+//            getCountries()
             openCountryDialog()
         }
         regionContainer._setOnClickListener {
@@ -301,6 +312,61 @@ class SignupCreateNewUser : BaseActivity(), PickImageMethodsDialog.OnAttachedIma
         countryDialog.show()
     }
 
+
+    fun getCountries() {
+//        progressBar.visibility = View.VISIBLE
+       val countriesCallback = RetrofitBuilder.GetRetrofitBuilder().getCountryNew()
+        countriesCallback.enqueue(object : Callback<CountriesResp> {
+            override fun onFailure(call: Call<CountriesResp>, t: Throwable) {
+                // println("hhhh "+t.message)
+//                progressBar.visibility = View.GONE
+                if (call.isCanceled) {
+
+                } else if (t is HttpException) {
+                    HelpFunctions.ShowLongToast(getString(R.string.serverError), this@SignupCreateNewUser)
+
+                } else {
+                    HelpFunctions.ShowLongToast(
+                        getString(R.string.connectionError),
+                        this@SignupCreateNewUser
+                    )
+                }
+            }
+
+            override fun onResponse(
+                call: Call<CountriesResp>,
+                response: Response<CountriesResp>
+            ) {
+//                progressBar.visibility = View.GONE
+                try {
+                    if (response.isSuccessful) {
+                        response.body()?.let {
+                            it.countriesList?.let { countryList ->
+                                //ConstantObjects.countryList = countryList
+                                getCountriesList(countryList)
+                            }
+                        }
+
+                    } else {
+                        HelpFunctions.ShowLongToast(
+                            getString(R.string.serverError),
+                            this@SignupCreateNewUser
+                        )
+
+                    }
+                } catch (e: Exception) {
+                }
+            }
+
+        })
+    }
+
+    private fun getCountriesList(data: List<Country>) {
+        val spinnerCountryAdapter = SpinnerCountryAdapter(this, data)
+        countryContainer._setDataAdapter(spinnerCountryAdapter)
+
+    }
+
     private fun openRegionDialog() {
         val regionDialog =
             RegionDialog(this, selectedCountryId, object : RegionDialog.GetSelectedRegion {
@@ -338,12 +404,19 @@ class SignupCreateNewUser : BaseActivity(), PickImageMethodsDialog.OnAttachedIma
             showError(getString(R.string.Please_enter, getString(R.string.First_Name)))
             return false
         }
+        if(firstName!!.text.toString().length<2){
+            showError("${getString(R.string.typingTwoLetter)} ${ getString(R.string.First_Name)}")
+            return false
+        }
 
         if (lastName!!.text.toString().isEmpty()) {
             showError(getString(R.string.Please_enter, getString(R.string.Last_Name)))
             return false
         }
-
+        if(lastName!!.text.toString().length<2){
+            showError("${getString(R.string.typingTwoLetter)} ${ getString(R.string.Last_Name)}")
+            return false
+        }
         if (btnDate!!.text.toString().isEmpty()) {
             showError(getString(R.string.Please_select, getString(R.string.Date_of_Birth)))
             return false
@@ -360,29 +433,29 @@ class SignupCreateNewUser : BaseActivity(), PickImageMethodsDialog.OnAttachedIma
             return false
         }
 
-//        if (selectedRegionId == 0) {
-//            showError(getString(R.string.Please_select, getString(R.string.Region)))
-//            return false
-//        }
+        if (selectedRegionId == 0) {
+            showError(getString(R.string.Please_select, getString(R.string.Region)))
+            return false
+        }
 //
-//        if (selectedNeighborhoodId == 0) {
-//            showError(getString(R.string.Please_select, getString(R.string.district)))
-//            return false
-//        }
+        if (selectedNeighborhoodId == 0) {
+            showError(getString(R.string.Please_select, getString(R.string.district)))
+            return false
+        }
 
 //
-//        if (area!!.text.toString().isEmpty()) {
-//            showError(getString(R.string.Please_enter, getString(R.string.Area)))
-//            return false
-//        }
-//        if (streetNUmber!!.text.toString().isEmpty()) {
-//            showError(getString(R.string.Please_enter, getString(R.string.StreetNumber)))
-//            return false
-//        }
-//        if (county_code!!.text.toString().isEmpty()) {
-//            showError(getString(R.string.Please_enter, getString(R.string.ZipCode)))
-//            return false
-//        }
+        if (area!!.text.toString().isEmpty()) {
+            showError(getString(R.string.Please_enter, getString(R.string.Area)))
+            return false
+        }
+        if (streetNUmber!!.text.toString().isEmpty()) {
+            showError(getString(R.string.Please_enter, getString(R.string.StreetNumber)))
+            return false
+        }
+        if (county_code!!.text.toString().isEmpty()) {
+            showError(getString(R.string.Please_enter, getString(R.string.ZipCode)))
+            return false
+        }
         return true
     }
 

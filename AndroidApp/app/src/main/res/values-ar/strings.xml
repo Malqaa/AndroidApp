@@ -2946,7 +2946,7 @@
     <string name="user">عميل</string>
     <string name="selectUser">أختر عميل</string>
     <string name="you">أنت</string>
-    <string name="errorEmail">الرجاء إدخال عنوان البريد الإلكتروني المرتبط بحسابك</string>
+    <string name="errorEmail">البريد الالكتروني المدخل غير مسجل لدينا</string>
     <string name="titleForget">أدخل بريدك الإلكتروني وسنرسل لك تعليمات إعادة تعيين كلمة المرور</string>
     <string name="select_gender">لا يتم حفظ البيانات دون اختيار الجنس</string>
     <string name="enterNewPhone">يجب إدخال رقم جديد لاعادة التعيين</string>
@@ -2988,19 +2988,27 @@
     <string name="add_Review_success">تم التقييم بنجاح</string>
     <string name="noFoundUserOffers">لا يوجد مستخدمين للاختيار</string>
     <string name="viewCategory">عرض</string>
-  <string name="visitors">الزائرين</string>
+    <string name="visitors">الزائرين</string>
     <string name="deleteall">إزالة الكل</string>
     <string name="CheckoutProduct">إتمام الطلب</string>
     <string name="editProduct">تعديل المنتج</string>
     <string name="_discount">"تخفيض : "</string>
     <string name="purchaseOrder">عدد مرات الشراء</string>
     <string name="QuentitiyClosed">الكميه المتاحة نفذت</string>
-  <string name="numMonth">عدد الأشهر</string>
-  <string name="countImage">عدد الصور</string>
-  <string name="countVideo">عدد مقاطع الفيديو</string>
-  <string name="productPosition">موضع المنتج</string>
-  <string name="showSupTitle">إظهار عنوان فرعي</string>
-  <string name="showHighLight">إظهار التمييز</string>
-    <string name="expired">Expired</string>
-
+    <string name="numMonth">عدد الأشهر</string>
+    <string name="countImage">عدد الصور</string>
+    <string name="countVideo">عدد مقاطع الفيديو</string>
+    <string name="productPosition">موضع المنتج</string>
+    <string name="showSupTitle">إظهار عنوان فرعي</string>
+    <string name="showHighLight">إظهار التمييز</string>
+    <string name="expired">منتهي الصلاحية</string>
+    <string name="productPriceRequire">لم يتم العثور على سعر المنتج</string>
+    <string name="regexPassword">يجب أن تحتوي كلمة المرور على 6 أحرف على الأقل ويجب أن تحتوي على رقم واحد وأحرف صغيرة وكبيرة وأحرف خاصة</string>
+    <string name="convert">تحويل</string>
+  <string name="Recentـtransaction">الصفقة الأخيرة</string>
+  <string name="enterAmountPoint">برجاء ادخال عدد النقاط </string>
+    <string name="msgShowCode">يمكنك التسجيل باستخدام هذا الكود</string>
+    <string name="cannotWithdrawal">"لا يمكن أن تكون قيمة السحب أكبر من الرصيد المتاح"</string>
+    <string name="typingTwoLetter">يرجى كتابة (حرفين على الأقل) فى</string>
+    <string name="notAbleToApplyDiscount">غير قادر على تطبيق الخصم</string>
 </resources>

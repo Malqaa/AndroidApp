@@ -2,12 +2,12 @@ package com.malka.androidappp.newPhase.data.network.constants
 
 object Constants {
 
-
+//    http://onrufwebsite6-001-site1.htempurl.com/
     const val HTTP_PROTOCOL = "https"
 
     //   const val SERVER_LOCATION = "89.40.10.168:85"
 //    const val SERVER_LOCATION = "advertleap-001-site1.itempurl.com"
-    const val SERVER_LOCATION = "onrufwebsite2-001-site1.btempurl.com"
+    const val SERVER_LOCATION = "onrufwebsite6-001-site1.htempurl.com"
     const val Api = "api"
     const val API_VERSION = "v1"
     const val IMAGE_FOLDER = "ImageFile"

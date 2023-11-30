@@ -1,6 +1,8 @@
 package com.malka.androidappp.newPhase.presentation.forgotPasswordActivity
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.widget.Toast
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.domain.models.servicemodels.User

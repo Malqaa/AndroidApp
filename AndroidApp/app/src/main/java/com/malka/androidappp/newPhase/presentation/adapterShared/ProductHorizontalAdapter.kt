@@ -19,6 +19,9 @@ import com.malka.androidappp.newPhase.domain.models.productResp.Product
 import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.yariksoffice.lingver.Lingver
 import kotlinx.android.synthetic.main.activity_product_details_item_2.*
+import org.joda.time.DateTime
+import org.joda.time.Duration
+import org.joda.time.format.DateTimeFormat
 import java.util.*
 
 
@@ -30,7 +33,7 @@ class ProductHorizontalAdapter(
     var isMyProduct: Boolean = false
 ) : RecyclerView.Adapter<ProductHorizontalAdapter.SellerProductViewHolder>() {
     lateinit var context: Context
-
+    var elapsedDays =0L
     class SellerProductViewHolder(var viewBinding: ProductItemBinding) :
         RecyclerView.ViewHolder(viewBinding.root)
 
@@ -203,18 +206,30 @@ class ProductHorizontalAdapter(
                 categoryId
             )
         }
+//        if(productList[position].isFixedPriceEnabled && productList[position].isAuctionEnabled){
+//            holder.viewBinding.containerTimeBar.show()
+//        }else if(productList[position].isAuctionEnabled){
+//            holder.viewBinding.containerTimeBar.show()
+//        }else{
+//            holder.viewBinding.containerTimeBar.hide()
+//        }
+
         if (productList[position].auctionClosingTime != null) {
-            holder.viewBinding.containerTimeBar.show()
-            var endDate: Date? =
-                HelpFunctions.getAuctionClosingTimeByDate(productList[position].auctionClosingTime!!)
+            if (!productList[position].auctionClosingTime!!.contains("T00:00:00")) {
+                holder.viewBinding.containerTimeBar.show()
+                val endDate: Date? =
+                    HelpFunctions.getAuctionClosingTimeByDate(productList[position].auctionClosingTime!!)
 //                println("hhhh "+endDate.toString()+" "+Calendar.getInstance().time)
-            if (endDate != null) {
-                getDifference(Calendar.getInstance().time, endDate, holder)
+                if (endDate != null) {
+                    getDifference(productList[position].auctionClosingTime!!, holder)
+                } else {
+                    holder.viewBinding.containerTimeBar.hide()
+                }
             } else {
                 holder.viewBinding.containerTimeBar.hide()
             }
-
-        } else {
+        }
+        else {
             holder.viewBinding.containerTimeBar.hide()
         }
 
@@ -231,37 +246,47 @@ class ProductHorizontalAdapter(
         }
     }
 
-    fun updateAdapter(productList: List<Product>, isHorizontal: Boolean = false, isMyProduct: Boolean = false) {
+    fun updateAdapter(
+        productList: List<Product>,
+        isHorizontal: Boolean = false,
+        isMyProduct: Boolean = false
+    ) {
         this.productList = productList
         isHorizenal = isHorizontal
         this.isMyProduct = isMyProduct
         notifyDataSetChanged()
     }
 
-    fun getDifference(curretndate: Date, endDate: Date, holder: SellerProductViewHolder) {
-        //milliseconds
-        //milliseconds
-        var different: Long = endDate.time - curretndate.time
+    fun getDifference(targetDateTimeString:String, holder: SellerProductViewHolder) {
 
-        val secondsInMilli: Long = 1000
-        val minutesInMilli = secondsInMilli * 60
-        val hoursInMilli = minutesInMilli * 60
-        val daysInMilli = hoursInMilli * 24
+        val formatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss")
+        val targetDateTime = formatter.parseDateTime(targetDateTimeString)
 
-        val elapsedDays = different / daysInMilli
-        different = different % daysInMilli
+        // Get the current date and time
+        val currentDateTime = DateTime()
 
-        val elapsedHours = different / hoursInMilli
-        different = different % hoursInMilli
+        // Calculate the duration between the current time and the target time
+        val duration = Duration(currentDateTime, targetDateTime)
 
-        val elapsedMinutes = different / minutesInMilli
-        different = different % minutesInMilli
+        // Get the difference in days, hours, and minutes as Long values
+        val daysDifference = duration.standardDays
+        val hoursDifference = duration.standardHours % 24
+        val minutesDifference = duration.standardMinutes % 60
 
-        val elapsedSeconds = different / secondsInMilli
+        // Display the difference
+        val differenceMessage = String.format(
+            "Difference: %d days, %d hours, %d minutes",
+            daysDifference, hoursDifference, minutesDifference
+        )
 
-        holder.viewBinding.daysTv.text = elapsedDays.toString()
-        holder.viewBinding.hoursTv.text = elapsedHours.toString()
-        holder.viewBinding.minutesTv.text = elapsedMinutes.toString()
+        if (daysDifference <= 0 && (hoursDifference <= 0) && (minutesDifference <= 0)) {
+            holder.viewBinding.containerTimeBar.hide()
+        } else
+            holder.viewBinding.containerTimeBar.show()
+
+        holder.viewBinding.daysTv.text = daysDifference.toString()
+        holder.viewBinding.hoursTv.text = hoursDifference.toString()
+        holder.viewBinding.minutesTv.text =minutesDifference.toString()
 
     }
 

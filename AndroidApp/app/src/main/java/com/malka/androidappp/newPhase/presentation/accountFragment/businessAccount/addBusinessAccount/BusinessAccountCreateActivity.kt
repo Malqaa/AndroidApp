@@ -138,6 +138,9 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
         setViewClickListeners()
         setupViewModel()
 
+
+        commercial_registration_no._setMaxLength(15)
+
     }
 
     private fun setupViewModel() {
@@ -459,10 +462,9 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
                 requestCode: Int,
             ) {
                 activityLauncher.launch(imageIntent) { activityResult ->
-                    if (activityResult.resultCode == RESULT_OK) {
+                    if (activityResult.resultCode == AppCompatActivity.RESULT_OK) {
                         imagePicker.handleActivityResult(
-                            activityResult.resultCode, requestCode, activityResult.data
-                        )
+                            activityResult.resultCode, requestCode, activityResult.data)
                     }
                 }
             }
@@ -471,7 +473,7 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
             imagePicker.choosePicture(ImagePicker.CAMERA)
         } else {
             openGallery(startForResult)
-
+//            openGallery()
 //            imagePicker.choosePicture(ImagePicker.GALLERY)
         }
     }
@@ -514,18 +516,12 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
 //                var file: File? = null
 //                imageUri.let { imageUri ->
 //                    file = File(imageUri.path)
-
-                userImageUri = bitmap
-                val file =
-                    CameraHelper.getMultiPartFrom(bitmap, "BusinessAccountImage", this)
+                val file = CameraHelper.getMultiPartFrom(bitmap, "BusinessAccountCertificates", this)
                 file.let {
                     commercialRegistryFileList.add(file)
                 }
 
             }
-
-//            }
-
 
         } catch (e: Exception) {
 //            println("hhhh " + e.message)
@@ -885,7 +881,6 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
         val SelectDate = tvDate.text.toString()
 //        val profile_photo = upload_photo.text.toString()
         val TaxNumber = TaxNumber.text.toString()
-
 
         val addBusinessUser = BusinessUserRespone.BusinessUser(
             businessName = CompanyName,

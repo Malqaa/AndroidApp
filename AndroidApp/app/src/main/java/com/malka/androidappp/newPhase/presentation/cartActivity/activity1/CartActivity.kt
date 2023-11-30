@@ -110,7 +110,7 @@ class CartActivity : BaseActivity(), CartAdapter.SetProductCartListeners {
         cartViewModel.increaseCartProductQuantityObserver.observe(this) { increaseProductResp ->
             if (increaseProductResp.status_code == 200) {
                 productCartItemRespList[lastUpdatePosition].let {
-                    it.cartProductQuantity = it.cartProductQuantity + 1
+                    it.cartProductQuantity = (it.cartProductQuantity?:0) + 1
                 }
                 cartAdapter.notifyItemChanged(lastUpdatePosition)
                 setCartTotalPrice()
@@ -119,7 +119,7 @@ class CartActivity : BaseActivity(), CartAdapter.SetProductCartListeners {
         cartViewModel.decreaseCartProductQuantityObserver.observe(this) { decreaseProductResp ->
             if (decreaseProductResp.status_code == 200) {
                 productCartItemRespList[lastUpdatePosition].let {
-                    it.cartProductQuantity = it.cartProductQuantity - 1
+                    it.cartProductQuantity = it.cartProductQuantity?:0 - 1
                 }
                 cartAdapter.notifyItemChanged(lastUpdatePosition)
                 setCartTotalPrice()
@@ -149,9 +149,9 @@ class CartActivity : BaseActivity(), CartAdapter.SetProductCartListeners {
             for (item in productCartItemRespList) {
                 item.let { product ->
                     if (product.priceDiscount == product.price) {
-                        totalPrice += (product.price * product.cartProductQuantity)
+                        totalPrice += (product.price * (product.cartProductQuantity?:0))
                     } else {
-                        totalPrice += (product.priceDiscount * product.cartProductQuantity)
+                        totalPrice += (product.priceDiscount * (product.cartProductQuantity?:0))
                     }
                 }
             }

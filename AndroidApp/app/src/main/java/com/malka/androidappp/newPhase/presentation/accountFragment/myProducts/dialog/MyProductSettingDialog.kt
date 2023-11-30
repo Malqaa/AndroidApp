@@ -18,7 +18,7 @@ class MyProductSettingDialog(
     var setOnSelectedListeners: SetOnSelectedListeners
 ) : BaseBottomSheetDialog(context) {
     lateinit var viewBinding: DialogMyProductSttingBinding
-    var auctionTime: Date?=null
+    var auctionTime: Date? = null
     override fun setViewBinding() {
         viewBinding = DialogMyProductSttingBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
@@ -26,23 +26,26 @@ class MyProductSettingDialog(
 
     override fun initialization() {
         val df: DateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
-        if(isAuctionEnabled){
-             auctionTime = df.parse(auctionClosingTime)
+        if (isAuctionEnabled) {
+            auctionTime = df.parse(auctionClosingTime)
         }
         val c: Calendar = Calendar.getInstance()
         df.format(c.time)
 
         if (productsForSale) {
-            viewBinding.btnAddDiscount.show()
+            if (isAuctionEnabled)
+                viewBinding.btnAddDiscount.hide()
+            else
+                viewBinding.btnAddDiscount.show()
             viewBinding.btnModifyProduct.show()
             viewBinding.btnSendOffer.hide()
             viewBinding.btnRepostTheProduct.hide()
         } else {
             viewBinding.btnAddDiscount.hide()
             viewBinding.btnModifyProduct.hide()
-            if(!isAuctionEnabled){
+            if (!isAuctionEnabled) {
                 viewBinding.btnSendOffer.hide()
-            }else{
+            } else {
 
                 if (auctionTime?.before(c.time)!!)
                     viewBinding.btnSendOffer.show()

@@ -37,7 +37,7 @@ class SubCategoriesActivity : BaseActivity(), AdapterSubCategories.OnItemClickLi
             finish()
         }
 
-        categoryid = intent.getIntExtra(ConstantObjects.categoryIdKey,0)
+        categoryid = intent.getIntExtra(ConstantObjects.categoryIdKey, 0)
         categoryName = intent.getStringExtra(ConstantObjects.categoryName).toString()
         setUpViewModel()
         lastCategoryId = AddProductObjectData.selectedCategoryId
@@ -45,6 +45,8 @@ class SubCategoriesActivity : BaseActivity(), AdapterSubCategories.OnItemClickLi
     }
 
     private fun setUpViewModel() {
+        val subCategoryAdapter=AdapterSubCategories(allCategoryList, this@SubCategoriesActivity)
+        allCategoriesRecyclerView.adapter =subCategoryAdapter
         addProductViewModel = ViewModelProvider(this).get(AddProductViewModel::class.java)
         addProductViewModel.isLoading.observe(this) {
             if (it)
@@ -67,9 +69,9 @@ class SubCategoriesActivity : BaseActivity(), AdapterSubCategories.OnItemClickLi
 
         }
         addProductViewModel.errorResponseObserver.observe(this) {
-            if(it.status!=null && it.status=="409"){
+            if (it.status != null && it.status == "409") {
                 HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), this)
-            }else {
+            } else {
                 if (it.message != null && it.message != "") {
                     HelpFunctions.ShowLongToast(
                         it.message!!,
@@ -85,6 +87,7 @@ class SubCategoriesActivity : BaseActivity(), AdapterSubCategories.OnItemClickLi
         }
         addProductViewModel.categoryListObserver.observe(this) { categoryListObserver ->
             if (categoryListObserver.status_code == 200) {
+                allCategoryList = arrayListOf()
                 lifecycleScope.launch(Dispatchers.IO) {
                     if (categoryListObserver.categoryList != null && categoryListObserver.categoryList.isNotEmpty()) {
                         allCategoryList.add(categoryListObserver.categoryList[0])
@@ -92,21 +95,15 @@ class SubCategoriesActivity : BaseActivity(), AdapterSubCategories.OnItemClickLi
                     } else {
                         lastCategoryId = 0
                     }
-
-                    withContext(Dispatchers.Main) {
-                        if (lastCategoryId != 0) {
-                            addProductViewModel.getSubCategoriesByCategoryID(lastCategoryId)
-                        } else {
-                            allCategoriesRecyclerView.adapter = AdapterSubCategories(allCategoryList, this@SubCategoriesActivity)
-                            if(allCategoryList.isEmpty()){
-                                HelpFunctions.ShowLongToast(
-                                    getString(R.string.noSubCategoryFound),
-                                    this@SubCategoriesActivity
-                                )
-                               goNextScreen(true)
-                            }
+                    if (lastCategoryId != 0)
+                        subCategoryAdapter.updateAdapter(allCategoryList)
+                    else {
+                        if (allCategoryList.isEmpty()) {
+                            goNextScreen()
                         }
                     }
+
+
                 }
             } else {
                 HelpFunctions.ShowLongToast(
@@ -178,21 +175,24 @@ class SubCategoriesActivity : BaseActivity(), AdapterSubCategories.OnItemClickLi
 //    }
 
 
-
     override fun OnItemClickHandler(position: Int) {
         super.OnItemClickHandler(position)
         AddProductObjectData.selectedCategoryId = allCategoryList[position].id
         AddProductObjectData.selectedCategoryName == allCategoryList[position].name
-        goNextScreen(false)
 
-    }
-    private fun goNextScreen(isFinish:Boolean) {
-        if(isFinish) {
-            startActivity(Intent(this, AddPhotoActivity::class.java))
-            finish()
-        }else{
-            startActivity(Intent(this, AddPhotoActivity::class.java))
+        if (lastCategoryId != 0) {
+            addProductViewModel.getSubCategoriesByCategoryID(lastCategoryId)
+        } else {
+            goNextScreen()
+
         }
+    }
+
+
+    private fun goNextScreen() {
+        startActivity(Intent(this, AddPhotoActivity::class.java).apply {
+        })
+
     }
 
 }

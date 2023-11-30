@@ -99,10 +99,6 @@ import kotlinx.android.synthetic.main.activity_my_product_details2.txtCountPurch
 import kotlinx.android.synthetic.main.activity_my_product_details2.txtHappy
 import kotlinx.android.synthetic.main.activity_my_product_details2.txtSad
 import kotlinx.android.synthetic.main.activity_my_product_details2.txtSmile
-import kotlinx.android.synthetic.main.dialog_buy_current_price.num_total
-import kotlinx.android.synthetic.main.dialog_buy_current_price.txt_following
-import kotlinx.android.synthetic.main.dialog_buy_current_price.txt_go_cart
-import kotlinx.android.synthetic.main.dialog_buy_current_price.txt_name
 import kotlinx.android.synthetic.main.my_product_details.btnNextImage
 import kotlinx.android.synthetic.main.my_product_details.btnShare
 import kotlinx.android.synthetic.main.my_product_details.containerMainProduct
@@ -118,6 +114,9 @@ import kotlinx.android.synthetic.main.my_product_details.swipe_to_refresh
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.joda.time.DateTime
+import org.joda.time.Duration
+import org.joda.time.format.DateTimeFormat
 import java.util.Calendar
 import java.util.Date
 
@@ -818,7 +817,7 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
                     HelpFunctions.getAuctionClosingTimeByDate(productDetails.auctionClosingTime)
 //                println("hhhh "+endDate.toString()+" "+Calendar.getInstance().time)
                 if (endDate != null) {
-                    getDifference(Calendar.getInstance().time, endDate)
+                    timeDifferent(productDetails.auctionClosingTime)
                 } else {
                     containerAuctioncountdownTimer_bar.hide()
                 }
@@ -968,6 +967,36 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
         hours.text = elapsedHours.toString()
         minutes.text = elapsedMinutes.toString()
 
+    }
+
+
+    private fun timeDifferent(targetDateTimeString:String){
+        // Specify the target date and time
+
+        val formatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss")
+        val targetDateTime = formatter.parseDateTime(targetDateTimeString)
+
+        // Get the current date and time
+        val currentDateTime = DateTime()
+
+        // Calculate the duration between the current time and the target time
+        val duration = Duration(currentDateTime, targetDateTime)
+
+        // Get the difference in days, hours, and minutes as Long values
+        val daysDifference = duration.standardDays
+        val hoursDifference = duration.standardHours % 24
+        val minutesDifference = duration.standardMinutes % 60
+
+        // Display the difference
+        val differenceMessage = String.format(
+            "Difference: %d days, %d hours, %d minutes",
+            daysDifference, hoursDifference, minutesDifference
+        )
+
+
+        days.text = daysDifference.toString()
+        hours.text = hoursDifference.toString()
+        minutes.text = minutesDifference.toString()
     }
 
 

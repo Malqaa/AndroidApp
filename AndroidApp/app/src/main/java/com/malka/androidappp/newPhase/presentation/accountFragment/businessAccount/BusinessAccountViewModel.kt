@@ -113,18 +113,18 @@ class BusinessAccountViewModel : BaseViewModel() {
         _getChecked: Boolean
     ) {
         isLoading.value = true
-        val multipartBodyCommercialRegistryFileList: ArrayList<MultipartBody.Part> =
-            ArrayList<MultipartBody.Part>()
-
-        commercialRegistryFileList.let {
-            for (item in commercialRegistryFileList) {
-                // var requestbody: RequestBody = item.requestBody()
-                val multipartBody: MultipartBody.Part =
-                    MultipartBody.Part.createFormData( "",item.toString())
-                multipartBodyCommercialRegistryFileList.add(multipartBody)
-            }
-
-        }
+//        val multipartBodyCommercialRegistryFileList: ArrayList<MultipartBody.Part> =
+//            ArrayList<MultipartBody.Part>()
+//
+//        commercialRegistryFileList.let {
+//            for (item in commercialRegistryFileList) {
+//                // var requestbody: RequestBody = item.requestBody()
+//                val multipartBody: MultipartBody.Part =
+//                    MultipartBody.Part.createFormData( "BusinessAccountCertificates",item.toString())
+//                multipartBodyCommercialRegistryFileList.add(multipartBody)
+//            }
+//
+//        }
 
         RetrofitBuilder.GetRetrofitBuilder()
             .addEditBusinessAccount(
@@ -150,9 +150,9 @@ class BusinessAccountViewModel : BaseViewModel() {
                 RegistrationNumberExpiryDate = tvDate.requestBody(),
                 VatNumber = TaxNumber.requestBody(),
                 Maroof = etMaroof.requestBody(),
-                if (multipartBodyCommercialRegistryFileList.isEmpty())
+                if (commercialRegistryFileList.isEmpty())
                     null
-                else multipartBodyCommercialRegistryFileList,
+                else commercialRegistryFileList,
                 CountryId = selectedCountryId.toString().requestBody(),
                 RegionId = selectedRegionId.toString().requestBody(),
                 NeighborhoodId = selectedNeighborhoodId.toString().requestBody(),

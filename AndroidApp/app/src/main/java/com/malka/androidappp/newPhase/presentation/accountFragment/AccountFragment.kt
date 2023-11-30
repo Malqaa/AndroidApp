@@ -159,6 +159,14 @@ class AccountFragment : Fragment(R.layout.fragment_account),
 //                putExtra(ConstantObjects.sellerObjectKey, sellerInformation)
 //            })
 //        }
+        tvUserName.setOnClickListener {
+            startActivity(
+                Intent(
+                    requireActivity(),
+                    EditProfileActivity::class.java
+                )
+            )
+        }
         setViewCliclListeners()
         setUpViewModel()
         setListenser()
@@ -291,7 +299,7 @@ class AccountFragment : Fragment(R.layout.fragment_account),
                     ivUserImage,
                     loader,
                 )
-                tvUserName.text = userData.userName.toString()
+                tvUserName.text = "${userData.firstName.toString()} ${userData.lastName.toString()}"
                 userData.createdAt?.let {
                     tvMemberSince.text = "${getString(R.string.member_since)} ${
                         HelpFunctions.getViewFormatForDateTrack(it)

@@ -379,7 +379,7 @@ class DynamicTemplateActivtiy : BaseActivity(), DynamicSpecificationsAdapter.OnC
 //                    _view.findViewById(R.id.lbl_dynamic_spinner);
 //                lbl_dynamic.text =
 //                    if (IndControl.has(json_key_title)) IndControl.getString(json_key_title) else ""
-//                val spin_dynamic: TextFieldComponent = _view.findViewById(R.id.spinner_dynamic);
+//                val spin_dynamic: SpinnerComponent = _view.findViewById(R.id.spinner_dynamic);
 //                val _json_array_values = IndControl.getJSONArray(json_key_enum);
 //                if (_json_array_values.length() > 0) {
 //                    val spinner_values = Array(_json_array_values.length()) {
@@ -424,7 +424,7 @@ class DynamicTemplateActivtiy : BaseActivity(), DynamicSpecificationsAdapter.OnC
 //                }
 //                //Spinner
 //                else if (indcontol.id == R.id.card_dynamic_spinner) {
-//                    val _spinner: TextFieldComponent = indcontol.findViewById(R.id.spinner_dynamic)
+//                    val _spinner: SpinnerComponent = indcontol.findViewById(R.id.spinner_dynamic)
 //                    if (_spinner.tag != null && _spinner.tag.toString().length > 0) {
 //                        ConstantObjects.dynamic_json_dictionary[_spinner.tag.toString()] =
 //                            _spinner.getText()

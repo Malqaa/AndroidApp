@@ -82,6 +82,7 @@ class AddProductObjectData {
 /**       MustPickUp = 1, NoPickUp = 2, PickUpAvailable=3*/
         var pickUpOption: Int = 0
         var shippingOptionSelection: List<Selection>? = null
+        var shippingOptionSelections: ArrayList<Int>? = arrayListOf()
         var selectedPakat: PakatDetails? = null
 
 

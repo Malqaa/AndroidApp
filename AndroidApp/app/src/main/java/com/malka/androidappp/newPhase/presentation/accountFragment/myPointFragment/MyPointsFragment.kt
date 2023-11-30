@@ -1,5 +1,6 @@
 package com.malka.androidappp.newPhase.presentation.accountFragment.myPointFragment
 
+import android.content.Intent
 import android.graphics.Paint
 import android.os.Bundle
 import android.view.View
@@ -8,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.malka.androidappp.R
+import com.malka.androidappp.newPhase.data.helper.Extension.shared
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.data.helper.linearLayoutManager
 import com.malka.androidappp.newPhase.domain.models.userPointsDataResp.PointsTransactionsItem
@@ -43,6 +45,11 @@ class MyPointsFragment : Fragment(R.layout.fragment_my_points_fragment),
         } else {
             accountViewModel.getUserPointDetailsInWallet()
 //            accountViewModel.getWalletDetailsInWallet()
+        }
+
+        imgShare.setOnClickListener {
+            requireActivity().shared("${getString(R.string.msgShowCode)} (${tvRefrerCode.text.toString()})")
+
         }
     }
 
@@ -94,11 +101,11 @@ class MyPointsFragment : Fragment(R.layout.fragment_my_points_fragment),
             }
         }
 
-        accountViewModel.convertMoneyToPointObserver.observe(this){convertMoneyToPoint->
-            if(convertMoneyToPoint.status_code==200){
+        accountViewModel.convertMoneyToPointObserver.observe(this) { convertMoneyToPoint ->
+            if (convertMoneyToPoint.status_code == 200) {
                 onRefresh()
-                tvAmount.text=null
-            }else{
+                tvAmount.text = null
+            } else {
                 if (convertMoneyToPoint.message != null) {
                     HelpFunctions.ShowLongToast(convertMoneyToPoint.message!!, requireActivity())
                 } else {
@@ -109,7 +116,7 @@ class MyPointsFragment : Fragment(R.layout.fragment_my_points_fragment),
     }
 
     private fun setData(userPointData: UserPointData) {
-        tvTotalBalnce.text=userPointData.pointsBalance.toString()
+        tvTotalBalnce.text = userPointData.pointsBalance.toString()
         tvRefrerCode.text = userPointData.newInvitationCode ?: ""
         userPointData.pointsTransactionslist?.let {
             pointsTransactionslist.clear()
@@ -133,11 +140,12 @@ class MyPointsFragment : Fragment(R.layout.fragment_my_points_fragment),
         }
         btnConvertion.setOnClickListener {
             if (etAmount.text.toString().trim() == "") {
-                etAmount.error = getString(R.string.enterAmount)
+                etAmount.error = getString(R.string.enterAmountPoint)
             } else {
-                accountViewModel.convertMountToPoints(
-                    etAmount.text.toString().trim()
-                )
+                if (etAmount.text.toString().toLong() <= tvTotalBalnce.text.toString().toLong())
+                    accountViewModel.convertMountToPoints(
+                        etAmount.text.toString().trim()
+                    )
             }
         }
 

@@ -82,6 +82,7 @@ class ConstantObjects {
         const val categoryIdKey: String = "categoryid"
         const val categoryName: String = "categoryName"
         const val isEditKey: String = "isEdit"
+         var acceptTerms: Boolean = false
 
 
 //        const val orderStatus_provider_new = 1
@@ -107,6 +108,8 @@ class ConstantObjects {
 
         /***configration**/
         const val configration_otpExpiryTime = "OTPExpiryTime"
+        const val Configuration_DidNotReceiveCodeTime = "DidNotReceiveCodeTime"
+
         const val configration_resetPasswordExpiryTime = "ResetPasswordExpiryTime"
         const val configration_resetPasswordWrongTrials = "ResetPasswordWrongTrials"
         const val otpWrongTrials = "OTPWrongTrials"
@@ -123,9 +126,9 @@ class ConstantObjects {
         const val pickUp_Available = 3
 
         /**shipping options*/
-        const val shippingOption_integratedShippingCompanyOptions = 1
-        const val shippingOption_freeShippingWithinSaudiArabia = 2
-        const val shippingOption_arrangementWillBeMadeWithTheBuyer = 3
+        const val shippingOption_integratedShippingCompanyOptions = 4
+        const val shippingOption_freeShippingWithinSaudiArabia = 5
+        const val shippingOption_arrangementWillBeMadeWithTheBuyer = 6
 
         /**SearchCategories**/
         const val search_categoriesDetails = 1

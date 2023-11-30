@@ -149,6 +149,7 @@ class EditProfileActivity : AppCompatActivity() {
                         ConfirmChangeEmailActivity::class.java
                     ).apply {
                         putExtra(ConstantObjects.emailKey, textEmail.text.toString().trim())
+                        putExtra(Constants.otpDataKey, it.data?.toString().split(".0")[0])
                     })
             }
         }

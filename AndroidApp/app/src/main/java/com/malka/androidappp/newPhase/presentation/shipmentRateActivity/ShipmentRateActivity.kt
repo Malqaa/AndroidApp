@@ -234,7 +234,7 @@ class ShipmentRateActivity : BaseActivity(), ProductRateAdapter.SetOnClickListen
             sellerRate = 1
             ivSellerHappyRate.setImageResource(R.drawable.happyface_gray)
             ivSellerNeutralRate.setImageResource(R.drawable.smileface_gray)
-            ivSellerSadeRate.setImageResource(R.drawable.sadface_gray)
+            ivSellerSadeRate.setImageResource(R.drawable.sadcolor_gray)
         }
         /**producct rate */
         ivProductHappyRate.setOnClickListener {
@@ -272,7 +272,7 @@ class ShipmentRateActivity : BaseActivity(), ProductRateAdapter.SetOnClickListen
         /**shipment rate */
 
         ivShipmentHappyRate.setOnClickListener {
-            shipmentRate = 1
+            shipmentRate = 3
             ivShipmentHappyRate.setImageResource(R.drawable.happyface_color)
             ivShipmentNeutralRate.setImageResource(R.drawable.smileface_gray)
             ivShipmentSadeRate.setImageResource(R.drawable.sadface_gray)
@@ -284,10 +284,10 @@ class ShipmentRateActivity : BaseActivity(), ProductRateAdapter.SetOnClickListen
             ivShipmentSadeRate.setImageResource(R.drawable.sadface_gray)
         }
         ivShipmentSadeRate.setOnClickListener {
-            shipmentRate = 3
+            shipmentRate = 1
             ivShipmentHappyRate.setImageResource(R.drawable.happyface_gray)
             ivShipmentNeutralRate.setImageResource(R.drawable.smileface_gray)
-            ivShipmentSadeRate.setImageResource(R.drawable.sadface_gray)
+            ivShipmentSadeRate.setImageResource(R.drawable.sadcolor_gray)
         }
 
 

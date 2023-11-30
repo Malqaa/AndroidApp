@@ -184,10 +184,16 @@ class NegotiationOffersPurchaseActivity : BaseActivity(), SwipeRefreshLayout.OnR
         negotiationOffersAdapter.setIsSend(isSent)
     }
 
-    override fun onCancelOffer(offerID: Int, position: Int) {
-        println("hhhh " + offerID + " " + negotiationOfferDetailsList[position].offerId)
-        lastCancelPosition = position
-        negotiationOffersViewModel.cancelOffer(offerID)
+    override fun onCancelOffer(type:Boolean ,offerID: Int, position: Int) {
+        if(type){
+            println("hhhh " + offerID + " " + negotiationOfferDetailsList[position].offerId)
+            lastCancelPosition = position
+            negotiationOffersViewModel.cancelOfferProvider(offerID)
+        }else{
+            println("hhhh " + offerID + " " + negotiationOfferDetailsList[position].offerId)
+            lastCancelPosition = position
+            negotiationOffersViewModel.cancelOffer(offerID)
+        }
     }
     override fun onPurchaseOffer(offerID: Int, position: Int) {
         println("hhhh " + offerID + " " + negotiationOfferDetailsList[position].offerId)

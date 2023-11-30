@@ -233,6 +233,7 @@ class DynamicSpecificationsAdapter(
         dynamicSpecificationList[position].subSpecifications?.let { itemDropDownArrayList.addAll(it) }
         spinnerVisitAdapter = SpinnerVisitAdapter(context, itemDropDownArrayList)
         spinnerViewHolder.spinner.adapter = spinnerVisitAdapter
+
         spinnerViewHolder.spinner.onItemSelectedListener = object :
             AdapterView.OnItemSelectedListener {
             override fun onItemSelected(

@@ -168,9 +168,9 @@ object CameraHelper {
         }
         val requestFile = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), file)
 
-        return MultipartBody.Part.createFormData("BusinessAccountCertificates", file.name, requestFile)
+        return MultipartBody.Part.createFormData(name, file.name, requestFile)
     }
-
+//
 
 
     fun openGallery(startForResult: ActivityResultLauncher<Intent>) {

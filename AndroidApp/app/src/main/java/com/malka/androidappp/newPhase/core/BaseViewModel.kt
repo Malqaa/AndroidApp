@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
 import com.google.gson.TypeAdapter
 import com.google.gson.reflect.TypeToken
+import com.malka.androidappp.newPhase.data.helper.ConstantObjects.Companion.configration_otpExpiryTime
 import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.ErrorResponse
 import com.malka.androidappp.newPhase.domain.models.configrationResp.ConfigurationResp
@@ -23,11 +24,12 @@ open class BaseViewModel : ViewModel() {
     var isloadingMore: MutableLiveData<Boolean> = MutableLiveData()
     var isNetworkFail: MutableLiveData<Boolean> = MutableLiveData()
     var errorResponseObserver: MutableLiveData<ErrorResponse> = MutableLiveData()
-   /***/
-    var addProductToFavObserver:MutableLiveData<GeneralResponse> = MutableLiveData()
+
+    /***/
+    var addProductToFavObserver: MutableLiveData<GeneralResponse> = MutableLiveData()
     var isNetworkFailProductToFav: MutableLiveData<Boolean> = MutableLiveData()
     var errorResponseObserverProductToFav: MutableLiveData<ErrorResponse> = MutableLiveData()
-    fun getErrorResponse(code:Int,body: ResponseBody?): ErrorResponse {
+    fun getErrorResponse(code: Int, body: ResponseBody?): ErrorResponse {
         try {
             val gson = Gson()
             val type = object : TypeToken<ErrorResponse>() {}.type
@@ -39,26 +41,26 @@ open class BaseViewModel : ViewModel() {
         }
     }
 
-    fun addProductToFav(ProductID:Int){
-        isLoading.value=true
+    fun addProductToFav(ProductID: Int) {
+        isLoading.value = true
         RetrofitBuilder.GetRetrofitBuilder()
             .addProductToFav(ProductID)
             .enqueue(object : Callback<GeneralResponse> {
                 override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
                     isNetworkFailProductToFav.value = t !is HttpException
-                    isLoading.value=false
+                    isLoading.value = false
                 }
 
                 override fun onResponse(
                     call: Call<GeneralResponse>,
                     response: Response<GeneralResponse>
                 ) {
-                    isLoading.value=false
+                    isLoading.value = false
                     if (response.isSuccessful) {
                         addProductToFavObserver.value = response.body()
                     } else {
                         errorResponseObserverProductToFav.value =
-                            getErrorResponse(response.code(),response.errorBody())
+                            getErrorResponse(response.code(), response.errorBody())
                     }
                 }
             })
@@ -66,6 +68,7 @@ open class BaseViewModel : ViewModel() {
 
 
     var configurationRespObserver: MutableLiveData<ConfigurationResp> = MutableLiveData()
+    var configurationRespDidNotReceive: MutableLiveData<ConfigurationResp> = MutableLiveData()
     fun getConfigurationResp(configKey: String) {
         isLoading.value = true
         RetrofitBuilder.GetRetrofitBuilder()
@@ -82,10 +85,13 @@ open class BaseViewModel : ViewModel() {
                 ) {
                     isLoading.value = false
                     if (response.isSuccessful) {
-                        configurationRespObserver.value = response.body()
+                        if (configKey == configration_otpExpiryTime)
+                            configurationRespObserver.value = response.body()
+                        else
+                            configurationRespDidNotReceive.value = response.body()
                     } else {
                         errorResponseObserver.value =
-                            getErrorResponse(response.code(),response.errorBody())
+                            getErrorResponse(response.code(), response.errorBody())
                     }
                 }
             })

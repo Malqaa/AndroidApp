@@ -26,5 +26,5 @@ data class SellerInformation(
     val lat:Double?=null,
     val lon:Double?=null,
     var isFollowed: Boolean,
-    var branches: ArrayList<Branch> = arrayListOf()
+    var branches: ArrayList<Branch>
 ):Parcelable

@@ -22,6 +22,7 @@ import com.malka.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.O
 import com.malka.androidappp.newPhase.presentation.accountFragment.AccountViewModel
 import io.paperdb.Paper
 import kotlinx.android.synthetic.main.activity_confirm_change_number.*
+import kotlinx.android.synthetic.main.activity_forgot_pass_otpcode.txtDontReceive
 import kotlinx.android.synthetic.main.toolbar_main.*
 
 class ConfirmChangeNumberActivity : BaseActivity() {
@@ -33,22 +34,25 @@ class ConfirmChangeNumberActivity : BaseActivity() {
     private var otpData: OtpData? = null
     private lateinit var accountViewModel: AccountViewModel
     var expireMinutes: Int = 1
+    var expireReceiveMinutes = 1
+    var typeClick = 1
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_confirm_change_number)
-        toolbar_title.text =""
+        toolbar_title.text = ""
         countdownTimer = findViewById(R.id.countdownTimer)
         otpData = intent.getParcelableExtra(Constants.otpDataKey)
         setupRegisterViewModel()
         setClickListeners()
-        resendCodeAfterExpire.hide()
+        resend_btn.hide()
         /***thisForTest*/
 //        if (BuildConfig.DEBUG) {
-//            val datacode: String? = otpData?.otpCode
+        val datacode: String? = otpData?.otpCode
 //            // println("hhh $datacode")
-//            pinview.value = datacode?:""
+        pinview.value = datacode ?: ""
 //        }
         accountViewModel.getConfigurationResp(ConstantObjects.configration_otpExpiryTime)
+        accountViewModel.getConfigurationResp(ConstantObjects.Configuration_DidNotReceiveCodeTime)
 
     }
 
@@ -79,15 +83,19 @@ class ConfirmChangeNumberActivity : BaseActivity() {
                 "OTPExpired" -> {
                     showError(getString(R.string.CodeExpired))
                 }
+
                 "OTPWrongTrialsExcced" -> {
                     showError(getString(R.string.OTPWrongTrialsExcced))
                 }
+
                 "WrongTrialsLimitexceeds" -> {
                     showError(getString(R.string.OTPWrongTrialsExcced))
                 }
+
                 "ResetPasswordCodeExpired" -> {
 
                 }
+
                 "InvalidOTP" -> {
                     showError(getString(R.string.InvalidOTP))
                 }
@@ -95,8 +103,10 @@ class ConfirmChangeNumberActivity : BaseActivity() {
                 "CodeNotCorrect" -> {
                     showError(getString(R.string.InvalidOTP))
                 }
+
                 "Success" -> {
                 }
+
                 else -> {
                     if (it.message != null) {
                         HelpFunctions.ShowLongToast(
@@ -116,13 +126,14 @@ class ConfirmChangeNumberActivity : BaseActivity() {
         })
         accountViewModel.validateAndGenerateOTPObserver.observe(this) { validateUserAndGenerateOTP ->
             if (validateUserAndGenerateOTP.otpData != null) {
-                startTimeCounter(expireMinutes)
+                if (typeClick == 1)
+                    startTimeCounter(expireMinutes)
                 button3.isEnabled = true
                 /***thisForTest*/
                 val otppcode = validateUserAndGenerateOTP.otpData!!.otpCode
-                if (BuildConfig.DEBUG) {
-//                    pinview.value = otppcode
-                }
+//                if (BuildConfig.DEBUG) {
+                pinview.value = otppcode
+//                }
             } else {
                 HelpFunctions.ShowLongToast(
                     getString(R.string.serverError),
@@ -136,11 +147,23 @@ class ConfirmChangeNumberActivity : BaseActivity() {
                     expireMinutes = configratinoResp.configurationData.configValue.toInt()
                 } catch (e: Exception) {
                 }
-                startTimeCounter(expireMinutes)
+                if (typeClick == 1)
+                    startTimeCounter(expireMinutes)
             }
         }
-        accountViewModel.updateUserMobielNumberObserver.observe(this){resp->
-            if(resp.status=="Success"){
+
+
+        accountViewModel.configurationRespDidNotReceive.observe(this) { configratinoResp ->
+            if (configratinoResp.configurationData != null) {
+                try {
+                    expireReceiveMinutes = configratinoResp.configurationData.configValue.toInt()
+                } catch (e: Exception) {
+                }
+            }
+        }
+
+        accountViewModel.updateUserMobielNumberObserver.observe(this) { resp ->
+            if (resp.status == "Success") {
                 var userData =
                     Paper.book().read<LoginUser>(SharedPreferencesStaticClass.user_object)
                 userData?.phone = otpData?.phoneNumber
@@ -154,7 +177,7 @@ class ConfirmChangeNumberActivity : BaseActivity() {
                     this
                 )
 
-                var intent= Intent()
+                var intent = Intent()
                 setResult(Activity.RESULT_OK, intent);
                 finish()
 
@@ -168,7 +191,7 @@ class ConfirmChangeNumberActivity : BaseActivity() {
         var expireMilliSeconds = expireSeconds * 1000
         object : CountDownTimer(expireMilliSeconds.toLong(), 1000) {
             override fun onTick(millisUntilFinished: Long) {
-                resendCodeAfterExpire.hide()
+                resend_btn.hide()
                 mTimeLeftInMillis = millisUntilFinished
                 var seconds = (mTimeLeftInMillis / 1000).toInt()
                 val minutes = seconds / 60
@@ -177,15 +200,20 @@ class ConfirmChangeNumberActivity : BaseActivity() {
                     "%02d",
                     seconds
                 )).toString()
-
+                val timeReceive = "${String.format("%02d", expireReceiveMinutes)}:00"
+                if (timeText == timeReceive) {
+                    resend_btn.hide()
+                    txtDontReceive.show()
+                }
                 countdownTimer.text = "${getString(R.string.Seconds2)}: $timeText"
+
 //                val seconds = (mTimeLeftInMillis / 1000).toInt() % 60
 //                countdownTimer.text = getString(R.string.Seconds, seconds)
 
             }
 
             override fun onFinish() {
-                resendCodeAfterExpire.show()
+                resend_btn.show()
                 countdownTimer.text = getString(R.string.CodeExpired)
                 button3.isEnabled = false
             }
@@ -204,14 +232,27 @@ class ConfirmChangeNumberActivity : BaseActivity() {
                     applicationContext
                 )
             } else {
+                typeClick = 1
+                txtDontReceive.hide()
                 val userPhone: String? = otpData?.phoneNumber
                 accountViewModel.resendOtp(
                     userPhone.toString(),
                     "IndividualUpdateMoileNumber",
-                   "3"
+                    "3"
                 )
                 //resendOTPApi()
             }
+        }
+        txtDontReceive.setOnClickListener {
+            resend_btn.hide()
+            countdownTimer.show()
+            typeClick = 2
+            val userPhone: String? = otpData?.phoneNumber
+            accountViewModel.resendOtp(
+                userPhone.toString(),
+                "IndividualUpdateMoileNumber",
+                "3"
+            )
         }
     }
 
@@ -235,7 +276,11 @@ class ConfirmChangeNumberActivity : BaseActivity() {
         } else {
             //apicallSignup2()
             val otpcode: String? = pinview.value
-            accountViewModel.upddateMobileNumber(otpData?.phoneNumber.toString(),ConstantObjects.logged_userid, otpcode.toString())
+            accountViewModel.upddateMobileNumber(
+                otpData?.phoneNumber.toString(),
+                ConstantObjects.logged_userid,
+                otpcode.toString()
+            )
         }
     }
 

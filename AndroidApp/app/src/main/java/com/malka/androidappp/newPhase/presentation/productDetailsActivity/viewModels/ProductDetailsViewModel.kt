@@ -50,6 +50,7 @@ class ProductDetailsViewModel : BaseViewModel() {
     var paymentOptionObserver: MutableLiveData<ShippingOptionResp> = MutableLiveData()
     var bidsPersonsObserver: MutableLiveData<BidPersonsResp> = MutableLiveData()
     var getCartPrice: MutableLiveData<GeneralResponse> = MutableLiveData()
+    var getMasterFromBuyNow: MutableLiveData<GeneralRespone> = MutableLiveData()
     var removeProductObserver: MutableLiveData<GeneralResponse> = MutableLiveData()
 
     fun getProductShippingOptions(productId: Int) {
@@ -116,7 +117,7 @@ class ProductDetailsViewModel : BaseViewModel() {
                     if (response.isSuccessful) {
                         getCartPrice.value = response.body()
                     }else{
-                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
+//                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
                     }
                 }
             })
@@ -139,6 +140,30 @@ class ProductDetailsViewModel : BaseViewModel() {
                     isLoading.value = false
                     if (response.isSuccessful) {
                         productDetailsObservable.value = response.body()
+                    } else {
+                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
+                    }
+                }
+            })
+    }
+
+    fun callBuyNow(productId: Int) {
+        isLoading.value = true
+        RetrofitBuilder.GetRetrofitBuilder()
+            .getBuyNow(productId)
+            .enqueue(object : Callback<GeneralRespone> {
+                override fun onFailure(call: Call<GeneralRespone>, t: Throwable) {
+                    isNetworkFail.value = t !is HttpException
+                    isLoading.value = false
+                }
+
+                override fun onResponse(
+                    call: Call<GeneralRespone>,
+                    response: Response<GeneralRespone>
+                ) {
+                    isLoading.value = false
+                    if (response.isSuccessful) {
+                        getMasterFromBuyNow.value = response.body()
                     } else {
                         errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
                     }
