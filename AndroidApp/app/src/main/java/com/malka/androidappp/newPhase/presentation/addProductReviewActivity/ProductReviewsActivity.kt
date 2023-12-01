@@ -164,7 +164,7 @@ class ProductReviewsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     }
 
 //        private fun getRates() {
-//            val apiBuilder = RetrofitBuilder.GetRetrofitBuilder()
+//            val apiBuilder = getRetrofitBuilder()
 //            val Rates = apiBuilder.getRates(15)
 //            Rates.enqueue(object : Callback<RateResponse1> {
 //                override fun onResponse(

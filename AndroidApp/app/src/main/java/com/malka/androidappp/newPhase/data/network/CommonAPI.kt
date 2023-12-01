@@ -8,7 +8,7 @@ import com.google.gson.Gson
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
-import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malka.androidappp.newPhase.data.network.service.MalqaApiService
 import com.malka.androidappp.newPhase.domain.models.countryResp.Country
 import com.malka.androidappp.newPhase.domain.models.servicemodels.*
@@ -25,7 +25,7 @@ class CommonAPI {
     fun GetUserInfo(context: Context, userid: String, onSuccess: () -> Unit) {
         HelpFunctions.startProgressBar(context as Activity)
 
-        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+        val malqa: MalqaApiService = getRetrofitBuilder()
         val call: Call<UserObject> = malqa.getuser(userid)
         call.enqueue(object : Callback<UserObject> {
             override fun onResponse(call: Call<UserObject>, response: Response<UserObject>) {
@@ -58,7 +58,7 @@ class CommonAPI {
 
         HelpFunctions.startProgressBar(context as Activity)
 
-        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+        val malqa: MalqaApiService = getRetrofitBuilder()
         val call = malqa.getAddress(ConstantObjects.logged_userid)
 
 
@@ -98,9 +98,9 @@ class CommonAPI {
     fun GetUserCreditCards(context: Context, onSuccess: ((data: List<CreditCardModel>) -> Unit)) {
         HelpFunctions.startProgressBar(context as Activity)
 
-        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+        val malqa: MalqaApiService = getRetrofitBuilder()
         val call: Call<CreditCardResponse> =
-            malqa.GetUserCreditCards(ConstantObjects.logged_userid)
+            malqa.getUserCreditCards(ConstantObjects.logged_userid)
         call.enqueue(object : Callback<CreditCardResponse?> {
             override fun onFailure(call: Call<CreditCardResponse?>?, t: Throwable) {
                 HelpFunctions.dismissProgressBar()
@@ -136,7 +136,7 @@ class CommonAPI {
     ) {
         HelpFunctions.startProgressBar(context as Activity)
 
-        val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+        val malqaa: MalqaApiService = getRetrofitBuilder()
         val call: Call<ModelSoldUnsold> = malqaa.getsolditemsbyId(userId)
 
 
@@ -180,7 +180,7 @@ class CommonAPI {
     fun getCountry() {
 
 
-        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+        val malqa: MalqaApiService = getRetrofitBuilder()
         val call = malqa.getCountry()
         call.enqueue(object : Callback<GeneralResponse?> {
             override fun onFailure(call: Call<GeneralResponse?>, t: Throwable) {
@@ -212,7 +212,7 @@ class CommonAPI {
 
     fun getRegion(key: Int,activity: Activity, onResponse: (list: ArrayList<Country>) -> Unit) {
         HelpFunctions.startProgressBar(activity)
-        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+        val malqa: MalqaApiService = getRetrofitBuilder()
         val call = malqa.getRegion(key)
         call.enqueue(object : Callback<GeneralResponse?> {
             override fun onFailure(call: Call<GeneralResponse?>?, t: Throwable) {
@@ -248,7 +248,7 @@ class CommonAPI {
     }
 
     fun getRegion(key: Int,onResponse: (list: ArrayList<Country>) -> Unit) {
-        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+        val malqa: MalqaApiService = getRetrofitBuilder()
         val call = malqa.getRegion(key)
         call.enqueue(object : Callback<GeneralResponse?> {
             override fun onFailure(call: Call<GeneralResponse?>?, t: Throwable) {
@@ -286,7 +286,7 @@ class CommonAPI {
         HelpFunctions.startProgressBar(activity)
 
 
-        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+        val malqa: MalqaApiService = getRetrofitBuilder()
         val call = malqa.getCity(key)
         call.enqueue(object : Callback<GeneralResponse?> {
             override fun onFailure(call: Call<GeneralResponse?>?, t: Throwable) {

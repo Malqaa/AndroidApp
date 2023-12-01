@@ -3,7 +3,7 @@ package com.malka.androidappp.newPhase.presentation.cartActivity
 import androidx.lifecycle.MutableLiveData
 import com.malka.androidappp.newPhase.core.BaseViewModel
 import com.malka.androidappp.newPhase.data.helper.Extension.requestBody
-import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -32,7 +32,7 @@ class InvoiceViewModel : BaseViewModel() {
 
         val map: HashMap<String, RequestBody> = HashMap()
         map["orderId"] = orderId.toString().requestBody()
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .confirmBankTransferPayment(map ,multipartBody)
             .enqueue(object : Callback<GeneralResponse> {
                 override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {

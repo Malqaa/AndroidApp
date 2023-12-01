@@ -8,7 +8,7 @@ import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.domain.models.servicemodels.User
 import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions.Companion.PASSWORD_PATTERN
-import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malka.androidappp.newPhase.data.network.service.MalqaApiService
 import kotlinx.android.synthetic.main.activity_forgotpass_reset.*
 import retrofit2.Call
@@ -67,7 +67,7 @@ class ForgotChangepassActivity : BaseActivity() {
         val getdata = intent.getStringExtra("getidd").toString()
         val getdata2 = intent.getStringExtra("getcodee").toString()
         val postdatachangepass = User(code = getdata2, id=getdata, password=getnewpasscode)
-        val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+        val malqaa: MalqaApiService = getRetrofitBuilder()
         val call: Call<User> = malqaa.changepass(postdatachangepass)
 
         call.enqueue(object : Callback<User> {

@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseDialog
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
-import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.regionsResp.Region
 import com.malka.androidappp.newPhase.domain.models.regionsResp.RegionsResp
 import com.malka.androidappp.newPhase.presentation.dialogsShared.regionDialog.RegionAdapter
@@ -123,7 +123,7 @@ class NeighborhoodDialog(context: Context, var regionId:Int, var getSelectedNeig
 
     fun getNeighborhoods() {
         progressBar.visibility = View.VISIBLE
-        countriesCallback = RetrofitBuilder.GetRetrofitBuilder().getNeighborhoodByRegionNew(regionId)
+        countriesCallback = getRetrofitBuilder().getNeighborhoodByRegionNew(regionId)
         countriesCallback?.enqueue(object : Callback<RegionsResp> {
             override fun onFailure(call: Call<RegionsResp>, t: Throwable) {
                 // println("hhhh "+t.message)

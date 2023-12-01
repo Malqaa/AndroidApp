@@ -305,7 +305,7 @@ class SignupOTPVerificationActivity : BaseActivity() {
         }
     }
 
-    fun SignuuPg2confirmInput(v: View) {
+    fun signUpConfirmInput(v: View) {
         if (!validatePin()) {
             return
         } else {
@@ -339,7 +339,7 @@ class SignupOTPVerificationActivity : BaseActivity() {
 
 //    //////////////////////////////////////Api Post Verify//////////////////////////////////////////////////
 //    fun apicallSignup2() {
-//        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+//        val malqa: MalqaApiService = getRetrofitBuilder()
 //        val otpcode: String? = pinview.value
 //        val call: Call<UserVerifiedResp> =
 //            malqa.verifyOtp(otpData?.phoneNumber.toString(), otpcode.toString())
@@ -385,7 +385,7 @@ class SignupOTPVerificationActivity : BaseActivity() {
 
 //    /**resend OTP*/
 //    fun resendOTPApi() {
-//        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+//        val malqa: MalqaApiService = getRetrofitBuilder()
 //        val userPhone: String? = otpData?.phoneNumber
 //        val call = malqa.resendOtp(userPhone.toString(), Lingver.getInstance().getLanguage())
 //        call.enqueue(object : Callback<ValidateAndGenerateOTPResp> {
@@ -418,7 +418,7 @@ class SignupOTPVerificationActivity : BaseActivity() {
 
 
 //    fun apicallSignup2() {
-//        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+//        val malqa: MalqaApiService = getRetrofitBuilder()
 ////        val userId: String? = intent.getStringExtra("userid")
 //        var userId: Int = 0
 //        otpData?.let {
@@ -468,7 +468,7 @@ class SignupOTPVerificationActivity : BaseActivity() {
 
 
     /*    fun resendCodeApi() {
-    //        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+    //        val malqa: MalqaApiService = getRetrofitBuilder()
     //        val email: String? = intent.getStringExtra("dataemail")
     //        val passcode: String? = intent.getStringExtra("datapassword")
     //        val resendmodel = User(email=email!!, password = passcode!!)

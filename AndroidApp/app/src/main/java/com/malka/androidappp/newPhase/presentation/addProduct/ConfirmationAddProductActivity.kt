@@ -886,7 +886,7 @@ class ConfirmationAddProductActivity : BaseActivity() {
 
 //    private fun createAllAds(data: HashMap<String, String>) {
 //
-//        val malqaa = RetrofitBuilder.GetRetrofitBuilder()
+//        val malqaa = getRetrofitBuilder()
 //
 //        val call: Call<CreateAdvResponseBack> = malqaa.createAllAd(data)
 //        call.enqueue(object : Callback<CreateAdvResponseBack> {

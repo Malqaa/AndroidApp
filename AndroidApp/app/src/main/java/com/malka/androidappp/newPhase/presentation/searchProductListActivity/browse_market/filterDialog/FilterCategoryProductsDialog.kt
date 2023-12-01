@@ -9,7 +9,7 @@ import com.google.gson.Gson
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseDialog
 import com.malka.androidappp.newPhase.data.helper.*
-import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.categoryResp.CategoriesResp
 import com.malka.androidappp.newPhase.domain.models.countryResp.CountriesResp
 import com.malka.androidappp.newPhase.domain.models.countryResp.Country
@@ -282,7 +282,7 @@ class FilterCategoryProductsDialog(
         progressBar.visibility = View.VISIBLE
         tvError.hide()
         subCategoriesCall =
-            RetrofitBuilder.GetRetrofitBuilder()
+            getRetrofitBuilder()
                 .getSubCategoryByMainCategory2(categoryId.toString())
         subCategoriesCall?.enqueue(object : Callback<CategoriesResp> {
             override fun onFailure(call: Call<CategoriesResp>, t: Throwable) {
@@ -562,7 +562,7 @@ class FilterCategoryProductsDialog(
 
 //    fun getSubCategoriesByCategoryID(categoryId: Int) {
 //        progressBar.show()
-//        subCagtegoryCallback = RetrofitBuilder.GetRetrofitBuilder()
+//        subCagtegoryCallback = getRetrofitBuilder()
 //            .getSubCategoryByMainCategory2(categoryId.toString())
 //        subCagtegoryCallback?.enqueue(object : Callback<CategoriesResp> {
 //            override fun onFailure(call: Call<CategoriesResp>, t: Throwable) {
@@ -630,7 +630,7 @@ class FilterCategoryProductsDialog(
     /***region**/
     fun getCountries() {
         progressBar.visibility = View.VISIBLE
-        countriesCallback = RetrofitBuilder.GetRetrofitBuilder().getCountryNew()
+        countriesCallback = getRetrofitBuilder().getCountryNew()
         countriesCallback?.enqueue(object : Callback<CountriesResp> {
             override fun onFailure(call: Call<CountriesResp>, t: Throwable) {
                 // println("hhhh "+t.message)
@@ -668,7 +668,7 @@ class FilterCategoryProductsDialog(
 
     fun getRegions(countryId: Int) {
         progressBar.visibility = View.VISIBLE
-        regionsCallback = RetrofitBuilder.GetRetrofitBuilder().getRegionNew(countryId)
+        regionsCallback = getRetrofitBuilder().getRegionNew(countryId)
         regionsCallback?.enqueue(object : Callback<RegionsResp> {
             override fun onFailure(call: Call<RegionsResp>, t: Throwable) {
             }
@@ -714,7 +714,7 @@ class FilterCategoryProductsDialog(
     fun getNeighborhoods(cityId: Int) {
         progressBar.visibility = View.VISIBLE
         neighborhoodsCallback =
-            RetrofitBuilder.GetRetrofitBuilder().getNeighborhoodByRegionNew(cityId)
+            getRetrofitBuilder().getNeighborhoodByRegionNew(cityId)
         neighborhoodsCallback?.enqueue(object : Callback<RegionsResp> {
             override fun onFailure(call: Call<RegionsResp>, t: Throwable) {
             }
@@ -929,7 +929,7 @@ class FilterCategoryProductsDialog(
     /***get Specification**/
     fun getDynamicSpecification(categoryId: Int) {
         progressBar.visibility = View.VISIBLE
-        dynamicSpecificationCallback = RetrofitBuilder.GetRetrofitBuilder()
+        dynamicSpecificationCallback = getRetrofitBuilder()
             .getDynamicSpecificationForCategory(categoryId.toString())
         dynamicSpecificationCallback?.enqueue(object : Callback<DynamicSpecificationResp> {
             override fun onFailure(call: Call<DynamicSpecificationResp>, t: Throwable) {

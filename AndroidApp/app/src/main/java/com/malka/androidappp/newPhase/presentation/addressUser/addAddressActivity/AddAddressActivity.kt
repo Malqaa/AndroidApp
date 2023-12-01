@@ -657,7 +657,7 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
 //
 //        HelpFunctions.startProgressBar(this)
 //
-//        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+//        val malqa: MalqaApiService = getRetrofitBuilder()
 //
 //        val ftname = firstname_tv.text.toString()
 //        val ltname = lastname_tv.text.toString()

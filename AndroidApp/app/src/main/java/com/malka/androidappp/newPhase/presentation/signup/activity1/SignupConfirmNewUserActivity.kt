@@ -380,7 +380,7 @@ class SignupConfirmNewUserActivity : BaseActivity(), CountryDialog.GetSelectedCo
 
 //    private fun validateUserAndGenerateOTP() {
 //        HelpFunctions.startProgressBar(this)
-//        val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+//        val malqaa: MalqaApiService = getRetrofitBuilder()
 //        val emailId = textEmaill.text.toString().trim()
 //        val mobileNumber =   countryCodePicker.fullNumberWithPlus
 //        val passcode = textPass.text.toString().trim()
@@ -431,7 +431,7 @@ class SignupConfirmNewUserActivity : BaseActivity(), CountryDialog.GetSelectedCo
 
 //    fun apicallcreateuser() {
 //        HelpFunctions.startProgressBar(this)
-//        val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+//        val malqaa: MalqaApiService = getRetrofitBuilder()
 //        val emailId = textEmaill.text.toString().trim()
 //        val mobilenum =   countryCodePicker.fullNumberWithPlus
 //        val passcode = textPass.text.toString().trim()

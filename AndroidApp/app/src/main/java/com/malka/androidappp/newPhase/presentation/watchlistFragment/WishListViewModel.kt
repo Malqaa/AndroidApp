@@ -2,7 +2,7 @@ package com.malka.androidappp.newPhase.presentation.watchlistFragment
 
 import androidx.lifecycle.MutableLiveData
 import com.malka.androidappp.newPhase.core.BaseViewModel
-import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.productResp.Product
 import com.malka.androidappp.newPhase.domain.models.productResp.ProductListResp
 import com.malka.androidappp.newPhase.domain.models.productResp.ProductResp
@@ -17,7 +17,7 @@ class WishListViewModel:BaseViewModel() {
 
     fun getWishListProduct(){
         isLoading.value=true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .getUserWatchlist()
             .enqueue(object : Callback<ProductListResp> {
                 override fun onFailure(call: Call<ProductListResp>, t: Throwable) {

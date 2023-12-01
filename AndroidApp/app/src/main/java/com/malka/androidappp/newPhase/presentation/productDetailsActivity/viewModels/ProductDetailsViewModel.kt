@@ -5,7 +5,7 @@ import com.malka.androidappp.newPhase.core.BaseViewModel
 import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.data.helper.Extension.requestBody
 import com.malka.androidappp.newPhase.data.helper.shared_preferences.SharedPreferencesStaticClass
-import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.addProductToCartResp.AddProductToCartResp
 import com.malka.androidappp.newPhase.domain.models.addRateResp.AddRateResp
 import com.malka.androidappp.newPhase.domain.models.bidPersonsResp.BidPersonsResp
@@ -55,7 +55,7 @@ class ProductDetailsViewModel : BaseViewModel() {
 
     fun getProductShippingOptions(productId: Int) {
         //isLoading.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .getProductShippingOptions(productId)
             .enqueue(object : Callback<ShippingOptionResp> {
                 override fun onFailure(call: Call<ShippingOptionResp>, t: Throwable) {
@@ -80,7 +80,7 @@ class ProductDetailsViewModel : BaseViewModel() {
 
     fun getProductPaymentOptions(productId: Int) {
         //isLoading.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .getProductPaymentOptions(productId)
             .enqueue(object : Callback<ShippingOptionResp> {
                 override fun onFailure(call: Call<ShippingOptionResp>, t: Throwable) {
@@ -104,7 +104,7 @@ class ProductDetailsViewModel : BaseViewModel() {
     }
 
     fun getCartTotalPrice() {
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .getCartTotalPrice(cartMasterId =SharedPreferencesStaticClass.getMasterCartId())
             .enqueue(object : Callback<GeneralResponse> {
                 override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
@@ -125,7 +125,7 @@ class ProductDetailsViewModel : BaseViewModel() {
 
     fun getProductDetailsById(productId: Int) {
         isLoading.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .getProductDetailById2(productId)
             .enqueue(object : Callback<ProductResp> {
                 override fun onFailure(call: Call<ProductResp>, t: Throwable) {
@@ -149,7 +149,7 @@ class ProductDetailsViewModel : BaseViewModel() {
 
     fun callBuyNow(productId: Int) {
         isLoading.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .getBuyNow(productId)
             .enqueue(object : Callback<GeneralRespone> {
                 override fun onFailure(call: Call<GeneralRespone>, t: Throwable) {
@@ -172,7 +172,7 @@ class ProductDetailsViewModel : BaseViewModel() {
     }
 
     fun getBidsPersons(productId: Int) {
-        RetrofitBuilder.GetRetrofitBuilder().getBidsPersons(productId)
+        getRetrofitBuilder().getBidsPersons(productId)
             .enqueue(object : Callback<BidPersonsResp> {
                 override fun onFailure(call: Call<BidPersonsResp>, t: Throwable) {
 
@@ -191,7 +191,7 @@ class ProductDetailsViewModel : BaseViewModel() {
     fun getSellerInfo(productId: Int) {
         println("hhhh tt " + productId)
         sellerInfoLoadingObservable.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .getSellerInformation(productId)
             .enqueue(object : Callback<SellerInfoResp> {
                 override fun onFailure(call: Call<SellerInfoResp>, t: Throwable) {
@@ -216,7 +216,7 @@ class ProductDetailsViewModel : BaseViewModel() {
         data["ProductId"] = productId
         data["lang"] = ConstantObjects.currentLanguage
         isLoading.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .addQuestion(
                 question.requestBody(),
                 productId.toString().requestBody(),
@@ -245,7 +245,7 @@ class ProductDetailsViewModel : BaseViewModel() {
     }
 
     fun getSimilarProduct(productId: Int, page: Int) {
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .getSimilarProductForOtherProduct(page, productId)
 
             .enqueue(object : Callback<ProductListResp> {
@@ -265,7 +265,7 @@ class ProductDetailsViewModel : BaseViewModel() {
     }
 
     fun addLastViewedProduct(productId: Int) {
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .addLastViewProduct(productId)
             .enqueue(object : Callback<GeneralRespone> {
                 override fun onFailure(call: Call<GeneralRespone>, t: Throwable) {
@@ -283,7 +283,7 @@ class ProductDetailsViewModel : BaseViewModel() {
     }
 
     fun getListOfQuestions(productId: Int) {
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .getQuestionList(productId)
 
             .enqueue(object : Callback<QuestionsResp> {
@@ -304,7 +304,7 @@ class ProductDetailsViewModel : BaseViewModel() {
 
     fun getListOfQuestionsForActivity(productId: Int) {
         isLoading.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .getQuestionList(productId)
 
             .enqueue(object : Callback<QuestionsResp> {
@@ -329,7 +329,7 @@ class ProductDetailsViewModel : BaseViewModel() {
 
     fun getProductRatesForActivity(productID: Int) {
         isLoading.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .getRates(productID)
             .enqueue(object : Callback<RateProductResponse> {
                 override fun onFailure(call: Call<RateProductResponse>, t: Throwable) {
@@ -352,7 +352,7 @@ class ProductDetailsViewModel : BaseViewModel() {
     }
 
     fun getProductRatesForProductDetails(productID: Int) {
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .getRates(productID)
             .enqueue(object : Callback<RateProductResponse> {
                 override fun onFailure(call: Call<RateProductResponse>, t: Throwable) {
@@ -379,7 +379,7 @@ class ProductDetailsViewModel : BaseViewModel() {
         data["rate"] = rate
         data["comment"] = comment
 
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .addRateBuyer(data)
             .enqueue(object : Callback<GeneralRespone> {
                 override fun onFailure(call: Call<GeneralRespone>, t: Throwable) {
@@ -402,7 +402,7 @@ class ProductDetailsViewModel : BaseViewModel() {
     }
     fun getRateBuyer(orderId:Int) {
         isLoading.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .getRateBuyer(orderId)
             .enqueue(object : Callback<BuyerRateResp> {
                 override fun onFailure(call: Call<BuyerRateResp>, t: Throwable) {
@@ -430,8 +430,8 @@ class ProductDetailsViewModel : BaseViewModel() {
         map["productId"] = productID.toString().requestBody()
         map["comment"] = comment.toString().requestBody()
         map["rate"] = rate.toString().requestBody()
-        RetrofitBuilder.GetRetrofitBuilder()
-            .AddRateProduct(map)
+        getRetrofitBuilder()
+            .addRateProduct(map)
             .enqueue(object : Callback<AddRateResp> {
                 override fun onFailure(call: Call<AddRateResp>, t: Throwable) {
                     isNetworkFail.value = t !is HttpException
@@ -459,7 +459,7 @@ class ProductDetailsViewModel : BaseViewModel() {
         map["comment"] = comment.toString().requestBody()
         map["rate"] = rate.toString().requestBody()
 
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .editRateProduct(map)
             .enqueue(object : Callback<AddRateResp> {
                 override fun onFailure(call: Call<AddRateResp>, t: Throwable) {
@@ -483,7 +483,7 @@ class ProductDetailsViewModel : BaseViewModel() {
 
     fun getCurrentUserRate(productId: Int) {
         isLoading.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .getCurrenUserRateForProdust(productId)
             .enqueue(object : Callback<CurrentUserRateResp> {
                 override fun onFailure(call: Call<CurrentUserRateResp>, t: Throwable) {
@@ -507,7 +507,7 @@ class ProductDetailsViewModel : BaseViewModel() {
 
     fun getSellerRates(providerId: String, businessAccountId: String?) {
         isLoading.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .getSellerRates(providerId, businessAccountId)
             .enqueue(object : Callback<SellerRateListResp> {
                 override fun onFailure(call: Call<SellerRateListResp>, t: Throwable) {
@@ -531,7 +531,7 @@ class ProductDetailsViewModel : BaseViewModel() {
 
     fun addDiscount(productId: Int, discountPrice: Float, finaldate: String) {
         isLoading.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .addDiscount(productId, discountPrice, finaldate)
             .enqueue(object : Callback<GeneralResponse> {
                 override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
@@ -560,7 +560,7 @@ class ProductDetailsViewModel : BaseViewModel() {
             isLoading.value = true
         else
             isloadingMore .value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .getSellerRates2AsAsseller(providerId, businessAccountId, page,sendRate)
             .enqueue(object : Callback<SellerRateListResp> {
                 override fun onFailure(call: Call<SellerRateListResp>, t: Throwable) {
@@ -588,7 +588,7 @@ class ProductDetailsViewModel : BaseViewModel() {
             isLoading.value = true
         else
             isloadingMore .value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .getSellerRates2AsAsABuyer(providerId, businessAccountId, page,sendRate)
             .enqueue(object : Callback<SellerRateListResp> {
                 override fun onFailure(call: Call<SellerRateListResp>, t: Throwable) {
@@ -623,7 +623,7 @@ class ProductDetailsViewModel : BaseViewModel() {
         data["businessAccountId"] = businessAccountId
         data["rate"] = rating
         data["comment"] = comment
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .addRateSeller2(data)
             .enqueue(object : Callback<AddRateResp> {
                 override fun onFailure(call: Call<AddRateResp>, t: Throwable) {
@@ -652,7 +652,7 @@ class ProductDetailsViewModel : BaseViewModel() {
         map["CartMasterId"] = masterCartId.requestBody()
         map["quantity"] = "1".requestBody()
         println("hhhh tt " + masterCartId + " " + productId)
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .addProductToCartProducts(map)
             .enqueue(object : Callback<AddProductToCartResp> {
                 override fun onFailure(call: Call<AddProductToCartResp>, t: Throwable) {
@@ -680,7 +680,7 @@ class ProductDetailsViewModel : BaseViewModel() {
 
     fun getSellerListProduct(sellerProviderID: String, businessAccountId: String) {
         sellerLoading.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .getListSellerProducts(1, sellerProviderID, businessAccountId)
             .enqueue(object : Callback<ProductListResp> {
                 override fun onFailure(call: Call<ProductListResp>, t: Throwable) {
@@ -706,7 +706,7 @@ class ProductDetailsViewModel : BaseViewModel() {
     var removeSellerToFavObserver: MutableLiveData<GeneralResponse> = MutableLiveData()
     fun addSellerToFav(sellerProviderID:String?,businessAccountId:String?){
         sellerLoading.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .addFavoriteSeller(sellerProviderID, businessAccountId)
             .enqueue(object : Callback<GeneralResponse> {
                 override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
@@ -729,7 +729,7 @@ class ProductDetailsViewModel : BaseViewModel() {
     }
     fun removeSellerToFav(sellerProviderID:String?,businessAccountId:String?){
         sellerLoading.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .removeFavoriteSeller(sellerProviderID, businessAccountId)
             .enqueue(object : Callback<GeneralResponse> {
                 override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
@@ -753,7 +753,7 @@ class ProductDetailsViewModel : BaseViewModel() {
 
     fun removeProduct(productId: Int){
         sellerLoading.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .removeProduct(productId)
             .enqueue(object : Callback<GeneralResponse> {
                 override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {

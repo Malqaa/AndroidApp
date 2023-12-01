@@ -2,7 +2,7 @@ package com.malka.androidappp.newPhase.presentation.productsSellerInfoActivity.v
 
 import androidx.lifecycle.MutableLiveData
 import com.malka.androidappp.newPhase.core.BaseViewModel
-import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.productResp.ProductListResp
 import com.malka.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
 import retrofit2.Call
@@ -21,7 +21,7 @@ class SellerViewModel : BaseViewModel() {
         else
             isloadingMore.value = true
 
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .getListSellerProducts(page,sellerProviderID,businessAccountId)
             .enqueue(object : Callback<ProductListResp> {
                 override fun onFailure(call: Call<ProductListResp>, t: Throwable) {
@@ -47,7 +47,7 @@ class SellerViewModel : BaseViewModel() {
 
     fun addSellerToFav(sellerProviderID:String?,businessAccountId:String?){
         sellerLoading.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .addFavoriteSeller(sellerProviderID, businessAccountId)
             .enqueue(object : Callback<GeneralResponse> {
                 override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
@@ -70,7 +70,7 @@ class SellerViewModel : BaseViewModel() {
     }
     fun removeSellerToFav(sellerProviderID:String?,businessAccountId:String?){
         sellerLoading.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .removeFavoriteSeller(sellerProviderID, businessAccountId)
             .enqueue(object : Callback<GeneralResponse> {
                 override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {

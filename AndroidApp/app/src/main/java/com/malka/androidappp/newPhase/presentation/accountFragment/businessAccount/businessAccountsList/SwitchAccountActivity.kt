@@ -210,7 +210,7 @@ class SwitchAccountActivity : BaseActivity(), BusinessAccountsAdapter.SetOnBusin
 //
 //        HelpFunctions.startProgressBar(this)
 //
-//        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+//        val malqa: MalqaApiService = getRetrofitBuilder()
 //        val call = malqa.getBusinessUserList(ConstantObjects.logged_userid)
 //
 //

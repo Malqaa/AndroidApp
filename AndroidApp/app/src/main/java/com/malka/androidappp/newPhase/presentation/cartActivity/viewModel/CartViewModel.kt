@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.malka.androidappp.newPhase.core.BaseViewModel
 import com.malka.androidappp.newPhase.data.helper.Extension.requestBody
-import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.addOrderResp.AddOrderResp
 import com.malka.androidappp.newPhase.domain.models.addOrderResp.ProductOrderPaymentDetailsDto
 import com.malka.androidappp.newPhase.domain.models.cartListResp.CartListResp
@@ -40,7 +40,7 @@ class CartViewModel : BaseViewModel() {
     var deleteShipment: MutableLiveData<GeneralResponse> = MutableLiveData()
     fun getUserAddress() {
         isLoadingAddresses.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .getListAddressesForUser()
             .enqueue(object : Callback<UserAddressesResp> {
                 override fun onFailure(call: Call<UserAddressesResp>, t: Throwable) {
@@ -64,7 +64,7 @@ class CartViewModel : BaseViewModel() {
 
     fun getCartList(cartMasterId: String) {
         isLoading.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .getListCartProductsForClient(cartMasterId)
             .enqueue(object : Callback<CartListResp> {
                 override fun onFailure(call: Call<CartListResp>, t: Throwable) {
@@ -91,7 +91,7 @@ class CartViewModel : BaseViewModel() {
 
     fun applyCouponOnCart(cartMasterId: String, couponCode: String) {
         isLoading.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .applyCouponOnCart(cartMasterId, couponCode, "FixedPrice")
             .enqueue(object : Callback<GeneralResponse> {
                 override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
@@ -127,7 +127,7 @@ class CartViewModel : BaseViewModel() {
         } else {
             xCouponAccountId = couponForbusinessAccountId
         }
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .applyCouponOnCart(cartMasterId, couponCode, providerId, "1", xCouponAccountId)
             .enqueue(object : Callback<GeneralResponse> {
                 override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
@@ -164,7 +164,7 @@ class CartViewModel : BaseViewModel() {
         } else {
             xCouponAccountId = couponForbusinessAccountId
         }
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .unApplyCouponOnCart(cartMasterId, couponCode, providerId, "1", xCouponAccountId)
             .enqueue(object : Callback<GeneralResponse> {
                 override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
@@ -191,7 +191,7 @@ class CartViewModel : BaseViewModel() {
 
     fun assignCardToUser(masterCartId: String) {
         isLoadingAssignCartToUser.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .assignCartMastetToUser(masterCartId)
             .enqueue(object : Callback<GeneralResponse> {
                 override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
@@ -219,7 +219,7 @@ class CartViewModel : BaseViewModel() {
 
     fun increaseCartProductQuantity(productCartId: String) {
         isLoading.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .increaseCartProductQuantity(productCartId, "1")
             .enqueue(object : Callback<GeneralResponse> {
                 override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
@@ -244,7 +244,7 @@ class CartViewModel : BaseViewModel() {
 
     fun decreaseCartProductQuantity(productCartId: String) {
         isLoading.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .decreaseCartProductQuantity(productCartId, "1")
             .enqueue(object : Callback<GeneralResponse> {
                 override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
@@ -269,7 +269,7 @@ class CartViewModel : BaseViewModel() {
 
     fun removeProductFromCartProducts(productCartId: String) {
         isLoading.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .removeProductFromCartProducts(productCartId)
             .enqueue(object : Callback<GeneralResponse> {
                 override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
@@ -315,7 +315,7 @@ class CartViewModel : BaseViewModel() {
 
 
         isLoading.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .addOrder(map, paymentList)
             .enqueue(object : Callback<AddOrderResp> {
                 override fun onFailure(call: Call<AddOrderResp>, t: Throwable) {
@@ -358,7 +358,7 @@ class CartViewModel : BaseViewModel() {
         data["productOrderPaymentDetailsDto"] = productOrderPaymentList
 
         isLoading.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .addPaymentTransaction(data
             )
             .enqueue(object : Callback<GeneralResponse> {
@@ -383,7 +383,7 @@ class CartViewModel : BaseViewModel() {
     }
     fun deleteShipping(businessAccountId: String?,cartMasterId:String,providerId:String) {
         isLoading.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
 
             .removeShipmentProductsFromCart(businessAccountId,cartMasterId,providerId)
             .enqueue(object : Callback<GeneralResponse> {

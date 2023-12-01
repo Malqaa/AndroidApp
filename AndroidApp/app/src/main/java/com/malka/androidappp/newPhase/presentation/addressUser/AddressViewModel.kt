@@ -5,7 +5,7 @@ import com.google.gson.Gson
 import com.malka.androidappp.newPhase.core.BaseViewModel
 import com.malka.androidappp.newPhase.data.helper.Extension.requestBody
 import com.malka.androidappp.newPhase.data.helper.shared_preferences.SharedPreferencesStaticClass.Companion.saveAddressTitle
-import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
 import com.malka.androidappp.newPhase.domain.models.userAddressesResp.UserAddressesResp
 import okhttp3.RequestBody
@@ -21,7 +21,7 @@ class AddressViewModel : BaseViewModel() {
    var isLoadingDeleteAddress:MutableLiveData<Boolean> = MutableLiveData()
     fun getUserAddress() {
         isLoading.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .getListAddressesForUser()
             .enqueue(object : Callback<UserAddressesResp> {
                 override fun onFailure(call: Call<UserAddressesResp>, t: Throwable) {
@@ -45,7 +45,7 @@ class AddressViewModel : BaseViewModel() {
 
     fun deleteUSerAddress(addressId:Int) {
         isLoadingDeleteAddress.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .deleteUserAddress(addressId)
             .enqueue(object : Callback<GeneralResponse> {
                 override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
@@ -93,7 +93,7 @@ class AddressViewModel : BaseViewModel() {
         map["defaultAddress"] = "false".requestBody()
         println("hhhh " + map)
         println("hhhh "+ title+" "+location+" s "+street+" a "+appartment+" f "+floor+" b"+building+" "+lat+" "+lng+" "+phone)
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .addAddressForUser(map)
             .enqueue(object : Callback<GeneralResponse> {
                 override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
@@ -146,7 +146,7 @@ class AddressViewModel : BaseViewModel() {
         map["defaultAddress"] = "false".requestBody()
 //        println("hhhh " + map)
         println("hhhh ud $id"+ title+" "+location+" s "+street+" a "+appartment+" f "+floor+" b"+building+" "+lat+" "+lng+" "+phone)
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .editAddressForUser(map)
             .enqueue(object : Callback<GeneralResponse> {
                 override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {

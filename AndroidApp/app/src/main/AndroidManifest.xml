@@ -138,7 +138,7 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities_main.place_picker.LocationPickerActivity"
+            android:name=".newPhase.utils.activitiesMain.placePicker.LocationPickerActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
@@ -146,11 +146,11 @@
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities_main.FullImageActivity"
+            android:name=".newPhase.utils.activitiesMain.FullImageActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities_main.PlayActivity"
+            android:name=".newPhase.utils.activitiesMain.PlayActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
@@ -202,7 +202,7 @@
             android:name=".newPhase.presentation.signup.activity2.SignupOTPVerificationActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".newPhase.presentation.forgotPasswordActivity.activtiy1.ForgotPasswordActivty"
+            android:name=".newPhase.presentation.forgotPasswordActivity.activtiy1.ForgotPasswordActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".newPhase.presentation.addProduct.activity1.ProductsTagsForAddProductActivity"

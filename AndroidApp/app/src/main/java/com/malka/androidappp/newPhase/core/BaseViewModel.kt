@@ -7,7 +7,7 @@ import com.google.gson.Gson
 import com.google.gson.TypeAdapter
 import com.google.gson.reflect.TypeToken
 import com.malka.androidappp.newPhase.data.helper.ConstantObjects.Companion.configration_otpExpiryTime
-import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.ErrorResponse
 import com.malka.androidappp.newPhase.domain.models.configrationResp.ConfigurationResp
 import com.malka.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
@@ -22,6 +22,7 @@ open class BaseViewModel : ViewModel() {
     val STATUS_INVALID_TOKEN = 403
     var isLoading: MutableLiveData<Boolean> = MutableLiveData()
     var isloadingMore: MutableLiveData<Boolean> = MutableLiveData()
+    var needToLogin: MutableLiveData<Boolean> = MutableLiveData(false)
     var isNetworkFail: MutableLiveData<Boolean> = MutableLiveData()
     var errorResponseObserver: MutableLiveData<ErrorResponse> = MutableLiveData()
 
@@ -43,7 +44,7 @@ open class BaseViewModel : ViewModel() {
 
     fun addProductToFav(ProductID: Int) {
         isLoading.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .addProductToFav(ProductID)
             .enqueue(object : Callback<GeneralResponse> {
                 override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
@@ -71,7 +72,7 @@ open class BaseViewModel : ViewModel() {
     var configurationRespDidNotReceive: MutableLiveData<ConfigurationResp> = MutableLiveData()
     fun getConfigurationResp(configKey: String) {
         isLoading.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .getConfigurationData(configKey)
             .enqueue(object : Callback<ConfigurationResp> {
                 override fun onFailure(call: Call<ConfigurationResp>, t: Throwable) {

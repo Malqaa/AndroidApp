@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.malka.androidappp.R
-import com.malka.androidappp.fragments.create_ads.categoriesmodel_jsons.Categories
-import com.malka.androidappp.fragments.create_ads.categoriesmodel_jsons.CategoriesItem
+import com.malka.androidappp.newPhase.domain.models.categoryResp.Categories
+import com.malka.androidappp.newPhase.domain.models.categoryResp.CategoriesItem
 import com.malka.androidappp.fragments.create_ads.categoriesmodel_jsons.JsonFileNames
 import java.io.InputStream
 

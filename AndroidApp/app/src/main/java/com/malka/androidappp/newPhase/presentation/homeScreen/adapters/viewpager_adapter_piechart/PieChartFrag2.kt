@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
-import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malka.androidappp.newPhase.data.network.service.MalqaApiService
 import com.malka.androidappp.newPhase.domain.models.servicemodels.total_online_users.ModelGetTotalOnlineUsers
 import kotlinx.android.synthetic.main.fragment_pie_chart_frag2.*
@@ -36,8 +36,8 @@ class PieChartFrag2 : Fragment() {
 
 
     fun getTotalOnlineUsersApi(){
-    val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-    val call:Call<ModelGetTotalOnlineUsers> = malqaa.GetTotalOnlineUers()
+    val malqaa: MalqaApiService = getRetrofitBuilder()
+    val call:Call<ModelGetTotalOnlineUsers> = malqaa.getTotalOnlineUsers()
 
     call.enqueue(object : Callback<ModelGetTotalOnlineUsers>{
         override fun onResponse(call: Call<ModelGetTotalOnlineUsers>, response: Response<ModelGetTotalOnlineUsers>) {

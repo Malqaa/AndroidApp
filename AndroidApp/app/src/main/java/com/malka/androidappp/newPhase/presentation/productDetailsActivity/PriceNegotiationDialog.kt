@@ -6,7 +6,7 @@ import android.view.View
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseDialog
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
-import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
 import kotlinx.android.synthetic.main.dialog_price_negotiation.*
 import retrofit2.Call
@@ -60,7 +60,7 @@ class PriceNegotiationDialog(context: Context, var productId: Int,var listener:S
 //        data["quantity"] = quentity
 //        data["price"] = price
 
-        countriesCallback = RetrofitBuilder.GetRetrofitBuilder().addProductClientOffer(productId,quentity,price)
+        countriesCallback = getRetrofitBuilder().addProductClientOffer(productId,quentity,price)
         countriesCallback?.enqueue(object : Callback<GeneralResponse> {
             override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
                 progressBar.visibility = View.GONE

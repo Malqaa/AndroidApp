@@ -10,7 +10,7 @@ import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.data.helper.hide
 import com.malka.androidappp.newPhase.data.helper.show
-import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.addBidResp.AddBidResp
 
 import com.malka.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
@@ -144,7 +144,7 @@ class AuctionDialog(
         data["increaseEachTimePrice"] = increaseEachTimePrice
         data["highestBidPrice"] = highestBidPrice
         println("hhhh "+Gson().toJson(data))
-        countriesCallback = RetrofitBuilder.GetRetrofitBuilder().addBid(data)
+        countriesCallback = getRetrofitBuilder().addBid(data)
         countriesCallback?.enqueue(object : Callback<AddBidResp> {
             override fun onFailure(call: Call<AddBidResp>, t: Throwable) {
                 progressBar.visibility = View.GONE

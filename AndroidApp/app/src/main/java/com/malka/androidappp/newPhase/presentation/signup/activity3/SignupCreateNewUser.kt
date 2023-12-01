@@ -15,7 +15,7 @@ import com.malka.androidappp.newPhase.data.helper.*
 import com.malka.androidappp.newPhase.data.helper.Extension.getDeviceId
 import com.malka.androidappp.newPhase.data.helper.widgets.DatePickerFragment
 import com.malka.androidappp.newPhase.data.network.constants.Constants
-import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.countryResp.CountriesResp
 import com.malka.androidappp.newPhase.domain.models.countryResp.Country
 import com.malka.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.OtpData
@@ -315,7 +315,7 @@ class SignupCreateNewUser : BaseActivity(), PickImageMethodsDialog.OnAttachedIma
 
     fun getCountries() {
 //        progressBar.visibility = View.VISIBLE
-       val countriesCallback = RetrofitBuilder.GetRetrofitBuilder().getCountryNew()
+       val countriesCallback = getRetrofitBuilder().getCountryNew()
         countriesCallback.enqueue(object : Callback<CountriesResp> {
             override fun onFailure(call: Call<CountriesResp>, t: Throwable) {
                 // println("hhhh "+t.message)
@@ -517,7 +517,7 @@ class SignupCreateNewUser : BaseActivity(), PickImageMethodsDialog.OnAttachedIma
     }
 //    fun apicallcreateuser() {
 //        HelpFunctions.startProgressBar(this)
-//        val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+//        val malqaa: MalqaApiService = getRetrofitBuilder()
 //        var invitationCode="";
 //        otpData?.let {
 //            invitationCode=it.invitationCode;
@@ -596,7 +596,7 @@ class SignupCreateNewUser : BaseActivity(), PickImageMethodsDialog.OnAttachedIma
 
 
 //    fun updateapicall() {
-//        val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+//        val malqaa: MalqaApiService = getRetrofitBuilder()
 //        val userId = intent.getStringExtra("useridupdate")
 //        val firstName = firstName.text.toString().trim()
 //        val lastName = editTextlastname.text.toString().trim()

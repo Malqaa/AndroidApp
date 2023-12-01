@@ -438,7 +438,7 @@ class SellerInformationActivity : BaseActivity(), SetOnProductItemListeners,
     }
     //    private fun getSellerByID(id: String, loggedUserID: String) {
 //
-//        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+//        val malqa: MalqaApiService = getRetrofitBuilder()
 //        val call: Call<SellerResponseBack> = malqa.getAdSeller(id, loggedUserID)
 //
 //        call.enqueue(object : Callback<SellerResponseBack> {

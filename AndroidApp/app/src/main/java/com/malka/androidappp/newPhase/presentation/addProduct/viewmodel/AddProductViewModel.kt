@@ -8,7 +8,7 @@ import com.google.gson.Gson
 import com.malka.androidappp.newPhase.core.BaseViewModel
 import com.malka.androidappp.newPhase.data.helper.Extension.requestBody
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
-import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.ErrorResponse
 import com.malka.androidappp.newPhase.domain.models.accountBackListResp.AccountBankListResp
 import com.malka.androidappp.newPhase.domain.models.cartPriceSummery.CartPriceSummeryResp
@@ -60,7 +60,7 @@ class AddProductViewModel : BaseViewModel() {
 
     fun getCouponByCode(couponCode: String) {
         isLoading.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .getCouponByCode(couponCode)
             .enqueue(object : Callback<DiscountCouponResp> {
                 override fun onFailure(call: Call<DiscountCouponResp>, t: Throwable) {
@@ -91,7 +91,7 @@ class AddProductViewModel : BaseViewModel() {
         subTitleFee: Float
     ) {
         isLoading.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .checkOutAdditionalPakat(
                 pakatId,
                 categoryId,
@@ -122,7 +122,7 @@ class AddProductViewModel : BaseViewModel() {
 
     fun getListCategoriesByProductName(productName: String) {
         isLoading.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .getListCategoriesByProductName(productName)
             .enqueue(object : Callback<CategoryTagsResp> {
                 override fun onFailure(call: Call<CategoryTagsResp>, t: Throwable) {
@@ -147,7 +147,7 @@ class AddProductViewModel : BaseViewModel() {
 
     fun getSubCategoriesByCategoryID(categoryId: Int) {
         isLoading.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .getSubCategoryByMainCategory2(categoryId.toString())
             .enqueue(object : Callback<CategoriesResp> {
                 override fun onFailure(call: Call<CategoriesResp>, t: Throwable) {
@@ -173,7 +173,7 @@ class AddProductViewModel : BaseViewModel() {
     fun getDynamicSpecification(categoryId: Int) {
         isLoading.value = true
         println("hhhh $categoryId")
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .getDynamicSpecificationForCategory(categoryId.toString())
             .enqueue(object : Callback<DynamicSpecificationResp> {
                 override fun onFailure(call: Call<DynamicSpecificationResp>, t: Throwable) {
@@ -198,7 +198,7 @@ class AddProductViewModel : BaseViewModel() {
 
     fun getPakatList(categoryId: Int) {
         isLoading.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .getAllPakatList(categoryId.toString())
             .enqueue(object : Callback<PakatResp> {
                 override fun onFailure(call: Call<PakatResp>, t: Throwable) {
@@ -223,7 +223,7 @@ class AddProductViewModel : BaseViewModel() {
 
     fun getAllCategories() {
         isLoadingAllCategory.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .getAllCategories()
             .enqueue(object : Callback<GeneralResponse> {
                 override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
@@ -257,7 +257,7 @@ class AddProductViewModel : BaseViewModel() {
         SaveForLaterUse: String
     ) {
         isLoading.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .addBankAccount(
                 accountNumber.requestBody(),
                 bankName.requestBody(),
@@ -290,7 +290,7 @@ class AddProductViewModel : BaseViewModel() {
 
     fun getBankAccountsList() {
         isLoadingBackAccountList.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .getAllBacksAccount()
             .enqueue(object : Callback<AccountBankListResp> {
                 override fun onFailure(call: Call<AccountBankListResp>, t: Throwable) {
@@ -356,7 +356,7 @@ class AddProductViewModel : BaseViewModel() {
 //        }
 //        println("hhh " + nameAr.requestBody())
 ////        println("hhh images "+listOfImages.size)
-//        RetrofitBuilder.GetRetrofitBuilder()
+//        getRetrofitBuilder()
 //            .addProduct(
 //                nameAr.requestBody(),
 //                nameEn.requestBody(),
@@ -646,7 +646,7 @@ class AddProductViewModel : BaseViewModel() {
 
 
 
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .addProduct3(
                 map,
                 imageListTOSend,
@@ -781,7 +781,7 @@ class AddProductViewModel : BaseViewModel() {
 ////            "hhhh catId [${categoryId}] countryId [${countryId}] region [${regionId}]  neighborhoodId [${neighborhoodId} pakaId [${pakatId}  productSep $" +
 ////                    "$productSep"
 ////        )
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .addProduct2(map)
             .enqueue(object : Callback<AddProductResponse> {
                 override fun onFailure(call: Call<AddProductResponse>, t: Throwable) {

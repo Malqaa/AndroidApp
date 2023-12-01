@@ -10,7 +10,7 @@ class App: Application() {
     override fun onCreate() {
         super.onCreate()
         Paper.init(this);
-        Fresco.initialize(getApplicationContext());
+        Fresco.initialize(applicationContext);
         Lingver.init(this, "en")
     }
 }

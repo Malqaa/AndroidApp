@@ -11,7 +11,7 @@ import com.malka.androidappp.newPhase.data.helper.Extension.requestBody
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.data.helper.hide
 import com.malka.androidappp.newPhase.data.helper.show
-import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 
 import com.malka.androidappp.newPhase.domain.models.questionResp.AddQuestionResp
 import com.malka.androidappp.newPhase.domain.models.questionResp.QuestionItem
@@ -64,7 +64,7 @@ class AnswerQuestionDialog(context: Context, var questionItem: QuestionItem,var 
     fun addReplay() {
         progressBar.show()
         contianerAskQuestion.isEnabled=false
-        answerQuestinoCallback = RetrofitBuilder.GetRetrofitBuilder().replayQuestion(
+        answerQuestinoCallback = getRetrofitBuilder().replayQuestion(
             etWriteQuestion.text.trim().toString().requestBody(),
             questionItem.id.toString().requestBody())
         answerQuestinoCallback?.enqueue(object : Callback<AddQuestionResp> {

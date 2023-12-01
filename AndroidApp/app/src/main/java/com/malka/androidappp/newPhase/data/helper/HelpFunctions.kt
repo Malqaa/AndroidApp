@@ -34,7 +34,7 @@ import com.malka.androidappp.fragments.shoppingcart3_shippingaddress.shipping_ad
 import com.malka.androidappp.newPhase.data.helper.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.newPhase.data.network.CommonAPI
 import com.malka.androidappp.newPhase.data.network.constants.Constants
-import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malka.androidappp.newPhase.data.network.service.MalqaApiService
 import com.malka.androidappp.newPhase.domain.models.loginResp.LoginUser
 import com.malka.androidappp.newPhase.domain.models.servicemodels.*
@@ -444,7 +444,7 @@ class HelpFunctions {
         fun GetUserFavourites(context: Fragment) {
             try {
                 val malqa: MalqaApiService =
-                    RetrofitBuilder.GetRetrofitBuilder()
+                    getRetrofitBuilder()
                 val call: Call<FavouriteObject> =
                     malqa.getuserfavourites(ConstantObjects.logged_userid)
                 call.enqueue(object : Callback<FavouriteObject> {
@@ -494,8 +494,8 @@ class HelpFunctions {
                     AdsId,
                     reminderType
                 )
-                val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-                val call: Call<AddFavResponse> = malqa.InsertAdtoUserWatchlist(15)
+                val malqa: MalqaApiService = getRetrofitBuilder()
+                val call: Call<AddFavResponse> = malqa.insertAddToUserWatchlist(15)
                 call.enqueue(object : Callback<AddFavResponse> {
                     override fun onResponse(
                         call: Call<AddFavResponse>,
@@ -556,9 +556,9 @@ class HelpFunctions {
             startProgressBar(context as Activity)
 
             try {
-                val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+                val malqa: MalqaApiService = getRetrofitBuilder()
                 val call: Call<BasicResponse> =
-                    malqa.DeleteAdFromUserWatchlist(ConstantObjects.logged_userid, AdsId)
+                    malqa.deleteAdFromUserWatchlist(ConstantObjects.logged_userid, AdsId)
                 call.enqueue(object : Callback<BasicResponse> {
                     override fun onResponse(
                         call: Call<BasicResponse>,
@@ -615,7 +615,7 @@ class HelpFunctions {
 
 //        fun GetUserWatchlist() {
 //            val malqa: MalqaApiService =
-//                RetrofitBuilder.GetRetrofitBuilder()
+//                getRetrofitBuilder()
 //            val call: Call<BasicResponse> =
 //                malqa.getUserWatchlist()
 //            call.enqueue(object : Callback<BasicResponse> {
@@ -680,9 +680,9 @@ class HelpFunctions {
                     apiurl = Constants.REMOVE_FAVOURTIE_SEARCH_URL;
                 }
 
-                val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+                val malqa: MalqaApiService = getRetrofitBuilder()
                 val call: Call<BasicResponseInt> =
-                    malqa.DeleteFromUserFavouritelist(
+                    malqa.deleteFromUserFavoriteList(
                         sellerid,
                         category,
                         query,
@@ -800,8 +800,8 @@ class HelpFunctions {
         fun DeleteUserCreditCard(CardId: String, context: Context): Boolean1 {
             var RetVal: Boolean1 = false;
             try {
-                val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-                val call: Call<BasicResponse> = malqa.DeleteUserCreditCard(CardId)
+                val malqa: MalqaApiService = getRetrofitBuilder()
+                val call: Call<BasicResponse> = malqa.deleteUserCreditCard(CardId)
                 val response: Response<BasicResponse> = call.execute();
 
                 if (response.isSuccessful) {
@@ -841,9 +841,9 @@ class HelpFunctions {
         }
 
         fun GetUsersCartList(onSuccess: (() -> Unit)? = null) {
-            val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+            val malqa: MalqaApiService = getRetrofitBuilder()
             val call: Call<AddToCartResponseModel> =
-                malqa.GetUsersCartList(ConstantObjects.logged_userid)
+                malqa.getUsersCartList(ConstantObjects.logged_userid)
             val response: Response<AddToCartResponseModel> = call.execute();
             if (response.isSuccessful) {
                 if (response.body() != null) {
@@ -860,8 +860,8 @@ class HelpFunctions {
             try {
                 val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
                 StrictMode.setThreadPolicy(policy)
-                val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-                val call: Call<BasicResponse> = malqa.DeleteFromUserCart(CartId)
+                val malqa: MalqaApiService = getRetrofitBuilder()
+                val call: Call<BasicResponse> = malqa.deleteFromUserCart(CartId)
                 val response: Response<BasicResponse> = call.execute();
                 if (response.isSuccessful) {
                     if (response.body() != null) {
@@ -904,8 +904,8 @@ class HelpFunctions {
         ): Boolean1 {
             var RetVal: Boolean1 = false
             try {
-                val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-                val call: Call<BasicResponse> = malqa.AddNewShippingAddress(shippingaddress)
+                val malqa: MalqaApiService = getRetrofitBuilder()
+                val call: Call<BasicResponse> = malqa.addNewShippingAddress(shippingaddress)
                 val response: Response<BasicResponse> = call.execute();
                 if (response.isSuccessful) {
                     if (response.body() != null) {
@@ -927,7 +927,7 @@ class HelpFunctions {
         }
 
         fun GetUserShippingAddress(context: Fragment) {
-            val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+            val malqaa: MalqaApiService = getRetrofitBuilder()
             val call: Call<ModelShipAddresses> =
                 malqaa.getshipaddress(ConstantObjects.logged_userid)
             val response: Response<ModelShipAddresses> = call.execute();
@@ -952,7 +952,7 @@ class HelpFunctions {
 
         fun GetTemplatesJson(fileName: String, onSuccess: ((respone: String) -> Unit)? = null) {
             try {
-                val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+                val malqa: MalqaApiService = getRetrofitBuilder()
 
                 val API_BASE_URL =
                     Constants.HTTP_PROTOCOL + "://" + Constants.SERVER_LOCATION + "/" + Constants.IMAGE_FOLDER + "/jsonTemplates/" + fileName

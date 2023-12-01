@@ -118,7 +118,7 @@ class SubCategoriesActivity : BaseActivity(), AdapterSubCategories.OnItemClickLi
 //        HelpFunctions.startProgressBar(this)
 //        try {
 //            val malqaa: MalqaApiService =
-//                RetrofitBuilder.GetRetrofitBuilder()
+//                getRetrofitBuilder()
 //
 //            val call: Call<GeneralResponses> =
 //                malqaa.GetSubCategoryByMainCategory(categoryId)

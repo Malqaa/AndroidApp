@@ -270,7 +270,7 @@ class ConfirmChangeNumberActivity : BaseActivity() {
         }
     }
 
-    fun SignuuPg2confirmInput(v: View) {
+    fun signUpConfirmInput(v: View) {
         if (!validatePin()) {
             return
         } else {

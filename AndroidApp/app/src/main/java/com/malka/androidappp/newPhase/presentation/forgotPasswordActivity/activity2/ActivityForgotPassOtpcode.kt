@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -19,7 +18,6 @@ import com.malka.androidappp.newPhase.presentation.loginScreen.LoginViewModel
 import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
 import kotlinx.android.synthetic.main.activity_forgot_pass_otpcode.*
 import kotlinx.android.synthetic.main.activity_signup_pg1.confirmPass
-import java.util.concurrent.TimeUnit
 
 class ActivityForgotPassOtpcode : BaseActivity() {
     private var START_TIME_IN_MILLIS: Long = 60000
@@ -27,16 +25,16 @@ class ActivityForgotPassOtpcode : BaseActivity() {
     private var mTimeLeftInMillis = START_TIME_IN_MILLIS
     private lateinit var loginViewModel: LoginViewModel
     var email: String = ""
-    var codeOtp: String = ""
-    var expireMinutes: Int = 1
+    private var codeOtp: String = ""
+    private var expireMinutes: Int = 1
     var expireReceiveMinutes = 1
-    var typeClick = 1
+    private var typeClick = 1
+    var countDownTimer: CountDownTimer? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_forgot_pass_otpcode)
         email = intent.getStringExtra(ConstantObjects.emailKey) ?: ""
         codeOtp = intent.getStringExtra("codeOtp").toString().split(".0")[0]
-        val getcodee:String? = intent.getStringExtra("getcode")
 //        if(BuildConfig.DEBUG){
         pinview.value = codeOtp
 //        }
@@ -57,6 +55,7 @@ class ActivityForgotPassOtpcode : BaseActivity() {
             else
                 HelpFunctions.dismissProgressBar()
         })
+
         loginViewModel.isNetworkFail.observe(this, Observer {
             if (it) {
                 HelpFunctions.ShowLongToast(
@@ -71,6 +70,7 @@ class ActivityForgotPassOtpcode : BaseActivity() {
             }
 
         })
+
         loginViewModel.errorResponseObserver.observe(this, Observer {
             if (it.message != null) {
                 HelpFunctions.ShowLongToast(
@@ -85,34 +85,21 @@ class ActivityForgotPassOtpcode : BaseActivity() {
             }
 
         })
+
         loginViewModel.changePasswordAfterForgetObserver.observe(this, Observer {
-//            if (it.status_code == 200) {
-                if (it.message != null) {
-                    HelpFunctions.ShowLongToast(
-                        it.message,
-                        this
-                    )
-                    signInAfterSignUp()
-//                }
-//            } else {
-//                if (it.message != null) {
-//                    HelpFunctions.ShowLongToast(
-//                        it.message,
-//                        this
-//                    )
-//                } else {
-//                    HelpFunctions.ShowLongToast(
-//                        getString(R.string.serverError),
-//                        this
-//                    )
-//                }
+            if (it.message != null) {
+                HelpFunctions.ShowLongToast(
+                    it.message,
+                    this
+                )
+                signInAfterSignUp()
             }
 
         })
 
         loginViewModel.changePasswordAfterForgetObserver.observe(this, Observer {
             if (it.status_code == 200) {
-                startTimeCounter((expireMinutes*60*1000).toLong())
+                startTimeCounter((expireMinutes * 60 * 1000).toLong())
             } else {
                 if (it.message != null) {
                     HelpFunctions.ShowLongToast(
@@ -128,25 +115,27 @@ class ActivityForgotPassOtpcode : BaseActivity() {
             }
 
         })
-        loginViewModel.configurationRespObserver.observe(this) { configratinoResp ->
-            if (configratinoResp.configurationData != null) {
+
+        loginViewModel.configurationRespObserver.observe(this) {
+            if (it.configurationData != null) {
                 countdownTimer.show()
                 try {
-                    expireMinutes = configratinoResp.configurationData.configValue.toInt()
+                    expireMinutes = it.configurationData.configValue.toInt()
                 } catch (_: Exception) {
                 }
-                startTimeCounter((expireMinutes*60*1000).toLong())
+                startTimeCounter((expireMinutes * 60 * 1000).toLong())
             }
         }
 
-        loginViewModel.configurationRespDidNotReceive.observe(this) { configratinoResp ->
-            if (configratinoResp.configurationData != null) {
+        loginViewModel.configurationRespDidNotReceive.observe(this) {
+            if (it.configurationData != null) {
                 try {
-                    expireReceiveMinutes = configratinoResp.configurationData.configValue.toInt()
+                    expireReceiveMinutes = (it.configurationData.configValue?:"0").toInt()
                 } catch (e: Exception) {
                 }
             }
         }
+
         loginViewModel.forgetPasswordObserver.observe(this, Observer {
             if (it.status_code == 200) {
                 pinview.value = it.data.toString().split(".0")[0]
@@ -168,15 +157,15 @@ class ActivityForgotPassOtpcode : BaseActivity() {
 
     }
 
-    fun signInAfterSignUp() {
-        val intentsignin = Intent(this, SignInActivity::class.java)
-        intentsignin.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        startActivity(intentsignin)
+    private fun signInAfterSignUp() {
+        val intentSignIn = Intent(this, SignInActivity::class.java)
+        intentSignIn.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        startActivity(intentSignIn)
     }
 
     /**clickEvents*/
-    fun startTimeCounter(expireMinutes: Long) {
-        object : CountDownTimer(expireMinutes.toLong(), 1000) {
+    private fun startTimeCounter(expireMinutes: Long) {
+        countDownTimer = object : CountDownTimer(expireMinutes.toLong(), 1000) {
 
             override fun onTick(millisUntilFinished: Long) {
                 resend_btn.hide()
@@ -209,23 +198,6 @@ class ActivityForgotPassOtpcode : BaseActivity() {
         }.start()
     }
 
-    private fun startTimer(expire: Int) {
-        Log.d("Start NEw Timer", "$expire ")
-
-        val mSec = TimeUnit.SECONDS.toMillis((expire*60).toLong())
-        object : CountDownTimer(mSec, 1000) {
-            override fun onTick(millisUntilFinished: Long) {
-                countdownTimer.text="${getString(R.string.Seconds2)} ${((millisUntilFinished / 1000).toString())}"
-
-            }
-
-            override fun onFinish() {
-                countdownTimer.text = getString(R.string.CodeExpired)
-                resend_btn.show()
-                countdownTimer.hide()
-            }
-        }.start()
-    }
 
     private fun setClickListeners() {
 
@@ -246,27 +218,18 @@ class ActivityForgotPassOtpcode : BaseActivity() {
             onBackPressed()
         }
         resend_btn.setOnClickListener {
-//            if (mTimeLeftInMillis >= 1000) {
-//                HelpFunctions.ShowLongToast(
-//                    getString(R.string.Pleasewaituntilthecodeexpires),
-//                    applicationContext
-//                )
-//            } else {
             txtDontReceive.hide()
-                resend_btn.hide()
-                countdownTimer.show()
-            typeClick=1
-            startTimeCounter((expireMinutes*60*1000).toLong())
-                // val userPhone: String? = otpData?.phoneNumber
-                loginViewModel.forgetPassword(email)
-                //resendOTPApi()
-//            }
+            resend_btn.hide()
+            countdownTimer.show()
+            typeClick = 1
+            startTimeCounter((expireMinutes * 60 * 1000).toLong())
+            loginViewModel.forgetPassword(email)
         }
 
         txtDontReceive.setOnClickListener {
             resend_btn.hide()
             countdownTimer.show()
-            typeClick=2
+            typeClick = 2
             loginViewModel.forgetPassword(email)
         }
         button3.setOnClickListener {
@@ -327,61 +290,18 @@ class ActivityForgotPassOtpcode : BaseActivity() {
         }
     }
 
-    fun SignuuPg2confirmInput(v: View) {
+    fun signUpConfirmInput(v: View) {
         if (!validatePin()) {
             return
         } else {
             //apicallSignup2()
-            val otpcode: String? = pinview.value
+            val otpCode: String? = pinview.value
             loginViewModel.forgetPassword(email)
         }
     }
-    //////////////////////////////////////Api Post Verify//////////////////////////////////////////////////
-//    fun verifyotpcode() {
-//        HelpFunctions.startProgressBar(this)
-//        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-//        val userId: String? = intent.getStringExtra("getid")
-//        val otpcode: String = pinview.getValue().toString().trim()
-//        val call= malqa.verifycode(PostReqVerifyCode(userId=userId.toString(),code= otpcode))
-//        call.enqueue(object : Callback<BasicResponse> {
-//
-//            override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
-//                HelpFunctions.dismissProgressBar()
-//
-//                t.message?.let {
-//                    HelpFunctions.ShowLongToast(it, this@ActivityForgotPassOtpcode) }
-//
-//            }
-//
-//            override fun onResponse(
-//                call: Call<BasicResponse>,
-//                response: Response<BasicResponse>
-//            ) {
-//
-//                if (response.isSuccessful) {
-//                    val data=response.body()
-//                    if (data!!.status_code == 200) {
-//                        val getpin: String = pinview234.getValue().toString().trim()
-//                        val getidd = intent.getStringExtra("getid")
-//                        val intenddd = Intent(this@ActivityForgotPassOtpcode, ForgotChangepassActivity::class.java)
-//                        intenddd.putExtra("getidd",getidd)
-//                        intenddd.putExtra("getcodee",getpin)
-//                        startActivity(intenddd)
-//                        finish()
-//                    } else {
-//                        showError(data.message)
-//                    }
-//
-//
-//                } else {
-//                    HelpFunctions.ShowLongToast(
-//                        getString(R.string.VerificationFailed),
-//                        this@ActivityForgotPassOtpcode
-//                    )
-//                }
-//                HelpFunctions.dismissProgressBar()
-//
-//            }
-//        })
-//    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        countDownTimer = null
+    }
 }

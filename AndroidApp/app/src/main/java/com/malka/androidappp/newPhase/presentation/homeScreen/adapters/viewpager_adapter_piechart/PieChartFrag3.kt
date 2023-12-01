@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
-import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malka.androidappp.newPhase.data.network.service.MalqaApiService
 import com.malka.androidappp.newPhase.domain.models.servicemodels.total_members.ModelGetTotalMembers
 import kotlinx.android.synthetic.main.fragment_pie_chart_frag3.*
@@ -33,7 +33,7 @@ class PieChartFrag3 : Fragment() {
     }
 
     fun getTotalMembersApi() {
-        val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+        val malqaa: MalqaApiService = getRetrofitBuilder()
         val call: Call<ModelGetTotalMembers> = malqaa.getTotalMembers()
         call.enqueue(object : Callback<ModelGetTotalMembers> {
             override fun onResponse(

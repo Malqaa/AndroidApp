@@ -6,7 +6,7 @@ import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseViewModel
 import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
-import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.configrationResp.ConfigurationData
 import com.malka.androidappp.newPhase.domain.models.configrationResp.ConfigurationResp
 import com.malka.androidappp.newPhase.domain.models.orderListResp.OrderListResp
@@ -32,7 +32,7 @@ class MyProductViewModel : BaseViewModel() {
     var loadingAddDiscountDialog: MutableLiveData<Boolean> = MutableLiveData()
     fun getForSaleProduct() {
         isLoading.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .getMyProduct()
             .enqueue(object : Callback<ProductListResp> {
                 override fun onFailure(call: Call<ProductListResp>, t: Throwable) {
@@ -57,7 +57,7 @@ class MyProductViewModel : BaseViewModel() {
 
     fun getForDidNotSaleProducts() {
         isLoading.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .getListDidntSellProducts()
             .enqueue(object : Callback<ProductListResp> {
                 override fun onFailure(call: Call<ProductListResp>, t: Throwable) {
@@ -85,7 +85,7 @@ class MyProductViewModel : BaseViewModel() {
             isLoading.value = true
         else
             isloadingMore.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .getBusinessAccountOrders(pageIndes)
             .enqueue(object : Callback<OrderListResp> {
                 override fun onFailure(call: Call<OrderListResp>, t: Throwable) {
@@ -112,7 +112,7 @@ class MyProductViewModel : BaseViewModel() {
 
     fun addDiscount(productId: Int, discountPrice: Float, finaldate: String) {
         loadingAddDiscountDialog.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .addDiscount(productId, discountPrice, finaldate)
             .enqueue(object : Callback<GeneralResponse> {
                 override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
@@ -138,7 +138,7 @@ class MyProductViewModel : BaseViewModel() {
 
     fun removeProduct(productId: Int) {
         loadingAddDiscountDialog.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .removeProduct(productId)
             .enqueue(object : Callback<GeneralResponse> {
                 override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
@@ -165,7 +165,7 @@ class MyProductViewModel : BaseViewModel() {
 
     fun repostProduct(productId: Int) {
         loadingAddDiscountDialog.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .repostProduct(productId)
             .enqueue(object : Callback<GeneralResponse> {
                 override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
@@ -190,7 +190,7 @@ class MyProductViewModel : BaseViewModel() {
     }
 
     fun getExpireHours() {
-        RetrofitBuilder.GetRetrofitBuilder().getConfigurationData(
+        getRetrofitBuilder().getConfigurationData(
             ConstantObjects.configration_OfferExpiredHours
         ).enqueue(object : Callback<ConfigurationResp> {
             override fun onFailure(call: Call<ConfigurationResp>, t: Throwable) {

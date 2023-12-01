@@ -6,7 +6,7 @@ import com.google.android.exoplayer2.upstream.HttpDataSource.HttpDataSourceExcep
 import com.google.gson.Gson
 import com.malka.androidappp.newPhase.core.BaseViewModel
 import com.malka.androidappp.newPhase.data.helper.Extension.requestBody
-import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.bussinessAccountsListResp.BusinessAccountsListResp
 import com.malka.androidappp.newPhase.domain.models.bussinessAccountsListResp.ChangeBussinesAccountResp
 import com.malka.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
@@ -31,7 +31,7 @@ class BusinessAccountViewModel : BaseViewModel() {
 
     fun getBusinessAccount() {
         isLoading.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .gatAllBusinessAccounts()
             .enqueue(object : Callback<BusinessAccountsListResp> {
                 override fun onFailure(call: Call<BusinessAccountsListResp>, t: Throwable) {
@@ -56,7 +56,7 @@ class BusinessAccountViewModel : BaseViewModel() {
 
     fun changeBusinessAccount(id: Int) {
         isLoading.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .changeBusinessAccount(id)
             .enqueue(object : Callback<ChangeBussinesAccountResp> {
                 override fun onFailure(call: Call<ChangeBussinesAccountResp>, t: Throwable) {
@@ -126,7 +126,7 @@ class BusinessAccountViewModel : BaseViewModel() {
 //
 //        }
 
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .addEditBusinessAccount(
                 id.requestBody(),
 

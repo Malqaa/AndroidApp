@@ -1,24 +1,26 @@
 package com.malka.androidappp.newPhase.data.network
 
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-fun <T> callApi(call: Call<T>, onResponse: (T) -> Unit, onFailure: (Throwable) -> Unit, goLogin: () -> Unit){
+fun <T> callApi(call: Call<T>, onSuccess: (T) -> Unit, onFailure: (Throwable?,Int, ResponseBody?) -> Unit, goLogin: () -> Unit){
     call.enqueue(object : Callback<T> {
         override fun onResponse(call: Call<T>, response: Response<T>) {
+
             if (response.isSuccessful) {
-                onResponse(response.body()!!)
+                onSuccess(response.body()!!)
             } else {
                 if(response.code()==401){
                     goLogin()
                 }else
-                onFailure(Throwable("Unsuccessful response: ${response.code()}"))
+                    onFailure(null ,response.code(), response.errorBody()!!)
             }
         }
 
         override fun onFailure(call: Call<T>, t: Throwable) {
-            onFailure(t)
+            onFailure(t,0,null)
         }
     })
 }

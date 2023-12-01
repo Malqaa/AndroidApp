@@ -3,7 +3,7 @@ package com.malka.androidappp.newPhase.presentation.accountFragment.negotiationO
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.JsonSyntaxException
 import com.malka.androidappp.newPhase.core.BaseViewModel
-import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.negotiationOfferResp.NegotiationOfferResp
 import com.malka.androidappp.newPhase.domain.models.productResp.ProductListResp
 import com.malka.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
@@ -21,7 +21,7 @@ class NegotiationOffersViewModel:BaseViewModel() {
     var cancelOfferObserver:MutableLiveData<GeneralResponse> = MutableLiveData()
     fun getPurchaseProductsOffers(isSent:Boolean){
         isLoading.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .getPurchaseProductsOffers(isSent)
             .enqueue(object : Callback<NegotiationOfferResp> {
                 override fun onFailure(call: Call<NegotiationOfferResp>, t: Throwable) {
@@ -50,7 +50,7 @@ class NegotiationOffersViewModel:BaseViewModel() {
     fun getSaleProductsOffers(isSent:Boolean){
         isLoading.value = true
 
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .getSaleProductsOffers(isSent)
             .enqueue(object : Callback<NegotiationOfferResp> {
                 override fun onFailure(call: Call<NegotiationOfferResp>, t: Throwable) {
@@ -79,7 +79,7 @@ class NegotiationOffersViewModel:BaseViewModel() {
 
     fun cancelOfferProvider(offerId:Int){
         loadingDialogObserver.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .cancelProductOfferByProvider(offerId)
             .enqueue(object : Callback<GeneralResponse> {
                 override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
@@ -103,7 +103,7 @@ class NegotiationOffersViewModel:BaseViewModel() {
 
     fun cancelOffer(offerId:Int){
         loadingDialogObserver.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .cancelProductOfferByClient(offerId)
             .enqueue(object : Callback<GeneralResponse> {
                 override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
@@ -128,7 +128,7 @@ class NegotiationOffersViewModel:BaseViewModel() {
 
     fun purchaseOffer(offerId:Int){
         loadingDialogObserver.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .purchaseProductByOffer(offerId)
             .enqueue(object : Callback<GeneralResponse> {
                 override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {

@@ -3,7 +3,7 @@ package com.malka.androidappp.newPhase.presentation.searchProductListActivity
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.malka.androidappp.newPhase.core.BaseViewModel
-import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.categoryFollowResp.CategoryFollowResp
 import com.malka.androidappp.newPhase.domain.models.productResp.ProductListResp
 import com.malka.androidappp.newPhase.domain.models.productResp.ProductListSearchResp
@@ -74,7 +74,7 @@ class CategoryProductViewModel : BaseViewModel() {
         }
 
         println("hhhh "+stringUrl)
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .searchForProductInCategory(stringUrl)
             .enqueue(object : Callback<ProductListSearchResp> {
                 override fun onFailure(call: Call<ProductListSearchResp>, t: Throwable) {
@@ -101,7 +101,7 @@ class CategoryProductViewModel : BaseViewModel() {
     }
 
     fun getCategoryFollow(){
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .getListCategoryFollow()
             .enqueue(object : Callback<CategoryFollowResp> {
                 override fun onFailure(call: Call<CategoryFollowResp>, t: Throwable) {
@@ -123,7 +123,7 @@ class CategoryProductViewModel : BaseViewModel() {
 
     fun getMyBids() {
         isLoading.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .getMyBids()
             .enqueue(object : Callback<ProductListResp> {
                 override fun onFailure(call: Call<ProductListResp>, t: Throwable) {

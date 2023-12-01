@@ -11,7 +11,7 @@ import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.data.helper.hide
 import com.malka.androidappp.newPhase.data.helper.show
-import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.configrationResp.ConfigurationResp
 import com.malka.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
 import com.malka.androidappp.newPhase.presentation.accountFragment.negotiationOffersPurchase.adapter.SpinnerExpireHoursAdapter
@@ -116,7 +116,7 @@ class AcceptOfferDialog(
 //        data["quantity"] = quentity
 //        data["price"] = price
         progressBar.visibility = View.VISIBLE
-        countriesCallback = RetrofitBuilder.GetRetrofitBuilder().getConfigurationData(
+        countriesCallback = getRetrofitBuilder().getConfigurationData(
             ConstantObjects.configration_OfferExpiredHours
         )
         countriesCallback?.enqueue(object : Callback<ConfigurationResp> {
@@ -185,7 +185,7 @@ class AcceptOfferDialog(
 //        data["quantity"] = quentity
 //        data["price"] = price
         progressBar.visibility = View.VISIBLE
-        acceptRejectOfferCallBack = RetrofitBuilder.GetRetrofitBuilder()
+        acceptRejectOfferCallBack = getRetrofitBuilder()
             .acceptRejectOffer(
                 offerID,
                 productId,

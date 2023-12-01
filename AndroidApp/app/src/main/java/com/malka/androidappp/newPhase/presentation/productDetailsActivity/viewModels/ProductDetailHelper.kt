@@ -6,7 +6,7 @@ import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.domain.models.servicemodels.questionModel.ModelQuesAnswr
 import com.malka.androidappp.newPhase.domain.models.servicemodels.questionModel.ModelAskQues
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
-import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malka.androidappp.newPhase.data.network.service.MalqaApiService
 import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.domain.models.servicemodels.questionModel.ModelPostAns
@@ -20,7 +20,7 @@ class ProductDetailHelper(val context: Context) {
 
     fun quesAnss(adsId: String , onSuccess: ((ModelQuesAnswr) -> Unit)) {
         val malqaa: MalqaApiService =
-            RetrofitBuilder.GetRetrofitBuilder()
+            getRetrofitBuilder()
 
         val call: Call<ModelQuesAnswr> = malqaa.quesAns(adsId, ConstantObjects.logged_userid)
 
@@ -52,7 +52,7 @@ class ProductDetailHelper(val context: Context) {
 
         HelpFunctions.startProgressBar(context as Activity)
 
-        val malqaa = RetrofitBuilder.GetRetrofitBuilder()
+        val malqaa = getRetrofitBuilder()
 
         val call: Call<ModelPostAns> = malqaa.postAnsByQid(
 
@@ -86,7 +86,7 @@ class ProductDetailHelper(val context: Context) {
         HelpFunctions.startProgressBar(context as Activity)
 
         val insertAskQuesinModel = ModelAskQues(AdvId, ConstantObjects.logged_userid, quesgetInput)
-        val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+        val malqaa: MalqaApiService = getRetrofitBuilder()
         val call: Call<ModelAskQues> = malqaa.askQues(insertAskQuesinModel)
         call.enqueue(object : Callback<ModelAskQues> {
             override fun onResponse(call: Call<ModelAskQues>, response: Response<ModelAskQues>) {

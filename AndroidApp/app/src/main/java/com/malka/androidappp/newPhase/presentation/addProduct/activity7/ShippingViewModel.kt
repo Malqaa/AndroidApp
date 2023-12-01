@@ -2,7 +2,7 @@ package com.malka.androidappp.newPhase.presentation.addProduct.activity7
 
 import androidx.lifecycle.MutableLiveData
 import com.malka.androidappp.newPhase.core.BaseViewModel
-import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.shippingOptionsResp.ShippingOptionResp
 import retrofit2.Call
 import retrofit2.Callback
@@ -15,7 +15,7 @@ class ShippingViewModel : BaseViewModel() {
 
     fun getAllShippingOptions() {
         //isLoading.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .getAllShippingOptions()
             .enqueue(object : Callback<ShippingOptionResp> {
                 override fun onFailure(call: Call<ShippingOptionResp>, t: Throwable) {

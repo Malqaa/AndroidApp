@@ -2,19 +2,16 @@ package com.malka.androidappp.newPhase.presentation.productDetailsActivity
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.Dialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.malka.androidappp.R
-import com.malka.androidappp.activities_main.PlayActivity
+import com.malka.androidappp.newPhase.utils.activitiesMain.PlayActivity
 import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.data.helper.Extension
@@ -67,7 +64,6 @@ import kotlinx.android.synthetic.main.activity_my_product_details2.layInfo
 import kotlinx.android.synthetic.main.activity_my_product_details2.layPrice
 import kotlinx.android.synthetic.main.activity_my_product_details2.lay_auction
 import kotlinx.android.synthetic.main.activity_my_product_details2.minutes
-import kotlinx.android.synthetic.main.activity_my_product_details2.rating_bar
 import kotlinx.android.synthetic.main.activity_my_product_details2.rating_bar_detail_tv
 import kotlinx.android.synthetic.main.activity_my_product_details2.rvProductSpecification
 import kotlinx.android.synthetic.main.activity_my_product_details2.rv_review
@@ -90,7 +86,6 @@ import kotlinx.android.synthetic.main.activity_my_product_details2.txt_lowAuctio
 import kotlinx.android.synthetic.main.activity_my_product_details2.linHappy
 import kotlinx.android.synthetic.main.activity_my_product_details2.linSad
 import kotlinx.android.synthetic.main.activity_my_product_details2.linSmile
-import kotlinx.android.synthetic.main.activity_my_product_details2.rating_bar_detail_tv
 import kotlinx.android.synthetic.main.activity_my_product_details2.rvQuestionForProduct
 import kotlinx.android.synthetic.main.activity_my_product_details2.tvPriceProductDisc
 import kotlinx.android.synthetic.main.activity_my_product_details2.txtCountFav
@@ -117,7 +112,6 @@ import kotlinx.coroutines.withContext
 import org.joda.time.DateTime
 import org.joda.time.Duration
 import org.joda.time.format.DateTimeFormat
-import java.util.Calendar
 import java.util.Date
 
 

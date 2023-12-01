@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseDialog
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
-import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.countryResp.CountriesResp
 import com.malka.androidappp.newPhase.domain.models.countryResp.Country
 import kotlinx.android.synthetic.main.activity_search.*
@@ -122,7 +122,7 @@ class CountryDialog(context: Context, var getSelectedCountry: GetSelectedCountry
 
     fun getCountries() {
         progressBar.visibility = View.VISIBLE
-        countriesCallback = RetrofitBuilder.GetRetrofitBuilder().getCountryNew()
+        countriesCallback = getRetrofitBuilder().getCountryNew()
         countriesCallback?.enqueue(object : Callback<CountriesResp> {
             override fun onFailure(call: Call<CountriesResp>, t: Throwable) {
                 // println("hhhh "+t.message)

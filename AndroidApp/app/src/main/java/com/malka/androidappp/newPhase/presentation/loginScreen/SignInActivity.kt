@@ -7,7 +7,7 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.malka.androidappp.R
-import com.malka.androidappp.newPhase.presentation.forgotPasswordActivity.activtiy1.ForgotPasswordActivty
+import com.malka.androidappp.newPhase.presentation.forgotPasswordActivity.activtiy1.ForgotPasswordActivity
 import com.malka.androidappp.newPhase.data.helper.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
@@ -26,9 +26,6 @@ class SignInActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_in)
-
-//        email_tv.text = "muhammadumersheraz@gmail.com"
-//        passwword_tv.text = "Test@123"
 
         setupLoginViewModel()
         setClickListeners()
@@ -98,7 +95,7 @@ class SignInActivity : BaseActivity() {
     /**event clicks*/
     private fun setClickListeners() {
         Forgot_your_password.setOnClickListener {
-            startActivity(Intent(this@SignInActivity, ForgotPasswordActivty::class.java))
+            startActivity(Intent(this@SignInActivity, ForgotPasswordActivity::class.java))
         }
         new_registration.setOnClickListener {
             val intent = Intent(this@SignInActivity, SignupConfirmNewUserActivity::class.java)
@@ -112,13 +109,9 @@ class SignInActivity : BaseActivity() {
         } else {
             loginViewModel.signInUser(
                 email_tv.text.toString().trim(),
-                passwword_tv.text.toString().trim(),
-                this
-            )
+                passwword_tv.text.toString().trim())
         }
     }
-
-    /***/
 
     private fun saveUserData(userObject: LoginUser) {
         ConstantObjects.logged_userid = userObject.id

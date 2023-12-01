@@ -2,7 +2,7 @@ package com.malka.androidappp.newPhase.presentation.sellerDetailsActivity
 
 import androidx.lifecycle.MutableLiveData
 import com.malka.androidappp.newPhase.core.BaseViewModel
-import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.sellerRateListResp.SellerRateListResp
 import retrofit2.Call
 import retrofit2.Callback
@@ -17,7 +17,7 @@ class SellerRatingViewModel : BaseViewModel(){
             isLoading.value = true
         else
             isloadingMore .value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .getSellerRates( page,rate)
             .enqueue(object : Callback<SellerRateListResp> {
                 override fun onFailure(call: Call<SellerRateListResp>, t: Throwable) {
@@ -46,7 +46,7 @@ class SellerRatingViewModel : BaseViewModel(){
             isLoading.value = true
         else
             isloadingMore .value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .getBuyerRates( page,rate)
             .enqueue(object : Callback<SellerRateListResp> {
                 override fun onFailure(call: Call<SellerRateListResp>, t: Throwable) {

@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
-import com.malka.androidappp.fragments.create_ads.categoriesmodel_jsons.CategoriesItem
+import com.malka.androidappp.newPhase.domain.models.categoryResp.CategoriesItem
 import kotlinx.android.synthetic.main.alert_subcategories_cardview.view.*
 
 

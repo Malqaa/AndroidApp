@@ -2,7 +2,7 @@ package com.malka.androidappp.newPhase.presentation.accountFragment.myOrderFragm
 
 import androidx.lifecycle.MutableLiveData
 import com.malka.androidappp.newPhase.core.BaseViewModel
-import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.ErrorResponse
 import com.malka.androidappp.newPhase.domain.models.orderDetails.OrderDetailsResp
 import com.malka.androidappp.newPhase.domain.models.orderDetailsByMasterID.OrderDetailsByMasterIDResp
@@ -29,7 +29,7 @@ class MyOrdersViewModel: BaseViewModel() {
 //            isLoading.value = true
 //        else
 //            isloadingMore.value = true
-//        RetrofitBuilder.GetRetrofitBuilder()
+//        getRetrofitBuilder()
 //            .getBusinessAccountOrders(pageIndes)
 //            .enqueue(object : Callback<OrderListResp> {
 //                override fun onFailure(call: Call<OrderListResp>, t: Throwable) {
@@ -55,7 +55,7 @@ class MyOrdersViewModel: BaseViewModel() {
 //
     fun getSoldOutOrderDetailsByOrderId(orderId:Int){
         isLoading.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .getOrderDetailsByOrderID(orderId)
             .enqueue(object : Callback<OrderDetailsResp> {
                 override fun onFailure(call: Call<OrderDetailsResp>, t: Throwable) {
@@ -81,7 +81,7 @@ class MyOrdersViewModel: BaseViewModel() {
             isLoading.value = true
         else
             isloadingMore.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .getCurrentOrders(pageIndes,userId)
             .enqueue(object : Callback<OrderListResp> {
                 override fun onFailure(call: Call<OrderListResp>, t: Throwable) {
@@ -109,7 +109,7 @@ class MyOrdersViewModel: BaseViewModel() {
             isLoading.value = true
         else
             isloadingMore.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .getFinishedOrders(pageIndes,userId)
             .enqueue(object : Callback<OrderListResp> {
                 override fun onFailure(call: Call<OrderListResp>, t: Throwable) {
@@ -134,7 +134,7 @@ class MyOrdersViewModel: BaseViewModel() {
     }
     fun getCurrentOrderDetailsByMasterID(orderMasterID:Int){
         isLoading.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .getOrderMasterDetailsByMasterOrderId(orderMasterID)
             .enqueue(object : Callback<OrderDetailsByMasterIDResp> {
                 override fun onFailure(call: Call<OrderDetailsByMasterIDResp>, t: Throwable) {
@@ -158,7 +158,7 @@ class MyOrdersViewModel: BaseViewModel() {
 
     fun cancelOrder(orderId: Int, status: Int) {
         isLoading.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .changeOrderStatus(orderId,status)
             .enqueue(object : Callback<GeneralResponse> {
                 override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {

@@ -664,7 +664,7 @@ class AddressPaymentActivity : BaseActivity(),
 //
 //    fun PostUserCheckOut(checkoutinfo: CheckoutRequestModel, context: Context) {
 //
-//        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+//        val malqa: MalqaApiService = getRetrofitBuilder()
 //        val call = malqa.PostUserCheckOut(checkoutinfo)
 //
 //        call.enqueue(object : Callback<GeneralRespone?> {

@@ -706,7 +706,7 @@ class PricingActivity : BaseActivity() {
 //
 //        HelpFunctions.startProgressBar(this)
 //
-//        val malqa = RetrofitBuilder.GetRetrofitBuilder()
+//        val malqa = getRetrofitBuilder()
 //
 //        val holder_name = bottomSheetDialog.account_holder_name.text.toString()
 //        val nameBank = bottomSheetDialog.bank_name.text.toString()
@@ -770,7 +770,7 @@ class PricingActivity : BaseActivity() {
 //
 //        HelpFunctions.startProgressBar(this)
 //
-//        val malqa = RetrofitBuilder.GetRetrofitBuilder()
+//        val malqa = getRetrofitBuilder()
 //        val call = malqa.getBankDetail(ConstantObjects.logged_userid)
 //
 //        call.enqueue(object : retrofit2.Callback<BankListRespone?> {

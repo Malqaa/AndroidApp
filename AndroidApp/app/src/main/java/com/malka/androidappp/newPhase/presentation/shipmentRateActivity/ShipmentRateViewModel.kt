@@ -2,7 +2,7 @@ package com.malka.androidappp.newPhase.presentation.shipmentRateActivity
 
 import androidx.lifecycle.MutableLiveData
 import com.malka.androidappp.newPhase.core.BaseViewModel
-import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.orderRateResp.RateObject
 import com.malka.androidappp.newPhase.domain.models.orderRateResp.ShipmentRateResp
 import com.malka.androidappp.newPhase.domain.models.productResp.ProductListResp
@@ -17,7 +17,7 @@ class ShipmentRateViewModel :BaseViewModel() {
     var getShipmentRate:MutableLiveData<ShipmentRateResp> = MutableLiveData()
     fun addShipmentRate( rateObject: RateObject){
         isLoading.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .addShipmentRate(rateObject)
             .enqueue(object : Callback<GeneralResponse> {
                 override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
@@ -40,7 +40,7 @@ class ShipmentRateViewModel :BaseViewModel() {
     }
     fun getShipmentRate(orderId:Int){
         isLoading.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .getShipmentRate(orderId)
             .enqueue(object : Callback<ShipmentRateResp> {
                 override fun onFailure(call: Call<ShipmentRateResp>, t: Throwable) {

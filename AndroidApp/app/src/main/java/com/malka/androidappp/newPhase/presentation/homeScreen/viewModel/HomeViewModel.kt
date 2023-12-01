@@ -6,7 +6,7 @@ import com.google.gson.Gson
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseViewModel
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
-import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.ErrorResponse
 import com.malka.androidappp.newPhase.domain.models.homeSilderResp.HomeSliderResp
 import com.malka.androidappp.newPhase.domain.models.productResp.ProductListResp
@@ -30,7 +30,7 @@ class HomeViewModel : BaseViewModel() {
 
     var lastViewProductsObserver: MutableLiveData<ProductListResp> = MutableLiveData()
     fun getSliderData(slideType: Int) {
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .getHomeSlidersImages(slideType)
             .enqueue(object : Callback<HomeSliderResp> {
                 override fun onFailure(call: Call<HomeSliderResp>, t: Throwable) {
@@ -54,8 +54,8 @@ class HomeViewModel : BaseViewModel() {
     }
 
     fun doSearch(filter: Map<String, String>) {
-        RetrofitBuilder.GetRetrofitBuilder()
-            .Serach(filter)
+        getRetrofitBuilder()
+            .serach(filter)
             .enqueue(object : Callback<GeneralResponse> {
                 override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
                     // isNetworkFail.value = t !is HttpException
@@ -76,7 +76,7 @@ class HomeViewModel : BaseViewModel() {
     }
 
     fun saveSearch(searchString: String) {
-        RetrofitBuilder.GetRetrofitBuilder().savedSearch(searchString)
+        getRetrofitBuilder().savedSearch(searchString)
             .enqueue(object : Callback<GeneralResponse?> {
                 override fun onFailure(call: Call<GeneralResponse?>, t: Throwable) {
                 }
@@ -93,7 +93,7 @@ class HomeViewModel : BaseViewModel() {
 
     fun getAllCategories() {
         isLoadingAllCategory.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .getAllCategories()
             .enqueue(object : Callback<GeneralResponse> {
                 override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
@@ -117,8 +117,8 @@ class HomeViewModel : BaseViewModel() {
     }
 
     fun getListHomeCategoryProduct() {
-        RetrofitBuilder.GetRetrofitBuilder()
-            .ListHomeCategoryProduct()
+        getRetrofitBuilder()
+            .listHomeCategoryProduct()
             .enqueue(object : Callback<HomeCategoryProductResp> {
                 override fun onFailure(call: Call<HomeCategoryProductResp>, t: Throwable) {
                     isNetworkFail.value = t !is HttpException
@@ -140,7 +140,7 @@ class HomeViewModel : BaseViewModel() {
     }
 
     fun getLastViewedProduct() {
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .getListLastView()
             .enqueue(object : Callback<ProductListResp> {
                 override fun onFailure(call: Call<ProductListResp>, t: Throwable) {

@@ -2,15 +2,11 @@ package com.malka.androidappp.newPhase.presentation.productDetailsActivity
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.Dialog
 import android.content.Intent
-import android.graphics.Color
 import android.graphics.PorterDuff
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.view.ViewGroup
-import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
@@ -23,7 +19,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.JsonObject
 import com.malka.androidappp.R
-import com.malka.androidappp.activities_main.PlayActivity
+import com.malka.androidappp.newPhase.utils.activitiesMain.PlayActivity
 import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.newPhase.data.helper.*
 import com.malka.androidappp.newPhase.data.helper.Extension.shared
@@ -47,7 +43,6 @@ import com.malka.androidappp.newPhase.presentation.addProductReviewActivity.AddR
 import com.malka.androidappp.newPhase.presentation.addProductReviewActivity.ProductReviewsActivity
 import com.malka.androidappp.newPhase.presentation.cartActivity.activity1.CartActivity
 import com.malka.androidappp.newPhase.presentation.cartActivity.activity2.AddressPaymentActivity
-import com.malka.androidappp.newPhase.presentation.dialogsShared.PickImageMethodsDialog
 import com.malka.androidappp.newPhase.presentation.dialogsShared.currentPriceDialog.BuyCurrentPriceDialog
 import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
 import com.malka.androidappp.newPhase.presentation.productDetailsActivity.adapter.ProductImagesAdapter
@@ -62,7 +57,6 @@ import com.yariksoffice.lingver.Lingver
 import io.paperdb.Paper
 import kotlinx.android.synthetic.main.activity_product_details2.*
 import kotlinx.android.synthetic.main.activity_product_details_item_2.*
-import kotlinx.android.synthetic.main.activity_product_details_item_2.rating_bar
 import kotlinx.android.synthetic.main.atrribute_item.view.*
 import kotlinx.android.synthetic.main.item_image_for_product_details.view.*
 import kotlinx.android.synthetic.main.item_review_product.*
@@ -72,14 +66,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.*
 import kotlin.collections.ArrayList
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import org.joda.time.DateTime
 import org.joda.time.Duration
 import org.joda.time.format.DateTimeFormat
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import kotlin.math.abs
 
 
 class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
@@ -1765,7 +1754,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 //        cartobj.advertisementId = AdvId
 //        cartobj.userid = ConstantObjects.logged_userid
 //
-//        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+//        val malqa: MalqaApiService = getRetrofitBuilder()
 //        val call: Call<BasicResponse> = malqa.AddToUserCart(cartobj)
 //        call.enqueue(object : Callback<BasicResponse> {
 //            override fun onResponse(

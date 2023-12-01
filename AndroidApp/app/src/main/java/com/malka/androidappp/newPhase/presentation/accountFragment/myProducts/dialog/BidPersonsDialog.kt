@@ -10,7 +10,7 @@ import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.data.helper.hide
 import com.malka.androidappp.newPhase.data.helper.linearLayoutManager
 import com.malka.androidappp.newPhase.data.helper.show
-import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.bidPersonsResp.BidPersonData
 import com.malka.androidappp.newPhase.domain.models.bidPersonsResp.BidPersonsResp
 import kotlinx.android.synthetic.main.dialog_bid_persons.*
@@ -118,7 +118,7 @@ class BidPersonsDialog(
 //        data["quantity"] = quentity
 //        data["price"] = price
         progressBar.visibility = View.VISIBLE
-        countriesCallback = RetrofitBuilder.GetRetrofitBuilder().getBidsPersons(
+        countriesCallback = getRetrofitBuilder().getBidsPersons(
             productId
         )
         countriesCallback?.enqueue(object : Callback<BidPersonsResp> {

@@ -1,31 +1,14 @@
 package com.malka.androidappp.newPhase.data.network.service
 
 import com.google.gson.JsonObject
-import com.malka.androidappp.fragments.UserImageResponseBack
-import com.malka.androidappp.fragments.cardetail_page.ModelAddSellerFav
-import com.malka.androidappp.fragments.cardetail_page.ModelSellerDetails
-import com.malka.androidappp.fragments.cardetail_page.bottomsheet_bidopt.getbidModel.ModelBidingResponse
-import com.malka.androidappp.fragments.cardetail_page.bottomsheet_bidopt.post_bidprice.ModelPostBidPrice
-import com.malka.androidappp.fragments.create_product.CreateProductResponseBack
-import com.malka.androidappp.fragments.create_product.ModelCreateProduct
-import com.malka.androidappp.fragments.create_product.ProductResponseBack
-import com.malka.androidappp.fragments.feedback_frag.insert_feedback.GiveFeedbackResponseBack
-import com.malka.androidappp.fragments.feedback_frag.insert_feedback.ModelGiveFeedBack
-import com.malka.androidappp.fragments.myProductFragment.AllProductsResponseBack
-import com.malka.androidappp.fragments.myProductFragment.edit_product.EditProductResponseBack
-import com.malka.androidappp.fragments.myProductFragment.edit_product.ModelEditProduct
-import com.malka.androidappp.fragments.sellerdetails.SellerResponseBack
 import com.malka.androidappp.fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ModelShipAddresses
 import com.malka.androidappp.fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ShippingAddressessData
 import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.data.network.constants.Constants
-import com.malka.androidappp.newPhase.data.network.constants.Constants.GET_CATEGORY_TAGS_ENDPOINT
-import com.malka.androidappp.newPhase.domain.models.GeneralResponses
 import com.malka.androidappp.newPhase.domain.models.accountBackListResp.AccountBankListResp
 import com.malka.androidappp.newPhase.domain.models.accountProfile.AccountInfo
 import com.malka.androidappp.newPhase.domain.models.addBidResp.AddBidResp
 import com.malka.androidappp.newPhase.domain.models.addOrderResp.AddOrderResp
-import com.malka.androidappp.newPhase.domain.models.addOrderResp.ProductOrderPaymentDetailsDto
 import com.malka.androidappp.newPhase.domain.models.addProductToCartResp.AddProductToCartResp
 import com.malka.androidappp.newPhase.domain.models.addRateResp.AddRateResp
 import com.malka.androidappp.newPhase.domain.models.addWaletTransactionResp.AddWalletTranactionResp
@@ -36,8 +19,6 @@ import com.malka.androidappp.newPhase.domain.models.cartListResp.CartListResp
 import com.malka.androidappp.newPhase.domain.models.cartPriceSummery.CartPriceSummeryResp
 import com.malka.androidappp.newPhase.domain.models.categoryFollowResp.AddFollowObj
 import com.malka.androidappp.newPhase.domain.models.categoryFollowResp.CategoryFollowResp
-import com.malka.androidappp.newPhase.domain.models.categoryFollowResp.FavoriteSeller
-import com.malka.androidappp.newPhase.domain.models.categoryFollowResp.SavedSearch
 import com.malka.androidappp.newPhase.domain.models.categoryResp.CategoriesResp
 import com.malka.androidappp.newPhase.domain.models.configrationResp.ConfigurationResp
 import com.malka.androidappp.newPhase.domain.models.contauctUsMessage.ContactUsMessageResp
@@ -66,22 +47,15 @@ import com.malka.androidappp.newPhase.domain.models.questionResp.AddQuestionResp
 import com.malka.androidappp.newPhase.domain.models.questionsResp.QuestionsResp
 import com.malka.androidappp.newPhase.domain.models.ratingResp.CurrentUserRateResp
 import com.malka.androidappp.newPhase.domain.models.ratingResp.RateProductResponse
-import com.malka.androidappp.newPhase.domain.models.ratingResp.RateResponse
 import com.malka.androidappp.newPhase.domain.models.regionsResp.RegionsResp
 import com.malka.androidappp.newPhase.domain.models.resgisterResp.RegisterResp
 import com.malka.androidappp.newPhase.domain.models.sellerInfoResp.SellerInfoResp
 import com.malka.androidappp.newPhase.domain.models.sellerRateListResp.SellerRateListResp
 import com.malka.androidappp.newPhase.domain.models.servicemodels.*
 import com.malka.androidappp.newPhase.domain.models.servicemodels.addtocart.AddToCartResponseModel
-import com.malka.androidappp.newPhase.domain.models.servicemodels.addtocart.InsertToCartRequestModel
-import com.malka.androidappp.newPhase.domain.models.servicemodels.categorylistings.CategoryResponse
-import com.malka.androidappp.newPhase.domain.models.servicemodels.checkout.CheckoutRequestModel
 import com.malka.androidappp.newPhase.domain.models.servicemodels.creditcard.CreditCardModel
 import com.malka.androidappp.newPhase.domain.models.servicemodels.creditcard.CreditCardResponse
 import com.malka.androidappp.newPhase.domain.models.servicemodels.favourites.FavouriteObject
-import com.malka.androidappp.newPhase.domain.models.servicemodels.favourites.favouriteadd
-import com.malka.androidappp.newPhase.domain.models.servicemodels.feedbacks.FeedbackObject
-import com.malka.androidappp.newPhase.domain.models.servicemodels.home.visitcount.visit_count_object
 import com.malka.androidappp.newPhase.domain.models.servicemodels.questionModel.ModelAskQues
 import com.malka.androidappp.newPhase.domain.models.servicemodels.questionModel.ModelPostAns
 import com.malka.androidappp.newPhase.domain.models.servicemodels.questionModel.ModelQuesAnswr
@@ -95,33 +69,16 @@ import com.malka.androidappp.newPhase.domain.models.userPointsDataResp.UserPoint
 import com.malka.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.UserVerifiedResp
 import com.malka.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.ValidateAndGenerateOTPResp
 import com.malka.androidappp.newPhase.domain.models.walletDetailsResp.WalletDetailsResp
-import com.malka.androidappp.newPhase.presentation.searchProductListActivity.browse_market.popup_subcategories_list.ModelAddSearchFav
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
-import retrofit2.Response
 import retrofit2.http.*
 
 
 interface MalqaApiService {
-    //    @Multipart
-//    @POST("RegisterProviderWebsite")
-//    fun createuser(
-//        @Part("email") email: RequestBody,
-//        @Part("password") password: RequestBody,
-//        @Part("phone") phone: RequestBody,
-//        @Part("cPassword") cPassword: RequestBody,
-//        @Part("userName") userName: RequestBody,
-//        @Part("info") info: RequestBody,
-//        @Part("lang") lang: RequestBody,
-//        @Part("projectName") projectName: RequestBody,
-//        @Part("deviceType") deviceType: RequestBody,
-//        @Part("deviceId") deviceId: RequestBody,
-//        @Part file: MultipartBody.Part
-//    ): Call<GeneralRespone>
     @Multipart
     @POST("RegisterWebsite")
-    fun createuser2(
+    fun createUser2(
         @Part("userName") userName: RequestBody,
         @Part("phone") phone: RequestBody,
         @Part("email") email: RequestBody,
@@ -150,10 +107,10 @@ interface MalqaApiService {
         @Query("userName") userName: String,
         @Query("email") userEmail: String,
         @Query("phoneNumber") userPhone: String,
-      //  @Query("User-Language") lang: String,
+        //  @Query("User-Language") lang: String,
     ): Call<ValidateAndGenerateOTPResp>
 
-   // @GET("ResendOtp")
+    // @GET("ResendOtp")
     @GET("SendOtp")
     fun resendOtp(
         @Query("phoneNumber") userPhone: String,
@@ -167,24 +124,14 @@ interface MalqaApiService {
         @Query("otpCode") otpCode: String,
     ): Call<UserVerifiedResp>
 
-    @POST("Accounts/verify")
-    fun verifycode(@Body verifyusercode: PostReqVerifyCode): Call<BasicResponse>
-
     @GET("ListAllCategory?isShowInHome=true")
     fun getAllCategories(): Call<GeneralResponse>
 
     @GET("ListHomeCategoryProduct?currentPage=1&productNumber=10")
-    fun ListHomeCategoryProduct(
+    fun listHomeCategoryProduct(
         @Query("lang")
         language: String = ConstantObjects.currentLanguage
     ): Call<HomeCategoryProductResp>
-
-
-//    @GET("GetSliderImages")
-//    fun getHomeSlidersImages(
-//        @Query("lang")
-//        language: String = ConstantObjects.currentLanguage
-//    ): Call<HomeSliderResp>
 
     @GET("ListAdvertisments")
     fun getHomeSlidersImages(
@@ -228,12 +175,6 @@ interface MalqaApiService {
         @Query("productId") productId: Int,
         @Query("lang") language: String = ConstantObjects.currentLanguage
     ): Call<SellerInfoResp>
-
-    @GET("GetProductById")
-    fun getAdDetailById(
-        @Query("id") id: String,
-        @Query("lang") language: String = ConstantObjects.currentLanguage
-    ): Call<GeneralRespone>
 
     @Multipart
     @POST("AddQuestion")
@@ -282,7 +223,7 @@ interface MalqaApiService {
     ): Call<GeneralResponse>
 
     @GET("ListFavoriteProduct")
-    fun getUserWatchlist(@Query("lang") language: String = ConstantObjects.currentLanguage): Call<ProductListResp>;
+    fun getUserWatchlist(@Query("lang") language: String = ConstantObjects.currentLanguage): Call<ProductListResp>
 
 
     @GET("GetListCategoriesByProductName")
@@ -298,11 +239,6 @@ interface MalqaApiService {
         @Query("currentPage") page: String = "1"
     ): Call<DynamicSpecificationResp>
 
-    @GET("ListAllSpecificationAndSubSpecificationByCatId")
-    fun getSpecification(
-        @Query("id") id: String,
-        @Query("lang") language: String = ConstantObjects.currentLanguage
-    ): Call<GeneralResponse>
 
     @GET("GetAllPakatsList")
     fun getAllPakatList(
@@ -356,6 +292,7 @@ interface MalqaApiService {
         @PartMap partMap: Map<String, @JvmSuppressWildcards RequestBody>,
         // @Part files: List<MultipartBody.Part>
     ): Call<AddProductResponse>
+
     @Multipart
     @POST("AddProduct")
     fun addProduct3(
@@ -366,17 +303,11 @@ interface MalqaApiService {
         @Part sendPaymentOptionList: ArrayList<MultipartBody.Part>,
         @Part productBankAccounts: ArrayList<MultipartBody.Part>,
     ): Call<AddProductResponse>
-    @Multipart
-    @POST("AddProduct")
-    fun addProduct3(
-        @PartMap partMap: Map<String, @JvmSuppressWildcards RequestBody>,
-        @Part part: List<MultipartBody.Part>?,
-    ): Call<AddProductResponse>
 
 
     @Multipart
     @POST("AddRateProduct")
-    fun AddRateProduct(
+    fun addRateProduct(
         @PartMap partMap: Map<String, @JvmSuppressWildcards RequestBody>,
     ): Call<AddRateResp>
 
@@ -402,10 +333,6 @@ interface MalqaApiService {
         @Query("lang") language: String = ConstantObjects.currentLanguage
     ): Call<ProductListResp>
 
-    //    @GET("AdvancedFilter")
-//    fun searchForProductInCategory(@QueryName(encoded = true) queryString: HashMap<String,String>):Call<ProductListResp>
-//    @GET("AdvancedFilter")
-//    fun searchForProductInCategory(@Query("mainCatId")mainCatId:Int,@QueryName queryString: HashMap<String,String>):Call<ProductListResp>
     @GET
     fun searchForProductInCategory(
         @Url url: String
@@ -453,9 +380,6 @@ interface MalqaApiService {
     ): Call<SellerRateListResp>
 
 
-
-
-
     @GET("GetAllShippingOptions")
     fun getAllShippingOptions(
 //        @Query("providerId") providerId: String,
@@ -467,7 +391,7 @@ interface MalqaApiService {
     fun getSellerRates(
         @Query("pageIndex") page: Int,
         @Query("rate") rate: Int?,
-        @Query("providerId")providerId : String =ConstantObjects.logged_userid,
+        @Query("providerId") providerId: String = ConstantObjects.logged_userid,
         @Query("lang") language: String = ConstantObjects.currentLanguage
     ): Call<SellerRateListResp>
 
@@ -476,7 +400,7 @@ interface MalqaApiService {
     fun getBuyerRates(
         @Query("pageIndex") page: Int,
         @Query("rate") rate: Int?,
-        @Query("buyerId")providerId : String =ConstantObjects.logged_userid,
+        @Query("buyerId") providerId: String = ConstantObjects.logged_userid,
         @Query("lang") language: String = ConstantObjects.currentLanguage
     ): Call<SellerRateListResp>
 
@@ -529,7 +453,11 @@ interface MalqaApiService {
 
     @Multipart
     @POST("ConfirmBankTransferPayment")
-    fun confirmBankTransferPayment( @PartMap partMap: Map<String, @JvmSuppressWildcards RequestBody>,@Part part: MultipartBody.Part?): Call<GeneralResponse>
+    fun confirmBankTransferPayment(
+        @PartMap partMap: Map<String, @JvmSuppressWildcards RequestBody>,
+        @Part part: MultipartBody.Part?
+    ): Call<GeneralResponse>
+
     @Multipart
     @POST("AddAddressForUser")
     fun addAddressForUser(
@@ -575,6 +503,7 @@ interface MalqaApiService {
 
     @DELETE("RemoveProduct")
     fun removeProduct(@Query("id") productId: Int): Call<GeneralResponse>
+
     @POST("RepostProduct")
     fun repostProduct(@Query("productId") productId: Int): Call<GeneralResponse>
 
@@ -586,10 +515,12 @@ interface MalqaApiService {
         @Part productOrderPaymentDetailsDto: List<MultipartBody.Part>?
 
     ): Call<AddOrderResp>
+
     @POST("addPaymentTransaction")
     fun addPaymentTransaction(
         @Body partMap: HashMap<String, Any>,
     ): Call<GeneralResponse>
+
     @POST("ApplyCouponOnCart")
     fun applyCouponOnCart(
         @Query("cartMasterId") cartMasterId: String,
@@ -601,7 +532,7 @@ interface MalqaApiService {
     fun applyCouponOnCart(
         @Query("cartMasterId") cartMasterId: String,
         @Query("couponCode") couponCode: String,
-        @Query("couponForProviderId") providerId:String,
+        @Query("couponForProviderId") providerId: String,
         @Query("buyWithFixedRpriceOrNegotiation") buyWithFixedRpriceOrNegotiation: String,
         @Query("couponForbusinessAccountId") couponForbusinessAccountId: String?
     ): Call<GeneralResponse>
@@ -610,7 +541,7 @@ interface MalqaApiService {
     fun unApplyCouponOnCart(
         @Query("cartMasterId") cartMasterId: String,
         @Query("couponCode") couponCode: String,
-        @Query("couponForProviderId") providerId:String,
+        @Query("couponForProviderId") providerId: String,
         @Query("buyWithFixedRpriceOrNegotiation") buyWithFixedRpriceOrNegotiation: String,
         @Query("couponForbusinessAccountId") couponForbusinessAccountId: String?
     ): Call<GeneralResponse>
@@ -621,7 +552,7 @@ interface MalqaApiService {
         @Query("sellerId") sellerProviderId: String,
         @Query("sellerBusinssAccountId") sellerBusinssAccountId: String,
         @Query("lang") language: String = ConstantObjects.currentLanguage
-    ): Call<ProductListResp>;
+    ): Call<ProductListResp>
 
     @GET("GetOrderDetailsByOrderId")
     fun getOrderDetailsByOrderID(
@@ -652,15 +583,13 @@ interface MalqaApiService {
     fun removeShipmentProductsFromCart(
         @Query("businessAccountId") businessAccountId: String?,
         @Query("cartMasterId") cartMasterId: String,
-        @Query("providerId") providerId:String,
+        @Query("providerId") providerId: String,
     ): Call<GeneralResponse>
 
     @GET("GetUserWalletTransactions")
     fun getWalletDetails(
         @Query("lang") language: String = ConstantObjects.currentLanguage
     ): Call<WalletDetailsResp>
-
-
 
 
     @GET("GetMyAccountMainPageData")
@@ -709,45 +638,18 @@ interface MalqaApiService {
 
     @GET("GatAllBusinessAccounts")
     fun gatAllBusinessAccounts(): Call<BusinessAccountsListResp>
+
     @GET("ChangeAccount")
-    fun changeBusinessAccount(@Query("businessAccountId")businessAccountId:Int): Call<ChangeBussinesAccountResp>
+    fun changeBusinessAccount(@Query("businessAccountId") businessAccountId: Int): Call<ChangeBussinesAccountResp>
+
     @Multipart
     @POST("AddEditBusinessAccount")
     fun addEditBusinessAccount(
-//        BusinessAccountNameAr: تست2
-//        BusinessAccountNameEn: Test2
-//        BusinessAccountUserName: Test2
-//        BusinessAccountEmail: test2@gmail.com
-//    BusinessAccountImage: (binary)
-//    CountryId: 1
-//    RegionId: 1
-//    BusinessAccountPhoneNumber: 7410
-//    NeighborhoodId: 1
-//    districtName:
-//    BusinessAccountWebsite:
-//    BusinessAccountFaceBook:
-//    BusinessAccountYouTube:
-//    BusinessAccountLinkedIn:
-//    streetNumber:
-//    BusinessAccountTwitter:
-//    BusinessAccountInstagram:
-//    BusinessAccountTikTok:
-//    DetailRegistrationNumber: 7410
-//    RegistrationNumberExpiryDate: 2023-10-31
-//    VatNumber: 10
-//    Maroof: maroof@gmail.com
-//    RegistrationDocumentType: 1
-//    ZipCode:
-//    Trade15Years: true
-//    ProviderId: dcefff0d-ed28-4013-9ce5-1ba652b0d3e8
-//    IsDeleted: false
-//    IsActive: true
-//    BusinessAccountCertificates: (binary)
         @Part("id") id: RequestBody,
-        @Part("BusinessAccountUserName") businessAccountUserName : RequestBody,
+        @Part("BusinessAccountUserName") businessAccountUserName: RequestBody,
         @Part("ProviderId") providerId: RequestBody,
         @Part("BusinessAccountNameAr") businessAccountNameAr: RequestBody,
-        @Part("BusinessAccountNameEn") BusinessAccountNameEn : RequestBody,
+        @Part("BusinessAccountNameEn") BusinessAccountNameEn: RequestBody,
         @Part("BusinessAccountEmail") BusinessAccountEmail: RequestBody,
         @Part("BusinessAccountPhoneNumber") BusinessAccountPhoneNumber: RequestBody,
         @Part BusinessAccountImage: MultipartBody.Part?,
@@ -777,28 +679,30 @@ interface MalqaApiService {
         @Part("IsDeleted") IsDeleted: RequestBody,
         @Part("IsActive") IsActive: RequestBody,
 
-    ): Call<GeneralResponse>
+        ): Call<GeneralResponse>
 
 
     @Multipart
     @POST("EditProfileImage")
     fun editProfileImage(@Part part: MultipartBody.Part?): Call<GeneralResponse>
+
     @GET("GetUserData")
-    fun getUserData():Call<LoginResp>
+    fun getUserData(): Call<LoginResp>
 
     @POST("EditProfileChangePassword")
-    fun editProfileChangePassword(@Body data:HashMap<String,Any>): Call<GeneralResponse>
+    fun editProfileChangePassword(@Body data: HashMap<String, Any>): Call<GeneralResponse>
 
     @POST("EditProfileChangeEmail")
-    fun editProfileChangeEmail(@Query("email")email:String): Call<GeneralResponse>
+    fun editProfileChangeEmail(@Query("email") email: String): Call<GeneralResponse>
 
     @POST("ConfirmChangeEmail")
-    fun confirmChangeEmail(@Body data:HashMap<String,Any>): Call<GeneralResponse>
+    fun confirmChangeEmail(@Body data: HashMap<String, Any>): Call<GeneralResponse>
 
     @POST("UpdateUserMobileNumber")
-    fun updateUserMobileNumber(@Body data:HashMap<String,Any>): Call<GeneralResponse>
+    fun updateUserMobileNumber(@Body data: HashMap<String, Any>): Call<GeneralResponse>
+
     @POST("UpdateAccountProfile")
-    fun updateAccountProfile(@Body data:HashMap<String,Any>): Call<EditProfileResp>
+    fun updateAccountProfile(@Body data: HashMap<String, Any>): Call<EditProfileResp>
 
 
     @Multipart
@@ -856,6 +760,7 @@ interface MalqaApiService {
         @Query("sellerId") sellerId: String?,
         @Query("sellerBusinessAccountId") sellerBusinessAccountId: String?
     ): Call<GeneralResponse>
+
     @GET("GetCouponByCode")
     fun getCouponByCode(
         @Query("couponCode") couponCode: String,
@@ -866,47 +771,6 @@ interface MalqaApiService {
         @Query("sellerId") sellerId: String?,
         @Query("sellerBusinessAccountId") sellerBusinessAccountId: String?
     ): Call<GeneralResponse>
-    /***
-     * ***********************************
-     * ***********************************
-     * ***********************************
-     * ***********************************
-     * **/
-    // ?currentPage=1
-    //+++++++++++++++++++++++++++++++++++++++++
-    //+++++++++++++++++++++++++++++++++++++++++
-    //+++++++++++++++++++++++++++++++++++++++++
-    @GET("ListAdvertisments")
-    fun SliderAPI(): Call<GeneralResponse>
-
-
-    @GET("BussinessProduct/detailsofproduct")
-    fun getProductDetailById(
-        @Query("id") id: String,
-        @Query("loginUserId") loginUserId: String
-    ): Call<ProductResponseBack>
-
-
-    @POST("Accounts/updatePersonalInfo")
-    fun updateUserSiginup(@Body updateusersignupp: User): Call<User>
-
-    @POST("Accounts/ResendCode")
-    fun resendcode(@Body resendotpcode: User): Call<BasicResponse>
-
-
-    @POST("CarTemplate/Create")
-    fun createAllAd(@Body data: HashMap<String, String>): Call<CreateAdvResponseBack>
-
-
-    @POST("CarTemplate/update")
-    fun updateCarTemplate(@Body data: HashMap<String, String>): Call<CreateAdvResponseBack>
-
-
-    @POST("Accounts/insertaddress")
-    fun insertAddress(@Body info: GetAddressResponse.AddressModel): Call<GeneralRespone>
-
-    @POST("Accounts/updateAdress")
-    fun updateAddress(@Body info: GetAddressResponse.AddressModel): Call<GeneralRespone>
 
     @POST("Accounts/CreateBusinessAccount")
     fun addBusinesUser(@Body info: BusinessUserRespone.BusinessUser): Call<GeneralRespone>
@@ -914,68 +778,31 @@ interface MalqaApiService {
     @POST("Accounts/UploadBusinessDocuments")
     fun addBusinessRegisterFile(@Body info: getBusinessRegisterFile.GetDocuments): Call<GeneralRespone>
 
-    @POST("UserBankAccount/AddUserBankAccount")
-    fun addbankaccount(@Body info: BankListRespone.BankDetail): Call<GeneralRespone>
 
     @GET("Accounts/getaddresses")
     fun getAddress(@Query("loginId") loginId: String): Call<GetAddressResponse>
 
-    @GET("UserBankAccount/UserBankAccountsById")
-    fun getBankDetail(@Query("UserID") loginId: String): Call<BankListRespone>
-
-    @GET("Accounts/GetBusinessListByUserId")
-    fun getBusinessUserList(@Query("UserID") loginId: String): Call<BusinessUserRespone>
-
-
     @GET("Accounts/GetUser")
-    fun getuser(@Query("id") userid: String): Call<UserObject>;
-
-
-    @GET("Auction/getall")
-    fun getuserfeedback(@Query("loggedin") userid: String): Call<FeedbackObject>;
+    fun getuser(@Query("id") userid: String): Call<UserObject>
 
     @GET("all")
-    fun getuserfavourites(@Query("loggedIn") userid: String): Call<FavouriteObject>;
+    fun getuserfavourites(@Query("loggedIn") userid: String): Call<FavouriteObject>
 
-
-    @GET("Accounts/GetUser")
-    fun getAdSeller(
-        @Query("id") id: String,
-        @Query("loggedin") loggedin: String
-    ): Call<SellerResponseBack>
-
-    @GET("Accounts/GetUser")
-    fun getAdSellerByID(
-        @Query("id") id: String
-    ): Call<ModelSellerDetails>
-
-
-    @POST("Accounts/ForgetEmailRequest")
-    fun forgotpassemail(@Body forgottpass: User): Call<GeneralRespone>
 
     @POST("Accounts/ChangePassword")
     fun changepass(@Body changepasspost: User): Call<User>
 
     @POST("AddFavoriteProduct")
-    fun InsertAdtoUserWatchlist(@Query("productId") productId: Int): Call<AddFavResponse>
+    fun insertAddToUserWatchlist(@Query("productId") productId: Int): Call<AddFavResponse>
 
     @POST("Watchlist/delete")
-    fun DeleteAdFromUserWatchlist(
+    fun deleteAdFromUserWatchlist(
         @Query("userid") userid: String,
         @Query("adid") adsId: String
     ): Call<BasicResponse>
 
-    @POST("Accounts/userimageupload")
-    fun userimageupload(
-        @Query("userId") userid: String,
-        @Body imagebase64string: String
-    ): Call<UserImageResponseBack>
-
     @POST("?")
-    fun InsertToUserFavouritelist(@Body insertfav: favouriteadd): Call<BasicResponse>
-
-    @POST("?")
-    fun DeleteFromUserFavouritelist(
+    fun deleteFromUserFavoriteList(
         @Query("sellerid") sellerid: String,
         @Query("category") category: String,
         @Query("query") query: String,
@@ -991,23 +818,6 @@ interface MalqaApiService {
         @Query("loggedin") qalogid: String
     ): Call<ModelQuesAnswr>
 
-    @GET("$GET_CATEGORY_TAGS_ENDPOINT?")
-    fun getCategoryTags(
-        @Query("name") name: String
-    ): Call<CategoryTagsResp>
-
-    @GET("BussinessProduct/getall")
-    fun getAllProducts(): Call<AllProductsResponseBack>
-
-
-    @POST("Favourite/insertseller")
-    fun addSellerFav(@Body addfav: ModelAddSellerFav): Call<ModelAddSellerFav>
-
-    @POST("Favourite/insertcategory")
-    fun addCatFav(@Body addfav: ModelAddCatFav): Call<ModelAddCatFav>
-
-    @POST("Favourite/insertsearch")
-    fun addSearchFav(@Body addfav: ModelAddSearchFav): Call<ModelAddSearchFav>
 
     @POST("AdvQueAndAns/answer")
     fun postAnsByQid(
@@ -1016,130 +826,65 @@ interface MalqaApiService {
         @Query("Loggedin") ansLoginId: String
     ): Call<ModelPostAns>
 
-
-    @GET(Constants.HOME_TOTAL_VISIT_COUNT)
-    fun GetTotalVisitCount(): Call<visit_count_object>;
-
     @GET("Accounts/soldunsolditems")
-    fun getunsolditemsbyId(@Query("userid") userid: String): Call<ModelSoldUnsold>
-
-    @GET(
-        "Accounts/soldunsolditems"
-    )
     fun getsolditemsbyId(@Query("userid") userid: String): Call<ModelSoldUnsold>
-
-    @POST("BusinessUser/Insertbusinessuser")
-    fun busiRegis(@Body busiReg: ModelBusinessRegistration): Call<ModelBusinessRegistration>
 
 
     @GET("GetAllOnlineUsers")
-    fun GetTotalOnlineUers(): Call<ModelGetTotalOnlineUsers>
+    fun getTotalOnlineUsers(): Call<ModelGetTotalOnlineUsers>
 
     @GET("Accounts/usercount")
     fun getTotalMembers(): Call<ModelGetTotalMembers>
-
-    @GET(Constants.GET_AD_DETAIL_BIDING_PRICE_ENDPOINT)
-    fun getbidgpricebyAdvId(@Query("advId") getbidByadvId: String): Call<ModelBidingResponse>
-
-    @POST(Constants.POST_MAX_BIDING_PRICE)
-    fun postBidPrice(@Body postBidpricee: ModelPostBidPrice): Call<ModelPostBidPrice>
 
     @GET(Constants.GET_BUYNOW_SHIPPINGADDRESS_ENDPOINT)
     fun getshipaddress(@Query("loginId") getaddressbyLoginId: String): Call<ModelShipAddresses>
 
     @POST(Constants.INSERT_BUYNOW_SHIPPINGADDRESS_ENDPOINT)
-    fun AddNewShippingAddress(@Body shippingaddress: ShippingAddressessData): Call<BasicResponse>
-
-    @GET("CarTemplate/Search")
-    fun searchcategorylist(@Query("query") category: String): Call<CategoryResponse>;
-
-    @POST("BussinessProduct/createproduct")
-    fun createBusinessProduct(@Body createproduct: ModelCreateProduct): Call<CreateProductResponseBack>
-
-    @POST("Auction/InsertFeedback")
-    fun giveFeedback(@Body giveFeedback: ModelGiveFeedBack): Call<GiveFeedbackResponseBack>
-
-    @POST("BussinessProduct/editproduct")
-    fun editBusinessProduct(@Body editproduct: ModelEditProduct): Call<EditProductResponseBack>
+    fun addNewShippingAddress(@Body shippingaddress: ShippingAddressessData): Call<BasicResponse>
 
 
     //  GeneralResponses
     @GET("CardDetail/getbyuserid")
-    fun GetUserCreditCards(@Query("usid") userid: String): Call<CreditCardResponse>;
+    fun getUserCreditCards(@Query("usid") userid: String): Call<CreditCardResponse>
 
     @POST("CardDetail/insertcard")
-    fun InsertUserCreditCard(@Body insertads: CreditCardModel): Call<BasicResponse>
+    fun insertUserCreditCard(@Body insertads: CreditCardModel): Call<BasicResponse>
 
     @POST("CardDetail/updatecard")
-    fun UpdateUserCreditCard(@Body insertads: CreditCardModel): Call<BasicResponse>
+    fun updateUserCreditCard(@Body insertads: CreditCardModel): Call<BasicResponse>
 
     @DELETE("CardDetail/deletecard")
-    fun DeleteUserCreditCard(@Query("id") userid: String): Call<BasicResponse>
+    fun deleteUserCreditCard(@Query("id") userid: String): Call<BasicResponse>
 
     @GET("AddToCart/getbyloginuserid")
-    fun GetUsersCartList(@Query("loggedinUserId") userid: String): Call<AddToCartResponseModel>;
-
-    @POST("AddToCart/create")
-    fun AddToUserCart(@Body addtocart: InsertToCartRequestModel): Call<BasicResponse>
-
-    @GET("AddToCart/getall")
-    fun getMyRequest(@Query("loginId") loginId: String): Call<getCartModel>
+    fun getUsersCartList(@Query("loggedinUserId") userid: String): Call<AddToCartResponseModel>
 
     @DELETE("AddToCart/delete")
-    fun DeleteFromUserCart(@Query("id") userid: String): Call<BasicResponse>
+    fun deleteFromUserCart(@Query("id") userid: String): Call<BasicResponse>
 
-    @POST("Checkout/checkoutiteminsert")
-    fun PostUserCheckOut(@Body checkout: CheckoutRequestModel): Call<GeneralRespone>
-
-    @GET()
+    @GET
     fun jsonTemplates(@Url url: String): Call<JsonObject>
 
-
-    // NEw API START HERE
-
     @POST("AddFollow")
-    fun AddFollow(@Body addFollow: AddFollowObj): Call<GeneralResponse>
+    fun addFollow(@Body addFollow: AddFollowObj): Call<GeneralResponse>
 
 
     @DELETE("RemoveFollow")
-    fun RemoveFollow(@Query("catId") catId: Int): Call<GeneralResponse>
+    fun removeFollow(@Query("catId") catId: Int): Call<GeneralResponse>
 
     @GET("ListCategoryFollow")
     fun getListCategoryFollow(@Query("lang") language: String = ConstantObjects.currentLanguage): Call<CategoryFollowResp>
 
-    @GET("ListFavoriteSeller")
-    fun getListFavoriteSeller(@Query("lang") language: String = ConstantObjects.currentLanguage): Call<GeneralResponses<List<FavoriteSeller>>>
-
-    @GET("ListSavedSearch")
-    fun getListSaveSearch(@Query("lang") language: String = ConstantObjects.currentLanguage): Call<GeneralResponses<List<SavedSearch>>>
-    @POST("RemoveSavedSearch")
-    fun removeSavedSearch(@Query ("savedSearchId") savedSearchId :Int,@Query("lang") language: String = ConstantObjects.currentLanguage): Call<GeneralResponse>
-
-    @POST("SaveSearch")
-    fun savedSearch(@Query ("searchString") searchString :String,@Query("lang") language: String = ConstantObjects.currentLanguage): Call<GeneralResponse>
-
-    @GET("GetCategoryById")
-    fun GetCategoryById(
-        @Query("id") id: Int,
-        @Query("lang") language: String = ConstantObjects.currentLanguage
-    ): Call<GeneralResponse>
-
-    @GET("AdvanceFiltter")
-    fun AdvanceFiltter(
-        @QueryMap filter: Map<String, String>,
-        @Query("lang") language: String = ConstantObjects.currentLanguage
-    ): Call<GeneralResponse>
-
 
     @GET("Serach?pageIndex=1&&PageRowsCount=10")
-    fun Serach(
+    fun serach(
         @QueryMap filter: Map<String, String>,
         @Query("lang") language: String = ConstantObjects.currentLanguage
     ): Call<GeneralResponse>
 
-    @GET("GetSubCategoryByMainCategory")
-    fun GetSubCategoryByMainCategory(
-        @Query("id") id: String,
+    @POST("SaveSearch")
+    fun savedSearch(
+        @Query("searchString") searchString: String,
         @Query("lang") language: String = ConstantObjects.currentLanguage
     ): Call<GeneralResponse>
 
@@ -1183,9 +928,6 @@ interface MalqaApiService {
     ): Call<LoginResp>
 
 
-    @GET("ListSimilarProducts?currentPage=1&lang=ar")
-    fun getsimilar(): Call<BasicResponse>
-
     @POST("AddBid")
     fun addBid(@Body body: HashMap<String, Any>): Call<AddBidResp>
 
@@ -1210,9 +952,210 @@ interface MalqaApiService {
 
     @POST("AddProductBidOffers")
     fun addProductBidOffers(
-@Body requestBidOffers: RequestBidOffers,
+        @Body requestBidOffers: RequestBidOffers,
     ): Call<GeneralResponse>
 
     @GET("MyBids")
     fun getMyBids(): Call<ProductListResp>
+
+//    @GET("${Constants.GET_CATEGORY_TAGS_ENDPOINT}?")
+//    fun getCategoryTags(
+//        @Query("name") name: String
+//    ): Call<CategoryTagsResp>
+
+//    @POST("Accounts/ForgetEmailRequest")
+//    fun forgotpassemail(@Body forgottpass: User): Call<GeneralRespone>
+
+    //    @Multipart
+//    @POST("RegisterProviderWebsite")
+//    fun createuser(
+//        @Part("email") email: RequestBody,
+//        @Part("password") password: RequestBody,
+//        @Part("phone") phone: RequestBody,
+//        @Part("cPassword") cPassword: RequestBody,
+//        @Part("userName") userName: RequestBody,
+//        @Part("info") info: RequestBody,
+//        @Part("lang") lang: RequestBody,
+//        @Part("projectName") projectName: RequestBody,
+//        @Part("deviceType") deviceType: RequestBody,
+//        @Part("deviceId") deviceId: RequestBody,
+//        @Part file: MultipartBody.Part
+//    ): Call<GeneralRespone>
+
+
+//    @POST("Accounts/verify")
+//    fun verifycode(@Body verifyusercode: PostReqVerifyCode): Call<BasicResponse>
+
+    //    @GET("GetSliderImages")
+//    fun getHomeSlidersImages(
+//        @Query("lang")
+//        language: String = ConstantObjects.currentLanguage
+//    ): Call<HomeSliderResp>
+//    @GET("GetProductById")
+//    fun getAdDetailById(
+//        @Query("id") id: String,
+//        @Query("lang") language: String = ConstantObjects.currentLanguage
+//    ): Call<GeneralRespone>
+
+//    @GET("ListAllSpecificationAndSubSpecificationByCatId")
+//    fun getSpecification(
+//        @Query("id") id: String,
+//        @Query("lang") language: String = ConstantObjects.currentLanguage
+//    ): Call<GeneralResponse>
+
+//    @Multipart
+//    @POST("AddProduct")
+//    fun addProduct3(
+//        @PartMap partMap: Map<String, @JvmSuppressWildcards RequestBody>,
+//        @Part part: List<MultipartBody.Part>?,
+//    ): Call<AddProductResponse>
+
+    //    @GET("AdvancedFilter")
+//    fun searchForProductInCategory(@QueryName(encoded = true) queryString: HashMap<String,String>):Call<ProductListResp>
+//    @GET("AdvancedFilter")
+//    fun searchForProductInCategory(@Query("mainCatId")mainCatId:Int,@QueryName queryString: HashMap<String,String>):Call<ProductListResp>
+
+
+//    @POST("UserBankAccount/AddUserBankAccount")
+//    fun addbankaccount(@Body info: BankListRespone.BankDetail): Call<GeneralRespone>
+//    @GET("UserBankAccount/UserBankAccountsById")
+//    fun getBankDetail(@Query("UserID") loginId: String): Call<BankListRespone>
+//
+//    @GET("Accounts/GetBusinessListByUserId")
+//    fun getBusinessUserList(@Query("UserID") loginId: String): Call<BusinessUserRespone>
+
+    //    @GET("Auction/getall")
+//    fun getuserfeedback(@Query("loggedin") userid: String): Call<FeedbackObject>
+
+    //    @GET("Accounts/GetUser")
+//    fun getAdSeller(
+//        @Query("id") id: String,
+//        @Query("loggedin") loggedin: String
+//    ): Call<SellerResponseBack>
+//
+//    @GET("Accounts/GetUser")
+//    fun getAdSellerByID(
+//        @Query("id") id: String
+//    ): Call<ModelSellerDetails>
+
+//    @GET("ListAdvertisments")
+//    fun SliderAPI(): Call<GeneralResponse>
+
+
+//    @GET("BussinessProduct/detailsofproduct")
+//    fun getProductDetailById(
+//        @Query("id") id: String,
+//        @Query("loginUserId") loginUserId: String
+//    ): Call<ProductResponseBack>
+
+
+//    @POST("Accounts/updatePersonalInfo")
+//    fun updateUserSiginup(@Body updateusersignupp: User): Call<User>
+//
+//    @POST("Accounts/ResendCode")
+//    fun resendcode(@Body resendotpcode: User): Call<BasicResponse>
+
+
+//    @POST("CarTemplate/Create")
+//    fun createAllAd(@Body data: HashMap<String, String>): Call<CreateAdvResponseBack>
+//
+//
+//    @POST("CarTemplate/update")
+//    fun updateCarTemplate(@Body data: HashMap<String, String>): Call<CreateAdvResponseBack>
+//
+//
+//    @POST("Accounts/insertaddress")
+//    fun insertAddress(@Body info: GetAddressResponse.AddressModel): Call<GeneralRespone>
+//
+//    @POST("Accounts/updateAdress")
+//    fun updateAddress(@Body info: GetAddressResponse.AddressModel): Call<GeneralRespone>
+
+//    @POST("Accounts/userimageupload")
+//    fun userimageupload(
+//        @Query("userId") userid: String,
+//        @Body imagebase64string: String
+//    ): Call<UserImageResponseBack>
+
+//    @POST("?")
+//    fun InsertToUserFavouritelist(@Body insertfav: favouriteadd): Call<BasicResponse>
+
+//    @GET("BussinessProduct/getall")
+//    fun getAllProducts(): Call<AllProductsResponseBack>
+//
+//
+//    @POST("Favourite/insertseller")
+//    fun addSellerFav(@Body addfav: ModelAddSellerFav): Call<ModelAddSellerFav>
+
+//    @POST("Favourite/insertcategory")
+//    fun addCatFav(@Body addfav: ModelAddCatFav): Call<ModelAddCatFav>
+//
+//    @POST("Favourite/insertsearch")
+//    fun addSearchFav(@Body addfav: ModelAddSearchFav): Call<ModelAddSearchFav>
+
+
+//    @GET(Constants.HOME_TOTAL_VISIT_COUNT)
+//    fun GetTotalVisitCount(): Call<visit_count_object>
+//
+//    @GET("Accounts/soldunsolditems")
+//    fun getunsolditemsbyId(@Query("userid") userid: String): Call<ModelSoldUnsold>
+
+
+//    @POST("BusinessUser/Insertbusinessuser")
+//    fun busiRegis(@Body busiReg: ModelBusinessRegistration): Call<ModelBusinessRegistration>
+
+//    @GET(Constants.GET_AD_DETAIL_BIDING_PRICE_ENDPOINT)
+//    fun getbidgpricebyAdvId(@Query("advId") getbidByadvId: String): Call<ModelBidingResponse>
+//
+//    @POST(Constants.POST_MAX_BIDING_PRICE)
+//    fun postBidPrice(@Body postBidpricee: ModelPostBidPrice): Call<ModelPostBidPrice>
+
+//    @GET("CarTemplate/Search")
+//    fun searchcategorylist(@Query("query") category: String): Call<CategoryResponse>
+
+//    @POST("BussinessProduct/createproduct")
+//    fun createBusinessProduct(@Body createproduct: ModelCreateProduct): Call<CreateProductResponseBack>
+
+//    @POST("Auction/InsertFeedback")
+//    fun giveFeedback(@Body giveFeedback: ModelGiveFeedBack): Call<GiveFeedbackResponseBack>
+//
+//    @POST("BussinessProduct/editproduct")
+//    fun editBusinessProduct(@Body editproduct: ModelEditProduct): Call<EditProductResponseBack>
+
+//    @GET("ListFavoriteSeller")
+//    fun getListFavoriteSeller(@Query("lang") language: String = ConstantObjects.currentLanguage): Call<GeneralResponses<List<FavoriteSeller>>>
+//
+//    @GET("ListSavedSearch")
+//    fun getListSaveSearch(@Query("lang") language: String = ConstantObjects.currentLanguage): Call<GeneralResponses<List<SavedSearch>>>
+//    @POST("RemoveSavedSearch")
+//    fun removeSavedSearch(@Query ("savedSearchId") savedSearchId :Int,@Query("lang") language: String = ConstantObjects.currentLanguage): Call<GeneralResponse>
+
+//    @POST("Checkout/checkoutiteminsert")
+//    fun PostUserCheckOut(@Body checkout: CheckoutRequestModel): Call<GeneralRespone>
+
+//    @POST("AddToCart/create")
+//    fun AddToUserCart(@Body addtocart: InsertToCartRequestModel): Call<BasicResponse>
+//
+//    @GET("AddToCart/getall")
+//    fun getMyRequest(@Query("loginId") loginId: String): Call<getCartModel>
+
+    //    @GET("GetCategoryById")
+//    fun GetCategoryById(
+//        @Query("id") id: Int,
+//        @Query("lang") language: String = ConstantObjects.currentLanguage
+//    ): Call<GeneralResponse>
+//
+//    @GET("AdvanceFiltter")
+//    fun AdvanceFiltter(
+//        @QueryMap filter: Map<String, String>,
+//        @Query("lang") language: String = ConstantObjects.currentLanguage
+//    ): Call<GeneralResponse>
+
+//    @GET("GetSubCategoryByMainCategory")
+//    fun GetSubCategoryByMainCategory(
+//        @Query("id") id: String,
+//        @Query("lang") language: String = ConstantObjects.currentLanguage
+//    ): Call<GeneralResponse>
+
+//    @GET("ListSimilarProducts?currentPage=1&lang=ar")
+//    fun getsimilar(): Call<BasicResponse>
 }

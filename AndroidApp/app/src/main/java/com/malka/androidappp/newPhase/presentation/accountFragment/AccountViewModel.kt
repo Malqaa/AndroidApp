@@ -3,7 +3,7 @@ package com.malka.androidappp.newPhase.presentation.accountFragment
 import androidx.lifecycle.MutableLiveData
 import com.malka.androidappp.newPhase.core.BaseViewModel
 import com.malka.androidappp.newPhase.data.helper.Extension.requestBody
-import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.addWaletTransactionResp.AddWalletTranactionResp
 import com.malka.androidappp.newPhase.domain.models.contauctUsMessage.ContactUsMessageResp
 import com.malka.androidappp.newPhase.domain.models.contauctUsMessage.TechnicalSupportMessageListResp
@@ -66,7 +66,7 @@ class AccountViewModel : BaseViewModel() {
 //            MultipartBody.Part.createFormData("imgProfile", "null", "null".toRequestBody())
 //        }
 
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .editProfileImage(multipartBody)
             .enqueue(object : Callback<GeneralResponse> {
                 override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
@@ -91,7 +91,7 @@ class AccountViewModel : BaseViewModel() {
     }
 
     fun getAccountInfo() {
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .getMyAccountInfo()
             .enqueue(object : Callback<AccountInfo> {
                 override fun onFailure(call: Call<AccountInfo>, t: Throwable) {
@@ -110,7 +110,7 @@ class AccountViewModel : BaseViewModel() {
 
     fun getWalletDetailsInAccountTap() {
         //  isLoading.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .getWalletDetails()
             .enqueue(object : Callback<WalletDetailsResp> {
                 override fun onFailure(call: Call<WalletDetailsResp>, t: Throwable) {
@@ -129,7 +129,7 @@ class AccountViewModel : BaseViewModel() {
 
     fun getWalletDetailsInWallet() {
         isLoading.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .getWalletDetails()
             .enqueue(object : Callback<WalletDetailsResp> {
                 override fun onFailure(call: Call<WalletDetailsResp>, t: Throwable) {
@@ -158,7 +158,7 @@ class AccountViewModel : BaseViewModel() {
         map["TransactionSource"] = transactionSource.requestBody()
         map["TransactionType"] = transactionType.requestBody()
         map["TransactionAmount"] = amount.requestBody()
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .addWalletTransaction(map)
             .enqueue(object : Callback<AddWalletTranactionResp> {
                 override fun onFailure(call: Call<AddWalletTranactionResp>, t: Throwable) {
@@ -183,7 +183,7 @@ class AccountViewModel : BaseViewModel() {
 
     fun getUserPointDetailsInAccountTap() {
         //  isLoading.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .getUserPointsTransactions()
             .enqueue(object : Callback<UserPointDataResp> {
                 override fun onFailure(call: Call<UserPointDataResp>, t: Throwable) {
@@ -202,7 +202,7 @@ class AccountViewModel : BaseViewModel() {
 
     fun getUserPointDetailsInWallet() {
         isLoading.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .getUserPointsTransactions()
             .enqueue(object : Callback<UserPointDataResp> {
                 override fun onFailure(call: Call<UserPointDataResp>, t: Throwable) {
@@ -227,7 +227,7 @@ class AccountViewModel : BaseViewModel() {
 
     fun convertMountToPoints(amount: String) {
         isLoading.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .transferPointsToMoney(amount)
             .enqueue(object : Callback<ConvertMoneyToPointResp> {
                 override fun onFailure(call: Call<ConvertMoneyToPointResp>, t: Throwable) {
@@ -252,7 +252,7 @@ class AccountViewModel : BaseViewModel() {
 
     fun grtLostProducts() {
         isLoading.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .getLostProducts()
             .enqueue(object : Callback<ProductListResp> {
                 override fun onFailure(call: Call<ProductListResp>, t: Throwable) {
@@ -294,7 +294,7 @@ class AccountViewModel : BaseViewModel() {
             map["id"] = id
         }
 
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .addEditContactUs(map)
             .enqueue(object : Callback<ContactUsMessageResp> {
                 override fun onFailure(call: Call<ContactUsMessageResp>, t: Throwable) {
@@ -319,7 +319,7 @@ class AccountViewModel : BaseViewModel() {
 
     fun getListContactUs() {
         isLoading.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .getListContactUs()
             .enqueue(object : Callback<TechnicalSupportMessageListResp> {
                 override fun onFailure(call: Call<TechnicalSupportMessageListResp>, t: Throwable) {
@@ -344,7 +344,7 @@ class AccountViewModel : BaseViewModel() {
 
     fun getUserData() {
         isLoading.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .getUserData()
             .enqueue(object : Callback<LoginResp> {
                 override fun onFailure(call: Call<LoginResp>, t: Throwable) {
@@ -368,7 +368,7 @@ class AccountViewModel : BaseViewModel() {
     }
 
     fun getUserDataForAccountTap() {
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .getUserData()
             .enqueue(object : Callback<LoginResp> {
                 override fun onFailure(call: Call<LoginResp>, t: Throwable) {
@@ -391,7 +391,7 @@ class AccountViewModel : BaseViewModel() {
         data["userId"] = loggedUserid
         data["oldPassword"] = currentPassword
         data["newPassword"] = newPassword
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .editProfileChangePassword(data)
             .enqueue(object : Callback<GeneralResponse> {
                 override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
@@ -416,7 +416,7 @@ class AccountViewModel : BaseViewModel() {
 
     fun changeUserEmail(newEmail: String) {
         isLoading.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .editProfileChangeEmail(newEmail)
             .enqueue(object : Callback<GeneralResponse> {
                 override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
@@ -445,7 +445,7 @@ class AccountViewModel : BaseViewModel() {
         var data: HashMap<String, Any> = HashMap()
         data["resetPasswordCode"] = otp
         data["newEmail"] = newEmail
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .confirmChangeEmail(data)
             .enqueue(object : Callback<GeneralResponse> {
                 override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
@@ -476,7 +476,7 @@ class AccountViewModel : BaseViewModel() {
 
     fun resendOtp(userPhone: String, language: String, otpType: String) {
         isLoading.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .resendOtp(userPhone, otpType, language)
             .enqueue(object : Callback<ValidateAndGenerateOTPResp> {
                 override fun onResponse(
@@ -505,7 +505,7 @@ class AccountViewModel : BaseViewModel() {
         data["id"] = userId
         data["mobileNumber"] = userPhone
         data["otpCode"] = otpCode
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .updateUserMobileNumber(data).enqueue(object : Callback<GeneralResponse> {
                 override fun onResponse(
                     call: Call<GeneralResponse>,
@@ -547,7 +547,7 @@ class AccountViewModel : BaseViewModel() {
         data["dateOfBirth"] = dateOfBirth
         data["gender"] = gender
         data["showUserInformation"] = showUserInformation
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .updateAccountProfile(data).enqueue(object : Callback<EditProfileResp> {
                 override fun onResponse(
                     call: Call<EditProfileResp>,

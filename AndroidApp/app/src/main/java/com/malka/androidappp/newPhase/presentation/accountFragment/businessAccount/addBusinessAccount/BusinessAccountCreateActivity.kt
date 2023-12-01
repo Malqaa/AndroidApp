@@ -35,11 +35,11 @@ import com.google.android.gms.location.LocationSettingsRequest
 import com.google.android.gms.location.LocationSettingsStatusCodes
 import com.google.gson.Gson
 import com.malka.androidappp.R
-import com.malka.androidappp.activities_main.place_picker.LocationPickerActivity
+import com.malka.androidappp.newPhase.utils.activitiesMain.placePicker.LocationPickerActivity
 import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.newPhase.data.helper.*
 import com.malka.androidappp.newPhase.data.helper.widgets.DatePickerFragment
-import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.ImageSelectModel
 import com.malka.androidappp.newPhase.domain.models.servicemodels.*
 import com.malka.androidappp.newPhase.presentation.accountFragment.businessAccount.BusinessAccountViewModel
@@ -64,9 +64,7 @@ import kotlinx.android.synthetic.main.activity_business_signup.regionContainer
 import kotlinx.android.synthetic.main.activity_business_signup.textEmaill
 import kotlinx.android.synthetic.main.activity_business_signup.tvCode
 import kotlinx.android.synthetic.main.activity_business_signup.userNamee
-import kotlinx.android.synthetic.main.fragment_account.ivUserImage
 import okhttp3.MultipartBody
-import java.io.File
 
 import kotlin.math.roundToInt
 
@@ -864,7 +862,7 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
 
         HelpFunctions.startProgressBar(this)
 
-        val malqa = RetrofitBuilder.GetRetrofitBuilder()
+        val malqa = getRetrofitBuilder()
 
         val UserNamee = userNamee.text.toString()
         val CompanyName = company_name_ar.text.toString()
@@ -1085,7 +1083,7 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
     fun addBusinessRegisterFile(businessId: String) {
 
 
-        val malqa = RetrofitBuilder.GetRetrofitBuilder()
+        val malqa = getRetrofitBuilder()
 
         val addBusinessDocumentFile = getBusinessRegisterFile.GetDocuments(
 

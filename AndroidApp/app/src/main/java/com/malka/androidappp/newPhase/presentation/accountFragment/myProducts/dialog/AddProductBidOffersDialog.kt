@@ -7,7 +7,7 @@ import android.widget.AdapterView
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseDialog
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
-import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.productResp.RequestBidOffers
 import com.malka.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
 import com.malka.androidappp.newPhase.presentation.accountFragment.negotiationOffersPurchase.adapter.SpinnerExpireHoursAdapter
@@ -104,7 +104,7 @@ class AddProductBidOffersDialog(
 //            list.add(item.toString())
 //        }
         println("hhhh " + productId + " " + price + " " + quentity + " " + bidIDsList.toString())
-        countriesCallback = RetrofitBuilder.GetRetrofitBuilder().addProductBidOffers(req)
+        countriesCallback = getRetrofitBuilder().addProductBidOffers(req)
         countriesCallback?.enqueue(object : Callback<GeneralResponse> {
             override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
                 progressBar.visibility = View.GONE

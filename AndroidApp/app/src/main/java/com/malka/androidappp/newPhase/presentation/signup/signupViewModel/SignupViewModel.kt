@@ -7,7 +7,7 @@ import com.google.gson.Gson
 import com.malka.androidappp.newPhase.core.BaseViewModel
 import com.malka.androidappp.newPhase.data.helper.Extension.requestBody
 import com.malka.androidappp.newPhase.data.network.callApi
-import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.resgisterResp.RegisterResp
 import com.malka.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.UserVerifiedResp
 import com.malka.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.ValidateAndGenerateOTPResp
@@ -43,7 +43,7 @@ class SignupViewModel : BaseViewModel() {
     ) {
         isLoading.value = true
         println("hhh $userName $email $fullNumberWithPlus $language")
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .validateUserAndGenerateOtp(userName, email, fullNumberWithPlus)
             .enqueue(object : Callback<ValidateAndGenerateOTPResp> {
                 override fun onResponse(
@@ -73,7 +73,7 @@ class SignupViewModel : BaseViewModel() {
 
     fun resendOtp(userPhone: String, language: String, otpType: String) {
         isLoading.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .resendOtp(userPhone, otpType, language)
             .enqueue(object : Callback<ValidateAndGenerateOTPResp> {
                 override fun onResponse(
@@ -98,7 +98,7 @@ class SignupViewModel : BaseViewModel() {
 
     fun verifyOtp(userPhone: String, otpCode: String) {
         isLoading.value = true
-        RetrofitBuilder.GetRetrofitBuilder()
+        getRetrofitBuilder()
             .verifyOtp(userPhone, otpCode).enqueue(object : Callback<UserVerifiedResp> {
                 override fun onResponse(
                     call: Call<UserVerifiedResp>, response: Response<UserVerifiedResp>
@@ -171,8 +171,8 @@ class SignupViewModel : BaseViewModel() {
 
 
 
-        RetrofitBuilder.GetRetrofitBuilder()
-            .createuser2(
+        getRetrofitBuilder()
+            .createUser2(
                 userName.requestBody(),
                 phoneNumber.requestBody(),
                 userEmail.requestBody(),

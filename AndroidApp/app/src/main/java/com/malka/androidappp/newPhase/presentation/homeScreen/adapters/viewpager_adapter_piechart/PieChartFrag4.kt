@@ -28,7 +28,7 @@ class PieChartFrag4 : Fragment() {
     // Count of listing
     fun getAllAdsData() {
 
-//        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+//        val malqa: MalqaApiService = getRetrofitBuilder()
 //        val call: Call<GetAllAds> = malqa.GetAllAds(ConstantObjects.logged_userid)
 //
 //        call.enqueue(object : Callback<GetAllAds> {

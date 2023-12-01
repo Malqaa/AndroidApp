@@ -21,7 +21,7 @@ import com.malka.androidappp.newPhase.data.helper.EndlessRecyclerViewScrollListe
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.data.helper.hide
 import com.malka.androidappp.newPhase.data.helper.show
-import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
+import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malka.androidappp.newPhase.data.network.service.MalqaApiService
 import com.malka.androidappp.newPhase.domain.enums.ProductPosition
 import com.malka.androidappp.newPhase.domain.models.ErrorResponse
@@ -605,8 +605,8 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
      * *******/
     private fun FollowCategoryAPI() {
         HelpFunctions.startProgressBar(this)
-        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-        val call = malqa.AddFollow(
+        val malqa: MalqaApiService = getRetrofitBuilder()
+        val call = malqa.addFollow(
             AddFollowObj(arrayListOf(categoryID))
         )
         // println("hhhh "+arrayListOf(categoryID))
@@ -653,8 +653,8 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
     private fun RemoveFollow() {
         HelpFunctions.startProgressBar(this)
-        val malqa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
-        val call = malqa.RemoveFollow(categoryID)
+        val malqa: MalqaApiService = getRetrofitBuilder()
+        val call = malqa.removeFollow(categoryID)
         call.enqueue(object : Callback<GeneralResponse?> {
             override fun onFailure(call: Call<GeneralResponse?>, t: Throwable) {
                 HelpFunctions.dismissProgressBar()
@@ -709,7 +709,7 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 //    fun addSearchQueryFav(searchQuery: String) {
 //        try {
 //
-//            val malqaa: MalqaApiService = RetrofitBuilder.GetRetrofitBuilder()
+//            val malqaa: MalqaApiService = getRetrofitBuilder()
 //
 //            val call: Call<ModelAddSearchFav> = malqaa.addSearchFav(
 //                ModelAddSearchFav(
