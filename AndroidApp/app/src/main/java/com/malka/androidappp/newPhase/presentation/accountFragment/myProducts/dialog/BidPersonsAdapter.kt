@@ -1,5 +1,6 @@
 package com.malka.androidappp.newPhase.presentation.accountFragment.myProducts.dialog
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -33,6 +34,7 @@ class BidPersonsAdapter(
 
     override fun getItemCount(): Int = bidPersonsDataList.size
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: BidPersonsViewHolder, position: Int) {
 
      if(bidPersonsDataList[position].userId==ConstantObjects.logged_userid){

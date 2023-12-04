@@ -2,19 +2,23 @@ package com.malka.androidappp.newPhase.presentation.productsSellerInfoActivity.v
 
 import androidx.lifecycle.MutableLiveData
 import com.malka.androidappp.newPhase.core.BaseViewModel
+import com.malka.androidappp.newPhase.data.network.callApi
 import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.productResp.ProductListResp
 import com.malka.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
 import retrofit2.Call
-import retrofit2.Callback
 import retrofit2.HttpException
-import retrofit2.Response
 
 class SellerViewModel : BaseViewModel() {
     var sellerProductsRespObserver: MutableLiveData<ProductListResp> = MutableLiveData()
     var addSellerToFavObserver: MutableLiveData<GeneralResponse> = MutableLiveData()
     var removeSellerToFavObserver: MutableLiveData<GeneralResponse> = MutableLiveData()
     var sellerLoading: MutableLiveData<Boolean> = MutableLiveData()
+
+    private var callSellerListProduct: Call<ProductListResp>? = null
+    private var callAddSellerToFav: Call<GeneralResponse>? = null
+    private var callRemoveSellerToFav: Call<GeneralResponse>? = null
+
     fun getSellerListProduct(page: Int, sellerProviderID: String, businessAccountId: String) {
         if (page == 1)
             isLoading.value = true
@@ -23,72 +27,90 @@ class SellerViewModel : BaseViewModel() {
 
         getRetrofitBuilder()
             .getListSellerProducts(page,sellerProviderID,businessAccountId)
-            .enqueue(object : Callback<ProductListResp> {
-                override fun onFailure(call: Call<ProductListResp>, t: Throwable) {
-                    isNetworkFail.value = t !is HttpException
-                    isLoading.value = false
-                    isloadingMore.value = false
+        callSellerListProduct=  getRetrofitBuilder().getListSellerProducts(page,sellerProviderID, businessAccountId)
+        callApi(callSellerListProduct!!,
+            onSuccess = {
+                isLoading.value = false
+                isloadingMore.value = false
+                sellerProductsRespObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoading.value = false
+                isloadingMore.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
                 }
-
-                override fun onResponse(
-                    call: Call<ProductListResp>,
-                    response: Response<ProductListResp>
-                ) {
-                    isLoading.value = false
-                    isloadingMore.value = false
-                    if (response.isSuccessful) {
-                        sellerProductsRespObserver.value = response.body()
-                    } else {
-                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
-                    }
-                }
+            },
+            goLogin = {
+                sellerLoading.value = false
+                needToLogin.value = true
             })
+
     }
 
     fun addSellerToFav(sellerProviderID:String?,businessAccountId:String?){
         sellerLoading.value = true
         getRetrofitBuilder()
             .addFavoriteSeller(sellerProviderID, businessAccountId)
-            .enqueue(object : Callback<GeneralResponse> {
-                override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
-                    isNetworkFail.value = t !is HttpException
-                    sellerLoading.value = false
-                }
 
-                override fun onResponse(
-                    call: Call<GeneralResponse>,
-                    response: Response<GeneralResponse>
-                ) {
-                    sellerLoading.value = false
-                    if (response.isSuccessful) {
-                        addSellerToFavObserver.value = response.body()
-                    } else {
-                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
-                    }
+        callAddSellerToFav=  getRetrofitBuilder().addFavoriteSeller(sellerProviderID, businessAccountId)
+        callApi(callAddSellerToFav!!,
+            onSuccess = {
+                sellerLoading.value = false
+                addSellerToFavObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                sellerLoading.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
                 }
+            },
+            goLogin = {
+                sellerLoading.value = false
+                needToLogin.value = true
             })
+
     }
     fun removeSellerToFav(sellerProviderID:String?,businessAccountId:String?){
         sellerLoading.value = true
-        getRetrofitBuilder()
-            .removeFavoriteSeller(sellerProviderID, businessAccountId)
-            .enqueue(object : Callback<GeneralResponse> {
-                override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
-                    isNetworkFail.value = t !is HttpException
-                    sellerLoading.value = false
-                }
 
-                override fun onResponse(
-                    call: Call<GeneralResponse>,
-                    response: Response<GeneralResponse>
-                ) {
-                    sellerLoading.value = false
-                    if (response.isSuccessful) {
-                        removeSellerToFavObserver.value = response.body()
-                    } else {
-                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
-                    }
+        callRemoveSellerToFav=  getRetrofitBuilder().removeFavoriteSeller(sellerProviderID, businessAccountId)
+        callApi(callRemoveSellerToFav!!,
+            onSuccess = {
+                sellerLoading.value = false
+                removeSellerToFavObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                sellerLoading.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
                 }
+            },
+            goLogin = {
+                sellerLoading.value = false
+                needToLogin.value = true
             })
+    }
+
+
+    fun closeAllCall() {
+        if (callSellerListProduct != null) {
+            callSellerListProduct?.cancel()
+        }
+        if (callAddSellerToFav != null) {
+            callAddSellerToFav?.cancel()
+        }
+        if (callRemoveSellerToFav != null) {
+            callRemoveSellerToFav?.cancel()
+        }
     }
 }

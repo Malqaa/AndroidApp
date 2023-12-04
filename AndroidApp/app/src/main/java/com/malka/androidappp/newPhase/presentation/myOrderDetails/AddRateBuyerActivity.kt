@@ -158,5 +158,8 @@ class AddRateBuyerActivity : BaseActivity() {
         super.onResume()
         productDetialsViewModel.getRateBuyer(orderId)
     }
-
+    override fun onDestroy() {
+        super.onDestroy()
+        productDetialsViewModel.closeAllCall()
+    }
 }

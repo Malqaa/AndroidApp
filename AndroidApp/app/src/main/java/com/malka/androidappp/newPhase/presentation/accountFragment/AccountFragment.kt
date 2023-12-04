@@ -2,21 +2,14 @@ package com.malka.androidappp.newPhase.presentation.accountFragment
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.ActivityNotFoundException
-import android.content.ContentResolver
-import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Filter
-import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -30,7 +23,6 @@ import com.malka.androidappp.newPhase.data.helper.*
 import com.malka.androidappp.newPhase.data.helper.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.newPhase.data.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.newPhase.domain.models.loginResp.LoginUser
-import com.malka.androidappp.newPhase.domain.models.sellerInfoResp.SellerInformation
 import com.malka.androidappp.newPhase.domain.models.servicemodels.AccountItem
 import com.malka.androidappp.newPhase.domain.models.servicemodels.AccountSubItem
 import com.malka.androidappp.newPhase.presentation.MainActivity
@@ -51,7 +43,6 @@ import kotlinx.android.synthetic.main.account_sub_item.view.*
 import kotlinx.android.synthetic.main.activity_signup_pg4.*
 import kotlinx.android.synthetic.main.fragment_account.*
 import kotlinx.android.synthetic.main.fragment_account.ivUserImage
-import java.io.File
 import kotlin.math.roundToInt
 
 
@@ -59,18 +50,13 @@ class AccountFragment : Fragment(R.layout.fragment_account),
     PickImageMethodsDialog.OnAttachedImageMethodSelected {
     val list: ArrayList<AccountItem> = ArrayList()
     private lateinit var accountViewModel: AccountViewModel
-    private lateinit var pickSingleMediaLauncher: ActivityResultLauncher<Intent>
 
-    var isDeleteImage = false
-
-    //===image
+    private var isDeleteImage = false
     private lateinit var imageMethodsPickerDialog: PickImageMethodsDialog
     private lateinit var imagePicker: ImagePicker
     private var userImageUri: Uri? = null
-    var PICK_IMAGE_REQUEST= 232
     val activityLauncher: BetterActivityResult<Intent, ActivityResult> =
         BetterActivityResult.registerActivityForResult(this)
-    var sellerInformation: SellerInformation? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -126,21 +112,6 @@ class AccountFragment : Fragment(R.layout.fragment_account),
                 )
             )
         }
-
-
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return super.onCreateView(inflater, container, savedInstanceState)
-
-    }
-
-    companion object {
-        var isProfileLoad = false
     }
 
     override fun onResume() {
@@ -154,11 +125,6 @@ class AccountFragment : Fragment(R.layout.fragment_account),
             MainActivity.myOrderTrigger = false
             findNavController().navigate(R.id.myRequest)
         }
-//        rating_btn.setOnClickListener {
-//            startActivity(Intent(requireContext(), SellerRateActivity::class.java).apply {
-//                putExtra(ConstantObjects.sellerObjectKey, sellerInformation)
-//            })
-//        }
         tvUserName.setOnClickListener {
             startActivity(
                 Intent(
@@ -167,24 +133,13 @@ class AccountFragment : Fragment(R.layout.fragment_account),
                 )
             )
         }
-        setViewCliclListeners()
+        setViewClickListeners()
         setUpViewModel()
-        setListenser()
+        setListener()
         accountViewModel.getAccountInfo()
-        //  setListenser()
-//        if (!isProfileLoad) {
-//            CommonAPI().GetUserInfo(requireContext(), ConstantObjects.logged_userid) {
-//                isProfileLoad = true
-//                loadProfile()
-//            }
-//        } else {
-//            loadProfile()
-//        }
-//        userType()
-
-
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setUpViewModel() {
         accountViewModel = ViewModelProvider(this).get(AccountViewModel::class.java)
         accountViewModel.isLoading.observe(this) {
@@ -202,9 +157,9 @@ class AccountFragment : Fragment(R.layout.fragment_account),
 
         }
         accountViewModel.errorResponseObserver.observe(this) {
-            if(it.status!=null && it.status=="409"){
+            if (it.status != null && it.status == "409") {
                 HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), requireActivity())
-            }else{
+            } else {
                 if (it.message != null) {
                     HelpFunctions.ShowLongToast(it.message!!, requireActivity())
                 } else {
@@ -245,8 +200,8 @@ class AccountFragment : Fragment(R.layout.fragment_account),
                     tempUserData.token = userData?.token ?: ""
                     Paper.book()
                         .write<LoginUser>(SharedPreferencesStaticClass.user_object, tempUserData)
-                    tempUserData.let { tempUserData ->
-                        ConstantObjects.userobj = tempUserData
+                    tempUserData.let { it ->
+                        ConstantObjects.userobj = it
                     }
                     setUserData(tempUserData)
                 }
@@ -261,35 +216,24 @@ class AccountFragment : Fragment(R.layout.fragment_account),
                 3 -> {
                     rate3.setImageResource(R.drawable.happyface_color)
                 }
+
                 2 -> {
                     rate3.setImageResource(R.drawable.smileface_color)
                 }
+
                 1 -> {
                     rate3.setImageResource(R.drawable.sadcolor_gray)
                 }
+
                 else -> {
                     rate3.setImageResource(R.drawable.smile)
                 }
             }
         }
-//        accountViewModel.getWalletDetailsInAccountTap()
-//        accountViewModel.getUserPointDetailsInAccountTap()
 
     }
 
-    private fun getPhotoGallery(){
-        pickSingleMediaLauncher =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-                if (it.resultCode != Activity.RESULT_OK) {
-                    Toast.makeText(context, "Failed picking media.", Toast.LENGTH_SHORT).show()
-                } else {
-                    val uri = it.data?.data
-                    Log.e("TAG", "SUCCESS: ${uri?.path}")
-
-                }
-            }
-    }
-
+    @SuppressLint("SetTextI18n")
     private fun setUserData(userData: LoginUser?) {
         try {
             userData?.let {
@@ -303,10 +247,10 @@ class AccountFragment : Fragment(R.layout.fragment_account),
                 userData.createdAt?.let {
                     tvMemberSince.text = "${getString(R.string.member_since)} ${
                         HelpFunctions.getViewFormatForDateTrack(it)
-                    }".toString()
+                    }"
                 }
                 tv_membership_number.text =
-                    "${getString(R.string.membership_number)} ${userData?.membershipNumber ?: ""}"
+                    "${getString(R.string.membership_number)} ${userData.membershipNumber}"
                 setAdaptor()
 
             }
@@ -314,12 +258,12 @@ class AccountFragment : Fragment(R.layout.fragment_account),
         }
     }
 
-    private fun setViewCliclListeners() {
-        my_wallet.setOnClickListener() {
+    private fun setViewClickListeners() {
+        my_wallet.setOnClickListener {
             findNavController().navigate(R.id.myWallet)
         }
 
-        my_points.setOnClickListener() {
+        my_points.setOnClickListener {
             findNavController().navigate(R.id.myPoints)
         }
         ivUserImageContainer.setOnClickListener {
@@ -352,7 +296,7 @@ class AccountFragment : Fragment(R.layout.fragment_account),
                                                 findNavController().navigate(R.id.mybids)
                                             }
 
-                                            if (name.equals(getString(R.string.logout))) {
+                                            if (name == getString(R.string.logout)) {
                                                 sub_item_tv.setTextColor(
                                                     ContextCompat.getColor(
                                                         requireContext(),
@@ -364,7 +308,7 @@ class AccountFragment : Fragment(R.layout.fragment_account),
                                                         context,
                                                         R.color.bg
                                                     ), android.graphics.PorterDuff.Mode.SRC_IN
-                                                );
+                                                )
                                                 line.hide()
                                             } else {
                                                 sub_item_tv.setTextColor(
@@ -378,7 +322,7 @@ class AccountFragment : Fragment(R.layout.fragment_account),
                                                         context,
                                                         R.color.black
                                                     ), android.graphics.PorterDuff.Mode.SRC_IN
-                                                );
+                                                )
                                                 line.show()
 
                                             }
@@ -432,7 +376,10 @@ class AccountFragment : Fragment(R.layout.fragment_account),
                                                                 requireActivity(),
                                                                 NegotiationOffersPurchaseActivity::class.java
                                                             ).apply {
-                                                                putExtra("ComeFrom","AccountFragment")
+                                                                putExtra(
+                                                                    "ComeFrom",
+                                                                    "AccountFragment"
+                                                                )
                                                             }
                                                         )
                                                         // findNavController().navigate(R.id.negotiationOffer)
@@ -476,7 +423,7 @@ class AccountFragment : Fragment(R.layout.fragment_account),
                                                         findNavController().navigate(R.id.applicationSetting)
 
                                                     }
-//                                                getString(R.string.help) -> {}
+
                                                     getString(R.string.technical_support) -> {
                                                         startActivity(
                                                             Intent(
@@ -579,8 +526,6 @@ class AccountFragment : Fragment(R.layout.fragment_account),
             imagePicker.choosePicture(ImagePicker.CAMERA)
         } else {
             openGallery(startForResult)
-//            openGallery()
-//            imagePicker.choosePicture(ImagePicker.GALLERY)
         }
     }
 
@@ -604,7 +549,7 @@ class AccountFragment : Fragment(R.layout.fragment_account),
                 .into(ivUserImage)
             userImageUri = imageUri
 
-            val  file = CameraHelper.getMultiPartFromBitmap(bitmap, "attachment", requireContext())
+            val file = CameraHelper.getMultiPartFromBitmap(bitmap, "attachment", requireContext())
 
             accountViewModel.editProfileImage(file)
         } catch (e: Exception) {
@@ -616,12 +561,14 @@ class AccountFragment : Fragment(R.layout.fragment_account),
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == Activity.RESULT_OK) {
                 val bitmap = CameraHelper.handleResult(it?.data?.data!!, requireContext())
-              val  file = CameraHelper.getMultiPartFromBitmap(bitmap, "imgProfile", requireContext())
+                val file =
+                    CameraHelper.getMultiPartFromBitmap(bitmap, "imgProfile", requireContext())
                 accountViewModel.editProfileImage(file)
                 ivUserImage.setImageBitmap(bitmap)
             }
         }
-    fun openGallery(startForResult: ActivityResultLauncher<Intent>) {
+
+    private fun openGallery(startForResult: ActivityResultLauncher<Intent>) {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         startForResult.launch(intent)
     }
@@ -631,10 +578,6 @@ class AccountFragment : Fragment(R.layout.fragment_account),
         isDeleteImage = true
         accountViewModel.editProfileImage(null)
     }
-
-
-
-
 
     //=======Permissions and data handling
     override fun onRequestPermissionsResult(
@@ -646,62 +589,20 @@ class AccountFragment : Fragment(R.layout.fragment_account),
         imagePicker.handelPermissionsResult(requestCode, grantResults)
     }
 
-    /****/
-
-
-    private fun setListenser() {
-        follow_up.setOnClickListener() {
+    private fun setListener() {
+        follow_up.setOnClickListener {
             findNavController().navigate(R.id.followUp)
         }
 
-        rating_btn.setOnClickListener() {
+        rating_btn.setOnClickListener {
             findNavController().navigate(R.id.sellerRating)
         }
 
-
-//        profilecardv.setOnClickListener() {
-//            findNavController().navigate(R.id.accountsettingtoprofile)
-//        }
-//        settingcardv.setOnClickListener() {
-//            findNavController().navigate(R.id.accountsettingtosettings)
-//        }
-//        tvFixedPrice.setOnClickListener() {
-//            findNavController().navigate(R.id.account_fixedprice)
-//        }
-//        watchlist_card.setOnClickListener() {
-//            findNavController().navigate(R.id.acc_watchlist)
-//        }
-//        fav_card.setOnClickListener() {
-//            //  findNavController().navigate(R.id.acc_fav)
-//        }
-//
-//
-//        selling_opt.setOnClickListener() {
-//            findNavController().navigate(R.id.account_sellingopt)
-//        }
-//
-//        product.setOnClickListener() {
-//            findNavController().navigate(R.id.account_products)
-//        }
-//
-//        btn_signin.setOnClickListener() {
-//            val intentt = Intent(this.activity, SignInActivity::class.java)
-//            startActivity(intentt)
-//            requireActivity().finish()
-//        }
-
-
     }
 
-
-//    fun userType() {
-//        if (!ConstantObjects.isBusinessUser) {
-//            productview.visibility = View.GONE
-//        } else {
-//            productview.visibility = View.VISIBLE
-//        }
-//
-//    }
-
+    override fun onDestroy() {
+        super.onDestroy()
+        accountViewModel.closeAllCall()
+    }
 
 }

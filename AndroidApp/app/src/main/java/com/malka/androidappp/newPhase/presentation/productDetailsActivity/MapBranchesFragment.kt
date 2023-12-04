@@ -9,13 +9,10 @@ import android.location.LocationManager
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.navigation.fragment.findNavController
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -28,9 +25,9 @@ import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 class MapBranchesFragment : Fragment() {
 
 
-    var lat: Double = -1.0;
-    var long: Double = -1.0;
-    lateinit var map: GoogleMap;
+    var lat: Double = -1.0
+    var long: Double = -1.0
+    lateinit var map: GoogleMap
 
 
     private val callback = OnMapReadyCallback { googleMap ->
@@ -47,17 +44,17 @@ class MapBranchesFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_map_branches, container, false)
     }
 
-    fun getLocation() {
+    private fun getLocation() {
         val locationManager =
             requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager?
         val locationListener = object : LocationListener {
             override fun onLocationChanged(location: Location) {
                 if (this@MapBranchesFragment::map != null && this@MapBranchesFragment::map.isInitialized) {
-                    lat = location!!.latitude
-                    long = location!!.longitude
-                    val currentloc = LatLng(lat, long)
-                    map.addMarker(MarkerOptions().position(currentloc).title("Current Location"))
-                    map.moveCamera(CameraUpdateFactory.newLatLng(currentloc))
+                    lat = location.latitude
+                    long = location.longitude
+                    val currentLoc = LatLng(lat, long)
+                    map.addMarker(MarkerOptions().position(currentLoc).title("Current Location"))
+                    map.moveCamera(CameraUpdateFactory.newLatLng(currentLoc))
                 }
             }
 

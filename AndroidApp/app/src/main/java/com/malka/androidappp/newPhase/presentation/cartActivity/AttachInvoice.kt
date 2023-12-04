@@ -1,8 +1,6 @@
 package com.malka.androidappp.newPhase.presentation.cartActivity
 
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import androidx.activity.result.ActivityResult
@@ -14,23 +12,10 @@ import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.data.helper.ImagePicker
 import com.malka.androidappp.newPhase.data.helper.SetOnImagePickedListeners
-import com.malka.androidappp.newPhase.data.helper.shared_preferences.SharedPreferencesStaticClass
-import com.malka.androidappp.newPhase.data.helper.show
-import com.malka.androidappp.newPhase.domain.models.loginResp.LoginUser
-import com.malka.androidappp.newPhase.presentation.accountFragment.AccountViewModel
-import com.malka.androidappp.newPhase.presentation.addProduct.AccountObject
 import com.malka.androidappp.newPhase.presentation.dialogsShared.PickImageMethodsDialog
-import io.paperdb.Paper
 import kotlinx.android.synthetic.main.activity_order_detail_confirm.attacted_picture
 import kotlinx.android.synthetic.main.activity_order_detail_confirm.shipment
-import kotlinx.android.synthetic.main.fragment_account.loader
-import kotlinx.android.synthetic.main.fragment_account.rate3
-import kotlinx.android.synthetic.main.fragment_account.tvFollowCategory
-import kotlinx.android.synthetic.main.fragment_account.tvUserPointTotalBalance
-import kotlinx.android.synthetic.main.fragment_account.tvWalletTotalBalance
-import kotlinx.android.synthetic.main.fragment_account.user_rating
 import java.io.File
-import kotlin.math.roundToInt
 
 class AttachInvoice : BaseActivity(), PickImageMethodsDialog.OnAttachedImageMethodSelected {
 
@@ -134,32 +119,32 @@ class AttachInvoice : BaseActivity(), PickImageMethodsDialog.OnAttachedImageMeth
         }
     }
 
-    private fun setImage(imageUri: Uri) {
-        try {
-            val bitmap =
-                BitmapFactory.decodeStream(
-                    this.contentResolver.openInputStream(
-                        imageUri
-                    )
-                )
-            val scaleBitmap = Bitmap.createScaledBitmap(
-                bitmap,
-                (bitmap.width * 0.4f).roundToInt(),
-                (bitmap.height * 0.4f).roundToInt(),
-                true
-            )
-            println("hhhh loaded")
+//    private fun setImage(imageUri: Uri) {
+//        try {
+//            val bitmap =
+//                BitmapFactory.decodeStream(
+//                    this.contentResolver.openInputStream(
+//                        imageUri
+//                    )
+//                )
+//            val scaleBitmap = Bitmap.createScaledBitmap(
+//                bitmap,
+//                (bitmap.width * 0.4f).roundToInt(),
+//                (bitmap.height * 0.4f).roundToInt(),
+//                true
+//            )
+//            println("hhhh loaded")
+////
+////                imageUri
+////            val file = File(imageUri.path)
+////
+////            accountViewModel.editProfileImage(file)
 //
-//                imageUri
-//            val file = File(imageUri.path)
-//
-//            accountViewModel.editProfileImage(file)
-
-        } catch (e: Exception) {
-            // println("hhhh " + e.message)
-            HelpFunctions.ShowLongToast(getString(R.string.pickRightImage), this)
-        }
-    }
+//        } catch (e: Exception) {
+//            // println("hhhh " + e.message)
+//            HelpFunctions.ShowLongToast(getString(R.string.pickRightImage), this)
+//        }
+//    }
 
     override fun onDeleteImage() {
         TODO("Not yet implemented")

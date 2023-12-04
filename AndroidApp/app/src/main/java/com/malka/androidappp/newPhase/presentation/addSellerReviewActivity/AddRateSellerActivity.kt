@@ -154,4 +154,9 @@ class AddRateSellerActivity : BaseActivity() {
            // }
         }
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        productDetialsViewModel.closeAllCall()
+    }
 }

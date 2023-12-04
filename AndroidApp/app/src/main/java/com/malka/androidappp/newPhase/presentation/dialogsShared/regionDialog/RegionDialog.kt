@@ -22,15 +22,15 @@ import retrofit2.Callback
 import retrofit2.HttpException
 import retrofit2.Response
 
-class RegionDialog(context: Context,var countryId:Int, var getSelectedRegion: GetSelectedRegion) :
+class RegionDialog(context: Context, private var countryId:Int, private var getSelectedRegion: GetSelectedRegion) :
     BaseDialog(context), RegionAdapter.OnRegionSelected {
 
 
-    lateinit var linearLayoutManager: LinearLayoutManager
-    lateinit var regionAdapter: RegionAdapter
-    lateinit var regionsList: ArrayList<Region>
-    lateinit var mainRegionsList: ArrayList<Region>
-    lateinit var regionsResp: RegionsResp
+    private lateinit var linearLayoutManager: LinearLayoutManager
+    private lateinit var regionAdapter: RegionAdapter
+    private lateinit var regionsList: ArrayList<Region>
+    private lateinit var mainRegionsList: ArrayList<Region>
+    private lateinit var regionsResp: RegionsResp
 
 
     var countriesCallback: Call<RegionsResp>? = null
@@ -89,7 +89,7 @@ class RegionDialog(context: Context,var countryId:Int, var getSelectedRegion: Ge
 
     @SuppressLint("DefaultLocale")
     private fun filter(text: CharSequence) {
-        var temp: ArrayList<Region> = ArrayList()
+        val temp: ArrayList<Region> = ArrayList()
         for (country in mainRegionsList) {
             if (country.name.lowercase().contains(text.toString().trim().lowercase())) {
                 temp.add(country)
@@ -120,16 +120,14 @@ class RegionDialog(context: Context,var countryId:Int, var getSelectedRegion: Ge
         dismiss()
     }
 
-    fun getCountries() {
+    private fun getCountries() {
         progressBar.visibility = View.VISIBLE
         countriesCallback = getRetrofitBuilder().getRegionNew(countryId)
         countriesCallback?.enqueue(object : Callback<RegionsResp> {
             override fun onFailure(call: Call<RegionsResp>, t: Throwable) {
                 // println("hhhh "+t.message)
                 progressBar.visibility = View.GONE
-                if (call.isCanceled) {
-
-                } else if (t is HttpException) {
+                if (t is HttpException) {
                     HelpFunctions.ShowLongToast(context.getString(R.string.serverError), context)
 
                 } else {
@@ -148,7 +146,6 @@ class RegionDialog(context: Context,var countryId:Int, var getSelectedRegion: Ge
                 try {
                     if (response.isSuccessful) {
                         response.body()?.let {
-                            it
                             regionsResp = it
                             regionsResp.regionsList?.let { regionsList ->
                                 //ConstantObjects.countryList = countryList

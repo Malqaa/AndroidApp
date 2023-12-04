@@ -18,10 +18,7 @@ import com.malka.androidappp.newPhase.domain.models.cartListResp.CartDataObject
 import com.malka.androidappp.newPhase.domain.models.cartListResp.CartProductDetails
 import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.domain.models.addOrderResp.ProductOrderPaymentDetailsDto
-import com.malka.androidappp.newPhase.domain.models.servicemodels.GetAddressResponse
-import com.malka.androidappp.newPhase.domain.models.servicemodels.Selection
 import com.malka.androidappp.newPhase.domain.models.userAddressesResp.AddressItem
-
 import com.malka.androidappp.newPhase.presentation.addressUser.addressListActivity.AddressesAdapter
 import com.malka.androidappp.newPhase.presentation.cartActivity.activity2.adapter.CartNewAdapter
 import com.malka.androidappp.newPhase.presentation.cartActivity.activity3.SuccessOrderActivity
@@ -35,12 +32,11 @@ import kotlinx.coroutines.withContext
 class AddressPaymentActivity : BaseActivity(),
     AddressesAdapter.SetOnSelectedAddress, CartNewAdapter.SetProductNewCartListeners,
     SwipeRefreshLayout.OnRefreshListener {
-    private var paymentDetailsList: ArrayList<ProductOrderPaymentDetailsDto> = ArrayList()
     private var deliveryOptionSelect: String = "0"
     private var paymentOptionSelect: Int = 0
-    var paymentDetailsDtoList = ArrayList<Triple<Int, Int, Int>>()
-    lateinit var addressesAdapter: AddressesAdapter
-    lateinit var cartNewAdapter: CartNewAdapter
+    private var paymentDetailsDtoList = ArrayList<Triple<Int, Int, Int>>()
+    private lateinit var addressesAdapter: AddressesAdapter
+    private lateinit var cartNewAdapter: CartNewAdapter
     private lateinit var cartViewModel: CartViewModel
     private lateinit var userAddressesList: ArrayList<AddressItem>
     private var lastUpdateMainPosition: Int = 0
@@ -51,13 +47,13 @@ class AddressPaymentActivity : BaseActivity(),
     var flagTypeSale = true
     var orderId =0
 
-    /****/
-    val deliveryOptionList: ArrayList<Selection> = ArrayList()
-    val paymentMethodList: ArrayList<Selection> = ArrayList()
-    var selectAddress: GetAddressResponse.AddressModel? = null
+//    private var paymentDetailsList: ArrayList<ProductOrderPaymentDetailsDto> = ArrayList()
+//    val deliveryOptionList: ArrayList<Selection> = ArrayList()
+//    val paymentMethodList: ArrayList<Selection> = ArrayList()
+//    val cartIds: MutableList<String> = mutableListOf()
+//    var selectAddress: GetAddressResponse.AddressModel? = null
     var isSelect: Boolean = false
-    val cartIds: MutableList<String> = mutableListOf()
-    val addAddressLaucher =
+    private val addAddressLaucher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 userAddressesList.clear()
@@ -92,7 +88,7 @@ class AddressPaymentActivity : BaseActivity(),
             lay_activeCoupon.visibility = View.GONE
         }
 //        initView()
-//        setListenser()
+//        setListener()
         /****/
 
 
@@ -117,7 +113,7 @@ class AddressPaymentActivity : BaseActivity(),
         }
 
         btn_confirm_details.setOnClickListener {
-          val objAddress=  userAddressesList.find { isSelect }
+//          val objAddress=  userAddressesList.find { isSelect }
 
             val mergedList = mergeTuplesInList(paymentDetailsDtoList)
             val customList = mergedList.map { triple ->
@@ -133,7 +129,7 @@ class AddressPaymentActivity : BaseActivity(),
                 } else {
                     cartViewModel.addOrder(
                         SharedPreferencesStaticClass.getMasterCartId(),
-                        addressId!!,
+                        addressId,
                         paymentOptionSelect,
                         deliveryOptionSelect,
                         customList
@@ -148,7 +144,7 @@ class AddressPaymentActivity : BaseActivity(),
                         cartDataObject!!.totalPriceForCartFinal,
                         cartDataObject!!.totalPriceForCartBeforeDiscount,
                         SharedPreferencesStaticClass.getMasterCartId(),
-                        addressId!!,
+                        addressId,
                         paymentOptionSelect,
                         deliveryOptionSelect,
                         customList
@@ -259,7 +255,7 @@ class AddressPaymentActivity : BaseActivity(),
         }
         cartViewModel.removeProductFromCartProductsObserver.observe(this) { decreaseProductResp ->
             if (decreaseProductResp.status_code == 200) {
-                var price = productsCartList[lastUpdateMainPosition].listProduct?.get(
+                val price = productsCartList[lastUpdateMainPosition].listProduct?.get(
                     lastUpdateProductPosition
                 )?.priceDiscount ?: 0f
                 cartDataObject?.let { cartDataObject ->
@@ -454,21 +450,21 @@ class AddressPaymentActivity : BaseActivity(),
     override fun onIncreaseQuantityProduct(position: Int, mainPosition: Int) {
         lastUpdateMainPosition = mainPosition
         lastUpdateProductPosition = position
-        var productCartId = productsCartList[mainPosition].listProduct!![position].cartproductId
+        val productCartId = productsCartList[mainPosition].listProduct!![position].cartproductId
         cartViewModel.increaseCartProductQuantity(productCartId.toString())
     }
 
     override fun onDecreaseQuantityProduct(position: Int, mainPosition: Int) {
         lastUpdateMainPosition = mainPosition
         lastUpdateProductPosition = position
-        var productCartId = productsCartList[mainPosition].listProduct!![position].cartproductId
+        val productCartId = productsCartList[mainPosition].listProduct!![position].cartproductId
         cartViewModel.decreaseCartProductQuantity(productCartId.toString())
     }
 
     override fun onDeleteProduct(position: Int, mainPosition: Int) {
         lastUpdateMainPosition = mainPosition
         lastUpdateProductPosition = position
-        var productCartId = productsCartList[mainPosition].listProduct!![position].cartproductId
+        val productCartId = productsCartList[mainPosition].listProduct!![position].cartproductId
         cartViewModel.removeProductFromCartProducts(productCartId.toString())
     }
 
@@ -607,6 +603,7 @@ class AddressPaymentActivity : BaseActivity(),
 
     override fun onDestroy() {
         super.onDestroy()
+        cartViewModel.closeAllCall()
         SharedPreferencesStaticClass.clearAddressTitle()
     }
     /****
@@ -642,7 +639,7 @@ class AddressPaymentActivity : BaseActivity(),
 //        }
 //    }
 //
-//    private fun setListenser() {
+//    private fun setListener() {
 //        add_new_add._view3().setGravity(Gravity.CENTER)
 //
 //

@@ -1,5 +1,6 @@
 package com.malka.androidappp.newPhase.presentation.cartActivity.activity1.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Paint
 import android.view.LayoutInflater
@@ -7,15 +8,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
 import com.malka.androidappp.databinding.ItemProductInCartBinding
-import com.malka.androidappp.newPhase.data.helper.CommonBottomSheet
 import com.malka.androidappp.newPhase.data.helper.Extension
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.data.helper.hide
 import com.malka.androidappp.newPhase.data.helper.show
-import com.malka.androidappp.newPhase.domain.models.cartListResp.PaymentOptions
 import com.malka.androidappp.newPhase.domain.models.cartListResp.ProductCartItem
-import com.malka.androidappp.newPhase.domain.models.cartListResp.ShippingOptions
-import com.malka.androidappp.newPhase.domain.models.servicemodels.Selection
 
 class CartAdapter(
     var listProduct: ArrayList<ProductCartItem>,
@@ -41,6 +38,7 @@ class CartAdapter(
 
     override fun getItemCount(): Int = listProduct.size
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
 
             Extension.loadThumbnail(

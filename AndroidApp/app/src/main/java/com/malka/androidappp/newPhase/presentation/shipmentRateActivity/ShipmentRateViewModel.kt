@@ -2,63 +2,73 @@ package com.malka.androidappp.newPhase.presentation.shipmentRateActivity
 
 import androidx.lifecycle.MutableLiveData
 import com.malka.androidappp.newPhase.core.BaseViewModel
+import com.malka.androidappp.newPhase.data.network.callApi
 import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.orderRateResp.RateObject
 import com.malka.androidappp.newPhase.domain.models.orderRateResp.ShipmentRateResp
-import com.malka.androidappp.newPhase.domain.models.productResp.ProductListResp
 import com.malka.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
 import retrofit2.Call
-import retrofit2.Callback
 import retrofit2.HttpException
-import retrofit2.Response
 
 class ShipmentRateViewModel :BaseViewModel() {
     var addShipmentRateObserver:MutableLiveData<GeneralResponse> = MutableLiveData()
     var getShipmentRate:MutableLiveData<ShipmentRateResp> = MutableLiveData()
+
+    private var callAddShipmentRate: Call<GeneralResponse>? = null
+    private var callShipmentRate: Call<ShipmentRateResp>? = null
+
     fun addShipmentRate( rateObject: RateObject){
         isLoading.value = true
-        getRetrofitBuilder()
-            .addShipmentRate(rateObject)
-            .enqueue(object : Callback<GeneralResponse> {
-                override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
-                    isNetworkFail.value = t !is HttpException
-                    isLoading.value = false
+        callAddShipmentRate= getRetrofitBuilder().addShipmentRate(rateObject)
+        callApi(callAddShipmentRate!!,
+            onSuccess = {
+                isLoading.value = false
+                addShipmentRateObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoading.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
                 }
-
-                override fun onResponse(
-                    call: Call<GeneralResponse>,
-                    response: Response<GeneralResponse>
-                ) {
-                    isLoading.value = false
-                    if (response.isSuccessful) {
-                        addShipmentRateObserver.value = response.body()
-                    } else {
-                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
-                    }
-                }
+            },
+            goLogin = {
+                isLoading.value = false
+                needToLogin.value = true
             })
+
     }
     fun getShipmentRate(orderId:Int){
         isLoading.value = true
-        getRetrofitBuilder()
-            .getShipmentRate(orderId)
-            .enqueue(object : Callback<ShipmentRateResp> {
-                override fun onFailure(call: Call<ShipmentRateResp>, t: Throwable) {
-                    isNetworkFail.value = t !is HttpException
-                    isLoading.value = false
+        callShipmentRate= getRetrofitBuilder().getShipmentRate(orderId)
+        callApi(callShipmentRate!!,
+            onSuccess = {
+                isLoading.value = false
+                getShipmentRate.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoading.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
                 }
-
-                override fun onResponse(
-                    call: Call<ShipmentRateResp>,
-                    response: Response<ShipmentRateResp>
-                ) {
-                    isLoading.value = false
-                    if (response.isSuccessful) {
-                        getShipmentRate.value = response.body()
-                    } else {
-                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
-                    }
-                }
+            },
+            goLogin = {
+                isLoading.value = false
+                needToLogin.value = true
             })
+    }
+
+    fun closeAllCall() {
+        if (callAddShipmentRate != null) {
+            callAddShipmentRate?.cancel()
+        }
+        if (callShipmentRate != null) {
+            callShipmentRate?.cancel()
+        }
     }
 }

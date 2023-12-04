@@ -16,25 +16,24 @@ import com.malka.androidappp.newPhase.presentation.addProduct.activity7.ListingD
 import com.malka.androidappp.newPhase.presentation.addProduct.activity8.PromotionalActivity
 import com.malka.androidappp.newPhase.presentation.addProduct.viewmodel.AddProductViewModel
 import kotlinx.android.synthetic.main.activity_confirmation_add_product.*
-import kotlinx.android.synthetic.main.activity_my_product_details2.tvShippingOptions
 import kotlinx.android.synthetic.main.toolbar_main.*
 import java.io.File
 
 class ConfirmationAddProductActivity : BaseActivity() {
 
     private lateinit var addProductViewModel: AddProductViewModel
-    var pakagePrice = 0f
-    var fixedPriceFee = 0f
-    var auctionEnableFee = 0f
-    var negotiationFee = 0f
-    var subTitleFee = 0f
-    var extraImageFee = 0f
-    var extraVideoFee = 0f
-    var totalPrice = 0f
-    var productPublishPriceFee = 0f
-    var couponId = 0
-    var couponDiscountValue = 0f
-    var totalAfterDiscount = 0f
+    private var pakagePrice = 0f
+    private var fixedPriceFee = 0f
+    private var auctionEnableFee = 0f
+    private var negotiationFee = 0f
+    private var subTitleFee = 0f
+    private var extraImageFee = 0f
+    private var extraVideoFee = 0f
+    private var totalPrice = 0f
+    private var productPublishPriceFee = 0f
+    private var couponId = 0
+    private var couponDiscountValue = 0f
+    private var totalAfterDiscount = 0f
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_confirmation_add_product)
@@ -67,7 +66,7 @@ class ConfirmationAddProductActivity : BaseActivity() {
             images.filter {
                 it.is_main == true
             }.let {
-                if (it.size > 0) {
+                if (it.isNotEmpty()) {
                     selectedImages.setImageURI(it[0].uri)
                 }
             }
@@ -133,7 +132,7 @@ class ConfirmationAddProductActivity : BaseActivity() {
             }
         }
 
-        var shippingOptionText = StringBuilder("")
+        val shippingOptionText = StringBuilder("")
         tvShippingOption.text = shippingOptionText
         AddProductObjectData.shippingOptionSelections?.let {
 
@@ -148,18 +147,23 @@ class ConfirmationAddProductActivity : BaseActivity() {
                     ConstantObjects.pickUp_Must -> {
                         shippingOptionText.append(getString(R.string.mustPickUp))
                     }
+
                     ConstantObjects.pickUp_No -> {
                         shippingOptionText.append(getString(R.string.noPickUp))
                     }
+
                     ConstantObjects.pickUp_Available -> {
                         shippingOptionText.append(getString(R.string.pickUpAvaliable))
                     }
+
                     ConstantObjects.shippingOption_integratedShippingCompanyOptions -> {
                         shippingOptionText.append(getString(R.string.integratedShippingCompanies))
                     }
+
                     ConstantObjects.shippingOption_freeShippingWithinSaudiArabia -> {
                         shippingOptionText.append(getString(R.string.free_shipping_within_Saudi_Arabia))
                     }
+
                     ConstantObjects.shippingOption_arrangementWillBeMadeWithTheBuyer -> {
                         shippingOptionText.append(getString(R.string.arrangementWillBeMadeWithTheBuyer))
                     }
@@ -270,6 +274,7 @@ class ConfirmationAddProductActivity : BaseActivity() {
     }
 
 
+    @SuppressLint("SetTextI18n")
     private fun setUpViewModel() {
         addProductViewModel = ViewModelProvider(this).get(AddProductViewModel::class.java)
         addProductViewModel.isLoading.observe(this) {
@@ -354,9 +359,9 @@ class ConfirmationAddProductActivity : BaseActivity() {
                 tv_package_price.text =
                     "${cartSummery.priceSummery.pakatPrice} ${getString(R.string.Rayal)}"
                 tv_package_name.text = AddProductObjectData.selectedPakat?.name ?: ""
-                var discount: Float =
+                val discount: Float =
                     cartSummery.priceSummery.totalPriceBeforeCoupon - cartSummery.priceSummery.totalPriceAfterCoupon
-                discount_tv.text = "${discount} ${getString(R.string.Rayal)}"
+                discount_tv.text = "$discount ${getString(R.string.Rayal)}"
                 if (discount != 0f) {
                     tvTotal.text =
                         "${cartSummery.priceSummery.totalPriceBeforeCoupon} ${getString(R.string.Rayal)}"
@@ -412,13 +417,13 @@ class ConfirmationAddProductActivity : BaseActivity() {
                         couponDiscountValue = couponDiscountResp.discountCouponObject.discountValue
                         totalAfterDiscount = totalPrice - couponDiscountValue
                     } else {
-                        var disc =
+                        val disc =
                             ((couponDiscountResp.discountCouponObject.discountValue * totalPrice) / 100)
                         couponDiscountValue = disc
                         totalAfterDiscount = totalPrice - disc
                     }
                     tvTotalAfterDiscount.show()
-                    tvTotalAfterDiscount.text = "${totalAfterDiscount} ${getString(R.string.SAR)}"
+                    tvTotalAfterDiscount.text = "$totalAfterDiscount ${getString(R.string.SAR)}"
                     tvTotal.paintFlags = tvTotal.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
                 } else {
                     HelpFunctions.ShowLongToast(getString(R.string.invalidCoupon), this)
@@ -427,41 +432,39 @@ class ConfirmationAddProductActivity : BaseActivity() {
         }
     }
 
-    private fun getCartSummery() {
-        AddProductObjectData.selectedCategory?.let { selectedCategory ->
-//            btnFreeProductImagesCount.text = it.freeProductImagesCount.toString()
-//            btnFreeProductVidoesCount.text = it.freeProductVidoesCount.toString()
-//            btnExtraProductVideoFee.text = "${it.extraProductVidoeFee} ${getString(R.string.Rayal)}"
-//            btnExtraProductImageFee.text = "${it.extraProductImageFee} ${getString(R.string.Rayal)}"
-//            btnSubTitleFeeFee.text = "${it.subTitleFee} ${getString(R.string.Rayal)}
+//    private fun getCartSummery() {
+//        AddProductObjectData.selectedCategory?.let { selectedCategory ->
+////            btnFreeProductImagesCount.text = it.freeProductImagesCount.toString()
+////            btnFreeProductVidoesCount.text = it.freeProductVidoesCount.toString()
+////            btnExtraProductVideoFee.text = "${it.extraProductVidoeFee} ${getString(R.string.Rayal)}"
+////            btnExtraProductImageFee.text = "${it.extraProductImageFee} ${getString(R.string.Rayal)}"
+////            btnSubTitleFeeFee.text = "${it.subTitleFee} ${getString(R.string.Rayal)}
+//
+//            AddProductObjectData.images?.let {
+//                var extraImagesFee = 0F
+//                if (it.size > selectedCategory.freeProductImagesCount) {
+//                    extraImagesFee =
+//                        selectedCategory.extraProductImageFee * (it.size - selectedCategory.freeProductImagesCount)
+//                }
+//                var extraVideosFee: Float = 0f
+//                AddProductObjectData.videoList?.let {
+//                    if (it.size > selectedCategory.freeProductVidoesCount) {
+//                        extraVideosFee =
+//                            selectedCategory.extraProductVidoeFee * (it.size - selectedCategory.freeProductVidoesCount)
+//
+//                    }
+//                }
+//                addProductViewModel.checkOutAdditionalPakat(
+//                    AddProductObjectData.selectedPakat?.id ?: 0,
+//                    AddProductObjectData.selectedCategoryId,
+//                    extraImagesFee,
+//                    extraVideosFee, 0f
+//                )
+//            }
+//        }
+//    }
 
-            AddProductObjectData.images?.let {
-                var extraImagesFee = 0F
-                if (it.size > selectedCategory.freeProductImagesCount) {
-                    extraImagesFee =
-                        selectedCategory.extraProductImageFee * (it.size - selectedCategory.freeProductImagesCount)
-                }
-                var extraVideosFee: Float = 0f
-                AddProductObjectData.videoList?.let {
-                    if (it.size > selectedCategory.freeProductVidoesCount) {
-                        extraVideosFee =
-                            selectedCategory.extraProductVidoeFee * (it.size - selectedCategory.freeProductVidoesCount)
-
-                    }
-                }
-                addProductViewModel.checkOutAdditionalPakat(
-                    AddProductObjectData.selectedPakat?.id ?: 0,
-                    AddProductObjectData.selectedCategoryId,
-                    extraImagesFee,
-                    extraVideosFee, 0f
-                )
-            }
-
-
-        }
-
-    }
-
+    @SuppressLint("SetTextI18n")
     private fun setSummeryData() {
         ContainerPackge.hide()
         containerFixedPriceFee.hide()
@@ -632,7 +635,7 @@ class ConfirmationAddProductActivity : BaseActivity() {
     }
 
     private fun confirmOrder() {
-        var listImageFile: ArrayList<File> = ArrayList()
+        val listImageFile: ArrayList<File> = ArrayList()
         var mainIndex = ""
         AddProductObjectData.images?.let { imageList ->
             for (image in imageList) {
@@ -662,7 +665,7 @@ class ConfirmationAddProductActivity : BaseActivity() {
         AddProductObjectData.selectedPakat?.let {
             pakatId = it.id.toString()
         }
-        var shippingOption: ArrayList<String> = ArrayList()
+        val shippingOption: ArrayList<String> = ArrayList()
         AddProductObjectData.shippingOptionSelection?.let {
             shippingOption.add(it[0].id.toString())
         }
@@ -697,7 +700,7 @@ class ConfirmationAddProductActivity : BaseActivity() {
             price = AddProductObjectData.priceFixed,
             priceDisc = AddProductObjectData.priceFixed,
             paymentOptionIdList = AddProductObjectData.paymentOptionList,
-            isCashEnabled = "false".toString(), //same as  paymentOptionId
+            isCashEnabled = "false", //same as  paymentOptionId
             disccountEndDate = "",
             auctionStartPrice = AddProductObjectData.auctionStartPrice,
             auctionMinimumPrice = AddProductObjectData.auctionMinPrice,

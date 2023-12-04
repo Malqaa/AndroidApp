@@ -2,7 +2,6 @@ package com.malka.androidappp.newPhase.presentation.productsSellerInfoActivity
 
 import android.app.Activity
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -39,7 +38,6 @@ import kotlinx.android.synthetic.main.activity_seller_information.tiktok_btn
 import kotlinx.android.synthetic.main.activity_seller_information.twitter_btn
 import kotlinx.android.synthetic.main.activity_seller_information.youtube_btn
 import kotlinx.android.synthetic.main.toolbar_main.*
-import java.util.*
 import kotlin.collections.ArrayList
 
 class SellerInformationActivity : BaseActivity(), SetOnProductItemListeners,
@@ -50,7 +48,7 @@ class SellerInformationActivity : BaseActivity(), SetOnProductItemListeners,
     private lateinit var productList: ArrayList<Product>
     private lateinit var gridLayoutManager: GridLayoutManager
     private var lastUpdateIndex = -1
-    lateinit var endlessRecyclerViewScrollListener: EndlessRecyclerViewScrollListener
+    private lateinit var endlessRecyclerViewScrollListener: EndlessRecyclerViewScrollListener
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_seller_information)
@@ -235,7 +233,7 @@ class SellerInformationActivity : BaseActivity(), SetOnProductItemListeners,
         }
         sellerViewModel.sellerProductsRespObserver.observe(this) { productListResp ->
             if (productListResp.status_code == 200) {
-                if (productListResp.productList != null && productListResp.productList.isNotEmpty()) {
+                if (!productListResp.productList.isNullOrEmpty()) {
                     productList.clear()
                     productList.addAll(productListResp.productList)
                     productAdapter.notifyDataSetChanged()
@@ -431,10 +429,15 @@ class SellerInformationActivity : BaseActivity(), SetOnProductItemListeners,
     }
 
     override fun onBackPressed() {
-        var intent:Intent=Intent()
+        val intent=Intent()
         intent.putExtra("isFollow",sellerInformation?.isFollowed)
         setResult(Activity.RESULT_OK,intent)
         finish()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        sellerViewModel.closeAllCall()
     }
     //    private fun getSellerByID(id: String, loggedUserID: String) {
 //

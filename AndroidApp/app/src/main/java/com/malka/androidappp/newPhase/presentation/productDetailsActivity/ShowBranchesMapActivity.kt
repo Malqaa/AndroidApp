@@ -7,16 +7,9 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
-import androidx.core.view.WindowCompat
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -24,17 +17,16 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.malka.androidappp.R
-import com.malka.androidappp.databinding.ActivityShowBranchesMapBinding
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.domain.models.categoryFollowResp.Branch
 import kotlinx.android.synthetic.main.activity_show_branches_map.mapBranches
 
 class ShowBranchesMapActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityShowBranchesMapBinding
+//    private lateinit var binding: ActivityShowBranchesMapBinding
 
-    var lat: Double = -1.0;
-    var long: Double = -1.0;
-    lateinit var map: GoogleMap;
+    var lat: Double = -1.0
+    var long: Double = -1.0
+    lateinit var map: GoogleMap
     var receivedObjects = ArrayList<Branch>()
     lateinit var locationManager :LocationManager
     lateinit var  locationListener :LocationListener
@@ -61,8 +53,8 @@ class ShowBranchesMapActivity : AppCompatActivity() {
          locationListener = object : LocationListener {
             override fun onLocationChanged(location: Location) {
                 if (this@ShowBranchesMapActivity::map != null &&this@ShowBranchesMapActivity::map.isInitialized) {
-                    lat = location!!.latitude
-                    long = location!!.longitude
+                    lat = location.latitude
+                    long = location.longitude
                     val currentloc = LatLng(lat, long)
                     for(i in receivedObjects){
                         val loc = LatLng(i.lat?.toDouble()!!, i.lng?.toDouble()!!)
@@ -100,7 +92,7 @@ class ShowBranchesMapActivity : AppCompatActivity() {
             )
             return
         }
-        locationManager!!.requestLocationUpdates(
+        locationManager.requestLocationUpdates(
             LocationManager.NETWORK_PROVIDER,
             0L,
             0f,

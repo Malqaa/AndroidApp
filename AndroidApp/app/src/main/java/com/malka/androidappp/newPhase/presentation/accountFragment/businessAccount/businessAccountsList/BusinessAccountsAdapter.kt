@@ -34,7 +34,7 @@ class BusinessAccountsAdapter(
     override fun getItemCount(): Int = dataList.size
 
     override fun onBindViewHolder(holder: BusinessAccountViewHolder, position: Int) {
-        var details: BusinessAccountDetials = dataList[position]
+        val details: BusinessAccountDetials = dataList[position]
         if (details.businessAccountImage != null && details.businessAccountImage != "")
             Picasso.get().load(details.businessAccountImage)
                 .error(R.drawable.profileicon_bottomnav)

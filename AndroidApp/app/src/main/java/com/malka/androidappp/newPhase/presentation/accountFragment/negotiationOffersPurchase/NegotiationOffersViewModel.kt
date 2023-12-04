@@ -3,15 +3,12 @@ package com.malka.androidappp.newPhase.presentation.accountFragment.negotiationO
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.JsonSyntaxException
 import com.malka.androidappp.newPhase.core.BaseViewModel
+import com.malka.androidappp.newPhase.data.network.callApi
 import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.negotiationOfferResp.NegotiationOfferResp
-import com.malka.androidappp.newPhase.domain.models.productResp.ProductListResp
 import com.malka.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
-import org.json.JSONException
 import retrofit2.Call
-import retrofit2.Callback
 import retrofit2.HttpException
-import retrofit2.Response
 
 class NegotiationOffersViewModel:BaseViewModel() {
     var purchaseProductsOffersObserver:MutableLiveData<NegotiationOfferResp> = MutableLiveData()
@@ -19,133 +16,162 @@ class NegotiationOffersViewModel:BaseViewModel() {
     var loadingDialogObserver:MutableLiveData<Boolean> = MutableLiveData()
     var purchaseOfferObserver:MutableLiveData<GeneralResponse> = MutableLiveData()
     var cancelOfferObserver:MutableLiveData<GeneralResponse> = MutableLiveData()
+
+
+    private var callPurchaseProductsOffers: Call<NegotiationOfferResp>? = null
+    private var callSaleProductsOffers: Call<NegotiationOfferResp>? = null
+    private var callCancelOfferProvider: Call<GeneralResponse>? = null
+    private var callCancelOffer: Call<GeneralResponse>? = null
+    private var callPurchaseOffer: Call<GeneralResponse>? = null
+
+    fun closeAllCall() {
+        if (callPurchaseProductsOffers != null) {
+            callPurchaseProductsOffers?.cancel()
+        }
+        if (callSaleProductsOffers != null) {
+            callSaleProductsOffers?.cancel()
+        }
+        if (callCancelOfferProvider != null) {
+            callCancelOfferProvider?.cancel()
+        }
+        if (callCancelOffer != null) {
+            callCancelOffer?.cancel()
+        }
+        if (callPurchaseOffer != null) {
+            callPurchaseOffer?.cancel()
+        }
+    }
+
     fun getPurchaseProductsOffers(isSent:Boolean){
         isLoading.value = true
-        getRetrofitBuilder()
-            .getPurchaseProductsOffers(isSent)
-            .enqueue(object : Callback<NegotiationOfferResp> {
-                override fun onFailure(call: Call<NegotiationOfferResp>, t: Throwable) {
-                    if(t is JsonSyntaxException){
-                        noOffersObserver.value=true
-                        isLoading.value = false
-                    }else {
-                        isNetworkFail.value = t !is HttpException
-                        isLoading.value = false
-                    }
-                }
 
-                override fun onResponse(
-                    call: Call<NegotiationOfferResp>,
-                    response: Response<NegotiationOfferResp>
-                ) {
-                    isLoading.value = false
-                    if (response.isSuccessful) {
-                        purchaseProductsOffersObserver.value = response.body()
-                    } else {
-                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
+        callPurchaseProductsOffers = getRetrofitBuilder().getPurchaseProductsOffers(isSent)
+        callApi(callPurchaseProductsOffers!!,
+            onSuccess = {
+                isLoading.value = false
+                purchaseProductsOffersObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoading.value = false
+                if (throwable != null && errorBody == null){
+                    if(throwable is JsonSyntaxException){
+                        noOffersObserver.value=true
+                    }else {
+                        isNetworkFail.value = throwable !is HttpException
                     }
                 }
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
+                }
+            },
+            goLogin = {
+                isLoading.value = false
+                needToLogin.value = true
             })
+
+
     }
     fun getSaleProductsOffers(isSent:Boolean){
         isLoading.value = true
-
-        getRetrofitBuilder()
-            .getSaleProductsOffers(isSent)
-            .enqueue(object : Callback<NegotiationOfferResp> {
-                override fun onFailure(call: Call<NegotiationOfferResp>, t: Throwable) {
-                    if(t is JsonSyntaxException){
+        callSaleProductsOffers = getRetrofitBuilder().getSaleProductsOffers(isSent)
+        callApi(callSaleProductsOffers!!,
+            onSuccess = {
+                isLoading.value = false
+                purchaseProductsOffersObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoading.value = false
+                if (throwable != null && errorBody == null){
+                    if(throwable is JsonSyntaxException){
                         noOffersObserver.value=true
-                        isLoading.value = false
                     }else {
-                        isNetworkFail.value = t !is HttpException
-                        isLoading.value = false
+                        isNetworkFail.value = throwable !is HttpException
                     }
                 }
-
-                override fun onResponse(
-                    call: Call<NegotiationOfferResp>,
-                    response: Response<NegotiationOfferResp>
-                ) {
-                    isLoading.value = false
-                    if (response.isSuccessful) {
-                        purchaseProductsOffersObserver.value = response.body()
-                    } else {
-                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
-                    }
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
                 }
+            },
+            goLogin = {
+                isLoading.value = false
+                needToLogin.value = true
             })
+
     }
 
     fun cancelOfferProvider(offerId:Int){
         loadingDialogObserver.value = true
-        getRetrofitBuilder()
-            .cancelProductOfferByProvider(offerId)
-            .enqueue(object : Callback<GeneralResponse> {
-                override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
-                    isNetworkFail.value = t !is HttpException
-                    loadingDialogObserver.value = false
+        callCancelOfferProvider = getRetrofitBuilder().cancelProductOfferByProvider(offerId)
+        callApi(callCancelOfferProvider!!,
+            onSuccess = {
+                loadingDialogObserver.value = false
+                cancelOfferObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                loadingDialogObserver.value = false
+                if (throwable != null && errorBody == null){
+                        isNetworkFail.value = throwable !is HttpException
                 }
-
-                override fun onResponse(
-                    call: Call<GeneralResponse>,
-                    response: Response<GeneralResponse>
-                ) {
-                    loadingDialogObserver.value = false
-                    if (response.isSuccessful) {
-                        cancelOfferObserver.value = response.body()
-                    } else {
-                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
-                    }
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
                 }
+            },
+            goLogin = {
+                loadingDialogObserver.value = false
+                needToLogin.value = true
             })
     }
 
     fun cancelOffer(offerId:Int){
         loadingDialogObserver.value = true
-        getRetrofitBuilder()
-            .cancelProductOfferByClient(offerId)
-            .enqueue(object : Callback<GeneralResponse> {
-                override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
-                    isNetworkFail.value = t !is HttpException
-                    loadingDialogObserver.value = false
-                }
 
-                override fun onResponse(
-                    call: Call<GeneralResponse>,
-                    response: Response<GeneralResponse>
-                ) {
-                    loadingDialogObserver.value = false
-                    if (response.isSuccessful) {
-                        cancelOfferObserver.value = response.body()
-                    } else {
-                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
-                    }
+        callCancelOffer = getRetrofitBuilder().cancelProductOfferByClient(offerId)
+        callApi(callCancelOffer!!,
+            onSuccess = {
+                loadingDialogObserver.value = false
+                cancelOfferObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                loadingDialogObserver.value = false
+                if (throwable != null && errorBody == null){
+                    isNetworkFail.value = throwable !is HttpException
                 }
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
+                }
+            },
+            goLogin = {
+                loadingDialogObserver.value = false
+                needToLogin.value = true
             })
-    }
 
+    }
 
     fun purchaseOffer(offerId:Int){
         loadingDialogObserver.value = true
-        getRetrofitBuilder()
-            .purchaseProductByOffer(offerId)
-            .enqueue(object : Callback<GeneralResponse> {
-                override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
-                    isNetworkFail.value = t !is HttpException
-                    loadingDialogObserver.value = false
+        callPurchaseOffer= getRetrofitBuilder().purchaseProductByOffer(offerId)
+        callApi(callPurchaseOffer!!,
+            onSuccess = {
+                loadingDialogObserver.value = false
+                purchaseOfferObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                loadingDialogObserver.value = false
+                if (throwable != null && errorBody == null){
+                    isNetworkFail.value = throwable !is HttpException
                 }
-                override fun onResponse(
-                    call: Call<GeneralResponse>,
-                    response: Response<GeneralResponse>
-                ) {
-                    loadingDialogObserver.value = false
-                    if (response.isSuccessful) {
-                        purchaseOfferObserver.value = response.body()
-                    } else {
-                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
-                    }
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
                 }
+            },
+            goLogin = {
+                loadingDialogObserver.value = false
+                needToLogin.value = true
             })
     }
 }

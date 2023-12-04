@@ -12,8 +12,8 @@ import com.malka.androidappp.newPhase.domain.models.regionsResp.Region
 
 class RegionAdapter(
     var context: Context,
-    var regionsList: List<Region>,
-    var onRegionSelected: OnRegionSelected
+    private var regionsList: List<Region>,
+    private var onRegionSelected: OnRegionSelected
 ) :
     RecyclerView.Adapter<RegionAdapter.CountriesViewHolder>() {
 
@@ -35,7 +35,7 @@ class RegionAdapter(
     }
 
     override fun onBindViewHolder(holder: CountriesViewHolder, position: Int) {
-        var regionName:String = regionsList[position].name
+        val regionName:String = regionsList[position].name
         holder.btnCountry.text = regionName
         holder.btnCountry.setOnClickListener {
             onRegionSelected.onRegionSelected(regionsList[position].id,regionName)
@@ -47,7 +47,7 @@ class RegionAdapter(
         var btnCountry: TextView = view.findViewById(R.id.btnCity)
     }
     interface OnRegionSelected{
-        public fun onRegionSelected(id:Int, countryName:String)
+        fun onRegionSelected(id:Int, countryName:String)
     }
 
 }

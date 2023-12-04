@@ -26,32 +26,25 @@ import kotlinx.android.synthetic.main.toolbar_main.*
 class MyWalletFragment : Fragment(R.layout.fragment_my_wallet_fragment),
     SwipeRefreshLayout.OnRefreshListener {
 
-    lateinit var recentOperationsAdapter: RecentOperationsAdapter
-    lateinit var walletTransactionslist: ArrayList<WalletTransactionsDetails>
+    private lateinit var recentOperationsAdapter: RecentOperationsAdapter
+    private lateinit var walletTransactionsList: ArrayList<WalletTransactionsDetails>
     private lateinit var accountViewModel: AccountViewModel
-    var walletDetails: WalletDetails? = null;
-
-    var transactionType: String = ConstantObjects.transactionType_Out
+    private var transactionType: String = ConstantObjects.transactionType_Out
+    
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
         setRecentOperationAdapter()
         setViewsClickListeners()
         setUpViewModel()
-//        if (AccountObject.walletDetails != null) {
-//            walletDetails = AccountObject.walletDetails
-//            setData(walletDetails!!)
-//        } else {
-//            accountViewModel.getWalletDetailsInWallet()
-//        }
         accountViewModel.getWalletDetailsInWallet()
     }
 
     private fun setData(walletDetails: WalletDetails) {
         tvTotalBalance.text = walletDetails.walletBalance.toString()
         walletDetails.walletTransactionslist?.let {
-            walletTransactionslist.clear()
-            walletTransactionslist.addAll(it)
+            walletTransactionsList.clear()
+            walletTransactionsList.addAll(it)
             recentOperationsAdapter.notifyDataSetChanged()
         }
     }
@@ -102,8 +95,8 @@ class MyWalletFragment : Fragment(R.layout.fragment_my_wallet_fragment),
     }
 
     private fun setRecentOperationAdapter() {
-        walletTransactionslist = ArrayList()
-        recentOperationsAdapter = RecentOperationsAdapter(walletTransactionslist)
+        walletTransactionsList = ArrayList()
+        recentOperationsAdapter = RecentOperationsAdapter(walletTransactionsList)
         rvWalletRecentOperation.apply {
             adapter = recentOperationsAdapter
             layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
@@ -130,23 +123,19 @@ class MyWalletFragment : Fragment(R.layout.fragment_my_wallet_fragment),
             choose_account.show()
 
 
-            recharge_the_balance.setBackground(
-                ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.edittext_bg
-                )
+            recharge_the_balance.background = ContextCompat.getDrawable(
+                requireContext(),
+                R.drawable.edittext_bg
             )
-            balance_withdraw.setBackground(
-                ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.round_btn
-                )
+            balance_withdraw.background = ContextCompat.getDrawable(
+                requireContext(),
+                R.drawable.round_btn
             )
 
 
             btnAddTranasction.text= getString(R.string.balance_withdrawal)
-            balance_withdraw.setTextColor(Color.parseColor("#FFFFFF"));
-            recharge_the_balance.setTextColor(Color.parseColor("#45495E"));
+            balance_withdraw.setTextColor(Color.parseColor("#FFFFFF"))
+            recharge_the_balance.setTextColor(Color.parseColor("#45495E"))
 
 
         }
@@ -154,21 +143,17 @@ class MyWalletFragment : Fragment(R.layout.fragment_my_wallet_fragment),
             transactionType = ConstantObjects.transactionType_In
             choose_account.hide()
 
-            balance_withdraw.setBackground(
-                ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.edittext_bg
-                )
+            balance_withdraw.background = ContextCompat.getDrawable(
+                requireContext(),
+                R.drawable.edittext_bg
             )
-            recharge_the_balance.setBackground(
-                ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.round_btn
-                )
+            recharge_the_balance.background = ContextCompat.getDrawable(
+                requireContext(),
+                R.drawable.round_btn
             )
             btnAddTranasction.text= getString(R.string.recharge_the_balance)
-            recharge_the_balance.setTextColor(Color.parseColor("#FFFFFF"));
-            balance_withdraw.setTextColor(Color.parseColor("#45495E"));
+            recharge_the_balance.setTextColor(Color.parseColor("#FFFFFF"))
+            balance_withdraw.setTextColor(Color.parseColor("#45495E"))
         }
         btnAddTranasction.setOnClickListener {
             if (etAmount.text.toString().trim() == "") {
@@ -209,5 +194,8 @@ class MyWalletFragment : Fragment(R.layout.fragment_my_wallet_fragment),
         accountViewModel.getWalletDetailsInWallet()
     }
 
-
+    override fun onDestroy() {
+        super.onDestroy()
+        accountViewModel.closeAllCall()
+    }
 }

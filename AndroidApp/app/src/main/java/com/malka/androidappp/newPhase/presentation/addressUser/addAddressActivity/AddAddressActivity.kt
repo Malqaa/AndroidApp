@@ -161,7 +161,7 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
 //        }
 //
 //        initView()
-//        setListenser()
+//        setListener()
 
     }
 
@@ -179,15 +179,14 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
 
             }
             try {
-                var currntlat: Double = 0.0
-                var currentlng: Double = 0.0
+                var currntlat = 0.0
+                var currentlng = 0.0
                 if (it.lat != null) {
                     currntlat = it.lat!!.toDouble()
                 }
                 if (it.lng != null) {
                     currentlng = it.lng!!.toDouble()
                 }
-                println("hhhh "+currntlat+" "+currentlng)
                 latLngLocation = LatLng(currntlat, currentlng)
                 loadLocation(latLngLocation!!)
             } catch (e: java.lang.Exception) {
@@ -229,7 +228,7 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
             if (addAddressResp.status_code == 200) {
                 addAddressResp.addressTitle
                // HelpFunctions.ShowLongToast(addAddressResp.message, this)
-                var intent = Intent()
+                val intent = Intent()
                 setResult(RESULT_OK, intent)
                 finish()
             } else {
@@ -372,8 +371,8 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
         }
         addressObject?.let {
             try {
-                var currntlat: Double = 0.0
-                var currentlng: Double = 0.0
+                var currntlat = 0.0
+                var currentlng = 0.0
                 if (it.lat != null) {
                     currntlat = it.lat!!.toDouble()
                 }
@@ -471,19 +470,15 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
         )
     }
 
-    fun hasPermissions(context: Context, vararg permissions: String): Boolean =
+    private fun hasPermissions(context: Context, vararg permissions: String): Boolean =
         permissions.all {
             ActivityCompat.checkSelfPermission(context, it) == PackageManager.PERMISSION_GRANTED
         }
 
-    /*****************/
-    /*****************/
-    /*****************/
-    /*****************/
-    /*****************/
-    /*****************/
-    /*****************/
-    /*****************/
+    override fun onDestroy() {
+        super.onDestroy()
+        addressViewModel.closeAllCall()
+    }
 
 //    private fun setPreValue() {
 //        ConstantObjects.userobj?.run {
@@ -494,12 +489,7 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
 //        }
 //    }
 
-    private fun initView() {
-
-
-    }
-
-    fun addressDetailValidation() {
+//    fun addressDetailValidation() {
 
 
 //        if (SelectCity() && validateArea() && validateStreetNumber()
@@ -509,10 +499,10 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
 //        }
 
 
-    }
+//    }
 
 
-    private fun setListenser() {
+//    private fun setListener() {
 
 
 //
@@ -762,4 +752,4 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
 //
 //    }
 
-}
+//}

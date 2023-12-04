@@ -8,7 +8,7 @@ import com.malka.androidappp.databinding.ItemTechnicalMessageBinding
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.domain.models.contauctUsMessage.TechnicalSupportMessageDetails
 
-class TechnicalSupportListAdapter(var technicalSupportMessageList:List<TechnicalSupportMessageDetails>,var setonClickListeners:SetonClickListeners) :Adapter<TechnicalSupportListAdapter.TechnicalSupportListViewHolder>() {
+class TechnicalSupportListAdapter(private var technicalSupportMessageList:List<TechnicalSupportMessageDetails>, private var setonClickListeners:SetonClickListeners) :Adapter<TechnicalSupportListAdapter.TechnicalSupportListViewHolder>() {
     class TechnicalSupportListViewHolder(var viewBinding:ItemTechnicalMessageBinding):ViewHolder(viewBinding.root)
 
     override fun onCreateViewHolder(

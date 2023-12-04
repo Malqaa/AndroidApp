@@ -8,9 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
 import com.malka.androidappp.databinding.RowShippingBinding
 import com.malka.androidappp.newPhase.domain.models.shippingOptionsResp.ShippingOptionObject
-import kotlinx.android.synthetic.main.activity_listing_duration.rbMustPickup
-import kotlinx.android.synthetic.main.activity_listing_duration.switchMustPickUp
-import kotlinx.android.synthetic.main.activity_listing_duration.tvMustPickUp
 
 class ShippingAdapter(
     var dataList: List<ShippingOptionObject>,

@@ -30,14 +30,14 @@ class ShipmentRateActivity : BaseActivity(), ProductRateAdapter.SetOnClickListen
 
     lateinit var productRateAdapter: ProductRateAdapter
     lateinit var orderProductFullInfoDtoList: ArrayList<OrderProductFullInfoDto>
-    var orderFullInfoDto: OrderFullInfoDto? = null
-    var selectedProductPosition: Int = 0
-    var sellerRate = 0
-    var shipmentRate = 0
-    var orderId = 0
-    var sellerRateId = 0
-    var shippmentRateId = 0
-    lateinit var rateObject: RateObject
+    private var orderFullInfoDto: OrderFullInfoDto? = null
+    private var selectedProductPosition: Int = 0
+    private var sellerRate = 0
+    private var shipmentRate = 0
+    private var orderId = 0
+    private var sellerRateId = 0
+    private var shippmentRateId = 0
+    private lateinit var rateObject: RateObject
     private lateinit var shipmentRateViewModel: ShipmentRateViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,7 +81,7 @@ class ShipmentRateActivity : BaseActivity(), ProductRateAdapter.SetOnClickListen
             }
         }
         shipmentRateViewModel.addShipmentRateObserver.observe(this) {
-            HelpFunctions.ShowLongToast(it.message.toString(), this)
+            HelpFunctions.ShowLongToast(it.message, this)
             if (it.status_code == 200) {
 
                 val intent = Intent(
@@ -130,7 +130,7 @@ class ShipmentRateActivity : BaseActivity(), ProductRateAdapter.SetOnClickListen
                         ivSellerSadeRate.setImageResource(R.drawable.sadcolor_gray)
                     }
                 }
-                etSellerCommnet.setText(rateObject.sellerDateDto.comment ?: "")
+                etSellerCommnet.setText(rateObject.sellerDateDto.comment )
             }
             //shipment
             if (rateObject.shippmentRateDto != null) {
@@ -157,7 +157,7 @@ class ShipmentRateActivity : BaseActivity(), ProductRateAdapter.SetOnClickListen
                         ivShipmentSadeRate.setImageResource(R.drawable.sadcolor_gray)
                     }
                 }
-                etShipmentCommnet.setText(rateObject.shippmentRateDto.comment ?: "")
+                etShipmentCommnet.setText(rateObject.shippmentRateDto.comment )
             }
             rateObject.productsRate.let { productsRateList ->
                 for (item in orderProductFullInfoDtoList) {
@@ -313,7 +313,7 @@ class ShipmentRateActivity : BaseActivity(), ProductRateAdapter.SetOnClickListen
 
     private fun checkProductRates() {
         lifecycleScope.launch(Dispatchers.IO) {
-            var productRateList: ArrayList<RateProductObject> = ArrayList()
+            val productRateList: ArrayList<RateProductObject> = ArrayList()
             var readToAdd = true
             for (item in orderProductFullInfoDtoList) {
                 if (item.rate == 0 || item.comment == "" || item.comment == null) {
@@ -345,7 +345,7 @@ class ShipmentRateActivity : BaseActivity(), ProductRateAdapter.SetOnClickListen
                             shippmentRateId = shippmentRateId,
                             shippmentId = 0,
                             rate = shipmentRate,
-                            comment = etShipmentCommnet.text.toString().toString(),
+                            comment = etShipmentCommnet.text.toString(),
                         )
                     )
                     println("hhhh " + Gson().toJson(rateObject))
@@ -390,5 +390,10 @@ class ShipmentRateActivity : BaseActivity(), ProductRateAdapter.SetOnClickListen
 
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        shipmentRateViewModel.closeAllCall()
     }
 }

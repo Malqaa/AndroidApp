@@ -34,7 +34,7 @@
 //        super.onViewCreated(view, savedInstanceState)
 //
 //        initView()
-//        setListenser()
+//        setListener()
 //
 //
 //        list.add(Reviewmodel("Ahmed1", "15/12/2022","Very good and fast delivery", "4.7", R.drawable.profile_pic ))
@@ -72,7 +72,7 @@
 //    }
 //
 //
-//    private fun setListenser() {
+//    private fun setListener() {
 //        back_btn.setOnClickListener {
 //            requireActivity().onBackPressed()
 //        }

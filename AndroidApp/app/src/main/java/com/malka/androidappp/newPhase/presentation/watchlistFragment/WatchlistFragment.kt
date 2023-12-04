@@ -261,6 +261,10 @@ class WatchlistFragment : Fragment(R.layout.fragment_watchlist),
 
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+       wishListViewModel.closeAllCall()
+    }
 
 //    @Subscribe(threadMode = ThreadMode.MAIN)
 //    fun onMessageEvent(event: WatchList?) {

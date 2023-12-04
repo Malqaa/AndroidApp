@@ -3,7 +3,6 @@ package com.malka.androidappp.newPhase.presentation.searchProductListActivity.br
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
@@ -39,7 +38,6 @@ import com.malka.androidappp.newPhase.presentation.searchProductListActivity.bro
 import kotlinx.android.synthetic.main.fragment_browse_market.btnRegion
 import kotlinx.android.synthetic.main.fragment_browse_market.btnSpecification
 import kotlinx.android.synthetic.main.fragment_browse_market.btnSubCatgeoryFilter
-import kotlinx.android.synthetic.main.fragment_browse_market.fbButtonBack
 import kotlinx.android.synthetic.main.fragment_browse_market.follow_category
 import kotlinx.android.synthetic.main.fragment_browse_market.icon_grid
 import kotlinx.android.synthetic.main.fragment_browse_market.icon_list
@@ -63,7 +61,7 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     SetOnProductItemListeners, FilterCategoryProductsDialog.SetOnClickListeners {
 
     var categoryID: Int = 0
-    var categoryName =""
+    var categoryName = ""
     var countryList: List<Int> = ArrayList()
     var regionList: List<Int> = ArrayList()
     var neighoodList: List<Int> = ArrayList()
@@ -74,9 +72,9 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     var comeFrom = 1
     private var flagList = true
 
-    lateinit var productSearchCategoryAdapter: ProductHorizontalAdapter
-    lateinit var productCategoryAdapter: ProductHorizontalAdapter
-    lateinit var productRowFullAdapter: ProductRowFullAdapter
+    private lateinit var productSearchCategoryAdapter: ProductHorizontalAdapter
+    private lateinit var productCategoryAdapter: ProductHorizontalAdapter
+    private lateinit var productRowFullAdapter: ProductRowFullAdapter
 
     lateinit var gridViewLayoutManager: GridLayoutManager
     lateinit var linerlayout: LinearLayoutManager
@@ -85,13 +83,8 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     private lateinit var productList: ArrayList<Product>
     private lateinit var productListVip: ArrayList<Product>
     private var lastUpdateIndex = -1
-    var categoryQuery = "mainCatId="
-    var pageCountQuery = "PageRowsCount=10"
-    var pageIndexQuery = "pageIndex="
-    var langQuery = "lang="
-    var queryString = ""
     var productName: String? = null
-    var added_product_id_to_fav = 0
+    private var added_product_id_to_fav = 0
     var isLoading = false
 
     lateinit var endlessRecyclerViewScrollListener: EndlessRecyclerViewScrollListener
@@ -99,7 +92,8 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     var isFollowCategory: Boolean = false
     var categoriesForProductList: ArrayList<CategoriesSearchItem> = ArrayList()
     var getCategoryForFirstTimeOnlyToUseInFilter = false
-    var page=1
+    var page = 1
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_browse_market)
@@ -108,12 +102,11 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         setProductSearchCategoryAdapter()
         setViewClickListeners()
 
-        categoryName = intent.getStringExtra("CategoryDesc")?:"CategoryName"
+        categoryName = intent.getStringExtra("CategoryDesc") ?: "CategoryName"
         categoryID = intent.getIntExtra("CategoryID", 0)
         comeFrom = intent.getIntExtra("ComeFrom", 0)
         productName = intent.getStringExtra("productName")
-        lbl_toolbar_category.text=categoryName
-        println("hhhh " + categoryID)
+        lbl_toolbar_category.text = categoryName
         filterCategoryProductsDialog = FilterCategoryProductsDialog(
             this,
             FilterCategoryProductsDialog.subCategoryType,
@@ -123,8 +116,6 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         )
         filterCategoryProductsDialog.setCategories(categoriesForProductList)
         setupViewModel()
-//        queryString =
-//            "${categoryQuery}${categoryID}&${pageCountQuery}&${langQuery}${ConstantObjects.currentLanguage}&${pageIndexQuery}${1}"
         when (comeFrom) {
             ConstantObjects.search_categoriesDetails -> {
                 btnSubCatgeoryFilter.text = getText(R.string.sub_categories)
@@ -186,19 +177,19 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
                     if (listVip.isNotEmpty()) {
                         productListVip.addAll(listVip)
-                        recyclerMarketFull.adapter =productCategoryAdapter
+                        recyclerMarketFull.adapter = productCategoryAdapter
                         productCategoryAdapter.updateAdapter(productListVip)
                     }
 
                     productList.addAll(allListOutVip)
 
-                    if(flagList){
+                    if (flagList) {
                         recyclerViewMarket.apply {
                             adapter = productRowFullAdapter
                             layoutManager = linerlayout
                         }
                         productRowFullAdapter.updateAdapter(productList)
-                    }else{
+                    } else {
                         recyclerViewMarket.apply {
                             adapter = productSearchCategoryAdapter
                             layoutManager = gridViewLayoutManager
@@ -214,7 +205,7 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                 if (!getCategoryForFirstTimeOnlyToUseInFilter) {
                     if (productListResp.data?.categories != null) {
                         categoriesForProductList.clear()
-                        categoriesForProductList.addAll(productListResp.data?.categories)
+                        categoriesForProductList.addAll(productListResp.data.categories)
                         filterCategoryProductsDialog.setCategories(categoriesForProductList)
                         getCategoryForFirstTimeOnlyToUseInFilter = true
                     }
@@ -251,12 +242,6 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         }
         productsListViewModel.addProductToFavObserver.observe(this) {
             if (it.status_code == 200) {
-//                if (lastUpdateIndex < productList.size) {
-//                    productList[lastUpdateIndex].isFavourite =
-//                        !productList[lastUpdateIndex].isFavourite
-//                    productSearchCategoryAdapter.notifyItemChanged(lastUpdateIndex)
-//                    productSearchCategoryAdapter.notifyDataSetChanged()
-//                }
                 lifecycleScope.launch(Dispatchers.IO) {
                     var selectedSimilerProduct: Product? = null
                     for (product in productList) {
@@ -299,7 +284,6 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     }
 
 
-
     private fun showProductApiError(message: String) {
         tvError.show()
         tvError.text = message
@@ -311,7 +295,6 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         }
 
         icon_grid.setOnClickListener {
-            //browadptxl!!.updateLayout(true)
             flagList = false
             icon_grid.setImageResource(R.drawable.ic_icon_grid_active)
             icon_list.setImageResource(R.drawable.icon_list)
@@ -324,7 +307,6 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             }
         }
         icon_list.setOnClickListener {
-            //browadptxl!!.updateLayout(false)
             flagList = true
             icon_list.setImageResource(R.drawable.ic_icon_list_active)
             icon_grid.setImageResource(R.drawable.icon_grid)
@@ -335,25 +317,18 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
         }
         btnSubCatgeoryFilter.setOnClickListener {
-            //GetSubCategoryByMainCategory(CategoryID)
-
             filterCategoryProductsDialog.show()
             filterCategoryProductsDialog.setCategories(categoriesForProductList)
             filterCategoryProductsDialog.setSelectedTap(FilterCategoryProductsDialog.subCategoryType)
 
         }
         btnRegion.setOnClickListener {
-            //GetSubCategoryByMainCategory(CategoryID)
-            // var filterCategoryProductsDialog = FilterCategoryProductsDialog(this,FilterCategoryProductsDialog.regionType,categoryID)
-
             filterCategoryProductsDialog.show()
             filterCategoryProductsDialog.setCategories(categoriesForProductList)
             filterCategoryProductsDialog.setSelectedTap(FilterCategoryProductsDialog.regionType)
 
         }
         btnSpecification.setOnClickListener {
-            //GetSubCategoryByMainCategory(CategoryID)
-            // var filterCategoryProductsDialog = FilterCategoryProductsDialog(this,FilterCategoryProductsDialog.specificationType,categoryID)
             filterCategoryProductsDialog.show()
             filterCategoryProductsDialog.setCategories(categoriesForProductList)
             filterCategoryProductsDialog.setSelectedTap(FilterCategoryProductsDialog.specificationType)
@@ -364,7 +339,7 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                 if (isFollowCategory) {
                     RemoveFollow()
                 } else {
-                    FollowCategoryAPI()
+                    followCategoryAPI()
                 }
             } else {
                 goToSignInActivity()
@@ -381,21 +356,14 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         gridViewLayoutManager = GridLayoutManager(this, 2)
         linerlayout = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
 
-
         productSearchCategoryAdapter = ProductHorizontalAdapter(productList, this, 0, false, false)
         productCategoryAdapter = ProductHorizontalAdapter(productList, this, 0, false, false)
+        productRowFullAdapter = ProductRowFullAdapter(arrayListOf(), 0, this)
 
-//        recyclerViewMarket.apply {
-//            adapter = productSearchCategoryAdapter
-//        }
-
-        productRowFullAdapter = ProductRowFullAdapter(arrayListOf(),0,this)
-//
         endlessRecyclerViewScrollListener =
             object : EndlessRecyclerViewScrollListener(linerlayout) {
                 override fun onLoadMore(_page: Int, totalItemsCount: Int, view: RecyclerView) {
                     page++
-                    println("hhh page liner  " + page)
                     productsListViewModel.searchForProduct(
                         categoryID,
                         ConstantObjects.currentLanguage,
@@ -416,7 +384,6 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             object : EndlessRecyclerViewScrollListener(gridViewLayoutManager) {
                 override fun onLoadMore(_page: Int, totalItemsCount: Int, view: RecyclerView) {
                     page++
-                    println("hhh page liner  " + page)
                     productsListViewModel.searchForProduct(
                         categoryID,
                         ConstantObjects.currentLanguage,
@@ -487,7 +454,7 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     }
 
     /**open activity product detials functions**/
-    val productDetailsLauncher =
+    private val productDetailsLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val productId: Int = result.data?.getIntExtra(ConstantObjects.productIdKey, 0) ?: 0
@@ -597,13 +564,7 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     }
 
 
-    /***********
-     * ***********
-     * *********
-     * *********
-     * ******
-     * *******/
-    private fun FollowCategoryAPI() {
+    private fun followCategoryAPI() {
         HelpFunctions.startProgressBar(this)
         val malqa: MalqaApiService = getRetrofitBuilder()
         val call = malqa.addFollow(
@@ -622,16 +583,12 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                 if (response.isSuccessful) {
                     println("tttt add " + Gson().toJson(response.body()))
                     if (response.body() != null) {
-//                        HelpFunctions.ShowLongToast(
-//                            getString(R.string.follow_catgeory),
-//                            this@SearchCategoryActivity
-//                        )
                         isFollowCategory = true
                         checkFollowIcon(true)
                     }
                 } else {
-                    val errResponse: ErrorResponse? = getErrorResponse(response.errorBody())
-                    if (errResponse?.message == "Categories already exists") {
+                    val errResponse: ErrorResponse = getErrorResponse(response.errorBody())
+                    if (errResponse.message == "Categories already exists") {
                         isFollowCategory = true
                         checkFollowIcon(true)
                     }
@@ -668,15 +625,9 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                 if (response.isSuccessful) {
                     println("tttt remove " + Gson().toJson(response.body()))
                     if (response.body() != null) {
-//                        HelpFunctions.ShowLongToast(
-//                            getString(R.string.un_follow_catgeory),
-//                            this@SearchCategoryActivity
-//                        )
                         isFollowCategory = false
                         checkFollowIcon(false)
-
                     }
-
                 }
                 HelpFunctions.dismissProgressBar()
             }
@@ -696,44 +647,14 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                 R.drawable.notification_log
             )
         }
-        // follow_category.setCompoundDrawables(img, null, null, null)
         follow_category.setCompoundDrawablesWithIntrinsicBounds(img, null, null, null)
 
     }
 
-
-//
-
-
-    // Add Search to favorites
-//    fun addSearchQueryFav(searchQuery: String) {
-//        try {
-//
-//            val malqaa: MalqaApiService = getRetrofitBuilder()
-//
-//            val call: Call<ModelAddSearchFav> = malqaa.addSearchFav(
-//                ModelAddSearchFav(
-//                    loggedInUserId = ConstantObjects.logged_userid,
-//                    searchQuery = searchQuery
-//                )
-//            )
-//
-//            call.enqueue(object : Callback<ModelAddSearchFav> {
-//                override fun onResponse(
-//                    call: Call<ModelAddSearchFav>, response: Response<ModelAddSearchFav>
-//                ) {
-//
-//                }
-//
-//                override fun onFailure(call: Call<ModelAddSearchFav>, t: Throwable) {
-//                    t.message?.let { HelpFunctions.ShowLongToast(it, this@SearchCategoryActivity) }
-//                }
-//            })
-//        } catch (ex: Exception) {
-//            HelpFunctions.ReportError(ex)
-//
-//        }
-//    }
+    override fun onDestroy() {
+        super.onDestroy()
+        productsListViewModel.closeAllCall()
+    }
 
 
 }

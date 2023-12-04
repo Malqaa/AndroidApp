@@ -10,7 +10,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -24,7 +23,6 @@ import com.malka.androidappp.newPhase.presentation.adapterShared.SetOnProductIte
 import com.malka.androidappp.newPhase.presentation.homeScreen.viewModel.HomeViewModel
 import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
 import com.malka.androidappp.newPhase.presentation.productDetailsActivity.ProductDetailsActivity
-import com.malka.androidappp.newPhase.presentation.searchProductListActivity.CategoryProductViewModel
 import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -41,17 +39,14 @@ class SearchActivity : BaseActivity(),
     private lateinit var searchAdapter: ProductHorizontalAdapter
     private lateinit var productArrayList: ArrayList<Product>
 
-    var status_product_added_to_fav_from = 0
-    var comeFrom = 1
-    var strSearch = ""
-    var productName: String? = null
-    var added_product_id_to_fav = 0
+    private var strSearch = ""
+    private var productName: String? = null
+    private var added_product_id_to_fav = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
         searchQuery = intent.getStringExtra(ConstantObjects.searchQueryKey)
 
-//        comeFrom = intent.getIntExtra("ComeFrom", 0)
         productName = intent.getStringExtra("productName")
 
         setupSearchListAdapter()
@@ -91,7 +86,7 @@ class SearchActivity : BaseActivity(),
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                homeViewModel.doSearch(mapOf("productName" to p0.toString()!!))
+                homeViewModel.doSearch(mapOf("productName" to p0.toString()))
             }
 
             override fun afterTextChanged(p0: Editable?) {
@@ -218,7 +213,7 @@ class SearchActivity : BaseActivity(),
     }
 
 
-    val productDetailsLauncher =
+    private val productDetailsLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val productId: Int = result.data?.getIntExtra(ConstantObjects.productIdKey, 0) ?: 0
@@ -277,7 +272,11 @@ class SearchActivity : BaseActivity(),
                 }
             }
         }
+    }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        homeViewModel.closeAllCall()
     }
 
 }

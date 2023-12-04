@@ -1,25 +1,17 @@
 package com.malka.androidappp.newPhase.presentation.accountFragment.businessAccount
 
 import androidx.lifecycle.MutableLiveData
-import com.google.android.exoplayer2.upstream.HttpDataSource
-import com.google.android.exoplayer2.upstream.HttpDataSource.HttpDataSourceException
-import com.google.gson.Gson
 import com.malka.androidappp.newPhase.core.BaseViewModel
 import com.malka.androidappp.newPhase.data.helper.Extension.requestBody
+import com.malka.androidappp.newPhase.data.network.callApi
 import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.bussinessAccountsListResp.BusinessAccountsListResp
 import com.malka.androidappp.newPhase.domain.models.bussinessAccountsListResp.ChangeBussinesAccountResp
 import com.malka.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Call
-import retrofit2.Callback
 import retrofit2.HttpException
-import retrofit2.Response
-import java.io.File
 
 class BusinessAccountViewModel : BaseViewModel() {
     var businessAccountListObserver: MutableLiveData<BusinessAccountsListResp> =
@@ -29,57 +21,57 @@ class BusinessAccountViewModel : BaseViewModel() {
     var addbusinessAccountListObserver: MutableLiveData<GeneralResponse> =
         MutableLiveData<GeneralResponse>()
 
+    private var callChangeBusinessAccount: Call<ChangeBussinesAccountResp>? = null
+    private var callAllBusinessAccount: Call<BusinessAccountsListResp>? = null
+    private var callAddBusinessAccount: Call<GeneralResponse>? = null
+
     fun getBusinessAccount() {
         isLoading.value = true
-        getRetrofitBuilder()
-            .gatAllBusinessAccounts()
-            .enqueue(object : Callback<BusinessAccountsListResp> {
-                override fun onFailure(call: Call<BusinessAccountsListResp>, t: Throwable) {
-                    isNetworkFail.value = t !is HttpException
-                    isLoading.value = false
+        callAllBusinessAccount = getRetrofitBuilder().gatAllBusinessAccounts()
+        callApi(callAllBusinessAccount!!,
+            onSuccess = {
+                isLoading.value = false
+                businessAccountListObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoading.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
                 }
-
-                override fun onResponse(
-                    call: Call<BusinessAccountsListResp>,
-                    response: Response<BusinessAccountsListResp>
-                ) {
-                    isLoading.value = false
-                    if (response.isSuccessful) {
-
-                        businessAccountListObserver.value = response.body()
-                    } else {
-                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
-                    }
-                }
+            },
+            goLogin = {
+                isLoading.value = false
+                needToLogin.value = true
             })
     }
 
     fun changeBusinessAccount(id: Int) {
         isLoading.value = true
-        getRetrofitBuilder()
-            .changeBusinessAccount(id)
-            .enqueue(object : Callback<ChangeBussinesAccountResp> {
-                override fun onFailure(call: Call<ChangeBussinesAccountResp>, t: Throwable) {
-                    isNetworkFail.value = t !is HttpException
-                    isLoading.value = false
+        callChangeBusinessAccount = getRetrofitBuilder().changeBusinessAccount(id)
+        callApi(callChangeBusinessAccount!!,
+            onSuccess = {
+                isLoading.value = false
+                changeBusinessAccountObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoading.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
                 }
-
-                override fun onResponse(
-                    call: Call<ChangeBussinesAccountResp>,
-                    response: Response<ChangeBussinesAccountResp>
-                ) {
-
-                    isLoading.value = false
-                    if (response.isSuccessful) {
-                        changeBusinessAccountObserver.value = response.body()
-                    } else {
-                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
-                    }
-                }
+            },
+            goLogin = {
+                isLoading.value = false
+                needToLogin.value = true
             })
     }
 
-    fun addBusinessAcoount(
+    fun addBusinessAccount(
         id: String,
         userNamee: String,
         providerId: String,
@@ -113,20 +105,8 @@ class BusinessAccountViewModel : BaseViewModel() {
         _getChecked: Boolean
     ) {
         isLoading.value = true
-//        val multipartBodyCommercialRegistryFileList: ArrayList<MultipartBody.Part> =
-//            ArrayList<MultipartBody.Part>()
-//
-//        commercialRegistryFileList.let {
-//            for (item in commercialRegistryFileList) {
-//                // var requestbody: RequestBody = item.requestBody()
-//                val multipartBody: MultipartBody.Part =
-//                    MultipartBody.Part.createFormData( "BusinessAccountCertificates",item.toString())
-//                multipartBodyCommercialRegistryFileList.add(multipartBody)
-//            }
-//
-//        }
 
-        getRetrofitBuilder()
+        callAddBusinessAccount=  getRetrofitBuilder()
             .addEditBusinessAccount(
                 id.requestBody(),
 
@@ -165,24 +145,36 @@ class BusinessAccountViewModel : BaseViewModel() {
                 "true".requestBody(),
                 "false".requestBody()
             )
-            .enqueue(object : Callback<GeneralResponse> {
-                override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
-                    isNetworkFail.value = t !is HttpException
-                    isLoading.value = false
+        callApi(callAddBusinessAccount!!,
+            onSuccess = {
+                isLoading.value = false
+                addbusinessAccountListObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoading.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
                 }
-
-                override fun onResponse(
-                    call: Call<GeneralResponse>,
-                    response: Response<GeneralResponse>
-                ) {
-                    isLoading.value = false
-                    if (response.isSuccessful) {
-                        addbusinessAccountListObserver.value = response.body()
-                    } else {
-                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
-                    }
-                }
+            },
+            goLogin = {
+                isLoading.value = false
+                needToLogin.value = true
             })
+    }
+
+    fun closeAllCall() {
+        if (callAddBusinessAccount != null) {
+            callAddBusinessAccount?.cancel()
+        }
+        if (callChangeBusinessAccount != null) {
+            callChangeBusinessAccount?.cancel()
+        }
+        if (callAllBusinessAccount != null) {
+            callAllBusinessAccount?.cancel()
+        }
     }
 
 }

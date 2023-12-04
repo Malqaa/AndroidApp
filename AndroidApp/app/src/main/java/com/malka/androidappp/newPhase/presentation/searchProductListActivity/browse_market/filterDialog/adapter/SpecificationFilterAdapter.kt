@@ -68,7 +68,7 @@ class SpecificationFilterAdapter(var dynamicSpecificationsArrayList: ArrayList<D
         }else{
             setAdapterForSpecificationSubItem(
                 holder.viewBinding.subItemRcv,
-                ArrayList<SubSpecificationItem>(),
+                ArrayList(),
                 position
             )
         }

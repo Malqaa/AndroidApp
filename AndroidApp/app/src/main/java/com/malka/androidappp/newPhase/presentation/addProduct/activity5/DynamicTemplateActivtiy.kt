@@ -39,8 +39,8 @@ class DynamicTemplateActivtiy : BaseActivity(), DynamicSpecificationsAdapter.OnC
 //    var selectdate = ""
 //    var selectTime = ""
     private lateinit var addProductViewModel: AddProductViewModel
-    lateinit var dynamicSpecificationsAdapter: DynamicSpecificationsAdapter
-    var dynamicSpecificationsArrayList: ArrayList<DynamicSpecificationItem> = ArrayList()
+    private lateinit var dynamicSpecificationsAdapter: DynamicSpecificationsAdapter
+    private var dynamicSpecificationsArrayList: ArrayList<DynamicSpecificationItem> = ArrayList()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_dynamic_template)
@@ -146,7 +146,7 @@ class DynamicTemplateActivtiy : BaseActivity(), DynamicSpecificationsAdapter.OnC
     private fun checkAllDataSet() {
         lifecycleScope.launch(Dispatchers.IO) {
             var allValuesSet = true
-            var data: ArrayList<DynamicSpecificationSentObject> = ArrayList()
+            val data: ArrayList<DynamicSpecificationSentObject> = ArrayList()
             dynamicSpecificationsArrayList.forEach { dynamicSpecificationItem ->
 //                if(dynamicSpecificationItem.type==1){
 //                    if(dynamicSpecificationItem.subSpecificationsValue==null){

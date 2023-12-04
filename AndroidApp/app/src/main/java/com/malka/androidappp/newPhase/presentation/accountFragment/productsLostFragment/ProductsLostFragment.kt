@@ -33,7 +33,7 @@ class ProductsLostFragment : Fragment(R.layout.fragment_lost), SetOnProductItemL
     private lateinit var accountViewModel: AccountViewModel
     private lateinit var productAdapter: ProductHorizontalAdapter
     private lateinit var productList: ArrayList<Product>
-    private var added_product_id_to_fav = -1
+    private var addProductIdToFav = -1
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         toolbar_title.text = getString(R.string.Loser)
@@ -77,7 +77,7 @@ class ProductsLostFragment : Fragment(R.layout.fragment_lost), SetOnProductItemL
                 lifecycleScope.launch(Dispatchers.IO) {
                     var selectedSimilerProduct: Product? = null
                     for (product in productList) {
-                        if (product.id == added_product_id_to_fav) {
+                        if (product.id == addProductIdToFav) {
                             product.isFavourite = !product.isFavourite
                             selectedSimilerProduct = product
                             break
@@ -107,10 +107,10 @@ class ProductsLostFragment : Fragment(R.layout.fragment_lost), SetOnProductItemL
                 HelpFunctions.ShowLongToast(getString(R.string.serverError), requireActivity())
             }
         }
-        accountViewModel.productListObserver.observe(this) {
+        accountViewModel.productListObserver.observe(this) { it ->
             if (it.status_code == 200) {
                 productList.clear()
-                it.productList?.let {
+                it.productList?.let { it ->
                     productList.addAll(it)
                     productAdapter.notifyDataSetChanged()
                     if (productList.isEmpty()) {
@@ -151,7 +151,7 @@ class ProductsLostFragment : Fragment(R.layout.fragment_lost), SetOnProductItemL
     override fun onAddProductToFav(position: Int, productID: Int, categoryID: Int) {
         if (HelpFunctions.isUserLoggedIn()) {
 
-            added_product_id_to_fav = productList[position].id
+            addProductIdToFav = productList[position].id
             accountViewModel.addProductToFav(productList[position].id)
 
         } else {
@@ -200,5 +200,9 @@ class ProductsLostFragment : Fragment(R.layout.fragment_lost), SetOnProductItemL
         accountViewModel.grtLostProducts()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        accountViewModel.closeAllCall()
+    }
 
 }

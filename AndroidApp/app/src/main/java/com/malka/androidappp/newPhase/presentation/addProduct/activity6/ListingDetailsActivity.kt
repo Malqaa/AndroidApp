@@ -2,9 +2,7 @@ package com.malka.androidappp.newPhase.presentation.addProduct.activity6
 
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
 import androidx.lifecycle.ViewModelProvider
-import com.hbb20.CountryCodePicker
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
@@ -18,7 +16,6 @@ import com.malka.androidappp.newPhase.presentation.addProduct.viewmodel.AddProdu
 import com.malka.androidappp.newPhase.presentation.dialogsShared.countryDialog.CountryDialog
 import com.malka.androidappp.newPhase.presentation.dialogsShared.neighborhoodDialog.NeighborhoodDialog
 import com.malka.androidappp.newPhase.presentation.dialogsShared.regionDialog.RegionDialog
-import com.yariksoffice.lingver.Lingver
 import kotlinx.android.synthetic.main.activity_list_details_add_product.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 
@@ -30,11 +27,11 @@ class ListingDetailsActivity : BaseActivity() {
 
     //    var selectedCountryId: Int = 0
 //    var selectedRegionId: Int = 0
+//    var isPhoneNumberValid: Boolean = false
 //    var selectedNeighborhoodId: Int = 0
     private lateinit var addProductViewModel: AddProductViewModel
-    var isEdit: Boolean = false
-    var isPhoneNumberValid: Boolean = false
-    val configKey = "ShowProductQuantityInAddProduct"
+    private var isEdit: Boolean = false
+    private val configKey = "ShowProductQuantityInAddProduct"
     override fun onBackPressed() {
         if (isEdit) {
             startActivity(Intent(this, ConfirmationAddProductActivity::class.java))
@@ -106,7 +103,7 @@ class ListingDetailsActivity : BaseActivity() {
 //            }
 //
 //            btnotherr.setOnClickListener {
-//                ListDetailsconfirmInput() }
+//                listDetailsConfirmInput() }
 //
 //        }
 
@@ -300,7 +297,7 @@ class ListingDetailsActivity : BaseActivity() {
         }
 
 
-        btnotherr.setOnClickListener { listDetailsconfirmInput() }
+        btnotherr.setOnClickListener { listDetailsConfirmInput() }
 
         back_btn.setOnClickListener {
             onBackPressed()
@@ -334,7 +331,7 @@ class ListingDetailsActivity : BaseActivity() {
                 /**setCountryData*/
                 /**setCountryData*/
                 selectedCountry = SearchListItem(id, countryName)
-                countryContainer.text = countryName.toString()
+                countryContainer.text = countryName
                 countryContainer._setStartIconImage(countryFlag)
                 /**resetRegion*/
                 /**resetRegion*/
@@ -356,7 +353,7 @@ class ListingDetailsActivity : BaseActivity() {
                     /**setRegionData*/
                     /**setRegionData*/
                     selectedRegion = SearchListItem(id, regionName)
-                    regionContainer.text = regionName.toString()
+                    regionContainer.text = regionName
                     /**resetNeighborhood*/
                     /**resetNeighborhood*/
                     selectedCity = null
@@ -375,7 +372,7 @@ class ListingDetailsActivity : BaseActivity() {
                     /**setNeighborhoodData*/
                     /**setNeighborhoodData*/
                     selectedCity = SearchListItem(id, neighborhoodName)
-                    neighborhoodContainer.text = neighborhoodName.toString()
+                    neighborhoodContainer.text = neighborhoodName
                 }
             })
         neighborhoodDialog.show()
@@ -383,8 +380,8 @@ class ListingDetailsActivity : BaseActivity() {
 
     /***/
 
-    fun listDetailsconfirmInput() {
-        AddProductObjectData.quantity = quantityavail.number.toString()
+    private fun listDetailsConfirmInput() {
+        AddProductObjectData.quantity = quantityavail.number
         if (tvTitleAr.getText().isEmpty()) {
             showError(getString(R.string.Please_enter, getString(R.string.item_title)))
         } else if (tvTitleEn.getText().isEmpty()) {
@@ -424,10 +421,10 @@ class ListingDetailsActivity : BaseActivity() {
 //        }
 
         else {
-            AddProductObjectData.itemTitleAr = tvTitleAr.getText().trim().toString()
-            AddProductObjectData.itemTitleEn = tvTitleEn.getText().trim().toString()
-            AddProductObjectData.subtitleAr = tvSubtitleAr.getText().trim().toString()
-            AddProductObjectData.subtitleEn = tvSubtitleEn.getText().trim().toString()
+            AddProductObjectData.itemTitleAr = tvTitleAr.getText().trim()
+            AddProductObjectData.itemTitleEn = tvTitleEn.getText().trim()
+            AddProductObjectData.subtitleAr = tvSubtitleAr.getText().trim()
+            AddProductObjectData.subtitleEn = tvSubtitleEn.getText().trim()
             AddProductObjectData.itemDescriptionAr = tvDescriptionAr.text.trim().toString()
             AddProductObjectData.itemDescriptionEn = tvDescriptionEn.text.trim().toString()
             AddProductObjectData.country = selectedCountry

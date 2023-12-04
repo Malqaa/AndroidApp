@@ -12,7 +12,6 @@ import com.google.gson.Gson
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.newPhase.data.helper.ConstantObjects
-import com.malka.androidappp.newPhase.data.helper.ConstantObjects.Companion.pickUp_Must
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.data.helper.hide
 import com.malka.androidappp.newPhase.data.helper.show
@@ -25,7 +24,6 @@ import com.malka.androidappp.newPhase.domain.models.shippingOptionsResp.Shipping
 import com.malka.androidappp.newPhase.presentation.addProduct.AddProductObjectData
 import com.malka.androidappp.newPhase.presentation.addProduct.ConfirmationAddProductActivity
 import com.malka.androidappp.newPhase.presentation.addProduct.activity8.PromotionalActivity
-import com.malka.androidappp.newPhase.presentation.productDetailsActivity.viewModels.ProductDetailsViewModel
 import kotlinx.android.synthetic.main.activity_listing_duration.*
 import kotlinx.android.synthetic.main.activity_listing_duration.switchMustPickUp
 import kotlinx.android.synthetic.main.activity_listing_duration.tvMustPickUp
@@ -77,20 +75,20 @@ class ListingDurationActivity : BaseActivity(), ShippingAdapter.SetOnSelectedShi
 //        val week4 = addDay(day.toString(), 28)
         try {
             AddProductObjectData.selectedCategory?.let {
-                var characterList = it.auctionClosingPeriods?.toCharArray()
+                val characterList = it.auctionClosingPeriods?.toCharArray()
                 if (characterList != null) {
                     for (c in characterList) {
                         if (c != ',') {
-                            var cNumer: Int = 1
+                            var cNumer = 1
                             try {
                                 cNumer = c.toString().toInt()
                             } catch (e: java.lang.Exception) {
-
+//
                             }
 
                             when (it.auctionClosingPeriodsUnit) {
                                 ConstantObjects.auctionClosingPeriodsUnit_day -> {
-                                    var date = addDay(currentDay.toString(), cNumer)
+                                    val date = addDay(currentDay.toString(), cNumer)
                                     allWeeks.add(
                                         TimeAuctionSelection(
                                             c.toString(),
@@ -102,7 +100,7 @@ class ListingDurationActivity : BaseActivity(), ShippingAdapter.SetOnSelectedShi
                                 }
 
                                 ConstantObjects.auctionClosingPeriodsUnit_month -> {
-                                    var date = addMonth(currentDay.toString(), cNumer)
+                                    val date = addMonth(currentDay.toString(), cNumer)
                                     allWeeks.add(
                                         TimeAuctionSelection(
                                             c.toString(),
@@ -114,7 +112,7 @@ class ListingDurationActivity : BaseActivity(), ShippingAdapter.SetOnSelectedShi
                                 }
 
                                 else -> {
-                                    var date = addDay(currentDay.toString(), cNumer * 7)
+                                    val date = addDay(currentDay.toString(), cNumer * 7)
                                     allWeeks.add(
                                         TimeAuctionSelection(
                                             c.toString(),
@@ -131,6 +129,7 @@ class ListingDurationActivity : BaseActivity(), ShippingAdapter.SetOnSelectedShi
             }
             fixLenghtAdaptor(allWeeks)
         } catch (e: Exception) {
+            //
         }
 
 
@@ -322,10 +321,10 @@ class ListingDurationActivity : BaseActivity(), ShippingAdapter.SetOnSelectedShi
         }
         tvClosingAuctionCustomDataOption2.setOnClickListener {
             fm = supportFragmentManager
-            var dateDialog = DatePickerFragment(false, true) { selectdate_ ->
+            val dateDialog = DatePickerFragment(false, true) { selectdate_ ->
                 tvClosingAuctionCustomDataOption2.text = ""
                 selectdate = selectdate_
-                var timeDialog = TimePickerFragment { selectTime_ ->
+                val timeDialog = TimePickerFragment { selectTime_ ->
                     selectTime = selectTime_
                     btnRadioClosingAuctionOption2.isChecked = true
                     tvClosingAuctionCustomDataOption2.text = selectdate + " " + selectTime
@@ -404,11 +403,7 @@ class ListingDurationActivity : BaseActivity(), ShippingAdapter.SetOnSelectedShi
                                 }
                             }
                             selection_tv.text = "$text $unit"
-                            if (isSelect) {
-                                selection_tv.isSelected = true
-                            } else {
-                                selection_tv.isSelected = false
-                            }
+                            selection_tv.isSelected = isSelect
                             setOnClickListener {
                                 list.forEachIndexed { index, addBankDetail ->
                                     addBankDetail.isSelect = index == position
@@ -539,7 +534,7 @@ class ListingDurationActivity : BaseActivity(), ShippingAdapter.SetOnSelectedShi
 
     }
 
-    fun addDay(oldDate: String?, numberOfDays: Int): String {
+    private fun addDay(oldDate: String?, numberOfDays: Int): String {
         var dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
         val c = Calendar.getInstance()
         try {
@@ -553,11 +548,11 @@ class ListingDurationActivity : BaseActivity(), ShippingAdapter.SetOnSelectedShi
         return dateFormat.format(newDate)
     }
 
-    fun addMonth(oldDate: String?, numberOfDays: Int): String {
+    private fun addMonth(oldDate: String?, numberOfDays: Int): String {
         var dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
         val c = Calendar.getInstance()
         try {
-            c.time = dateFormat.parse(oldDate)
+            c.time = dateFormat.parse(oldDate?:"")
         } catch (e: ParseException) {
             e.printStackTrace()
         }
@@ -640,6 +635,11 @@ class ListingDurationActivity : BaseActivity(), ShippingAdapter.SetOnSelectedShi
             containerPickUpOption.hide()
         }
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        shippingViewModel.closeAllCall()
     }
 
     /*****************/

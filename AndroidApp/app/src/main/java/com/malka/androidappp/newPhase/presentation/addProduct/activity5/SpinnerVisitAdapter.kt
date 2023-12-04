@@ -12,12 +12,7 @@ import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 
 class SpinnerVisitAdapter(var context: Context, var types: List<SubSpecificationItem>) :
     BaseAdapter() {
-    var layoutInflater: LayoutInflater
-
-    init {
-
-        layoutInflater  = LayoutInflater.from(context)
-    }
+    var layoutInflater: LayoutInflater = LayoutInflater.from(context)
 
     override fun getCount(): Int {
         return types.size

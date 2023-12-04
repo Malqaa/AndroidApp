@@ -142,5 +142,9 @@ class ForgotPasswordActivity : BaseActivity() {
         }
 
     }
+    override fun onDestroy() {
+        super.onDestroy()
+        loginViewModel.closeAllCall()
+    }
 
 }

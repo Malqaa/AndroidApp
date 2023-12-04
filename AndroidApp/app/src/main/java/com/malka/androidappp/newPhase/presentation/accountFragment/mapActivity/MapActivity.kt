@@ -37,12 +37,12 @@ class MapActivity : BaseActivity(), OnMapReadyCallback {
     private lateinit var mLocationCallback: LocationCallback
     private var locationPermissionDialog: LocationPermissionDialog? = null
 
-    var PERMISSIONS: Array<String> =
+    private var PERMISSIONS: Array<String> =
         arrayOf(
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION,
         )
-    val REQUEST_CHECK_PERMISSION_LOCATION = 2000
+    private val REQUEST_CHECK_PERMISSION_LOCATION = 2000
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_map)
@@ -63,10 +63,10 @@ class MapActivity : BaseActivity(), OnMapReadyCallback {
         }
         btnSaveLocatiionData.setOnClickListener {
             if(latLngLocation!=null) {
-                var intent = Intent()
+                val intent = Intent()
                 intent.putExtra("lat", latLngLocation!!.latitude)
                 intent.putExtra("longitude", latLngLocation!!.longitude)
-                setResult(Activity.RESULT_OK,intent);
+                setResult(Activity.RESULT_OK,intent)
                 finish()
             }
         }
@@ -94,11 +94,7 @@ class MapActivity : BaseActivity(), OnMapReadyCallback {
             }
             .addOnFailureListener(this) { exception: Exception? ->
                 if (exception is ResolvableApiException) {
-                    // Location settings are NOT satisfied,  but this can be fixed  by showing the user a dialog.
                     try {
-                        // Show the dialog by calling startResolutionForResult(),  and check the result in onActivityResult().
-//                        val resolvable = ex as ResolvableApiException
-//                        resolvable.startResolutionForResult(this, REQUEST_CHECK_SETTINGS_LOCATIONS)
                         val intentSenderRequest =
                             IntentSenderRequest.Builder(exception.resolution).build()
                         resolutionForResult.launch(intentSenderRequest)
@@ -156,7 +152,7 @@ class MapActivity : BaseActivity(), OnMapReadyCallback {
         )
     }
 
-    fun hasPermissions(context: Context, vararg permissions: String): Boolean =
+    private fun hasPermissions(context: Context, vararg permissions: String): Boolean =
         permissions.all {
             ActivityCompat.checkSelfPermission(context, it) == PackageManager.PERMISSION_GRANTED
         }
@@ -168,9 +164,9 @@ class MapActivity : BaseActivity(), OnMapReadyCallback {
             latLngLocation = LatLng(latLng.latitude, latLng.longitude)
             loadLocation(latLngLocation!!)
         }
-        setupCuurentLocation()
+        setupCurrentLocation()
     }
-    private fun setupCuurentLocation() {
+    private fun setupCurrentLocation() {
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         locationRequest = LocationRequest.create()
         locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY

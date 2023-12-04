@@ -1,7 +1,7 @@
 package com.malka.androidappp.newPhase.presentation.accountFragment.myProducts.dialog
 
+import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
@@ -20,7 +20,7 @@ import retrofit2.HttpException
 import retrofit2.Response
 
 class BidPersonsDialog(
-    var priceAuction:String,
+    var priceAuction: String,
     context: Context,
     var productId: Int,
     var setOnAddBidOffersListeners: SetOnAddBidOffersListeners,
@@ -39,7 +39,7 @@ class BidPersonsDialog(
     override fun isCancelable(): Boolean = true
     override fun isLoadingDialog(): Boolean = false
     override fun initialization() {
-        setViewClickListners()
+        setViewClickListeners()
         setRecyclerView()
         getBidsPersons()
         if (fromProductDetails) {
@@ -48,7 +48,7 @@ class BidPersonsDialog(
             tvTitle.text = context.getString(R.string.my_bids)
             btnSend.hide()
             containerBidOnPrice.show()
-            Bid_on_price_tv.text=priceAuction
+            Bid_on_price_tv.text = priceAuction
         } else {
             tvSelctAll.show()
             tvUserCount.show()
@@ -56,7 +56,6 @@ class BidPersonsDialog(
             btnSend.show()
             containerBidOnPrice.hide()
         }
-
 
 
     }
@@ -70,7 +69,7 @@ class BidPersonsDialog(
         }
     }
 
-    private fun setViewClickListners() {
+    private fun setViewClickListeners() {
         ivClose.setOnClickListener {
             dismiss()
         }
@@ -110,13 +109,9 @@ class BidPersonsDialog(
     }
 
 
-    fun getBidsPersons() {
+    private fun getBidsPersons() {
         ivClose.isEnabled = false
         btnSend.isEnabled = false
-//        var data: HashMap<String, Any> = HashMap()
-//        data["productId"] = productId
-//        data["quantity"] = quentity
-//        data["price"] = price
         progressBar.visibility = View.VISIBLE
         countriesCallback = getRetrofitBuilder().getBidsPersons(
             productId
@@ -126,9 +121,7 @@ class BidPersonsDialog(
                 progressBar.visibility = View.GONE
                 btnSend.isEnabled = true
                 ivClose.isEnabled = true
-                if (call.isCanceled) {
-
-                } else if (t is HttpException) {
+                if (t is HttpException) {
                     HelpFunctions.ShowLongToast(context.getString(R.string.serverError), context)
 
                 } else {
@@ -166,11 +159,13 @@ class BidPersonsDialog(
                         )
                     }
                 } catch (e: Exception) {
+                    //
                 }
             }
         })
     }
 
+    @SuppressLint("SetTextI18n")
     override fun setOnBidSelect(position: Int) {
         if (bidPersonsDataList[position].isSelected) {
             bidPersonsDataList[position].isSelected = false

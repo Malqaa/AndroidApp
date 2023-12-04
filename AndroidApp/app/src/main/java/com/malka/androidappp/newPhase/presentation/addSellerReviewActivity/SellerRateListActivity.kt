@@ -147,4 +147,8 @@ class SellerRateListActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefresh
         }
 
     }
+    override fun onDestroy() {
+        super.onDestroy()
+        productDetialsViewModel.closeAllCall()
+    }
 }

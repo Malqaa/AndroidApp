@@ -1,70 +1,87 @@
 package com.malka.androidappp.newPhase.presentation.addressUser
 
 import androidx.lifecycle.MutableLiveData
-import com.google.gson.Gson
 import com.malka.androidappp.newPhase.core.BaseViewModel
 import com.malka.androidappp.newPhase.data.helper.Extension.requestBody
-import com.malka.androidappp.newPhase.data.helper.shared_preferences.SharedPreferencesStaticClass.Companion.saveAddressTitle
+import com.malka.androidappp.newPhase.data.network.callApi
 import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
 import com.malka.androidappp.newPhase.domain.models.userAddressesResp.UserAddressesResp
 import okhttp3.RequestBody
 import retrofit2.Call
-import retrofit2.Callback
 import retrofit2.HttpException
-import retrofit2.Response
 
 class AddressViewModel : BaseViewModel() {
     var addUserAddressesListObserver: MutableLiveData<GeneralResponse> = MutableLiveData()
     var userAddressesListObserver: MutableLiveData<UserAddressesResp> = MutableLiveData()
     var deleteUserAddressesObserver: MutableLiveData<GeneralResponse> = MutableLiveData()
-   var isLoadingDeleteAddress:MutableLiveData<Boolean> = MutableLiveData()
+    var isLoadingDeleteAddress: MutableLiveData<Boolean> = MutableLiveData()
+
+    private var callUserAddress: Call<UserAddressesResp>? = null
+    private var callDeleteAddress: Call<GeneralResponse>? = null
+    private var callAddUserAddress: Call<GeneralResponse>? = null
+    private var callEditUserAddress: Call<GeneralResponse>? = null
+
+    fun closeAllCall() {
+        if (callUserAddress != null) {
+            callUserAddress?.cancel()
+        }
+        if (callDeleteAddress != null) {
+            callDeleteAddress?.cancel()
+        }
+        if (callAddUserAddress != null) {
+            callAddUserAddress?.cancel()
+        }
+        if (callEditUserAddress != null) {
+            callEditUserAddress?.cancel()
+        }
+    }
+
     fun getUserAddress() {
         isLoading.value = true
-        getRetrofitBuilder()
-            .getListAddressesForUser()
-            .enqueue(object : Callback<UserAddressesResp> {
-                override fun onFailure(call: Call<UserAddressesResp>, t: Throwable) {
-                    isLoading.value = false
-                    isNetworkFail.value = t !is HttpException
+        callUserAddress = getRetrofitBuilder().getListAddressesForUser()
+        callApi(callUserAddress!!,
+            onSuccess = {
+                isLoading.value = false
+                userAddressesListObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoading.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
                 }
-
-                override fun onResponse(
-                    call: Call<UserAddressesResp>,
-                    response: Response<UserAddressesResp>
-                ) {
-                    isLoading.value = false
-                    if (response.isSuccessful) {
-                        userAddressesListObserver.value = response.body()
-                    } else {
-                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
-                    }
-                }
+            },
+            goLogin = {
+                isLoading.value = false
+                needToLogin.value = true
             })
     }
 
-    fun deleteUSerAddress(addressId:Int) {
+    fun deleteUSerAddress(addressId: Int) {
         isLoadingDeleteAddress.value = true
-        getRetrofitBuilder()
-            .deleteUserAddress(addressId)
-            .enqueue(object : Callback<GeneralResponse> {
-                override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
-                    isLoadingDeleteAddress.value = false
-                    isNetworkFail.value = t !is HttpException
+        callDeleteAddress = getRetrofitBuilder().deleteUserAddress(addressId)
+        callApi(callDeleteAddress!!,
+            onSuccess = {
+                isLoadingDeleteAddress.value = false
+                deleteUserAddressesObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoadingDeleteAddress.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
                 }
-
-                override fun onResponse(
-                    call: Call<GeneralResponse>,
-                    response: Response<GeneralResponse>
-                ) {
-                    isLoadingDeleteAddress.value = false
-                    if (response.isSuccessful) {
-                        deleteUserAddressesObserver.value = response.body()
-                    } else {
-                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
-                    }
-                }
+            },
+            goLogin = {
+                isLoadingDeleteAddress.value = false
+                needToLogin.value = true
             })
+
     }
 
     fun addUserAddress(
@@ -80,8 +97,8 @@ class AddressViewModel : BaseViewModel() {
     ) {
         isLoading.value = true
         val map: HashMap<String, RequestBody> = HashMap()
-        map["name"]= title.requestBody()
-        map["title"]= title.requestBody()
+        map["name"] = title.requestBody()
+        map["title"] = title.requestBody()
         map["location"] = location.requestBody()
         map["street"] = street.requestBody()
         map["appartment"] = appartment.requestBody()
@@ -91,35 +108,33 @@ class AddressViewModel : BaseViewModel() {
         map["lng"] = lng.requestBody()
         map["phone"] = phone.requestBody()
         map["defaultAddress"] = "false".requestBody()
-        println("hhhh " + map)
-        println("hhhh "+ title+" "+location+" s "+street+" a "+appartment+" f "+floor+" b"+building+" "+lat+" "+lng+" "+phone)
         getRetrofitBuilder()
             .addAddressForUser(map)
-            .enqueue(object : Callback<GeneralResponse> {
-                override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
-                    isNetworkFail.value = t !is HttpException
-                    isLoading.value = false
-                }
 
-                override fun onResponse(
-                    call: Call<GeneralResponse>,
-                    response: Response<GeneralResponse>
-                ) {
-                    isLoading.value = false
 
-                    if (response.isSuccessful) {
-                        saveAddressTitle(title)
-                        addUserAddressesListObserver.value = response.body()
-                    } else {
-                        println("hhhh "+Gson().toJson(getErrorResponse(response.code(),response.errorBody())))
-                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
-                    }
+        callAddUserAddress = getRetrofitBuilder().addAddressForUser(map)
+        callApi(callAddUserAddress!!,
+            onSuccess = {
+                isLoading.value = false
+                addUserAddressesListObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoading.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
                 }
+            },
+            goLogin = {
+                isLoading.value = false
+                needToLogin.value = true
             })
     }
 
     fun editUserAddress(
-        id:Int,
+        id: Int,
         title: String,
         location: String,
         street: String,
@@ -132,9 +147,9 @@ class AddressViewModel : BaseViewModel() {
     ) {
         isLoading.value = true
         val map: HashMap<String, RequestBody> = HashMap()
-        map["id"]= id.toString().requestBody()
-        map["name"]= title.requestBody()
-        map["title"]= title.requestBody()
+        map["id"] = id.toString().requestBody()
+        map["name"] = title.requestBody()
+        map["title"] = title.requestBody()
         map["location"] = location.requestBody()
         map["street"] = street.requestBody()
         map["appartment"] = appartment.requestBody()
@@ -144,28 +159,27 @@ class AddressViewModel : BaseViewModel() {
         map["lng"] = lng.requestBody()
         map["phone"] = phone.requestBody()
         map["defaultAddress"] = "false".requestBody()
-//        println("hhhh " + map)
-        println("hhhh ud $id"+ title+" "+location+" s "+street+" a "+appartment+" f "+floor+" b"+building+" "+lat+" "+lng+" "+phone)
         getRetrofitBuilder()
             .editAddressForUser(map)
-            .enqueue(object : Callback<GeneralResponse> {
-                override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
-                    isNetworkFail.value = t !is HttpException
-                    isLoading.value = false
-                }
 
-                override fun onResponse(
-                    call: Call<GeneralResponse>,
-                    response: Response<GeneralResponse>
-                ) {
-                    isLoading.value = false
-
-                    if (response.isSuccessful) {
-                        addUserAddressesListObserver.value = response.body()
-                    } else {
-                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
-                    }
+        callEditUserAddress = getRetrofitBuilder().editAddressForUser(map)
+        callApi(callEditUserAddress!!,
+            onSuccess = {
+                isLoading.value = false
+                addUserAddressesListObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoading.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
                 }
+            },
+            goLogin = {
+                isLoading.value = false
+                needToLogin.value = true
             })
     }
 }

@@ -26,10 +26,10 @@ class NegotiationOffersPurchaseActivity : BaseActivity(), SwipeRefreshLayout.OnR
 
     lateinit var negotiationOffersAdapter: NegotiationOffersAdapter
     lateinit var negotiationOfferDetailsList: ArrayList<NegotiationOfferDetails>
-    lateinit var negotiationOffersViewModel: NegotiationOffersViewModel
-    var isSent = true
-    var lastCancelPosition = -1
-    var purchasePosition = -1
+    private lateinit var negotiationOffersViewModel: NegotiationOffersViewModel
+    private var isSent = true
+    private var lastCancelPosition = -1
+    private var purchasePosition = -1
     var comeFrom =""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,10 +79,10 @@ class NegotiationOffersPurchaseActivity : BaseActivity(), SwipeRefreshLayout.OnR
         }
         negotiationOffersViewModel.purchaseProductsOffersObserver.observe(this) {
             if (it.status_code == 200 && it.negotiationOfferDetailsList != null) {
-                var datalist: List<NegotiationOfferDetails> =
-                    it.negotiationOfferDetailsList as List<NegotiationOfferDetails>
+                val dataList: List<NegotiationOfferDetails> =
+                    it.negotiationOfferDetailsList
                 negotiationOfferDetailsList.clear()
-                negotiationOfferDetailsList.addAll(datalist)
+                negotiationOfferDetailsList.addAll(dataList)
                 negotiationOffersAdapter.notifyDataSetChanged()
             } else if (it.status_code == 400 && it.message == "No offers found") {
                 showApiError(getString(R.string.noOffersFound))
@@ -201,7 +201,7 @@ class NegotiationOffersPurchaseActivity : BaseActivity(), SwipeRefreshLayout.OnR
         negotiationOffersViewModel.purchaseOffer(offerID)
     }
     override fun onAcceptOffer(position: Int) {
-        var acceptOfferDialog: AcceptOfferDialog = AcceptOfferDialog(this,
+        val acceptOfferDialog = AcceptOfferDialog(this,
             true,
             position,
             negotiationOfferDetailsList[position].offerId,
@@ -218,7 +218,7 @@ class NegotiationOffersPurchaseActivity : BaseActivity(), SwipeRefreshLayout.OnR
     }
 
     override fun onRejectOffer(position: Int) {
-        var acceptOfferDialog: AcceptOfferDialog = AcceptOfferDialog(this,
+        val acceptOfferDialog = AcceptOfferDialog(this,
             false,
             position,
             negotiationOfferDetailsList[position].offerId,
@@ -242,5 +242,9 @@ class NegotiationOffersPurchaseActivity : BaseActivity(), SwipeRefreshLayout.OnR
             startActivity(Intent(this, MainActivity::class.java).apply {})
             finish()
         }
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        negotiationOffersViewModel.closeAllCall()
     }
 }

@@ -4,10 +4,8 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.util.Log
 import android.view.View
 import android.widget.TextView
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.malka.androidappp.R
@@ -19,7 +17,6 @@ import com.malka.androidappp.newPhase.data.helper.shared_preferences.SharedPrefe
 import com.malka.androidappp.newPhase.data.helper.show
 import com.malka.androidappp.newPhase.data.network.constants.Constants
 import com.malka.androidappp.newPhase.domain.models.loginResp.LoginUser
-import com.malka.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.OtpData
 import com.malka.androidappp.newPhase.presentation.accountFragment.AccountViewModel
 import io.paperdb.Paper
 import kotlinx.android.synthetic.main.activity_confirm_change_email.button3
@@ -29,16 +26,14 @@ import kotlinx.android.synthetic.main.activity_confirm_change_email.resend_btn
 import kotlinx.android.synthetic.main.activity_confirm_change_email.txtReceive
 import kotlinx.android.synthetic.main.toolbar_main.back_btn
 import kotlinx.android.synthetic.main.toolbar_main.toolbar_title
-import java.text.ParseException
-import java.text.SimpleDateFormat
 
 class ConfirmChangeEmailActivity : BaseActivity() {
 
     private var START_TIME_IN_MILLIS: Long = 60000
     lateinit var countdownTimer: TextView
     private var mTimeLeftInMillis = START_TIME_IN_MILLIS
-    private var otpData: OtpData? = null
     private var otpCode: String? = null
+    private var countDownTimer :CountDownTimer ?=null
     private lateinit var accountViewModel: AccountViewModel
     var expireMinutes: Int = 1
     var expireReceiveMinutes = 1
@@ -141,7 +136,7 @@ class ConfirmChangeEmailActivity : BaseActivity() {
                 } catch (e: Exception) {
                 }
 
-                var expireMilliSeconds = expireMinutes * 60 * 1000
+                val expireMilliSeconds = expireMinutes * 60 * 1000
                 startTimeCounter(expireMilliSeconds.toLong())
             }
         }
@@ -165,28 +160,28 @@ class ConfirmChangeEmailActivity : BaseActivity() {
         }
         accountViewModel.confirmChangeEmailOtpObserver.observe(this) {
             if (it.status == "Success") {
-                var userData =
+                val userData =
                     Paper.book().read<LoginUser>(SharedPreferencesStaticClass.user_object)
                 userData?.email = newEmail
-                userData?.let { userData ->
+                userData?.let {
                     Paper.book()
-                        .write<LoginUser>(SharedPreferencesStaticClass.user_object, userData)
+                        .write<LoginUser>(SharedPreferencesStaticClass.user_object, it)
                 }
                 ConstantObjects.userobj = userData
                 HelpFunctions.ShowLongToast(
                     getString(R.string.emailUpdatedSuccessfully),
                     this
                 )
-                var intent = Intent()
-                setResult(Activity.RESULT_OK, intent);
+                val intent = Intent()
+                setResult(Activity.RESULT_OK, intent)
                 finish()
             }
         }
     }
 
     /**clickEvents*/
-    fun startTimeCounter(expireMinutes: Long) {
-        object : CountDownTimer(expireMinutes.toLong(), 1000) {
+    private fun startTimeCounter(expireMinutes: Long) {
+        countDownTimer=  object : CountDownTimer(expireMinutes, 1000) {
 
             override fun onTick(millisUntilFinished: Long) {
                 resend_btn.hide()
@@ -198,7 +193,7 @@ class ConfirmChangeEmailActivity : BaseActivity() {
                 val timeText = (String.format("%02d", minutes) + ":" + String.format(
                     "%02d",
                     seconds
-                )).toString()
+                ))
 
                 val timeReceive = "${String.format("%02d", expireReceiveMinutes)}:00"
                 if (timeText == timeReceive) {
@@ -219,18 +214,6 @@ class ConfirmChangeEmailActivity : BaseActivity() {
     }
 
 
-    private fun convertTimeToLong(timeString: String): Long {
-        return try {
-            val sdf = SimpleDateFormat("HH:mm:ss")
-            val date = sdf.parse(timeString)
-
-
-            date.time
-        } catch (e: ParseException) {
-            e.printStackTrace()
-            -1 // Handle the exception according to your requirements
-        }
-    }
 
     private fun setClickListeners() {
         back_btn.setOnClickListener {
@@ -274,16 +257,14 @@ class ConfirmChangeEmailActivity : BaseActivity() {
         if (!validatePin()) {
             return
         } else {
-            //apicallSignup2()
-            val otpcode: String? = pinViewEmail.value
-            accountViewModel.changeUserEmail(newEmail ?: "", otpcode.toString())
+            val otpCode: String? = pinViewEmail.value
+            accountViewModel.changeUserEmail(newEmail ?: "", otpCode.toString())
         }
     }
-
-
-    override fun onBackPressed() {
-        super.onBackPressed()
-
+    override fun onDestroy() {
+        super.onDestroy()
+        countDownTimer =null
+        accountViewModel.closeAllCall()
     }
 
 }

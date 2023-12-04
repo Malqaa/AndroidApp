@@ -204,13 +204,13 @@ class CartActivity : BaseActivity(), CartAdapter.SetProductCartListeners {
 
     override fun onIncreaseQuantityProduct(position: Int) {
         lastUpdatePosition = position
-        var productCartId = productCartItemRespList[position].cartproductId ?: "0"
+        val productCartId = productCartItemRespList[position].cartproductId
         cartViewModel.increaseCartProductQuantity(productCartId.toString())
     }
 
     override fun onDecreaseQuantityProduct(position: Int) {
         lastUpdatePosition = position
-        var productCartId = productCartItemRespList[position].cartproductId ?: "0"
+        val productCartId = productCartItemRespList[position].cartproductId
         cartViewModel.decreaseCartProductQuantity(productCartId.toString())
     }
 
@@ -223,6 +223,11 @@ class CartActivity : BaseActivity(), CartAdapter.SetProductCartListeners {
     override fun onResume() {
         super.onResume()
         cartViewModel.getCartList(SharedPreferencesStaticClass.getMasterCartId())
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        cartViewModel.closeAllCall()
     }
 
 

@@ -5,9 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.malka.androidappp.databinding.ParenetCategoryItemBinding
 import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.data.helper.Extension
@@ -21,8 +19,8 @@ import com.malka.androidappp.newPhase.presentation.adapterShared.SetOnProductIte
 import com.malka.androidappp.newPhase.presentation.searchProductListActivity.browse_market.SearchCategoryActivity
 
 class CategoryProductAdapter(
-    var categoryProductHomeList: ArrayList<CategoryProductItem>,
-    var setOnSelectedProductInCategory: SetOnSelectedProductInCategory
+    private var categoryProductHomeList: ArrayList<CategoryProductItem>,
+    private var setOnSelectedProductInCategory: SetOnSelectedProductInCategory
 ) :
     RecyclerView.Adapter<CategoryProductAdapter.CategoryProductHolder>(),
     SetOnProductItemListeners {
@@ -42,16 +40,6 @@ class CategoryProductAdapter(
     override fun getItemCount(): Int = categoryProductHomeList.size
 
     override fun onBindViewHolder(holder: CategoryProductHolder, position: Int) {
-//        when (categoryProductHomeList[position].typeName) {
-//            "category" -> {
-//                holder.viewBinding.categoryHeaderContainer.show()
-//                holder.viewBinding.productListLayout.hide()
-//            }
-//            "list" -> {
-//                holder.viewBinding.categoryHeaderContainer.hide()
-//                holder.viewBinding.productListLayout.show()
-//            }
-//        }
         holder.viewBinding.categoryHeaderContainer.show()
         holder.viewBinding.productListLayout.hide()
         Extension.loadThumbnail(
@@ -60,7 +48,6 @@ class CategoryProductAdapter(
             holder.viewBinding.categoryIconIv,
             null
         )
-        // holder.viewBinding.detailTv.text = categoryProductHomeList[position].detail
          holder.viewBinding.detailTv.text = ""
         holder.viewBinding.categoryNameTv.text = categoryProductHomeList[position].name
         holder.viewBinding.categoryNameTv2.text = categoryProductHomeList[position].name
@@ -90,14 +77,14 @@ class CategoryProductAdapter(
         productRcv: RecyclerView,
         categoryId: Int
     ) {
-        val porductList: ArrayList<Product> = ArrayList()
+        val productList: ArrayList<Product> = ArrayList()
         if (product != null) {
-            porductList.clear()
-            porductList.addAll(product)
+            productList.clear()
+            productList.addAll(product)
         }
-        val porductAdatper = ProductHorizontalAdapter(porductList, this, categoryId, true)
+        val productAdapter = ProductHorizontalAdapter(productList, this, categoryId, true)
         productRcv.apply {
-            adapter = porductAdatper
+            adapter = productAdapter
             layoutManager = linearLayoutManager(RecyclerView.HORIZONTAL)
         }
     }

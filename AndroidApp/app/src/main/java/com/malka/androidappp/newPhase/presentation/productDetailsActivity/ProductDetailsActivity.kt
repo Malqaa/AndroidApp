@@ -1534,7 +1534,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     /****************/
     /****************/
     /****************/
-    private fun setListenser() {
+    private fun setListener() {
 
         fbButtonBack.setOnClickListener {
             onBackPressed()
@@ -1731,7 +1731,10 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
         }
     }
-
+    override fun onDestroy() {
+        super.onDestroy()
+        productDetialsViewModel.closeAllCall()
+    }
 
 //    val loginLuncher =
 //        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->

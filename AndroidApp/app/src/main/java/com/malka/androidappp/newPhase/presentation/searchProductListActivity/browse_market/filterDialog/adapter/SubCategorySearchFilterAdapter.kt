@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
 import com.malka.androidappp.databinding.ItemSubCategorySearchFilterBinding
-import com.malka.androidappp.newPhase.domain.models.productResp.CategoriesSearchItem
 import com.malka.androidappp.newPhase.domain.models.servicemodels.model.Category
 
 

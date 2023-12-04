@@ -1,5 +1,6 @@
 package com.malka.androidappp.newPhase.presentation.accountFragment.negotiationOffersPurchase.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -14,9 +15,9 @@ import com.malka.androidappp.newPhase.domain.models.negotiationOfferResp.Negotia
 
 
 class NegotiationOffersAdapter(
-    var negotiationOfferDetailsList: ArrayList<NegotiationOfferDetails>,
-    var setOnOfferClickListeners: SetOnOfferClickListeners,
-    var saleOrNot: Boolean = false
+    private var negotiationOfferDetailsList: ArrayList<NegotiationOfferDetails>,
+    private var setOnOfferClickListeners: SetOnOfferClickListeners,
+    private var saleOrNot: Boolean = false
 ) :
     Adapter<NegotiationOffersAdapter.NegotiationOffersViewHolder>() {
     private var isSend: Boolean = false
@@ -39,16 +40,8 @@ class NegotiationOffersAdapter(
     override fun getItemCount(): Int = negotiationOfferDetailsList.size
 
     //@SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: NegotiationOffersViewHolder, position: Int) {
-//        val getrow: Any = negotiationOfferDetailsList[position].
-//        val t: LinkedTreeMap<*, *> = getrow as LinkedTreeMap<*, *>
-//        val productCategory = t["productCategory"].toString()
-//        val region = t["region"].toString()
-//        val productName = t["productName"].toString()
-//        val productImage = t["productImage"].toString()
-//        val productPrice = t["productPrice"].toString()
-//        val receiverImage = t["receiverImage"].toString()
-//        val offerId = t["offerId"].toString()
         if(negotiationOfferDetailsList[position].offerExpireHours!=null){
             holder.viewBinding.tvExpireHours.text="${negotiationOfferDetailsList[position].offerExpireHours} ${context.getString(R.string._3_days_after_the_offer_ends)}"
         }else{
@@ -249,13 +242,13 @@ class NegotiationOffersAdapter(
             if (saleOrNot) {
                 setOnOfferClickListeners.onCancelOffer(
                     saleOrNot,
-                    offerID = negotiationOfferDetailsList[position].offerId.toInt(),
+                    offerID = negotiationOfferDetailsList[position].offerId,
                     position
                 )
             }else{
                 setOnOfferClickListeners.onCancelOffer(
                     saleOrNot,
-                    offerID = negotiationOfferDetailsList[position].offerId.toInt(),
+                    offerID = negotiationOfferDetailsList[position].offerId,
                     position
                 )
             }

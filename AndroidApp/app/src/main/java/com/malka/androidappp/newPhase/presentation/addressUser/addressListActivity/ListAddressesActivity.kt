@@ -1,5 +1,6 @@
 package com.malka.androidappp.newPhase.presentation.addressUser.addressListActivity
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -18,16 +19,15 @@ import kotlinx.android.synthetic.main.address_list_activity.*
 import kotlinx.android.synthetic.main.address_list_activity.swipe_to_refresh
 import kotlinx.android.synthetic.main.toolbar_main.*
 
+@SuppressLint("NotifyDataSetChanged")
 class ListAddressesActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
     AddressesAdapter.SetOnSelectedAddress {
-
-
     private lateinit var addressViewModel: AddressViewModel
     private lateinit var userAddressesList: ArrayList<AddressItem>
-    lateinit var addressesAdapter: AddressesAdapter
-    var lastSelectedPosition = 0
+    private lateinit var addressesAdapter: AddressesAdapter
+    private var lastSelectedPosition = 0
 
-    val addAddressLaucher =
+    private val addAddressLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 userAddressesList.clear()
@@ -53,7 +53,7 @@ class ListAddressesActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListen
             onBackPressed()
         }
         containerAddNewAddress.setOnClickListener {
-            addAddressLaucher.launch(Intent(this, AddAddressActivity::class.java))
+            addAddressLauncher.launch(Intent(this, AddAddressActivity::class.java))
         }
 
     }
@@ -127,7 +127,7 @@ class ListAddressesActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListen
                 }
             } else {
                 if (resp.message != null) {
-                    HelpFunctions.ShowLongToast(resp.message!!, this)
+                    HelpFunctions.ShowLongToast(resp.message, this)
                 } else {
                     HelpFunctions.ShowLongToast(getString(R.string.serverError), this)
                 }
@@ -148,7 +148,7 @@ class ListAddressesActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListen
     }
 
     override fun setOnSelectedEditAddress(position: Int) {
-        addAddressLaucher.launch(Intent(this, AddAddressActivity::class.java).apply {
+        addAddressLauncher.launch(Intent(this, AddAddressActivity::class.java).apply {
             putExtra(ConstantObjects.isEditKey, true)
             putExtra(ConstantObjects.addressKey, userAddressesList[position])
         })
@@ -157,5 +157,9 @@ class ListAddressesActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListen
     override fun onDeleteAddress(position: Int) {
         lastSelectedPosition = position
         addressViewModel.deleteUSerAddress(userAddressesList[position].id)
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        addressViewModel.closeAllCall()
     }
 }

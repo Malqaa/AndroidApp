@@ -31,7 +31,7 @@ class SwitchAccountActivity : BaseActivity(), BusinessAccountsAdapter.SetOnBusin
     lateinit var accountList: ArrayList<BusinessAccountDetials>
     private var userData: LoginUser? = null
     private lateinit var businessAccountViewModel: BusinessAccountViewModel
-    val creatAccountLauncher =
+    private val createAccountLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 onRefresh()
@@ -66,8 +66,6 @@ class SwitchAccountActivity : BaseActivity(), BusinessAccountsAdapter.SetOnBusin
         businessAccountViewModel.isNetworkFail.observe(this) {
             if (it) {
                 showErrorMessage(getString(R.string.noAccountFound))
-
-                // showErrorMessage(getString(R.string.connectionError))
             } else {
                 showErrorMessage(getString(R.string.serverError))
             }
@@ -90,7 +88,10 @@ class SwitchAccountActivity : BaseActivity(), BusinessAccountsAdapter.SetOnBusin
         businessAccountViewModel.changeBusinessAccountObserver.observe(this) {
             if (it.status_code == 200 && it.businessAccount != null) {
                 if (it.businessAccount.chanegeAccountUrl != null && it.businessAccount.chanegeAccountUrl != "")
-                    openExternalLInk(it.businessAccount.chanegeAccountUrl,it.businessAccount.token?:"")
+                    openExternalLInk(
+                        it.businessAccount.chanegeAccountUrl,
+                        it.businessAccount.token ?: ""
+                    )
             } else {
                 if (it.message != null) {
                     showErrorMessage(it.message)
@@ -102,16 +103,10 @@ class SwitchAccountActivity : BaseActivity(), BusinessAccountsAdapter.SetOnBusin
         businessAccountViewModel.businessAccountListObserver.observe(this) {
             if (it.status_code == 200) {
                 if (it.businessAccountsList != null) {
-                    //   var data: List<BusinessAccountDetails>
                     accountList.clear()
-                    try {
-//                        data = it.businessAccountsList as List<BusinessAccountDetails>
-//                        println("hhhh "+Gson().toJson(it))
-//                        println("hhhh "+Gson().toJson(data))
-                        accountList.addAll(it.businessAccountsList)
-                        businessAccountsAdapter.notifyDataSetChanged()
-                    } catch (e: Exception) {
-                    }
+                    accountList.addAll(it.businessAccountsList)
+                    businessAccountsAdapter.notifyDataSetChanged()
+
                     if (accountList.isEmpty()) {
                         showErrorMessage(getString(R.string.noAccountFound))
                     }
@@ -131,7 +126,7 @@ class SwitchAccountActivity : BaseActivity(), BusinessAccountsAdapter.SetOnBusin
 
     private fun openExternalLInk(
         chanegeAccountUrl: String,
-        token:String
+        token: String
     ) {
         try {
             val i = Intent(Intent.ACTION_VIEW)
@@ -180,7 +175,7 @@ class SwitchAccountActivity : BaseActivity(), BusinessAccountsAdapter.SetOnBusin
         add_business_account_btn.setOnClickListener {
             val intent =
                 Intent(this@SwitchAccountActivity, BusinessAccountCreateActivity::class.java)
-            creatAccountLauncher.launch(intent)
+            createAccountLauncher.launch(intent)
         }
     }
 
@@ -199,11 +194,11 @@ class SwitchAccountActivity : BaseActivity(), BusinessAccountsAdapter.SetOnBusin
         businessAccountViewModel.getBusinessAccount()
     }
 
-    /**
-     **********************
-     * ******************
-     * *******************
-     * ****/
+    override fun onDestroy() {
+        super.onDestroy()
+        businessAccountViewModel.closeAllCall()
+    }
+
 
 
 //    fun getBusinessUserList() {

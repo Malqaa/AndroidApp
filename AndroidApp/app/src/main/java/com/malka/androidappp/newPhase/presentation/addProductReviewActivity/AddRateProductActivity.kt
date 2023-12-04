@@ -17,10 +17,10 @@ import kotlinx.android.synthetic.main.toolbar_main.*
 class AddRateProductActivity : BaseActivity() {
 
 
-    var productId: Int = 0
-    private lateinit var productDetialsViewModel: ProductDetailsViewModel
-    var rateReviewItemEdit: RateReviewItem? = null
-    var editRate = false
+    private var productId: Int = 0
+    private lateinit var productDetailsViewModel: ProductDetailsViewModel
+    private var rateReviewItemEdit: RateReviewItem? = null
+    private var editRate = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_rate_product)
@@ -29,18 +29,18 @@ class AddRateProductActivity : BaseActivity() {
         setClickListeners()
         setProductDetailsViewModel()
       //  println("hhhh product id =$productId")
-        productDetialsViewModel.getCurrentUserRate(productId)
+        productDetailsViewModel.getCurrentUserRate(productId)
     }
 
     private fun setProductDetailsViewModel() {
-        productDetialsViewModel = ViewModelProvider(this).get(ProductDetailsViewModel::class.java)
-        productDetialsViewModel.isLoading.observe(this) {
+        productDetailsViewModel = ViewModelProvider(this).get(ProductDetailsViewModel::class.java)
+        productDetailsViewModel.isLoading.observe(this) {
             if (it)
                 HelpFunctions.startProgressBar(this)
             else
                 HelpFunctions.dismissProgressBar()
         }
-        productDetialsViewModel.isNetworkFail.observe(this) {
+        productDetailsViewModel.isNetworkFail.observe(this) {
             if (it) {
                 HelpFunctions.ShowLongToast(getString(R.string.connectionError), this)
             } else {
@@ -48,7 +48,7 @@ class AddRateProductActivity : BaseActivity() {
             }
 
         }
-        productDetialsViewModel.errorResponseObserver.observe(this) {
+        productDetailsViewModel.errorResponseObserver.observe(this) {
             if(it.status!=null && it.status=="409"){
                 HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), this)
             }else {
@@ -59,14 +59,14 @@ class AddRateProductActivity : BaseActivity() {
                 }
             }
         }
-        productDetialsViewModel.addRateRespObservable.observe(this) { addRateResp ->
+        productDetailsViewModel.addRateRespObservable.observe(this) { addRateResp ->
             if (addRateResp.status_code == 200) {
-                var intent = Intent()
+                val intent = Intent()
                 addRateResp.rateObject?.let {
-                    intent.putExtra(ConstantObjects.rateObjectKey, it);
+                    intent.putExtra(ConstantObjects.rateObjectKey, it)
                 }
-                setResult(Activity.RESULT_OK, intent);
-                finish();
+                setResult(Activity.RESULT_OK, intent)
+                finish()
             } else {
                 if (addRateResp.message != null) {
                     HelpFunctions.ShowLongToast(addRateResp.message, this)
@@ -76,15 +76,15 @@ class AddRateProductActivity : BaseActivity() {
             }
 
         }
-        productDetialsViewModel.editRateRespObservable.observe(this) { addRateResp ->
+        productDetailsViewModel.editRateRespObservable.observe(this) { addRateResp ->
             if (addRateResp.status_code == 200) {
-                var intent = Intent()
+                val intent = Intent()
                 addRateResp.rateObject?.let {
-                    intent.putExtra(ConstantObjects.rateObjectKey, it);
-                    intent.putExtra(ConstantObjects.editRateKey, true);
+                    intent.putExtra(ConstantObjects.rateObjectKey, it)
+                    intent.putExtra(ConstantObjects.editRateKey, true)
                 }
-                setResult(Activity.RESULT_OK, intent);
-                finish();
+                setResult(Activity.RESULT_OK, intent)
+                finish()
             } else {
                 if (addRateResp.message != null) {
                     HelpFunctions.ShowLongToast(addRateResp.message, this)
@@ -94,7 +94,7 @@ class AddRateProductActivity : BaseActivity() {
             }
 
         }
-        productDetialsViewModel.getCurrentUserRateObservable.observe(this) { currentUserRate ->
+        productDetailsViewModel.getCurrentUserRateObservable.observe(this) { currentUserRate ->
             if (currentUserRate.status_code == 200) {
                 currentUserRate.data?.let { data ->
                     setPerviosUserRate(data)
@@ -138,13 +138,13 @@ class AddRateProductActivity : BaseActivity() {
         }
         if (readyToSave) {
             if (editRate && rateReviewItemEdit != null) {
-                productDetialsViewModel.editRateProduct(
+                productDetailsViewModel.editRateProduct(
                     rateReviewItemEdit!!.id,
                     rating_bar.rating,
                     etCommnet.text.trim().toString()
                 )
             } else {
-                productDetialsViewModel.addRateProduct(
+                productDetailsViewModel.addRateProduct(
                     productId,
                     rating_bar.rating,
                     etCommnet.text.trim().toString()
@@ -152,5 +152,8 @@ class AddRateProductActivity : BaseActivity() {
             }
         }
     }
-
+    override fun onDestroy() {
+        super.onDestroy()
+        productDetailsViewModel.closeAllCall()
+    }
 }

@@ -1,6 +1,5 @@
 package com.malka.androidappp.newPhase.presentation.accountFragment.editProfileActivity
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
@@ -55,14 +54,14 @@ class ChangePasswordActivity : BaseActivity() {
             }
         }
 
-        accountViewModel.changePasswordObserver.observe(this) {
+        accountViewModel.changePasswordObserver.observe(this) { it ->
             if (it.status == "Success") {
-                var userData =
+                val userData =
                     Paper.book().read<LoginUser>(SharedPreferencesStaticClass.user_object)
                 userData?.password = tvNewPassword.text.toString().trim()
-                userData?.let { userData ->
+                userData?.let { it ->
                     Paper.book()
-                        .write<LoginUser>(SharedPreferencesStaticClass.user_object, userData)
+                        .write<LoginUser>(SharedPreferencesStaticClass.user_object, it)
                 }
                 ConstantObjects.userobj = userData
                 HelpFunctions.ShowLongToast(
@@ -74,7 +73,7 @@ class ChangePasswordActivity : BaseActivity() {
                 tvCurrentPassword.error = getString(R.string.wrongPassword)
             } else {
                 if (it.message != null) {
-                    HelpFunctions.ShowLongToast(it.message!!, this)
+                    HelpFunctions.ShowLongToast(it.message, this)
                 } else {
                     HelpFunctions.ShowLongToast(getString(R.string.serverError), this)
                 }
@@ -95,7 +94,7 @@ class ChangePasswordActivity : BaseActivity() {
         }
         btnChangePassword.setOnClickListener {
             if (validateOldPassword() && validateNewPassword()
-                && validatConfrmPassword()
+                && validateConfirmPassword()
             ) {
                 accountViewModel.changeUserPassword(
                     ConstantObjects.logged_userid,
@@ -134,7 +133,7 @@ class ChangePasswordActivity : BaseActivity() {
         }
     }
 
-    private fun validatConfrmPassword(): Boolean {
+    private fun validateConfirmPassword(): Boolean {
         val passwordInput = tvNewPassword.text.toString().trim { it <= ' ' }
         val confrmpassInput = tvConfirmNewPassword.text.toString().trim { it <= ' ' }
         return if (confrmpassInput.isEmpty()) {
@@ -149,5 +148,8 @@ class ChangePasswordActivity : BaseActivity() {
         }
     }
 
-
+    override fun onDestroy() {
+        super.onDestroy()
+        accountViewModel.closeAllCall()
+    }
 }

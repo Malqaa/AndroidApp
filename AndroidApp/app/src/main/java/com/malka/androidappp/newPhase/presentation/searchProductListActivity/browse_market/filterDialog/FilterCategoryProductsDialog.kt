@@ -249,7 +249,7 @@ class FilterCategoryProductsDialog(
                         parentPosition: Int,
                         childPosition: Int
                     ) {
-                        var isSelected: Boolean? =
+                        val isSelected: Boolean? =
                             dynamicSpecificationsArrayList[parentPosition].subSpecifications?.get(
                                 childPosition
                             )?.isSelected
@@ -401,7 +401,7 @@ class FilterCategoryProductsDialog(
 
         }
         btnApplyFilter.setOnClickListener {
-            var stringSpecification: ArrayList<String> = ArrayList()
+            val stringSpecification: ArrayList<String> = ArrayList()
             println("hhhh " + Gson().toJson(dynamicSpecificationsArrayList))
             for (item in dynamicSpecificationsArrayList) {
                 if (item.subSpecifications != null && item.subSpecifications?.isNotEmpty() == true) {

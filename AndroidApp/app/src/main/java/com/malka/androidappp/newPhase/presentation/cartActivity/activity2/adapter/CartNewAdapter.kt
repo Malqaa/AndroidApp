@@ -9,25 +9,20 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
 import com.malka.androidappp.databinding.ItemCartDesignNewBinding
-import com.malka.androidappp.newPhase.data.helper.CommonBottomSheet
 import com.malka.androidappp.newPhase.data.helper.hide
 import com.malka.androidappp.newPhase.data.helper.linearLayoutManager
 import com.malka.androidappp.newPhase.data.helper.show
 import com.malka.androidappp.newPhase.domain.models.cartListResp.CartProductDetails
 import com.malka.androidappp.newPhase.domain.models.cartListResp.CouponAppliedBussinessAccountDto
 import com.malka.androidappp.newPhase.domain.models.cartListResp.ProductCartItem
-import com.malka.androidappp.newPhase.domain.models.servicemodels.Selection
-import com.malka.androidappp.newPhase.presentation.cartActivity.activity1.adapter.CartAdapter
 import com.malka.androidappp.newPhase.presentation.cartActivity.activity1.adapter.DetailCartAdapter
-import kotlinx.android.synthetic.main.activity_address_payment.lay_activeCoupon
-import kotlinx.android.synthetic.main.activity_address_payment.titleCoupon
 import kotlinx.android.synthetic.main.item_cart_design_new.view.*
 
 
 class CartNewAdapter(
-    val flagTypeSale:Boolean,
-    var productsCartListResp: List<CartProductDetails>,
-    var setProductCartListeners: SetProductNewCartListeners,
+    private val flagTypeSale:Boolean,
+    private var productsCartListResp: List<CartProductDetails>,
+    private var setProductCartListeners: SetProductNewCartListeners,
 
     ) : RecyclerView.Adapter<CartNewAdapter.CartNewViewHolder>() {
     lateinit var context: Context
@@ -195,9 +190,9 @@ class CartNewAdapter(
         listProduct: List<ProductCartItem>?,
         mainPosition: Int
     ) {
-        var dataList: ArrayList<ProductCartItem> = ArrayList()
+        val dataList: ArrayList<ProductCartItem> = ArrayList()
         listProduct?.let { dataList.addAll(it) }
-        var cartAdapter =
+        val cartAdapter =
             DetailCartAdapter( dataList, object : DetailCartAdapter.SetProductCartListeners {
                 override fun onIncreaseQuantityProduct(position: Int) {
                     setProductCartListeners.onIncreaseQuantityProduct(position, mainPosition)

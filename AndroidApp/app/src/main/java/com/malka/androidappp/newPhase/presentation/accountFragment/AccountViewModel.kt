@@ -8,7 +8,7 @@ import com.malka.androidappp.newPhase.domain.models.addWaletTransactionResp.AddW
 import com.malka.androidappp.newPhase.domain.models.contauctUsMessage.ContactUsMessageResp
 import com.malka.androidappp.newPhase.domain.models.contauctUsMessage.TechnicalSupportMessageListResp
 import com.malka.androidappp.newPhase.domain.models.productResp.ProductListResp
-import com.malka.androidappp.newPhase.data.helper.ConstantObjects
+import com.malka.androidappp.newPhase.data.network.callApi
 import com.malka.androidappp.newPhase.domain.models.accountProfile.AccountInfo
 import com.malka.androidappp.newPhase.domain.models.editProfileResp.EditProfileResp
 import com.malka.androidappp.newPhase.domain.models.loginResp.LoginResp
@@ -17,17 +17,12 @@ import com.malka.androidappp.newPhase.domain.models.userPointsDataResp.ConvertMo
 import com.malka.androidappp.newPhase.domain.models.userPointsDataResp.UserPointDataResp
 import com.malka.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.ValidateAndGenerateOTPResp
 import com.malka.androidappp.newPhase.domain.models.walletDetailsResp.WalletDetailsResp
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.HttpException
 import retrofit2.Response
-import java.io.File
-import java.lang.Exception
 
 class AccountViewModel : BaseViewModel() {
 
@@ -45,233 +40,254 @@ class AccountViewModel : BaseViewModel() {
     var changeEmailObserver: MutableLiveData<GeneralResponse> = MutableLiveData()
     var confirmChangeEmailOtpObserver: MutableLiveData<GeneralResponse> = MutableLiveData()
     var accountInfoObserver: MutableLiveData<AccountInfo> = MutableLiveData()
-    fun editProfileImage( multipartBody: MultipartBody.Part?) {
+
+    var updateProfileDataObserver: MutableLiveData<EditProfileResp> =
+        MutableLiveData()
+
+    var validateAndGenerateOTPObserver: MutableLiveData<ValidateAndGenerateOTPResp> =
+        MutableLiveData()
+    var updateUserMobielNumberObserver: MutableLiveData<GeneralResponse> =
+        MutableLiveData()
+
+    private var callEditProfile: Call<GeneralResponse>? = null
+    private var callAccountInfo: Call<AccountInfo>? = null
+    private var callWalletDetails: Call<WalletDetailsResp>? = null
+    private var callAddWallet: Call<AddWalletTranactionResp>? = null
+    private var callUserPointDetails: Call<UserPointDataResp>? = null
+    private var callConvertMount: Call<ConvertMoneyToPointResp>? = null
+    private var callLostProducts: Call<ProductListResp>? = null
+    private var callAddContact: Call<ContactUsMessageResp>? = null
+    private var callListContactUs: Call<TechnicalSupportMessageListResp>? = null
+    private var callUserData: Call<LoginResp>? = null
+    private var callChangeUserPassword: Call<GeneralResponse>? = null
+    private var callChangeUserEmail: Call<GeneralResponse>? = null
+    private var callChangeUserEmailOtp: Call<GeneralResponse>? = null
+    private var callResendOtp: Call<ValidateAndGenerateOTPResp>? = null
+    private var callUpdateMobile: Call<GeneralResponse>? = null
+    private var callUpdateAccountProfile: Call<EditProfileResp>? = null
+
+
+    fun closeAllCall() {
+        if (callEditProfile != null) {
+            callEditProfile?.cancel()
+        }
+        if (callAccountInfo != null) {
+            callAccountInfo?.cancel()
+        }
+        if (callWalletDetails != null) {
+            callWalletDetails?.cancel()
+        }
+        if (callAddWallet != null) {
+            callAddWallet?.cancel()
+        }
+        if (callUserPointDetails != null) {
+            callUserPointDetails?.cancel()
+        }
+        if (callConvertMount != null) {
+            callConvertMount?.cancel()
+        }
+        if (callLostProducts != null) {
+            callLostProducts?.cancel()
+        }
+        if (callAddContact != null) {
+            callAddContact?.cancel()
+        }
+        if (callListContactUs != null) {
+            callListContactUs?.cancel()
+        }
+        if (callUserData != null) {
+            callUserData?.cancel()
+        }
+        if (callChangeUserPassword != null) {
+            callChangeUserPassword?.cancel()
+        }
+        if (callChangeUserEmail != null) {
+            callChangeUserEmail?.cancel()
+        }
+        if (callChangeUserEmailOtp != null) {
+            callChangeUserEmailOtp?.cancel()
+        }
+        if (callResendOtp != null) {
+            callResendOtp?.cancel()
+        }
+        if (callUpdateMobile != null) {
+            callUpdateMobile?.cancel()
+        }
+        if (callUpdateAccountProfile != null) {
+            callUpdateAccountProfile?.cancel()
+        }
+    }
+    fun editProfileImage(multipartBody: MultipartBody.Part?) {
         isLoading.value = true
-
-
-//        val path = Environment.getExternalStoragePublicDirectory(
-//                Environment.DIRECTORY_PICTURES);
-//        val file =  File(path, "DemoPicture.jpg");
-//
-//        try {
-//            // Make sure the Pictures directory exists.
-//            path.mkdirs();
-//        }catch (e:Exception){
-//
-//        }
-//        var multipartBody: MultipartBody.Part = if (file != null) {
-//            var requestbody: RequestBody = file.asRequestBody("image/*".toMediaTypeOrNull())
-//            MultipartBody.Part.createFormData("imgProfile", file.name, requestbody)
-//        } else {
-//            MultipartBody.Part.createFormData("imgProfile", "null", "null".toRequestBody())
-//        }
-
-        getRetrofitBuilder()
-            .editProfileImage(multipartBody)
-            .enqueue(object : Callback<GeneralResponse> {
-                override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
-                    println("hhhh " + t.message)
-                    isNetworkFail.value = t !is HttpException
-                    isLoading.value = false
+        callEditProfile = getRetrofitBuilder().editProfileImage(multipartBody)
+        callApi(callEditProfile!!,
+            onSuccess = {
+                isLoading.value = false
+                editProfileImageObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoading.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
                 }
-
-                override fun onResponse(
-                    call: Call<GeneralResponse>,
-                    response: Response<GeneralResponse>
-                ) {
-                    isLoading.value = false
-                    if (response.isSuccessful) {
-                        editProfileImageObserver.value = response.body()
-                    } else {
-                        errorResponseObserver.value =
-                            getErrorResponse(response.code(), response.errorBody())
-                    }
-                }
+            },
+            goLogin = {
+                isLoading.value = false
+                needToLogin.value = true
             })
     }
 
     fun getAccountInfo() {
-        getRetrofitBuilder()
-            .getMyAccountInfo()
-            .enqueue(object : Callback<AccountInfo> {
-                override fun onFailure(call: Call<AccountInfo>, t: Throwable) {
-                }
+        callAccountInfo = getRetrofitBuilder().getMyAccountInfo()
 
-                override fun onResponse(
-                    call: Call<AccountInfo>,
-                    response: Response<AccountInfo>
-                ) {
-                    if (response.isSuccessful) {
-                        accountInfoObserver.value = response.body()
-                    }
+        callApi(callAccountInfo!!,
+            onSuccess = {
+                isLoading.value = false
+                accountInfoObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoading.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
                 }
-            })
-    }
-
-    fun getWalletDetailsInAccountTap() {
-        //  isLoading.value = true
-        getRetrofitBuilder()
-            .getWalletDetails()
-            .enqueue(object : Callback<WalletDetailsResp> {
-                override fun onFailure(call: Call<WalletDetailsResp>, t: Throwable) {
-                }
-
-                override fun onResponse(
-                    call: Call<WalletDetailsResp>,
-                    response: Response<WalletDetailsResp>
-                ) {
-                    if (response.isSuccessful) {
-                        walletDetailsObserver.value = response.body()
-                    }
-                }
+            },
+            goLogin = {
+                isLoading.value = false
+                needToLogin.value = true
             })
     }
 
     fun getWalletDetailsInWallet() {
         isLoading.value = true
-        getRetrofitBuilder()
+        callWalletDetails = getRetrofitBuilder()
             .getWalletDetails()
-            .enqueue(object : Callback<WalletDetailsResp> {
-                override fun onFailure(call: Call<WalletDetailsResp>, t: Throwable) {
-                    isNetworkFail.value = t !is HttpException
-                    isLoading.value = false
-                }
 
-                override fun onResponse(
-                    call: Call<WalletDetailsResp>,
-                    response: Response<WalletDetailsResp>
-                ) {
-                    isLoading.value = false
-                    if (response.isSuccessful) {
-                        walletDetailsObserver.value = response.body()
-                    } else {
-                        errorResponseObserver.value =
-                            getErrorResponse(response.code(), response.errorBody())
-                    }
+        callApi(callWalletDetails!!,
+            onSuccess = {
+                isLoading.value = false
+                walletDetailsObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoading.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
                 }
+            },
+            goLogin = {
+                isLoading.value = false
+                needToLogin.value = true
             })
+
     }
 
-    fun addWalletTransaction(transactionSource:String,transactionType: String, amount: String) {
+    fun addWalletTransaction(transactionSource: String, transactionType: String, amount: String) {
         isLoading.value = true
         val map: HashMap<String, RequestBody> = HashMap()
         map["TransactionSource"] = transactionSource.requestBody()
         map["TransactionType"] = transactionType.requestBody()
         map["TransactionAmount"] = amount.requestBody()
-        getRetrofitBuilder()
-            .addWalletTransaction(map)
-            .enqueue(object : Callback<AddWalletTranactionResp> {
-                override fun onFailure(call: Call<AddWalletTranactionResp>, t: Throwable) {
-                    isNetworkFail.value = t !is HttpException
-                    isLoading.value = false
-                }
 
-                override fun onResponse(
-                    call: Call<AddWalletTranactionResp>,
-                    response: Response<AddWalletTranactionResp>
-                ) {
-                    isLoading.value = false
-                    if (response.isSuccessful) {
-                        addWalletTransactionObserver.value = response.body()
-                    } else {
-                        errorResponseObserver.value =
-                            getErrorResponse(response.code(), response.errorBody())
-                    }
+        callAddWallet = getRetrofitBuilder().addWalletTransaction(map)
+
+        callApi(callAddWallet!!,
+            onSuccess = {
+                isLoading.value = false
+                addWalletTransactionObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoading.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
                 }
+            },
+            goLogin = {
+                isLoading.value = false
+                needToLogin.value = true
             })
     }
 
-    fun getUserPointDetailsInAccountTap() {
-        //  isLoading.value = true
-        getRetrofitBuilder()
-            .getUserPointsTransactions()
-            .enqueue(object : Callback<UserPointDataResp> {
-                override fun onFailure(call: Call<UserPointDataResp>, t: Throwable) {
-                }
-
-                override fun onResponse(
-                    call: Call<UserPointDataResp>,
-                    response: Response<UserPointDataResp>
-                ) {
-                    if (response.isSuccessful) {
-                        userPointsDetailsObserver.value = response.body()
-                    }
-                }
-            })
-    }
 
     fun getUserPointDetailsInWallet() {
         isLoading.value = true
-        getRetrofitBuilder()
-            .getUserPointsTransactions()
-            .enqueue(object : Callback<UserPointDataResp> {
-                override fun onFailure(call: Call<UserPointDataResp>, t: Throwable) {
-                    isNetworkFail.value = t !is HttpException
-                    isLoading.value = false
-                }
+        callUserPointDetails = getRetrofitBuilder().getUserPointsTransactions()
 
-                override fun onResponse(
-                    call: Call<UserPointDataResp>,
-                    response: Response<UserPointDataResp>
-                ) {
-                    isLoading.value = false
-                    if (response.isSuccessful) {
-                        userPointsDetailsObserver.value = response.body()
-                    } else {
-                        errorResponseObserver.value =
-                            getErrorResponse(response.code(), response.errorBody())
-                    }
+        callApi(callUserPointDetails!!,
+            onSuccess = {
+                isLoading.value = false
+                userPointsDetailsObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoading.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
                 }
+            },
+            goLogin = {
+                isLoading.value = false
+                needToLogin.value = true
             })
     }
 
     fun convertMountToPoints(amount: String) {
         isLoading.value = true
-        getRetrofitBuilder()
-            .transferPointsToMoney(amount)
-            .enqueue(object : Callback<ConvertMoneyToPointResp> {
-                override fun onFailure(call: Call<ConvertMoneyToPointResp>, t: Throwable) {
-                    isNetworkFail.value = t !is HttpException
-                    isLoading.value = false
-                }
 
-                override fun onResponse(
-                    call: Call<ConvertMoneyToPointResp>,
-                    response: Response<ConvertMoneyToPointResp>
-                ) {
-                    isLoading.value = false
-                    if (response.isSuccessful) {
-                        convertMoneyToPointObserver.value = response.body()
-                    } else {
-                        errorResponseObserver.value =
-                            getErrorResponse(response.code(), response.errorBody())
-                    }
+        callConvertMount = getRetrofitBuilder().transferPointsToMoney(amount)
+
+        callApi(callConvertMount!!,
+            onSuccess = {
+                isLoading.value = false
+                convertMoneyToPointObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoading.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
                 }
+            },
+            goLogin = {
+                isLoading.value = false
+                needToLogin.value = true
             })
     }
 
     fun grtLostProducts() {
         isLoading.value = true
-        getRetrofitBuilder()
-            .getLostProducts()
-            .enqueue(object : Callback<ProductListResp> {
-                override fun onFailure(call: Call<ProductListResp>, t: Throwable) {
-                    isNetworkFail.value = t !is HttpException
-                    isLoading.value = false
+        callLostProducts = getRetrofitBuilder().getLostProducts()
+        callApi(callLostProducts!!,
+            onSuccess = {
+                isLoading.value = false
+                productListObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoading.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
                 }
-
-                override fun onResponse(
-                    call: Call<ProductListResp>,
-                    response: Response<ProductListResp>
-                ) {
-                    isLoading.value = false
-                    if (response.isSuccessful) {
-                        productListObserver.value = response.body()
-                    } else {
-                        errorResponseObserver.value =
-                            getErrorResponse(response.code(), response.errorBody())
-                    }
-                }
+            },
+            goLogin = {
+                isLoading.value = false
+                needToLogin.value = true
             })
     }
 
@@ -294,77 +310,74 @@ class AccountViewModel : BaseViewModel() {
             map["id"] = id
         }
 
-        getRetrofitBuilder()
-            .addEditContactUs(map)
-            .enqueue(object : Callback<ContactUsMessageResp> {
-                override fun onFailure(call: Call<ContactUsMessageResp>, t: Throwable) {
-                    isNetworkFail.value = t !is HttpException
-                    isLoading.value = false
+        callAddContact = getRetrofitBuilder().addEditContactUs(map)
+        callApi(callAddContact!!,
+            onSuccess = {
+                isLoading.value = false
+                contactsMessageObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoading.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
                 }
-
-                override fun onResponse(
-                    call: Call<ContactUsMessageResp>,
-                    response: Response<ContactUsMessageResp>
-                ) {
-                    isLoading.value = false
-                    if (response.isSuccessful) {
-                        contactsMessageObserver.value = response.body()
-                    } else {
-                        errorResponseObserver.value =
-                            getErrorResponse(response.code(), response.errorBody())
-                    }
-                }
+            },
+            goLogin = {
+                isLoading.value = false
+                needToLogin.value = true
             })
+
     }
 
     fun getListContactUs() {
         isLoading.value = true
-        getRetrofitBuilder()
-            .getListContactUs()
-            .enqueue(object : Callback<TechnicalSupportMessageListResp> {
-                override fun onFailure(call: Call<TechnicalSupportMessageListResp>, t: Throwable) {
-                    isNetworkFail.value = t !is HttpException
-                    isLoading.value = false
+        callListContactUs = getRetrofitBuilder().getListContactUs()
+        callApi(callListContactUs!!,
+            onSuccess = {
+                isLoading.value = false
+                technicalSupportMessageListObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoading.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
                 }
-
-                override fun onResponse(
-                    call: Call<TechnicalSupportMessageListResp>,
-                    response: Response<TechnicalSupportMessageListResp>
-                ) {
-                    isLoading.value = false
-                    if (response.isSuccessful) {
-                        technicalSupportMessageListObserver.value = response.body()
-                    } else {
-                        errorResponseObserver.value =
-                            getErrorResponse(response.code(), response.errorBody())
-                    }
-                }
+            },
+            goLogin = {
+                isLoading.value = false
+                needToLogin.value = true
             })
     }
 
     fun getUserData() {
         isLoading.value = true
-        getRetrofitBuilder()
-            .getUserData()
-            .enqueue(object : Callback<LoginResp> {
-                override fun onFailure(call: Call<LoginResp>, t: Throwable) {
-                    isNetworkFail.value = t !is HttpException
-                    isLoading.value = false
-                }
+        callUserData = getRetrofitBuilder().getUserData()
 
-                override fun onResponse(
-                    call: Call<LoginResp>,
-                    response: Response<LoginResp>
-                ) {
-                    isLoading.value = false
-                    if (response.isSuccessful) {
-                        getUserDataObserver.value = response.body()
-                    } else {
-                        errorResponseObserver.value =
-                            getErrorResponse(response.code(), response.errorBody())
-                    }
+        callApi(callUserData!!,
+            onSuccess = {
+                isLoading.value = false
+                getUserDataObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoading.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
                 }
+            },
+            goLogin = {
+                isLoading.value = false
+                needToLogin.value = true
             })
+
     }
 
     fun getUserDataForAccountTap() {
@@ -387,150 +400,150 @@ class AccountViewModel : BaseViewModel() {
 
     fun changeUserPassword(loggedUserid: String, currentPassword: String, newPassword: String) {
         isLoading.value = true
-        var data: HashMap<String, Any> = HashMap()
+        val data: HashMap<String, Any> = HashMap()
         data["userId"] = loggedUserid
         data["oldPassword"] = currentPassword
         data["newPassword"] = newPassword
-        getRetrofitBuilder()
-            .editProfileChangePassword(data)
-            .enqueue(object : Callback<GeneralResponse> {
-                override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
-                    isNetworkFail.value = t !is HttpException
-                    isLoading.value = false
-                }
 
-                override fun onResponse(
-                    call: Call<GeneralResponse>,
-                    response: Response<GeneralResponse>
-                ) {
-                    isLoading.value = false
-                    if (response.isSuccessful) {
-                        changePasswordObserver.value = response.body()
-                    } else {
-                        errorResponseObserver.value =
-                            getErrorResponse(response.code(), response.errorBody())
-                    }
+
+       callChangeUserPassword= getRetrofitBuilder()
+            .editProfileChangePassword(data)
+
+        callApi(callChangeUserPassword!!,
+            onSuccess = {
+                isLoading.value = false
+                changePasswordObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoading.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
                 }
+            },
+            goLogin = {
+                isLoading.value = false
+                needToLogin.value = true
             })
+
+
     }
 
     fun changeUserEmail(newEmail: String) {
         isLoading.value = true
-        getRetrofitBuilder()
-            .editProfileChangeEmail(newEmail)
-            .enqueue(object : Callback<GeneralResponse> {
-                override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
-                    isNetworkFail.value = t !is HttpException
-                    isLoading.value = false
-                }
 
-                override fun onResponse(
-                    call: Call<GeneralResponse>,
-                    response: Response<GeneralResponse>
-                ) {
-                    isLoading.value = false
-                    if (response.isSuccessful) {
-                        changeEmailObserver.value = response.body()
-                    } else {
-                        errorResponseObserver.value =
-                            getErrorResponse(response.code(), response.errorBody())
-                    }
+        callChangeUserEmail= getRetrofitBuilder()
+            .editProfileChangeEmail(newEmail)
+
+        callApi(callChangeUserEmail!!,
+            onSuccess = {
+                isLoading.value = false
+                changeEmailObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoading.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
                 }
+            },
+            goLogin = {
+                isLoading.value = false
+                needToLogin.value = true
             })
     }
 
     fun changeUserEmail(newEmail: String, otp: String) {
-
         isLoading.value = true
-        var data: HashMap<String, Any> = HashMap()
+        val data: HashMap<String, Any> = HashMap()
         data["resetPasswordCode"] = otp
         data["newEmail"] = newEmail
-        getRetrofitBuilder()
+        callChangeUserEmailOtp=  getRetrofitBuilder()
             .confirmChangeEmail(data)
-            .enqueue(object : Callback<GeneralResponse> {
-                override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
-                    isNetworkFail.value = t !is HttpException
-                    isLoading.value = false
-                }
 
-                override fun onResponse(
-                    call: Call<GeneralResponse>,
-                    response: Response<GeneralResponse>
-                ) {
-                    isLoading.value = false
-                    if (response.isSuccessful) {
-                        confirmChangeEmailOtpObserver.value = response.body()
-                    } else {
-                        errorResponseObserver.value =
-                            getErrorResponse(response.code(), response.errorBody())
-                    }
+        callApi(callChangeUserEmailOtp!!,
+            onSuccess = {
+                isLoading.value = false
+                confirmChangeEmailOtpObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoading.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
                 }
+            },
+            goLogin = {
+                isLoading.value = false
+                needToLogin.value = true
             })
     }
 
-    /****/
-    var validateAndGenerateOTPObserver: MutableLiveData<ValidateAndGenerateOTPResp> =
-        MutableLiveData()
-    var updateUserMobielNumberObserver: MutableLiveData<GeneralResponse> =
-        MutableLiveData()
 
     fun resendOtp(userPhone: String, language: String, otpType: String) {
         isLoading.value = true
-        getRetrofitBuilder()
+        callResendOtp=  getRetrofitBuilder()
             .resendOtp(userPhone, otpType, language)
-            .enqueue(object : Callback<ValidateAndGenerateOTPResp> {
-                override fun onResponse(
-                    call: Call<ValidateAndGenerateOTPResp>,
-                    response: Response<ValidateAndGenerateOTPResp>
-                ) {
-                    if (response.isSuccessful) {
-                        validateAndGenerateOTPObserver.value = response.body()
-                    } else {
-                        errorResponseObserver.value =
-                            getErrorResponse(response.code(), response.errorBody())
-                    }
-                    isLoading.value = false
-                }
 
-                override fun onFailure(call: Call<ValidateAndGenerateOTPResp>, t: Throwable) {
-                    isNetworkFail.value = t !is HttpException
-                    isLoading.value = false
+        callApi(callResendOtp!!,
+            onSuccess = {
+                isLoading.value = false
+                validateAndGenerateOTPObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoading.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
                 }
+            },
+            goLogin = {
+                isLoading.value = false
+                needToLogin.value = true
             })
+
     }
 
-    fun upddateMobileNumber(userPhone: String, userId: String, otpCode: String) {
+    fun updateMobileNumber(userPhone: String, userId: String, otpCode: String) {
         isLoading.value = true
-        var data: HashMap<String, Any> = HashMap()
+        val data: HashMap<String, Any> = HashMap()
         data["id"] = userId
         data["mobileNumber"] = userPhone
         data["otpCode"] = otpCode
-        getRetrofitBuilder()
-            .updateUserMobileNumber(data).enqueue(object : Callback<GeneralResponse> {
-                override fun onResponse(
-                    call: Call<GeneralResponse>,
-                    response: Response<GeneralResponse>
-                ) {
-                    if (response.isSuccessful) {
-                        updateUserMobielNumberObserver.value = response.body()
-                    } else {
-                        errorResponseObserver.value =
-                            getErrorResponse(response.code(), response.errorBody())
-                    }
-                    isLoading.value = false
-                }
 
-                override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
-                    isNetworkFail.value = t !is HttpException
-                    isLoading.value = false
+        callUpdateMobile=  getRetrofitBuilder()
+            .updateUserMobileNumber(data)
+
+        callApi(callUpdateMobile!!,
+            onSuccess = {
+                isLoading.value = false
+                updateUserMobielNumberObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoading.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
                 }
+            },
+            goLogin = {
+                isLoading.value = false
+                needToLogin.value = true
             })
+
     }
 
     /****/
-    var updateProfileDataObserver: MutableLiveData<EditProfileResp> =
-        MutableLiveData()
-
     fun updateMobileNumber(
         userId: String,
         firstName: String,
@@ -540,31 +553,35 @@ class AccountViewModel : BaseViewModel() {
         showUserInformation: String
     ) {
         isLoading.value = true
-        var data: HashMap<String, Any> = HashMap()
+        val data: HashMap<String, Any> = HashMap()
         data["id"] = userId
         data["firstName"] = firstName
         data["lastName"] = lastName
         data["dateOfBirth"] = dateOfBirth
         data["gender"] = gender
         data["showUserInformation"] = showUserInformation
-        getRetrofitBuilder()
-            .updateAccountProfile(data).enqueue(object : Callback<EditProfileResp> {
-                override fun onResponse(
-                    call: Call<EditProfileResp>,
-                    response: Response<EditProfileResp>
-                ) {
-                    if (response.isSuccessful) {
-                        updateProfileDataObserver.value = response.body()
-                    } else {
-                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
-                    }
-                    isLoading.value = false
-                }
 
-                override fun onFailure(call: Call<EditProfileResp>, t: Throwable) {
-                    isNetworkFail.value = t !is HttpException
-                    isLoading.value = false
+        callUpdateAccountProfile=  getRetrofitBuilder()
+            .updateAccountProfile(data)
+
+        callApi(callUpdateAccountProfile!!,
+            onSuccess = {
+                isLoading.value = false
+                updateProfileDataObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoading.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
                 }
+            },
+            goLogin = {
+                isLoading.value = false
+                needToLogin.value = true
             })
+
     }
 }

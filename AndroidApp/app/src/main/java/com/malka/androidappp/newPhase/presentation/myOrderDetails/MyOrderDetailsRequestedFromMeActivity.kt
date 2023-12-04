@@ -257,4 +257,8 @@ class MyOrderDetailsRequestedFromMeActivity : BaseActivity(), SwipeRefreshLayout
 //        }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        myOrdersViewModel.closeAllCall()
+    }
 }

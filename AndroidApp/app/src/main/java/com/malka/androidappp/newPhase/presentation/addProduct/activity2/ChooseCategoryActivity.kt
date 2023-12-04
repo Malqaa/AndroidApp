@@ -122,9 +122,9 @@ class ChooseCategoryActivity : BaseActivity() {
         }
     }
 
-    fun getAllCategories() {
+    private fun getAllCategories() {
         allCategoryList = ConstantObjects.categoryList
-        if (allCategoryList.count() > 0) {
+        if (allCategoryList.isNotEmpty()) {
             allCategoryList.forEach {
                 it.is_select = false
             }

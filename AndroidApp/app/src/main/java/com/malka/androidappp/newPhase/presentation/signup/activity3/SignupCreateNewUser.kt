@@ -5,7 +5,6 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
-import android.view.View
 import androidx.activity.result.ActivityResult
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -28,7 +27,6 @@ import com.malka.androidappp.newPhase.presentation.signup.signupViewModel.Signup
 import com.squareup.picasso.Picasso
 import com.yariksoffice.lingver.Lingver
 import kotlinx.android.synthetic.main.activity_signup_pg4.*
-import kotlinx.android.synthetic.main.dialog_countries.progressBar
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.HttpException
@@ -43,7 +41,7 @@ class SignupCreateNewUser : BaseActivity(), PickImageMethodsDialog.OnAttachedIma
     var selectedNeighborhoodId: Int = 0
     var gender_ = -1
     private var otpData: OtpData? = null
-    var REQUEST_CHECK_PERMISSION_READ_STORAGE: Int = 1000;
+    var REQUEST_CHECK_PERMISSION_READ_STORAGE: Int = 1000
     private lateinit var signupViewModel: SignupViewModel
     private lateinit var imageMethodsPickerDialog: PickImageMethodsDialog
     private lateinit var imagePicker: ImagePicker
@@ -150,7 +148,7 @@ class SignupCreateNewUser : BaseActivity(), PickImageMethodsDialog.OnAttachedIma
                 else -> {
                     if (registerResp.message != null) {
                         HelpFunctions.ShowLongToast(
-                            registerResp.message!!,
+                            registerResp.message,
                             this
                         )
                     } else {
@@ -168,15 +166,13 @@ class SignupCreateNewUser : BaseActivity(), PickImageMethodsDialog.OnAttachedIma
     /***clickEvents*/
     private fun setupClickListeners() {
         btnDate._setOnClickListener {
-            DatePickerFragment(true, false) { selectdate_ ->
-                btnDate.text = "$selectdate_ "
+            DatePickerFragment(maxdayToday = true, minDateToday = false) { selectDate_ ->
+                btnDate.text = "$selectDate_ "
 
             }.show(supportFragmentManager, "")
 
         }
         countryContainer._setOnClickListener {
-//            countryContainer._setVisibleSpinner(1)
-//            getCountries()
             openCountryDialog()
         }
         regionContainer._setOnClickListener {
@@ -315,7 +311,7 @@ class SignupCreateNewUser : BaseActivity(), PickImageMethodsDialog.OnAttachedIma
 
     fun getCountries() {
 //        progressBar.visibility = View.VISIBLE
-       val countriesCallback = getRetrofitBuilder().getCountryNew()
+        val countriesCallback = getRetrofitBuilder().getCountryNew()
         countriesCallback.enqueue(object : Callback<CountriesResp> {
             override fun onFailure(call: Call<CountriesResp>, t: Throwable) {
                 // println("hhhh "+t.message)
@@ -323,7 +319,10 @@ class SignupCreateNewUser : BaseActivity(), PickImageMethodsDialog.OnAttachedIma
                 if (call.isCanceled) {
 
                 } else if (t is HttpException) {
-                    HelpFunctions.ShowLongToast(getString(R.string.serverError), this@SignupCreateNewUser)
+                    HelpFunctions.ShowLongToast(
+                        getString(R.string.serverError),
+                        this@SignupCreateNewUser
+                    )
 
                 } else {
                     HelpFunctions.ShowLongToast(
@@ -396,16 +395,13 @@ class SignupCreateNewUser : BaseActivity(), PickImageMethodsDialog.OnAttachedIma
         neighborhoodDialog.show()
     }
 
-    /**validation and createUseer*/
-
-
     private fun isValid(): Boolean {
         if (firstName!!.text.toString().isEmpty()) {
             showError(getString(R.string.Please_enter, getString(R.string.First_Name)))
             return false
         }
-        if(firstName!!.text.toString().length<2){
-            showError("${getString(R.string.typingTwoLetter)} ${ getString(R.string.First_Name)}")
+        if (firstName!!.text.toString().length < 2) {
+            showError("${getString(R.string.typingTwoLetter)} ${getString(R.string.First_Name)}")
             return false
         }
 
@@ -413,8 +409,8 @@ class SignupCreateNewUser : BaseActivity(), PickImageMethodsDialog.OnAttachedIma
             showError(getString(R.string.Please_enter, getString(R.string.Last_Name)))
             return false
         }
-        if(lastName!!.text.toString().length<2){
-            showError("${getString(R.string.typingTwoLetter)} ${ getString(R.string.Last_Name)}")
+        if (lastName!!.text.toString().length < 2) {
+            showError("${getString(R.string.typingTwoLetter)} ${getString(R.string.Last_Name)}")
             return false
         }
         if (btnDate!!.text.toString().isEmpty()) {
@@ -491,16 +487,15 @@ class SignupCreateNewUser : BaseActivity(), PickImageMethodsDialog.OnAttachedIma
             HelpFunctions.projectName,
             HelpFunctions.deviceType,
             getDeviceId(),
-            file,
-            this
+            file
         )
     }
 
 
-    fun signInAfterSignUp() {
-        val intentsignin = Intent(this, SignInActivity::class.java)
-        intentsignin.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        startActivity(intentsignin)
+    private fun signInAfterSignUp() {
+        val intentSignIn = Intent(this, SignInActivity::class.java)
+        intentSignIn.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        startActivity(intentSignIn)
     }
 
     override fun onBackPressed() {
@@ -514,6 +509,10 @@ class SignupCreateNewUser : BaseActivity(), PickImageMethodsDialog.OnAttachedIma
     override fun finish() {
         super.finish()
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        signupViewModel.closeAllCall()
     }
 //    fun apicallcreateuser() {
 //        HelpFunctions.startProgressBar(this)

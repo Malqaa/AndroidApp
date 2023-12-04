@@ -9,8 +9,8 @@ import com.malka.androidappp.newPhase.data.helper.show
 import kotlinx.android.synthetic.main.dialog_pick_image_methods.*
 
 class PickImageMethodsDialog(
-    context: Context, var showDeleteImage: Boolean,
-    var onAttachedImageMethodSelected: OnAttachedImageMethodSelected
+    context: Context, private var showDeleteImage: Boolean,
+    private var onAttachedImageMethodSelected: OnAttachedImageMethodSelected
 ) : BaseDialog(context) {
 
 

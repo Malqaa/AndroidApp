@@ -1,22 +1,16 @@
 package com.malka.androidappp.newPhase.presentation.homeScreen.viewModel
 
-import android.content.Context
 import androidx.lifecycle.MutableLiveData
-import com.google.gson.Gson
-import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseViewModel
-import com.malka.androidappp.newPhase.data.helper.HelpFunctions
+import com.malka.androidappp.newPhase.data.network.callApi
 import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.ErrorResponse
 import com.malka.androidappp.newPhase.domain.models.homeSilderResp.HomeSliderResp
 import com.malka.androidappp.newPhase.domain.models.productResp.ProductListResp
 import com.malka.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
-import com.malka.androidappp.newPhase.domain.models.homeCategoryProductResp.CategoryProductItem
 import com.malka.androidappp.newPhase.domain.models.homeCategoryProductResp.HomeCategoryProductResp
 import retrofit2.Call
-import retrofit2.Callback
 import retrofit2.HttpException
-import retrofit2.Response
 
 class HomeViewModel : BaseViewModel() {
     var sliderObserver: MutableLiveData<HomeSliderResp> = MutableLiveData()
@@ -27,135 +21,161 @@ class HomeViewModel : BaseViewModel() {
     var homeCategoryProductObserver: MutableLiveData<HomeCategoryProductResp> = MutableLiveData()
     var homeCategoryProductErrorResponseObserver: MutableLiveData<ErrorResponse> = MutableLiveData()
     var isLoadingAllCategory: MutableLiveData<Boolean> = MutableLiveData()
-
     var lastViewProductsObserver: MutableLiveData<ProductListResp> = MutableLiveData()
+
+    private var callSlider: Call<HomeSliderResp>? = null
+    private var callSearch: Call<GeneralResponse>? = null
+    private var callSaveSearch: Call<GeneralResponse>? = null
+    private var callAllCategories: Call<GeneralResponse>? = null
+    private var callListHomeCategoryProduct : Call<HomeCategoryProductResp>? = null
+    private var callLastViewedProduct: Call<ProductListResp>? = null
+
     fun getSliderData(slideType: Int) {
-        getRetrofitBuilder()
-            .getHomeSlidersImages(slideType)
-            .enqueue(object : Callback<HomeSliderResp> {
-                override fun onFailure(call: Call<HomeSliderResp>, t: Throwable) {
-                    isNetworkFail.value = t !is HttpException
-                }
-
-                override fun onResponse(
-                    call: Call<HomeSliderResp>,
-                    response: Response<HomeSliderResp>
-                ) {
-                    if (response.isSuccessful) {
-                        sliderObserver.value = response.body()
-                    }
-//                    else{
-//                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
-//                    }
-                }
+        callSlider = getRetrofitBuilder().getHomeSlidersImages(slideType)
+        callApi(callSlider!!,
+            onSuccess = {
+                isLoading.value = false
+                sliderObserver.value = it
+            },
+            onFailure = { throwable, _, errorBody ->
+                isLoading.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+//                else {
+//                    errorResponseObserver.value =
+//                        getErrorResponse(statusCode, errorBody)
+//                }
+            },
+            goLogin = {
+                isLoading.value = false
+                needToLogin.value = true
             })
-
-
     }
 
     fun doSearch(filter: Map<String, String>) {
-        getRetrofitBuilder()
-            .serach(filter)
-            .enqueue(object : Callback<GeneralResponse> {
-                override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
-                    // isNetworkFail.value = t !is HttpException
-                    //    println("hhhh error ")
-                }
-
-                override fun onResponse(
-                    call: Call<GeneralResponse>,
-                    response: Response<GeneralResponse>
-                ) {
-                    //  println("hhhh  "+response.code())
-
-                    searchObserver.value = response.body()
-
-                }
+        callSearch = getRetrofitBuilder().serach(filter)
+        callApi(callSearch!!,
+            onSuccess = {
+                isLoading.value = false
+                searchObserver.value = it
+            },
+            onFailure = { throwable, _, errorBody ->
+                isLoading.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+//                else {
+//                    errorResponseObserver.value =
+//                        getErrorResponse(statusCode, errorBody)
+//                }
+            },
+            goLogin = {
+                isLoading.value = false
+                needToLogin.value = true
             })
 
     }
 
     fun saveSearch(searchString: String) {
-        getRetrofitBuilder().savedSearch(searchString)
-            .enqueue(object : Callback<GeneralResponse?> {
-                override fun onFailure(call: Call<GeneralResponse?>, t: Throwable) {
-                }
-
-                override fun onResponse(
-                    call: Call<GeneralResponse?>,
-                    response: Response<GeneralResponse?>
-                ) {
-                    saveSearchObserver.value = response.body()
-
-                }
+        callSaveSearch = getRetrofitBuilder().savedSearch(searchString)
+        callApi(callSaveSearch!!,
+            onSuccess = {
+                isLoading.value = false
+                saveSearchObserver.value = it
+            },
+            onFailure = { throwable, _, errorBody ->
+                isLoading.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+//                else {
+//                    errorResponseObserver.value =
+//                        getErrorResponse(statusCode, errorBody)
+//                }
+            },
+            goLogin = {
+                isLoading.value = false
+                needToLogin.value = true
             })
     }
 
     fun getAllCategories() {
         isLoadingAllCategory.value = true
-        getRetrofitBuilder()
-            .getAllCategories()
-            .enqueue(object : Callback<GeneralResponse> {
-                override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
-                    isNetworkFail.value = t !is HttpException
-                    isLoadingAllCategory.value = false
+        callAllCategories = getRetrofitBuilder().getAllCategories()
+        callApi(callAllCategories!!,
+            onSuccess = {
+                isLoadingAllCategory.value = false
+                categoriesObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoadingAllCategory.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    categoriesErrorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
                 }
-
-                override fun onResponse(
-                    call: Call<GeneralResponse>,
-                    response: Response<GeneralResponse>
-                ) {
-                    isLoadingAllCategory.value = false
-                    if (response.isSuccessful) {
-                        categoriesObserver.value = response.body()
-                    } else {
-                        categoriesErrorResponseObserver.value =
-                            getErrorResponse(response.code(), response.errorBody())
-                    }
-                }
+            },
+            goLogin = {
+                isLoadingAllCategory.value = false
+                needToLogin.value = true
             })
     }
 
     fun getListHomeCategoryProduct() {
-        getRetrofitBuilder()
-            .listHomeCategoryProduct()
-            .enqueue(object : Callback<HomeCategoryProductResp> {
-                override fun onFailure(call: Call<HomeCategoryProductResp>, t: Throwable) {
-                    isNetworkFail.value = t !is HttpException
+        callListHomeCategoryProduct = getRetrofitBuilder().listHomeCategoryProduct()
+        callApi(callListHomeCategoryProduct!!,
+            onSuccess = {
+                homeCategoryProductObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    homeCategoryProductErrorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
                 }
-
-                override fun onResponse(
-                    call: Call<HomeCategoryProductResp>,
-                    response: Response<HomeCategoryProductResp>
-                ) {
-
-                    if (response.isSuccessful) {
-                        homeCategoryProductObserver.value = response.body()
-                    } else {
-                        homeCategoryProductErrorResponseObserver.value =
-                            getErrorResponse(response.code(), response.errorBody())
-                    }
-                }
+            },
+            goLogin = {
+                needToLogin.value = true
             })
     }
 
     fun getLastViewedProduct() {
-        getRetrofitBuilder()
-            .getListLastView()
-            .enqueue(object : Callback<ProductListResp> {
-                override fun onFailure(call: Call<ProductListResp>, t: Throwable) {
-                }
-
-                override fun onResponse(
-                    call: Call<ProductListResp>,
-                    response: Response<ProductListResp>
-                ) {
-                    if (response.isSuccessful) {
-                        lastViewProductsObserver.value = response.body()
-                    }
-//
-                }
+        callLastViewedProduct = getRetrofitBuilder().getListLastView()
+        callApi(callLastViewedProduct!!,
+            onSuccess = {
+                lastViewProductsObserver.value = it
+            },
+            onFailure = { throwable, _, errorBody ->
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+//                else {
+//                    categoriesErrorResponseObserver.value =
+//                        getErrorResponse(statusCode, errorBody)
+//                }
+            },
+            goLogin = {
+                needToLogin.value = true
             })
+    }
 
+    fun closeAllCall() {
+        if (callSlider != null) {
+            callSlider?.cancel()
+        }
+        if (callSearch != null) {
+            callSearch?.cancel()
+        }
+        if (callSaveSearch != null) {
+            callSaveSearch?.cancel()
+        }
+        if (callAllCategories != null) {
+            callAllCategories?.cancel()
+        }
+        if (callListHomeCategoryProduct != null) {
+            callListHomeCategoryProduct?.cancel()
+        }
+        if (callLastViewedProduct != null) {
+            callLastViewedProduct?.cancel()
+        }
     }
 }

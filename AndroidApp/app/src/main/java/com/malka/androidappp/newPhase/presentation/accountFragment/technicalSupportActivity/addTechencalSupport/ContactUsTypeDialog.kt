@@ -7,7 +7,7 @@ import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import kotlinx.android.synthetic.main.dialog_contact_us_type.*
 
 
-class ContactUsTypeDialog(context: Context,var setOnSelectCommunicationType: SetOnSelectCommunicationType) :
+class ContactUsTypeDialog(context: Context, private var setOnSelectCommunicationType: SetOnSelectCommunicationType) :
     BaseDialog(context){
     override fun getViewId(): Int = R.layout.dialog_contact_us_type
 

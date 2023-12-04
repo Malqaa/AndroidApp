@@ -25,3 +25,7 @@ fun <T> callApi(call: Call<T>, onSuccess: (T) -> Unit, onFailure: (Throwable?,In
     })
 }
 
+fun cancelApiCall(call: Call<*>) {
+    call.cancel()
+}
+

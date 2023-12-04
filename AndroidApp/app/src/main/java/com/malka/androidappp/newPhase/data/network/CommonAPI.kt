@@ -208,8 +208,6 @@ class CommonAPI {
             }
         })
     }
-
-
     fun getRegion(key: Int,activity: Activity, onResponse: (list: ArrayList<Country>) -> Unit) {
         HelpFunctions.startProgressBar(activity)
         val malqa: MalqaApiService = getRetrofitBuilder()
@@ -246,7 +244,6 @@ class CommonAPI {
 
 
     }
-
     fun getRegion(key: Int,onResponse: (list: ArrayList<Country>) -> Unit) {
         val malqa: MalqaApiService = getRetrofitBuilder()
         val call = malqa.getRegion(key)

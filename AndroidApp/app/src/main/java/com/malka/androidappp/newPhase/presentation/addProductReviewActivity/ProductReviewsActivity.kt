@@ -27,8 +27,8 @@ import kotlinx.coroutines.withContext
 class ProductReviewsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
 
 
-    val list: ArrayList<Reviewmodel> = ArrayList()
-    var addReviewRequestrCode = 1000
+    private val list: ArrayList<Reviewmodel> = ArrayList()
+    private var addReviewRequestrCode = 1000
     lateinit var reviewsadapter: RateAdapter
     lateinit var mainRatesList: ArrayList<RateReviewItem>
     var productId = 0
@@ -129,8 +129,8 @@ class ProductReviewsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK && requestCode == addReviewRequestrCode) {
-            var addRateItem: AddRateItem? = data?.getParcelableExtra(ConstantObjects.rateObjectKey)
-            var editRate = data?.getBooleanExtra(ConstantObjects.editRateKey, false)
+            val addRateItem: AddRateItem? = data?.getParcelableExtra(ConstantObjects.rateObjectKey)
+            val editRate = data?.getBooleanExtra(ConstantObjects.editRateKey, false)
             if (editRate == true) {
                 addRateItem?.let {
                     searchForEditRate(addRateItem)
@@ -162,7 +162,10 @@ class ProductReviewsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
         }
     }
-
+    override fun onDestroy() {
+        super.onDestroy()
+        productDetialsViewModel.closeAllCall()
+    }
 //        private fun getRates() {
 //            val apiBuilder = getRetrofitBuilder()
 //            val Rates = apiBuilder.getRates(15)

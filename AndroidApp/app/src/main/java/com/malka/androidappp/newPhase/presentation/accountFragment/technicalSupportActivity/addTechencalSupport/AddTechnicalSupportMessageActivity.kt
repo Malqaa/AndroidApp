@@ -26,12 +26,12 @@ import kotlinx.android.synthetic.main.toolbar_main.*
 
 class AddTechnicalSupportMessageActivity : BaseActivity() {
     //1-> suggestion , 2_complaint
-    var communicationType = 0
-    var isPhoneNumberValid: Boolean = false
+    private var communicationType = 0
+    private var isPhoneNumberValid: Boolean = false
     private lateinit var accountViewModel: AccountViewModel
-    var isEdit = false
-    var editId = 0
-    var technicalSupportMessageDetails: TechnicalSupportMessageDetails?=null
+    private var isEdit = false
+    private var editId = 0
+    private var technicalSupportMessageDetails: TechnicalSupportMessageDetails?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_technical_support_add_message)
@@ -93,13 +93,13 @@ class AddTechnicalSupportMessageActivity : BaseActivity() {
         }
         accountViewModel.contactsMessageObserver.observe(this) { contactsMessageResp ->
             if (contactsMessageResp.status_code == 200) {
-                var returnIntent = Intent()
+                val returnIntent = Intent()
                 setResult(Activity.RESULT_OK, returnIntent)
                 finish()
                 contactsMessageResp.message?.let { HelpFunctions.ShowLongToast(it, this) }
             } else {
                 if (contactsMessageResp.message != null) {
-                    HelpFunctions.ShowLongToast(contactsMessageResp.message!!, this)
+                    HelpFunctions.ShowLongToast(contactsMessageResp.message, this)
                 } else {
                     HelpFunctions.ShowLongToast(getString(R.string.serverError), this)
                 }
@@ -204,7 +204,7 @@ class AddTechnicalSupportMessageActivity : BaseActivity() {
     }
 
     private fun openCommunicationDialog() {
-        var contactUsTypeDialog =
+        val contactUsTypeDialog =
             ContactUsTypeDialog(this, object : ContactUsTypeDialog.SetOnSelectCommunicationType {
                 override fun onSelectCommunicationType(position: Int) {
                     if (position == 1) {
@@ -228,4 +228,8 @@ class AddTechnicalSupportMessageActivity : BaseActivity() {
         contactUsTypeDialog.show()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        accountViewModel.closeAllCall()
+    }
 }

@@ -1,21 +1,25 @@
 package com.malka.androidappp.newPhase.presentation.searchProductListActivity
 
 import androidx.lifecycle.MutableLiveData
-import com.google.gson.Gson
 import com.malka.androidappp.newPhase.core.BaseViewModel
+import com.malka.androidappp.newPhase.data.network.callApi
 import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.categoryFollowResp.CategoryFollowResp
 import com.malka.androidappp.newPhase.domain.models.productResp.ProductListResp
 import com.malka.androidappp.newPhase.domain.models.productResp.ProductListSearchResp
 import retrofit2.Call
-import retrofit2.Callback
 import retrofit2.HttpException
-import retrofit2.Response
 
 class CategoryProductViewModel : BaseViewModel() {
     var productListRespObserver: MutableLiveData<ProductListResp> = MutableLiveData()
     var searchProductListRespObserver: MutableLiveData<ProductListSearchResp> = MutableLiveData()
     var categoryFollowRespObserver: MutableLiveData<CategoryFollowResp> = MutableLiveData()
+
+    private var callSearchForProduct: Call<ProductListSearchResp>? = null
+    private var callListCategoryFollow: Call<CategoryFollowResp>? = null
+    private var callMyBids: Call<ProductListResp>? = null
+
+
     fun searchForProduct(
         categoryId: Int,
         currentLanguage: String,
@@ -26,22 +30,16 @@ class CategoryProductViewModel : BaseViewModel() {
         subCategoryList: List<Int>?,
         specificationList: List<String>?,
         startPrice: Float?,
-        endProce: Float?,
+        endPrice: Float?,
         productName: String?,
         comeFrom: Int
     ) {
-    //    println("tttt "+queryString)
-        if(page==1){
+        if (page == 1) {
             isLoading.value = true
         } else {
             isloadingMore.value = true
         }
 
-//        val data: HashMap<String, String> = HashMap()
-//        data["mainCatId"]=categoryId.toString()
-//        data["PageRowsCount"]=10.toString()
-//        data["pageIndex"]=page.toString()
-//        data["lang"]=currentLanguage
         var stringUrl =
             "AdvancedFilter?lang=${currentLanguage}&PageRowsCount=10&pageIndex=${page}&Screen=$comeFrom"
         if (categoryId != 0) {
@@ -60,89 +58,101 @@ class CategoryProductViewModel : BaseViewModel() {
             stringUrl += "&Regions=${item}"
         }
         neighoodList?.forEach { item ->
-            stringUrl+="&Neighborhoods=${item}"
+            stringUrl += "&Neighborhoods=${item}"
         }
-        specificationList?.forEach { item->
+        specificationList?.forEach { item ->
             if (item != null)
                 stringUrl += "&sepNames=${item}"
         }
-        if(startPrice!=0f){
-            stringUrl+="&priceFrom=${startPrice}"
+        if (startPrice != 0f) {
+            stringUrl += "&priceFrom=${startPrice}"
         }
-        if(endProce!=0f){
-            stringUrl+="&priceTo=${endProce}"
+        if (endPrice != 0f) {
+            stringUrl += "&priceTo=${endPrice}"
         }
 
-        println("hhhh "+stringUrl)
-        getRetrofitBuilder()
+        callSearchForProduct = getRetrofitBuilder()
             .searchForProductInCategory(stringUrl)
-            .enqueue(object : Callback<ProductListSearchResp> {
-                override fun onFailure(call: Call<ProductListSearchResp>, t: Throwable) {
-                    println("hhhh " + t.message)
-                    isNetworkFail.value = t !is HttpException
-                    isLoading.value = false
-                    isloadingMore.value = false
+        callApi(callSearchForProduct!!,
+            onSuccess = {
+                isloadingMore.value = false
+                isLoading.value = false
+                searchProductListRespObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoading.value = false
+                isloadingMore.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
                 }
-
-                override fun onResponse(
-                    call: Call<ProductListSearchResp>,
-                    response: Response<ProductListSearchResp>
-                ) {
-                    isLoading.value = false
-                    isloadingMore.value = false
-                    println("hhhh  t " + response.code() + " " + Gson().toJson(response.body()))
-                    if (response.isSuccessful) {
-                        searchProductListRespObserver.value = response.body()
-                    } else {
-                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
-                    }
-                }
+            },
+            goLogin = {
+                isloadingMore.value = false
+                isLoading.value = false
+                needToLogin.value = true
             })
     }
 
-    fun getCategoryFollow(){
-        getRetrofitBuilder()
-            .getListCategoryFollow()
-            .enqueue(object : Callback<CategoryFollowResp> {
-                override fun onFailure(call: Call<CategoryFollowResp>, t: Throwable) {
-
+    fun getCategoryFollow() {
+        callListCategoryFollow = getRetrofitBuilder().getListCategoryFollow()
+        callApi(callListCategoryFollow!!,
+            onSuccess = {
+                isloadingMore.value = false
+                isLoading.value = false
+                categoryFollowRespObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoading.value = false
+                isloadingMore.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
                 }
-
-                override fun onResponse(
-                    call: Call<CategoryFollowResp>,
-                    response: Response<CategoryFollowResp>
-                ) {
-                    if (response.isSuccessful) {
-                        categoryFollowRespObserver.value = response.body()
-                    } else {
-                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
-                    }
-                }
+            },
+            goLogin = {
+                needToLogin.value = true
             })
     }
 
     fun getMyBids() {
         isLoading.value = true
-        getRetrofitBuilder()
-            .getMyBids()
-            .enqueue(object : Callback<ProductListResp> {
-                override fun onFailure(call: Call<ProductListResp>, t: Throwable) {
-                    isNetworkFail.value = t !is HttpException
-                    isLoading.value = false
-                }
+        callMyBids = getRetrofitBuilder().getMyBids()
 
-                override fun onResponse(
-                    call: Call<ProductListResp>,
-                    response: Response<ProductListResp>
-                ) {
-                    isLoading.value = false
-                    if (response.isSuccessful) {
-                        productListRespObserver.value = response.body()
-                    } else {
-                        errorResponseObserver.value =
-                            getErrorResponse(response.code(),response.errorBody())
-                    }
+        callApi(callMyBids!!,
+            onSuccess = {
+                isLoading.value = false
+                productListRespObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoading.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
                 }
+            },
+            goLogin = {
+                isLoading.value = false
+                needToLogin.value = true
             })
+    }
+
+
+    fun closeAllCall() {
+        if (callSearchForProduct != null) {
+            callSearchForProduct?.cancel()
+        }
+        if (callListCategoryFollow != null) {
+            callListCategoryFollow?.cancel()
+        }
+        if (callMyBids != null) {
+            callMyBids?.cancel()
+        }
     }
 }

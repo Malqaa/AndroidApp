@@ -157,4 +157,9 @@ class SignInActivity : BaseActivity() {
         finish()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        loginViewModel.closeAllCall()
+    }
+
 }

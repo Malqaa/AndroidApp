@@ -1053,7 +1053,7 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
 
     }
 
-    private fun setListenser() {
+    private fun setListener() {
 
         fbButtonBack.setOnClickListener {
             onBackPressed()
@@ -1094,6 +1094,9 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
 
         }
     }
-
+    override fun onDestroy() {
+        super.onDestroy()
+        productDetialsViewModel.closeAllCall()
+    }
 }
 

@@ -13,19 +13,6 @@ class AuthenticationInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val original: Request = chain.request()
 
-
-//        val originalHttpUrl = original.url
-//
-//        val url = originalHttpUrl.newBuilder()
-//            .addQueryParameter("providerId", ConstantObjects.logged_userid)
-//            .build()
-//
-//        val requestBuilder = original.newBuilder()
-//            .url(url)
-//
-//        val request2 = requestBuilder.build()
-
-
         val builder: Request.Builder =
             if (HelpFunctions.isUserLoggedIn()) {
                 println("hhhh " + ConstantObjects.logged_userid)

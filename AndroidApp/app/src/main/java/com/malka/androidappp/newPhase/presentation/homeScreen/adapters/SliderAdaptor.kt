@@ -13,7 +13,7 @@ import com.malka.androidappp.newPhase.data.helper.Extension
 import com.malka.androidappp.newPhase.domain.models.homeSilderResp.HomeSliderItem
 
 
-class SliderAdaptor(context: Context, val sliderList :List<HomeSliderItem>) : PagerAdapter() {
+class SliderAdaptor(context: Context, private val sliderList :List<HomeSliderItem>) : PagerAdapter() {
     private val context: Context
     private var layoutInflater: LayoutInflater? = null
 

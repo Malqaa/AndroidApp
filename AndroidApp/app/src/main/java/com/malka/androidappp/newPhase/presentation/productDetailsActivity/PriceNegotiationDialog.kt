@@ -14,7 +14,11 @@ import retrofit2.Callback
 import retrofit2.HttpException
 import retrofit2.Response
 
-class PriceNegotiationDialog(context: Context, var productId: Int,var listener:SetClickListeners) : BaseDialog(context) {
+class PriceNegotiationDialog(
+    context: Context,
+    var productId: Int,
+    var listener: SetClickListeners
+) : BaseDialog(context) {
     var countriesCallback: Call<GeneralResponse>? = null
     var generalRespone: GeneralResponse? = null
     override fun getViewId(): Int {
@@ -33,25 +37,29 @@ class PriceNegotiationDialog(context: Context, var productId: Int,var listener:S
             dismiss()
         }
         btnSend.setOnClickListener {
-            var readytosend=true
-            if(etNegotiationPrice.text.toString().trim()==""){
-                readytosend=false
-                etNegotiationPrice.error=context.getString(R.string.writeNegotiationPrice2)
+            var readytosend = true
+            if (etNegotiationPrice.text.toString().trim() == "") {
+                readytosend = false
+                etNegotiationPrice.error = context.getString(R.string.writeNegotiationPrice2)
             }
-            if(etQuentity.text.toString().trim()==""){
-                readytosend=false
-                etQuentity.error=context.getString(R.string.quantity)
+            if (etQuentity.text.toString().trim() == "") {
+                readytosend = false
+                etQuentity.error = context.getString(R.string.quantity)
             }
-            if(readytosend){
-                addNegotiationPrice(productId,etNegotiationPrice.text.toString().trim().toFloat(),etQuentity.text.toString().trim().toInt())
+            if (readytosend) {
+                addNegotiationPrice(
+                    productId,
+                    etNegotiationPrice.text.toString().trim().toFloat(),
+                    etQuentity.text.toString().trim().toInt()
+                )
             }
         }
     }
 
-    fun addNegotiationPrice(
+    private fun addNegotiationPrice(
         productId: Int,
         price: Float,
-        quentity: Int
+        quantity: Int
     ) {
         close_alert_bid.isEnabled = false
         btnSend.isEnabled = false
@@ -60,15 +68,13 @@ class PriceNegotiationDialog(context: Context, var productId: Int,var listener:S
 //        data["quantity"] = quentity
 //        data["price"] = price
 
-        countriesCallback = getRetrofitBuilder().addProductClientOffer(productId,quentity,price)
+        countriesCallback = getRetrofitBuilder().addProductClientOffer(productId, quantity, price)
         countriesCallback?.enqueue(object : Callback<GeneralResponse> {
             override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
                 progressBar.visibility = View.GONE
                 btnSend.isEnabled = true
                 close_alert_bid.isEnabled = true
-                if (call.isCanceled) {
-
-                } else if (t is HttpException) {
+                if (t is HttpException) {
                     HelpFunctions.ShowLongToast(context.getString(R.string.serverError), context)
 
                 } else {
@@ -91,7 +97,9 @@ class PriceNegotiationDialog(context: Context, var productId: Int,var listener:S
                         response.body()?.let {
                             generalRespone = it
                             if (generalRespone?.status_code == 200) {
-                                listener.setOnSuccessListeners(etNegotiationPrice.text.toString().trim())
+                                listener.setOnSuccessListeners(
+                                    etNegotiationPrice.text.toString().trim()
+                                )
                             }
                         }
                     } else {
@@ -102,6 +110,7 @@ class PriceNegotiationDialog(context: Context, var productId: Int,var listener:S
 
                     }
                 } catch (e: Exception) {
+                    //
                 }
             }
         })
@@ -115,6 +124,6 @@ class PriceNegotiationDialog(context: Context, var productId: Int,var listener:S
     }
 
     interface SetClickListeners {
-        fun setOnSuccessListeners(highestBidPrice:String)
+        fun setOnSuccessListeners(highestBidPrice: String)
     }
 }

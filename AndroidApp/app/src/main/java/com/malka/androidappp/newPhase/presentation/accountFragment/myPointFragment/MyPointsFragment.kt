@@ -1,6 +1,5 @@
 package com.malka.androidappp.newPhase.presentation.accountFragment.myPointFragment
 
-import android.content.Intent
 import android.graphics.Paint
 import android.os.Bundle
 import android.view.View
@@ -27,13 +26,13 @@ import kotlinx.android.synthetic.main.toolbar_main.*
 class MyPointsFragment : Fragment(R.layout.fragment_my_points_fragment),
     SwipeRefreshLayout.OnRefreshListener {
 
-    lateinit var recentOperationsPointsAdapter: RecentOperationsPointsAdapter
-    lateinit var pointsTransactionslist: ArrayList<PointsTransactionsItem>
+    private lateinit var recentOperationsPointsAdapter: RecentOperationsPointsAdapter
+    lateinit var pointsTransactionsList: ArrayList<PointsTransactionsItem>
     private lateinit var accountViewModel: AccountViewModel
     var userPointData: UserPointData? = null
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        textView.setPaintFlags(textView.getPaintFlags() or Paint.UNDERLINE_TEXT_FLAG)
+        textView.paintFlags = textView.paintFlags or Paint.UNDERLINE_TEXT_FLAG
 
         initView()
         setViewClickListeners()
@@ -44,7 +43,6 @@ class MyPointsFragment : Fragment(R.layout.fragment_my_points_fragment),
             setData(userPointData!!)
         } else {
             accountViewModel.getUserPointDetailsInWallet()
-//            accountViewModel.getWalletDetailsInWallet()
         }
 
         imgShare.setOnClickListener {
@@ -54,8 +52,8 @@ class MyPointsFragment : Fragment(R.layout.fragment_my_points_fragment),
     }
 
     private fun setRecentOperationAdapter() {
-        pointsTransactionslist = ArrayList()
-        recentOperationsPointsAdapter = RecentOperationsPointsAdapter(pointsTransactionslist)
+        pointsTransactionsList = ArrayList()
+        recentOperationsPointsAdapter = RecentOperationsPointsAdapter(pointsTransactionsList)
         rvUserPointRecentOperation.apply {
             adapter = recentOperationsPointsAdapter
             layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
@@ -107,7 +105,7 @@ class MyPointsFragment : Fragment(R.layout.fragment_my_points_fragment),
                 tvAmount.text = null
             } else {
                 if (convertMoneyToPoint.message != null) {
-                    HelpFunctions.ShowLongToast(convertMoneyToPoint.message!!, requireActivity())
+                    HelpFunctions.ShowLongToast(convertMoneyToPoint.message, requireActivity())
                 } else {
                     HelpFunctions.ShowLongToast(getString(R.string.serverError), requireActivity())
                 }
@@ -119,8 +117,8 @@ class MyPointsFragment : Fragment(R.layout.fragment_my_points_fragment),
         tvTotalBalnce.text = userPointData.pointsBalance.toString()
         tvRefrerCode.text = userPointData.newInvitationCode ?: ""
         userPointData.pointsTransactionslist?.let {
-            pointsTransactionslist.clear()
-            pointsTransactionslist.addAll(it)
+            pointsTransactionsList.clear()
+            pointsTransactionsList.addAll(it)
             recentOperationsPointsAdapter.notifyDataSetChanged()
         }
     }
@@ -154,6 +152,11 @@ class MyPointsFragment : Fragment(R.layout.fragment_my_points_fragment),
     override fun onRefresh() {
         swipeRefresh.isRefreshing = false
         accountViewModel.getUserPointDetailsInWallet()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        accountViewModel.closeAllCall()
     }
 
 }

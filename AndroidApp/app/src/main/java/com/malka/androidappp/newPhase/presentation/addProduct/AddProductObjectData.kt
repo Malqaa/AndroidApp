@@ -5,7 +5,6 @@ import com.malka.androidappp.newPhase.domain.models.ImageSelectModel
 import com.malka.androidappp.newPhase.domain.models.accountBackListResp.AccountDetails
 import com.malka.androidappp.newPhase.domain.models.dynamicSpecification.DynamicSpecificationSentObject
 import com.malka.androidappp.newPhase.domain.models.pakatResp.PakatDetails
-import com.malka.androidappp.newPhase.domain.models.servicemodels.Negotiationmodel
 import com.malka.androidappp.newPhase.domain.models.servicemodels.Selection
 import com.malka.androidappp.newPhase.domain.models.servicemodels.TimeAuctionSelection
 import com.malka.androidappp.newPhase.domain.models.servicemodels.model.Category
@@ -31,10 +30,6 @@ class AddProductObjectData {
     }
 
     companion object {
-
-
-
-
         /**activity 1*/
         // List to store path of categories
         var subCategoryPath: ArrayList<String> = ArrayList()

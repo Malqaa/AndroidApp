@@ -40,12 +40,12 @@ import kotlinx.android.synthetic.main.toolbar_main.toolbar_title
 
 class SellerRatingFragment : Fragment(R.layout.fragment_seller_rating),
     SwipeRefreshLayout.OnRefreshListener {
-    val sampleOption: ArrayList<Selection> = ArrayList()
-    val typeOption: ArrayList<Selection> = ArrayList()
-    var selection: Selection? = null
+    private val sampleOption: ArrayList<Selection> = ArrayList()
+    private val typeOption: ArrayList<Selection> = ArrayList()
+    private var selection: Selection? = null
     private var sellerRateAdapter: SellerRateAdapter? = null
     private var sellerRateList: ArrayList<SellerRateItem>? = null
-    private var linerlayoutManager: LinearLayoutManager? = null
+    private var linearLayoutManager: LinearLayoutManager? = null
     private var sellerRatingViewModel: SellerRatingViewModel? = null
     private var endlessRecyclerViewScrollListener: EndlessRecyclerViewScrollListener? = null
 
@@ -54,7 +54,7 @@ class SellerRatingFragment : Fragment(R.layout.fragment_seller_rating),
 
         sellerRatingViewModel = ViewModelProvider(this).get(SellerRatingViewModel::class.java)
         initView()
-        setListenser()
+        setListener()
 
         setSellerRateAdapter()
         onRefresh()
@@ -105,13 +105,13 @@ class SellerRatingFragment : Fragment(R.layout.fragment_seller_rating),
 
         sellerRateList = ArrayList()
         sellerRateAdapter = SellerRateAdapter(requireContext(), sellerRateList ?: arrayListOf())
-        linerlayoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+        linearLayoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
         rvPakat.apply {
             adapter = sellerRateAdapter
-            layoutManager = linerlayoutManager
+            layoutManager = linearLayoutManager
         }
         endlessRecyclerViewScrollListener =
-            object : EndlessRecyclerViewScrollListener(linerlayoutManager!!) {
+            object : EndlessRecyclerViewScrollListener(linearLayoutManager!!) {
                 override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
                     sellerRatingViewModel?.getSellerRates(
                         page, null
@@ -142,7 +142,7 @@ class SellerRatingFragment : Fragment(R.layout.fragment_seller_rating),
     }
 
 
-    private fun setListenser() {
+    private fun setListener() {
         back_btn.setOnClickListener {
             requireActivity().onBackPressed()
         }
@@ -164,14 +164,14 @@ class SellerRatingFragment : Fragment(R.layout.fragment_seller_rating),
                         holder.view.run {
                             element.run {
                                 checkbox.isChecked = isSelected
-                                review_filter_layout.setSelected(isSelected)
+                                review_filter_layout.isSelected = isSelected
                                 filter_tv.text = name
                                 review_filter_layout.setOnClickListener {
                                     list.forEach {
                                         it.isSelected = false
 
                                     }
-                                    list.get(position).isSelected = true
+                                    list[position].isSelected = true
                                     rcv.post { rcv.adapter?.notifyDataSetChanged() }
                                     selection = element
                                 }
@@ -325,8 +325,9 @@ class SellerRatingFragment : Fragment(R.layout.fragment_seller_rating),
         sellerRateAdapter = null
         sellerRateList = null
         sellerRatingViewModel = null
-        linerlayoutManager = null
+        linearLayoutManager = null
         endlessRecyclerViewScrollListener = null
+        sellerRatingViewModel?.closeAllCall()
 
     }
 

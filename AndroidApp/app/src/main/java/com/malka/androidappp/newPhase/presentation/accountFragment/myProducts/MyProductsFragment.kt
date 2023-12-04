@@ -1,5 +1,6 @@
 package com.malka.androidappp.newPhase.presentation.accountFragment.myProducts
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -26,7 +27,6 @@ import com.malka.androidappp.newPhase.presentation.adapterShared.SetOnProductIte
 import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
 import com.malka.androidappp.newPhase.presentation.myOrderDetails.MyOrderDetailsRequestedFromMeActivity
 import com.malka.androidappp.newPhase.presentation.productDetailsActivity.MyProductDetailsActivity
-import com.malka.androidappp.newPhase.presentation.productDetailsActivity.ProductDetailsActivity
 import kotlinx.android.synthetic.main.fragment_sold_business.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 
@@ -36,7 +36,7 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
 
     private var lastPriceDiscount: Float = 0f
     private lateinit var myProductsViewModel: MyProductViewModel
-    private lateinit var myPorductForSaleListAdapter: ProductHorizontalAdapter
+    private lateinit var myProductForSaleListAdapter: ProductHorizontalAdapter
     private lateinit var productList: ArrayList<Product>
     private var lastUpdateIndex = -1
     private lateinit var expireHoursList: ArrayList<Float>
@@ -116,9 +116,9 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
 
     private fun setAdapterForSaleAdapter() {
         productList = ArrayList()
-        myPorductForSaleListAdapter = ProductHorizontalAdapter(productList, this, 0, false, true)
+        myProductForSaleListAdapter = ProductHorizontalAdapter(productList, this, 0, false, true)
         for_sale_recycler.apply {
-            adapter = myPorductForSaleListAdapter
+            adapter = myProductForSaleListAdapter
             layoutManager = GridLayoutManager(requireActivity(), 2)
         }
     }
@@ -171,6 +171,7 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun setupViewModel() {
         myProductsViewModel = ViewModelProvider(this).get(MyProductViewModel::class.java)
         myProductsViewModel.isLoading.observe(this) {
@@ -216,7 +217,7 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
                 if (!productListResp.productList.isNullOrEmpty()) {
                     productList.clear()
                     productList.addAll(productListResp.productList)
-                    myPorductForSaleListAdapter.notifyDataSetChanged()
+                    myProductForSaleListAdapter.notifyDataSetChanged()
 
                 } else {
                     showProductApiError(getString(R.string.noProductsAdded))
@@ -225,10 +226,10 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         }
         myProductsViewModel.notForSaleProductRespObserver.observe(this) { productListResp ->
             if (productListResp.status_code == 200) {
-                if (productListResp.productList != null && productListResp.productList.isNotEmpty()) {
+                if (!productListResp.productList.isNullOrEmpty()) {
                     productList.clear()
                     productList.addAll(productListResp.productList)
-                    myPorductForSaleListAdapter.notifyDataSetChanged()
+                    myProductForSaleListAdapter.notifyDataSetChanged()
 
                 } else {
                     showProductApiError(getString(R.string.noProductsAdded))
@@ -272,8 +273,8 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
                 if (lastUpdateIndex < productList.size) {
                     productList[lastUpdateIndex].isFavourite =
                         !productList[lastUpdateIndex].isFavourite
-                    myPorductForSaleListAdapter.notifyItemChanged(lastUpdateIndex)
-                    myPorductForSaleListAdapter.notifyDataSetChanged()
+                    myProductForSaleListAdapter.notifyItemChanged(lastUpdateIndex)
+                    myProductForSaleListAdapter.notifyDataSetChanged()
                 }
             }
         }
@@ -289,7 +290,7 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
             if (addDiscountResp.status_code == 200) {
                 if (tapId == 1) {
                     productList[lastUpdateIndex].priceDisc = lastPriceDiscount
-                    myPorductForSaleListAdapter.notifyItemChanged(lastUpdateIndex)
+                    myProductForSaleListAdapter.notifyItemChanged(lastUpdateIndex)
                 }
                 HelpFunctions.ShowLongToast(
                     getString(R.string.discountAddedSuccessfully),
@@ -337,6 +338,7 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onRefresh() {
         endlessRecyclerViewScrollListener.resetState()
         swipe_to_refresh.isRefreshing = false
@@ -344,7 +346,7 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         when (tapId) {
             1 -> {
                 productList.clear()
-                myPorductForSaleListAdapter.notifyDataSetChanged()
+                myProductForSaleListAdapter.notifyDataSetChanged()
                 myProductsViewModel.getForSaleProduct()
             }
 
@@ -356,7 +358,7 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
 
             3 -> {
                 productList.clear()
-                myPorductForSaleListAdapter.notifyDataSetChanged()
+                myProductForSaleListAdapter.notifyDataSetChanged()
                 myProductsViewModel.getForDidNotSaleProducts()
             }
         }
@@ -462,7 +464,7 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
     }
 
     private fun openDiscountDialog(position: Int, productID: Int, categoryID: Int) {
-        var addDiscountDialog =
+        val addDiscountDialog =
             AddDiscountDialog(
                 requireActivity(),
                 productList[position].price,
@@ -484,112 +486,9 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         addDiscountDialog.show()
     }
 
-
-//    fun notUsed(){
-//        CommonAPI().getSoldItemsApi(ConstantObjects.logged_userid, requireContext()) {
-//            sold_business_recycler.adapter = GenericProductAdapter(it.sellingitems, requireContext())
-//            did_not_sale_rcv.adapter = GenericProductAdapter(it.unsolditems, requireContext())
-////            sold_out_rcv.adapter = GenericOrderAdapter(it.solditems, requireContext())
-//
-//            for_sale.setOnClickListener {
-//
-//
-//                did_not_Sell.setBackground(
-//                    ContextCompat.getDrawable(
-//                        requireContext(),
-//                        R.drawable.edittext_bg
-//                    )
-//                )
-//                sold_out.setBackground(
-//                    ContextCompat.getDrawable(
-//                        requireContext(),
-//                        R.drawable.edittext_bg
-//                    )
-//                )
-//                for_sale.setBackground(
-//                    ContextCompat.getDrawable(
-//                        requireContext(),
-//                        R.drawable.round_btn
-//                    )
-//                )
-//
-//
-//                for_sale.setTextColor(Color.parseColor("#FFFFFF"));
-//                did_not_Sell.setTextColor(Color.parseColor("#45495E"));
-//                sold_out.setTextColor(Color.parseColor("#45495E"));
-//                did_not_sale_rcv.hide()
-//                sold_out_rcv.hide()
-//                sold_business_recycler.show()
-//
-//            }
-//            for_sale.performClick()
-//            did_not_Sell.setOnClickListener {
-//
-//
-//                did_not_Sell.setBackground(
-//                    ContextCompat.getDrawable(
-//                        requireContext(),
-//                        R.drawable.round_btn
-//                    )
-//                )
-//                sold_out.setBackground(
-//                    ContextCompat.getDrawable(
-//                        requireContext(),
-//                        R.drawable.edittext_bg
-//                    )
-//                )
-//                for_sale.setBackground(
-//                    ContextCompat.getDrawable(
-//                        requireContext(),
-//                        R.drawable.edittext_bg
-//                    )
-//                )
-//
-//                did_not_Sell.setTextColor(Color.parseColor("#FFFFFF"));
-//                sold_out.setTextColor(Color.parseColor("#45495E"));
-//                for_sale.setTextColor(Color.parseColor("#45495E"));
-//
-//                sold_business_recycler.hide()
-//                sold_out_rcv.hide()
-//                did_not_sale_rcv.show()
-//
-//            }
-//            sold_out.setOnClickListener {
-//
-//
-//                did_not_Sell.setBackground(
-//                    ContextCompat.getDrawable(
-//                        requireContext(),
-//                        R.drawable.edittext_bg
-//                    )
-//                )
-//                sold_out.setBackground(
-//                    ContextCompat.getDrawable(
-//                        requireContext(),
-//                        R.drawable.round_btn
-//                    )
-//                )
-//                for_sale.setBackground(
-//                    ContextCompat.getDrawable(
-//                        requireContext(),
-//                        R.drawable.edittext_bg
-//                    )
-//                )
-//
-//
-//
-//                sold_out.setTextColor(Color.parseColor("#FFFFFF"));
-//                did_not_Sell.setTextColor(Color.parseColor("#45495E"));
-//                for_sale.setTextColor(Color.parseColor("#45495E"));
-//                did_not_sale_rcv.hide()
-//                sold_business_recycler.hide()
-//                sold_out_rcv.show()
-//
-//
-//            }
-//
-//        }
-//    }
-
+    override fun onDestroyView() {
+        super.onDestroyView()
+        myProductsViewModel.closeAllCall()
+    }
 
 }

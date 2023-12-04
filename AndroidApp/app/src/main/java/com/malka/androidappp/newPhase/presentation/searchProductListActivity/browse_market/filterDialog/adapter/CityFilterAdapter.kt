@@ -55,8 +55,7 @@ class CityFilterAdapter(
             setOnselectedListerner.setOnSaveCountryToQuery(countryPosition, position)
         }
         holder.viewBinding.ContainerCity.setOnClickListener {
-            if (position == 0) {
-            } else {
+            if (position != 0) {
                 if (regions[position].mainNeighborhoodList != null) {
                     if (holder.viewBinding.rvRegions.isVisible) {
                         holder.viewBinding.rvRegions.hide()

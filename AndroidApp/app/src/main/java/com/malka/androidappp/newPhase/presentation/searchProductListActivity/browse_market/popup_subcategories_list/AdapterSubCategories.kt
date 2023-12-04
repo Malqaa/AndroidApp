@@ -1,5 +1,7 @@
 package com.malka.androidappp.newPhase.presentation.searchProductListActivity.browse_market.popup_subcategories_list
 
+import android.os.Parcel
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,10 +14,9 @@ import kotlinx.android.synthetic.main.alert_subcategories_cardview.view.*
 
 
 class AdapterSubCategories(
-    val subcateposts: List<CategoriesItem>,
+    private val subcateposts: List<CategoriesItem>,
     var clicklistenersubcate:onPostItemClickLisenter
-) : RecyclerView.Adapter<AdapterSubCategories.AdapterSubCategoriesViewHolder>()
-{
+) : RecyclerView.Adapter<AdapterSubCategories.AdapterSubCategoriesViewHolder>(), Parcelable {
 
 
     class AdapterSubCategoriesViewHolder(itemview: View) : RecyclerView.ViewHolder(itemview)
@@ -30,6 +31,10 @@ class AdapterSubCategories(
     }
 
 
+    constructor(parcel: Parcel) : this(
+        TODO("subcateposts"),
+        TODO("clicklistenersubcate")
+    )
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AdapterSubCategoriesViewHolder {
         val view: View = LayoutInflater.from(parent.context).inflate(R.layout.alert_subcategories_cardview,parent,false)
         return AdapterSubCategoriesViewHolder(view)
@@ -49,6 +54,24 @@ class AdapterSubCategories(
 
     interface onPostItemClickLisenter{
         fun onItemClick(item: CategoriesItem, adapterPosition: Int)
+    }
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Parcelable.Creator<AdapterSubCategories> {
+        override fun createFromParcel(parcel: Parcel): AdapterSubCategories {
+            return AdapterSubCategories(parcel)
+        }
+
+        override fun newArray(size: Int): Array<AdapterSubCategories?> {
+            return arrayOfNulls(size)
+        }
     }
 
 

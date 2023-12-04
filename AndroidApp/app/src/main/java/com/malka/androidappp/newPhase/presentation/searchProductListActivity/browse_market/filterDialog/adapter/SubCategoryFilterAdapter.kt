@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
 import com.malka.androidappp.databinding.ItemFiltterSubCategoryDesignBinding
 import com.malka.androidappp.newPhase.domain.models.productResp.CategoriesSearchItem
-import com.malka.androidappp.newPhase.domain.models.servicemodels.model.Category
 
 class SubCategoryFilterAdapter(var categoryList: ArrayList<CategoriesSearchItem>, var setOnSubCategorySelectListents:SetOnSubCategorySelectListents) :
     RecyclerView.Adapter<SubCategoryFilterAdapter.SubCategoryFilterViewHolder>() {

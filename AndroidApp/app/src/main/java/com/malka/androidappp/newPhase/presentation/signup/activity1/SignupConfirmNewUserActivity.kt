@@ -1,6 +1,5 @@
 package com.malka.androidappp.newPhase.presentation.signup.activity1
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -12,7 +11,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.hbb20.CountryCodePicker
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseActivity
-import com.malka.androidappp.newPhase.core.BaseDialog
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions.Companion.PASSWORD_PATTERN
 import com.malka.androidappp.newPhase.data.network.constants.Constants
@@ -25,7 +23,6 @@ import com.squareup.picasso.Picasso
 import com.yariksoffice.lingver.Lingver
 import kotlinx.android.synthetic.main.activity_signup_pg1.*
 import kotlinx.android.synthetic.main.activity_signup_pg1.userNamee
-import kotlinx.android.synthetic.main.dialog_terms.btnAccept
 
 class SignupConfirmNewUserActivity : BaseActivity(), CountryDialog.GetSelectedCountry,
     TermsDialog.AcceptTermsListener {
@@ -89,11 +86,6 @@ class SignupConfirmNewUserActivity : BaseActivity(), CountryDialog.GetSelectedCo
         signupViewModel.validateAndGenerateOTPObserver.observe(
             this,
             Observer { validateUserAndGenerateOTP ->
-//            UsernameExists
-//            PhoneNumberExists
-//            EmailExists
-//            Failed
-//            Success
                 println("hhh " + validateUserAndGenerateOTP.message)
                 when (validateUserAndGenerateOTP.message) {
                     "UsernameExists" -> {
@@ -175,7 +167,7 @@ class SignupConfirmNewUserActivity : BaseActivity(), CountryDialog.GetSelectedCo
 
     /**click events**/
     private fun setClickListeners() {
-        language_toggle.setOnToggleSwitchChangeListener { position, isChecked ->
+        language_toggle.setOnToggleSwitchChangeListener { _, _ ->
             setLocate()
         }
         btnLogin.setOnClickListener {
@@ -186,7 +178,7 @@ class SignupConfirmNewUserActivity : BaseActivity(), CountryDialog.GetSelectedCo
         }
 
         switch_term_condition.setOnClickListener {
-                        TermsDialog(this@SignupConfirmNewUserActivity,this).show()
+            TermsDialog(this@SignupConfirmNewUserActivity, this).show()
 
         }
 
@@ -197,7 +189,6 @@ class SignupConfirmNewUserActivity : BaseActivity(), CountryDialog.GetSelectedCo
             countryCodePicker.changeDefaultLanguage(CountryCodePicker.Language.ARABIC)
         } else {
             countryCodePicker.changeDefaultLanguage(CountryCodePicker.Language.ENGLISH)
-            //  etPhoneNumber.textAlignment=View.TEXT_ALIGNMENT_VIEW_START
         }
         countryCodePicker.registerCarrierNumberEditText(etPhoneNumber)
         countryCodePicker.setPhoneNumberValidityChangeListener { isValidNumber ->
@@ -208,7 +199,7 @@ class SignupConfirmNewUserActivity : BaseActivity(), CountryDialog.GetSelectedCo
         }
     }
 
-    fun SignuuPg1confirmInput(v: View) {
+    fun signUpg1confirmInput(v: View) {
         if (!validateSignupEmail() or !validateSignupPassword()
             or !validateNumber() or !validateSignupConfrmPassword() or
             !validateSignupUser()
@@ -216,20 +207,12 @@ class SignupConfirmNewUserActivity : BaseActivity(), CountryDialog.GetSelectedCo
             return
         } else {
             if (switch_term_condition._getChecked()) {
-                //apicallcreateuser()
-//                signupViewModel.validateUserAndGenerateOTP(
-//                    userNamee.text.toString().trim(),
-//                    textEmaill.text.toString().trim(),
-//                    countryCodePicker.fullNumberWithPlus,
-//                    Lingver.getInstance().getLanguage()
-//                )
                 signupViewModel.validateUserAndGenerateOTP(
                     userNamee.text.toString().trim(),
                     textEmaill.text.toString().trim(),
                     "${etPhoneNumber.text.toString().trim()}",
                     Lingver.getInstance().getLanguage()
                 )
-                //"${tvCode.text}${etPhoneNumber.text.toString().trim()}",
             } else {
                 showError(getString(R.string.Please_select, getString(R.string.term_condition)))
             }
@@ -332,7 +315,7 @@ class SignupConfirmNewUserActivity : BaseActivity(), CountryDialog.GetSelectedCo
     }
 
     /***/
-    fun signuppg1prev(view: View) {
+    fun signUpg1prev(view: View) {
         onBackPressed()
         finish()
     }
@@ -349,7 +332,7 @@ class SignupConfirmNewUserActivity : BaseActivity(), CountryDialog.GetSelectedCo
         countryCode: String?
     ) {
         tvCode.text = countryCode
-        ivFlag.setImageDrawable(null);
+        ivFlag.setImageDrawable(null)
         Picasso.get()
             .load(countryFlag)
             .into(ivFlag)
@@ -359,6 +342,11 @@ class SignupConfirmNewUserActivity : BaseActivity(), CountryDialog.GetSelectedCo
         if (ConstantObjects.acceptTerms) {
             switch_term_condition._setChecked(true)
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        signupViewModel.closeAllCall()
     }
 
 

@@ -42,7 +42,7 @@ class SellerRateActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
         setContentView(R.layout.activity_seller_rate)
         sellerInformation = intent.getParcelableExtra(ConstantObjects.sellerObjectKey)
         initView()
-        setListenser()
+        setListener()
         setSellerRateAdapter()
         setProductDetailsViewModel()
         onRefresh()
@@ -181,7 +181,7 @@ class SellerRateActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
 
     }
 
-    private fun setListenser() {
+    private fun setListener() {
         back_btn.setOnClickListener {
             onBackPressed()
         }
@@ -238,5 +238,8 @@ class SellerRateActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
 
     }
 
-
+    override fun onDestroy() {
+        super.onDestroy()
+        productDetialsViewModel.closeAllCall()
+    }
 }

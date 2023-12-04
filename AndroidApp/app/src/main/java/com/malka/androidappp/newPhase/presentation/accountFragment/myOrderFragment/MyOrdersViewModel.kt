@@ -2,6 +2,7 @@ package com.malka.androidappp.newPhase.presentation.accountFragment.myOrderFragm
 
 import androidx.lifecycle.MutableLiveData
 import com.malka.androidappp.newPhase.core.BaseViewModel
+import com.malka.androidappp.newPhase.data.network.callApi
 import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.ErrorResponse
 import com.malka.androidappp.newPhase.domain.models.orderDetails.OrderDetailsResp
@@ -9,13 +10,9 @@ import com.malka.androidappp.newPhase.domain.models.orderDetailsByMasterID.Order
 import com.malka.androidappp.newPhase.domain.models.orderListResp.OrderListResp
 import com.malka.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
 import retrofit2.Call
-import retrofit2.Callback
 import retrofit2.HttpException
-import retrofit2.Response
-import retrofit2.http.Query
 
 class MyOrdersViewModel: BaseViewModel() {
-    //var soldOutOrdersRespObserver: MutableLiveData<OrderListResp> = MutableLiveData()
     var currentOrderRespObserver: MutableLiveData<OrderListResp> = MutableLiveData()
     var currentOrderByMusterIdRespObserver: MutableLiveData<OrderDetailsByMasterIDResp> = MutableLiveData()
     var soldOutOrderDetailsByOrderIdRespObserver: MutableLiveData<OrderDetailsResp> = MutableLiveData()
@@ -24,161 +21,154 @@ class MyOrdersViewModel: BaseViewModel() {
     var errorResponseCancelObserver: MutableLiveData<ErrorResponse> = MutableLiveData()
 
 
-//    fun getSoldOutOrders(pageIndes: Int) {
-//        if (pageIndes == 1)
-//            isLoading.value = true
-//        else
-//            isloadingMore.value = true
-//        getRetrofitBuilder()
-//            .getBusinessAccountOrders(pageIndes)
-//            .enqueue(object : Callback<OrderListResp> {
-//                override fun onFailure(call: Call<OrderListResp>, t: Throwable) {
-//                    isNetworkFail.value = t !is HttpException
-//                    isLoading.value = false
-//                    isloadingMore.value = false
-//                }
-//
-//                override fun onResponse(
-//                    call: Call<OrderListResp>,
-//                    response: Response<OrderListResp>
-//                ) {
-//                    isLoading.value = false
-//                    isloadingMore.value = false
-//                    if (response.isSuccessful) {
-//                        currentOrderRespObserver.value = response.body()
-//                    } else {
-//                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
-//                    }
-//                }
-//            })
-//    }
-//
+    private var callSoldOutOrder: Call<OrderDetailsResp>? = null
+    private var callCurrentOrders: Call<OrderListResp>? = null
+    private var callFinishOOrders: Call<OrderListResp>? = null
+    private var callCurrentOrderDetails: Call<OrderDetailsByMasterIDResp>? = null
+    private var callChangeOrderStatus: Call<GeneralResponse>? = null
+
+
+
+    fun closeAllCall() {
+        if (callSoldOutOrder != null) {
+            callSoldOutOrder?.cancel()
+        }
+        if (callCurrentOrders != null) {
+            callCurrentOrders?.cancel()
+        }
+        if (callFinishOOrders != null) {
+            callFinishOOrders?.cancel()
+        }
+        if (callCurrentOrderDetails != null) {
+            callCurrentOrderDetails?.cancel()
+        }
+        if (callChangeOrderStatus != null) {
+            callChangeOrderStatus?.cancel()
+        }
+    }
+
     fun getSoldOutOrderDetailsByOrderId(orderId:Int){
         isLoading.value = true
-        getRetrofitBuilder()
-            .getOrderDetailsByOrderID(orderId)
-            .enqueue(object : Callback<OrderDetailsResp> {
-                override fun onFailure(call: Call<OrderDetailsResp>, t: Throwable) {
-                    isNetworkFail.value = t !is HttpException
-                    isLoading.value = false
+        callSoldOutOrder = getRetrofitBuilder().getOrderDetailsByOrderID(orderId)
+        callApi(callSoldOutOrder!!,
+            onSuccess = {
+                isLoading.value = false
+                soldOutOrderDetailsByOrderIdRespObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoading.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
                 }
-
-                override fun onResponse(
-                    call: Call<OrderDetailsResp>,
-                    response: Response<OrderDetailsResp>
-                ) {
-                    isLoading.value = false
-                    if (response.isSuccessful) {
-                        soldOutOrderDetailsByOrderIdRespObserver.value = response.body()
-                    } else {
-                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
-                    }
-                }
+            },
+            goLogin = {
+                isLoading.value = false
+                needToLogin.value = true
             })
     }
-    fun getCurrentOrderOrders(pageIndes: Int,userId:String) {
-        if (pageIndes == 1)
+    fun getCurrentOrderOrders(pageIndex: Int,userId:String) {
+        if (pageIndex == 1)
             isLoading.value = true
         else
             isloadingMore.value = true
-        getRetrofitBuilder()
-            .getCurrentOrders(pageIndes,userId)
-            .enqueue(object : Callback<OrderListResp> {
-                override fun onFailure(call: Call<OrderListResp>, t: Throwable) {
-                    isNetworkFail.value = t !is HttpException
-                    isLoading.value = false
-                    isloadingMore.value = false
-                }
 
-                override fun onResponse(
-                    call: Call<OrderListResp>,
-                    response: Response<OrderListResp>
-                ) {
-                    isLoading.value = false
-                    isloadingMore.value = false
-                    if (response.isSuccessful) {
-                        currentOrderRespObserver.value = response.body()
-                    } else {
-                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
-                    }
+        callCurrentOrders = getRetrofitBuilder().getCurrentOrders(pageIndex,userId)
+        callApi(callCurrentOrders!!,
+            onSuccess = {
+                isloadingMore.value = false
+                isLoading.value = false
+                currentOrderRespObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoading.value = false
+                isloadingMore.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
                 }
+            },
+            goLogin = {
+                isloadingMore.value = false
+                isLoading.value = false
+                needToLogin.value = true
             })
     }
-    fun getFinishOOrders(pageIndes: Int,userId:String) {
-        if (pageIndes == 1)
+    fun getFinishOOrders(pageIndex: Int,userId:String) {
+        if (pageIndex == 1)
             isLoading.value = true
         else
             isloadingMore.value = true
-        getRetrofitBuilder()
-            .getFinishedOrders(pageIndes,userId)
-            .enqueue(object : Callback<OrderListResp> {
-                override fun onFailure(call: Call<OrderListResp>, t: Throwable) {
-                    isNetworkFail.value = t !is HttpException
-                    isLoading.value = false
-                    isloadingMore.value = false
+        callFinishOOrders = getRetrofitBuilder().getFinishedOrders(pageIndex,userId)
+        callApi(callFinishOOrders!!,
+            onSuccess = {
+                isloadingMore.value = false
+                isLoading.value = false
+                currentOrderRespObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoading.value = false
+                isloadingMore.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
                 }
-
-                override fun onResponse(
-                    call: Call<OrderListResp>,
-                    response: Response<OrderListResp>
-                ) {
-                    isLoading.value = false
-                    isloadingMore.value = false
-                    if (response.isSuccessful) {
-                        currentOrderRespObserver.value = response.body()
-                    } else {
-                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
-                    }
-                }
+            },
+            goLogin = {
+                isloadingMore.value = false
+                isLoading.value = false
+                needToLogin.value = true
             })
+                
     }
     fun getCurrentOrderDetailsByMasterID(orderMasterID:Int){
         isLoading.value = true
-        getRetrofitBuilder()
-            .getOrderMasterDetailsByMasterOrderId(orderMasterID)
-            .enqueue(object : Callback<OrderDetailsByMasterIDResp> {
-                override fun onFailure(call: Call<OrderDetailsByMasterIDResp>, t: Throwable) {
-                    isNetworkFail.value = t !is HttpException
-                    isLoading.value = false
+        callCurrentOrderDetails = getRetrofitBuilder().getOrderMasterDetailsByMasterOrderId(orderMasterID)
+        callApi(callCurrentOrderDetails!!,
+            onSuccess = {
+                isLoading.value = false
+                currentOrderByMusterIdRespObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoading.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
                 }
-
-                override fun onResponse(
-                    call: Call<OrderDetailsByMasterIDResp>,
-                    response: Response<OrderDetailsByMasterIDResp>
-                ) {
-                    isLoading.value = false
-                    if (response.isSuccessful) {
-                        currentOrderByMusterIdRespObserver.value = response.body()
-                    } else {
-                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
-                    }
-                }
+            },
+            goLogin = {
+                isLoading.value = false
+                needToLogin.value = true
             })
     }
-
     fun cancelOrder(orderId: Int, status: Int) {
         isLoading.value = true
-        getRetrofitBuilder()
-            .changeOrderStatus(orderId,status)
-            .enqueue(object : Callback<GeneralResponse> {
-                override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
-                    isNetworkFailCancel.value = t !is HttpException
-                    isLoading.value = false
+        callChangeOrderStatus = getRetrofitBuilder().changeOrderStatus(orderId,status)
+        callApi(callChangeOrderStatus!!,
+            onSuccess = {
+                isLoading.value = false
+                changeOrderRespObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoading.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
                 }
-
-                override fun onResponse(
-                    call: Call<GeneralResponse>,
-                    response: Response<GeneralResponse>
-                ) {
-                    isLoading.value = false
-                    if (response.isSuccessful) {
-                        changeOrderRespObserver.value = response.body()
-                    } else {
-                        errorResponseCancelObserver.value = getErrorResponse(response.code(),response.errorBody())
-                    }
-                }
+            },
+            goLogin = {
+                isLoading.value = false
+                needToLogin.value = true
             })
     }
-
-
 }

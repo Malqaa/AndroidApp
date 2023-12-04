@@ -1,6 +1,5 @@
 package com.malka.androidappp.newPhase.presentation.myOrderDetails
 
-import android.app.PendingIntent.CanceledException
 import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
@@ -17,7 +16,6 @@ import com.malka.androidappp.newPhase.domain.models.orderDetailsByMasterID.Order
 import com.malka.androidappp.newPhase.domain.models.orderDetailsByMasterID.OrderFullInfoDto
 import com.malka.androidappp.newPhase.domain.models.orderListResp.OrderItem
 import com.malka.androidappp.newPhase.data.helper.ConstantObjects
-import com.malka.androidappp.newPhase.data.helper.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.newPhase.presentation.myOrderDetails.adapter.CurrentOrderAdapter
 import com.malka.androidappp.newPhase.presentation.accountFragment.myOrderFragment.MyOrdersViewModel
 import com.malka.androidappp.newPhase.presentation.shipmentRateActivity.ShipmentRateActivity
@@ -173,14 +171,13 @@ class MyOrderDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             if (it.totalOrderMasterAmountAfterDiscount != null) {
                 total_tv.text =
                     orderDetailsByMasterIDData.totalOrderMasterAmountAfterDiscount!!.toString()
-            } else {
-
             }
+
             if (it.totalOrderMasterAmountBeforDiscount != null) {
                 subtotal_tv.text =
-                    orderDetailsByMasterIDData.totalOrderMasterAmountBeforDiscount!!.toString()
+                    orderDetailsByMasterIDData.totalOrderMasterAmountBeforDiscount.toString()
                 total_tv.text =
-                    orderDetailsByMasterIDData.totalOrderMasterAmountBeforDiscount!!.toString()
+                    orderDetailsByMasterIDData.totalOrderMasterAmountBeforDiscount.toString()
             }
             if (it.totalOrderMasterAmountAfterDiscount != null && it.totalOrderMasterAmountBeforDiscount != null) {
                 discount_tv.text =
@@ -243,6 +240,10 @@ class MyOrderDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         )
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        myOrdersViewModel.closeAllCall()
+    }
 
 }
 

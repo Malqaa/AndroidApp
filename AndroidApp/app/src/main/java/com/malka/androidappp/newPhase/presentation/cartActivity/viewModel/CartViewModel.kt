@@ -1,26 +1,19 @@
 package com.malka.androidappp.newPhase.presentation.cartActivity.viewModel
 
 import androidx.lifecycle.MutableLiveData
-import com.google.gson.Gson
 import com.malka.androidappp.newPhase.core.BaseViewModel
 import com.malka.androidappp.newPhase.data.helper.Extension.requestBody
+import com.malka.androidappp.newPhase.data.network.callApi
 import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.addOrderResp.AddOrderResp
 import com.malka.androidappp.newPhase.domain.models.addOrderResp.ProductOrderPaymentDetailsDto
 import com.malka.androidappp.newPhase.domain.models.cartListResp.CartListResp
-import com.malka.androidappp.newPhase.domain.models.cartListResp.CartProductDetails
-import com.malka.androidappp.newPhase.domain.models.productResp.ProductListResp
-import com.malka.androidappp.newPhase.domain.models.servicemodels.AddProductResponse
 import com.malka.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
 import com.malka.androidappp.newPhase.domain.models.userAddressesResp.UserAddressesResp
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import okhttp3.ResponseBody
 import retrofit2.Call
-import retrofit2.Callback
 import retrofit2.HttpException
-import retrofit2.Response
-import retrofit2.http.Query
 
 class CartViewModel : BaseViewModel() {
 
@@ -35,82 +28,137 @@ class CartViewModel : BaseViewModel() {
     var assignCartToUserObserver: MutableLiveData<GeneralResponse> = MutableLiveData()
     var applyCouponOnCartObserver: MutableLiveData<GeneralResponse> = MutableLiveData()
     var addOrderObserver: MutableLiveData<AddOrderResp> = MutableLiveData()
-
     var paymentTransaction: MutableLiveData<GeneralResponse> = MutableLiveData()
     var deleteShipment: MutableLiveData<GeneralResponse> = MutableLiveData()
+
+
+    private var callUserAddress: Call<UserAddressesResp>? = null
+    private var callCartList: Call<CartListResp>? = null
+    private var callApplyCouponOnCartF: Call<GeneralResponse>? = null
+    private var callApplyCouponOnCart: Call<GeneralResponse>? = null
+    private var callUnApplyCouponOnCart: Call<GeneralResponse>? = null
+    private var callAssignCardToUser: Call<GeneralResponse>? = null
+    private var callDecreaseCartProductQuantity: Call<GeneralResponse>? = null
+    private var callIncreaseCartProductQuantity: Call<GeneralResponse>? = null
+    private var callRemoveProductFromCart: Call<GeneralResponse>? = null
+    private var callAddOrder: Call<AddOrderResp>? = null
+    private var callAddPaymentTransaction: Call<GeneralResponse>? = null
+    private var callDeleteShipping: Call<GeneralResponse>? = null
+
+    fun closeAllCall() {
+        if (callUserAddress != null) {
+            callUserAddress?.cancel()
+        }
+        if (callCartList != null) {
+            callCartList?.cancel()
+        }
+        if (callApplyCouponOnCartF != null) {
+            callApplyCouponOnCartF?.cancel()
+        }
+        if (callApplyCouponOnCart != null) {
+            callApplyCouponOnCart?.cancel()
+        }
+        if (callUnApplyCouponOnCart != null) {
+            callUnApplyCouponOnCart?.cancel()
+        }
+        if (callAssignCardToUser != null) {
+            callAssignCardToUser?.cancel()
+        }
+        if (callDecreaseCartProductQuantity != null) {
+            callDecreaseCartProductQuantity?.cancel()
+        }
+        if (callIncreaseCartProductQuantity != null) {
+            callIncreaseCartProductQuantity?.cancel()
+        }
+        if (callRemoveProductFromCart != null) {
+            callRemoveProductFromCart?.cancel()
+        }
+        if (callAddOrder != null) {
+            callAddOrder?.cancel()
+        }
+        if (callRemoveProductFromCart != null) {
+            callRemoveProductFromCart?.cancel()
+        }
+        if (callAddPaymentTransaction != null) {
+            callAddPaymentTransaction?.cancel()
+        }
+        if (callDeleteShipping != null) {
+            callDeleteShipping?.cancel()
+        }
+
+    }
+
     fun getUserAddress() {
         isLoadingAddresses.value = true
         getRetrofitBuilder()
             .getListAddressesForUser()
-            .enqueue(object : Callback<UserAddressesResp> {
-                override fun onFailure(call: Call<UserAddressesResp>, t: Throwable) {
-                    isLoadingAddresses.value = false
-                }
 
-                override fun onResponse(
-                    call: Call<UserAddressesResp>,
-                    response: Response<UserAddressesResp>
-                ) {
-                    isLoadingAddresses.value = false
-                    if (response.isSuccessful) {
-                        userAddressesListObserver.value = response.body()
-                    } else {
-                        errorResponseObserver.value =
-                            getErrorResponse(response.code(), response.errorBody())
-                    }
+        callUserAddress = getRetrofitBuilder().getListAddressesForUser()
+        callApi(callUserAddress!!,
+            onSuccess = {
+                isLoadingAddresses.value = false
+                userAddressesListObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoadingAddresses.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
                 }
+            },
+            goLogin = {
+                isLoadingAddresses.value = false
+                needToLogin.value = true
             })
+
     }
 
     fun getCartList(cartMasterId: String) {
         isLoading.value = true
-        getRetrofitBuilder()
-            .getListCartProductsForClient(cartMasterId)
-            .enqueue(object : Callback<CartListResp> {
-                override fun onFailure(call: Call<CartListResp>, t: Throwable) {
-                    isLoading.value = false
-                    isNetworkFail.value = t !is HttpException
+        callCartList = getRetrofitBuilder().getListCartProductsForClient(cartMasterId)
+        callApi(callCartList!!,
+            onSuccess = {
+                isLoading.value = false
+                cartListRespObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoading.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
                 }
-
-                override fun onResponse(
-                    call: Call<CartListResp>,
-                    response: Response<CartListResp>
-                ) {
-                    isLoading.value = false
-
-                    if (response.isSuccessful) {
-                        cartListRespObserver.value = response.body()
-                    }
-//                    else {
-//                        println("hhhh "+ Gson().toJson(response.errorBody()))
-//                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
-//                    }
-                }
+            },
+            goLogin = {
+                isLoading.value = false
+                needToLogin.value = true
             })
     }
 
     fun applyCouponOnCart(cartMasterId: String, couponCode: String) {
         isLoading.value = true
-        getRetrofitBuilder()
-            .applyCouponOnCart(cartMasterId, couponCode, "FixedPrice")
-            .enqueue(object : Callback<GeneralResponse> {
-                override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
-                    isLoading.value = false
-                    isNetworkFail.value = t !is HttpException
+        callApplyCouponOnCartF =
+            getRetrofitBuilder().applyCouponOnCart(cartMasterId, couponCode, "FixedPrice")
+        callApi(callApplyCouponOnCartF!!,
+            onSuccess = {
+                isLoading.value = false
+                applyCouponOnCartObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoading.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
                 }
-
-                override fun onResponse(
-                    call: Call<GeneralResponse>,
-                    response: Response<GeneralResponse>
-                ) {
-                    isLoading.value = false
-                    if (response.isSuccessful) {
-                        applyCouponOnCartObserver.value = response.body()
-                    } else {
-                        errorResponseObserver.value =
-                            getErrorResponse(response.code(), response.errorBody())
-                    }
-                }
+            },
+            goLogin = {
+                isLoading.value = false
+                needToLogin.value = true
             })
     }
 
@@ -121,33 +169,35 @@ class CartViewModel : BaseViewModel() {
         couponForbusinessAccountId: String
     ) {
         isLoading.value = true
-        val xCouponAccountId: String?
-        if (couponForbusinessAccountId == "null") {
-            xCouponAccountId = null
+        val xCouponAccountId: String? = if (couponForbusinessAccountId == "null") {
+            null
         } else {
-            xCouponAccountId = couponForbusinessAccountId
+            couponForbusinessAccountId
         }
-        getRetrofitBuilder()
-            .applyCouponOnCart(cartMasterId, couponCode, providerId, "1", xCouponAccountId)
-            .enqueue(object : Callback<GeneralResponse> {
-                override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
-                    isLoading.value = false
-                    isNetworkFail.value = t !is HttpException
+        callApplyCouponOnCart = getRetrofitBuilder().applyCouponOnCart(
+            cartMasterId,
+            couponCode,
+            providerId,
+            "1",
+            xCouponAccountId
+        )
+        callApi(callApplyCouponOnCart!!,
+            onSuccess = {
+                isLoading.value = false
+                applyCouponOnCartObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoading.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
                 }
-
-                override fun onResponse(
-                    call: Call<GeneralResponse>,
-                    response: Response<GeneralResponse>
-                ) {
-                    isLoading.value = false
-
-                    if (response.isSuccessful) {
-                        applyCouponOnCartObserver.value = response.body()
-                    } else {
-                        errorResponseObserver.value =
-                            getErrorResponse(response.code(), response.errorBody())
-                    }
-                }
+            },
+            goLogin = {
+                isLoading.value = false
+                needToLogin.value = true
             })
     }
 
@@ -158,138 +208,135 @@ class CartViewModel : BaseViewModel() {
         couponForbusinessAccountId: String
     ) {
         isLoading.value = true
-        val xCouponAccountId: String?
-        if (couponForbusinessAccountId == "null") {
-            xCouponAccountId = null
+        val xCouponAccountId: String? = if (couponForbusinessAccountId == "null") {
+            null
         } else {
-            xCouponAccountId = couponForbusinessAccountId
+            couponForbusinessAccountId
         }
-        getRetrofitBuilder()
-            .unApplyCouponOnCart(cartMasterId, couponCode, providerId, "1", xCouponAccountId)
-            .enqueue(object : Callback<GeneralResponse> {
-                override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
-                    isLoading.value = false
-                    isNetworkFail.value = t !is HttpException
+        callUnApplyCouponOnCart = getRetrofitBuilder().unApplyCouponOnCart(
+            cartMasterId,
+            couponCode,
+            providerId,
+            "1",
+            xCouponAccountId
+        )
+        callApi(callUnApplyCouponOnCart!!,
+            onSuccess = {
+                isLoading.value = false
+                applyCouponOnCartObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoading.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
                 }
-
-                override fun onResponse(
-                    call: Call<GeneralResponse>,
-                    response: Response<GeneralResponse>
-                ) {
-                    isLoading.value = false
-
-                    if (response.isSuccessful) {
-                        applyCouponOnCartObserver.value = response.body()
-                    } else {
-                        errorResponseObserver.value =
-                            getErrorResponse(response.code(), response.errorBody())
-                    }
-                }
+            },
+            goLogin = {
+                isLoading.value = false
+                needToLogin.value = true
             })
     }
 
 
     fun assignCardToUser(masterCartId: String) {
         isLoadingAssignCartToUser.value = true
-        getRetrofitBuilder()
-            .assignCartMastetToUser(masterCartId)
-            .enqueue(object : Callback<GeneralResponse> {
-                override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
-                    isLoadingAssignCartToUser.value = false
-                    isNetworkFail.value = t !is HttpException
+        callAssignCardToUser = getRetrofitBuilder().assignCartMastetToUser(masterCartId)
+        callApi(callAssignCardToUser!!,
+            onSuccess = {
+                isLoadingAssignCartToUser.value = false
+                assignCartToUserObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoadingAssignCartToUser.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
                 }
-
-                override fun onResponse(
-                    call: Call<GeneralResponse>,
-                    response: Response<GeneralResponse>
-                ) {
-                    isLoadingAssignCartToUser.value = false
-
-                    if (response.isSuccessful) {
-                        assignCartToUserObserver.value = response.body()
-                    }
-//                    else {
-//                        println("hhhh "+ Gson().toJson(response.errorBody()))
-//                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
-//                    }
-                }
+            },
+            goLogin = {
+                isLoadingAssignCartToUser.value = false
+                needToLogin.value = true
             })
     }
 
 
     fun increaseCartProductQuantity(productCartId: String) {
         isLoading.value = true
-        getRetrofitBuilder()
-            .increaseCartProductQuantity(productCartId, "1")
-            .enqueue(object : Callback<GeneralResponse> {
-                override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
-                    isLoading.value = false
-                    isNetworkFail.value = t !is HttpException
+        callIncreaseCartProductQuantity =
+            getRetrofitBuilder().increaseCartProductQuantity(productCartId, "1")
+        callApi(callIncreaseCartProductQuantity!!,
+            onSuccess = {
+                isLoading.value = false
+                increaseCartProductQuantityObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoading.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
                 }
-
-                override fun onResponse(
-                    call: Call<GeneralResponse>,
-                    response: Response<GeneralResponse>
-                ) {
-                    isLoading.value = false
-                    if (response.isSuccessful) {
-                        increaseCartProductQuantityObserver.value = response.body()
-                    } else {
-                        errorResponseObserver.value =
-                            getErrorResponse(response.code(), response.errorBody())
-                    }
-                }
+            },
+            goLogin = {
+                isLoading.value = false
+                needToLogin.value = true
             })
     }
 
     fun decreaseCartProductQuantity(productCartId: String) {
         isLoading.value = true
-        getRetrofitBuilder()
-            .decreaseCartProductQuantity(productCartId, "1")
-            .enqueue(object : Callback<GeneralResponse> {
-                override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
-                    isLoading.value = false
-                    isNetworkFail.value = t !is HttpException
+        callDecreaseCartProductQuantity =
+            getRetrofitBuilder().decreaseCartProductQuantity(productCartId, "1")
+        callApi(callDecreaseCartProductQuantity!!,
+            onSuccess = {
+                isLoading.value = false
+                decreaseCartProductQuantityObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoading.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
                 }
-
-                override fun onResponse(
-                    call: Call<GeneralResponse>,
-                    response: Response<GeneralResponse>
-                ) {
-                    isLoading.value = false
-                    if (response.isSuccessful) {
-                        decreaseCartProductQuantityObserver.value = response.body()
-                    } else {
-                        errorResponseObserver.value =
-                            getErrorResponse(response.code(), response.errorBody())
-                    }
-                }
+            },
+            goLogin = {
+                isLoading.value = false
+                needToLogin.value = true
             })
+
     }
 
     fun removeProductFromCartProducts(productCartId: String) {
         isLoading.value = true
-        getRetrofitBuilder()
-            .removeProductFromCartProducts(productCartId)
-            .enqueue(object : Callback<GeneralResponse> {
-                override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
-                    isLoading.value = false
-                    isNetworkFail.value = t !is HttpException
+        callRemoveProductFromCart =
+            getRetrofitBuilder().removeProductFromCartProducts(productCartId)
+        callApi(callRemoveProductFromCart!!,
+            onSuccess = {
+                isLoading.value = false
+                removeProductFromCartProductsObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoading.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
                 }
-
-                override fun onResponse(
-                    call: Call<GeneralResponse>,
-                    response: Response<GeneralResponse>
-                ) {
-                    isLoading.value = false
-                    if (response.isSuccessful) {
-                        removeProductFromCartProductsObserver.value = response.body()
-                    } else {
-                        errorResponseObserver.value =
-                            getErrorResponse(response.code(), response.errorBody())
-                    }
-                }
+            },
+            goLogin = {
+                isLoading.value = false
+                needToLogin.value = true
             })
+
     }
 
 
@@ -315,27 +362,26 @@ class CartViewModel : BaseViewModel() {
 
 
         isLoading.value = true
-        getRetrofitBuilder()
-            .addOrder(map, paymentList)
-            .enqueue(object : Callback<AddOrderResp> {
-                override fun onFailure(call: Call<AddOrderResp>, t: Throwable) {
-                    isLoading.value = false
-                    isNetworkFail.value = t !is HttpException
+        callAddOrder = getRetrofitBuilder().addOrder(map, paymentList)
+        callApi(callAddOrder!!,
+            onSuccess = {
+                isLoading.value = false
+                addOrderObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoading.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
                 }
-
-                override fun onResponse(
-                    call: Call<AddOrderResp>,
-                    response: Response<AddOrderResp>
-                ) {
-                    isLoading.value = false
-                    if (response.isSuccessful) {
-                        addOrderObserver.value = response.body()
-                    } else {
-                        errorResponseObserver.value =
-                            getErrorResponse(response.code(), response.errorBody())
-                    }
-                }
+            },
+            goLogin = {
+                isLoading.value = false
+                needToLogin.value = true
             })
+
     }
 
     fun addPaymentTransaction(
@@ -347,7 +393,6 @@ class CartViewModel : BaseViewModel() {
         delivery: String,
         productOrderPaymentList: List<ProductOrderPaymentDetailsDto>
     ) {
-
         val data: HashMap<String, Any> = HashMap()
         data["checkOutPaymentFor"] = 1
         data["orderOrPakatId"] = 1
@@ -358,51 +403,52 @@ class CartViewModel : BaseViewModel() {
         data["productOrderPaymentDetailsDto"] = productOrderPaymentList
 
         isLoading.value = true
-        getRetrofitBuilder()
-            .addPaymentTransaction(data
-            )
-            .enqueue(object : Callback<GeneralResponse> {
-                override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
-                    isLoading.value = false
-                    isNetworkFail.value = t !is HttpException
+        callAddPaymentTransaction = getRetrofitBuilder().addPaymentTransaction(data)
+        callApi(callAddPaymentTransaction!!,
+            onSuccess = {
+                isLoading.value = false
+                paymentTransaction.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoading.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
                 }
-
-                override fun onResponse(
-                    call: Call<GeneralResponse>,
-                    response: Response<GeneralResponse>
-                ) {
-                    isLoading.value = false
-                    if (response.isSuccessful) {
-                        paymentTransaction.value = response.body()
-                    } else {
-                        errorResponseObserver.value =
-                            getErrorResponse(response.code(), response.errorBody())
-                    }
-                }
+            },
+            goLogin = {
+                isLoading.value = false
+                needToLogin.value = true
             })
+
     }
-    fun deleteShipping(businessAccountId: String?,cartMasterId:String,providerId:String) {
+
+    fun deleteShipping(businessAccountId: String?, cartMasterId: String, providerId: String) {
         isLoading.value = true
-        getRetrofitBuilder()
-
-            .removeShipmentProductsFromCart(businessAccountId,cartMasterId,providerId)
-            .enqueue(object : Callback<GeneralResponse> {
-                override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
-                    isNetworkFail.value = t !is HttpException
-                    isLoading.value = false
+        callDeleteShipping = getRetrofitBuilder().removeShipmentProductsFromCart(
+            businessAccountId,
+            cartMasterId,
+            providerId
+        )
+        callApi(callDeleteShipping!!,
+            onSuccess = {
+                isLoading.value = false
+                deleteShipment.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoading.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
                 }
-
-                override fun onResponse(
-                    call: Call<GeneralResponse>,
-                    response: Response<GeneralResponse>
-                ) {
-                    isLoading.value = false
-                    if (response.isSuccessful) {
-                        deleteShipment.value = response.body()
-                    } else {
-                        errorResponseObserver.value = getErrorResponse(response.code(),response.errorBody())
-                    }
-                }
+            },
+            goLogin = {
+                isLoading.value = false
+                needToLogin.value = true
             })
     }
 

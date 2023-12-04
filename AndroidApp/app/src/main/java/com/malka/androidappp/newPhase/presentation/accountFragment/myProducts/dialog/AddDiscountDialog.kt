@@ -90,13 +90,13 @@ class AddDiscountDialog(
                     context
                 )
             } else {
-                var finaldate = HelpFunctions.getFormattedDate2(
+                val finalDate = HelpFunctions.getFormattedDate2(
                     dateString,
                     HelpFunctions.datetimeformat_hrs,
                     HelpFunctions.datetimeformat_hrs
                 )
-                var newPrice = etPriceDiscound.text.trim().toString().toFloat()
-                setonClickListeners.onAddDiscount(finaldate, newPrice)
+                val newPrice = etPriceDiscound.text.trim().toString().toFloat()
+                setonClickListeners.onAddDiscount(finalDate, newPrice)
                 dismiss()
             }
         }

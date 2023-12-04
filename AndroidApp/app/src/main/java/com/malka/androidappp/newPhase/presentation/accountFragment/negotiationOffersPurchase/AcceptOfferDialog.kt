@@ -30,7 +30,7 @@ class AcceptOfferDialog(
     var listener: SetClickListeners
 ) : BaseDialog(context) {
     var countriesCallback: Call<ConfigurationResp>? = null
-    var acceptRejectOfferCallBack: Call<GeneralResponse>? = null
+    private var acceptRejectOfferCallBack: Call<GeneralResponse>? = null
     var configurationResp: ConfigurationResp? = null
     var generalResponse: GeneralResponse? = null
     private lateinit var expireHoursList: ArrayList<Float>
@@ -44,22 +44,21 @@ class AcceptOfferDialog(
     override fun isCancelable(): Boolean = true
     override fun isLoadingDialog(): Boolean = false
     override fun initialization() {
-        println("hhhh "+"offer if " +offerID+ " "+ productId)
         if (accept) {
-            spTHours.visibility=View.VISIBLE
-            txtTHours.visibility=View.VISIBLE
+            spTHours.visibility = View.VISIBLE
+            txtTHours.visibility = View.VISIBLE
             tvAcceptAndRejectTitle.text = context.getString(R.string.acceptNegotiationsOffers)
-            btnSend.text=context.getString(R.string.accept)
+            btnSend.text = context.getString(R.string.accept)
             contianerRefuseReason.hide()
         } else {
-            spTHours.visibility=View.GONE
-            txtTHours.visibility=View.GONE
-            btnSend.text=context.getString(R.string.reject)
+            spTHours.visibility = View.GONE
+            txtTHours.visibility = View.GONE
+            btnSend.text = context.getString(R.string.reject)
             tvAcceptAndRejectTitle.text = context.getString(R.string.rejectNegotiationsOffers)
             contianerRefuseReason.show()
         }
         setSpinnerExpireHoursAdapter()
-        setOnClickListenres()
+        setOnClickListeners()
         getExpireHourse()
     }
 
@@ -82,7 +81,7 @@ class AcceptOfferDialog(
         }
     }
 
-    private fun setOnClickListenres() {
+    private fun setOnClickListeners() {
         close_alert_bid.setOnClickListener {
             dismiss()
         }
@@ -124,9 +123,7 @@ class AcceptOfferDialog(
                 progressBar.visibility = View.GONE
                 btnSend.isEnabled = true
                 close_alert_bid.isEnabled = true
-                if (call.isCanceled) {
-
-                } else if (t is HttpException) {
+                if (t is HttpException) {
                     HelpFunctions.ShowLongToast(context.getString(R.string.serverError), context)
 
                 } else {
@@ -151,7 +148,7 @@ class AcceptOfferDialog(
                             if (configurationResp?.status_code == 200) {
                                 try {
                                     //  println("hhhh "+Gson().toJson( configurationResp?.configurationData))
-                                    var result: List<Float>? =
+                                    val result: List<Float>? =
                                         configurationResp?.configurationData?.configValue?.split(",")
                                             ?.map { it.trim().toFloat() }
                                     result?.let { it1 ->
@@ -177,7 +174,7 @@ class AcceptOfferDialog(
         })
     }
 
-    fun getAcceptRejectOffer() {
+    private fun getAcceptRejectOffer() {
         close_alert_bid.isEnabled = false
         btnSend.isEnabled = false
 //        var data: HashMap<String, Any> = HashMap()
@@ -198,9 +195,7 @@ class AcceptOfferDialog(
                 progressBar.visibility = View.GONE
                 btnSend.isEnabled = true
                 close_alert_bid.isEnabled = true
-                if (call.isCanceled) {
-
-                } else if (t is HttpException) {
+                if (t is HttpException) {
                     HelpFunctions.ShowLongToast(context.getString(R.string.serverError), context)
 
                 } else {
@@ -225,7 +220,7 @@ class AcceptOfferDialog(
                             if (generalResponse?.status_code == 200) {
                                 listener.setOnSuccessListeners(offerID, position, accept)
                                 dismiss()
-                            }else{
+                            } else {
                                 HelpFunctions.ShowLongToast(
                                     generalResponse?.message.toString(),
                                     context

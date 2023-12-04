@@ -15,11 +15,7 @@ class CategorySearchFilterSpinnerAdapter (
     var context: Context,
     var categories: List<CategoriesSearchItem>,
 ) : BaseAdapter() {
-    var layoutInflater: LayoutInflater
-
-    init {
-        layoutInflater = LayoutInflater.from(context)
-    }
+    var layoutInflater: LayoutInflater = LayoutInflater.from(context)
 
     override fun getCount(): Int {
         return categories.size

@@ -1,40 +1,33 @@
 package com.malka.androidappp.newPhase.presentation.signup.signupViewModel
 
-import android.content.Context
-import android.net.Uri
+
 import androidx.lifecycle.MutableLiveData
-import com.google.gson.Gson
 import com.malka.androidappp.newPhase.core.BaseViewModel
 import com.malka.androidappp.newPhase.data.helper.Extension.requestBody
 import com.malka.androidappp.newPhase.data.network.callApi
 import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
+import com.malka.androidappp.newPhase.domain.models.countryResp.CountriesResp
 import com.malka.androidappp.newPhase.domain.models.resgisterResp.RegisterResp
 import com.malka.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.UserVerifiedResp
 import com.malka.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.ValidateAndGenerateOTPResp
-import okhttp3.MediaType
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
+import com.malka.androidappp.newPhase.presentation.utils.ConstantsHelper.getMultiPart
 import retrofit2.Call
-import retrofit2.Callback
 import retrofit2.HttpException
-import retrofit2.Response
-import retrofit2.http.Query
 import java.io.File
-import java.io.FileInputStream
-import java.io.InputStream
 
 
 class SignupViewModel : BaseViewModel() {
-
-
     var validateAndGenerateOTPObserver: MutableLiveData<ValidateAndGenerateOTPResp> =
         MutableLiveData()
     var userVerifiedObserver: MutableLiveData<UserVerifiedResp> = MutableLiveData()
     var registerRespObserver: MutableLiveData<RegisterResp> = MutableLiveData()
+    var countryResp: MutableLiveData<CountriesResp> = MutableLiveData()
 
+
+    private var callCreate: Call<RegisterResp>? = null
+    private var callVerify: Call<ValidateAndGenerateOTPResp>? = null
+    private var callResend: Call<ValidateAndGenerateOTPResp>? = null
+    private var callVerifyOtp: Call<UserVerifiedResp>? = null
     fun validateUserAndGenerateOTP(
         userName: String,
         email: String,
@@ -42,80 +35,75 @@ class SignupViewModel : BaseViewModel() {
         language: String
     ) {
         isLoading.value = true
-        println("hhh $userName $email $fullNumberWithPlus $language")
-        getRetrofitBuilder()
-            .validateUserAndGenerateOtp(userName, email, fullNumberWithPlus)
-            .enqueue(object : Callback<ValidateAndGenerateOTPResp> {
-                override fun onResponse(
-                    call: Call<ValidateAndGenerateOTPResp>,
-                    response: Response<ValidateAndGenerateOTPResp>
-                ) {
-
-                    if (response.isSuccessful) {
-                        val data: ValidateAndGenerateOTPResp? = response.body()
-                        validateAndGenerateOTPObserver.value = response.body()
-                    } else {
-
-                        errorResponseObserver.value =
-                            getErrorResponse(response.code(), response.errorBody())
-                    }
-                    isLoading.value = false
+        callVerify = getRetrofitBuilder().validateUserAndGenerateOtp(
+            userName,
+            email,
+            fullNumberWithPlus
+        )
+        callApi(callVerify!!,
+            onSuccess = {
+                isLoading.value = false
+                validateAndGenerateOTPObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoading.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
                 }
-
-                override fun onFailure(call: Call<ValidateAndGenerateOTPResp>, t: Throwable) {
-                    isNetworkFail.value = t !is HttpException
-                    isLoading.value = false
-                }
+            },
+            goLogin = {
+                isLoading.value = false
+                needToLogin.value = true
             })
-
     }
 
 
     fun resendOtp(userPhone: String, language: String, otpType: String) {
         isLoading.value = true
-        getRetrofitBuilder()
-            .resendOtp(userPhone, otpType, language)
-            .enqueue(object : Callback<ValidateAndGenerateOTPResp> {
-                override fun onResponse(
-                    call: Call<ValidateAndGenerateOTPResp>,
-                    response: Response<ValidateAndGenerateOTPResp>
-                ) {
-                    if (response.isSuccessful) {
-                        validateAndGenerateOTPObserver.value = response.body()
-                    } else {
-                        errorResponseObserver.value =
-                            getErrorResponse(response.code(), response.errorBody())
-                    }
-                    isLoading.value = false
+        callResend = getRetrofitBuilder().resendOtp(userPhone, otpType, language)
+        callApi(callResend!!,
+            onSuccess = {
+                isLoading.value = false
+                validateAndGenerateOTPObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoading.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
                 }
-
-                override fun onFailure(call: Call<ValidateAndGenerateOTPResp>, t: Throwable) {
-                    isNetworkFail.value = t !is HttpException
-                    isLoading.value = false
-                }
+            },
+            goLogin = {
+                isLoading.value = false
+                needToLogin.value = true
             })
     }
 
     fun verifyOtp(userPhone: String, otpCode: String) {
         isLoading.value = true
-        getRetrofitBuilder()
-            .verifyOtp(userPhone, otpCode).enqueue(object : Callback<UserVerifiedResp> {
-                override fun onResponse(
-                    call: Call<UserVerifiedResp>, response: Response<UserVerifiedResp>
-                ) {
-                    if (response.isSuccessful) {
-                        userVerifiedObserver.value = response.body()
-                    } else {
-                        errorResponseObserver.value =
-                            getErrorResponse(response.code(), response.errorBody())
-                    }
-                    isLoading.value = false
+        callVerifyOtp = getRetrofitBuilder().verifyOtp(userPhone, otpCode)
+        callApi(callVerifyOtp!!,
+            onSuccess = {
+                isLoading.value = false
+                userVerifiedObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoading.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
                 }
-
-                override fun onFailure(call: Call<UserVerifiedResp>, t: Throwable) {
-                    isNetworkFail.value = t !is HttpException
-                    isLoading.value = false
-                }
+            },
+            goLogin = {
+                isLoading.value = false
+                needToLogin.value = true
             })
     }
 
@@ -126,7 +114,7 @@ class SignupViewModel : BaseViewModel() {
         userPass: String,
         invitationCode: String,
         firstName: String,
-        editTextlastname: String,
+        editTextLastname: String,
         date: String,
         gender_: String,
         selectedCountryId: String,
@@ -140,38 +128,11 @@ class SignupViewModel : BaseViewModel() {
         projectName: String,
         deviceType: String,
         deviceId: String,
-        file: File?,
-        context: Context
+        file: File?
     ) {
         isLoading.value = true
-        var multipartBody: MultipartBody.Part? = null
-        file?.let { file ->
-            var requestbody: RequestBody = file.asRequestBody("image/*".toMediaTypeOrNull())
-            multipartBody = MultipartBody.Part.createFormData("imgProfile", file.name, requestbody)
-        }
-
-//        imageUri?.let {
-//            val file = File(imageUri.path)
-//            //===="application/octet-stream"
-//            requestFile = file.asRequestBody("application/binary".toMediaTypeOrNull())
-//            body = MultipartBody.Part.createFormData("image", file.name, requestFile!!)
-//        }
-//        imageUri?.let {
-//            try {
-//                val file = File(imageUri.path)
-//                val `in`: InputStream = FileInputStream(file)
-//                val buf: ByteArray
-//                buf = ByteArray(`in`.available())
-//                while (`in`.read(buf) !== -1);
-//                requestFile = buf.toRequestBody("application/octet-stream".toMediaTypeOrNull())
-//            } catch (e: java.lang.Exception) {
-//            }
-//        }
-
-
-
-
-        getRetrofitBuilder()
+        val multipartBody = getMultiPart(file, "image/*", "imgProfile")
+        callCreate = getRetrofitBuilder()
             .createUser2(
                 userName.requestBody(),
                 phoneNumber.requestBody(),
@@ -179,7 +140,7 @@ class SignupViewModel : BaseViewModel() {
                 userPass.requestBody(),
                 invitationCode.requestBody(),
                 firstName.requestBody(),
-                editTextlastname.requestBody(),
+                editTextLastname.requestBody(),
                 date.requestBody(),
                 gender_.requestBody(),
                 selectedCountryId.requestBody(),
@@ -194,24 +155,40 @@ class SignupViewModel : BaseViewModel() {
                 deviceType.requestBody(),
                 deviceId.requestBody(),
                 multipartBody
-            ).enqueue(object : Callback<RegisterResp> {
-                override fun onResponse(
-                    call: Call<RegisterResp>, response: Response<RegisterResp>
-                ) {
-                    if (response.isSuccessful) {
-                        registerRespObserver.value = response.body()
-                    } else {
-                        errorResponseObserver.value =
-                            getErrorResponse(response.code(), response.errorBody())
-                    }
-                    isLoading.value = false
+            )
+        callApi(callCreate!!,
+            onSuccess = {
+                isLoading.value = false
+                registerRespObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoading.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
                 }
-
-                override fun onFailure(call: Call<RegisterResp>, t: Throwable) {
-                    isNetworkFail.value = t !is HttpException
-                    isLoading.value = false
-                }
+            },
+            goLogin = {
+                isLoading.value = false
+                needToLogin.value = true
             })
     }
 
+    fun closeAllCall() {
+        if (callVerify != null) {
+            callVerify?.cancel()
+        }
+        if (callVerifyOtp != null) {
+            callVerifyOtp?.cancel()
+        }
+        if (callCreate != null) {
+            callCreate?.cancel()
+        }
+        if (callResend != null) {
+            callResend?.cancel()
+        }
+
+    }
 }

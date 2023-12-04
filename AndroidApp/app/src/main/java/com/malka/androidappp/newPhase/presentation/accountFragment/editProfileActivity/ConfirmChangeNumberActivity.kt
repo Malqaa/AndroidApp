@@ -8,7 +8,6 @@ import android.view.View
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.malka.androidappp.BuildConfig
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.newPhase.data.helper.ConstantObjects
@@ -26,8 +25,7 @@ import kotlinx.android.synthetic.main.activity_forgot_pass_otpcode.txtDontReceiv
 import kotlinx.android.synthetic.main.toolbar_main.*
 
 class ConfirmChangeNumberActivity : BaseActivity() {
-
-
+    private var countDownTimer: CountDownTimer? = null
     private var START_TIME_IN_MILLIS: Long = 60000
     lateinit var countdownTimer: TextView
     private var mTimeLeftInMillis = START_TIME_IN_MILLIS
@@ -47,9 +45,8 @@ class ConfirmChangeNumberActivity : BaseActivity() {
         resend_btn.hide()
         /***thisForTest*/
 //        if (BuildConfig.DEBUG) {
-        val datacode: String? = otpData?.otpCode
-//            // println("hhh $datacode")
-        pinview.value = datacode ?: ""
+        val dataCode: String? = otpData?.otpCode
+        pinview.value = dataCode ?: ""
 //        }
         accountViewModel.getConfigurationResp(ConstantObjects.configration_otpExpiryTime)
         accountViewModel.getConfigurationResp(ConstantObjects.Configuration_DidNotReceiveCodeTime)
@@ -59,21 +56,17 @@ class ConfirmChangeNumberActivity : BaseActivity() {
     private fun setupRegisterViewModel() {
         accountViewModel = ViewModelProvider(this).get(AccountViewModel::class.java)
         accountViewModel.isLoading.observe(this, Observer {
-            if (it)
-                HelpFunctions.startProgressBar(this)
-            else
-                HelpFunctions.dismissProgressBar()
+            if (it) HelpFunctions.startProgressBar(this)
+            else HelpFunctions.dismissProgressBar()
         })
         accountViewModel.isNetworkFail.observe(this, Observer {
             if (it) {
                 HelpFunctions.ShowLongToast(
-                    getString(R.string.connectionError),
-                    this
+                    getString(R.string.connectionError), this
                 )
             } else {
                 HelpFunctions.ShowLongToast(
-                    getString(R.string.serverError),
-                    this
+                    getString(R.string.serverError), this
                 )
             }
 
@@ -110,13 +103,11 @@ class ConfirmChangeNumberActivity : BaseActivity() {
                 else -> {
                     if (it.message != null) {
                         HelpFunctions.ShowLongToast(
-                            it.message!!,
-                            this
+                            it.message!!, this
                         )
                     } else {
                         HelpFunctions.ShowLongToast(
-                            getString(R.string.serverError),
-                            this
+                            getString(R.string.serverError), this
                         )
                     }
                 }
@@ -126,45 +117,39 @@ class ConfirmChangeNumberActivity : BaseActivity() {
         })
         accountViewModel.validateAndGenerateOTPObserver.observe(this) { validateUserAndGenerateOTP ->
             if (validateUserAndGenerateOTP.otpData != null) {
-                if (typeClick == 1)
-                    startTimeCounter(expireMinutes)
+                if (typeClick == 1) startTimeCounter(expireMinutes)
                 button3.isEnabled = true
                 /***thisForTest*/
-                val otppcode = validateUserAndGenerateOTP.otpData!!.otpCode
-//                if (BuildConfig.DEBUG) {
-                pinview.value = otppcode
-//                }
+                val otpCode = validateUserAndGenerateOTP.otpData!!.otpCode
+                pinview.value = otpCode
+
             } else {
                 HelpFunctions.ShowLongToast(
-                    getString(R.string.serverError),
-                    this
+                    getString(R.string.serverError), this
                 )
             }
         }
-        accountViewModel.configurationRespObserver.observe(this) { configratinoResp ->
-            if (configratinoResp.configurationData != null) {
+        accountViewModel.configurationRespObserver.observe(this) {
+            if (it.configurationData != null) {
                 try {
-                    expireMinutes = configratinoResp.configurationData.configValue.toInt()
+                    expireMinutes = it.configurationData.configValue.toInt()
                 } catch (e: Exception) {
                 }
-                if (typeClick == 1)
-                    startTimeCounter(expireMinutes)
+                if (typeClick == 1) startTimeCounter(expireMinutes)
             }
         }
-
-
-        accountViewModel.configurationRespDidNotReceive.observe(this) { configratinoResp ->
-            if (configratinoResp.configurationData != null) {
+        accountViewModel.configurationRespDidNotReceive.observe(this) {
+            if (it.configurationData != null) {
                 try {
-                    expireReceiveMinutes = configratinoResp.configurationData.configValue.toInt()
+                    expireReceiveMinutes = it.configurationData.configValue.toInt()
                 } catch (e: Exception) {
                 }
             }
         }
 
-        accountViewModel.updateUserMobielNumberObserver.observe(this) { resp ->
-            if (resp.status == "Success") {
-                var userData =
+        accountViewModel.updateUserMobielNumberObserver.observe(this) {
+            if (it.status == "Success") {
+                val userData =
                     Paper.book().read<LoginUser>(SharedPreferencesStaticClass.user_object)
                 userData?.phone = otpData?.phoneNumber
                 userData?.let { userData ->
@@ -173,11 +158,10 @@ class ConfirmChangeNumberActivity : BaseActivity() {
                 }
                 ConstantObjects.userobj = userData
                 HelpFunctions.ShowLongToast(
-                    getString(R.string.phoneUpdatedSuccessfully),
-                    this
+                    getString(R.string.phoneUpdatedSuccessfully), this
                 )
 
-                var intent = Intent()
+                val intent = Intent()
                 setResult(Activity.RESULT_OK, intent);
                 finish()
 
@@ -186,29 +170,25 @@ class ConfirmChangeNumberActivity : BaseActivity() {
     }
 
     /**clickEvents*/
-    fun startTimeCounter(expireMinutes: Int) {
-        var expireSeconds = expireMinutes * 60
-        var expireMilliSeconds = expireSeconds * 1000
-        object : CountDownTimer(expireMilliSeconds.toLong(), 1000) {
+    private fun startTimeCounter(expireMinutes: Int) {
+        val expireSeconds = expireMinutes * 60
+        val expireMilliSeconds = expireSeconds * 1000
+        countDownTimer = object : CountDownTimer(expireMilliSeconds.toLong(), 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 resend_btn.hide()
                 mTimeLeftInMillis = millisUntilFinished
                 var seconds = (mTimeLeftInMillis / 1000).toInt()
                 val minutes = seconds / 60
                 seconds %= 60
-                var timeText = (String.format("%02d", minutes) + ":" + String.format(
-                    "%02d",
-                    seconds
-                )).toString()
+                val timeText = (String.format("%02d", minutes) + ":" + String.format(
+                    "%02d", seconds
+                ))
                 val timeReceive = "${String.format("%02d", expireReceiveMinutes)}:00"
                 if (timeText == timeReceive) {
                     resend_btn.hide()
                     txtDontReceive.show()
                 }
                 countdownTimer.text = "${getString(R.string.Seconds2)}: $timeText"
-
-//                val seconds = (mTimeLeftInMillis / 1000).toInt() % 60
-//                countdownTimer.text = getString(R.string.Seconds, seconds)
 
             }
 
@@ -228,17 +208,14 @@ class ConfirmChangeNumberActivity : BaseActivity() {
         resend_btn.setOnClickListener {
             if (mTimeLeftInMillis >= 1000) {
                 HelpFunctions.ShowLongToast(
-                    getString(R.string.Pleasewaituntilthecodeexpires),
-                    applicationContext
+                    getString(R.string.Pleasewaituntilthecodeexpires), applicationContext
                 )
             } else {
                 typeClick = 1
                 txtDontReceive.hide()
                 val userPhone: String? = otpData?.phoneNumber
                 accountViewModel.resendOtp(
-                    userPhone.toString(),
-                    "IndividualUpdateMoileNumber",
-                    "3"
+                    userPhone.toString(), "IndividualUpdateMoileNumber", "3"
                 )
                 //resendOTPApi()
             }
@@ -249,17 +226,15 @@ class ConfirmChangeNumberActivity : BaseActivity() {
             typeClick = 2
             val userPhone: String? = otpData?.phoneNumber
             accountViewModel.resendOtp(
-                userPhone.toString(),
-                "IndividualUpdateMoileNumber",
-                "3"
+                userPhone.toString(), "IndividualUpdateMoileNumber", "3"
             )
         }
     }
 
     /***/
     private fun validatePin(): Boolean {
-        val inputtt = pinview.value
-        return if (inputtt.length != 4) {
+        val input = pinview.value
+        return if (input.length != 4) {
             redmessage.visibility = View.VISIBLE
             redmessage.text = getString(R.string.Fieldcantbeempty)
             false
@@ -275,11 +250,9 @@ class ConfirmChangeNumberActivity : BaseActivity() {
             return
         } else {
             //apicallSignup2()
-            val otpcode: String? = pinview.value
-            accountViewModel.upddateMobileNumber(
-                otpData?.phoneNumber.toString(),
-                ConstantObjects.logged_userid,
-                otpcode.toString()
+            val otpCode: String? = pinview.value
+            accountViewModel.updateMobileNumber(
+                otpData?.phoneNumber.toString(), ConstantObjects.logged_userid, otpCode.toString()
             )
         }
     }
@@ -287,5 +260,11 @@ class ConfirmChangeNumberActivity : BaseActivity() {
     override fun finish() {
         super.finish()
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        countDownTimer =null
+        accountViewModel.closeAllCall()
     }
 }

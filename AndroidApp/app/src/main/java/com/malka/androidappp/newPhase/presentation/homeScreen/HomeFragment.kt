@@ -41,7 +41,6 @@ import com.malka.androidappp.newPhase.presentation.productDetailsActivity.Produc
 import com.malka.androidappp.newPhase.presentation.searchActivity.SearchActivity
 import com.malka.androidappp.newPhase.presentation.splashActivity.SplashActivity
 import com.yariksoffice.lingver.Lingver
-import kotlinx.android.synthetic.main.activity_search.saveSearch
 import kotlinx.android.synthetic.main.activity_sign_in.language_toggle
 import kotlinx.android.synthetic.main.fragment_homee.*
 import kotlinx.coroutines.Dispatchers
@@ -53,27 +52,27 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
     SwipeRefreshLayout.OnRefreshListener, SetOnProductItemListeners,
     CategoryProductAdapter.SetOnSelectedProductInCategory {
     private var dotscount = 0
-    var dots: ArrayList<ImageView> = arrayListOf()
-    var slider_home_: AutoScrollViewPager? = null
+    private var dots: ArrayList<ImageView> = arrayListOf()
+//    var slider_home_: AutoScrollViewPager? = null
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var lastviewedPorductAdatper: ProductHorizontalAdapter
-    lateinit var lastviewedPorductList: ArrayList<Product>
+    private lateinit var lastviewedPorductList: ArrayList<Product>
 
     //===== 1 added from product in category  , 2 added from product in category
-    val added_from_product_in_category = 1
-    val added_from_last_product_view = 2
-    var status_product_added_to_fav_from = 0
-    var added_product_id_to_fav = 0
-    var selected_category_product_added_to_fav = 0
+    private val added_from_product_in_category = 1
+    private val added_from_last_product_view = 2
+    private var status_product_added_to_fav_from = 0
+    private var added_product_id_to_fav = 0
+    private var selected_category_product_added_to_fav = 0
 
     lateinit var categoryProductHomeList: ArrayList<CategoryProductItem>
     lateinit var categoryPrductAdapter: CategoryProductAdapter
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         settingUpView()
-        setListenser()
+        setListener()
         setupLastViewedPorductsAdapter()
-        setUpCategoryProductAdapetr()
+        setUpCategoryProductAdapter()
         setupLoginViewModel()
 
 
@@ -128,7 +127,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
 
     }
 
-    private fun setUpCategoryProductAdapetr() {
+    private fun setUpCategoryProductAdapter() {
         categoryProductHomeList = ArrayList()
         categoryPrductAdapter = CategoryProductAdapter(categoryProductHomeList, this)
         dynamic_product_rcv.apply {
@@ -201,7 +200,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
           // println("hhhh "+Gson().toJson(searchResp))
             if (searchResp != null) {
                 if (searchResp.status_code == 200) {
-                    var list: ArrayList<Product> = Gson().fromJson(
+                    val list: ArrayList<Product> = Gson().fromJson(
                         Gson().toJson(searchResp.data),
                         object : TypeToken<ArrayList<Product>>() {}.type
                     )
@@ -344,15 +343,10 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
                                         }
                                     }
                                 } catch (e: Exception) {
-                                    //println("hhh "+e.message)
                                     categoryPrductAdapter.notifyDataSetChanged()
                                 }
-
-                                // categoryPrductAdapter.notifyDataChange(changedCategoryItemPosition,changedProductItemPosition)
-                                //categoryPrductAdapter.notifyItemChanged(changedCategoryItemPosition)
                             }
                         }
-                        /***for similer product*/
                         lifecycleScope.launch(Dispatchers.IO) {
                             var selectedSimilerProduct: Product? = null
                             for (product in lastviewedPorductList) {
@@ -363,7 +357,6 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
                                 }
                             }
                             withContext(Dispatchers.Main) {
-                                /**update similer product*/
                                 selectedSimilerProduct?.let { product ->
                                     lastviewedPorductAdatper.notifyItemChanged(
                                         lastviewedPorductList.indexOf(
@@ -375,7 +368,6 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
                         }
                     }
                     added_from_last_product_view -> {
-                        /***for similer product*/
                         lifecycleScope.launch(Dispatchers.IO) {
                             var selectedSimilerProduct: Product? = null
                             for (product in lastviewedPorductList) {
@@ -386,7 +378,6 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
                                 }
                             }
                             withContext(Dispatchers.Main) {
-                                /**update similer product*/
                                 selectedSimilerProduct?.let { product ->
                                     lastviewedPorductAdatper.notifyItemChanged(
                                         lastviewedPorductList.indexOf(
@@ -396,7 +387,6 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
                                 }
                             }
                         }
-                        /**for category products*/
                         lifecycleScope.launch(Dispatchers.IO) {
                             var changedCategoryItemPosition = -1
                             var changedProductItemPosition = -1
@@ -415,7 +405,6 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
                                 }
                             }
                             withContext(Dispatchers.Main) {
-                                /**update  product in Category*/
                                 try {
                                     if (changedCategoryItemPosition != -1 && changedProductItemPosition != -1) {
                                         // 1. get ith item of the parent recyclerView
@@ -440,8 +429,6 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
                                     categoryPrductAdapter.notifyDataSetChanged()
                                 }
 
-                                // categoryPrductAdapter.notifyDataChange(changedCategoryItemPosition,changedProductItemPosition)
-                                //categoryPrductAdapter.notifyItemChanged(changedCategoryItemPosition)
                             }
                         }
                     }
@@ -452,7 +439,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
     }
 
 
-    private fun setListenser() {
+    private fun setListener() {
         ivCart.setOnClickListener {
             if (ConstantObjects.logged_userid.isEmpty()) {
                 startActivity(Intent(context, SignInActivity::class.java).apply {
@@ -506,27 +493,14 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
 
  */
         textInputLayout11.onClickListener {
-//            startActivity(Intent(requireContext(), SearchCategoryActivity::class.java).apply {
-//                println("hhhh "+it.name)
-//                println("hhhh "+it.categoryId.toString())
-//                putExtra("SearchQuery", it.name)
-//                putExtra("CategoryID", it.categoryId.toString())
-//            })
-//            (requireActivity() as BaseActivity).hideSoftKeyboard(textInputLayout11._view2())
             startActivity(Intent(requireContext(), SearchCategoryActivity::class.java).apply {
                 putExtra("ComeFrom",ConstantObjects.search_product)
                 putExtra("productName", it.name)
-
-
             })
-//            startActivity(Intent(requireContext(), SearchActivity::class.java).apply {
-//                putExtra(ConstantObjects.searchQueryKey, it.name)
-//            })
             (requireActivity() as BaseActivity).hideSoftKeyboard(textInputLayout11._view2())
         }
         textInputLayout11._onChange { query ->
-            println("hhhh "+query)
-            if (!query.isEmpty()) {
+            if (query.isNotEmpty()) {
                 homeViewModel.doSearch(mapOf("productName" to query))
             } else {
                 textInputLayout11.updateList(arrayListOf())
@@ -547,7 +521,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
     }
 
     private fun setPagerDots(list: List<HomeSliderItem>) {
-        if (list.size > 0) {
+        if (list.isNotEmpty()) {
             sliderLayout.show()
             val viewPagerAdapter = SliderAdaptor(requireContext(), list)
             slider_home.adapter = viewPagerAdapter
@@ -570,8 +544,6 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
     }
 
     override fun onProductSelect(position: Int, productId: Int, categoryID: Int) {
-//        SharedPreferencesStaticClass.ad_userid = ""
-//        ConstantObjects.is_watch_iv = ivFav
         goToProductDetails(productId)
 
     }
@@ -623,7 +595,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
         }
     }
     /**open activity product detials functions**/
-    val productDetailsLauncher =
+    private val productDetailsLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val productId:Int= result.data?.getIntExtra(ConstantObjects.productIdKey,0) ?: 0
@@ -696,12 +668,12 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
                             dynamic_product_rcv.findViewHolderForAdapterPosition(
                                 changedCategoryItemPosition
                             ) as CategoryProductAdapter.CategoryProductHolder
-                        val ithChildsRecyclerView: RecyclerView =
+                        val itChildRecyclerView: RecyclerView =
                             ithChildViewHolder.viewBinding.productRcv
 
                         // 3. get ithRecyclerView's adapter
                         val ithChildAdapter: ProductHorizontalAdapter? =
-                            ithChildsRecyclerView.adapter as ProductHorizontalAdapter?
+                            itChildRecyclerView.adapter as ProductHorizontalAdapter?
                         ithChildAdapter?.let { ithChildAdapter ->
                             ithChildAdapter.notifyItemChanged(
                                 changedProductItemPosition
@@ -709,249 +681,16 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
                         }
                     }
                 } catch (e: Exception) {
-                    //println("hhh "+e.message)
                     categoryPrductAdapter.notifyDataSetChanged()
                 }
-
-                // categoryPrductAdapter.notifyDataChange(changedCategoryItemPosition,changedProductItemPosition)
-                //categoryPrductAdapter.notifyItemChanged(changedCategoryItemPosition)
             }
         }
     }
 
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        homeViewModel.closeAllCall()
+    }
 }
 
-//@SuppressLint("ResourceType")
-//    private fun setHomeCategoryProductAdaptor() {
-//        dynamic_product_rcv.adapter = object : GenericListAdapter<CategoryProductItem>(
-//            R.layout.parenet_category_item,
-//            bind = { element, holder, itemCount, position ->
-//                holder.view.run {
-//                    element.run {
-//                        when (typeName) {
-//                            "category" -> {
-//                                categoryHeaderContainer!!.show()
-//                                product_list_layout!!.hide()
-//                            }
-//                            "list" -> {
-//                                categoryHeaderContainer!!.hide()
-//                                product_list_layout!!.show()
-//                            }
-//                        }
-//                        Extension.loadThumbnail(
-//                            requireContext(),
-//                            category_icon,
-//                            category_icon_iv,
-//                            null
-//                        )
-//                        detail_tv!!.text = detail
-//                        category_name_tv!!.text = category_name
-//                        category_name_tv_2!!.text = category_name
-////                        viewAllCategoriesProduct.setOnClickListener {
-////                            startActivity(
-////                                Intent(requireContext(), SearchCategoryActivity::class.java).apply {
-////                                    putExtra("CategoryDesc", category_id)
-////                                    putExtra("SearchQuery", "")
-////                                    putExtra("isMapShow", category_id.equals("Property"))
-////                                })
-//                        // }
-//                        setHomeProductAdaptor(product, product_rcv, category_id)
-//                    }
-//                }
-//            }
-//        ) {
-//            override fun getFilter(): Filter {
-//                TODO("Not yet implemented")
-//            }
-//
-//        }.apply {
-//            submitList(
-//                ConstantObjects.categoryProductHomeList
-//            )
-//        }
-//
-//    }
-
-//@SuppressLint("ResourceType")
-//    fun setHomeProductAdaptor(list: List<Product>, product_rcv: RecyclerView, category_id: Int) {
-//        product_rcv.adapter = object : GenericListAdapter<Product>(
-//            R.layout.product_item, bind = { element, holder, itemCount, position ->
-//                holder.view.run {
-//                    val params: ViewGroup.LayoutParams = fullview.layoutParams
-//                    params.width = resources.getDimension(R.dimen._220sdp).toInt()
-//                    params.height = params.height
-//                    fullview.layoutParams = params
-//                    productAdaptor(list[position], context, holder, true, category_id)
-//                }
-//            }
-//        ) {
-//            override fun getFilter(): Filter {
-//                TODO("Not yet implemented")
-//            }
-//
-//        }.apply {
-//            submitList(list)
-//        }
-//    }
-//
-//    fun productAdaptor(
-//        product: Product,
-//        context: Context,
-//        holder: BaseViewHolder,
-//        isGrid: Boolean,
-//        category_id: Int
-//    ) {
-//        holder.view.run {
-//            product.run {
-//                ivFav.setOnClickListener {
-//                    if (HelpFunctions.isUserLoggedIn()) {
-////                        HelpFunctions.ShowLongToast(
-////                            "adding to wish list not implemented yet",
-////                            requireActivity()
-////                        )
-//                        status_product_added_to_fav_from = added_from_product_in_category
-//                        added_product_id_to_fav = product.id
-//                        selected_category_product_added_to_fav = category_id
-//                        homeViewModel.addProductToFav(product.id)
-//
-//                    } else {
-//                        requireActivity().startActivity(
-//                            Intent(
-//                                context,
-//                                SignInActivity::class.java
-//                            ).apply {})
-//                    }
-////                    if (HelpFunctions.AdAlreadyAddedToWatchList(id.toString())) {
-////                        HelpFunctions.DeleteAdFromWatchlist(id.toString(), context) { is_watch_iv.setImageResource(R.drawable.star) }
-////                    } else {
-////                        if (ConstantObjects.logged_userid.isEmpty()) {
-////                             context.startActivity( Intent(context, SignInActivity::class.java).apply {})
-////
-////                        } else {
-////
-////                            HelpFunctions.InsertAdToWatchlist(
-////                                id.toString(),0,
-////                                context
-////                            ) {
-////                                is_watch_iv.setImageResource(R.drawable.starcolor)
-////
-////                            }
-////
-////                        }
-////                    }
-//                }
-//                if (HelpFunctions.isUserLoggedIn()) {
-//                    if (isFavourite) {
-//                        ivFav.setImageResource(R.drawable.starcolor)
-//                    } else {
-//                        ivFav.setImageResource(R.drawable.star)
-//                    }
-//                } else {
-//                    ivFav.setImageResource(R.drawable.star)
-//                }
-//
-//                if (name != null) {
-//                    titlenamee.text = name
-//                } else {
-//                    titlenamee.text = ""
-//                }
-//
-//                if (regionName != null) {
-//                    city_tv.text = regionName
-//                } else {
-//                    city_tv.text = "regionName"
-//                }
-//                setOnClickListener {
-//                    SharedPreferencesStaticClass.ad_userid = ""
-//                    ConstantObjects.is_watch_iv = ivFav
-//                    context.startActivity(
-//                        Intent(
-//                            context,
-//                            ProductDetailsActivity::class.java
-//                        ).apply {
-//                            putExtra(ConstantObjects.productIdKey, id)
-//                            putExtra("Template", "")
-//                        })
-//                }
-//                Extension.loadThumbnail(
-//                    context,
-//                    image,
-//                    productimg,
-//                    loader
-//                )
-//                LowestPrice_layout.invisible()
-//                LowestPrice_layout_2.hide()
-//                product_price.text = "${price!!.toDouble().decimalNumberFormat()} ${
-//                    context.getString(
-//                        R.string.Rayal
-//                    )
-//                }"
-//                purchasing_price_tv_2.text =
-//                    "${price.toDouble().decimalNumberFormat()} ${context.getString(R.string.Rayal)}"
-//
-//                if (isGrid) {
-//                    lisView.hide()
-//                    gridview.show()
-//                } else {
-//                    lisView.show()
-//                    gridview.hide()
-//                }
-//
-//                if (Lingver.getInstance().getLanguage() == ConstantObjects.ARABIC) {
-//                    containerTimeBar.background =
-//                        ContextCompat.getDrawable(context, R.drawable.product_attribute_bg1_ar)
-//                } else {
-//                    containerTimeBar.background =
-//                        ContextCompat.getDrawable(context, R.drawable.product_attribute_bg1_en)
-//                }
-//
-//                date_tv.text = HelpFunctions.getViewFormatForDateTrack(createdAt)
-////                val listingTypeFormated="1"
-////                when (listingTypeFormated) {
-////                    "1" -> {
-////                        LowestPrice_layout.invisible()
-////                        LowestPrice_layout_2.hide()
-////                        product_price.text = "${price!!.toDouble().decimalNumberFormat()} ${
-////                            context.getString(
-////                                R.string.Rayal
-////                            )
-////                        }"
-////                        purchasing_price_tv_2.text =
-////                            "${
-////                                price.toDouble().decimalNumberFormat()
-////                            } ${context.getString(R.string.Rayal)}"
-////                    }
-////                    "12", "2" -> {
-//////                        LowestPrice_layout.show()
-//////                        LowestPrice_layout_2.show()
-//////
-//////                        product_price.text = "${startingPrice!!.toDouble().decimalNumberFormat()} ${
-//////                            context.getString(
-//////                                R.string.Rayal
-//////                            )
-//////                        }"
-//////                        purchasing_price_tv_2.text =
-//////                            "${
-//////                                startingPrice.toDouble().decimalNumberFormat()
-//////                            } ${context.getString(R.string.Rayal)}"
-//////
-//////
-//////                        product_price.text = "${startingPrice!!.toDouble().decimalNumberFormat()} ${
-//////                            context.getString(
-//////                                R.string.Rayal
-//////                            )
-//////                        }"
-//////
-//////                        LowestPrice.text = "${
-//////                            reservePrice!!.toDouble().decimalNumberFormat()
-//////                        } ${context.getString(R.string.Rayal)}"
-//////                        LowestPrice_2.text =
-//////                            "${
-//////                                reservePrice.toDouble().decimalNumberFormat()
-//////                            } ${context.getString(R.string.Rayal)}"
-////                    }
-////                }
-//            }
-//        }
-//    }

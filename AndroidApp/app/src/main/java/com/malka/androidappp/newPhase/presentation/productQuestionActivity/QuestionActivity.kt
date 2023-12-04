@@ -31,7 +31,7 @@ class QuestionActivity : BaseActivity(), QuestionAnswerAdapter.SetonSelectedQues
     private lateinit var productDetialsViewModel: ProductDetailsViewModel
     lateinit var subQuestionsList: ArrayList<QuestionItem>
     lateinit var questionAnswerAdapter: QuestionAnswerAdapter
-    var isMyProduct=false
+    private var isMyProduct=false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_question)
@@ -92,7 +92,7 @@ class QuestionActivity : BaseActivity(), QuestionAnswerAdapter.SetonSelectedQues
             if (questResp.status_code == 200) {
                 etWriteQuestion.setText("")
                 questResp.question?.let {
-                    var tempArraylist: ArrayList<QuestionItem> = ArrayList()
+                    val tempArraylist: ArrayList<QuestionItem> = ArrayList()
                     tempArraylist.addAll(subQuestionsList)
                     subQuestionsList.clear()
                     subQuestionsList.add(it)
@@ -104,7 +104,7 @@ class QuestionActivity : BaseActivity(), QuestionAnswerAdapter.SetonSelectedQues
             }
         }
         productDetialsViewModel.getListOfQuestionsObservable.observe(this) { questionListResp ->
-            if (questionListResp.questionList != null && questionListResp.questionList.isNotEmpty()) {
+            if (!questionListResp.questionList.isNullOrEmpty()) {
                 tvErrorNoQuestion.hide()
                 setQuestionsView(questionListResp.questionList)
             } else {
@@ -156,7 +156,7 @@ class QuestionActivity : BaseActivity(), QuestionAnswerAdapter.SetonSelectedQues
             adapter = questionAnswerAdapter
         }
     }
-    fun confrmAskQues() {
+    private fun confrmAskQues() {
         if (!validateAskQuesInputText()) {
             return
         } else {
@@ -165,9 +165,9 @@ class QuestionActivity : BaseActivity(), QuestionAnswerAdapter.SetonSelectedQues
 
     }
         private fun validateAskQuesInputText(): Boolean {
-        val Inputemail = etWriteQuestion!!.text.toString().trim { it <= ' ' }
+        val inputEmail = etWriteQuestion!!.text.toString().trim { it <= ' ' }
 
-        return if (Inputemail.isEmpty()) {
+        return if (inputEmail.isEmpty()) {
             showError(getString(R.string.Please_enter, getString(R.string.Question)))
             false
         } else {
@@ -175,7 +175,7 @@ class QuestionActivity : BaseActivity(), QuestionAnswerAdapter.SetonSelectedQues
         }
     }
 
-    fun askquesApi() {
+    private fun askquesApi() {
 //        productDetailHelper.askquesApi(etWriteQuestion.text.toString(), productId.toString(), {
 //            etWriteQuestion.setText("")
 //            quesAnss()
@@ -185,7 +185,7 @@ class QuestionActivity : BaseActivity(), QuestionAnswerAdapter.SetonSelectedQues
 
         override fun onSelectQuestion(position: Int) {
         if (isMyProduct) {
-            var answerDialog = AnswerQuestionDialog(
+            val answerDialog = AnswerQuestionDialog(
                 this,
                 subQuestionsList[position],
                 position,
@@ -200,7 +200,10 @@ class QuestionActivity : BaseActivity(), QuestionAnswerAdapter.SetonSelectedQues
 
         }
     }
-
+    override fun onDestroy() {
+        super.onDestroy()
+        productDetialsViewModel.closeAllCall()
+    }
     /****************/
     /****************/
     /****************/

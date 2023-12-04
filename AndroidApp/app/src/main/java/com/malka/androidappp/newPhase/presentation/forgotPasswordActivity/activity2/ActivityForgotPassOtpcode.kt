@@ -130,7 +130,7 @@ class ActivityForgotPassOtpcode : BaseActivity() {
         loginViewModel.configurationRespDidNotReceive.observe(this) {
             if (it.configurationData != null) {
                 try {
-                    expireReceiveMinutes = (it.configurationData.configValue?:"0").toInt()
+                    expireReceiveMinutes = (it.configurationData.configValue).toInt()
                 } catch (e: Exception) {
                 }
             }
@@ -303,5 +303,7 @@ class ActivityForgotPassOtpcode : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         countDownTimer = null
+        loginViewModel.closeAllCall()
+
     }
 }

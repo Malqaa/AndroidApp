@@ -28,23 +28,22 @@ import kotlinx.android.synthetic.main.activity_edit_profile.radiofemale
 import kotlinx.android.synthetic.main.activity_edit_profile.radiomale
 import kotlinx.android.synthetic.main.activity_edit_profile.userNamee
 import kotlinx.android.synthetic.main.activity_signup_pg1.*
-import kotlinx.android.synthetic.main.dialog_acceot_offer.spinnerValues
 import kotlinx.android.synthetic.main.toolbar_main.*
 
 
 class EditProfileActivity : AppCompatActivity() {
-    var gender_: Int = 0
+    private var gender: Int = 0
     var phoneCode = ""
     private lateinit var accountViewModel: AccountViewModel
 
     private var showMYInfo: Int = 0
-    val chooseLocationLuncher =
+    private val chooseLocationLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 ConstantObjects.userobj?.let { setUserData(it) }
             }
         }
-    val changePhoneLuncher =
+    private val changePhoneLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 ConstantObjects.userobj?.let { setUserData(it) }
@@ -127,13 +126,13 @@ class EditProfileActivity : AppCompatActivity() {
         accountViewModel.getUserDataObserver.observe(this) { getUserDataObserver ->
             if (getUserDataObserver.status == "Success") {
                 if (getUserDataObserver.userObject != null) {
-                    var userData =
+                    val userData =
                         Paper.book().read<LoginUser>(SharedPreferencesStaticClass.user_object)
-                    var tempUserData = getUserDataObserver.userObject
+                    val tempUserData = getUserDataObserver.userObject
                     tempUserData.token = userData?.token ?: ""
                     Paper.book()
                         .write<LoginUser>(SharedPreferencesStaticClass.user_object, tempUserData)
-                    tempUserData?.let {
+                    tempUserData.let {
                         ConstantObjects.userobj = it
                     }
                     setUserData(tempUserData)
@@ -143,13 +142,13 @@ class EditProfileActivity : AppCompatActivity() {
         accountViewModel.changeEmailObserver.observe(this) {
             if (it.status == "Success") {
 
-                chooseLocationLuncher.launch(
+                chooseLocationLauncher.launch(
                     Intent(
                         this,
                         ConfirmChangeEmailActivity::class.java
                     ).apply {
                         putExtra(ConstantObjects.emailKey, textEmail.text.toString().trim())
-                        putExtra(Constants.otpDataKey, it.data?.toString().split(".0")[0])
+                        putExtra(Constants.otpDataKey, it.data.toString().split(".0")[0])
                     })
             }
         }
@@ -165,11 +164,11 @@ class EditProfileActivity : AppCompatActivity() {
         }
         accountViewModel.updateProfileDataObserver.observe(this) {
             if (it.status == "Success") {
-                var userObjects = ConstantObjects.userobj
+                val userObjects = ConstantObjects.userobj
                 userObjects?.userName = fristName.text.toString().trim()
                 userObjects?.lastName = lastName.text.toString().trim()
                 userObjects?.dateOfBirth = btnDate.text.toString().trim()
-                userObjects?.gender = gender_
+                userObjects?.gender = gender
                 userObjects?.showUserInformation = "EveryOne"
                 userObjects?.let {
                     ConstantObjects.userobj = userObjects
@@ -191,21 +190,19 @@ class EditProfileActivity : AppCompatActivity() {
         val intent = Intent(this, ConfirmChangeNumberActivity::class.java).apply {
             putExtra(Constants.otpDataKey, otpData)
         }
-        changePhoneLuncher.launch(intent)
-//        startActivity(intent)
-//        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+        changePhoneLauncher.launch(intent)
     }
 
     private fun setUserData(tempUserData: LoginUser) {
         password.setText(tempUserData.password ?: "")
-        etPhoneNumber.setHint(tempUserData.phone ?: "")
-        userNamee.setText(tempUserData.userName ?: "")
-        textEmail.setHint(tempUserData.email ?: "")
+        etPhoneNumber.hint = tempUserData.phone ?: ""
+        userNamee.text = tempUserData.userName ?: ""
+        textEmail.hint = tempUserData.email ?: ""
         fristName.setText(tempUserData.firstName ?: "")
         lastName.setText(tempUserData.lastName ?: "")
         btnDate.setText(tempUserData.dateOfBirth ?: "")
-        gender_ = tempUserData.gender
-        when (gender_) {
+        gender = tempUserData.gender
+        when (gender) {
             Constants.male -> {
                 radiomale._setCheck(true)
             }
@@ -256,29 +253,29 @@ class EditProfileActivity : AppCompatActivity() {
 
 
         btnDate.setOnClickListener {
-            DatePickerFragment(true, false) { selectdate_ ->
-                btnDate.text = "$selectdate_ "
+            DatePickerFragment(true, false) { selectDate ->
+                btnDate.text = "$selectDate "
 
             }.show(supportFragmentManager, "")
         }
         back_btn.setOnClickListener {
             onBackPressed()
         }
-        radiomale._setOnClickListener() {
+        radiomale._setOnClickListener {
             radiomale._setCheck(!radiomale.getCheck())
             radiofemale._setCheck(false)
             if (radiomale.getCheck()) {
-                gender_ = Constants.male
+                gender = Constants.male
             } else {
-                gender_ = -1
+                gender = -1
             }
         }
         radiofemale._setOnClickListener {
             radiofemale._setCheck(!radiofemale.getCheck())
             if (radiofemale.getCheck()) {
-                gender_ = Constants.female
+                gender = Constants.female
             } else {
-                gender_ = -1
+                gender = -1
             }
             radiomale._setCheck(false)
 
@@ -322,7 +319,7 @@ class EditProfileActivity : AppCompatActivity() {
         } else if (btnDate.text.toString().trim() == "") {
             readyToSave = false
             btnDate.error = getString(R.string.Please_select, getString(R.string.Date_of_Birth))
-        } else if (gender_ == -1) {
+        } else if (gender == -1) {
             HelpFunctions.ShowLongToast(getString(R.string.select_gender), this)
             readyToSave = false
         } else if (showMYInfo == 0) {
@@ -336,7 +333,7 @@ class EditProfileActivity : AppCompatActivity() {
                     fristName.text.toString().trim(),
                     lastName.text.toString().trim(),
                     btnDate.text.toString().trim(),
-                    gender_,
+                    gender,
                     showMYInfo.toString()
                 )
             }
@@ -362,4 +359,9 @@ class EditProfileActivity : AppCompatActivity() {
         }
 
     }
+    override fun onDestroy() {
+        super.onDestroy()
+        accountViewModel.closeAllCall()
+    }
+
 }

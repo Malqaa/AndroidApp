@@ -1,6 +1,5 @@
 package com.malka.androidappp.newPhase.presentation.dialogsShared.countryDialog
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +10,6 @@ import com.malka.androidappp.newPhase.domain.models.countryResp.Country
 
 
 class CountriesAdapter(
-    var context: Context,
     var countries: List<Country>,
     var onCountrySelected: OnCountrySelected
 ) :
@@ -35,7 +33,7 @@ class CountriesAdapter(
     }
 
     override fun onBindViewHolder(holder: CountriesViewHolder, position: Int) {
-        var countryName:String = countries[position].name
+        val countryName:String = countries[position].name
         holder.btnCountry.text = countryName
         holder.btnCountry.setOnClickListener {
             onCountrySelected.onCountrySelected(countries[position].id,countryName,countries[position].countryFlag,countries[position].countryCode)
@@ -47,7 +45,7 @@ class CountriesAdapter(
         var btnCountry: TextView = view.findViewById(R.id.btnCity)
     }
     interface OnCountrySelected{
-        public fun onCountrySelected(id:Int, countryName:String, countryFlag: String?,countryCode:String?)
+        fun onCountrySelected(id:Int, countryName:String, countryFlag: String?,countryCode:String?)
     }
 
 }

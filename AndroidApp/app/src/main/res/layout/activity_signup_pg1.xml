@@ -1,339 +1,313 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
+    android:fillViewport="true"
     tools:context=".newPhase.presentation.signup.activity1.SignupConfirmNewUserActivity">
 
-    <ScrollView
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="@dimen/_10sdp">
+
+        <ImageButton
+            android:id="@+id/imageButton3"
+            android:layout_width="15dp"
+            android:layout_height="17dp"
+            android:layout_gravity="start"
+            android:background="@drawable/ic_back"
+            android:onClick="signUpg1prev"
+            android:rotation="@string/mirror_degree" />
+
+        <com.malka.androidappp.newPhase.data.helper.widgets.language_switch.ToggleSwitch
+            android:id="@+id/language_toggle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:background="@drawable/tab_bg"
+            android:textSize="@dimen/_12sdp"
+            app:activeBgColor="@color/bg"
+            app:activeTextColor="@android:color/white"
+            app:cornerRadius="@dimen/_15sdp"
+            app:inactiveBgColor="@color/tab_bg"
+            app:inactiveTextColor="@android:color/black"
+            app:separatorColor="@color/gray_very_light"
+            app:textToggleLeft="EN"
+            app:textToggleRight="AR"
+            app:toggleWidth="@dimen/_50sdp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:background="@drawable/main_logo" />
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:fontFamily="@font/madani_arabic_bold"
+            android:text="@string/welcome_back"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_16sdp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:fontFamily="@font/madani_arabic_light"
+            android:text="@string/new_registration"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12sdp" />
+
+
+        <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+            android:id="@+id/userNamee"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_25sdp"
+            android:hint="@string/Username"
+            android:inputType="textPersonName"
+            app:startIcon="@drawable/ic_user" />
+
+        <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+            android:id="@+id/textEmaill"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:hint="@string/Email"
+            android:inputType="textEmailAddress"
+            app:startIcon="@drawable/ic_email" />
+
+        <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+            android:id="@+id/textPass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:hint="@string/Password"
+            android:inputType="textPassword"
+            app:enablePasswordToggle="true"
+            app:startIcon="@drawable/symbolpass" />
+
+        <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+            android:id="@+id/confirmPass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:hint="@string/Confirm_Password"
+            android:inputType="textPassword"
+            app:enablePasswordToggle="true"
+            app:startIcon="@drawable/symbolpass" />
+
+
+        <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+            android:id="@+id/invitation_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:hint="@string/invitation_code"
+            android:inputType="text"
+            android:maxLength="50"
+            app:startIcon="@drawable/ic_invitation" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:padding="@dimen/_10sdp">
+            android:layout_marginTop="@dimen/_10sdp"
+            android:orientation="vertical">
 
-            <ImageButton
-                android:id="@+id/imageButton3"
-                android:layout_width="15dp"
-                android:layout_height="17dp"
-                android:layout_gravity="start"
-                android:background="@drawable/ic_back"
-                android:onClick="signuppg1prev"
-                android:rotation="@string/mirror_degree" />
-
-            <com.malka.androidappp.newPhase.data.helper.widgets.language_switch.ToggleSwitch
-                android:id="@+id/language_toggle"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/itemLayout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/_20sdp"
-                android:background="@drawable/tab_bg"
-                android:textSize="@dimen/_12sdp"
-                app:activeBgColor="@color/bg"
-                app:activeTextColor="@android:color/white"
-                app:cornerRadius="@dimen/_15sdp"
-                app:inactiveBgColor="@color/tab_bg"
-                app:inactiveTextColor="@android:color/black"
-                app:separatorColor="@color/gray_very_light"
-                app:textToggleLeft="EN"
-                app:textToggleRight="AR"
-                app:toggleWidth="@dimen/_50sdp" />
+                android:background="@drawable/edittext_bg"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_30sdp"
-                android:background="@drawable/main_logo" />
+                <ImageView
+                    android:id="@+id/iv_start_icon"
+                    android:layout_width="@dimen/_14sdp"
+                    android:layout_height="@dimen/_14sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:src="@drawable/ic_phone" />
+
+                <View
+                    android:id="@+id/line"
+                    android:layout_width="@dimen/_1sdp"
+                    android:layout_height="match_parent"
+                    android:background="@color/line" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_toStartOf="@+id/btnOpenCountry">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/tvl_field_phone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:hint="@string/PhoneNumber"
+                            app:boxBackgroundMode="none"
+                            app:hintTextColor="@color/hint_color">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etPhoneNumber"
+                                style="@style/addressCompoEditFieldTextStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:importantForAutofill="no"
+                                android:inputType="number"
+                                android:maxLength="15"
+                                android:maxLines="1"
+                                android:paddingTop="@dimen/_5sdp"
+                                android:textAlignment="viewStart"
+                                android:textSize="@dimen/_12sdp"
+                                app:imeOptions="done" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </FrameLayout>
+
+                    <LinearLayout
+                        android:id="@+id/btnOpenCountry"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginEnd="10dp"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/ivFlag"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_gravity="center"
+                            android:layout_marginEnd="4dp"
+                            android:src="@drawable/flag_saudi_arabia" />
+
+                        <TextView
+                            android:id="@+id/tvCode"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:drawableEnd="@drawable/baseline_arrow_drop_down_24"
+                            android:drawablePadding="4dp"
+                            android:text="+966"
+                            android:textSize="@dimen/_12sdp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/right_session"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerInParent="true"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <com.hbb20.CountryCodePicker
+                            android:id="@+id/countryCodePicker"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            app:ccpDialog_backgroundColor="@color/white"
+                            app:ccpDialog_keyboardAutoPopup="false"
+                            app:ccpDialog_textColor="@color/text_color"
+                            app:ccp_autoFormatNumber="false"
+                            app:ccp_contentColor="@color/text_color"
+                            app:ccp_defaultNameCode="SA"
+                            app:ccp_hintExampleNumber="false"
+                            app:ccp_hintExampleNumberFormat="NATIONAL"
+                            app:ccp_hintExampleNumberType="MOBILE"
+                            app:ccp_rememberLastSelection="false"
+                            app:ccp_showNameCode="false"
+                            app:ccp_showPhoneCode="true" />
+                        <!--
+                          app:ccp_autoDetectCountry="true"
+                         app:ccp_countryAutoDetectionPref="SIM_NETWORK_LOCALE"-->
+
+
+                    </LinearLayout>
+
+
+                </RelativeLayout>
+
+
+            </LinearLayout>
 
             <TextView
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:fontFamily="@font/madani_arabic_bold"
-                android:text="@string/welcome_back"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_16sdp" />
-
-            <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/tv_phone_error"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp"
-                android:fontFamily="@font/madani_arabic_light"
-                android:text="@string/new_registration"
+                android:paddingTop="@dimen/_2sdp"
+                android:paddingBottom="@dimen/_2sdp"
+                android:text=""
+                android:textColor="@color/Red"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+        <com.malka.androidappp.newPhase.data.helper.widgets.TermsnConditionsSwitch
+            android:id="@+id/switch_term_condition"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="@dimen/_10sdp"
+            app:textLink="@string/term_condition"
+            app:textSwitch="@string/register_term" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:background="@drawable/round_btn"
+            android:fontFamily="@font/madani_arabic_semi_bold"
+            android:onClick="signUpg1confirmInput"
+            android:text="@string/NEXT"
+            android:textAllCaps="false"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/_14sdp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/madani_arabic_medium"
+                android:text="@string/already_have_an_account"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_12sdp" />
 
-
-            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
-                android:id="@+id/userNamee"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_25sdp"
-                android:hint="@string/Username"
-                android:inputType="textPersonName"
-                app:startIcon="@drawable/ic_user" />
-<!--            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.SpinnerComponent-->
-<!--                android:id="@+id/etFirstName"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="@dimen/_25sdp"-->
-<!--                android:hint="@string/First_Name"-->
-<!--                android:inputType="textPersonName"-->
-<!--                app:startIcon="@drawable/ic_user" />-->
-<!--            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.SpinnerComponent-->
-<!--                android:id="@+id/etLastName"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="@dimen/_25sdp"-->
-<!--                android:hint="@string/Last_Name"-->
-<!--                android:inputType="textPersonName"-->
-<!--                app:startIcon="@drawable/ic_user" />-->
-
-<!--            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.SpinnerComponent-->
-<!--                android:id="@+id/PhoneNumber"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="@dimen/_10sdp"-->
-<!--                android:hint="@string/PhoneNumber"-->
-<!--                android:inputType="phone"-->
-<!--                app:endIcon="@drawable/down_arrow"-->
-<!--                app:endText="+965"-->
-<!--                app:startIcon="@drawable/ic_phone"-->
-<!--                app:viewType="country" />-->
-
-
-            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
-                android:id="@+id/textEmaill"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:hint="@string/Email"
-                android:inputType="textEmailAddress"
-                app:startIcon="@drawable/ic_email" />
-
-            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
-                android:id="@+id/textPass"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:hint="@string/Password"
-                android:inputType="textPassword"
-                app:enablePasswordToggle="true"
-                app:startIcon="@drawable/symbolpass" />
-
-            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
-                android:id="@+id/confirmPass"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:hint="@string/Confirm_Password"
-                android:inputType="textPassword"
-                app:enablePasswordToggle="true"
-                app:startIcon="@drawable/symbolpass" />
-
-
-            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
-                android:id="@+id/invitation_code"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:hint="@string/invitation_code"
-                android:inputType="text"
-                android:maxLength="50"
-                app:startIcon="@drawable/ic_invitation" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:id="@+id/itemLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/edittext_bg"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/iv_start_icon"
-                        android:layout_width="@dimen/_14sdp"
-                        android:layout_height="@dimen/_14sdp"
-                        android:layout_marginStart="@dimen/_10sdp"
-                        android:layout_marginEnd="@dimen/_10sdp"
-                        android:src="@drawable/ic_phone" />
-                    <View
-                        android:id="@+id/line"
-                        android:layout_width="@dimen/_1sdp"
-                        android:layout_height="match_parent"
-                        android:background="@color/line" />
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                        <FrameLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentStart="true"
-                            android:layout_toStartOf="@+id/btnOpenCountry">
-                            <com.google.android.material.textfield.TextInputLayout
-                                android:id="@+id/tvl_field_phone"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/_5sdp"
-                                android:hint="@string/PhoneNumber"
-                                app:boxBackgroundMode="none"
-                                app:hintTextColor="@color/hint_color">
-
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/etPhoneNumber"
-                                    style="@style/addressCompoEditFieldTextStyle"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:inputType="number"
-                                    android:maxLines="1"
-                                    android:maxLength="15"
-                                    app:imeOptions="done"
-                                    android:importantForAutofill="no"
-                                    android:paddingTop="@dimen/_5sdp"
-                                    android:textAlignment="viewStart"
-                                    android:textSize="@dimen/_12sdp" />
-                            </com.google.android.material.textfield.TextInputLayout>
-                        </FrameLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerInParent="true"
-                            android:id="@+id/btnOpenCountry"
-                            android:layout_marginEnd="10dp"
-                            android:foreground="?android:attr/selectableItemBackground"
-                            android:orientation="horizontal">
-                            <ImageView
-                                android:id="@+id/ivFlag"
-                                android:layout_width="25dp"
-                                android:layout_height="25dp"
-                                android:layout_marginEnd="4dp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/flag_saudi_arabia"/>
-                            <TextView
-                                android:id="@+id/tvCode"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:drawablePadding="4dp"
-                                android:textSize="@dimen/_12sdp"
-                                android:layout_gravity="center"
-                                android:drawableEnd="@drawable/baseline_arrow_drop_down_24"
-                                android:text="+966"/>
-                        </LinearLayout>
-                        <LinearLayout
-                            android:id="@+id/right_session"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerInParent="true"
-                            android:visibility="gone"
-                            android:orientation="vertical">
-                            <com.hbb20.CountryCodePicker
-                                android:id="@+id/countryCodePicker"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                app:ccpDialog_backgroundColor="@color/white"
-                                app:ccpDialog_keyboardAutoPopup="false"
-                                app:ccpDialog_textColor="@color/text_color"
-                                app:ccp_autoFormatNumber="false"
-                                app:ccp_contentColor="@color/text_color"
-                                app:ccp_defaultNameCode="SA"
-                                app:ccp_hintExampleNumber="false"
-                                app:ccp_hintExampleNumberFormat="NATIONAL"
-                                app:ccp_hintExampleNumberType="MOBILE"
-                                app:ccp_rememberLastSelection="false"
-                                app:ccp_showNameCode="false"
-                                app:ccp_showPhoneCode="true" />
-                            <!--
-                              app:ccp_autoDetectCountry="true"
-                             app:ccp_countryAutoDetectionPref="SIM_NETWORK_LOCALE"-->
-
-
-                        </LinearLayout>
-
-
-                    </RelativeLayout>
-
-
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/tv_phone_error"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:paddingTop="@dimen/_2sdp"
-                    android:paddingBottom="@dimen/_2sdp"
-                    android:text=""
-                    android:visibility="gone"
-                    android:textColor="@color/Red" />
-
-            </LinearLayout>
-
-            <com.malka.androidappp.newPhase.data.helper.widgets.TermsnConditionsSwitch
-                android:id="@+id/switch_term_condition"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginTop="@dimen/_10sdp"
-                app:textLink="@string/term_condition"
-                app:textSwitch="@string/register_term" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/button3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_20sdp"
-                android:background="@drawable/round_btn"
-                android:fontFamily="@font/madani_arabic_semi_bold"
-                android:onClick="SignuuPg1confirmInput"
-                android:text="@string/NEXT"
-                android:textAllCaps="false"
-                android:textColor="#ffffff"
-                android:textSize="@dimen/_14sdp" />
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/btnLogin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/madani_arabic_medium"
-                    android:text="@string/already_have_an_account"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_12sdp" />
-
-                <TextView
-                    android:id="@+id/btnLogin"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_5sdp"
-                    android:fontFamily="@font/madani_arabic_medium"
-                    android:text="@string/login"
-                    android:textColor="@color/bg"
-                    android:textSize="@dimen/_12sdp" />
-            </LinearLayout>
+                android:layout_marginStart="@dimen/_5sdp"
+                android:fontFamily="@font/madani_arabic_medium"
+                android:text="@string/login"
+                android:textColor="@color/bg"
+                android:textSize="@dimen/_12sdp" />
         </LinearLayout>
-    </ScrollView>
+    </LinearLayout>
 
 
-
-</RelativeLayout>
+</ScrollView>

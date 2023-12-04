@@ -2,7 +2,6 @@ package com.malka.androidappp.newPhase.presentation.accountFragment.negotiationO
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
@@ -177,7 +176,7 @@ class NegotiationOffersSaleActivity : BaseActivity(),
         negotiationOffersViewModel.purchaseOffer(offerID)
     }
     override fun onAcceptOffer(position: Int) {
-        var acceptOfferDialog: AcceptOfferDialog = AcceptOfferDialog(this,
+        val acceptOfferDialog = AcceptOfferDialog(this,
             true,
             position,
             negotiationOfferDetailsList[position].offerId,
@@ -194,7 +193,7 @@ class NegotiationOffersSaleActivity : BaseActivity(),
     }
 
     override fun onRejectOffer(position: Int) {
-        var acceptOfferDialog: AcceptOfferDialog = AcceptOfferDialog(this,
+        val acceptOfferDialog: AcceptOfferDialog = AcceptOfferDialog(this,
             false,
             position,
             negotiationOfferDetailsList[position].offerId,
@@ -208,5 +207,9 @@ class NegotiationOffersSaleActivity : BaseActivity(),
 
             })
         acceptOfferDialog.show()
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        negotiationOffersViewModel.closeAllCall()
     }
 }

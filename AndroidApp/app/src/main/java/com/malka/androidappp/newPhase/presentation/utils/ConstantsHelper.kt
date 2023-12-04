@@ -7,7 +7,14 @@ import android.widget.ImageView
 import com.caverock.androidsvg.SVG
 import com.google.gson.Gson
 import com.malka.androidappp.newPhase.domain.models.CountryCode
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import java.io.File
 import java.io.IOException
+import java.text.ParseException
+import java.text.SimpleDateFormat
 
 
 object ConstantsHelper {
@@ -18,14 +25,25 @@ object ConstantsHelper {
         READ_GALLERY_STORAGE,
     }
 
-     fun readJson(con: Context):  Array<CountryCode>? {
+    fun convertTimeToLong(timeString: String): Long {
+        return try {
+            val sdf = SimpleDateFormat("HH:mm:ss")
+            val date = sdf.parse(timeString)
+            date.time
+        } catch (e: ParseException) {
+            e.printStackTrace()
+            -1 // Handle the exception according to your requirements
+        }
+    }
+
+    fun readJson(con: Context): Array<CountryCode>? {
         val countryCodes: Array<CountryCode>
-        val countryCode: ArrayList<CountryCode>
+//        val countryCode: ArrayList<CountryCode>
         try {
             val cc: String = assetJSONFile("CountryCodes.json", con)
             val gson = Gson()
             countryCodes = gson.fromJson(cc, Array<CountryCode>::class.java)
-            countryCode = ArrayList(listOf(*countryCodes))
+//            countryCode = ArrayList(listOf(*countryCodes))
         } catch (ex: IOException) {
             ex.printStackTrace()
             return null
@@ -33,7 +51,7 @@ object ConstantsHelper {
         return countryCodes
     }
 
-     fun assetJSONFile(filename: String, context: Context): String {
+    fun assetJSONFile(filename: String, context: Context): String {
         val manager = context.assets
         val file = manager.open(filename)
         val formArray = ByteArray(file.available())
@@ -42,12 +60,12 @@ object ConstantsHelper {
         return String(formArray)
     }
 
-    fun  Context.openRawResourceByName(vImageView: ImageView, resourceName: String?) {
+    fun Context.openRawResourceByName(vImageView: ImageView, resourceName: String?) {
         try {
             val resources: Resources = resources
             val resourceId = resources.getIdentifier(resourceName, "raw", packageName)
             if (resourceId != 0) {
-                val svg1 = SVG.getFromInputStream( resources.openRawResource(resourceId))
+                val svg1 = SVG.getFromInputStream(resources.openRawResource(resourceId))
                 vImageView.setImageDrawable(PictureDrawable(svg1.renderToPicture()))
             }
         } catch (e: ExceptionInInitializerError) {
@@ -55,4 +73,12 @@ object ConstantsHelper {
         }
     }
 
+    fun getMultiPart(file: File?, typeRequestBody: String, nameFile: String): MultipartBody.Part? {
+        var multipartBody: MultipartBody.Part? = null
+        file?.let {
+            val requestBody: RequestBody = it.asRequestBody(typeRequestBody.toMediaTypeOrNull())
+            multipartBody = MultipartBody.Part.createFormData(nameFile, it.name, requestBody)
+        }
+        return multipartBody
+    }
 }

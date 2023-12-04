@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseDialog
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
+import com.malka.androidappp.newPhase.data.network.callApi
 import com.malka.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malka.androidappp.newPhase.domain.models.countryResp.CountriesResp
 import com.malka.androidappp.newPhase.domain.models.countryResp.Country
@@ -18,11 +19,8 @@ import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.android.synthetic.main.activity_search.etSearch
 import kotlinx.android.synthetic.main.dialog_countries.*
 import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.HttpException
-import retrofit2.Response
 
-class CountryDialog(context: Context, var getSelectedCountry: GetSelectedCountry) :
+class CountryDialog(private val context: Context, private var getSelectedCountry: GetSelectedCountry) :
     BaseDialog(context), CountriesAdapter.OnCountrySelected {
 
 
@@ -31,8 +29,6 @@ class CountryDialog(context: Context, var getSelectedCountry: GetSelectedCountry
     lateinit var countriesList: ArrayList<Country>
     lateinit var mainCountriesList: ArrayList<Country>
     lateinit var countryResp: CountriesResp
-
-
     var countriesCallback: Call<CountriesResp>? = null
 
     override fun getViewId(): Int {
@@ -54,14 +50,14 @@ class CountryDialog(context: Context, var getSelectedCountry: GetSelectedCountry
 
 
     override fun initialization() {
-        tvTitleAr.text=context.getString(R.string.selectCountry)
+        tvTitleAr.text = context.getString(R.string.selectCountry)
         ivClose.setOnClickListener {
             dismiss()
         }
         //=========
         mainCountriesList = ArrayList()
         countriesList = ArrayList()
-        countriesAdapter = CountriesAdapter(context, countriesList, this)
+        countriesAdapter = CountriesAdapter( countriesList, this)
         linearLayoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         recycler.apply {
             layoutManager = linearLayoutManager
@@ -89,7 +85,7 @@ class CountryDialog(context: Context, var getSelectedCountry: GetSelectedCountry
 
     @SuppressLint("DefaultLocale")
     private fun filter(text: CharSequence) {
-        var temp: ArrayList<Country> = ArrayList()
+        val temp: ArrayList<Country> = ArrayList()
         for (country in mainCountriesList) {
             if (country.name.lowercase().contains(text.toString().trim().lowercase())) {
                 temp.add(country)
@@ -112,62 +108,55 @@ class CountryDialog(context: Context, var getSelectedCountry: GetSelectedCountry
 
 
     interface GetSelectedCountry {
-        fun onSelectedCountry(id: Int, countryName: String, countryFlag: String?,countryCode:String?)
+        fun onSelectedCountry(
+            id: Int,
+            countryName: String,
+            countryFlag: String?,
+            countryCode: String?
+        )
     }
 
-    override fun onCountrySelected(id: Int, countryName: String, countryFlag: String?,countryCode:String?) {
-        getSelectedCountry.onSelectedCountry(id, countryName, countryFlag,countryCode)
+    override fun onCountrySelected(
+        id: Int,
+        countryName: String,
+        countryFlag: String?,
+        countryCode: String?
+    ) {
+        getSelectedCountry.onSelectedCountry(id, countryName, countryFlag, countryCode)
         dismiss()
     }
 
-    fun getCountries() {
+    private fun getCountries() {
         progressBar.visibility = View.VISIBLE
         countriesCallback = getRetrofitBuilder().getCountryNew()
-        countriesCallback?.enqueue(object : Callback<CountriesResp> {
-            override fun onFailure(call: Call<CountriesResp>, t: Throwable) {
-                // println("hhhh "+t.message)
+        callApi(countriesCallback!!,
+            onSuccess = {
                 progressBar.visibility = View.GONE
-                if (call.isCanceled) {
-
-                } else if (t is HttpException) {
-                    HelpFunctions.ShowLongToast(context.getString(R.string.serverError), context)
-
-                } else {
+                it.countriesList?.let { countryList ->
+                    //ConstantObjects.countryList = countryList
+                    getCountriesList(countryList)
+                }
+                dismiss()
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                progressBar.visibility = View.GONE
+                if (throwable != null && errorBody == null)
+                    HelpFunctions.ShowLongToast(
+                        context.getString(R.string.serverError),
+                        context
+                    )
+                else {
                     HelpFunctions.ShowLongToast(
                         context.getString(R.string.connectionError),
                         context
                     )
-                }
-            }
 
-            override fun onResponse(
-                call: Call<CountriesResp>,
-                response: Response<CountriesResp>
-            ) {
+                }
+            },
+            goLogin = {
                 progressBar.visibility = View.GONE
-                try {
-                    if (response.isSuccessful) {
-                        response.body()?.let {
-                            it
-                            countryResp = it
-                            countryResp.countriesList?.let { countryList ->
-                                //ConstantObjects.countryList = countryList
-                                getCountriesList(countryList)
-                            }
-                        }
 
-                    } else {
-                        HelpFunctions.ShowLongToast(
-                            context.getString(R.string.serverError),
-                            context
-                        )
-
-                    }
-                } catch (e: Exception) {
-                }
-            }
-
-        })
+            })
     }
 
     private fun getCountriesList(data: List<Country>) {
@@ -184,5 +173,6 @@ class CountryDialog(context: Context, var getSelectedCountry: GetSelectedCountry
         if (countriesCallback != null) {
             countriesCallback?.cancel()
         }
+
     }
 }

@@ -23,7 +23,7 @@ class AddProductBidOffersDialog(
     context: Context,
     var productId: Int,
     var bidIDsList: List<String>,
-    var listener: AddProductBidOffersDialog.SetClickListeners
+    var listener: SetClickListeners
 ) : BaseDialog(context) {
     var countriesCallback: Call<GeneralResponse>? = null
     var generalRespone: GeneralResponse? = null
@@ -66,6 +66,7 @@ class AddProductBidOffersDialog(
             }
         }
     }
+
     private fun setSpinnerExpireHoursAdapter() {
         spinnerExpireHoursAdapter = SpinnerExpireHoursAdapter(context, expireHoursList)
         spinnerValues.adapter = spinnerExpireHoursAdapter
@@ -85,7 +86,7 @@ class AddProductBidOffersDialog(
     }
 
 
-    fun addProductOffer(
+    private fun addProductOffer(
         expire: Float,
         productId: Int,
         price: Float,
@@ -95,24 +96,13 @@ class AddProductBidOffersDialog(
         btnSend.isEnabled = false
 
         val req = RequestBidOffers(expire, price, productId, quentity, bidIDsList)
-//        var data: HashMap<String, Any> = HashMap()
-//        data["productId"] = productId
-//        data["quantity"] = quentity
-//        data["price"] = price
-//        var list: ArrayList<String> = ArrayList()
-//        for (item in bidIDsList) {
-//            list.add(item.toString())
-//        }
-        println("hhhh " + productId + " " + price + " " + quentity + " " + bidIDsList.toString())
         countriesCallback = getRetrofitBuilder().addProductBidOffers(req)
         countriesCallback?.enqueue(object : Callback<GeneralResponse> {
             override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
                 progressBar.visibility = View.GONE
                 btnSend.isEnabled = true
                 close_alert_bid.isEnabled = true
-                if (call.isCanceled) {
-
-                } else if (t is HttpException) {
+                if (t is HttpException) {
                     HelpFunctions.ShowLongToast(context.getString(R.string.serverError), context)
 
                 } else {
@@ -147,6 +137,7 @@ class AddProductBidOffersDialog(
 
                     }
                 } catch (e: Exception) {
+                    //
                 }
             }
         })

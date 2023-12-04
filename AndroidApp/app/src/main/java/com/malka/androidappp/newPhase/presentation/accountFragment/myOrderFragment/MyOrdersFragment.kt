@@ -26,25 +26,22 @@ import kotlinx.android.synthetic.main.toolbar_main.*
 
 class MyOrdersFragment : Fragment(R.layout.fragment_my_orders),
     SwipeRefreshLayout.OnRefreshListener {
-    //====
     lateinit var currentOrdersList: ArrayList<OrderItem>
-    lateinit var currentOrderAdapter: MyOrdersAdapter
+    private lateinit var currentOrderAdapter: MyOrdersAdapter
     lateinit var currentOrderLayOutManager: GridLayoutManager
-    lateinit var endlessRecyclerViewScrollListener: EndlessRecyclerViewScrollListener
+    private lateinit var endlessRecyclerViewScrollListener: EndlessRecyclerViewScrollListener
 
     //  tap id 1 ,2,3
     private var tapId: Int = 1
     lateinit var myOrdersViewModel: MyOrdersViewModel
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initView()
-        setListenser()
+        setListener()
         setupViewModel()
         swipe_to_refresh.setColorSchemeResources(R.color.colorPrimaryDark)
         swipe_to_refresh.setOnRefreshListener(this)
         setUpCurrentOrderAdapter()
-        //  myRequestsItemApi()
         onRefresh()
     }
 
@@ -177,7 +174,7 @@ class MyOrdersFragment : Fragment(R.layout.fragment_my_orders),
     }
 
 
-    private fun setListenser() {
+    private fun setListener() {
         back_btn.setOnClickListener {
             requireActivity().onBackPressed()
         }
@@ -215,5 +212,9 @@ class MyOrdersFragment : Fragment(R.layout.fragment_my_orders),
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        myOrdersViewModel.closeAllCall()
+    }
 
 }

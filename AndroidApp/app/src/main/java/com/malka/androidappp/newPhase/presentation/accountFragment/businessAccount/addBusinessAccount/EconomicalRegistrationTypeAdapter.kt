@@ -8,14 +8,11 @@ import android.widget.BaseAdapter
 import android.widget.TextView
 import com.malka.androidappp.R
 
-class CommirecalRegisterationTypeAdapter  (var context: Context,
-                                           var workSectorList: List<String>,
+class EconomicalRegistrationTypeAdapter(
+    var context: Context,
+    var workSectorList: List<String>,
 ) : BaseAdapter() {
-    var layoutInflater: LayoutInflater
-
-    init {
-        layoutInflater = LayoutInflater.from(context)
-    }
+    var layoutInflater: LayoutInflater = LayoutInflater.from(context)
 
     override fun getCount(): Int {
         return workSectorList.size
@@ -24,7 +21,7 @@ class CommirecalRegisterationTypeAdapter  (var context: Context,
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val convertView = layoutInflater.inflate(R.layout.item_type_spinner, parent, false)
         val tvTypeName: TextView = convertView.findViewById(R.id.tvTypeName)
-        tvTypeName.text =getItem(position)
+        tvTypeName.text = getItem(position)
 
         return convertView
     }
@@ -36,12 +33,6 @@ class CommirecalRegisterationTypeAdapter  (var context: Context,
     override fun getItemId(i: Int): Long {
         return i.toLong()
     }
-//    override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup?): View? {
-//        val view = super.getDropDownView(position, convertView, parent)
-//        val tvSelectedItem = view.findViewById<TextView>(R.id.tvTypeName)
-//        val line=view.findViewById<View>(R.id.line)
-//        line.hide()
-//        return view
-//    }
+
 
 }

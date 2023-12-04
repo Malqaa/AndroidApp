@@ -1,5 +1,6 @@
 package com.malka.androidappp.newPhase.presentation.cartActivity.activity1.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Paint
 import android.view.LayoutInflater
@@ -12,7 +13,6 @@ import com.malka.androidappp.newPhase.data.helper.Extension
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.data.helper.hide
 import com.malka.androidappp.newPhase.data.helper.show
-import com.malka.androidappp.newPhase.domain.models.cartListResp.CouponAppliedBussinessAccountDto
 import com.malka.androidappp.newPhase.domain.models.cartListResp.ProductCartItem
 import com.malka.androidappp.newPhase.domain.models.servicemodels.Selection
 import com.malka.androidappp.newPhase.presentation.addProduct.AddProductObjectData
@@ -45,6 +45,7 @@ class DetailCartAdapter(
 
     override fun getItemCount(): Int = listProduct.size
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
 
         Extension.loadThumbnail(

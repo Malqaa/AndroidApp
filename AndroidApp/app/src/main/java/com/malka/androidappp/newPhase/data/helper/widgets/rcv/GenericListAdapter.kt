@@ -2,13 +2,12 @@ package com.malka.androidappp.newPhase.data.helper.widgets.rcv
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filterable
-import androidx.annotation.IdRes
 import androidx.recyclerview.widget.ListAdapter
 import com.malka.androidappp.newPhase.data.helper.BaseItemCallback
 import com.malka.androidappp.newPhase.data.helper.BaseViewHolder
 
 abstract class GenericListAdapter<T : Any>(
-    @IdRes val layoutId: Int,
+     val layoutId: Int,
     inline val bind: (item: T, holder: BaseViewHolder, itemCount: Int,position:Int) -> Unit
 ) : ListAdapter<T, BaseViewHolder>(
     BaseItemCallback<T>()

@@ -22,8 +22,8 @@ import kotlinx.android.synthetic.main.toolbar_main.*
 
 class TechnicalSupportListActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
 
-    lateinit var technicalSupportListAdapter:TechnicalSupportListAdapter
-    lateinit var  technicalSupportMessageList:ArrayList<TechnicalSupportMessageDetails>
+    private lateinit var technicalSupportListAdapter:TechnicalSupportListAdapter
+    private lateinit var  technicalSupportMessageList:ArrayList<TechnicalSupportMessageDetails>
     private lateinit var accountViewModel: AccountViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -123,4 +123,9 @@ class TechnicalSupportListActivity : BaseActivity(), SwipeRefreshLayout.OnRefres
         technicalSupportListAdapter.notifyDataSetChanged()
         accountViewModel.getListContactUs()
     }
+    override fun onDestroy() {
+        super.onDestroy()
+        accountViewModel.closeAllCall()
+    }
+
 }

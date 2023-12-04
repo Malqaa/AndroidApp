@@ -13,7 +13,6 @@ import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.data.helper.hide
 import com.malka.androidappp.newPhase.data.helper.linearLayoutManager
 import com.malka.androidappp.newPhase.data.helper.show
-import com.malka.androidappp.newPhase.domain.models.productTags.Tags
 import com.malka.androidappp.newPhase.domain.models.servicemodels.model.Category
 import com.malka.androidappp.newPhase.presentation.addProduct.AddProductObjectData
 import com.malka.androidappp.newPhase.presentation.addProduct.activity2.ChooseCategoryActivity
@@ -28,12 +27,12 @@ import kotlinx.coroutines.withContext
 
 class ProductsTagsForAddProductActivity : BaseActivity(),
     ProductTagsAdapter.SetOnSelectedListeners {
-    var selectTag: Category? = null
-    var lists: List<Tags> = ArrayList()
+    //    private var addedProductObjectData: AddProductObjectData = AddProductObjectData()
+//    var lists: List<Tags> = ArrayList()
+    private var selectTag: Category? = null
     private lateinit var addProductViewModel: AddProductViewModel
     private lateinit var productTagsAdapter: ProductTagsAdapter
     private lateinit var productTagsList: ArrayList<Category>
-    private var addedProductObjectData: AddProductObjectData = AddProductObjectData()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product_tage_for_add_product)

@@ -12,16 +12,13 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Patterns
 import android.view.View
-import android.webkit.URLUtil
 import android.widget.AdapterView
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.PermissionChecker
@@ -65,13 +62,11 @@ import kotlinx.android.synthetic.main.activity_business_signup.textEmaill
 import kotlinx.android.synthetic.main.activity_business_signup.tvCode
 import kotlinx.android.synthetic.main.activity_business_signup.userNamee
 import okhttp3.MultipartBody
-
 import kotlin.math.roundToInt
 
 
 class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedCountry,
     PickImageMethodsDialog.OnAttachedImageMethodSelected {
-
     //==== userImage= 1 ,commericalimage=2
     private var imageType: Int = 1
     private var selectedCommericalRegisterType: Int = 1
@@ -92,10 +87,10 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
     private val PERMISSION_CODE = 1001
     private var mResults: ArrayList<String> = ArrayList()
     var locationPicker: LocationPickerModel? = null
-    val PERMISSION_REQUEST_ACCESS_FINE_LOCATION = 100
-    val REQUEST_GPS_SETTINGS = 107
+    private  val PERMISSION_REQUEST_ACCESS_FINE_LOCATION = 100
+    private val REQUEST_GPS_SETTINGS = 107
     lateinit var countryDialog: CountryDialog
-    val chooseLocationLuncher =
+    private val chooseLocationLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 locationPicker = Gson().fromJson(
@@ -105,12 +100,12 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
             }
         }
 
-    lateinit var commirecalRegisterationTypeAdapter: CommirecalRegisterationTypeAdapter
+    lateinit var economicalRegistrationTypeAdapter: EconomicalRegistrationTypeAdapter
     var selectedCountryId: Int = 0
     var selectedRegionId: Int = 0
     var selectedNeighborhoodId: Int = 0
 
-    val getLocationLauncher =
+    private val getLocationLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 lat = result.data?.getDoubleExtra("lat", 0.0) ?: 0.0
@@ -167,13 +162,6 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
                 HelpFunctions.ShowLongToast(getString(R.string.serverError), this)
             }
         }
-//        businessAccountViewModel.errorResponseObserver.observe(this) {
-//            if (it.message != null) {
-//                HelpFunctions.ShowLongToast(it.message!!, this)
-//            } else {
-//                HelpFunctions.ShowLongToast(getString(R.string.serverError), this)
-//            }
-//        }
         businessAccountViewModel.addbusinessAccountListObserver.observe(this) {
             if (it.status_code == 200) {
                 setResult(Activity.RESULT_OK)
@@ -190,12 +178,12 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
     }
 
     private fun setupCommircalRegisteration() {
-        var commricaalRegisterationTyesList: ArrayList<String> = ArrayList()
+        val commricaalRegisterationTyesList: ArrayList<String> = ArrayList()
         commricaalRegisterationTyesList.add(getString(R.string.commercialRegister))
         commricaalRegisterationTyesList.add(getString(R.string.freelanceCertificate))
-        commirecalRegisterationTypeAdapter =
-            CommirecalRegisterationTypeAdapter(this, commricaalRegisterationTyesList)
-        spinnerCommirecalRegisterationType.adapter = commirecalRegisterationTypeAdapter
+        economicalRegistrationTypeAdapter =
+            EconomicalRegistrationTypeAdapter(this, commricaalRegisterationTyesList)
+        spinnerCommirecalRegisterationType.adapter = economicalRegistrationTypeAdapter
         spinnerCommirecalRegisterationType.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
@@ -293,9 +281,9 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
         tvDate.setOnClickListener {
             tvDate.error = null
             fm = supportFragmentManager
-            val dateDialog = DatePickerFragment(false, true) { selectdate_ ->
-                tvDate.text = "$selectdate_ "
-                selectdate = selectdate_
+            val dateDialog = DatePickerFragment(false, true) { selectDate ->
+                tvDate.text = "$selectDate "
+                selectdate = selectDate
 
             }
             dateDialog.show(fm!!, "")
@@ -319,70 +307,14 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
             }
         }
         locating_the_company.setOnClickListener {
+//            checkLocationPermission()
             getLocationLauncher.launch(Intent(this, MapActivity::class.java))
         }
 
-//        locating_the_company.setOnClickListener {
-//            checkLocationPermission()
-//        }
 
         btnSaveBussinessAccount.setOnClickListener() {
             checkAccountData()
-//            if (profileImageBase64.isEmpty()) {
-//                showError(getString(R.string.Please_enter, getString(R.string.profile_picture)))
-//            } else {
-//                if (validateUserName() && validateCompanyNameAr() && validateSignupEmail() && validateNumber() && validateCompanyURL() && validateProfilePicture() && validateEmployementType() && validateCommercialRegisterNo()
-//                    && validateExpiryDate() && validateTaxNumber() && validateCommercialRegisterDoc()
-//                ) {
-//
-//                    if (selectedImagesURI.size == 0) {
-//                        showError(
-//                            getString(
-//                                R.string.Please_select,
-//                                getString(R.string.download_the_commercial_registry_file)
-//                            )
-//                        )
-//                    } else {
-//
-//                        if (locationPicker == null) {
-//                            showError(
-//                                getString(
-//                                    R.string.Please_select,
-//                                    getString(R.string.locating_the_company)
-//                                )
-//                            )
-//                        } else {
-//                            addBusinessUser()
-//                        }
-//
-//                    }
-//                }
-//            }
-
-
         }
-        //        employment_type.setOnClickListener {
-//
-//            val list: ArrayList<SearchListItem> = ArrayList()
-//
-//            list.add(SearchListItem(1, getString(R.string.Commercial_Record)))
-//            list.add(SearchListItem(2, getString(R.string.Free_work)))
-//            list.add(SearchListItem(3, getString(R.string.A_favour)))
-//
-//            employment_type.showSpinner(
-//                this,
-//                list,
-//                getString(R.string.Select, getString(R.string.type_of_employment))
-//            ) {
-//                employment_type.text = it.title
-//
-//            }
-//        }
-//        upload_photo.setOnClickListener {
-//            isProfileImage = true
-//            checkPermissions()
-//
-//        }
 
         busi_signup2_btn.setOnClickListener {
             onBackPressed()
@@ -398,7 +330,7 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
             ) {
                 /**setCountryData*/
                 selectedCountryId = id
-                countryContainer.text = countryName.toString()
+                countryContainer.text = countryName
                 countryContainer._setStartIconImage(countryFlag)
                 /**resetRegion*/
                 selectedRegionId = 0
@@ -418,7 +350,7 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
                     /**setRegionData*/
                     /**setRegionData*/
                     selectedRegionId = id
-                    regionContainer.text = regionName.toString()
+                    regionContainer.text = regionName
                     /**resetNeighborhood*/
                     /**resetNeighborhood*/
                     selectedNeighborhoodId = 0
@@ -436,7 +368,7 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
                     /**setNeighborhoodData*/
                     /**setNeighborhoodData*/
                     selectedNeighborhoodId = id
-                    neighborhoodContainer.text = neighborhoodName.toString()
+                    neighborhoodContainer.text = neighborhoodName
                 }
             })
         neighborhoodDialog.show()
@@ -460,7 +392,7 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
                 requestCode: Int,
             ) {
                 activityLauncher.launch(imageIntent) { activityResult ->
-                    if (activityResult.resultCode == AppCompatActivity.RESULT_OK) {
+                    if (activityResult.resultCode == RESULT_OK) {
                         imagePicker.handleActivityResult(
                             activityResult.resultCode, requestCode, activityResult.data)
                     }
@@ -471,8 +403,6 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
             imagePicker.choosePicture(ImagePicker.CAMERA)
         } else {
             openGallery(startForResult)
-//            openGallery()
-//            imagePicker.choosePicture(ImagePicker.GALLERY)
         }
     }
 
@@ -480,11 +410,8 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
     private val startForResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == Activity.RESULT_OK) {
-                val bitmap = CameraHelper.handleResult(it?.data?.data!!, this)
-                setImage(it?.data?.data!!)
-//                val  file = CameraHelper.getMultiPartFromBitmap(bitmap, "imgProfile", this)
-//                accountViewModel.editProfileImage(file)
-//                ivUserImage.setImageBitmap(bitmap)
+//                val bitmap = CameraHelper.handleResult(it?.data?.data!!, this)
+                setImage(it.data?.data!!)
             }
         }
 
@@ -506,14 +433,10 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
                 (bitmap.height * 0.4f).roundToInt(),
                 true
             )
-            println("hhhh loaded")
             if (imageType == 1) {
                 Picasso.get().load(imageUri).into(ivUserImageBusiness)
                 userImageUri = bitmap
             } else if (imageType == 2) {
-//                var file: File? = null
-//                imageUri.let { imageUri ->
-//                    file = File(imageUri.path)
                 val file = CameraHelper.getMultiPartFrom(bitmap, "BusinessAccountCertificates", this)
                 file.let {
                     commercialRegistryFileList.add(file)
@@ -522,7 +445,6 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
             }
 
         } catch (e: Exception) {
-//            println("hhhh " + e.message)
             HelpFunctions.ShowLongToast(getString(R.string.pickRightImage), this)
         }
     }
@@ -552,22 +474,19 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
             } else if (commercialRegistryFileList.isEmpty()) {
                 showError(getString(R.string.you_must_download_the_commercial_registry_file))
             } else {
-                addBussinessAccount()
+                addBusinessAccount()
             }
         }
 
     }
 
-    private fun addBussinessAccount() {
+    private fun addBusinessAccount() {
         var fileUserImage: MultipartBody.Part? = null
-//        userImageUri?.let {
-//            fileUserImage = File(it.path)
-//        }
 
         val file = CameraHelper.getMultiPartFrom(userImageUri!!, "BusinessAccountImage", this)
         fileUserImage = (file)
 
-        businessAccountViewModel.addBusinessAcoount(
+        businessAccountViewModel.addBusinessAccount(
             0.toString(),
             userNamee.text.toString().trim(),
             ConstantObjects.logged_userid,
@@ -650,34 +569,7 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
             true
         }
     }
-
-    private fun validateSignupEmail(): Boolean {
-        val emailInput = textEmaill!!.text.toString().trim { it <= ' ' }
-        return if (emailInput.isEmpty()) {
-            textEmaill!!.error = (getString(R.string.Please_enter, getString(R.string.Email)))
-            false
-        } else if (!Patterns.EMAIL_ADDRESS.matcher(emailInput).matches()) {
-            textEmaill!!.error = (getString(R.string.Pleaseenteravalidemailaddress))
-            false
-        } else {
-
-            true
-        }
-    }
-
-    private fun validateNumber(): Boolean {
-        val numberInput = etPhoneNumber!!.text.toString().trim { it <= ' ' }
-        return if (numberInput.isEmpty()) {
-            etPhoneNumber.error = getString(R.string.PleaseenteravalidPhoneNumber)
-            false
-        } else if (!Patterns.PHONE.matcher(numberInput).matches()) {
-            etPhoneNumber.error = getString(R.string.PleaseenteravalidPhoneNumber)
-            false
-        } else {
-            true
-        }
-    }
-
+    
     private fun validateCommercialRegisterNo(): Boolean {
         val emailInput = commercial_registration_no!!.text.toString().trim { it <= ' ' }
         return if (emailInput.isEmpty()) {
@@ -704,44 +596,8 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
         }
     }
 
-    // not user validation
-    private fun validateCompanyURL(): Boolean {
-        val emailInput = et_web_site!!.text.toString()
-        return if (emailInput.isEmpty()) {
-            et_web_site.error = getString(R.string.Please_enter, getString(R.string.website))
-            false
-        } else if (!URLUtil.isValidUrl(emailInput)) {
-            et_web_site.error = getString(R.string.please_enter_valid, getString(R.string.website))
-            false
-        } else {
-            true
-        }
-    }
-
-    private fun validateProfilePicture(): Boolean {
-//        val emailInput =
-//            upload_photo!!.text.toString().trim { it <= ' ' }
-//        return if (emailInput.isEmpty()) {
-//            showError(
-//                getString(
-//                    R.string.Please_select,
-//                    getString(R.string.profile_picture)
-//                )
-//            )
-//            false
-//        } else {
-//            true
-//        }
-        return true
-    }
-
-
-    /***********/
-    /***********/
-    /***********/
-    /***********/
-    /***********/
-    /***********/
+  
+ 
     private fun checkPermissions() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -749,28 +605,16 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
                     this, Manifest.permission.READ_EXTERNAL_STORAGE
                 ) == PermissionChecker.PERMISSION_DENIED
             ) {
-                val permissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE);
-                requestPermissions(permissions, PERMISSION_CODE);
+                val permissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
+                requestPermissions(permissions, PERMISSION_CODE)
             } else {
-                pickImageFromGallery();
+                pickImageFromGallery()
             }
         } else {
-            pickImageFromGallery();
+            pickImageFromGallery()
         }
 
     }
-
-
-    fun pickImageFromGallery() {
-        mResults.clear()
-        val intent = Intent(this, ImagesSelectorActivity::class.java)
-        intent.putExtra(SelectorSettings.SELECTOR_MAX_IMAGE_NUMBER, 1)
-        intent.putExtra(SelectorSettings.SELECTOR_SHOW_CAMERA, false)
-        intent.putStringArrayListExtra(SelectorSettings.SELECTOR_INITIAL_SELECTED_LIST, mResults)
-
-        startActivityForResult(intent, IMAGE_PICK_CODE)
-    }
-
     private fun checkLocationPermission() {
         if (ContextCompat.checkSelfPermission(
                 this@BusinessAccountCreateActivity, Manifest.permission.ACCESS_FINE_LOCATION
@@ -787,9 +631,22 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
         }
     }
 
+
+    private fun pickImageFromGallery() {
+        mResults.clear()
+        val intent = Intent(this, ImagesSelectorActivity::class.java)
+        intent.putExtra(SelectorSettings.SELECTOR_MAX_IMAGE_NUMBER, 1)
+        intent.putExtra(SelectorSettings.SELECTOR_SHOW_CAMERA, false)
+        intent.putStringArrayListExtra(SelectorSettings.SELECTOR_INITIAL_SELECTED_LIST, mResults)
+
+        startActivityForResult(intent, IMAGE_PICK_CODE)
+    }
+
+ 
+
     private fun openPlacePicker() {
         val intent = Intent(this@BusinessAccountCreateActivity, LocationPickerActivity::class.java)
-        chooseLocationLuncher.launch(intent)
+        chooseLocationLauncher.launch(intent)
     }
 
 
@@ -856,194 +713,7 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
             }
         }
     }
-
-
-    fun addBusinessUser() {
-
-        HelpFunctions.startProgressBar(this)
-
-        val malqa = getRetrofitBuilder()
-
-        val UserNamee = userNamee.text.toString()
-        val CompanyName = company_name_ar.text.toString()
-        val EmailAddress = textEmaill.text.toString()
-        val WebsiteName = et_web_site.text.toString()
-        val FacebookLink = Facebook.text.toString()
-        val InstagramLink = Instagram.text.toString()
-        val youtubeLink = ic_youtube.text.toString()
-        val TwitterLink = ic_twitter.text.toString()
-        val WhatsappNumber = ic_tickTok.text.toString()
-        val SnapchatLInk = ic_snapshot.text.toString()
-        // val SelectEmployemntType = employment_type.text.toString()
-        val CommercialRegisterNo = commercial_registration_no.text.toString()
-        val SelectDate = tvDate.text.toString()
-//        val profile_photo = upload_photo.text.toString()
-        val TaxNumber = TaxNumber.text.toString()
-
-        val addBusinessUser = BusinessUserRespone.BusinessUser(
-            businessName = CompanyName,
-            businessEmail = EmailAddress,
-            businessURL = WebsiteName,
-            businessFacebookURI = FacebookLink,
-            businessInstagramURI = InstagramLink,
-            businessYoutubeURI = youtubeLink,
-            businessTwitterURI = TwitterLink,
-            businessWatsappNumber = WhatsappNumber,
-            businessSnapchatURI = SnapchatLInk,
-            businessType = "",//SelectEmployemntType
-            businessRegistrationNumber = CommercialRegisterNo,
-            businessRegistrationExpiry = "",
-            approvedBy = "",
-            approvedOn = "",
-            businessGoogleLatLng = "${locationPicker!!.lat},${locationPicker!!.lng}",
-            businessLogoPath = profileImageBase64,
-            businessPhone = etPhoneNumber.text.toString(),
-            id = 0,
-            isApproved = true,
-            userId = ConstantObjects.logged_userid
-
-        )
-
-        val businessRegistrationExpiry = HelpFunctions.getFormattedDate(
-            SelectDate, HelpFunctions.datetimeformat_ddmyyyy, HelpFunctions.datetimeformat_24hrs
-        )
-
-
-        addBusinessUser.businessRegistrationExpiry = businessRegistrationExpiry
-        val call = malqa.addBusinesUser(addBusinessUser)
-
-        call.enqueue(object : retrofit2.Callback<GeneralRespone?> {
-            override fun onFailure(
-                call: retrofit2.Call<GeneralRespone?>?, t: Throwable
-            ) {
-                HelpFunctions.dismissProgressBar()
-
-                Toast.makeText(
-                    this@BusinessAccountCreateActivity, "${t.message}", Toast.LENGTH_LONG
-                ).show()
-            }
-
-            override fun onResponse(
-                call: retrofit2.Call<GeneralRespone?>, response: retrofit2.Response<GeneralRespone?>
-            ) {
-                if (response.isSuccessful) {
-
-                    if (response.body() != null) {
-
-                        val respone: GeneralRespone = response.body()!!
-
-                        if (!respone.isError) {
-                            addBusinessRegisterFile(respone.id)
-
-                        } else {
-                            HelpFunctions.dismissProgressBar()
-
-                            Toast.makeText(
-                                this@BusinessAccountCreateActivity,
-                                respone.message,
-                                Toast.LENGTH_LONG
-                            ).show()
-                        }
-                    }
-
-                }
-            }
-        })
-
-    }
-
-
-    //Email Validation
-
-
-    //CompanyName Validation
-
-
-    //WebsiteURL Validation
-
-
-    //EmployementType Validation
-    private fun validateEmployementType(): Boolean {
-//        val emailInput =
-//            employment_type!!.text.toString().trim { it <= ' ' }
-//        return if (emailInput.isEmpty()) {
-//            showError(getString(R.string.Please_select, getString(R.string.type_of_employment)))
-//            false
-//        } else {
-//            true
-//        }
-        return true
-    }
-
-
-    //CommercialRegisterNo Validation
-
-
-    //ProfilePicture Validation
-
-
-    //ExpiryDate Validation
-
-
-    //TaxNumber Validation
-    private fun validateTaxNumber(): Boolean {
-        val emailInput = TaxNumber!!.text.toString().trim { it <= ' ' }
-        return if (emailInput.isEmpty()) {
-            showError(getString(R.string.Please_select, getString(R.string.TaxNumber)))
-            false
-        } else {
-            true
-        }
-    }
-
-    //CommercialRegisterDoc Validation
-    private fun validateCommercialRegisterDoc(): Boolean {
-        val emailInput = download_the_commercial_registry_file!!.text.toString().trim { it <= ' ' }
-        return if (emailInput.isEmpty()) {
-            showError(
-                getString(
-                    R.string.Please, getString(R.string.download_the_commercial_registry_file)
-                )
-            )
-            false
-        } else {
-            true
-        }
-    }
-
-
-    //handle requested permission result
-//    override fun onRequestPermissionsResult(
-//        requestCode: Int,
-//        permissions: Array<out String>,
-//        grantResults: IntArray
-//    ) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-//        when (requestCode) {
-//
-//            PERMISSION_CODE -> {
-//                if (grantResults.size > 0 && grantResults[0] ==
-//                    PackageManager.PERMISSION_GRANTED
-//                ) {
-//                    pickImageFromGallery()
-//                } else {
-//                    HelpFunctions.ShowLongToast("Permission denied", this)
-//                }
-//            }
-//            PERMISSION_REQUEST_ACCESS_FINE_LOCATION -> {
-//                if (grantResults.size > 0 && grantResults[0] ==
-//                    PackageManager.PERMISSION_GRANTED
-//                ) {
-//                    checkGPS()
-//
-//                } else {
-//                    HelpFunctions.ShowLongToast("Permission denied", this)
-//                }
-//            }
-//
-//        }
-//    }
-
+    
     private fun checkGPS() {
 
         val mLocationRequest = LocationRequest()
@@ -1152,9 +822,13 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
         id: Int, countryName: String, countryFlag: String?, countryCode: String?
     ) {
         tvCode.text = countryCode
-        ivFlag.setImageDrawable(null);
+        ivFlag.setImageDrawable(null)
         Picasso.get().load(countryFlag).into(ivFlag)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        businessAccountViewModel.closeAllCall()
+    }
 
 }

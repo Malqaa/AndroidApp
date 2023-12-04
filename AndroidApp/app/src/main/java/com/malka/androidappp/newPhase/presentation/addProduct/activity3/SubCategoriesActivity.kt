@@ -18,7 +18,6 @@ import kotlinx.android.synthetic.main.fragment_sub_categories.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 
 class SubCategoriesActivity : BaseActivity(), AdapterSubCategories.OnItemClickListener {

@@ -20,6 +20,7 @@ import com.malka.androidappp.newPhase.domain.models.pakatResp.PakatResp
 import com.malka.androidappp.newPhase.domain.models.productTags.CategoryTagsResp
 import com.malka.androidappp.newPhase.domain.models.servicemodels.AddProductResponse
 import com.malka.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
+import com.malka.androidappp.newPhase.presentation.utils.ConstantsHelper
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -478,11 +479,10 @@ class AddProductViewModel : BaseViewModel() {
 
 
         /**Image**/
-        var imageListTOSend: ArrayList<MultipartBody.Part> = ArrayList()
+        val imageListTOSend: ArrayList<MultipartBody.Part> = ArrayList()
         for (file in listImageFile) {
-            var multipartBody: MultipartBody.Part = if (file != null) {
-                var requestbody: RequestBody = file.asRequestBody("image/*".toMediaTypeOrNull())
-                MultipartBody.Part.createFormData("listImageFile", file.name, requestbody)
+            val multipartBody: MultipartBody.Part = if (file != null) {
+                ConstantsHelper.getMultiPart(file, "image/*", "listImageFile")!!
             } else {
                 MultipartBody.Part.createFormData("listImageFile", "null", "null".toRequestBody())
             }

@@ -1,8 +1,5 @@
 package com.malka.androidappp.newPhase.presentation.addProduct.activity4
 
-import android.annotation.SuppressLint
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView.Adapter
@@ -10,8 +7,8 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.malka.androidappp.databinding.ItemVideoAddBinding
 
 class VideoAddLinkAdapter(
-    var videoLinks: ArrayList<String>,
-    var setOnTypingVideoLinkTypingVideoLinks: SetOnTypingVideoLinkTypingVideoLinks
+    private var videoLinks: ArrayList<String>,
+    private var setOnTypingVideoLinkTypingVideoLinks: SetOnTypingVideoLinkTypingVideoLinks
 ) :
     Adapter<VideoAddLinkAdapter.VideoAddLinkViewHolder>() {
 

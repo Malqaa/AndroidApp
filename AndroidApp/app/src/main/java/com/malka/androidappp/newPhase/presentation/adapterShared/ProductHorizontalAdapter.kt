@@ -5,7 +5,6 @@ import android.content.Context
 import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
@@ -27,13 +26,12 @@ import java.util.*
 
 class ProductHorizontalAdapter(
     var productList: List<Product>,
-    var setOnProductItemListeners: SetOnProductItemListeners,
+    private var setOnProductItemListeners: SetOnProductItemListeners,
     var categoryId: Int = 0,
-    var isHorizenal: Boolean,
-    var isMyProduct: Boolean = false
+    private var isHorizenal: Boolean,
+    private var isMyProduct: Boolean = false
 ) : RecyclerView.Adapter<ProductHorizontalAdapter.SellerProductViewHolder>() {
     lateinit var context: Context
-    var elapsedDays =0L
     class SellerProductViewHolder(var viewBinding: ProductItemBinding) :
         RecyclerView.ViewHolder(viewBinding.root)
 
@@ -257,7 +255,7 @@ class ProductHorizontalAdapter(
         notifyDataSetChanged()
     }
 
-    fun getDifference(targetDateTimeString:String, holder: SellerProductViewHolder) {
+    private fun getDifference(targetDateTimeString:String, holder: SellerProductViewHolder) {
 
         val formatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss")
         val targetDateTime = formatter.parseDateTime(targetDateTimeString)
@@ -273,11 +271,6 @@ class ProductHorizontalAdapter(
         val hoursDifference = duration.standardHours % 24
         val minutesDifference = duration.standardMinutes % 60
 
-        // Display the difference
-        val differenceMessage = String.format(
-            "Difference: %d days, %d hours, %d minutes",
-            daysDifference, hoursDifference, minutesDifference
-        )
 
         if (daysDifference <= 0 && (hoursDifference <= 0) && (minutesDifference <= 0)) {
             holder.viewBinding.containerTimeBar.hide()

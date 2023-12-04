@@ -7,7 +7,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseActivity
@@ -32,6 +31,7 @@ class MyBidsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
     var lastUpdateIndex: Int = -1
     private lateinit var productsListViewModel: CategoryProductViewModel
     lateinit var gridViewLayoutManager: GridLayoutManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_bids)
@@ -69,13 +69,6 @@ class MyBidsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
                 progressBar.hide()
         }
 
-
-//        productsListViewModel.isloadingMore.observe(this) {
-//            if (it)
-//                progressBarMore.show()
-//            else
-//                progressBarMore.hide()
-//        }
         productsListViewModel.isNetworkFail.observe(this) {
             if (it) {
                 showProductApiError(getString(R.string.connectionError))
@@ -98,7 +91,7 @@ class MyBidsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
         }
         productsListViewModel.productListRespObserver.observe(this) { productListResp ->
             if (productListResp.status_code == 200) {
-                if (productListResp.productList != null && productListResp.productList.isNotEmpty()) {
+                if (!productListResp.productList.isNullOrEmpty()) {
                     productList.clear()
                     productList.addAll(productListResp.productList)
                     productAdapter.notifyDataSetChanged()
@@ -138,12 +131,6 @@ class MyBidsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
         }
         productsListViewModel.addProductToFavObserver.observe(this) {
             if (it.status_code == 200) {
-//                if (lastUpdateIndex < productList.size) {
-//                    productList[lastUpdateIndex].isFavourite =
-//                        !productList[lastUpdateIndex].isFavourite
-//                    productSearchCategoryAdapter.notifyItemChanged(lastUpdateIndex)
-//                    productSearchCategoryAdapter.notifyDataSetChanged()
-//                }
                 lifecycleScope.launch(Dispatchers.IO) {
                     var selectedSimilerProduct: Product? = null
                     for (product in productList) {
@@ -154,8 +141,6 @@ class MyBidsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
                         }
                     }
                     withContext(Dispatchers.Main) {
-                        /**update similer product*/
-                        /**update similer product*/
                         selectedSimilerProduct?.let { product ->
                             productAdapter.notifyItemChanged(
                                 productList.indexOf(
@@ -182,8 +167,7 @@ class MyBidsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
         productsListViewModel.getMyBids()
     }
 
-    /**open activity product detials functions**/
-    val productDetailsLauncher =
+    private val productDetailsLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val productId: Int = result.data?.getIntExtra(ConstantObjects.productIdKey, 0) ?: 0
@@ -202,7 +186,6 @@ class MyBidsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
     }
 
     private fun refreshFavProductStatus(productId: Int, productFavStatusKey: Boolean) {
-        /***for similer product*/
         lifecycleScope.launch(Dispatchers.IO) {
             var selectedSimilerProduct: Product? = null
             for (product in productList) {
@@ -213,8 +196,6 @@ class MyBidsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
                 }
             }
             withContext(Dispatchers.Main) {
-                /**update similer product*/
-                /**update similer product*/
                 selectedSimilerProduct?.let { product ->
                     productAdapter.notifyItemChanged(
                         productList.indexOf(
@@ -243,5 +224,10 @@ class MyBidsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
 
     override fun onShowMoreSetting(position: Int, productID: Int, categoryID: Int) {
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        productsListViewModel.closeAllCall()
     }
 }

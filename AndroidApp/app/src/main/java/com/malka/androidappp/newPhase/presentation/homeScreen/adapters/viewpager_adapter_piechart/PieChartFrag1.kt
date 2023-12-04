@@ -9,7 +9,7 @@ import android.widget.TextView
 import com.malka.androidappp.R
 
 
-class PieChartFrag1() : Fragment() {
+class PieChartFrag1 : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

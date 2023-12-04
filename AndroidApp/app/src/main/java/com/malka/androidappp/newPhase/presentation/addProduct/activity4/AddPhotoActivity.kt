@@ -4,21 +4,15 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.database.Cursor
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.provider.MediaStore
-import android.webkit.URLUtil
-
 import androidx.core.content.ContextCompat
 import androidx.core.content.PermissionChecker
-import androidx.loader.content.CursorLoader
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseActivity
-import com.malka.androidappp.newPhase.data.helper.Extension
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.data.helper.getColorCompat
 import com.malka.androidappp.newPhase.data.helper.linearLayoutManager
@@ -28,15 +22,14 @@ import com.malka.androidappp.newPhase.presentation.addProduct.activity5.DynamicT
 import com.sangcomz.fishbun.FishBun
 import com.sangcomz.fishbun.FishBun.Companion.INTENT_PATH
 import com.sangcomz.fishbun.adapter.image.impl.GlideAdapter
-
 import kotlinx.android.synthetic.main.activity_add_photo.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 
 
 class AddPhotoActivity : BaseActivity(), SelectedImagesAdapter.SetOnSelectedMainImage {
 
-    var Title: String = ""
-    var file_name: String = ""
+    private var title: String = ""
+    private var file_name: String = ""
 
     private val selectedImagesURI: ArrayList<ImageSelectModel> = ArrayList()
     private lateinit var selectedImagesAdapter: SelectedImagesAdapter
@@ -49,7 +42,7 @@ class AddPhotoActivity : BaseActivity(), SelectedImagesAdapter.SetOnSelectedMain
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_photo)
 
-        Title = intent?.getStringExtra("Title").toString()
+        title = intent?.getStringExtra("title").toString()
         file_name = intent?.getStringExtra("file_name") ?: ""
         setupVideoLinksAapter()
         HelpFunctions.ShowLongToast(
@@ -97,7 +90,7 @@ class AddPhotoActivity : BaseActivity(), SelectedImagesAdapter.SetOnSelectedMain
             finish()
         }
         containerAddVideo.setOnClickListener {
-            var dialogAddVideoLink =
+            val dialogAddVideoLink =
                 DialogAddVideoLink(this, object : DialogAddVideoLink.SetSaveLinkListeners {
                     override fun saveLinkListeners(value: String) {
                         videoLinks.add(value)
@@ -114,7 +107,7 @@ class AddPhotoActivity : BaseActivity(), SelectedImagesAdapter.SetOnSelectedMain
             } else if (videoLinks.isNotEmpty()) {
                 var allLinkSet = true
                 for (link in videoLinks) {
-                    if (link.toString().trim() == "") {
+                    if (link.trim() == "") {
                         allLinkSet = false
                         break
                     }
@@ -158,13 +151,13 @@ class AddPhotoActivity : BaseActivity(), SelectedImagesAdapter.SetOnSelectedMain
                         Manifest.permission.READ_EXTERNAL_STORAGE
                     ) == PermissionChecker.PERMISSION_DENIED
                 ) {
-                    val permissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE);
-                    requestPermissions(permissions, PERMISSION_CODE);
+                    val permissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    requestPermissions(permissions, PERMISSION_CODE)
                 } else {
-                    pickImageFromGallery2();
+                    pickImageFromGallery2()
                 }
             } else {
-                pickImageFromGallery2();
+                pickImageFromGallery2()
             }
 
             addcamera.setOnClickListener {
@@ -265,7 +258,7 @@ class AddPhotoActivity : BaseActivity(), SelectedImagesAdapter.SetOnSelectedMain
             if (requestCode == IMAGE_PICk_CODE_2) {
                 if (resultCode == Activity.RESULT_OK) {
                     val data = data?.getParcelableArrayListExtra<Uri>(INTENT_PATH)
-                    var path: ArrayList<Uri> = ArrayList()
+                    val path: ArrayList<Uri> = ArrayList()
                     selectedImagesURI.clear()
                     data?.let {
                         path.addAll(it)
@@ -281,6 +274,7 @@ class AddPhotoActivity : BaseActivity(), SelectedImagesAdapter.SetOnSelectedMain
 //                                }
 
                             } catch (e: Exception) {
+                                //
                             }
                         }
                         selectedImagesAdapter.notifyDataSetChanged()
@@ -291,29 +285,30 @@ class AddPhotoActivity : BaseActivity(), SelectedImagesAdapter.SetOnSelectedMain
         }
 
     }
-
-    private fun getRealPathFromURI(contentUri: Uri): String? {
-        val proj = arrayOf(MediaStore.Images.Media.DATA)
-        val loader = CursorLoader(this, contentUri, proj, null, null, null)
-        val cursor: Cursor? = loader.loadInBackground()
-        val column_index: Int? = cursor?.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-        cursor?.moveToFirst()
-        val result: String? = column_index?.let { cursor?.getString(it) }
-        cursor?.close()
-        return result
-    }
-
     private fun categoryTemplate() {
-        val Title = Title
+        val title = title
 
         AddProductObjectData.images = selectedImagesURI
 
         startActivity(Intent(this, DynamicTemplateActivtiy::class.java).apply {
             putExtra("file_name", file_name)
-            putExtra("Title", Title)
+            putExtra("title", title)
         })
     }
 
+
+//    private fun getRealPathFromURI(contentUri: Uri): String? {
+//        val proj = arrayOf(MediaStore.Images.Media.DATA)
+//        val loader = CursorLoader(this, contentUri, proj, null, null, null)
+//        val cursor: Cursor? = loader.loadInBackground()
+//        val column_index: Int? = cursor?.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+//        cursor?.moveToFirst()
+//        val result: String? = column_index?.let { cursor?.getString(it) }
+//        cursor?.close()
+//        return result
+//    }
+
+   
 //    private fun storePath() {
 //        Extension.clearPath()
 //        for (i in 0 until AddProductObjectData.subCategoryPath.size) {

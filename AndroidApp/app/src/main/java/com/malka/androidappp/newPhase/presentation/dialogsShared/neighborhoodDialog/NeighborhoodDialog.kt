@@ -59,7 +59,6 @@ class NeighborhoodDialog(context: Context, var regionId:Int, var getSelectedNeig
         ivClose.setOnClickListener {
             dismiss()
         }
-        //=========
         mainNeighborhoodList = ArrayList()
         neighborhoodsList = ArrayList()
         neighborhoodAdapter = RegionAdapter(context, neighborhoodsList, this)
@@ -96,7 +95,6 @@ class NeighborhoodDialog(context: Context, var regionId:Int, var getSelectedNeig
                 temp.add(country)
             }
         }
-        //update recyclerview
         updateList(temp)
     }
 
@@ -128,8 +126,7 @@ class NeighborhoodDialog(context: Context, var regionId:Int, var getSelectedNeig
             override fun onFailure(call: Call<RegionsResp>, t: Throwable) {
                 // println("hhhh "+t.message)
                 progressBar.visibility = View.GONE
-                if (call.isCanceled) {
-                } else if (t is HttpException) {
+                if (t is HttpException) {
                     HelpFunctions.ShowLongToast(context.getString(R.string.serverError), context)
 
                 } else {
@@ -148,10 +145,8 @@ class NeighborhoodDialog(context: Context, var regionId:Int, var getSelectedNeig
                 try {
                     if (response.isSuccessful) {
                         response.body()?.let {
-                            it
                             neighborhoodsResp = it
                             neighborhoodsResp.regionsList?.let { regionsList ->
-                                //ConstantObjects.countryList = countryList
                                 getNeighborhoodList(regionsList)
                             }
                         }

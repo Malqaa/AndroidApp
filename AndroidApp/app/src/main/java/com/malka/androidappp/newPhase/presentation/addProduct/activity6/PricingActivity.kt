@@ -19,10 +19,8 @@ import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.data.helper.hide
 import com.malka.androidappp.newPhase.data.helper.show
 import com.malka.androidappp.newPhase.data.helper.widgets.DatePickerFragment
-import com.malka.androidappp.newPhase.data.helper.widgets.TimePickerFragment
 import com.malka.androidappp.newPhase.data.helper.widgets.rcv.GenericListAdapter
 import com.malka.androidappp.newPhase.domain.models.accountBackListResp.AccountDetails
-import com.malka.androidappp.newPhase.domain.models.servicemodels.BankListRespone
 import com.malka.androidappp.newPhase.presentation.addProduct.AddProductObjectData
 import com.malka.androidappp.newPhase.presentation.addProduct.ConfirmationAddProductActivity
 import com.malka.androidappp.newPhase.presentation.addProduct.activity7.ListingDurationActivity
@@ -30,22 +28,20 @@ import com.malka.androidappp.newPhase.presentation.addProduct.viewmodel.AddProdu
 import kotlinx.android.synthetic.main.activity_pricing_payment.*
 import kotlinx.android.synthetic.main.add_account_layout.*
 import kotlinx.android.synthetic.main.add_bank_layout.view.*
-import kotlinx.android.synthetic.main.dialog_add_discount.tvClosingAuctionCustomDataOption2
 import kotlinx.android.synthetic.main.toolbar_main.*
 
 
 class PricingActivity : BaseActivity() {
-    var bankList: List<BankListRespone.BankDetail> = ArrayList()
-    private lateinit var addProductViewModel: AddProductViewModel
-    var bottomSheetDialog: BottomSheetDialog? = null
-
+//    var bankList: List<BankListRespone.BankDetail> = ArrayList()
+//    var selectTime = ""
     //    var selectedAccountDetails: AccountDetails? = null
-    var selectedAccountDetails: ArrayList<AccountDetails> = ArrayList()
-    var isEdit: Boolean = false
-    var selectdate = ""
-    var selectTime = ""
-    var dateString =""
-    var fm: FragmentManager? = null
+//    var dateString =""
+    private lateinit var addProductViewModel: AddProductViewModel
+    private var bottomSheetDialog: BottomSheetDialog? = null
+    private var selectedAccountDetails: ArrayList<AccountDetails> = ArrayList()
+    private var isEdit: Boolean = false
+    private  var selectdate = ""
+    private var fm: FragmentManager? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -405,7 +401,7 @@ class PricingActivity : BaseActivity() {
                 expiaryDate = bottomSheetDialog.etExpireDate.text.toString().trim(),
                 SaveForLaterUse = bottomSheetDialog.switch_save_later.isChecked.toString()
             )
-            bottomSheetDialog?.dismiss()
+            bottomSheetDialog.dismiss()
         }
     }
 
@@ -504,7 +500,7 @@ class PricingActivity : BaseActivity() {
                         AddProductObjectData.auctionMinPrice = reservedPrice
                         AddProductObjectData.auctionStartPrice = startPrice
                         AddProductObjectData.selectedAccountDetails = null
-                        var paymentOptionList: ArrayList<Int> = ArrayList()
+                        val paymentOptionList: ArrayList<Int> = ArrayList()
                         if (switchSaudiBankDeposit1.isChecked && selectedAccountDetails != null) {
                             paymentOptionList.add(AddProductObjectData.PAYMENT_OPTION_BANk)
                             AddProductObjectData.selectedAccountDetails = selectedAccountDetails

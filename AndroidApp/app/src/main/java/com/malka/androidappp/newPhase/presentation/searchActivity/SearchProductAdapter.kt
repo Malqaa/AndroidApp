@@ -1,5 +1,6 @@
 package com.malka.androidappp.newPhase.presentation.searchActivity
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
@@ -35,6 +36,7 @@ class SearchProductAdapter(
 
     override fun getItemCount() = allProducts.size
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         holder.view.run {
             allProducts[position].run {
@@ -80,7 +82,7 @@ class SearchProductAdapter(
                 lisView.hide()
                 gridview.show()
 
-                tvProductPrice.text = "${price!!.toDouble().decimalNumberFormat()} ${
+                tvProductPrice.text = "${price.toDouble().decimalNumberFormat()} ${
                     context.getString(
                         R.string.Rayal
                     )

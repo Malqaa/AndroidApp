@@ -14,22 +14,21 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.data.helper.ConstantObjects
-import com.malka.androidappp.newPhase.data.network.constants.Constants
 import com.malka.androidappp.newPhase.domain.models.dynamicSpecification.DynamicSpecificationItem
 import com.malka.androidappp.newPhase.domain.models.dynamicSpecification.SubSpecificationItem
 
 
 class DynamicSpecificationsAdapter(
-    var dynamicSpecificationList: List<DynamicSpecificationItem>,
-    var onChangeValueListener: OnChangeValueListener
+    private var dynamicSpecificationList: List<DynamicSpecificationItem>,
+    private var onChangeValueListener: OnChangeValueListener
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     //====viewHolder
-    val spinnerType = 1
-    val textBoxType = 2
-    val radioType = 5
-    val checkType = 6
+    private val spinnerType = 1
+    private val textBoxType = 2
+    private val radioType = 5
+    private val checkType = 6
 
 //    class TextBoxViewHolder(var viewBinding: ItemTextBoxsBinding) :
 //        RecyclerView.ViewHolder(viewBinding.root)
