@@ -1093,6 +1093,7 @@
     <string name="cannotWithdrawal">"لا يمكن أن تكون قيمة السحب أكبر من الرصيد المتاح"</string>
     <string name="typingTwoLetter">يرجى كتابة (حرفين على الأقل) فى</string>
     <string name="notAbleToApplyDiscount">غير قادر على تطبيق الخصم</string>
+    <string name="enterAmountPointLess">الرجاء إدخال نقطة المبلغ أقل من الرصيد</string>
 
 
     <!--    <string name="Back_to_login">العودة لتسجيل الدخول</string>-->

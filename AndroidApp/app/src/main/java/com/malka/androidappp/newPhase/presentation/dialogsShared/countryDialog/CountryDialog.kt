@@ -136,7 +136,7 @@ class CountryDialog(private val context: Context, private var getSelectedCountry
                     //ConstantObjects.countryList = countryList
                     getCountriesList(countryList)
                 }
-                dismiss()
+//                dismiss()
             },
             onFailure = { throwable, statusCode, errorBody ->
                 progressBar.visibility = View.GONE

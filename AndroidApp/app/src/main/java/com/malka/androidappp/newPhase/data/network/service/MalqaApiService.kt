@@ -5,6 +5,7 @@ import com.malka.androidappp.fragments.shoppingcart3_shippingaddress.shipping_ad
 import com.malka.androidappp.fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ShippingAddressessData
 import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.data.network.constants.Constants
+import com.malka.androidappp.newPhase.domain.models.GeneralResponses
 import com.malka.androidappp.newPhase.domain.models.accountBackListResp.AccountBankListResp
 import com.malka.androidappp.newPhase.domain.models.accountProfile.AccountInfo
 import com.malka.androidappp.newPhase.domain.models.addBidResp.AddBidResp
@@ -19,6 +20,8 @@ import com.malka.androidappp.newPhase.domain.models.cartListResp.CartListResp
 import com.malka.androidappp.newPhase.domain.models.cartPriceSummery.CartPriceSummeryResp
 import com.malka.androidappp.newPhase.domain.models.categoryFollowResp.AddFollowObj
 import com.malka.androidappp.newPhase.domain.models.categoryFollowResp.CategoryFollowResp
+import com.malka.androidappp.newPhase.domain.models.categoryFollowResp.FavoriteSeller
+import com.malka.androidappp.newPhase.domain.models.categoryFollowResp.SavedSearch
 import com.malka.androidappp.newPhase.domain.models.categoryResp.CategoriesResp
 import com.malka.androidappp.newPhase.domain.models.configrationResp.ConfigurationResp
 import com.malka.androidappp.newPhase.domain.models.contauctUsMessage.ContactUsMessageResp
@@ -1121,13 +1124,13 @@ interface MalqaApiService {
 //    @POST("BussinessProduct/editproduct")
 //    fun editBusinessProduct(@Body editproduct: ModelEditProduct): Call<EditProductResponseBack>
 
-//    @GET("ListFavoriteSeller")
-//    fun getListFavoriteSeller(@Query("lang") language: String = ConstantObjects.currentLanguage): Call<GeneralResponses<List<FavoriteSeller>>>
+    @GET("ListFavoriteSeller")
+    fun getListFavoriteSeller(@Query("lang") language: String = ConstantObjects.currentLanguage): Call<GeneralResponses<List<FavoriteSeller>>>
 //
-//    @GET("ListSavedSearch")
-//    fun getListSaveSearch(@Query("lang") language: String = ConstantObjects.currentLanguage): Call<GeneralResponses<List<SavedSearch>>>
-//    @POST("RemoveSavedSearch")
-//    fun removeSavedSearch(@Query ("savedSearchId") savedSearchId :Int,@Query("lang") language: String = ConstantObjects.currentLanguage): Call<GeneralResponse>
+    @GET("ListSavedSearch")
+    fun getListSaveSearch(@Query("lang") language: String = ConstantObjects.currentLanguage): Call<GeneralResponses<List<SavedSearch>>>
+    @POST("RemoveSavedSearch")
+    fun removeSavedSearch(@Query ("savedSearchId") savedSearchId :Int,@Query("lang") language: String = ConstantObjects.currentLanguage): Call<GeneralResponse>
 
 //    @POST("Checkout/checkoutiteminsert")
 //    fun PostUserCheckOut(@Body checkout: CheckoutRequestModel): Call<GeneralRespone>

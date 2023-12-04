@@ -3030,6 +3030,7 @@
     <string name="Usernamemusthaveatleast2characters">
     The username must have at least two characters
       </string>
+    <string name="enterAmountPointLess">Please enter emount point less than balance</string>
 
     <!--    <string name="BusinessDetails">-->
     <!-- Business Details-->

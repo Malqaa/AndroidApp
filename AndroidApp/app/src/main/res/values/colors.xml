@@ -12,7 +12,7 @@
     <color name="Black">#404040</color>
     <color name="white">#ffffff</color>
     <color name="GreenApp">#43a047</color>
-<!--    <color name="greenspan">#43a047</color>-->
+    <color name="greenspan">#43a047</color>
     <color name="GoldenApp">@color/white</color>
     <color name="Silvr">#f6f7fb</color>
     <color name="SilverBackground">#eeeeee</color>

@@ -2,6 +2,7 @@ package com.malka.androidappp.newPhase.presentation.accountFragment.myPointFragm
 
 import android.graphics.Paint
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -140,10 +141,17 @@ class MyPointsFragment : Fragment(R.layout.fragment_my_points_fragment),
             if (etAmount.text.toString().trim() == "") {
                 etAmount.error = getString(R.string.enterAmountPoint)
             } else {
+                Log.i("tvTotalBalnce",tvTotalBalnce.text.toString())
+                Log.i("etAmount",etAmount.text.toString())
+                Log.i("result",(etAmount.text.toString().toLong() <= tvTotalBalnce.text.toString().toLong()).toString())
                 if (etAmount.text.toString().toLong() <= tvTotalBalnce.text.toString().toLong())
                     accountViewModel.convertMountToPoints(
                         etAmount.text.toString().trim()
                     )
+                else{
+
+                    etAmount.error = getString(R.string.enterAmountPointLess)
+                }
             }
         }
 

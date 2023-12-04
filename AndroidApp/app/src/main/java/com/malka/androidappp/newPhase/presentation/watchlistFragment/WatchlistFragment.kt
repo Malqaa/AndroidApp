@@ -82,8 +82,11 @@ class WatchlistFragment : Fragment(R.layout.fragment_watchlist),
         wishListViewModel.isLoading.observe(this) {
             if (it)
                 progressBar.show()
-            else
+            else{
+
+                HelpFunctions.dismissProgressBar()
                 progressBar.hide()
+            }
         }
         wishListViewModel.isNetworkFail.observe(this) {
             if (it) {
