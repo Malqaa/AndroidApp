@@ -21,6 +21,7 @@ import com.malka.androidappp.newPhase.data.helper.hide
 import com.malka.androidappp.newPhase.data.helper.linearLayoutManager
 import com.malka.androidappp.newPhase.data.helper.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.newPhase.data.helper.show
+import com.malka.androidappp.newPhase.domain.models.dynamicSpecification.DynamicSpecificationSentObject
 import com.malka.androidappp.newPhase.domain.models.loginResp.LoginUser
 import com.malka.androidappp.newPhase.domain.models.productResp.Product
 import com.malka.androidappp.newPhase.domain.models.productResp.ProductMediaItemDetails
@@ -131,7 +132,7 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
     private var productId: Int = -1;
     lateinit var specificationAdapter: SpecificationAdapter
     lateinit var reviewProductAdapter: ReviewProductAdapter
-    lateinit var specificationList: ArrayList<ProductSpecialityItemDetails>
+    lateinit var specificationList: ArrayList<DynamicSpecificationSentObject>
     lateinit var productImagesAdapter: ProductImagesAdapter
     lateinit var productImagesList: ArrayList<ProductMediaItemDetails>
     lateinit var similerProductList: ArrayList<Product>

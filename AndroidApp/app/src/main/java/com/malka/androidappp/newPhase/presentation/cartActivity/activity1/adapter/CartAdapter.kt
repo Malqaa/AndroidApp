@@ -41,65 +41,70 @@ class CartAdapter(
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
 
-            Extension.loadThumbnail(
-                context,
-                listProduct[position].img ?: "",
-                holder.viewBinding.ivProductImage,
-                holder.viewBinding.loader
-            )
-            holder.viewBinding.tvProductType.text = listProduct[position].categoryName ?: ""
-            holder.viewBinding.tvProductName.text = listProduct[position].name ?: ""
-            var location = ""
-            if (listProduct[position].country != null) {
-                location +=listProduct[position].country
-            }
-            if (listProduct[position].region != null) {
-                location += "-${listProduct[position].region}"
-            }
-            holder.viewBinding.tvProductCity.text = location
-            if (listProduct[position].priceDiscount == listProduct[position].price) {
-                holder.viewBinding.prodPrice.text =
-                    "${listProduct[position].price.toDouble()} ${
-                        context.getString(
-                            R.string.Rayal
-                        )
-                    }"
-                holder.viewBinding.tvOldPRiceProductPriceForHorizentalView.hide()
-            } else {
-                // for Horizental View
-                holder.viewBinding.tvOldPRiceProductPriceForHorizentalView.show()
-                holder.viewBinding.tvOldPRiceProductPriceForHorizentalView.paintFlags =
-                    Paint.STRIKE_THRU_TEXT_FLAG
-                holder.viewBinding.tvOldPRiceProductPriceForHorizentalView.text =
-                    "${listProduct[position].price.toDouble()} ${
-                        context.getString(
-                            R.string.Rayal
-                        )
-                    }"
-                holder.viewBinding.prodPrice.text =
-                    "${listProduct[position].priceDiscount.toDouble()} ${
-                        context.getString(
-                            R.string.Rayal
-                        )
-                    }"
-            }
-            holder.viewBinding.tvQuentitiy.text =listProduct[position].cartProductQuantity.toString()
+        Extension.loadThumbnail(
+            context,
+            listProduct[position].img ?: "",
+            holder.viewBinding.ivProductImage,
+            holder.viewBinding.loader
+        )
+        holder.viewBinding.tvProductType.text = listProduct[position].categoryName ?: ""
+        holder.viewBinding.tvProductName.text = listProduct[position].name ?: ""
+        var location = ""
+        if (listProduct[position].country != null) {
+            location += listProduct[position].country
+        }
+        if (listProduct[position].region != null) {
+            location += "-${listProduct[position].region}"
+        }
+        holder.viewBinding.tvProductCity.text = location
+        if (listProduct[position].priceDiscount == listProduct[position].price) {
+            holder.viewBinding.prodPrice.text =
+                "${listProduct[position].price.toDouble()} ${
+                    context.getString(
+                        R.string.Rayal
+                    )
+                }"
+            holder.viewBinding.tvOldPRiceProductPriceForHorizentalView.hide()
+        } else {
+            // for Horizental View
+            holder.viewBinding.tvOldPRiceProductPriceForHorizentalView.show()
+            holder.viewBinding.tvOldPRiceProductPriceForHorizentalView.paintFlags =
+                Paint.STRIKE_THRU_TEXT_FLAG
+            holder.viewBinding.tvOldPRiceProductPriceForHorizentalView.text =
+                "${listProduct[position].price.toDouble()} ${
+                    context.getString(
+                        R.string.Rayal
+                    )
+                }"
+            holder.viewBinding.prodPrice.text =
+                "${listProduct[position].priceDiscount.toDouble()} ${
+                    context.getString(
+                        R.string.Rayal
+                    )
+                }"
+        }
 
-            holder.viewBinding.btnSubtract.setOnClickListener {
-                if ((listProduct[position].cartProductQuantity?:0) > 1) {
-                    setProductCartListeners.onDecreaseQuantityProduct(position)
-                }
+        holder.viewBinding.tvQuentitiy.text = (listProduct[position].cartProductQuantity?:"0").toString()
 
+        holder.viewBinding.btnSubtract.setOnClickListener {
+            if ((listProduct[position].cartProductQuantity ?: 0) > 1) {
+                setProductCartListeners.onDecreaseQuantityProduct(position)
             }
-            holder.viewBinding.btnAdd.setOnClickListener {
-                if (holder.viewBinding.tvQuentitiy.text.toString().toInt() < (listProduct[position].qty?:0))
+
+        }
+        holder.viewBinding.btnAdd.setOnClickListener {
+            if (listProduct[position].qty == null ) {
                 setProductCartListeners.onIncreaseQuantityProduct(position)
+            } else {
+                if (holder.viewBinding.tvQuentitiy.text.toString().toInt() < (listProduct[position].qty ?: 0))
+                    setProductCartListeners.onIncreaseQuantityProduct(position)
                 else
                     HelpFunctions.ShowLongToast(
                         holder.viewBinding.tvQuentitiy.context.getString(R.string.QuentitiyClosed),
                         holder.viewBinding.tvQuentitiy.context
                     )
             }
+        }
         holder.viewBinding.btnDelete.setOnClickListener {
             setProductCartListeners.onDeleteProduct(position)
         }

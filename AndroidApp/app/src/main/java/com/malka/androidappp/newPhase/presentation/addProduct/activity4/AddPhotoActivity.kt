@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseActivity
+import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.data.helper.getColorCompat
 import com.malka.androidappp.newPhase.data.helper.linearLayoutManager
@@ -44,6 +45,8 @@ class AddPhotoActivity : BaseActivity(), SelectedImagesAdapter.SetOnSelectedMain
 
         title = intent?.getStringExtra("title").toString()
         file_name = intent?.getStringExtra("file_name") ?: ""
+       intent.getBooleanExtra(ConstantObjects.isEditKey, false)
+
         setupVideoLinksAapter()
         HelpFunctions.ShowLongToast(
             getString(R.string.noSubCategoryFound),
@@ -52,6 +55,7 @@ class AddPhotoActivity : BaseActivity(), SelectedImagesAdapter.SetOnSelectedMain
         toolbar_title.text = getString(R.string.item_details)
         setViewClickListeners()
         setImagesAdapter()
+
     //    storePath()
 
 
@@ -293,6 +297,8 @@ class AddPhotoActivity : BaseActivity(), SelectedImagesAdapter.SetOnSelectedMain
         startActivity(Intent(this, DynamicTemplateActivtiy::class.java).apply {
             putExtra("file_name", file_name)
             putExtra("title", title)
+            putExtra(ConstantObjects.isEditKey, intent.getBooleanExtra(ConstantObjects.isEditKey, false))
+
         })
     }
 

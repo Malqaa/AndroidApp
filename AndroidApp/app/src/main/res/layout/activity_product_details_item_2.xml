@@ -265,7 +265,7 @@
                             android:text="@string/price_negotiation"
                             android:textAllCaps="false"
                             android:textColor="@color/orange"
-                            android:textSize="@dimen/_14sdp"  />
+                            android:textSize="@dimen/_14sdp" />
 
 
                         <TextView
@@ -283,20 +283,20 @@
 
 
                     </RelativeLayout>
-<!--                    <TextView-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_gravity="center"-->
-<!--                        android:layout_marginTop="15dp"-->
-<!--                        android:background="@drawable/button_curve_stroke_border_orange"-->
-<!--                        android:fontFamily="@font/madani_arabic_medium"-->
-<!--                        android:gravity="center"-->
-<!--                        android:paddingTop="15dp"-->
-<!--                        android:paddingBottom="15dp"-->
-<!--                        android:text="@string/price_negotiation"-->
-<!--                        android:textAllCaps="false"-->
-<!--                        android:textColor="@color/orange"-->
-<!--                        android:textSize="@dimen/_14sdp" />-->
+                    <!--                    <TextView-->
+                    <!--                        android:layout_width="match_parent"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_gravity="center"-->
+                    <!--                        android:layout_marginTop="15dp"-->
+                    <!--                        android:background="@drawable/button_curve_stroke_border_orange"-->
+                    <!--                        android:fontFamily="@font/madani_arabic_medium"-->
+                    <!--                        android:gravity="center"-->
+                    <!--                        android:paddingTop="15dp"-->
+                    <!--                        android:paddingBottom="15dp"-->
+                    <!--                        android:text="@string/price_negotiation"-->
+                    <!--                        android:textAllCaps="false"-->
+                    <!--                        android:textColor="@color/orange"-->
+                    <!--                        android:textSize="@dimen/_14sdp" />-->
 
 
                     <View
@@ -581,133 +581,150 @@
                         </LinearLayout>
                     </LinearLayout>
 
-                    <LinearLayout
+                    <View
                         android:layout_width="@dimen/_200sdp"
                         android:layout_height="@dimen/_1sdp"
                         android:layout_gravity="center"
                         android:layout_marginTop="@dimen/_12sdp"
-                        android:background="@color/light_gray">
-
-                    </LinearLayout>
-
+                        android:background="@color/light_gray" />
 
                     <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_12sdp"
-                        android:orientation="horizontal"
-                        android:weightSum="2">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/madani_arabic_medium"
-                            android:text="@string/questions_and_answers"
-                            android:textColor="#000000"
-                            android:textSize="@dimen/_14sdp" />
-
-
-                        <TextView
-                            android:id="@+id/tvQuestionAndAnswersShowAll"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/madani_arabic_light"
-                            android:gravity="end"
-                            android:text="@string/SEEALL"
-                            android:textColor="@color/bg"
-                            android:textSize="@dimen/_14sdp" />
-
-                    </LinearLayout>
-
-
-                    <TextView
-
-                        android:id="@+id/tvNumberQuestionNotAnswer"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/madani_arabic_light"
-                        android:text="@string/there_are_2_questions_that_the_seller_did_not_answer"
-                        android:textColor="#000000"
-                        android:textSize="@dimen/_12sdp" />
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:id="@+id/tvErrorNoQuestion"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerHorizontal="true"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginBottom="10dp"
-                            android:fontFamily="@font/madani_arabic_medium"
-                            android:text="@string/noQuestionsFound"
-                            android:textAlignment="viewStart"
-                            android:textColor="@color/gray"
-                            android:textSize="@dimen/_10sdp" />
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/rvQuestionForProduct"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-
-
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:id="@+id/containerMainAskQuestion"
+                        android:id="@+id/sectionQs"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginTop="@dimen/_14sdp"
-                        android:background="@drawable/comment_btn"
-                        android:padding="@dimen/_5sdp">
-
-                        <EditText
-                            android:id="@+id/etWriteQuestion"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginStart="@dimen/_13sdp"
-                            android:layout_marginEnd="5dp"
-                            android:layout_toStartOf="@+id/contianerAskQuestion"
-                            android:layout_weight="1"
-                            android:background="@null"
-                            android:fontFamily="@font/madani_arabic_light"
-                            android:hint="@string/have_a_question"
-                            android:inputType="text"
-                            android:textColor="#6D6C74"
-                            android:textSize="@dimen/_13sdp" />
+                        android:orientation="vertical">
 
 
                         <LinearLayout
-                            android:id="@+id/contianerAskQuestion"
-                            android:layout_width="@dimen/_32sdp"
-                            android:layout_height="@dimen/_32sdp"
-                            android:layout_alignParentEnd="true"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginEnd="@dimen/_5sdp"
-                            android:background="@drawable/circle_ic_background_bg"
-                            android:foreground="?android:attr/selectableItemBackground"
-                            android:gravity="center">
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_12sdp"
+                            android:orientation="horizontal"
+                            android:weightSum="2">
 
-                            <ImageView
-                                android:layout_width="17dp"
-                                android:layout_height="@dimen/_17sdp"
-                                android:gravity="center"
-                                android:src="@drawable/send_log" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/madani_arabic_medium"
+                                android:text="@string/questions_and_answers"
+                                android:textColor="#000000"
+                                android:textSize="@dimen/_14sdp" />
+
+
+                            <TextView
+                                android:id="@+id/tvQuestionAndAnswersShowAll"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/madani_arabic_light"
+                                android:gravity="end"
+                                android:text="@string/SEEALL"
+                                android:textColor="@color/bg"
+                                android:textSize="@dimen/_14sdp" />
 
                         </LinearLayout>
 
 
+                        <TextView
 
-                    </RelativeLayout>
+                            android:id="@+id/tvNumberQuestionNotAnswer"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/madani_arabic_light"
+                            android:text="@string/there_are_2_questions_that_the_seller_did_not_answer"
+                            android:textColor="#000000"
+                            android:textSize="@dimen/_12sdp" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/tvErrorNoQuestion"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginBottom="10dp"
+                                android:fontFamily="@font/madani_arabic_medium"
+                                android:text="@string/noQuestionsFound"
+                                android:textAlignment="viewStart"
+                                android:textColor="@color/gray"
+                                android:textSize="@dimen/_10sdp" />
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rvQuestionForProduct"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/containerMainAskQuestion"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="@dimen/_14sdp"
+                            android:background="@drawable/comment_btn"
+                            android:padding="@dimen/_5sdp">
+
+                            <EditText
+                                android:id="@+id/etWriteQuestion"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginStart="@dimen/_13sdp"
+                                android:layout_marginEnd="5dp"
+                                android:layout_toStartOf="@+id/contianerAskQuestion"
+                                android:layout_weight="1"
+                                android:background="@null"
+                                android:fontFamily="@font/madani_arabic_light"
+                                android:hint="@string/have_a_question"
+                                android:inputType="text"
+                                android:textColor="#6D6C74"
+                                android:textSize="@dimen/_13sdp" />
+
+
+                            <LinearLayout
+                                android:id="@+id/contianerAskQuestion"
+                                android:layout_width="@dimen/_32sdp"
+                                android:layout_height="@dimen/_32sdp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginEnd="@dimen/_5sdp"
+                                android:background="@drawable/circle_ic_background_bg"
+                                android:foreground="?android:attr/selectableItemBackground"
+                                android:gravity="center">
+
+                                <ImageView
+                                    android:layout_width="17dp"
+                                    android:layout_height="@dimen/_17sdp"
+                                    android:gravity="center"
+                                    android:src="@drawable/send_log" />
+
+                            </LinearLayout>
+
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/hintQuestion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:fontFamily="@font/madani_arabic_medium"
+                        android:text="@string/questions_is_turned_off_by_the_seller"
+                        android:textColor="#000000"
+                        android:textSize="@dimen/_13sdp" />
 
                     <LinearLayout
                         android:id="@+id/answerLayout"
@@ -879,10 +896,10 @@
 
                         <LinearLayout
                             android:id="@+id/linHappy"
-                            android:visibility="gone"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:visibility="gone">
 
                             <ImageView
                                 android:id="@+id/imgHappy"
@@ -892,11 +909,11 @@
 
                             <TextView
                                 android:id="@+id/txtHappy"
-                                android:layout_gravity="center"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textAlignment="center"
+                                android:layout_gravity="center"
                                 android:layout_marginStart="5dp"
+                                android:textAlignment="center"
                                 android:textColor="@color/orange"
                                 android:textSize="@dimen/_10sdp" />
 
@@ -904,10 +921,10 @@
 
                         <LinearLayout
                             android:id="@+id/linSmile"
-                            android:visibility="gone"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:visibility="gone">
 
                             <ImageView
                                 android:id="@+id/imgSmile"
@@ -917,10 +934,10 @@
                                 android:src="@drawable/smileface_color" />
 
                             <TextView
-                                android:layout_gravity="center"
                                 android:id="@+id/txtSmile"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_gravity="center"
                                 android:layout_marginStart="5dp"
                                 android:textAlignment="center"
                                 android:textColor="@color/orange"
@@ -929,10 +946,11 @@
 
                         <LinearLayout
                             android:id="@+id/linSad"
-                            android:visibility="gone"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:visibility="gone">
+
                             <ImageView
                                 android:id="@+id/imgSad"
                                 android:layout_width="30dp"
@@ -941,16 +959,15 @@
                                 android:src="@drawable/sadcolor_gray" />
 
                             <TextView
-                                android:layout_gravity="center"
                                 android:id="@+id/txtSad"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_gravity="center"
                                 android:layout_marginStart="5dp"
                                 android:textAlignment="center"
                                 android:textColor="@color/orange"
                                 android:textSize="@dimen/_10sdp" />
                         </LinearLayout>
-
 
 
                         <RatingBar
@@ -984,6 +1001,7 @@
                         android:layout_marginBottom="@dimen/_10sdp"
                         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                         app:spanCount="1" />
+
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
@@ -1483,10 +1501,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_10sdp"
                         android:layout_marginTop="@dimen/_10sdp"
-                        android:visibility="gone"
                         android:layout_marginEnd="@dimen/_10sdp"
                         android:background="@drawable/round_btn"
-                        android:padding="@dimen/_10sdp">
+                        android:padding="@dimen/_10sdp"
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -1521,21 +1539,21 @@
                         android:id="@+id/containerBuyNow"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:visibility="gone"
                         android:layout_marginStart="@dimen/_10sdp"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:layout_marginEnd="@dimen/_10sdp"
                         android:background="@drawable/round_btn_grey"
-                        android:padding="@dimen/_10sdp">
+                        android:padding="@dimen/_10sdp"
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:textAlignment="center"
                             android:layout_marginStart="@dimen/_10sdp"
                             android:fontFamily="@font/madani_arabic_semi_bold"
                             android:text="@string/BuyNow"
+                            android:textAlignment="center"
                             android:textAllCaps="false"
                             android:textColor="@color/white"
                             android:textSize="@dimen/_12sdp" />
@@ -1556,6 +1574,7 @@
 
 
                     </RelativeLayout>
+
                     <RelativeLayout
                         android:id="@+id/containerBidOnPrice"
                         android:layout_width="match_parent"

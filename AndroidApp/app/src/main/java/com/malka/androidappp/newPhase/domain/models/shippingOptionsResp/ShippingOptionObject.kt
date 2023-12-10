@@ -11,7 +11,7 @@ data class ShippingOptionObject(
     val createdBy: String? = null,
     val createdAt: String? = null,
     val shippingOptionId: Int,
-    var selected: Boolean,
+    var selected: Boolean=false,
     /**paymentOption*/
     val paymentOptionId: Int,
     val paymentOption: String? = null

@@ -29,6 +29,7 @@ data class DynamicSpecificationItem(
     var valueBoolean: Boolean = false,
     var subSpecificationsValue: SubSpecificationItem? = null,
     var filterValue: String = ""
+
 )
 
 data class DynamicSpecificationSentObject(
@@ -36,8 +37,17 @@ data class DynamicSpecificationSentObject(
     var HeaderSpeEn: String = "",
     var ValueSpeAr: String = "",
     var ValueSpeEn: String = "",
+    @SerializedName("Type")
     var Type: Int = 1,
-    var SpecificationId :Int= 0
+    var SpecificationId :Int= 0,
+
+    val headerSpe: String? = null,
+    val valueSpe: String? = null,
+    @SerializedName("type")
+    val _type: Int=0
+
+
+
 )
 
 

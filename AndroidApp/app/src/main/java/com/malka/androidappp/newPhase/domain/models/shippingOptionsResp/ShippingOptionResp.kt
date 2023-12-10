@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class ShippingOptionResp(
     @SerializedName("data")
-    val shippingOptionObject: List<ShippingOptionObject>?=null,
+    val shippingOptionObject: ArrayList<ShippingOptionObject>?=null,
     val message: String?=null,
     val status: String?=null,
     val status_code: Int

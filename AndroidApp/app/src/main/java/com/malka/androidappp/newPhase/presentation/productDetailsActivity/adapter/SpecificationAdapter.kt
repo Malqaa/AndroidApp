@@ -7,9 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
 import com.malka.androidappp.databinding.AtrributeItemBinding
 import com.malka.androidappp.newPhase.data.helper.getDrawableCompat
+import com.malka.androidappp.newPhase.domain.models.dynamicSpecification.DynamicSpecificationSentObject
 import com.malka.androidappp.newPhase.domain.models.productResp.ProductSpecialityItemDetails
 
-class SpecificationAdapter(var specificationList: ArrayList<ProductSpecialityItemDetails>) :
+class SpecificationAdapter(var specificationList: ArrayList<DynamicSpecificationSentObject>) :
     RecyclerView.Adapter<SpecificationAdapter.AttributeViewHolder>(){
   lateinit var context: Context
     class AttributeViewHolder(var viewBinding: AtrributeItemBinding) :

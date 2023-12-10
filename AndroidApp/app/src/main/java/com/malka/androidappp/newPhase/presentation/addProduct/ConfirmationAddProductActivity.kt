@@ -4,18 +4,31 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Paint
 import android.os.Bundle
+import androidx.core.net.toUri
 import androidx.lifecycle.ViewModelProvider
 import com.google.gson.Gson
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.newPhase.data.helper.*
+import com.malka.androidappp.newPhase.data.helper.HelpFunctions.Companion.getAuctionClosingTime
+import com.malka.androidappp.newPhase.data.helper.HelpFunctions.Companion.getAuctionClosingTime2
+import com.malka.androidappp.newPhase.data.helper.widgets.searchdialog.SearchListItem
+import com.malka.androidappp.newPhase.domain.models.ImageSelectModel
+import com.malka.androidappp.newPhase.domain.models.productResp.Product
+import com.malka.androidappp.newPhase.domain.models.servicemodels.TimeAuctionSelection
+import com.malka.androidappp.newPhase.domain.models.shippingOptionsResp.ShippingOptionObject
 import com.malka.androidappp.newPhase.presentation.MainActivity
+import com.malka.androidappp.newPhase.presentation.addProduct.activity1.ProductsTagsForAddProductActivity
+import com.malka.androidappp.newPhase.presentation.addProduct.activity2.ChooseCategoryActivity
 import com.malka.androidappp.newPhase.presentation.addProduct.activity6.ListingDetailsActivity
 import com.malka.androidappp.newPhase.presentation.addProduct.activity6.PricingActivity
 import com.malka.androidappp.newPhase.presentation.addProduct.activity7.ListingDurationActivity
 import com.malka.androidappp.newPhase.presentation.addProduct.activity8.PromotionalActivity
 import com.malka.androidappp.newPhase.presentation.addProduct.viewmodel.AddProductViewModel
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_confirmation_add_product.*
+import kotlinx.android.synthetic.main.my_product_details.containerMainProduct
+import kotlinx.android.synthetic.main.my_product_details.containerShareAndFav
 import kotlinx.android.synthetic.main.toolbar_main.*
 import java.io.File
 
@@ -34,6 +47,11 @@ class ConfirmationAddProductActivity : BaseActivity() {
     private var couponId = 0
     private var couponDiscountValue = 0f
     private var totalAfterDiscount = 0f
+    private var productDetails: Product? = null
+    private var shippingOptionText: StringBuilder? = null
+    private var pickup: StringBuilder? = null
+
+    var pakatId = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_confirmation_add_product)
@@ -46,7 +64,11 @@ class ConfirmationAddProductActivity : BaseActivity() {
         setUpViewModel()
         // println("hhhh " + AddProductObjectData.selectedPakat?.id + " " + AddProductObjectData.selectedCategoryId)
         //  getCartSummery()
-        setSummeryData()
+        if (intent.getStringExtra("whereCome").equals("repost")) {
+            addProductViewModel.getProductPaymentOptions(intent.getIntExtra("productID", 0))
+            addProductViewModel.getProductShippingOptions(intent.getIntExtra("productID", 0))
+            addProductViewModel.getProductDetailsById(intent.getIntExtra("productID", 0))
+        } else setSummeryData()
     }
 
     @SuppressLint("SetTextI18n")
@@ -62,6 +84,15 @@ class ConfirmationAddProductActivity : BaseActivity() {
         minimum_price_tv.text = null
         tvShippingOption.text = null
         tv_package_price.text = null
+
+        if(ConstantObjects.isModify){
+            edit_item_payment.hide()
+            edit_shoping_option.hide()
+            edit_selected_package.hide()
+            titleCoupon.hide()
+            layEdtCoupon.hide()
+            tvEditProductDetails.hide()
+        }
         AddProductObjectData.images?.let { images ->
             images.filter {
                 it.is_main == true
@@ -132,8 +163,8 @@ class ConfirmationAddProductActivity : BaseActivity() {
             }
         }
 
-        val shippingOptionText = StringBuilder("")
-        tvShippingOption.text = shippingOptionText
+//        val shippingOptionText = StringBuilder("")
+//        tvShippingOption.text = shippingOptionText
         AddProductObjectData.shippingOptionSelections?.let {
 
 //            for (item in it) {
@@ -141,31 +172,33 @@ class ConfirmationAddProductActivity : BaseActivity() {
 //            }
 //            shippingOptionText = it[0].name
 
+            tvShippingOption.text = ""
+            tvPickupOptionData.text = ""
             for (i in it) {
-                tvShippingOption.text = shippingOptionText
+//                tvShippingOption.text = shippingOptionText
                 when (i) {
                     ConstantObjects.pickUp_Must -> {
-                        shippingOptionText.append(getString(R.string.mustPickUp))
+                        tvPickupOptionData.append(getString(R.string.mustPickUp))
                     }
 
                     ConstantObjects.pickUp_No -> {
-                        shippingOptionText.append(getString(R.string.noPickUp))
+                        tvPickupOptionData.append(getString(R.string.noPickUp))
                     }
 
                     ConstantObjects.pickUp_Available -> {
-                        shippingOptionText.append(getString(R.string.pickUpAvaliable))
+                        tvPickupOptionData.append(getString(R.string.pickUpAvaliable))
                     }
 
                     ConstantObjects.shippingOption_integratedShippingCompanyOptions -> {
-                        shippingOptionText.append(getString(R.string.integratedShippingCompanies))
+                        tvShippingOption.append(getString(R.string.integratedShippingCompanies))
                     }
 
                     ConstantObjects.shippingOption_freeShippingWithinSaudiArabia -> {
-                        shippingOptionText.append(getString(R.string.free_shipping_within_Saudi_Arabia))
+                        tvShippingOption.append(getString(R.string.free_shipping_within_Saudi_Arabia))
                     }
 
                     ConstantObjects.shippingOption_arrangementWillBeMadeWithTheBuyer -> {
-                        shippingOptionText.append(getString(R.string.arrangementWillBeMadeWithTheBuyer))
+                        tvShippingOption.append(getString(R.string.arrangementWillBeMadeWithTheBuyer))
                     }
                 }
             }
@@ -204,6 +237,8 @@ class ConfirmationAddProductActivity : BaseActivity() {
 //                    }
 //                }
         }
+
+
 //            when (it) {
 //                ConstantObjects.pickUp_Must -> {
 //                    contianerPickUp.hide()
@@ -250,7 +285,8 @@ class ConfirmationAddProductActivity : BaseActivity() {
             if (AddProductObjectData.selectTimeAuction?.customOption == true) {
                 tvDateAuction.text = AddProductObjectData.selectTimeAuction?.text
             } else {
-                tvDateAuction.text = AddProductObjectData.selectTimeAuction?.endTime
+                tvDateAuction.text =  HelpFunctions.getAuctionClosingTime(AddProductObjectData.selectTimeAuction?.endTime.toString())
+//                AddProductObjectData.selectTimeAuction?.endTimeUTC
             }
 
         } else {
@@ -273,26 +309,100 @@ class ConfirmationAddProductActivity : BaseActivity() {
 
     }
 
+    private fun showPaymentMethod(paymentOptionList: ArrayList<ShippingOptionObject>) {
+        val paymentList = ArrayList<Int>()
+        for (item in paymentOptionList) {
+            when (item.paymentOptionId) {
+                AddProductObjectData.PAYMENT_OPTION_CASH -> {
+                    tvCashOptionPayment.show()
+                    paymentList.add(AddProductObjectData.PAYMENT_OPTION_CASH)
+                }
+
+                AddProductObjectData.PAYMENT_OPTION_BANk -> {
+                    tvSaudiBankDepositOptionPayment.show()
+                    paymentList.add(AddProductObjectData.PAYMENT_OPTION_Mada)
+                }
+
+                AddProductObjectData.PAYMENT_OPTION_Mada -> {
+                    tvMadaOptionPayment.show()
+                    paymentList.add(AddProductObjectData.PAYMENT_OPTION_Mada)
+                }
+
+                AddProductObjectData.PAYMENT_OPTION_MasterCard -> {
+                    tvCardOptionPayment.show()
+                    paymentList.add(AddProductObjectData.PAYMENT_OPTION_MasterCard)
+                }
+            }
+        }
+
+        AddProductObjectData.paymentOptionList = paymentList
+    }
+
+    private fun showShoppingOption(shippingOptionObject: ShippingOptionObject) {
+        val shippingList = ArrayList<Int>()
+
+        when (shippingOptionObject.shippingOptionId) {
+            ConstantObjects.shippingOption_integratedShippingCompanyOptions -> {
+                AddProductObjectData.pickUpOption = ConstantObjects.shippingOption_integratedShippingCompanyOptions
+                shippingList.add(ConstantObjects.shippingOption_integratedShippingCompanyOptions)
+                shippingOptionText?.append(getString(R.string.integratedShippingCompanies))
+            }
+
+            ConstantObjects.shippingOption_freeShippingWithinSaudiArabia -> {
+                AddProductObjectData.pickUpOption = ConstantObjects.shippingOption_freeShippingWithinSaudiArabia
+                shippingList.add(ConstantObjects.shippingOption_freeShippingWithinSaudiArabia)
+                shippingOptionText?.append(getString(R.string.free_shipping_within_Saudi_Arabia))
+            }
+
+            ConstantObjects.shippingOption_arrangementWillBeMadeWithTheBuyer -> {
+                AddProductObjectData.pickUpOption = ConstantObjects.shippingOption_arrangementWillBeMadeWithTheBuyer
+                shippingList.add(ConstantObjects.shippingOption_arrangementWillBeMadeWithTheBuyer)
+                shippingOptionText?.append(getString(R.string.arrangementWillBeMadeWithTheBuyer))
+            }
+
+            ConstantObjects.pickUp_Must -> {
+                AddProductObjectData.shippingOption =ConstantObjects.pickUp_Must
+                shippingList.add(ConstantObjects.pickUp_Must)
+                pickup?.append(getString(R.string.mustPickUp))
+            }
+
+            ConstantObjects.pickUp_No -> {
+                AddProductObjectData.shippingOption =ConstantObjects.pickUp_No
+                shippingList.add(ConstantObjects.pickUp_No)
+                pickup?.append(getString(R.string.noPickUp))
+            }
+
+            ConstantObjects.pickUp_Available -> {
+                AddProductObjectData.shippingOption =ConstantObjects.pickUp_Available
+                shippingList.add(ConstantObjects.pickUp_Available)
+                pickup?.append(getString(R.string.pickUpAvaliable))
+            }
+
+        }
+        tvShippingOption.text = pickup
+        tvPickupOptionData.text = shippingOptionText
+
+
+        AddProductObjectData.shippingOptionSelections?.addAll(shippingList)
+
+
+    }
 
     @SuppressLint("SetTextI18n")
     private fun setUpViewModel() {
         addProductViewModel = ViewModelProvider(this).get(AddProductViewModel::class.java)
         addProductViewModel.isLoading.observe(this) {
-            if (it)
-                HelpFunctions.startProgressBar(this)
-            else
-                HelpFunctions.dismissProgressBar()
+            if (it) HelpFunctions.startProgressBar(this)
+            else HelpFunctions.dismissProgressBar()
         }
         addProductViewModel.isNetworkFail.observe(this) {
             if (it) {
                 HelpFunctions.ShowLongToast(
-                    getString(R.string.connectionError),
-                    this
+                    getString(R.string.connectionError), this
                 )
             } else {
                 HelpFunctions.ShowLongToast(
-                    getString(R.string.serverError),
-                    this
+                    getString(R.string.serverError), this
                 )
             }
 
@@ -303,13 +413,11 @@ class ConfirmationAddProductActivity : BaseActivity() {
             } else {
                 if (it.message != null && it.message != "") {
                     HelpFunctions.ShowLongToast(
-                        it.message!!,
-                        this
+                        it.message!!, this
                     )
                 } else {
                     HelpFunctions.ShowLongToast(
-                        getString(R.string.serverError),
-                        this
+                        getString(R.string.serverError), this
                     )
                 }
             }
@@ -317,10 +425,6 @@ class ConfirmationAddProductActivity : BaseActivity() {
         }
         addProductViewModel.confirmAddPorductRespObserver.observe(this) { confirmAddPorductRespObserver ->
             if (confirmAddPorductRespObserver.status_code == 200) {
-//                HelpFunctions.ShowLongToast(
-//                    getString(R.string.Success),
-//                    this
-//                )
                 try {
 
                     val productId: Int = confirmAddPorductRespObserver.productId
@@ -347,8 +451,7 @@ class ConfirmationAddProductActivity : BaseActivity() {
 
             } else {
                 HelpFunctions.ShowLongToast(
-                    getString(R.string.failed),
-                    this
+                    getString(R.string.failed), this
                 )
             }
         }
@@ -409,6 +512,52 @@ class ConfirmationAddProductActivity : BaseActivity() {
 //                }
             }
         }
+
+        addProductViewModel.productDetailsObservable.observe(this) { productResp ->
+            if (productResp.productDetails != null) {
+                productDetails = productResp.productDetails
+
+//                        productPrice = productResp.productDetails.priceDisc
+                setProductData(productDetails!!)
+            } else {
+                showProductApiError(productResp.message)
+            }
+        }
+
+        addProductViewModel.shippingOptionObserver.observe(this) {
+            if (it.status_code == 200) {
+                if (!it.shippingOptionObject.isNullOrEmpty()) {
+                    shippingOptionText = StringBuilder("")
+                    pickup = StringBuilder("")
+                    tvShippingOption.text = ""
+                    tvPickupOptionData.text = ""
+                    if (it.shippingOptionObject.size > 3) {
+                        for (i in (it.shippingOptionObject?.subList(
+                            3,
+                            it.shippingOptionObject.size - 1
+                        )))
+                            showShoppingOption(i)
+                        for (i in (it.shippingOptionObject?.subList(0, 3)))
+                            showShoppingOption(i)
+                    } else {
+                        showShoppingOption(it.shippingOptionObject[0])
+                    }
+
+                } else {
+                    tvShippingOption.show()
+                    tvShippingOption.text = getString(R.string.mustPickUp)
+                }
+            }
+        }
+        addProductViewModel.paymentOptionObserver.observe(this) {
+            if (it.status_code == 200) {
+                it.shippingOptionObject?.let { list ->
+                    showPaymentMethod(list)
+
+                }
+            }
+        }
+
         addProductViewModel.couponByCodeObserver.observe(this) { couponDiscountResp ->
             if (couponDiscountResp.status_code == 200) {
                 if (couponDiscountResp.discountCouponObject != null) {
@@ -432,7 +581,7 @@ class ConfirmationAddProductActivity : BaseActivity() {
         }
     }
 
-//    private fun getCartSummery() {
+    //    private fun getCartSummery() {
 //        AddProductObjectData.selectedCategory?.let { selectedCategory ->
 ////            btnFreeProductImagesCount.text = it.freeProductImagesCount.toString()
 ////            btnFreeProductVidoesCount.text = it.freeProductVidoesCount.toString()
@@ -464,6 +613,224 @@ class ConfirmationAddProductActivity : BaseActivity() {
 //        }
 //    }
 
+    private fun setProductData(productDetails: Product) {
+        AddProductObjectData.selectedCategoryId = productDetails.categoryId
+        AddProductObjectData.selectedCategoryName = productDetails.category.toString()
+        pakatId = productDetails.pakatId.toString()
+
+        AddProductObjectData.selectedCategory = productDetails.categoryDto
+        /**productPublishFeee**/
+        if (productDetails.categoryDto?.productPublishPrice != 0f) {
+            containerProductPublishPriceFee.show()
+            AddProductObjectData.selectedCategory?.productPublishPrice =
+                productDetails.categoryDto?.productPublishPrice ?: 0f
+            productPublishPriceFee = productDetails.categoryDto?.productPublishPrice ?: 0f
+            tvProductPublishPriceFee.text = "$productPublishPriceFee ${getString(R.string.SAR)}"
+        }
+        /**package fee*/
+        if (productDetails.selectedPacket != null) {
+            AddProductObjectData.selectedPakat = productDetails.selectedPacket
+            ContainerPackge.show()
+            pakagePrice = AddProductObjectData.selectedPakat?.price ?: 0f
+            package_cost_tv.text = "$pakagePrice ${getString(R.string.SAR)}"
+            tv_package_price.text = "$pakagePrice ${getString(R.string.SAR)}"
+        }
+
+        /**fixedPrice fee*/
+        if (productDetails.isFixedPriceEnabled && productDetails.price != 0f) {
+            AddProductObjectData.priceFixed = productDetails.price.toString()
+            containerFixedPriceFee.show()
+            AddProductObjectData.selectedCategory?.enableFixedPriceSaleFee = productDetails.price
+            fixedPriceFee = AddProductObjectData.selectedCategory?.enableFixedPriceSaleFee ?: 0f
+            tvFixedPriceFee.text = "$fixedPriceFee ${getString(R.string.SAR)}"
+        }
+
+        /**AuctionFee fee*/
+        if (productDetails.isAuctionEnabled && productDetails.auctionStartPrice != 0f) {
+            AddProductObjectData.selectedCategory?.enableAuctionFee =
+                productDetails.auctionStartPrice
+            containerAuctionFee.show()
+            AddProductObjectData.auctionStartPrice = productDetails.auctionStartPrice.toString()
+            AddProductObjectData.auctionMinPrice = productDetails.auctionMinimumPrice.toString()
+            auctionEnableFee = AddProductObjectData.selectedCategory?.enableAuctionFee ?: 0f
+            tvAuctionFee.text = "${productDetails.auctionStartPrice} ${getString(R.string.SAR)}"
+        }
+        /**negotiation fee*/
+        if (productDetails.isNegotiationEnabled && productDetails.auctionNegotiatePrice != 0f) {
+            AddProductObjectData.isNegotiablePrice = productDetails.isNegotiationEnabled
+            AddProductObjectData.selectedCategory?.enableNegotiationFee =
+                productDetails.auctionNegotiatePrice
+            containerNegotiationFee.show()
+            negotiationFee = AddProductObjectData.selectedCategory?.enableNegotiationFee ?: 0f
+            tvNegotiationFee.text = "$negotiationFee ${getString(R.string.SAR)}"
+        }
+        /**subTitle fee*/
+//        if (productDetails.subTitle != "" && AddProductObjectData.selectedCategory?.subTitleFee != 0f) {
+//            containerSubTitleFee.show()
+//            subTitleFee = AddProductObjectData.selectedCategory?.subTitleFee ?: 0f
+//            tvSubTitleFee.text = "$subTitleFee ${getString(R.string.SAR)}"
+//        }
+        /**ExtreImageFee*/
+//        productDetails.categoryDto?.let { selectedCategory ->
+//            var extraImages = 0
+//            AddProductObjectData.images?.let {
+//                if (it.size > selectedCategory.freeProductImagesCount) {
+//                    extraImages = it.size - selectedCategory.freeProductImagesCount
+//                }
+//            }
+//            if (extraImages > 0) {
+//                extraImageFee = selectedCategory.extraProductImageFee * extraImages
+//                if (extraImageFee != 0f) {
+//                    containerImageExtraFee.show()
+//                    tvImageExtraFee.text = "$extraImageFee ${getString(R.string.SAR)}"
+//                }
+//            }
+//        }
+        /**ExtreVideoFee*/
+//        AddProductObjectData.selectedCategory?.let { selectedCategory ->
+//            var extraVideo = 0
+//            AddProductObjectData.videoList?.let {
+//                if (it.size > selectedCategory.freeProductVidoesCount) {
+//                    extraVideo = it.size - selectedCategory.freeProductVidoesCount
+//                }
+//            }
+//            if (extraVideo > 0) {
+//                extraVideoFee = selectedCategory.extraProductVidoeFee * extraVideo
+//                if (extraVideoFee != 0f) {
+//                    containerVideoExtraFee.show()
+//                    tvVideoExtraFee.text = "$extraVideoFee ${getString(R.string.SAR)}"
+//                }
+//            }
+//        }
+
+        /**total*/
+        totalPrice =
+            (pakagePrice + fixedPriceFee + auctionEnableFee + negotiationFee + subTitleFee + extraImageFee + extraVideoFee + productPublishPriceFee)
+        tvTotal.text = "$totalPrice ${getString(R.string.SAR)}"
+
+
+
+
+        tvItemCondition.text = when (productDetails.status) {
+            1 -> getString(R.string.used)
+            2 -> getString(R.string.New)
+            else -> getString(R.string.notSelect)
+        }
+
+        AddProductObjectData.productCondition = productDetails.status
+        tvQuantityData.text = productDetails.purchasedQuantity.toString()
+        AddProductObjectData.quantity = productDetails.purchasedQuantity.toString()
+
+        if (productDetails.isAuctionEnabled) {
+            tvAuctionOpitonSale.show()
+        } else {
+            tvAuctionOpitonSale.hide()
+        }
+        if (productDetails.isFixedPriceEnabled) {
+            tvFixedPriceOptionSale.show()
+        } else {
+            tvFixedPriceOptionSale.hide()
+        }
+
+        AddProductObjectData.isNegotiablePrice = productDetails.isNegotiationEnabled
+        AddProductObjectData.priceFixedOption = productDetails.isFixedPriceEnabled
+        AddProductObjectData.auctionOption = productDetails.isAuctionEnabled
+
+        if (productDetails.isNegotiationEnabled) {
+            negotiable_tv.text = getString(R.string.Yes)
+        } else {
+            negotiable_tv.text = getString(R.string.No)
+        }
+
+        if (productDetails.isAuctionEnabled) {
+            containerAuction.show()
+            if (productDetails.auctionClosingTime != null && (productDetails.auctionClosingTime != "")) {
+
+//                if (productDetails.e== true) {
+//                    tvDateAuction.text = AddProductObjectData.selectTimeAuction?.text
+//                } else {
+//                    tvDateAuction.text = AddProductObjectData.selectTimeAuction?.endTime
+//                }
+
+                if (!productDetails.isAuctionClosingTimeFixed)
+                    AddProductObjectData.selectTimeAuction = TimeAuctionSelection(
+                        "",
+                        productDetails.auctionClosingTime,
+                        HelpFunctions.getAuctionClosingTime2(productDetails.auctionClosingTime),
+                        0,
+                        customOption = true
+                    )
+                else {
+                    AddProductObjectData.selectTimeAuction = TimeAuctionSelection(
+                        "1",
+                        productDetails.auctionClosingTime,
+                        HelpFunctions.getAuctionClosingTime2(productDetails.auctionClosingTime),
+                        0,
+                        customOption = false
+                    )
+                }
+
+                tvDateAuction.text =
+                    HelpFunctions.getAuctionClosingTime2(productDetails.auctionClosingTime)
+            }
+        } else {
+            containerAuction.hide()
+        }
+
+
+        AddProductObjectData.country =
+            SearchListItem(productDetails.countryId, productDetails.country)
+        AddProductObjectData.region =
+            SearchListItem(productDetails.regionId, productDetails.regionName)
+        AddProductObjectData.city =
+            SearchListItem(productDetails.neighborhoodId, productDetails.neighborhood)
+
+        if (!productDetails.listMedia.isNullOrEmpty()) productDetails.listMedia.let {
+            Picasso.get().load(it[0].url?.replace("http", "https"))
+                .placeholder(R.drawable.splash_logo).error(R.drawable.splash_logo)
+                .into(selectedImages)
+        }
+
+        AddProductObjectData.productSpecificationList =
+            productDetails.listProductSep ?: arrayListOf()
+
+        AddProductObjectData.selectedCategoryName = productDetails.category.toString()
+        product_type.text = productDetails.category
+
+        if (ConstantObjects.currentLanguage == ConstantObjects.ARABIC) {
+            AddProductObjectData.itemTitleAr = productDetails.nameAr.toString()
+            AddProductObjectData.subtitleAr = productDetails.subTitleAr.toString()
+            AddProductObjectData.itemDescriptionAr = productDetails.descriptionAr.toString()
+            tvTitleData.text = AddProductObjectData.itemTitleAr
+            tvSubTitleData.text = AddProductObjectData.subtitleAr
+            tvProductDetail.text = AddProductObjectData.itemDescriptionAr
+        } else {
+            AddProductObjectData.itemTitleEn = productDetails.nameEn.toString()
+            AddProductObjectData.subtitleEn = productDetails.subTitleEn.toString()
+            AddProductObjectData.itemDescriptionEn = productDetails.descriptionEn.toString()
+            tvTitleData.text = AddProductObjectData.itemTitleEn
+            tvSubTitleData.text = AddProductObjectData.subtitleEn
+            tvProductDetail.text = AddProductObjectData.itemDescriptionEn
+        }
+
+        ContainerPackge.hide()
+        containerFixedPriceFee.hide()
+        containerAuctionFee.hide()
+        containerNegotiationFee.hide()
+        containerSubTitleFee.hide()
+        containerImageExtraFee.hide()
+        containerVideoExtraFee.hide()
+        containerProductPublishPriceFee.hide()
+    }
+
+    private fun showProductApiError(message: String) {
+        if (productDetails == null) {
+            containerMainProduct.hide()
+            containerShareAndFav.hide()
+        }
+        HelpFunctions.ShowLongToast(message, this)
+    }
+
     @SuppressLint("SetTextI18n")
     private fun setSummeryData() {
         ContainerPackge.hide()
@@ -489,13 +856,10 @@ class ConfirmationAddProductActivity : BaseActivity() {
             tv_package_price.text = "$pakagePrice ${getString(R.string.SAR)}"
         }
         /**fixedPrice fee*/
-        if (AddProductObjectData.priceFixedOption
-            && AddProductObjectData.selectedCategory?.enableFixedPriceSaleFee != 0f
-        ) {
+        if (AddProductObjectData.priceFixedOption && AddProductObjectData.selectedCategory?.enableFixedPriceSaleFee != 0f) {
             containerFixedPriceFee.show()
             fixedPriceFee = AddProductObjectData.selectedCategory?.enableFixedPriceSaleFee ?: 0f
-            tvFixedPriceFee.text =
-                "$fixedPriceFee ${getString(R.string.SAR)}"
+            tvFixedPriceFee.text = "$fixedPriceFee ${getString(R.string.SAR)}"
         }
         /**AuctionFee fee*/
         if (AddProductObjectData.auctionOption && AddProductObjectData.selectedCategory?.enableAuctionFee != 0f) {
@@ -549,8 +913,8 @@ class ConfirmationAddProductActivity : BaseActivity() {
         }
 
         /**total*/
-        totalPrice = (pakagePrice + fixedPriceFee + auctionEnableFee
-                + negotiationFee + subTitleFee + extraImageFee + extraVideoFee + productPublishPriceFee)
+        totalPrice =
+            (pakagePrice + fixedPriceFee + auctionEnableFee + negotiationFee + subTitleFee + extraImageFee + extraVideoFee + productPublishPriceFee)
         tvTotal.text = "$totalPrice ${getString(R.string.SAR)}"
     }
 
@@ -582,6 +946,7 @@ class ConfirmationAddProductActivity : BaseActivity() {
         AddProductObjectData.selectedAccountDetails = null
         AddProductObjectData.selectTimeAuction = null
         AddProductObjectData.paymentOptionList = null
+        AddProductObjectData.shippingOption = 0
         AddProductObjectData.pickUpOption = 0
         AddProductObjectData.selectedPakat = null
         AddProductObjectData.shippingOptionSelection = null
@@ -599,7 +964,7 @@ class ConfirmationAddProductActivity : BaseActivity() {
             finish()
         }
         tvEditProductDetails.setOnClickListener {
-            startActivity(Intent(this, ListingDetailsActivity::class.java).apply {
+            startActivity(Intent(this, ChooseCategoryActivity::class.java).apply {
                 putExtra(ConstantObjects.isEditKey, true)
             })
             finish()
@@ -624,7 +989,8 @@ class ConfirmationAddProductActivity : BaseActivity() {
         }
         btn_confirm_details.setOnClickListener {
             //  HelpFunctions.ShowLongToast("not implemented yet",this)
-            confirmOrder()
+
+            confirmOrder(ConstantObjects.isRepost)
         }
         btn_cancel.setOnClickListener {
             //  HelpFunctions.ShowLongToast("not implemented yet",this)
@@ -634,34 +1000,56 @@ class ConfirmationAddProductActivity : BaseActivity() {
         }
     }
 
-    private fun confirmOrder() {
+    private fun confirmOrder(isEdit: Boolean) {
         val listImageFile: ArrayList<File> = ArrayList()
         var mainIndex = ""
-        AddProductObjectData.images?.let { imageList ->
-            for (image in imageList) {
+
+        if (AddProductObjectData.images.isNullOrEmpty()) {
+            val listImages = ArrayList<ImageSelectModel>()
+            listImages.add(
+                ImageSelectModel(
+                    "content://media/external/images/media/29".toUri(),
+                    "",
+                    true
+                )
+            )
+            for (image in listImages) {
                 if (image.is_main) {
-                    mainIndex = imageList.indexOf(image).toString()
+                    mainIndex = listImages.indexOf(image).toString()
                 }
                 try {
-                    // val file = File(image.uri.path)
                     val file = HelpFunctions.getFileImage(image.uri, this)
-
                     listImageFile.add(file)
                 } catch (e: java.lang.Exception) {
-
+                    //
                 }
+            }
+        } else {
+            AddProductObjectData.images?.let { imageList ->
+                for (image in imageList) {
+                    if (image.is_main) {
+                        mainIndex = imageList.indexOf(image).toString()
+                    }
+                    try {
+                        // val file = File(image.uri.path)
+                        val file = HelpFunctions.getFileImage(image.uri, this)
 
-                // listImageFile.add(HelpFunctions.getFileImage(image.uri, this))
-                //var bytes=HelpFunctions.getBytesImage(image.uri,this)
+                        listImageFile.add(file)
+                    } catch (e: java.lang.Exception) {
+
+                    }
+
+                    // listImageFile.add(HelpFunctions.getFileImage(image.uri, this))
+                    //var bytes=HelpFunctions.getBytesImage(image.uri,this)
 //               var   bytes:ByteArray=HelpFunctions.getFileImage(image.uri, this).readBytes()
 //               if(bytes!=null){
 //                   listImageByts.add(bytes)
 //               }
 //               listImageUri.add(image.uri)
+                }
             }
         }
 
-        var pakatId = ""
         AddProductObjectData.selectedPakat?.let {
             pakatId = it.id.toString()
         }
@@ -672,6 +1060,7 @@ class ConfirmationAddProductActivity : BaseActivity() {
 
         val bankList = AddProductObjectData.selectedAccountDetails?.map { it.id }
         addProductViewModel.getAddProduct3(
+            isEdit,
             this,
             nameAr = AddProductObjectData.itemTitleAr,
             nameEn = AddProductObjectData.itemTitleEn,
@@ -704,7 +1093,7 @@ class ConfirmationAddProductActivity : BaseActivity() {
             disccountEndDate = "",
             auctionStartPrice = AddProductObjectData.auctionStartPrice,
             auctionMinimumPrice = AddProductObjectData.auctionMinPrice,
-            auctionClosingTime = AddProductObjectData.selectTimeAuction?.endTime ?: "",
+            auctionClosingTime = getAuctionClosingTime2(AddProductObjectData.selectTimeAuction?.endTime ?: ""),
             productBankAccounts = bankList,
             ProductPaymentDetailsDto_AdditionalPakatId = pakatId,
             ProductPaymentDetailsDto_ProductPublishPrice = productPublishPriceFee,
@@ -719,6 +1108,7 @@ class ConfirmationAddProductActivity : BaseActivity() {
             ProductPaymentDetailsDto_TotalAmountBeforeCoupon = totalPrice,
 
             )
+
 
         /**********/
 //        addProductViewModel.getAddProduct2(
@@ -761,6 +1151,11 @@ class ConfirmationAddProductActivity : BaseActivity() {
 
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        shippingOptionText = null
+        pickup = null
+    }
 
 //    @SuppressLint("SetTextI18n")
 //    private fun calculation(package_cost: Float) {

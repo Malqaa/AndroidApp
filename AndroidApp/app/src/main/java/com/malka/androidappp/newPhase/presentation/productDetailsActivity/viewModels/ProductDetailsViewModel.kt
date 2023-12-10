@@ -193,16 +193,13 @@ class ProductDetailsViewModel : BaseViewModel() {
 //                }
             },
             goLogin = {
-                sellerLoading.value = false
+//                sellerLoading.value = false
                 needToLogin.value = true
             })
     }
 
     fun getProductPaymentOptions(productId: Int) {
         //isLoading.value = true
-        getRetrofitBuilder()
-            .getProductPaymentOptions(productId)
-
         callProductPaymentOp = getRetrofitBuilder().getProductPaymentOptions(productId)
         callApi(callProductPaymentOp!!,
             onSuccess = {
@@ -660,7 +657,7 @@ class ProductDetailsViewModel : BaseViewModel() {
 
     fun addDiscount(productId: Int, discountPrice: Float, finaldate: String) {
         isLoading.value = true
-        callSellerRates
+
         callAddDiscount = getRetrofitBuilder().addDiscount(productId, discountPrice, finaldate)
         callApi(callAddDiscount!!,
             onSuccess = {

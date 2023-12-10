@@ -307,6 +307,16 @@ interface MalqaApiService {
         @Part productBankAccounts: ArrayList<MultipartBody.Part>,
     ): Call<AddProductResponse>
 
+    @Multipart
+    @PUT("EditProduct")
+    fun editProduct(
+        @PartMap partMap: Map<String, @JvmSuppressWildcards RequestBody>,
+        @Part part: List<MultipartBody.Part>?,
+        @Part shippingOptionsList: ArrayList<MultipartBody.Part>,
+        @Part videoUrlList: ArrayList<MultipartBody.Part>,
+        @Part sendPaymentOptionList: ArrayList<MultipartBody.Part>,
+        @Part productBankAccounts: ArrayList<MultipartBody.Part>,
+    ): Call<AddProductResponse>
 
     @Multipart
     @POST("AddRateProduct")

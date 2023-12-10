@@ -765,7 +765,6 @@
                             android:drawablePadding="@dimen/_5sdp"
                             android:fontFamily="@font/madani_arabic_medium"
                             android:gravity="end"
-                            android:text="@string/PickUp"
                             android:textColor="@color/grey"
                             android:textSize="@dimen/_10sdp"
                             app:drawableStartCompat="@drawable/ic_check" />
@@ -930,6 +929,7 @@
 
 
                 <TextView
+                    android:id="@+id/titleCoupon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_15sdp"
@@ -941,6 +941,7 @@
 
 
                 <LinearLayout
+                    android:id="@+id/layEdtCoupon"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_40sdp"
                     android:layout_marginTop="@dimen/_10sdp"
@@ -1429,28 +1430,27 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_20sdp">
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginBottom="@dimen/_10sdp">
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_confirm_details"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_15sdp"
-                    app:layout_constraintEnd_toStartOf="@id/btn_cancel"
                     android:background="@drawable/round_btn"
                     android:fontFamily="@font/madani_arabic_semi_bold"
                     android:text="@string/CheckoutProduct"
                     android:textAllCaps="false"
                     android:textColor="#ffffff"
                     android:textSize="@dimen/_14sdp"
+                    app:layout_constraintEnd_toStartOf="@id/btn_cancel"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_cancel"
-                    app:layout_constraintStart_toEndOf="@id/btn_confirm_details"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_10sdp"
@@ -1462,6 +1462,7 @@
                     android:textColor="#ffffff"
                     android:textSize="@dimen/_14sdp"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/btn_confirm_details"
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>

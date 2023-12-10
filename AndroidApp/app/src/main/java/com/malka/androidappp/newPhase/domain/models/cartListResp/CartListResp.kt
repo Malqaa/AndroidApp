@@ -63,7 +63,6 @@ data class ProductCartItem(
     var shippingOptions: List<ShippingOptions>,
     var paymentOptions: List<PaymentOptions>,
 )
-
 data class ShippingOptions(
     var id: Int,
     var shippingOptionId: Int,

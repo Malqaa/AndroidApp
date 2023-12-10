@@ -34,7 +34,9 @@ class ListingDetailsActivity : BaseActivity() {
     private val configKey = "ShowProductQuantityInAddProduct"
     override fun onBackPressed() {
         if (isEdit) {
-            startActivity(Intent(this, ConfirmationAddProductActivity::class.java))
+            startActivity(Intent(this, ConfirmationAddProductActivity::class.java).apply {
+                putExtra("whereCome","Add")
+            })
             finish()
         } else {
             finish()
@@ -182,13 +184,14 @@ class ListingDetailsActivity : BaseActivity() {
         etPhoneNumber.setText(AddProductObjectData.phone)
         quantityavail.number = AddProductObjectData.quantity
         if (AddProductObjectData.productCondition == 2) {
-            tv_New.isSelected = true
-            tv_used.isSelected = false
-            AddProductObjectData.productCondition = 2
-        } else {
             tv_New.isSelected = false
             tv_used.isSelected = true
             AddProductObjectData.productCondition = 1
+        } else if (AddProductObjectData.productCondition == 1) {
+            tv_New.isSelected = true
+            tv_used.isSelected = false
+            AddProductObjectData.productCondition = 2
+
         }
 
     }
@@ -434,10 +437,14 @@ class ListingDetailsActivity : BaseActivity() {
             // AddProductObjectData.phoneCountryCode = countryCodePicker.selectedCountryCodeWithPlus
             if (isEdit) {
                 startActivity(Intent(this, ConfirmationAddProductActivity::class.java).apply {
+                    putExtra("whereCome","Add")
+                    putExtra(ConstantObjects.isEditKey, intent.getBooleanExtra(ConstantObjects.isEditKey, false))
                     finish()
                 })
             } else {
                 startActivity(Intent(this, PricingActivity::class.java).apply {
+                    putExtra(ConstantObjects.isEditKey, intent.getBooleanExtra(ConstantObjects.isEditKey, false))
+
                 })
 
             }

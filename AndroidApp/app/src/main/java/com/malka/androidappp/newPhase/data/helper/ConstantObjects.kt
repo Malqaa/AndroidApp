@@ -40,9 +40,10 @@ class ConstantObjects {
         const val FILES = 1
         const val DELETEImage = 2
         var is_watch_iv: ImageView? = null
-
         val defaltCountry: Int = 31
         val isSuccess: String = "isSuccess";
+        var isRepost: Boolean = false
+        var isModify: Boolean = false
 
 
         var userobj: LoginUser? = null;

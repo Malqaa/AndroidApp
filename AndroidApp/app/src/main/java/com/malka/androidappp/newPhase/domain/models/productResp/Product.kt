@@ -1,6 +1,9 @@
 package com.malka.androidappp.newPhase.domain.models.productResp
 
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
+import com.malka.androidappp.newPhase.domain.models.dynamicSpecification.DynamicSpecificationSentObject
+import com.malka.androidappp.newPhase.domain.models.pakatResp.PakatDetails
+import com.malka.androidappp.newPhase.domain.models.servicemodels.model.Category
 
 
 data class Product(
@@ -16,6 +19,7 @@ data class Product(
     val auctionStartPrice: Float,
     val disccountEndDate: String? = null,
     val sendOfferForAuction: Boolean,
+    val isAuctionClosingTimeFixed : Boolean,
     val auctionMinimumPrice: Float,
     val auctionNegotiateForWhom: String?=null,
     val auctionNegotiatePrice: Float,
@@ -25,8 +29,14 @@ data class Product(
     val isActive: Boolean,
     val isDelete: Boolean,
     val name: String? = null,
+    val nameAr: String? = null,
+    val nameEn: String? = null,
     val subTitle: String? = null,
+    val subTitleAr: String? = null,
+    val subTitleEn: String? = null,
     val description: String? = null,
+    val descriptionAr: String? = null,
+    val descriptionEn: String? = null,
     val qty: Int,
     val productImage: String? = null,
     val isAuctionPaied: Boolean,
@@ -35,6 +45,7 @@ data class Product(
     val createdAt: String? = null,
     val updatedAt: String? = null,
     val categoryId: Int,
+    val categoryDto: Category? = null,
     val category: String? = null,
     val countryId: Int,
     val country: String? = null,
@@ -59,7 +70,7 @@ data class Product(
     val lat: String? = null,
     val lon: String? = null,
     val listMedia: List<ProductMediaItemDetails>? = null,
-    val listProductSep: List<ProductSpecialityItemDetails>? = null,
+    val listProductSep: List<DynamicSpecificationSentObject>? = null,
     val productMazadNegotiate: ProductMazadNegotiateObject? = null,
     var highestBidPrice:Float,
     var bankAccountId:Int,
@@ -67,7 +78,15 @@ data class Product(
 
     //*******
     var image: String? = null,
-    var myBid:Float
+    var myBid:Float,
+
+
+
+
+    var productPublishPrice:Float,
+    var selectedPacket: PakatDetails? = null,
+
+
 
 //    val isPaied: Boolean,
 //    val isNegotiationOffers: Boolean,

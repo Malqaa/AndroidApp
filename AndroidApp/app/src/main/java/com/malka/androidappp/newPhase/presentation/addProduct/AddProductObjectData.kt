@@ -38,7 +38,7 @@ class AddProductObjectData {
         var selectedCategoryName: String = ""
         /**image and videos**/
         var videoList: List<String>? = null
-        var images: List<ImageSelectModel> ?= null
+        var images: ArrayList<ImageSelectModel>?= null
         /**Specification**/
         var productSpecificationList: List<DynamicSpecificationSentObject>? = null
         /**productDetails*/
@@ -76,8 +76,10 @@ class AddProductObjectData {
         var selectTimeAuction: TimeAuctionSelection?= null
 /**       MustPickUp = 1, NoPickUp = 2, PickUpAvailable=3*/
         var pickUpOption: Int = 0
+        var shippingOption: Int = 0
         var shippingOptionSelection: List<Selection>? = null
         var shippingOptionSelections: ArrayList<Int>? = arrayListOf()
+        var pickOptionSelections: ArrayList<Int>? = arrayListOf()
         var selectedPakat: PakatDetails? = null
 
 

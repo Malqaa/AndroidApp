@@ -3031,6 +3031,8 @@
     The username must have at least two characters
       </string>
     <string name="enterAmountPointLess">Please enter emount point less than balance</string>
+    <string name="questions_is_turned_off_by_the_seller">Questions is turned off by the seller</string>
+    <string name="notSelect">Not selected</string>
 
     <!--    <string name="BusinessDetails">-->
     <!-- Business Details-->

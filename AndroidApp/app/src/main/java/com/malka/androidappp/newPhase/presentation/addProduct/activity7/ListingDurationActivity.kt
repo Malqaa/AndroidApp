@@ -34,6 +34,7 @@ import kotlinx.android.synthetic.main.toolbar_main.*
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class ListingDurationActivity : BaseActivity(), ShippingAdapter.SetOnSelectedShipping {
@@ -43,7 +44,9 @@ class ListingDurationActivity : BaseActivity(), ShippingAdapter.SetOnSelectedShi
     var fm: FragmentManager? = null
     var isEdit: Boolean = false
     val allWeeks: ArrayList<TimeAuctionSelection> = ArrayList()
+    val pickUpOptionList: ArrayList<ShippingOptionObject> = ArrayList()
     val shippingOptionList: ArrayList<ShippingOptionObject> = ArrayList()
+    var shippingAdapter: ShippingAdapter? = null
     var pickUpOption: Int = 0
     private lateinit var shippingViewModel: ShippingViewModel
 
@@ -55,6 +58,7 @@ class ListingDurationActivity : BaseActivity(), ShippingAdapter.SetOnSelectedShi
         toolbar_title.text = getString(R.string.shipping_options)
         isEdit = intent.getBooleanExtra(ConstantObjects.isEditKey, false)
         setVieClickListeners()
+        shippingAdapter = ShippingAdapter(arrayListOf(), this)
         containerPickUpOption.hide()
         if (AddProductObjectData.auctionOption) {
             contianerClosingOption.show()
@@ -134,7 +138,7 @@ class ListingDurationActivity : BaseActivity(), ShippingAdapter.SetOnSelectedShi
 
 
         /**shipping data */
-//        shippingOptionList.apply {
+//        pickUpOptionList.apply {
 //            add(
 //                Selection(
 //                    getString(R.string.integratedShippingCompanies),
@@ -163,53 +167,57 @@ class ListingDurationActivity : BaseActivity(), ShippingAdapter.SetOnSelectedShi
                 "${it.auctionClosingTimeFee} ${getString(R.string.Rayal)}"
         }
         /****/
-        if (isEdit) {
-            setData()
-        }
+
 //        else {
-//           a(shippingOptionList, rvShippingOption)
+//           a(pickUpOptionList, rvShippingOption)
 //        }
 
         getAllShippingObserver()
     }
 
     private fun setData() {
-        pickUpOption = AddProductObjectData.pickUpOption
-        when (AddProductObjectData.pickUpOption) {
+        pickUpOption = AddProductObjectData.shippingOption
+        for (i in shippingOptionList.indices) {
+            if (pickUpOption == shippingOptionList[i].id) {
+                shippingOptionList[i].selected = true
+            }
+        }
+
+        when (AddProductObjectData.shippingOption) {
             ConstantObjects.pickUp_Must -> {
-                setPickUpMust()
                 containerPickUpOption.hide()
             }
 
             ConstantObjects.pickUp_No -> {
-                setPickUpNo()
                 containerPickUpOption.show()
             }
 
             ConstantObjects.pickUp_Available -> {
-                setPickUpAvailable()
                 containerPickUpOption.show()
+            }
+        }
+
+        shippingAdapter?.updateAdapter(shippingOptionList)
+
+        pickUpOptionList.forEach { item ->
+            AddProductObjectData.shippingOptionSelections?.let { shList ->
+                for (i in shList) {
+                    if (item.id == i) {
+                        item.selected = true
+                        break
+                    }
+                }
+
             }
 
         }
-
-//        shippingOptionList.forEach { item ->
-//            AddProductObjectData.shippingOptionSelection?.let {
-//                for (item2 in it) {
-//                    if (item.id == item2.id) {
-//                        item.isSelected = true
-//                        break
-//                    }
-//                }
-//
-//            }
-//
-//        }
-//        shippingOptionAdaptor(shippingOptionList, rvShippingOption)
+        pickUpOptionAdapter(pickUpOptionList, rvShippingOption)
         AddProductObjectData.selectTimeAuction?.let {
             if (it.customOption) {
                 closingAuctionOption2.performClick()
-                tvClosingAuctionCustomDataOption2.text = it.text
+                if (it.text == "")
+                    tvClosingAuctionCustomDataOption2.text =
+                        HelpFunctions.getViewFormatForDateTrack(it.endTime)
             } else {
                 closingAuctionOption1.performClick()
                 for (item in allWeeks) {
@@ -225,13 +233,14 @@ class ListingDurationActivity : BaseActivity(), ShippingAdapter.SetOnSelectedShi
 
     private fun getAllShippingObserver() {
         shippingViewModel.shippingListObserver.observe(this) {
-            shippingOptionList.addAll(it.shippingOptionObject?.subList(3,6)?: arrayListOf())
-            val adapter =
-                ShippingAdapter(it.shippingOptionObject?.subList(0, 3) ?: arrayListOf(), this)
-            recycleShipping.adapter = adapter
-
-
-            shippingOptionAdaptor(shippingOptionList, rvShippingOption)
+            pickUpOptionList.addAll(it.shippingOptionObject?.subList(3, 6) ?: arrayListOf())
+            shippingOptionList.addAll(it.shippingOptionObject?.subList(0, 3) ?: arrayListOf())
+            shippingAdapter?.updateAdapter(shippingOptionList)
+            recycleShipping.adapter = shippingAdapter
+            pickUpOptionAdapter(pickUpOptionList, rvShippingOption)
+            if (isEdit) {
+                setData()
+            }
         }
     }
 
@@ -404,6 +413,8 @@ class ListingDurationActivity : BaseActivity(), ShippingAdapter.SetOnSelectedShi
                             }
                             selection_tv.text = "$text $unit"
                             selection_tv.isSelected = isSelect
+                            fixlenghtselected = list.find { it.isSelect }
+
                             setOnClickListener {
                                 list.forEachIndexed { index, addBankDetail ->
                                     addBankDetail.isSelect = index == position
@@ -458,7 +469,7 @@ class ListingDurationActivity : BaseActivity(), ShippingAdapter.SetOnSelectedShi
             showError(getString(R.string.Please_select, getString(R.string.SelectaPickupOption)))
             return false
         } else if (pickUpOption == ConstantObjects.pickUp_No || pickUpOption == ConstantObjects.pickUp_Available) {
-            val list = shippingOptionList.filter { it.selected == true }
+            val list = pickUpOptionList.filter { it.selected }
             if (list.isEmpty()) {
                 showError(
                     getString(
@@ -468,6 +479,8 @@ class ListingDurationActivity : BaseActivity(), ShippingAdapter.SetOnSelectedShi
                 )
                 return false
             } else {
+                AddProductObjectData.shippingOptionSelections?.clear()
+                AddProductObjectData.shippingOptionSelections?.add(pickUpOption)
                 AddProductObjectData.shippingOptionSelections?.add(list[0].id)
                 return true
             }
@@ -476,7 +489,7 @@ class ListingDurationActivity : BaseActivity(), ShippingAdapter.SetOnSelectedShi
     }
 
 //    private fun ValidateRadiobtmchecked(): Boolean {
-//        shippingOptionList.filter {
+//        pickUpOptionList.filter {
 //            it.isSelected == true
 //        }.isEmpty().let {
 //            if (it) {
@@ -495,6 +508,10 @@ class ListingDurationActivity : BaseActivity(), ShippingAdapter.SetOnSelectedShi
                 return false
             } else {
                 println("hhhh " + fixlenghtselected)
+//                fixlenghtselected.apply {
+//                    this?.endTime=HelpFunctions.getAuctionClosingTime(fixlenghtselected?.endTime.toString())
+//                }
+
                 AddProductObjectData.selectTimeAuction = fixlenghtselected
                 return true
             }
@@ -526,6 +543,7 @@ class ListingDurationActivity : BaseActivity(), ShippingAdapter.SetOnSelectedShi
 
         if (isEdit) {
             startActivity(Intent(this, ConfirmationAddProductActivity::class.java).apply {
+                putExtra("whereCome", "Add")
                 finish()
             })
         } else {
@@ -552,7 +570,7 @@ class ListingDurationActivity : BaseActivity(), ShippingAdapter.SetOnSelectedShi
         var dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
         val c = Calendar.getInstance()
         try {
-            c.time = dateFormat.parse(oldDate?:"")
+            c.time = dateFormat.parse(oldDate ?: "")
         } catch (e: ParseException) {
             e.printStackTrace()
         }
@@ -566,7 +584,7 @@ class ListingDurationActivity : BaseActivity(), ShippingAdapter.SetOnSelectedShi
     var selection: Selection? = null
 
     @SuppressLint("ResourceType")
-    private fun shippingOptionAdaptor(list: ArrayList<ShippingOptionObject>, rcv: RecyclerView) {
+    private fun pickUpOptionAdapter(list: ArrayList<ShippingOptionObject>, rcv: RecyclerView) {
         rcv.adapter = object : GenericListAdapter<ShippingOptionObject>(
             R.layout.shipping_option,
             bind = { element, holder, itemCount, position ->
@@ -583,6 +601,8 @@ class ListingDurationActivity : BaseActivity(), ShippingAdapter.SetOnSelectedShi
                                 item.selected = false
                             }
                             list[position].selected = true
+
+                            AddProductObjectData.pickUpOption = list[position].id
 
                             rcv.post { rcv.adapter?.notifyDataSetChanged() }
                             // selection = element
@@ -609,6 +629,7 @@ class ListingDurationActivity : BaseActivity(), ShippingAdapter.SetOnSelectedShi
     private fun goNextActivity() {
         if (isEdit) {
             startActivity(Intent(this, ConfirmationAddProductActivity::class.java).apply {
+                putExtra("whereCome", "Add")
                 finish()
             })
         } else {
@@ -619,19 +640,20 @@ class ListingDurationActivity : BaseActivity(), ShippingAdapter.SetOnSelectedShi
     }
 
     override fun setOnSelectedShipping(shippingItem: ShippingOptionObject) {
-        AddProductObjectData.shippingOptionSelections= arrayListOf()
-        if(shippingItem.selected){
+        AddProductObjectData.shippingOptionSelections = arrayListOf()
+        if (shippingItem.selected) {
             AddProductObjectData.shippingOptionSelections?.add(shippingItem.id)
-            if(shippingItem.id!=1) {
-                pickUpOption=shippingItem.id
+            AddProductObjectData.shippingOption = shippingItem.id
+            if (shippingItem.id != 1) {
+                pickUpOption = shippingItem.id
                 containerPickUpOption.show()
-                shippingOptionAdaptor(shippingOptionList, rvShippingOption)
-            }else{
-                pickUpOption=shippingItem.id
+                pickUpOptionAdapter(pickUpOptionList, rvShippingOption)
+            } else {
+                pickUpOption = shippingItem.id
                 containerPickUpOption.hide()
             }
 
-        }else{
+        } else {
             containerPickUpOption.hide()
         }
 

@@ -12,7 +12,7 @@ data class Category(
     var category:String?=null,
     val productFeeDuetTime: Int,
     val productPriceType: Int,
-    val productPublishPrice: Float,
+    var productPublishPrice: Float,
     var is_select: Boolean = false,
     var isCategory: Boolean = false,
     var template: String = "",

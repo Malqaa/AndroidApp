@@ -108,7 +108,7 @@ class HelpFunctions {
                 ConstantObjects.logged_userid = userObject?.id.toString()
                 // ConstantObjects.businessAccountUser=userObject?.businessAccounts
                 ConstantObjects.logged_authtoken = userObject?.token.toString()
-                ConstantObjects.userobj=userObject
+                ConstantObjects.userobj = userObject
                 // ConstantObjects.loggin_businessAccountId=user_object?.
             }
             return isLogin
@@ -300,7 +300,7 @@ class HelpFunctions {
         fun getViewFormatForDateTrack(dateStr: String?): String? {
             try {
 //        String outputPattern = "EEEE MMMM d, yyyy";
-                val outputPattern = "dd/MM/yyyy"
+                val outputPattern = "dd/MM/yyyy HH:mm:ss"
                 val outputFormat = SimpleDateFormat(outputPattern, Locale.getDefault())
                 val tz = TimeZone.getTimeZone("UTC")
 //            val tz = TimeZone.getTimeZone("Africa/Cairo")
@@ -323,24 +323,31 @@ class HelpFunctions {
             }
         }
 
-        fun getAuctionClosingTime(dataStr:String):String{
+        fun getAuctionClosingTime(dataStr: String): String {
             // 23/06/20236:55 PM
             try {
 //        String outputPattern = "EEEE MMMM d, yyyy";
-                val outputPattern = "yyyy-MM-dd'T'HH:mm:ss"
+                val outputPattern = "yyyy-MM-dd HH:mm:ss"
                 val outputFormat = SimpleDateFormat(outputPattern, Locale.getDefault())
+                var typeI = SimpleDateFormat();
+
+                if (dataStr.contains("/")) {
+                    typeI = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+                } else {
+                    typeI = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
+                }
                 val tz = TimeZone.getTimeZone("UTC")
-                outputFormat.timeZone=tz
-               //
+                outputFormat.timeZone = tz
+                //
 //            val tz = TimeZone.getTimeZone("Africa/Cairo")
                 //  SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy",Locale.getDefault());
-                val df: SimpleDateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm aa", Locale.ENGLISH);
+//                val df: SimpleDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
                 //  val df = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.ENGLISH)
-               // df.timeZone = tz
+                typeI.timeZone = tz
                 val date: Date
                 val str: String
                 try {
-                    date = df.parse(dataStr)
+                    date = typeI.parse(dataStr)
                     str = outputFormat.format(date)
                 } catch (e: ParseException) {
                     println("hhhh " + e.message)
@@ -356,21 +363,22 @@ class HelpFunctions {
         fun getAuctionClosingTimeByDate(dataStr: String): Date? {
             // 23/06/20236:55 PM
             try {
-                println("hhhh "+dataStr)
+                println("hhhh " + dataStr)
                 //  =====================;
                 val inputPattern = "yyyy-MM-dd'T'HH:mm:ss"
                 val inputFormat = SimpleDateFormat(inputPattern, Locale.ENGLISH)
                 inputFormat.timeZone = TimeZone.getTimeZone("UTC")
                 val tz = TimeZone.getTimeZone("UTC")
-               //=======
-                val outputFormat: SimpleDateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm aa", Locale.ENGLISH);
+                //=======
+                val outputFormat: SimpleDateFormat =
+                    SimpleDateFormat("dd/MM/yyyy HH:mm aa", Locale.ENGLISH);
                 //  val df = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.ENGLISH)
                 outputFormat.timeZone = TimeZone.getDefault()
                 val date: Date
                 val str: String
                 try {
                     date = inputFormat.parse(dataStr)
-                    println("hhhh " +date.toString())
+                    println("hhhh " + date.toString())
                     str = outputFormat.format(date)
                 } catch (e: ParseException) {
                     println("hhhh " + e.message)
@@ -382,33 +390,62 @@ class HelpFunctions {
                 return null
             }
         }
+        fun getAuctionClosingTimeForApi(dataStr: String): String {
+            try {
+                val outputPattern = "yyyy-MM-dd'T'HH:mm:ss"
+                val outputFormat = SimpleDateFormat(outputPattern, Locale.getDefault())
+                val  typeI = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+
+                val date: Date
+                val str: String
+                try {
+                    date = typeI.parse(dataStr)
+                    str = outputFormat.format(date)
+                } catch (e: ParseException) {
+                    println("hhhh " + e.message)
+                    return ""
+                }
+                return str
+            } catch (e: Exception) {
+                println("hhhh " + e.message)
+                return ""
+            }
+        }
 
         fun getAuctionClosingTime2(dataStr: String): String {
             // 23/06/20236:55 PM
             try {
 //        String outputPattern = "EEEE MMMM d, yyyy";
-                val outputPattern = "yyyy-MM-dd'T'HH:mm:ss"
+                val outputPattern = "yyyy-MM-dd HH:mm:ss"
                 val outputFormat = SimpleDateFormat(outputPattern, Locale.getDefault())
                 val tz = TimeZone.getTimeZone("UTC")
                 outputFormat.timeZone = tz
                 //
 //            val tz = TimeZone.getTimeZone("Africa/Cairo")
                 //  SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy",Locale.getDefault());
-                val df: SimpleDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+                var  typeI = SimpleDateFormat()
+
+                if (dataStr.contains("T")) {
+                    typeI = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
+                } else {
+                    typeI = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
+                }
+                outputFormat.timeZone = tz
+
                 //  val df = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.ENGLISH)
-                // df.timeZone = tz
+                typeI.timeZone = tz
                 val date: Date
                 val str: String
                 try {
-                    date = df.parse(dataStr)
+                    date = typeI.parse(dataStr)
                     str = outputFormat.format(date)
                 } catch (e: ParseException) {
-                    println("hhhh "+e.message)
+                    println("hhhh " + e.message)
                     return ""
                 }
                 return str
             } catch (e: Exception) {
-                println("hhhh "+e.message)
+                println("hhhh " + e.message)
                 return ""
             }
         }
@@ -1018,6 +1055,7 @@ class HelpFunctions {
         fun dismissProgressBar() {
             if (isdialog != null) {
                 isdialog?.dismiss()
+                isdialog = null
             }
         }
 
@@ -1027,7 +1065,7 @@ class HelpFunctions {
                     "(?=.*[a-z])" +         //at least 1 lower case letter
                     "(?=.*[A-Z])" +         //at least 1 upper case letter
                     "(?=.*[a-zA-Z])" +  //any letter
-                     "(?=.*[@#$%^&+=])" +  //at least 1 special character
+                    "(?=.*[@#$%^&+=])" +  //at least 1 special character
                     "(?=\\S+$)" +  //no white spaces
                     ".{6,}" +  //at least 4 characters
                     "$"
@@ -1123,7 +1161,7 @@ class HelpFunctions {
 //                .into(iv)
 //
             Picasso.get()
-                .load(url?.replace("http","https"))
+                .load(url?.replace("http", "https"))
                 .placeholder(R.drawable.splash_logo)
                 .error(R.drawable.splash_logo)
                 .into(iv)
@@ -1153,7 +1191,7 @@ class HelpFunctions {
             pb_loading?.show()
             var imagePath = if (path == "" || path == null) "emptyPath" else path
             Picasso.get()
-                .load(imagePath.replace("http","https"))
+                .load(imagePath.replace("http", "https"))
                 .error(R.drawable.profileicon_bottomnav)
                 .into(imageView, object : com.squareup.picasso.Callback {
                     override fun onSuccess() {
@@ -1161,9 +1199,8 @@ class HelpFunctions {
                         //  onComplete?.invoke()
                     }
 
-                    override fun onError(e: java.lang.Exception?)
-                    {
-                        println("hhhh "+e?.message)
+                    override fun onError(e: java.lang.Exception?) {
+                        println("hhhh " + e?.message)
                         pb_loading?.hide()
                         // onComplete?.invoke()
                     }

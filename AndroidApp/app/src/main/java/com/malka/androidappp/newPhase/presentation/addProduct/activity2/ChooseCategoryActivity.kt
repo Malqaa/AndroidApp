@@ -16,6 +16,7 @@ import com.malka.androidappp.newPhase.data.helper.hide
 import com.malka.androidappp.newPhase.data.helper.show
 import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.domain.models.servicemodels.model.Category
+import com.malka.androidappp.newPhase.presentation.addProduct.ConfirmationAddProductActivity
 import com.malka.androidappp.newPhase.presentation.addProduct.activity4.AddPhotoActivity
 import com.malka.androidappp.newPhase.presentation.addProduct.viewmodel.AddProductViewModel
 import kotlinx.android.synthetic.main.activity_choose_category.*
@@ -24,65 +25,80 @@ import kotlinx.android.synthetic.main.toolbar_main.*
 class ChooseCategoryActivity : BaseActivity() {
     var allCategoryList: List<Category> = ArrayList()
     var position = -1
+    private var isEdit: Boolean = false
     private lateinit var addProductViewModel: AddProductViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_choose_category)
+        isEdit = intent.getBooleanExtra(ConstantObjects.isEditKey, false)
+
+        setupLoginViewModel()
         toolbar_title.text = getString(R.string.choose_department)
+        setDataForUpdate()
         back_btn.setOnClickListener {
-            finish()
+            onBackPressed()
         }
         add_product_button4.setOnClickListener {
 //            AddProductObjectData.subCategoryPath.clear()
-            if (position == -1) {
-                showError(getString(R.string.Please_choose_catgeory))
-            } else {
-                // AddProductObjectData.subCategoryPath.add(allCategoryList[position].name.toString())
-                //  AddProductObjectData.selectedCategory=allCategoryList[position]
-                AddProductObjectData.selectedCategoryId = allCategoryList[position].id
-                AddProductObjectData.selectedCategoryName = allCategoryList[position].name
-//                startActivity(Intent(this, SubCategoriesActivity::class.java).apply {
-//                    putExtra(ConstantObjects.categoryIdKey, allCategoryList[position].id.toString())
-//                    putExtra(ConstantObjects.categoryName, allCategoryList[position].name.toString())
-//                })
-                AddProductObjectData.selectedCategory = allCategoryList[position]
+            if (isEdit) {
 
                 startActivity(Intent(this, SubCategoriesActivity::class.java).apply {
-                    putExtra(ConstantObjects.categoryIdKey, allCategoryList[position].id)
-                    putExtra(ConstantObjects.categoryName, allCategoryList[position].name)
+                    putExtra(ConstantObjects.isEditKey, isEdit)
+                    putExtra(ConstantObjects.categoryIdKey, AddProductObjectData.selectedCategoryId)
+                    putExtra(
+                        ConstantObjects.categoryName,
+                        AddProductObjectData.selectedCategoryName
+                    )
                 })
-//                goNextScreen(false)
+            } else {
 
+                if (position == -1) {
+                    showError(getString(R.string.Please_choose_catgeory))
+                } else {
+                    AddProductObjectData.selectedCategoryId = allCategoryList[position].id
+                    AddProductObjectData.selectedCategoryName = allCategoryList[position].name
 
-//                if (!allCategoryList[position].isCategory) {
-//                    AddProductObjectData.subCategoryPath.add(allCategoryList[position].name.toString())
-//                    val templateName = truncateString(allCategoryList[position].template.toString())
-//                    AddProductObjectData.template = templateName
-//                    startActivity(Intent(this, AddPhotoActivity::class.java).apply {
-//                        putExtra("Title", allCategoryList[position].name.toString())
-//                    })
-//                } else {
-//
-//                    AddProductObjectData.subCategoryPath.add(allCategoryList[position].name.toString())
-//                    startActivity(Intent(this, SubCategoriesActivity::class.java).apply {
-//                        putExtra("categoryid", allCategoryList[position].categoryKey.toString())
-//                        putExtra("categoryName", allCategoryList[position].name.toString())
-//                    })
-//                }
+                    AddProductObjectData.selectedCategory = allCategoryList[position]
+
+                    startActivity(Intent(this, SubCategoriesActivity::class.java).apply {
+                        putExtra(ConstantObjects.isEditKey, isEdit)
+                        putExtra(ConstantObjects.categoryIdKey, allCategoryList[position].id)
+                        putExtra(ConstantObjects.categoryName, allCategoryList[position].name)
+                    })
+                }
             }
-
-
         }
+
         //  getAllCategories()
-        setupLoginViewModel()
-        allCategoryList = ConstantObjects.categoryList
-        if(allCategoryList.isNotEmpty()){
-            getAllCategories()
-        }else{
-            addProductViewModel.getAllCategories()
-        }
+
     }
 
+    private fun setDataForUpdate() {
+        if (isEdit) {
+            allCategoryList = ConstantObjects.categoryList
+            for (i in allCategoryList.indices) {
+                if (allCategoryList[i].id == AddProductObjectData.selectedCategoryId) {
+                    allCategoryList[i].is_select = true
+                }
+            }
+
+            recycler_all_category.adapter =
+                AdapterAllCategoriesAdapter(
+                    allCategoryList
+                ) {
+                    position = it
+                }
+
+        } else {
+            allCategoryList = ConstantObjects.categoryList
+            if (allCategoryList.isNotEmpty()) {
+                getAllCategories()
+            } else {
+                addProductViewModel.getAllCategories()
+            }
+        }
+
+    }
 
     private fun setupLoginViewModel() {
         addProductViewModel = ViewModelProvider(this).get(AddProductViewModel::class.java)
@@ -104,21 +120,21 @@ class ChooseCategoryActivity : BaseActivity() {
         }
         addProductViewModel.categoriesErrorResponseObserver.observe(this) {
             //HelpFunctions.ShowLongToast(getString(R.string.NoCategoriesfound), context)
-            if(it.status!=null && it.status=="409"){
+            if (it.status != null && it.status == "409") {
                 HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), this)
-            }else{
-            if (it.message != null && it.message != "") {
-                HelpFunctions.ShowLongToast(
-                    it.message!!,
-                    this
-                )
             } else {
-                HelpFunctions.ShowLongToast(
-                    getString(R.string.serverError),
-                    this
-                )
+                if (it.message != null && it.message != "") {
+                    HelpFunctions.ShowLongToast(
+                        it.message!!,
+                        this
+                    )
+                } else {
+                    HelpFunctions.ShowLongToast(
+                        getString(R.string.serverError),
+                        this
+                    )
+                }
             }
-        }
         }
     }
 
@@ -143,12 +159,16 @@ class ChooseCategoryActivity : BaseActivity() {
 
     }
 
-    private fun goNextScreen(isFinish:Boolean) {
-        if(isFinish) {
-            startActivity(Intent(this, AddPhotoActivity::class.java))
+
+    override fun onBackPressed() {
+        if (isEdit) {
+            startActivity(Intent(this, ConfirmationAddProductActivity::class.java).apply {
+                putExtra("whereCome", "Add")
+
+            })
             finish()
-        }else{
-            startActivity(Intent(this, AddPhotoActivity::class.java))
+        } else {
+            finish()
         }
     }
 }

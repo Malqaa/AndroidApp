@@ -25,6 +25,7 @@ import com.malka.androidappp.newPhase.data.helper.*
 import com.malka.androidappp.newPhase.data.helper.Extension.shared
 import com.malka.androidappp.newPhase.data.helper.shared_preferences.SharedPreferencesStaticClass
 import com.malka.androidappp.newPhase.domain.models.categoryFollowResp.Branch
+import com.malka.androidappp.newPhase.domain.models.dynamicSpecification.DynamicSpecificationSentObject
 import com.malka.androidappp.newPhase.domain.models.loginResp.LoginUser
 import com.malka.androidappp.newPhase.domain.models.productResp.Product
 import com.malka.androidappp.newPhase.domain.models.productResp.ProductMediaItemDetails
@@ -94,7 +95,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     private var productDetails: Product? = null
     private var productId: Int = -1;
     lateinit var specificationAdapter: SpecificationAdapter
-    lateinit var specificationList: ArrayList<ProductSpecialityItemDetails>
+    lateinit var specificationList: ArrayList<DynamicSpecificationSentObject>
     lateinit var productImagesAdapter: ProductImagesAdapter
     lateinit var productImagesList: ArrayList<ProductMediaItemDetails>
     lateinit var similerProductList: ArrayList<Product>
@@ -1254,6 +1255,13 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             containerShareAndFav.show()
             /**Action endTime**/
 
+            if (productDetails.acceptQuestion) {
+                sectionQs.show()
+            } else{
+                hintQuestion.show()
+                sectionQs.hide()
+            }
+
             showButtons()
             if (productDetails.auctionClosingTime != null) {
                 val endDate: Date? =
@@ -1345,7 +1353,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                 btnPriceNegotiation.hide()
             }
 
-            tvNegotiationPrice.text=productDetails.price.toString()
+            tvNegotiationPrice.text = productDetails.price.toString()
 
             if (productDetails.isAuctionEnabled) {
                 Bid_on_price_tv.text =
@@ -1368,7 +1376,8 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             showError(getString(R.string.serverError))
         }
     }
-    private fun showButtons(){
+
+    private fun showButtons() {
         if (productDetails?.isFixedPriceEnabled == true) {
             containerBuyNow.show()
             txtPriceNow.text = "${productDetails?.priceDisc} ${getString(R.string.sar)}"
@@ -1383,7 +1392,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     }
 
 
-    private fun timeDifferent(targetDateTimeString:String){
+    private fun timeDifferent(targetDateTimeString: String) {
         // Specify the target date and time
 
         val formatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss")
@@ -1731,6 +1740,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
         }
     }
+
     override fun onDestroy() {
         super.onDestroy()
         productDetialsViewModel.closeAllCall()

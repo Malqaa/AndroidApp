@@ -13,4 +13,5 @@ class App: Application() {
         Fresco.initialize(applicationContext);
         Lingver.init(this, "en")
     }
+
 }

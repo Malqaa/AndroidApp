@@ -13,6 +13,7 @@ import com.malka.androidappp.newPhase.data.helper.hide
 import com.malka.androidappp.newPhase.data.helper.show
 import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.domain.models.servicemodels.model.Category
+import com.malka.androidappp.newPhase.presentation.addProduct.activity1.ListCategoryViewModel
 import com.malka.androidappp.newPhase.presentation.addProduct.viewmodel.AddProductViewModel
 import kotlinx.android.synthetic.main.fragment_sub_categories.*
 import kotlinx.android.synthetic.main.toolbar_main.*
@@ -25,8 +26,8 @@ class SubCategoriesActivity : BaseActivity(), AdapterSubCategories.OnItemClickLi
     var categoryid: Int = 0
     var categoryName: String = ""
 
-    var allCategoryList: ArrayList<Category> = ArrayList()
-    private lateinit var addProductViewModel: AddProductViewModel
+    var allCategoryList: ArrayList<Category>? = null
+    private var listCategoryViewModel: ListCategoryViewModel?=null
     var lastCategoryId = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,25 +36,26 @@ class SubCategoriesActivity : BaseActivity(), AdapterSubCategories.OnItemClickLi
         back_btn.setOnClickListener {
             finish()
         }
-
+        allCategoryList= arrayListOf()
         categoryid = intent.getIntExtra(ConstantObjects.categoryIdKey, 0)
         categoryName = intent.getStringExtra(ConstantObjects.categoryName).toString()
         setUpViewModel()
+
         lastCategoryId = AddProductObjectData.selectedCategoryId
-        addProductViewModel.getSubCategoriesByCategoryID(categoryid)
+        listCategoryViewModel!!.getSubCategoriesByCategoryID(categoryid)
     }
 
     private fun setUpViewModel() {
-        val subCategoryAdapter=AdapterSubCategories(allCategoryList, this@SubCategoriesActivity)
+        val subCategoryAdapter=AdapterSubCategories(allCategoryList?: arrayListOf(), this@SubCategoriesActivity)
         allCategoriesRecyclerView.adapter =subCategoryAdapter
-        addProductViewModel = ViewModelProvider(this).get(AddProductViewModel::class.java)
-        addProductViewModel.isLoading.observe(this) {
+        listCategoryViewModel = ViewModelProvider(this).get(ListCategoryViewModel::class.java)
+        listCategoryViewModel!!.isLoading.observe(this) {
             if (it)
                 progressBar.show()
             else
                 progressBar.hide()
         }
-        addProductViewModel.isNetworkFail.observe(this) {
+        listCategoryViewModel!!.isNetworkFail.observe(this) {
             if (it) {
                 HelpFunctions.ShowLongToast(
                     getString(R.string.connectionError),
@@ -67,7 +69,7 @@ class SubCategoriesActivity : BaseActivity(), AdapterSubCategories.OnItemClickLi
             }
 
         }
-        addProductViewModel.errorResponseObserver.observe(this) {
+        listCategoryViewModel!!.errorResponseObserver.observe(this) {
             if (it.status != null && it.status == "409") {
                 HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), this)
             } else {
@@ -84,21 +86,22 @@ class SubCategoriesActivity : BaseActivity(), AdapterSubCategories.OnItemClickLi
                 }
             }
         }
-        addProductViewModel.categoryListObserver.observe(this) { categoryListObserver ->
+        listCategoryViewModel!!.categoryListObserver.observe(this) { categoryListObserver ->
             if (categoryListObserver.status_code == 200) {
                 allCategoryList = arrayListOf()
                 lifecycleScope.launch(Dispatchers.IO) {
-                    if (categoryListObserver.categoryList != null && categoryListObserver.categoryList.isNotEmpty()) {
-                        allCategoryList.add(categoryListObserver.categoryList[0])
-                        lastCategoryId = categoryListObserver.categoryList[0].id
+                    lastCategoryId = if (!categoryListObserver.categoryList.isNullOrEmpty()) {
+                        allCategoryList?.add(categoryListObserver.categoryList[0])
+                        categoryListObserver.categoryList[0].id
                     } else {
-                        lastCategoryId = 0
+                        0
                     }
                     if (lastCategoryId != 0)
-                        subCategoryAdapter.updateAdapter(allCategoryList)
+                        subCategoryAdapter.updateAdapter(allCategoryList?: arrayListOf())
                     else {
-                        if (allCategoryList.isEmpty()) {
+                        if (allCategoryList?.isEmpty() == true) {
                             goNextScreen()
+                            finish()
                         }
                     }
 
@@ -176,11 +179,11 @@ class SubCategoriesActivity : BaseActivity(), AdapterSubCategories.OnItemClickLi
 
     override fun OnItemClickHandler(position: Int) {
         super.OnItemClickHandler(position)
-        AddProductObjectData.selectedCategoryId = allCategoryList[position].id
-        AddProductObjectData.selectedCategoryName == allCategoryList[position].name
+        AddProductObjectData.selectedCategoryId = allCategoryList?.get(position)?.id?:0
+        AddProductObjectData.selectedCategoryName == allCategoryList!![position].name
 
         if (lastCategoryId != 0) {
-            addProductViewModel.getSubCategoriesByCategoryID(lastCategoryId)
+            listCategoryViewModel!!.getSubCategoriesByCategoryID(lastCategoryId)
         } else {
             goNextScreen()
 
@@ -190,7 +193,15 @@ class SubCategoriesActivity : BaseActivity(), AdapterSubCategories.OnItemClickLi
 
     private fun goNextScreen() {
         startActivity(Intent(this, AddPhotoActivity::class.java).apply {
+            putExtra(ConstantObjects.isEditKey, intent.getBooleanExtra(ConstantObjects.isEditKey, false))
         })
+
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        listCategoryViewModel?.closeAllCall()
+        listCategoryViewModel = null
+        allCategoryList =null
 
     }
 

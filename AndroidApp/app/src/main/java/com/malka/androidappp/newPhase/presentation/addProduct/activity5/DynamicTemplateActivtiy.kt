@@ -7,15 +7,19 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseActivity
+import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.data.helper.hide
 import com.malka.androidappp.newPhase.data.helper.linearLayoutManager
 import com.malka.androidappp.newPhase.data.helper.show
 import com.malka.androidappp.newPhase.domain.models.dynamicSpecification.DynamicSpecificationItem
 import com.malka.androidappp.newPhase.domain.models.dynamicSpecification.DynamicSpecificationSentObject
+import com.malka.androidappp.newPhase.domain.models.servicemodels.model.Category
 import com.malka.androidappp.newPhase.presentation.addProduct.AddProductObjectData
+import com.malka.androidappp.newPhase.presentation.addProduct.activity2.AdapterAllCategoriesAdapter
 import com.malka.androidappp.newPhase.presentation.addProduct.activity6.ListingDetailsActivity
 import com.malka.androidappp.newPhase.presentation.addProduct.viewmodel.AddProductViewModel
+import kotlinx.android.synthetic.main.activity_choose_category.recycler_all_category
 import kotlinx.android.synthetic.main.fragment_dynamic_template.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 import kotlinx.coroutines.Dispatchers
@@ -38,6 +42,8 @@ class DynamicTemplateActivtiy : BaseActivity(), DynamicSpecificationsAdapter.OnC
 //
 //    var selectdate = ""
 //    var selectTime = ""
+    private var dataList: ArrayList<DynamicSpecificationSentObject>?=null
+    private var isEdit: Boolean = false
     private lateinit var addProductViewModel: AddProductViewModel
     private lateinit var dynamicSpecificationsAdapter: DynamicSpecificationsAdapter
     private var dynamicSpecificationsArrayList: ArrayList<DynamicSpecificationItem> = ArrayList()
@@ -48,10 +54,22 @@ class DynamicTemplateActivtiy : BaseActivity(), DynamicSpecificationsAdapter.OnC
         setViewClickListeners()
         setDynamicListAdapter()
         setUpViewModel()
+        dataList= arrayListOf()
+        isEdit=  intent.getBooleanExtra(ConstantObjects.isEditKey, false)
+
         //  println("hhh  cat id : ${AddProductObjectData.selectedCategoryId}")
         addProductViewModel.getDynamicSpecification(AddProductObjectData.selectedCategoryId)
         // addProductViewModel.getDynamicSpecification(50)
     }
+
+//    private fun setDataForUpdate(){
+//        if(isEdit) {
+//            dynamicSpecificationsArrayList=AddProductObjectData.productSpecificationList
+//            setDynamicListAdapter()
+//
+//        }
+//
+//    }
 
     private fun setUpViewModel() {
         addProductViewModel = ViewModelProvider(this).get(AddProductViewModel::class.java)
@@ -130,7 +148,7 @@ class DynamicTemplateActivtiy : BaseActivity(), DynamicSpecificationsAdapter.OnC
         }
 
         btn_dynamic_next.setOnClickListener() {
-            checkAllDataSet()
+            checkAllDataSet(dataList!!)
             // GetDataFromDynamicControl()
 
         }
@@ -143,10 +161,9 @@ class DynamicTemplateActivtiy : BaseActivity(), DynamicSpecificationsAdapter.OnC
 
     }
 
-    private fun checkAllDataSet() {
+    private fun checkAllDataSet(data: ArrayList<DynamicSpecificationSentObject> ) {
         lifecycleScope.launch(Dispatchers.IO) {
             var allValuesSet = true
-            val data: ArrayList<DynamicSpecificationSentObject> = ArrayList()
             dynamicSpecificationsArrayList.forEach { dynamicSpecificationItem ->
 //                if(dynamicSpecificationItem.type==1){
 //                    if(dynamicSpecificationItem.subSpecificationsValue==null){
@@ -241,10 +258,15 @@ class DynamicTemplateActivtiy : BaseActivity(), DynamicSpecificationsAdapter.OnC
 
     private fun goNextScreen(isFinished: Boolean) {
         if (isFinished) {
-            startActivity(Intent(this, ListingDetailsActivity::class.java).apply {})
+            startActivity(Intent(this, ListingDetailsActivity::class.java).apply {
+                putExtra(ConstantObjects.isEditKey, intent.getBooleanExtra(ConstantObjects.isEditKey, false))
+
+            })
             finish()
         } else {
-            startActivity(Intent(this, ListingDetailsActivity::class.java).apply {})
+            startActivity(Intent(this, ListingDetailsActivity::class.java).apply {
+                putExtra(ConstantObjects.isEditKey, intent.getBooleanExtra(ConstantObjects.isEditKey, false))
+            })
         }
 
     }

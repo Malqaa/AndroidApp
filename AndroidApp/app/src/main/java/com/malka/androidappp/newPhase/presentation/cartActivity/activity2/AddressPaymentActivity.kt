@@ -1,5 +1,6 @@
 package com.malka.androidappp.newPhase.presentation.cartActivity.activity2
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -29,25 +30,26 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+@SuppressLint("NotifyDataSetChanged")
 class AddressPaymentActivity : BaseActivity(),
     AddressesAdapter.SetOnSelectedAddress, CartNewAdapter.SetProductNewCartListeners,
     SwipeRefreshLayout.OnRefreshListener {
     private var deliveryOptionSelect: String = "0"
     private var paymentOptionSelect: Int = 0
-    private var paymentDetailsDtoList = ArrayList<Triple<Int, Int, Int>>()
-    private lateinit var addressesAdapter: AddressesAdapter
-    private lateinit var cartNewAdapter: CartNewAdapter
-    private lateinit var cartViewModel: CartViewModel
-    private lateinit var userAddressesList: ArrayList<AddressItem>
+    private var paymentDetailsDtoList: ArrayList<Triple<Int, Int, Int>>? = null
+    private var addressesAdapter: AddressesAdapter? = null
+    private var cartNewAdapter: CartNewAdapter? = null
+    private var cartViewModel: CartViewModel? = null
+    private var userAddressesList: ArrayList<AddressItem>? = null
+    private var productsCartList: ArrayList<CartProductDetails>? = null
+    private var cartDataObject: CartDataObject? = null
     private var lastUpdateMainPosition: Int = 0
     private var lastUpdateProductPosition: Int = 0
-    private lateinit var productsCartList: ArrayList<CartProductDetails>
     private var addressId: Int = 0
-    var cartDataObject: CartDataObject? = null
     var flagTypeSale = true
-    var orderId =0
+    var orderId = 0
 
-//    private var paymentDetailsList: ArrayList<ProductOrderPaymentDetailsDto> = ArrayList()
+    //    private var paymentDetailsList: ArrayList<ProductOrderPaymentDetailsDto> = ArrayList()
 //    val deliveryOptionList: ArrayList<Selection> = ArrayList()
 //    val paymentMethodList: ArrayList<Selection> = ArrayList()
 //    val cartIds: MutableList<String> = mutableListOf()
@@ -56,9 +58,9 @@ class AddressPaymentActivity : BaseActivity(),
     private val addAddressLaucher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
-                userAddressesList.clear()
-                addressesAdapter.notifyDataSetChanged()
-                cartViewModel.getUserAddress()
+                userAddressesList?.clear()
+                addressesAdapter?.notifyDataSetChanged()
+                cartViewModel?.getUserAddress()
             }
         }
 
@@ -97,14 +99,15 @@ class AddressPaymentActivity : BaseActivity(),
     override fun onResume() {
         super.onResume()
         getCartList()
-        cartViewModel.getUserAddress()
+        cartViewModel?.getUserAddress()
     }
 
     private fun getCartList() {
-        cartViewModel.getCartList(SharedPreferencesStaticClass.getMasterCartId())
+        cartViewModel?.getCartList(SharedPreferencesStaticClass.getMasterCartId())
     }
 
     private fun setViewClickListeners() {
+        paymentDetailsDtoList = arrayListOf()
         back_btn.setOnClickListener {
             finish()
         }
@@ -115,7 +118,7 @@ class AddressPaymentActivity : BaseActivity(),
         btn_confirm_details.setOnClickListener {
 //          val objAddress=  userAddressesList.find { isSelect }
 
-            val mergedList = mergeTuplesInList(paymentDetailsDtoList)
+            val mergedList = mergeTuplesInList(paymentDetailsDtoList ?: arrayListOf())
             val customList = mergedList.map { triple ->
                 ProductOrderPaymentDetailsDto(triple.first, triple.second, triple.third)
 
@@ -124,10 +127,10 @@ class AddressPaymentActivity : BaseActivity(),
 
                 if (addressId == 0) {
                     HelpFunctions.ShowLongToast(getString(R.string.selectDeliveryAddress), this)
-                } else if (productsCartList.isEmpty()) {
+                } else if (productsCartList!!.isEmpty()) {
                     HelpFunctions.ShowLongToast(getString(R.string.empty_cart), this)
                 } else {
-                    cartViewModel.addOrder(
+                    cartViewModel?.addOrder(
                         SharedPreferencesStaticClass.getMasterCartId(),
                         addressId,
                         paymentOptionSelect,
@@ -139,8 +142,8 @@ class AddressPaymentActivity : BaseActivity(),
             } else {
                 if (addressId == 0) {
                     HelpFunctions.ShowLongToast(getString(R.string.selectDeliveryAddress), this)
-                }else{
-                    cartViewModel.addPaymentTransaction(
+                } else {
+                    cartViewModel?.addPaymentTransaction(
                         cartDataObject!!.totalPriceForCartFinal,
                         cartDataObject!!.totalPriceForCartBeforeDiscount,
                         SharedPreferencesStaticClass.getMasterCartId(),
@@ -160,7 +163,7 @@ class AddressPaymentActivity : BaseActivity(),
             if (edtCoupon.text.toString().trim() == "") {
                 edtCoupon.error = getString(R.string.enter_the_coupon)
             } else {
-                cartViewModel.applyCouponOnCart(
+                cartViewModel?.applyCouponOnCart(
                     SharedPreferencesStaticClass.getMasterCartId(),
                     edtCoupon.text.toString().trim()
                 )
@@ -168,21 +171,22 @@ class AddressPaymentActivity : BaseActivity(),
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setupCartViewModel() {
         cartViewModel = ViewModelProvider(this).get(CartViewModel::class.java)
-        cartViewModel.isLoadingAddresses.observe(this) {
+        cartViewModel!!.isLoadingAddresses.observe(this) {
             if (it)
                 progressBarAddresses.show()
             else
                 progressBarAddresses.hide()
         }
-        cartViewModel.isLoading.observe(this) {
+        cartViewModel!!.isLoading.observe(this) {
             if (it)
                 HelpFunctions.startProgressBar(this)
             else
                 HelpFunctions.dismissProgressBar()
         }
-        cartViewModel.isNetworkFail.observe(this) {
+        cartViewModel!!.isNetworkFail.observe(this) {
             if (it) {
                 HelpFunctions.ShowLongToast(getString(R.string.connectionError), this)
             } else {
@@ -190,7 +194,7 @@ class AddressPaymentActivity : BaseActivity(),
             }
 
         }
-        cartViewModel.errorResponseObserver.observe(this) {
+        cartViewModel!!.errorResponseObserver.observe(this) {
             if (it.status != null && it.status == "409") {
                 HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), this)
             } else {
@@ -201,28 +205,34 @@ class AddressPaymentActivity : BaseActivity(),
                 }
             }
         }
-        cartViewModel.userAddressesListObserver.observe(this) { userAddressResp ->
+        cartViewModel!!.userAddressesListObserver.observe(this) { userAddressResp ->
             if (userAddressResp.status_code == 200) {
                 if (userAddressResp.addressesList != null && userAddressResp.addressesList?.isNotEmpty() == true) {
                     tvAddressError.hide()
-                    userAddressesList.clear()
-                    userAddressesList.addAll(userAddressResp.addressesList!!)
-                    addressesAdapter.notifyDataSetChanged()
+                    userAddressesList?.clear()
+                    userAddressesList?.addAll(userAddressResp.addressesList!!)
+                    addressesAdapter?.notifyDataSetChanged()
                 } else {
                     tvAddressError.show()
                 }
             }
         }
-        cartViewModel.increaseCartProductQuantityObserver.observe(this) { increaseProductResp ->
+        cartViewModel!!.increaseCartProductQuantityObserver.observe(this) { increaseProductResp ->
             if (increaseProductResp.status_code == 200) {
-                productsCartList[lastUpdateMainPosition].listProduct?.get(lastUpdateProductPosition)
+                productsCartList?.get(lastUpdateMainPosition)?.listProduct?.get(
+                    lastUpdateProductPosition
+                )
                     ?.let {
-                        it.qty = (it.qty?:0) + 1
+//                        if(it.qty==null){
+                        it.cartProductQuantity = (it.cartProductQuantity ?: 0) + 1
+//                        }else{
+//                            it.qty = (it.qty?:0) + 1
+//                        }
                         cartDataObject?.let { cartDataObject ->
                             cartDataObject.totalPriceForCartFinal += it.priceDiscount
                             cartDataObject.totalPriceForCartBeforeDiscount += it.priceDiscount
                         }
-                        productsCartList[lastUpdateMainPosition].couponAppliedBussinessAccountDto?.let { couponAppliedBussinessAccountDto ->
+                        productsCartList!![lastUpdateMainPosition].couponAppliedBussinessAccountDto?.let { couponAppliedBussinessAccountDto ->
                             couponAppliedBussinessAccountDto.businessAccountAmountBeforeCoupon += it.priceDiscount
                             couponAppliedBussinessAccountDto.businessAccountAmountAfterCoupon += it.priceDiscount
                             couponAppliedBussinessAccountDto.finalTotalPriceForBusinessAccount += it.priceDiscount
@@ -230,58 +240,60 @@ class AddressPaymentActivity : BaseActivity(),
                     }
 
 
-                cartNewAdapter.notifyItemChanged(lastUpdateMainPosition)
+                cartNewAdapter?.notifyItemChanged(lastUpdateMainPosition)
                 setCartTotalPrice()
             }
         }
-        cartViewModel.decreaseCartProductQuantityObserver.observe(this) { decreaseProductResp ->
+        cartViewModel!!.decreaseCartProductQuantityObserver.observe(this) { decreaseProductResp ->
             if (decreaseProductResp.status_code == 200) {
-                productsCartList[lastUpdateMainPosition].listProduct?.get(lastUpdateProductPosition)
+                productsCartList?.get(lastUpdateMainPosition)?.listProduct?.get(
+                    lastUpdateProductPosition
+                )
                     ?.let {
-                        it.cartProductQuantity = (it.cartProductQuantity?:0) - 1
+                        it.cartProductQuantity = (it.cartProductQuantity ?: 0) - 1
                         cartDataObject?.let { cartDataObject ->
                             cartDataObject.totalPriceForCartFinal -= it.priceDiscount
                             cartDataObject.totalPriceForCartBeforeDiscount -= it.priceDiscount
                         }
-                        productsCartList[lastUpdateMainPosition].couponAppliedBussinessAccountDto?.let { couponAppliedBussinessAccountDto ->
+                        productsCartList!![lastUpdateMainPosition].couponAppliedBussinessAccountDto?.let { couponAppliedBussinessAccountDto ->
                             couponAppliedBussinessAccountDto.businessAccountAmountBeforeCoupon -= it.priceDiscount
                             couponAppliedBussinessAccountDto.businessAccountAmountAfterCoupon -= it.priceDiscount
                             couponAppliedBussinessAccountDto.finalTotalPriceForBusinessAccount -= it.priceDiscount
                         }
                     }
-                cartNewAdapter.notifyItemChanged(lastUpdateMainPosition)
+                cartNewAdapter?.notifyItemChanged(lastUpdateMainPosition)
                 setCartTotalPrice()
             }
         }
-        cartViewModel.removeProductFromCartProductsObserver.observe(this) { decreaseProductResp ->
+        cartViewModel?.removeProductFromCartProductsObserver?.observe(this) { decreaseProductResp ->
             if (decreaseProductResp.status_code == 200) {
-                val price = productsCartList[lastUpdateMainPosition].listProduct?.get(
+                val price = productsCartList?.get(lastUpdateMainPosition)?.listProduct?.get(
                     lastUpdateProductPosition
                 )?.priceDiscount ?: 0f
                 cartDataObject?.let { cartDataObject ->
                     cartDataObject.totalPriceForCartFinal -= price
                     cartDataObject.totalPriceForCartBeforeDiscount -= price
                 }
-                productsCartList[lastUpdateMainPosition].couponAppliedBussinessAccountDto?.let { couponAppliedBussinessAccountDto ->
+                productsCartList?.get(lastUpdateMainPosition)?.couponAppliedBussinessAccountDto?.let { couponAppliedBussinessAccountDto ->
                     couponAppliedBussinessAccountDto.businessAccountAmountBeforeCoupon -= price
                     couponAppliedBussinessAccountDto.businessAccountAmountAfterCoupon -= price
                     couponAppliedBussinessAccountDto.finalTotalPriceForBusinessAccount -= price
                 }
-                productsCartList[lastUpdateMainPosition].listProduct?.removeAt(
+                productsCartList?.get(lastUpdateMainPosition)?.listProduct?.removeAt(
                     lastUpdateProductPosition
                 )
 
-                cartNewAdapter.notifyDataSetChanged()
+                cartNewAdapter?.notifyDataSetChanged()
                 setCartTotalPrice()
             }
         }
-        cartViewModel.cartListRespObserver.observe(this) { cartListResp ->
+        cartViewModel!!.cartListRespObserver.observe(this) { cartListResp ->
             if (cartListResp.status_code == 200) {
                 if (cartListResp.cartDataObject?.listCartProducts != null) {
                     cartDataObject = cartListResp.cartDataObject
-                    productsCartList.clear()
-                    productsCartList.addAll(cartListResp.cartDataObject.listCartProducts)
-                    cartNewAdapter.notifyDataSetChanged()
+                    productsCartList?.clear()
+                    productsCartList?.addAll(cartListResp.cartDataObject.listCartProducts)
+                    cartNewAdapter?.notifyDataSetChanged()
                     setCartTotalPrice()
                 }
             } else {
@@ -293,10 +305,10 @@ class AddressPaymentActivity : BaseActivity(),
                 }
             }
         }
-        cartViewModel.applyCouponOnCartObserver.observe(this) { applyCouponResp ->
+        cartViewModel!!.applyCouponOnCartObserver.observe(this) { applyCouponResp ->
             if (applyCouponResp.status_code == 200) {
-                productsCartList.clear()
-                cartNewAdapter.notifyDataSetChanged()
+                productsCartList?.clear()
+                cartNewAdapter?.notifyDataSetChanged()
                 total_tv.text = "0 ${getString(R.string.Rayal)}"
                 subtotal_tv.text = "0 ${getString(R.string.Rayal)}"
                 discount_tv.text = "0 ${getString(R.string.Rayal)}"
@@ -310,7 +322,7 @@ class AddressPaymentActivity : BaseActivity(),
                 }
             }
         }
-        cartViewModel.addOrderObserver.observe(this) { addOrderResp ->
+        cartViewModel!!.addOrderObserver.observe(this) { addOrderResp ->
             if (addOrderResp.status_code == 200) {
                 addOrderResp.addOrderObject?.let {
                     SharedPreferencesStaticClass.clearCardMasterId()
@@ -320,7 +332,7 @@ class AddressPaymentActivity : BaseActivity(),
                         putExtra(ConstantObjects.orderNumberKey, it.orderNumber.toString())
                         putExtra(
                             ConstantObjects.orderShippingSectionNumberKey,
-                            productsCartList.size.toString()
+                            productsCartList?.size.toString()
                         )
                         putExtra(
                             ConstantObjects.orderPriceKey,
@@ -342,12 +354,12 @@ class AddressPaymentActivity : BaseActivity(),
 
         }
 
-        cartViewModel.paymentTransaction.observe(this){
+        cartViewModel!!.paymentTransaction.observe(this) {
             val intent = Intent(this, SuccessOrderActivity::class.java).apply {
                 putExtra(ConstantObjects.orderNumberKey, orderId.toString())
                 putExtra(
                     ConstantObjects.orderShippingSectionNumberKey,
-                    productsCartList.size.toString()
+                    productsCartList?.size.toString()
                 )
                 putExtra(
                     ConstantObjects.orderPriceKey,
@@ -358,7 +370,7 @@ class AddressPaymentActivity : BaseActivity(),
             finish()
         }
 
-        cartViewModel.deleteShipment.observe(this){
+        cartViewModel!!.deleteShipment.observe(this) {
             SharedPreferencesStaticClass.clearCartCount()
             HelpFunctions.ShowLongToast(it.message, this)
         }
@@ -366,7 +378,7 @@ class AddressPaymentActivity : BaseActivity(),
 
     private fun setCartNewAdapter() {
         productsCartList = ArrayList<CartProductDetails>()
-        cartNewAdapter = CartNewAdapter(flagTypeSale, productsCartList, this)
+        cartNewAdapter = CartNewAdapter(flagTypeSale, productsCartList ?: arrayListOf(), this)
         rvNewCart.apply {
             adapter = cartNewAdapter
             layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
@@ -439,7 +451,7 @@ class AddressPaymentActivity : BaseActivity(),
 
     private fun setAddressesAdapter() {
         userAddressesList = ArrayList()
-        addressesAdapter = AddressesAdapter(userAddressesList, this, true)
+        addressesAdapter = AddressesAdapter(userAddressesList ?: arrayListOf(), this, true)
         rvAddress.apply {
             adapter = addressesAdapter
             layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
@@ -450,27 +462,36 @@ class AddressPaymentActivity : BaseActivity(),
     override fun onIncreaseQuantityProduct(position: Int, mainPosition: Int) {
         lastUpdateMainPosition = mainPosition
         lastUpdateProductPosition = position
-        val productCartId = productsCartList[mainPosition].listProduct!![position].cartproductId
-        cartViewModel.increaseCartProductQuantity(productCartId.toString())
+        val productCartId =
+            productsCartList?.get(mainPosition)?.listProduct!![position].cartproductId
+        cartViewModel?.increaseCartProductQuantity(productCartId.toString())
     }
 
     override fun onDecreaseQuantityProduct(position: Int, mainPosition: Int) {
         lastUpdateMainPosition = mainPosition
         lastUpdateProductPosition = position
-        val productCartId = productsCartList[mainPosition].listProduct!![position].cartproductId
-        cartViewModel.decreaseCartProductQuantity(productCartId.toString())
+        val productCartId =
+            productsCartList?.get(mainPosition)?.listProduct!![position].cartproductId
+        cartViewModel!!.decreaseCartProductQuantity(productCartId.toString())
     }
 
     override fun onDeleteProduct(position: Int, mainPosition: Int) {
         lastUpdateMainPosition = mainPosition
         lastUpdateProductPosition = position
-        val productCartId = productsCartList[mainPosition].listProduct!![position].cartproductId
-        cartViewModel.removeProductFromCartProducts(productCartId.toString())
+        val productCartId =
+            productsCartList?.get(mainPosition)?.listProduct!![position].cartproductId
+        cartViewModel!!.removeProductFromCartProducts(productCartId.toString())
     }
 
     override fun onSelectPayment(productId: Int, paymentSelection: Int) {
         paymentOptionSelect = paymentSelection
-        paymentDetailsDtoList.add(Triple(productId, paymentSelection, deliveryOptionSelect.toInt()))
+        paymentDetailsDtoList?.add(
+            Triple(
+                productId,
+                paymentSelection,
+                deliveryOptionSelect.toInt()
+            )
+        )
 //        paymentDetailsList.add(
 //            ProductOrderPaymentDetailsDto(
 //                productId = productId,
@@ -482,7 +503,7 @@ class AddressPaymentActivity : BaseActivity(),
 
     override fun onSelectDelivery(productId: Int, deliverySelection: String) {
         deliveryOptionSelect = deliverySelection
-        paymentDetailsDtoList.add(
+        paymentDetailsDtoList?.add(
             Triple(
                 productId,
                 paymentOptionSelect,
@@ -498,20 +519,24 @@ class AddressPaymentActivity : BaseActivity(),
 //        )
 
     }
+
     override fun onDeleteShipping(position: Int) {
-        if (productsCartList[position].businessAccountId == null) {
-            cartViewModel.deleteShipping(
+        if (productsCartList?.get(position)?.businessAccountId == null) {
+            cartViewModel?.deleteShipping(
                 null,
-                productsCartList[position].cartMsterId?:"",productsCartList[position].providerId!!
+                productsCartList?.get(position)?.cartMsterId ?: "",
+                productsCartList?.get(position)?.providerId!!
             )
         } else {
-            cartViewModel.deleteShipping(
-                productsCartList[position].businessAccountId,
-                productsCartList[position].cartMsterId?:"",productsCartList[position].providerId!!
+            cartViewModel!!.deleteShipping(
+                productsCartList!![position].businessAccountId,
+                productsCartList!![position].cartMsterId ?: "",
+                productsCartList!![position].providerId!!
             )
         }
 
     }
+
     private fun mergeTuples(
         tuple1: Triple<Int, Int, Int>,
         tuple2: Triple<Int, Int, Int>
@@ -548,7 +573,7 @@ class AddressPaymentActivity : BaseActivity(),
         coupon: String,
         providerId: String
     ) {
-        cartViewModel.applyCouponOnCart(
+        cartViewModel!!.applyCouponOnCart(
             SharedPreferencesStaticClass.getMasterCartId(),
             coupon,
             providerId,
@@ -562,7 +587,7 @@ class AddressPaymentActivity : BaseActivity(),
         coupon: String,
         providerId: String
     ) {
-        cartViewModel.unApplyCouponOnCart(
+        cartViewModel!!.unApplyCouponOnCart(
             SharedPreferencesStaticClass.getMasterCartId(),
             coupon,
             providerId,
@@ -571,18 +596,18 @@ class AddressPaymentActivity : BaseActivity(),
     }
 
     override fun setOnSelectedAddress(position: Int) {
-        for (item in userAddressesList) {
+        for (item in userAddressesList ?: arrayListOf()) {
             item.isSelected = false
         }
-        userAddressesList[position].isSelected = true
-        addressId = userAddressesList[position].id
-        addressesAdapter.notifyDataSetChanged()
+        userAddressesList?.get(position)?.isSelected = true
+        addressId = userAddressesList?.get(position)?.id ?: 0
+        addressesAdapter?.notifyDataSetChanged()
     }
 
     override fun setOnSelectedEditAddress(position: Int) {
         addAddressLaucher.launch(Intent(this, AddAddressActivity::class.java).apply {
             putExtra(ConstantObjects.isEditKey, true)
-            putExtra(ConstantObjects.addressKey, userAddressesList[position])
+            putExtra(ConstantObjects.addressKey, userAddressesList?.get(position))
         })
     }
 
@@ -592,19 +617,27 @@ class AddressPaymentActivity : BaseActivity(),
 
     override fun onRefresh() {
         swipe_to_refresh.isRefreshing = false
-        productsCartList.clear()
-        cartNewAdapter.notifyDataSetChanged()
-        userAddressesList.clear()
-        addressesAdapter.notifyDataSetChanged()
-        cartViewModel.getUserAddress()
+        productsCartList?.clear()
+        cartNewAdapter?.notifyDataSetChanged()
+        userAddressesList?.clear()
+        addressesAdapter?.notifyDataSetChanged()
+        cartViewModel?.getUserAddress()
         getCartList()
 
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        cartViewModel.closeAllCall()
+        cartViewModel?.closeAllCall()
         SharedPreferencesStaticClass.clearAddressTitle()
+
+        paymentDetailsDtoList = null
+        addressesAdapter = null
+        cartNewAdapter = null
+        cartViewModel = null
+        userAddressesList = null
+        productsCartList = null
+        cartDataObject = null
     }
     /****
      *******************

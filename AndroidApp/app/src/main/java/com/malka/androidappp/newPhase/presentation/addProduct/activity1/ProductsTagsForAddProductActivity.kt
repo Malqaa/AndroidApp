@@ -9,6 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.core.BaseActivity
+import com.malka.androidappp.newPhase.data.helper.ConstantObjects
 import com.malka.androidappp.newPhase.data.helper.HelpFunctions
 import com.malka.androidappp.newPhase.data.helper.hide
 import com.malka.androidappp.newPhase.data.helper.linearLayoutManager
@@ -17,7 +18,6 @@ import com.malka.androidappp.newPhase.domain.models.servicemodels.model.Category
 import com.malka.androidappp.newPhase.presentation.addProduct.AddProductObjectData
 import com.malka.androidappp.newPhase.presentation.addProduct.activity2.ChooseCategoryActivity
 import com.malka.androidappp.newPhase.presentation.addProduct.activity4.AddPhotoActivity
-import com.malka.androidappp.newPhase.presentation.addProduct.viewmodel.AddProductViewModel
 import kotlinx.android.synthetic.main.activity_product_tage_for_add_product.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 import kotlinx.coroutines.Dispatchers
@@ -30,9 +30,10 @@ class ProductsTagsForAddProductActivity : BaseActivity(),
     //    private var addedProductObjectData: AddProductObjectData = AddProductObjectData()
 //    var lists: List<Tags> = ArrayList()
     private var selectTag: Category? = null
-    private lateinit var addProductViewModel: AddProductViewModel
-    private lateinit var productTagsAdapter: ProductTagsAdapter
-    private lateinit var productTagsList: ArrayList<Category>
+    private var listCategoryViewModel: ListCategoryViewModel? = null
+    private var productTagsAdapter: ProductTagsAdapter? = null
+    private var productTagsList: ArrayList<Category>? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product_tage_for_add_product)
@@ -43,9 +44,10 @@ class ProductsTagsForAddProductActivity : BaseActivity(),
 
     }
 
+
     private fun setProductTagsAdapters() {
         productTagsList = ArrayList()
-        productTagsAdapter = ProductTagsAdapter(productTagsList, this)
+        productTagsAdapter = ProductTagsAdapter(productTagsList ?: arrayListOf(), this)
         recycler_suggested_category.apply {
             layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
             adapter = productTagsAdapter
@@ -53,14 +55,14 @@ class ProductsTagsForAddProductActivity : BaseActivity(),
     }
 
     private fun setUpViewModel() {
-        addProductViewModel = ViewModelProvider(this).get(AddProductViewModel::class.java)
-        addProductViewModel.isLoading.observe(this) {
+        listCategoryViewModel = ViewModelProvider(this).get(ListCategoryViewModel::class.java)
+        listCategoryViewModel!!.isLoading.observe(this) {
             if (it)
                 progressBar.show()
             else
                 progressBar.hide()
         }
-        addProductViewModel.isNetworkFail.observe(this) {
+        listCategoryViewModel!!.isNetworkFail.observe(this) {
             if (it) {
                 HelpFunctions.ShowLongToast(
                     getString(R.string.connectionError),
@@ -74,7 +76,7 @@ class ProductsTagsForAddProductActivity : BaseActivity(),
             }
 
         }
-        addProductViewModel.errorResponseObserver.observe(this) {
+        listCategoryViewModel!!.errorResponseObserver.observe(this) {
             if (it.status != null && it.status == "409") {
                 HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), this)
             } else {
@@ -92,11 +94,11 @@ class ProductsTagsForAddProductActivity : BaseActivity(),
                 }
             }
         }
-        addProductViewModel.getListCategoriesByProductNameObserver.observe(this) { categoyProductTagResp ->
+        listCategoryViewModel!!.getListCategoriesByProductNameObserver.observe(this) { categoyProductTagResp ->
             if (categoyProductTagResp.status_code == 200) {
                 lifecycleScope.launch(Dispatchers.IO) {
-                    productTagsList.clear()
-                    categoyProductTagResp.tagsList?.let { productTagsList.addAll(it) }
+                    productTagsList?.clear()
+                    categoyProductTagResp.tagsList?.let { productTagsList?.addAll(it) }
 //                    for (tag in categoyProductTagResp.tagsList) {
 ////                        productTagsList.add(
 ////                            SearchTagItem(
@@ -109,10 +111,10 @@ class ProductsTagsForAddProductActivity : BaseActivity(),
 //
 //                    }
                     withContext(Dispatchers.Main) {
-                        productTagsAdapter.notifyDataSetChanged()
-                        if (productTagsList.size > 0) {
+                        productTagsAdapter?.notifyDataSetChanged()
+                        if ((productTagsList ?: arrayListOf()).size > 0) {
                             recycler_suggested_category.show()
-                            productTagsAdapter.notifyDataSetChanged()
+                            productTagsAdapter?.notifyDataSetChanged()
                         } else {
                             recycler_suggested_category.hide()
                             HelpFunctions.ShowLongToast(
@@ -135,12 +137,12 @@ class ProductsTagsForAddProductActivity : BaseActivity(),
     }
 
     override fun onSelectTagItem(position: Int) {
-        productTagsList.forEach {
+        productTagsList?.forEach {
             it.isSelect = false
         }
-        productTagsList[position].isSelect = true
-        selectTag = productTagsList[position]
-        productTagsAdapter.notifyDataSetChanged()
+        productTagsList?.get(position)?.isSelect = true
+        selectTag = productTagsList?.get(position)
+        productTagsAdapter?.notifyDataSetChanged()
 
     }
 
@@ -154,7 +156,7 @@ class ProductsTagsForAddProductActivity : BaseActivity(),
             //confirmListItem()
         }
         button_2.setOnClickListener {
-            if (productTagsList.size > 0 && selectTag != null) {
+            if ((productTagsList ?: arrayListOf()).size > 0 && selectTag != null) {
                 AddProductObjectData.selectedCategoryId = selectTag!!.id
                 AddProductObjectData.selectedCategoryName = selectTag!!.category.toString()
                 AddProductObjectData.selectedCategory = selectTag
@@ -175,7 +177,7 @@ class ProductsTagsForAddProductActivity : BaseActivity(),
             .setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     if (validateitem()) {
-                        addProductViewModel.getListCategoriesByProductName(textInputLayout11.getText())
+                        listCategoryViewModel!!.getListCategoriesByProductName(textInputLayout11.getText())
                         // getCategoryTags(textInputLayout11.getText())
                     }
                     return@OnEditorActionListener true
@@ -184,7 +186,7 @@ class ProductsTagsForAddProductActivity : BaseActivity(),
             })
         textInputLayout11._attachInfoClickListener {
             if (validateitem()) {
-                addProductViewModel.getListCategoriesByProductName(textInputLayout11.getText())
+                listCategoryViewModel!!.getListCategoriesByProductName(textInputLayout11.getText())
                 // getCategoryTags(textInputLayout11.getText())
             }
         }
@@ -203,5 +205,12 @@ class ProductsTagsForAddProductActivity : BaseActivity(),
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        listCategoryViewModel?.closeAllCall()
+        listCategoryViewModel = null
+        productTagsList = null
+        productTagsAdapter = null
+    }
 
 }

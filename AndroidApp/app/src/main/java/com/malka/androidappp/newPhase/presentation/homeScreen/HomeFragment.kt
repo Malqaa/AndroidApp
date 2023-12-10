@@ -22,7 +22,6 @@ import com.malka.androidappp.R
 import com.malka.androidappp.newPhase.presentation.cartActivity.activity1.CartActivity
 import com.malka.androidappp.newPhase.core.BaseActivity
 import com.malka.androidappp.newPhase.data.helper.*
-import com.malka.androidappp.newPhase.data.helper.widgets.viewpager2.AutoScrollViewPager
 import com.malka.androidappp.newPhase.domain.models.homeCategoryProductResp.CategoryProductItem
 import com.malka.androidappp.newPhase.domain.models.homeSilderResp.HomeSliderItem
 import com.malka.androidappp.newPhase.domain.models.productResp.Product
@@ -52,11 +51,14 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
     SwipeRefreshLayout.OnRefreshListener, SetOnProductItemListeners,
     CategoryProductAdapter.SetOnSelectedProductInCategory {
     private var dotscount = 0
-    private var dots: ArrayList<ImageView> = arrayListOf()
-//    var slider_home_: AutoScrollViewPager? = null
-    private lateinit var homeViewModel: HomeViewModel
-    private lateinit var lastviewedPorductAdatper: ProductHorizontalAdapter
-    private lateinit var lastviewedPorductList: ArrayList<Product>
+
+    //    var slider_home_: AutoScrollViewPager? = null
+    private var homeViewModel: HomeViewModel? = null
+    private var dots: ArrayList<ImageView>? = null
+    private var lastviewedPorductAdatper: ProductHorizontalAdapter? = null
+    private var lastviewedPorductList: ArrayList<Product>? = null
+    private var categoryProductHomeList: ArrayList<CategoryProductItem>? = null
+    private var categoryPrductAdapter: CategoryProductAdapter? = null
 
     //===== 1 added from product in category  , 2 added from product in category
     private val added_from_product_in_category = 1
@@ -65,10 +67,9 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
     private var added_product_id_to_fav = 0
     private var selected_category_product_added_to_fav = 0
 
-    lateinit var categoryProductHomeList: ArrayList<CategoryProductItem>
-    lateinit var categoryPrductAdapter: CategoryProductAdapter
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        dots = arrayListOf()
         settingUpView()
         setListener()
         setupLastViewedPorductsAdapter()
@@ -95,10 +96,16 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
 
 
     }
+
     private fun setLocate() {
-        ConstantObjects.categoryList= ArrayList()
-        ConstantObjects.categoryProductHomeList= ArrayList()
-        Lingver.getInstance().setLocale(requireContext(), if (Lingver.getInstance().getLanguage() == ConstantObjects.ARABIC) ConstantObjects.ENGLISH else ConstantObjects.ARABIC)
+        ConstantObjects.categoryList = ArrayList()
+        ConstantObjects.categoryProductHomeList = ArrayList()
+        Lingver.getInstance().setLocale(
+            requireContext(),
+            if (Lingver.getInstance()
+                    .getLanguage() == ConstantObjects.ARABIC
+            ) ConstantObjects.ENGLISH else ConstantObjects.ARABIC
+        )
         startActivity(Intent(requireContext(), SplashActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         })
@@ -119,7 +126,8 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
 
     private fun setupLastViewedPorductsAdapter() {
         lastviewedPorductList = ArrayList()
-        lastviewedPorductAdatper = ProductHorizontalAdapter(lastviewedPorductList, this, 0, true)
+        lastviewedPorductAdatper =
+            ProductHorizontalAdapter(lastviewedPorductList ?: arrayListOf(), this, 0, true)
         rvLastViewedProducts.apply {
             adapter = lastviewedPorductAdatper
             layoutManager = linearLayoutManager(RecyclerView.HORIZONTAL)
@@ -129,7 +137,8 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
 
     private fun setUpCategoryProductAdapter() {
         categoryProductHomeList = ArrayList()
-        categoryPrductAdapter = CategoryProductAdapter(categoryProductHomeList, this)
+        categoryPrductAdapter =
+            CategoryProductAdapter(categoryProductHomeList ?: arrayListOf(), this)
         dynamic_product_rcv.apply {
             adapter = categoryPrductAdapter
             layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
@@ -138,20 +147,20 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
 
     private fun setupLoginViewModel() {
         homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
-        homeViewModel.isLoading.observe(viewLifecycleOwner, Observer {
+        homeViewModel?.isLoading?.observe(viewLifecycleOwner, Observer {
             if (it)
                 HelpFunctions.startProgressBar(requireActivity())
             else
                 HelpFunctions.dismissProgressBar()
         })
-        homeViewModel.isLoadingAllCategory.observe(viewLifecycleOwner, Observer {
+        homeViewModel?.isLoadingAllCategory?.observe(viewLifecycleOwner, Observer {
             if (it)
                 progressBarAllCAtegory.show()
             else
                 progressBarAllCAtegory.hide()
         })
 
-        homeViewModel.isNetworkFail.observe(viewLifecycleOwner, Observer {
+        homeViewModel!!.isNetworkFail.observe(viewLifecycleOwner, Observer {
             if (it) {
                 HelpFunctions.ShowLongToast(
                     getString(R.string.connectionError),
@@ -165,26 +174,26 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
             }
 
         })
-        homeViewModel.errorResponseObserver.observe(viewLifecycleOwner, Observer {
-            if(it.status!=null && it.status=="409"){
+        homeViewModel!!.errorResponseObserver.observe(viewLifecycleOwner, Observer {
+            if (it.status != null && it.status == "409") {
                 HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), requireActivity())
-            }else{
-            if (it.message != null && it.message != "") {
-                HelpFunctions.ShowLongToast(
-                    it.message!!,
-                    requireActivity()
-                )
             } else {
-                HelpFunctions.ShowLongToast(
-                    getString(R.string.serverError),
-                    requireActivity()
-                )
+                if (it.message != null && it.message != "") {
+                    HelpFunctions.ShowLongToast(
+                        it.message!!,
+                        requireActivity()
+                    )
+                } else {
+                    HelpFunctions.ShowLongToast(
+                        getString(R.string.serverError),
+                        requireActivity()
+                    )
+                }
             }
-        }
 
         })
 
-        homeViewModel.sliderObserver.observe(viewLifecycleOwner, Observer { homeSliderResp ->
+        homeViewModel!!.sliderObserver.observe(viewLifecycleOwner, Observer { homeSliderResp ->
             if (homeSliderResp != null) {
                 if (homeSliderResp.status_code == 200) {
                     homeSliderResp.sliderList?.let {
@@ -196,8 +205,8 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
                 }
             }
         })
-        homeViewModel.searchObserver.observe(viewLifecycleOwner) { searchResp ->
-          // println("hhhh "+Gson().toJson(searchResp))
+        homeViewModel!!.searchObserver.observe(viewLifecycleOwner) { searchResp ->
+            // println("hhhh "+Gson().toJson(searchResp))
             if (searchResp != null) {
                 if (searchResp.status_code == 200) {
                     val list: ArrayList<Product> = Gson().fromJson(
@@ -209,7 +218,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
             }
 
         }
-        homeViewModel.categoriesObserver.observe(viewLifecycleOwner) { categoriesResp ->
+        homeViewModel!!.categoriesObserver.observe(viewLifecycleOwner) { categoriesResp ->
             ConstantObjects.categoryList = Gson().fromJson(
                 Gson().toJson(categoriesResp.data),
                 object : TypeToken<ArrayList<Category>>() {}.type
@@ -218,13 +227,13 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
                 ConstantObjects.categoryList,
                 this@HomeFragment
             )
-            homeViewModel.getListHomeCategoryProduct()
+            homeViewModel!!.getListHomeCategoryProduct()
         }
-        homeViewModel.categoriesErrorResponseObserver.observe(viewLifecycleOwner) {
+        homeViewModel!!.categoriesErrorResponseObserver.observe(viewLifecycleOwner) {
             //HelpFunctions.ShowLongToast(getString(R.string.NoCategoriesfound), context)
-            if(it.status!=null && it.status=="409"){
+            if (it.status != null && it.status == "409") {
                 HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), requireActivity())
-            }else {
+            } else {
                 if (it.message != null && it.message != "") {
                     HelpFunctions.ShowLongToast(
                         it.message!!,
@@ -238,38 +247,38 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
                 }
             }
         }
-        homeViewModel.homeCategoryProductObserver.observe(viewLifecycleOwner) { homeCategoriesProdcutResp ->
+        homeViewModel!!.homeCategoryProductObserver.observe(viewLifecycleOwner) { homeCategoriesProdcutResp ->
 
             if (homeCategoriesProdcutResp.status_code == 200) {
-                categoryProductHomeList.clear()
+                (categoryProductHomeList ?: arrayListOf()).clear()
                 homeCategoriesProdcutResp.categoryProductList?.let {
-                    categoryProductHomeList.addAll(it)
+                    (categoryProductHomeList ?: arrayListOf()).addAll(it)
                 }
-                categoryPrductAdapter.notifyDataSetChanged()
+                categoryPrductAdapter!!.notifyDataSetChanged()
             }
         }
-        homeViewModel.homeCategoryProductErrorResponseObserver.observe(viewLifecycleOwner) {
+        homeViewModel!!.homeCategoryProductErrorResponseObserver.observe(viewLifecycleOwner) {
             //HelpFunctions.ShowLongToast(getString(R.string.NoCategoriesfound), context)
-            if(it.status!=null && it.status=="409"){
+            if (it.status != null && it.status == "409") {
                 HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), requireActivity())
-            }else {
+            } else {
                 HelpFunctions.ShowLongToast(it.message.toString(), context)
             }
         }
-        homeViewModel.lastViewProductsObserver.observe(viewLifecycleOwner) { productListResp ->
+        homeViewModel!!.lastViewProductsObserver.observe(viewLifecycleOwner) { productListResp ->
             if (productListResp.productList != null) {
                 if (productListResp.productList.isNotEmpty()) {
                     containerLastView.show()
-                    lastviewedPorductList.clear()
-                    lastviewedPorductList.addAll(productListResp.productList)
-                    lastviewedPorductAdatper.notifyDataSetChanged()
+                    (lastviewedPorductList ?: arrayListOf()).clear()
+                    (lastviewedPorductList ?: arrayListOf()).addAll(productListResp.productList)
+                    lastviewedPorductAdatper!!.notifyDataSetChanged()
                 } else {
                     containerLastView.hide()
                 }
             }
 
         }
-        homeViewModel.isNetworkFailProductToFav.observe(viewLifecycleOwner, Observer {
+        homeViewModel!!.isNetworkFailProductToFav.observe(viewLifecycleOwner, Observer {
             if (it) {
                 HelpFunctions.ShowLongToast(
                     getString(R.string.connectionError),
@@ -283,10 +292,10 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
             }
 
         })
-        homeViewModel.errorResponseObserverProductToFav.observe(viewLifecycleOwner, Observer {
-            if(it.status!=null && it.status=="409"){
+        homeViewModel!!.errorResponseObserverProductToFav.observe(viewLifecycleOwner, Observer {
+            if (it.status != null && it.status == "409") {
                 HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), requireActivity())
-            }else {
+            } else {
                 if (it.message != null && it.message != "") {
                     HelpFunctions.ShowLongToast(
                         it.message!!,
@@ -301,14 +310,15 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
             }
 
         })
-        homeViewModel.addProductToFavObserver.observe(viewLifecycleOwner) {
+        homeViewModel!!.addProductToFavObserver.observe(viewLifecycleOwner) {
             if (it.status_code == 200) {
                 when (status_product_added_to_fav_from) {
                     added_from_product_in_category -> {
                         lifecycleScope.launch(Dispatchers.IO) {
                             var changedCategoryItemPosition = -1
                             var changedProductItemPosition = -1
-                            for ((catIndex, category) in categoryProductHomeList.withIndex()) {
+                            for ((catIndex, category) in (categoryProductHomeList
+                                ?: arrayListOf()).withIndex()) {
                                 if (category.catId == selected_category_product_added_to_fav) {
                                     category.listProducts?.let {
                                         for ((index, product) in it.withIndex()) {
@@ -343,13 +353,13 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
                                         }
                                     }
                                 } catch (e: Exception) {
-                                    categoryPrductAdapter.notifyDataSetChanged()
+                                    categoryPrductAdapter?.notifyDataSetChanged()
                                 }
                             }
                         }
                         lifecycleScope.launch(Dispatchers.IO) {
                             var selectedSimilerProduct: Product? = null
-                            for (product in lastviewedPorductList) {
+                            for (product in lastviewedPorductList ?: arrayListOf()) {
                                 if (product.id == added_product_id_to_fav) {
                                     product.isFavourite = !product.isFavourite
                                     selectedSimilerProduct = product
@@ -358,8 +368,8 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
                             }
                             withContext(Dispatchers.Main) {
                                 selectedSimilerProduct?.let { product ->
-                                    lastviewedPorductAdatper.notifyItemChanged(
-                                        lastviewedPorductList.indexOf(
+                                    lastviewedPorductAdatper!!.notifyItemChanged(
+                                        lastviewedPorductList!!.indexOf(
                                             product
                                         )
                                     )
@@ -367,10 +377,11 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
                             }
                         }
                     }
+
                     added_from_last_product_view -> {
                         lifecycleScope.launch(Dispatchers.IO) {
                             var selectedSimilerProduct: Product? = null
-                            for (product in lastviewedPorductList) {
+                            for (product in lastviewedPorductList ?: arrayListOf()) {
                                 if (product.id == added_product_id_to_fav) {
                                     product.isFavourite = !product.isFavourite
                                     selectedSimilerProduct = product
@@ -379,10 +390,10 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
                             }
                             withContext(Dispatchers.Main) {
                                 selectedSimilerProduct?.let { product ->
-                                    lastviewedPorductAdatper.notifyItemChanged(
-                                        lastviewedPorductList.indexOf(
+                                    lastviewedPorductAdatper?.notifyItemChanged(
+                                        lastviewedPorductList?.indexOf(
                                             product
-                                        )
+                                        )!!
                                     )
                                 }
                             }
@@ -390,7 +401,8 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
                         lifecycleScope.launch(Dispatchers.IO) {
                             var changedCategoryItemPosition = -1
                             var changedProductItemPosition = -1
-                            for ((catIndex, category) in categoryProductHomeList.withIndex()) {
+                            for ((catIndex, category) in (categoryProductHomeList
+                                ?: arrayListOf()).withIndex()) {
                                 if (category.catId == selected_category_product_added_to_fav) {
                                     category.listProducts?.let {
                                         for ((index, product) in it.withIndex()) {
@@ -426,7 +438,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
                                     }
                                 } catch (e: Exception) {
                                     //println("hhh "+e.message)
-                                    categoryPrductAdapter.notifyDataSetChanged()
+                                    categoryPrductAdapter?.notifyDataSetChanged()
                                 }
 
                             }
@@ -449,25 +461,26 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
             }
         }
         ivSearchIcon.setOnClickListener {
-            if(etSearch.text.trim().toString()==""){
-                etSearch.error=getString(R.string.enter_the_name_of_the_product_you_want_to_sell)
-            }else{
+            if (etSearch.text.trim().toString() == "") {
+                etSearch.error = getString(R.string.enter_the_name_of_the_product_you_want_to_sell)
+            } else {
                 startActivity(Intent(requireContext(), SearchActivity::class.java).apply {
-                    putExtra("ComeFrom",ConstantObjects.search_product)
-                    putExtra("productName",etSearch.text.trim().toString())
+                    putExtra("ComeFrom", ConstantObjects.search_product)
+                    putExtra("productName", etSearch.text.trim().toString())
                 })
                 etSearch.setText("")
             }
         }
-        etSearch.setOnEditorActionListener(object: TextView.OnEditorActionListener{
+        etSearch.setOnEditorActionListener(object : TextView.OnEditorActionListener {
             override fun onEditorAction(p0: TextView?, actionId: Int, p2: KeyEvent?): Boolean {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    if(etSearch.text.trim().toString()==""){
-                        etSearch.error=getString(R.string.enter_the_name_of_the_product_you_want_to_sell)
-                    }else{
+                    if (etSearch.text.trim().toString() == "") {
+                        etSearch.error =
+                            getString(R.string.enter_the_name_of_the_product_you_want_to_sell)
+                    } else {
                         startActivity(Intent(requireContext(), SearchActivity::class.java).apply {
-                            putExtra("ComeFrom",ConstantObjects.search_product)
-                            putExtra("productName",etSearch.text.trim().toString())
+                            putExtra("ComeFrom", ConstantObjects.search_product)
+                            putExtra("productName", etSearch.text.trim().toString())
                         })
                         etSearch.setText("")
                     }
@@ -478,30 +491,30 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
 
         })
 
-/*       textInputLayout11._view2()
-//            .setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
-//                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-//                    SearchAndNavigateToCategoryListing(textInputLayout11.getText())
-//                    return@OnEditorActionListener true
-//                }
-//                true
-//            })
-//        textInputLayout11._attachInfoClickListener {
-//            SearchAndNavigateToCategoryListing(textInputLayout11.getText())
-//
-//        }
+        /*       textInputLayout11._view2()
+        //            .setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
+        //                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+        //                    SearchAndNavigateToCategoryListing(textInputLayout11.getText())
+        //                    return@OnEditorActionListener true
+        //                }
+        //                true
+        //            })
+        //        textInputLayout11._attachInfoClickListener {
+        //            SearchAndNavigateToCategoryListing(textInputLayout11.getText())
+        //
+        //        }
 
- */
+         */
         textInputLayout11.onClickListener {
             startActivity(Intent(requireContext(), SearchCategoryActivity::class.java).apply {
-                putExtra("ComeFrom",ConstantObjects.search_product)
+                putExtra("ComeFrom", ConstantObjects.search_product)
                 putExtra("productName", it.name)
             })
             (requireActivity() as BaseActivity).hideSoftKeyboard(textInputLayout11._view2())
         }
         textInputLayout11._onChange { query ->
             if (query.isNotEmpty()) {
-                homeViewModel.doSearch(mapOf("productName" to query))
+                homeViewModel?.doSearch(mapOf("productName" to query))
             } else {
                 textInputLayout11.updateList(arrayListOf())
             }
@@ -513,7 +526,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
         startActivity(Intent(requireContext(), SearchCategoryActivity::class.java).apply {
             putExtra("CategoryDesc", ConstantObjects.categoryList[position].name)
             putExtra("CategoryID", ConstantObjects.categoryList[position].id)
-            putExtra("ComeFrom",ConstantObjects.search_categoriesDetails)
+            putExtra("ComeFrom", ConstantObjects.search_categoriesDetails)
             putExtra("SearchQuery", "")
             putExtra("isMapShow", ConstantObjects.categoryList[position].id == 3)
 
@@ -533,12 +546,12 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
     override fun onRefresh() {
         swipe_to_refresh.isRefreshing = false
         dotscount = 0
-        dots.clear()
+        dots?.clear()
         SliderDots.removeAllViews()
-        homeViewModel.getSliderData(1)
-        homeViewModel.getAllCategories()
+        homeViewModel?.getSliderData(1)
+        homeViewModel?.getAllCategories()
         if (HelpFunctions.isUserLoggedIn()) {
-            homeViewModel.getLastViewedProduct()
+            homeViewModel?.getLastViewedProduct()
             //  HelpFunctions.GetUserWatchlist()
         }
     }
@@ -552,7 +565,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
         if (HelpFunctions.isUserLoggedIn()) {
             status_product_added_to_fav_from = added_from_last_product_view
             added_product_id_to_fav = productId
-            homeViewModel.addProductToFav(productId)
+            homeViewModel?.addProductToFav(productId)
 
         } else {
             requireActivity().startActivity(
@@ -584,7 +597,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
             status_product_added_to_fav_from = added_from_product_in_category
             added_product_id_to_fav = productID
             selected_category_product_added_to_fav = categoryID
-            homeViewModel.addProductToFav(productID)
+            homeViewModel?.addProductToFav(productID)
 
         } else {
             requireActivity().startActivity(
@@ -594,15 +607,19 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
                 ).apply {})
         }
     }
+
     /**open activity product detials functions**/
     private val productDetailsLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
-                val productId:Int= result.data?.getIntExtra(ConstantObjects.productIdKey,0) ?: 0
-                val productFavStatusKey:Boolean= result.data?.getBooleanExtra(ConstantObjects.productFavStatusKey,false) ?:false
-                refreshFavProductStatus(productId,productFavStatusKey)
+                val productId: Int = result.data?.getIntExtra(ConstantObjects.productIdKey, 0) ?: 0
+                val productFavStatusKey: Boolean =
+                    result.data?.getBooleanExtra(ConstantObjects.productFavStatusKey, false)
+                        ?: false
+                refreshFavProductStatus(productId, productFavStatusKey)
             }
         }
+
     private fun goToProductDetails(productId: Int) {
         productDetailsLauncher.launch(Intent(context, ProductDetailsActivity::class.java).apply {
             putExtra(ConstantObjects.productIdKey, productId)
@@ -612,18 +629,19 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
 
     override fun onResume() {
         super.onResume()
-        if(SharedPreferencesStaticClass.getCartCount()==0){
+        if (SharedPreferencesStaticClass.getCartCount() == 0) {
             txtCount.hide()
-        }else{
+        } else {
             txtCount.show()
-            txtCount.text= SharedPreferencesStaticClass.getCartCount().toString()
+            txtCount.text = SharedPreferencesStaticClass.getCartCount().toString()
         }
     }
+
     private fun refreshFavProductStatus(productId: Int, productFavStatusKey: Boolean) {
         /***for similer product*/
         lifecycleScope.launch(Dispatchers.IO) {
             var selectedSimilerProduct: Product? = null
-            for (product in lastviewedPorductList) {
+            for (product in (lastviewedPorductList ?: arrayListOf())) {
                 if (product.id == productId) {
                     product.isFavourite = productFavStatusKey
                     selectedSimilerProduct = product
@@ -633,8 +651,8 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
             withContext(Dispatchers.Main) {
                 /**update similer product*/
                 selectedSimilerProduct?.let { product ->
-                    lastviewedPorductAdatper.notifyItemChanged(
-                        lastviewedPorductList.indexOf(
+                    lastviewedPorductAdatper?.notifyItemChanged(
+                        lastviewedPorductList!!.indexOf(
                             product
                         )
                     )
@@ -645,12 +663,12 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
         lifecycleScope.launch(Dispatchers.IO) {
             var changedCategoryItemPosition = -1
             var changedProductItemPosition = -1
-            for ((catIndex, category) in categoryProductHomeList.withIndex()) {
+            for ((catIndex, category) in (categoryProductHomeList ?: arrayListOf()).withIndex()) {
                 if (category.catId == selected_category_product_added_to_fav) {
                     category.listProducts?.let {
                         for ((index, product) in it.withIndex()) {
                             if (product.id == productId) {
-                                product.isFavourite =productFavStatusKey
+                                product.isFavourite = productFavStatusKey
                                 changedProductItemPosition = index
                                 changedCategoryItemPosition = catIndex
                                 break
@@ -681,7 +699,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
                         }
                     }
                 } catch (e: Exception) {
-                    categoryPrductAdapter.notifyDataSetChanged()
+                    categoryPrductAdapter?.notifyDataSetChanged()
                 }
             }
         }
@@ -690,7 +708,13 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
 
     override fun onDestroyView() {
         super.onDestroyView()
-        homeViewModel.closeAllCall()
+        homeViewModel?.closeAllCall()
+        homeViewModel = null
+        dots = null
+        lastviewedPorductAdatper = null
+        lastviewedPorductList = null
+        categoryProductHomeList = null
+        categoryPrductAdapter = null
     }
 }
 

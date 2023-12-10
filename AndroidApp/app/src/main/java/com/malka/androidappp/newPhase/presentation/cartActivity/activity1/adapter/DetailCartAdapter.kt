@@ -91,21 +91,27 @@ class DetailCartAdapter(
                 }"
         }
         holder.viewBinding.tvQuentitiy.text = listProduct[position].cartProductQuantity.toString()
-
         holder.viewBinding.btnSubtract.setOnClickListener {
-            if ((listProduct[position].cartProductQuantity?:0) > 1) {
+            if ((listProduct[position].cartProductQuantity ?: 0) > 1) {
                 setProductCartListeners.onDecreaseQuantityProduct(position)
             }
 
         }
         holder.viewBinding.btnAdd.setOnClickListener {
-            if (holder.viewBinding.tvQuentitiy.text.toString().toInt() < (listProduct[position].qty?:0))
+            if (listProduct[position].qty == null) {
                 setProductCartListeners.onIncreaseQuantityProduct(position)
-            else
-                HelpFunctions.ShowLongToast(
-                    holder.viewBinding.tvQuentitiy.context.getString(R.string.QuentitiyClosed),
-                    holder.viewBinding.tvQuentitiy.context
+            } else {
+                if (holder.viewBinding.tvQuentitiy.text.toString()
+                        .toInt() < (listProduct[position].qty ?: 0)
                 )
+                    setProductCartListeners.onIncreaseQuantityProduct(position)
+                else
+                    HelpFunctions.ShowLongToast(
+                        holder.viewBinding.tvQuentitiy.context.getString(R.string.QuentitiyClosed),
+                        holder.viewBinding.tvQuentitiy.context
+                    )
+            }
+
         }
 
         holder.viewBinding.btnDelete.setOnClickListener {
@@ -124,13 +130,18 @@ class DetailCartAdapter(
                 shipList.forEachIndexed { index, element ->
                     when (element.name) {
                         AddProductObjectData.ShippingType.FreeShippingWithinSaudiArabia.value.toString() -> {
-                            shipList[index].name= AddProductObjectData.ShippingType.FreeShippingWithinSaudiArabia.name
+                            shipList[index].name =
+                                AddProductObjectData.ShippingType.FreeShippingWithinSaudiArabia.name
                         }
+
                         AddProductObjectData.ShippingType.IntegratedShippingCompanyOptions.value.toString() -> {
-                            shipList[index].name= AddProductObjectData.ShippingType.IntegratedShippingCompanyOptions.name
+                            shipList[index].name =
+                                AddProductObjectData.ShippingType.IntegratedShippingCompanyOptions.name
                         }
+
                         AddProductObjectData.ShippingType.ArrangementWillBeMadeWithTheBuyer.value.toString() -> {
-                            shipList[index].name= AddProductObjectData.ShippingType.ArrangementWillBeMadeWithTheBuyer.name
+                            shipList[index].name =
+                                AddProductObjectData.ShippingType.ArrangementWillBeMadeWithTheBuyer.name
                         }
 
                     }
@@ -166,16 +177,21 @@ class DetailCartAdapter(
                 paymentList.forEachIndexed { index, element ->
                     when (element.name) {
                         AddProductObjectData.PaymentType.Cash.value.toString() -> {
-                            paymentList[index].name= AddProductObjectData.PaymentType.Cash.name
+                            paymentList[index].name = AddProductObjectData.PaymentType.Cash.name
                         }
+
                         AddProductObjectData.PaymentType.BankTransfer.value.toString() -> {
-                            paymentList[index].name= AddProductObjectData.PaymentType.BankTransfer.name
+                            paymentList[index].name =
+                                AddProductObjectData.PaymentType.BankTransfer.name
                         }
+
                         AddProductObjectData.PaymentType.CreditCard.value.toString() -> {
-                            paymentList[index].name= AddProductObjectData.PaymentType.CreditCard.name
+                            paymentList[index].name =
+                                AddProductObjectData.PaymentType.CreditCard.name
                         }
+
                         AddProductObjectData.PaymentType.Mada.value.toString() -> {
-                            paymentList[index].name=AddProductObjectData.PaymentType.Mada.name
+                            paymentList[index].name = AddProductObjectData.PaymentType.Mada.name
                         }
                     }
 

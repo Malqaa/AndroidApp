@@ -144,6 +144,11 @@ class PricingActivity : BaseActivity() {
             fix_Price_l.setBackgroundResource(R.drawable.field_selection_border_enable)
             fixed_price_tv.setTextColor(ContextCompat.getColor(this, R.color.bg))
             buynowprice.setText(AddProductObjectData.priceFixed)
+        }else{
+            fixed_price_layout.isVisible = false
+            fixedPriceType_rb1.isChecked = false
+            fix_Price_l.setBackgroundResource(R.drawable.edittext_bg)
+            fixed_price_tv.setTextColor(ContextCompat.getColor(this, R.color.text_color))
         }
         if (AddProductObjectData.auctionOption) {
             Auction_layout.isVisible = true
@@ -154,6 +159,7 @@ class PricingActivity : BaseActivity() {
             reserveprice.setText(AddProductObjectData.auctionMinPrice)
         }
         if (AddProductObjectData.isNegotiablePrice) {
+            buynowprice.setText(AddProductObjectData.selectedCategory?.enableNegotiationFee.toString())
             fixed_price_layout.isVisible = true
             priceNegotiable_rb3.isChecked = true
             switchMustPickUp.setBackgroundResource(R.drawable.field_selection_border_enable)
@@ -176,6 +182,20 @@ class PricingActivity : BaseActivity() {
                     saudi_bank_option.visibility = View.VISIBLE
                     //switchSaudiBankDeposit2.isChecked = true
                     addProductViewModel.getBankAccountsList()
+                }else if (item == AddProductObjectData.PAYMENT_OPTION_Mada) {
+                    switchMadaPayment.isChecked = true
+                    saudi_bank_option.visibility = View.GONE
+                    switchSaudiBankDeposit1.isChecked = false
+                    layoutMadaPayment.background =
+                        ContextCompat.getDrawable(this, R.drawable.field_selection_border_enable)
+                    tvMadaPayment.setTextColor(ContextCompat.getColor(this, R.color.bg))
+                }else if (item == AddProductObjectData.PAYMENT_OPTION_MasterCard) {
+                    switchCreditCard.isChecked = true
+                    saudi_bank_option.visibility = View.GONE
+                    switchSaudiBankDeposit1.isChecked = false
+                    layoutCreditCard.background =
+                        ContextCompat.getDrawable(this, R.drawable.field_selection_border_enable)
+                    tvCreditCard.setTextColor(ContextCompat.getColor(this, R.color.bg))
                 }
             }
         }
@@ -192,7 +212,10 @@ class PricingActivity : BaseActivity() {
 
     override fun onBackPressed() {
         if (isEdit) {
-            startActivity(Intent(this, ConfirmationAddProductActivity::class.java))
+            startActivity(Intent(this, ConfirmationAddProductActivity::class.java).apply {
+                putExtra("whereCome","Add")
+
+            })
             finish()
         } else {
             finish()
@@ -519,8 +542,10 @@ class PricingActivity : BaseActivity() {
 
 
                         if (isEdit) {
-                            startActivity(Intent(this, ConfirmationAddProductActivity::class.java))
-                            finish()
+                            startActivity(Intent(this, ConfirmationAddProductActivity::class.java).apply {
+                                putExtra("whereCome","Add")
+                                finish()
+                            })
                         } else {
                             startActivity(Intent(this, ListingDurationActivity::class.java))
                         }

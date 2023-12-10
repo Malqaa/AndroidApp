@@ -62,7 +62,10 @@ class ShippingAdapter(
         this.dataList=dataList
         notifyDataSetChanged()
     }
-
+    fun updateAdapter(dataList: List<ShippingOptionObject>){
+        this.dataList=dataList
+        notifyDataSetChanged()
+    }
     interface SetOnSelectedShipping {
         fun setOnSelectedShipping(shippingItem: ShippingOptionObject)
     }

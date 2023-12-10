@@ -26,7 +26,9 @@ class PromotionalActivity : BaseActivity(), PakatAdapter.SetOnPakatSelected {
     private lateinit var addProductViewModel: AddProductViewModel
     override fun onBackPressed() {
         if (isEdit) {
-            startActivity(Intent(this, ConfirmationAddProductActivity::class.java))
+            startActivity(Intent(this, ConfirmationAddProductActivity::class.java).apply {
+                putExtra("whereCome","Add")
+            })
             finish()
         } else {
             finish()
@@ -208,7 +210,9 @@ class PromotionalActivity : BaseActivity(), PakatAdapter.SetOnPakatSelected {
     }
 
     private fun goNextActivity() {
-        startActivity(Intent(this, ConfirmationAddProductActivity::class.java))
+        startActivity(Intent(this, ConfirmationAddProductActivity::class.java).apply {
+            putExtra("whereCome","Add")
+        })
     }
 
 
@@ -226,6 +230,7 @@ class PromotionalActivity : BaseActivity(), PakatAdapter.SetOnPakatSelected {
         } else {
             if (isEdit) {
                 startActivity(Intent(this, ConfirmationAddProductActivity::class.java).apply {
+                    putExtra("whereCome","Add")
                     finish()
                 })
             } else {

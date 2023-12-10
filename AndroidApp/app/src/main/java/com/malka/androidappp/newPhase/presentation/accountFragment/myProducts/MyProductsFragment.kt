@@ -24,6 +24,7 @@ import com.malka.androidappp.newPhase.presentation.accountFragment.myProducts.di
 import com.malka.androidappp.newPhase.presentation.accountFragment.myProducts.viewModel.MyProductViewModel
 import com.malka.androidappp.newPhase.presentation.adapterShared.ProductHorizontalAdapter
 import com.malka.androidappp.newPhase.presentation.adapterShared.SetOnProductItemListeners
+import com.malka.androidappp.newPhase.presentation.addProduct.ConfirmationAddProductActivity
 import com.malka.androidappp.newPhase.presentation.loginScreen.SignInActivity
 import com.malka.androidappp.newPhase.presentation.myOrderDetails.MyOrderDetailsRequestedFromMeActivity
 import com.malka.androidappp.newPhase.presentation.productDetailsActivity.MyProductDetailsActivity
@@ -411,7 +412,11 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
                     }
 
                     override fun onModifyProduct() {
-                        HelpFunctions.ShowLongToast("not implemented yet", requireActivity())
+                        ConstantObjects.isModify=true
+                        startActivity(Intent(context, ConfirmationAddProductActivity::class.java).apply {
+                            putExtra("productID",productID)
+                            putExtra("whereCome","repost")
+                        })
                     }
 
                     override fun onDeleteProduct() {
@@ -424,12 +429,18 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
                     }
 
                     override fun onRepostProduct() {
-                        myProductsViewModel.repostProduct(productID)
+                        ConstantObjects.isRepost=true
+                        startActivity(Intent(context, ConfirmationAddProductActivity::class.java).apply {
+                            putExtra("productID",productID)
+                            putExtra("whereCome","repost")
+                        })
+//                        myProductsViewModel.repostProduct(productID)
                     }
 
                 })
         myProductSettingDialog.show()
     }
+
 
     private fun openAddOfferDailog(productID: Int) {
         val bidPersonsDialog = BidPersonsDialog("",

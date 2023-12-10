@@ -13,6 +13,7 @@ import com.malka.androidappp.newPhase.data.helper.hide
 import com.malka.androidappp.newPhase.data.helper.show
 import com.malka.androidappp.newPhase.data.network.constants.Constants
 import com.malka.androidappp.newPhase.domain.models.servicemodels.model.Category
+import com.malka.androidappp.newPhase.presentation.addProduct.AddProductObjectData
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.all_categories_cardview.view.*
 import kotlinx.android.synthetic.main.all_categories_cardview.view.category_icon
@@ -20,7 +21,7 @@ import kotlinx.android.synthetic.main.all_categories_cardview.view.category_name
 import kotlinx.android.synthetic.main.item_categories_card_in_home.view.*
 
 class AdapterAllCategoriesAdapter(
-    private val allCategories: List<Category>,
+    private var allCategories: List<Category>,
     var onItemClick: (position:Int) -> Unit
 ) : RecyclerView.Adapter<BaseViewHolder>() {
 
@@ -45,6 +46,7 @@ class AdapterAllCategoriesAdapter(
             allCategories[position].run {
                 category_name_tv.text = name
                 if (allCategories[position].is_select) {
+                    AddProductObjectData.selectedCategoryId=allCategories[position].id
                    // bgline.show()
                     is_selectimage.show()
                     category_icon.borderColor=  ContextCompat.getColor(
@@ -90,7 +92,6 @@ class AdapterAllCategoriesAdapter(
         }
 
     }
-
 
 
 }

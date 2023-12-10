@@ -37,9 +37,9 @@ class WatchlistFragment : Fragment(R.layout.fragment_watchlist),
     SwipeRefreshLayout.OnRefreshListener, SetOnProductItemListeners {
 
 
-    private lateinit var wishListViewModel: WishListViewModel
-    private lateinit var wishListAdapter: ProductHorizontalAdapter
-    private lateinit var productList: ArrayList<Product>
+    private var wishListViewModel: WishListViewModel? = null
+    private var wishListAdapter: ProductHorizontalAdapter? = null
+    private var productList: ArrayList<Product>? = null
     private var lastUpdateIndex = -1
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -70,7 +70,7 @@ class WatchlistFragment : Fragment(R.layout.fragment_watchlist),
 
     private fun setAdapterForWhisList() {
         productList = ArrayList()
-        wishListAdapter = ProductHorizontalAdapter(productList, this, 0, false)
+        wishListAdapter = ProductHorizontalAdapter(productList ?: arrayListOf(), this, 0, false)
         fav_rcv.apply {
             adapter = wishListAdapter
             layoutManager = GridLayoutManager(requireActivity(), 2)
@@ -79,16 +79,16 @@ class WatchlistFragment : Fragment(R.layout.fragment_watchlist),
 
     private fun setupViewModel() {
         wishListViewModel = ViewModelProvider(this).get(WishListViewModel::class.java)
-        wishListViewModel.isLoading.observe(this) {
+        wishListViewModel!!.isLoading.observe(this) {
             if (it)
                 progressBar.show()
-            else{
+            else {
 
                 HelpFunctions.dismissProgressBar()
                 progressBar.hide()
             }
         }
-        wishListViewModel.isNetworkFail.observe(this) {
+        wishListViewModel!!.isNetworkFail.observe(this) {
             if (it) {
                 showProductApiError(getString(R.string.connectionError))
             } else {
@@ -96,7 +96,7 @@ class WatchlistFragment : Fragment(R.layout.fragment_watchlist),
             }
 
         }
-        wishListViewModel.errorResponseObserver.observe(this) {
+        wishListViewModel!!.errorResponseObserver.observe(this) {
             if (it.status != null && it.status == "409") {
                 HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), requireActivity())
             } else {
@@ -108,19 +108,19 @@ class WatchlistFragment : Fragment(R.layout.fragment_watchlist),
 
             }
         }
-        wishListViewModel.wishListRespObserver.observe(this) { productListResp ->
+        wishListViewModel!!.wishListRespObserver.observe(this) { productListResp ->
             if (productListResp.status_code == 200) {
                 if (productListResp.productList != null && productListResp.productList.isNotEmpty()) {
-                    productList.clear()
-                    productList.addAll(productListResp.productList)
+                    productList?.clear()
+                    productList?.addAll(productListResp.productList)
                     lifecycleScope.launch(Dispatchers.IO) {
 //                        productList.filter { !it.isFavourite }.forEach { it.isFavourite = true}
 
-                        for (product in productList) {
+                        for (product in productList ?: arrayListOf()) {
                             product.isFavourite = true
                         }
                         withContext(Dispatchers.Main) {
-                            wishListAdapter.notifyDataSetChanged()
+                            wishListAdapter?.notifyDataSetChanged()
                         }
                     }
 
@@ -129,7 +129,7 @@ class WatchlistFragment : Fragment(R.layout.fragment_watchlist),
                 }
             }
         }
-        wishListViewModel.isNetworkFailProductToFav.observe(viewLifecycleOwner) {
+        wishListViewModel!!.isNetworkFailProductToFav.observe(viewLifecycleOwner) {
             if (it) {
                 HelpFunctions.ShowLongToast(
                     getString(R.string.connectionError),
@@ -143,10 +143,10 @@ class WatchlistFragment : Fragment(R.layout.fragment_watchlist),
             }
 
         }
-        wishListViewModel.errorResponseObserverProductToFav.observe(viewLifecycleOwner) {
-            if(it.status!=null && it.status=="409"){
+        wishListViewModel!!.errorResponseObserverProductToFav.observe(viewLifecycleOwner) {
+            if (it.status != null && it.status == "409") {
                 HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), requireActivity())
-            }else {
+            } else {
                 if (it.message != null && it.message != "") {
                     HelpFunctions.ShowLongToast(
                         it.message!!,
@@ -160,26 +160,31 @@ class WatchlistFragment : Fragment(R.layout.fragment_watchlist),
                 }
             }
         }
-        wishListViewModel.addProductToFavObserver.observe(viewLifecycleOwner) {
+        wishListViewModel!!.addProductToFavObserver.observe(viewLifecycleOwner) {
             if (it.status_code == 200) {
-                if (lastUpdateIndex < productList.size) {
-                    productList.removeAt(lastUpdateIndex)
-                    wishListAdapter.notifyItemRemoved(lastUpdateIndex)
-                    wishListAdapter.notifyDataSetChanged();
-                    if (productList.isEmpty()) {
+                if (lastUpdateIndex < (productList ?: arrayListOf()).size) {
+                    productList?.removeAt(lastUpdateIndex)
+                    wishListAdapter?.notifyItemRemoved(lastUpdateIndex)
+                    wishListAdapter?.notifyDataSetChanged();
+                    if (productList?.isEmpty() == true) {
                         showProductApiError(getString(R.string.noProductsAdded))
                     }
                 }
             }
         }
-        onRefresh()
     }
 
     override fun onRefresh() {
         swipe_to_refresh.isRefreshing = false
         tvError.hide()
-        wishListViewModel.getWishListProduct()
+        wishListViewModel?.getWishListProduct()
     }
+
+    override fun onResume() {
+        super.onResume()
+        onRefresh()
+    }
+
 
     private fun showProductApiError(message: String) {
         tvError.show()
@@ -204,7 +209,7 @@ class WatchlistFragment : Fragment(R.layout.fragment_watchlist),
     override fun onAddProductToFav(position: Int, productID: Int, categoryID: Int) {
         if (HelpFunctions.isUserLoggedIn()) {
             lastUpdateIndex = position
-            wishListViewModel.addProductToFav(productID)
+            wishListViewModel?.addProductToFav(productID)
 
         } else {
             requireActivity().startActivity(
@@ -242,7 +247,7 @@ class WatchlistFragment : Fragment(R.layout.fragment_watchlist),
         /***for similer product*/
         lifecycleScope.launch(Dispatchers.IO) {
             var selectedSimilerProduct: Product? = null
-            for (product in productList) {
+            for (product in productList ?: arrayListOf()) {
                 if (product.id == productId) {
                     product.isFavourite = productFavStatusKey
                     selectedSimilerProduct = product
@@ -252,10 +257,10 @@ class WatchlistFragment : Fragment(R.layout.fragment_watchlist),
             withContext(Dispatchers.Main) {
                 /**update similer product*/
                 selectedSimilerProduct?.let { product ->
-                    productList.removeAt(productList.indexOf(product))
-                    wishListAdapter.notifyItemRemoved(productList.indexOf(product))
-                    wishListAdapter.notifyDataSetChanged();
-                    if (productList.isEmpty()) {
+                    (productList ?: arrayListOf()).removeAt(productList?.indexOf(product)!!)
+                    wishListAdapter?.notifyItemRemoved(productList?.indexOf(product)!!)
+                    wishListAdapter?.notifyDataSetChanged();
+                    if (productList?.isEmpty() == true) {
                         showProductApiError(getString(R.string.noProductsAdded))
                     }
                 }
@@ -266,7 +271,10 @@ class WatchlistFragment : Fragment(R.layout.fragment_watchlist),
 
     override fun onDestroyView() {
         super.onDestroyView()
-       wishListViewModel.closeAllCall()
+        wishListViewModel?.closeAllCall()
+        wishListViewModel = null
+        wishListAdapter = null
+        productList = null
     }
 
 //    @Subscribe(threadMode = ThreadMode.MAIN)
