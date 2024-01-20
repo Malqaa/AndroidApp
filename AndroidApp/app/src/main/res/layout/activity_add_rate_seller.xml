@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".newPhase.presentation.addSellerReviewActivity.AddRateSellerActivity">>
+    tools:context=".newPhase.presentation.activities.addSellerReviewActivity.AddRateSellerActivity">>
 
 
     <include

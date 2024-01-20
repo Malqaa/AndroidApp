@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".newPhase.presentation.accountFragment.businessAccount.addBusinessAccount.BusinessAccountCreateActivity">
+    tools:context=".newPhase.presentation.fragments.accountFragment.businessAccount.addBusinessAccount.BusinessAccountCreateActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -74,7 +74,7 @@
             </RelativeLayout>
 
 
-            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+            <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/userNamee"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -84,7 +84,7 @@
                 app:startIcon="@drawable/ic_user" />
 
 
-            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+            <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/company_name_ar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -93,7 +93,7 @@
                 android:inputType="textPersonName"
                 app:startIcon="@drawable/ic_user" />
 
-            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+            <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/company_name_en"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -102,7 +102,7 @@
                 android:inputType="textPersonName"
                 app:startIcon="@drawable/ic_user" />
 
-            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+            <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/textEmaill"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -237,7 +237,7 @@
             </LinearLayout>
 
 
-            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+            <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/et_web_site"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -247,7 +247,7 @@
                 app:startIcon="@drawable/ic_website" />
 
 
-            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+            <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/Facebook"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -256,7 +256,7 @@
                 android:inputType="textPersonName"
                 app:startIcon="@drawable/ic_facebook" />
 
-            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+            <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/Instagram"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -319,7 +319,7 @@
             </LinearLayout>
 
 
-            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+            <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/ic_twitter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -328,7 +328,7 @@
                 android:inputType="textWebEmailAddress"
                 android:visibility="gone"
                 app:startIcon="@drawable/ic_twitter" />
-            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+            <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/ic_youtube"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -337,7 +337,7 @@
                 android:inputType="textPersonName"
                 android:visibility="gone"
                 app:startIcon="@drawable/ic_youtube" />
-            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+            <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/ic_linkedIn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -347,7 +347,7 @@
                 android:visibility="gone"
                 app:startIcon="@drawable/ic_whatsapp" />
 
-            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+            <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/ic_snapshot"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -357,7 +357,7 @@
                 android:visibility="gone"
                 app:startIcon="@drawable/ic_snapshot" />
 
-            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+            <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/ic_tickTok"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -417,7 +417,7 @@
 
             </LinearLayout>
 
-            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+            <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/commercial_registration_no"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -478,7 +478,7 @@
 
 
 
-            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+            <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/TaxNumber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -490,7 +490,7 @@
                 app:startIcon="@drawable/ic_tax" />
 
 
-            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+            <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/etMaroof"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -515,7 +515,7 @@
                 android:textSize="@dimen/_12sdp" />
 
 
-            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+            <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/countryContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -526,7 +526,7 @@
                 app:startIcon="@drawable/ic_region"
                 app:viewType="spinner" />
 
-            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+            <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/regionContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -540,7 +540,7 @@
 
 
 
-            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+            <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/neighborhoodContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -551,7 +551,7 @@
                 app:startIcon="@drawable/ic_city"
                 app:viewType="spinner" />
 
-            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+            <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/area"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -560,7 +560,7 @@
                 android:inputType="text" />
 
 
-            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+            <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/streetNUmber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -568,7 +568,7 @@
                 android:hint="@string/StreetNumber"
                 android:inputType="text" />
 
-            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+            <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/county_code"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -580,7 +580,7 @@
 
 
 
-            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+            <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/locating_the_company"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -591,7 +591,7 @@
                 app:viewType="text" />
 
 
-            <com.malka.androidappp.newPhase.data.helper.widgets.TermsnConditionsSwitch
+            <com.malqaa.androidappp.newPhase.utils.helper.widgets.TermsnConditionsSwitch
                 android:id="@+id/switch_trade"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

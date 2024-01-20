@@ -54,7 +54,7 @@
                 </LinearLayout>
 
 
-                <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+                <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
                     android:id="@+id/tvTitleAr"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -92,7 +92,7 @@
                 </LinearLayout>
 
 
-                <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+                <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
                     android:id="@+id/tvTitleEn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -115,14 +115,18 @@
                     android:textColor="#293241"
                     android:textSize="@dimen/_14sdp" />
 
-                <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+                <EditText
                     android:id="@+id/tvSubtitleAr"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/edittext_bg"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:hint="@string/type_the_item_s_subtitle"
                     android:inputType="textPersonName"
                     android:textAlignment="viewStart"
+                    android:fontFamily="@font/madani_arabic_medium"
+                    android:padding="@dimen/_10sdp"
+                    android:textSize="@dimen/_10sdp"
                     android:gravity="start"
                     app:viewType="edittext2" />
                 <TextView
@@ -134,14 +138,18 @@
                     android:textColor="#293241"
                     android:textSize="@dimen/_14sdp" />
 
-                <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+                <EditText
                     android:id="@+id/tvSubtitleEn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:hint="@string/type_the_item_s_subtitle"
+                    android:background="@drawable/edittext_bg"
                     android:inputType="textPersonName"
                     android:textAlignment="viewStart"
+                    android:fontFamily="@font/madani_arabic_medium"
+                    android:padding="@dimen/_10sdp"
+                    android:textSize="@dimen/_10sdp"
                     android:gravity="start"
                     app:viewType="edittext2" />
 
@@ -288,7 +296,7 @@
                     </LinearLayout>
 
 
-                    <com.malka.androidappp.newPhase.data.helper.widgets.ElegantNumberButton
+                    <com.malqaa.androidappp.newPhase.utils.helper.widgets.ElegantNumberButton
                         android:id="@+id/quantityavail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -306,7 +314,7 @@
                     android:textSize="@dimen/_14sdp" />
 
 
-                <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+                <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
                     android:id="@+id/countryContainer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -316,7 +324,7 @@
                     app:startIcon="@drawable/ic_region"
                     app:viewType="spinner" />
 
-                <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+                <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
                     android:id="@+id/regionContainer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -327,7 +335,7 @@
                     app:viewType="spinner" />
 
 
-                <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+                <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
                     android:id="@+id/neighborhoodContainer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

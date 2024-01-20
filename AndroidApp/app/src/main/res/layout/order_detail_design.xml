@@ -269,7 +269,7 @@
 
         </LinearLayout>
 
-        <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+        <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
             android:id="@+id/seller_account_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -5,144 +5,140 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-
-    tools:context=".newPhase.presentation.loginScreen.SignInActivity">
+    tools:context=".newPhase.presentation.activities.loginScreen.SignInActivity">
 
     <ScrollView
         android:layout_width="match_parent"
-
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:padding="@dimen/_10sdp">
-
-
-            <com.malka.androidappp.newPhase.data.helper.widgets.language_switch.ToggleSwitch
-                android:id="@+id/language_toggle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/_20sdp"
-                android:background="@drawable/tab_bg"
-                android:textSize="@dimen/_12sdp"
-                app:activeBgColor="@color/bg"
-                app:activeTextColor="@android:color/white"
-                app:cornerRadius="@dimen/_15sdp"
-                app:inactiveBgColor="@color/tab_bg"
-                app:inactiveTextColor="@android:color/black"
-                app:separatorColor="@color/gray_very_light"
-                app:textToggleLeft="EN"
-                app:textToggleRight="AR"
-                app:toggleWidth="@dimen/_50sdp" />
-
-
-            <ImageView
-                android:id="@+id/imageView8"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_30sdp"
-                android:background="@drawable/main_logo" />
-
-            <TextView
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:fontFamily="@font/madani_arabic_bold"
-                android:text="@string/welcome_back"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_16sdp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:fontFamily="@font/madani_arabic_light"
-                android:text="@string/login_with_mobile"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_12sdp" />
-
-
-            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
-                android:id="@+id/email_tv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_25sdp"
-                android:hint="@string/type_your_email_here"
-                android:inputType="textEmailAddress"
-                app:startIcon="@drawable/ic_email" />
-
-            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
-                android:id="@+id/passwword_tv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:hint="@string/type_your_password_here"
-                android:inputType="textPassword"
-                app:enablePasswordToggle="true"
-                app:imeOptions="done"
-                app:startIcon="@drawable/symbolpass" />
-
-
-            <TextView
-                android:id="@+id/Forgot_your_password"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:fontFamily="@font/madani_arabic_light"
-                android:text="@string/Forgot_your_password"
-                android:textColor="@color/bg"
-                android:textSize="@dimen/_12sdp" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="40dp"
-                android:layout_marginEnd="30dp"
-                android:background="@drawable/round_btn"
-                android:fontFamily="@font/madani_arabic_semi_bold"
-                android:onClick="confirmInput"
-                android:text="@string/Login"
-                android:textAllCaps="false"
-                android:textColor="#ffffff"
-                android:textSize="@dimen/_14sdp" />
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp">
+                android:layout_marginBottom="30dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:padding="@dimen/_10sdp">
+
+
+                <com.malqaa.androidappp.newPhase.utils.helper.widgets.language_switch.ToggleSwitch
+                    android:id="@+id/language_toggle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:background="@drawable/tab_bg"
+                    android:textSize="@dimen/_12sdp"
+                    app:activeBgColor="@color/bg"
+                    app:activeTextColor="@android:color/white"
+                    app:cornerRadius="@dimen/_15sdp"
+                    app:inactiveBgColor="@color/tab_bg"
+                    app:inactiveTextColor="@android:color/black"
+                    app:separatorColor="@color/gray_very_light"
+                    app:textToggleLeft="EN"
+                    app:textToggleRight="AR"
+                    app:toggleWidth="@dimen/_50sdp" />
+
+
+                <ImageView
+                    android:id="@+id/imageView8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_30sdp"
+                    android:background="@drawable/main_logo" />
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:fontFamily="@font/madani_arabic_medium"
-                    android:text="@string/don_t_have_an_account"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:fontFamily="@font/madani_arabic_bold"
+                    android:text="@string/welcome_back"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_16sdp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:fontFamily="@font/madani_arabic_light"
+                    android:text="@string/login_with_mobile"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_12sdp" />
 
+
+                <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
+                    android:id="@+id/email_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_25sdp"
+                    android:hint="@string/type_your_email_here"
+                    android:inputType="textEmailAddress"
+                    app:startIcon="@drawable/ic_email" />
+
+                <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
+                    android:id="@+id/passwword_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:hint="@string/type_your_password_here"
+                    android:inputType="textPassword"
+                    app:enablePasswordToggle="true"
+                    app:imeOptions="done"
+                    app:startIcon="@drawable/symbolpass" />
+
+
                 <TextView
-                    android:id="@+id/new_registration"
+                    android:id="@+id/Forgot_your_password"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_5sdp"
-                    android:fontFamily="@font/madani_arabic_medium"
-                    android:text="@string/new_registration"
+                    android:layout_gravity="start"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:fontFamily="@font/madani_arabic_light"
+                    android:text="@string/Forgot_your_password"
                     android:textColor="@color/bg"
                     android:textSize="@dimen/_12sdp" />
-            </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
 
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginEnd="30dp"
+                    android:background="@drawable/round_btn"
+                    android:fontFamily="@font/madani_arabic_semi_bold"
+                    android:onClick="confirmInput"
+                    android:text="@string/Login"
+                    android:textAllCaps="false"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/_14sdp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/madani_arabic_medium"
+                        android:text="@string/don_t_have_an_account"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12sdp" />
+
+                    <TextView
+                        android:id="@+id/new_registration"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:fontFamily="@font/madani_arabic_medium"
+                        android:text="@string/new_registration"
+                        android:textColor="@color/bg"
+                        android:textSize="@dimen/_12sdp" />
+                </LinearLayout>
+            </LinearLayout>
+
+    </ScrollView>
 
 
 </RelativeLayout>

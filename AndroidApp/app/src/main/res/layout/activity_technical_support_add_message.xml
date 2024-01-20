@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.malka.androidappp.newPhase.presentation.accountFragment.technicalSupportActivity.addTechencalSupport.AddTechnicalSupportMessageActivity">
+    tools:context=".newPhase.presentation.fragments.accountFragment.technicalSupportActivity.addTechencalSupport.AddTechnicalSupportMessageActivity">
 
 
     <include
@@ -234,7 +234,7 @@
 
             </LinearLayout>
 
-            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+            <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/etEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -243,7 +243,7 @@
                 android:inputType="textEmailAddress"
                 app:startIcon="@drawable/ic_email" />
 
-            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+            <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/problem_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".newPhase.presentation.homeScreen.HomeFragment">
+    tools:context=".newPhase.presentation.fragments.homeScreen.HomeFragment">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_to_refresh"
@@ -80,7 +80,7 @@
                         android:textColor="@color/black"
                         android:textSize="@dimen/_12sdp" />
 
-                    <com.malka.androidappp.newPhase.data.helper.widgets.language_switch.ToggleSwitch
+                    <com.malqaa.androidappp.newPhase.utils.helper.widgets.language_switch.ToggleSwitch
                         android:id="@+id/language_toggle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -99,7 +99,7 @@
 
                 </LinearLayout>
 
-                <com.malka.androidappp.newPhase.data.helper.widgets.edittext.SearchBarComponent
+                <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.SearchBarComponent
                     android:id="@+id/textInputLayout11"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -161,7 +161,7 @@
                     android:layout_marginTop="@dimen/_5sdp"
                     android:visibility="gone">
 
-                    <com.malka.androidappp.newPhase.data.helper.widgets.viewpager2.AutoScrollViewPager
+                    <com.malqaa.androidappp.newPhase.utils.helper.widgets.viewpager2.AutoScrollViewPager
                         android:id="@+id/slider_home"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_140sdp"

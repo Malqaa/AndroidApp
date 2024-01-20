@@ -1096,6 +1096,7 @@
     <string name="enterAmountPointLess">الرجاء إدخال نقطة المبلغ أقل من الرصيد</string>
     <string name="questions_is_turned_off_by_the_seller">تم إيقاف الأسئلة من قبل البائع</string>
     <string name="notSelect">غير محدد</string>
+    <string name="SelectFixedType">حدد خيار من نوع سعر ثابت اولا</string>
 
 
     <!--    <string name="Back_to_login">العودة لتسجيل الدخول</string>-->

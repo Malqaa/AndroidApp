@@ -1,0 +1,70 @@
+package com.malqaa.androidappp.newPhase.utils.adapter
+
+import android.content.Context
+import android.content.Intent
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
+import com.malqaa.androidappp.R
+import com.malqaa.androidappp.newPhase.presentation.activities.cartActivity.OrderDetail
+import com.malqaa.androidappp.newPhase.presentation.activities.cartActivity.OrderDetail_1
+import com.malqaa.androidappp.newPhase.domain.models.servicemodels.getCartModel
+import com.malqaa.androidappp.newPhase.utils.helper.BaseViewHolder
+import com.malqaa.androidappp.newPhase.utils.hide
+import com.malqaa.androidappp.newPhase.utils.show
+import kotlinx.android.synthetic.main.item_user_order.view.*
+
+class GenericOrderAdapter(
+    var soldOrderDetail: List<getCartModel.Data>,
+    var context: Context,
+    var isCurrent: Boolean = true
+) : RecyclerView.Adapter<BaseViewHolder>() {
+
+
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): BaseViewHolder {
+        val view: View =
+            LayoutInflater.from(parent.context).inflate(R.layout.item_user_order, parent, false)
+        return BaseViewHolder(view)
+    }
+
+    override fun getItemCount() = soldOrderDetail.size
+
+    override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
+
+
+        holder.view.run {
+            soldOrderDetail.get(position).run {
+                order_number_tv.text = "#$orderNumber"
+                order_status_tv.text = orderStatus
+                order_time_tv.text = createddateFormated
+                total_order_tv.text = "${advertisements.price} ${context.getString(R.string.rial)}"
+                if (isCurrent) {
+                    complete_order_btn.show()
+                    item_view. setOnClickListener {
+                        val intentt = Intent(context, OrderDetail::class.java)
+                        context.startActivity(intentt)
+                    }
+                    complete_order_btn.setOnClickListener {
+                        item_view.performClick()
+                    }
+                } else {
+                    complete_order_btn.hide()
+                    item_view. setOnClickListener {
+                        val intentt = Intent(context, OrderDetail_1::class.java)
+                        context.startActivity(intentt)
+                    }
+                }
+            }
+
+
+        }
+
+
+    }
+
+
+}

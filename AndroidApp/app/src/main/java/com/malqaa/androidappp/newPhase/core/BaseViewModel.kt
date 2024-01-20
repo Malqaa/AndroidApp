@@ -1,0 +1,112 @@
+package com.malqaa.androidappp.newPhase.core
+
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import com.malqaa.androidappp.newPhase.data.network.callApi
+import com.malqaa.androidappp.newPhase.utils.ConstantObjects.Companion.configration_otpExpiryTime
+import com.malqaa.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
+import com.malqaa.androidappp.newPhase.domain.models.ErrorResponse
+import com.malqaa.androidappp.newPhase.domain.models.configrationResp.ConfigurationResp
+import com.malqaa.androidappp.newPhase.domain.models.loginResp.LoginResp
+import com.malqaa.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
+import okhttp3.ResponseBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.HttpException
+import retrofit2.Response
+
+open class BaseViewModel : ViewModel() {
+    var isLoading: MutableLiveData<Boolean> = MutableLiveData()
+    var isloadingMore: MutableLiveData<Boolean> = MutableLiveData()
+    var needToLogin: MutableLiveData<Boolean> = MutableLiveData(false)
+    var isNetworkFail: MutableLiveData<Boolean> = MutableLiveData()
+    var errorResponseObserver: MutableLiveData<ErrorResponse> = MutableLiveData()
+
+    /***/
+    var addProductToFavObserver: MutableLiveData<GeneralResponse> = MutableLiveData()
+    var isNetworkFailProductToFav: MutableLiveData<Boolean> = MutableLiveData()
+    var errorResponseObserverProductToFav: MutableLiveData<ErrorResponse> = MutableLiveData()
+    var configurationRespObserver: MutableLiveData<ConfigurationResp> = MutableLiveData()
+    var configurationRespDidNotReceive: MutableLiveData<ConfigurationResp> = MutableLiveData()
+
+    private var callFav: Call<GeneralResponse>? = null
+    private var callConfig: Call<ConfigurationResp>? = null
+
+    fun getErrorResponse(code: Int, body: ResponseBody?): ErrorResponse {
+        try {
+            val gson = Gson()
+            val type = object : TypeToken<ErrorResponse>() {}.type
+            val errorResponse: ErrorResponse? = gson.fromJson(body!!.charStream(), type)
+
+            return errorResponse!!
+        } catch (e: Exception) {
+            return ErrorResponse()
+        }
+    }
+
+    fun addProductToFav(ProductID: Int) {
+        isLoading.value = true
+        callFav = getRetrofitBuilder().addProductToFav(ProductID)
+
+        callApi(callFav!!,
+            onSuccess = {
+                isLoading.value = false
+                addProductToFavObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+
+                isLoading.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFailProductToFav.value = throwable !is HttpException
+                else {
+                    errorResponseObserverProductToFav.value =
+                        getErrorResponse(statusCode, errorBody)
+                }
+            },
+            goLogin = {
+                isLoading.value = false
+                needToLogin.value = true
+            })
+    }
+
+    fun getConfigurationResp(configKey: String) {
+        isLoading.value = true
+        callConfig= getRetrofitBuilder().getConfigurationData(configKey)
+
+        callApi(callConfig!!,
+            onSuccess = {
+                isLoading.value = false
+                if (configKey == configration_otpExpiryTime)
+                    configurationRespObserver.value =it
+                else
+                    configurationRespDidNotReceive.value =it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+
+                isLoading.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFailProductToFav.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
+                }
+            },
+            goLogin = {
+                isLoading.value = false
+                needToLogin.value = true
+            })
+    }
+
+    fun baseCancel(){
+        if(callFav!=null){
+            callFav?.cancel()
+        }
+        if(callConfig!=null){
+            callConfig?.cancel()
+        }
+    }
+
+
+}

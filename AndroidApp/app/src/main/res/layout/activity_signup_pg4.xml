@@ -57,7 +57,7 @@
         </RelativeLayout>
 
 
-        <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+        <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
             android:id="@+id/firstName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -66,7 +66,7 @@
             android:inputType="textCapWords"
             app:startIcon="@drawable/ic_user" />
 
-        <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+        <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
             android:id="@+id/lastName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -75,7 +75,7 @@
             android:inputType="textCapWords"
             app:startIcon="@drawable/ic_user" />
 
-        <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+        <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
             android:id="@+id/btnDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -101,14 +101,14 @@
             android:layout_marginTop="@dimen/_10sdp"
             android:orientation="horizontal">
 
-            <com.malka.androidappp.newPhase.data.helper.widgets.CustomRadioButton
+            <com.malqaa.androidappp.newPhase.utils.helper.widgets.CustomRadioButton
                 android:id="@+id/radiomale"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="false"
                 android:text="@string/Male" />
 
-            <com.malka.androidappp.newPhase.data.helper.widgets.CustomRadioButton
+            <com.malqaa.androidappp.newPhase.utils.helper.widgets.CustomRadioButton
                 android:id="@+id/radiofemale"
                 android:layout_width="wrap_content"
 
@@ -128,7 +128,7 @@
             android:text="@string/address_details" />
 
 
-        <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+        <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
             android:id="@+id/countryContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -140,7 +140,7 @@
             app:startIcon="@drawable/ic_region"
             app:viewType="spinner" />
 
-        <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+        <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
             android:id="@+id/regionContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -154,7 +154,7 @@
 
 
 
-        <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+        <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
             android:id="@+id/neighborhoodContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -166,7 +166,7 @@
             app:viewType="spinner" />
 
 
-        <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+        <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
             android:id="@+id/area"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -175,7 +175,7 @@
             android:inputType="text" />
 
 
-        <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+        <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
             android:id="@+id/streetNUmber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -183,7 +183,7 @@
             android:hint="@string/StreetNumber"
             android:inputType="text" />
 
-        <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+        <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
             android:id="@+id/county_code"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

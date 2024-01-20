@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".newPhase.presentation.addProductReviewActivity.ProductReviewsActivity">
+    tools:context=".newPhase.presentation.activities.addProductReviewActivity.ProductReviewsActivity">
 
     <include
         android:id="@+id/toolbar_main"

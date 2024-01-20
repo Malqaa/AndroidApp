@@ -1104,7 +1104,7 @@
     <string name="enterComment">Enter Comment</string>
     <string name="addyourAnswer">Add your answer</string>
     <string name="addDiscount">Add Discount</string>
-    <string name="modifyProduct">Modify Product</string>
+    <string name="modifyProduct">Edit Product</string>
     <string name="deleteProduct">Delete Product</string>
     <string name="discount">Discount</string>
     <string name="discountEndTime">Discount End Time</string>
@@ -1279,7 +1279,7 @@
     <string name="visitors">الزائرين</string>
     <string name="deleteall">إزالة الكل</string>
     <string name="CheckoutProduct">Checkout</string>
-    <string name="editProduct">تعديل المنتج</string>
+    <string name="editProduct">Edit Product</string>
     <string name="_discount">"Discount : "</string>
     <string name="purchaseOrder">Purchase order times</string>
     <string name="QuentitiyClosed">Quentity Closed</string>
@@ -3033,6 +3033,7 @@
     <string name="enterAmountPointLess">Please enter emount point less than balance</string>
     <string name="questions_is_turned_off_by_the_seller">Questions is turned off by the seller</string>
     <string name="notSelect">Not selected</string>
+    <string name="SelectFixedType">Select a fixed price type option first</string>
 
     <!--    <string name="BusinessDetails">-->
     <!-- Business Details-->

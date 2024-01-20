@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".newPhase.presentation.addressUser.addressListActivity.AddressList">
+    tools:context=".newPhase.presentation.activities.addressUser.addressListActivity.AddressList">
 
 
     <include
@@ -68,7 +68,7 @@
                 </RelativeLayout>
 
 
-                <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+                <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
                     android:id="@+id/add_new_add"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

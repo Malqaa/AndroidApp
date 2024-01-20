@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".newPhase.presentation.addressUser.addAddressActivity.AddAddressActivity">
+    tools:context=".newPhase.presentation.activities.addressUser.addAddressActivity.AddAddressActivity">
 
     <include
         android:id="@+id/toolbar_main"
@@ -50,42 +50,42 @@
             android:orientation="vertical">
 
 
-            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+            <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/tvAddressTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:hint="@string/addressTitle"
                 android:inputType="text" />
-            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+            <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/tvAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:hint="@string/address"
                 android:inputType="text" />
-            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+            <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/tvStreet"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:hint="@string/street"
                 android:inputType="text" />
-            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+            <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/tvBuildingNumber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:hint="@string/buildingNumber"
                 android:inputType="text" />
-            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+            <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/tvFloor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:hint="@string/floorNumber"
                 android:inputType="text" />
-            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+            <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/tvApartmentNumber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -230,7 +230,7 @@
 
 
 
-<!--<com.malka.androidappp.newPhase.data.helper.widgets.edittext.SpinnerComponent-->
+<!--<com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.SpinnerComponent-->
 <!--android:id="@+id/firstname_tv"-->
 <!--android:layout_width="match_parent"-->
 <!--android:layout_height="wrap_content"-->
@@ -241,7 +241,7 @@
 <!--app:startIcon="@drawable/ic_user" />-->
 
 
-<!--<com.malka.androidappp.newPhase.data.helper.widgets.edittext.SpinnerComponent-->
+<!--<com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.SpinnerComponent-->
 <!--android:id="@+id/lastname_tv"-->
 <!--android:layout_width="match_parent"-->
 <!--android:layout_height="wrap_content"-->
@@ -252,7 +252,7 @@
 <!--app:startIcon="@drawable/ic_user" />-->
 
 
-<!--<com.malka.androidappp.newPhase.data.helper.widgets.edittext.SpinnerComponent-->
+<!--<com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.SpinnerComponent-->
 <!--android:id="@+id/countryContainer"-->
 <!--android:layout_width="match_parent"-->
 <!--android:layout_height="wrap_content"-->
@@ -264,7 +264,7 @@
 <!--app:viewType="spinner" />-->
 
 
-<!--<com.malka.androidappp.newPhase.data.helper.widgets.edittext.SpinnerComponent-->
+<!--<com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.SpinnerComponent-->
 <!--android:id="@+id/regionContainer"-->
 <!--android:layout_width="match_parent"-->
 <!--android:layout_height="wrap_content"-->
@@ -276,7 +276,7 @@
 <!--app:viewType="spinner" />-->
 
 
-<!--<com.malka.androidappp.newPhase.data.helper.widgets.edittext.SpinnerComponent-->
+<!--<com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.SpinnerComponent-->
 <!--android:id="@+id/neighborhoodContainer"-->
 <!--android:layout_width="match_parent"-->
 <!--android:layout_height="wrap_content"-->
@@ -287,7 +287,7 @@
 <!--app:startIcon="@drawable/ic_city"-->
 <!--app:viewType="spinner" />-->
 
-<!--<com.malka.androidappp.newPhase.data.helper.widgets.edittext.SpinnerComponent-->
+<!--<com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.SpinnerComponent-->
 <!--android:id="@+id/area_address"-->
 <!--android:layout_width="match_parent"-->
 <!--android:layout_height="wrap_content"-->
@@ -296,7 +296,7 @@
 <!--android:inputType="text" />-->
 
 
-<!--<com.malka.androidappp.newPhase.data.helper.widgets.edittext.SpinnerComponent-->
+<!--<com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.SpinnerComponent-->
 <!--android:id="@+id/streetnumber"-->
 <!--android:layout_width="match_parent"-->
 <!--android:layout_height="wrap_content"-->

@@ -376,7 +376,7 @@
                 android:textColor="#45495E"
                 android:textSize="@dimen/_12sdp" />
 
-            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+            <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/fristName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -385,7 +385,7 @@
                 android:inputType="textPersonName"
                 app:startIcon="@drawable/ic_user" />
 
-            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+            <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/lastName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -394,7 +394,7 @@
                 android:inputType="textPersonName"
                 app:startIcon="@drawable/ic_user" />
 
-            <com.malka.androidappp.newPhase.data.helper.widgets.edittext.TextFieldComponent
+            <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/btnDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -421,14 +421,14 @@
                 android:layout_marginTop="@dimen/_10sdp"
                 android:orientation="horizontal">
 
-                <com.malka.androidappp.newPhase.data.helper.widgets.CustomRadioButton
+                <com.malqaa.androidappp.newPhase.utils.helper.widgets.CustomRadioButton
                     android:id="@+id/radiomale"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="false"
                     android:text="@string/Male" />
 
-                <com.malka.androidappp.newPhase.data.helper.widgets.CustomRadioButton
+                <com.malqaa.androidappp.newPhase.utils.helper.widgets.CustomRadioButton
                     android:id="@+id/radiofemale"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
