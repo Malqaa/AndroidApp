@@ -3,6 +3,9 @@ package com.malqaa.androidappp.newPhase.presentation
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.firebase.messaging.FirebaseMessaging
@@ -14,12 +17,13 @@ import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.helper.shared_preferences.SharedPreferencesStaticClass
 import com.malqaa.androidappp.newPhase.presentation.activities.productDetailsActivity.ProductDetailsActivity
+import com.malqaa.androidappp.newPhase.utils.BadgeUtils
 import kotlinx.android.synthetic.main.activity_bottmmm.*
 
 
 class MainActivity : BaseActivity() {
 
-
+var numBadge=MutableLiveData<Int>(0)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_bottmmm)
@@ -63,6 +67,8 @@ class MainActivity : BaseActivity() {
             return@setOnItemSelectedListener true;
 
         }
+
+
         floatingActionButtonBottm.setOnClickListener {
             if (HelpFunctions.isUserLoggedIn()) {
                 startActivity(Intent(this, ProductsTagsForAddProductActivity::class.java))
@@ -83,20 +89,24 @@ class MainActivity : BaseActivity() {
         }
 
         //notification numberBadge
-//        nav_view.getOrCreateBadge(R.id.navigation_notifications).apply {
-//            isVisible = true
-//            number = 99
-//            backgroundColor = ContextCompat.getColor(this@MainActivity, R.color.bg)
-//        }
-        var productId=intent.getIntExtra("productId",0)
+
+        val productId=intent.getIntExtra("productId",0)
         if(productId!=0){
             startActivity(Intent(this, ProductDetailsActivity::class.java).apply {
                 putExtra(ConstantObjects.productIdKey, productId)
 
             })
         }
+        numBadge.observe(this, Observer {
+            nav_view.getOrCreateBadge(R.id.navigation_notifications).apply {
+                isVisible = it != 0
+                number = it
+                backgroundColor = ContextCompat.getColor(this@MainActivity, R.color.bg)
+            }
+        })
 
     }
+
 
     private fun getFcmToken() {
         FirebaseMessaging.getInstance().token

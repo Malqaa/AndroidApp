@@ -3,8 +3,11 @@ package com.malqaa.androidappp.newPhase.presentation.fragments.homeScreen.viewMo
 import androidx.lifecycle.MutableLiveData
 import com.malqaa.androidappp.newPhase.core.BaseViewModel
 import com.malqaa.androidappp.newPhase.data.network.callApi
+import com.malqaa.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
 import com.malqaa.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malqaa.androidappp.newPhase.domain.models.ErrorResponse
+import com.malqaa.androidappp.newPhase.domain.models.NotificationResp
+import com.malqaa.androidappp.newPhase.domain.models.NotificationUnReadResp
 import com.malqaa.androidappp.newPhase.domain.models.homeSilderResp.HomeSliderResp
 import com.malqaa.androidappp.newPhase.domain.models.productResp.ProductListResp
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
@@ -33,7 +36,33 @@ class HomeViewModel : BaseViewModel() {
     private var callLastViewedProduct: Call<ProductListResp>? = null
     private var changeLanguage: Call<AddFavResponse>? = null
 
+    var unreadObserve: MutableLiveData<NotificationUnReadResp> = MutableLiveData()
+    private var callNotifyUnread: Call<NotificationUnReadResp>? = null
 
+    fun getUnReadNotification(pageIndex:Int,rowCount:Int){
+        isLoading.value=true
+
+        callNotifyUnread = getRetrofitBuilder()
+            .unreadNotificationsCount(pageIndex,rowCount)
+        callApi(callNotifyUnread!!,
+            onSuccess = {
+                isLoading.value = false
+                unreadObserve.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoading.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
+                }
+            },
+            goLogin = {
+                isLoading.value = false
+                needToLogin.value = true
+            })
+    }
 
     fun setLanguageChange(language: String) {
         isLoading.value = true
@@ -208,5 +237,9 @@ class HomeViewModel : BaseViewModel() {
         if(changeLanguage !=null){
             changeLanguage?.cancel()
         }
+        if(callNotifyUnread !=null){
+            callNotifyUnread?.cancel()
+        }
+
     }
 }

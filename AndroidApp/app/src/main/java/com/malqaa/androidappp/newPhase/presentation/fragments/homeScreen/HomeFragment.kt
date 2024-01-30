@@ -29,6 +29,7 @@ import com.malqaa.androidappp.newPhase.utils.helper.shared_preferences.SharedPre
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.Category
 import com.malqaa.androidappp.newPhase.presentation.adapterShared.ProductHorizontalAdapter
 import com.malqaa.androidappp.newPhase.data.network.service.SetOnProductItemListeners
+import com.malqaa.androidappp.newPhase.presentation.MainActivity
 import com.malqaa.androidappp.newPhase.presentation.fragments.homeScreen.adapters.AdapterAllCategories
 import com.malqaa.androidappp.newPhase.presentation.fragments.homeScreen.adapters.CategoryProductAdapter
 import com.malqaa.androidappp.newPhase.presentation.fragments.homeScreen.adapters.SliderAdaptor
@@ -476,6 +477,15 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
                 }
             }
         }
+
+        homeViewModel!!.getUnReadNotification(1,10)
+        homeViewModel!!.unreadObserve.observe(viewLifecycleOwner){
+            (activity as? MainActivity)?.numBadge?.value=it.data
+        }
+
+
+
+
         onRefresh()
     }
 

@@ -10,24 +10,20 @@
         layout="@layout/toolbar_main" />
 
     <LinearLayout
-        android:layout_below="@+id/toolbar_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar_main"
         android:orientation="vertical">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/notification_rcv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-           android:layout_margin="@dimen/_10sdp"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:spanCount="1"
-            tools:listitem="@layout/notification_fragment_design"/>
+            android:layout_margin="@dimen/_10sdp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/notification_fragment_design" />
 
     </LinearLayout>
-
-
-
 
 
 </RelativeLayout>

@@ -2,83 +2,127 @@ package com.malqaa.androidappp.newPhase.presentation.fragments.nofication_fragme
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Filter
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.malqaa.androidappp.R
-import com.malqaa.androidappp.newPhase.utils.hide
-import com.malqaa.androidappp.newPhase.utils.show
-import com.malqaa.androidappp.newPhase.utils.helper.widgets.rcv.GenericListAdapter
-import com.malqaa.androidappp.newPhase.domain.models.servicemodels.Selection
+import com.malqaa.androidappp.newPhase.domain.models.NotifyOut
+import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import kotlinx.android.synthetic.main.fragment_notifications.*
-import kotlinx.android.synthetic.main.notification_fragment_design.view.*
 import kotlinx.android.synthetic.main.toolbar_main.*
+import kotlin.math.min
 
 
 class NotificationsFragment : Fragment(R.layout.fragment_notifications) {
-
+    var itemList: ArrayList<NotifyOut>? = null
+    private var notificationAdapter: NotificationAdapter? = null
+    private var notifyListViewModel: NotificationViewModel? = null
     val new_order = "New_Order"
     val new_product = "New_Product"
     val new_product_fav = "New_Product_Fav"
+    private var currentPage = 1 // Track current page
+    private val pageSize = 20 // Define page size
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        setupViewModel()
+        itemList= arrayListOf()
         toolbar_title.text = getString(R.string.Notifications)
+
+
         back_btn.setOnClickListener {
             findNavController().popBackStack()
         }
-        val notification: ArrayList<Selection> = ArrayList()
 
-        notification.apply {
-            add(Selection(new_order))
-            add(Selection(new_product))
-            add(Selection(new_product_fav))
-            add(Selection(new_order))
-            add(Selection(new_product))
-            add(Selection(new_product_fav))
 
-        }
-        notificationAdaptor(notification)
-    }
+        notificationAdapter = NotificationAdapter(arrayListOf())
+        notification_rcv.adapter = notificationAdapter
 
-    private fun notificationAdaptor(list: ArrayList<Selection>) {
-        notification_rcv.adapter = object : GenericListAdapter<Selection>(
-            R.layout.notification_fragment_design,
-            bind = { element, holder, itemCount, position ->
-                holder.view.run {
-                    element.run {
-                        when(name){
-                            new_order->{
-                                new_order_layout.show()
-                                new_product_added.hide()
-                                fav_merchant_add_product.hide()
-                            }
-                            new_product->{
-                                new_order_layout.hide()
-                                new_product_added.show()
-                                fav_merchant_add_product.hide()
+        // Implement RecyclerView pagination
+        notification_rcv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val totalItemCount = notification_rcv.layoutManager?.itemCount
+                val lastVisibleItem = findLastVisibleItemPosition()
 
-                            }
-                            new_product_fav->{
-                                new_order_layout.hide()
-                                new_product_added.hide()
-                                fav_merchant_add_product.show()
-
-                            }
-                        }
-                    }
+                if (lastVisibleItem + 1 == totalItemCount) {
+                    // Load more data when user reaches the end
+                    currentPage++
+                    loadData(currentPage)
                 }
             }
-        ) {
-            override fun getFilter(): Filter {
-                TODO("Not yet implemented")
-            }
-        }.apply {
-            submitList(
-                list
-            )
+        })
+
+        // Initial data load
+        loadData(currentPage)
+    }
+
+    private fun findLastVisibleItemPosition(): Int {
+        val layoutManager = notification_rcv.layoutManager
+        if (layoutManager is LinearLayoutManager) {
+            val lastVisibleChild = layoutManager.findLastVisibleItemPosition()
+            val totalItemCount = layoutManager.itemCount
+            return min(
+                lastVisibleChild + 1,
+                totalItemCount
+            ) // Add 1 to include partially visible items
         }
+        return RecyclerView.NO_POSITION
+    }
+
+    private fun loadData(page: Int) {
+        // Simulate fetching data from a data source (e.g., API)
+        notifyListViewModel?.getAllNotificationList(page, pageSize)
+
+    }
+
+    private fun setupViewModel() {
+        notifyListViewModel = ViewModelProvider(this).get(NotificationViewModel::class.java)
+
+        notifyListViewModel!!.isLoading.observe(this) {
+            if (it)
+                HelpFunctions.startProgressBar(requireActivity())
+            else {
+                HelpFunctions.dismissProgressBar()
+            }
+        }
+
+        notifyListViewModel!!.errorResponseObserver.observe(this) {
+            HelpFunctions.dismissProgressBar()
+            if (it.status != null && it.status == "409") {
+                HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), requireActivity())
+            } else {
+                if (it.message != null) {
+                    Toast.makeText(requireContext(), it.message!!, Toast.LENGTH_LONG).show()
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.serverError),
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+
+            }
+        }
+        notifyListViewModel!!.notifyListRespObserver.observe(this) {
+
+            if (it.data.isNotEmpty()){
+                itemList?.addAll(it.data)
+                notificationAdapter?.updateAdapter(itemList?: arrayListOf())
+            }
+
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        itemList=null
+        notificationAdapter = null
+        notifyListViewModel?.closeAllCall()
+        notifyListViewModel = null
     }
 }

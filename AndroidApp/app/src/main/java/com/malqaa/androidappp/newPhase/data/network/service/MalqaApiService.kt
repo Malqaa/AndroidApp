@@ -6,6 +6,8 @@ import com.malqaa.androidappp.fragments.shoppingcart3_shippingaddress.shipping_a
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.data.network.constants.Constants
 import com.malqaa.androidappp.newPhase.domain.models.GeneralResponses
+import com.malqaa.androidappp.newPhase.domain.models.NotificationResp
+import com.malqaa.androidappp.newPhase.domain.models.NotificationUnReadResp
 import com.malqaa.androidappp.newPhase.domain.models.accountBackListResp.AccountBankListResp
 import com.malqaa.androidappp.newPhase.domain.models.accountProfile.AccountInfo
 import com.malqaa.androidappp.newPhase.domain.models.addBidResp.AddBidResp
@@ -127,6 +129,20 @@ interface MalqaApiService {
         @Query("phoneNumber") userPhone: String,
         @Query("otpCode") otpCode: String,
     ): Call<UserVerifiedResp>
+
+    @POST("ListNotifications")
+    fun getListNotifications(
+        @Query("pageIndex") pageIndex: Int,
+        @Query("PageRowsCount") pageRowsCount: Int,
+    ): Call<NotificationResp>
+
+
+    @POST("UnreadNotificationsCount")
+    fun unreadNotificationsCount(
+        @Query("pageIndex") pageIndex: Int,
+        @Query("PageRowsCount") pageRowsCount: Int,
+    ): Call<NotificationUnReadResp>
+
 
     @GET("ListAllCategory?isShowInHome=true")
     fun getAllCategories(): Call<GeneralResponse>
