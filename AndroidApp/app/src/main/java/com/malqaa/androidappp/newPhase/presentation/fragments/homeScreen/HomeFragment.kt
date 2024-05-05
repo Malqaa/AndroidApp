@@ -29,6 +29,7 @@ import com.malqaa.androidappp.newPhase.utils.helper.shared_preferences.SharedPre
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.Category
 import com.malqaa.androidappp.newPhase.presentation.adapterShared.ProductHorizontalAdapter
 import com.malqaa.androidappp.newPhase.data.network.service.SetOnProductItemListeners
+import com.malqaa.androidappp.newPhase.domain.models.productResp.ProductListSearchResp
 import com.malqaa.androidappp.newPhase.presentation.MainActivity
 import com.malqaa.androidappp.newPhase.presentation.fragments.homeScreen.adapters.AdapterAllCategories
 import com.malqaa.androidappp.newPhase.presentation.fragments.homeScreen.adapters.CategoryProductAdapter
@@ -124,6 +125,8 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
             setLocate()
 
         })
+
+
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
 
@@ -235,19 +238,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
                 }
             }
         })
-        homeViewModel!!.searchObserver.observe(viewLifecycleOwner) { searchResp ->
-            // println("hhhh "+Gson().toJson(searchResp))
-            if (searchResp != null) {
-                if (searchResp.status_code == 200) {
-                    val list: ArrayList<Product> = Gson().fromJson(
-                        Gson().toJson(searchResp.data),
-                        object : TypeToken<ArrayList<Product>>() {}.type
-                    )
-                    textInputLayout11.updateList(list)
-                }
-            }
 
-        }
         homeViewModel!!.categoriesObserver.observe(viewLifecycleOwner) { categoriesResp ->
             ConstantObjects.categoryList = Gson().fromJson(
                 Gson().toJson(categoriesResp.data),
@@ -503,9 +494,11 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
             if (etSearch.text.trim().toString() == "") {
                 etSearch.error = getString(R.string.enter_the_name_of_the_product_you_want_to_sell)
             } else {
-                startActivity(Intent(requireContext(), SearchActivity::class.java).apply {
+                startActivity(Intent(requireContext(), SearchCategoryActivity::class.java).apply {
                     putExtra("ComeFrom", ConstantObjects.search_product)
                     putExtra("productName", etSearch.text.trim().toString())
+                    putExtra("typeView", "SearchHome")
+
                 })
                 etSearch.setText("")
             }
@@ -517,9 +510,10 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
                         etSearch.error =
                             getString(R.string.enter_the_name_of_the_product_you_want_to_sell)
                     } else {
-                        startActivity(Intent(requireContext(), SearchActivity::class.java).apply {
+                        startActivity(Intent(requireContext(), SearchCategoryActivity::class.java).apply {
                             putExtra("ComeFrom", ConstantObjects.search_product)
                             putExtra("productName", etSearch.text.trim().toString())
+                            putExtra("typeView", "SearchHome")
                         })
                         etSearch.setText("")
                     }

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Paint
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -33,6 +34,7 @@ class ProductHorizontalAdapter(
     private var isMyProduct: Boolean = false
 ) : RecyclerView.Adapter<ProductHorizontalAdapter.SellerProductViewHolder>() {
     lateinit var context: Context
+
     class SellerProductViewHolder(var viewBinding: ProductItemBinding) :
         RecyclerView.ViewHolder(viewBinding.root)
 
@@ -98,6 +100,12 @@ class ProductHorizontalAdapter(
                 ContextCompat.getDrawable(context, R.drawable.product_attribute_bg1_en)
         }
         holder.viewBinding.titlenamee.text = productList[position].name ?: ""
+        if (productList[position].isAuctionEnabled) {
+            holder.viewBinding.typeProduct.text = context.getString(R.string.auction)
+        } else if (productList[position].isNegotiationEnabled) {
+            holder.viewBinding.typeProduct.text = context.getString(R.string.Negotiation)
+        }
+
         holder.viewBinding.cityTv.text = productList[position].regionName ?: ""
 
         if (productList[position].image != null && productList[position].image != "") {
@@ -130,8 +138,8 @@ class ProductHorizontalAdapter(
 //                holder.viewBinding.loader
 //            )
 //        }
-        holder.viewBinding.LowestPriceLayout.hide()
-        holder.viewBinding.LowestPriceLayout2.hide()
+//        holder.viewBinding.LowestPriceLayout.hide()
+//        holder.viewBinding.LowestPriceLayout2.hide()
         holder.viewBinding.lisView.hide()
 
         if (productList[position].priceDisc == productList[position].price
@@ -227,21 +235,52 @@ class ProductHorizontalAdapter(
             } else {
                 holder.viewBinding.containerTimeBar.hide()
             }
-        }
-        else {
+        } else {
             holder.viewBinding.containerTimeBar.hide()
         }
 
-        if (productList[position].highestBidPrice != 0f) {
-            holder.viewBinding.LowestPriceLayout.show()
-            holder.viewBinding.LowestPriceLayout2.show()
+//        if (productList[position].highestBidPrice != 0f) {
+//            holder.viewBinding.LowestPriceLayout.show()
+//            holder.viewBinding.LowestPriceLayout2.show()
+//            holder.viewBinding.LowestPrice.text =
+//                "${productList[position].highestBidPrice} ${context.getString(R.string.SAR)}"
+//            holder.viewBinding.LowestPrice2.text =
+//                "${productList[position].highestBidPrice} ${context.getString(R.string.SAR)}"
+//        } else {
+//            holder.viewBinding.LowestPriceLayout.hide()
+//            holder.viewBinding.LowestPriceLayout2.hide()
+//        }
+
+
+
+        if (productList[position].isAuctionEnabled) {
+            holder.viewBinding.purchaseContainer.visibility = View.GONE
+            holder.viewBinding.LowestPriceLayout.visibility = View.VISIBLE
+
+            holder.viewBinding.typeProduct.text =
+                holder.viewBinding.typeProduct.context.getString(R.string.auction)
             holder.viewBinding.LowestPrice.text =
-                "${productList[position].highestBidPrice} ${context.getString(R.string.SAR)}"
-            holder.viewBinding.LowestPrice2.text =
-                "${productList[position].highestBidPrice} ${context.getString(R.string.SAR)}"
+                "${productList[position].highestBidPrice} ${holder.viewBinding.typeProduct.context.getString(R.string.SAR)}"
+        } else if (productList[position].isNegotiationEnabled) {
+
+            holder.viewBinding.purchaseContainer.visibility = View.GONE
+            holder.viewBinding.LowestPriceLayout.visibility = View.VISIBLE
+
+            holder.viewBinding.typeProduct.text =
+                holder.viewBinding.typeProduct.context.getString(R.string.Negotiation)
+            holder.viewBinding.LowestPrice.text =
+                "${productList[position].highestBidPrice} ${holder.viewBinding.typeProduct.context.getString(R.string.SAR)}"
         } else {
-            holder.viewBinding.LowestPriceLayout.hide()
-            holder.viewBinding.LowestPriceLayout2.hide()
+            if(productList[position].price.toDouble()!=0.0)
+            holder.viewBinding.purchaseContainer.visibility = View.VISIBLE
+            else{
+                holder.viewBinding.purchaseContainer.visibility = View.INVISIBLE
+            }
+            holder.viewBinding.LowestPriceLayout.visibility = View.GONE
+
+            holder.viewBinding.tvProductPrice.text = "${
+                productList[position].price.toDouble().decimalNumberFormat()
+            } ${holder.viewBinding.tvProductPrice.context.getString(R.string.SAR)}"
         }
     }
 
@@ -256,36 +295,36 @@ class ProductHorizontalAdapter(
         notifyDataSetChanged()
     }
 
-    private fun getDifference(targetDateTimeString:String, holder: SellerProductViewHolder) {
-try {
+    private fun getDifference(targetDateTimeString: String, holder: SellerProductViewHolder) {
+        try {
 
-        val formatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss")
-        val targetDateTime = formatter.parseDateTime(targetDateTimeString)
+            val formatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss")
+            val targetDateTime = formatter.parseDateTime(targetDateTimeString)
 
-        // Get the current date and time
-        val currentDateTime = DateTime()
+            // Get the current date and time
+            val currentDateTime = DateTime()
 
-        // Calculate the duration between the current time and the target time
-        val duration = Duration(currentDateTime, targetDateTime)
+            // Calculate the duration between the current time and the target time
+            val duration = Duration(currentDateTime, targetDateTime)
 
-        // Get the difference in days, hours, and minutes as Long values
-        val daysDifference = duration.standardDays
-        val hoursDifference = duration.standardHours % 24
-        val minutesDifference = duration.standardMinutes % 60
+            // Get the difference in days, hours, and minutes as Long values
+            val daysDifference = duration.standardDays
+            val hoursDifference = duration.standardHours % 24
+            val minutesDifference = duration.standardMinutes % 60
 
 
-        if (daysDifference <= 0 && (hoursDifference <= 0) && (minutesDifference <= 0)) {
-            holder.viewBinding.containerTimeBar.hide()
-        } else
-            holder.viewBinding.containerTimeBar.show()
+            if (daysDifference <= 0 && (hoursDifference <= 0) && (minutesDifference <= 0)) {
+                holder.viewBinding.containerTimeBar.hide()
+            } else
+                holder.viewBinding.containerTimeBar.show()
 
-        holder.viewBinding.daysTv.text = daysDifference.toString()
-        holder.viewBinding.hoursTv.text = hoursDifference.toString()
-        holder.viewBinding.minutesTv.text =minutesDifference.toString()
+            holder.viewBinding.daysTv.text = daysDifference.toString()
+            holder.viewBinding.hoursTv.text = hoursDifference.toString()
+            holder.viewBinding.minutesTv.text = minutesDifference.toString()
 
-}catch (e:Exception){
+        } catch (e: Exception) {
 
-}
+        }
     }
 
 

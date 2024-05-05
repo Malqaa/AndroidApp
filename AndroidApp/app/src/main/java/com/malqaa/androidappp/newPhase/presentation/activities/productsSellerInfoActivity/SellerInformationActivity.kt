@@ -24,6 +24,7 @@ import com.malqaa.androidappp.newPhase.utils.Extension
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.show
+import kotlinx.android.synthetic.main.activity_product_details_item_2.txtTypeUser
 import kotlinx.android.synthetic.main.activity_seller_information.*
 import kotlinx.android.synthetic.main.activity_seller_information.facebook_btn
 import kotlinx.android.synthetic.main.activity_seller_information.instagram_btn
@@ -87,8 +88,13 @@ class SellerInformationActivity : BaseActivity(), SetOnProductItemListeners,
         )
         sellerName.text = it.name ?: ""
         member_since_Tv.text = HelpFunctions.getViewFormatForDateTrack(
-            it.createdAt ?: ""
+            it.createdAt ?: "","dd/MM/yyyy"
         )
+        if (it.businessAccountId == null) {
+            txtTypeUser.text = getString(R.string.personal)
+        } else {
+            txtTypeUser.text = getString(R.string.merchant)
+        }
         seller_city.text = it.city ?: ""
         seller_number.text = it.phone ?: ""
         if (it.isFollowed) {

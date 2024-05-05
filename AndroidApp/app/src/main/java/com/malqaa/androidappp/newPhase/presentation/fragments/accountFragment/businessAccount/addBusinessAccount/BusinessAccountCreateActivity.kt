@@ -1,15 +1,12 @@
 package com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.businessAccount.addBusinessAccount
 
-import android.Manifest
 import android.app.Activity
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.IntentSender
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
@@ -18,9 +15,7 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.PermissionChecker
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.common.api.ApiException
@@ -52,7 +47,6 @@ import com.malqaa.androidappp.newPhase.utils.SetOnImagePickedListeners
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.show
 
-import com.zfdang.multiple_images_selector.ImagesSelectorActivity
 import com.zfdang.multiple_images_selector.SelectorSettings
 import kotlinx.android.synthetic.main.activity_business_signup.*
 import kotlinx.android.synthetic.main.activity_business_signup.btnOpenCountry
@@ -92,7 +86,7 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
     private val PERMISSION_CODE = 1001
     private var mResults: ArrayList<String> = ArrayList()
     var locationPicker: LocationPickerModel? = null
-    private  val PERMISSION_REQUEST_ACCESS_FINE_LOCATION = 100
+    private val PERMISSION_REQUEST_ACCESS_FINE_LOCATION = 100
     private val REQUEST_GPS_SETTINGS = 107
     lateinit var countryDialog: CountryDialog
     private val chooseLocationLauncher =
@@ -161,8 +155,8 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
 
         }
         businessAccountViewModel.errorResponseObserver.observe(this) {
-            if (it.message2 != null) {
-                HelpFunctions.ShowLongToast(it.message2!!, this)
+            if (it.message != null) {
+                HelpFunctions.ShowLongToast(it.message!!, this)
             } else {
                 HelpFunctions.ShowLongToast(getString(R.string.serverError), this)
             }
@@ -399,7 +393,8 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
                 activityLauncher.launch(imageIntent) { activityResult ->
                     if (activityResult.resultCode == RESULT_OK) {
                         imagePicker.handleActivityResult(
-                            activityResult.resultCode, requestCode, activityResult.data)
+                            activityResult.resultCode, requestCode, activityResult.data
+                        )
                     }
                 }
             }
@@ -442,7 +437,8 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
                 getPicassoInstance().load(imageUri).into(ivUserImageBusiness)
                 userImageUri = bitmap
             } else if (imageType == 2) {
-                val file = CameraHelper.getMultiPartFrom(bitmap, "BusinessAccountCertificates", this)
+                val file =
+                    CameraHelper.getMultiPartFrom(bitmap, "BusinessAccountCertificates", this)
                 file.let {
                     commercialRegistryFileList.add(file)
                 }
@@ -487,9 +483,11 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
 
     private fun addBusinessAccount() {
         var fileUserImage: MultipartBody.Part? = null
+        if (userImageUri != null) {
+            val file = CameraHelper.getMultiPartFrom(userImageUri!!, "BusinessAccountImage", this)
+            fileUserImage = (file)
+        }
 
-        val file = CameraHelper.getMultiPartFrom(userImageUri!!, "BusinessAccountImage", this)
-        fileUserImage = (file)
 
         businessAccountViewModel.addBusinessAccount(
             0.toString(),
@@ -574,7 +572,7 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
             true
         }
     }
-    
+
     private fun validateCommercialRegisterNo(): Boolean {
         val emailInput = commercial_registration_no!!.text.toString().trim { it <= ' ' }
         return if (emailInput.isEmpty()) {
@@ -601,8 +599,7 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
         }
     }
 
-  
- 
+
 //    private fun checkPermissions() {
 //
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -647,7 +644,6 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
 //        startActivityForResult(intent, IMAGE_PICK_CODE)
 //    }
 
- 
 
     private fun openPlacePicker() {
         val intent = Intent(this@BusinessAccountCreateActivity, LocationPickerActivity::class.java)
@@ -718,7 +714,7 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
             }
         }
     }
-    
+
     private fun checkGPS() {
 
         val mLocationRequest = LocationRequest()

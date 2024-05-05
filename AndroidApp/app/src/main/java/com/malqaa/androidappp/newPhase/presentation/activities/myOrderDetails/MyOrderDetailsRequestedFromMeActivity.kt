@@ -87,7 +87,7 @@ class MyOrderDetailsRequestedFromMeActivity : BaseActivity(), SwipeRefreshLayout
             order_number_tv.text = "#${orderItem.orderId}"
             //  }
             tv_request_type.text = orderItem.requestType
-            order_time_tv.text = HelpFunctions.getViewFormatForDateTrack(orderItem.createdAt)
+            order_time_tv.text = HelpFunctions.getViewFormatForDateTrack(orderItem.createdAt,"dd/MM/yyyy HH:mm:ss")
             shipments_tv.text = orderItem.providersCount.toString()
             total_order_tv.text =
                 "${orderItem.totalOrderAmountAfterDiscount} ${getString(R.string.rial)}"

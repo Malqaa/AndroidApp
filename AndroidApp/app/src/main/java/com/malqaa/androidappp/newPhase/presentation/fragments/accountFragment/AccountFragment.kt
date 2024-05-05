@@ -251,6 +251,8 @@ class AccountFragment : Fragment(R.layout.fragment_account),
                 getString(R.string.loggedoutsuccessfully),
                 context
             )
+            SharedPreferencesStaticClass.saveMasterCartId("0")
+
             SharedPreferencesStaticClass.clearCartCount()
             findNavController().navigate(R.id.logout_to_home)
         }
@@ -270,7 +272,7 @@ class AccountFragment : Fragment(R.layout.fragment_account),
                 tvUserName.text = "${userData.firstName.toString()} ${userData.lastName.toString()}"
                 userData.createdAt?.let {
                     tvMemberSince.text = "${getString(R.string.member_since)} ${
-                        HelpFunctions.getViewFormatForDateTrack(it)
+                        HelpFunctions.getViewFormatForDate(it)
                     }"
                 }
                 tv_membership_number.text =

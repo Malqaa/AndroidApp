@@ -33,6 +33,7 @@ import com.malqaa.androidappp.newPhase.presentation.MainActivity
 import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.myProducts.dialog.BidPersonsDialog
 import com.malqaa.androidappp.newPhase.presentation.adapterShared.ProductHorizontalAdapter
 import com.malqaa.androidappp.newPhase.data.network.service.SetOnProductItemListeners
+import com.malqaa.androidappp.newPhase.domain.enums.ShowUserInfo
 import com.malqaa.androidappp.newPhase.domain.models.addProductToCartResp.AddProductObjectData
 import com.malqaa.androidappp.newPhase.presentation.activities.addProductReviewActivity.AddRateProductActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.addProductReviewActivity.ProductReviewsActivity
@@ -89,6 +90,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     private lateinit var productDetialsViewModel: ProductDetailsViewModel
     private var productDetails: Product? = null
     private var productId: Int = -1
+    var urlImg = ""
     lateinit var specificationAdapter: SpecificationAdapter
     lateinit var specificationList: ArrayList<DynamicSpecificationSentObject>
     lateinit var productImagesAdapter: ProductImagesAdapter
@@ -257,6 +259,16 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     /**set view listeners*/
 
     private fun setupViewClickListeners() {
+
+        productimg.setOnClickListener {
+//            val customDialog = OpenImgLargeDialog(this, urlImg)
+//            if (!customDialog.isShowing)
+//                customDialog.show()
+
+            val intent = Intent(this@ProductDetailsActivity, ImageViewLargeActivity::class.java)
+            intent.putParcelableArrayListExtra("imgList", productImagesList)
+            startActivity(intent)
+        }
 
         ivSellerFollow.setOnClickListener {
             if (HelpFunctions.isUserLoggedIn()) {
@@ -441,9 +453,24 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                         this,
                         SellerInformationActivity::class.java
                     ).apply {
+                        if (sellerInformation?.branches == null)
+                            sellerInformation?.branches = arrayListOf()
+
                         putExtra(ConstantObjects.sellerObjectKey, sellerInformation)
                     })
+//                startActivity(Intent(this, SellerInformationActivity::class.java))
             }
+
+
+//            if (sellerInformation != null) {
+//                sellerInformationLaucher.launch(
+//                    Intent(
+//                        this,
+//                        SellerInformationActivity::class.java
+//                    ).apply {
+//                        putExtra(ConstantObjects.sellerObjectKey, sellerInformation)
+//                    })
+//            }
         }
         containerCurrentPriceBuy.setOnClickListener {
             callGetPriceCart(productDetails?.name ?: "")
@@ -878,17 +905,35 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             it.businessAccountId ?: ""
         )
         sellerInformation = it
+
+        if (it.showUserInformation == ShowUserInfo.EveryOne.name) {
+            containerSellerInfo.show()
+        } else if (it.showUserInformation == ShowUserInfo.MembersOnly.name) {
+            if (HelpFunctions.isUserLoggedIn()) {
+                containerSellerInfo.show()
+            } else {
+                containerSellerInfo.hide()
+            }
+        } else {
+            containerSellerInfo.hide()
+        }
+
         showButtons()
-        containerSellerInfo.show()
+//        containerSellerInfo.show()
         Extension.loadThumbnail(
             this,
             it.image,
             seller_picture,
             loader
         )
+        if (it.businessAccountId == null) {
+            txtTypeUser.text = getString(R.string.personal)
+        } else {
+            txtTypeUser.text = getString(R.string.merchant)
+        }
         sellerName.text = it.name ?: ""
         member_since_Tv.text = HelpFunctions.getViewFormatForDateTrack(
-            it.createdAt ?: ""
+            it.createdAt ?: "", "dd/MM/yyyy"
         )
         seller_city.text = it.city ?: ""
         seller_number.text = it.phone ?: ""
@@ -1022,8 +1067,6 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     }
 
 
-
-
     private fun setupViewAdapters() {
         setSpeceificationAdapter()
         setQuestionAnswerAdapter()
@@ -1038,6 +1081,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         productImagesAdapter = ProductImagesAdapter(productImagesList,
             object : ProductImagesAdapter.SetOnSelectedImage {
                 override fun onSelectImage(position: Int) {
+                    urlImg = productImagesList[position].url
                     if (productImagesList[position].type == 2) {
 
                         //video
@@ -1128,6 +1172,8 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     private fun setSpeceificationAdapter() {
         specificationList = ArrayList()
         specificationAdapter = SpecificationAdapter(specificationList)
+        if (specificationList.size != 0)
+            laySpec.show()
         rvProductSpecification.apply {
             layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
             adapter = specificationAdapter
@@ -1154,7 +1200,12 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         productDetialsViewModel.getSimilarProduct(productId, 1)
         productDetialsViewModel.getListOfQuestions(productId)
         productDetialsViewModel.getProductRatesForProductDetails(productId)
+
         productDetialsViewModel.getSellerInfo(productId)
+
+
+
+
         productDetialsViewModel.getProductShippingOptions(productId)
         productDetialsViewModel.getProductPaymentOptions(productId)
         productDetialsViewModel.getBidsPersons(productId)
@@ -1170,7 +1221,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
             if (productDetails.acceptQuestion) {
                 sectionQs.show()
-            } else{
+            } else {
                 hintQuestion.show()
                 sectionQs.hide()
             }
@@ -1196,19 +1247,22 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                 productimg,
                 loader
             )
-            if (productDetails.listMedia != null) {
+            if (productDetails.listMedia != null&&productDetails.listMedia.size!=0) {
                 other_image_layout.show()
                 productImagesList.clear()
+                if (productDetails.listMedia.isNotEmpty())
+                    urlImg = productDetails.listMedia[0].url
                 productImagesList.addAll(productDetails.listMedia)
                 productImagesAdapter.notifyDataSetChanged()
             } else {
+                productImagesList.add(ImageSelectModel(url =productDetails.productImage.toString() ))
                 other_image_layout.hide()
             }
             /**product data*/
             tvProductReview.text =
-                "${productDetails.countView} ${getString(R.string.Views)} - #${productDetails.id} - ${
+                "${productDetails.viewsCount} ${getString(R.string.Views)} - #${productDetails.id} - ${
                     HelpFunctions.getViewFormatForDateTrack(
-                        productDetails.createdAt
+                        productDetails.createdAt, "dd/MM/yyyy"
                     )
                 }"
             tvProductItemName.text = productDetails.name ?: ""
@@ -1220,7 +1274,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             val isEllipsize: Boolean = tvProductDescriptionShort.text.toString()
                 .trim() != productDetails.description?.trim()
             if (isEllipsize) {
-                btnMoreItemDetails.show()
+//                btnMoreItemDetails.show()
             } else {
                 btnMoreItemDetails.hide()
             }
@@ -1245,6 +1299,8 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             /**specification*/
             if (productDetails.listProductSep != null) {
                 tvErrorNoSpecification.hide()
+                if (productDetails.listProductSep.isNotEmpty())
+                    laySpec.show()
                 specificationList.clear()
                 specificationList.addAll(productDetails.listProductSep)
                 specificationAdapter.notifyDataSetChanged()
@@ -1296,7 +1352,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             containerBuyNow.show()
             txtPriceNow.text = "${productDetails?.priceDisc} ${getString(R.string.sar)}"
             if (sellerInformation?.businessAccountId != null) {
-                containerCurrentPriceBuy.show()
+                containerCurrentPriceBuy.show() // AddToCart
             } else {
                 containerCurrentPriceBuy.hide()
             }
@@ -1427,7 +1483,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
 
     }
-    
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK && requestCode == addProductReviewRequestCode) {
@@ -1461,7 +1517,6 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         productDetialsViewModel.closeAllCall()
         productDetialsViewModel.baseCancel()
     }
-
 
 
 //    private fun setListener() {

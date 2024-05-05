@@ -29,7 +29,7 @@ class ReviewProductAdapter(var smallRatesList: ArrayList<RateReviewItem>) :
     override fun getItemCount(): Int = smallRatesList.size
 
     override fun onBindViewHolder(holder: ReviewViewHolder, position: Int) {
-        holder.viewBinding.tvDate.text= HelpFunctions.getViewFormatForDateTrack(smallRatesList[position].createdAt)
+        holder.viewBinding.tvDate.text= HelpFunctions.getViewFormatForDateTrack(smallRatesList[position].createdAt,"dd/MM/yyyy HH:mm:ss")
         holder.viewBinding.reviewNameTv.text=smallRatesList[position].userName
         holder.viewBinding.commentTv.text=smallRatesList[position].comment
         when(smallRatesList[position].rate){

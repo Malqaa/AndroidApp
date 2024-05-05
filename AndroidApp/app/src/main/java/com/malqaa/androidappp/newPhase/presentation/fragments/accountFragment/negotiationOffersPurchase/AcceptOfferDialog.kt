@@ -55,7 +55,7 @@ class AcceptOfferDialog(
             txtTHours.visibility = View.GONE
             btnSend.text = context.getString(R.string.reject)
             tvAcceptAndRejectTitle.text = context.getString(R.string.rejectNegotiationsOffers)
-            contianerRefuseReason.show()
+//            contianerRefuseReason.show()
         }
         setSpinnerExpireHoursAdapter()
         setOnClickListeners()
@@ -96,11 +96,11 @@ class AcceptOfferDialog(
                     )
                 }
             }
-
-            if (!accept && etRefuseReason.text.toString().trim() == "") {
-                readytosend = false
-                etRefuseReason.error = context.getString(R.string.refuseReason)
-            }
+//
+//            if (!accept && etRefuseReason.text.toString().trim() == "") {
+//                readytosend = false
+//                etRefuseReason.error = context.getString(R.string.refuseReason)
+//            }
             if (readytosend) {
                 getAcceptRejectOffer()
             }

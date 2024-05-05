@@ -253,7 +253,7 @@ class FollowUpFragment : Fragment(R.layout.fragment_follow_up_fragment) {
                         seller_name.text = name
                         txtCity.text=city
                         txt_phone.text=phone
-                        txt_date_since.text= HelpFunctions.getViewFormatForDateTrack(createdAt)
+                        txt_date_since.text= HelpFunctions.getViewFormatForDateTrack(createdAt,"dd/MM/yyyy HH:mm:ss")
                         getPicassoInstance()
                             .load( image)
                             .into(imgSeller)

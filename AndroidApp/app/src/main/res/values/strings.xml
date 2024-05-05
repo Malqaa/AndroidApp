@@ -474,8 +474,8 @@
     <string name="Finish">Finish</string>
     <string name="Continue">Continue</string>
     <string name="Done">Done!</string>
-  <string name="title_activity_show_branches_map">ShowBranchesMapActivity</string>
-  <string name="mirror_degree">180</string>
+    <string name="title_activity_show_branches_map">ShowBranchesMapActivity</string>
+    <string name="mirror_degree">180</string>
     <string name="PleaseenteravalidPhoneNumber">Please enter a valid Phone Number</string>
     <string name="Passworddonotmatch">Password do not match</string>
     <string name="Pleasewaituntilthecodeexpires">Please wait until the code expires</string>
@@ -1282,7 +1282,7 @@
     <string name="editProduct">Edit Product</string>
     <string name="_discount">"Discount : "</string>
     <string name="purchaseOrder">Purchase order times</string>
-    <string name="QuentitiyClosed">Quentity Closed</string>
+    <string name="QuentitiyClosed">Quantity Closed</string>
     <string name="numMonth">Number Of Monthes</string>
     <string name="countImage">Count Of Image</string>
     <string name="countVideo">Count Of Video</string>
@@ -1291,7 +1291,7 @@
     <string name="showHighLight">Show HighLight</string>
     <string name="expired">Expired</string>
     <string name="productPriceRequire">not found product price</string>
-    <string name="regexPassword">password must contain 6 characters at least it should contains one number and both lower and uppercase letters and special characters</string>
+    <string name="regexPassword">password must contain 6 characters at least it should contains numbers and letters</string>
     <string name="convert">Convert</string>
     <string name="Recentـtransaction">Recent transaction</string>
     <string name="enterAmountPoint">Please enter number of points</string>
@@ -3034,6 +3034,10 @@
     <string name="questions_is_turned_off_by_the_seller">Questions is turned off by the seller</string>
     <string name="notSelect">Not selected</string>
     <string name="SelectFixedType">Select a fixed price type option first</string>
+    <string name="add_english_info">Add English Info</string>
+    <string name="auction">Auction</string>
+    <string name="Negotiation">Negotiation</string>
+    <string name="personal">Personal</string>
 
     <!--    <string name="BusinessDetails">-->
     <!-- Business Details-->

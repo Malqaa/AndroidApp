@@ -42,6 +42,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_15sdp"
+                    android:visibility="gone"
                     android:fontFamily="@font/madani_arabic_semi_bold"
                     android:text="@string/enter_the_title_of_the_product_you_want_to_sell"
                     android:textColor="#000000"
@@ -50,6 +51,7 @@
                 <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
                     android:id="@+id/textInputLayout11"
                     android:layout_width="match_parent"
+                    android:visibility="gone"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:backgroundTint="#F9F9F9"
@@ -68,6 +70,7 @@
                     android:id="@+id/recycler_suggested_category"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     android:orientation="vertical"
                     tools:listitem="@layout/item_suggested_categories"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />

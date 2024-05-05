@@ -8,6 +8,7 @@ import android.text.Editable
 import android.text.InputFilter
 import android.text.InputFilter.LengthFilter
 import android.text.TextWatcher
+import android.text.method.PasswordTransformationMethod
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -22,16 +23,16 @@ import androidx.core.content.ContextCompat
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.malqaa.androidappp.R
-import com.malqaa.androidappp.newPhase.utils.hide
-import com.malqaa.androidappp.newPhase.utils.show
+import com.malqaa.androidappp.newPhase.presentation.activities.signup.activity3.SpinnerCountryAdapter
+import com.malqaa.androidappp.newPhase.utils.ConstantObjects
+import com.malqaa.androidappp.newPhase.utils.PicassoSingleton.getPicassoInstance
 import com.malqaa.androidappp.newPhase.utils.helper.widgets.searchdialog.OnSearchItemSelected
 import com.malqaa.androidappp.newPhase.utils.helper.widgets.searchdialog.SearchListItem
 import com.malqaa.androidappp.newPhase.utils.helper.widgets.searchdialog.SearchableDialog
-import com.malqaa.androidappp.newPhase.utils.ConstantObjects
-import com.malqaa.androidappp.newPhase.presentation.activities.signup.activity3.SpinnerCountryAdapter
-import com.malqaa.androidappp.newPhase.utils.PicassoSingleton.getPicassoInstance
-
+import com.malqaa.androidappp.newPhase.utils.hide
+import com.malqaa.androidappp.newPhase.utils.show
 import kotlinx.android.synthetic.main.item_detailed_text_field_description.view.*
+
 
 class TextFieldComponent : LinearLayout {
 
@@ -201,13 +202,14 @@ class TextFieldComponent : LinearLayout {
     public fun _setPasswordToggle(enabled: Boolean) {
         enablePasswordToggle = enabled
         if (enabled) {
+            et_Field.inputType =  EditorInfo.TYPE_TEXT_VARIATION_PASSWORD
             etl_Field.setEndIconMode(TextInputLayout.END_ICON_PASSWORD_TOGGLE)
             etl_Field.setPasswordVisibilityToggleTintList(
                 AppCompatResources.getColorStateList(
                     context,
                     R.color.orange
                 )
-            );
+            )
         }
 
     }

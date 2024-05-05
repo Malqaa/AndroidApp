@@ -83,7 +83,7 @@
     <string name="logout">تسجيل خروج</string>
     <string name="Whilweareconfirmingyourpurchase">بينما نحن نؤكد شرائك</string>
     <string name="MyProducts">منتجاتي</string>
-    <string name="MyProductsOffers">عروص منتجاتي</string>
+    <string name="MyProductsOffers">عروض منتجاتي</string>
     <string name="ErrorOccur">حدث خطأ</string>
     <string name="Settings">إعدادات</string>
     <string name="AddaNewCard">أضف عنوانا جديدا +</string>
@@ -1085,7 +1085,7 @@
     <string name="showHighLight">إظهار التمييز</string>
     <string name="expired">منتهي الصلاحية</string>
     <string name="productPriceRequire">لم يتم العثور على سعر المنتج</string>
-    <string name="regexPassword">يجب أن تحتوي كلمة المرور على 6 أحرف على الأقل ويجب أن تحتوي على رقم واحد وأحرف صغيرة وكبيرة وأحرف خاصة</string>
+    <string name="regexPassword">يجب أن تحتوي كلمة المرور على 6 أحروف على الأقل ويجب أن تحتوي على ارقام وحروف</string>
     <string name="convert">تحويل</string>
     <string name="Recentـtransaction">الصفقة الأخيرة</string>
     <string name="enterAmountPoint">برجاء ادخال عدد النقاط </string>
@@ -1097,6 +1097,10 @@
     <string name="questions_is_turned_off_by_the_seller">تم إيقاف الأسئلة من قبل البائع</string>
     <string name="notSelect">غير محدد</string>
     <string name="SelectFixedType">حدد خيار من نوع سعر ثابت اولا</string>
+    <string name="add_english_info">اضافة معلومات باللغة الانجليزية</string>
+    <string name="auction">مزايدة</string>
+    <string name="Negotiation">تفاوض</string>
+    <string name="personal">شخصى</string>
 
 
     <!--    <string name="Back_to_login">العودة لتسجيل الدخول</string>-->

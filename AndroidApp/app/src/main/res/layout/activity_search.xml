@@ -84,7 +84,7 @@
         android:id="@+id/saveSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_10sdp"
         android:background="#F9F9F9"
         android:gravity="center_vertical"
         android:paddingTop="@dimen/_10sdp"
@@ -111,6 +111,20 @@
             android:src="@drawable/notification_log" />
     </RelativeLayout>
 
+
+
+    <TextView
+        android:id="@+id/total_result_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/madani_arabic_semi_bold"
+        android:padding="@dimen/_10sdp"
+        android:text="@string/results"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_12sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/saveSearch" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerProduct"
         android:layout_width="0dp"
@@ -119,7 +133,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/saveSearch" />
+        app:layout_constraintTop_toBottomOf="@+id/total_result_txt" />
 
     <TextView
         android:id="@+id/tvNoResult"

@@ -5,6 +5,7 @@ import com.malqaa.androidappp.databinding.DialogMyProductSttingBinding
 import com.malqaa.androidappp.newPhase.core.BaseBottomSheetDialog
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.show
+import kotlinx.android.synthetic.main.dialog_add_product_bid_offers.etExpireDate
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -25,12 +26,13 @@ class MyProductSettingDialog(
     }
 
     override fun initialization() {
-        val df: DateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
-        if (isAuctionEnabled) {
-            auctionTime = df.parse(auctionClosingTime)
-        }
         val c: Calendar = Calendar.getInstance()
-        df.format(c.time)
+        if (auctionClosingTime != null && (auctionClosingTime != ""))
+            if (isAuctionEnabled) {
+                val df: DateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+                auctionTime = df.parse(auctionClosingTime)
+                df.format(c.time)
+            }
 
         if (productsForSale) {
             if (isAuctionEnabled)
@@ -46,9 +48,9 @@ class MyProductSettingDialog(
             if (!isAuctionEnabled) {
                 viewBinding.btnSendOffer.hide()
             } else {
-
-                if (auctionTime?.before(c.time)!!)
-                    viewBinding.btnSendOffer.show()
+                if (auctionTime != null)
+                    if (auctionTime?.before(c.time)!!)
+                        viewBinding.btnSendOffer.show()
             }
             viewBinding.btnRepostTheProduct.show()
         }

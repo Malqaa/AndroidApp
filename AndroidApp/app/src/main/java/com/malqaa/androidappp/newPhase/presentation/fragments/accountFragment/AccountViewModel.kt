@@ -127,6 +127,7 @@ class AccountViewModel : BaseViewModel() {
         isLoading.value = true
       callLogout= getRetrofitBuilder().logout(deviceId)
           callApi(callLogout!!, onSuccess = {
+              isLoading.value = false
             logoutObserver.value=it
 
         }, onFailure = { throwable, statusCode, errorBody ->

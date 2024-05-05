@@ -219,6 +219,8 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
             } else {
                 if (it.message != null) {
                     HelpFunctions.ShowLongToast(it.message!!, this)
+                }else if (it.message2 != null) {
+                    HelpFunctions.ShowLongToast(it.message2!!, this)
                 } else {
                     HelpFunctions.ShowLongToast(getString(R.string.serverError), this)
                 }
@@ -267,10 +269,10 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
 
     private fun checkDataToAddAddress() {
         var readyToSave = true
-        if (latLngLocation == null) {
-            readyToSave = false
-            HelpFunctions.ShowLongToast(getString(R.string.plaseSelectYourLocation), this)
-        }
+//        if (latLngLocation == null) {
+//            readyToSave = false
+//            HelpFunctions.ShowLongToast(getString(R.string.plaseSelectYourLocation), this)
+//        }
         if (tvAddressTitle.text?.trim().toString() == "") {
             readyToSave = false
             tvAddressTitle.error = getString(R.string.addressTitle)

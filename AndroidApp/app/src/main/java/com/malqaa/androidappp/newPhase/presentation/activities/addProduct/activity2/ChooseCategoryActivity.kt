@@ -48,6 +48,7 @@ class ChooseCategoryActivity : BaseActivity() {
                         ConstantObjects.categoryName,
                         AddProductObjectData.selectedCategoryName
                     )
+                    putExtra("FromFavorite", false)
                 })
             } else {
 
@@ -63,6 +64,7 @@ class ChooseCategoryActivity : BaseActivity() {
                         putExtra(ConstantObjects.isEditKey, isEdit)
                         putExtra(ConstantObjects.categoryIdKey, allCategoryList[position].id)
                         putExtra(ConstantObjects.categoryName, allCategoryList[position].name)
+                        putExtra("FromFavorite", false)
                     })
                 }
             }

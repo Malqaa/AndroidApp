@@ -12,6 +12,7 @@ import com.malqaa.androidappp.newPhase.domain.models.configrationResp.Configurat
 import com.malqaa.androidappp.newPhase.domain.models.loginResp.LoginResp
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
 import okhttp3.ResponseBody
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.HttpException
@@ -34,17 +35,94 @@ open class BaseViewModel : ViewModel() {
     private var callFav: Call<GeneralResponse>? = null
     private var callConfig: Call<ConfigurationResp>? = null
 
-    fun getErrorResponse(code: Int, body: ResponseBody?): ErrorResponse {
-        try {
-            val gson = Gson()
-            val type = object : TypeToken<ErrorResponse>() {}.type
-            val errorResponse: ErrorResponse? = gson.fromJson(body!!.charStream(), type)
+    fun getErrorResponse(errorBody: ResponseBody?): ErrorResponse? {
+        if (errorBody == null) return null
 
-            return errorResponse!!
+        return try {
+            // Step 1: Convert the response body to a string
+            val jsonString = errorBody.string()
+
+            // Step 2: Parse the JSON string to extract the error message
+            val jsonObject = JSONObject(jsonString)
+            jsonObject.getString("message")
+
+            jsonObject.getString("error")
+            jsonObject.getString("result")
+            return ErrorResponse(
+                status = jsonObject.getString("status").toString(),
+                message = jsonObject.getString("message"),
+                error = jsonObject.getString("error"),
+                result = jsonObject.getString("result"),
+                message2 = jsonObject.getString("Message")
+            )
         } catch (e: Exception) {
-            return ErrorResponse()
+            e.printStackTrace()
+            null
+        } finally {
+            errorBody.close() // Close the response body to release its resources
         }
     }
+
+    fun getErrorResponse(code: Int, errorBody: ResponseBody?): ErrorResponse? {
+        if (errorBody == null) return null
+
+        return try {
+            // Step 1: Convert the response body to a string
+            if (code==400){
+                val jsonString = errorBody.string()
+
+                // Step 2: Parse the JSON string to extract the error message
+                val jsonObject = JSONObject(jsonString)
+                var msg: String? = null
+                var status: String? = null
+                var result: String? = null
+                var message: String? = null
+                if (jsonObject.has("message")) {
+                    message = (jsonObject.getString("message") ?: "")
+                }
+                if (jsonObject.has("Message")) {
+                    msg = jsonObject.getString("Message")
+                }
+                if (jsonObject.has("result")) {
+                    result = jsonObject.getString("result")
+                }
+                if (jsonObject.has("status")) {
+                    status = jsonObject.getString("status")
+                }
+                if (message == null) {
+                    return ErrorResponse(
+                        status = status,
+                        message = msg,
+                        error = "error",
+                        result = result,
+                        message2 = msg
+                    )
+                } else
+                    return ErrorResponse(
+                        status = status,
+                        message = message,
+                        error = "error",
+                        result = result,
+                        message2 = msg
+                    )
+            }else{
+                return ErrorResponse(
+                    status = null,
+                    message = null,
+                    error = null,
+                    result = null,
+                    message2 = null
+                )
+            }
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        } finally {
+            errorBody.close() // Close the response body to release its resources
+        }
+    }
+
 
     fun addProductToFav(ProductID: Int) {
         isLoading.value = true
@@ -73,15 +151,15 @@ open class BaseViewModel : ViewModel() {
 
     fun getConfigurationResp(configKey: String) {
         isLoading.value = true
-        callConfig= getRetrofitBuilder().getConfigurationData(configKey)
+        callConfig = getRetrofitBuilder().getConfigurationData(configKey)
 
         callApi(callConfig!!,
             onSuccess = {
                 isLoading.value = false
                 if (configKey == configration_otpExpiryTime)
-                    configurationRespObserver.value =it
+                    configurationRespObserver.value = it
                 else
-                    configurationRespDidNotReceive.value =it
+                    configurationRespDidNotReceive.value = it
             },
             onFailure = { throwable, statusCode, errorBody ->
 
@@ -99,11 +177,11 @@ open class BaseViewModel : ViewModel() {
             })
     }
 
-    fun baseCancel(){
-        if(callFav!=null){
+    fun baseCancel() {
+        if (callFav != null) {
             callFav?.cancel()
         }
-        if(callConfig!=null){
+        if (callConfig != null) {
             callConfig?.cancel()
         }
     }

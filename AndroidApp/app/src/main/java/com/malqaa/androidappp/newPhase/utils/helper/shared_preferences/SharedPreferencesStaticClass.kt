@@ -7,6 +7,7 @@ class SharedPreferencesStaticClass {
         var ad_userid = ""
         var myFeedback = false
         var islogin = "islogin"
+        var isNotifyEnable = "isNotifyEnable"
         var user_object = "user_object"
         var masterCardIdKey = "master"
         var cartCount = "cartCount"
@@ -19,10 +20,24 @@ class SharedPreferencesStaticClass {
         fun getFcmToken(): String {
             return Paper.book().read<String>("fcmToken") ?: ""
         }
+
+        fun saveSwitchNotify(notifyEnable: Boolean) {
+            Paper.book().write(isNotifyEnable, notifyEnable)
+        }
+        fun getSwitchNotify(): Boolean {
+            return Paper.book().read<Boolean>(isNotifyEnable) ?: false
+        }
+
         fun saveMasterCartId(cardId: String) {
             Paper.book().write(masterCardIdKey, cardId)
         }
 
+        fun saveShowUserInformation(value: Int) {
+            Paper.book().write("showUserInformation", value)
+        }
+        fun getShowUserInformation(): Int {
+            return Paper.book().read<Int>("showUserInformation") ?: 0
+        }
         fun getMasterCartId(): String {
             return Paper.book().read<String>(masterCardIdKey) ?: "0"
         }

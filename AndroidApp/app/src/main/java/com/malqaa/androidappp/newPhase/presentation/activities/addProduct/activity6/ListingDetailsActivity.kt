@@ -2,20 +2,22 @@ package com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activ
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.widget.CompoundButton
 import androidx.lifecycle.ViewModelProvider
 import com.malqaa.androidappp.R
 import com.malqaa.androidappp.newPhase.core.BaseActivity
-import com.malqaa.androidappp.newPhase.utils.HelpFunctions
-import com.malqaa.androidappp.newPhase.utils.hide
-import com.malqaa.androidappp.newPhase.utils.show
-import com.malqaa.androidappp.newPhase.utils.helper.widgets.searchdialog.SearchListItem
 import com.malqaa.androidappp.newPhase.domain.models.addProductToCartResp.AddProductObjectData
-import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.ConfirmationAddProductActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.viewmodel.AddProductViewModel
 import com.malqaa.androidappp.newPhase.presentation.dialogsShared.countryDialog.CountryDialog
 import com.malqaa.androidappp.newPhase.presentation.dialogsShared.neighborhoodDialog.NeighborhoodDialog
 import com.malqaa.androidappp.newPhase.presentation.dialogsShared.regionDialog.RegionDialog
+import com.malqaa.androidappp.newPhase.utils.ConstantObjects
+import com.malqaa.androidappp.newPhase.utils.HelpFunctions
+import com.malqaa.androidappp.newPhase.utils.helper.widgets.searchdialog.SearchListItem
+import com.malqaa.androidappp.newPhase.utils.hide
+import com.malqaa.androidappp.newPhase.utils.show
 import kotlinx.android.synthetic.main.activity_list_details_add_product.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 
@@ -25,7 +27,7 @@ class ListingDetailsActivity : BaseActivity() {
     var selectedRegion: SearchListItem? = null
     var selectedCity: SearchListItem? = null
 
-    private var addProductViewModel: AddProductViewModel?=null
+    private var addProductViewModel: AddProductViewModel? = null
     private var isEdit: Boolean = false
     private val configKey = "ShowProductQuantityInAddProduct"
     override fun onBackPressed() {
@@ -117,10 +119,10 @@ class ListingDetailsActivity : BaseActivity() {
         tvTitleAr.setText(AddProductObjectData.itemTitleAr)
         tvTitleEn.setText(AddProductObjectData.itemTitleEn)
         if (ConstantObjects.isModify)
-            tvSubtitleAr.isEnabled=(AddProductObjectData.subtitleAr != "")
+            tvSubtitleAr.isEnabled = (AddProductObjectData.subtitleAr != "")
 
         if (ConstantObjects.isModify)
-            tvSubtitleEn.isEnabled=(AddProductObjectData.subtitleEn != "")
+            tvSubtitleEn.isEnabled = (AddProductObjectData.subtitleEn != "")
 
 
         tvSubtitleAr.setText(AddProductObjectData.subtitleAr)
@@ -194,6 +196,31 @@ class ListingDetailsActivity : BaseActivity() {
 //                selectedCity = null
 //            }
 
+        }
+        switchInfoEn.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                viewEnglishInfo.visibility = View.VISIBLE
+            } else {
+                viewEnglishInfo.visibility = View.GONE
+            }
+        })
+        box_value.setOnClickListener {
+            if (switchInfoEn.isChecked) {
+                switchInfoEn.isChecked = false
+                viewEnglishInfo.visibility = View.GONE
+            } else {
+                switchInfoEn.isChecked = true
+                viewEnglishInfo.visibility = View.VISIBLE
+            }
+        }
+        boxEnglishInfo.setOnClickListener {
+            if (switchInfoEn.isChecked) {
+                switchInfoEn.isChecked = false
+                viewEnglishInfo.visibility = View.GONE
+            } else {
+                switchInfoEn.isChecked = true
+                viewEnglishInfo.visibility = View.VISIBLE
+            }
         }
         regionContainer._setOnClickListener {
             if (selectedCountry == null) {
@@ -340,9 +367,8 @@ class ListingDetailsActivity : BaseActivity() {
         AddProductObjectData.quantity = quantityavail.number
         if (tvTitleAr.getText().isEmpty()) {
             showError(getString(R.string.Please_enter, getString(R.string.item_title)))
-        } else if (tvTitleEn.getText().isEmpty()) {
-            showError(getString(R.string.Please_enter, getString(R.string.item_title)))
         }
+
 //        else if (tvSubtitleAr.getText().isEmpty()) {
 //            showError(getString(R.string.Please_enter, getString(R.string.sub_title)))
 //        } else if (tvSubtitleEn.getText().isEmpty()) {
@@ -367,6 +393,8 @@ class ListingDetailsActivity : BaseActivity() {
         } else if (neighborhoodContainer.text.toString().isEmpty()) {
             showError(getString(R.string.Please_select, getString(R.string.district)))
         }
+
+
 //        else if (etPhoneNumber.text.toString().isEmpty()) {
 //            showError(getString(R.string.Please_enter, getString(R.string.PhoneNumber)))
 //        }
@@ -374,43 +402,57 @@ class ListingDetailsActivity : BaseActivity() {
 //            showError(getString(R.string.PleaseenteravalidPhoneNumber))
 //        }
 
-        else {
-            AddProductObjectData.itemTitleAr = tvTitleAr.getText().trim()
-            AddProductObjectData.itemTitleEn = tvTitleEn.getText().trim()
-            AddProductObjectData.subtitleAr = tvSubtitleAr.text.toString()
-            AddProductObjectData.subtitleEn = tvSubtitleEn.text.toString()
-            AddProductObjectData.itemDescriptionAr = tvDescriptionAr.text.trim().toString()
-            AddProductObjectData.itemDescriptionEn = tvDescriptionEn.text.trim().toString()
-            AddProductObjectData.country = selectedCountry
-            AddProductObjectData.region = selectedRegion
-            AddProductObjectData.city = selectedCity
-            AddProductObjectData.phone = etPhoneNumber.text.toString().trim()
-            // AddProductObjectData.phoneCountryCode = countryCodePicker.selectedCountryCodeWithPlus
-            if (isEdit) {
-                startActivity(Intent(this, ConfirmationAddProductActivity::class.java).apply {
-                    putExtra("whereCome", "Add")
-                    putExtra(
-                        ConstantObjects.isEditKey,
-                        intent.getBooleanExtra(ConstantObjects.isEditKey, false)
-                    )
-                    finish()
-                })
-            } else {
-                startActivity(Intent(this, PricingActivity::class.java).apply {
-                    putExtra(
-                        ConstantObjects.isEditKey,
-                        intent.getBooleanExtra(ConstantObjects.isEditKey, false)
-                    )
-
-                })
+        else if (switchInfoEn.isChecked){
+            if (tvTitleEn.getText().isEmpty()) {
+                showError(getString(R.string.Please_enter, getString(R.string.item_title)))
+            }
+            else {
+                checkAllRight()
 
             }
+        }else{
+            checkAllRight()
+        }
+
+
+    }
+
+    fun checkAllRight(){
+        AddProductObjectData.itemTitleAr = tvTitleAr.text.toString()
+        AddProductObjectData.itemTitleEn = tvTitleEn.getText().trim()
+        AddProductObjectData.subtitleAr = tvSubtitleAr.text.toString()
+        AddProductObjectData.subtitleEn = tvSubtitleEn.text.toString()
+        AddProductObjectData.itemDescriptionAr = tvDescriptionAr.text.trim().toString()
+        AddProductObjectData.itemDescriptionEn = tvDescriptionEn.text.trim().toString()
+        AddProductObjectData.country = selectedCountry
+        AddProductObjectData.region = selectedRegion
+        AddProductObjectData.city = selectedCity
+        AddProductObjectData.phone = etPhoneNumber.text.toString().trim()
+        // AddProductObjectData.phoneCountryCode = countryCodePicker.selectedCountryCodeWithPlus
+        if (isEdit) {
+            startActivity(Intent(this, ConfirmationAddProductActivity::class.java).apply {
+                putExtra("whereCome", "Add")
+                putExtra(
+                    ConstantObjects.isEditKey,
+                    intent.getBooleanExtra(ConstantObjects.isEditKey, false)
+                )
+                finish()
+            })
+        } else {
+            startActivity(Intent(this, PricingActivity::class.java).apply {
+                putExtra(
+                    ConstantObjects.isEditKey,
+                    intent.getBooleanExtra(ConstantObjects.isEditKey, false)
+                )
+
+            })
+
         }
     }
 
     override fun onDestroy() {
         super.onDestroy()
         addProductViewModel?.baseCancel()
-        addProductViewModel=null
+        addProductViewModel = null
     }
 }

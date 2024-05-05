@@ -12,6 +12,7 @@ import com.malqaa.androidappp.newPhase.domain.models.homeSilderResp.HomeSliderRe
 import com.malqaa.androidappp.newPhase.domain.models.productResp.ProductListResp
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
 import com.malqaa.androidappp.newPhase.domain.models.homeCategoryProductResp.HomeCategoryProductResp
+import com.malqaa.androidappp.newPhase.domain.models.productResp.ProductListSearchResp
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.AddFavResponse
 import retrofit2.Call
 import retrofit2.HttpException
@@ -27,8 +28,10 @@ class HomeViewModel : BaseViewModel() {
     var isLoadingAllCategory: MutableLiveData<Boolean> = MutableLiveData()
     var lastViewProductsObserver: MutableLiveData<ProductListResp> = MutableLiveData()
     var languageObserver: MutableLiveData<AddFavResponse> = MutableLiveData()
+    var searchProductListRespObserver: MutableLiveData<ProductListSearchResp> = MutableLiveData()
 
     private var callSlider: Call<HomeSliderResp>? = null
+    private var callSearchForProduct: Call<ProductListSearchResp>? = null
     private var callSearch: Call<GeneralResponse>? = null
     private var callSaveSearch: Call<GeneralResponse>? = null
     private var callAllCategories: Call<GeneralResponse>? = null
@@ -129,8 +132,85 @@ class HomeViewModel : BaseViewModel() {
                 isLoading.value = false
                 needToLogin.value = true
             })
-
     }
+
+    fun searchForProduct(
+        categoryId: Int,
+        currentLanguage: String,
+        page: Int,
+        countryList: List<Int>?,
+        regionList: List<Int>?,
+        neighoodList: List<Int>?,
+        subCategoryList: List<Int>?,
+        specificationList: List<String>?,
+        startPrice: Float?,
+        endPrice: Float?,
+        productName: String?,
+        comeFrom: Int
+    ) {
+        if (page == 1) {
+            isLoading.value = true
+        } else {
+            isloadingMore.value = true
+        }
+
+        var stringUrl =
+            "AdvancedFilter?lang=${currentLanguage}&PageRowsCount=10&pageIndex=${page}&Screen=$comeFrom"
+        if (categoryId != 0) {
+            stringUrl += "&mainCatId=${categoryId}"
+        }
+        if (productName != null) {
+            stringUrl += "&productName=${productName} "
+        }
+        subCategoryList?.forEach { item ->
+            stringUrl += "&subCatIds=${item} "
+        }
+        countryList?.forEach { item ->
+            stringUrl += "&Countries=${item}"
+        }
+        regionList?.forEach { item ->
+            stringUrl += "&Regions=${item}"
+        }
+        neighoodList?.forEach { item ->
+            stringUrl += "&Neighborhoods=${item}"
+        }
+        specificationList?.forEach { item ->
+            if (item != null)
+                stringUrl += "&sepNames=${item}"
+        }
+        if (startPrice != 0f) {
+            stringUrl += "&priceFrom=${startPrice}"
+        }
+        if (endPrice != 0f) {
+            stringUrl += "&priceTo=${endPrice}"
+        }
+
+        callSearchForProduct = getRetrofitBuilder()
+            .searchForProductInCategory(stringUrl)
+        callApi(callSearchForProduct!!,
+            onSuccess = {
+                isloadingMore.value = false
+                isLoading.value = false
+                searchProductListRespObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoading.value = false
+                isloadingMore.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
+                }
+            },
+            goLogin = {
+                isloadingMore.value = false
+                isLoading.value = false
+                needToLogin.value = true
+            })
+    }
+
+
 
     fun saveSearch(searchString: String) {
         callSaveSearch = getRetrofitBuilder().savedSearch(searchString)

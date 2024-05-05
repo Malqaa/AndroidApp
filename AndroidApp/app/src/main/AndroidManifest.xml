@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.malqaa.androidappp" >
+    package="com.malqaa.androidappp">
 
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -20,7 +20,7 @@
         android:xlargeScreens="true" />
 
     <application
-        android:name="com.malqaa.androidappp.newPhase.core.App"
+        android:name=".newPhase.core.App"
         android:allowBackup="false"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/malqa_iconn"
@@ -31,143 +31,147 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
-        tools:replace="android:allowBackup" >
+        tools:replace="android:allowBackup">
         <activity
-            android:name="com.malqaa.androidappp.newPhase.presentation.activities.productDetailsActivity.ShowBranchesMapActivity"
+            android:name=".newPhase.presentation.activities.productDetailsActivity.ImageViewLargeActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme.Dialog" />
+        <activity
+            android:name=".newPhase.presentation.activities.productDetailsActivity.ShowBranchesMapActivity"
             android:exported="false"
             android:label="@string/title_activity_show_branches_map"
             android:theme="@style/AppTheme" />
         <activity
-            android:name="com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.myBids.MyBidsActivity"
+            android:name=".newPhase.presentation.fragments.accountFragment.myBids.MyBidsActivity"
             android:exported="false" />
         <activity
-            android:name="com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.negotiationOffersPurchase.negotiationOfferSale.NegotiationOffersSaleActivity"
+            android:name=".newPhase.presentation.fragments.accountFragment.negotiationOffersPurchase.negotiationOfferSale.NegotiationOffersSaleActivity"
             android:exported="false" />
         <activity
-            android:name="com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.negotiationOffersPurchase.negotiationOfferPurchase.NegotiationOffersPurchaseActivity"
+            android:name=".newPhase.presentation.fragments.accountFragment.negotiationOffersPurchase.negotiationOfferPurchase.NegotiationOffersPurchaseActivity"
             android:exported="false" />
         <activity
-            android:name="com.malqaa.androidappp.newPhase.presentation.activities.productDetailsActivity.SuccessAddProductPriceNegotiationActivity"
+            android:name=".newPhase.presentation.activities.productDetailsActivity.SuccessAddProductPriceNegotiationActivity"
             android:exported="false" />
         <activity
-            android:name="com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.editProfileActivity.ConfirmChangeNumberActivity"
+            android:name=".newPhase.presentation.fragments.accountFragment.editProfileActivity.ConfirmChangeNumberActivity"
             android:exported="false" />
         <activity
-            android:name="com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.editProfileActivity.ConfirmChangeEmailActivity"
+            android:name=".newPhase.presentation.fragments.accountFragment.editProfileActivity.ConfirmChangeEmailActivity"
             android:exported="false" />
         <activity
-            android:name="com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.editProfileActivity.ChangePasswordActivity"
+            android:name=".newPhase.presentation.fragments.accountFragment.editProfileActivity.ChangePasswordActivity"
             android:exported="false" />
         <activity
-            android:name="com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.mapActivity.MapActivity"
+            android:name=".newPhase.presentation.fragments.accountFragment.mapActivity.MapActivity"
             android:exported="false" />
         <activity
-            android:name="com.malqaa.androidappp.newPhase.presentation.activities.addressUser.addressListActivity.ListAddressesActivity"
+            android:name=".newPhase.presentation.activities.addressUser.addressListActivity.ListAddressesActivity"
             android:exported="false" />
         <activity
-            android:name="com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.editProfileActivity.EditProfileActivity"
+            android:name=".newPhase.presentation.fragments.accountFragment.editProfileActivity.EditProfileActivity"
             android:exported="false" />
         <activity
-            android:name="com.malqaa.androidappp.newPhase.presentation.activities.myOrderDetails.MyOrderDetailsRequestedFromMeActivity"
+            android:name=".newPhase.presentation.activities.myOrderDetails.MyOrderDetailsRequestedFromMeActivity"
             android:exported="false" />
         <activity
-            android:name="com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.technicalSupportActivity.addTechencalSupport.AddTechnicalSupportMessageActivity"
+            android:name=".newPhase.presentation.fragments.accountFragment.technicalSupportActivity.addTechencalSupport.AddTechnicalSupportMessageActivity"
             android:exported="false" />
         <activity
-            android:name="com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.technicalSupportActivity.listtechincalSupportMessage.TechnicalSupportListActivity"
+            android:name=".newPhase.presentation.fragments.accountFragment.technicalSupportActivity.listtechincalSupportMessage.TechnicalSupportListActivity"
             android:exported="false" />
         <activity
-            android:name="com.malqaa.androidappp.newPhase.presentation.activities.shipmentRateActivity.ShipmentRateActivity"
+            android:name=".newPhase.presentation.activities.shipmentRateActivity.ShipmentRateActivity"
             android:exported="false" />
         <activity
-            android:name="com.malqaa.androidappp.newPhase.presentation.activities.myOrderDetails.MyOrderDetailsActivity"
+            android:name=".newPhase.presentation.activities.myOrderDetails.MyOrderDetailsActivity"
             android:exported="false" />
         <activity
-            android:name="com.malqaa.androidappp.newPhase.presentation.activities.productsSellerInfoActivity.SellerRateActivity"
+            android:name=".newPhase.presentation.activities.productsSellerInfoActivity.SellerRateActivity"
             android:exported="false" />
         <activity
-            android:name="com.malqaa.androidappp.newPhase.presentation.activities.addSellerReviewActivity.SellerRateListActivity"
+            android:name=".newPhase.presentation.activities.addSellerReviewActivity.SellerRateListActivity"
             android:exported="false" />
         <activity
-            android:name="com.malqaa.androidappp.newPhase.presentation.activities.addSellerReviewActivity.AddRateSellerActivity"
+            android:name=".newPhase.presentation.activities.addSellerReviewActivity.AddRateSellerActivity"
             android:exported="false" />
         <activity
-            android:name="com.malqaa.androidappp.newPhase.presentation.activities.myOrderDetails.AddRateBuyerActivity"
+            android:name=".newPhase.presentation.activities.myOrderDetails.AddRateBuyerActivity"
             android:exported="false" />
         <activity
-            android:name="com.malqaa.androidappp.newPhase.presentation.activities.addProductReviewActivity.AddRateProductActivity"
+            android:name=".newPhase.presentation.activities.addProductReviewActivity.AddRateProductActivity"
             android:exported="false" />
         <activity
-            android:name="com.malqaa.androidappp.newPhase.presentation.activities.searchActivity.SearchActivity"
-            android:exported="false" >
+            android:name=".newPhase.presentation.activities.searchActivity.SearchActivity"
+            android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity> <!-- tools:ignore="AllowBackup" -->
         <activity
-            android:name="com.malqaa.androidappp.newPhase.presentation.activities.cartActivity.AttachInvoice"
+            android:name=".newPhase.presentation.activities.cartActivity.AttachInvoice"
             android:excludeFromRecents="true"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppDialogTheme" />
         <activity
-            android:name="com.malqaa.androidappp.newPhase.presentation.activities.cartActivity.ShipmentRating"
+            android:name=".newPhase.presentation.activities.cartActivity.ShipmentRating"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.malqaa.androidappp.newPhase.presentation.activities.cartActivity.OrderDetail_1"
+            android:name=".newPhase.presentation.activities.cartActivity.OrderDetail_1"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.malqaa.androidappp.newPhase.presentation.activities.cartActivity.OrderDetail"
+            android:name=".newPhase.presentation.activities.cartActivity.OrderDetail"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.malqaa.androidappp.newPhase.presentation.activities.productsSellerInfoActivity.SellerInformationActivity"
+            android:name=".newPhase.presentation.activities.productsSellerInfoActivity.SellerInformationActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.malqaa.androidappp.newPhase.presentation.activities.cartActivity.activity3.SuccessOrderActivity"
+            android:name=".newPhase.presentation.activities.cartActivity.activity3.SuccessOrderActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.malqaa.androidappp.newPhase.presentation.activities.cartActivity.activity2.AddressPaymentActivity"
+            android:name=".newPhase.presentation.activities.cartActivity.activity2.AddressPaymentActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.malqaa.androidappp.newPhase.presentation.activities.productQuestionActivity.QuestionActivity"
+            android:name=".newPhase.presentation.activities.productQuestionActivity.QuestionActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.malqaa.androidappp.newPhase.utils.activitiesMain.placePicker.LocationPickerActivity"
+            android:name=".newPhase.utils.activitiesMain.placePicker.LocationPickerActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.businessAccount.businessAccountsList.SwitchAccountActivity"
+            android:name=".newPhase.presentation.fragments.accountFragment.businessAccount.businessAccountsList.SwitchAccountActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.malqaa.androidappp.newPhase.utils.activitiesMain.FullImageActivity"
+            android:name=".newPhase.utils.activitiesMain.FullImageActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.malqaa.androidappp.newPhase.utils.activitiesMain.PlayActivity"
+            android:name=".newPhase.utils.activitiesMain.PlayActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.malqaa.androidappp.newPhase.presentation.activities.cartActivity.activity1.CartActivity"
+            android:name=".newPhase.presentation.activities.cartActivity.activity1.CartActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.malqaa.androidappp.newPhase.presentation.activities.addProductReviewActivity.ProductReviewsActivity"
+            android:name=".newPhase.presentation.activities.addProductReviewActivity.ProductReviewsActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.malqaa.androidappp.newPhase.presentation.activities.productDetailsActivity.ProductDetailsActivity"
+            android:name=".newPhase.presentation.activities.productDetailsActivity.ProductDetailsActivity"
             android:exported="true"
             android:screenOrientation="portrait" /> <!--  -->
         <activity
-            android:name="com.malqaa.androidappp.newPhase.presentation.activities.productDetailsActivity.MyProductDetailsActivity"
+            android:name=".newPhase.presentation.activities.productDetailsActivity.MyProductDetailsActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.splash" /> <!--  -->
@@ -177,65 +181,68 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name="com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.businessAccount.addBusinessAccount.BusinessAccountCreateActivity"
+            android:name=".newPhase.presentation.fragments.accountFragment.businessAccount.addBusinessAccount.BusinessAccountCreateActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.malqaa.androidappp.newPhase.presentation.activities.forgotPasswordActivity.ForgotChangepassActivity"
+            android:name=".newPhase.presentation.activities.forgotPasswordActivity.ForgotChangepassActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.malqaa.androidappp.newPhase.presentation.activities.forgotPasswordActivity.activity2.ActivityForgotPassOtpcode"
+            android:name=".newPhase.presentation.activities.forgotPasswordActivity.activity2.ActivityForgotPassOtpcode"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.malqaa.androidappp.newPhase.presentation.activities.signup.activity3.SignupCreateNewUser"
+            android:name=".newPhase.presentation.activities.signup.activity3.SignupCreateNewUser"
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.malqaa.androidappp.newPhase.presentation.MainActivity"
+            android:name=".newPhase.presentation.MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.malqaa.androidappp.newPhase.presentation.activities.loginScreen.SignInActivity"
+            android:name=".newPhase.presentation.activities.loginScreen.SignInActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.malqaa.androidappp.newPhase.presentation.activities.signup.activity1.SignupConfirmNewUserActivity"
+            android:name=".newPhase.presentation.activities.signup.activity1.SignupConfirmNewUserActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.malqaa.androidappp.newPhase.presentation.activities.signup.activity2.SignupOTPVerificationActivity"
+            android:name=".newPhase.presentation.activities.signup.activity2.SignupOTPVerificationActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.malqaa.androidappp.newPhase.presentation.activities.forgotPasswordActivity.activtiy1.ForgotPasswordActivity"
+            android:name=".newPhase.presentation.activities.forgotPasswordActivity.activtiy1.ForgotPasswordActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activity1.ProductsTagsForAddProductActivity"
+            android:name=".newPhase.presentation.activities.addProduct.activity1.ProductsTagsForAddProductActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activity2.ChooseCategoryActivity"
+            android:name=".newPhase.presentation.activities.addProduct.activity2.ChooseCategoryActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activity3.SubCategoriesActivity"
+            android:name=".newPhase.presentation.activities.addProduct.activity3.SubCategoriesActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activity4.AddPhotoActivity"
+            android:name=".fragments.follow_Up.FavoriteSubCategory"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".newPhase.presentation.activities.addProduct.activity4.AddPhotoActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activity5.DynamicTemplateActivtiy"
+            android:name=".newPhase.presentation.activities.addProduct.activity5.DynamicTemplateActivtiy"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activity6.ListingDetailsActivity"
+            android:name=".newPhase.presentation.activities.addProduct.activity6.ListingDetailsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activity7.ListingDurationActivity"
+            android:name=".newPhase.presentation.activities.addProduct.activity7.ListingDurationActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activity8.PromotionalActivity"
+            android:name=".newPhase.presentation.activities.addProduct.activity8.PromotionalActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.malqaa.androidappp.newPhase.presentation.activities.addProduct.ConfirmationAddProductActivity"
+            android:name=".newPhase.presentation.activities.addProduct.ConfirmationAddProductActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.malqaa.androidappp.newPhase.presentation.activities.addProduct.SuccessProductActivity"
+            android:name=".newPhase.presentation.activities.addProduct.SuccessProductActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.zfdang.multiple_images_selector.ImagesSelectorActivity"
@@ -243,20 +250,20 @@
             android:hardwareAccelerated="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.malqaa.androidappp.newPhase.presentation.activities.searchProductListActivity.browse_market.SearchCategoryActivity"
+            android:name=".newPhase.presentation.activities.searchProductListActivity.browse_market.SearchCategoryActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.malqaa.androidappp.newPhase.presentation.activities.addressUser.addAddressActivity.AddAddressActivity"
+            android:name=".newPhase.presentation.activities.addressUser.addAddressActivity.AddAddressActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activity6.PricingActivity"
+            android:name=".newPhase.presentation.activities.addProduct.activity6.PricingActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.malqaa.androidappp.newPhase.presentation.activities.splashActivity.SplashActivity"
+            android:name=".newPhase.presentation.activities.splashActivity.SplashActivity"
             android:exported="true"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -291,17 +298,17 @@
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.malqaa.androidappp"
             android:exported="false"
-            android:grantUriPermissions="true" >
+            android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
 
         <service
-            android:name="com.malqaa.androidappp.newPhase.utils.MyFirebaseMessagingService"
+            android:name=".newPhase.utils.MyFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
     </application>

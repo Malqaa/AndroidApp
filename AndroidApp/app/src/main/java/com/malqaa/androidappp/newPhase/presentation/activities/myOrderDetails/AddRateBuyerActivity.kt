@@ -117,7 +117,7 @@ class AddRateBuyerActivity : BaseActivity() {
 
         /**seller rate */
         ivSellerHappyRate.setOnClickListener {
-            buyerRate = 1
+            buyerRate = 3
             ivSellerHappyRate.setImageResource(R.drawable.happyface_color)
             ivSellerNeutralRate.setImageResource(R.drawable.smileface_gray)
             ivSellerSadeRate.setImageResource(R.drawable.sadface_gray)
@@ -130,7 +130,7 @@ class AddRateBuyerActivity : BaseActivity() {
             ivSellerSadeRate.setImageResource(R.drawable.sadface_gray)
         }
         ivSellerSadeRate.setOnClickListener {
-            buyerRate = 3
+            buyerRate = 1
             ivSellerHappyRate.setImageResource(R.drawable.happyface_gray)
             ivSellerNeutralRate.setImageResource(R.drawable.smileface_gray)
             ivSellerSadeRate.setImageResource(R.drawable.sadcolor_gray)

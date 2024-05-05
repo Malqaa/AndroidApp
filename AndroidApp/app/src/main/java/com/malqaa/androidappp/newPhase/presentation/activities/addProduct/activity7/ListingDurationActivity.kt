@@ -227,23 +227,31 @@ class ListingDurationActivity : BaseActivity(), ShippingAdapter.SetOnSelectedShi
         }
 
         pickUpOptionAdapter(pickUpOptionList, rvShippingOption)
-        AddProductObjectData.selectTimeAuction?.let {
-            if (it.customOption) {
-                closingAuctionOption2.performClick()
-                if (it.text == "")
-                    tvClosingAuctionCustomDataOption2.text =
-                        HelpFunctions.getViewFormatForDateTrack(it.endTime)
-            } else {
-                closingAuctionOption1.performClick()
-                for (item in allWeeks) {
-                    if (item.text == it.text) {
-                        item.isSelect = true
-                        break
+        if(AddProductObjectData.isAuctionClosingTimeFixed){
+            closingAuctionOption2.performClick()
+            tvClosingAuctionCustomDataOption2.text =
+                HelpFunctions.getViewFormatForDateTrack(AddProductObjectData.selectTimeAuction?.endTime,"dd/MM/yyyy HH:mm:ss")
+
+        }else{
+            AddProductObjectData.selectTimeAuction?.let {
+                if (it.customOption) {
+                    closingAuctionOption2.performClick()
+                    if (it.text == "")
+                        tvClosingAuctionCustomDataOption2.text =
+                            HelpFunctions.getViewFormatForDateTrack(it.endTime,"dd/MM/yyyy HH:mm:ss")
+                } else {
+                    closingAuctionOption1.performClick()
+                    for (item in allWeeks) {
+                        if (item.text == it.text) {
+                            item.isSelect = true
+                            break
+                        }
                     }
+                    fixLenghtAdaptor(allWeeks)
                 }
-                fixLenghtAdaptor(allWeeks)
             }
         }
+
     }
 
     private fun getAllShippingObserver() {
@@ -313,14 +321,15 @@ class ListingDurationActivity : BaseActivity(), ShippingAdapter.SetOnSelectedShi
             }
         }
         closingAuctionOption1.setOnClickListener {
+            AddProductObjectData.isAuctionClosingTimeFixed=false
             closingAuctionOption1.background =
                 ContextCompat.getDrawable(this, R.drawable.field_selection_border_enable)
             FixedLength.setTextColor(ContextCompat.getColor(this, R.color.bg))
-            closingAuctionOption2.setSelected(false)
+            closingAuctionOption2.isSelected = false
             btnRadioClosingAuctionOption1.isChecked = true
             btnRadioClosingAuctionOption2.isChecked = false
 
-            tvClosingAuctionCustomDataOption2.setText("")
+            tvClosingAuctionCustomDataOption2.text = ""
             tvClosingAuctionCustomDataOption2.hint = getString(R.string.SelectTime)
         }
         btnRadioClosingAuctionOption2.setOnCheckedChangeListener { compoundButton, b ->
@@ -329,7 +338,8 @@ class ListingDurationActivity : BaseActivity(), ShippingAdapter.SetOnSelectedShi
             }
         }
         closingAuctionOption2.setOnClickListener {
-            closingAuctionOption2.setSelected(true)
+            AddProductObjectData.isAuctionClosingTimeFixed=true
+            closingAuctionOption2.isSelected = true
             closingAuctionOption1.background =
                 ContextCompat.getDrawable(this, R.drawable.edittext_bg)
             FixedLength.setTextColor(ContextCompat.getColor(this, R.color.text_color))
@@ -438,6 +448,9 @@ class ListingDurationActivity : BaseActivity(), ShippingAdapter.SetOnSelectedShi
                                     rvClosingTimeListOption1.adapter!!.notifyDataSetChanged()
                                 }
                                 fixlenghtselected = element
+                                val dateFormat = SimpleDateFormat("HH:mm:ss")
+                                val currentTime = dateFormat.format(Date())
+                                fixlenghtselected?.endTime=fixlenghtselected?.endTime+" "+currentTime
                                 btnRadioClosingAuctionOption1.isChecked = true
                             }
                         }

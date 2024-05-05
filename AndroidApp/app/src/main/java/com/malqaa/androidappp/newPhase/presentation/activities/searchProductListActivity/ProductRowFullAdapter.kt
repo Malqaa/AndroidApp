@@ -2,6 +2,7 @@ package com.malqaa.androidappp.newPhase.presentation.activities.searchProductLis
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -63,12 +64,9 @@ class ProductViewHolder(
             itemBinding.productImage,
             itemBinding.loader
         )
-        itemBinding.purchasingPrice.text = "${
-            requestItem.price.toDouble().decimalNumberFormat()
-        } ${itemBinding.purchasingPrice.context.getString(R.string.SAR)}"
 
-        itemBinding.lowestPrice.text =
-            "${requestItem.highestBidPrice} ${itemBinding.purchasingPrice.context.getString(R.string.SAR)}"
+
+
 
         itemBinding.ivSetting.setOnClickListener {
             setOnProductItemListeners.onProductSelect(
@@ -77,6 +75,34 @@ class ProductViewHolder(
                 requestItem.categoryId
             )
         }
+
+        if(requestItem.isAuctionEnabled){
+            itemBinding.titlePrice.visibility=View.VISIBLE
+            itemBinding.lowestPrice.visibility=View.VISIBLE
+            itemBinding.titleBuy.visibility=View.GONE
+            itemBinding.purchasingPrice.visibility=View.GONE
+            itemBinding.typeProduct.text=itemBinding.purchasingPrice.context.getString(R.string.auction)
+            itemBinding.lowestPrice.text =
+                "${requestItem.price} ${itemBinding.purchasingPrice.context.getString(R.string.SAR)}"
+        }else if (requestItem.isNegotiationEnabled){
+
+            itemBinding.titlePrice.visibility=View.VISIBLE
+            itemBinding.lowestPrice.visibility=View.VISIBLE
+            itemBinding.titleBuy.visibility=View.GONE
+            itemBinding.purchasingPrice.visibility=View.GONE
+            itemBinding.typeProduct.text=itemBinding.purchasingPrice.context.getString(R.string.Negotiation)
+            itemBinding.lowestPrice.text =
+                "${requestItem.price} ${itemBinding.purchasingPrice.context.getString(R.string.SAR)}"
+        }else{
+            itemBinding.titlePrice.visibility=View.GONE
+            itemBinding.lowestPrice.visibility=View.GONE
+            itemBinding.titleBuy.visibility=View.VISIBLE
+            itemBinding.purchasingPrice.visibility=View.VISIBLE
+            itemBinding.purchasingPrice.text = "${
+                requestItem.price.toDouble().decimalNumberFormat()
+            } ${itemBinding.purchasingPrice.context.getString(R.string.SAR)}"
+        }
+
 
         itemBinding.vmItem = requestItem
     }

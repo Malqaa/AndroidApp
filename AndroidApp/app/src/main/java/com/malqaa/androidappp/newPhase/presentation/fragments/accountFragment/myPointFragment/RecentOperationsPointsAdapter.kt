@@ -29,6 +29,6 @@ class RecentOperationsPointsAdapter (var  pointsTransactionslist: List<PointsTra
         holder.viewBinding.tvAmount.text= pointsTransactionslist[position].transactionAmount.toString()
         holder.viewBinding.tvDescription.text =
             pointsTransactionslist[position].transactionSource ?: ""
-        holder.viewBinding.tvDate.text= HelpFunctions.getViewFormatForDateTrack(pointsTransactionslist[position].transactionDate)
+        holder.viewBinding.tvDate.text= HelpFunctions.getViewFormatForDateTrack(pointsTransactionslist[position].transactionDate,"dd/MM/yyyy HH:mm:ss")
     }
 }

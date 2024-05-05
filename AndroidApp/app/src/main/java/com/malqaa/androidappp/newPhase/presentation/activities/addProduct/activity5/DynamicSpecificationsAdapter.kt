@@ -151,12 +151,20 @@ class DynamicSpecificationsAdapter(
     ) {
         if (ConstantObjects.currentLanguage == "ar") {
             checkViewHolder.type1.text= dynamicSpecificationList[position].subSpecifications?.get(0)?.nameAr
-            checkViewHolder.type2.text= dynamicSpecificationList[position].subSpecifications?.get(1)?.nameAr
+
+            for(i in dynamicSpecificationList[position].subSpecifications!! ){
+                checkViewHolder.type2.text=i.nameAr
+            }
             checkViewHolder.tvTitleAr.text = "${dynamicSpecificationList[position].nameAr}"
+
         } else {
             checkViewHolder.type1.text= dynamicSpecificationList[position].subSpecifications?.get(0)?.nameEn
-            checkViewHolder.type2.text= dynamicSpecificationList[position].subSpecifications?.get(1)?.nameEn
+
+           for(i in dynamicSpecificationList[position].subSpecifications!! ){
+               checkViewHolder.type2.text=i.nameEn
+           }
             checkViewHolder.tvTitleAr.text = "${dynamicSpecificationList[position].nameEn}"
+
         }
 //        if(dynamicSpecificationList[position].isSelected){
 //            if (dynamicSpecificationList[position].valueBoolean) {

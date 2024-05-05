@@ -1,6 +1,7 @@
 package com.malqaa.androidappp.newPhase.presentation.fragments.nofication_fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -109,7 +110,7 @@ class NotificationsFragment : Fragment(R.layout.fragment_notifications) {
             }
         }
         notifyListViewModel!!.notifyListRespObserver.observe(this) {
-
+            HelpFunctions.dismissProgressBar()
             if (it.data.isNotEmpty()){
                 itemList?.addAll(it.data)
                 notificationAdapter?.updateAdapter(itemList?: arrayListOf())

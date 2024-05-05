@@ -22,6 +22,7 @@ import com.malqaa.androidappp.newPhase.domain.models.servicemodels.GeneralRespon
 import com.malqaa.androidappp.newPhase.domain.models.shippingOptionsResp.ShippingOptionResp
 import com.malqaa.androidappp.newPhase.domain.models.addProductToCartResp.AddProductObjectData
 import com.malqaa.androidappp.newPhase.utils.helper.ConstantsHelper
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -352,7 +353,7 @@ class AddProductViewModel : BaseViewModel() {
         if (auctionClosingTime.isNotEmpty()) {
             validTime = if (!auctionClosingTime.contains(":")) {
                 val currentTime: String =
-                    SimpleDateFormat("hh:mm", Locale.getDefault()).format(Date())
+                    SimpleDateFormat("hh:mm", Locale.ENGLISH).format(Date())
                 ("$auctionClosingTime $currentTime")
             } else {
                 auctionClosingTime
@@ -421,74 +422,122 @@ class AddProductViewModel : BaseViewModel() {
 
         /**data**/
         val map: HashMap<String, RequestBody> = HashMap()
-        map["nameAr"] = nameAr.requestBody()
-        map["nameEn"] = nameEn.requestBody()
+        map["nameAr"] = nameAr.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        map["nameEn"] = nameEn.toRequestBody("multipart/form-data".toMediaTypeOrNull())
 //        if (subTitleAr != "")
-        map["subTitleAr"] = subTitleAr.requestBody()
+        map["subTitleAr"] = subTitleAr.toRequestBody("multipart/form-data".toMediaTypeOrNull())
 //        if (subTitleEn != "")
-        map["subTitleEn"] = subTitleEn.requestBody()
+        map["subTitleEn"] = subTitleEn.toRequestBody("multipart/form-data".toMediaTypeOrNull())
 //        if (descriptionAr != "")
-        map["descriptionAr"] = descriptionAr.requestBody()
+        map["descriptionAr"] = descriptionAr.toRequestBody("multipart/form-data".toMediaTypeOrNull())
 //        if (descriptionEn != "")
-        map["descriptionEn"] = descriptionEn.requestBody()
-        if (qty != "")
-            map["qty"] = qty.requestBody()
-        if (productCondition != "0" && productCondition != "" && productCondition != "null")
-            map["status"] = productCondition.requestBody()
-        if (categoryId != "0" && categoryId != "")
-            map["categoryId"] = categoryId.requestBody()
-        if (countryId != "0" && countryId != "" && countryId != "null")
-            map["countryId"] = countryId.requestBody()
-        if (regionId != "0" && regionId != "" && regionId != "null")
-            map["regionId"] = regionId.requestBody()
-        if (neighborhoodId != "0" && neighborhoodId != "" && neighborhoodId != "null")
-            map["neighborhoodId"] = neighborhoodId.requestBody()
-        map["Street"] = Street.requestBody()
-        if (pakatId != "")
-            map["pakatId"] = pakatId.requestBody()
+        map["descriptionEn"] = descriptionEn.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+//        if (qty != "")
+            map["qty"] = qty.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+//        if (productCondition != "0" && productCondition != "" && productCondition != "null")
+            map["status"] = productCondition.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+//        if (categoryId != "0" && categoryId != "")
+            map["categoryId"] = categoryId.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+//        if (countryId != "0" && countryId != "" && countryId != "null")
+            map["countryId"] = countryId.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+//        if (regionId != "0" && regionId != "" && regionId != "null")
+            map["regionId"] = regionId.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+//        if (neighborhoodId != "0" && neighborhoodId != "" && neighborhoodId != "null")
+            map["neighborhoodId"] = neighborhoodId.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+//        map["Street"] = Street.requestBody()
         if (productSep != null)
             productSep.let {
-                map["productSep"] = Gson().toJson(it).toString().requestBody()
+                map["productSep"] = Gson().toJson(it).toString().toRequestBody("multipart/form-data".toMediaTypeOrNull())
             }
         else {
-            map["productSep"] = "[]".requestBody()
+            map["productSep"] = "[]".toRequestBody("multipart/form-data".toMediaTypeOrNull())
         }
         if (MainImageIndex == "")
-            map["MainImageIndex"] = "0".requestBody()
+            map["MainImageIndex"] = "0".toRequestBody("multipart/form-data".toMediaTypeOrNull())
         else
-            map["MainImageIndex"] = MainImageIndex.requestBody()
-        map["acceptQuestion"] = "false".requestBody()
-        map["IsFixedPriceEnabled"] = isFixedPriceEnabled.toString().requestBody()
-        map["IsAuctionEnabled"] = isAuctionEnabled.toString().requestBody()
-        map["IsNegotiationEnabled"] = isNegotiationEnabled.toString().requestBody()
+            map["MainImageIndex"] = MainImageIndex.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        map["AcceptQuestion"] = "false".toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        map["IsFixedPriceEnabled"] = isFixedPriceEnabled.toString().toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        map["IsAuctionEnabled"] = isAuctionEnabled.toString().toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        map["IsNegotiationEnabled"] = isNegotiationEnabled.toString().toRequestBody("multipart/form-data".toMediaTypeOrNull())
         if (price != "") {
-            map["price"] = price.requestBody()
-            map["priceDisc"] = priceDisc.requestBody()
+            map["price"] = price.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+            map["priceDisc"] = priceDisc.toRequestBody("multipart/form-data".toMediaTypeOrNull())
         }
 
-        if (isFixedPriceEnabled) {
-            map["isMazad"] = "false".requestBody()
-            map["startPriceMazad"] = "0".requestBody()
-            map["lessPriceMazad"] = "0".requestBody()
-            map["mazadNegotiatePrice"] = price.requestBody()
-        } else {
-            map["startPriceMazad"] = auctionStartPrice.requestBody()
-            map["lessPriceMazad"] = auctionMinimumPrice.requestBody()
-            map["isMazad"] = "true".requestBody()
+        map["IsCashEnabled"] = isCashEnabled.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        map["AuctionStartPrice"] = auctionStartPrice.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        map["DisccountEndDate"] = disccountEndDate.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        map["AuctionMinimumPrice"] = auctionMinimumPrice.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+
+        map["SendYourAccountInfoToAuctionWinner"] = "false".toRequestBody("multipart/form-data".toMediaTypeOrNull())
+//        if (ProductPaymentDetailsDto_AdditionalPakatId != "")
+            map["ProductPaymentDetailsDto.AdditionalPakatId"] = pakatId.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+
+//        if (ProductPaymentDetailsDto_ProductPublishPrice != 0f)
+            map["ProductPaymentDetailsDto.ProductPublishPrice"] =
+                ProductPaymentDetailsDto_ProductPublishPrice.toString().toRequestBody("multipart/form-data".toMediaTypeOrNull())
+
+        map["ProductPaymentDetailsDto.EnableFixedPriceSaleFee"] =
+            (AddProductObjectData.selectedCategory?.enableFixedPriceSaleFee).toString()
+                .toRequestBody("multipart/form-data".toMediaTypeOrNull())
+
+        map["ProductPaymentDetailsDto.EnableAuctionFee"] =
+            AddProductObjectData.selectedCategory?.enableAuctionFee.toString().toRequestBody("multipart/form-data".toMediaTypeOrNull())
+
+//        if (ProductPaymentDetailsDto_EnableNegotiationFee != 0f) {
+        map["ProductPaymentDetailsDto.EnableNegotiationFee"] =
+            "10.5".toString().toRequestBody("multipart/form-data".toMediaTypeOrNull())
+//        }
+//        if (ProductPaymentDetailsDto_ExtraProductImageFee != 0f) {
+        map["ProductPaymentDetailsDto.ExtraProductImageFee"] =
+            "1.5".toString().toRequestBody("multipart/form-data".toMediaTypeOrNull())
+//        }
+//        if (ProductPaymentDetailsDto_ExtraProductVidoeFee != 0f) {
+        map["ProductPaymentDetailsDto.ExtraProductVidoeFee"] =
+            "1.5".toString().toRequestBody("multipart/form-data".toMediaTypeOrNull())
+//        }
+//        if (ProductPaymentDetailsDto_SubTitleFee != 0f) {
+        map["ProductPaymentDetailsDto.SubTitleFee"] =
+            "1.4".toRequestBody("multipart/form-data".toMediaTypeOrNull())
+//        }
+        if (ProductPaymentDetailsDto_CouponId != 0) {
+            map["ProductPaymentDetailsDto.CouponId"] =
+                ProductPaymentDetailsDto_CouponId.toString().toRequestBody("multipart/form-data".toMediaTypeOrNull())
+            map["ProductPaymentDetailsDto.CouponDiscountValue"] =
+                ProductPaymentDetailsDto_CouponDiscountValue.toString().toRequestBody("multipart/form-data".toMediaTypeOrNull())
         }
-        map["isSendOfferForMazad"] = "false".requestBody()
-        map["appointment"] = "".requestBody()
-        map["PaymentOptionId"] = "1".requestBody()
-        map["mazadNegotiateForWhom"] = "0".requestBody()
-        map["IsCashEnabled"] = isCashEnabled.toRequestBody()
-        map["AuctionStartPrice"] = auctionStartPrice.toRequestBody()
-        map["DisccountEndDate"] = disccountEndDate.toRequestBody()
-        map["AuctionMinimumPrice"] = auctionMinimumPrice.toRequestBody()
-        map["AuctionNegotiatePrice"] = price.requestBody()
+        map["ProductPaymentDetailsDto.TotalAmountAfterCoupon"] =
+            ProductPaymentDetailsDto_TotalAmountBeforeCoupon.toString().toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        if (ProductPaymentDetailsDto_TotalAmountBeforeCoupon != 0f) {
+            map["ProductPaymentDetailsDto.TotalAmountBeforeCoupon"] =
+                ProductPaymentDetailsDto_TotalAmountBeforeCoupon.toString().toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        }
         if (validTime != null) {
-            map["AuctionClosingTime"] = getAuctionClosingTimeForApi(validTime).toRequestBody()
+            map["AuctionClosingTime"] = (validTime).toRequestBody("multipart/form-data".toMediaTypeOrNull())
         }
-        map["HighestBidPrice"] = price.toRequestBody()
+        map["ProductPaymentDetailsDto.PaymentType"] = "Cash".toRequestBody("multipart/form-data".toMediaTypeOrNull())
+
+//        if (isFixedPriceEnabled) {
+////            map["isMazad"] = "false".requestBody()
+////            map["startPriceMazad"] = "0".requestBody()
+////            map["lessPriceMazad"] = "0".requestBody()
+//            map["mazadNegotiatePrice"] = price.requestBody()
+//        } else {
+//            map["startPriceMazad"] = auctionStartPrice.requestBody()
+//            map["lessPriceMazad"] = auctionMinimumPrice.requestBody()
+//            map["isMazad"] = "true".requestBody()
+//        }
+//        map["isSendOfferForMazad"] = "false".requestBody()
+//        map["appointment"] = "".requestBody()
+//        map["PaymentOptionId"] = "1".requestBody()
+//        map["mazadNegotiateForWhom"] = "0".requestBody()
+//        map["AuctionNegotiatePrice"] = price.requestBody()
+
+
+//        if (pakatId != "")
+//            map["pakatId"] = pakatId.requestBody()
+//        map["HighestBidPrice"] = price.toRequestBody()
 
 //    /***PaymentObject*/
 //        map["PickUpDelivery"] = PickUpDelivery.requestBody()
@@ -502,67 +551,31 @@ class AddProductViewModel : BaseViewModel() {
         //map["AuctionNegotiateForWhom"]="".requestBody()
 //    //map["ProductPaymentDetailsDto.PakatId"] = "".toRequestBody()
 ////    map["IsAuctionPaied"]="".requestBody()
-//    map["SendYourAccountInfoToAuctionWinner"]="1".requestBody()
-////    map["SendOfferForAuction"]="".requestBody()
+//    map["SendOfferForAuction"]="false".requestBody()
 //        map["ProductPaymentDetailsDto.typePay"] = "1".toRequestBody()
-        if (ProductPaymentDetailsDto_ProductPublishPrice != 0f)
-            map["ProductPaymentDetailsDto.ProductPublishPrice"] =
-                ProductPaymentDetailsDto_ProductPublishPrice.toString().toRequestBody()
-        map["withFixedPrice"] = "false".requestBody()
-        map["ProductPaymentDetailsDto.PaymentType"] = "Cash".requestBody()
 
-        map["ProductPaymentDetailsDto.EnableAuctionFee"] =
-            AddProductObjectData.selectedCategory?.enableAuctionFee.toString().requestBody()
-        map["isNegotiationOffers"] =
-            AddProductObjectData.selectedCategory?.enableNegotiation.toString().toRequestBody()
-        map["ProductPaymentDetailsDto.FixedPriceSaleFee"] =
-            (AddProductObjectData.selectedCategory?.enableFixedPriceSaleFee).toString()
-                .requestBody()
-        map["ProductPaymentDetailsDto.EnableFixedPriceSaleFee"] =
-            (AddProductObjectData.selectedCategory?.enableFixedPriceSaleFee).toString()
-                .requestBody()
-        map["ProductPaymentDetailsDto.NegotiationFee"] = "0.0".toRequestBody()
-        if (ProductPaymentDetailsDto_AdditionalPakatId != "")
-            map["ProductPaymentDetailsDto.AdditionalPakatId"] = pakatId.toRequestBody()
-        if (ProductPaymentDetailsDto_EnableAuctionFee != 0f) {
-            map["ProductPaymentDetailsDto.AuctionFee"] =
-                ProductPaymentDetailsDto_EnableAuctionFee.toString().toRequestBody()
-        }
-        if (ProductPaymentDetailsDto_EnableNegotiationFee != 0f) {
-            map["ProductPaymentDetailsDto.EnableNegotiationFee"] =
-                ProductPaymentDetailsDto_EnableNegotiationFee.toString().toRequestBody()
-        }
-        if (ProductPaymentDetailsDto_ExtraProductImageFee != 0f) {
-            map["ProductPaymentDetailsDto.ExtraProductImageFee"] =
-                ProductPaymentDetailsDto_ExtraProductImageFee.toString().toRequestBody()
-        }
-        if (ProductPaymentDetailsDto_ExtraProductVidoeFee != 0f) {
-            map["ProductPaymentDetailsDto.ExtraProductVidoeFee"] =
-                ProductPaymentDetailsDto_ExtraProductVidoeFee.toString().toRequestBody()
-        }
-        if (ProductPaymentDetailsDto_SubTitleFee != 0f) {
-            map["ProductPaymentDetailsDto.SubTitleFee"] =
-                ProductPaymentDetailsDto_SubTitleFee.toString().toRequestBody()
-        }
-        if (ProductPaymentDetailsDto_CouponId != 0) {
-            map["ProductPaymentDetailsDto.CouponId"] =
-                ProductPaymentDetailsDto_CouponId.toString().toRequestBody()
-            map["ProductPaymentDetailsDto.CouponDiscountValue"] =
-                ProductPaymentDetailsDto_CouponDiscountValue.toString().toRequestBody()
-            map["ProductPaymentDetailsDto.TotalAmountAfterCoupon"] =
-                ProductPaymentDetailsDto_TotalAmountAfterCoupon.toString().toRequestBody()
-        }
-        if (ProductPaymentDetailsDto_TotalAmountBeforeCoupon != 0f) {
-            map["ProductPaymentDetailsDto.TotalAmountBeforeCoupon"] =
-                ProductPaymentDetailsDto_TotalAmountBeforeCoupon.toString().toRequestBody()
-        }
+//        map["withFixedPrice"] = "false".requestBody()
+
+//        map["isNegotiationOffers"] =
+//            AddProductObjectData.selectedCategory?.enableNegotiation.toString().toRequestBody()
+//        map["ProductPaymentDetailsDto.FixedPriceSaleFee"] =
+//            (AddProductObjectData.selectedCategory?.enableFixedPriceSaleFee).toString()
+//                .requestBody()
+//        map["ProductPaymentDetailsDto.EnableNegotiationFee"] = "1.5".toRequestBody()
+//        if (ProductPaymentDetailsDto_AdditionalPakatId != "")
+//            map["ProductPaymentDetailsDto.AdditionalPakatId"] = pakatId.toRequestBody()
+//        if (ProductPaymentDetailsDto_EnableAuctionFee != 0f) {
+//            map["ProductPaymentDetailsDto.EnableAuctionFee"] =
+//                "1.5".toString().toRequestBody()
+//        }
+
 
         if (isEdit) {
-            map["id"] = AddProductObjectData.productId.toString().toRequestBody()
+            map["id"] = AddProductObjectData.productId.toString().toRequestBody("multipart/form-data".toMediaTypeOrNull())
             if (ConstantObjects.isRepost) {
-                map["EditOrRepost"] = "2".toRequestBody()
+                map["EditOrRepost"] = "2".toRequestBody("multipart/form-data".toMediaTypeOrNull())
             } else {
-                map["EditOrRepost"] = "1".toRequestBody()
+                map["EditOrRepost"] = "1".toRequestBody("multipart/form-data".toMediaTypeOrNull())
             }
         }
 
@@ -580,6 +593,7 @@ class AddProductViewModel : BaseViewModel() {
         } else {
             getRetrofitBuilder()
                 .addProduct3(
+                    "multipart/form-data; boundary=3845",
                     map,
                     imageListTOSend,
                     shippingOptionsList,
@@ -611,4 +625,11 @@ class AddProductViewModel : BaseViewModel() {
 
     }
 
+    fun c(doubleAsString:String):MultipartBody{
+        val requestBody = MultipartBody.Builder()
+            .setType(MultipartBody.FORM)
+            .addFormDataPart("double_value", doubleAsString)
+            .build()
+        return requestBody
+    }
 }

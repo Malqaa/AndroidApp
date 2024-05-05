@@ -64,6 +64,7 @@
         <ImageView
             android:id="@+id/imgRemove"
             android:padding="10dp"
+            android:background="@drawable/back_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/close_btn" />

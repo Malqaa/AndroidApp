@@ -316,6 +316,19 @@
                             android:textSize="@dimen/_10sdp"
                             android:visibility="gone"
                             app:drawableStartCompat="@drawable/ic_check" />
+                        <TextView
+                            android:id="@+id/tvNegotiationPriceOptionSale"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/_5sdp"
+                            android:drawablePadding="@dimen/_5sdp"
+                            android:fontFamily="@font/madani_arabic_medium"
+                            android:gravity="end"
+                            android:text="@string/negotiationPrice"
+                            android:textColor="@color/grey"
+                            android:textSize="@dimen/_10sdp"
+                            android:visibility="gone"
+                            app:drawableStartCompat="@drawable/ic_check" />
 
                     </LinearLayout>
 
@@ -803,7 +816,6 @@
                         android:layout_marginEnd="@dimen/_15sdp"
                         android:fontFamily="@font/madani_arabic_medium"
                         android:gravity="end"
-                        android:text="Time"
                         android:textColor="@color/grey"
                         android:textSize="@dimen/_10sdp" />
 

@@ -22,7 +22,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:backgroundTint="@color/bg"
-                android:fontFamily="@font/madani_arabic_extra_light"
+                android:fontFamily="@font/madani_arabic_bold"
                 android:gravity="center"
                 android:textColor="@color/white" />
         </LinearLayout>
@@ -71,6 +71,7 @@
 
                 <TextView
                     android:id="@+id/product_name"
+                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/madani_arabic_medium"
@@ -94,6 +95,7 @@
 
                     <TextView
                         android:id="@+id/tvProductPrice"
+                        android:visibility="gone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="1643"
@@ -203,6 +205,7 @@
                     android:textColor="@color/bg" />
 
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/tvStatus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

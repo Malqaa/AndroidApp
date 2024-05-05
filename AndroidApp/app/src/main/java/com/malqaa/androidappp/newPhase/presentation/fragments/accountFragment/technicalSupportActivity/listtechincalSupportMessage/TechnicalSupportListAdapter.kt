@@ -23,7 +23,7 @@ class TechnicalSupportListAdapter(private var technicalSupportMessageList:List<T
 
     override fun onBindViewHolder(holder: TechnicalSupportListViewHolder, position: Int) {
         holder.viewBinding.tvProblemTitle.text=technicalSupportMessageList[position].problemTitle?:""
-        holder.viewBinding.tvDate.text= HelpFunctions.getViewFormatForDateTrack(technicalSupportMessageList[position].createdAt)
+        holder.viewBinding.tvDate.text= HelpFunctions.getViewFormatForDateTrack(technicalSupportMessageList[position].createdAt,"dd/MM/yyyy HH:mm:ss")
        holder.viewBinding.tvMessageDetails.text=technicalSupportMessageList[position].meassageDetails?:""
         holder.viewBinding.ivEdit.setOnClickListener {
             setonClickListeners.onEditClickListener(position)

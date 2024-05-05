@@ -35,12 +35,14 @@ import retrofit2.Response
 class CategoryProductViewModel : BaseViewModel() {
     var productListRespObserver: MutableLiveData<ProductListResp> = MutableLiveData()
     var searchProductListRespObserver: MutableLiveData<ProductListSearchResp> = MutableLiveData()
+    var saveSearchObserver: MutableLiveData<GeneralResponse> = MutableLiveData()
     var categoryFollowRespObserver: MutableLiveData<CategoryFollowResp> = MutableLiveData()
     var isFollowCategory: MutableLiveData<Boolean> = MutableLiveData()
 
 
     private var callSearchForProduct: Call<ProductListSearchResp>? = null
     private var callListCategoryFollow: Call<CategoryFollowResp>? = null
+    private var callSaveSearch: Call<GeneralResponse>? = null
     private var callMyBids: Call<ProductListResp>? = null
     private var callFollow: Call<GeneralResponse>? = null
     private var regionsCallback: Call<RegionsResp>? = null
@@ -65,6 +67,28 @@ class CategoryProductViewModel : BaseViewModel() {
                 }
             }
         })
+    }
+
+    fun saveSearch(searchString: String) {
+        callSaveSearch = getRetrofitBuilder().savedSearch(searchString)
+        callApi(callSaveSearch!!,
+            onSuccess = {
+                isLoading.value = false
+                saveSearchObserver.value = it
+            },
+            onFailure = { throwable, _, errorBody ->
+                isLoading.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+//                else {
+//                    errorResponseObserver.value =
+//                        getErrorResponse(statusCode, errorBody)
+//                }
+            },
+            goLogin = {
+                isLoading.value = false
+                needToLogin.value = true
+            })
     }
 
     fun getNeighborhoods(cityId: Int, listener: ListenerCallBackNeighborhoods) {
@@ -277,7 +301,7 @@ class CategoryProductViewModel : BaseViewModel() {
                 if (throwable != null && errorBody == null)
                     isNetworkFail.value = throwable !is HttpException
                 else {
-                    val errResponse: ErrorResponse = getErrorResponse(statusCode, errorBody)
+                    val errResponse: ErrorResponse = getErrorResponse(statusCode, errorBody)!!
                     if (errResponse.message == "Categories already exists") {
                         isFollowCategory.value = true
                     }
@@ -296,6 +320,10 @@ class CategoryProductViewModel : BaseViewModel() {
         if (callSearchForProduct != null) {
             callSearchForProduct?.cancel()
         }
+        if (callSaveSearch != null) {
+            callSaveSearch?.cancel()
+        }
+
         if (callListCategoryFollow != null) {
             callListCategoryFollow?.cancel()
         }

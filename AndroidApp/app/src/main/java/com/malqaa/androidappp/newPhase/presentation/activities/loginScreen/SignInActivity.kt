@@ -10,6 +10,7 @@ import com.malqaa.androidappp.R
 import com.malqaa.androidappp.newPhase.presentation.activities.forgotPasswordActivity.activtiy1.ForgotPasswordActivity
 import com.malqaa.androidappp.newPhase.utils.helper.shared_preferences.SharedPreferencesStaticClass
 import com.malqaa.androidappp.newPhase.core.BaseActivity
+import com.malqaa.androidappp.newPhase.domain.enums.ShowUserInfo
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.domain.models.loginResp.LoginUser
@@ -22,7 +23,7 @@ import kotlinx.android.synthetic.main.activity_sign_in.*
 class SignInActivity : BaseActivity() {
 
 
-    private var loginViewModel: LoginViewModel?=null
+    private var loginViewModel: LoginViewModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,12 +51,13 @@ class SignInActivity : BaseActivity() {
         }
 
         loginViewModel?.languageObserver?.observe(this, Observer {
-            HelpFunctions.ShowLongToast(it.message,this)
+            HelpFunctions.ShowLongToast(it.message, this)
             setLocate()
 
         })
 
     }
+
     private fun setupLoginViewModel() {
         loginViewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
         loginViewModel!!.isLoading.observe(this, Observer {
@@ -89,9 +91,9 @@ class SignInActivity : BaseActivity() {
             }
         })
         loginViewModel!!.errorResponseObserver.observe(this, Observer {
-            if(it.status!=null && it.status=="409"){
+            if (it.status != null && it.status == "409") {
                 HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), this)
-            }else {
+            } else {
                 if (it.message != null) {
                     HelpFunctions.ShowLongToast(
                         it.message!!,
@@ -106,6 +108,7 @@ class SignInActivity : BaseActivity() {
             }
         })
     }
+
     /**event clicks*/
     private fun setClickListeners() {
         Forgot_your_password.setOnClickListener {
@@ -117,6 +120,7 @@ class SignInActivity : BaseActivity() {
         }
 
     }
+
     fun confirmInput(v: View) {
         if (!validateEmail() or !validatePassword()) {
             return
@@ -124,18 +128,27 @@ class SignInActivity : BaseActivity() {
             loginViewModel!!.signInUser(
                 email_tv.text.toString().trim(),
                 passwword_tv.text.toString().trim(),
-                SharedPreferencesStaticClass.getFcmToken())
+                SharedPreferencesStaticClass.getFcmToken()
+            )
         }
     }
 
     private fun saveUserData(userObject: LoginUser) {
         ConstantObjects.logged_userid = userObject.id
-       // ConstantObjects.businessAccountUser = userObject.businessAccounts
+        // ConstantObjects.businessAccountUser = userObject.businessAccounts
         val userId: String = userObject.id
         ConstantObjects.logged_userid = userId
         HelpFunctions.ShowLongToast(getString(R.string.LoginSuccessfully), this)
         Paper.book().write(SharedPreferencesStaticClass.islogin, true)
         Paper.book().write<LoginUser>(SharedPreferencesStaticClass.user_object, userObject)
+//        if (userObject.showUserInformation.toString().lowercase() == ShowUserInfo.EveryOne.name.lowercase())
+//            SharedPreferencesStaticClass.saveShowUserInformation(1)
+//        else if(userObject.showUserInformation.toString().lowercase() == ShowUserInfo.MembersOnly.name.lowercase()){
+//            SharedPreferencesStaticClass.saveShowUserInformation(2)
+//        }else{
+//            SharedPreferencesStaticClass.saveShowUserInformation(3)
+//        }
+
         setResult(RESULT_OK, Intent())
         finish()
     }
@@ -175,7 +188,7 @@ class SignInActivity : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         loginViewModel?.closeAllCall()
-        loginViewModel=null
+        loginViewModel = null
     }
 
 }

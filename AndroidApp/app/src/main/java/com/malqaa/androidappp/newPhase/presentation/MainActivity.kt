@@ -28,7 +28,7 @@ var numBadge=MutableLiveData<Int>(0)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_bottmmm)
         //====nav control
-        getFcmToken()
+//        getFcmToken()
 //        val deviceIdHelper = DeviceIdHelper(this)
 //        val deviceId = deviceIdHelper.getDeviceId()
         nav_view.setupWithNavController(findNavController(R.id.nav_host_fragment))
@@ -115,7 +115,7 @@ var numBadge=MutableLiveData<Int>(0)
                     // Get the FCM token
                     val token = task.result
 
-                    SharedPreferencesStaticClass.saveFcmToken(token)
+//                    SharedPreferencesStaticClass.saveFcmToken(token)
                     Log.d("FCM Token", "Token: $token")
 
                     // Now you have the FCM token, you can use it as needed

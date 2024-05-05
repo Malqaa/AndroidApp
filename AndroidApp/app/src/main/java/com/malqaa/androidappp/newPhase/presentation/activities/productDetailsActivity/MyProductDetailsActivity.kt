@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -95,6 +96,8 @@ import kotlinx.android.synthetic.main.activity_my_product_details2.txtCountPurch
 import kotlinx.android.synthetic.main.activity_my_product_details2.txtHappy
 import kotlinx.android.synthetic.main.activity_my_product_details2.txtSad
 import kotlinx.android.synthetic.main.activity_my_product_details2.txtSmile
+import kotlinx.android.synthetic.main.my_product_details.productimg
+import kotlinx.android.synthetic.main.activity_product_details_item_2.laySpec
 import kotlinx.android.synthetic.main.my_product_details.btnNextImage
 import kotlinx.android.synthetic.main.my_product_details.btnShare
 import kotlinx.android.synthetic.main.my_product_details.containerMainProduct
@@ -104,7 +107,6 @@ import kotlinx.android.synthetic.main.my_product_details.ivFav
 import kotlinx.android.synthetic.main.my_product_details.loader
 import kotlinx.android.synthetic.main.my_product_details.next_image
 import kotlinx.android.synthetic.main.my_product_details.other_image_layout
-import kotlinx.android.synthetic.main.my_product_details.productimg
 import kotlinx.android.synthetic.main.my_product_details.rvProductImages
 import kotlinx.android.synthetic.main.my_product_details.swipe_to_refresh
 import kotlinx.coroutines.Dispatchers
@@ -122,7 +124,7 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
 
     var addProductReviewRequestCode = 1000
     lateinit var product: Product
-
+    var urlImg = ""
     lateinit var questionAnswerAdapter: QuestionAnswerAdapter
     lateinit var sellerProductAdapter: ProductHorizontalAdapter
     lateinit var similarProductAdapter: ProductHorizontalAdapter
@@ -181,24 +183,28 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
             productDetialsViewModel.addLastViewedProduct(productId)
         }
 
-        if(isMyProductForSale){
+        if (isMyProductForSale) {
             editProduct.show()
             layInfo.show()
             discountProduct.show()
-        }else{
+        } else {
             layInfo.hide()
             editProduct.hide()
             discountProduct.hide()
         }
-        editProduct.setOnClickListener{
-            ConstantObjects.isModify=true
-            ConstantObjects.isRepost=false
-            startActivity(Intent(this@MyProductDetailsActivity, ConfirmationAddProductActivity::class.java).apply {
-                putExtra("productID",productId)
-                putExtra("whereCome","repost")
-                putExtra(ConstantObjects.isEditKey, true)
+        editProduct.setOnClickListener {
+            ConstantObjects.isModify = true
+            ConstantObjects.isRepost = false
+            startActivity(
+                Intent(
+                    this@MyProductDetailsActivity,
+                    ConfirmationAddProductActivity::class.java
+                ).apply {
+                    putExtra("productID", productId)
+                    putExtra("whereCome", "repost")
+                    putExtra(ConstantObjects.isEditKey, true)
 
-            })
+                })
         }
         discountProduct.setOnClickListener {
             openDiscountDialog(productId)
@@ -222,6 +228,7 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
                 })
         addDiscountDialog.show()
     }
+
     private fun callGetPriceCart(nameProduct: String) {
 
         if (SharedPreferencesStaticClass.getMasterCartId().toInt() != 0) {
@@ -244,8 +251,6 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
         if (!buyCurrentPriceDialog.isShowing)
             buyCurrentPriceDialog.show()
     }
-
-
 
 
     override fun setOnGoCart() {
@@ -301,6 +306,11 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
     /**set view listeners*/
 
     private fun setupViewClickListeners() {
+        productimg.setOnClickListener {
+            val customDialog = OpenImgLargeDialog(this, urlImg)
+            if (!customDialog.isShowing)
+                customDialog.show()
+        }
 
         tvAddReview.setOnClickListener {
             if (HelpFunctions.isUserLoggedIn()) {
@@ -436,32 +446,34 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
 
         }
         productDetialsViewModel.errorResponseObserver.observe(this) {
-            if (it.status != null && it.status == "409") {
-                HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), this)
-            } else {
-                if (it.message != null) {
-                    showProductApiError(it.message!!)
+            if (it != null)
+                if (it.status != null && it.status == "409") {
+                    HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), this)
                 } else {
-                    showProductApiError(getString(R.string.serverError))
+                    if (it.message != null) {
+                        showProductApiError(it.message!!)
+                    }else {
+                        showProductApiError(getString(R.string.serverError))
+                    }
                 }
-            }
         }
         productDetialsViewModel.getRateResponseObservable.observe(this) { rateListResp ->
             if (rateListResp.status_code == 200) {
-                if(rateListResp.data.happyCount!=0){
+                if (rateListResp.data.happyCount != 0) {
                     linHappy.show()
-                    txtHappy.text=rateListResp.data.happyCount.toString()
+                    txtHappy.text = rateListResp.data.happyCount.toString()
                 }
-                if(rateListResp.data.satisfiedCount!=0){
+                if (rateListResp.data.satisfiedCount != 0) {
                     linSmile.show()
-                    txtSmile.text=rateListResp.data.satisfiedCount.toString()
+                    txtSmile.text = rateListResp.data.satisfiedCount.toString()
                 }
-                if(rateListResp.data.disgustedCount!=0){
+                if (rateListResp.data.disgustedCount != 0) {
                     linSad.show()
-                    txtSad.text=rateListResp.data.disgustedCount.toString()
+                    txtSad.text = rateListResp.data.disgustedCount.toString()
                 }
 
-                rating_bar_detail_tv.text = "${rateListResp.data.totalRecords} ${getString(R.string.visitors)} "
+                rating_bar_detail_tv.text =
+                    "${rateListResp.data.totalRecords} ${getString(R.string.visitors)} "
                 if (!rateListResp.data.rateProductListDto.isNullOrEmpty()) {
                     setReviewRateView(rateListResp.data.rateProductListDto)
                 } else {
@@ -472,7 +484,7 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
         productDetialsViewModel.productDetailsObservable.observe(this) { productResp ->
             if (productResp.productDetails != null) {
                 productDetails = productResp.productDetails
-                if(productDetails?.priceDisc!=productDetails?.price)
+                if (productDetails?.priceDisc != productDetails?.price)
                     layDiscount.show()
                 setProductData(productDetails)
             } else {
@@ -562,7 +574,7 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
                 onRefresh()
             } else {
                 if (addDiscountResp.message != null && addDiscountResp.message != "") {
-                    HelpFunctions.ShowLongToast(addDiscountResp.message,this)
+                    HelpFunctions.ShowLongToast(addDiscountResp.message, this)
                 } else {
                     HelpFunctions.ShowLongToast(
                         getString(R.string.serverError),
@@ -751,6 +763,7 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
         productImagesAdapter = ProductImagesAdapter(productImagesList,
             object : ProductImagesAdapter.SetOnSelectedImage {
                 override fun onSelectImage(position: Int) {
+                    urlImg = productImagesList[position].url
                     if (productImagesList[position].type == 2) {
 
                         //video
@@ -785,6 +798,8 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
     private fun setSpeceificationAdapter() {
         specificationList = ArrayList()
         specificationAdapter = SpecificationAdapter(specificationList)
+        if (specificationList.size != 0)
+            laySpec.show()
         rvProductSpecification.apply {
             layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
             adapter = specificationAdapter
@@ -838,16 +853,18 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
             )
 
 
-            txtCountNegotiation.text= productDetails.negotiationOffersCount.toString()
-            txtCountPurchase.text= productDetails.purchasedQuantity.toString()
-            txtCountFav.text= productDetails.addedToFavoritsCount.toString()
+            txtCountNegotiation.text = productDetails.negotiationOffersCount.toString()
+            txtCountPurchase.text = productDetails.purchasedQuantity.toString()
+            txtCountFav.text = productDetails.addedToFavoritsCount.toString()
 
-            tvPriceProductDisc.text="${productDetails.priceDisc} ${getString(R.string.rial)}"
+            tvPriceProductDisc.text = "${productDetails.priceDisc} ${getString(R.string.rial)}"
 
             productPrice = productDetails.priceDisc
             if (productDetails.listMedia != null) {
                 other_image_layout.show()
                 productImagesList.clear()
+                if (productDetails.listMedia.isNotEmpty())
+                    urlImg = productDetails.listMedia[0].url
                 productImagesList.addAll(productDetails.listMedia)
                 productImagesAdapter.notifyDataSetChanged()
             } else {
@@ -855,9 +872,9 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
             }
             /**product data*/
             tvProductReview.text =
-                "${productDetails.countView} ${getString(R.string.Views)} - #${productDetails.id} - ${
+                "${productDetails.viewsCount} ${getString(R.string.Views)} - #${productDetails.id} - ${
                     HelpFunctions.getViewFormatForDateTrack(
-                        productDetails.createdAt
+                        productDetails.createdAt, "dd/MM/yyyy"
                     )
                 }"
             tvProductItemName.text = productDetails.name ?: ""
@@ -869,7 +886,7 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
             val isEllipsize: Boolean = tvProductDescriptionShort.text.toString()
                 .trim() != productDetails.description?.trim()
             if (isEllipsize) {
-                btnMoreItemDetails.show()
+//                btnMoreItemDetails.show()
             } else {
                 btnMoreItemDetails.hide()
             }
@@ -878,6 +895,8 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
                 "${productDetails.auctionMinimumPrice} ${getString(R.string.Rayal)}"
             txt_lowAuction.text =
                 "${productDetails.auctionStartPrice} ${getString(R.string.Rayal)}"
+
+
 
             txtPrice.text = "${productDetails.price} ${getString(R.string.Rayal)}"
 
@@ -920,7 +939,11 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
             }
 
             if (productDetails.isFixedPriceEnabled) {
-                layPrice.show()
+                if (productDetails.price.toDouble() == 0.0) {
+                    layPrice.visibility = View.GONE
+                } else
+                    layPrice.visibility = View.VISIBLE
+
                 containerDeleteProduct.text = getString(R.string.deleteProduct)
             }
 
@@ -974,7 +997,7 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
     }
 
 
-    private fun timeDifferent(targetDateTimeString:String){
+    private fun timeDifferent(targetDateTimeString: String) {
         // Specify the target date and time
 
         val formatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss")
@@ -1105,6 +1128,7 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
 
         }
     }
+
     override fun onDestroy() {
         super.onDestroy()
         productDetialsViewModel.closeAllCall()

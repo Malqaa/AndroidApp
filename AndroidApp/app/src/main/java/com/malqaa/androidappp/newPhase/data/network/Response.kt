@@ -1,5 +1,7 @@
 package com.malqaa.androidappp.newPhase.data.network
 
+import com.google.gson.Gson
+import com.malqaa.androidappp.newPhase.domain.models.ErrorResponse
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -15,7 +17,7 @@ fun <T> callApi(call: Call<T>, onSuccess: (T) -> Unit, onFailure: (Throwable?,In
                 if(response.code()==401){
                     goLogin()
                 }else
-                    onFailure(null ,response.code(), response.errorBody()!!)
+                onFailure(null ,response.code(), response.errorBody())
             }
         }
 

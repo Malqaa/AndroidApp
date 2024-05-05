@@ -60,6 +60,7 @@
 
 
                             <androidx.appcompat.widget.AppCompatButton
+                                android:id="@+id/txtTypeUser"
                                 android:layout_width="@dimen/_48sdp"
                                 android:layout_height="@dimen/_24sdp"
                                 android:layout_marginTop="@dimen/_50sdp"

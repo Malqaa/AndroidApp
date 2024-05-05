@@ -31,7 +31,7 @@ class QuestionAnswerAdapter(var questionList: List<QuestionItem>,var setonSelect
 
     override fun onBindViewHolder(holder: QuestionAnswerViewHolder, position: Int) {
         holder.viewBinding.tvQuestion.text = questionList[position].question.toString()
-        holder.viewBinding.questionTime.text = HelpFunctions.getViewFormatForDateTrack(questionList[position].createdAt)
+        holder.viewBinding.questionTime.text = HelpFunctions.getViewFormatForDateTrack(questionList[position].createdAt,"dd/MM/yyyy HH:mm:ss")
 //        Extension.loadThumbnail(
 //            context,
 //            questionList[position].clientImage,
@@ -44,7 +44,7 @@ class QuestionAnswerAdapter(var questionList: List<QuestionItem>,var setonSelect
             holder.viewBinding.questionResponseYet.hide()
             holder.viewBinding.answerView.show()
             holder.viewBinding.answerTv.text = questionList[position].answer
-            holder.viewBinding.answerTime.text =  HelpFunctions.getViewFormatForDateTrack(questionList[position].answeredAt)
+            holder.viewBinding.answerTime.text =  HelpFunctions.getViewFormatForDateTrack(questionList[position].answeredAt,"dd/MM/yyyy HH:mm:ss")
             holder.viewBinding.answerTime.show()
         } else {
             holder.viewBinding.questionResponseYet.show()

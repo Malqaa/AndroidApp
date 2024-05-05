@@ -65,7 +65,9 @@ class NegotiationOffersSaleActivity : BaseActivity(),
         negotiationOffersViewModel.errorResponseObserver.observe(this) {
             if (it.message != null) {
                 showApiError(it.message!!)
-            } else {
+            } else if (it.message2 != null) {
+                showApiError(it.message2!!)
+            }else {
                 showApiError(getString(R.string.serverError))
             }
         }

@@ -37,8 +37,9 @@ class MyOrdersAdapter(var orderList: List<OrderItem>, var setOnClickListeners:Se
         }else{
             holder.viewBinding.orderNumberTv.text = "#${orderList[position].orderId}"
         }
+
         holder.viewBinding.tvRequestType.text=orderList[position].requestType
-        holder.viewBinding.orderTimeTv.text = HelpFunctions.getViewFormatForDateTrack(orderList[position].createdAt)
+        holder.viewBinding.orderTimeTv.text = HelpFunctions.getViewFormatForDateTrack(orderList[position].createdAt,"dd/MM/yyyy HH:mm:ss");
         holder.viewBinding.shipmentsTv.text=orderList[position].providersCount.toString()
         holder.viewBinding.totalOrderTv.text = "${orderList[position].totalOrderAmountAfterDiscount} ${context.getString(R.string.rial)}"
 

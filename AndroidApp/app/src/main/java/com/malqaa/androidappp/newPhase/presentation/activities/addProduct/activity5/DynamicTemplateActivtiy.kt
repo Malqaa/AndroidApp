@@ -248,6 +248,8 @@ class DynamicTemplateActivtiy : BaseActivity(), DynamicSpecificationsAdapter.OnC
 
                     data.add(
                         DynamicSpecificationSentObject(
+                            HeaderSpeAr = dynamicSpecificationItem.nameAr.toString(),
+                            HeaderSpeEn = dynamicSpecificationItem.nameEn.toString(),
                             ValueSpeAr = supIdAr?.id.toString(),
                             ValueSpeEn = supIdAr?.id.toString(),
                             Type = dynamicSpecificationItem.type,
@@ -320,7 +322,7 @@ class DynamicTemplateActivtiy : BaseActivity(), DynamicSpecificationsAdapter.OnC
 
     override fun setCheckClicked(position: Int) {
         dynamicSpecificationsArrayList[position].valueBoolean =
-            !dynamicSpecificationsArrayList[position].valueBoolean
+            dynamicSpecificationsArrayList[position].valueBoolean
     }
 
     override fun setOnSpinnerListSelected(mainAttributesPosition: Int, spinnerPosition: Int) {

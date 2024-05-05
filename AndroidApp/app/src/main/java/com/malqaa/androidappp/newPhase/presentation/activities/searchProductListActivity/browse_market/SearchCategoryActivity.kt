@@ -3,7 +3,10 @@ package com.malqaa.androidappp.newPhase.presentation.activities.searchProductLis
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.View
+import android.view.inputmethod.EditorInfo
+import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
@@ -35,16 +38,24 @@ import com.malqaa.androidappp.newPhase.presentation.activities.searchProductList
 import kotlinx.android.synthetic.main.fragment_browse_market.btnRegion
 import kotlinx.android.synthetic.main.fragment_browse_market.btnSpecification
 import kotlinx.android.synthetic.main.fragment_browse_market.btnSubCatgeoryFilter
+import kotlinx.android.synthetic.main.fragment_browse_market.etSearch
 import kotlinx.android.synthetic.main.fragment_browse_market.follow_category
 import kotlinx.android.synthetic.main.fragment_browse_market.icon_grid
 import kotlinx.android.synthetic.main.fragment_browse_market.icon_list
+import kotlinx.android.synthetic.main.fragment_browse_market.imgFollow
+import kotlinx.android.synthetic.main.fragment_browse_market.ivSearch
+import kotlinx.android.synthetic.main.fragment_browse_market.layCategory
+import kotlinx.android.synthetic.main.fragment_browse_market.laySearch
 import kotlinx.android.synthetic.main.fragment_browse_market.lbl_toolbar_category
 import kotlinx.android.synthetic.main.fragment_browse_market.progressBar
 import kotlinx.android.synthetic.main.fragment_browse_market.progressBarMore
 import kotlinx.android.synthetic.main.fragment_browse_market.recyclerMarketFull
 import kotlinx.android.synthetic.main.fragment_browse_market.recyclerViewMarket
+import kotlinx.android.synthetic.main.fragment_browse_market.saveSearch
 import kotlinx.android.synthetic.main.fragment_browse_market.swipe_to_refresh
+import kotlinx.android.synthetic.main.fragment_browse_market.total_result_tv
 import kotlinx.android.synthetic.main.fragment_browse_market.tvError
+import kotlinx.android.synthetic.main.fragment_homee.textInputLayout11
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -77,6 +88,8 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     private lateinit var productList: ArrayList<Product>
     private lateinit var productListVip: ArrayList<Product>
     private var lastUpdateIndex = -1
+    var strSearch = ""
+    var clickSearch =false
     var productName: String? = null
     private var added_product_id_to_fav = 0
     var isLoading = false
@@ -87,6 +100,7 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     var categoriesForProductList: ArrayList<CategoriesSearchItem> = ArrayList()
     var getCategoryForFirstTimeOnlyToUseInFilter = false
     var page = 1
+    var typeView = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -96,10 +110,21 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         setProductSearchCategoryAdapter()
         setViewClickListeners()
 
-        categoryName = intent.getStringExtra("CategoryDesc") ?: "CategoryName"
-        categoryID = intent.getIntExtra("CategoryID", 0)
-        comeFrom = intent.getIntExtra("ComeFrom", 0)
+        typeView = intent.getStringExtra("typeView") ?: ""
+        if (typeView == "SearchHome") {
+            comeFrom = 3
+            categoryID = 0
+            follow_category.visibility = View.GONE
+            laySearch.visibility = View.VISIBLE
+        } else {
+            categoryName = intent.getStringExtra("CategoryDesc") ?: "CategoryName"
+            categoryID = intent.getIntExtra("CategoryID", 0)
+            comeFrom = intent.getIntExtra("ComeFrom", 0)
+            laySearch.visibility = View.GONE
+            follow_category.visibility = View.VISIBLE
+        }
         productName = intent.getStringExtra("productName")
+
         lbl_toolbar_category.text = categoryName
         setupViewModel()
         when (comeFrom) {
@@ -116,7 +141,8 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             }
         }
 
-        filterCategoryProductsDialog = FilterCategoryProductsDialog(productsListViewModel,
+        filterCategoryProductsDialog = FilterCategoryProductsDialog(
+            productsListViewModel,
             this,
             FilterCategoryProductsDialog.subCategoryType,
             categoryID,
@@ -159,6 +185,16 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             }
 
         }
+
+        productsListViewModel.saveSearchObserver.observe(this) {
+            if (it != null) {
+                if (it.status_code == 200) {
+                    strSearch = etSearch.text.toString()
+                    HelpFunctions.ShowLongToast(getString(R.string.saveDone), this)
+                    imgFollow.setImageResource(R.drawable.notification)
+                }
+            }
+        }
         productsListViewModel.searchProductListRespObserver.observe(this) { productListResp ->
             if (productListResp.status_code == 200) {
 
@@ -169,17 +205,23 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                     val allListOutVip =
                         productListResp.data.products.filter { it.productPosition != ProductPosition.Vip.value }
 
+                    total_result_tv.text =
+                        "" + productListResp.totaRecords + " " + getString(R.string.results)
 
                     if (listVip.isNotEmpty()) {
-                        recyclerMarketFull.visibility= View.VISIBLE
+                        recyclerMarketFull.visibility = View.VISIBLE
                         productListVip.addAll(listVip)
                         recyclerMarketFull.adapter = productCategoryAdapter
                         productCategoryAdapter.updateAdapter(productListVip)
-                    }else{
-                        recyclerMarketFull.visibility= View.GONE
+                    } else {
+                        recyclerMarketFull.visibility = View.GONE
                     }
 
-                    recyclerViewMarket.visibility= View.VISIBLE
+                    recyclerViewMarket.visibility = View.VISIBLE
+                    if(clickSearch){
+                        productList.clear()
+                        clickSearch =false
+                    }
                     productList.addAll(allListOutVip)
 
                     if (flagList) {
@@ -187,6 +229,7 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                             adapter = productRowFullAdapter
                             layoutManager = linerlayout
                         }
+
                         productRowFullAdapter.updateAdapter(productList)
                     } else {
                         recyclerViewMarket.apply {
@@ -197,9 +240,9 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                     }
 
                 } else {
-                    if (productList.isEmpty()){
-                        recyclerViewMarket.visibility= View.GONE
-                        recyclerMarketFull.visibility= View.GONE
+                    if (productList.isEmpty()) {
+                        recyclerViewMarket.visibility = View.GONE
+                        recyclerMarketFull.visibility = View.GONE
                         showProductApiError(getString(R.string.noProductsFound))
                     }
                 }
@@ -283,12 +326,12 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
         }
 
-        productsListViewModel.isFollowCategory.observe(this){isFollow ->
+        productsListViewModel.isFollowCategory.observe(this) { isFollow ->
 
-            if(isFollow){
+            if (isFollow) {
                 isFollowCategory = true
                 checkFollowIcon(true)
-            }else{
+            } else {
                 isFollowCategory = false
                 checkFollowIcon(false)
             }
@@ -306,6 +349,45 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     private fun setViewClickListeners() {
         lbl_toolbar_category.setOnClickListener {
             onBackPressed()
+        }
+
+        etSearch.setOnEditorActionListener(object : TextView.OnEditorActionListener {
+            override fun onEditorAction(p0: TextView?, actionId: Int, p2: KeyEvent?): Boolean {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    if (etSearch.text.trim().toString() == "") {
+                        etSearch.error =
+                            getString(R.string.enter_the_name_of_the_product_you_want_to_sell)
+                    } else {
+
+                        advanceSearch()
+                        etSearch.setText("")
+                    }
+                    return true
+                }
+                return false
+            }
+
+        })
+        ivSearch.setOnClickListener {
+            if (etSearch.text.toString().trim() != "") {
+                advanceSearch()
+//                homeViewModel.doSearch(mapOf("productName" to etSearch.text.toString().trim()))
+            } else {
+                etSearch.error = getString(R.string.want_to_search_for_a_commodity_or_an_auction)
+            }
+        }
+        saveSearch.setOnClickListener {
+            if (!HelpFunctions.isUserLoggedIn()) {
+                startActivity(Intent(this, SignInActivity::class.java))
+            } else {
+
+                if (strSearch != etSearch.text.toString()) {
+                    productsListViewModel.saveSearch(etSearch.text.toString())
+                } else
+                    HelpFunctions.ShowLongToast(getString(R.string.saveDone), this)
+
+
+            }
         }
 
         icon_grid.setOnClickListener {
@@ -351,9 +433,9 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         follow_category.setOnClickListener {
             if (HelpFunctions.isUserLoggedIn()) {
                 if (isFollowCategory) {
-                    productsListViewModel.removeFollow(categoryID,this)
+                    productsListViewModel.removeFollow(categoryID, this)
                 } else {
-                    productsListViewModel.followCategoryAPI(categoryID,this)
+                    productsListViewModel.followCategoryAPI(categoryID, this)
                 }
             } else {
                 goToSignInActivity()
@@ -362,6 +444,26 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
     }
 
+    fun advanceSearch(){
+        clickSearch =true
+        productName = etSearch.text.toString()
+        productsListViewModel.searchForProduct(
+            categoryID,
+            ConstantObjects.currentLanguage,
+            1,
+            countryList,
+            regionList,
+            neighoodList,
+            subCategoryList,
+            specificationList,
+            startPrice,
+            endProce,
+            productName,
+            comeFrom
+        )
+
+        hideSoftKeyboard(etSearch)
+    }
     private fun setProductSearchCategoryAdapter() {
         productList = ArrayList()
         productListVip = arrayListOf()
@@ -421,7 +523,6 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     override fun onRefresh() {
         tvError.hide()
         getResetAll()
-       
 
 
     }
@@ -547,7 +648,6 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     }
 
 
-
     private fun checkFollowIcon(isFollow: Boolean) {
         val img = if (isFollow) {
             ContextCompat.getDrawable(
@@ -570,7 +670,7 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         productsListViewModel.baseCancel()
     }
 
-    fun applyFilterAll(){
+    fun applyFilterAll() {
         endlessRecyclerViewScrollListener.resetState()
         endlessRecyclerViewScrollListener2.resetState()
         swipe_to_refresh.isRefreshing = false
@@ -598,6 +698,7 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
             ConstantObjects.search_product -> {
                 follow_category.hide()
+                lbl_toolbar_category.text = productName
                 productsListViewModel.searchForProduct(
                     categoryID,
                     ConstantObjects.currentLanguage,
@@ -615,7 +716,8 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             }
         }
     }
-    private fun getResetAll(){
+
+    private fun getResetAll() {
         endlessRecyclerViewScrollListener.resetState()
         endlessRecyclerViewScrollListener2.resetState()
         swipe_to_refresh.isRefreshing = false
@@ -643,6 +745,8 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
             ConstantObjects.search_product -> {
                 follow_category.hide()
+                etSearch.setText(productName)
+                lbl_toolbar_category.text = productName
                 productsListViewModel.searchForProduct(
                     categoryID,
                     ConstantObjects.currentLanguage,
@@ -654,7 +758,7 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                     arrayListOf(),
                     startPrice,
                     endProce,
-                    null,
+                    productName,
                     comeFrom
                 )
             }

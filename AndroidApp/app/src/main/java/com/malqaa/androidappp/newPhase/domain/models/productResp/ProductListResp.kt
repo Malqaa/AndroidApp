@@ -15,13 +15,14 @@ data class ProductListSearchResp(
     val code: String?=null,
     val message: String="",
     val status_code: Int,
+    val totaRecords: Int,
     val status:String?=null,
     @SerializedName("data")
     val data: SearchProductList?=null
 
 )
 data class SearchProductList(
-    val products:List<Product>?=null,
+    val products:ArrayList<Product>?=null,
     val categories:List<CategoriesSearchItem>?=null
 )
 

@@ -74,9 +74,10 @@ class FavoriteCategory : Fragment(R.layout.fragment_favorite_category) {
                 (requireActivity() as BaseActivity).showError(getString(R.string.Please_choose_catgeory))
             }else{
 
-                    startActivity(Intent(requireActivity(), SubCategoriesActivity::class.java).apply {
+                    startActivity(Intent(requireActivity(), FavoriteSubCategory::class.java).apply {
                         putExtra(ConstantObjects.categoryIdKey, allCategoryList[position].id)
                         putExtra(ConstantObjects.categoryName, allCategoryList[position].name)
+                        putExtra("FromFavorite", true)
                     })
 
             }

@@ -9,6 +9,7 @@ data class SellerInformation(
     val providerId: String?=null,
     val rate: Float,
     val businessAccountId: String?=null,
+    var showUserInformation: String?=null,
     val image: String? = null,
     val name: String? = null,
     val city: String? = null,

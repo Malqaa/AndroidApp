@@ -14,8 +14,6 @@
         android:layout_above="@+id/add_product_button4"
         android:orientation="vertical">
 
-
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/allCategoriesRecyclerView"
             android:layout_width="match_parent"

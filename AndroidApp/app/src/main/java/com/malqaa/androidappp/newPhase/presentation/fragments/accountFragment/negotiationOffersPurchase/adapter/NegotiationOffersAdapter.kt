@@ -3,6 +3,7 @@ package com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.n
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
@@ -42,16 +43,17 @@ class NegotiationOffersAdapter(
     //@SuppressLint("SetTextI18n")
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: NegotiationOffersViewHolder, position: Int) {
-        if(negotiationOfferDetailsList[position].offerExpireHours!=null){
-            holder.viewBinding.tvExpireHours.text="${negotiationOfferDetailsList[position].offerExpireHours} ${context.getString(R.string._3_days_after_the_offer_ends)}"
-        }else{
-            holder.viewBinding.tvExpireHours.text=""
-        }
+//        if(negotiationOfferDetailsList[position].offerExpireHours!=null){
+//            holder.viewBinding.tvExpireHours.text="${negotiationOfferDetailsList[position].offerExpireHours} ${context.getString(R.string._3_days_after_the_offer_ends)}"
+//        }else{
+//            holder.viewBinding.tvExpireHours.text=""
+//        }
 
         holder.viewBinding.productType.text = negotiationOfferDetailsList[position].productCategory
+        if( !negotiationOfferDetailsList[position].productName.equals(""))
+            holder.viewBinding.productName.visibility=View.VISIBLE
         holder.viewBinding.productName.text = negotiationOfferDetailsList[position].productName
         holder.viewBinding.productCity.text = negotiationOfferDetailsList[position].region
-        holder.viewBinding.tvProductPrice.text=negotiationOfferDetailsList[position].productPrice.toString()
         holder.viewBinding.tvOfferedPrice.text="${context.getString(R.string.offerPrice)} ${negotiationOfferDetailsList[position].offerPrice} ${context.getString(R.string.sar)}"
 
         Extension.loadThumbnail(
@@ -60,6 +62,9 @@ class NegotiationOffersAdapter(
             holder.viewBinding.productImage,
             holder.viewBinding.loader
         )
+        if(negotiationOfferDetailsList[position].productPrice!=0f){
+            holder.viewBinding.tvProductPrice.visibility=View.VISIBLE
+        }
         holder.viewBinding.tvProductPrice.text =
             "${negotiationOfferDetailsList[position].productPrice} ${
                 context.getString(
@@ -83,7 +88,7 @@ class NegotiationOffersAdapter(
             if (isSend) {
                 when (negotiationOfferDetailsList[position].offerStatus) {
                     "New" -> {
-                        holder.viewBinding.tvStatus.text =
+                        holder.viewBinding.tvExpireHours.text =
                             context.getString(R.string.waitForYourResponse)
                         holder.viewBinding.containerSaleButton.hide()
                         holder.viewBinding.btnCancel.hide()
@@ -91,61 +96,61 @@ class NegotiationOffersAdapter(
                     "Canceled" -> {
                         holder.viewBinding.containerSaleButton.hide()
                         holder.viewBinding.btnCancel.hide()
-                        holder.viewBinding.tvStatus.text = context.getString(R.string.OfferCanceled)
+                        holder.viewBinding.tvExpireHours.text = context.getString(R.string.OfferCanceled)
                     }
                     "Accepted" -> {
                         holder.viewBinding.btnPurchase.hide()
                         holder.viewBinding.containerSaleButton.hide()
                         holder.viewBinding.btnCancel.show()
-                        holder.viewBinding.tvStatus.text = context.getString(R.string.accepted)
+                        holder.viewBinding.tvExpireHours.text = context.getString(R.string.accepted)
                     }
                     "Refused" -> {
                         holder.viewBinding.containerSaleButton.hide()
                         holder.viewBinding.btnCancel.hide()
-                        holder.viewBinding.tvStatus.text = context.getString(R.string.rejected)
+                        holder.viewBinding.tvExpireHours.text = context.getString(R.string.rejected)
                     }
                     "Purchcased" -> {
                         holder.viewBinding.containerSaleButton.hide()
-                        holder.viewBinding.tvStatus.text = context.getString(R.string.Whilweareconfirmingyourpurchase)
+                        holder.viewBinding.tvExpireHours.text = context.getString(R.string.Whilweareconfirmingyourpurchase)
                     }
                     "Expired" ->{
                         holder.viewBinding.containerSaleButton.hide()
-                        holder.viewBinding.tvStatus.text = context.getString(R.string.expired)
+                        holder.viewBinding.tvExpireHours.text = context.getString(R.string.expired)
                     }
                     else -> {
-                        holder.viewBinding.tvStatus.text = ""
+                        holder.viewBinding.tvExpireHours.text = ""
                     }
                 }
 
             } else {
                 when (negotiationOfferDetailsList[position].offerStatus) {
                     "New" -> {
-                        holder.viewBinding.tvStatus.text =
+                        holder.viewBinding.tvExpireHours.text =
                             context.getString(R.string.waitForYourResponse)
                         holder.viewBinding.containerSaleButton.show()
                     }
                     "Canceled" -> {
                         holder.viewBinding.containerSaleButton.hide()
-                        holder.viewBinding.tvStatus.text = context.getString(R.string.OfferCanceled)
+                        holder.viewBinding.tvExpireHours.text = context.getString(R.string.OfferCanceled)
                     }
                     "Accepted" -> {
                         holder.viewBinding.containerSaleButton.hide()
-                        holder.viewBinding.tvStatus.text = context.getString(R.string.accepted)
+                        holder.viewBinding.tvExpireHours.text = context.getString(R.string.accepted)
                     }
                     "Refused" -> {
                         holder.viewBinding.containerSaleButton.hide()
-                        holder.viewBinding.tvStatus.text = context.getString(R.string.rejected)
+                        holder.viewBinding.tvExpireHours.text = context.getString(R.string.rejected)
                     }
                     "Purchcased" -> {
                         holder.viewBinding.containerSaleButton.hide()
-                        holder.viewBinding.tvStatus.text = context.getString(R.string.Whilweareconfirmingyourpurchase)
+                        holder.viewBinding.tvExpireHours.text = context.getString(R.string.Whilweareconfirmingyourpurchase)
                     }
                     "Expired" ->{
                         holder.viewBinding.containerSaleButton.hide()
-                        holder.viewBinding.tvStatus.text = context.getString(R.string.expired)
+                        holder.viewBinding.tvExpireHours.text = context.getString(R.string.expired)
                     }
                     else -> {
-                        holder.viewBinding.tvStatus.text = ""
+                        holder.viewBinding.tvExpireHours.text = ""
                     }
                 }
             }
@@ -168,66 +173,66 @@ class NegotiationOffersAdapter(
                         holder.viewBinding.btnCancel.show()
                         holder.viewBinding.btnPurchase.hide()
                         holder.viewBinding.containerSaleButton.hide()
-                        holder.viewBinding.tvStatus.text = context.getString(R.string.noResponse)
+                        holder.viewBinding.tvExpireHours.text = context.getString(R.string.noResponse)
                     }
                     "Canceled" -> {
                         holder.viewBinding.btnCancel.hide()
-                        holder.viewBinding.tvStatus.text = context.getString(R.string.OfferCanceled)
+                        holder.viewBinding.tvExpireHours.text = context.getString(R.string.OfferCanceled)
                     }
                     "Accepted" -> {
                         holder.viewBinding.btnPurchase.show()
                         holder.viewBinding.btnCancel.hide()
-                        holder.viewBinding.tvStatus.text = context.getString(R.string.accepted)
+                        holder.viewBinding.tvExpireHours.text = context.getString(R.string.accepted)
                     }
                     "Refused"->{
                         holder.viewBinding.btnCancel.hide()
-                        holder.viewBinding.tvStatus.text = context.getString(R.string.rejected)
+                        holder.viewBinding.tvExpireHours.text = context.getString(R.string.rejected)
                     }
                     "Purchcased" -> {
                         holder.viewBinding.containerSaleButton.hide()
-                        holder.viewBinding.tvStatus.text = context.getString(R.string.Whilweareconfirmingyourpurchase)
+                        holder.viewBinding.tvExpireHours.text = context.getString(R.string.Whilweareconfirmingyourpurchase)
                     }
                     "Expired" ->{
                         holder.viewBinding.containerSaleButton.hide()
-                        holder.viewBinding.tvStatus.text = context.getString(R.string.expired)
+                        holder.viewBinding.tvExpireHours.text = context.getString(R.string.expired)
                     }
                     else -> {
-                        holder.viewBinding.tvStatus.text = ""
+                        holder.viewBinding.tvExpireHours.text = ""
                     }
                 }
             }else{
                 when (negotiationOfferDetailsList[position].offerStatus) {
                     "New" -> {
-                        holder.viewBinding.tvStatus.text = context.getString(R.string.noResponse)
+                        holder.viewBinding.tvExpireHours.text = context.getString(R.string.noResponse)
                         holder.viewBinding.containerSaleButton.show()
                         holder.viewBinding.btnCancel.hide()
                     }
                     "Canceled" -> {
                         holder.viewBinding.btnCancel.hide()
                         holder.viewBinding.containerSaleButton.hide()
-                        holder.viewBinding.tvStatus.text = context.getString(R.string.OfferCanceled)
+                        holder.viewBinding.tvExpireHours.text = context.getString(R.string.OfferCanceled)
                     }
                     "Accepted" -> {
                         holder.viewBinding.btnCancel.hide()
                         holder.viewBinding.btnPurchase.show()
-                        holder.viewBinding.tvStatus.text = context.getString(R.string.accepted)
+                        holder.viewBinding.tvExpireHours.text = context.getString(R.string.accepted)
                     }
                     "Refused"->{
                         holder.viewBinding.btnCancel.hide()
                         holder.viewBinding.containerSaleButton.hide()
-                        holder.viewBinding.tvStatus.text = context.getString(R.string.rejected)
+                        holder.viewBinding.tvExpireHours.text = context.getString(R.string.rejected)
                     }
 
                     "Purchcased" -> {
                         holder.viewBinding.containerSaleButton.hide()
-                        holder.viewBinding.tvStatus.text = context.getString(R.string.Whilweareconfirmingyourpurchase)
+                        holder.viewBinding.tvExpireHours.text = context.getString(R.string.Whilweareconfirmingyourpurchase)
                     }
                     "Expired" ->{
                         holder.viewBinding.containerSaleButton.hide()
-                        holder.viewBinding.tvStatus.text = context.getString(R.string.expired)
+                        holder.viewBinding.tvExpireHours.text = context.getString(R.string.expired)
                     }
                     else -> {
-                        holder.viewBinding.tvStatus.text = ""
+                        holder.viewBinding.tvExpireHours.text = ""
                     }
                 }
             }

@@ -71,10 +71,10 @@
 
 
                     <TextView
-                        android:layout_weight="1"
-                        android:layout_gravity="center"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
                         android:fontFamily="@font/madani_arabic_semi_bold"
                         android:text="@string/want_to_search_for_a_commodity_or_an_auction"
                         android:textColor="@color/black"
@@ -83,6 +83,7 @@
                     <com.malqaa.androidappp.newPhase.utils.helper.widgets.language_switch.ToggleSwitch
                         android:id="@+id/language_toggle"
                         android:layout_width="wrap_content"
+                        android:visibility="gone"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
                         android:background="@drawable/tab_bg"
@@ -108,10 +109,10 @@
                     app:hint="@string/search_by_name_auction_number_or_item" />
 
                 <LinearLayout
-                    android:layout_marginTop="15dp"
                     android:id="@+id/itemLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
                     android:background="@drawable/edittext_bg"
                     android:backgroundTint="#F9F9F9"
                     android:gravity="center_vertical"
@@ -158,25 +159,31 @@
                     android:id="@+id/sliderLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:visibility="gone">
+                    android:layout_marginTop="@dimen/_5sdp">
 
-                    <com.malqaa.androidappp.newPhase.utils.helper.widgets.viewpager2.AutoScrollViewPager
-                        android:id="@+id/slider_home"
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/card_slide"
+                        app:cardCornerRadius="12dp"
+                        android:layout_margin="10dp"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_140sdp"
-                        android:layout_above="@+id/SliderDots"
-                        android:layout_marginBottom="@dimen/_5sdp"
-                        app:cycle="true"
-                        app:slideDirection="right"
-                        app:slideInterval="5000"
-                        app:stopWhenTouch="true" />
+                        android:layout_height="@dimen/_140sdp">
+
+                        <com.malqaa.androidappp.newPhase.utils.helper.widgets.viewpager2.AutoScrollViewPager
+                            android:id="@+id/slider_home"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_above="@+id/SliderDots"
+                            app:cycle="true"
+                            app:slideDirection="right"
+                            app:slideInterval="5000"
+                            app:stopWhenTouch="true" />
+                    </androidx.cardview.widget.CardView>
 
                     <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
                         android:id="@+id/dots_indicator"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/slider_home"
+                        android:layout_below="@+id/card_slide"
                         android:layout_centerHorizontal="true"
                         app:dotsColor="@color/lightOrange"
                         app:dotsCornerRadius="5dp"
@@ -240,6 +247,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     android:layout_marginTop="@dimen/_10sdp">
 
                     <androidx.cardview.widget.CardView
@@ -308,19 +316,11 @@
 
 
                 </RelativeLayout>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/dynamic_product_rcv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-
                 <LinearLayout
                     android:id="@+id/containerLastView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginBottom="5dp"
                     android:orientation="vertical">
 
@@ -370,6 +370,15 @@
 
 
                 </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/dynamic_product_rcv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="5dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
 
 
             </LinearLayout>

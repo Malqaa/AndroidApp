@@ -50,7 +50,7 @@ class AddPhotoActivity : BaseActivity(), SelectedImagesAdapter.SetOnSelectedMain
         idsImageRemoved = arrayListOf()
 
         setupVideoLinksAapter()
-        if(!ConstantObjects.isModify){
+        if (!ConstantObjects.isModify) {
             HelpFunctions.ShowLongToast(
                 getString(R.string.noSubCategoryFound),
                 this@AddPhotoActivity
@@ -92,7 +92,7 @@ class AddPhotoActivity : BaseActivity(), SelectedImagesAdapter.SetOnSelectedMain
 
                 override fun onDeleteItem(position: Int) {
                     for (i in AddProductObjectData.images?.indices!!) {
-                        if(AddProductObjectData.images!![i].url == videoLinks!![position]){
+                        if (AddProductObjectData.images!![i].url == videoLinks!![position]) {
                             idsImageRemoved?.add(AddProductObjectData.images!![i].id)
                             AddProductObjectData.images?.removeAt(i)
                             break
@@ -314,6 +314,9 @@ class AddPhotoActivity : BaseActivity(), SelectedImagesAdapter.SetOnSelectedMain
                                 //
                             }
                         }
+                        if(selectedImagesURI.isNotEmpty())
+                        selectedImagesURI[0].is_main = true
+
                         selectedImagesAdapter.updateData(selectedImagesURI)
                         selectedImagesAdapter.notifyDataSetChanged()
                     }

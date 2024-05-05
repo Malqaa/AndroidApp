@@ -1,5 +1,6 @@
 package com.malqaa.androidappp.newPhase.data.network.retrofit
 
+import com.google.gson.GsonBuilder
 import com.malqaa.androidappp.newPhase.data.network.constants.Constants
 import com.malqaa.androidappp.newPhase.data.network.service.MalqaApiService
 import okhttp3.OkHttpClient
@@ -27,7 +28,11 @@ object RetrofitBuilder {
             if (builder == null) {
                 builder = Retrofit.Builder()
                     .baseUrl(Constants.API_BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
+                    .addConverterFactory( GsonConverterFactory.create(
+//                        GsonBuilder()
+//                            .setLenient()
+//                            .create()
+                    ))
                 println("hhhh " + Constants.API_BASE_URL)
                 builder!!.client(httpClient.build())
             }

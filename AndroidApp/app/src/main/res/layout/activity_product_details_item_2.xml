@@ -308,6 +308,8 @@
 
 
                     <LinearLayout
+                        android:id="@+id/laySpec"
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_14sdp"
@@ -372,6 +374,7 @@
                         android:layout_width="@dimen/_200sdp"
                         android:layout_height="@dimen/_1sdp"
                         android:layout_gravity="center"
+                        android:visibility="gone"
                         android:layout_marginTop="15dp"
                         android:background="@color/light_gray">
 
@@ -380,6 +383,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:visibility="gone"
                         android:fontFamily="@font/madani_arabic_medium"
                         android:text="@string/item_details"
                         android:textColor="#000000"
@@ -387,6 +391,7 @@
 
                     <RelativeLayout
                         android:layout_width="match_parent"
+                        android:visibility="gone"
                         android:layout_height="wrap_content">
 
                         <TextView
@@ -415,6 +420,7 @@
                     <TextView
                         android:id="@+id/btnMoreItemDetails"
                         android:layout_width="wrap_content"
+                        android:visibility="gone"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_2sdp"
                         android:fontFamily="@font/madani_arabic_medium"
@@ -1094,6 +1100,7 @@
 
 
                                         <androidx.appcompat.widget.AppCompatButton
+                                            android:id="@+id/txtTypeUser"
                                             android:layout_width="@dimen/_48sdp"
                                             android:layout_height="@dimen/_24sdp"
                                             android:layout_marginTop="@dimen/_50sdp"

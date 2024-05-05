@@ -83,7 +83,7 @@
                                 android:layout_gravity="center_vertical"
                                 android:gravity="center_horizontal"
                                 android:orientation="vertical"
-                                android:padding="5sp">
+                                android:padding="5dp">
 
                                 <androidx.recyclerview.widget.RecyclerView
                                     android:id="@+id/rvProductImages"

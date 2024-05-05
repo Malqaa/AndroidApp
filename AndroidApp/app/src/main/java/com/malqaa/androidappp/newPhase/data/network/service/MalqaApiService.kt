@@ -316,6 +316,7 @@ interface MalqaApiService {
     @Multipart
     @POST("AddProduct")
     fun addProduct3(
+        @Header("Content-Type") contentType:String,
         @PartMap partMap: Map<String, @JvmSuppressWildcards RequestBody>,
         @Part part: List<MultipartBody.Part>?,
         @Part shippingOptionsList: ArrayList<MultipartBody.Part>,
@@ -323,6 +324,7 @@ interface MalqaApiService {
         @Part sendPaymentOptionList: ArrayList<MultipartBody.Part>,
         @Part productBankAccounts: ArrayList<MultipartBody.Part>,
     ): Call<AddProductResponse>
+
 
     @Multipart
     @POST("EditProduct")

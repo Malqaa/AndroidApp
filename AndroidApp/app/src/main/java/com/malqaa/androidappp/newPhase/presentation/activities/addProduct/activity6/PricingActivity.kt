@@ -274,7 +274,6 @@ class PricingActivity : BaseActivity() {
         }
         if (AddProductObjectData.isNegotiablePrice) {
             buynowprice.setText(AddProductObjectData.priceFixed)
-            fixed_price_layout.isVisible = true
             priceNegotiable_rb3.isChecked = true
             switchMustPickUp.setBackgroundResource(R.drawable.field_selection_border_enable)
             tvMustPickUp.setTextColor(ContextCompat.getColor(this, R.color.bg))
@@ -429,10 +428,14 @@ class PricingActivity : BaseActivity() {
 
     private fun disableTextFields() {
         fixedPriceType_rb1.setOnCheckedChangeListener { _, b ->
-            if (priceNegotiable_rb3.isChecked||fixedPriceType_rb1.isChecked)
+            if (fixedPriceType_rb1.isChecked)
                 fixed_price_layout.isVisible = true
-            else
-                fixed_price_layout.isVisible = b
+            else if(!fixedPriceType_rb1.isChecked&&priceNegotiable_rb3.isChecked)
+                fixed_price_layout.isVisible = false
+            else if(!fixedPriceType_rb1.isChecked&&!priceNegotiable_rb3.isChecked){
+                fixed_price_layout.isVisible = false
+            }
+
             if (b) {
                 fix_Price_l.setBackgroundResource(R.drawable.field_selection_border_enable)
                 fixed_price_tv.setTextColor(ContextCompat.getColor(this, R.color.bg))
@@ -445,6 +448,10 @@ class PricingActivity : BaseActivity() {
         }
         auctionType_rb2.setOnCheckedChangeListener { _, b ->
             Auction_layout.isVisible = b
+//            if (auctionType_rb2.isChecked)
+//                fixed_price_layout.isVisible = true
+//            else if(!auctionType_rb2.isChecked&&priceNegotiable_rb3.isChecked)
+//                fixed_price_layout.isVisible = false
 
             if (b) {
                 auction_option.setBackgroundResource(R.drawable.field_selection_border_enable)
@@ -458,10 +465,14 @@ class PricingActivity : BaseActivity() {
             }
         }
         priceNegotiable_rb3.setOnCheckedChangeListener { _, b ->
-            if (priceNegotiable_rb3.isChecked||fixedPriceType_rb1.isChecked)
+            if (priceNegotiable_rb3.isChecked && fixedPriceType_rb1.isChecked) {
                 fixed_price_layout.isVisible = true
-            else
-                fixed_price_layout.isVisible = b
+            } else if(!priceNegotiable_rb3.isChecked&&!fixedPriceType_rb1.isChecked){
+                fixed_price_layout.isVisible =false
+            }
+
+
+
             if (b) {
                 switchMustPickUp.setBackgroundResource(R.drawable.field_selection_border_enable)
                 tvMustPickUp.setTextColor(ContextCompat.getColor(this, R.color.bg))

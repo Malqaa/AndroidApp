@@ -10,7 +10,6 @@ import com.google.gson.Gson
 import com.malqaa.androidappp.R
 import com.malqaa.androidappp.newPhase.core.BaseActivity
 import com.malqaa.androidappp.newPhase.utils.helper.*
-import com.malqaa.androidappp.newPhase.utils.HelpFunctions.Companion.getAuctionClosingTime2
 import com.malqaa.androidappp.newPhase.utils.helper.widgets.searchdialog.SearchListItem
 import com.malqaa.androidappp.newPhase.domain.models.ImageSelectModel
 import com.malqaa.androidappp.newPhase.domain.models.addProductToCartResp.AddProductObjectData
@@ -155,8 +154,10 @@ class ConfirmationAddProductActivity : BaseActivity() {
 
         if (AddProductObjectData.isNegotiablePrice) {
             negotiable_tv.text = getString(R.string.Yes)
+            tvNegotiationPriceOptionSale.show()
         } else {
             negotiable_tv.text = getString(R.string.No)
+            tvNegotiationPriceOptionSale.hide()
         }
         /**Back**/
         tvCashOptionPayment.hide()
@@ -802,6 +803,7 @@ class ConfirmationAddProductActivity : BaseActivity() {
 //                    tvDateAuction.text = AddProductObjectData.selectTimeAuction?.endTime
 //                }
 
+                AddProductObjectData.isAuctionClosingTimeFixed=productDetails.isAuctionClosingTimeFixed
                 if (!productDetails.isAuctionClosingTimeFixed)
                     AddProductObjectData.selectTimeAuction = TimeAuctionSelection(
                         "",
@@ -1167,9 +1169,8 @@ class ConfirmationAddProductActivity : BaseActivity() {
             disccountEndDate = "",
             auctionStartPrice = AddProductObjectData.auctionStartPrice,
             auctionMinimumPrice = AddProductObjectData.auctionMinPrice,
-            auctionClosingTime = getAuctionClosingTime2(
-                AddProductObjectData.selectTimeAuction?.endTime ?: ""
-            ),
+            auctionClosingTime =tvDateAuction.text.toString()
+           ,
             productBankAccounts = bankList,
             ProductPaymentDetailsDto_AdditionalPakatId = pakatId,
             ProductPaymentDetailsDto_ProductPublishPrice = productPublishPriceFee,

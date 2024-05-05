@@ -152,7 +152,7 @@
                     android:id="@+id/titleBuy"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_8sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:fontFamily="@font/madani_arabic_light"
                     android:text="@string/purchasing_price"
                     android:textColor="@color/textColor2"
@@ -166,7 +166,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_5sdp"
-                    android:layout_marginTop="@dimen/_8sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:fontFamily="@font/madani_arabic_bold"
                     android:textColor="@color/bg"
                     android:textSize="@dimen/_11sdp"
@@ -194,9 +194,22 @@
                     android:text="0 Rayal"
                     android:textColor="@color/bg"
                     android:textSize="@dimen/_11sdp"
+                    android:layout_marginStart="@dimen/_5sdp"
                     android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="@+id/purchasing_price"
+                    app:layout_constraintStart_toEndOf="@+id/titlePrice"
                     app:layout_constraintTop_toTopOf="@+id/titlePrice" />
+
+
+                <TextView
+                    android:id="@+id/typeProduct"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:textColor="@color/textColor2"
+                    android:textSize="@dimen/_11sdp"
+                    android:fontFamily="@font/madani_arabic_medium"
+                    app:layout_constraintStart_toStartOf="@+id/product_name"
+                    app:layout_constraintTop_toBottomOf="@+id/titlePrice" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.cardview.widget.CardView>

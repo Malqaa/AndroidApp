@@ -15,6 +15,7 @@ import android.net.Uri
 import android.os.StrictMode
 import android.provider.MediaStore
 import android.util.Base64
+import android.util.Log
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
@@ -231,12 +232,36 @@ class HelpFunctions {
             }
             return result
         }
-
-        @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
-        fun getViewFormatForDateTrack(dateStr: String?): String? {
+        fun getViewFormatForDate(dateStr: String?): String? {
             try {
 //        String outputPattern = "EEEE MMMM d, yyyy"
-                val outputPattern = "dd/MM/yyyy HH:mm:ss"
+                val outputPattern = "dd/MM/yyyy"
+                val outputFormat = SimpleDateFormat(outputPattern, Locale.getDefault())
+                val tz = TimeZone.getTimeZone("UTC")
+//            val tz = TimeZone.getTimeZone("Africa/Cairo")
+                //  SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy",Locale.getDefault())
+                val df: SimpleDateFormat =
+                    SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH)
+                //  val df = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.ENGLISH)
+                df.timeZone = tz
+                val date: Date
+                val str: String
+                try {
+                    date = df.parse(dateStr)
+                    str = outputFormat.format(date)
+                } catch (e: ParseException) {
+                    return ""
+                }
+                return str
+            } catch (e: Exception) {
+                return ""
+            }
+        }
+        @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
+        fun getViewFormatForDateTrack(dateStr: String?,outputPattern :String): String? {
+            try {
+//        String outputPattern = "EEEE MMMM d, yyyy"
+//                val outputPattern = "dd/MM/yyyy HH:mm:ss"
                 val outputFormat = SimpleDateFormat(outputPattern, Locale.getDefault())
                 val tz = TimeZone.getTimeZone("UTC")
 //            val tz = TimeZone.getTimeZone("Africa/Cairo")
@@ -268,7 +293,7 @@ class HelpFunctions {
                 var typeI = SimpleDateFormat()
 
                 if (dataStr.contains("/")) {
-                    typeI = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH)
+                    typeI = SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.ENGLISH)
                 } else {
                     typeI = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
                 }
@@ -353,7 +378,7 @@ class HelpFunctions {
             try {
 //        String outputPattern = "EEEE MMMM d, yyyy"
                 val outputPattern = "yyyy-MM-dd HH:mm:ss"
-                val outputFormat = SimpleDateFormat(outputPattern, Locale.getDefault())
+                val outputFormat = SimpleDateFormat(outputPattern, Locale.ENGLISH)
                 val tz = TimeZone.getTimeZone("UTC")
                 outputFormat.timeZone = tz
                 //
@@ -364,7 +389,7 @@ class HelpFunctions {
                 if (dataStr.contains("T")) {
                     typeI = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH)
                 } else {
-                    typeI = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
+                    typeI = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.ENGLISH)
                 }
                 outputFormat.timeZone = tz
 
@@ -549,9 +574,10 @@ class HelpFunctions {
         }
 
         fun dismissProgressBar() {
+            Log.i("notifyListRespObserver","true "+isdialog)
             if (isdialog != null) {
                 isdialog?.dismiss()
-                isdialog = null
+//                isdialog = null
             }
         }
 
@@ -559,9 +585,9 @@ class HelpFunctions {
         val PASSWORD_PATTERN = Pattern.compile(
             "^" + "(?=.*[0-9])" +         //at least 1 digit
                     "(?=.*[a-z])" +         //at least 1 lower case letter
-                    "(?=.*[A-Z])" +         //at least 1 upper case letter
+//                    "(?=.*[A-Z])" +         //at least 1 upper case letter
                     "(?=.*[a-zA-Z])" +  //any letter
-                    "(?=.*[@#$%^&+=])" +  //at least 1 special character
+//                    "(?=.*[@#$%^&+=])" +  //at least 1 special character
                     "(?=\\S+$)" +  //no white spaces
                     ".{6,}" +  //at least 4 characters
                     "$"

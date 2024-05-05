@@ -96,7 +96,7 @@ class AddDiscountDialog(
                     HelpFunctions.datetimeformat_hrs
                 )
                 val newPrice = etPriceDiscound.text.trim().toString().toFloat()
-                setonClickListeners.onAddDiscount(finalDate, newPrice)
+                setonClickListeners.onAddDiscount(dateString, newPrice)
                 dismiss()
             }
         }

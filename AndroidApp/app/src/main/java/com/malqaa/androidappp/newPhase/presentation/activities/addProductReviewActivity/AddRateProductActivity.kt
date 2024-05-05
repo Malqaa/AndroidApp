@@ -54,6 +54,8 @@ class AddRateProductActivity : BaseActivity() {
             }else {
                 if (it.message != null) {
                     HelpFunctions.ShowLongToast(it.message!!, this)
+                }else if (it.message2 != null) {
+                    HelpFunctions.ShowLongToast(it.message2!!,this)
                 } else {
                     HelpFunctions.ShowLongToast(getString(R.string.serverError), this)
                 }

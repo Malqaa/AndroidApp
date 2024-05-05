@@ -80,7 +80,10 @@ class ProductReviewsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             }else {
                 if (it.message != null) {
                     showErrorText(it.message!!)
-                } else {
+                } else if (it.message2 != null) {
+                    showErrorText(it.message2!!)
+                }
+                    else {
                     showErrorText(getString(R.string.serverError))
                 }
             }

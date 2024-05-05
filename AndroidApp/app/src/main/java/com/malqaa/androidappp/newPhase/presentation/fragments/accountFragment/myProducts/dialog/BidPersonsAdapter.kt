@@ -61,7 +61,7 @@ class BidPersonsAdapter(
                     R.string.SAR
                 )
             }"
-        holder.viewBinding.tvDate.text = HelpFunctions.getViewFormatForDateTrack(bidPersonsDataList[position].createdAt)
+        holder.viewBinding.tvDate.text = HelpFunctions.getViewFormatForDateTrack(bidPersonsDataList[position].createdAt,"dd/MM/yyyy HH:mm:ss")
 
      if(bidPersonsDataList[position].isSelected){
          holder.viewBinding.ivCheck.setImageResource(R.drawable.checkbox_selected)

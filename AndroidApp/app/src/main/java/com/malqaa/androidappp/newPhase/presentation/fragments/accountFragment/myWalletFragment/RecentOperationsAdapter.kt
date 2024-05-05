@@ -29,6 +29,6 @@ class RecentOperationsAdapter(var walletTransactionslist: ArrayList<WalletTransa
         holder.viewBinding.tvAmount.text= walletTransactionslist[position].transactionAmount.toString()
         holder.viewBinding.tvDescription.text =
             walletTransactionslist[position].transactionSource ?: ""
-        holder.viewBinding.tvDate.text= HelpFunctions.getViewFormatForDateTrack(walletTransactionslist[position].transactionDate)
+        holder.viewBinding.tvDate.text= HelpFunctions.getViewFormatForDateTrack(walletTransactionslist[position].transactionDate,"dd/MM/yyyy HH:mm:ss")
     }
 }

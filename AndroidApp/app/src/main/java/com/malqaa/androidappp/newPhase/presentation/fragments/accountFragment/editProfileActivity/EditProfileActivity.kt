@@ -15,6 +15,7 @@ import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.helper.shared_preferences.SharedPreferencesStaticClass
 import com.malqaa.androidappp.newPhase.utils.helper.widgets.DatePickerFragment
 import com.malqaa.androidappp.newPhase.data.network.constants.Constants
+import com.malqaa.androidappp.newPhase.domain.enums.ShowUserInfo
 import com.malqaa.androidappp.newPhase.domain.models.loginResp.LoginUser
 import com.malqaa.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.OtpData
 import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.AccountViewModel
@@ -169,13 +170,22 @@ class EditProfileActivity : AppCompatActivity() {
                 userObjects?.lastName = lastName.text.toString().trim()
                 userObjects?.dateOfBirth = btnDate.text.toString().trim()
                 userObjects?.gender = gender
-                userObjects?.showUserInformation = "EveryOne"
+
+                userObjects?.showUserInformation =  it.profileData.showUserInformation
                 userObjects?.let {
                     ConstantObjects.userobj = userObjects
                     Paper.book()
                         .write<LoginUser>(SharedPreferencesStaticClass.user_object, userObjects)
                 }
                 HelpFunctions.ShowLongToast(getString(R.string.profileUpdatedSuccessfully), this)
+
+//                if (userObjects?.showUserInformation.toString().lowercase() == ShowUserInfo.EveryOne.name.lowercase())
+//                    SharedPreferencesStaticClass.saveShowUserInformation(1)
+//                else if(userObjects?.showUserInformation.toString().lowercase() == ShowUserInfo.MembersOnly.name.lowercase()){
+//                    SharedPreferencesStaticClass.saveShowUserInformation(2)
+//                }else{
+//                    SharedPreferencesStaticClass.saveShowUserInformation(3)
+//                }
             } else {
                 if (it.message != null) {
                     HelpFunctions.ShowLongToast(it.message, this)

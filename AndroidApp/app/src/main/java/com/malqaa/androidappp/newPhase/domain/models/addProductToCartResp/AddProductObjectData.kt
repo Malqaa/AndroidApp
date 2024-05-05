@@ -59,6 +59,7 @@ class AddProductObjectData {
         var paymentOptionList: List<Int> ?=null
         var selectedAccountDetails: ArrayList<AccountDetails>? = null
         var selectTimeAuction: TimeAuctionSelection?= null
+        var isAuctionClosingTimeFixed :Boolean =false
 /**       MustPickUp = 1, NoPickUp = 2, PickUpAvailable=3*/
         var pickUpOption: Int = 0
         var shippingOption: Int = 0

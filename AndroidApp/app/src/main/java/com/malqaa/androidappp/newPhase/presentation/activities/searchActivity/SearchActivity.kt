@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.malqaa.androidappp.R
@@ -20,10 +21,16 @@ import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.domain.models.productResp.Product
 import com.malqaa.androidappp.newPhase.presentation.adapterShared.ProductHorizontalAdapter
 import com.malqaa.androidappp.newPhase.data.network.service.SetOnProductItemListeners
+import com.malqaa.androidappp.newPhase.domain.models.productResp.ProductListSearchResp
+import com.malqaa.androidappp.newPhase.domain.models.productResp.SearchProductList
 import com.malqaa.androidappp.newPhase.presentation.fragments.homeScreen.viewModel.HomeViewModel
 import com.malqaa.androidappp.newPhase.presentation.activities.loginScreen.SignInActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.productDetailsActivity.ProductDetailsActivity
+import com.malqaa.androidappp.newPhase.utils.EndlessRecyclerViewScrollListener
 import kotlinx.android.synthetic.main.activity_search.*
+import kotlinx.android.synthetic.main.fragment_browse_market.recyclerViewMarket
+import kotlinx.android.synthetic.main.fragment_homee.textInputLayout11
+import kotlinx.android.synthetic.main.fragment_sold_business.sold_out_rcv
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -40,8 +47,10 @@ class SearchActivity : BaseActivity(),
     private lateinit var productArrayList: ArrayList<Product>
 
     private var strSearch = ""
+    var page = 0
     private var productName: String? = null
     private var added_product_id_to_fav = 0
+    lateinit var endlessRecyclerViewScrollListener: EndlessRecyclerViewScrollListener
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
@@ -51,15 +60,35 @@ class SearchActivity : BaseActivity(),
 
         setupSearchListAdapter()
         setupSearchViewModel()
-        if (searchQuery != null) {
-            homeViewModel.doSearch(mapOf("productName" to searchQuery!!))
-        }
+//        if (searchQuery != null) {
+//            searchAdvance()
+//            homeViewModel.doSearch(mapOf("productName" to searchQuery!!))
+//        }
         setClickListeners()
 
         etSearch.setText(productName)
-        homeViewModel.doSearch(mapOf("productName" to productName.toString().trim()))
+//        homeViewModel.doSearch(mapOf("productName" to productName.toString().trim()))
+//        searchAdvance()
+
+    }
 
 
+    fun searchAdvance(page :Int){
+//         mainCatId=0&Screen=3&productName=1272&SellerBusinessAccountId=&lang=en&pageIndex=0&PageRowsCount=12
+        homeViewModel.searchForProduct(
+            0,
+            ConstantObjects.currentLanguage,
+            page,
+            null,
+            null,
+            null,
+            null,
+            null,
+            0f,
+            0f,
+            productName,
+            3
+        )
     }
 
     private fun setClickListeners() {
@@ -86,7 +115,10 @@ class SearchActivity : BaseActivity(),
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                homeViewModel.doSearch(mapOf("productName" to p0.toString()))
+                productName=p0.toString()
+                searchAdvance(1)
+
+//                homeViewModel.doSearch(mapOf("productName" to p0.toString()))
             }
 
             override fun afterTextChanged(p0: Editable?) {
@@ -95,7 +127,9 @@ class SearchActivity : BaseActivity(),
         })
         ivSearch.setOnClickListener {
             if (etSearch.text.toString().trim() != "") {
-                homeViewModel.doSearch(mapOf("productName" to etSearch.text.toString().trim()))
+                productName=etSearch.text.toString()
+                searchAdvance(1)
+//                homeViewModel.doSearch(mapOf("productName" to etSearch.text.toString().trim()))
             } else {
                 etSearch.error = getString(R.string.want_to_search_for_a_commodity_or_an_auction)
             }
@@ -110,6 +144,29 @@ class SearchActivity : BaseActivity(),
             layoutManager = viewManagerProduct
             adapter = searchAdapter
         }
+
+
+
+//        endlessRecyclerViewScrollListener =
+//            object : EndlessRecyclerViewScrollListener(viewManagerProduct) {
+//                override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
+//                        searchAdvance(page)
+//                }
+//            }
+//        recyclerProduct.addOnScrollListener(endlessRecyclerViewScrollListener)
+
+
+        endlessRecyclerViewScrollListener =
+            object : EndlessRecyclerViewScrollListener(viewManagerProduct) {
+                override fun onLoadMore(_page: Int, totalItemsCount: Int, view: RecyclerView) {
+                    page++
+                    searchAdvance(page)
+
+                }
+            }
+        recyclerProduct.addOnScrollListener(endlessRecyclerViewScrollListener)
+
+
     }
 
     private fun setupSearchViewModel() {
@@ -162,6 +219,27 @@ class SearchActivity : BaseActivity(),
             }
 
         })
+
+        homeViewModel.searchProductListRespObserver.observe(this) { searchResp ->
+            println("hhhh searchProdu"+Gson().toJson(searchResp))
+            if (searchResp != null) {
+                if (searchResp.status_code == 200) {
+                    val list: SearchProductList = Gson().fromJson(
+                        Gson().toJson(searchResp.data),
+                        object : TypeToken<SearchProductList>() {}.type
+                    )
+                    total_result_txt.text = ""+searchResp.totaRecords+" "+getString(R.string.results)
+                    productArrayList.clear()
+                    productArrayList.addAll(list.products!!)
+                    searchAdapter.notifyDataSetChanged()
+                } else {
+                    productArrayList.clear()
+                    recyclerProduct.visibility = View.GONE
+                    tvNoResult.visibility = View.VISIBLE
+                }
+            }
+
+        }
         homeViewModel.searchObserver.observe(this) { searchResp ->
             if (searchResp != null) {
                 if (searchResp.status_code == 200) {
