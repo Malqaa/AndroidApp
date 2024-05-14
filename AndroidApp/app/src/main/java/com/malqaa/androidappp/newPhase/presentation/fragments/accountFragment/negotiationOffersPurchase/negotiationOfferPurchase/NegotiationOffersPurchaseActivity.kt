@@ -7,6 +7,8 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.malqaa.androidappp.R
 import com.malqaa.androidappp.newPhase.core.BaseActivity
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
@@ -14,10 +16,15 @@ import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.linearLayoutManager
 import com.malqaa.androidappp.newPhase.utils.show
 import com.malqaa.androidappp.newPhase.domain.models.negotiationOfferResp.NegotiationOfferDetails
+import com.malqaa.androidappp.newPhase.domain.models.servicemodels.PurchaseResponse
 import com.malqaa.androidappp.newPhase.presentation.MainActivity
+import com.malqaa.androidappp.newPhase.presentation.activities.cartActivity.activity2.AddressPaymentActivity
+import com.malqaa.androidappp.newPhase.presentation.activities.myOrderDetails.MyOrderDetailsActivity
 import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.negotiationOffersPurchase.AcceptOfferDialog
 import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.negotiationOffersPurchase.adapter.NegotiationOffersAdapter
 import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.negotiationOffersPurchase.NegotiationOffersViewModel
+import com.malqaa.androidappp.newPhase.utils.ConstantObjects
+import com.malqaa.androidappp.newPhase.utils.helper.shared_preferences.SharedPreferencesStaticClass.Companion.saveMasterCartId
 import kotlinx.android.synthetic.main.activity_negotiation_offers_purchase.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 
@@ -30,12 +37,12 @@ class NegotiationOffersPurchaseActivity : BaseActivity(), SwipeRefreshLayout.OnR
     private var isSent = true
     private var lastCancelPosition = -1
     private var purchasePosition = -1
-    var comeFrom =""
+    var comeFrom = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_negotiation_offers_purchase)
         toolbar_title.text = getString(R.string.negotiation_offers)
-        comeFrom=   intent.getStringExtra("ComeFrom")?:""
+        comeFrom = intent.getStringExtra("ComeFrom") ?: ""
         swipeToRefresh.setColorSchemeResources(R.color.colorPrimaryDark)
         swipeToRefresh.setOnRefreshListener(this)
         setViewClickListeners()
@@ -68,6 +75,14 @@ class NegotiationOffersPurchaseActivity : BaseActivity(), SwipeRefreshLayout.OnR
             }
         }
         negotiationOffersViewModel.errorResponseObserver.observe(this) {
+
+//            saveMasterCartId( "426")
+//
+//            startActivity(Intent(this, AddressPaymentActivity::class.java).apply {
+//                putExtra("flagTypeSale", false)
+//                putExtra("fromNegotiation",true)
+//                putExtra(ConstantObjects.orderNumberKey, 426)
+//            })
             if (it.message != null) {
                 showApiError(it.message!!)
             } else {
@@ -92,9 +107,9 @@ class NegotiationOffersPurchaseActivity : BaseActivity(), SwipeRefreshLayout.OnR
         }
         negotiationOffersViewModel.cancelOfferObserver.observe(this) {
             if (it.status_code == 200) {
-                negotiationOfferDetailsList[lastCancelPosition].offerStatus="Canceled"
+                negotiationOfferDetailsList[lastCancelPosition].offerStatus = "Canceled"
                 negotiationOffersAdapter.notifyItemChanged(lastCancelPosition)
-                lastCancelPosition=-1
+                lastCancelPosition = -1
             } else {
                 if (it.message != null) {
                     HelpFunctions.ShowLongToast(it.message, this)
@@ -103,11 +118,27 @@ class NegotiationOffersPurchaseActivity : BaseActivity(), SwipeRefreshLayout.OnR
                 }
             }
         }
+
+
         negotiationOffersViewModel.purchaseOfferObserver.observe(this) {
             if (it.status_code == 200) {
-                negotiationOfferDetailsList[purchasePosition].offerStatus="Purchcased"
+                negotiationOfferDetailsList[purchasePosition].offerStatus = "Purchcased"
                 negotiationOffersAdapter.notifyItemChanged(purchasePosition)
-                purchasePosition=-1
+                purchasePosition = -1
+
+
+                val response: PurchaseResponse = Gson().fromJson(it.data.toString(), object : TypeToken<PurchaseResponse>() {}.type)
+
+
+                saveMasterCartId( response.orderMasterId.toInt().toString())
+
+                startActivity(Intent(this, AddressPaymentActivity::class.java).apply {
+                    putExtra("flagTypeSale", false)
+                    putExtra("fromNegotiation",true)
+                    putExtra(ConstantObjects.orderNumberKey, response.orderMasterId.toInt())
+                })
+
+
             } else {
                 if (it.message != null) {
                     HelpFunctions.ShowLongToast(it.message, this)
@@ -151,7 +182,7 @@ class NegotiationOffersPurchaseActivity : BaseActivity(), SwipeRefreshLayout.OnR
 
     }
 
-    private fun onReceivedNegotiation(){
+    private fun onReceivedNegotiation() {
         received.background = ContextCompat.getDrawable(
             this,
             R.drawable.round_btn
@@ -162,7 +193,8 @@ class NegotiationOffersPurchaseActivity : BaseActivity(), SwipeRefreshLayout.OnR
         isSent = false
         onRefresh()
     }
-    private fun onSentNegotiation(){
+
+    private fun onSentNegotiation() {
         sent.background = ContextCompat.getDrawable(
             this,
             R.drawable.round_btn
@@ -184,22 +216,24 @@ class NegotiationOffersPurchaseActivity : BaseActivity(), SwipeRefreshLayout.OnR
         negotiationOffersAdapter.setIsSend(isSent)
     }
 
-    override fun onCancelOffer(type:Boolean ,offerID: Int, position: Int) {
-        if(type){
+    override fun onCancelOffer(type: Boolean, offerID: Int, position: Int) {
+        if (type) {
             println("hhhh " + offerID + " " + negotiationOfferDetailsList[position].offerId)
             lastCancelPosition = position
             negotiationOffersViewModel.cancelOfferProvider(offerID)
-        }else{
+        } else {
             println("hhhh " + offerID + " " + negotiationOfferDetailsList[position].offerId)
             lastCancelPosition = position
             negotiationOffersViewModel.cancelOffer(offerID)
         }
     }
+
     override fun onPurchaseOffer(offerID: Int, position: Int) {
         println("hhhh " + offerID + " " + negotiationOfferDetailsList[position].offerId)
         purchasePosition = position
         negotiationOffersViewModel.purchaseOffer(offerID)
     }
+
     override fun onAcceptOffer(position: Int) {
         val acceptOfferDialog = AcceptOfferDialog(this,
             true,
@@ -236,13 +270,14 @@ class NegotiationOffersPurchaseActivity : BaseActivity(), SwipeRefreshLayout.OnR
 
     override fun onBackPressed() {
         super.onBackPressed()
-        if(comeFrom=="AccountFragment"){
+        if (comeFrom == "AccountFragment") {
             finish()
-        }else{
+        } else {
             startActivity(Intent(this, MainActivity::class.java).apply {})
             finish()
         }
     }
+
     override fun onDestroy() {
         super.onDestroy()
         negotiationOffersViewModel.closeAllCall()

@@ -1,12 +1,15 @@
 package com.malqaa.androidappp.newPhase.core
 
+import android.provider.ContactsContract.Data
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
+import com.google.gson.annotations.SerializedName
 import com.google.gson.reflect.TypeToken
 import com.malqaa.androidappp.newPhase.data.network.callApi
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects.Companion.configration_otpExpiryTime
 import com.malqaa.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
+import com.malqaa.androidappp.newPhase.domain.models.ErrorAddOrder
 import com.malqaa.androidappp.newPhase.domain.models.ErrorResponse
 import com.malqaa.androidappp.newPhase.domain.models.configrationResp.ConfigurationResp
 import com.malqaa.androidappp.newPhase.domain.models.loginResp.LoginResp
@@ -35,77 +38,44 @@ open class BaseViewModel : ViewModel() {
     private var callFav: Call<GeneralResponse>? = null
     private var callConfig: Call<ConfigurationResp>? = null
 
-    fun getErrorResponse(errorBody: ResponseBody?): ErrorResponse? {
-        if (errorBody == null) return null
-
-        return try {
-            // Step 1: Convert the response body to a string
-            val jsonString = errorBody.string()
-
-            // Step 2: Parse the JSON string to extract the error message
-            val jsonObject = JSONObject(jsonString)
-            jsonObject.getString("message")
-
-            jsonObject.getString("error")
-            jsonObject.getString("result")
-            return ErrorResponse(
-                status = jsonObject.getString("status").toString(),
-                message = jsonObject.getString("message"),
-                error = jsonObject.getString("error"),
-                result = jsonObject.getString("result"),
-                message2 = jsonObject.getString("Message")
-            )
-        } catch (e: Exception) {
-            e.printStackTrace()
-            null
-        } finally {
-            errorBody.close() // Close the response body to release its resources
-        }
-    }
-
     fun getErrorResponse(code: Int, errorBody: ResponseBody?): ErrorResponse? {
         if (errorBody == null) return null
 
         return try {
-            // Step 1: Convert the response body to a string
-            if (code==400){
-                val jsonString = errorBody.string()
 
-                // Step 2: Parse the JSON string to extract the error message
+
+            if (code == 400) {
+                var productName = ""
+                var quantity = ""
+                val jsonString = errorBody.string()
                 val jsonObject = JSONObject(jsonString)
-                var msg: String? = null
-                var status: String? = null
-                var result: String? = null
-                var message: String? = null
-                if (jsonObject.has("message")) {
-                    message = (jsonObject.getString("message") ?: "")
+                val gson = Gson()
+                val response = gson.fromJson(jsonObject.toString(), ErrorResponse::class.java)
+
+                println("Status Code: ${response.statusCode}")
+                println("Message: ${response.message}")
+                println("Status: ${response.status}")
+
+                if (response.status == "ProductsOutOfStock") {
+                    val list = response.data as List<ErrorAddOrder>
+                    list.forEach { product ->
+                        productName = product.productName
+                        quantity = product.quantity.toString()
+
+                        response.message =
+                            response.message + " " + product.productName + " " + product.quantity
+                //                        println("Product ID: ${product.produtId}, Name: ${product.productName}, Quantity: ${product.quantity}")
+                    }
                 }
-                if (jsonObject.has("Message")) {
-                    msg = jsonObject.getString("Message")
-                }
-                if (jsonObject.has("result")) {
-                    result = jsonObject.getString("result")
-                }
-                if (jsonObject.has("status")) {
-                    status = jsonObject.getString("status")
-                }
-                if (message == null) {
-                    return ErrorResponse(
-                        status = status,
-                        message = msg,
-                        error = "error",
-                        result = result,
-                        message2 = msg
-                    )
-                } else
-                    return ErrorResponse(
-                        status = status,
-                        message = message,
-                        error = "error",
-                        result = result,
-                        message2 = msg
-                    )
-            }else{
+                return ErrorResponse(
+                    status = response.status,
+                    message = response.message,
+                    error = response.error,
+                    result = response.result,
+                    message2 = response.message2
+                )
+
+            } else {
                 return ErrorResponse(
                     status = null,
                     message = null,
@@ -122,6 +92,74 @@ open class BaseViewModel : ViewModel() {
             errorBody.close() // Close the response body to release its resources
         }
     }
+
+    //    fun getErrorResponse(code: Int, errorBody: ResponseBody?): ErrorResponse? {
+//        if (errorBody == null) return null
+//
+//        return try {
+//            // Step 1: Convert the response body to a string
+//            if (code == 400) {
+//                val jsonString = errorBody.string()
+//
+//                // Step 2: Parse the JSON string to extract the error message
+//                val jsonObject = JSONObject(jsonString)
+//                var msg: String? = null
+//                var status: String? = null
+//                var result: String? = null
+//                var message: String? = null
+//                if (jsonObject.has("message")) {
+//                    message = (jsonObject.getString("message") ?: "")
+//                }
+//                if (jsonObject.has("Message")) {
+//                    msg = jsonObject.getString("Message")
+//                }
+//                if (jsonObject.has("result")) {
+//                    result = jsonObject.getString("result")
+//                }
+//                if (jsonObject.has("status")) {
+//                    status = jsonObject.getString("status")
+//                }
+//
+//                if (status == "ProductsOutOfStock") {
+//                    if (jsonObject.has("data")) {
+//                        val errorAdd = jsonObject.getJSONObject("data") as ErrorAddOrder
+//                        message = message + " " + errorAdd.productName + errorAdd.quantity
+//                    }
+//                }
+//
+//                if (message == null) {
+//                    return ErrorResponse(
+//                        status = status,
+//                        message = msg,
+//                        error = "error",
+//                        result = result,
+//                        message2 = msg
+//                    )
+//                } else
+//                    return ErrorResponse(
+//                        status = status,
+//                        message = message,
+//                        error = "error",
+//                        result = result,
+//                        message2 = msg
+//                    )
+//            } else {
+//                return ErrorResponse(
+//                    status = null,
+//                    message = null,
+//                    error = null,
+//                    result = null,
+//                    message2 = null
+//                )
+//            }
+//
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//            null
+//        } finally {
+//            errorBody.close() // Close the response body to release its resources
+//        }
+//    }
 
 
     fun addProductToFav(ProductID: Int) {

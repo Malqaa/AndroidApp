@@ -52,6 +52,8 @@ data class DynamicSpecificationSentObject(
     var HeaderSpeEn: String = "",
     @SerializedName("valueSpeAr")
     var ValueSpeAr: String = "",
+    @SerializedName("valueSpe")
+    var valueSpe: String = "",
     @SerializedName("valueSpeEn")
     var ValueSpeEn: String = "",
     @SerializedName("type")

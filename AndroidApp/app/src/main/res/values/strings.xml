@@ -177,7 +177,7 @@
     <string name="Pleaseaddaphoto">
     Please add a photo
   </string>
-
+  <string name="Purchased">Purchased</string>
     <string name="Whilweareconfirmingyourpurchase">
     While we are confirming your purchase
   </string>
@@ -1218,7 +1218,7 @@
     <string name="followNegotiationsOffers">Manage Offer</string>
     <string name="noOffersFound">No Offers Found</string>
     <string name="noResponse">No Response</string>
-    <string name="waitForYourResponse">Wait for your response</string>
+    <string name="waitForYourResponse">New</string>
     <string name="acceptNegotiationsOffers">Accept Negotiation Offer</string>
     <string name="rejectNegotiationsOffers">Reject Negotiation Offer</string>
     <string name="OfferCanceled">Offer Canceled</string>
@@ -3038,8 +3038,10 @@
     <string name="auction">Auction</string>
     <string name="Negotiation">Negotiation</string>
     <string name="personal">Personal</string>
+  <string name="Lost">Lost</string>
+  <string name="cancel_order">Cancel Order</string>
 
-    <!--    <string name="BusinessDetails">-->
+  <!--    <string name="BusinessDetails">-->
     <!-- Business Details-->
     <!--  </string>-->
 

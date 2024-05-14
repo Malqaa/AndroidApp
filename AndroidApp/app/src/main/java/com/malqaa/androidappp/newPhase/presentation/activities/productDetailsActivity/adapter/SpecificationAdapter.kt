@@ -30,10 +30,10 @@ class SpecificationAdapter(var specificationList: ArrayList<DynamicSpecification
     override fun onBindViewHolder(holder: AttributeViewHolder, position: Int) {
         if (ConstantObjects.currentLanguage == ConstantObjects.ARABIC) {
             holder.viewBinding.keyTv.text = specificationList[position].HeaderSpeAr
-            holder.viewBinding.valueTv.text = specificationList[position].ValueSpeAr
+            holder.viewBinding.valueTv.text = specificationList[position].valueSpe
         }else{
             holder.viewBinding.keyTv.text = specificationList[position].HeaderSpeEn
-            holder.viewBinding.valueTv.text = specificationList[position].ValueSpeEn
+            holder.viewBinding.valueTv.text = specificationList[position].valueSpe
         }
         val _position = position + 1
         if (_position % 2 == 0) {

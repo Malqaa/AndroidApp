@@ -142,7 +142,7 @@ class ListingDurationActivity : BaseActivity(), ShippingAdapter.SetOnSelectedShi
 //            add(
 //                Selection(
 //                    getString(R.string.integratedShippingCompanies),
-//                    ConstantObjects.shippingOption_integratedShippingCompanyOptions
+                    ConstantObjects.shippingOption_integratedShippingCompanyOptions
 //                )
 //            )
 //            add(

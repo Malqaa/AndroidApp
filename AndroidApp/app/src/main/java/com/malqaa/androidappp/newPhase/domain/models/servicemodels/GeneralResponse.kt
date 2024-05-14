@@ -17,6 +17,9 @@ data class AddProductResponse(
     val productId: Int,
     val message: String,
     val status_code: Int
-) {
+)
 
-}
+data class PurchaseResponse(
+    val orderMasterId: Double,
+    val status: Boolean
+)

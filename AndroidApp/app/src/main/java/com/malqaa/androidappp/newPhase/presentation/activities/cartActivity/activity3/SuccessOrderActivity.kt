@@ -2,6 +2,7 @@ package com.malqaa.androidappp.newPhase.presentation.activities.cartActivity.act
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import com.malqaa.androidappp.R
 import com.malqaa.androidappp.newPhase.presentation.MainActivity
 import com.malqaa.androidappp.newPhase.core.BaseActivity
@@ -33,7 +34,15 @@ class SuccessOrderActivity : BaseActivity() {
             finish()
         }
         order_number_tv.text=intent.getStringExtra(ConstantObjects.orderNumberKey)
-        shipments_tv.text=intent.getStringExtra(ConstantObjects.orderShippingSectionNumberKey)
+        if (intent.getStringExtra(ConstantObjects.orderShippingSectionNumberKey) != null
+            || !intent.getStringExtra(ConstantObjects.orderShippingSectionNumberKey).equals("null"))
+            shipments_tv.text=intent.getStringExtra(ConstantObjects.orderShippingSectionNumberKey)?:"0"
+        else
+            shipments_tv.visibility=View.GONE
+
+        txt_request.text = intent.getStringExtra("RequestType")?:getString(R.string.current_price_buy)
+
+
         total_order_tv.text = "${intent.getStringExtra(ConstantObjects.orderPriceKey)} ${getString(R.string.rial)}"
     }
 }

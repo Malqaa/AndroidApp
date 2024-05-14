@@ -81,6 +81,8 @@
     <string name="Address">عنوان</string>
     <string name="FreeshippingwithinSaudiArabia">شحن مجاني داخل المملكة العربية السعودية</string>
     <string name="logout">تسجيل خروج</string>
+
+    <string name="Purchased">تم شراؤها</string>
     <string name="Whilweareconfirmingyourpurchase">بينما نحن نؤكد شرائك</string>
     <string name="MyProducts">منتجاتي</string>
     <string name="MyProductsOffers">عروض منتجاتي</string>
@@ -1012,7 +1014,7 @@
     <string name="followNegotiationsOffers">متابعة عروض التفاوض</string>
     <string name="noOffersFound">لم يتم العثور على عروض</string>
     <string name="noResponse">لم يتم الرد</string>
-    <string name="waitForYourResponse">فى أنتظار الرد</string>
+    <string name="waitForYourResponse">جديد</string>
     <string name="acceptNegotiationsOffers">قبول عرض التفاوض</string>
     <string name="rejectNegotiationsOffers">رفض عرض التفاوض</string>
     <string name="OfferCanceled">تم إلغاء العرض</string>
@@ -1101,6 +1103,8 @@
     <string name="auction">مزايدة</string>
     <string name="Negotiation">تفاوض</string>
     <string name="personal">شخصى</string>
+    <string name="Lost">ضائع</string>
+    <string name="cancel_order">Cancel Order</string>
 
 
     <!--    <string name="Back_to_login">العودة لتسجيل الدخول</string>-->

@@ -147,6 +147,7 @@ class MyOrdersFragment : Fragment(R.layout.fragment_my_orders),
         if (orderItem.orderStatus == ConstantObjects.WaitingForPayment && (orderItem.requestType != ConstantObjects.Fixed_Price)) {
             startActivity(Intent(requireContext(), AddressPaymentActivity::class.java).apply {
                 putExtra("flagTypeSale", false)
+                putExtra("fromNegotiation", true)
                 putExtra(ConstantObjects.orderNumberKey, orderId)
             })
         } else {

@@ -12,14 +12,14 @@ data class CartListResp(
 )
 
 data class CartDataObject(
-    var totalPriceForCartBeforeDiscount: Float,
-    var totalPriceForCartFinal: Float,
-    var buyType: Int,
+    var totalPriceForCartBeforeDiscount: Float=0f,
+    var totalPriceForCartFinal: Float=0f,
+    var buyType: Int=0,
 
-    var adminCouponcodeApplied: String,
-    var adminCouponcodeDiscount: Int,
-    var shippingFee: Int,
-    var listCartProducts: List<CartProductDetails>
+    var adminCouponcodeApplied: String="",
+    var adminCouponcodeDiscount: Int=0,
+    var shippingFee: Int=0,
+    var listCartProducts: List<CartProductDetails> = ArrayList()
 )
 
 data class CartProductDetails(

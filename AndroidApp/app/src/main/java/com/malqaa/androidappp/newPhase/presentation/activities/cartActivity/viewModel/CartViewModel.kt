@@ -8,6 +8,7 @@ import com.malqaa.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.get
 import com.malqaa.androidappp.newPhase.domain.models.addOrderResp.AddOrderResp
 import com.malqaa.androidappp.newPhase.domain.models.addOrderResp.ProductOrderPaymentDetailsDto
 import com.malqaa.androidappp.newPhase.domain.models.cartListResp.CartListResp
+import com.malqaa.androidappp.newPhase.domain.models.orderDetailsByMasterID.OrderDetailsByMasterIDResp
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
 import com.malqaa.androidappp.newPhase.domain.models.userAddressesResp.UserAddressesResp
 import okhttp3.MultipartBody
@@ -30,8 +31,10 @@ class CartViewModel : BaseViewModel() {
     var addOrderObserver: MutableLiveData<AddOrderResp> = MutableLiveData()
     var paymentTransaction: MutableLiveData<GeneralResponse> = MutableLiveData()
     var deleteShipment: MutableLiveData<GeneralResponse> = MutableLiveData()
+    var currentOrderByMusterIdRespObserver: MutableLiveData<OrderDetailsByMasterIDResp> = MutableLiveData()
 
 
+    private var callCurrentOrderDetails: Call<OrderDetailsByMasterIDResp>? = null
     private var callUserAddress: Call<UserAddressesResp>? = null
     private var callCartList: Call<CartListResp>? = null
     private var callApplyCouponOnCartF: Call<GeneralResponse>? = null
@@ -85,6 +88,9 @@ class CartViewModel : BaseViewModel() {
         if (callDeleteShipping != null) {
             callDeleteShipping?.cancel()
         }
+        if (callCurrentOrderDetails!= null) {
+            callCurrentOrderDetails?.cancel()
+        }
 
     }
 
@@ -113,6 +119,29 @@ class CartViewModel : BaseViewModel() {
                 needToLogin.value = true
             })
 
+    }
+
+    fun getCurrentOrderDetailsByMasterID(orderMasterID:Int){
+        isLoading.value = true
+        callCurrentOrderDetails = getRetrofitBuilder().getOrderMasterDetailsByMasterOrderId(orderMasterID)
+        callApi(callCurrentOrderDetails!!,
+            onSuccess = {
+                isLoading.value = false
+                currentOrderByMusterIdRespObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoading.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
+                }
+            },
+            goLogin = {
+                isLoading.value = false
+                needToLogin.value = true
+            })
     }
 
     fun getCartList(cartMasterId: String) {
@@ -395,7 +424,7 @@ class CartViewModel : BaseViewModel() {
     ) {
         val data: HashMap<String, Any> = HashMap()
         data["checkOutPaymentFor"] = 1
-        data["orderOrPakatId"] = 1
+        data["orderOrPakatId"] = masterCartId
         data["orderMasterTotalBeforDiscount"] = totalPriceForCartBeforeDiscount
         data["orderMasterTotalAfterDiscount"] = totalPriceForCartFinal
         data["paymentType"] = "Cash"

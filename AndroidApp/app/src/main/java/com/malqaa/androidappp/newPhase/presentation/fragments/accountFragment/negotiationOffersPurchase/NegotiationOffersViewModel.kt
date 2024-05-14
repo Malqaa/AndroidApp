@@ -6,18 +6,22 @@ import com.malqaa.androidappp.newPhase.core.BaseViewModel
 import com.malqaa.androidappp.newPhase.data.network.callApi
 import com.malqaa.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malqaa.androidappp.newPhase.domain.models.negotiationOfferResp.NegotiationOfferResp
+import com.malqaa.androidappp.newPhase.domain.models.orderDetailsByMasterID.OrderDetailsByMasterIDResp
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
 import retrofit2.Call
 import retrofit2.HttpException
 
-class NegotiationOffersViewModel:BaseViewModel() {
-    var purchaseProductsOffersObserver:MutableLiveData<NegotiationOfferResp> = MutableLiveData()
-    var noOffersObserver:MutableLiveData<Boolean> = MutableLiveData()
-    var loadingDialogObserver:MutableLiveData<Boolean> = MutableLiveData()
-    var purchaseOfferObserver:MutableLiveData<GeneralResponse> = MutableLiveData()
-    var cancelOfferObserver:MutableLiveData<GeneralResponse> = MutableLiveData()
+class NegotiationOffersViewModel : BaseViewModel() {
+    var purchaseProductsOffersObserver: MutableLiveData<NegotiationOfferResp> = MutableLiveData()
+    var noOffersObserver: MutableLiveData<Boolean> = MutableLiveData()
+    var loadingDialogObserver: MutableLiveData<Boolean> = MutableLiveData()
+    var purchaseOfferObserver: MutableLiveData<GeneralResponse> = MutableLiveData()
+    var cancelOfferObserver: MutableLiveData<GeneralResponse> = MutableLiveData()
 
 
+    var currentOrderByMusterIdRespObserver: MutableLiveData<OrderDetailsByMasterIDResp> =
+        MutableLiveData()
+    private var callCurrentOrderDetails: Call<OrderDetailsByMasterIDResp>? = null
     private var callPurchaseProductsOffers: Call<NegotiationOfferResp>? = null
     private var callSaleProductsOffers: Call<NegotiationOfferResp>? = null
     private var callCancelOfferProvider: Call<GeneralResponse>? = null
@@ -40,9 +44,12 @@ class NegotiationOffersViewModel:BaseViewModel() {
         if (callPurchaseOffer != null) {
             callPurchaseOffer?.cancel()
         }
+        if (callCurrentOrderDetails != null) {
+            callCurrentOrderDetails?.cancel()
+        }
     }
 
-    fun getPurchaseProductsOffers(isSent:Boolean){
+    fun getPurchaseProductsOffers(isSent: Boolean) {
         isLoading.value = true
 
         callPurchaseProductsOffers = getRetrofitBuilder().getPurchaseProductsOffers(isSent)
@@ -53,14 +60,13 @@ class NegotiationOffersViewModel:BaseViewModel() {
             },
             onFailure = { throwable, statusCode, errorBody ->
                 isLoading.value = false
-                if (throwable != null && errorBody == null){
-                    if(throwable is JsonSyntaxException){
-                        noOffersObserver.value=true
-                    }else {
+                if (throwable != null && errorBody == null) {
+                    if (throwable is JsonSyntaxException) {
+                        noOffersObserver.value = true
+                    } else {
                         isNetworkFail.value = throwable !is HttpException
                     }
-                }
-                else {
+                } else {
                     errorResponseObserver.value =
                         getErrorResponse(statusCode, errorBody)
                 }
@@ -72,7 +78,32 @@ class NegotiationOffersViewModel:BaseViewModel() {
 
 
     }
-    fun getSaleProductsOffers(isSent:Boolean){
+
+    fun getCurrentOrderDetailsByMasterID(orderMasterID: Double) {
+        isLoading.value = true
+        callCurrentOrderDetails =
+            getRetrofitBuilder().getOrderMasterDetailsByMasterOrderId(orderMasterID.toInt())
+        callApi(callCurrentOrderDetails!!,
+            onSuccess = {
+                isLoading.value = false
+                currentOrderByMusterIdRespObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoading.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
+                }
+            },
+            goLogin = {
+                isLoading.value = false
+                needToLogin.value = true
+            })
+    }
+
+    fun getSaleProductsOffers(isSent: Boolean) {
         isLoading.value = true
         callSaleProductsOffers = getRetrofitBuilder().getSaleProductsOffers(isSent)
         callApi(callSaleProductsOffers!!,
@@ -82,14 +113,13 @@ class NegotiationOffersViewModel:BaseViewModel() {
             },
             onFailure = { throwable, statusCode, errorBody ->
                 isLoading.value = false
-                if (throwable != null && errorBody == null){
-                    if(throwable is JsonSyntaxException){
-                        noOffersObserver.value=true
-                    }else {
+                if (throwable != null && errorBody == null) {
+                    if (throwable is JsonSyntaxException) {
+                        noOffersObserver.value = true
+                    } else {
                         isNetworkFail.value = throwable !is HttpException
                     }
-                }
-                else {
+                } else {
                     errorResponseObserver.value =
                         getErrorResponse(statusCode, errorBody)
                 }
@@ -101,7 +131,7 @@ class NegotiationOffersViewModel:BaseViewModel() {
 
     }
 
-    fun cancelOfferProvider(offerId:Int){
+    fun cancelOfferProvider(offerId: Int) {
         loadingDialogObserver.value = true
         callCancelOfferProvider = getRetrofitBuilder().cancelProductOfferByProvider(offerId)
         callApi(callCancelOfferProvider!!,
@@ -111,10 +141,9 @@ class NegotiationOffersViewModel:BaseViewModel() {
             },
             onFailure = { throwable, statusCode, errorBody ->
                 loadingDialogObserver.value = false
-                if (throwable != null && errorBody == null){
-                        isNetworkFail.value = throwable !is HttpException
-                }
-                else {
+                if (throwable != null && errorBody == null) {
+                    isNetworkFail.value = throwable !is HttpException
+                } else {
                     errorResponseObserver.value =
                         getErrorResponse(statusCode, errorBody)
                 }
@@ -125,7 +154,7 @@ class NegotiationOffersViewModel:BaseViewModel() {
             })
     }
 
-    fun cancelOffer(offerId:Int){
+    fun cancelOffer(offerId: Int) {
         loadingDialogObserver.value = true
 
         callCancelOffer = getRetrofitBuilder().cancelProductOfferByClient(offerId)
@@ -136,10 +165,9 @@ class NegotiationOffersViewModel:BaseViewModel() {
             },
             onFailure = { throwable, statusCode, errorBody ->
                 loadingDialogObserver.value = false
-                if (throwable != null && errorBody == null){
+                if (throwable != null && errorBody == null) {
                     isNetworkFail.value = throwable !is HttpException
-                }
-                else {
+                } else {
                     errorResponseObserver.value =
                         getErrorResponse(statusCode, errorBody)
                 }
@@ -151,9 +179,9 @@ class NegotiationOffersViewModel:BaseViewModel() {
 
     }
 
-    fun purchaseOffer(offerId:Int){
+    fun purchaseOffer(offerId: Int) {
         loadingDialogObserver.value = true
-        callPurchaseOffer= getRetrofitBuilder().purchaseProductByOffer(offerId)
+        callPurchaseOffer = getRetrofitBuilder().purchaseProductByOffer(offerId)
         callApi(callPurchaseOffer!!,
             onSuccess = {
                 loadingDialogObserver.value = false
@@ -161,10 +189,9 @@ class NegotiationOffersViewModel:BaseViewModel() {
             },
             onFailure = { throwable, statusCode, errorBody ->
                 loadingDialogObserver.value = false
-                if (throwable != null && errorBody == null){
+                if (throwable != null && errorBody == null) {
                     isNetworkFail.value = throwable !is HttpException
-                }
-                else {
+                } else {
                     errorResponseObserver.value =
                         getErrorResponse(statusCode, errorBody)
                 }

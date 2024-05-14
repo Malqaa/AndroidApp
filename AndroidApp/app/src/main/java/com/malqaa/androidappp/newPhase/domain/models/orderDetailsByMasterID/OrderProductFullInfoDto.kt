@@ -5,6 +5,7 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class OrderProductFullInfoDto(
+    val id :Int =0,
     val businessAcountName: String? = null,
     val category: String? = null,
     val iamge: String? = null,

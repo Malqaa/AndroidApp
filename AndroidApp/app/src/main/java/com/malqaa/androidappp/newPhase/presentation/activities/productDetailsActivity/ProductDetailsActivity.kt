@@ -526,8 +526,13 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                     object : AuctionDialog.SetClickListeners {
                         override fun setOnSuccessListeners(highestBidPrice: Float) {
                             productDetails?.highestBidPrice = highestBidPrice
-                            Bid_on_price_tv.text =
-                                "${productDetails?.highestBidPrice} ${getString(R.string.Rayal)}"
+                            if(productDetails?.highestBidPrice?.toDouble()!=0.0){
+                                Bid_on_price_tv.text =
+                                    "${productDetails?.highestBidPrice} ${getString(R.string.Rayal)}"
+                            }else{
+                                Bid_on_price_tv.text =
+                                    "${productDetails?.auctionStartPrice} ${getString(R.string.Rayal)}"
+                            }
                             bidCount += 1
                             tvAuctionNumber.text =
                                 "${getString(R.string.bidding)} ${bidCount}"
@@ -1322,11 +1327,17 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                 btnPriceNegotiation.hide()
             }
 
-            tvNegotiationPrice.text = productDetails.price.toString()
+//            tvNegotiationPrice.text = productDetails.price.toString()
 
             if (productDetails.isAuctionEnabled) {
-                Bid_on_price_tv.text =
-                    "${productDetails.highestBidPrice} ${getString(R.string.Rayal)}"
+                if(productDetails.highestBidPrice.toDouble()!=0.0){
+                    Bid_on_price_tv.text =
+                        "${productDetails.highestBidPrice} ${getString(R.string.Rayal)}"
+                }else{
+                    Bid_on_price_tv.text =
+                        "${productDetails.auctionStartPrice} ${getString(R.string.Rayal)}"
+                }
+
                 if (hideBars) {
                     containerBidOnPrice.hide()
                 } else

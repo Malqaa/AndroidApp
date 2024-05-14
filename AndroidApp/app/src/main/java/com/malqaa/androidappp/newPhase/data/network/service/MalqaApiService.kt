@@ -270,6 +270,72 @@ interface MalqaApiService {
 
     @Multipart
     @POST("AddProduct")
+    suspend fun uploadData(
+        @Part("nameAr") nameAr: RequestBody,
+        @Part("nameEn") nameEn: RequestBody,
+        @Part("subTitleAr") subTitleAr: RequestBody,
+        @Part("subTitleEn") subTitleEn: RequestBody,
+        @Part("descriptionAr") descriptionAr: RequestBody,
+        @Part("descriptionEn") descriptionEn: RequestBody,
+        @Part("qty") qty: RequestBody,
+        @Part("status") status: RequestBody,
+        @Part("categoryId") categoryId: RequestBody,
+        @Part("countryId") countryId: RequestBody,
+        @Part("regionId") regionId: RequestBody,
+        @Part("neighborhoodId") neighborhoodId: RequestBody,
+        @Part("District") district: RequestBody,
+        @Part("Street") street: RequestBody,
+        @Part("GovernmentCode") governmentCode: RequestBody,
+        @Part("productSep") productSep: RequestBody,
+        @Part listImageFile: List<MultipartBody.Part>,
+        @Part("MainImageIndex") mainImageIndex: RequestBody,
+//        @Part("videoUrl") videoUrl: List<RequestBody>,
+        @Part videoUrlList: ArrayList<MultipartBody.Part>,
+
+        @Part shippingOptions:  ArrayList<MultipartBody.Part>,
+        @Part("Lat") lat: RequestBody,
+        @Part("Lon") lon: RequestBody,
+        @Part("AcceptQuestion") acceptQuestion: RequestBody,
+        @Part("IsFixedPriceEnabled") isFixedPriceEnabled: RequestBody,
+        @Part("IsAuctionEnabled") isAuctionEnabled: RequestBody,
+        @Part("IsNegotiationEnabled") isNegotiationEnabled: RequestBody,
+        @Part("Price") price: RequestBody,
+        @Part("PriceDisc") priceDisc: RequestBody,
+        @Part  paymentOptions: ArrayList<MultipartBody.Part>,
+        @Part productBankAccounts: ArrayList<MultipartBody.Part>,
+        @Part("IsCashEnabled") isCashEnabled: RequestBody,
+        @Part("AuctionStartPrice") auctionStartPrice: RequestBody,
+        @Part("DisccountEndDate") discountEndDate: RequestBody,
+        @Part("SendOfferForAuction") sendOfferForAuction: RequestBody,
+        @Part("AuctionMinimumPrice") auctionMinimumPrice: RequestBody,
+        @Part("AuctionNegotiateForWhom") auctionNegotiateForWhom: RequestBody,
+        @Part("AuctionNegotiatePrice") auctionNegotiatePrice: RequestBody,
+        @Part("AuctionClosingTime") auctionClosingTime: RequestBody,
+        @Part("SendYourAccountInfoToAuctionWinner") sendYourAccountInfoToAuctionWinner: RequestBody,
+        @Part("AlmostSoldOutQuantity") almostSoldOutQuantity: RequestBody,
+        @Part("ProductPaymentDetailsDto.PakatId") pakatId: RequestBody,
+        @Part("ProductPaymentDetailsDto.AdditionalPakatId") additionalPakatId: RequestBody,
+        @Part("ProductPaymentDetailsDto.ProductPublishPrice") productPublishPrice: RequestBody,
+        @Part("ProductPaymentDetailsDto.EnableFixedPriceSaleFee") enableFixedPriceSaleFee: RequestBody,
+        @Part("ProductPaymentDetailsDto.EnableAuctionFee") enableAuctionFee: RequestBody,
+        @Part("ProductPaymentDetailsDto.EnableNegotiationFee") enableNegotiationFee: RequestBody,
+        @Part("ProductPaymentDetailsDto.ExtraProductImageFee") extraProductImageFee: RequestBody,
+        @Part("ProductPaymentDetailsDto.ExtraProductVidoeFee") extraProductVideoFee: RequestBody,
+        @Part("ProductPaymentDetailsDto.SubTitleFee") subTitleFee: RequestBody,
+        @Part("ProductPaymentDetailsDto.FixedPriceSaleFee") fixedPriceSaleFee: RequestBody,
+        @Part("ProductPaymentDetailsDto.AuctionFee") auctionFee: RequestBody,
+        @Part("ProductPaymentDetailsDto.NegotiationFee") negotiationFee: RequestBody,
+        @Part("ProductPaymentDetailsDto.CategoryId") productPaymentDetailsCategoryId: RequestBody,
+        @Part("ProductPaymentDetailsDto.CouponId") productPaymentDetailsCouponId: RequestBody,
+        @Part("ProductPaymentDetailsDto.CouponDiscountValue") productPaymentDetailsCouponDiscountValue: RequestBody,
+        @Part("ProductPaymentDetailsDto.TotalAmountBeforeCoupon") productPaymentDetailsTotalAmountBeforeCoupon: RequestBody,
+        @Part("ProductPaymentDetailsDto.TotalAmountAfterCoupon") productPaymentDetailsTotalAmountAfterCoupon: RequestBody,
+        @Part("ProductPaymentDetailsDto.PaymentType") productPaymentDetailsPaymentType: RequestBody,
+        @Header("Content-Type") contentType:String,
+
+    ): Call<AddProductResponse>
+    @Multipart
+    @POST("AddProduct")
     fun addProduct(
         @Part("nameAr") nameAr: RequestBody,
         @Part("nameEn") nameEn: RequestBody,
@@ -315,8 +381,8 @@ interface MalqaApiService {
 
     @Multipart
     @POST("AddProduct")
+    @Headers("Content-Type:multipart/form-data; boundary=----WebKitFormBoundaryyEmKNDsBKjB7QEqu")
     fun addProduct3(
-        @Header("Content-Type") contentType:String,
         @PartMap partMap: Map<String, @JvmSuppressWildcards RequestBody>,
         @Part part: List<MultipartBody.Part>?,
         @Part shippingOptionsList: ArrayList<MultipartBody.Part>,
@@ -325,6 +391,17 @@ interface MalqaApiService {
         @Part productBankAccounts: ArrayList<MultipartBody.Part>,
     ): Call<AddProductResponse>
 
+    @Multipart
+    @POST("AddProduct")
+    @Headers("Content-Type:multipart/form-data; boundary=----WebKitFormBoundaryyEmKNDsBKjB7QEqu")
+    fun addProductTest(
+        @Part data: MultipartBody.Part,
+        @Part part: List<MultipartBody.Part>?,
+        @Part shippingOptionsList: List<MultipartBody.Part>,
+        @Part videoUrlList: List<MultipartBody.Part>,
+        @Part sendPaymentOptionList: List<MultipartBody.Part>,
+        @Part productBankAccounts: List<MultipartBody.Part>,
+    ): Call<AddProductResponse>
 
     @Multipart
     @POST("EditProduct")
@@ -796,6 +873,7 @@ interface MalqaApiService {
 
     @GET("GetCouponByCode")
     fun getCouponByCode(
+        @Query("couponScreen") couponScreen: String,
         @Query("couponCode") couponCode: String,
     ): Call<DiscountCouponResp>
 

@@ -7,6 +7,7 @@ data class NegotiationOfferDetails(
     var productId: Int,
     var productName: String? = null,
     var  buyerName: String? = null,
+    var  buyerImage: String? = null,
     var sellerName: String? = null,
     var offerStatus: String? = null,
     var expireDate: String? = null,
@@ -19,6 +20,7 @@ data class NegotiationOfferDetails(
     var offerExpireDate: String? = null,
     var offerExpireHours: String? = null,
     var offerPrice: Float,
+    var businessAccountId: String?=null,
 
 
 )

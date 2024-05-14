@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -57,8 +58,8 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/product_type"
@@ -66,18 +67,18 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/madani_arabic_extra_light"
                     android:text="@string/electronics_phones"
-                    android:textSize="@dimen/_10sdp"
-                    android:textColor="#293241" />
+                    android:textColor="#293241"
+                    android:textSize="@dimen/_10sdp" />
 
                 <TextView
                     android:id="@+id/product_name"
-                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/madani_arabic_medium"
                     android:text="RealMe 8 Pro Infinite "
+                    android:textColor="#262626"
                     android:textSize="@dimen/_14sdp"
-                    android:textColor="#262626" />
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/product_city"
@@ -85,8 +86,8 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/madani_arabic_light"
                     android:text="@string/Riyadh"
-                    android:textSize="@dimen/_12sdp"
-                    android:textColor="#6D6C74" />
+                    android:textColor="#6D6C74"
+                    android:textSize="@dimen/_12sdp" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -95,23 +96,23 @@
 
                     <TextView
                         android:id="@+id/tvProductPrice"
-                        android:visibility="gone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="1643"
                         android:fontFamily="@font/madani_arabic_medium"
+                        android:text="1643"
                         android:textColor="@color/bg"
-                        android:textSize="@dimen/_14sdp"/>
+                        android:textSize="@dimen/_14sdp"
+                        android:visibility="gone" />
 
 
-<!--                    <TextView-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="@string/sar"-->
-<!--                        android:fontFamily="@font/madani_arabic_medium"-->
-<!--                        android:textColor="@color/bg"-->
-<!--                        android:layout_marginStart="@dimen/_5sdp"-->
-<!--                        android:textSize="@dimen/_14sdp"/>-->
+                    <!--                    <TextView-->
+                    <!--                        android:layout_width="wrap_content"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:text="@string/sar"-->
+                    <!--                        android:fontFamily="@font/madani_arabic_medium"-->
+                    <!--                        android:textColor="@color/bg"-->
+                    <!--                        android:layout_marginStart="@dimen/_5sdp"-->
+                    <!--                        android:textSize="@dimen/_14sdp"/>-->
 
 
                 </LinearLayout>
@@ -128,7 +129,7 @@
             android:background="@color/light_gray" />
 
 
-        <RelativeLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/_5sdp"
@@ -136,11 +137,14 @@
             android:orientation="horizontal">
 
             <LinearLayout
+                android:id="@+id/ivImageContainer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:layout_marginStart="@dimen/_5sdp"
-                android:id="@+id/ivImageContainer"
-                android:layout_gravity="center_vertical">
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
@@ -164,7 +168,6 @@
                         android:gravity="center"
                         android:text="@string/seller"
                         android:textAllCaps="false"
-                        android:visibility="gone"
                         android:textColor="#ffffff"
                         android:textSize="@dimen/_6sdp" />
 
@@ -180,66 +183,77 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:id="@+id/lay"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:layout_marginStart="@dimen/_5sdp"
-                android:layout_toEndOf="@+id/ivImageContainer"
                 android:layout_toStartOf="@+id/containerButton"
-                android:gravity="center_vertical">
+                android:layout_toEndOf="@+id/ivImageContainer"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/containerButton"
+                app:layout_constraintStart_toEndOf="@+id/ivImageContainer"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
                     android:id="@+id/person_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/madani_arabic_medium"
-                    android:text=""
-                    android:textSize="@dimen/_14sdp"
-                    android:textColor="#262626" />
+                    android:text="eman"
+                    android:textColor="#262626"
+                    android:textSize="@dimen/_14sdp" />
+
                 <TextView
                     android:id="@+id/tvOfferedPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/madani_arabic_light"
+                    android:textColor="@color/bg"
                     android:textSize="@dimen/_12sdp"
-                    android:textColor="@color/bg" />
+                    android:visibility="gone" />
 
                 <TextView
-                    android:visibility="gone"
                     android:id="@+id/tvStatus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/madani_arabic_light"
-                    android:textSize="@dimen/_12sdp"
-                    android:textColor="#6D6C74" />
+                    android:text="@string/purchase"
+                    android:textColor="#6D6C74"
+                    android:textSize="@dimen/_12sdp" />
 
 
             </LinearLayout>
 
 
             <RelativeLayout
+                android:id="@+id/containerButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:orientation="horizontal"
-                android:id="@+id/containerButton"
-                >
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
 
                 <TextView
                     android:id="@+id/btnCancel"
-                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:padding="@dimen/_5sdp"
-                    android:paddingStart="@dimen/_20sdp"
+                    android:layout_marginEnd="@dimen/_5sdp"
                     android:background="@drawable/product_attribute_bg4"
                     android:backgroundTint="@color/bg"
                     android:fontFamily="@font/madani_arabic_semi_bold"
                     android:gravity="center"
-                    android:layout_marginEnd="@dimen/_5sdp"
-                    android:paddingEnd="@dimen/_20sdp"
-                    android:text="@string/Cancel"
+                    android:padding="@dimen/_5sdp"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:text="@string/cancel_order"
+                    android:visibility="gone"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_12sdp" />
 
@@ -248,55 +262,57 @@
                     android:id="@+id/btnPurchase"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:padding="@dimen/_5sdp"
-                    android:paddingStart="@dimen/_20sdp"
                     android:visibility="gone"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="@dimen/_5sdp"
                     android:background="@drawable/product_attribute_bg4"
                     android:backgroundTint="@color/bg"
                     android:fontFamily="@font/madani_arabic_semi_bold"
                     android:gravity="center"
-                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:padding="@dimen/_5sdp"
+                    android:paddingStart="@dimen/_20sdp"
                     android:paddingEnd="@dimen/_20sdp"
                     android:text="@string/purchase"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_12sdp" />
 
                 <LinearLayout
+                    android:id="@+id/containerSaleButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/containerSaleButton"
-                    android:visibility="gone"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
                     <TextView
                         android:id="@+id/btnAccept"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:padding="@dimen/_5sdp"
-                        android:paddingStart="@dimen/_20sdp"
+                        android:layout_marginEnd="@dimen/_5sdp"
                         android:background="@drawable/product_attribute_bg4"
                         android:backgroundTint="@color/bg"
                         android:fontFamily="@font/madani_arabic_semi_bold"
                         android:gravity="center"
-                        android:layout_marginEnd="@dimen/_5sdp"
+                        android:padding="@dimen/_5sdp"
+                        android:paddingStart="@dimen/_20sdp"
                         android:paddingEnd="@dimen/_20sdp"
                         android:text="@string/accept"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_12sdp" />
+
                     <TextView
                         android:id="@+id/btnReject"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:padding="@dimen/_5sdp"
-                        android:paddingStart="@dimen/_20sdp"
                         android:layout_marginTop="5dp"
+                        android:layout_marginEnd="@dimen/_5sdp"
                         android:background="@drawable/product_attribute_bg4"
                         android:backgroundTint="#293241"
                         android:fontFamily="@font/madani_arabic_semi_bold"
                         android:gravity="center"
-                        android:layout_marginEnd="@dimen/_5sdp"
+                        android:padding="@dimen/_5sdp"
+                        android:paddingStart="@dimen/_20sdp"
                         android:paddingEnd="@dimen/_20sdp"
                         android:text="@string/reject"
                         android:textColor="@color/white"
@@ -308,7 +324,7 @@
             </RelativeLayout>
 
 
-        </RelativeLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </LinearLayout>

@@ -1018,7 +1018,7 @@ class ConfirmationAddProductActivity : BaseActivity() {
     private fun setViewClickListeners() {
         btnCoupon.setOnClickListener {
             if (etCoupon.text.toString().trim() != "") {
-                addProductViewModel.getCouponByCode(etCoupon.text.toString().trim())
+                addProductViewModel.getCouponByCode(etCoupon.text.toString().trim(),"1")
             } else {
                 etCoupon.error = getString(R.string.enter_the_coupon)
             }
@@ -1134,57 +1134,109 @@ class ConfirmationAddProductActivity : BaseActivity() {
         }
 
         val bankList = AddProductObjectData.selectedAccountDetails?.map { it.id }
-        addProductViewModel.getAddProduct3(
-            isEdit,
-            productDetails?.id ?: 0,
-            this,
-            nameAr = AddProductObjectData.itemTitleAr,
-            nameEn = AddProductObjectData.itemTitleEn,
-            subTitleAr = AddProductObjectData.subtitleAr,
-            subTitleEn = AddProductObjectData.subtitleEn,
-            descriptionAr = AddProductObjectData.itemDescriptionAr,
-            descriptionEn = AddProductObjectData.itemDescriptionEn,
-            qty = AddProductObjectData.quantity,
-            productCondition = AddProductObjectData.productCondition.toString(),
-            categoryId = AddProductObjectData.selectedCategoryId.toString(),
-            countryId = AddProductObjectData.country?.id.toString(),
-            regionId = AddProductObjectData.region?.id.toString(),
-            neighborhoodId = AddProductObjectData.city?.id.toString(),
-            Street = "",
-            GovernmentCode = "",
-            pakatId = pakatId,
-            productSep = AddProductObjectData.productSpecificationList,
-            listImageFile = listImageFile,//listImageFile
-            MainImageIndex = mainIndex,
-            videoUrl = AddProductObjectData.videoList,
-            PickUpDelivery = AddProductObjectData.pickUpOption.toString(),
-            DeliveryOption = AddProductObjectData.shippingOptionSelections ?: arrayListOf(),
-            isFixedPriceEnabled = AddProductObjectData.priceFixedOption,
-            isAuctionEnabled = AddProductObjectData.auctionOption,
-            isNegotiationEnabled = AddProductObjectData.isNegotiablePrice,
-            price = AddProductObjectData.priceFixed,
-            priceDisc = AddProductObjectData.priceFixed,
-            paymentOptionIdList = AddProductObjectData.paymentOptionList,
-            isCashEnabled = "false", //same as  paymentOptionId
-            disccountEndDate = "",
-            auctionStartPrice = AddProductObjectData.auctionStartPrice,
-            auctionMinimumPrice = AddProductObjectData.auctionMinPrice,
-            auctionClosingTime =tvDateAuction.text.toString()
-           ,
-            productBankAccounts = bankList,
-            ProductPaymentDetailsDto_AdditionalPakatId = pakatId,
-            ProductPaymentDetailsDto_ProductPublishPrice = productPublishPriceFee,
-            ProductPaymentDetailsDto_EnableAuctionFee = auctionEnableFee,
-            ProductPaymentDetailsDto_EnableNegotiationFee = negotiationFee,
-            ProductPaymentDetailsDto_ExtraProductImageFee = extraImageFee,
-            ProductPaymentDetailsDto_ExtraProductVidoeFee = extraVideoFee,
-            ProductPaymentDetailsDto_SubTitleFee = subTitleFee,
-            ProductPaymentDetailsDto_CouponId = couponId,
-            ProductPaymentDetailsDto_CouponDiscountValue = couponDiscountValue,
-            ProductPaymentDetailsDto_TotalAmountAfterCoupon = totalAfterDiscount,
-            ProductPaymentDetailsDto_TotalAmountBeforeCoupon = totalPrice,
-
-            )
+        addProductViewModel.callAddProduct(listImageFile)
+//        addProductViewModel.getAddProduct3(
+//            isEdit,
+//            productDetails?.id ?: 0,
+//            this,
+//            nameAr = AddProductObjectData.itemTitleAr,
+//            nameEn = AddProductObjectData.itemTitleEn,
+//            subTitleAr = AddProductObjectData.subtitleAr,
+//            subTitleEn = AddProductObjectData.subtitleEn,
+//            descriptionAr = AddProductObjectData.itemDescriptionAr,
+//            descriptionEn = AddProductObjectData.itemDescriptionEn,
+//            qty = AddProductObjectData.quantity,
+//            productCondition = AddProductObjectData.productCondition.toString(),
+//            categoryId = AddProductObjectData.selectedCategoryId.toString(),
+//            countryId = AddProductObjectData.country?.id.toString(),
+//            regionId = AddProductObjectData.region?.id.toString(),
+//            neighborhoodId = AddProductObjectData.city?.id.toString(),
+//            Street = "",
+//            GovernmentCode = "",
+//            pakatId = pakatId,
+//            productSep = AddProductObjectData.productSpecificationList,
+//            listImageFile = listImageFile,//listImageFile
+//            MainImageIndex = mainIndex,
+//            videoUrl = AddProductObjectData.videoList,
+//            PickUpDelivery = AddProductObjectData.pickUpOption.toString(),
+//            DeliveryOption = AddProductObjectData.shippingOptionSelections ?: arrayListOf(),
+//            isFixedPriceEnabled = AddProductObjectData.priceFixedOption,
+//            isAuctionEnabled = AddProductObjectData.auctionOption,
+//            isNegotiationEnabled = AddProductObjectData.isNegotiablePrice,
+//            price = AddProductObjectData.priceFixed,
+//            priceDisc = AddProductObjectData.priceFixed,
+//            paymentOptionIdList = AddProductObjectData.paymentOptionList,
+//            isCashEnabled = "false", //same as  paymentOptionId
+//            disccountEndDate = "",
+//            auctionStartPrice = AddProductObjectData.auctionStartPrice,
+//            auctionMinimumPrice = AddProductObjectData.auctionMinPrice,
+//            auctionClosingTime =tvDateAuction.text.toString()
+//           ,
+//            productBankAccounts = bankList,
+//            ProductPaymentDetailsDto_AdditionalPakatId = pakatId,
+//            ProductPaymentDetailsDto_ProductPublishPrice = productPublishPriceFee,
+//            ProductPaymentDetailsDto_EnableAuctionFee = auctionEnableFee,
+//            ProductPaymentDetailsDto_EnableNegotiationFee = negotiationFee,
+//            ProductPaymentDetailsDto_ExtraProductImageFee = extraImageFee,
+//            ProductPaymentDetailsDto_ExtraProductVidoeFee = extraVideoFee,
+//            ProductPaymentDetailsDto_SubTitleFee = subTitleFee,
+//            ProductPaymentDetailsDto_CouponId = couponId,
+//            ProductPaymentDetailsDto_CouponDiscountValue = couponDiscountValue,
+//            ProductPaymentDetailsDto_TotalAmountAfterCoupon = totalAfterDiscount,
+//            ProductPaymentDetailsDto_TotalAmountBeforeCoupon = totalPrice,
+//
+//     )
+//        addProductViewModel.getAddProduct3(
+//            isEdit,
+//            productDetails?.id ?: 0,
+//            this,
+//            nameAr = AddProductObjectData.itemTitleAr,
+//            nameEn = AddProductObjectData.itemTitleEn,
+//            subTitleAr = AddProductObjectData.subtitleAr,
+//            subTitleEn = AddProductObjectData.subtitleEn,
+//            descriptionAr = AddProductObjectData.itemDescriptionAr,
+//            descriptionEn = AddProductObjectData.itemDescriptionEn,
+//            qty = AddProductObjectData.quantity,
+//            productCondition = AddProductObjectData.productCondition.toString(),
+//            categoryId = AddProductObjectData.selectedCategoryId.toString(),
+//            countryId = AddProductObjectData.country?.id.toString(),
+//            regionId = AddProductObjectData.region?.id.toString(),
+//            neighborhoodId = AddProductObjectData.city?.id.toString(),
+//            Street = "",
+//            GovernmentCode = "",
+//            pakatId = pakatId,
+//            productSep = AddProductObjectData.productSpecificationList,
+//            listImageFile = listImageFile,//listImageFile
+//            MainImageIndex = mainIndex,
+//            videoUrl = AddProductObjectData.videoList,
+//            PickUpDelivery = AddProductObjectData.pickUpOption.toString(),
+//            DeliveryOption = AddProductObjectData.shippingOptionSelections ?: arrayListOf(),
+//            isFixedPriceEnabled = AddProductObjectData.priceFixedOption,
+//            isAuctionEnabled = AddProductObjectData.auctionOption,
+//            isNegotiationEnabled = AddProductObjectData.isNegotiablePrice,
+//            price = AddProductObjectData.priceFixed,
+//            priceDisc = AddProductObjectData.priceFixed,
+//            paymentOptionIdList = AddProductObjectData.paymentOptionList,
+//            isCashEnabled = "false", //same as  paymentOptionId
+//            disccountEndDate = "",
+//            auctionStartPrice = AddProductObjectData.auctionStartPrice,
+//            auctionMinimumPrice = AddProductObjectData.auctionMinPrice,
+//            auctionClosingTime =tvDateAuction.text.toString()
+//           ,
+//            productBankAccounts = bankList,
+//            ProductPaymentDetailsDto_AdditionalPakatId = pakatId,
+//            ProductPaymentDetailsDto_ProductPublishPrice = productPublishPriceFee,
+//            ProductPaymentDetailsDto_EnableAuctionFee = auctionEnableFee,
+//            ProductPaymentDetailsDto_EnableNegotiationFee = negotiationFee,
+//            ProductPaymentDetailsDto_ExtraProductImageFee = extraImageFee,
+//            ProductPaymentDetailsDto_ExtraProductVidoeFee = extraVideoFee,
+//            ProductPaymentDetailsDto_SubTitleFee = subTitleFee,
+//            ProductPaymentDetailsDto_CouponId = couponId,
+//            ProductPaymentDetailsDto_CouponDiscountValue = couponDiscountValue,
+//            ProductPaymentDetailsDto_TotalAmountAfterCoupon = totalAfterDiscount,
+//            ProductPaymentDetailsDto_TotalAmountBeforeCoupon = totalPrice,
+//
+//            )
     }
 
 

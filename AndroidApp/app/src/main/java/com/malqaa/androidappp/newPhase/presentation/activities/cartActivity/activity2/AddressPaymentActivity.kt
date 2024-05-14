@@ -19,11 +19,13 @@ import com.malqaa.androidappp.newPhase.domain.models.cartListResp.CartDataObject
 import com.malqaa.androidappp.newPhase.domain.models.cartListResp.CartProductDetails
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.domain.models.addOrderResp.ProductOrderPaymentDetailsDto
+import com.malqaa.androidappp.newPhase.domain.models.orderDetailsByMasterID.OrderFullInfoDto
 import com.malqaa.androidappp.newPhase.domain.models.userAddressesResp.AddressItem
 import com.malqaa.androidappp.newPhase.presentation.activities.addressUser.addressListActivity.AddressesAdapter
 import com.malqaa.androidappp.newPhase.presentation.activities.cartActivity.activity2.adapter.CartNewAdapter
 import com.malqaa.androidappp.newPhase.presentation.activities.cartActivity.activity3.SuccessOrderActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.cartActivity.viewModel.CartViewModel
+import com.malqaa.androidappp.newPhase.presentation.activities.myOrderDetails.adapter.CurrentOrderAdapter
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.linearLayoutManager
@@ -37,20 +39,25 @@ import kotlinx.coroutines.withContext
 @SuppressLint("NotifyDataSetChanged")
 class AddressPaymentActivity : BaseActivity(),
     AddressesAdapter.SetOnSelectedAddress, CartNewAdapter.SetProductNewCartListeners,
-    SwipeRefreshLayout.OnRefreshListener {
+    SwipeRefreshLayout.OnRefreshListener,
+    CurrentOrderAdapter.SetOnClickListeners {
     private var deliveryOptionSelect: String = "0"
     private var paymentOptionSelect: Int = 0
     private var paymentDetailsDtoList: ArrayList<Triple<Int, Int, Int>>? = null
     private var addressesAdapter: AddressesAdapter? = null
     private var cartNewAdapter: CartNewAdapter? = null
+    private var purchaseOrderAdapter: CurrentOrderAdapter? = null
+    var requestType = ""
     private var cartViewModel: CartViewModel? = null
     private var userAddressesList: ArrayList<AddressItem>? = null
     private var productsCartList: ArrayList<CartProductDetails>? = null
     private var cartDataObject: CartDataObject? = null
     private var lastUpdateMainPosition: Int = 0
     private var lastUpdateProductPosition: Int = 0
+    lateinit var orderFullInfoDtoList: ArrayList<OrderFullInfoDto>
     private var addressId: Int = 0
     var flagTypeSale = true
+    var fromNegotiation = false
     var orderId = 0
 
     private val addAddressLaucher =
@@ -70,13 +77,13 @@ class AddressPaymentActivity : BaseActivity(),
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_address_payment)
         flagTypeSale = intent.getBooleanExtra("flagTypeSale", true)
+        fromNegotiation = intent.getBooleanExtra("fromNegotiation", false)
         orderId = intent.getIntExtra(ConstantObjects.orderNumberKey, 0)
 
-        toolbar_title.text = getString(R.string.shopping_basket)
+        toolbar_title.text = getString(R.string.CheckoutProduct)
         swipe_to_refresh.setColorSchemeResources(R.color.colorPrimaryDark)
         swipe_to_refresh.setOnRefreshListener(this)
         setAddressesAdapter()
-        setCartNewAdapter()
         setupCartViewModel()
         setViewClickListeners()
 
@@ -89,14 +96,21 @@ class AddressPaymentActivity : BaseActivity(),
         }
 //        initView()
 //        setListener()
-        /****/
 
 
     }
 
     override fun onResume() {
         super.onResume()
-        getCartList()
+        if (!fromNegotiation) {
+            setCartNewAdapter()
+            getCartList()
+        } else {
+            setOrderDetailsAdapter()
+            cartViewModel?.getCurrentOrderDetailsByMasterID(orderId)
+
+        }
+
         cartViewModel?.getUserAddress()
     }
 
@@ -285,6 +299,56 @@ class AddressPaymentActivity : BaseActivity(),
                 setCartTotalPrice()
             }
         }
+
+        cartViewModel!!.currentOrderByMusterIdRespObserver.observe(this) { resp ->
+            if (resp.status_code == 200) {
+
+                if (resp.orderDetailsByMasterIDData != null) {
+                    requestType = resp.orderDetailsByMasterIDData.requestType
+                        ?: getString(R.string.current_price_buy)
+//                    cartDataObject = resp.orderDetailsByMasterIDData
+//                    productsCartList?.clear()
+//                    productsCartList?.addAll(resp.orderDetailsByMasterIDData )
+//                    cartNewAdapter?.notifyDataSetChanged()
+//                    setCartTotalPrice()
+//                    resp.orderDetailsByMasterIDData.totalOrderMasterAmountAfterDiscount
+                    resp.orderDetailsByMasterIDData.orderFullInfoDtoList?.let {
+                        orderFullInfoDtoList.clear()
+                        orderFullInfoDtoList.addAll(it)
+                        purchaseOrderAdapter?.notifyDataSetChanged()
+                    }
+                    if (cartDataObject == null) {
+                        cartDataObject = CartDataObject()
+                    }
+                    cartDataObject!!.totalPriceForCartFinal =
+                        (resp.orderDetailsByMasterIDData.totalOrderMasterAmountAfterDiscount
+                            ?: resp.orderDetailsByMasterIDData.totalOrderMasterAmountBeforDiscount)!!
+                    cartDataObject!!.totalPriceForCartBeforeDiscount =
+                        resp.orderDetailsByMasterIDData.totalOrderMasterAmountBeforDiscount!!
+                    total_tv.text =
+                        "${resp.orderDetailsByMasterIDData.totalOrderMasterAmountAfterDiscount ?: resp.orderDetailsByMasterIDData.totalOrderMasterAmountBeforDiscount} ${
+                            getString(
+                                R.string.Rayal
+                            )
+                        }"
+                    subtotal_tv.text =
+                        "${resp.orderDetailsByMasterIDData.totalOrderMasterAmountBeforDiscount} ${
+                            getString(
+                                R.string.Rayal
+                            )
+                        }"
+
+
+                }
+            } else {
+                if (resp.message != null) {
+                    HelpFunctions.ShowLongToast(resp.message, this)
+                } else {
+                    HelpFunctions.ShowLongToast(getString(R.string.serverError), this)
+                }
+            }
+        }
+
         cartViewModel!!.cartListRespObserver.observe(this) { cartListResp ->
             if (cartListResp.status_code == 200) {
                 if (cartListResp.cartDataObject?.listCartProducts != null) {
@@ -310,7 +374,8 @@ class AddressPaymentActivity : BaseActivity(),
                 total_tv.text = "0 ${getString(R.string.Rayal)}"
                 subtotal_tv.text = "0 ${getString(R.string.Rayal)}"
                 discount_tv.text = "0 ${getString(R.string.Rayal)}"
-                getCartList()
+                if (!fromNegotiation)
+                    getCartList()
             } else {
                 if (applyCouponResp.message != null) {
                     HelpFunctions.ShowLongToast(applyCouponResp.message, this)
@@ -336,6 +401,7 @@ class AddressPaymentActivity : BaseActivity(),
                             ConstantObjects.orderPriceKey,
                             cartDataObject?.totalPriceForCartFinal.toString()
                         )
+                        putExtra("RequestType", requestType)
                     }
                     startActivity(intent)
                     finish()
@@ -353,6 +419,7 @@ class AddressPaymentActivity : BaseActivity(),
         }
 
         cartViewModel!!.paymentTransaction.observe(this) {
+
             val intent = Intent(this, SuccessOrderActivity::class.java).apply {
                 putExtra(ConstantObjects.orderNumberKey, orderId.toString())
                 putExtra(
@@ -363,6 +430,8 @@ class AddressPaymentActivity : BaseActivity(),
                     ConstantObjects.orderPriceKey,
                     cartDataObject?.totalPriceForCartFinal.toString()
                 )
+                putExtra("RequestType", requestType)
+
             }
             startActivity(intent)
             finish()
@@ -373,6 +442,16 @@ class AddressPaymentActivity : BaseActivity(),
             HelpFunctions.ShowLongToast(it.message, this)
         }
     }
+
+    private fun setOrderDetailsAdapter() {
+        orderFullInfoDtoList = ArrayList<OrderFullInfoDto>()
+        purchaseOrderAdapter = CurrentOrderAdapter(orderFullInfoDtoList, this)
+        rvNewCart.apply {
+            adapter = purchaseOrderAdapter
+            layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
+        }
+    }
+
 
     private fun setCartNewAdapter() {
         productsCartList = ArrayList<CartProductDetails>()
@@ -604,7 +683,11 @@ class AddressPaymentActivity : BaseActivity(),
         userAddressesList?.clear()
         addressesAdapter?.notifyDataSetChanged()
         cartViewModel?.getUserAddress()
-        getCartList()
+
+        if (!fromNegotiation)
+            getCartList()
+        else
+            cartViewModel?.getCurrentOrderDetailsByMasterID(orderId)
 
     }
 
@@ -620,6 +703,12 @@ class AddressPaymentActivity : BaseActivity(),
         userAddressesList = null
         productsCartList = null
         cartDataObject = null
+    }
+
+    override fun onAddRateToShipmentSelected(position: Int) {
+    }
+
+    override fun onCancelOrder(position: Int) {
     }
 
 

@@ -26,40 +26,29 @@ import com.google.android.gms.location.LocationSettingsRequest
 import com.google.android.gms.location.LocationSettingsStatusCodes
 import com.google.gson.Gson
 import com.malqaa.androidappp.R
-import com.malqaa.androidappp.newPhase.utils.activitiesMain.placePicker.LocationPickerActivity
 import com.malqaa.androidappp.newPhase.core.BaseActivity
-import com.malqaa.androidappp.newPhase.utils.helper.widgets.DatePickerFragment
 import com.malqaa.androidappp.newPhase.domain.models.ImageSelectModel
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.*
-import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.businessAccount.BusinessAccountViewModel
-import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.mapActivity.MapActivity
 import com.malqaa.androidappp.newPhase.presentation.dialogsShared.PickImageMethodsDialog
 import com.malqaa.androidappp.newPhase.presentation.dialogsShared.countryDialog.CountryDialog
 import com.malqaa.androidappp.newPhase.presentation.dialogsShared.neighborhoodDialog.NeighborhoodDialog
 import com.malqaa.androidappp.newPhase.presentation.dialogsShared.regionDialog.RegionDialog
-import com.malqaa.androidappp.newPhase.utils.helper.CameraHelper
+import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.businessAccount.BusinessAccountViewModel
+import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.mapActivity.MapActivity
 import com.malqaa.androidappp.newPhase.utils.BetterActivityResult
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.ImagePicker
 import com.malqaa.androidappp.newPhase.utils.PicassoSingleton.getPicassoInstance
 import com.malqaa.androidappp.newPhase.utils.SetOnImagePickedListeners
+import com.malqaa.androidappp.newPhase.utils.activitiesMain.placePicker.LocationPickerActivity
+import com.malqaa.androidappp.newPhase.utils.helper.CameraHelper
+import com.malqaa.androidappp.newPhase.utils.helper.widgets.DatePickerFragment
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.show
-
+import com.squareup.picasso.Picasso
 import com.zfdang.multiple_images_selector.SelectorSettings
 import kotlinx.android.synthetic.main.activity_business_signup.*
-import kotlinx.android.synthetic.main.activity_business_signup.btnOpenCountry
-import kotlinx.android.synthetic.main.activity_business_signup.countryContainer
-import kotlinx.android.synthetic.main.activity_business_signup.etPhoneNumber
-import kotlinx.android.synthetic.main.activity_business_signup.ivFlag
-import kotlinx.android.synthetic.main.activity_business_signup.ivPickUserImage
-import kotlinx.android.synthetic.main.activity_business_signup.ivUserImageBusiness
-import kotlinx.android.synthetic.main.activity_business_signup.neighborhoodContainer
-import kotlinx.android.synthetic.main.activity_business_signup.regionContainer
-import kotlinx.android.synthetic.main.activity_business_signup.textEmaill
-import kotlinx.android.synthetic.main.activity_business_signup.tvCode
-import kotlinx.android.synthetic.main.activity_business_signup.userNamee
 import okhttp3.MultipartBody
 import kotlin.math.roundToInt
 
@@ -755,7 +744,9 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
     ) {
         tvCode.text = countryCode
         ivFlag.setImageDrawable(null)
-        getPicassoInstance().load(countryFlag).into(ivFlag)
+        Picasso.get()
+            .load(countryFlag)
+            .into(ivFlag)
     }
 
     override fun onDestroy() {

@@ -7,6 +7,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.malqaa.androidappp.R
 import com.malqaa.androidappp.newPhase.core.BaseActivity
+import com.malqaa.androidappp.newPhase.domain.models.addOrderResp.ProductOrderPaymentDetailsDto
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.linearLayoutManager
@@ -180,56 +181,105 @@ class CartActivity : BaseActivity(), CartAdapter.SetProductCartListeners {
             finish()
         }
         the_next.setOnClickListener {
-            if (HelpFunctions.isUserLoggedIn()) {
-                if (ConstantObjects.newUserCart.isNotEmpty()) {
-                    //  if (SharedPreferencesStaticClass.getAssignCartToUser()) {
+//            var paymentDetailsDtoList = ArrayList<Triple<Int, Int, Int>>()
+//            paymentDetailsDtoList?.add(
+//                Triple(
+//                    30,
+//                    2,
+//                    1.toInt()
+//                )
+//            )
+//            val mergedList = mergeTuplesInList(paymentDetailsDtoList ?: arrayListOf())
+//            val customList = mergedList.map { triple ->
+//                ProductOrderPaymentDetailsDto(triple.first, triple.second, triple.third)}
+//                cartViewModel.addOrder(
+//                    "20601",
+//                    1,
+//                    1,
+//                    "",
+//                    customList
+//                )
+
+                if (HelpFunctions.isUserLoggedIn()) {
+                    if (ConstantObjects.newUserCart.isNotEmpty()) {
+                        //  if (SharedPreferencesStaticClass.getAssignCartToUser()) {
 //                        gotToNextCartActivity()
 //                    } else {
-                    cartViewModel.assignCardToUser(SharedPreferencesStaticClass.getMasterCartId())
-                    //  }
+                        cartViewModel.assignCardToUser(SharedPreferencesStaticClass.getMasterCartId())
+                        //  }
+                    } else {
+                        showError(getString(R.string.empty_cart))
+                    }
                 } else {
-                    showError(getString(R.string.empty_cart))
+                    goToSignInActivity()
                 }
-            } else {
-                goToSignInActivity()
+
             }
 
         }
 
+    private fun mergeTuples(
+        tuple1: Triple<Int, Int, Int>,
+        tuple2: Triple<Int, Int, Int>
+    ): Triple<Int, Int, Int> {
+        val mergedFirst = tuple1.first // Assuming the first value is always the same
+        val mergedSecond = tuple1.second + tuple2.second
+        val mergedThird = tuple1.third + tuple2.third
+        return Triple(mergedFirst, mergedSecond, mergedThird)
     }
+    fun mergeTuplesInList(tupleList: ArrayList<Triple<Int, Int, Int>>): ArrayList<Triple<Int, Int, Int>> {
+        val mergedList = ArrayList<Triple<Int, Int, Int>>()
+
+        // Iterate through the list two elements at a time and merge them
+        var i = 0
+        while (i < tupleList.size) {
+            if (i + 1 < tupleList.size) {
+                val mergedTuple = mergeTuples(tupleList[i], tupleList[i + 1])
+                mergedList.add(mergedTuple)
+                i += 2 // Skip to the next pair
+            } else {
+                // If there's only one tuple left, add it as is
+                mergedList.add(tupleList[i])
+                i++
+            }
+        }
+
+        return mergedList
+    }
+
 
     private fun gotToNextCartActivity() {
-        startActivity(Intent(this, AddressPaymentActivity::class.java))
+            startActivity(Intent(this, AddressPaymentActivity::class.java))
+        }
+
+        override fun onIncreaseQuantityProduct(position: Int) {
+            lastUpdatePosition = position
+            val productCartId = productCartItemRespList[position].cartproductId
+            cartViewModel.increaseCartProductQuantity(productCartId.toString())
+        }
+
+        override fun onDecreaseQuantityProduct(position: Int) {
+            lastUpdatePosition = position
+            val productCartId = productCartItemRespList[position].cartproductId
+            cartViewModel.decreaseCartProductQuantity(productCartId.toString())
+        }
+
+        override fun onDeleteProduct(position: Int) {
+            val productCartId = productCartItemRespList[position].cartproductId
+            cartViewModel.removeProductFromCartProducts(productCartId.toString())
+        }
+
+
+        override fun onResume() {
+            super.onResume()
+            if (SharedPreferencesStaticClass.getMasterCartId().toInt() != 0)
+                cartViewModel.getCartList(SharedPreferencesStaticClass.getMasterCartId())
+        }
+
+        override fun onDestroy() {
+            super.onDestroy()
+            cartViewModel.closeAllCall()
+        }
+
+
     }
-
-    override fun onIncreaseQuantityProduct(position: Int) {
-        lastUpdatePosition = position
-        val productCartId = productCartItemRespList[position].cartproductId
-        cartViewModel.increaseCartProductQuantity(productCartId.toString())
-    }
-
-    override fun onDecreaseQuantityProduct(position: Int) {
-        lastUpdatePosition = position
-        val productCartId = productCartItemRespList[position].cartproductId
-        cartViewModel.decreaseCartProductQuantity(productCartId.toString())
-    }
-
-    override fun onDeleteProduct(position: Int) {
-        val productCartId = productCartItemRespList[position].cartproductId
-        cartViewModel.removeProductFromCartProducts(productCartId.toString())
-    }
-
-
-    override fun onResume() {
-        super.onResume()
-        if (SharedPreferencesStaticClass.getMasterCartId().toInt() != 0)
-            cartViewModel.getCartList(SharedPreferencesStaticClass.getMasterCartId())
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        cartViewModel.closeAllCall()
-    }
-
-
-}
