@@ -257,9 +257,9 @@
                         android:padding="@dimen/_10sdp">
 
                         <TextView
-                            android:layout_centerHorizontal="true"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
                             android:layout_centerVertical="true"
                             android:layout_marginStart="@dimen/_10sdp"
                             android:fontFamily="@font/madani_arabic_semi_bold"
@@ -273,7 +273,6 @@
                             android:id="@+id/tvNegotiationPrice"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:visibility="gone"
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
                             android:layout_marginEnd="@dimen/_10sdp"
@@ -281,7 +280,8 @@
                             android:text="@string/sar"
                             android:textAllCaps="false"
                             android:textColor="@color/orange"
-                            android:textSize="@dimen/_12sdp" />
+                            android:textSize="@dimen/_12sdp"
+                            android:visibility="gone" />
 
 
                     </RelativeLayout>
@@ -311,11 +311,11 @@
 
                     <LinearLayout
                         android:id="@+id/laySpec"
-                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_14sdp"
                         android:orientation="horizontal"
+                        android:visibility="gone"
                         android:weightSum="2">
 
 
@@ -376,25 +376,25 @@
                         android:layout_width="@dimen/_200sdp"
                         android:layout_height="@dimen/_1sdp"
                         android:layout_gravity="center"
-                        android:visibility="gone"
                         android:layout_marginTop="15dp"
-                        android:background="@color/light_gray">
+                        android:background="@color/light_gray"
+                        android:visibility="gone">
 
                     </LinearLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:visibility="gone"
                         android:fontFamily="@font/madani_arabic_medium"
                         android:text="@string/item_details"
                         android:textColor="#000000"
-                        android:textSize="@dimen/_14sdp" />
+                        android:textSize="@dimen/_14sdp"
+                        android:visibility="gone" />
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:visibility="gone"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:visibility="gone">
 
                         <TextView
                             android:id="@+id/tvProductDescriptionShort"
@@ -422,14 +422,14 @@
                     <TextView
                         android:id="@+id/btnMoreItemDetails"
                         android:layout_width="wrap_content"
-                        android:visibility="gone"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_2sdp"
                         android:fontFamily="@font/madani_arabic_medium"
                         android:foreground="?android:attr/selectableItemBackground"
                         android:text="@string/Showmore"
                         android:textColor="@color/bg"
-                        android:textSize="@dimen/_12sdp" />
+                        android:textSize="@dimen/_12sdp"
+                        android:visibility="gone" />
 
                     <LinearLayout
                         android:layout_width="@dimen/_200sdp"
@@ -463,34 +463,30 @@
                         android:textColor="@color/white"
                         android:textSize="@dimen/_10sdp" />
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
                         android:layout_marginTop="@dimen/_8sdp"
-                        android:orientation="horizontal">
+                        android:layout_height="wrap_content">
 
                         <LinearLayout
                             android:id="@+id/contianerBankAccount"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="@dimen/_32sdp"
                             android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
                             android:background="@drawable/button_curve_stroke_border_orange"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            app:layout_constraintEnd_toStartOf="@id/contianerCash"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
 
-                            <!--                        <ImageView-->
-                            <!--                            android:layout_width="@dimen/_50sdp"-->
-                            <!--                            android:layout_height="@dimen/_20sdp"-->
-                            <!--                            android:layout_gravity="center_vertical"-->
-                            <!--                            android:src="@drawable/mastercard" />-->
                             <TextView
-                                android:layout_width="wrap_content"
+                                android:gravity="center"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
-                                android:paddingStart="@dimen/_10sdp"
-                                android:paddingEnd="@dimen/_10sdp"
-                                android:text="@string/bank_transfer"
-                                android:textSize="@dimen/_13sdp" />
+                                android:paddingStart="@dimen/_6sdp"
+                                android:paddingEnd="@dimen/_6sdp"
+                                android:text="@string/bank_transfer" />
 
                             <ImageView
                                 android:layout_width="@dimen/_30sdp"
@@ -504,23 +500,56 @@
 
                         <LinearLayout
                             android:id="@+id/contianerCash"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="@dimen/_32sdp"
                             android:layout_gravity="center_vertical"
-                            android:layout_marginStart="@dimen/_3sdp"
-                            android:layout_weight="1"
+                            android:layout_marginStart="3dp"
                             android:background="@drawable/button_curve_stroke_border_orange"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            app:layout_constraintEnd_toStartOf="@id/containerMada"
+                            app:layout_constraintStart_toEndOf="@+id/contianerBankAccount"
+                            app:layout_constraintTop_toTopOf="parent">
 
 
                             <TextView
-                                android:layout_width="wrap_content"
+                                android:gravity="center"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
-                                android:paddingStart="@dimen/_10sdp"
-                                android:paddingEnd="@dimen/_10sdp"
-                                android:text="@string/cashPayment"
-                                android:textSize="@dimen/_13sdp" />
+                                android:paddingStart="@dimen/_6sdp"
+                                android:paddingEnd="@dimen/_6sdp"
+                                android:text="@string/cashPayment" />
+
+                            <ImageView
+                                android:layout_width="@dimen/_30sdp"
+                                android:layout_height="@dimen/_20sdp"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/ic_check"
+                                android:visibility="gone" />
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:id="@+id/containerMada"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/_32sdp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="3dp"
+                            android:background="@drawable/button_curve_stroke_border_orange"
+                            android:orientation="horizontal"
+                            app:layout_constraintEnd_toStartOf="@id/containerMaster"
+                            app:layout_constraintStart_toEndOf="@+id/contianerCash"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                android:gravity="center"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:paddingStart="@dimen/_6sdp"
+                                android:paddingEnd="@dimen/_6sdp"
+                                android:text="@string/MadaPayment" />
 
                             <ImageView
                                 android:layout_width="@dimen/_30sdp"
@@ -534,22 +563,24 @@
 
                         <LinearLayout
                             android:id="@+id/containerMaster"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="@dimen/_32sdp"
                             android:layout_gravity="center_vertical"
-                            android:layout_marginStart="@dimen/_3sdp"
-                            android:layout_weight="1"
+                            android:layout_marginStart="3dp"
                             android:background="@drawable/button_curve_stroke_border_orange"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/containerMada"
+                            app:layout_constraintTop_toTopOf="parent">
 
                             <TextView
-                                android:layout_width="wrap_content"
+                                android:gravity="center"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
-                                android:paddingStart="@dimen/_10sdp"
-                                android:paddingEnd="@dimen/_10sdp"
-                                android:text="@string/creditCard"
-                                android:textSize="@dimen/_13sdp" />
+                                android:paddingStart="@dimen/_6sdp"
+                                android:paddingEnd="@dimen/_6sdp"
+                                android:text="@string/creditCard" />
 
                             <ImageView
                                 android:layout_width="@dimen/_30sdp"
@@ -560,34 +591,7 @@
 
                         </LinearLayout>
 
-                        <LinearLayout
-                            android:id="@+id/containerMada"
-                            android:layout_width="wrap_content"
-                            android:layout_height="@dimen/_32sdp"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginStart="@dimen/_3sdp"
-                            android:layout_weight="1"
-                            android:background="@drawable/button_curve_stroke_border_orange"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:paddingStart="@dimen/_10sdp"
-                                android:paddingEnd="@dimen/_10sdp"
-                                android:text="@string/MadaPayment"
-                                android:textSize="@dimen/_13sdp" />
-
-                            <ImageView
-                                android:layout_width="@dimen/_30sdp"
-                                android:layout_height="@dimen/_20sdp"
-                                android:layout_gravity="center_vertical"
-                                android:src="@drawable/ic_check"
-                                android:visibility="gone" />
-
-                        </LinearLayout>
-                    </LinearLayout>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <View
                         android:layout_width="@dimen/_200sdp"
@@ -727,12 +731,12 @@
                         android:id="@+id/hintQuestion"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:visibility="gone"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:fontFamily="@font/madani_arabic_medium"
                         android:text="@string/questions_is_turned_off_by_the_seller"
                         android:textColor="#000000"
-                        android:textSize="@dimen/_13sdp" />
+                        android:textSize="@dimen/_13sdp"
+                        android:visibility="gone" />
 
                     <LinearLayout
                         android:id="@+id/answerLayout"

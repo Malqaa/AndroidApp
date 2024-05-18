@@ -1104,7 +1104,10 @@
     <string name="Negotiation">تفاوض</string>
     <string name="personal">شخصى</string>
     <string name="Lost">ضائع</string>
-    <string name="cancel_order">Cancel Order</string>
+    <string name="cancel_order">إلغاء الطلب</string>
+    <string name="sold_out_quantity">تم بيع الكمية %1$d من %3$s. المنتج المتبقي: %2$d، أسرع وقم بشرائه!</string>
+    <string name="notFoundQuantity">لا يوجد كميه فى المخزن</string>
+    <string name="sale_type_">نوع البيع : </string>
 
 
     <!--    <string name="Back_to_login">العودة لتسجيل الدخول</string>-->

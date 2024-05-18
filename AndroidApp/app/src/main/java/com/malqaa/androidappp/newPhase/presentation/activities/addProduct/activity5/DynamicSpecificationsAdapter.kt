@@ -28,7 +28,7 @@ class DynamicSpecificationsAdapter(
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     //====viewHolder
-    private val spinnerType = 1
+    private val spinnerType = 1 // and 7
     private val textBoxType = 2
     private val radioType = 5
     private val checkType = 6
@@ -64,7 +64,7 @@ class DynamicSpecificationsAdapter(
     lateinit var context: Context
     override fun getItemViewType(position: Int): Int {
         //type 1->dropdownlist  ,
-        if (dynamicSpecificationList[position].type == 1) {
+        if (dynamicSpecificationList[position].type == 1|| dynamicSpecificationList[position].type ==7) {
             if (dynamicSpecificationList[position].subSpecifications!!.isNotEmpty()) {
                 //dropDown
                 return spinnerType

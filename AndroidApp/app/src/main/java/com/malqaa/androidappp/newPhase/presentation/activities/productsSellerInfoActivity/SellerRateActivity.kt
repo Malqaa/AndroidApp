@@ -30,6 +30,7 @@ class SellerRateActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
     val typeOption: ArrayList<Selection> = ArrayList()
     var selection: Selection? = null
     private lateinit var productDetialsViewModel: ProductDetailsViewModel
+    var rateAsBuyer = false
 
     //=====
     lateinit var sellerRateAdapter: SellerRateAdapter
@@ -68,9 +69,9 @@ class SellerRateActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
 
         }
         productDetialsViewModel.errorResponseObserver.observe(this) {
-            if(it.status!=null && it.status=="409"){
-                HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit),this)
-            }else {
+            if (it.status != null && it.status == "409") {
+                HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), this)
+            } else {
                 if (it.message != null) {
                     HelpFunctions.ShowLongToast((it.message!!), this)
                 } else {
@@ -81,9 +82,17 @@ class SellerRateActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
         }
         productDetialsViewModel.sellerRateListObservable.observe(this) { sellerRateListResp ->
             if (sellerRateListResp.status_code == 200) {
-                sellerRateListResp.SellerRateObject?.let {
-                    it.rateSellerListDto?.let { it1 -> sellerRateList.addAll(it1) }
+                if(rateAsBuyer){
+                    sellerRateListResp.SellerRateObject?.let {
+                        it.rateBuyerListDto?.let { it1 -> sellerRateList.addAll(it1) }
+                    }
+                }else{
+                    sellerRateListResp.SellerRateObject?.let {
+                        it.rateSellerListDto?.let { it1 -> sellerRateList.addAll(it1) }
+                    }
                 }
+
+
                 sellerRateAdapter.notifyDataSetChanged()
                 if (sellerRateList.isEmpty()) {
                     tvError.show()
@@ -124,9 +133,11 @@ class SellerRateActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
             object : EndlessRecyclerViewScrollListener(linerlayoutManager) {
                 override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
                     if (sellerAsASeller == SellerFilterReviewDialog.sellerAsASeller) {
-                        var sendRate:Int?=null
-                        if(retReviewType!=SellerFilterReviewDialog.allReview){
-                            sendRate=retReviewType
+
+                        rateAsBuyer=false
+                        var sendRate: Int? = null
+                        if (retReviewType != SellerFilterReviewDialog.allReview) {
+                            sendRate = retReviewType
                         }
                         productDetialsViewModel.getSellerRates2AsSeller(
                             sellerInformation?.providerId ?: "",
@@ -134,10 +145,11 @@ class SellerRateActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
                             page,
                             sendRate
                         )
-                    }else{
-                        var sendRate:Int?=null
-                        if(retReviewType!=SellerFilterReviewDialog.allReview){
-                            sendRate=retReviewType
+                    } else {
+                        rateAsBuyer=true
+                        var sendRate: Int? = null
+                        if (retReviewType != SellerFilterReviewDialog.allReview) {
+                            sendRate = retReviewType
                         }
                         productDetialsViewModel.getSellerRates2AsAbuyer(
                             sellerInformation?.providerId ?: "",
@@ -159,9 +171,10 @@ class SellerRateActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
         sellerRateAdapter.notifyDataSetChanged()
         tvError.hide()
         if (sellerAsASeller == SellerFilterReviewDialog.sellerAsASeller) {
-            var sendRate:Int?=null
-            if(retReviewType!=SellerFilterReviewDialog.allReview){
-                sendRate=retReviewType
+            rateAsBuyer=false
+            var sendRate: Int? = null
+            if (retReviewType != SellerFilterReviewDialog.allReview) {
+                sendRate = retReviewType
             }
             productDetialsViewModel.getSellerRates2AsSeller(
                 sellerInformation?.providerId ?: "",
@@ -169,10 +182,11 @@ class SellerRateActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
                 1,
                 sendRate
             )
-        }else{
-            var sendRate:Int?=null
-            if(retReviewType!=SellerFilterReviewDialog.allReview){
-                sendRate=retReviewType
+        } else {
+            rateAsBuyer=true
+            var sendRate: Int? = null
+            if (retReviewType != SellerFilterReviewDialog.allReview) {
+                sendRate = retReviewType
             }
             productDetialsViewModel.getSellerRates2AsAbuyer(
                 sellerInformation?.providerId ?: "",
@@ -213,12 +227,13 @@ class SellerRateActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
         sellerFilterReviewDialog.dismiss()
         sellerAsASeller = rateAsSellerOrBuyer
         retReviewType = reviewType
-        when(sellerAsASeller){
-            SellerFilterReviewDialog.sellerAsASeller->{
-                review_type2.text=getString(R.string.reviews_as_a_seller)
+        when (sellerAsASeller) {
+            SellerFilterReviewDialog.sellerAsASeller -> {
+                review_type2.text = getString(R.string.reviews_as_a_seller)
             }
-            SellerFilterReviewDialog.sellerAsABuyer->{
-                review_type2.text=getString(R.string.reviews_as_a_buyer)
+
+            SellerFilterReviewDialog.sellerAsABuyer -> {
+                review_type2.text = getString(R.string.reviews_as_a_buyer)
             }
         }
         onRefresh()
@@ -227,14 +242,15 @@ class SellerRateActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
 
     override fun onResetFilter() {
         sellerFilterReviewDialog.dismiss()
-        sellerAsASeller =SellerFilterReviewDialog.sellerOrBayerFilterTap;
+        sellerAsASeller = SellerFilterReviewDialog.sellerOrBayerFilterTap;
         retReviewType = SellerFilterReviewDialog.allReview
-        when(sellerAsASeller){
-            SellerFilterReviewDialog.sellerAsASeller->{
-                review_type2.text=getString(R.string.reviews_as_a_seller)
+        when (sellerAsASeller) {
+            SellerFilterReviewDialog.sellerAsASeller -> {
+                review_type2.text = getString(R.string.reviews_as_a_seller)
             }
-            SellerFilterReviewDialog.sellerAsABuyer->{
-                review_type2.text=getString(R.string.reviews_as_a_buyer)
+
+            SellerFilterReviewDialog.sellerAsABuyer -> {
+                review_type2.text = getString(R.string.reviews_as_a_buyer)
             }
         }
         onRefresh()

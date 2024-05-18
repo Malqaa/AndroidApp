@@ -73,9 +73,16 @@ class SellerRatingFragment : Fragment(R.layout.fragment_seller_rating),
 
         sellerRatingViewModel?.sellerRateListObservable?.observe(this) { sellerRateListResp ->
             if (sellerRateListResp.status_code == 200) {
-                sellerRateListResp.SellerRateObject?.let {
-                    it.rateSellerListDto?.let { it1 -> sellerRateList?.addAll(it1) }
+                if(typeOption[1].isSelected){
+                    sellerRateListResp.SellerRateObject?.let {
+                        it.rateBuyerListDto?.let { it1 -> sellerRateList?.addAll(it1) }
+                    }
+                }else{
+                    sellerRateListResp.SellerRateObject?.let {
+                        it.rateSellerListDto?.let { it1 -> sellerRateList?.addAll(it1) }
+                    }
                 }
+
                 sellerRateAdapter?.notifyDataSetChanged()
                 if (sellerRateList?.isEmpty() == true) {
                     tvError.show()
@@ -129,8 +136,19 @@ class SellerRatingFragment : Fragment(R.layout.fragment_seller_rating),
         sellerRateList?.clear()
         sellerRateAdapter?.notifyDataSetChanged()
         tvError.hide()
-        sellerRatingViewModel?.getSellerRates(
-            1, null)
+        if(typeOption.size!=0){
+            if(typeOption[1].isSelected){
+                sellerRatingViewModel?.getBuyerRates(
+                    1, null)
+            }else{
+                sellerRatingViewModel?.getSellerRates(
+                    1, null)
+            }
+        }else{
+            sellerRatingViewModel?.getSellerRates(
+                1, null)
+        }
+
 
 
     }

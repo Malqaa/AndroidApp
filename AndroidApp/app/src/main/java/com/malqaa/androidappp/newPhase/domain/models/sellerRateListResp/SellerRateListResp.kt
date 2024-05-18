@@ -13,6 +13,7 @@ data class SellerRateObject(
     var disgustedCount: Int,
     var satisfiedCount: Int,
     var happyCount: Int,
+    var rateBuyerListDto: List<SellerRateItem>? = null,
     var rateSellerListDto: List<SellerRateItem>? = null,
     var totalRecords: Int
 )

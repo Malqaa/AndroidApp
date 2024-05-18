@@ -3040,8 +3040,11 @@
     <string name="personal">Personal</string>
   <string name="Lost">Lost</string>
   <string name="cancel_order">Cancel Order</string>
+  <string name="sold_out_quantity">Quantity %1$d of %3$s is sold out. Remaining product: %2$d, hurry up and buy it!</string>
+    <string name="notFoundQuantity">Not found quantity</string>
+    <string name="sale_type_">Sale Type : </string>
 
-  <!--    <string name="BusinessDetails">-->
+    <!--    <string name="BusinessDetails">-->
     <!-- Business Details-->
     <!--  </string>-->
 

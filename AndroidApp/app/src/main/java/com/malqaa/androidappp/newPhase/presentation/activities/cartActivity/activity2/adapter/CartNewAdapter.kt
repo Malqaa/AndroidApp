@@ -41,6 +41,10 @@ class CartNewAdapter(
         )
     }
 
+    fun updateAdapter(productsCartListResp: ArrayList<CartProductDetails>){
+        this.productsCartListResp=productsCartListResp
+        notifyDataSetChanged()
+    }
     override fun getItemCount(): Int = productsCartListResp.size
 
     @SuppressLint("SetTextI18n")

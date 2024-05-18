@@ -59,6 +59,7 @@ data class ProductCartItem(
     var region: String? = null,
     var shippingOptions: List<ShippingOptions>,
     var paymentOptions: List<PaymentOptions>,
+    var msgError: String,
 )
 data class ShippingOptions(
     var id: Int,

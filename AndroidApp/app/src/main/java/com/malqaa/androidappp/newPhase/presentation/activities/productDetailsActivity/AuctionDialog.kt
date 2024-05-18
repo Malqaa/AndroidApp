@@ -27,7 +27,7 @@ class AuctionDialog(
     var auctionNegotiatePrice: Float,
     var setClickListeners: SetClickListeners
 ) : BaseDialog(context) {
-
+    var automaticBid = false
     var countriesCallback: Call<AddBidResp>? = null
     var generalRespone: AddBidResp? = null
     override fun getViewId(): Int {
@@ -58,8 +58,10 @@ class AuctionDialog(
     private fun setOnClickListenres() {
         switchAutoBid.setOnCheckedChangeListener { _, b ->
             if (b) {
+                automaticBid = true
                 containerAutomaticBidding.show()
             } else {
+                automaticBid = false
                 containerAutomaticBidding.hide()
             }
         }
@@ -84,44 +86,69 @@ class AuctionDialog(
             dismiss()
         }
         btn_bid.setOnClickListener {
-            if (etCountNumber.text.toString().trim() == "") {
-                HelpFunctions.ShowLongToast(context.getString(R.string.enterBidPrice), context)
-            } else if (etCountNumber.text.toString().trim()
-                    .toFloat() <= auctionStartPrice || etCountNumber.text.toString().trim()
-                    .toFloat() <= auctionNegotiatePrice
-            ) {
-                HelpFunctions.ShowLongToast(
-                    context.getString(R.string.enterCorrectBidPrice),
-                    context
-                )
-            } else if (switchAutoBid.isChecked) {
-                var ready = true
-                if (etIncreaseForEachTIme.text.toString().trim() == ""|| etIncreaseForEachTIme.text.toString().trim().toFloat()== 0f ){
-                    ready = false
-                    etIncreaseForEachTIme.error = context.getString(R.string.Fieldcantbeempty)
-                }
+//            if (etCountNumber.text.toString().trim() == "") {
+//                HelpFunctions.ShowLongToast(context.getString(R.string.enterBidPrice), context)
+//            } else if (etCountNumber.text.toString().trim()
+//                    .toFloat() <= auctionStartPrice || etCountNumber.text.toString().trim()
+//                    .toFloat() <= auctionNegotiatePrice
+//            ) {
+//                HelpFunctions.ShowLongToast(
+//                    context.getString(R.string.enterCorrectBidPrice),
+//                    context
+//                )
+//            } else
 
-                if (etHighestBidPrice.text.toString().trim() == "") {
-                    ready = false
-                    etHighestBidPrice.error = context.getString(R.string.Fieldcantbeempty)
-                }
-                if(etHighestBidPrice.text.toString().trim().toFloat()>etCountNumber.text.toString().trim().toFloat()){
-                    ready = false
-                    etHighestBidPrice.error = context.getString(R.string.enterCorrectBidPrice)
-                }
+                if (switchAutoBid.isChecked) {
 
-                if (ready) {
-                    addBid(
-                        productId,
-                        etCountNumber.text.toString().toFloat(),
-                        true,
-                        etIncreaseForEachTIme.text.toString().trim().toFloat(),
-                        etHighestBidPrice.text.toString().trim().toFloat()
-                    )
+                    var ready = true
+                    if (etCountNumber.text.toString().trim() == "") {
+                        HelpFunctions.ShowLongToast(
+                            context.getString(R.string.enterBidPrice),
+                            context
+                        )
+                    } else if (etIncreaseForEachTIme.text.toString()
+                            .trim() == "" || etIncreaseForEachTIme.text.toString().trim()
+                            .toFloat() == 0f
+                    ) {
+                        ready = false
+                        etIncreaseForEachTIme.error = context.getString(R.string.Fieldcantbeempty)
+                    }
+
+                    if (etIncreaseForEachTIme.text.toString()
+                            .trim() == "" || etIncreaseForEachTIme.text.toString().trim()
+                            .toFloat() == 0f
+                    ) {
+                        ready = false
+                        etIncreaseForEachTIme.error = context.getString(R.string.Fieldcantbeempty)
+                    }
+
+                    if (etHighestBidPrice.text.toString().trim() == "") {
+                        ready = false
+                        etHighestBidPrice.error = context.getString(R.string.Fieldcantbeempty)
+                    }else if (etHighestBidPrice.text.toString().trim()
+                            .toFloat() > etCountNumber.text.toString().trim().toFloat()
+                    ) {
+                        ready = false
+                        etHighestBidPrice.error = context.getString(R.string.enterCorrectBidPrice)
+                    }
+
+                    if (ready) {
+                        addBid(
+                            productId,
+                            etCountNumber.text.toString().toFloat(),
+                            true,
+                            etIncreaseForEachTIme.text.toString().trim().toFloat(),
+                            etHighestBidPrice.text.toString().trim().toFloat()
+                        )
+                    }
                 }
-            } else {
-                addBid(productId, etCountNumber.text.toString().toFloat(), false, 0f, 0f)
-            }
+                else {
+                    if (etCountNumber.text.toString().trim() == "") {
+                        HelpFunctions.ShowLongToast(context.getString(R.string.enterBidPrice), context)
+                    }else {
+                        addBid(productId, etCountNumber.text.toString().toFloat(), false, 0f, 0f)
+                    }
+                }
         }
     }
 
@@ -142,7 +169,7 @@ class AuctionDialog(
         data["activateAutomaticBidding"] = autoBidding
         data["increaseEachTimePrice"] = increaseEachTimePrice
         data["highestBidPrice"] = highestBidPrice
-        println("hhhh "+Gson().toJson(data))
+        println("hhhh " + Gson().toJson(data))
         countriesCallback = getRetrofitBuilder().addBid(data)
         countriesCallback?.enqueue(object : Callback<AddBidResp> {
             override fun onFailure(call: Call<AddBidResp>, t: Throwable) {
@@ -175,7 +202,9 @@ class AuctionDialog(
                             generalRespone = it
                             if (generalRespone?.status_code == 200) {
                                 dismiss()
-                                setClickListeners.setOnSuccessListeners(generalRespone?.BidObject?.bidPrice?:0f)
+                                setClickListeners.setOnSuccessListeners(
+                                    generalRespone?.BidObject?.bidPrice ?: 0f
+                                )
 
                             }
 
@@ -202,7 +231,7 @@ class AuctionDialog(
     }
 
     interface SetClickListeners {
-        fun setOnSuccessListeners(highestBidPrice:Float)
+        fun setOnSuccessListeners(highestBidPrice: Float)
     }
 
 }

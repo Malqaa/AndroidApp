@@ -7,6 +7,8 @@ import android.view.View
 import android.widget.AdapterView
 import com.malqaa.androidappp.R
 import com.malqaa.androidappp.newPhase.core.BaseDialog
+import com.malqaa.androidappp.newPhase.core.BaseViewModel
+import com.malqaa.androidappp.newPhase.data.network.callApi
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.hide
@@ -184,61 +186,98 @@ class AcceptOfferDialog(
         progressBar.visibility = View.VISIBLE
         acceptRejectOfferCallBack = getRetrofitBuilder()
             .acceptRejectOffer(
+                ConstantObjects.currentLanguage,
                 offerID,
                 productId,
                 accept,
                 etRefuseReason.text.toString().trim(),
                 expireHour
             )
-        acceptRejectOfferCallBack?.enqueue(object : Callback<GeneralResponse> {
-            override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
-                progressBar.visibility = View.GONE
+        callApi(acceptRejectOfferCallBack!!,
+            onSuccess = {
                 btnSend.isEnabled = true
                 close_alert_bid.isEnabled = true
-                if (t is HttpException) {
-                    HelpFunctions.ShowLongToast(context.getString(R.string.serverError), context)
+                progressBar.visibility = View.GONE
 
+                generalResponse = it
+                if (generalResponse?.status_code == 200) {
+                    listener.setOnSuccessListeners(offerID, position, accept)
+                    dismiss()
                 } else {
                     HelpFunctions.ShowLongToast(
-                        context.getString(R.string.connectionError),
+                        generalResponse?.message.toString(),
                         context
                     )
                 }
-            }
 
-            override fun onResponse(
-                call: Call<GeneralResponse>,
-                response: Response<GeneralResponse>
-            ) {
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                progressBar.visibility = View.GONE
                 btnSend.isEnabled = true
                 close_alert_bid.isEnabled = true
-                progressBar.visibility = View.GONE
-                try {
-                    if (response.isSuccessful) {
-                        response.body()?.let {
-                            generalResponse = it
-                            if (generalResponse?.status_code == 200) {
-                                listener.setOnSuccessListeners(offerID, position, accept)
-                                dismiss()
-                            } else {
-                                HelpFunctions.ShowLongToast(
-                                    generalResponse?.message.toString(),
-                                    context
-                                )
-                            }
-                        }
-
-                    } else {
-                        HelpFunctions.ShowLongToast(
-                            context.getString(R.string.serverError),
-                            context
-                        )
-
-                    }
-                } catch (e: Exception) {
+                if (throwable != null && errorBody == null)
+                    HelpFunctions.ShowLongToast(context.getString(R.string.serverError), context)
+                else {
+                 val error=   BaseViewModel().getErrorResponse(statusCode, errorBody)
+                    HelpFunctions.ShowLongToast(error?.message.toString(), context)
                 }
-            }
-        })
+            },
+            goLogin = {
+                progressBar.visibility = View.GONE
+                btnSend.isEnabled = true
+                close_alert_bid.isEnabled = true
+            })
+
+
+//        acceptRejectOfferCallBack?.enqueue(object : Callback<GeneralResponse> {
+//            override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
+//                progressBar.visibility = View.GONE
+//                btnSend.isEnabled = true
+//                close_alert_bid.isEnabled = true
+//                if (t is HttpException) {
+//                    HelpFunctions.ShowLongToast(context.getString(R.string.serverError), context)
+//
+//                } else {
+//                    HelpFunctions.ShowLongToast(
+//                        context.getString(R.string.connectionError),
+//                        context
+//                    )
+//                }
+//            }
+//
+//            override fun onResponse(
+//                call: Call<GeneralResponse>,
+//                response: Response<GeneralResponse>
+//            ) {
+//                btnSend.isEnabled = true
+//                close_alert_bid.isEnabled = true
+//                progressBar.visibility = View.GONE
+//                try {
+//                    if (response.isSuccessful) {
+//                        response.body()?.let {
+//                            generalResponse = it
+//                            if (generalResponse?.status_code == 200) {
+//                                listener.setOnSuccessListeners(offerID, position, accept)
+//                                dismiss()
+//                            } else {
+//                                HelpFunctions.ShowLongToast(
+//                                    generalResponse?.message.toString(),
+//                                    context
+//                                )
+//                            }
+//                        }
+//
+//                    } else {
+//                        HelpFunctions.ShowLongToast(
+//                            context.getString(R.string.serverError),
+//                            context
+//                        )
+//
+//                    }
+//                } catch (e: Exception) {
+//                }
+//            }
+//        })
     }
 
     override fun setOnDismissListener(listener: DialogInterface.OnDismissListener?) {

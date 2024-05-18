@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
+import com.google.gson.internal.LinkedTreeMap
 import com.google.gson.reflect.TypeToken
 import com.malqaa.androidappp.newPhase.data.network.callApi
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects.Companion.configration_otpExpiryTime
@@ -40,7 +41,8 @@ open class BaseViewModel : ViewModel() {
 
     fun getErrorResponse(code: Int, errorBody: ResponseBody?): ErrorResponse? {
         if (errorBody == null) return null
-
+        var list = arrayListOf<ErrorAddOrder>()
+        var data: Any? = null
         return try {
 
 
@@ -57,22 +59,17 @@ open class BaseViewModel : ViewModel() {
                 println("Status: ${response.status}")
 
                 if (response.status == "ProductsOutOfStock") {
-                    val list = response.data as List<ErrorAddOrder>
-                    list.forEach { product ->
-                        productName = product.productName
-                        quantity = product.quantity.toString()
+                    list.addAll(convertToArrayList(response.data)!!)
 
-                        response.message =
-                            response.message + " " + product.productName + " " + product.quantity
-                //                        println("Product ID: ${product.produtId}, Name: ${product.productName}, Quantity: ${product.quantity}")
-                    }
-                }
+                } else
+                    data = response.data
                 return ErrorResponse(
                     status = response.status,
                     message = response.message,
                     error = response.error,
                     result = response.result,
-                    message2 = response.message2
+                    message2 = response.message2,
+                    data = list
                 )
 
             } else {
@@ -161,6 +158,47 @@ open class BaseViewModel : ViewModel() {
 //        }
 //    }
 
+    fun convertToArrayList(anyObject: Any?): ArrayList<ErrorAddOrder>? {
+        return when (anyObject) {
+            is List<*> -> {
+                try {
+                    val list = anyObject.mapNotNull { item ->
+                        if (item is Map<*, *>) {
+                            val produtId = item["produtId"] as Double
+                            val productName = item["productName"] as String
+                            val quantity = item["quantity"] as Double
+
+                            if (productName != null && quantity != null) {
+                                ErrorAddOrder(produtId.toInt(), productName, quantity.toInt())
+                            } else {
+                                null
+                            }
+                        } else if (item is ErrorAddOrder) {
+                            item
+                        } else {
+                            null
+                        }
+                    }
+                    ArrayList(list)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    null
+                }
+            }
+
+            is ArrayList<*> -> {
+                try {
+                    @Suppress("UNCHECKED_CAST")
+                    anyObject as? ArrayList<ErrorAddOrder>
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    null
+                }
+            }
+
+            else -> null
+        }
+    }
 
     fun addProductToFav(ProductID: Int) {
         isLoading.value = true

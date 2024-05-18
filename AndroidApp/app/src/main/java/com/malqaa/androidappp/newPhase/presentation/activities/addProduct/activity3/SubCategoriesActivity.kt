@@ -89,11 +89,13 @@ class SubCategoriesActivity : BaseActivity(), AdapterSubCategories.OnItemClickLi
             if (categoryListObserver.status_code == 200) {
                 allCategoryList = arrayListOf()
                 lifecycleScope.launch(Dispatchers.IO) {
-                    lastCategoryId = if (!categoryListObserver.categoryList.isNullOrEmpty()) {
-                        allCategoryList?.add(categoryListObserver.categoryList[0])
-                        categoryListObserver.categoryList[0].id
+                     if (!categoryListObserver.categoryList.isNullOrEmpty()) {
+                        for(i in categoryListObserver.categoryList){
+                            allCategoryList?.add(i)
+
+                        }
                     } else {
-                        0
+                         lastCategoryId =   0
                     }
                     if (lastCategoryId != 0)
                         subCategoryAdapter.updateAdapter(allCategoryList?: arrayListOf())
@@ -121,7 +123,7 @@ class SubCategoriesActivity : BaseActivity(), AdapterSubCategories.OnItemClickLi
         AddProductObjectData.selectedCategoryName == allCategoryList!![position].name
 
         if (lastCategoryId != 0) {
-            listCategoryViewModel!!.getSubCategoriesByCategoryID(lastCategoryId)
+            listCategoryViewModel!!.getSubCategoriesByCategoryID(allCategoryList?.get(position)?.id?:0)
         } else {
             goNextScreen()
 

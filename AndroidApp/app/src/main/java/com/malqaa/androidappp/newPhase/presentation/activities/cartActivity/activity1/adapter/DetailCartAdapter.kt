@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Paint
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.malqaa.androidappp.R
@@ -49,6 +50,12 @@ class DetailCartAdapter(
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
 
+        if(listProduct[position].msgError=="" || listProduct[position].msgError==null)
+            holder.viewBinding.tvError.visibility=View.GONE
+        else{
+            holder.viewBinding.tvError.visibility=View.VISIBLE
+            holder.viewBinding.tvError.text=listProduct[position].msgError
+        }
         Extension.loadThumbnail(
             context,
             listProduct[position].img ?: "",

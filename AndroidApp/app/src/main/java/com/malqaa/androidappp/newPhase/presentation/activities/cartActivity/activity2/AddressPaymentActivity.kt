@@ -12,21 +12,22 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.malqaa.androidappp.R
 import com.malqaa.androidappp.newPhase.core.BaseActivity
-import com.malqaa.androidappp.newPhase.utils.helper.*
-import com.malqaa.androidappp.newPhase.utils.helper.shared_preferences.SharedPreferencesStaticClass
-import com.malqaa.androidappp.newPhase.presentation.activities.addressUser.addAddressActivity.AddAddressActivity
+import com.malqaa.androidappp.newPhase.domain.models.ErrorAddOrder
+import com.malqaa.androidappp.newPhase.domain.models.addOrderResp.ProductOrderPaymentDetailsDto
 import com.malqaa.androidappp.newPhase.domain.models.cartListResp.CartDataObject
 import com.malqaa.androidappp.newPhase.domain.models.cartListResp.CartProductDetails
-import com.malqaa.androidappp.newPhase.utils.ConstantObjects
-import com.malqaa.androidappp.newPhase.domain.models.addOrderResp.ProductOrderPaymentDetailsDto
 import com.malqaa.androidappp.newPhase.domain.models.orderDetailsByMasterID.OrderFullInfoDto
 import com.malqaa.androidappp.newPhase.domain.models.userAddressesResp.AddressItem
+import com.malqaa.androidappp.newPhase.presentation.activities.addressUser.addAddressActivity.AddAddressActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.addressUser.addressListActivity.AddressesAdapter
 import com.malqaa.androidappp.newPhase.presentation.activities.cartActivity.activity2.adapter.CartNewAdapter
 import com.malqaa.androidappp.newPhase.presentation.activities.cartActivity.activity3.SuccessOrderActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.cartActivity.viewModel.CartViewModel
 import com.malqaa.androidappp.newPhase.presentation.activities.myOrderDetails.adapter.CurrentOrderAdapter
+import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
+import com.malqaa.androidappp.newPhase.utils.helper.*
+import com.malqaa.androidappp.newPhase.utils.helper.shared_preferences.SharedPreferencesStaticClass
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.linearLayoutManager
 import com.malqaa.androidappp.newPhase.utils.show
@@ -210,11 +211,39 @@ class AddressPaymentActivity : BaseActivity(),
             if (it.status != null && it.status == "409") {
                 HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), this)
             } else {
-                if (it.message != null) {
-                    HelpFunctions.ShowLongToast(it.message!!, this)
+                val errorList = it.data as List<ErrorAddOrder>
+                if (errorList.isEmpty()) {
+                    if (it.message != null) {
+                        HelpFunctions.ShowLongToast(it.message!!, this)
+                    } else {
+                        HelpFunctions.ShowLongToast(getString(R.string.serverError), this)
+                    }
                 } else {
-                    HelpFunctions.ShowLongToast(getString(R.string.serverError), this)
+                    for (i in productsCartList!!) {
+                        for (product in i.listProduct!!) {
+                            val error = errorList.find { product.id == it.produtId }
+                            if (error != null) {
+                                val remainingProduct =
+                                    (product.qty ?: 0) - (product.cartProductQuantity ?: 0)
+                                val message = getString(
+                                    R.string.sold_out_quantity,
+                                    product.cartProductQuantity,
+                                    error.quantity,
+                                    error.productName
+                                )
+                                if (error.quantity == 0) {
+                                    product.msgError  =getString(R.string.notFoundQuantity)
+                                } else
+                                    product.msgError = message
+                            }
+
+                        }
+
+                    }
+                    cartNewAdapter?.updateAdapter(productsCartList!!)
+
                 }
+
             }
         }
         cartViewModel!!.userAddressesListObserver.observe(this) { userAddressResp ->

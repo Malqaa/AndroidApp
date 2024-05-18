@@ -858,6 +858,7 @@ interface MalqaApiService {
 
     @POST("AcceptRejectOffer")
     fun acceptRejectOffer(
+        @Query("lang") language: String = ConstantObjects.currentLanguage,
         @Query("offerId") offerId: Int,
         @Query("productId") productId: Int,
         @Query("acceptOffer") acceptOffer: Boolean,
