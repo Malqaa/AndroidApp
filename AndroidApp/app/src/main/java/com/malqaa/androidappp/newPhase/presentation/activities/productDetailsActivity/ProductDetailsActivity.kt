@@ -959,15 +959,14 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         }
 
         when (it.rate) {
-            1f -> {
+            3f -> {
                 ivRateSeller.setImageResource(R.drawable.happyface_color)
             }
-
             2f -> {
                 ivRateSeller.setImageResource(R.drawable.smileface_color)
             }
 
-            3f -> {
+            1f -> {
                 ivRateSeller.setImageResource(R.drawable.sadcolor_gray)
             }
 

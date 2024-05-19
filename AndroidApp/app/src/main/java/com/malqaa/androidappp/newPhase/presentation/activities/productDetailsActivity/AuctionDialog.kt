@@ -125,8 +125,9 @@ class AuctionDialog(
                     if (etHighestBidPrice.text.toString().trim() == "") {
                         ready = false
                         etHighestBidPrice.error = context.getString(R.string.Fieldcantbeempty)
-                    }else if (etHighestBidPrice.text.toString().trim()
-                            .toFloat() > etCountNumber.text.toString().trim().toFloat()
+                    }
+                    else if (etHighestBidPrice.text.toString().trim()
+                            .toFloat() < etCountNumber.text.toString().trim().toFloat()
                     ) {
                         ready = false
                         etHighestBidPrice.error = context.getString(R.string.enterCorrectBidPrice)

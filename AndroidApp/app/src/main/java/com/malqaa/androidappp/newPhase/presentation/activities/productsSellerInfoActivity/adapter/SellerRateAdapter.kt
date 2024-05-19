@@ -12,8 +12,12 @@ import com.malqaa.androidappp.R
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.domain.models.sellerRateListResp.SellerRateItem
 import de.hdodenhof.circleimageview.CircleImageView
+import kotlinx.android.synthetic.main.activity_product_details_item_2.ivRateSeller
 
-class SellerRateAdapter(val context: Context, private var sellerRateList: ArrayList<SellerRateItem>) :
+class SellerRateAdapter(
+    val context: Context,
+    private var sellerRateList: ArrayList<SellerRateItem>
+) :
     RecyclerView.Adapter<SellerRateAdapter.SellerViewHolder>() {
 
 
@@ -32,15 +36,15 @@ class SellerRateAdapter(val context: Context, private var sellerRateList: ArrayL
         holder.comment.text = rate.comment
         holder.rateText.text = rate.rate.toString()
         when (rate.rate) {
-            1f -> {
-                holder.ivRateSeller.setImageResource(R.drawable.smileface_color)
-            }
-
-            2f -> {
+            3f -> {
                 holder.ivRateSeller.setImageResource(R.drawable.happyface_color)
             }
 
-            3f -> {
+            2f -> {
+                holder.ivRateSeller.setImageResource(R.drawable.smileface_color)
+            }
+
+            1f -> {
                 holder.ivRateSeller.setImageResource(R.drawable.sadcolor_gray)
             }
 
@@ -48,7 +52,8 @@ class SellerRateAdapter(val context: Context, private var sellerRateList: ArrayL
                 holder.ivRateSeller.setImageResource(R.drawable.smileface_color)
             }
         }
-        holder.date.text = HelpFunctions.getViewFormatForDateTrack(rate.createdAt,"dd/MM/yyyy HH:mm:ss")
+        holder.date.text =
+            HelpFunctions.getViewFormatForDateTrack(rate.createdAt, "dd/MM/yyyy HH:mm:ss")
         Glide.with(context).load(rate.imgProfile).error(R.mipmap.malqa_iconn_round)
             .into(holder.image)
     }

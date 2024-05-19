@@ -104,18 +104,16 @@ class SellerInformationActivity : BaseActivity(), SetOnProductItemListeners,
         }
         //   tvRateText.text=it.rate.toString()
         when (it.rate) {
-            1f -> {
+            3f -> {
                 ivRateSeller.setImageResource(R.drawable.happyface_color)
             }
-
             2f -> {
                 ivRateSeller.setImageResource(R.drawable.smileface_color)
             }
 
-            3f -> {
-                ivRateSeller.setImageResource(R.drawable.sadcolor_gray)
+            1f -> {
+               ivRateSeller.setImageResource(R.drawable.sadcolor_gray)
             }
-
             else -> {
                 ivRateSeller.setImageResource(R.drawable.smileface_color)
             }
