@@ -35,7 +35,7 @@ class AddProductObjectData {
         //**used =1 , new =2*/
         var productCondition: Int = 0
         var brand_new_item = ""
-        var quantity: String = ""
+        var quantity: String = "0"
         var country: SearchListItem? = null
         var region: SearchListItem? = null
         var city: SearchListItem? = null
@@ -47,7 +47,7 @@ class AddProductObjectData {
         var priceFixedOption: Boolean = false
         var auctionOption: Boolean = false
         var auctionStartPrice: String = "0"
-        var auctionMinPrice: String = ""
+        var auctionMinPrice: String = "0"
         var isNegotiablePrice = false
         // 1 bank , 2 cash
         var PAYMENT_OPTION_CASH=1

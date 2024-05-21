@@ -12,6 +12,7 @@ import com.malqaa.androidappp.newPhase.utils.Extension
 import com.malqaa.androidappp.newPhase.utils.Extension.decimalNumberFormat
 import com.malqaa.androidappp.newPhase.domain.models.productResp.Product
 import com.malqaa.androidappp.newPhase.data.network.service.SetOnProductItemListeners
+import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 
 class ProductRowFullAdapter(
     private var mItemsList: List<Product>,
@@ -28,7 +29,7 @@ class ProductRowFullAdapter(
             parent,
             false
         )
-        return ProductViewHolder(itemBinding,categoryId,setOnProductItemListeners)
+        return ProductViewHolder(itemBinding, categoryId, setOnProductItemListeners)
     }
 
     override fun onBindViewHolder(
@@ -66,8 +67,7 @@ class ProductViewHolder(
         )
 
 
-
-
+        itemBinding.productCity.text = requestItem.country +" "+ HelpFunctions.getViewFormatForDateTrack(requestItem.createdAt, "dd/MM/yyyy")
         itemBinding.ivSetting.setOnClickListener {
             setOnProductItemListeners.onProductSelect(
                 position,
@@ -76,31 +76,40 @@ class ProductViewHolder(
             )
         }
 
-        if(requestItem.isAuctionEnabled){
-            itemBinding.titlePrice.visibility=View.VISIBLE
-            itemBinding.lowestPrice.visibility=View.VISIBLE
-            itemBinding.titleBuy.visibility=View.GONE
-            itemBinding.purchasingPrice.visibility=View.GONE
-            itemBinding.typeProduct.text=itemBinding.purchasingPrice.context.getString(R.string.auction)
-            itemBinding.lowestPrice.text =
-                "${requestItem.price} ${itemBinding.purchasingPrice.context.getString(R.string.SAR)}"
-        }else if (requestItem.isNegotiationEnabled){
 
-            itemBinding.titlePrice.visibility=View.VISIBLE
-            itemBinding.lowestPrice.visibility=View.VISIBLE
-            itemBinding.titleBuy.visibility=View.GONE
-            itemBinding.purchasingPrice.visibility=View.GONE
-            itemBinding.typeProduct.text=itemBinding.purchasingPrice.context.getString(R.string.Negotiation)
-            itemBinding.lowestPrice.text =
-                "${requestItem.price} ${itemBinding.purchasingPrice.context.getString(R.string.SAR)}"
+        if(requestItem.price.toDouble()==0.0){
+            itemBinding.titleBuy.visibility = View.GONE
+            itemBinding.purchasingPrice.visibility = View.GONE
+
         }else{
-            itemBinding.titlePrice.visibility=View.GONE
-            itemBinding.lowestPrice.visibility=View.GONE
-            itemBinding.titleBuy.visibility=View.VISIBLE
-            itemBinding.purchasingPrice.visibility=View.VISIBLE
+            itemBinding.titleBuy.visibility = View.VISIBLE
+            itemBinding.purchasingPrice.visibility = View.VISIBLE
             itemBinding.purchasingPrice.text = "${
                 requestItem.price.toDouble().decimalNumberFormat()
             } ${itemBinding.purchasingPrice.context.getString(R.string.SAR)}"
+        }
+
+        if(requestItem.highestBidPrice.toDouble()==0.0){
+            itemBinding.titlePrice.visibility = View.GONE
+            itemBinding.lowestPrice.visibility = View.GONE
+
+        }else{
+            itemBinding.titlePrice.visibility = View.VISIBLE
+            itemBinding.lowestPrice.visibility = View.VISIBLE
+            itemBinding.lowestPrice.text = "${
+                requestItem.highestBidPrice.toDouble().decimalNumberFormat()
+            } ${itemBinding.purchasingPrice.context.getString(R.string.SAR)}"
+        }
+
+
+
+        if (requestItem.isAuctionEnabled) {
+            itemBinding.typeProduct.text = itemBinding.purchasingPrice.context.getString(R.string.auction)
+        } else if (requestItem.isNegotiationEnabled) {
+            itemBinding.typeProduct.text =
+                itemBinding.purchasingPrice.context.getString(R.string.Negotiation)
+        } else {
+
         }
 
 

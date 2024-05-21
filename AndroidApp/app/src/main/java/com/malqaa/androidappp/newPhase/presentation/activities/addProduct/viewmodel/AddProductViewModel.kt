@@ -8,7 +8,6 @@ import com.google.gson.Gson
 import com.malqaa.androidappp.newPhase.core.BaseViewModel
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.Extension.requestBody
-import com.malqaa.androidappp.newPhase.utils.HelpFunctions.Companion.getAuctionClosingTimeForApi
 import com.malqaa.androidappp.newPhase.data.network.callApi
 import com.malqaa.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malqaa.androidappp.newPhase.domain.models.accountBackListResp.AccountBankListResp
@@ -86,78 +85,118 @@ class AddProductViewModel : BaseViewModel() {
             callProduct?.cancel()
     }
 
-    fun callAddProduct( listImageFile: List<File>) {
+    fun callAddProduct(
+        listImageFile: List<File>, DeliveryOption: List<Int>,
+        paymentOptionIdList: List<Int>?, vedioList: ArrayList<String>?, auctionClosingTime: String,
+        couponId: Int,
+        couponDiscountValue: Double,
+        totalAmountAfterCoupon: Double,
+        totalAmountBeforeCoupon: Double,
+    ) {
+        var validTime: String? = null
+        if (auctionClosingTime.isNotEmpty()) {
+            validTime = if (!auctionClosingTime.contains(":")) {
+                val currentTime: String =
+                    SimpleDateFormat("hh:mm", Locale.ENGLISH).format(Date())
+                ("$auctionClosingTime $currentTime")
+            } else {
+                auctionClosingTime
+            }
+        }
         val yourData = YourProductData(
-            nameAr = "Product Name AR",
-            nameEn = "Product Name EN",
-            subTitleAr = "Sub Title AR",
-            subTitleEn = "Sub Title EN",
-            descriptionAr = "Description AR",
-            descriptionEn = "Description EN",
-            qty = 10,
-            status = 1,
-            categoryId = 1,
-            countryId = 1,
-            regionId = 1,
-            neighborhoodId = 1,
+            nameAr = AddProductObjectData.itemTitleAr,
+            nameEn = AddProductObjectData.itemTitleEn,
+            subTitleAr = AddProductObjectData.subtitleAr,
+            subTitleEn = AddProductObjectData.subtitleEn,
+            descriptionAr = AddProductObjectData.itemDescriptionAr,
+            descriptionEn = AddProductObjectData.itemDescriptionEn,
+            qty = (AddProductObjectData.quantity).toInt(),
+            status = AddProductObjectData.productCondition,
+            categoryId = AddProductObjectData.selectedCategoryId,
+            countryId = AddProductObjectData.country?.id?:0,
+            regionId = AddProductObjectData.region?.id?:0,
+            neighborhoodId =AddProductObjectData.city?.id?:0,
             district = "District",
             street = "Street",
-            governmentCode = "123456",
-            productSep = "Product Sep",
+            governmentCode = "",
+            productSep = AddProductObjectData.productSpecificationList?.let {
+                Gson().toJson(it).toString()
+            } ?: "[]",
             mainImageIndex = 0,
             lat = 123.456,
             lon = 456.789,
             acceptQuestion = true,
-            isFixedPriceEnabled = true,
-            isAuctionEnabled = true,
-            isNegotiationEnabled = true,
-            price = 100.0,
-            priceDisc = 90.0,
-            isCashEnabled = true,
-            auctionStartPrice = 50.0,
-            discountEndDate = "2024-05-12",
-            sendOfferForAuction = true,
-            auctionMinimumPrice = 40.0,
-            auctionNegotiateForWhom = 1,
-            auctionNegotiatePrice = 30.0,
-            auctionClosingTime = "2024-05-15",
-            sendYourAccountInfoToAuctionWinner = true,
-            almostSoldOutQuantity = 5,
-            pakatId = 1,
-            additionalPakatId = 2,
-            productPublishPrice = 80.0,
+            isFixedPriceEnabled = AddProductObjectData.priceFixedOption,
+            isAuctionEnabled = AddProductObjectData.auctionOption,
+            isNegotiationEnabled = AddProductObjectData.isNegotiablePrice,
+            price = AddProductObjectData.priceFixed.toDouble(),
+            priceDisc = AddProductObjectData.priceFixed.toDouble(),
+            isCashEnabled = false,
+            auctionStartPrice = AddProductObjectData.auctionStartPrice,
+            discountEndDate = "",
+            sendOfferForAuction = false,
+            auctionMinimumPrice =  if(AddProductObjectData.auctionMinPrice!=""){
+                AddProductObjectData.auctionMinPrice
+            }else{
+                ""
+                 },
+            auctionNegotiateForWhom = 0,
+            auctionNegotiatePrice = AddProductObjectData.priceFixed.toDouble(),
+            auctionClosingTime = validTime?:"",
+            sendYourAccountInfoToAuctionWinner = false,
+            almostSoldOutQuantity = 0,
+            pakatId = AddProductObjectData.selectedPakat?.id?:0,
+            additionalPakatId = AddProductObjectData.selectedPakat?.id?:0,
+            productPublishPrice = (AddProductObjectData.selectedCategory?.productPublishPrice?:0.0).toDouble(),
             enableFixedPriceSaleFee = true,
             enableAuctionFee = true,
             enableNegotiationFee = true,
-            extraProductImageFee = 5.0,
-            extraProductVideoFee = 10.0,
-            subTitleFee = 2.0,
-            fixedPriceSaleFee = 3.0,
-            auctionFee = 4.0,
-            negotiationFee = 5.0,
-            productPaymentDetailsCategoryId = 1,
-            productPaymentDetailsCouponId = 1,
-            productPaymentDetailsCouponDiscountValue = 10.0,
-            productPaymentDetailsTotalAmountBeforeCoupon = 90.0,
-            productPaymentDetailsTotalAmountAfterCoupon = 80.0,
-            productPaymentDetailsPaymentType = 1
+            extraProductImageFee = (AddProductObjectData.selectedCategory?.extraProductImageFee?:0.0).toDouble(),
+            extraProductVideoFee = (AddProductObjectData.selectedCategory?.extraProductVidoeFee?:0.0).toDouble(),
+            subTitleFee = (AddProductObjectData.selectedCategory?.subTitleFee?:0.0).toDouble(),
+            fixedPriceSaleFee = (AddProductObjectData.selectedCategory?.enableFixedPriceSaleFee?:0.0).toDouble(),
+            auctionFee =(AddProductObjectData.selectedCategory?.enableAuctionFee?:0.0).toDouble(),
+            negotiationFee =(AddProductObjectData.selectedCategory?.enableNegotiationFee?:0.0).toDouble(),
+            productPaymentDetailsCategoryId =AddProductObjectData.selectedCategoryId,
+            productPaymentDetailsCouponId =
+            if (couponId != 0) {
+                couponId
+            } else {
+                0
+            },
+            productPaymentDetailsCouponDiscountValue =  if (couponDiscountValue != 0.0) {
+                couponDiscountValue
+            } else {
+                0.0
+            },
+            productPaymentDetailsTotalAmountBeforeCoupon = if (totalAmountBeforeCoupon != 0.0) {
+                totalAmountBeforeCoupon
+            } else {
+                0.0
+            },
+            productPaymentDetailsTotalAmountAfterCoupon = if (totalAmountAfterCoupon != 0.0) {
+                totalAmountAfterCoupon
+            } else {
+                0.0
+            },
+            productPaymentDetailsPaymentType = "Cash"
         )
 
-        // Convert data to JSON
         val jsonData = convertToJson(yourData)
-
-        // Create request body with JSON data
         val requestBody = RequestBody.create("application/json".toMediaTypeOrNull(), jsonData)
         val gsonPart = MultipartBody.Part.createFormData("data", null, requestBody)
-
-        // Create other parts (empty for demonstration)
-        val listImageFiles = emptyList<MultipartBody.Part>()
-        val videoUrlList = emptyList<MultipartBody.Part>()
-        val shippingOptions = emptyList<MultipartBody.Part>()
-        val paymentOptions = emptyList<MultipartBody.Part>()
         val productBankAccounts = emptyList<MultipartBody.Part>()
 
 
+        val videoUrlList: ArrayList<MultipartBody.Part> = ArrayList()
+        vedioList?.let {
+            for (item in vedioList) {
+                val multipartBody: MultipartBody.Part =
+                    MultipartBody.Part.createFormData("videoUrl", item)
+                videoUrlList.add(multipartBody)
+            }
+
+        }
         val imageFiles = ArrayList<MultipartBody.Part>()
 
         for (file in listImageFile) {
@@ -168,10 +207,37 @@ class AddProductViewModel : BaseViewModel() {
             }
             imageFiles.add(multipartBody)
         }
-        // Make the API call
-        val call = getRetrofitBuilder().addProductTest(gsonPart, imageFiles, videoUrlList, shippingOptions, paymentOptions, productBankAccounts)
 
-        callApi(call!!,
+        val shippingOptionsList: ArrayList<MultipartBody.Part> = ArrayList()
+        /**DeliveryOption**/
+        for (item in DeliveryOption) {
+            val multipartBody: MultipartBody.Part =
+                MultipartBody.Part.createFormData("ShippingOptions", item.toString())
+            shippingOptionsList.add(multipartBody)
+        }
+
+        val sendPaymentOptionList: ArrayList<MultipartBody.Part> = ArrayList()
+        paymentOptionIdList?.let {
+            for (item in paymentOptionIdList) {
+                val multipartBody: MultipartBody.Part =
+                    MultipartBody.Part.createFormData("PaymentOptions", item.toString())
+                sendPaymentOptionList.add(multipartBody)
+            }
+
+        }
+
+        isLoading.value = true
+        // Make the API call
+        val call = getRetrofitBuilder().addProductTest(
+            gsonPart,
+            imageFiles,
+            videoUrlList,
+            shippingOptionsList,
+            sendPaymentOptionList,
+            productBankAccounts
+        )
+        call.request().toString()
+        callApi(call,
             onSuccess = {
                 ConstantObjects.isRepost = false
                 ConstantObjects.isModify = false
@@ -271,10 +337,10 @@ class AddProductViewModel : BaseViewModel() {
             })
     }
 
-    fun getCouponByCode(couponCode: String,couponScreen :String) {
+    fun getCouponByCode(couponCode: String, couponScreen: String) {
         isLoading.value = true
         getRetrofitBuilder()
-            .getCouponByCode(couponScreen ,couponCode)
+            .getCouponByCode(couponScreen, couponCode)
             .enqueue(object : Callback<DiscountCouponResp> {
                 override fun onFailure(call: Call<DiscountCouponResp>, t: Throwable) {
                     isNetworkFail.value = t !is HttpException
@@ -475,6 +541,16 @@ class AddProductViewModel : BaseViewModel() {
                 auctionClosingTime
             }
         }
+
+        val videoUrlList: ArrayList<MultipartBody.Part> = ArrayList()
+        videoUrl?.let {
+            for (item in videoUrl) {
+                val multipartBody: MultipartBody.Part =
+                    MultipartBody.Part.createFormData("videoUrl", item)
+                videoUrlList.add(multipartBody)
+            }
+
+        }
         val imageFiles = ArrayList<MultipartBody.Part>()
 
         for (file in listImageFile) {
@@ -486,15 +562,6 @@ class AddProductViewModel : BaseViewModel() {
             imageFiles.add(multipartBody)
         }
 
-        val videoUrlList: ArrayList<MultipartBody.Part> = ArrayList()
-        videoUrl?.let {
-            for (item in videoUrl) {
-                val multipartBody: MultipartBody.Part =
-                    MultipartBody.Part.createFormData("videoUrl", item)
-                videoUrlList.add(multipartBody)
-            }
-
-        }
         val shippingOptionsList: ArrayList<MultipartBody.Part> = ArrayList()
         /**DeliveryOption**/
         for (item in DeliveryOption) {
@@ -725,6 +792,8 @@ class AddProductViewModel : BaseViewModel() {
                     productPaymentDetailsPaymentTypeRequestBody,
                     "multipart/form-data;boundry=<calculated when request is sent>"
                 )
+
+                response.request().toString()
                 isLoading.value = true
                 callApi(response,
                     onSuccess = {
@@ -1058,6 +1127,7 @@ class AddProductViewModel : BaseViewModel() {
             }
         }
 
+        callProduct?.request().toString()
         callProduct = if (isEdit) {
             getRetrofitBuilder()
                 .editProduct(

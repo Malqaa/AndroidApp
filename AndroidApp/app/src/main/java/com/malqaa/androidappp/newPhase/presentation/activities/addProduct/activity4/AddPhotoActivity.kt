@@ -51,10 +51,10 @@ class AddPhotoActivity : BaseActivity(), SelectedImagesAdapter.SetOnSelectedMain
 
         setupVideoLinksAapter()
         if (!ConstantObjects.isModify) {
-            HelpFunctions.ShowLongToast(
-                getString(R.string.noSubCategoryFound),
-                this@AddPhotoActivity
-            )
+//            HelpFunctions.ShowLongToast(
+//                getString(R.string.noSubCategoryFound),
+//                this@AddPhotoActivity
+//            )
         }
 
         toolbar_title.text = getString(R.string.item_details)

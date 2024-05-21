@@ -154,7 +154,7 @@ class ConfirmationAddProductActivity : BaseActivity() {
 
         if (AddProductObjectData.isNegotiablePrice) {
             negotiable_tv.text = getString(R.string.Yes)
-            tvNegotiationPriceOptionSale.show()
+            tvNegotiationPriceOptionSale.hide()
         } else {
             negotiable_tv.text = getString(R.string.No)
             tvNegotiationPriceOptionSale.hide()
@@ -1000,8 +1000,8 @@ class ConfirmationAddProductActivity : BaseActivity() {
         AddProductObjectData.priceFixed = ""
         AddProductObjectData.priceFixedOption = false
         AddProductObjectData.auctionOption = false
-        AddProductObjectData.auctionMinPrice = ""
-        AddProductObjectData.auctionStartPrice = ""
+        AddProductObjectData.auctionMinPrice = "0"
+        AddProductObjectData.auctionStartPrice = "0"
         AddProductObjectData.isNegotiablePrice = false
         AddProductObjectData.selectedAccountDetails = null
         AddProductObjectData.selectTimeAuction = null
@@ -1134,7 +1134,10 @@ class ConfirmationAddProductActivity : BaseActivity() {
         }
 
         val bankList = AddProductObjectData.selectedAccountDetails?.map { it.id }
-        addProductViewModel.callAddProduct(listImageFile)
+        addProductViewModel.callAddProduct(listImageFile,AddProductObjectData.shippingOptionSelections ?: arrayListOf(),AddProductObjectData.paymentOptionList
+            ,AddProductObjectData.videoList,tvDateAuction.text.toString(),
+            couponId,
+            couponDiscountValue.toDouble(),totalAfterDiscount.toDouble(),totalPrice.toDouble())
 //        addProductViewModel.getAddProduct3(
 //            isEdit,
 //            productDetails?.id ?: 0,

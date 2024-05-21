@@ -1,9 +1,12 @@
 package com.malqaa.androidappp.newPhase.data.network.retrofit
 
-import com.google.gson.GsonBuilder
+import android.content.Context
+import com.malqaa.androidappp.BuildConfig
 import com.malqaa.androidappp.newPhase.data.network.constants.Constants
 import com.malqaa.androidappp.newPhase.data.network.service.MalqaApiService
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -38,6 +41,7 @@ object RetrofitBuilder {
             }
         }
     }
+
 
     fun getRetrofitBuilder(): MalqaApiService {
         return builder!!.build().create(MalqaApiService::class.java)

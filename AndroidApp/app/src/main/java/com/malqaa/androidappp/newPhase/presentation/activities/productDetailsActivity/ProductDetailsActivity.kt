@@ -1063,8 +1063,10 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
         if (mainRatesList.isEmpty()) {
             tvReviewsError.show()
+            tvShowAllReviews.hide()
             contianerRateText.hide()
         } else {
+            tvShowAllReviews.show()
             tvReviewsError.hide()
             contianerRateText.show()
         }

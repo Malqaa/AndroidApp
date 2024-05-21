@@ -109,10 +109,10 @@ class SubCategoriesActivity : BaseActivity(), AdapterSubCategories.OnItemClickLi
 
                 }
             } else {
-                HelpFunctions.ShowLongToast(
-                    getString(R.string.noSubCategoryFound),
-                    this
-                )
+//                HelpFunctions.ShowLongToast(
+//                    getString(R.string.noSubCategoryFound),
+//                    this
+//                )
             }
         }
     }

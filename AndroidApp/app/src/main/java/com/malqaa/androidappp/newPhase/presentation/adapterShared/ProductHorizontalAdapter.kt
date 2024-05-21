@@ -176,20 +176,20 @@ class ProductHorizontalAdapter(
                 // for Vertical View
                 holder.viewBinding.tvOldPRiceProductPriceForHorizentalView.hide()
                 holder.viewBinding.tvOldPRiceProductPriceForVertiaclView.show()
-                holder.viewBinding.tvOldPRiceProductPriceForVertiaclView.paintFlags =
-                    holder.viewBinding.tvOldPRiceProductPriceForVertiaclView.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-                holder.viewBinding.tvOldPRiceProductPriceForVertiaclView.text =
-                    "${productList[position].price.toDouble()} ${
-                        context.getString(
-                            R.string.SAR
-                        )
-                    }"
-                holder.viewBinding.tvProductPrice.text =
-                    "${productList[position].priceDisc.toDouble()} ${
-                        context.getString(
-                            R.string.SAR
-                        )
-                    }"
+//                holder.viewBinding.tvOldPRiceProductPriceForVertiaclView.paintFlags =
+//                    holder.viewBinding.tvOldPRiceProductPriceForVertiaclView.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+//                holder.viewBinding.tvOldPRiceProductPriceForVertiaclView.text =
+//                    "${productList[position].price.toDouble()} ${
+//                        context.getString(
+//                            R.string.SAR
+//                        )
+//                    }"
+//                holder.viewBinding.tvProductPrice.text =
+//                    "${productList[position].priceDisc.toDouble()} ${
+//                        context.getString(
+//                            R.string.SAR
+//                        )
+//                    }"
             }
 
 
@@ -253,34 +253,69 @@ class ProductHorizontalAdapter(
 
 
 
-        if (productList[position].isAuctionEnabled) {
-            holder.viewBinding.purchaseContainer.visibility = View.GONE
+        if(productList[position].price.toDouble()!=0.0){
+            holder.viewBinding.purchaseContainer.visibility = View.VISIBLE
+            holder.viewBinding.tvOldPRiceProductPriceForHorizentalView.text =
+                "${productList[position].price.toDouble()} ${
+                    context.getString(
+                        R.string.SAR
+                    )
+                }"
+            holder.viewBinding.tvOldPRiceProductPriceForVertiaclView.paintFlags =
+                holder.viewBinding.tvOldPRiceProductPriceForVertiaclView.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+            holder.viewBinding.tvOldPRiceProductPriceForVertiaclView.text =
+                "${productList[position].price.toDouble()} ${
+                    context.getString(
+                        R.string.SAR
+                    )
+                }"
+            holder.viewBinding.tvProductPrice.text =
+                "${productList[position].priceDisc.toDouble()} ${
+                    context.getString(
+                        R.string.SAR
+                    )
+                }"
+        }else{
+            holder.viewBinding.purchaseContainer.visibility = View.INVISIBLE
+
+        }
+        if(productList[position].highestBidPrice.toDouble()!=0.0){
             holder.viewBinding.LowestPriceLayout.visibility = View.VISIBLE
+            holder.viewBinding.LowestPrice.text =
+                "${productList[position].highestBidPrice} ${holder.viewBinding.typeProduct.context.getString(R.string.SAR)}"
+
+        }else{
+            holder.viewBinding.LowestPriceLayout.visibility = View.INVISIBLE
+        }
+
+        if (productList[position].isAuctionEnabled) {
+//            holder.viewBinding.purchaseContainer.visibility = View.GONE
+//            holder.viewBinding.LowestPriceLayout.visibility = View.VISIBLE
 
             holder.viewBinding.typeProduct.text =
                 holder.viewBinding.typeProduct.context.getString(R.string.auction)
-            holder.viewBinding.LowestPrice.text =
-                "${productList[position].highestBidPrice} ${holder.viewBinding.typeProduct.context.getString(R.string.SAR)}"
+//            holder.viewBinding.LowestPrice.text =
+//                "${productList[position].highestBidPrice} ${holder.viewBinding.typeProduct.context.getString(R.string.SAR)}"
         } else if (productList[position].isNegotiationEnabled) {
 
-            holder.viewBinding.purchaseContainer.visibility = View.GONE
-            holder.viewBinding.LowestPriceLayout.visibility = View.VISIBLE
+//            holder.viewBinding.purchaseContainer.visibility = View.GONE
+//            holder.viewBinding.LowestPriceLayout.visibility = View.VISIBLE
 
             holder.viewBinding.typeProduct.text =
                 holder.viewBinding.typeProduct.context.getString(R.string.Negotiation)
-            holder.viewBinding.LowestPrice.text =
-                "${productList[position].highestBidPrice} ${holder.viewBinding.typeProduct.context.getString(R.string.SAR)}"
+//            holder.viewBinding.LowestPrice.text =
+//                "${productList[position].highestBidPrice} ${holder.viewBinding.typeProduct.context.getString(R.string.SAR)}"
         } else {
-            if(productList[position].price.toDouble()!=0.0)
-            holder.viewBinding.purchaseContainer.visibility = View.VISIBLE
-            else{
-                holder.viewBinding.purchaseContainer.visibility = View.INVISIBLE
-            }
-            holder.viewBinding.LowestPriceLayout.visibility = View.GONE
-
-            holder.viewBinding.tvProductPrice.text = "${
-                productList[position].price.toDouble().decimalNumberFormat()
-            } ${holder.viewBinding.tvProductPrice.context.getString(R.string.SAR)}"
+//            if(productList[position].price.toDouble()!=0.0)
+//            holder.viewBinding.purchaseContainer.visibility = View.VISIBLE
+//            else{
+//                holder.viewBinding.purchaseContainer.visibility = View.INVISIBLE
+//            }
+//            holder.viewBinding.LowestPriceLayout.visibility = View.GONE
+//
+//            holder.viewBinding.tvProductPrice.text = "${
+//                productList[position].price.toDouble().decimalNumberFormat()
+//            } ${holder.viewBinding.tvProductPrice.context.getString(R.string.SAR)}"
         }
     }
 
