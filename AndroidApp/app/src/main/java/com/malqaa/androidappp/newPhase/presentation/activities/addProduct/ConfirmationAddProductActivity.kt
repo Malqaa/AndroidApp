@@ -22,6 +22,7 @@ import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activi
 import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activity6.PricingActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activity7.ListingDurationActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activity8.PromotionalActivity
+import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.viewmodel.AddProductModelView
 import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.viewmodel.AddProductViewModel
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
@@ -35,7 +36,7 @@ import kotlinx.android.synthetic.main.toolbar_main.*
 import java.io.File
 
 class ConfirmationAddProductActivity : BaseActivity() {
-
+    private lateinit var   addProductModelView: AddProductModelView
     private lateinit var addProductViewModel: AddProductViewModel
     private var pakagePrice = 0f
     private var fixedPriceFee = 0f
@@ -417,6 +418,7 @@ class ConfirmationAddProductActivity : BaseActivity() {
 
     @SuppressLint("SetTextI18n")
     private fun setUpViewModel() {
+        addProductModelView = ViewModelProvider(this).get(AddProductModelView::class.java)
         addProductViewModel = ViewModelProvider(this).get(AddProductViewModel::class.java)
         addProductViewModel.isLoading.observe(this) {
             if (it) HelpFunctions.startProgressBar(this)
@@ -450,7 +452,7 @@ class ConfirmationAddProductActivity : BaseActivity() {
             }
 
         }
-        addProductViewModel.confirmAddPorductRespObserver.observe(this) { confirmAddPorductRespObserver ->
+        addProductModelView.confirmAddPorductRespObserver.observe(this) { confirmAddPorductRespObserver ->
             if (confirmAddPorductRespObserver.status_code == 200) {
                 try {
 
@@ -1138,7 +1140,7 @@ class ConfirmationAddProductActivity : BaseActivity() {
 //            ,AddProductObjectData.videoList,tvDateAuction.text.toString(),
 //            couponId,
 //            couponDiscountValue.toDouble(),totalAfterDiscount.toDouble(),totalPrice.toDouble())
-        addProductViewModel.getAddProduct3(
+        addProductModelView.getAddProduct3(
             isEdit,
             productDetails?.id ?: 0,
             this,
