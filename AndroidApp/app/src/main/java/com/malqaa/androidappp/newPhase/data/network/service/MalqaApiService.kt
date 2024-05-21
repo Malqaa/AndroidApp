@@ -381,7 +381,6 @@ interface MalqaApiService {
 
     @Multipart
     @POST("AddProduct")
-    @Headers("Content-Type:multipart/form-data; boundary=----WebKitFormBoundaryyEmKNDsBKjB7QEqu")
     fun addProduct3(
         @PartMap partMap: Map<String, @JvmSuppressWildcards RequestBody>,
         @Part part: List<MultipartBody.Part>?,
