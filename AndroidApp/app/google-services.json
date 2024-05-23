@@ -1,0 +1,37 @@
+{
+  "project_info": {
+    "project_number": "862346458200",
+    "project_id": "onruf-8ac34",
+    "storage_bucket": "onruf-8ac34.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:862346458200:android:f74f1448cf6d12b579c62d",
+        "android_client_info": {
+          "package_name": "com.malqaa.androidappp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAgQOxw85edsfIngUtS3-8Ta2aaH0h3iOg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "862346458200-4ad2jph8s1n51n6tile799kpo40g9miq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.malqaa.iosapp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

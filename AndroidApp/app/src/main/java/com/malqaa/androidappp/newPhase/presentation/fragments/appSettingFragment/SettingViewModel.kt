@@ -22,14 +22,14 @@ class SettingViewModel : BaseViewModel(){
                 isLoading.value = false
                 languageObserver.value = it
             },
-            onFailure = { throwable, _, errorBody ->
+            onFailure = { throwable, statusCode, errorBody ->
                 isLoading.value = false
                 if (throwable != null && errorBody == null)
                     isNetworkFail.value = throwable !is HttpException
-//                else {
-//                    errorResponseObserver.value =
-//                        getErrorResponse(statusCode, errorBody)
-//                }
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
+                }
             },
             goLogin = {
                 isLoading.value = false
