@@ -19,7 +19,7 @@ class AuthenticationInterceptor : Interceptor {
                 println("hhhh " + ConstantObjects.logged_authtoken)
                 if (ConstantObjects.businessAccountUser == null)
                     original.newBuilder()
-//                        .addHeader("Accept-Language", ConstantObjects.currentLanguage)
+                        .addHeader("Accept-Language","en")
                         .addHeader("User-Language", ConstantObjects.currentLanguage)
                         .addHeader("Provider-Id", ConstantObjects.logged_userid)
                         .addHeader("Application-Source", "Android")
@@ -27,7 +27,7 @@ class AuthenticationInterceptor : Interceptor {
                         .addHeader("Authorization", "Bearer ${ConstantObjects.logged_authtoken}")
                 else
                     original.newBuilder()
-//                    .addHeader("Accept-Language", ConstantObjects.currentLanguage)
+                        .addHeader("Accept-Language","en")
                         .addHeader("User-Language", ConstantObjects.currentLanguage)
                         .addHeader("Provider-Id", ConstantObjects.logged_userid)
                         .addHeader("Application-Source", "Android")

@@ -430,7 +430,7 @@ class AddressPaymentActivity : BaseActivity(),
                             ConstantObjects.orderPriceKey,
                             cartDataObject?.totalPriceForCartFinal.toString()
                         )
-                        putExtra("RequestType", requestType)
+                        putExtra("RequestType", it.requestType)
                     }
                     startActivity(intent)
                     finish()

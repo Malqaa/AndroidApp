@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="wrap_content">
 
 
     <LinearLayout
@@ -21,21 +21,23 @@
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:padding="@dimen/_5sdp">
+
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
+
                 <ImageView
                     android:id="@+id/ivProductImage"
                     android:layout_width="@dimen/_80sdp"
                     android:layout_height="@dimen/_80sdp"
                     android:scaleType="fitCenter" />
+
                 <ProgressBar
                     android:id="@+id/loader"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true" />
             </RelativeLayout>
-
 
 
             <LinearLayout
@@ -45,33 +47,35 @@
                 android:layout_marginEnd="@dimen/_5sdp"
                 android:gravity="center_vertical"
                 android:orientation="vertical">
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+
                     <TextView
                         android:id="@+id/tvProductType"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_toStartOf="@id/btnDelete"
                         android:fontFamily="@font/madani_arabic_extra_light"
                         android:text="@string/electronics_phones"
                         android:textColor="#293241"
-                        android:layout_toStartOf="@id/btnDelete"
                         android:textSize="@dimen/_10sdp" />
+
                     <TextView
+                        android:id="@+id/btnDelete"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
                         android:layout_gravity="end"
                         android:fontFamily="@font/madani_arabic_medium"
                         android:foreground="?android:attr/selectableItemBackground"
-                        android:layout_alignParentEnd="true"
                         android:paddingStart="@dimen/_5sdp"
                         android:paddingEnd="5dp"
                         android:text="@string/Delete"
                         android:textColor="@color/bg"
-                        android:id="@+id/btnDelete"
                         android:textSize="@dimen/_10sdp" />
                 </RelativeLayout>
-
 
 
                 <TextView
@@ -104,20 +108,23 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
+
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="vertical">
+
                             <TextView
                                 android:id="@+id/tvOldPRiceProductPriceForHorizentalView"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginEnd="5dp"
                                 android:fontFamily="@font/madani_arabic_bold"
                                 android:text="0 Rayal"
                                 android:textColor="@color/gray_light"
                                 android:textSize="@dimen/_9sdp"
-                                android:textStyle="bold"
-                                android:layout_marginEnd="5dp"/>
+                                android:textStyle="bold" />
+
                             <TextView
                                 android:id="@+id/prod_price"
                                 android:layout_width="wrap_content"
@@ -129,14 +136,14 @@
                                 android:textStyle="bold" />
 
                         </LinearLayout>
+
                         <LinearLayout
                             android:layout_width="80dp"
                             android:layout_height="@dimen/_30sdp"
                             android:layout_alignParentEnd="true"
                             android:background="@drawable/circle_bg"
                             android:paddingStart="@dimen/_5sdp"
-                            android:paddingEnd="@dimen/_5sdp"
-                            >
+                            android:paddingEnd="@dimen/_5sdp">
 
 
                             <LinearLayout
@@ -168,15 +175,14 @@
                                 android:id="@+id/tvQuentitiy"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
+                                android:layout_marginTop="@dimen/_1sdp"
+                                android:layout_marginBottom="@dimen/_1sdp"
                                 android:layout_weight="1"
                                 android:background="@color/white"
                                 android:gravity="center"
                                 android:maxLength="3"
-                                android:layout_marginTop="@dimen/_1sdp"
-                                android:layout_marginBottom="@dimen/_1sdp"
                                 android:text="1"
                                 android:textColor="@color/textColor" />
-
 
 
                             <LinearLayout
@@ -185,6 +191,7 @@
                                 android:background="@color/light_gray">
 
                             </LinearLayout>
+
                             <LinearLayout
                                 android:id="@+id/btnAdd"
                                 android:layout_width="0dp"
@@ -206,10 +213,6 @@
                     </RelativeLayout>
 
 
-
-
-
-
                 </LinearLayout>
 
 
@@ -218,75 +221,74 @@
 
         </LinearLayout>
 
-<!--        <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.SpinnerComponent-->
-<!--            android:id="@+id/delivery_option"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_margin="@dimen/_10sdp"-->
-<!--            android:gravity="center"-->
-<!--            -->
-<!--            android:text="@string/delivery_options"-->
-<!--            app:viewType="text" />-->
+        <!--        <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.SpinnerComponent-->
+        <!--            android:id="@+id/delivery_option"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_margin="@dimen/_10sdp"-->
+        <!--            android:gravity="center"-->
+        <!--            -->
+        <!--            android:text="@string/delivery_options"-->
+        <!--            app:viewType="text" />-->
 
 
-<!--        <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.SpinnerComponent-->
-<!--            android:id="@+id/payment_option_btn"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginStart="@dimen/_10sdp"-->
-<!--            android:layout_marginEnd="@dimen/_10sdp"-->
-<!--            android:gravity="center"-->
-<!--            android:text="@string/payment_options"-->
-<!--            app:viewType="text" />-->
-<!--        <LinearLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="@dimen/_40sdp"-->
-<!--            android:layout_margin="@dimen/_10sdp"-->
-<!--            android:background="@drawable/product_attribute_bg4"-->
-<!--            android:gravity="center_vertical"-->
-<!--            android:id="@+id/couponContainer"-->
-<!--            android:orientation="horizontal">-->
+        <!--        <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.SpinnerComponent-->
+        <!--            android:id="@+id/payment_option_btn"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginStart="@dimen/_10sdp"-->
+        <!--            android:layout_marginEnd="@dimen/_10sdp"-->
+        <!--            android:gravity="center"-->
+        <!--            android:text="@string/payment_options"-->
+        <!--            app:viewType="text" />-->
+        <!--        <LinearLayout-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="@dimen/_40sdp"-->
+        <!--            android:layout_margin="@dimen/_10sdp"-->
+        <!--            android:background="@drawable/product_attribute_bg4"-->
+        <!--            android:gravity="center_vertical"-->
+        <!--            android:id="@+id/couponContainer"-->
+        <!--            android:orientation="horizontal">-->
 
 
-<!--            <EditText-->
-<!--                android:id="@+id/etCoupon"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:layout_marginStart="@dimen/_15sdp"-->
-<!--                android:layout_weight="1"-->
-<!--                android:background="@null"-->
-<!--                android:fontFamily="@font/madani_arabic_extra_light"-->
-<!--                android:hint="@string/enter_the_coupon"-->
-<!--                android:imeOptions="actionDone"-->
-<!--                android:inputType="text"-->
-<!--                android:maxLines="1"-->
-<!--                android:textColor="@color/grey"-->
-<!--                android:textSize="@dimen/_10sdp" />-->
+        <!--            <EditText-->
+        <!--                android:id="@+id/etCoupon"-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="match_parent"-->
+        <!--                android:layout_marginStart="@dimen/_15sdp"-->
+        <!--                android:layout_weight="1"-->
+        <!--                android:background="@null"-->
+        <!--                android:fontFamily="@font/madani_arabic_extra_light"-->
+        <!--                android:hint="@string/enter_the_coupon"-->
+        <!--                android:imeOptions="actionDone"-->
+        <!--                android:inputType="text"-->
+        <!--                android:maxLines="1"-->
+        <!--                android:textColor="@color/grey"-->
+        <!--                android:textSize="@dimen/_10sdp" />-->
 
-<!--            <LinearLayout-->
-<!--                android:layout_width="@dimen/_70sdp"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:background="@color/bg"-->
-<!--                android:id="@+id/btnApplyCode"-->
-<!--                android:foreground="?android:attr/selectableItemBackground"-->
-<!--                android:gravity="center">-->
+        <!--            <LinearLayout-->
+        <!--                android:layout_width="@dimen/_70sdp"-->
+        <!--                android:layout_height="match_parent"-->
+        <!--                android:background="@color/bg"-->
+        <!--                android:id="@+id/btnApplyCode"-->
+        <!--                android:foreground="?android:attr/selectableItemBackground"-->
+        <!--                android:gravity="center">-->
 
-<!--                <TextView-->
-<!--                    android:id="@+id/item_coupon"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:fontFamily="@font/madani_arabic_medium"-->
-<!--                    android:gravity="center"-->
-<!--                    android:text="@string/activation"-->
-<!--                    android:textColor="@color/white"-->
-<!--                    android:textSize="@dimen/_10sdp" />-->
-
-
-<!--            </LinearLayout>-->
+        <!--                <TextView-->
+        <!--                    android:id="@+id/item_coupon"-->
+        <!--                    android:layout_width="match_parent"-->
+        <!--                    android:layout_height="match_parent"-->
+        <!--                    android:fontFamily="@font/madani_arabic_medium"-->
+        <!--                    android:gravity="center"-->
+        <!--                    android:text="@string/activation"-->
+        <!--                    android:textColor="@color/white"-->
+        <!--                    android:textSize="@dimen/_10sdp" />-->
 
 
-<!--        </LinearLayout>-->
+        <!--            </LinearLayout>-->
 
+
+        <!--        </LinearLayout>-->
 
 
     </LinearLayout>

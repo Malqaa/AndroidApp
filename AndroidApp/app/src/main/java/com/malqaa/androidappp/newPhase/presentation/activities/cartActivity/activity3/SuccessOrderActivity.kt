@@ -40,7 +40,13 @@ class SuccessOrderActivity : BaseActivity() {
         else
             shipments_tv.visibility=View.GONE
 
-        txt_request.text = intent.getStringExtra("RequestType")?:getString(R.string.current_price_buy)
+        if(intent.getStringExtra("RequestType")?.lowercase().equals("FixedPrice".lowercase())){
+            txt_request.text=getString(R.string.fixed_price)
+        }else if(intent.getStringExtra("RequestType")?.lowercase().equals("Negotiation".lowercase())){
+            txt_request.text=getString(R.string.Negotiation)
+        }else if(intent.getStringExtra("RequestType")?.lowercase().equals("Auction".lowercase())){
+            txt_request.text=getString(R.string.auction)
+        }
 
 
         total_order_tv.text = "${intent.getStringExtra(ConstantObjects.orderPriceKey)} ${getString(R.string.rial)}"

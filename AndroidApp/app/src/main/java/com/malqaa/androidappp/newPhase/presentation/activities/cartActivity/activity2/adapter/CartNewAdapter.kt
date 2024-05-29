@@ -57,8 +57,14 @@ class CartNewAdapter(
 //            holder.itemView.couponContainer.visibility= View.GONE
 //            holder.itemView.laySelectBank.visibility =View.VISIBLE
 //        }
+        if(productsCartListResp[position].businessAccountId!=null){
+            holder.itemView.tvSellerName.text = productsCartListResp[position].businessAccountName ?: ""
 
-        holder.itemView.tvSellerName.text = productsCartListResp[position].providerName ?: ""
+        }else{
+            holder.itemView.tvSellerName.text = productsCartListResp[position].providerName ?: ""
+
+        }
+
 
 
         holder.viewBinding.tvDeleteShipping.setOnClickListener {

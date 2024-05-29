@@ -59,13 +59,12 @@
                     android:layout_marginTop="@dimen/_5sdp"
                     android:background="@drawable/edittext_bg"
                     android:fontFamily="@font/madani_arabic_medium"
-                    android:textAlignment="viewStart"
                     android:hint="@string/type_the_item_s_title"
                     android:inputType="textPersonName"
                     android:padding="@dimen/_10sdp"
+                    android:textAlignment="viewStart"
                     android:textSize="@dimen/_10sdp"
                     app:viewType="edittext2" />
-
 
 
                 <TextView
@@ -85,10 +84,10 @@
                     android:layout_marginTop="@dimen/_5sdp"
                     android:background="@drawable/edittext_bg"
                     android:fontFamily="@font/madani_arabic_medium"
-                    android:textAlignment="viewStart"
                     android:hint="@string/type_the_item_s_subtitle"
                     android:inputType="textPersonName"
                     android:padding="@dimen/_10sdp"
+                    android:textAlignment="viewStart"
                     android:textSize="@dimen/_10sdp"
                     app:viewType="edittext2" />
 
@@ -116,155 +115,174 @@
                         android:layout_height="@dimen/_100sdp"
                         android:background="@null"
                         android:fontFamily="@font/madani_arabic_light"
+                        android:gravity="start|top"
                         android:imeOptions="actionDone"
                         android:inputType="text|textMultiLine|textCapSentences"
                         android:padding="@dimen/_7sdp"
-                        android:gravity="start|top"
                         android:scrollbars="vertical"
                         android:textAlignment="viewStart"
                         android:textColor="#6D6C74"
                         android:textSize="@dimen/_13sdp" />
                 </LinearLayout>
 
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/boxEnglishInfo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="45dp"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:background="@drawable/field_selection_border_enable"
-                    android:paddingStart="@dimen/_10sdp"
-                    android:paddingEnd="@dimen/_10sdp">
-
-                    <androidx.appcompat.widget.SwitchCompat
-                        android:id="@+id/switchInfoEn"
-                        android:layout_width="wrap_content"
-                        android:textSize="15sp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center_vertical"
-                       />
-
-                    <TextView
-                        android:id="@+id/box_value"
-                        android:fontFamily="@font/madani_arabic_medium"
-                        android:text="@string/add_english_info"
-                        android:textColor="@color/black"
-                        android:layout_marginStart="10dp"
-                        android:textSize="15sp"
-                        android:layout_gravity="center"
-                        android:buttonTint="@color/white"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-                <LinearLayout
-                    android:id="@+id/viewEnglishInfo"
-                    android:orientation="vertical"
-                    android:visibility="gone"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:gravity="center"
                     android:orientation="horizontal">
 
 
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/boxEnglishInfo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="45dp"
+                        android:background="@drawable/field_selection_border_enable"
+                        android:orientation="horizontal"
+                        android:paddingStart="@dimen/_10sdp"
+                        android:paddingEnd="@dimen/_10sdp">
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/switchInfoEn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/box_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="10dp"
+                            android:buttonTint="@color/white"
+                            android:fontFamily="@font/madani_arabic_medium"
+                            android:text="@string/add_english_info"
+                            android:textColor="@color/black"
+                            android:textSize="15sp" />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <TextView
+                        android:id="@+id/txtEdit"
+                        android:layout_width="wrap_content"
+                        android:text="@string/Edit"
+                        android:textSize="15sp"
+                        android:gravity="center"
+                        android:paddingEnd="20dp"
+                        android:visibility="gone"
+                        android:paddingStart="20sp"
+                        android:layout_gravity="center"
+                        android:backgroundTint="@color/textColor"
+                        android:textColor="@color/white"
+                        android:background="@drawable/edittext_bg"
+                        android:layout_height="30dp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/viewEnglishInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/madani_arabic_medium"
+                            android:text="@string/item_title_en"
+                            android:textColor="#293241"
+                            android:textSize="@dimen/_14sdp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_2sdp"
+                            android:fontFamily="@font/madani_arabic_medium"
+                            android:text="*"
+                            android:textColor="@color/Red"
+                            android:textSize="@dimen/_14sdp" />
+
+                    </LinearLayout>
+
+                    <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
+                        android:id="@+id/tvTitleEn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:gravity="start"
+                        android:hint="@string/type_the_item_s_title"
+                        android:inputType="textPersonName"
+                        android:textAlignment="viewStart"
+                        app:viewType="edittext2" />
+
+
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
                         android:fontFamily="@font/madani_arabic_medium"
-                        android:text="@string/item_title_en"
+                        android:text="@string/sub_title_en"
                         android:textColor="#293241"
                         android:textSize="@dimen/_14sdp" />
 
-                    <TextView
+                    <EditText
+                        android:id="@+id/tvSubtitleEn"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_2sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:background="@drawable/edittext_bg"
                         android:fontFamily="@font/madani_arabic_medium"
-                        android:text="*"
-                        android:textColor="@color/Red"
+                        android:gravity="start"
+                        android:hint="@string/type_the_item_s_subtitle"
+                        android:inputType="textPersonName"
+                        android:padding="@dimen/_10sdp"
+                        android:textAlignment="viewStart"
+                        android:textSize="@dimen/_10sdp"
+                        app:viewType="edittext2" />
+
+                    <TextView
+                        android:id="@+id/descriptn2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:fontFamily="@font/madani_arabic_medium"
+                        android:text="@string/item_detailsEN"
+                        android:textColor="#293241"
                         android:textSize="@dimen/_14sdp" />
 
-                </LinearLayout>
 
-                <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
-                    android:id="@+id/tvTitleEn"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:gravity="start"
-                    android:hint="@string/type_the_item_s_title"
-                    android:inputType="textPersonName"
-                    android:textAlignment="viewStart"
-                    app:viewType="edittext2" />
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:fontFamily="@font/madani_arabic_medium"
-                    android:text="@string/sub_title_en"
-                    android:textColor="#293241"
-                    android:textSize="@dimen/_14sdp" />
-
-                <EditText
-                    android:id="@+id/tvSubtitleEn"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:background="@drawable/edittext_bg"
-                    android:fontFamily="@font/madani_arabic_medium"
-                    android:gravity="start"
-                    android:hint="@string/type_the_item_s_subtitle"
-                    android:inputType="textPersonName"
-                    android:padding="@dimen/_10sdp"
-                    android:textAlignment="viewStart"
-                    android:textSize="@dimen/_10sdp"
-                    app:viewType="edittext2" />
-
-                <TextView
-                    android:id="@+id/descriptn2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:fontFamily="@font/madani_arabic_medium"
-                    android:text="@string/item_detailsEN"
-                    android:textColor="#293241"
-                    android:textSize="@dimen/_14sdp" />
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_100sdp"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:background="@drawable/edittext_bg">
-
-                    <EditText
-                        android:id="@+id/tvDescriptionEn"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_100sdp"
-                        android:background="@null"
-                        android:fontFamily="@font/madani_arabic_light"
-                        android:gravity="top|start"
-                        android:imeOptions="actionDone"
-                        android:inputType="text|textMultiLine|textCapSentences"
-                        android:padding="@dimen/_7sdp"
-                        android:scrollbars="vertical"
-                        android:textAlignment="viewStart"
-                        android:textColor="#6D6C74"
-                        android:textSize="@dimen/_13sdp" />
-                </LinearLayout>
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:background="@drawable/edittext_bg">
+
+                        <EditText
+                            android:id="@+id/tvDescriptionEn"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_100sdp"
+                            android:background="@null"
+                            android:fontFamily="@font/madani_arabic_light"
+                            android:gravity="top|start"
+                            android:imeOptions="actionDone"
+                            android:inputType="text|textMultiLine|textCapSentences"
+                            android:padding="@dimen/_7sdp"
+                            android:scrollbars="vertical"
+                            android:textAlignment="viewStart"
+                            android:textColor="#6D6C74"
+                            android:textSize="@dimen/_13sdp" />
+                    </LinearLayout>
 
 
                 </LinearLayout>
-
 
 
                 <TextView
@@ -478,8 +496,8 @@
                                 <!--                                    app:ccp_showNameCode="false"-->
                                 <!--                                    app:ccp_showPhoneCode="true" />-->
                                 <!--                                &lt;!&ndash;-->
-<!--                                app:ccp_autoDetectCountry="true"-->
-<!--                                app:ccp_countryAutoDetectionPref="SIM_NETWORK_LOCALE"&ndash;&gt;-->
+                                <!--                                app:ccp_autoDetectCountry="true"-->
+                                <!--                                app:ccp_countryAutoDetectionPref="SIM_NETWORK_LOCALE"&ndash;&gt;-->
 
 
                             </LinearLayout>

@@ -283,6 +283,23 @@ class HelpFunctions {
                 return ""
             }
         }
+        fun getViewFormatForDateTrackWithoutUTC(dateStr: String?,outputPattern :String): String? {
+            try {
+                val outputFormat = SimpleDateFormat(outputPattern, Locale.getDefault())
+                val df = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH)
+                val date: Date
+                val str: String
+                try {
+                    date = df.parse(dateStr)
+                    str = outputFormat.format(date)
+                } catch (e: ParseException) {
+                    return ""
+                }
+                return str
+            } catch (e: Exception) {
+                return ""
+            }
+        }
 
         fun getAuctionClosingTime(dataStr: String): String {
             // 23/06/20236:55 PM

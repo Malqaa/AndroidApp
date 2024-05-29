@@ -78,8 +78,8 @@ class ProductViewHolder(
 
 
         if(requestItem.price.toDouble()==0.0){
-            itemBinding.titleBuy.visibility = View.GONE
-            itemBinding.purchasingPrice.visibility = View.GONE
+            itemBinding.titleBuy.visibility = View.INVISIBLE
+            itemBinding.purchasingPrice.visibility = View.INVISIBLE
 
         }else{
             itemBinding.titleBuy.visibility = View.VISIBLE

@@ -20,6 +20,7 @@ import com.malqaa.androidappp.newPhase.presentation.activities.myOrderDetails.ad
 import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.myOrderFragment.MyOrdersViewModel
 import com.malqaa.androidappp.newPhase.presentation.activities.shipmentRateActivity.ShipmentRateActivity
 import kotlinx.android.synthetic.main.activity_order_details.*
+import kotlinx.android.synthetic.main.activity_success_order.txt_request
 import kotlinx.android.synthetic.main.toolbar_main.*
 
 class MyOrderDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
@@ -61,7 +62,14 @@ class MyOrderDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 //            } else {
 //                order_number_tv.text = "#${orderItem.orderId}"
 //            }
-            tv_request_type.text = orderItem.requestType
+
+            if(orderItem.requestType?.lowercase().equals("FixedPrice".lowercase())){
+                tv_request_type.text=getString(R.string.fixed_price)
+            }else if(orderItem.requestType?.lowercase().equals("Negotiation".lowercase())){
+                tv_request_type.text=getString(R.string.Negotiation)
+            }else if(orderItem.requestType?.lowercase().equals("Auction".lowercase())){
+                tv_request_type.text=getString(R.string.auction)
+            }
             order_time_tv.text = HelpFunctions.getViewFormatForDateTrack(orderItem.createdAt,"dd/MM/yyyy HH:mm:ss")
             shipments_tv.text = orderItem.providersCount.toString()
             total_order_tv.text =

@@ -100,6 +100,8 @@ class ProductHorizontalAdapter(
                 ContextCompat.getDrawable(context, R.drawable.product_attribute_bg1_en)
         }
         holder.viewBinding.titlenamee.text = productList[position].name ?: ""
+        holder.viewBinding.subTitlenamee.text=productList[position].subTitle?:""
+
         if (productList[position].isAuctionEnabled) {
             holder.viewBinding.typeProduct.text = context.getString(R.string.auction)
         } else if (productList[position].isNegotiationEnabled) {
@@ -107,6 +109,8 @@ class ProductHorizontalAdapter(
         }
 
         holder.viewBinding.cityTv.text = productList[position].regionName ?: ""
+        holder.viewBinding.dateTv.text = HelpFunctions.getViewFormatForDateTrack(productList[position].createdAt, "dd/MM/yyyy")
+
 
         if (productList[position].image != null && productList[position].image != "") {
             Extension.loadThumbnail(

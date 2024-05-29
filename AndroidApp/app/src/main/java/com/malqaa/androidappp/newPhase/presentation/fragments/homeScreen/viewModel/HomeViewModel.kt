@@ -282,13 +282,13 @@ class HomeViewModel : BaseViewModel() {
             onSuccess = {
                 lastViewProductsObserver.value = it
             },
-            onFailure = { throwable, _, errorBody ->
+            onFailure = { throwable, statusCode, errorBody ->
                 if (throwable != null && errorBody == null)
                     isNetworkFail.value = throwable !is HttpException
-//                else {
-//                    categoriesErrorResponseObserver.value =
-//                        getErrorResponse(statusCode, errorBody)
-//                }
+                else {
+                    categoriesErrorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
+                }
             },
             goLogin = {
                 needToLogin.value = true

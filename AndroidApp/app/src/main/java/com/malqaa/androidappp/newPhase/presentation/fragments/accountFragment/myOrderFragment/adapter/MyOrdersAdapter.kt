@@ -14,6 +14,8 @@ import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.show
 import com.malqaa.androidappp.newPhase.domain.models.orderListResp.OrderItem
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
+import kotlinx.android.synthetic.main.activity_order_details.tv_request_type
+
 class MyOrdersAdapter(var orderList: List<OrderItem>, var setOnClickListeners:SetOnClickListeners) :
     Adapter<MyOrdersAdapter.SoldOutOrdersViewHolder>() {
     var currentOrder=true
@@ -38,8 +40,17 @@ class MyOrdersAdapter(var orderList: List<OrderItem>, var setOnClickListeners:Se
             holder.viewBinding.orderNumberTv.text = "#${orderList[position].orderId}"
         }
 
-        holder.viewBinding.tvRequestType.text=orderList[position].requestType
-        holder.viewBinding.orderTimeTv.text = HelpFunctions.getViewFormatForDateTrack(orderList[position].createdAt,"dd/MM/yyyy HH:mm:ss");
+
+
+        if(orderList[position].requestType?.lowercase().equals("FixedPrice".lowercase())){
+            holder.viewBinding.tvRequestType.text=context.getString(R.string.fixed_price)
+        }else if(orderList[position].requestType?.lowercase().equals("Negotiation".lowercase())){
+            holder.viewBinding.tvRequestType.text=context.getString(R.string.Negotiation)
+        }else if(orderList[position].requestType?.lowercase().equals("Auction".lowercase())){
+            holder.viewBinding.tvRequestType.text=context.getString(R.string.auction)
+        }
+
+        holder.viewBinding.orderTimeTv.text = HelpFunctions.getViewFormatForDateTrackWithoutUTC(orderList[position].createdAt,"dd/MM/yyyy HH:mm:ss");
         holder.viewBinding.shipmentsTv.text=orderList[position].providersCount.toString()
         holder.viewBinding.totalOrderTv.text = "${orderList[position].totalOrderAmountAfterDiscount} ${context.getString(R.string.rial)}"
 
