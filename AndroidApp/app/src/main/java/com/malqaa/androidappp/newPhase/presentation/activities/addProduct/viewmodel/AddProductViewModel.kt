@@ -85,226 +85,41 @@ class AddProductViewModel : BaseViewModel() {
             callProduct?.cancel()
     }
 
-    fun callAddProduct(
-        listImageFile: List<File>, DeliveryOption: List<Int>,
-        paymentOptionIdList: List<Int>?, vedioList: ArrayList<String>?, auctionClosingTime: String,
-        couponId: Int,
-        couponDiscountValue: Double,
-        totalAmountAfterCoupon: Double,
-        totalAmountBeforeCoupon: Double,
-    ) {
-        var validTime: String? = null
-        if (auctionClosingTime.isNotEmpty()) {
-            validTime = if (!auctionClosingTime.contains(":")) {
-                val currentTime: String =
-                    SimpleDateFormat("hh:mm", Locale.ENGLISH).format(Date())
-                ("$auctionClosingTime $currentTime")
-            } else {
-                auctionClosingTime
-            }
-        }
-        val yourData = YourProductData(
-            nameAr = AddProductObjectData.itemTitleAr,
-            nameEn = AddProductObjectData.itemTitleEn,
-            subTitleAr = AddProductObjectData.subtitleAr,
-            subTitleEn = AddProductObjectData.subtitleEn,
-            descriptionAr = AddProductObjectData.itemDescriptionAr,
-            descriptionEn = AddProductObjectData.itemDescriptionEn,
-            qty = (AddProductObjectData.quantity).toInt(),
-            status = AddProductObjectData.productCondition,
-            categoryId = AddProductObjectData.selectedCategoryId,
-            countryId = AddProductObjectData.country?.id?:0,
-            regionId = AddProductObjectData.region?.id?:0,
-            neighborhoodId =AddProductObjectData.city?.id?:0,
-            district = "District",
-            street = "Street",
-            governmentCode = "",
-            productSep = AddProductObjectData.productSpecificationList?.let {
-                Gson().toJson(it).toString()
-            } ?: "[]",
-            mainImageIndex = 0,
-            lat = 123.456,
-            lon = 456.789,
-            acceptQuestion = true,
-            isFixedPriceEnabled = AddProductObjectData.priceFixedOption,
-            isAuctionEnabled = AddProductObjectData.auctionOption,
-            isNegotiationEnabled = AddProductObjectData.isNegotiablePrice,
-            price = AddProductObjectData.priceFixed.toDouble(),
-            priceDisc = AddProductObjectData.priceFixed.toDouble(),
-            isCashEnabled = false,
-            auctionStartPrice = AddProductObjectData.auctionStartPrice,
-            discountEndDate = "",
-            sendOfferForAuction = false,
-            auctionMinimumPrice =  if(AddProductObjectData.auctionMinPrice!=""){
-                AddProductObjectData.auctionMinPrice
-            }else{
-                ""
-                 },
-            auctionNegotiateForWhom = 0,
-            auctionNegotiatePrice = AddProductObjectData.priceFixed.toDouble(),
-            auctionClosingTime = validTime?:"",
-            sendYourAccountInfoToAuctionWinner = false,
-            almostSoldOutQuantity = 0,
-            pakatId = AddProductObjectData.selectedPakat?.id?:0,
-            additionalPakatId = AddProductObjectData.selectedPakat?.id?:0,
-            productPublishPrice = (AddProductObjectData.selectedCategory?.productPublishPrice?:0.0).toDouble(),
-            enableFixedPriceSaleFee = true,
-            enableAuctionFee = true,
-            enableNegotiationFee = true,
-            extraProductImageFee = (AddProductObjectData.selectedCategory?.extraProductImageFee?:0.0).toDouble(),
-            extraProductVideoFee = (AddProductObjectData.selectedCategory?.extraProductVidoeFee?:0.0).toDouble(),
-            subTitleFee = (AddProductObjectData.selectedCategory?.subTitleFee?:0.0).toDouble(),
-            fixedPriceSaleFee = (AddProductObjectData.selectedCategory?.enableFixedPriceSaleFee?:0.0).toDouble(),
-            auctionFee =(AddProductObjectData.selectedCategory?.enableAuctionFee?:0.0).toDouble(),
-            negotiationFee =(AddProductObjectData.selectedCategory?.enableNegotiationFee?:0.0).toDouble(),
-            productPaymentDetailsCategoryId =AddProductObjectData.selectedCategoryId,
-            productPaymentDetailsCouponId =
-            if (couponId != 0) {
-                couponId
-            } else {
-                0
-            },
-            productPaymentDetailsCouponDiscountValue =  if (couponDiscountValue != 0.0) {
-                couponDiscountValue
-            } else {
-                0.0
-            },
-            productPaymentDetailsTotalAmountBeforeCoupon = if (totalAmountBeforeCoupon != 0.0) {
-                totalAmountBeforeCoupon
-            } else {
-                0.0
-            },
-            productPaymentDetailsTotalAmountAfterCoupon = if (totalAmountAfterCoupon != 0.0) {
-                totalAmountAfterCoupon
-            } else {
-                0.0
-            },
-            productPaymentDetailsPaymentType = "Cash"
-        )
-
-        val jsonData = convertToJson(yourData)
-        val requestBody = RequestBody.create("application/json".toMediaTypeOrNull(), jsonData)
-        val gsonPart = MultipartBody.Part.createFormData("data", null, requestBody)
-        val productBankAccounts = emptyList<MultipartBody.Part>()
-
-
-        val videoUrlList: ArrayList<MultipartBody.Part> = ArrayList()
-        vedioList?.let {
-            for (item in vedioList) {
-                val multipartBody: MultipartBody.Part =
-                    MultipartBody.Part.createFormData("videoUrl", item)
-                videoUrlList.add(multipartBody)
-            }
-
-        }
-        val imageFiles = ArrayList<MultipartBody.Part>()
-
-        for (file in listImageFile) {
-            val multipartBody: MultipartBody.Part = if (file != null) {
-                ConstantsHelper.getMultiPart(file, "image/*", "listImageFile")!!
-            } else {
-                MultipartBody.Part.createFormData("listImageFile", "null", "null".toRequestBody())
-            }
-            imageFiles.add(multipartBody)
-        }
-
-        val shippingOptionsList: ArrayList<MultipartBody.Part> = ArrayList()
-        /**DeliveryOption**/
-        for (item in DeliveryOption) {
-            val multipartBody: MultipartBody.Part =
-                MultipartBody.Part.createFormData("ShippingOptions", item.toString())
-            shippingOptionsList.add(multipartBody)
-        }
-
-        val sendPaymentOptionList: ArrayList<MultipartBody.Part> = ArrayList()
-        paymentOptionIdList?.let {
-            for (item in paymentOptionIdList) {
-                val multipartBody: MultipartBody.Part =
-                    MultipartBody.Part.createFormData("PaymentOptions", item.toString())
-                sendPaymentOptionList.add(multipartBody)
-            }
-
-        }
-
-        isLoading.value = true
-        // Make the API call
-        val call = getRetrofitBuilder().addProductTest(
-            gsonPart,
-            imageFiles,
-            videoUrlList,
-            shippingOptionsList,
-            sendPaymentOptionList,
-            productBankAccounts
-        )
-        call.request().toString()
-        callApi(call,
-            onSuccess = {
-                ConstantObjects.isRepost = false
-                ConstantObjects.isModify = false
-                isLoading.value = false
-                confirmAddPorductRespObserver.value = it
-            },
-            onFailure = { throwable, statusCode, errorBody ->
-                isLoading.value = false
-                if (throwable != null && errorBody == null)
-                    isNetworkFail.value = throwable !is HttpException
-                else {
-                    errorResponseObserver.value =
-                        getErrorResponse(statusCode, errorBody)
-                }
-            },
-            goLogin = {
-                isLoading.value = false
-                needToLogin.value = true
-            })
-    }
-
-
     fun getProductShippingOptions(productId: Int) {
-        //isLoading.value = true
         callSellerListProductOp = getRetrofitBuilder().getProductShippingOptions(productId)
         callApi(callSellerListProductOp!!,
             onSuccess = {
-//                isLoading.value = false
                 shippingOptionObserver.value = it
             },
-            onFailure = { throwable, statusCode, errorBody ->
+            onFailure = { _, _, _ ->
 
             },
             goLogin = {
-//                isLoading.value = false
                 needToLogin.value = true
             })
     }
 
     fun getProductBankAccounts(productId: Int) {
-        //isLoading.value = true
         callProductBankAccounts = getRetrofitBuilder().getProductBankAccounts(productId)
         callApi(callProductBankAccounts!!,
             onSuccess = {
-//                isLoading.value = false
                 bankOptionObserver.value = it
             },
             onFailure = { throwable, statusCode, errorBody ->
 
             },
             goLogin = {
-//                isLoading.value = false
                 needToLogin.value = true
             })
     }
 
-
     fun getProductPaymentOptions(productId: Int) {
-        //isLoading.value = true
         callProductPaymentOp = getRetrofitBuilder().getProductPaymentOptions(productId)
         callApi(callProductPaymentOp!!,
             onSuccess = {
-//                isLoading.value = false
                 paymentOptionObserver.value = it
             },
             onFailure = { throwable, statusCode, errorBody ->
-//                isLoading.value = false
 //
             },
             goLogin = {
@@ -482,346 +297,6 @@ class AddProductViewModel : BaseViewModel() {
     }
 
 
-    fun uploadDataToApi(
-        isEdit: Boolean,
-        productId: Int,
-        context: Context,
-        nameAr: String,
-        nameEn: String,
-        subTitleAr: String,
-        subTitleEn: String,
-        descriptionAr: String,
-        descriptionEn: String,
-        qty: String,
-        productCondition: String,
-        categoryId: String,
-        countryId: String,
-        regionId: String,
-        neighborhoodId: String,
-        Street: String,
-        GovernmentCode: String,
-        pakatId: String,
-        productSep: List<DynamicSpecificationSentObject>?,
-        listImageFile: List<File>,//listImageFile
-        MainImageIndex: String,
-        videoUrl: List<String>?,
-        PickUpDelivery: String,
-        DeliveryOption: List<Int>,
-        isFixedPriceEnabled: Boolean,
-        isAuctionEnabled: Boolean,
-        isNegotiationEnabled: Boolean,
-        price: String,
-        priceDisc: String,
-        paymentOptionIdList: List<Int>?,
-        isCashEnabled: String,
-        disccountEndDate: String,
-        auctionStartPrice: String,
-        auctionMinimumPrice: String,
-        auctionClosingTime: String,
-        productBankAccounts: List<Int>?,
-        ProductPaymentDetailsDto_AdditionalPakatId: String,
-        ProductPaymentDetailsDto_ProductPublishPrice: Float,
-        ProductPaymentDetailsDto_EnableAuctionFee: Float,
-        ProductPaymentDetailsDto_EnableNegotiationFee: Float,
-        ProductPaymentDetailsDto_ExtraProductImageFee: Float,
-        ProductPaymentDetailsDto_ExtraProductVidoeFee: Float,
-        ProductPaymentDetailsDto_SubTitleFee: Float,
-        ProductPaymentDetailsDto_CouponId: Int,
-        ProductPaymentDetailsDto_CouponDiscountValue: Float,
-        ProductPaymentDetailsDto_TotalAmountAfterCoupon: Float,
-        ProductPaymentDetailsDto_TotalAmountBeforeCoupon: Float,
-    ) {
-        var validTime: String? = null
-        if (auctionClosingTime.isNotEmpty()) {
-            validTime = if (!auctionClosingTime.contains(":")) {
-                val currentTime: String =
-                    SimpleDateFormat("hh:mm", Locale.ENGLISH).format(Date())
-                ("$auctionClosingTime $currentTime")
-            } else {
-                auctionClosingTime
-            }
-        }
-
-        val videoUrlList: ArrayList<MultipartBody.Part> = ArrayList()
-        videoUrl?.let {
-            for (item in videoUrl) {
-                val multipartBody: MultipartBody.Part =
-                    MultipartBody.Part.createFormData("videoUrl", item)
-                videoUrlList.add(multipartBody)
-            }
-
-        }
-        val imageFiles = ArrayList<MultipartBody.Part>()
-
-        for (file in listImageFile) {
-            val multipartBody: MultipartBody.Part = if (file != null) {
-                ConstantsHelper.getMultiPart(file, "image/*", "listImageFile")!!
-            } else {
-                MultipartBody.Part.createFormData("listImageFile", "null", "null".toRequestBody())
-            }
-            imageFiles.add(multipartBody)
-        }
-
-        val shippingOptionsList: ArrayList<MultipartBody.Part> = ArrayList()
-        /**DeliveryOption**/
-        for (item in DeliveryOption) {
-            val multipartBody: MultipartBody.Part =
-                MultipartBody.Part.createFormData("ShippingOptions", item.toString())
-            shippingOptionsList.add(multipartBody)
-        }
-
-        val sendPaymentOptionList: ArrayList<MultipartBody.Part> = ArrayList()
-        paymentOptionIdList?.let {
-            for (item in paymentOptionIdList) {
-                val multipartBody: MultipartBody.Part =
-                    MultipartBody.Part.createFormData("PaymentOptions", item.toString())
-                sendPaymentOptionList.add(multipartBody)
-            }
-
-        }
-
-        val sendBankList: ArrayList<MultipartBody.Part> = ArrayList()
-        productBankAccounts?.let {
-            for (item in productBankAccounts) {
-                val multipartBody: MultipartBody.Part =
-                    MultipartBody.Part.createFormData("ProductBankAccounts", item.toString())
-                sendBankList.add(multipartBody)
-            }
-
-        }
-
-        // Prepare other data as RequestBody
-        val isCashEnabledBody = isCashEnabled.toRequestBody("text/plain".toMediaTypeOrNull())
-        val nameArRequestBody = nameAr.toRequestBody("text/plain".toMediaTypeOrNull())
-        val nameEnRequestBody = nameEn.toRequestBody("text/plain".toMediaTypeOrNull())
-        val subTitleArRequestBody = subTitleAr.toRequestBody("text/plain".toMediaTypeOrNull())
-        val subTitleEnRequestBody = subTitleEn.toRequestBody("text/plain".toMediaTypeOrNull())
-        val descriptionArRequestBody = descriptionAr.toRequestBody("text/plain".toMediaTypeOrNull())
-        val descriptionEnRequestBody = descriptionEn.toRequestBody("text/plain".toMediaTypeOrNull())
-        val qtyRequestBody = qty.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-        val statusRequestBody =
-            productCondition.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-        val categoryIdRequestBody =
-            categoryId.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-        val countryIdRequestBody =
-            countryId.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-        val regionIdRequestBody =
-            regionId.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-        val neighborhoodIdRequestBody =
-            neighborhoodId.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-        val districtRequestBody = Street.toRequestBody("text/plain".toMediaTypeOrNull())
-        val streetRequestBody = Street.toRequestBody("text/plain".toMediaTypeOrNull())
-        val governmentCodeRequestBody =
-            GovernmentCode.toRequestBody("text/plain".toMediaTypeOrNull())
-
-
-        var productSepRequestBody = if (productSep != null)
-            productSep.let {
-                Gson().toJson(it).toString().toRequestBody("text/plain".toMediaTypeOrNull())
-            }
-        else {
-            "[]".toRequestBody("text/plain".toMediaTypeOrNull())
-        }
-        val mainImageIndexRequestBody = if (MainImageIndex == "")
-            "0".toRequestBody("text/plain".toMediaTypeOrNull())
-        else {
-            MainImageIndex.toRequestBody("text/plain".toMediaTypeOrNull())
-        }
-
-        val latRequestBody = "0.0".toRequestBody("text/plain".toMediaTypeOrNull())
-        val lonRequestBody = "0.0".toRequestBody("text/plain".toMediaTypeOrNull())
-        val acceptQuestionRequestBody =
-            false.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-        val isFixedPriceEnabledRequestBody =
-            isFixedPriceEnabled.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-        val isAuctionEnabledRequestBody =
-            isAuctionEnabled.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-        val isNegotiationEnabledRequestBody =
-            isNegotiationEnabled.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-        val priceRequestBody = price.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-        val priceDiscRequestBody =
-            priceDisc.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-        val auctionStartPriceRequestBody =
-            auctionStartPrice.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-        val discountEndDateRequestBody =
-            disccountEndDate.toRequestBody("text/plain".toMediaTypeOrNull())
-        val sendOfferForAuctionRequestBody =
-            false.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-        val auctionMinimumPriceRequestBody =
-            auctionMinimumPrice.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-        val auctionNegotiateForWhomRequestBody = "".toRequestBody("text/plain".toMediaTypeOrNull())
-        val auctionNegotiatePriceRequestBody =
-            price.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-        val auctionClosingTimeRequestBody = if (validTime != null) {
-            (validTime).toRequestBody("text/plain".toMediaTypeOrNull())
-        } else
-            "null".toRequestBody("text/plain".toMediaTypeOrNull())
-
-
-        val sendYourAccountInfoToAuctionWinnerRequestBody =
-            false.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-        val almostSoldOutQuantityRequestBody =
-            "".toString().toRequestBody("text/plain".toMediaTypeOrNull())
-        val pakatIdRequestBody = pakatId.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-        val additionalPakatIdRequestBody =
-            pakatId.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-        val productPublishPriceRequestBody =
-            ProductPaymentDetailsDto_ProductPublishPrice.toString()
-                .toRequestBody("text/plain".toMediaTypeOrNull())
-        val enableFixedPriceSaleFeeRequestBody =
-            AddProductObjectData.selectedCategory?.enableFixedPriceSaleFee.toString()
-                .toRequestBody("text/plain".toMediaTypeOrNull())
-        val enableAuctionFeeRequestBody =
-            AddProductObjectData.selectedCategory?.enableAuctionFee.toString()
-                .toRequestBody("text/plain".toMediaTypeOrNull())
-        val enableNegotiationFeeRequestBody =
-            AddProductObjectData.selectedCategory?.enableNegotiationFee.toString()
-                .toRequestBody("text/plain".toMediaTypeOrNull())
-        val extraProductImageFeeRequestBody =
-            AddProductObjectData.selectedCategory?.extraProductImageFee.toString()
-                .toRequestBody("text/plain".toMediaTypeOrNull())
-        val extraProductVideoFeeRequestBody =
-            AddProductObjectData.selectedCategory?.extraProductVidoeFee.toString()
-                .toRequestBody("text/plain".toMediaTypeOrNull())
-        val subTitleFeeRequestBody =
-            AddProductObjectData.selectedCategory?.subTitleFee.toString()
-                .toRequestBody("text/plain".toMediaTypeOrNull())
-        val fixedPriceSaleFeeRequestBody =
-            AddProductObjectData.selectedCategory?.enableFixedPriceSaleFee.toString()
-                .toRequestBody("text/plain".toMediaTypeOrNull())
-        val auctionFeeRequestBody =
-            AddProductObjectData.selectedCategory?.enableAuctionFee.toString()
-                .toRequestBody("text/plain".toMediaTypeOrNull())
-        val negotiationFeeRequestBody =
-            AddProductObjectData.selectedCategory?.enableNegotiationFee.toString()
-                .toRequestBody("text/plain".toMediaTypeOrNull())
-        val productPaymentDetailsCategoryIdRequestBody = categoryId.toString()
-            .toRequestBody("text/plain".toMediaTypeOrNull())
-
-        val productPaymentDetailsCouponIdRequestBody = if (ProductPaymentDetailsDto_CouponId != 0) {
-            ProductPaymentDetailsDto_CouponId.toString()
-                .toRequestBody("text/plain".toMediaTypeOrNull())
-        } else {
-            "null".toRequestBody("text/plain".toMediaTypeOrNull())
-        }
-
-        val productPaymentDetailsCouponDiscountValueRequestBody =
-            if (ProductPaymentDetailsDto_CouponId != 0) {
-                ProductPaymentDetailsDto_CouponDiscountValue.toString()
-                    .toRequestBody("text/plain".toMediaTypeOrNull())
-            } else {
-                "null".toRequestBody("text/plain".toMediaTypeOrNull())
-            }
-
-        val productPaymentDetailsTotalAmountBeforeCouponRequestBody =
-            if (ProductPaymentDetailsDto_TotalAmountBeforeCoupon != 0f) {
-                ProductPaymentDetailsDto_TotalAmountBeforeCoupon.toString()
-                    .toRequestBody("text/plain".toMediaTypeOrNull())
-            } else
-                "null".toRequestBody("text/plain".toMediaTypeOrNull())
-        val productPaymentDetailsTotalAmountAfterCouponRequestBody =
-            if (ProductPaymentDetailsDto_TotalAmountBeforeCoupon != 0f) {
-                ProductPaymentDetailsDto_TotalAmountBeforeCoupon.toString()
-                    .toRequestBody("text/plain".toMediaTypeOrNull())
-            } else
-                "null".toRequestBody("text/plain".toMediaTypeOrNull())
-
-        val productPaymentDetailsPaymentTypeRequestBody =
-            "Cash".toRequestBody("text/plain".toMediaTypeOrNull())
-
-        GlobalScope.launch(Dispatchers.IO) {
-            try {
-                val response = getRetrofitBuilder().uploadData(
-                    nameArRequestBody,
-                    nameEnRequestBody,
-                    subTitleArRequestBody,
-                    subTitleEnRequestBody,
-                    descriptionArRequestBody,
-                    descriptionEnRequestBody,
-                    qtyRequestBody,
-                    statusRequestBody,
-                    categoryIdRequestBody,
-                    countryIdRequestBody,
-                    regionIdRequestBody,
-                    neighborhoodIdRequestBody,
-                    districtRequestBody,
-                    streetRequestBody,
-                    governmentCodeRequestBody,
-                    productSepRequestBody,
-                    imageFiles,
-                    mainImageIndexRequestBody,
-                    videoUrlList,
-                    shippingOptionsList,
-                    latRequestBody,
-                    lonRequestBody,
-                    acceptQuestionRequestBody,
-                    isFixedPriceEnabledRequestBody,
-                    isAuctionEnabledRequestBody,
-                    isNegotiationEnabledRequestBody,
-                    priceRequestBody,
-                    priceDiscRequestBody,
-                    sendPaymentOptionList,
-                    sendBankList,
-                    isCashEnabledBody,
-                    auctionStartPriceRequestBody,
-                    discountEndDateRequestBody,
-                    sendOfferForAuctionRequestBody,
-                    auctionMinimumPriceRequestBody,
-                    auctionNegotiateForWhomRequestBody,
-                    auctionNegotiatePriceRequestBody,
-                    auctionClosingTimeRequestBody!!,
-                    sendYourAccountInfoToAuctionWinnerRequestBody,
-                    almostSoldOutQuantityRequestBody,
-                    pakatIdRequestBody,
-                    additionalPakatIdRequestBody,
-                    productPublishPriceRequestBody,
-                    enableFixedPriceSaleFeeRequestBody,
-                    enableAuctionFeeRequestBody,
-                    enableNegotiationFeeRequestBody,
-                    extraProductImageFeeRequestBody,
-                    extraProductVideoFeeRequestBody,
-                    subTitleFeeRequestBody,
-                    fixedPriceSaleFeeRequestBody,
-                    auctionFeeRequestBody,
-                    negotiationFeeRequestBody,
-                    productPaymentDetailsCategoryIdRequestBody,
-                    productPaymentDetailsCouponIdRequestBody!!,
-                    productPaymentDetailsCouponDiscountValueRequestBody!!,
-                    productPaymentDetailsTotalAmountBeforeCouponRequestBody!!,
-                    productPaymentDetailsTotalAmountAfterCouponRequestBody!!,
-                    productPaymentDetailsPaymentTypeRequestBody,
-                    "multipart/form-data;boundry=<calculated when request is sent>"
-                )
-
-                response.request().toString()
-                isLoading.value = true
-                callApi(response,
-                    onSuccess = {
-                        ConstantObjects.isRepost = false
-                        ConstantObjects.isModify = false
-                        isLoading.value = false
-                        confirmAddPorductRespObserver.value = it
-                    },
-                    onFailure = { throwable, statusCode, errorBody ->
-                        isLoading.value = false
-                        if (throwable != null && errorBody == null)
-                            isNetworkFail.value = throwable !is HttpException
-                        else {
-                            errorResponseObserver.value =
-                                getErrorResponse(statusCode, errorBody)
-                        }
-                    },
-                    goLogin = {
-                        isLoading.value = false
-                        needToLogin.value = true
-                    })
-                // Handle response
-            } catch (e: Exception) {
-//                isLoading.value = false
-                Log.i("", e.message.toString())
-            }
-        }
-    }
 
     @SuppressLint("SuspiciousIndentation")
     fun getAddProduct3(
@@ -949,30 +424,30 @@ class AddProductViewModel : BaseViewModel() {
         val map: HashMap<String, RequestBody> = HashMap()
         map["nameAr"] = nameAr.toRequestBody("multipart/form-data".toMediaTypeOrNull())
         map["nameEn"] = nameEn.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-//        if (subTitleAr != "")
+        if (subTitleAr != "")
         map["subTitleAr"] = subTitleAr.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-//        if (subTitleEn != "")
+        if (subTitleEn != "")
         map["subTitleEn"] = subTitleEn.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-//        if (descriptionAr != "")
+        if (descriptionAr != "")
         map["descriptionAr"] =
             descriptionAr.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-//        if (descriptionEn != "")
+        if (descriptionEn != "")
         map["descriptionEn"] =
             descriptionEn.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-//        if (qty != "")
+        if (qty != "")
         map["qty"] = qty.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-//        if (productCondition != "0" && productCondition != "" && productCondition != "null")
+        if (productCondition != "0" && productCondition != "" && productCondition != "null")
         map["status"] = productCondition.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-//        if (categoryId != "0" && categoryId != "")
+        if (categoryId != "0" && categoryId != "")
         map["categoryId"] = categoryId.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-//        if (countryId != "0" && countryId != "" && countryId != "null")
+        if (countryId != "0" && countryId != "" && countryId != "null")
         map["countryId"] = countryId.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-//        if (regionId != "0" && regionId != "" && regionId != "null")
+        if (regionId != "0" && regionId != "" && regionId != "null")
         map["regionId"] = regionId.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-//        if (neighborhoodId != "0" && neighborhoodId != "" && neighborhoodId != "null")
+        if (neighborhoodId != "0" && neighborhoodId != "" && neighborhoodId != "null")
         map["neighborhoodId"] =
             neighborhoodId.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-//        map["Street"] = Street.requestBody()
+        map["Street"] = Street.requestBody()
         if (productSep != null)
             productSep.let {
                 map["productSep"] = Gson().toJson(it).toString()
@@ -1009,11 +484,11 @@ class AddProductViewModel : BaseViewModel() {
 
         map["SendYourAccountInfoToAuctionWinner"] =
             "false".toRequestBody("multipart/form-data".toMediaTypeOrNull())
-//        if (ProductPaymentDetailsDto_AdditionalPakatId != "")
+        if (ProductPaymentDetailsDto_AdditionalPakatId != "")
         map["ProductPaymentDetailsDto.AdditionalPakatId"] =
             pakatId.toRequestBody("multipart/form-data".toMediaTypeOrNull())
 
-//        if (ProductPaymentDetailsDto_ProductPublishPrice != 0f)
+        if (ProductPaymentDetailsDto_ProductPublishPrice != 0f)
         map["ProductPaymentDetailsDto.ProductPublishPrice"] =
             ProductPaymentDetailsDto_ProductPublishPrice.toString()
                 .toRequestBody("multipart/form-data".toMediaTypeOrNull())
@@ -1026,22 +501,22 @@ class AddProductViewModel : BaseViewModel() {
             AddProductObjectData.selectedCategory?.enableAuctionFee.toString()
                 .toRequestBody("multipart/form-data".toMediaTypeOrNull())
 
-//        if (ProductPaymentDetailsDto_EnableNegotiationFee != 0f) {
+        if (ProductPaymentDetailsDto_EnableNegotiationFee != 0f) {
         map["ProductPaymentDetailsDto.EnableNegotiationFee"] =
-            "10.5".toString().toRequestBody("multipart/form-data".toMediaTypeOrNull())
-//        }
-//        if (ProductPaymentDetailsDto_ExtraProductImageFee != 0f) {
+            ProductPaymentDetailsDto_EnableNegotiationFee.toString().toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        }
+        if (ProductPaymentDetailsDto_ExtraProductImageFee != 0f) {
         map["ProductPaymentDetailsDto.ExtraProductImageFee"] =
-            "1.5".toString().toRequestBody("multipart/form-data".toMediaTypeOrNull())
-//        }
-//        if (ProductPaymentDetailsDto_ExtraProductVidoeFee != 0f) {
+            ProductPaymentDetailsDto_ExtraProductImageFee.toString().toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        }
+        if (ProductPaymentDetailsDto_ExtraProductVidoeFee != 0f) {
         map["ProductPaymentDetailsDto.ExtraProductVidoeFee"] =
-            "1.5".toString().toRequestBody("multipart/form-data".toMediaTypeOrNull())
-//        }
-//        if (ProductPaymentDetailsDto_SubTitleFee != 0f) {
+            ProductPaymentDetailsDto_ExtraProductVidoeFee.toString().toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        }
+        if (ProductPaymentDetailsDto_SubTitleFee != 0f) {
         map["ProductPaymentDetailsDto.SubTitleFee"] =
-            "1.4".toRequestBody("multipart/form-data".toMediaTypeOrNull())
-//        }
+            ProductPaymentDetailsDto_SubTitleFee.toString().toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        }
         if (ProductPaymentDetailsDto_CouponId != 0) {
             map["ProductPaymentDetailsDto.CouponId"] =
                 ProductPaymentDetailsDto_CouponId.toString()
@@ -1173,11 +648,5 @@ class AddProductViewModel : BaseViewModel() {
 
     }
 
-    fun c(doubleAsString: String): MultipartBody {
-        val requestBody = MultipartBody.Builder()
-            .setType(MultipartBody.FORM)
-            .addFormDataPart("double_value", doubleAsString)
-            .build()
-        return requestBody
-    }
+
 }

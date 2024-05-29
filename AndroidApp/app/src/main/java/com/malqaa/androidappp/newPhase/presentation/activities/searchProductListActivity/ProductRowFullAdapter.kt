@@ -67,7 +67,11 @@ class ProductViewHolder(
         )
 
 
-        itemBinding.productCity.text = requestItem.country +" "+ HelpFunctions.getViewFormatForDateTrack(requestItem.createdAt, "dd/MM/yyyy")
+        itemBinding.productCity.text =
+            requestItem.country + " " + HelpFunctions.getViewFormatForDateTrack(
+                requestItem.createdAt,
+                "dd/MM/yyyy"
+            )
         itemBinding.ivSetting.setOnClickListener {
             setOnProductItemListeners.onProductSelect(
                 position,
@@ -77,11 +81,11 @@ class ProductViewHolder(
         }
 
 
-        if(requestItem.price.toDouble()==0.0){
+        if (requestItem.price.toDouble() == 0.0) {
             itemBinding.titleBuy.visibility = View.INVISIBLE
             itemBinding.purchasingPrice.visibility = View.INVISIBLE
 
-        }else{
+        } else {
             itemBinding.titleBuy.visibility = View.VISIBLE
             itemBinding.purchasingPrice.visibility = View.VISIBLE
             itemBinding.purchasingPrice.text = "${
@@ -89,11 +93,19 @@ class ProductViewHolder(
             } ${itemBinding.purchasingPrice.context.getString(R.string.SAR)}"
         }
 
-        if(requestItem.highestBidPrice.toDouble()==0.0){
-            itemBinding.titlePrice.visibility = View.GONE
-            itemBinding.lowestPrice.visibility = View.GONE
 
-        }else{
+        if (requestItem.highestBidPrice.toDouble() == 0.0) {
+            if (requestItem.auctionStartPrice.toDouble() != 0.0) {
+                itemBinding.titlePrice.visibility = View.VISIBLE
+                itemBinding.lowestPrice.visibility = View.VISIBLE
+                itemBinding.lowestPrice.text = "${
+                    requestItem.auctionStartPrice.toDouble().decimalNumberFormat()
+                } ${itemBinding.purchasingPrice.context.getString(R.string.SAR)}"
+            } else {
+                itemBinding.titlePrice.visibility = View.GONE
+                itemBinding.lowestPrice.visibility = View.GONE
+            }
+        } else {
             itemBinding.titlePrice.visibility = View.VISIBLE
             itemBinding.lowestPrice.visibility = View.VISIBLE
             itemBinding.lowestPrice.text = "${
@@ -103,8 +115,10 @@ class ProductViewHolder(
 
 
 
+
         if (requestItem.isAuctionEnabled) {
-            itemBinding.typeProduct.text = itemBinding.purchasingPrice.context.getString(R.string.auction)
+            itemBinding.typeProduct.text =
+                itemBinding.purchasingPrice.context.getString(R.string.auction)
         } else if (requestItem.isNegotiationEnabled) {
             itemBinding.typeProduct.text =
                 itemBinding.purchasingPrice.context.getString(R.string.Negotiation)

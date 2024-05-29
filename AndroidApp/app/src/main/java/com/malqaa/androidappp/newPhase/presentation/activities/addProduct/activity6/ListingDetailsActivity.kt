@@ -199,10 +199,10 @@ class ListingDetailsActivity : BaseActivity() {
         }
         switchInfoEn.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
-                txtEdit.visibility = View.VISIBLE
+//                txtEdit.visibility = View.VISIBLE
                 viewEnglishInfo.visibility = View.VISIBLE
             } else {
-                txtEdit.visibility = View.GONE
+//                txtEdit.visibility = View.GONE
                 viewEnglishInfo.visibility = View.GONE
             }
         })

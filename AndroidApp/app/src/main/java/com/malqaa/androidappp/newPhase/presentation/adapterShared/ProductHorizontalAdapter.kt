@@ -283,14 +283,20 @@ class ProductHorizontalAdapter(
             holder.viewBinding.purchaseContainer.visibility = View.INVISIBLE
 
         }
-        if(productList[position].highestBidPrice.toDouble()!=0.0){
+        if(productList[position].highestBidPrice.toDouble()==0.0){
+            if(productList[position].auctionStartPrice.toDouble()!=0.0){
+                holder.viewBinding.LowestPriceLayout.visibility = View.VISIBLE
+                holder.viewBinding.LowestPrice.text =
+                    "${productList[position].auctionStartPrice} ${holder.viewBinding.typeProduct.context.getString(R.string.SAR)}"
+            }else{
+                holder.viewBinding.LowestPriceLayout.visibility = View.INVISIBLE
+            }
+        }else{
             holder.viewBinding.LowestPriceLayout.visibility = View.VISIBLE
             holder.viewBinding.LowestPrice.text =
                 "${productList[position].highestBidPrice} ${holder.viewBinding.typeProduct.context.getString(R.string.SAR)}"
-
-        }else{
-            holder.viewBinding.LowestPriceLayout.visibility = View.INVISIBLE
         }
+
 
         if (productList[position].isAuctionEnabled) {
 //            holder.viewBinding.purchaseContainer.visibility = View.GONE

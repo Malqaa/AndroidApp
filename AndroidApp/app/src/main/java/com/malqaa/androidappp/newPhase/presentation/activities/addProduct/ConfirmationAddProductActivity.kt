@@ -22,7 +22,6 @@ import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activi
 import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activity6.PricingActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activity7.ListingDurationActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activity8.PromotionalActivity
-import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.viewmodel.AddProductModelView
 import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.viewmodel.AddProductViewModel
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
@@ -36,7 +35,6 @@ import kotlinx.android.synthetic.main.toolbar_main.*
 import java.io.File
 
 class ConfirmationAddProductActivity : BaseActivity() {
-    private lateinit var   addProductModelView: AddProductModelView
     private lateinit var addProductViewModel: AddProductViewModel
     private var pakagePrice = 0f
     private var fixedPriceFee = 0f
@@ -227,82 +225,7 @@ class ConfirmationAddProductActivity : BaseActivity() {
                 }
             }
 
-//                if(i == ConstantObjects.pickUp_Must){
-//                    contianerPickUp.hide()
-//                }else if(i ==ConstantObjects.pickUp_No){
-//                    contianerPickUp.show()
-//                    when (AddProductObjectData.pickUpOption) {
-//                        ConstantObjects.pickUp_Must -> {
-//                            tvShippingOption.text = getString(R.string.mustPickUp)
-//                        }
-//
-//                        ConstantObjects.pickUp_No -> {
-//                            tvShippingOption.text = getString(R.string.noPickUp)
-//                        }
-//
-//                        ConstantObjects.pickUp_Available -> {
-//                            tvShippingOption.text = getString(R.string.pickUpAvaliable)
-//                        }
-//                    }
-//                }else if(i ==ConstantObjects.pickUp_Available){
-//                    contianerPickUp.show()
-//                    when (AddProductObjectData.pickUpOption) {
-//                        ConstantObjects.pickUp_Must -> {
-//                            tvShippingOption.text = getString(R.string.mustPickUp)
-//                        }
-//
-//                        ConstantObjects.pickUp_No -> {
-//                            tvShippingOption.text = getString(R.string.noPickUp)
-//                        }
-//
-//                        ConstantObjects.pickUp_Available -> {
-//                            tvShippingOption.text = getString(R.string.pickUpAvaliable)
-//                        }
-//                    }
-//                }
         }
-
-
-//            when (it) {
-//                ConstantObjects.pickUp_Must -> {
-//                    contianerPickUp.hide()
-//                }
-//
-//                ConstantObjects.pickUp_No -> {
-//                    contianerPickUp.show()
-//                    when (AddProductObjectData.pickUpOption) {
-//                        ConstantObjects.pickUp_Must -> {
-//                            tvPickupOptionData.text = getString(R.string.mustPickUp)
-//                        }
-//
-//                        ConstantObjects.pickUp_No -> {
-//                            tvPickupOptionData.text = getString(R.string.noPickUp)
-//                        }
-//
-//                        ConstantObjects.pickUp_Available -> {
-//                            tvPickupOptionData.text = getString(R.string.pickUpAvaliable)
-//                        }
-//                    }
-//                }
-//
-//                ConstantObjects.pickUp_Available -> {
-//                    contianerPickUp.show()
-//                    when (AddProductObjectData.pickUpOption) {
-//                        ConstantObjects.pickUp_Must -> {
-//                            tvPickupOptionData.text = getString(R.string.mustPickUp)
-//                        }
-//
-//                        ConstantObjects.pickUp_No -> {
-//                            tvPickupOptionData.text = getString(R.string.noPickUp)
-//                        }
-//
-//                        ConstantObjects.pickUp_Available -> {
-//                            tvPickupOptionData.text = getString(R.string.pickUpAvaliable)
-//                        }
-//                    }
-//                }
-//            }
-
 
         if (AddProductObjectData.auctionOption) {
             containerAuction.show()
@@ -418,7 +341,6 @@ class ConfirmationAddProductActivity : BaseActivity() {
 
     @SuppressLint("SetTextI18n")
     private fun setUpViewModel() {
-        addProductModelView = ViewModelProvider(this).get(AddProductModelView::class.java)
         addProductViewModel = ViewModelProvider(this).get(AddProductViewModel::class.java)
         addProductViewModel.isLoading.observe(this) {
             if (it) HelpFunctions.startProgressBar(this)
@@ -452,7 +374,7 @@ class ConfirmationAddProductActivity : BaseActivity() {
             }
 
         }
-        addProductModelView.confirmAddPorductRespObserver.observe(this) { confirmAddPorductRespObserver ->
+        addProductViewModel.confirmAddPorductRespObserver.observe(this) { confirmAddPorductRespObserver ->
             if (confirmAddPorductRespObserver.status_code == 200) {
                 try {
 
@@ -524,21 +446,6 @@ class ConfirmationAddProductActivity : BaseActivity() {
 
                 }
 
-
-//                if (AddProductObjectData.selectedPakat == null) {
-//                    tv_package_price.text = getString(R.string.notSpecified)
-//                    tv_package_name.text = getString(R.string.notSpecified)
-//                    calculation(0f)
-//                } else {
-//                    tv_package_price.text = AddProductObjectData.selectedPakat?.price.toString()
-//                    tv_package_name.text = AddProductObjectData.selectedPakat?.name.toString()
-//                    AddProductObjectData.selectedPakat?.let {
-//                        calculation(it.price)
-//                    }
-//
-////            val package_cost = AddProductObjectData.selectPromotiion!!.packageprice.toInt()
-////            calculation(package_cost)
-//                }
             }
         }
 
@@ -1140,7 +1047,8 @@ class ConfirmationAddProductActivity : BaseActivity() {
 //            ,AddProductObjectData.videoList,tvDateAuction.text.toString(),
 //            couponId,
 //            couponDiscountValue.toDouble(),totalAfterDiscount.toDouble(),totalPrice.toDouble())
-        addProductModelView.getAddProduct3(
+
+        addProductViewModel.getAddProduct3(
             isEdit,
             productDetails?.id ?: 0,
             this,
@@ -1190,58 +1098,7 @@ class ConfirmationAddProductActivity : BaseActivity() {
             ProductPaymentDetailsDto_TotalAmountAfterCoupon = totalAfterDiscount,
             ProductPaymentDetailsDto_TotalAmountBeforeCoupon = totalPrice,
 
-     )
-//        addProductViewModel.getAddProduct3(
-//            isEdit,
-//            productDetails?.id ?: 0,
-//            this,
-//            nameAr = AddProductObjectData.itemTitleAr,
-//            nameEn = AddProductObjectData.itemTitleEn,
-//            subTitleAr = AddProductObjectData.subtitleAr,
-//            subTitleEn = AddProductObjectData.subtitleEn,
-//            descriptionAr = AddProductObjectData.itemDescriptionAr,
-//            descriptionEn = AddProductObjectData.itemDescriptionEn,
-//            qty = AddProductObjectData.quantity,
-//            productCondition = AddProductObjectData.productCondition.toString(),
-//            categoryId = AddProductObjectData.selectedCategoryId.toString(),
-//            countryId = AddProductObjectData.country?.id.toString(),
-//            regionId = AddProductObjectData.region?.id.toString(),
-//            neighborhoodId = AddProductObjectData.city?.id.toString(),
-//            Street = "",
-//            GovernmentCode = "",
-//            pakatId = pakatId,
-//            productSep = AddProductObjectData.productSpecificationList,
-//            listImageFile = listImageFile,//listImageFile
-//            MainImageIndex = mainIndex,
-//            videoUrl = AddProductObjectData.videoList,
-//            PickUpDelivery = AddProductObjectData.pickUpOption.toString(),
-//            DeliveryOption = AddProductObjectData.shippingOptionSelections ?: arrayListOf(),
-//            isFixedPriceEnabled = AddProductObjectData.priceFixedOption,
-//            isAuctionEnabled = AddProductObjectData.auctionOption,
-//            isNegotiationEnabled = AddProductObjectData.isNegotiablePrice,
-//            price = AddProductObjectData.priceFixed,
-//            priceDisc = AddProductObjectData.priceFixed,
-//            paymentOptionIdList = AddProductObjectData.paymentOptionList,
-//            isCashEnabled = "false", //same as  paymentOptionId
-//            disccountEndDate = "",
-//            auctionStartPrice = AddProductObjectData.auctionStartPrice,
-//            auctionMinimumPrice = AddProductObjectData.auctionMinPrice,
-//            auctionClosingTime =tvDateAuction.text.toString()
-//           ,
-//            productBankAccounts = bankList,
-//            ProductPaymentDetailsDto_AdditionalPakatId = pakatId,
-//            ProductPaymentDetailsDto_ProductPublishPrice = productPublishPriceFee,
-//            ProductPaymentDetailsDto_EnableAuctionFee = auctionEnableFee,
-//            ProductPaymentDetailsDto_EnableNegotiationFee = negotiationFee,
-//            ProductPaymentDetailsDto_ExtraProductImageFee = extraImageFee,
-//            ProductPaymentDetailsDto_ExtraProductVidoeFee = extraVideoFee,
-//            ProductPaymentDetailsDto_SubTitleFee = subTitleFee,
-//            ProductPaymentDetailsDto_CouponId = couponId,
-//            ProductPaymentDetailsDto_CouponDiscountValue = couponDiscountValue,
-//            ProductPaymentDetailsDto_TotalAmountAfterCoupon = totalAfterDiscount,
-//            ProductPaymentDetailsDto_TotalAmountBeforeCoupon = totalPrice,
-//
-//            )
+            )
     }
 
 
