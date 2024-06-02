@@ -796,7 +796,7 @@
     <string name="no_response_yet">No response yet</string>
     <string name="sent_to_sellers">sent to sellers</string>
     <string name="what_do_you_want_to_sell">What do you want to sell?</string>
-    <string name="enter_the_name_of_the_product_you_want_to_sell">Enter the name of the product you want to sell</string>
+    <string name="enter_the_name_of_the_product_you_want_to_sell">What are you looking for?</string>
     <string name="model_year">Model year</string>
     <string name="motion_vector">Motion vector</string>
     <string name="mileage">Mileage</string>
@@ -3043,8 +3043,9 @@
   <string name="sold_out_quantity">Quantity %1$d of %3$s is sold out. Remaining product: %2$d, hurry up and buy it!</string>
     <string name="notFoundQuantity">Not found quantity</string>
     <string name="sale_type_">Sale Type : </string>
+    <string name="prevent_quantity">quantity not available</string>
 
-  <!--    <string name="BusinessDetails">-->
+    <!--    <string name="BusinessDetails">-->
     <!-- Business Details-->
     <!--  </string>-->
 

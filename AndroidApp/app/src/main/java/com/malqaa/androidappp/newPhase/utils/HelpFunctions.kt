@@ -257,7 +257,7 @@ class HelpFunctions {
                 return ""
             }
         }
-        @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
+//        @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
         fun getViewFormatForDateTrack(dateStr: String?,outputPattern :String): String? {
             try {
 //        String outputPattern = "EEEE MMMM d, yyyy"

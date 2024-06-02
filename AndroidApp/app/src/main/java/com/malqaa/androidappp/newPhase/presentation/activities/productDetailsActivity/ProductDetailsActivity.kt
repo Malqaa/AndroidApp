@@ -389,7 +389,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         }
         btnPriceNegotiation.setOnClickListener {
             if (HelpFunctions.isUserLoggedIn()) {
-                openPriceNegotiationDialog()
+                openPriceNegotiationDialog(productDetails?.qty?:0)
             } else {
                 startActivity(Intent(this, SignInActivity::class.java))
             }
@@ -551,9 +551,10 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
     }
 
-    private fun openPriceNegotiationDialog() {
+    private fun openPriceNegotiationDialog(quantity:Int) {
         priceNegotiationDialog = PriceNegotiationDialog(
             this,
+            quantity,
             productId,
             object : PriceNegotiationDialog.SetClickListeners {
                 override fun setOnSuccessListeners(highestBidPrice: String) {

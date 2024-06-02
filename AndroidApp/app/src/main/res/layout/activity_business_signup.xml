@@ -62,7 +62,7 @@
                     app:civ_border_width="1dp"
                     app:civ_border_color="@color/gray_light"
                     android:layout_height="@dimen/_54sdp"
-                    android:src="@mipmap/malqa_iconn_round" />
+                    android:src="@mipmap/ic_launcher_round" />
 
                 <ImageView
                     android:id="@+id/ivPickUserImage"
@@ -513,6 +513,20 @@
                 android:textColor="@color/bg"
                 android:textSize="@dimen/_12sdp" />
 
+            <com.joooonho.SelectableRoundedImageView
+                android:id="@+id/commercialImg"
+                android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_height="@dimen/_100sdp"
+                android:scaleType="centerCrop"
+                android:visibility="gone"
+                app:sriv_border_color="@color/white"
+                app:sriv_border_width="2dip"
+                app:sriv_left_bottom_corner_radius="@dimen/_15sdp"
+                app:sriv_left_top_corner_radius="@dimen/_15sdp"
+                app:sriv_oval="false"
+                app:sriv_right_bottom_corner_radius="@dimen/_15sdp"
+                app:sriv_right_top_corner_radius="@dimen/_15sdp" />
 
             <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/countryContainer"

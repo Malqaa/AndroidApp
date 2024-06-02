@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId "com.malqaa.androidappp"
-        minSdkVersion 21
+        minSdkVersion 22
         targetSdkVersion 32
         versionCode 2
         versionName '2.1'
@@ -105,6 +105,7 @@ dependencies {
 //    implementation 'com.smartarmenia:dotnetcoresignalrclientjava:1.14'
 //    implementation 'com.microsoft.signalr:signalr:5.0.4'
 
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.23'
 
     // Add the dependencies for the Crashlytics and Analytics libraries
     implementation 'com.google.firebase:firebase-crashlytics:18.6.0'

@@ -43,7 +43,7 @@ class ReviewProductAdapter(var smallRatesList: ArrayList<RateReviewItem>) :
                 holder.viewBinding.ratingBar.setImageResource(R.drawable.sadcolor_gray)
             }
         }
-        Glide.with(context).load(smallRatesList[position].image).error(R.mipmap.malqa_iconn_round).into( holder.viewBinding.ivProfile)
+        Glide.with(context).load(smallRatesList[position].image).error(R.mipmap.ic_launcher_round).into( holder.viewBinding.ivProfile)
         if(position==smallRatesList.size-1){
             holder.viewBinding.line.hide()
         }else{

@@ -422,6 +422,8 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
                 (bitmap.height * 0.4f).roundToInt(),
                 true
             )
+            commercialImg.visibility=View.VISIBLE
+            commercialImg.setImageBitmap(bitmap)
             if (imageType == 1) {
                 getPicassoInstance().load(imageUri).into(ivUserImageBusiness)
                 userImageUri = bitmap

@@ -45,7 +45,7 @@ class AnswerQuestionDialog(
         setViewClickListenrs()
         tvQuestion.text = questionItem.question.toString()
         question_time.text = HelpFunctions.getViewFormatForDateTrack(questionItem.createdAt,"dd/MM/yyyy HH:mm:ss")
-        Glide.with(context).load(questionItem.clientImage).error(R.mipmap.malqa_iconn_round)
+        Glide.with(context).load(questionItem.clientImage).error(R.mipmap.ic_launcher_round)
             .into(ivQuestionUser)
     }
 

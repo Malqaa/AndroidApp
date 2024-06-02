@@ -383,6 +383,7 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
     private fun openPriceNegotiationDialog() {
         priceNegotiationDialog = PriceNegotiationDialog(
             this,
+            1,
             productId,
             object : PriceNegotiationDialog.SetClickListeners {
                 override fun setOnSuccessListeners(highestBidPrice: String) {

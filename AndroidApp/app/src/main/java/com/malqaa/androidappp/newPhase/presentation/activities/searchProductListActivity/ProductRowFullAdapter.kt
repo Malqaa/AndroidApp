@@ -67,6 +67,10 @@ class ProductViewHolder(
         )
 
 
+        if(requestItem.subTitle==""){
+            itemBinding.subTitlenamee.visibility=View.GONE
+        }
+        itemBinding.subTitlenamee.text=requestItem.subTitle?:""
         itemBinding.productCity.text =
             requestItem.country + " " + HelpFunctions.getViewFormatForDateTrack(
                 requestItem.createdAt,

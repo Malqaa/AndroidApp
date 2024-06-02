@@ -67,7 +67,7 @@ object Extension {
 //                        pb_loading.isVisible = false
 //                        onComplete?.invoke()
 //                    }
-//                    imageView.setImageDrawable(context.getDrawableCompat(R.mipmap.malqa_iconn_round))
+//                    imageView.setImageDrawable(context.getDrawableCompat(R.mipmap.ic_launcher_round))
 //                    return false
 //                }
 //
@@ -97,7 +97,7 @@ object Extension {
 
         Picasso.get()
             .load(imagePath)
-            .error(R.mipmap.malqa_iconn)
+            .error(R.mipmap.ic_launcher)
 //            .placeholder(R.mipmap.malqa_iconn)
             .into(imageView, object : Callback {
                 override fun onSuccess() {

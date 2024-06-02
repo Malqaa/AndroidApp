@@ -47,7 +47,7 @@
                 android:layout_height="@dimen/_54sdp"
                 app:civ_border_width="1dp"
                 app:civ_border_color="@color/gray_light"
-                android:src="@mipmap/malqa_iconn_round"/>
+                android:src="@mipmap/ic_launcher_round"/>
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

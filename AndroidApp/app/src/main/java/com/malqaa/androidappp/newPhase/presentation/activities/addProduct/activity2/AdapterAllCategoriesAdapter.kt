@@ -63,7 +63,7 @@ class AdapterAllCategoriesAdapter(
 
 
                 if(image.isNullOrEmpty()){
-                    category_icon.setImageResource(R.mipmap.malqa_iconn)
+                    category_icon.setImageResource(R.mipmap.ic_launcher)
                 }else{
                     Extension.loadThumbnail(
                         context,

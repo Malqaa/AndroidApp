@@ -33,7 +33,7 @@ class SplashActivity : BaseActivity() {
                     }
                 }
             }
-            delay(1500)
+            delay(5300)
             val intentt = Intent(this@SplashActivity, MainActivity::class.java).apply {
                 putExtra("productId",productId)
             }

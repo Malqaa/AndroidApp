@@ -16,6 +16,7 @@ import retrofit2.Response
 
 class PriceNegotiationDialog(
     context: Context,
+    var quantity:Int,
     var productId: Int,
     var listener: SetClickListeners
 ) : BaseDialog(context) {
@@ -29,6 +30,11 @@ class PriceNegotiationDialog(
     override fun isCancelable(): Boolean = true
     override fun isLoadingDialog(): Boolean = false
     override fun initialization() {
+        if(quantity==1){
+            layQuantity.visibility=View.GONE
+        }else{
+            layQuantity.visibility=View.VISIBLE
+        }
         setOnClickListenres()
     }
 
@@ -42,16 +48,33 @@ class PriceNegotiationDialog(
                 readytosend = false
                 etNegotiationPrice.error = context.getString(R.string.writeNegotiationPrice2)
             }
-            if (etQuentity.text.toString().trim() == "") {
-                readytosend = false
-                etQuentity.error = context.getString(R.string.quantity)
+            if(quantity!=1){
+                if (etQuentity.text.toString().trim() == "") {
+                    readytosend = false
+                    etQuentity.error = context.getString(R.string.quantity)
+                }
+                if(etQuentity.text.toString().toInt() > quantity){
+                    readytosend = false
+                    etQuentity.error = context.getString(R.string.prevent_quantity)
+                }
             }
+
             if (readytosend) {
-                addNegotiationPrice(
-                    productId,
-                    etNegotiationPrice.text.toString().trim().toFloat(),
-                    etQuentity.text.toString().trim().toInt()
-                )
+                if(quantity!=1){
+                    addNegotiationPrice(
+                        productId,
+                        etNegotiationPrice.text.toString().trim().toFloat(),
+
+                        etQuentity.text.toString().trim().toInt()
+                    )
+                }else{
+                    addNegotiationPrice(
+                        productId,
+                        etNegotiationPrice.text.toString().trim().toFloat(),
+                        1
+                    )
+                }
+
             }
         }
     }

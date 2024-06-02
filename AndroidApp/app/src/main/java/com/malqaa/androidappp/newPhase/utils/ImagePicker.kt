@@ -185,7 +185,7 @@ class ImagePicker(
         }
     }
 
-    @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
+//    @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
     @SuppressLint("NewApi")
     private fun handlePickedImageResult(data: Intent?) {
         var isCamera = true
@@ -272,7 +272,7 @@ class ImagePicker(
         return Uri.fromFile(imagePath)
     }
 
-    @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
+//    @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
     private fun deletePreviousCameraFiles() {
         val imagePath = File(activity.filesDir, "images")
         if (imagePath.exists() && imagePath.isDirectory) {

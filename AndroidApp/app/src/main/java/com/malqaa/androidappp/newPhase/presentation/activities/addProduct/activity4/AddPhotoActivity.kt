@@ -270,7 +270,7 @@ class AddPhotoActivity : BaseActivity(), SelectedImagesAdapter.SetOnSelectedMain
 //            .startAlbumWithOnActivityResult(IMAGE_PICk_CODE_2)
         FishBun.with(this)
             .setImageAdapter(GlideAdapter())
-            .setMaxCount(10)
+            .setMaxCount(100)
             .setMinCount(1)
             .setActionBarColor(getColorCompat(R.color.white), getColorCompat(R.color.white), false)
             .setActionBarTitleColor(getColorCompat(R.color.black))

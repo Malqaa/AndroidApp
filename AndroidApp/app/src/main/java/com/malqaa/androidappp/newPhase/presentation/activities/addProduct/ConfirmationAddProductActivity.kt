@@ -749,7 +749,7 @@ class ConfirmationAddProductActivity : BaseActivity() {
         if (!productDetails.listMedia.isNullOrEmpty()) productDetails.listMedia.let {
             val obj = productDetails.listMedia.find { it.isMainMadia }
             if (obj?.type == 2) {
-                selectedImages.setImageResource(R.mipmap.malqa_iconn)
+                selectedImages.setImageResource(R.mipmap.ic_launcher)
             } else {
                 getPicassoInstance().load(obj?.url?.replace("http", "https"))
                     .placeholder(R.drawable.splash_logo).error(R.drawable.splash_logo)

@@ -32,7 +32,7 @@ class RateAdapter(val context: Context, var rateData: List<RateReviewItem>):
         holder.comment.text = rate.comment
         holder.ratetext.text = rate.rate.toString()
        // holder.date.text = HelpFunctions.getViewFormatForDateTrack(rate.createdAt)
-        Glide.with(context).load(rate.image).error(R.mipmap.malqa_iconn_round).into(holder.image)
+        Glide.with(context).load(rate.image).error(R.mipmap.ic_launcher_round).into(holder.image)
         when (rate.rate) {
             3f -> {
                 holder.ivRateSeller.setImageResource(R.drawable.happyface_color)

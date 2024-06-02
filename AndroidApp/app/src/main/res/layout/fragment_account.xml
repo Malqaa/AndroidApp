@@ -41,7 +41,7 @@
                         android:layout_width="@dimen/_54sdp"
                         android:layout_height="@dimen/_54sdp"
                         android:id="@+id/ivUserImage"
-                        android:src="@mipmap/malqa_iconn_round"/>
+                        android:src="@mipmap/ic_launcher_round"/>
                     <ImageView
                         android:id="@+id/srcCamera"
                         android:layout_width="wrap_content"

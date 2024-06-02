@@ -55,10 +55,10 @@ class AdapterSubCategories(
 
         if (allSubCategories[position].isCategory) {
             holder.categoryIcon.show()
-            holder.not_category_iv.hide()
+//            holder.not_category_iv.hide()
         } else {
-            holder.categoryIcon.hide()
-            holder.not_category_iv.show()
+            holder.categoryIcon.show()
+//            holder.not_category_iv.show()
         }
     }
 

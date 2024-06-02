@@ -54,7 +54,7 @@ class SellerRateAdapter(
         }
         holder.date.text =
             HelpFunctions.getViewFormatForDateTrack(rate.createdAt, "dd/MM/yyyy")
-        Glide.with(context).load(rate.imgProfile).error(R.mipmap.malqa_iconn_round)
+        Glide.with(context).load(rate.imgProfile).error(R.mipmap.ic_launcher_round)
             .into(holder.image)
     }
 

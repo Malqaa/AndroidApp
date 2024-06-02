@@ -39,7 +39,7 @@ public class ImagePagerAdapter extends PagerAdapter {
         ImageView imageView = itemView.findViewById(R.id.imageView);
         Picasso.get()
                 .load(mImageIds.get(position).getUrl())
-                .error(R.mipmap.malqa_iconn)
+                .error(R.mipmap.ic_launcher)
                 .into(imageView);
 //        Extension.loadThumbnail(
 //                imageView.getContext(),

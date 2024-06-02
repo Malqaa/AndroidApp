@@ -38,7 +38,7 @@ class QuestionAnswerAdapter(var questionList: List<QuestionItem>,var setonSelect
 //            holder.viewBinding.ivQuestionUser,
 //           null
 //        )
-        Glide.with(context).load( questionList[position].clientImage).error(R.mipmap.malqa_iconn_round).into(    holder.viewBinding.ivQuestionUser)
+        Glide.with(context).load( questionList[position].clientImage).error(R.mipmap.ic_launcher_round).into(    holder.viewBinding.ivQuestionUser)
 
         if (questionList[position].answer!=null && questionList[position].answer !="") {
             holder.viewBinding.questionResponseYet.hide()
