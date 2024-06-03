@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Paint
 import android.os.Bundle
+import android.view.View
 import androidx.core.net.toUri
 import androidx.lifecycle.ViewModelProvider
 import com.google.gson.Gson
@@ -410,9 +411,14 @@ class ConfirmationAddProductActivity : BaseActivity() {
             if (cartSummery.status_code == 200 && cartSummery.priceSummery != null) {
                 package_cost_tv.text =
                     "${cartSummery.priceSummery.pakatPrice} ${getString(R.string.Rayal)}"
-                tv_package_price.text =
-                    "${cartSummery.priceSummery.pakatPrice} ${getString(R.string.Rayal)}"
-                tv_package_name.text = AddProductObjectData.selectedPakat?.name ?: ""
+                if(cartSummery.priceSummery.pakatPrice==0f){
+                    layPackage.visibility=View.GONE
+                }
+//                tv_package_price.text =
+//                    "${cartSummery.priceSummery.pakatPrice} ${getString(R.string.Rayal)}"
+//                tv_package_name.text = AddProductObjectData.selectedPakat?.name ?: ""
+
+
                 val discount: Float =
                     cartSummery.priceSummery.totalPriceBeforeCoupon - cartSummery.priceSummery.totalPriceAfterCoupon
                 discount_tv.text = "$discount ${getString(R.string.Rayal)}"
@@ -582,9 +588,13 @@ class ConfirmationAddProductActivity : BaseActivity() {
         if (productDetails.selectedPacket != null) {
             AddProductObjectData.selectedPakat = productDetails.selectedPacket
             ContainerPackge.show()
+            layPackage.show()
             pakagePrice = AddProductObjectData.selectedPakat?.price ?: 0f
             package_cost_tv.text = "$pakagePrice ${getString(R.string.SAR)}"
             tv_package_price.text = "$pakagePrice ${getString(R.string.SAR)}"
+            tv_package_name.text = productDetails.selectedPacket?.name
+        }else{
+            layPackage.hide()
         }
 
         AddProductObjectData.priceFixed = productDetails.price.toString()
@@ -819,10 +829,15 @@ class ConfirmationAddProductActivity : BaseActivity() {
         }
         /**package fee*/
         if (AddProductObjectData.selectedPakat != null) {
+            layPackage.show()
             ContainerPackge.show()
             pakagePrice = AddProductObjectData.selectedPakat?.price ?: 0f
             package_cost_tv.text = "$pakagePrice ${getString(R.string.SAR)}"
             tv_package_price.text = "$pakagePrice ${getString(R.string.SAR)}"
+            tv_package_name.text = AddProductObjectData.selectedPakat?.name
+        }else{
+            ContainerPackge.hide()
+            layPackage.hide()
         }
         /**fixedPrice fee*/
         if (AddProductObjectData.priceFixedOption && AddProductObjectData.selectedCategory?.enableFixedPriceSaleFee != 0f) {

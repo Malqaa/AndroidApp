@@ -140,7 +140,14 @@ class AddressPaymentActivity : BaseActivity(),
 
                 if (addressId == 0) {
                     HelpFunctions.ShowLongToast(getString(R.string.selectDeliveryAddress), this)
-                } else if (productsCartList!!.isEmpty()) {
+                }
+                else if (deliveryOptionSelect == "0") {
+                    HelpFunctions.ShowLongToast(getString(R.string.please_delivery_options), this)
+                }
+                else if (paymentOptionSelect == 0) {
+                    HelpFunctions.ShowLongToast(getString(R.string.please_payment_options), this)
+                }
+                else if (productsCartList!!.isEmpty()) {
                     HelpFunctions.ShowLongToast(getString(R.string.empty_cart), this)
                 } else {
                     cartViewModel?.addOrder(

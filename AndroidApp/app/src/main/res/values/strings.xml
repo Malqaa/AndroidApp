@@ -3044,8 +3044,10 @@
     <string name="notFoundQuantity">Not found quantity</string>
     <string name="sale_type_">Sale Type : </string>
     <string name="prevent_quantity">quantity not available</string>
+  <string name="please_delivery_options">Please , Select delivery option</string>
+  <string name="please_payment_options">Please , Select payment option</string>
 
-    <!--    <string name="BusinessDetails">-->
+  <!--    <string name="BusinessDetails">-->
     <!-- Business Details-->
     <!--  </string>-->
 

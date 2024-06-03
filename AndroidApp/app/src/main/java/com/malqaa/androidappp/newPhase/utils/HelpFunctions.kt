@@ -306,13 +306,13 @@ class HelpFunctions {
             try {
 //        String outputPattern = "EEEE MMMM d, yyyy"
                 val outputPattern = "yyyy-MM-dd HH:mm:ss"
-                val outputFormat = SimpleDateFormat(outputPattern, Locale.getDefault())
+                val outputFormat = SimpleDateFormat(outputPattern, Locale.ENGLISH)
                 var typeI = SimpleDateFormat()
 
                 if (dataStr.contains("/")) {
                     typeI = SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.ENGLISH)
                 } else {
-                    typeI = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
+                    typeI = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH)
                 }
                 val tz = TimeZone.getTimeZone("UTC")
                 outputFormat.timeZone = tz
