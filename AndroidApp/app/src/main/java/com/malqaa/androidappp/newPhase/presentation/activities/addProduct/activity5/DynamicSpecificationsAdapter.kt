@@ -1,6 +1,7 @@
 package com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activity5
 
 import android.content.Context
+import android.opengl.Visibility
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -40,7 +41,10 @@ class DynamicSpecificationsAdapter(
         val tvTitleAr: TextView = view.findViewById(R.id.tvTitleAr)
         val etValueAr: EditText = view.findViewById(R.id.etValueAr)
         val tvTitleEn: TextView = view.findViewById(R.id.tvTitleEn)
+        val txtRequired: TextView = view.findViewById(R.id.txtRequired)
+        val txtRequiredEn: TextView = view.findViewById(R.id.txtRequiredEn)
         val etValueEn: EditText = view.findViewById(R.id.etValueEn)
+
     }
 
 //    class SpinnerViewHolder(var viewBinding: ItemDropDownBinding) :
@@ -49,6 +53,7 @@ class DynamicSpecificationsAdapter(
     class SpinnerViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val tvTitle: TextView = view.findViewById(R.id.tvTitleAr)
         val spinner: Spinner = view.findViewById(R.id.spinnerValues)
+        val txtRequired: TextView = view.findViewById(R.id.txtRequired)
     }
 
     class CheckViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -56,7 +61,9 @@ class DynamicSpecificationsAdapter(
         val ivSelect: ImageView = view.findViewById(R.id.ivSelect)
         val ivSelect2: ImageView = view.findViewById(R.id.ivSelect2)
         val type1: TextView = view.findViewById(R.id.type1)
+        val txtRequired: TextView = view.findViewById(R.id.txtRequired)
         val type2: TextView = view.findViewById(R.id.type2)
+
 
     }
 
@@ -78,7 +85,6 @@ class DynamicSpecificationsAdapter(
         else if ( dynamicSpecificationList[position].type ==5) {
             return radioType
         }
-
 
         else {
             // text box
@@ -192,6 +198,10 @@ class DynamicSpecificationsAdapter(
             onChangeValueListener.setCheckClicked(position)
         }
 
+        if(dynamicSpecificationList[position].isRequired){
+            checkViewHolder.txtRequired.visibility=View.VISIBLE
+        }
+
         checkViewHolder.ivSelect2.setOnClickListener {
             if (dynamicSpecificationList[position].valueBoolean) {
                 checkViewHolder.ivSelect.setImageResource(R.drawable.ic_radio_button_checked)
@@ -220,6 +230,11 @@ class DynamicSpecificationsAdapter(
             textBoxViewHolder.etValueAr.setText(dynamicSpecificationList[position].valueArText)
             textBoxViewHolder.etValueEn.setText(dynamicSpecificationList[position].valueEnText)
 
+        }
+
+        if(dynamicSpecificationList[position].isRequired){
+            textBoxViewHolder.txtRequired.visibility=View.VISIBLE
+            textBoxViewHolder.txtRequiredEn.visibility=View.VISIBLE
         }
         textBoxViewHolder.etValueAr.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
@@ -256,7 +271,9 @@ class DynamicSpecificationsAdapter(
         dynamicSpecificationList[position].subSpecifications?.let { itemDropDownArrayList.addAll(it) }
         spinnerVisitAdapter = SpinnerVisitAdapter(context, itemDropDownArrayList)
         spinnerViewHolder.spinner.adapter = spinnerVisitAdapter
-
+        if(dynamicSpecificationList[position].isRequired){
+            spinnerViewHolder.txtRequired.visibility=View.VISIBLE
+        }
 
         if( dynamicSpecificationList[position].isSelected){
             for( i in dynamicSpecificationList[position].subSpecifications!!.indices){

@@ -301,6 +301,7 @@ class SignupOTPVerificationActivity : BaseActivity() {
         intent2.putExtra(Constants.otpDataKey, otpData)
         startActivity(intent2)
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+        finish()
     }
 
     override fun onBackPressed() {

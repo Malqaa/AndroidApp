@@ -1274,10 +1274,8 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                 }"
             tvProductItemName.text = productDetails.name ?: ""
             tvProductSubtitle.text = productDetails.subTitle ?: ""
-            tvProductDescriptionShort.text =
-                productDetails.description ?: ""
-            tvProductDescriptionLong.text =
-                productDetails.description ?: ""
+            tvProductDescriptionShort.text = productDetails.description ?: ""
+            tvProductDescriptionLong.text = productDetails.description ?: ""
             val isEllipsize: Boolean = tvProductDescriptionShort.text.toString()
                 .trim() != productDetails.description?.trim()
             if (isEllipsize) {

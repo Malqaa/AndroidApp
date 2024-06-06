@@ -125,10 +125,10 @@ var numBadge=MutableLiveData<Int>(0)
             }
     }
 
-//    override fun onResume() {
-//        super.onResume()
-//        nav_view.selectedItemId=R.id.navigation_home
-//    }
+    override fun onResume() {
+        super.onResume()
+        Log.d("FCM Token", "Token: ")
+    }
     companion object {
 //        var nav_view_: BottomNavigationView? = null
         var myOrderTrigger = false

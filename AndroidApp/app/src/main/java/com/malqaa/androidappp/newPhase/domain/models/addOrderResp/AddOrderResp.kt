@@ -18,6 +18,7 @@ data class AddOrderObject(
     val orderNumber: Int,
     @SerializedName("item3")
     val item3: Int,
+    @SerializedName("item4")
     val requestType:String
 //"item3": 690
 )

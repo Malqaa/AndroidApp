@@ -42,12 +42,12 @@ class CategoryProductAdapter(
     override fun onBindViewHolder(holder: CategoryProductHolder, position: Int) {
         holder.viewBinding.categoryHeaderContainer.show()
         holder.viewBinding.productListLayout.hide()
-        Extension.loadThumbnail(
-            context,
-            categoryProductHomeList[position].image,
-            holder.viewBinding.categoryIconIv,
-            null
-        )
+//        Extension.loadThumbnail(
+//            context,
+//            categoryProductHomeList[position].image,
+//            holder.viewBinding.categoryIconIv,
+//            null
+//        )
          holder.viewBinding.detailTv.text = ""
         holder.viewBinding.categoryNameTv.text = categoryProductHomeList[position].name
         holder.viewBinding.categoryNameTv2.text = categoryProductHomeList[position].name

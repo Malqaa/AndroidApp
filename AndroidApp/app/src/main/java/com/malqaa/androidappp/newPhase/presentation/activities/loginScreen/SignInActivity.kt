@@ -117,6 +117,7 @@ class SignInActivity : BaseActivity() {
         new_registration.setOnClickListener {
             val intent = Intent(this@SignInActivity, SignupConfirmNewUserActivity::class.java)
             startActivity(intent)
+            finish()
         }
 
     }

@@ -1,23 +1,25 @@
 package com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activity5
 
+import android.R.attr.duration
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.malqaa.androidappp.R
 import com.malqaa.androidappp.newPhase.core.BaseActivity
+import com.malqaa.androidappp.newPhase.domain.models.addProductToCartResp.AddProductObjectData
+import com.malqaa.androidappp.newPhase.domain.models.dynamicSpecification.DynamicSpecificationItem
+import com.malqaa.androidappp.newPhase.domain.models.dynamicSpecification.DynamicSpecificationSentObject
+import com.malqaa.androidappp.newPhase.domain.models.dynamicSpecification.SubSpecificationItem
+import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activity6.ListingDetailsActivity
+import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.viewmodel.AddProductViewModel
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.linearLayoutManager
 import com.malqaa.androidappp.newPhase.utils.show
-import com.malqaa.androidappp.newPhase.domain.models.dynamicSpecification.DynamicSpecificationItem
-import com.malqaa.androidappp.newPhase.domain.models.dynamicSpecification.DynamicSpecificationSentObject
-import com.malqaa.androidappp.newPhase.domain.models.dynamicSpecification.SubSpecificationItem
-import com.malqaa.androidappp.newPhase.domain.models.addProductToCartResp.AddProductObjectData
-import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activity6.ListingDetailsActivity
-import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.viewmodel.AddProductViewModel
 import kotlinx.android.synthetic.main.fragment_dynamic_template.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 import kotlinx.coroutines.Dispatchers
@@ -231,7 +233,8 @@ class DynamicTemplateActivtiy : BaseActivity(), DynamicSpecificationsAdapter.OnC
                             )
                         }
                     }
-                } else if (dynamicSpecificationItem.type == 3) {
+                }
+                else if (dynamicSpecificationItem.type == 3) {
                     data.add(
                         DynamicSpecificationSentObject(
                             HeaderSpeAr = dynamicSpecificationItem.nameAr.toString(),
@@ -242,22 +245,36 @@ class DynamicTemplateActivtiy : BaseActivity(), DynamicSpecificationsAdapter.OnC
                             SpecificationId = dynamicSpecificationItem.id
                         )
                     )
-                } else if (dynamicSpecificationItem.type == 5 || (dynamicSpecificationItem.type == 6)) {
+                }
+                else if (dynamicSpecificationItem.type == 5 || (dynamicSpecificationItem.type == 6)) {
                     val supIdAr =
                         dynamicSpecificationItem.subSpecifications?.find { dynamicSpecificationItem.valueBoolean }
 
-                    data.add(
-                        DynamicSpecificationSentObject(
-                            HeaderSpeAr = dynamicSpecificationItem.nameAr.toString(),
-                            HeaderSpeEn = dynamicSpecificationItem.nameEn.toString(),
-                            ValueSpeAr = supIdAr?.id.toString(),
-                            ValueSpeEn = supIdAr?.id.toString(),
-                            Type = dynamicSpecificationItem.type,
-                            SpecificationId = dynamicSpecificationItem.id
+                    if(supIdAr==null){
+                        allValuesSet = false
+                        if(dynamicSpecificationItem.isRequired){
+                            runOnUiThread {
+                                HelpFunctions.ShowLongToast(
+                                    getString(R.string.enterAllSpecificaiton),
+                                    this@DynamicTemplateActivtiy
+                                )
+                            }
+                        }
+                    }else{
+                        data.add(
+                            DynamicSpecificationSentObject(
+                                HeaderSpeAr = dynamicSpecificationItem.nameAr.toString(),
+                                HeaderSpeEn = dynamicSpecificationItem.nameEn.toString(),
+                                ValueSpeAr = supIdAr?.id.toString(),
+                                ValueSpeEn = supIdAr?.id.toString(),
+                                Type = dynamicSpecificationItem.type,
+                                SpecificationId = dynamicSpecificationItem.id
+                            )
                         )
-                    )
-                } else {
+                    }
 
+                }
+                else {
                     if (dynamicSpecificationItem.valueArText == "" || dynamicSpecificationItem.valueArText == null || dynamicSpecificationItem.valueEnText == "" || dynamicSpecificationItem.valueEnText == null) {
                         allValuesSet = false
                     } else {

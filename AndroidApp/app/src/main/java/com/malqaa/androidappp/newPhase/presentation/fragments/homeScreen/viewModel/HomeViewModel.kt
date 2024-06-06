@@ -258,12 +258,15 @@ class HomeViewModel : BaseViewModel() {
     }
 
     fun getListHomeCategoryProduct() {
+        isLoadingAllCategory.value = true
         callListHomeCategoryProduct = getRetrofitBuilder().listHomeCategoryProduct()
         callApi(callListHomeCategoryProduct!!,
             onSuccess = {
+                isLoadingAllCategory.value = false
                 homeCategoryProductObserver.value = it
             },
             onFailure = { throwable, statusCode, errorBody ->
+                isLoadingAllCategory.value = false
                 if (throwable != null && errorBody == null)
                     isNetworkFail.value = throwable !is HttpException
                 else {
@@ -272,17 +275,21 @@ class HomeViewModel : BaseViewModel() {
                 }
             },
             goLogin = {
+                isLoadingAllCategory.value = false
                 needToLogin.value = true
             })
     }
 
     fun getLastViewedProduct() {
+        isLoadingAllCategory.value = true
         callLastViewedProduct = getRetrofitBuilder().getListLastView()
         callApi(callLastViewedProduct!!,
             onSuccess = {
+                isLoadingAllCategory.value = false
                 lastViewProductsObserver.value = it
             },
             onFailure = { throwable, statusCode, errorBody ->
+                isLoadingAllCategory.value = false
                 if (throwable != null && errorBody == null)
                     isNetworkFail.value = throwable !is HttpException
                 else {
@@ -291,6 +298,7 @@ class HomeViewModel : BaseViewModel() {
                 }
             },
             goLogin = {
+                isLoadingAllCategory.value = false
                 needToLogin.value = true
             })
     }

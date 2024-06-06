@@ -13,12 +13,45 @@
         android:layout_height="wrap_content"
         android:text="chosse"
         android:textSize="14sp"
+        android:visibility="gone"
         android:textColor="@color/black"
         android:layout_marginStart="26dp"
         android:includeFontPadding="false"
         android:fontFamily="@font/madani_arabic_medium"
-        android:id="@+id/tvTitleAr"
         />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:id="@+id/tvTitleAr"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/madani_arabic_medium"
+            android:includeFontPadding="false"
+            android:text="chosse"
+            android:textAlignment="viewStart"
+            android:textColor="@color/black"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/txtRequired"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="*"
+            android:visibility="gone"
+            android:layout_marginStart="10dp"
+            android:gravity="center"
+            android:layout_marginEnd="34dp"
+            android:layout_gravity="center"
+            android:textColor="@color/bg"
+            android:textSize="25sp" />
+    </LinearLayout>
+
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

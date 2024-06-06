@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,8 +8,12 @@
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_to_refresh"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/homeee"
@@ -83,11 +87,11 @@
                     <com.malqaa.androidappp.newPhase.utils.helper.widgets.language_switch.ToggleSwitch
                         android:id="@+id/language_toggle"
                         android:layout_width="wrap_content"
-                        android:visibility="gone"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
                         android:background="@drawable/tab_bg"
                         android:textSize="@dimen/_12sdp"
+                        android:visibility="gone"
                         app:activeBgColor="@color/bg"
                         app:activeTextColor="@android:color/white"
                         app:cornerRadius="@dimen/_15sdp"
@@ -163,10 +167,10 @@
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/card_slide"
-                        app:cardCornerRadius="12dp"
-                        android:layout_margin="10dp"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_140sdp">
+                        android:layout_height="@dimen/_140sdp"
+                        android:layout_margin="10dp"
+                        app:cardCornerRadius="12dp">
 
                         <com.malqaa.androidappp.newPhase.utils.helper.widgets.viewpager2.AutoScrollViewPager
                             android:id="@+id/slider_home"
@@ -234,21 +238,14 @@
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         tools:listitem="@layout/item_categories_card_in_home" />
 
-                    <ProgressBar
-                        android:id="@+id/progressBarAllCAtegory"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:layout_centerVertical="true"
-                        android:padding="@dimen/_25sdp"
-                        android:visibility="gone" />
+
                 </RelativeLayout>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    android:layout_marginTop="@dimen/_10sdp">
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:visibility="gone">
 
                     <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
@@ -316,6 +313,7 @@
 
 
                 </RelativeLayout>
+
                 <LinearLayout
                     android:id="@+id/containerLastView"
                     android:layout_width="match_parent"
@@ -375,15 +373,23 @@
                     android:id="@+id/dynamic_product_rcv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:layout_marginTop="5dp"
+                    android:orientation="vertical"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-
 
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-</RelativeLayout>
+    <ProgressBar
+        android:id="@+id/progressBarAllCAtegory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_25sdp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
 

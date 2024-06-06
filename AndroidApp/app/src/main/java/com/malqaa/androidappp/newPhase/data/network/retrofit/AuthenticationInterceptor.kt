@@ -15,8 +15,8 @@ class AuthenticationInterceptor : Interceptor {
 
         val builder: Request.Builder =
             if (HelpFunctions.isUserLoggedIn()) {
-                println("hhhh " + ConstantObjects.logged_userid)
-                println("hhhh " + ConstantObjects.logged_authtoken)
+                println("providerId " + ConstantObjects.logged_userid)
+                println("Header " + ConstantObjects.logged_authtoken)
                 if (ConstantObjects.businessAccountUser == null)
                     original.newBuilder()
                         .addHeader("Accept-Language","en")

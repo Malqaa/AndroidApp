@@ -988,7 +988,7 @@
     <string name="cvv">CVV</string>
     <string name="pay_by_card">Pay by card</string>
     <string name="order_completed_successfully">Order completed successfully</string>
-    <string name="track_your_order">Track Your Order</string>
+    <string name="track_your_order">Follow up my order</string>
     <string name="back_to_shopping">Back To Shopping</string>
     <string name="payment_cards">Payment cards</string>
     <string name="favorite_products">Favorite Products</string>
@@ -3046,8 +3046,9 @@
     <string name="prevent_quantity">quantity not available</string>
   <string name="please_delivery_options">Please , Select delivery option</string>
   <string name="please_payment_options">Please , Select payment option</string>
+    <string name="continue_to_shopping">Continue Shopping</string>
 
-  <!--    <string name="BusinessDetails">-->
+    <!--    <string name="BusinessDetails">-->
     <!-- Business Details-->
     <!--  </string>-->
 

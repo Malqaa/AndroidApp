@@ -1109,8 +1109,9 @@
     <string name="notFoundQuantity">لا يوجد كميه فى المخزن</string>
     <string name="sale_type_">نوع البيع : </string>
     <string name="prevent_quantity">الكميه المطلوبه غير متاحه</string>
-    <string name="please_delivery_options">من فضلك، حدد خيار التسليم</string>
+    <string name="please_delivery_options">من فضلك، حدد خيار التوصيل</string>
     <string name="please_payment_options">من فضلك، حدد خيار الدفع</string>
+    <string name="continue_to_shopping">استمرار التسوق</string>
 
 
     <!--    <string name="Back_to_login">العودة لتسجيل الدخول</string>-->

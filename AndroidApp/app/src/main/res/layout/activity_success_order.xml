@@ -151,7 +151,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/madani_arabic_medium"
             android:gravity="center"
-            android:text="@string/back_to_shopping"
+            android:text="@string/continue_to_shopping"
             android:textColor="@color/textColor"
             android:textSize="@dimen/_12sdp" />
     </LinearLayout>

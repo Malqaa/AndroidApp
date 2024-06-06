@@ -54,6 +54,7 @@ import kotlin.math.roundToInt
 
 
 class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedCountry,
+    AdapterCommercialImage.IRemoveImg,
     PickImageMethodsDialog.OnAttachedImageMethodSelected {
     //==== userImage= 1 ,commericalimage=2
     private var imageType: Int = 1
@@ -68,7 +69,7 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
     var fm: FragmentManager? = null
     var isProfileImage = false
     var profileImageBase64 = ""
-
+    var listBitMap: ArrayList<Uri> = arrayListOf()
     private val selectedImagesURI: ArrayList<ImageSelectModel> = ArrayList()
     private val IMAGE_PICK_CODE = 1000
 
@@ -110,9 +111,11 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
     private lateinit var businessAccountViewModel: BusinessAccountViewModel
     private var lat: Double = 0.0
     private var longitude: Double = 0.0
+    private lateinit var adapter : AdapterCommercialImage
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_business_signup)
+        adapter = AdapterCommercialImage(listBitMap,this)
         countryDialog = CountryDialog(this, this)
         commercialRegistryFileList = ArrayList()
         setupCommircalRegisteration()
@@ -414,6 +417,7 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
     }
 
     private fun setImage(imageUri: Uri) {
+        listBitMap.add(imageUri)
         try {
             val bitmap = BitmapFactory.decodeStream(contentResolver.openInputStream(imageUri))
             val scaleBitmap = Bitmap.createScaledBitmap(
@@ -422,8 +426,9 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
                 (bitmap.height * 0.4f).roundToInt(),
                 true
             )
-            commercialImg.visibility=View.VISIBLE
-            commercialImg.setImageBitmap(bitmap)
+            adapter.updateAdapter(listBitMap)
+            commercialImgRecycle.visibility = View.VISIBLE
+            commercialImgRecycle.adapter = adapter
             if (imageType == 1) {
                 getPicassoInstance().load(imageUri).into(ivUserImageBusiness)
                 userImageUri = bitmap
@@ -754,6 +759,12 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
     override fun onDestroy() {
         super.onDestroy()
         businessAccountViewModel.closeAllCall()
+    }
+
+    override fun onClickClose(pos: Int) {
+        listBitMap.removeAt(pos)
+        adapter.updateAdapter(listBitMap)
+        commercialRegistryFileList.removeAt(pos)
     }
 
 }

@@ -59,10 +59,10 @@
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/ivUserImageBusiness"
                     android:layout_width="@dimen/_54sdp"
-                    app:civ_border_width="1dp"
-                    app:civ_border_color="@color/gray_light"
                     android:layout_height="@dimen/_54sdp"
-                    android:src="@mipmap/ic_launcher_round" />
+                    android:src="@mipmap/ic_launcher_round"
+                    app:civ_border_color="@color/gray_light"
+                    app:civ_border_width="1dp" />
 
                 <ImageView
                     android:id="@+id/ivPickUserImage"
@@ -115,9 +115,9 @@
                 android:id="@+id/itemLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:background="@drawable/edittext_bg"
                 android:gravity="center_vertical"
-                android:layout_marginTop="@dimen/_10sdp"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -158,9 +158,9 @@
                                 style="@style/addressCompoEditFieldTextStyle"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:importantForAutofill="no"
                                 android:inputType="phone"
                                 android:maxLines="1"
-                                android:importantForAutofill="no"
                                 android:paddingTop="@dimen/_5sdp"
                                 android:textAlignment="viewStart"
                                 android:textSize="@dimen/_12sdp" />
@@ -168,11 +168,11 @@
                     </FrameLayout>
 
                     <LinearLayout
+                        android:id="@+id/btnOpenCountry"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerInParent="true"
-                        android:id="@+id/btnOpenCountry"
                         android:layout_marginEnd="10dp"
                         android:foreground="?android:attr/selectableItemBackground"
                         android:orientation="horizontal">
@@ -181,19 +181,19 @@
                             android:id="@+id/ivFlag"
                             android:layout_width="25dp"
                             android:layout_height="25dp"
-                            android:layout_marginEnd="4dp"
                             android:layout_gravity="center"
+                            android:layout_marginEnd="4dp"
                             android:src="@drawable/flag_saudi_arabia" />
 
                         <TextView
                             android:id="@+id/tvCode"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:drawablePadding="4dp"
-                            android:textSize="@dimen/_12sdp"
                             android:layout_gravity="center"
                             android:drawableEnd="@drawable/baseline_arrow_drop_down_24"
-                            android:text="+966" />
+                            android:drawablePadding="4dp"
+                            android:text="+966"
+                            android:textSize="@dimen/_12sdp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -202,8 +202,8 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerInParent="true"
-                        android:visibility="gone"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:visibility="gone">
 
                         <com.hbb20.CountryCodePicker
                             android:id="@+id/countryCodePicker"
@@ -284,9 +284,9 @@
                     android:id="@+id/ic_youtube_select"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_5sdp"
                     android:background="@drawable/circle_bg_disable"
                     android:padding="@dimen/_10sdp"
-                    android:layout_marginStart="@dimen/_5sdp"
                     android:src="@drawable/ic_youtube" />
 
                 <ImageView
@@ -327,6 +327,7 @@
                 android:inputType="textWebEmailAddress"
                 android:visibility="gone"
                 app:startIcon="@drawable/ic_twitter" />
+
             <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/ic_youtube"
                 android:layout_width="match_parent"
@@ -336,6 +337,7 @@
                 android:inputType="textPersonName"
                 android:visibility="gone"
                 app:startIcon="@drawable/ic_youtube" />
+
             <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/ic_linkedIn"
                 android:layout_width="match_parent"
@@ -367,15 +369,13 @@
                 app:startIcon="@drawable/ic_whatsapp" />
 
 
-
-
             <LinearLayout
                 android:id="@+id/itemLayout2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:background="@drawable/edittext_bg"
                 android:gravity="center_vertical"
-                android:layout_marginTop="@dimen/_10sdp"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -395,8 +395,8 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="5dp"
-                    android:paddingTop="5dp">
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp">
 
                     <FrameLayout
                         android:layout_width="match_parent"
@@ -429,9 +429,9 @@
                 android:id="@+id/itemLayout3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:background="@drawable/edittext_bg"
                 android:gravity="center_vertical"
-                android:layout_marginTop="@dimen/_10sdp"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -451,22 +451,23 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="5dp"
-                    android:paddingTop="5dp">
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp">
 
                     <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true">
+
                         <TextView
                             android:id="@+id/tvDate"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical"
-                            android:paddingTop="12dp"
-                            android:paddingBottom="12dp"
+                            android:hint="@string/registrationNumberExpiryDate"
                             android:paddingStart="12dp"
-                            android:hint="@string/registrationNumberExpiryDate" />
+                            android:paddingTop="12dp"
+                            android:paddingBottom="12dp" />
                     </FrameLayout>
 
 
@@ -474,7 +475,6 @@
 
 
             </LinearLayout>
-
 
 
             <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
@@ -499,13 +499,11 @@
                 app:startIcon="@drawable/ic_tax" />
 
 
-
-
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/download_the_commercial_registry_file"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:background="@drawable/round_btn_ligh"
                 android:fontFamily="@font/madani_arabic_medium"
                 android:text="@string/download_the_commercial_registry_file"
@@ -513,20 +511,13 @@
                 android:textColor="@color/bg"
                 android:textSize="@dimen/_12sdp" />
 
-            <com.joooonho.SelectableRoundedImageView
-                android:id="@+id/commercialImg"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/commercialImgRecycle"
                 android:layout_width="match_parent"
-                android:layout_marginTop="10dp"
-                android:layout_height="@dimen/_100sdp"
-                android:scaleType="centerCrop"
-                android:visibility="gone"
-                app:sriv_border_color="@color/white"
-                app:sriv_border_width="2dip"
-                app:sriv_left_bottom_corner_radius="@dimen/_15sdp"
-                app:sriv_left_top_corner_radius="@dimen/_15sdp"
-                app:sriv_oval="false"
-                app:sriv_right_bottom_corner_radius="@dimen/_15sdp"
-                app:sriv_right_top_corner_radius="@dimen/_15sdp" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/row_image_commercial" />
 
             <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/countryContainer"
@@ -549,8 +540,6 @@
                 app:endIcon="@drawable/ic_arrow_down"
                 app:startIcon="@drawable/ic_region"
                 app:viewType="spinner" />
-
-
 
 
             <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
@@ -591,8 +580,6 @@
                 app:imeOptions="done" />
 
 
-
-
             <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/locating_the_company"
                 android:layout_width="match_parent"
@@ -612,7 +599,6 @@
                 android:layout_marginTop="@dimen/_10sdp"
                 app:textLink=""
                 app:textSwitch="@string/Trade15Years" />
-
 
 
             <androidx.appcompat.widget.AppCompatButton

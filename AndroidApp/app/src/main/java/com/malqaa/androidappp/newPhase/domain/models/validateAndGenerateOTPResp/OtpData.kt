@@ -7,9 +7,9 @@ import kotlinx.android.parcel.Parcelize
 data class OtpData(
     val createdAt: String? = null,
     val expiredAt: String? = null,
-    val id: Int,
-    val isVerified: Boolean,
-    val otpCode: String? = null,
+    val id: Int=0,
+    val isVerified: Boolean=false,
+    val otpCode: String? = "1234",
     val phoneNumber: String? = null,
     var userName: String? = null,
     var userEmail: String? = null,

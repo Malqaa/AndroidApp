@@ -16,6 +16,7 @@ import com.malqaa.androidappp.newPhase.data.network.constants.Constants
 import com.malqaa.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malqaa.androidappp.newPhase.domain.models.countryResp.CountriesResp
 import com.malqaa.androidappp.newPhase.domain.models.countryResp.Country
+import com.malqaa.androidappp.newPhase.domain.models.loginResp.LoginUser
 import com.malqaa.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.OtpData
 import com.malqaa.androidappp.newPhase.presentation.dialogsShared.PickImageMethodsDialog
 import com.malqaa.androidappp.newPhase.presentation.dialogsShared.countryDialog.CountryDialog
@@ -30,6 +31,7 @@ import com.malqaa.androidappp.newPhase.utils.ImagePicker
 import com.malqaa.androidappp.newPhase.utils.PicassoSingleton.getPicassoInstance
 import com.malqaa.androidappp.newPhase.utils.SetOnImagePickedListeners
 import com.yariksoffice.lingver.Lingver
+import io.paperdb.Paper
 import kotlinx.android.synthetic.main.activity_signup_pg4.*
 import java.io.File
 import kotlin.math.roundToInt
@@ -108,9 +110,9 @@ class SignupCreateNewUser : BaseActivity(), PickImageMethodsDialog.OnAttachedIma
                     }
 
                     else -> {
-                        if (it.message != null) {
+                        if (it.message2 != null) {
                             HelpFunctions.ShowLongToast(
-                                it.message!!,
+                                it.message2,
                                 this
                             )
                         } else {
@@ -142,7 +144,8 @@ class SignupCreateNewUser : BaseActivity(), PickImageMethodsDialog.OnAttachedIma
                         getString(R.string.Accounthasbeencreated),
                         this@SignupCreateNewUser
                     )
-                    signInAfterSignUp()
+                    saveUserData(registerResp.userObject)
+
                 }
 
                 else -> {
@@ -434,6 +437,26 @@ class SignupCreateNewUser : BaseActivity(), PickImageMethodsDialog.OnAttachedIma
         )
     }
 
+    private fun saveUserData(userObject: LoginUser) {
+        ConstantObjects.logged_userid = userObject.id
+        // ConstantObjects.businessAccountUser = userObject.businessAccounts
+        val userId: String = userObject.id
+        ConstantObjects.logged_userid = userId
+        HelpFunctions.ShowLongToast(getString(R.string.LoginSuccessfully), this)
+        Paper.book().write(SharedPreferencesStaticClass.islogin, true)
+        Paper.book().write<LoginUser>(SharedPreferencesStaticClass.user_object, userObject)
+//        if (userObject.showUserInformation.toString().lowercase() == ShowUserInfo.EveryOne.name.lowercase())
+//            SharedPreferencesStaticClass.saveShowUserInformation(1)
+//        else if(userObject.showUserInformation.toString().lowercase() == ShowUserInfo.MembersOnly.name.lowercase()){
+//            SharedPreferencesStaticClass.saveShowUserInformation(2)
+//        }else{
+//            SharedPreferencesStaticClass.saveShowUserInformation(3)
+//        }
+
+
+        setResult(RESULT_OK, Intent())
+        finish()
+    }
 
     private fun signInAfterSignUp() {
         val intentSignIn = Intent(this, SignInActivity::class.java)

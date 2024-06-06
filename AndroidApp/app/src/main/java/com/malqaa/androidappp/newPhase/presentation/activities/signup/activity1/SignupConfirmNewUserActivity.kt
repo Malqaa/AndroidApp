@@ -243,6 +243,7 @@ class SignupConfirmNewUserActivity : BaseActivity(), CountryDialog.GetSelectedCo
         intent.putExtra(Constants.otpDataKey, otpData)
         startActivity(intent)
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+        finish()
     }
 
     /**Validation**/
