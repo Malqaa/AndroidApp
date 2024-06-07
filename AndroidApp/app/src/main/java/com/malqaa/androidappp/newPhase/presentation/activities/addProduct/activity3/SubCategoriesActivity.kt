@@ -121,7 +121,7 @@ class SubCategoriesActivity : BaseActivity(), AdapterSubCategories.OnItemClickLi
         super.OnItemClickHandler(position)
         AddProductObjectData.selectedCategoryId = allCategoryList?.get(position)?.id?:0
         AddProductObjectData.selectedCategoryName == allCategoryList!![position].name
-
+        AddProductObjectData.selectedCategory = allCategoryList!![position]
         if (lastCategoryId != 0) {
             listCategoryViewModel!!.getSubCategoriesByCategoryID(allCategoryList?.get(position)?.id?:0)
         } else {

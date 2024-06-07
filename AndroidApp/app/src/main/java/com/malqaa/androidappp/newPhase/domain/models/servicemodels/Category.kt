@@ -6,6 +6,7 @@ data class Category(
     val productCategoryId:Int,
     val image: String,
     val isActive: Boolean,
+    val enableFixedPrice: Boolean,
     val isShowInHome: Boolean,
     val name: String,
     val postion: Int,
@@ -21,6 +22,7 @@ data class Category(
     var isSelected: Boolean = false,
     var isFollow: Boolean = false,
     var list: List<Category>,
+
     var isSelect:Boolean,
     /***/
     var isRealState: Boolean,

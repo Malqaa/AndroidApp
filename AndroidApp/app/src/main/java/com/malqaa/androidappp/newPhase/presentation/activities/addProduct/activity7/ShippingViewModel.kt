@@ -28,7 +28,7 @@ class ShippingViewModel : BaseViewModel() {
                 shippingListObserver.value = it
             },
             onFailure = { throwable, statusCode, errorBody ->
-//                isLoading.value = false
+                isLoading.value = false
 //                if (throwable != null && errorBody == null)
 //                    isNetworkFail.value = throwable !is HttpException
 //                else {

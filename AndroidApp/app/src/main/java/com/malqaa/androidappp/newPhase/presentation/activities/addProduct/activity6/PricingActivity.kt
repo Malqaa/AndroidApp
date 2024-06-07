@@ -133,7 +133,9 @@ class PricingActivity : BaseActivity() {
         disableTextFields()
         setUpViewModel()
         if (isEdit) {
-            setData()
+            setDataEdit()
+        }else{
+            setDataInit()
         }
         if (ConstantObjects.isModify) {
             fixedPriceType_rb1.isEnabled = false
@@ -250,11 +252,44 @@ class PricingActivity : BaseActivity() {
 
         addProductViewModel.getBankAccountsList()
     }
+    private fun setDataInit(){
+        if (AddProductObjectData.selectedCategory?.enableNegotiation != false ||AddProductObjectData.selectedCategory?.enableAuction!=false|| AddProductObjectData.selectedCategory?.enableFixedPrice!=false) {
+            titleSaleType.isVisible = true
+        }
+        if (AddProductObjectData.selectedCategory?.enableFixedPrice==true) {
+            fix_Price_l.isVisible = true
+            fixedPriceType_rb1.isChecked = false
+            fix_Price_l.setBackgroundResource(R.drawable.edittext_bg)
+            fixed_price_tv.setTextColor(ContextCompat.getColor(this, R.color.text_color))
+        } else {
+            fixed_price_layout.isVisible = false
+            fixedPriceType_rb1.isChecked = false
+            fix_Price_l.setBackgroundResource(R.drawable.edittext_bg)
+            fixed_price_tv.setTextColor(ContextCompat.getColor(this, R.color.text_color))
+        }
+        if (AddProductObjectData.selectedCategory?.enableAuction==true) {
+            Auction_layout.isVisible = false
+            auction_option.isVisible = true
+            auction_option.setBackgroundResource(R.drawable.edittext_bg)
+            Auction_price_tv.setTextColor(ContextCompat.getColor(this, R.color.text_color))
+        }
+        if (AddProductObjectData.selectedCategory?.enableNegotiation==true) {
+            switchMustPickUp.isVisible = true
+            switchMustPickUp.setBackgroundResource(R.drawable.edittext_bg)
+            tvMustPickUp.setTextColor(ContextCompat.getColor(this, R.color.text_color))
 
-    private fun setData() {
+        }
+    }
+
+    private fun setDataEdit() {
+        if (AddProductObjectData.priceFixedOption || AddProductObjectData.auctionOption || AddProductObjectData.isNegotiablePrice) {
+            titleSaleType.isVisible = true
+        }
         if (AddProductObjectData.priceFixedOption) {
             fixed_price_layout.isVisible = true
             fixedPriceType_rb1.isChecked = true
+            fix_Price_l.isVisible = true
+            fixed_price_layout.isVisible = true
             fix_Price_l.setBackgroundResource(R.drawable.field_selection_border_enable)
             fixed_price_tv.setTextColor(ContextCompat.getColor(this, R.color.bg))
             buynowprice.setText(AddProductObjectData.priceFixed)
@@ -267,6 +302,7 @@ class PricingActivity : BaseActivity() {
         if (AddProductObjectData.auctionOption) {
             Auction_layout.isVisible = true
             auctionType_rb2.isChecked = true
+            auction_option.isVisible = true
             auction_option.setBackgroundResource(R.drawable.field_selection_border_enable)
             Auction_price_tv.setTextColor(ContextCompat.getColor(this, R.color.bg))
             startprice.setText(AddProductObjectData.auctionStartPrice)
@@ -275,6 +311,7 @@ class PricingActivity : BaseActivity() {
         if (AddProductObjectData.isNegotiablePrice) {
             buynowprice.setText(AddProductObjectData.priceFixed)
             priceNegotiable_rb3.isChecked = true
+            switchMustPickUp.isVisible = true
             switchMustPickUp.setBackgroundResource(R.drawable.field_selection_border_enable)
             tvMustPickUp.setTextColor(ContextCompat.getColor(this, R.color.bg))
 
@@ -430,9 +467,9 @@ class PricingActivity : BaseActivity() {
         fixedPriceType_rb1.setOnCheckedChangeListener { _, b ->
             if (fixedPriceType_rb1.isChecked)
                 fixed_price_layout.isVisible = true
-            else if(!fixedPriceType_rb1.isChecked&&priceNegotiable_rb3.isChecked)
+            else if (!fixedPriceType_rb1.isChecked && priceNegotiable_rb3.isChecked)
                 fixed_price_layout.isVisible = false
-            else if(!fixedPriceType_rb1.isChecked&&!priceNegotiable_rb3.isChecked){
+            else if (!fixedPriceType_rb1.isChecked && !priceNegotiable_rb3.isChecked) {
                 fixed_price_layout.isVisible = false
             }
 
@@ -467,8 +504,8 @@ class PricingActivity : BaseActivity() {
         priceNegotiable_rb3.setOnCheckedChangeListener { _, b ->
             if (priceNegotiable_rb3.isChecked && fixedPriceType_rb1.isChecked) {
                 fixed_price_layout.isVisible = true
-            } else if(!priceNegotiable_rb3.isChecked&&!fixedPriceType_rb1.isChecked){
-                fixed_price_layout.isVisible =false
+            } else if (!priceNegotiable_rb3.isChecked && !fixedPriceType_rb1.isChecked) {
+                fixed_price_layout.isVisible = false
             }
 
 
@@ -574,38 +611,49 @@ class PricingActivity : BaseActivity() {
     fun confirmPricePaymentFrag() {
         if (validaterSaleTypeRadiobutton()) {
             if (checkValidation()) {
-                if (validateradiobutton()) {
-                    if (switchSaudiBankDeposit1.isChecked && ((selectedAccountDetails.filter { it.isSelected }).isEmpty())) {
-                        showError(getString(R.string.selectBackAccount))
-                    } else {
-                        ////////to get edittext data and save to static class////////
-                        val priceText: String = buynowprice.text.toString()
-                        val startPrice: String = startprice.text.toString()
-                        val reservedPrice: String = reserveprice.text.toString()
-                        AddProductObjectData.priceFixed = priceText
-                        AddProductObjectData.priceFixedOption = fixedPriceType_rb1.isChecked
-                        AddProductObjectData.auctionOption = auctionType_rb2.isChecked
-                        AddProductObjectData.auctionMinPrice = reservedPrice
-                        AddProductObjectData.auctionStartPrice = startPrice
-                        AddProductObjectData.selectedAccountDetails = null
-                        val paymentOptionList: ArrayList<Int> = ArrayList()
-                        if (switchSaudiBankDeposit1.isChecked && selectedAccountDetails != null) {
-                            paymentOptionList.add(AddProductObjectData.PAYMENT_OPTION_BANk)
-                            AddProductObjectData.selectedAccountDetails = arrayListOf()
-                            AddProductObjectData.selectedAccountDetails?.addAll((selectedAccountDetails.filter { it.isSelected }))
-                        }
-                        if (switchCashPayment.isChecked) {
-                            paymentOptionList.add(AddProductObjectData.PAYMENT_OPTION_CASH)
-                        }
-                        if (switchMadaPayment.isChecked) {
-                            paymentOptionList.add(AddProductObjectData.PAYMENT_OPTION_Mada)
-                        }
-                        if (switchCreditCard.isChecked) {
-                            paymentOptionList.add(AddProductObjectData.PAYMENT_OPTION_MasterCard)
-                        }
-                        AddProductObjectData.paymentOptionList = paymentOptionList
-                        AddProductObjectData.isNegotiablePrice =
-                            priceNegotiable_rb3.isChecked
+                if ((AddProductObjectData.priceFixedOption || AddProductObjectData.auctionOption || AddProductObjectData.isNegotiablePrice) == false) {
+                    callNextScreen()
+                } else
+                    if (validateradiobutton()) {
+                        callNextScreen()
+                    }
+            }
+        }
+
+    }
+
+    fun callNextScreen() {
+        if (switchSaudiBankDeposit1.isChecked && ((selectedAccountDetails.filter { it.isSelected }).isEmpty())) {
+            showError(getString(R.string.selectBackAccount))
+        } else {
+            ////////to get edittext data and save to static class////////
+            val priceText: String = buynowprice.text.toString()
+            val startPrice: String = startprice.text.toString()
+            val reservedPrice: String = reserveprice.text.toString()
+            AddProductObjectData.priceFixed = priceText
+            AddProductObjectData.priceFixedOption = fixedPriceType_rb1.isChecked
+            AddProductObjectData.auctionOption = auctionType_rb2.isChecked
+            AddProductObjectData.auctionMinPrice = reservedPrice
+            AddProductObjectData.auctionStartPrice = startPrice
+            AddProductObjectData.selectedAccountDetails = null
+            val paymentOptionList: ArrayList<Int> = ArrayList()
+            if (switchSaudiBankDeposit1.isChecked && selectedAccountDetails != null) {
+                paymentOptionList.add(AddProductObjectData.PAYMENT_OPTION_BANk)
+                AddProductObjectData.selectedAccountDetails = arrayListOf()
+                AddProductObjectData.selectedAccountDetails?.addAll((selectedAccountDetails.filter { it.isSelected }))
+            }
+            if (switchCashPayment.isChecked) {
+                paymentOptionList.add(AddProductObjectData.PAYMENT_OPTION_CASH)
+            }
+            if (switchMadaPayment.isChecked) {
+                paymentOptionList.add(AddProductObjectData.PAYMENT_OPTION_Mada)
+            }
+            if (switchCreditCard.isChecked) {
+                paymentOptionList.add(AddProductObjectData.PAYMENT_OPTION_MasterCard)
+            }
+            AddProductObjectData.paymentOptionList = paymentOptionList
+            AddProductObjectData.isNegotiablePrice =
+                priceNegotiable_rb3.isChecked
 
 //                        if (isEdit) {
 //                            startActivity(
@@ -617,18 +665,14 @@ class PricingActivity : BaseActivity() {
 //                                    finish()
 //                                })
 //                        } else {
-                        startActivity(Intent(this, ListingDurationActivity::class.java).apply {
-                            putExtra(ConstantObjects.isEditKey, isEdit)
-                            finish()
-                        })
+            startActivity(Intent(this, ListingDurationActivity::class.java).apply {
+                putExtra(ConstantObjects.isEditKey, isEdit)
+                finish()
+            })
 //                        }
 
 
-                    }
-                }
-            }
         }
-
     }
 
     private fun validaterSaleTypeRadiobutton(): Boolean {
@@ -640,12 +684,16 @@ class PricingActivity : BaseActivity() {
 //        }
 
         return if (fixedPriceType_rb1.isChecked or auctionType_rb2.isChecked or priceNegotiable_rb3.isChecked) {
-//            if (!fixedPriceType_rb1.isChecked) {
+
+            //            if (!fixedPriceType_rb1.isChecked) {
 //                showError(getString(R.string.SelectFixedType))
 //                false
 //            } else
             true
-        } else {
+        }else if (titleSaleType.visibility==View.GONE) {
+
+            true
+        }else {
             showError(getString(R.string.SelectSaleType))
             false
         }

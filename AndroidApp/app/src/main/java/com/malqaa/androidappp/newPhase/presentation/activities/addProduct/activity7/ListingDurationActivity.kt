@@ -482,7 +482,8 @@ class ListingDurationActivity : BaseActivity(), ShippingAdapter.SetOnSelectedShi
 
         if (AddProductObjectData.auctionOption && !validateListDuration()) {
             return
-        } else if (!validatePickUpOption()) {
+        }
+        else if (!validatePickUpOption()) {
             return
         } else {
             println("hhh date " + Gson().toJson(AddProductObjectData.shippingOptionSelections))
