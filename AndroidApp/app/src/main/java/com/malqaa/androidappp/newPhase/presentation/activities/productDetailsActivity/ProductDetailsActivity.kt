@@ -100,6 +100,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     var questionsList: List<QuestionItem> = ArrayList()
     lateinit var subQuestionsList: ArrayList<QuestionItem>
 
+    var imgPosition =0
     /****/
     val added_from_product_Destails_status = 1
     val added_from_last_similerProducts_status = 2
@@ -267,6 +268,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
             val intent = Intent(this@ProductDetailsActivity, ImageViewLargeActivity::class.java)
             intent.putParcelableArrayListExtra("imgList", productImagesList)
+            intent.putExtra("UrlImg", imgPosition.toString())
             startActivity(intent)
         }
 
@@ -1089,9 +1091,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             object : ProductImagesAdapter.SetOnSelectedImage {
                 override fun onSelectImage(position: Int) {
                     urlImg = productImagesList[position].url
-                    if (productImagesList[position].type == 2) {
-
-                        //video
+                    if (productImagesList[position].type == 2) {     //video
                         startActivity(
                             Intent(
                                 this@ProductDetailsActivity,
@@ -1102,6 +1102,9 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                             )
                         )
                     } else {
+
+                        imgPosition = position
+                        productimg.tag = productImagesList[position].url
                         //==zoom image
                         Extension.loadThumbnail(
                             this@ProductDetailsActivity,
@@ -1254,6 +1257,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                 productimg,
                 loader
             )
+            productimg.setTag(productDetails.productImage)
             if (productDetails.listMedia != null&&productDetails.listMedia.size!=0) {
                 other_image_layout.show()
                 productImagesList.clear()

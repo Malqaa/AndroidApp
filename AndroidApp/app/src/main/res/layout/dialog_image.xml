@@ -3,14 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="350dp"
+    android:background="@color/transparent"
+    android:layout_height="match_parent"
     android:layout_gravity="center"
     app:cardCornerRadius="10dp">
 
 
     <ImageView
         android:id="@+id/imageLarge"
-        android:layout_width="350dp"
+        android:layout_width="match_parent"
         android:scaleType="centerInside"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -21,6 +22,7 @@
 
     <ImageView
         android:id="@+id/imgLeft"
+        android:visibility="gone"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_gravity="start|center"
@@ -33,6 +35,7 @@
         android:id="@+id/imageRight"
         android:layout_width="30dp"
         android:layout_height="30dp"
+        android:visibility="gone"
         android:layout_gravity="end|center"
         android:background="@color/white"
         android:src="@drawable/arrow_right_black_24dp"

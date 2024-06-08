@@ -307,9 +307,10 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
 
     private fun setupViewClickListeners() {
         productimg.setOnClickListener {
-            val customDialog = OpenImgLargeDialog(this, urlImg)
-            if (!customDialog.isShowing)
-                customDialog.show()
+////            val customDialog = OpenImgLargeDialog(this, urlImg)
+//            startActivity(Intent(this, OpenImgLargeDialog::class.java).apply {
+//                putExtra("urlImg", urlImg)
+//            })
         }
 
         tvAddReview.setOnClickListener {
@@ -453,7 +454,7 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
                 } else {
                     if (it.message != null) {
                         showProductApiError(it.message!!)
-                    }else {
+                    } else {
                         showProductApiError(getString(R.string.serverError))
                     }
                 }

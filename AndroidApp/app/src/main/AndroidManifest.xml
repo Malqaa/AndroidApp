@@ -35,7 +35,7 @@
         <activity
             android:name=".newPhase.presentation.activities.productDetailsActivity.ImageViewLargeActivity"
             android:exported="false"
-            android:theme="@style/AppTheme.Dialog" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".newPhase.presentation.activities.productDetailsActivity.ShowBranchesMapActivity"
             android:exported="false"

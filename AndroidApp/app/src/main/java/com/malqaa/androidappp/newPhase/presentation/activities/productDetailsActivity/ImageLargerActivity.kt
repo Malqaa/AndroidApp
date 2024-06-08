@@ -1,0 +1,89 @@
+package com.malqaa.androidappp.newPhase.presentation.activities.productDetailsActivity
+
+import android.os.Build
+import android.os.Bundle
+import android.widget.ImageButton
+import android.widget.ImageView
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.viewpager.widget.ViewPager
+import com.malqaa.androidappp.R
+import com.malqaa.androidappp.newPhase.domain.models.ImageSelectModel
+
+class ImageViewLargeActivity : AppCompatActivity() {
+
+    private lateinit var mViewPager: ViewPager
+    private lateinit var layoutCancel: ConstraintLayout
+    private lateinit var imageCancel: ImageView
+    private lateinit var mBtnPrevious: ImageButton
+    private lateinit var mBtnNext: ImageButton
+    private lateinit var mAdapter: ImagePagerAdapter
+    private var mCurrentPosition = 0
+    private  var UrlImg: Int=0
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.slider_display)
+
+        val receivedList: ArrayList<ImageSelectModel> =
+            intent.getParcelableArrayListExtra("imgList") ?: ArrayList()
+
+        UrlImg = (intent.getStringExtra("UrlImg") ?: "").toInt()
+//        receivedList.add(
+//            0, ImageSelectModel(
+//                null,
+//                "",
+//                false,
+//                UrlImg,
+//                false,
+//                0,
+//                0,
+//                false
+//            )
+//        )
+
+        // Remove duplicates using HashSet
+//        val set: Set<ImageSelectModel> = HashSet(receivedList)
+//        val uniqueList = ArrayList(set)
+
+        imageCancel = findViewById(R.id.imageCancel)
+        mViewPager = findViewById(R.id.viewPager)
+        mBtnPrevious = findViewById(R.id.btnPrevious)
+        layoutCancel = findViewById(R.id.layoutImg)
+        mBtnNext = findViewById(R.id.btnNext)
+
+        mAdapter = ImagePagerAdapter(this, receivedList,UrlImg)
+        mViewPager.adapter = mAdapter
+
+        imageCancel.setOnClickListener {
+            setFinishOnTouchOutside(true)
+            finish()
+        }
+
+        layoutCancel.setOnClickListener {
+            setFinishOnTouchOutside(true)
+            finish()
+        }
+
+        mBtnPrevious.setOnClickListener {
+            if (mCurrentPosition > 0) {
+                mCurrentPosition--
+                mViewPager.currentItem = mCurrentPosition
+            }
+        }
+
+        mBtnNext.setOnClickListener {
+            if (mCurrentPosition < mAdapter.count - 1) {
+                mCurrentPosition++
+                mViewPager.currentItem = mCurrentPosition
+            }
+        }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
+    }
+}

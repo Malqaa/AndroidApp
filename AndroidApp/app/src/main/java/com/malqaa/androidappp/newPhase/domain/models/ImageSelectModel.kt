@@ -3,6 +3,7 @@ package com.malqaa.androidappp.newPhase.domain.models
 import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
+import java.util.Objects
 
 data class ImageSelectModel(
     val uri: Uri? = null,
@@ -24,6 +25,13 @@ data class ImageSelectModel(
         parcel.readInt(),
         parcel.readByte() != 0.toByte()
     ) {
+    }
+
+    override fun equals(o: Any?): Boolean {
+        if (this === o) return true
+        if (o == null || javaClass != o.javaClass) return false
+        val (_, _, _, url1) = o as ImageSelectModel
+        return Objects.equals(url, url1)
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {

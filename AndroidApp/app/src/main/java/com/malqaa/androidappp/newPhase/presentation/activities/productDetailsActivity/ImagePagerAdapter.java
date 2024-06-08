@@ -15,14 +15,17 @@ import com.malqaa.androidappp.newPhase.utils.Extension;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ImagePagerAdapter extends PagerAdapter {
     private Context mContext;
-    private ArrayList<ImageSelectModel> mImageIds;
+    private List<ImageSelectModel> mImageIds;
+    int pos;
 
-    public ImagePagerAdapter(Context context, ArrayList<ImageSelectModel> imageIds) {
+    public ImagePagerAdapter(Context context, List<ImageSelectModel> imageIds, int pos) {
         mContext = context;
         mImageIds = imageIds;
+        this.pos = pos;
     }
 
     @Override
@@ -38,7 +41,7 @@ public class ImagePagerAdapter extends PagerAdapter {
 
         ImageView imageView = itemView.findViewById(R.id.imageView);
         Picasso.get()
-                .load(mImageIds.get(position).getUrl())
+                .load(mImageIds.get(pos).getUrl())
                 .error(R.mipmap.ic_launcher)
                 .into(imageView);
 //        Extension.loadThumbnail(

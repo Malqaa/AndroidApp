@@ -11,19 +11,19 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.malqaa.androidappp.R
 import com.malqaa.androidappp.newPhase.core.BaseActivity
-import com.malqaa.androidappp.newPhase.utils.ConstantObjects
-import com.malqaa.androidappp.newPhase.utils.HelpFunctions
-import com.malqaa.androidappp.newPhase.utils.hide
-import com.malqaa.androidappp.newPhase.utils.show
-import com.malqaa.androidappp.newPhase.utils.helper.widgets.DatePickerFragment
-import com.malqaa.androidappp.newPhase.utils.helper.widgets.TimePickerFragment
-import com.malqaa.androidappp.newPhase.utils.helper.widgets.rcv.GenericListAdapter
+import com.malqaa.androidappp.newPhase.domain.models.addProductToCartResp.AddProductObjectData
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.Selection
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.TimeAuctionSelection
 import com.malqaa.androidappp.newPhase.domain.models.shippingOptionsResp.ShippingOptionObject
-import com.malqaa.androidappp.newPhase.domain.models.addProductToCartResp.AddProductObjectData
 import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.ConfirmationAddProductActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activity8.PromotionalActivity
+import com.malqaa.androidappp.newPhase.utils.ConstantObjects
+import com.malqaa.androidappp.newPhase.utils.HelpFunctions
+import com.malqaa.androidappp.newPhase.utils.helper.widgets.DatePickerFragment
+import com.malqaa.androidappp.newPhase.utils.helper.widgets.TimePickerFragment
+import com.malqaa.androidappp.newPhase.utils.helper.widgets.rcv.GenericListAdapter
+import com.malqaa.androidappp.newPhase.utils.hide
+import com.malqaa.androidappp.newPhase.utils.show
 import kotlinx.android.synthetic.main.activity_listing_duration.*
 import kotlinx.android.synthetic.main.activity_listing_duration.switchMustPickUp
 import kotlinx.android.synthetic.main.activity_listing_duration.tvMustPickUp
@@ -34,7 +34,6 @@ import kotlinx.android.synthetic.main.toolbar_main.*
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class ListingDurationActivity : BaseActivity(), ShippingAdapter.SetOnSelectedShipping {
@@ -79,10 +78,11 @@ class ListingDurationActivity : BaseActivity(), ShippingAdapter.SetOnSelectedShi
 //        val week4 = addDay(day.toString(), 28)
         try {
             AddProductObjectData.selectedCategory?.let {
-                val characterList = it.auctionClosingPeriods?.toCharArray()
+                val characterList =   convertStringToIntArray(it.auctionClosingPeriods!!)
+//                val characterList = it.auctionClosingPeriods?.toCharArray()
                 if (characterList != null) {
                     for (c in characterList) {
-                        if (c != ',') {
+//                        if (c != ',') {
                             var cNumer = 1
                             try {
                                 cNumer = c.toString().toInt()
@@ -129,7 +129,7 @@ class ListingDurationActivity : BaseActivity(), ShippingAdapter.SetOnSelectedShi
                             }
                         }
                     }
-                }
+//                }
             }
             fixLenghtAdaptor(allWeeks)
         } catch (e: Exception) {
@@ -175,6 +175,21 @@ class ListingDurationActivity : BaseActivity(), ShippingAdapter.SetOnSelectedShi
         getAllShippingObserver()
     }
 
+
+    private fun convertStringToIntArray(str: String): IntArray? {
+        // Split the string by comma
+        val stringArray = str.split(",".toRegex()).dropLastWhile { it.isEmpty() }
+            .toTypedArray()
+
+        // Initialize an integer array with the same length
+        val intArray = IntArray(stringArray.size)
+
+        // Convert each string element to an integer
+        for (i in stringArray.indices) {
+            intArray[i] = stringArray[i].toInt()
+        }
+        return intArray
+    }
     private fun setData() {
         pickUpOption = AddProductObjectData.shippingOption
         for (i in shippingOptionList.indices) {
