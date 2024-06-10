@@ -32,7 +32,7 @@ class QuestionAnswerAdapter(var questionList: List<QuestionItem>,var setonSelect
     override fun onBindViewHolder(holder: QuestionAnswerViewHolder, position: Int) {
         holder.viewBinding.tvQuestion.text = questionList[position].question.toString()
         holder.viewBinding.questionTime.text = HelpFunctions.getViewFormatForDateTrack(questionList[position].createdAt,"dd/MM/yyyy HH:mm:ss")
-//        Extension.loadThumbnail(
+//        Extension.loadImgGlide(
 //            context,
 //            questionList[position].clientImage,
 //            holder.viewBinding.ivQuestionUser,

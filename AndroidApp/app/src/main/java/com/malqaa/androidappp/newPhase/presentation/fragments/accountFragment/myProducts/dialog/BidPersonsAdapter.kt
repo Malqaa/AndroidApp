@@ -49,7 +49,7 @@ class BidPersonsAdapter(
          holder.viewBinding.tvName.text = bidPersonsDataList[position].userName ?: ""
 
      }
-        Extension.loadThumbnail(
+        Extension.loadImgGlide(
             context,
             bidPersonsDataList[position].userImage?:"",
             holder.viewBinding.tvImage,

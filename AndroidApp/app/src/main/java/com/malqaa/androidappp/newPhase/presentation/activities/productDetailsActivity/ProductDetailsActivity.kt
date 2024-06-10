@@ -35,6 +35,7 @@ import com.malqaa.androidappp.newPhase.presentation.adapterShared.ProductHorizon
 import com.malqaa.androidappp.newPhase.data.network.service.SetOnProductItemListeners
 import com.malqaa.androidappp.newPhase.domain.enums.ShowUserInfo
 import com.malqaa.androidappp.newPhase.domain.models.addProductToCartResp.AddProductObjectData
+import com.malqaa.androidappp.newPhase.domain.models.homeSilderResp.HomeSliderItem
 import com.malqaa.androidappp.newPhase.presentation.activities.addProductReviewActivity.AddRateProductActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.addProductReviewActivity.ProductReviewsActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.cartActivity.activity1.CartActivity
@@ -48,6 +49,7 @@ import com.malqaa.androidappp.newPhase.presentation.activities.productDetailsAct
 import com.malqaa.androidappp.newPhase.presentation.activities.productDetailsActivity.viewModels.ProductDetailsViewModel
 import com.malqaa.androidappp.newPhase.presentation.activities.productQuestionActivity.QuestionActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.productsSellerInfoActivity.SellerInformationActivity
+import com.malqaa.androidappp.newPhase.presentation.fragments.homeScreen.adapters.SliderAdaptor
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.Extension
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
@@ -59,6 +61,9 @@ import io.paperdb.Paper
 import kotlinx.android.synthetic.main.activity_product_details2.*
 import kotlinx.android.synthetic.main.activity_product_details_item_2.*
 import kotlinx.android.synthetic.main.atrribute_item.view.*
+import kotlinx.android.synthetic.main.fragment_homee.dots_indicator
+import kotlinx.android.synthetic.main.fragment_homee.sliderLayout
+import kotlinx.android.synthetic.main.fragment_homee.slider_home
 import kotlinx.android.synthetic.main.item_image_for_product_details.view.*
 import kotlinx.android.synthetic.main.item_review_product.*
 import kotlinx.android.synthetic.main.product_item.view.*
@@ -928,7 +933,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
         showButtons()
 //        containerSellerInfo.show()
-        Extension.loadThumbnail(
+        Extension.loadImgGlide(
             this,
             it.image,
             seller_picture,
@@ -1105,13 +1110,18 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
                         imgPosition = position
                         productimg.tag = productImagesList[position].url
-                        //==zoom image
-                        Extension.loadThumbnail(
-                            this@ProductDetailsActivity,
-                            productImagesList[position].url,
-                            productimg,
-                            loader
-                        )
+//                        //==zoom image
+//                        Extension.loadImgGlide(
+//                            this@ProductDetailsActivity,
+//                            productImagesList[position].url,
+//                            productimg,
+//                            loader
+//                        )
+
+                        val intent = Intent(this@ProductDetailsActivity, ImageViewLargeActivity::class.java)
+                        intent.putParcelableArrayListExtra("imgList", productImagesList)
+                        intent.putExtra("UrlImg", imgPosition.toString())
+                        startActivity(intent)
                     }
                 }
 
@@ -1251,7 +1261,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                 containerAuctioncountdownTimer_bar.hide()
             }
             /**product iamges*/
-            Extension.loadThumbnail(
+            Extension.loadImgGlide(
                 this,
                 productDetails.productImage,
                 productimg,
@@ -1265,6 +1275,9 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                     urlImg = productDetails.listMedia[0].url
                 productImagesList.addAll(productDetails.listMedia)
                 productImagesAdapter.notifyDataSetChanged()
+
+                setPagerDots( mapImageSelectModelToHomeSliderItem(productDetails.listMedia))
+
             } else {
                 productImagesList.add(ImageSelectModel(url =productDetails.productImage.toString() ))
                 other_image_layout.hide()
@@ -1278,8 +1291,12 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                 }"
             tvProductItemName.text = productDetails.name ?: ""
             tvProductSubtitle.text = productDetails.subTitle ?: ""
-            tvProductDescriptionShort.text = productDetails.description ?: ""
-            tvProductDescriptionLong.text = productDetails.description ?: ""
+
+            if(productDetails.description!=""){
+                layDetails.show()
+                tvProductDescriptionShort.text = productDetails.description ?: ""
+                tvProductDescriptionLong.text = productDetails.description ?: ""
+            }
             val isEllipsize: Boolean = tvProductDescriptionShort.text.toString()
                 .trim() != productDetails.description?.trim()
             if (isEllipsize) {
@@ -1360,6 +1377,24 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             showError(getString(R.string.serverError))
         }
     }
+    private fun setPagerDots(list: List<HomeSliderItem>) {
+        if (list.isNotEmpty()) {
+            val viewPagerAdapter = SliderAdaptor(this, list)
+            slider_details.adapter = viewPagerAdapter
+//            dots_indicator.attachTo(slider_details)
+            slider_details.startAutoScroll()
+        }
+    }
+    private fun mapImageSelectModelToHomeSliderItem(imageSelectModels: ArrayList<ImageSelectModel>): List<HomeSliderItem> {
+        return imageSelectModels.filter { it.type != 2 }.map { imageSelectModel ->
+            HomeSliderItem(
+                id = imageSelectModel.id,
+                img = imageSelectModel.url,
+                type = imageSelectModel.type
+            )
+        }
+    }
+
 
     @SuppressLint("SetTextI18n")
     private fun showButtons() {

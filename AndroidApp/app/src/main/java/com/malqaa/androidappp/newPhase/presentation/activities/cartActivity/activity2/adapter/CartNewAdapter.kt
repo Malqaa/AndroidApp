@@ -133,7 +133,7 @@ class CartNewAdapter(
 
 //        var productItem: ProductCartItem? = productsCartListResp[position].listProduct?.get(0)
 //        if (productItem != null) {
-//            Extension.loadThumbnail(
+//            Extension.loadImgGlide(
 //                context,
 //                productItem.img ?: "",
 //                holder.viewBinding.ivProductImage,

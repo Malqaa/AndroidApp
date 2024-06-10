@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/white"
     tools:context=".newPhase.presentation.activities.productDetailsActivity.ProductDetailsActivity"
     android:orientation="vertical">
 
@@ -36,7 +37,17 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
 
+
+                        <com.malqaa.androidappp.newPhase.utils.helper.widgets.viewpager2.AutoScrollViewPager
+                            android:id="@+id/slider_details"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            app:cycle="true"
+                            app:slideDirection="right"
+                            app:slideInterval="5000"
+                            app:stopWhenTouch="true" />
                         <com.jsibbold.zoomage.ZoomageView
+                            android:visibility="gone"
                             android:id="@+id/productimg"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -67,7 +78,7 @@
                             android:layout_gravity="center"
 
                             android:src="@drawable/ic_back"
-                            app:backgroundTint="@color/white"
+                            app:backgroundTint="@color/gray_light"
                             app:maxImageSize="@dimen/_14sdp"
                             app:tint="@color/black"
 
@@ -159,7 +170,7 @@
                         android:background="@null"
                         android:scaleType="center"
                         android:src="@drawable/star"
-                        app:backgroundTint="@color/white"
+                        app:backgroundTint="@color/gray_light"
                         app:elevation="5dp"
 
                         app:tint="@color/black"/>
@@ -174,7 +185,7 @@
                         android:background="@null"
                         android:scaleType="center"
                         android:src="@drawable/share"
-                        app:backgroundTint="@color/white"
+                        app:backgroundTint="@color/gray_light"
                         app:elevation="5dp"
                         app:tint="@color/black"
 

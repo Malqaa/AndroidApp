@@ -32,8 +32,18 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
 
+
+                            <com.malqaa.androidappp.newPhase.utils.helper.widgets.viewpager2.AutoScrollViewPager
+                                android:id="@+id/slider_my_details"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                app:cycle="true"
+                                app:slideDirection="right"
+                                app:slideInterval="5000"
+                                app:stopWhenTouch="true" />
                             <com.jsibbold.zoomage.ZoomageView
-                                android:id="@+id/productimg"
+                                android:id="@+id/myProductimg"
+                                android:visibility="gone"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:scaleType="fitXY" />

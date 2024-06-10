@@ -3,21 +3,25 @@ package com.malqaa.androidappp.newPhase.presentation.adapterShared
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Paint
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.Target
 import com.malqaa.androidappp.R
 import com.malqaa.androidappp.databinding.ProductItemBinding
 import com.malqaa.androidappp.newPhase.data.network.service.SetOnProductItemListeners
+import com.malqaa.androidappp.newPhase.domain.models.productResp.Product
+import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.Extension
 import com.malqaa.androidappp.newPhase.utils.Extension.decimalNumberFormat
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.show
-import com.malqaa.androidappp.newPhase.domain.models.productResp.Product
-import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.yariksoffice.lingver.Lingver
 import kotlinx.android.synthetic.main.activity_product_details_item_2.*
 import org.joda.time.DateTime
@@ -34,7 +38,6 @@ class ProductHorizontalAdapter(
     private var isMyProduct: Boolean = false
 ) : RecyclerView.Adapter<ProductHorizontalAdapter.SellerProductViewHolder>() {
     lateinit var context: Context
-
     class SellerProductViewHolder(var viewBinding: ProductItemBinding) :
         RecyclerView.ViewHolder(viewBinding.root)
 
@@ -113,29 +116,39 @@ class ProductHorizontalAdapter(
 
 
         if (productList[position].image != null && productList[position].image != "") {
-            Extension.loadThumbnail(
+            Extension.loadImgGlide(
                 context,
                 productList[position].image ?: "",
                 holder.viewBinding.productimg,
                 holder.viewBinding.loader
             )
+
+
         } else {
-            Extension.loadThumbnail(
+//            Extension.loadImgGlide(
+//                context,
+//                productList[position].productImage ?: "",
+//                holder.viewBinding.productimg,
+//                holder.viewBinding.loader
+//            )
+
+            Extension.loadImgGlide(
                 context,
-                productList[position].productImage ?: "",
+                productList[position].image ?: "",
                 holder.viewBinding.productimg,
                 holder.viewBinding.loader
             )
+
         }
 //        if (categoryId != 0) {
-//            Extension.loadThumbnail(
+//            Extension.loadImgGlide(
 //                context,
 //                productList[position].image ?: "",
 //                holder.viewBinding.productimg,
 //                holder.viewBinding.loader
 //            )
 //        } else {
-//            Extension.loadThumbnail(
+//            Extension.loadImgGlide(
 //                context,
 //                productList[position].productImage ?: "",
 //                holder.viewBinding.productimg,

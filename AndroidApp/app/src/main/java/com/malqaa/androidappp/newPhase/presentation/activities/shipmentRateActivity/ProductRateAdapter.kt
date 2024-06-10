@@ -34,7 +34,7 @@ class ProductRateAdapter(
     override fun getItemCount(): Int = dataList.size
 
     override fun onBindViewHolder(holder: ProductRateViewHolder, position: Int) {
-        Extension.loadThumbnail(
+        Extension.loadImgGlide(
             context,
             dataList[position].iamge ?: "",
             holder.viewBinding.ivProductImage,

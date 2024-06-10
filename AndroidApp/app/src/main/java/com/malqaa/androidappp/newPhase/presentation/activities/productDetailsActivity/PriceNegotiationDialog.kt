@@ -47,17 +47,19 @@ class PriceNegotiationDialog(
             if (etNegotiationPrice.text.toString().trim() == "") {
                 readytosend = false
                 etNegotiationPrice.error = context.getString(R.string.writeNegotiationPrice2)
-            }
-            if(quantity!=1){
-                if (etQuentity.text.toString().trim() == "") {
-                    readytosend = false
-                    etQuentity.error = context.getString(R.string.quantity)
+            }else {
+                if(quantity!=1){
+                    if (etQuentity.text.toString().trim() == "") {
+                        readytosend = false
+                        etQuentity.error = context.getString(R.string.quantity)
+                    }
+                    else if(etQuentity.text.toString().toInt() > quantity){
+                        readytosend = false
+                        etQuentity.error = context.getString(R.string.prevent_quantity)
+                    }
                 }
-                if(etQuentity.text.toString().toInt() > quantity){
-                    readytosend = false
-                    etQuentity.error = context.getString(R.string.prevent_quantity)
-                }
             }
+
 
             if (readytosend) {
                 if(quantity!=1){

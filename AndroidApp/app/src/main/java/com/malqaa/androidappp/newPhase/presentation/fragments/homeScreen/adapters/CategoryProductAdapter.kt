@@ -42,7 +42,7 @@ class CategoryProductAdapter(
     override fun onBindViewHolder(holder: CategoryProductHolder, position: Int) {
         holder.viewBinding.categoryHeaderContainer.show()
         holder.viewBinding.productListLayout.hide()
-//        Extension.loadThumbnail(
+//        Extension.loadImgGlide(
 //            context,
 //            categoryProductHomeList[position].image,
 //            holder.viewBinding.categoryIconIv,

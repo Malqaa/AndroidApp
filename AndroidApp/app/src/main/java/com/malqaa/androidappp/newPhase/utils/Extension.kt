@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.provider.Settings
 import android.telephony.TelephonyManager
@@ -11,6 +12,12 @@ import android.view.View
 import android.widget.ImageView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.Target
 import com.malqaa.androidappp.R
 import com.malqaa.androidappp.newPhase.utils.PicassoSingleton.getPicassoInstance
 import com.squareup.picasso.Callback
@@ -24,7 +31,13 @@ import java.text.DecimalFormatSymbols
 import java.util.*
 
 object Extension {
+    val desiredWidth = 800 // Specify desired width
 
+    val desiredHeight = 600 // Specify desired height
+
+    val requestOptions = RequestOptions()
+        .override(desiredWidth, desiredHeight)
+        .fitCenter() // or .centerCrop(), depending on how you want to fit the image
 
     fun Double.decimalNumberFormat(): String {
 
@@ -45,6 +58,44 @@ object Extension {
         return aNumber
     }
 
+    fun loadImgGlide(
+        context: Context,
+        path: String?,
+        imageView: ImageView,
+        pb_loading: View? = null,
+    ){
+
+        pb_loading?.show()
+        Glide.with(context)
+            .load(path?: "")
+            .apply(requestOptions)
+            .listener(object  :RequestListener<Drawable>{
+                override fun onLoadFailed(
+                    e: GlideException?,
+                    model: Any?,
+                    target: Target<Drawable>?,
+                    isFirstResource: Boolean
+                ): Boolean {
+
+                    pb_loading?.hide()
+                  return  false
+                }
+
+                override fun onResourceReady(
+                    resource: Drawable?,
+                    model: Any?,
+                    target: Target<Drawable>?,
+                    dataSource: DataSource?,
+                    isFirstResource: Boolean
+                ): Boolean {
+
+                    pb_loading?.hide()
+                    return  false
+                }
+
+            })
+            .into(imageView)
+    }
 
     fun loadThumbnail(
         context: Context,

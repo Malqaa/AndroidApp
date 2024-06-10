@@ -41,7 +41,7 @@ class CartAdapter(
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
 
-        Extension.loadThumbnail(
+        Extension.loadImgGlide(
             context,
             listProduct[position].img ?: "",
             holder.viewBinding.ivProductImage,

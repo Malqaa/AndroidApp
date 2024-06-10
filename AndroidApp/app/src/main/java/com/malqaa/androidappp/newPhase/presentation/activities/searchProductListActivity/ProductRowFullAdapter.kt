@@ -59,7 +59,7 @@ class ProductViewHolder(
     @SuppressLint("SetTextI18n")
     fun bind(requestItem: Product) {
         this.requestItem = requestItem
-        Extension.loadThumbnail(
+        Extension.loadImgGlide(
             itemBinding.purchasingPrice.context,
             requestItem.productImage ?: "",
             itemBinding.productImage,

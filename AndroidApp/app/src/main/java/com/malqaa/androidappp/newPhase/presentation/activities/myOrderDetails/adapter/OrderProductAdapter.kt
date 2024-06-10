@@ -31,7 +31,7 @@ class OrderProductAdapter(var dataList: ArrayList<OrderProductFullInfoDto>) :Ada
 
     override fun onBindViewHolder(holder: OrderProductViewHOlder, position: Int) {
 
-        Extension.loadThumbnail(
+        Extension.loadImgGlide(
             context,
             dataList[position].iamge ?: "",
             holder.viewBinding.ivProductImage,

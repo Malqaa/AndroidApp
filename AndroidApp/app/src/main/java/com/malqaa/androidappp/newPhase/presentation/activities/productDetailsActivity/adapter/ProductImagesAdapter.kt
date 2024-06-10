@@ -31,16 +31,17 @@ class ProductImagesAdapter(var productImagesList: ArrayList<ImageSelectModel>, v
         if (productImagesList[position].type==2) {
 
             //video
-            Extension.loadThumbnail(
-                context,
-                productImagesList[position].url,
-                holder.viewBinding.productImage,
-                holder.viewBinding.loader
-            )
+//            Extension.loadImgGlide(
+//                context,
+//                productImagesList[position].url,
+//                holder.viewBinding.productImage,
+//                holder.viewBinding.loader
+//            )
+            holder.viewBinding.loader.hide()
             holder.viewBinding.isVideoIv.show()
         } else {
             holder.viewBinding.isVideoIv.hide()
-            Extension.loadThumbnail(
+            Extension.loadImgGlide(
                 context,
                 productImagesList[position].url,
                 holder.viewBinding.productImage,
@@ -70,7 +71,7 @@ class ProductImagesAdapter(var productImagesList: ArrayList<ImageSelectModel>, v
 //                is_select = true
 //                rvProductImages.post({ rvProductImages.adapter!!.notifyDataSetChanged() })
 //                selectLink = imageURL
-//                Extension.loadThumbnail(
+//                Extension.loadImgGlide(
 //                    this@ProductDetailsActivity,
 //                    imageURL,
 //                    productimg, loader

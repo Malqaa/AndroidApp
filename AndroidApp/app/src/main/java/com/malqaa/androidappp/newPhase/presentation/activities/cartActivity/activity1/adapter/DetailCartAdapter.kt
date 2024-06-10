@@ -56,7 +56,7 @@ class DetailCartAdapter(
             holder.viewBinding.tvError.visibility=View.VISIBLE
             holder.viewBinding.tvError.text=listProduct[position].msgError
         }
-        Extension.loadThumbnail(
+        Extension.loadImgGlide(
             context,
             listProduct[position].img ?: "",
             holder.viewBinding.ivProductImage,

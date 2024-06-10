@@ -77,7 +77,7 @@ class AdapterAllCategoriesAdapter(
                 } else {
                     Glide.with(context).load(image).error(R.mipmap.ic_launcher_round).into(category_icon)
 
-//                    Extension.loadThumbnail(
+//                    Extension.loadImgGlide(
 //                        context,
 //                        image,
 //                        category_icon,

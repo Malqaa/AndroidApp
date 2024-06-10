@@ -35,7 +35,7 @@ class AdapterAllCategories(
                 if (image.isNullOrEmpty()) {
                     category_icon.setImageResource(R.drawable.product_attribute_bg2)
                 } else {
-                    Extension.loadThumbnail(
+                    Extension.loadImgGlide(
                         context,
                         image,
                         category_icon, progressBar

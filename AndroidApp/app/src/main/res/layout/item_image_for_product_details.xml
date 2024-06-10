@@ -34,8 +34,9 @@
             android:id="@+id/is_video_iv"
             android:layout_width="@dimen/_20sdp"
             android:layout_height="@dimen/_20sdp"
+            android:tint="@color/bg"
+            android:visibility="gone"
             android:layout_centerInParent="true"
-            android:src="@drawable/ic_play"
-            android:visibility="gone" />
+            android:src="@drawable/ic_play" />
     </RelativeLayout>
 </RelativeLayout>

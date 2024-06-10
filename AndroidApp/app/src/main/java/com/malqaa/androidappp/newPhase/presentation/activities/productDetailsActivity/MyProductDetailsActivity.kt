@@ -33,6 +33,7 @@ import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.my
 import com.malqaa.androidappp.newPhase.presentation.adapterShared.ProductHorizontalAdapter
 import com.malqaa.androidappp.newPhase.data.network.service.SetOnProductItemListeners
 import com.malqaa.androidappp.newPhase.domain.models.addProductToCartResp.AddProductObjectData
+import com.malqaa.androidappp.newPhase.domain.models.homeSilderResp.HomeSliderItem
 import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.ConfirmationAddProductActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.addProductReviewActivity.AddRateProductActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.addProductReviewActivity.ProductReviewsActivity
@@ -45,6 +46,7 @@ import com.malqaa.androidappp.newPhase.presentation.activities.productDetailsAct
 import com.malqaa.androidappp.newPhase.presentation.activities.productDetailsActivity.adapter.SpecificationAdapter
 import com.malqaa.androidappp.newPhase.presentation.activities.productDetailsActivity.viewModels.ProductDetailsViewModel
 import com.malqaa.androidappp.newPhase.presentation.activities.productQuestionActivity.QuestionActivity
+import com.malqaa.androidappp.newPhase.presentation.fragments.homeScreen.adapters.SliderAdaptor
 import com.yariksoffice.lingver.Lingver
 import io.paperdb.Paper
 import kotlinx.android.synthetic.main.activity_my_product_details2.btnMoreItemDetails
@@ -96,7 +98,8 @@ import kotlinx.android.synthetic.main.activity_my_product_details2.txtCountPurch
 import kotlinx.android.synthetic.main.activity_my_product_details2.txtHappy
 import kotlinx.android.synthetic.main.activity_my_product_details2.txtSad
 import kotlinx.android.synthetic.main.activity_my_product_details2.txtSmile
-import kotlinx.android.synthetic.main.my_product_details.productimg
+import kotlinx.android.synthetic.main.activity_product_details2.productimg
+import kotlinx.android.synthetic.main.my_product_details.myProductimg
 import kotlinx.android.synthetic.main.activity_product_details_item_2.laySpec
 import kotlinx.android.synthetic.main.my_product_details.btnNextImage
 import kotlinx.android.synthetic.main.my_product_details.btnShare
@@ -108,6 +111,7 @@ import kotlinx.android.synthetic.main.my_product_details.loader
 import kotlinx.android.synthetic.main.my_product_details.next_image
 import kotlinx.android.synthetic.main.my_product_details.other_image_layout
 import kotlinx.android.synthetic.main.my_product_details.rvProductImages
+import kotlinx.android.synthetic.main.my_product_details.slider_my_details
 import kotlinx.android.synthetic.main.my_product_details.swipe_to_refresh
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -137,6 +141,7 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
     lateinit var specificationList: ArrayList<DynamicSpecificationSentObject>
     lateinit var productImagesAdapter: ProductImagesAdapter
     lateinit var productImagesList: ArrayList<ImageSelectModel>
+    var imgPosition =0
     lateinit var similerProductList: ArrayList<Product>
     lateinit var sellerSimilerProductList: ArrayList<Product>
     var questionsList: List<QuestionItem> = ArrayList()
@@ -228,6 +233,23 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
                 })
         addDiscountDialog.show()
     }
+    private fun setPagerDots(list: List<HomeSliderItem>) {
+        if (list.isNotEmpty()) {
+            val viewPagerAdapter = SliderAdaptor(this, list)
+            slider_my_details.adapter = viewPagerAdapter
+//            dots_indicator.attachTo(slider_details)
+            slider_my_details.startAutoScroll()
+        }
+    }
+    private fun mapImageSelectModelToHomeSliderItem(imageSelectModels: ArrayList<ImageSelectModel>): List<HomeSliderItem> {
+        return imageSelectModels.filter { it.type != 2 }.map { imageSelectModel ->
+            HomeSliderItem(
+                id = imageSelectModel.id,
+                img = imageSelectModel.url,
+                type = imageSelectModel.type
+            )
+        }
+    }
 
     private fun callGetPriceCart(nameProduct: String) {
 
@@ -306,11 +328,15 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
     /**set view listeners*/
 
     private fun setupViewClickListeners() {
-        productimg.setOnClickListener {
+        myProductimg.setOnClickListener {
 ////            val customDialog = OpenImgLargeDialog(this, urlImg)
 //            startActivity(Intent(this, OpenImgLargeDialog::class.java).apply {
 //                putExtra("urlImg", urlImg)
 //            })
+            val intent = Intent(this@MyProductDetailsActivity, ImageViewLargeActivity::class.java)
+            intent.putParcelableArrayListExtra("imgList", productImagesList)
+            intent.putExtra("UrlImg", imgPosition.toString())
+            startActivity(intent)
         }
 
         tvAddReview.setOnClickListener {
@@ -779,13 +805,14 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
                             )
                         )
                     } else {
+
+                        imgPosition = position
+                        myProductimg.tag = productImagesList[position].url
                         //==zoom image
-                        Extension.loadThumbnail(
-                            this@MyProductDetailsActivity,
-                            productImagesList[position].url,
-                            productimg,
-                            loader
-                        )
+                        val intent = Intent(this@MyProductDetailsActivity, ImageViewLargeActivity::class.java)
+                        intent.putParcelableArrayListExtra("imgList", productImagesList)
+                        intent.putExtra("UrlImg", imgPosition.toString())
+                        startActivity(intent)
                     }
                 }
 
@@ -850,7 +877,7 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
             Extension.loadThumbnail(
                 this,
                 productDetails.productImage,
-                productimg,
+                myProductimg,
                 loader
             )
 
@@ -862,6 +889,8 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
             tvPriceProductDisc.text = "${productDetails.priceDisc} ${getString(R.string.rial)}"
 
             productPrice = productDetails.priceDisc
+
+            productimg.setTag(productDetails.productImage)
             if (productDetails.listMedia != null) {
                 other_image_layout.show()
                 productImagesList.clear()
@@ -869,6 +898,8 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
                     urlImg = productDetails.listMedia[0].url
                 productImagesList.addAll(productDetails.listMedia)
                 productImagesAdapter.notifyDataSetChanged()
+                setPagerDots( mapImageSelectModelToHomeSliderItem(productDetails.listMedia))
+
             } else {
                 other_image_layout.hide()
             }

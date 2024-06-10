@@ -80,7 +80,7 @@ class SellerInformationActivity : BaseActivity(), SetOnProductItemListeners,
         println("hhhh seller businessAccountId " + it.businessAccountId.toString())
         println("hhhh seller providerId " + it.providerId.toString())
         sellerInformation = it
-        Extension.loadThumbnail(
+        Extension.loadImgGlide(
             this,
             it.image,
             seller_picture,

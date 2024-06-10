@@ -64,7 +64,7 @@ class NegotiationOffersAdapter(
             holder.viewBinding.sellerTag.text = context.getString(R.string.merchant)
         }
 //        holder.viewBinding.sellerTag.text =
-        Extension.loadThumbnail(
+        Extension.loadImgGlide(
             context,
             negotiationOfferDetailsList[position].productImage,
             holder.viewBinding.productImage,
@@ -85,7 +85,7 @@ class NegotiationOffersAdapter(
         if (saleOrNot) {
             holder.viewBinding.personName.text =
                 negotiationOfferDetailsList[position].buyerName ?: ""
-            Extension.loadThumbnail(
+            Extension.loadImgGlide(
                 context,
                 negotiationOfferDetailsList[position].receiverImage,
                 holder.viewBinding.sellerPicture,
@@ -192,7 +192,7 @@ class NegotiationOffersAdapter(
                 }
             }
         } else {
-            Extension.loadThumbnail(
+            Extension.loadImgGlide(
                 context,
                 negotiationOfferDetailsList[position].senderImage,
                 holder.viewBinding.sellerPicture,

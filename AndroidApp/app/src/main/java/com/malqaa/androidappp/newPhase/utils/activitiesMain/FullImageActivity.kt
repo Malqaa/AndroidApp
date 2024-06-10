@@ -16,7 +16,7 @@ class FullImageActivity : BaseActivity() {
 
         val filepath = intent.getStringExtra("imageUri")
 
-        Extension.loadThumbnail(
+        Extension.loadImgGlide(
             this@FullImageActivity,
             filepath,
             imageviewFullimg, null

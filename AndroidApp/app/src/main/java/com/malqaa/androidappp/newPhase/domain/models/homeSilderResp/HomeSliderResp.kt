@@ -1,5 +1,6 @@
 package com.malqaa.androidappp.newPhase.domain.models.homeSilderResp
 
+import android.net.Uri
 import com.google.gson.annotations.SerializedName
 
 
@@ -12,7 +13,8 @@ data class HomeSliderResp(
     val sliderList: List<HomeSliderItem>?=null
 )
 data class HomeSliderItem(
-    val id: Int,
-    var img: String,
-    val type: Int,
+    val id: Int=0,
+    var img: String="",
+    val type: Int=0,
+
 )

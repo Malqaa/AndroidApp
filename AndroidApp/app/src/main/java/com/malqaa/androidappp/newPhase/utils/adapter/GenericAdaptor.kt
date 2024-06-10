@@ -103,7 +103,7 @@ class GenericAdaptor {
                         putExtra("Template", "")
                     })
                 }
-//                Extension.loadThumbnail(
+//                Extension.loadImgGlide(
 //                    context,
 //                    image,
 //                    productimg, loader

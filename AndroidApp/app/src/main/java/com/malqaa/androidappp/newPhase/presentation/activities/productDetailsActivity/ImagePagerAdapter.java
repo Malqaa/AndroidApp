@@ -44,7 +44,7 @@ public class ImagePagerAdapter extends PagerAdapter {
                 .load(mImageIds.get(pos).getUrl())
                 .error(R.mipmap.ic_launcher)
                 .into(imageView);
-//        Extension.loadThumbnail(
+//        Extension.loadImgGlide(
 //                imageView.getContext(),
 //                mImageIds.get(position).getUrl(),
 //                imageView,
