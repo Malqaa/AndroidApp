@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
+import com.bumptech.glide.Glide;
+import com.jsibbold.zoomage.ZoomageView;
 import com.malqaa.androidappp.R;
 import com.malqaa.androidappp.newPhase.domain.models.ImageSelectModel;
 import com.malqaa.androidappp.newPhase.utils.Extension;
@@ -36,13 +38,12 @@ public class ImagePagerAdapter extends PagerAdapter {
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         LayoutInflater inflater = LayoutInflater.from(mContext);
         View itemView = inflater.inflate(R.layout.item_image, container, false);
-        ImageView imageView = itemView.findViewById(R.id.imageView);
+        ZoomageView imageView = itemView.findViewById(R.id.imageView);
 
-            Picasso.get()
-                    .load(mImageIds.get(position).getUrl())
-                    .error(R.mipmap.ic_launcher)
-                    .into(imageView);
-//        }
+
+        Glide.with(mContext)
+                .load(mImageIds.get(position).getUrl())
+                .into(imageView);
 
         
         container.addView(itemView);

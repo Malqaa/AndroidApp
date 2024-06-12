@@ -39,7 +39,7 @@ class ImageViewLargeActivity : AppCompatActivity() {
                 UrlImg,
                 false,
                 0,
-                0,
+                1,
                 false
             )
         )
