@@ -20,7 +20,7 @@ class ImageViewLargeActivity : AppCompatActivity() {
     private lateinit var mBtnNext: ImageButton
     private lateinit var mAdapter: ImagePagerAdapter
     private var mCurrentPosition = 0
-    private  var UrlImg: Int=0
+    private  var UrlImg: String=""
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,23 +30,22 @@ class ImageViewLargeActivity : AppCompatActivity() {
         val receivedList: ArrayList<ImageSelectModel> =
             intent.getParcelableArrayListExtra("imgList") ?: ArrayList()
 
-        UrlImg = (intent.getStringExtra("UrlImg") ?: "").toInt()
-//        receivedList.add(
-//            0, ImageSelectModel(
-//                null,
-//                "",
-//                false,
-//                UrlImg,
-//                false,
-//                0,
-//                0,
-//                false
-//            )
-//        )
+        UrlImg = (intent.getStringExtra("UrlImg") ?: "")
+        receivedList.add(
+            0, ImageSelectModel(
+                null,
+                "",
+                false,
+                UrlImg,
+                false,
+                0,
+                0,
+                false
+            )
+        )
 
-        // Remove duplicates using HashSet
-//        val set: Set<ImageSelectModel> = HashSet(receivedList)
-//        val uniqueList = ArrayList(set)
+        val distinctItems = receivedList.distinctBy { it.url }
+
 
         imageCancel = findViewById(R.id.imageCancel)
         mViewPager = findViewById(R.id.viewPager)
@@ -54,7 +53,7 @@ class ImageViewLargeActivity : AppCompatActivity() {
         layoutCancel = findViewById(R.id.layoutImg)
         mBtnNext = findViewById(R.id.btnNext)
 
-        mAdapter = ImagePagerAdapter(this, receivedList,UrlImg)
+        mAdapter = ImagePagerAdapter(this, distinctItems)
         mViewPager.adapter = mAdapter
 
         imageCancel.setOnClickListener {

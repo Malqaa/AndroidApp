@@ -1,5 +1,6 @@
 package com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.negotiationOffersPurchase.negotiationOfferSale
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import androidx.core.content.ContextCompat
@@ -13,9 +14,11 @@ import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.linearLayoutManager
 import com.malqaa.androidappp.newPhase.utils.show
 import com.malqaa.androidappp.newPhase.domain.models.negotiationOfferResp.NegotiationOfferDetails
+import com.malqaa.androidappp.newPhase.presentation.activities.productDetailsActivity.ProductDetailsActivity
 import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.negotiationOffersPurchase.AcceptOfferDialog
 import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.negotiationOffersPurchase.NegotiationOffersViewModel
 import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.negotiationOffersPurchase.adapter.NegotiationOffersAdapter
+import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import kotlinx.android.synthetic.main.activity_negotiation_offers_sale.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 
@@ -177,6 +180,14 @@ class NegotiationOffersSaleActivity : BaseActivity(),
         purchasePosition = position
         negotiationOffersViewModel.purchaseOffer(offerID)
     }
+
+    override fun onItemDetails(position: Int) {
+        startActivity(Intent(this, ProductDetailsActivity::class.java).apply {
+            putExtra(ConstantObjects.productIdKey, negotiationOfferDetailsList[position].productId)
+            putExtra("Template", "")
+        })
+    }
+
     override fun onAcceptOffer(position: Int) {
         val acceptOfferDialog = AcceptOfferDialog(this,
             true,

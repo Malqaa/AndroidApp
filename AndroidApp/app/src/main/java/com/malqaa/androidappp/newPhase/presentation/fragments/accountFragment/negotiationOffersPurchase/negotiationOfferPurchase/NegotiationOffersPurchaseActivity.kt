@@ -20,6 +20,7 @@ import com.malqaa.androidappp.newPhase.domain.models.servicemodels.PurchaseRespo
 import com.malqaa.androidappp.newPhase.presentation.MainActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.cartActivity.activity2.AddressPaymentActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.myOrderDetails.MyOrderDetailsActivity
+import com.malqaa.androidappp.newPhase.presentation.activities.productDetailsActivity.ProductDetailsActivity
 import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.negotiationOffersPurchase.AcceptOfferDialog
 import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.negotiationOffersPurchase.adapter.NegotiationOffersAdapter
 import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.negotiationOffersPurchase.NegotiationOffersViewModel
@@ -266,6 +267,12 @@ class NegotiationOffersPurchaseActivity : BaseActivity(), SwipeRefreshLayout.OnR
 
             })
         acceptOfferDialog.show()
+    }
+    override fun onItemDetails(position: Int) {
+        startActivity(Intent(this, ProductDetailsActivity::class.java).apply {
+            putExtra(ConstantObjects.productIdKey, negotiationOfferDetailsList[position].productId)
+            putExtra("Template", "")
+        })
     }
 
     override fun onBackPressed() {

@@ -326,6 +326,10 @@ class NegotiationOffersAdapter(
         holder.viewBinding.btnReject.setOnClickListener {
             setOnOfferClickListeners.onRejectOffer(position)
         }
+        holder.viewBinding.layItem.setOnClickListener {
+
+            setOnOfferClickListeners.onItemDetails(position)
+        }
     }
 
 
@@ -339,5 +343,7 @@ class NegotiationOffersAdapter(
         fun onAcceptOffer(position: Int)
         fun onRejectOffer(position: Int)
         fun onPurchaseOffer(offerID: Int, position: Int)
+
+        fun onItemDetails(position: Int)
     }
 }

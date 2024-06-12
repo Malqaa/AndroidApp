@@ -20,12 +20,10 @@ import java.util.List;
 public class ImagePagerAdapter extends PagerAdapter {
     private Context mContext;
     private List<ImageSelectModel> mImageIds;
-    int pos;
 
-    public ImagePagerAdapter(Context context, List<ImageSelectModel> imageIds, int pos) {
+    public ImagePagerAdapter(Context context, List<ImageSelectModel> imageIds) {
         mContext = context;
         mImageIds = imageIds;
-        this.pos = pos;
     }
 
     @Override
@@ -38,19 +36,15 @@ public class ImagePagerAdapter extends PagerAdapter {
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         LayoutInflater inflater = LayoutInflater.from(mContext);
         View itemView = inflater.inflate(R.layout.item_image, container, false);
-
         ImageView imageView = itemView.findViewById(R.id.imageView);
-        Picasso.get()
-                .load(mImageIds.get(pos).getUrl())
-                .error(R.mipmap.ic_launcher)
-                .into(imageView);
-//        Extension.loadImgGlide(
-//                imageView.getContext(),
-//                mImageIds.get(position).getUrl(),
-//                imageView,
-//                null,
-//                null
-//        );
+
+            Picasso.get()
+                    .load(mImageIds.get(position).getUrl())
+                    .error(R.mipmap.ic_launcher)
+                    .into(imageView);
+//        }
+
+        
         container.addView(itemView);
 
         return itemView;

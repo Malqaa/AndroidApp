@@ -164,6 +164,12 @@ class ConfirmationAddProductActivity : BaseActivity() {
         tvSaudiBankDepositOptionPayment.hide()
         tvMadaOptionPayment.hide()
         tvCardOptionPayment.hide()
+        if(AddProductObjectData.paymentOptionList?.isEmpty() == true){
+            layPaymentOption.hide()
+        }else{
+            layPaymentOption.show()
+        }
+
         AddProductObjectData.paymentOptionList?.let { paymentOptionList ->
             for (item in paymentOptionList) {
                 when (item) {
@@ -260,6 +266,11 @@ class ConfirmationAddProductActivity : BaseActivity() {
 
     private fun showPaymentMethod(paymentOptionList: ArrayList<ShippingOptionObject>) {
         val paymentList = ArrayList<Int>()
+        if(paymentOptionList.isEmpty()){
+            layPaymentOption.hide()
+        }else{
+            layPaymentOption.show()
+        }
         for (item in paymentOptionList) {
             when (item.paymentOptionId) {
                 AddProductObjectData.PAYMENT_OPTION_CASH -> {
@@ -577,12 +588,14 @@ class ConfirmationAddProductActivity : BaseActivity() {
 
         AddProductObjectData.selectedCategory = productDetails.categoryDto
         /**productPublishFeee**/
-        if (productDetails.categoryDto?.productPublishPrice != 0f) {
+        if (productDetails.categoryDto?.productPublishPrice?.toDouble() != 0.0) {
             containerProductPublishPriceFee.show()
             AddProductObjectData.selectedCategory?.productPublishPrice =
                 productDetails.categoryDto?.productPublishPrice ?: 0f
             productPublishPriceFee = productDetails.categoryDto?.productPublishPrice ?: 0f
             tvProductPublishPriceFee.text = "$productPublishPriceFee ${getString(R.string.SAR)}"
+        }else{
+            containerProductPublishPriceFee.hide()
         }
         /**package fee*/
         if (productDetails.selectedPacket != null) {
@@ -780,16 +793,18 @@ class ConfirmationAddProductActivity : BaseActivity() {
         AddProductObjectData.itemTitleAr = productDetails.nameAr.toString()
         AddProductObjectData.subtitleAr = productDetails.subTitleAr ?: ""
         AddProductObjectData.itemDescriptionAr = productDetails.descriptionAr ?: ""
-        tvTitleData.text = AddProductObjectData.itemTitleAr
-        tvSubTitleData.text = AddProductObjectData.subtitleAr
-        tvProductDetail.text = AddProductObjectData.itemDescriptionAr ?: ""
+
+//        tvTitleData.text = AddProductObjectData.itemTitleAr
+//        tvSubTitleData.text = AddProductObjectData.subtitleAr
+//        tvProductDetail.text = AddProductObjectData.itemDescriptionAr ?: ""
 //        } else {
         AddProductObjectData.itemTitleEn = productDetails.nameEn.toString()
         AddProductObjectData.subtitleEn = productDetails.subTitle ?: ""
         AddProductObjectData.itemDescriptionEn = productDetails.descriptionEn ?: ""
-        tvTitleData.text = AddProductObjectData.itemTitleEn
-        tvSubTitleData.text = AddProductObjectData.subtitleEn
-        tvProductDetail.text = AddProductObjectData.itemDescriptionEn ?: ""
+
+        tvTitleData.text = productDetails.name
+        tvSubTitleData.text = productDetails.subTitle
+        tvProductDetail.text = productDetails.description ?: ""
 //        }
 
         ContainerPackge.hide()
@@ -821,11 +836,13 @@ class ConfirmationAddProductActivity : BaseActivity() {
         containerVideoExtraFee.hide()
         containerProductPublishPriceFee.hide()
         /**productPublishFeee**/
-        if (AddProductObjectData.selectedCategory?.productPublishPrice != 0f) {
+        if (AddProductObjectData.selectedCategory?.productPublishPrice?.toDouble() != 0.0) {
             containerProductPublishPriceFee.show()
             productPublishPriceFee =
                 AddProductObjectData.selectedCategory?.productPublishPrice ?: 0f
             tvProductPublishPriceFee.text = "$productPublishPriceFee ${getString(R.string.SAR)}"
+        }else{
+            containerProductPublishPriceFee.hide()
         }
         /**package fee*/
         if (AddProductObjectData.selectedPakat != null) {

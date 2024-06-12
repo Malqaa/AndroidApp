@@ -273,7 +273,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
             val intent = Intent(this@ProductDetailsActivity, ImageViewLargeActivity::class.java)
             intent.putParcelableArrayListExtra("imgList", productImagesList)
-            intent.putExtra("UrlImg", imgPosition.toString())
+            intent.putExtra("UrlImg", productimg.tag.toString())
             startActivity(intent)
         }
 
@@ -1120,7 +1120,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
                         val intent = Intent(this@ProductDetailsActivity, ImageViewLargeActivity::class.java)
                         intent.putParcelableArrayListExtra("imgList", productImagesList)
-                        intent.putExtra("UrlImg", imgPosition.toString())
+                        intent.putExtra("UrlImg",  productImagesList[position].url)
                         startActivity(intent)
                     }
                 }
