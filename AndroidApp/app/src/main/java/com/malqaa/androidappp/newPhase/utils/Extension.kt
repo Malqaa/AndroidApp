@@ -69,6 +69,7 @@ object Extension {
         Glide.with(context)
             .load(path?: "")
             .apply(requestOptions)
+            .error(R.mipmap.ic_launcher)
             .listener(object  :RequestListener<Drawable>{
                 override fun onLoadFailed(
                     e: GlideException?,

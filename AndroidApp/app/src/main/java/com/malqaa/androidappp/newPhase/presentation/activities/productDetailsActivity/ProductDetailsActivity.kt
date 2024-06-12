@@ -1379,7 +1379,8 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     }
     private fun setPagerDots(list: List<HomeSliderItem>) {
         if (list.isNotEmpty()) {
-            val viewPagerAdapter = SliderAdaptor(this, list)
+
+            val viewPagerAdapter = SliderAdaptor(this, list,true)
             slider_details.adapter = viewPagerAdapter
 //            dots_indicator.attachTo(slider_details)
             slider_details.startAutoScroll()

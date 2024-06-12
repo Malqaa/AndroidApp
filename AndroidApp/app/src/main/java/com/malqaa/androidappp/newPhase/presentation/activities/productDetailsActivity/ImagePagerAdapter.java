@@ -43,6 +43,7 @@ public class ImagePagerAdapter extends PagerAdapter {
 
         Glide.with(mContext)
                 .load(mImageIds.get(position).getUrl())
+                .error(R.drawable.ic_play)
                 .into(imageView);
 
         

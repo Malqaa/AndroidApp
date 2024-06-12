@@ -569,7 +569,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
     private fun setPagerDots(list: List<HomeSliderItem>) {
         if (list.isNotEmpty()) {
             sliderLayout.show()
-            val viewPagerAdapter = SliderAdaptor(requireContext(), list)
+            val viewPagerAdapter = SliderAdaptor(requireContext(), list,false)
             slider_home.adapter = viewPagerAdapter
             dots_indicator.attachTo(slider_home)
             slider_home.startAutoScroll()

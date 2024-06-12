@@ -16,7 +16,7 @@ import com.malqaa.androidappp.newPhase.utils.Extension
 import com.malqaa.androidappp.newPhase.domain.models.homeSilderResp.HomeSliderItem
 
 
-class SliderAdaptor(context: Context, private val sliderList: List<HomeSliderItem>) :
+class SliderAdaptor(context: Context, private val sliderList: List<HomeSliderItem>,val details :Boolean) :
     PagerAdapter() {
     private val context: Context
     private var layoutInflater: LayoutInflater? = null
@@ -35,15 +35,22 @@ class SliderAdaptor(context: Context, private val sliderList: List<HomeSliderIte
         val view = layoutInflater!!.inflate(R.layout.slider_item, null)
         val slider_image: ImageView = view.findViewById(R.id.slider_image)
         val loader: ProgressBar = view.findViewById(R.id.loader)
-        if (sliderList[position].type != 2) {
+        if(details){
+            if (sliderList[position].type != 2) {
+                Extension.loadImgGlide(
+                    context,
+                    sliderList[position].img,
+                    slider_image, loader
+                )
+            }
+        }else{
             Extension.loadImgGlide(
                 context,
                 sliderList[position].img,
                 slider_image, loader
             )
-        } else {
-
         }
+
 
         val vp = container as ViewPager
         vp.addView(view, 0)
