@@ -1,5 +1,7 @@
 package com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activity3
 
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -63,10 +65,14 @@ class AdapterSubCategories(
     }
 
     fun updateAdapter(allSubCategories: List<Category>) {
-        if (allSubCategories.isNotEmpty()){
-            this.allSubCategories = allSubCategories
-            notifyDataSetChanged()
+        val handler = Handler(Looper.getMainLooper())
+        handler.post {
+            if (allSubCategories.isNotEmpty()){
+                this.allSubCategories = allSubCategories
+                notifyDataSetChanged()
+            }
         }
+
     }
 
     interface OnItemClickListener {
