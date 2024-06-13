@@ -150,7 +150,7 @@ class DynamicTemplateActivtiy : BaseActivity(), DynamicSpecificationsAdapter.OnC
                     dynamicSpecificationsArrayList.addAll(dynamicSpecificationResp.dynamicList)
 
                     setDataForUpdate()
-                    dynamicSpecificationsAdapter.notifyDataSetChanged()
+                    dynamicSpecificationsAdapter.updateAdapter(dynamicSpecificationsArrayList)
                 } else {
                     goNextScreen(true)
                     HelpFunctions.ShowLongToast(
@@ -199,16 +199,6 @@ class DynamicTemplateActivtiy : BaseActivity(), DynamicSpecificationsAdapter.OnC
         lifecycleScope.launch(Dispatchers.IO) {
             var allValuesSet = true
             dynamicSpecificationsArrayList.forEach { dynamicSpecificationItem ->
-//                if(dynamicSpecificationItem.type==1){
-//                    if(dynamicSpecificationItem.subSpecificationsValue==null){
-//                        allValuesSet=false
-//
-//                    }
-//                }else if(dynamicSpecificationItem.type==2){
-//                    if(dynamicSpecificationItem.valueText==""||dynamicSpecificationItem.valueText==null){
-//                        allValuesSet=false
-//                    }
-//                }
 
                 val supIdAr =
                     dynamicSpecificationItem.subSpecifications?.find { it.nameAr == dynamicSpecificationItem.valueArText }
@@ -234,18 +224,7 @@ class DynamicTemplateActivtiy : BaseActivity(), DynamicSpecificationsAdapter.OnC
                         }
                     }
                 }
-                else if (dynamicSpecificationItem.type == 3) {
-                    data.add(
-                        DynamicSpecificationSentObject(
-                            HeaderSpeAr = dynamicSpecificationItem.nameAr.toString(),
-                            HeaderSpeEn = dynamicSpecificationItem.nameEn.toString(),
-                            ValueSpeAr = dynamicSpecificationItem.valueBoolean.toString(),
-                            ValueSpeEn = dynamicSpecificationItem.valueBoolean.toString(),
-                            Type = dynamicSpecificationItem.type,
-                            SpecificationId = dynamicSpecificationItem.id
-                        )
-                    )
-                }
+
                 else if (dynamicSpecificationItem.type == 5 || (dynamicSpecificationItem.type == 6)) {
                     val supIdAr =
                         dynamicSpecificationItem.subSpecifications?.find { dynamicSpecificationItem.valueBoolean }
@@ -274,23 +253,38 @@ class DynamicTemplateActivtiy : BaseActivity(), DynamicSpecificationsAdapter.OnC
                     }
 
                 }
+                else if(dynamicSpecificationItem.type == 4){
+                    if(dynamicSpecificationItem.isRequired&&(dynamicSpecificationItem.valueArText == "" || dynamicSpecificationItem.valueArText == null)){
+                        allValuesSet = false
+                    }else{
+                        data.add(
+                            DynamicSpecificationSentObject(
+                                HeaderSpeAr = dynamicSpecificationItem.nameAr.toString(),
+                                HeaderSpeEn = dynamicSpecificationItem.nameAr.toString(),
+                                ValueSpeAr = dynamicSpecificationItem.valueArText?:"",
+                                Type = dynamicSpecificationItem.type,
+                                ValueSpeEn = dynamicSpecificationItem.valueArText?:"",
+                                SpecificationId = dynamicSpecificationItem.id
+                            )
+                        )
+                    }
+                }
                 else {
-                    if (dynamicSpecificationItem.valueArText == "" || dynamicSpecificationItem.valueArText == null || dynamicSpecificationItem.valueEnText == "" || dynamicSpecificationItem.valueEnText == null) {
+                    if (dynamicSpecificationItem.isRequired&&(dynamicSpecificationItem.valueArText == "" || dynamicSpecificationItem.valueArText == null || dynamicSpecificationItem.valueEnText == "" || dynamicSpecificationItem.valueEnText == null)) {
                         allValuesSet = false
                     } else {
                         data.add(
                             DynamicSpecificationSentObject(
                                 HeaderSpeAr = dynamicSpecificationItem.nameAr.toString(),
                                 HeaderSpeEn = dynamicSpecificationItem.nameEn.toString(),
-                                ValueSpeAr = dynamicSpecificationItem.valueArText,
+                                ValueSpeAr = dynamicSpecificationItem.valueArText?:"",
                                 Type = dynamicSpecificationItem.type,
-                                ValueSpeEn = dynamicSpecificationItem.valueEnText,
+                                ValueSpeEn = dynamicSpecificationItem.valueEnText?:"",
                                 SpecificationId = dynamicSpecificationItem.id
                             )
                         )
                     }
                 }
-
 
             }
             withContext(Dispatchers.Main) {

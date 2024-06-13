@@ -3,6 +3,7 @@ package com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activ
 import android.content.Context
 import android.opengl.Visibility
 import android.text.Editable
+import android.text.InputType
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
@@ -30,20 +31,22 @@ class DynamicSpecificationsAdapter(
 
     //====viewHolder
     private val spinnerType = 1 // and 7
-    private val textBoxType = 2
+    private val textBoxType = 2 // and 3
+    private val numberType = 4
     private val radioType = 5
     private val checkType = 6
+
 
 //    class TextBoxViewHolder(var viewBinding: ItemTextBoxsBinding) :
 //        RecyclerView.ViewHolder(viewBinding.root)
 
     class TextBoxViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val tvTitleAr: TextView = view.findViewById(R.id.tvTitleAr)
-        val etValueAr: EditText = view.findViewById(R.id.etValueAr)
         val tvTitleEn: TextView = view.findViewById(R.id.tvTitleEn)
         val txtRequired: TextView = view.findViewById(R.id.txtRequired)
         val txtRequiredEn: TextView = view.findViewById(R.id.txtRequiredEn)
         val etValueEn: EditText = view.findViewById(R.id.etValueEn)
+        val etValueAr: EditText = view.findViewById(R.id.etValueAr)
 
     }
 
@@ -220,21 +223,37 @@ class DynamicSpecificationsAdapter(
         textBoxViewHolder: TextBoxViewHolder,
         position: Int
     ) {
-        textBoxViewHolder.tvTitleAr.text =
-            "${dynamicSpecificationList[position].name} ${context.getString(R.string.inArabic)}"
-        textBoxViewHolder.tvTitleEn.text =
-            "${dynamicSpecificationList[position].name} ${context.getString(R.string.inEnglish)}"
+        if (dynamicSpecificationList.get(position).type == numberType){
+
+        }
         //textBoxHolder.etValue.setHint(attributesList.get(position).getTitle());
-        //if (attributesList.get(position).getTextboxDatatype() != 4)
+        if (dynamicSpecificationList.get(position).type == numberType){
+            textBoxViewHolder.tvTitleAr.text =
+                "${dynamicSpecificationList[position].name}"
+            textBoxViewHolder.etValueAr.inputType = InputType.TYPE_CLASS_NUMBER;
+            textBoxViewHolder.etValueEn.inputType = InputType.TYPE_CLASS_NUMBER;
+            textBoxViewHolder.tvTitleEn.visibility=View.GONE
+            textBoxViewHolder.etValueEn.visibility=View.GONE
+            textBoxViewHolder.txtRequiredEn.visibility=View.GONE
+        }else{
+            textBoxViewHolder.tvTitleAr.text =
+                "${dynamicSpecificationList[position].name} ${context.getString(R.string.inArabic)}"
+            textBoxViewHolder.tvTitleEn.text =
+                "${dynamicSpecificationList[position].name} ${context.getString(R.string.inEnglish)}"
+        }
+
+
         if(dynamicSpecificationList[position].isSelected){
-            textBoxViewHolder.etValueAr.setText(dynamicSpecificationList[position].valueArText)
-            textBoxViewHolder.etValueEn.setText(dynamicSpecificationList[position].valueEnText)
+            textBoxViewHolder.etValueAr.setText(dynamicSpecificationList[position].valueArText?:"")
+            textBoxViewHolder.etValueEn.setText(dynamicSpecificationList[position].valueEnText?:"")
 
         }
 
         if(dynamicSpecificationList[position].isRequired){
             textBoxViewHolder.txtRequired.visibility=View.VISIBLE
-            textBoxViewHolder.txtRequiredEn.visibility=View.VISIBLE
+            if (dynamicSpecificationList.get(position).type != numberType){
+                textBoxViewHolder.txtRequiredEn.visibility=View.VISIBLE
+            }
         }
         textBoxViewHolder.etValueAr.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
