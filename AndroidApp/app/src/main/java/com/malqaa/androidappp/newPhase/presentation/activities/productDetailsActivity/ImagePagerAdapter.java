@@ -41,10 +41,16 @@ public class ImagePagerAdapter extends PagerAdapter {
         ZoomageView imageView = itemView.findViewById(R.id.imageView);
 
 
-        Glide.with(mContext)
-                .load(mImageIds.get(position).getUrl())
-                .error(R.drawable.ic_play)
-                .into(imageView);
+        if(mImageIds.get(position).getType()!=2){
+            Glide.with(mContext)
+                    .load(mImageIds.get(position).getUrl())
+                    .into(imageView);
+        }else {
+            Glide.with(mContext)
+                    .load(mImageIds.get(position).getUrl())
+                    .error(R.drawable.ic_play)
+                    .into(imageView);
+        }
 
         
         container.addView(itemView);

@@ -335,7 +335,7 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
 //            })
             val intent = Intent(this@MyProductDetailsActivity, ImageViewLargeActivity::class.java)
             intent.putParcelableArrayListExtra("imgList", productImagesList)
-            intent.putExtra("UrlImg", imgPosition.toString())
+            intent.putExtra("UrlImg", myProductimg.tag.toString())
             startActivity(intent)
         }
 
@@ -811,7 +811,7 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
                         //==zoom image
                         val intent = Intent(this@MyProductDetailsActivity, ImageViewLargeActivity::class.java)
                         intent.putParcelableArrayListExtra("imgList", productImagesList)
-                        intent.putExtra("UrlImg", imgPosition.toString())
+                        intent.putExtra("UrlImg",  productImagesList[position].url)
                         startActivity(intent)
                     }
                 }
@@ -890,7 +890,7 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
 
             productPrice = productDetails.priceDisc
 
-            productimg.setTag(productDetails.productImage)
+            myProductimg.setTag(productDetails.productImage)
             if (productDetails.listMedia != null) {
                 other_image_layout.show()
                 productImagesList.clear()

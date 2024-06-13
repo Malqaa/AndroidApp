@@ -260,7 +260,7 @@ class ConfirmationAddProductActivity : BaseActivity() {
 //                "${AddProductObjectData.selectPromotiion!!.packageprice} ${getString(R.string.rial)}"
 //        }
         //=====setSum
-        setSummeryData()
+//        setSummeryData()
 
     }
 
@@ -582,6 +582,16 @@ class ConfirmationAddProductActivity : BaseActivity() {
 
     @SuppressLint("SetTextI18n")
     private fun setProductData(productDetails: Product) {
+
+        ContainerPackge.hide()
+        containerFixedPriceFee.hide()
+        containerAuctionFee.hide()
+        containerNegotiationFee.hide()
+        containerSubTitleFee.hide()
+        containerImageExtraFee.hide()
+        containerVideoExtraFee.hide()
+        containerProductPublishPriceFee.hide()
+
         AddProductObjectData.selectedCategoryId = productDetails.categoryId
         AddProductObjectData.selectedCategoryName = productDetails.category.toString()
         pakatId = productDetails.pakatId.toString()
@@ -607,6 +617,7 @@ class ConfirmationAddProductActivity : BaseActivity() {
             tv_package_price.text = "$pakagePrice ${getString(R.string.SAR)}"
             tv_package_name.text = productDetails.selectedPacket?.name
         }else{
+            ContainerPackge.hide()
             layPackage.hide()
         }
 
@@ -639,6 +650,7 @@ class ConfirmationAddProductActivity : BaseActivity() {
             negotiationFee = AddProductObjectData.selectedCategory?.enableNegotiationFee ?: 0f
             tvNegotiationFee.text = "$negotiationFee ${getString(R.string.SAR)}"
         }
+
         /**subTitle fee*/
         if (productDetails.subTitle != "" && productDetails.categoryDto?.subTitleFee != 0f) {
             AddProductObjectData.selectedCategory?.subTitleFee =
@@ -647,45 +659,49 @@ class ConfirmationAddProductActivity : BaseActivity() {
             subTitleFee = AddProductObjectData.selectedCategory?.subTitleFee ?: 0f
             tvSubTitleFee.text = "$subTitleFee ${getString(R.string.SAR)}"
         }
-        /**ExtreImageFee*/
-//        productDetails.categoryDto?.let { selectedCategory ->
-//            var extraImages = 0
-//            AddProductObjectData.images?.let {
-//                if (it.size > selectedCategory.freeProductImagesCount) {
-//                    extraImages = it.size - selectedCategory.freeProductImagesCount
-//                }
-//            }
-//            if (extraImages > 0) {
-//                extraImageFee = selectedCategory.extraProductImageFee * extraImages
-//                if (extraImageFee != 0f) {
-//                    containerImageExtraFee.show()
-//                    tvImageExtraFee.text = "$extraImageFee ${getString(R.string.SAR)}"
-//                }
-//            }
-//        }
-        /**ExtreVideoFee*/
+
         if (!productDetails.listMedia.isNullOrEmpty()) productDetails.listMedia.let {
             val list = productDetails.listMedia.filter { it.type == 2 }.map { it.url }
 
             AddProductObjectData.videoList = list as ArrayList<String>
+            AddProductObjectData.images = it
 //            AddProductObjectData.listMedia = arrayListOf()
 //            AddProductObjectData.listMedia = productDetails.listMedia
         }
-//        AddProductObjectData.selectedCategory?.let { selectedCategory ->
-//            var extraVideo = 0
-//            AddProductObjectData.videoList?.let {
-//                if (it.size > selectedCategory.freeProductVidoesCount) {
-//                    extraVideo = it.size - selectedCategory.freeProductVidoesCount
-//                }
-//            }
-//            if (extraVideo > 0) {
-//                extraVideoFee = selectedCategory.extraProductVidoeFee * extraVideo
-//                if (extraVideoFee != 0f) {
-//                    containerVideoExtraFee.show()
-//                    tvVideoExtraFee.text = "$extraVideoFee ${getString(R.string.SAR)}"
-//                }
-//            }
-//        }
+
+        /**ExtreImageFee*/
+        productDetails.categoryDto?.let { selectedCategory ->
+            var extraImages = 0
+            AddProductObjectData.images?.let {
+                if (it.size > selectedCategory.freeProductImagesCount) {
+                    extraImages = it.size - selectedCategory.freeProductImagesCount
+                }
+            }
+            if (extraImages > 0) {
+                extraImageFee = selectedCategory.extraProductImageFee * extraImages
+                if (extraImageFee != 0f) {
+                    containerImageExtraFee.show()
+                    tvImageExtraFee.text = "$extraImageFee ${getString(R.string.SAR)}"
+                }
+            }
+        }
+        /**ExtreVideoFee*/
+        productDetails.categoryDto?.let { selectedCategory ->
+            var extraVideo = 0
+            AddProductObjectData.videoList?.let {
+                if (it.size > selectedCategory.freeProductVidoesCount) {
+                    extraVideo = it.size - selectedCategory.freeProductVidoesCount
+                }
+            }
+            if (extraVideo > 0) {
+                extraVideoFee = selectedCategory.extraProductVidoeFee * extraVideo
+                if (extraVideoFee != 0f) {
+                    containerVideoExtraFee.show()
+                    tvVideoExtraFee.text = "$extraVideoFee ${getString(R.string.SAR)}"
+                }
+            }
+        }
+
 
         /**total*/
         totalPrice =
@@ -807,13 +823,13 @@ class ConfirmationAddProductActivity : BaseActivity() {
         tvProductDetail.text = productDetails.description ?: ""
 //        }
 
-        ContainerPackge.hide()
+//        ContainerPackge.hide()
 //        containerFixedPriceFee.hide()
 //        containerAuctionFee.hide()
 //        containerNegotiationFee.hide()
 //        containerSubTitleFee.hide()
-        containerImageExtraFee.hide()
-        containerVideoExtraFee.hide()
+//        containerImageExtraFee.hide()
+//        containerVideoExtraFee.hide()
 //        containerProductPublishPriceFee.hide()
     }
 
