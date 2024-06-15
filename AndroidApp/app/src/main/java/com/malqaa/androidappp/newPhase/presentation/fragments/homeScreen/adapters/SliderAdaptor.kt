@@ -44,6 +44,8 @@ class SliderAdaptor(context: Context, private val sliderList: List<HomeSliderIte
                 )
             }
         }else{
+            slider_image.scaleType = ImageView.ScaleType.FIT_XY;
+
             Extension.loadImgGlide(
                 context,
                 sliderList[position].img,

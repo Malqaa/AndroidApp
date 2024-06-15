@@ -134,7 +134,7 @@ class ProductHorizontalAdapter(
 
             Extension.loadImgGlide(
                 context,
-                productList[position].productImage ?: "",
+                productList[position].image ?: "",
                 holder.viewBinding.productimg,
                 holder.viewBinding.loader
             )

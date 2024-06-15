@@ -239,7 +239,7 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
             val viewPagerAdapter = SliderAdaptor(this, list,true)
             slider_my_details.adapter = viewPagerAdapter
 //            dots_indicator.attachTo(slider_details)
-            slider_my_details.startAutoScroll()
+//            slider_my_details.startAutoScroll()
         }
     }
     private fun mapImageSelectModelToHomeSliderItem(imageSelectModels: ArrayList<ImageSelectModel>): List<HomeSliderItem> {
