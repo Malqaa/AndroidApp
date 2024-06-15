@@ -420,8 +420,18 @@ class ListingDetailsActivity : BaseActivity() {
     }
 
     fun checkAllRight(){
-        AddProductObjectData.itemTitleAr = tvTitleAr.text.toString()
-        AddProductObjectData.itemTitleEn = tvTitleEn.getText().trim()
+        if(tvTitleAr.text.toString()=="")
+            AddProductObjectData.itemTitleAr = tvTitleEn.text.toString()
+        else{
+            AddProductObjectData.itemTitleAr = tvTitleAr.text.toString()
+        }
+
+        if(tvTitleEn.text.toString()=="")
+            AddProductObjectData.itemTitleAr = tvTitleAr.text.toString()
+        else{
+            AddProductObjectData.itemTitleAr = tvTitleEn.text.toString()
+        }
+
         AddProductObjectData.subtitleAr = tvSubtitleAr.text.toString()
         AddProductObjectData.subtitleEn = tvSubtitleEn.text.toString()
         AddProductObjectData.itemDescriptionAr = tvDescriptionAr.text.trim().toString()

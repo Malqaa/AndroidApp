@@ -115,10 +115,10 @@ class ProductHorizontalAdapter(
         holder.viewBinding.dateTv.text = HelpFunctions.getViewFormatForDateTrack(productList[position].createdAt, "dd/MM/yyyy")
 
 
-        if (productList[position].image != null && productList[position].image != "") {
+        if (productList[position].productImage != null && productList[position].productImage != "") {
             Extension.loadImgGlide(
                 context,
-                productList[position].image ?: "",
+                productList[position].productImage ?: "",
                 holder.viewBinding.productimg,
                 holder.viewBinding.loader
             )
@@ -134,7 +134,7 @@ class ProductHorizontalAdapter(
 
             Extension.loadImgGlide(
                 context,
-                productList[position].image ?: "",
+                productList[position].productImage ?: "",
                 holder.viewBinding.productimg,
                 holder.viewBinding.loader
             )

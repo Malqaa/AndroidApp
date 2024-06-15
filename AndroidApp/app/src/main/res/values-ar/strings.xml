@@ -192,9 +192,7 @@
     <string name="MaximumImagesAllowedtoSelectare">
    الحد الأقصى للصور المسموح بتحديدها هي   %1$d
   </string>
-    <string name="Showmore">
-    أظهر المزيد
-  </string>
+    <string name="Showmore">....المزيد</string>
 
     <string name="language">لغة</string>
 

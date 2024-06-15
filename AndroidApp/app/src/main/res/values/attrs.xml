@@ -91,4 +91,9 @@
         <attr name="textSize" format="dimension" />
         <attr name="backgroundDrawable" format="reference" />
     </declare-styleable>
+
+    <declare-styleable name="ReadMoreTextView">
+        <attr name="trimLength" format="integer" />
+    </declare-styleable>
+
 </resources>

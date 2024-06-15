@@ -232,7 +232,7 @@
     <string name="PaymentMethod">Payment Method</string>
     <string name="NoImageSelected">No Image Selected</string>
     <string name="Selectshippingoptions">Select shipping options</string>
-    <string name="Showmore">Show more</string>
+    <string name="Showmore">....Show more</string>
     <string name="Weight">Weight</string>
     <string name="WeightDimensions">Weight &amp; Dimensions</string>
     <string name="Width">Width</string>

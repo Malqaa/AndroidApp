@@ -891,11 +891,22 @@ class ConfirmationAddProductActivity : BaseActivity() {
             tvNegotiationFee.text = "$negotiationFee ${getString(R.string.SAR)}"
         }
         /**subTitle fee*/
-        if (AddProductObjectData.subtitleAr != "" && AddProductObjectData.subtitleEn != "" && AddProductObjectData.selectedCategory?.subTitleFee != 0f) {
+        if ((AddProductObjectData.subtitleAr != "" ||AddProductObjectData.subtitleEn != "") && AddProductObjectData.selectedCategory?.subTitleFee != 0f) {
             containerSubTitleFee.show()
             subTitleFee = AddProductObjectData.selectedCategory?.subTitleFee ?: 0f
             tvSubTitleFee.text = "$subTitleFee ${getString(R.string.SAR)}"
+
+            if (ConstantObjects.currentLanguage == ConstantObjects.ARABIC) {
+                tvTitleData.text = AddProductObjectData.itemTitleAr
+                tvSubTitleData.text = AddProductObjectData.subtitleAr
+                tvProductDetail.text = AddProductObjectData.itemDescriptionAr
+            } else {
+                tvTitleData.text = AddProductObjectData.itemTitleEn
+                tvSubTitleData.text = AddProductObjectData.subtitleEn
+                tvProductDetail.text = AddProductObjectData.itemDescriptionEn
+            }
         }
+
         /**ExtreImageFee*/
         AddProductObjectData.selectedCategory?.let { selectedCategory ->
             var extraImages = 0

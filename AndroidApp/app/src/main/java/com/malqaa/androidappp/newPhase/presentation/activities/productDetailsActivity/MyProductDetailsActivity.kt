@@ -101,6 +101,7 @@ import kotlinx.android.synthetic.main.activity_my_product_details2.txtSmile
 import kotlinx.android.synthetic.main.activity_product_details2.productimg
 import kotlinx.android.synthetic.main.my_product_details.myProductimg
 import kotlinx.android.synthetic.main.activity_product_details_item_2.laySpec
+import kotlinx.android.synthetic.main.activity_product_details_item_2.readMoreTextView
 import kotlinx.android.synthetic.main.my_product_details.btnNextImage
 import kotlinx.android.synthetic.main.my_product_details.btnShare
 import kotlinx.android.synthetic.main.my_product_details.containerMainProduct
@@ -912,6 +913,8 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
                 }"
             tvProductItemName.text = productDetails.name ?: ""
             tvProductSubtitle.text = productDetails.subTitle ?: ""
+
+
             tvProductDescriptionShort.text =
                 productDetails.description ?: ""
             tvProductDescriptionLong.text =
@@ -919,7 +922,7 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
             val isEllipsize: Boolean = tvProductDescriptionShort.text.toString()
                 .trim() != productDetails.description?.trim()
             if (isEllipsize) {
-//                btnMoreItemDetails.show()
+                btnMoreItemDetails.show()
             } else {
                 btnMoreItemDetails.hide()
             }

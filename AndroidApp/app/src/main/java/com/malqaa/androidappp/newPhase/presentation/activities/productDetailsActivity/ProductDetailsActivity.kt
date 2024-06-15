@@ -1294,27 +1294,27 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
             if(productDetails.description!=""){
                 layDetails.show()
-                tvProductDescriptionShort.text = productDetails.description ?: ""
-                tvProductDescriptionLong.text = productDetails.description ?: ""
+                readMoreTextView.text = productDetails.description?:""
+//                tvProductDescriptionShort.text = productDetails.description ?: ""
+//                tvProductDescriptionLong.text = productDetails.description ?: ""
             }
-            val isEllipsize: Boolean = tvProductDescriptionShort.text.toString()
-                .trim() != productDetails.description?.trim()
-            if (isEllipsize) {
-//                btnMoreItemDetails.show()
-            } else {
-                btnMoreItemDetails.hide()
-            }
+//            val isEllipsize: Boolean = tvProductDescriptionShort.text.toString().trim() != productDetails.description?.trim()
+//            if (isEllipsize) {
+////                btnMoreItemDetails.show()
+//            } else {
+//                btnMoreItemDetails.hide()
+//            }
             btnMoreItemDetails.setOnClickListener {
 
-                if (getString(R.string.Showmore) == btnMoreItemDetails.text.toString() && isEllipsize) {
-                    btnMoreItemDetails.text = getString(R.string.showLess)
-                    tvProductDescriptionLong.show()
-                    tvProductDescriptionShort.hide()
-                } else if (getString(R.string.showLess) == btnMoreItemDetails.text.toString()) {
-                    btnMoreItemDetails.text = getString(R.string.Showmore)
-                    tvProductDescriptionLong.hide()
-                    tvProductDescriptionShort.show()
-                }
+//                if (getString(R.string.Showmore) == btnMoreItemDetails.text.toString() && isEllipsize) {
+//                    btnMoreItemDetails.text = getString(R.string.showLess)
+//                    tvProductDescriptionLong.show()
+//                    tvProductDescriptionShort.hide()
+//                } else if (getString(R.string.showLess) == btnMoreItemDetails.text.toString()) {
+//                    btnMoreItemDetails.text = getString(R.string.Showmore)
+//                    tvProductDescriptionLong.hide()
+//                    tvProductDescriptionShort.show()
+//                }
 
             }
 
