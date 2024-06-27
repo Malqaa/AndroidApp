@@ -2,6 +2,7 @@ package com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activ
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.malqaa.androidappp.R
@@ -31,7 +32,7 @@ class PromotionalActivity : BaseActivity(), PakatAdapter.SetOnPakatSelected {
     override fun onBackPressed() {
         if (isEdit) {
             startActivity(Intent(this, ConfirmationAddProductActivity::class.java).apply {
-                putExtra("whereCome","Add")
+                putExtra("whereCome", "Add")
             })
             finish()
         } else {
@@ -134,20 +135,20 @@ class PromotionalActivity : BaseActivity(), PakatAdapter.SetOnPakatSelected {
 
         }
         addProductViewModel.errorResponseObserver.observe(this) {
-            if(it.status!=null && it.status=="409"){
+            if (it.status != null && it.status == "409") {
                 HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), this)
-            }else{
-            if (it.message != null && it.message != "") {
-                HelpFunctions.ShowLongToast(
-                    it.message!!,
-                    this
-                )
             } else {
-                HelpFunctions.ShowLongToast(
-                    getString(R.string.serverError),
-                    this
-                )
-            }
+                if (it.message != null && it.message != "") {
+                    HelpFunctions.ShowLongToast(
+                        it.message!!,
+                        this
+                    )
+                } else {
+                    HelpFunctions.ShowLongToast(
+                        getString(R.string.serverError),
+                        this
+                    )
+                }
             }
 
         }
@@ -166,7 +167,7 @@ class PromotionalActivity : BaseActivity(), PakatAdapter.SetOnPakatSelected {
                     }
                     pakatAdapter.notifyDataSetChanged()
                 } else {
-                   // goNextActivity()
+                    // goNextActivity()
                     HelpFunctions.ShowLongToast(
                         getString(R.string.noPackagesFound),
                         this
@@ -196,15 +197,15 @@ class PromotionalActivity : BaseActivity(), PakatAdapter.SetOnPakatSelected {
         pakatList[position].isSelected = true
         pakatAdapter.notifyDataSetChanged()
         AddProductObjectData.selectedPakat = pakatList[position]
-        println("hhhh "+pakatList[position].id)
+        println("hhhh " + pakatList[position].id)
     }
 
     private fun setClickViewListenrs() {
         back_btn.setOnClickListener {
             onBackPressed()
         }
-        button16611.setOnClickListener() {
-            confirmpromotion()
+        button16611.setOnClickListener {
+                confirmpromotion()
         }
         no_thank_you.setOnClickListener {
 //            AddProductObjectData.selectPromotiion = null
@@ -215,7 +216,7 @@ class PromotionalActivity : BaseActivity(), PakatAdapter.SetOnPakatSelected {
 
     private fun goNextActivity() {
         startActivity(Intent(this, ConfirmationAddProductActivity::class.java).apply {
-            putExtra("whereCome","Add")
+            putExtra("whereCome", "Add")
         })
     }
 
@@ -229,12 +230,12 @@ class PromotionalActivity : BaseActivity(), PakatAdapter.SetOnPakatSelected {
     }
 
     fun confirmpromotion() {
-        if (!validatepromotion()) {
+        if (!validatepromotion() && (containerExtraPakage.visibility != View.VISIBLE)) {
             showError(getString(R.string.choose_one_of_our_special_packages))
         } else {
             if (isEdit) {
                 startActivity(Intent(this, ConfirmationAddProductActivity::class.java).apply {
-                    putExtra("whereCome","Add")
+                    putExtra("whereCome", "Add")
                     finish()
                 })
             } else {

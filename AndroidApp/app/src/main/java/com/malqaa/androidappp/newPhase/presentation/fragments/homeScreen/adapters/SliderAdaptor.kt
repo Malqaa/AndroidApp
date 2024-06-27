@@ -14,9 +14,11 @@ import androidx.viewpager.widget.ViewPager
 import com.malqaa.androidappp.R
 import com.malqaa.androidappp.newPhase.utils.Extension
 import com.malqaa.androidappp.newPhase.domain.models.homeSilderResp.HomeSliderItem
+import com.malqaa.androidappp.newPhase.presentation.fragments.homeScreen.ListenerSlider
 
 
-class SliderAdaptor(context: Context, private val sliderList: List<HomeSliderItem>,val details :Boolean) :
+class SliderAdaptor(context: Context, private val sliderList: List<HomeSliderItem>, val details :Boolean,
+                    private val listenerSlider: ListenerSlider) :
     PagerAdapter() {
     private val context: Context
     private var layoutInflater: LayoutInflater? = null
@@ -53,6 +55,9 @@ class SliderAdaptor(context: Context, private val sliderList: List<HomeSliderIte
             )
         }
 
+        slider_image.setOnClickListener {
+            listenerSlider.onClickImage(sliderList[position].img)
+        }
 
         val vp = container as ViewPager
         vp.addView(view, 0)

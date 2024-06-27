@@ -46,6 +46,7 @@ import com.malqaa.androidappp.newPhase.presentation.activities.productDetailsAct
 import com.malqaa.androidappp.newPhase.presentation.activities.productDetailsActivity.adapter.SpecificationAdapter
 import com.malqaa.androidappp.newPhase.presentation.activities.productDetailsActivity.viewModels.ProductDetailsViewModel
 import com.malqaa.androidappp.newPhase.presentation.activities.productQuestionActivity.QuestionActivity
+import com.malqaa.androidappp.newPhase.presentation.fragments.homeScreen.ListenerSlider
 import com.malqaa.androidappp.newPhase.presentation.fragments.homeScreen.adapters.SliderAdaptor
 import com.yariksoffice.lingver.Lingver
 import io.paperdb.Paper
@@ -125,7 +126,7 @@ import java.util.Date
 
 class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
     SetOnProductItemListeners, QuestionAnswerAdapter.SetonSelectedQuestion,
-    BuyCurrentPriceDialog.OnAttachedCartMethodSelected {
+    BuyCurrentPriceDialog.OnAttachedCartMethodSelected , ListenerSlider {
 
     var addProductReviewRequestCode = 1000
     lateinit var product: Product
@@ -236,7 +237,7 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
     }
     private fun setPagerDots(list: List<HomeSliderItem>) {
         if (list.isNotEmpty()) {
-            val viewPagerAdapter = SliderAdaptor(this, list,true)
+            val viewPagerAdapter = SliderAdaptor(this, list,true,this)
             slider_my_details.adapter = viewPagerAdapter
 //            dots_indicator.attachTo(slider_details)
 //            slider_my_details.startAutoScroll()
@@ -1169,6 +1170,10 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
         super.onDestroy()
         productDetialsViewModel.closeAllCall()
         productDetialsViewModel.baseCancel()
+    }
+
+    override fun onClickImage(url: String) {
+
     }
 }
 

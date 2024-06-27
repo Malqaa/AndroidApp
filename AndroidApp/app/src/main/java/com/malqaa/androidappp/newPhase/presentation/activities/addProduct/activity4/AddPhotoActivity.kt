@@ -197,9 +197,9 @@ class AddPhotoActivity : BaseActivity(), SelectedImagesAdapter.SetOnSelectedMain
                 pickImageFromGallery2()
             }
 
-            addcamera.setOnClickListener {
-                floatingActionButton.performClick()
-            }
+//            addcamera.setOnClickListener {
+//                floatingActionButton.performClick()
+//            }
         }
     }
 

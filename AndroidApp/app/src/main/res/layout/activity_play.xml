@@ -22,17 +22,23 @@
 
         />
 
-    <com.potyvideo.library.AndExoPlayerView
-        android:id="@+id/andExoPlayerView"
+    <com.google.android.exoplayer2.ui.PlayerView
+        android:id="@+id/playerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:andexo_play_when_ready="true"
-        app:andexo_show_controller="true" />
+        android:visibility="gone"
+        android:layout_centerInParent="true"/>
 
     <WebView
         android:id="@+id/webView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <VideoView
+        android:id="@+id/videoView"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 <!--    <com.google.android.youtube.player.YouTubePlayerView-->
 <!--        android:id="@+id/youtube_player_view"-->

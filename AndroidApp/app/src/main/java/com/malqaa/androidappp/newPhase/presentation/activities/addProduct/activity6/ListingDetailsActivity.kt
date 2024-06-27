@@ -404,38 +404,35 @@ class ListingDetailsActivity : BaseActivity() {
 //            showError(getString(R.string.PleaseenteravalidPhoneNumber))
 //        }
 
-        else if (switchInfoEn.isChecked){
+        else if (switchInfoEn.isChecked) {
             if (tvTitleEn.getText().isEmpty()) {
                 showError(getString(R.string.Please_enter, getString(R.string.item_title)))
-            }
-            else {
+            } else {
                 checkAllRight()
 
             }
-        }else{
+        } else {
             checkAllRight()
         }
 
 
     }
 
-    fun checkAllRight(){
-        if(tvTitleAr.text.toString()=="")
-            AddProductObjectData.itemTitleAr = tvTitleEn.text.toString()
-        else{
-            AddProductObjectData.itemTitleAr = tvTitleAr.text.toString()
-        }
-
-        if(tvTitleEn.text.toString()=="")
-            AddProductObjectData.itemTitleAr = tvTitleAr.text.toString()
-        else{
-            AddProductObjectData.itemTitleAr = tvTitleEn.text.toString()
-        }
-
+    fun checkAllRight() {
+        AddProductObjectData.itemTitleAr = tvTitleAr.text.toString()
         AddProductObjectData.subtitleAr = tvSubtitleAr.text.toString()
-        AddProductObjectData.subtitleEn = tvSubtitleEn.text.toString()
         AddProductObjectData.itemDescriptionAr = tvDescriptionAr.text.trim().toString()
-        AddProductObjectData.itemDescriptionEn = tvDescriptionEn.text.trim().toString()
+        if (!switchInfoEn.isChecked) {
+            AddProductObjectData.itemTitleEn = tvTitleAr.text.toString()
+            AddProductObjectData.subtitleEn = tvSubtitleAr.text.toString()
+            AddProductObjectData.itemDescriptionEn = tvDescriptionAr.text.trim().toString()
+        } else {
+            AddProductObjectData.itemTitleEn = tvTitleEn.getText().toString()
+            AddProductObjectData.subtitleEn = tvSubtitleEn.text.toString()
+            AddProductObjectData.itemDescriptionEn = tvDescriptionEn.text.trim().toString()
+        }
+
+
         AddProductObjectData.country = selectedCountry
         AddProductObjectData.region = selectedRegion
         AddProductObjectData.city = selectedCity

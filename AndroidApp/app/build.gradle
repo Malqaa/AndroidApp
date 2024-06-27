@@ -9,12 +9,12 @@ plugins {
     id 'com.google.firebase.crashlytics'
 }
 android {
-    compileSdkVersion 32
+    compileSdkVersion 34
 
     defaultConfig {
         applicationId "com.malqaa.androidappp"
         minSdkVersion 22
-        targetSdkVersion 32
+        targetSdkVersion 34
         versionCode 2
         versionName '2.1'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -93,6 +93,15 @@ dependencies {
         exclude group: 'glide-parent'
     }
     implementation 'com.github.HamidrezaAmz:MagicalExoPlayer:2.0.7'
+
+    implementation 'com.google.android.exoplayer:exoplayer-core:2.19.1'
+    implementation 'com.google.android.exoplayer:exoplayer-dash:2.19.1'
+    implementation 'com.google.android.exoplayer:exoplayer-hls:2.19.1'
+    implementation 'com.google.android.exoplayer:exoplayer-smoothstreaming:2.19.1'
+    implementation 'com.google.android.exoplayer:exoplayer-ui:2.19.1'
+
+
+//    implementation 'com.potyvideo.library:AndExoPlayer:1.X.X'
 
     implementation 'com.joooonho:selectableroundedimageview:1.0.1'
     implementation("org.greenrobot:eventbus:3.3.1")

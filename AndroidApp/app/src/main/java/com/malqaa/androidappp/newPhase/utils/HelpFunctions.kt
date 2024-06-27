@@ -621,7 +621,7 @@ class HelpFunctions {
             val hashMapLocationInfo = HashMap<String, String>()
             try {
                 // Here 1 represent max location result to returned, by documents it recommended 1 to 5
-                addresses = geocoder.getFromLocation(latitude, longitude, 1)
+                addresses = geocoder.getFromLocation(latitude, longitude, 1)!!
                 if (addresses.isNotEmpty()) {
                     // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
                     // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()

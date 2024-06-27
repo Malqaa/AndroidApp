@@ -55,7 +55,7 @@ import kotlinx.coroutines.withContext
 
 class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnItemClickListener,
     SwipeRefreshLayout.OnRefreshListener, SetOnProductItemListeners,
-    CategoryProductAdapter.SetOnSelectedProductInCategory {
+    CategoryProductAdapter.SetOnSelectedProductInCategory,ListenerSlider {
     private var dotscount = 0
 
     //    var slider_home_: AutoScrollViewPager? = null
@@ -569,7 +569,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
     private fun setPagerDots(list: List<HomeSliderItem>) {
         if (list.isNotEmpty()) {
             sliderLayout.show()
-            val viewPagerAdapter = SliderAdaptor(requireContext(), list,false)
+            val viewPagerAdapter = SliderAdaptor(requireContext(), list,false,this)
             slider_home.adapter = viewPagerAdapter
             dots_indicator.attachTo(slider_home)
             slider_home.startAutoScroll()
@@ -749,6 +749,10 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
         lastviewedPorductList = null
         categoryProductHomeList = null
         categoryPrductAdapter = null
+    }
+
+    override fun onClickImage(url: String) {
+        TODO("Not yet implemented")
     }
 }
 

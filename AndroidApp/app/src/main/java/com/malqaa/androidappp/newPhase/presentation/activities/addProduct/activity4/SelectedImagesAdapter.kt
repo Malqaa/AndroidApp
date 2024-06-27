@@ -61,6 +61,7 @@ class SelectedImagesAdapter(
                 holder.viewBinding.isSelectCb.setImageResource(R.drawable.checkbox_selected)
                 setOtherFalse(data[position])
                 data[position].is_main = true
+                data[position].isMainMadia = true
             }
             setOnSelectedMainImage.onSelectedMainImage(data, position)
         }
@@ -75,8 +76,8 @@ class SelectedImagesAdapter(
 
     private fun setOtherFalse(itemSelect : ImageSelectModel ){
         for(i in data.indices){
-            data[i].isMainMadia = itemSelect == data[i]
-            data[i].is_main = itemSelect == data[i]
+            data[i].isMainMadia = false
+            data[i].is_main =false
         }
     }
     fun updateData(listMedia: ArrayList<ImageSelectModel>) {

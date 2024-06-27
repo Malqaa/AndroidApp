@@ -49,6 +49,7 @@ import com.malqaa.androidappp.newPhase.presentation.activities.productDetailsAct
 import com.malqaa.androidappp.newPhase.presentation.activities.productDetailsActivity.viewModels.ProductDetailsViewModel
 import com.malqaa.androidappp.newPhase.presentation.activities.productQuestionActivity.QuestionActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.productsSellerInfoActivity.SellerInformationActivity
+import com.malqaa.androidappp.newPhase.presentation.fragments.homeScreen.ListenerSlider
 import com.malqaa.androidappp.newPhase.presentation.fragments.homeScreen.adapters.SliderAdaptor
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.Extension
@@ -80,7 +81,7 @@ import org.joda.time.format.DateTimeFormat
 @SuppressLint("SetTextI18n")
 class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
     SetOnProductItemListeners, QuestionAnswerAdapter.SetonSelectedQuestion,
-    BuyCurrentPriceDialog.OnAttachedCartMethodSelected {
+    BuyCurrentPriceDialog.OnAttachedCartMethodSelected , ListenerSlider {
 
     var addProductReviewRequestCode = 1000
     lateinit var product: Product
@@ -1380,7 +1381,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     private fun setPagerDots(list: List<HomeSliderItem>) {
         if (list.isNotEmpty()) {
 
-            val viewPagerAdapter = SliderAdaptor(this, list,true)
+            val viewPagerAdapter = SliderAdaptor(this, list,true,this)
             slider_details.adapter = viewPagerAdapter
 //            dots_indicator.attachTo(slider_details)
 //            slider_details.startAutoScroll()
@@ -1567,6 +1568,13 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         super.onDestroy()
         productDetialsViewModel.closeAllCall()
         productDetialsViewModel.baseCancel()
+    }
+
+    override fun onClickImage(url: String) {
+        val intent = Intent(this@ProductDetailsActivity, ImageViewLargeActivity::class.java)
+        intent.putParcelableArrayListExtra("imgList", productImagesList)
+        intent.putExtra("UrlImg", url)
+        startActivity(intent)
     }
 
 
