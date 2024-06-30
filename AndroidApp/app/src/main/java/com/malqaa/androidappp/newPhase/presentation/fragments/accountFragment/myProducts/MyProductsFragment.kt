@@ -513,6 +513,7 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         super.onDestroyView()
         myProductsViewModel.closeAllCall()
         myProductsViewModel.baseCancel()
+        myProductForSaleListAdapter.onDestroyHandler()
     }
 
 

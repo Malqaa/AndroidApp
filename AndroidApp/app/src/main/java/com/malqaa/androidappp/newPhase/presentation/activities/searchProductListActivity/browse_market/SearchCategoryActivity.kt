@@ -89,7 +89,7 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     private lateinit var productListVip: ArrayList<Product>
     private var lastUpdateIndex = -1
     var strSearch = ""
-    var clickSearch =false
+    var clickSearch = false
     var productName: String? = null
     private var added_product_id_to_fav = 0
     var isLoading = false
@@ -218,9 +218,9 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                     }
 
                     recyclerViewMarket.visibility = View.VISIBLE
-                    if(clickSearch){
+                    if (clickSearch) {
                         productList.clear()
-                        clickSearch =false
+                        clickSearch = false
                     }
                     productList.addAll(allListOutVip)
 
@@ -444,8 +444,8 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
     }
 
-    fun advanceSearch(){
-        clickSearch =true
+    fun advanceSearch() {
+        clickSearch = true
         productName = etSearch.text.toString()
         productsListViewModel.searchForProduct(
             categoryID,
@@ -464,6 +464,7 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
         hideSoftKeyboard(etSearch)
     }
+
     private fun setProductSearchCategoryAdapter() {
         productList = ArrayList()
         productListVip = arrayListOf()
@@ -668,6 +669,8 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         super.onDestroy()
         productsListViewModel.closeAllCall()
         productsListViewModel.baseCancel()
+        productSearchCategoryAdapter.onDestroyHandler()
+        productCategoryAdapter.onDestroyHandler()
     }
 
     fun applyFilterAll() {

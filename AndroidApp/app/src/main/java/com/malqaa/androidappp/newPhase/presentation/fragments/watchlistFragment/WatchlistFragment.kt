@@ -273,6 +273,7 @@ class WatchlistFragment : Fragment(R.layout.fragment_watchlist),
         super.onDestroyView()
         wishListViewModel?.closeAllCall()
         wishListViewModel?.baseCancel()
+        wishListAdapter?.onDestroyHandler()
         wishListViewModel = null
         wishListAdapter = null
         productList = null

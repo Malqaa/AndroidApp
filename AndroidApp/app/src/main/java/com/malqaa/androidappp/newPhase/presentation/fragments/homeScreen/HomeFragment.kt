@@ -745,6 +745,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
         homeViewModel?.baseCancel()
         homeViewModel = null
         dots = null
+        lastviewedPorductAdatper?.onDestroyHandler()
         lastviewedPorductAdatper = null
         lastviewedPorductList = null
         categoryProductHomeList = null

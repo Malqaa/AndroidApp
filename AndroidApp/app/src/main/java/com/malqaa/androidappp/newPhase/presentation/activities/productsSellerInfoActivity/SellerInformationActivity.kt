@@ -1,8 +1,12 @@
 package com.malqaa.androidappp.newPhase.presentation.activities.productsSellerInfoActivity
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,7 +28,6 @@ import com.malqaa.androidappp.newPhase.utils.Extension
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.show
-import kotlinx.android.synthetic.main.activity_product_details_item_2.txtTypeUser
 import kotlinx.android.synthetic.main.activity_seller_information.*
 import kotlinx.android.synthetic.main.activity_seller_information.facebook_btn
 import kotlinx.android.synthetic.main.activity_seller_information.instagram_btn
@@ -47,8 +50,9 @@ import kotlin.collections.ArrayList
 
 class SellerInformationActivity : BaseActivity(), SetOnProductItemListeners,
     SwipeRefreshLayout.OnRefreshListener {
+    val PERMISSION_PHONE = 120
     var sellerInformation: SellerInformation? = null
-    private var sellerViewModel: SellerViewModel?=null
+    private var sellerViewModel: SellerViewModel? = null
     private lateinit var productAdapter: ProductHorizontalAdapter
     private lateinit var productList: ArrayList<Product>
     private lateinit var gridLayoutManager: GridLayoutManager
@@ -88,7 +92,7 @@ class SellerInformationActivity : BaseActivity(), SetOnProductItemListeners,
         )
         sellerName.text = it.name ?: ""
         member_since_Tv.text = HelpFunctions.getViewFormatForDateTrack(
-            it.createdAt ?: "","dd/MM/yyyy"
+            it.createdAt ?: "", "dd/MM/yyyy"
         )
         if (it.businessAccountId == null) {
             txtTypeUser.text = getString(R.string.personal)
@@ -107,20 +111,22 @@ class SellerInformationActivity : BaseActivity(), SetOnProductItemListeners,
             3f -> {
                 ivRateSeller.setImageResource(R.drawable.happyface_color)
             }
+
             2f -> {
                 ivRateSeller.setImageResource(R.drawable.smileface_color)
             }
 
             1f -> {
-               ivRateSeller.setImageResource(R.drawable.sadcolor_gray)
+                ivRateSeller.setImageResource(R.drawable.sadcolor_gray)
             }
+
             else -> {
                 ivRateSeller.setImageResource(R.drawable.smileface_color)
             }
         }
-        if(it.businessAccountId!=""){
+        if (it.businessAccountId != "") {
             btnMapSeller.show()
-        }else{
+        } else {
             if (it.lat != null && it.lon != null) {
                 btnMapSeller.show()
             } else {
@@ -171,9 +177,9 @@ class SellerInformationActivity : BaseActivity(), SetOnProductItemListeners,
         }
 
 
-        if(it.businessAccountId!=""){
+        if (it.businessAccountId != "") {
             btnMapSeller.show()
-        }else{
+        } else {
             if (it.lat != null && it.lon != null) {
                 if (it.lat != 0.0 && it.lon != 0.0) {
                     btnMapSeller.show()
@@ -229,9 +235,9 @@ class SellerInformationActivity : BaseActivity(), SetOnProductItemListeners,
 
         }
         sellerViewModel!!.errorResponseObserver.observe(this) {
-            if(it.status!=null && it.status=="409"){
+            if (it.status != null && it.status == "409") {
                 HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), this)
-            }else {
+            } else {
                 if (it.message != null) {
                     showProductApiError(it.message!!)
                 } else {
@@ -267,9 +273,9 @@ class SellerInformationActivity : BaseActivity(), SetOnProductItemListeners,
 
         }
         sellerViewModel!!.errorResponseObserverProductToFav.observe(this) {
-            if(it.status!=null && it.status=="409"){
+            if (it.status != null && it.status == "409") {
                 HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), this)
-            }else {
+            } else {
                 if (it.message != null && it.message != "") {
                     HelpFunctions.ShowLongToast(
                         it.message!!,
@@ -326,12 +332,31 @@ class SellerInformationActivity : BaseActivity(), SetOnProductItemListeners,
 
     private fun setViewClickListeners() {
         ivSellerFollow.setOnClickListener {
-            sellerInformation?.let{
-                if(it.isFollowed){
-                    sellerViewModel!!.removeSellerToFav(it.providerId,it.businessAccountId)
-                }else{
-                    sellerViewModel!!.addSellerToFav(it.providerId,it.businessAccountId)
+            sellerInformation?.let {
+                if (it.isFollowed) {
+                    sellerViewModel!!.removeSellerToFav(it.providerId, it.businessAccountId)
+                } else {
+                    sellerViewModel!!.addSellerToFav(it.providerId, it.businessAccountId)
                 }
+            }
+        }
+        seller_number.setOnClickListener {
+            val callIntent = Intent(Intent.ACTION_CALL)
+            callIntent.data = Uri.parse("tel:" + seller_number.text.toString())
+
+            if (ActivityCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.CALL_PHONE
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                // Request permission if not granted
+                ActivityCompat.requestPermissions(
+                    this, arrayOf<String>(Manifest.permission.CALL_PHONE),
+                    PERMISSION_PHONE
+                )
+
+            } else {
+                startActivity(callIntent)
             }
         }
         back_btn.setOnClickListener {
@@ -391,12 +416,12 @@ class SellerInformationActivity : BaseActivity(), SetOnProductItemListeners,
 //            } else {
 //                HelpFunctions.ShowLongToast(getString(R.string.noLocationFound), this)
 //            }
-          //  openLocationInMap(0.0, 0.0)
+            //  openLocationInMap(0.0, 0.0)
         }
 
     }
 
-    private fun openLocationInMap(branches:ArrayList<Branch>) {
+    private fun openLocationInMap(branches: ArrayList<Branch>) {
 //        val URL = ("http://maps.google.com/maps?saddr=&daddr=$lat,$langtiude&dirflg=d")
 //        val location = Uri.parse(URL)
 //        val mapIntent = Intent(Intent.ACTION_VIEW, location)
@@ -408,6 +433,27 @@ class SellerInformationActivity : BaseActivity(), SetOnProductItemListeners,
             putParcelableArrayListExtra("customBranches", branches)
 
         })
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            PERMISSION_PHONE -> {
+                if (grantResults.size > 0 && grantResults[0] ==
+                    PackageManager.PERMISSION_GRANTED
+                ) {
+                    val callIntent = Intent(Intent.ACTION_CALL)
+                    callIntent.data = Uri.parse("tel:" + seller_number.text.toString())
+                    startActivity(callIntent)
+                } else {
+                    HelpFunctions.ShowLongToast("Permission Phone denied", this)
+                }
+            }
+        }
     }
 
     override fun onProductSelect(position: Int, productID: Int, categoryID: Int) {
@@ -437,9 +483,9 @@ class SellerInformationActivity : BaseActivity(), SetOnProductItemListeners,
     }
 
     override fun onBackPressed() {
-        val intent=Intent()
-        intent.putExtra("isFollow",sellerInformation?.isFollowed)
-        setResult(Activity.RESULT_OK,intent)
+        val intent = Intent()
+        intent.putExtra("isFollow", sellerInformation?.isFollowed)
+        setResult(Activity.RESULT_OK, intent)
         finish()
     }
 
@@ -447,5 +493,7 @@ class SellerInformationActivity : BaseActivity(), SetOnProductItemListeners,
         super.onDestroy()
         sellerViewModel!!.closeAllCall()
         sellerViewModel!!.baseCancel()
-        sellerViewModel=null
-    }}
+        productAdapter.onDestroyHandler()
+        sellerViewModel = null
+    }
+}

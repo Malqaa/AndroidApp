@@ -80,6 +80,7 @@
                     android:padding="@dimen/_2sdp">
 
                     <TextView
+                        android:id="@+id/titleDay"
                         android:layout_width="@dimen/_15sdp"
                         android:layout_height="@dimen/_15sdp"
                         android:gravity="center"
@@ -97,6 +98,7 @@
                         android:textSize="@dimen/_6sdp" />
 
                     <TextView
+                        android:id="@+id/titleHour"
                         android:layout_width="@dimen/_15sdp"
                         android:layout_height="@dimen/_15sdp"
                         android:gravity="center"
@@ -114,6 +116,7 @@
                         android:textSize="@dimen/_6sdp" />
 
                     <TextView
+                        android:id="@+id/titleMinutes"
                         android:layout_width="@dimen/_15sdp"
                         android:layout_height="@dimen/_15sdp"
                         android:gravity="center"
@@ -131,6 +134,24 @@
                         android:text="01"
                         android:textSize="@dimen/_6sdp" />
 
+                    <TextView
+                        android:id="@+id/titleSeconds"
+                        android:layout_width="@dimen/_15sdp"
+                        android:layout_height="@dimen/_15sdp"
+                        android:gravity="center"
+                        android:text="S"
+                        android:textSize="@dimen/_6sdp" />
+
+                    <TextView
+                        android:id="@+id/seconds_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_5sdp"
+                        android:background="@drawable/product_attribute_bg_gray"
+                        android:gravity="center"
+                        android:padding="@dimen/_2sdp"
+                        android:text="01"
+                        android:textSize="@dimen/_6sdp" />
 
                 </LinearLayout>
 

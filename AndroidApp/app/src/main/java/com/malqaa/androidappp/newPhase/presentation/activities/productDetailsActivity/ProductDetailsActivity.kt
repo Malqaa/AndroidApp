@@ -1,13 +1,18 @@
 package com.malqaa.androidappp.newPhase.presentation.activities.productDetailsActivity
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
+import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -15,14 +20,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.malqaa.androidappp.R
-import com.malqaa.androidappp.newPhase.utils.activitiesMain.PlayActivity
 import com.malqaa.androidappp.newPhase.core.BaseActivity
-import com.malqaa.androidappp.newPhase.utils.helper.*
-import com.malqaa.androidappp.newPhase.utils.Extension.shared
-import com.malqaa.androidappp.newPhase.utils.helper.shared_preferences.SharedPreferencesStaticClass
+import com.malqaa.androidappp.newPhase.data.network.service.SetOnProductItemListeners
+import com.malqaa.androidappp.newPhase.domain.enums.ShowUserInfo
 import com.malqaa.androidappp.newPhase.domain.models.ImageSelectModel
+import com.malqaa.androidappp.newPhase.domain.models.addProductToCartResp.AddProductObjectData
 import com.malqaa.androidappp.newPhase.domain.models.categoryFollowResp.Branch
 import com.malqaa.androidappp.newPhase.domain.models.dynamicSpecification.DynamicSpecificationSentObject
+import com.malqaa.androidappp.newPhase.domain.models.homeSilderResp.HomeSliderItem
 import com.malqaa.androidappp.newPhase.domain.models.loginResp.LoginUser
 import com.malqaa.androidappp.newPhase.domain.models.productResp.Product
 import com.malqaa.androidappp.newPhase.domain.models.questionResp.QuestionItem
@@ -30,17 +35,10 @@ import com.malqaa.androidappp.newPhase.domain.models.ratingResp.RateReviewItem
 import com.malqaa.androidappp.newPhase.domain.models.sellerInfoResp.SellerInformation
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.*
 import com.malqaa.androidappp.newPhase.presentation.MainActivity
-import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.myProducts.dialog.BidPersonsDialog
-import com.malqaa.androidappp.newPhase.presentation.adapterShared.ProductHorizontalAdapter
-import com.malqaa.androidappp.newPhase.data.network.service.SetOnProductItemListeners
-import com.malqaa.androidappp.newPhase.domain.enums.ShowUserInfo
-import com.malqaa.androidappp.newPhase.domain.models.addProductToCartResp.AddProductObjectData
-import com.malqaa.androidappp.newPhase.domain.models.homeSilderResp.HomeSliderItem
 import com.malqaa.androidappp.newPhase.presentation.activities.addProductReviewActivity.AddRateProductActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.addProductReviewActivity.ProductReviewsActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.cartActivity.activity1.CartActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.cartActivity.activity2.AddressPaymentActivity
-import com.malqaa.androidappp.newPhase.presentation.dialogsShared.currentPriceDialog.BuyCurrentPriceDialog
 import com.malqaa.androidappp.newPhase.presentation.activities.loginScreen.SignInActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.productDetailsActivity.adapter.ProductImagesAdapter
 import com.malqaa.androidappp.newPhase.presentation.activities.productDetailsActivity.adapter.QuestionAnswerAdapter
@@ -49,11 +47,18 @@ import com.malqaa.androidappp.newPhase.presentation.activities.productDetailsAct
 import com.malqaa.androidappp.newPhase.presentation.activities.productDetailsActivity.viewModels.ProductDetailsViewModel
 import com.malqaa.androidappp.newPhase.presentation.activities.productQuestionActivity.QuestionActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.productsSellerInfoActivity.SellerInformationActivity
+import com.malqaa.androidappp.newPhase.presentation.adapterShared.ProductHorizontalAdapter
+import com.malqaa.androidappp.newPhase.presentation.dialogsShared.currentPriceDialog.BuyCurrentPriceDialog
+import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.myProducts.dialog.BidPersonsDialog
 import com.malqaa.androidappp.newPhase.presentation.fragments.homeScreen.ListenerSlider
 import com.malqaa.androidappp.newPhase.presentation.fragments.homeScreen.adapters.SliderAdaptor
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.Extension
+import com.malqaa.androidappp.newPhase.utils.Extension.shared
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
+import com.malqaa.androidappp.newPhase.utils.activitiesMain.PlayActivity
+import com.malqaa.androidappp.newPhase.utils.helper.*
+import com.malqaa.androidappp.newPhase.utils.helper.shared_preferences.SharedPreferencesStaticClass
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.linearLayoutManager
 import com.malqaa.androidappp.newPhase.utils.show
@@ -62,29 +67,28 @@ import io.paperdb.Paper
 import kotlinx.android.synthetic.main.activity_product_details2.*
 import kotlinx.android.synthetic.main.activity_product_details_item_2.*
 import kotlinx.android.synthetic.main.atrribute_item.view.*
-import kotlinx.android.synthetic.main.fragment_homee.dots_indicator
-import kotlinx.android.synthetic.main.fragment_homee.sliderLayout
-import kotlinx.android.synthetic.main.fragment_homee.slider_home
 import kotlinx.android.synthetic.main.item_image_for_product_details.view.*
 import kotlinx.android.synthetic.main.item_review_product.*
 import kotlinx.android.synthetic.main.product_item.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.*
-import kotlin.collections.ArrayList
 import org.joda.time.DateTime
 import org.joda.time.Duration
 import org.joda.time.format.DateTimeFormat
+import java.util.*
 
 
 @SuppressLint("SetTextI18n")
 class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
     SetOnProductItemListeners, QuestionAnswerAdapter.SetonSelectedQuestion,
-    BuyCurrentPriceDialog.OnAttachedCartMethodSelected , ListenerSlider {
-
+    BuyCurrentPriceDialog.OnAttachedCartMethodSelected, ListenerSlider {
+    val PERMISSION_PHONE = 120
     var addProductReviewRequestCode = 1000
     lateinit var product: Product
+    private lateinit var handler: Handler
+    private lateinit var runnable: Runnable
+    private val INTERVAL: Long = 10000 // 1 minute in milliseconds
     var hideBars = false
     lateinit var questionAnswerAdapter: QuestionAnswerAdapter
     lateinit var reviewProductAdapter: ReviewProductAdapter
@@ -106,7 +110,8 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     var questionsList: List<QuestionItem> = ArrayList()
     lateinit var subQuestionsList: ArrayList<QuestionItem>
 
-    var imgPosition =0
+    var imgPosition = 0
+
     /****/
     val added_from_product_Destails_status = 1
     val added_from_last_similerProducts_status = 2
@@ -397,7 +402,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         }
         btnPriceNegotiation.setOnClickListener {
             if (HelpFunctions.isUserLoggedIn()) {
-                openPriceNegotiationDialog(productDetails?.qty?:0)
+                openPriceNegotiationDialog(productDetails?.qty ?: 0)
             } else {
                 startActivity(Intent(this, SignInActivity::class.java))
             }
@@ -505,6 +510,26 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             }
         }
 
+        seller_number.setOnClickListener {
+            val callIntent = Intent(Intent.ACTION_CALL)
+            callIntent.data = Uri.parse("tel:" + seller_number.text.toString())
+
+            if (ActivityCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.CALL_PHONE
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                // Request permission if not granted
+                ActivityCompat.requestPermissions(
+                    this, arrayOf<String>(Manifest.permission.CALL_PHONE),
+                    PERMISSION_PHONE
+                )
+
+            } else {
+                startActivity(callIntent)
+            }
+        }
+
         btnNextImage.setOnClickListener {
             try {
                 if (productImagesList.size > 0) {
@@ -523,6 +548,27 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
     }
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            PERMISSION_PHONE -> {
+                if (grantResults.size > 0 && grantResults[0] ==
+                    PackageManager.PERMISSION_GRANTED
+                ) {
+                    val callIntent = Intent(Intent.ACTION_CALL)
+                    callIntent.data = Uri.parse("tel:" + seller_number.text.toString())
+                    startActivity(callIntent)
+                } else {
+                    HelpFunctions.ShowLongToast("Permission Phone denied", this)
+                }
+            }
+        }
+    }
+
     private fun openBidPrice() {
         if (HelpFunctions.isUserLoggedIn()) {
             productDetails?.let {
@@ -534,10 +580,10 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                     object : AuctionDialog.SetClickListeners {
                         override fun setOnSuccessListeners(highestBidPrice: Float) {
                             productDetails?.highestBidPrice = highestBidPrice
-                            if(productDetails?.highestBidPrice?.toDouble()!=0.0){
+                            if (productDetails?.highestBidPrice?.toDouble() != 0.0) {
                                 Bid_on_price_tv.text =
                                     "${productDetails?.highestBidPrice} ${getString(R.string.Rayal)}"
-                            }else{
+                            } else {
                                 Bid_on_price_tv.text =
                                     "${productDetails?.auctionStartPrice} ${getString(R.string.Rayal)}"
                             }
@@ -559,7 +605,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
     }
 
-    private fun openPriceNegotiationDialog(quantity:Int) {
+    private fun openPriceNegotiationDialog(quantity: Int) {
         priceNegotiationDialog = PriceNegotiationDialog(
             this,
             quantity,
@@ -971,6 +1017,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             3f -> {
                 ivRateSeller.setImageResource(R.drawable.happyface_color)
             }
+
             2f -> {
                 ivRateSeller.setImageResource(R.drawable.smileface_color)
             }
@@ -1119,9 +1166,10 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 //                            loader
 //                        )
 
-                        val intent = Intent(this@ProductDetailsActivity, ImageViewLargeActivity::class.java)
+                        val intent =
+                            Intent(this@ProductDetailsActivity, ImageViewLargeActivity::class.java)
                         intent.putParcelableArrayListExtra("imgList", productImagesList)
-                        intent.putExtra("UrlImg",  productImagesList[position].url)
+                        intent.putExtra("UrlImg", productImagesList[position].url)
                         startActivity(intent)
                     }
                 }
@@ -1249,15 +1297,22 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
             showButtons()
             if (productDetails.auctionClosingTime != null) {
-                val endDate: Date? =
-                    HelpFunctions.getAuctionClosingTimeByDate(productDetails.auctionClosingTime)
-//                println("hhhh "+endDate.toString()+" "+Calendar.getInstance().time)
-                if (endDate != null) {
-//                    getDifference(Calendar.getInstance().time, endDate)
-                    timeDifferent(productDetails.auctionClosingTime)
-                } else {
-                    containerAuctioncountdownTimer_bar.hide()
+
+                handler = Handler()
+                runnable = object : Runnable {
+                    override fun run() {
+                        val endDate: Date? =
+                            HelpFunctions.getAuctionClosingTimeByDate(productDetails.auctionClosingTime)
+                        if (endDate != null) {
+                            timeDifferent(productDetails.auctionClosingTime)
+                        } else {
+                            containerAuctioncountdownTimer_bar.hide()
+                        }
+                        handler.postDelayed(this, INTERVAL)
+                    }
                 }
+
+                handler.post(runnable)
             } else {
                 containerAuctioncountdownTimer_bar.hide()
             }
@@ -1269,7 +1324,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                 loader
             )
             productimg.setTag(productDetails.productImage)
-            if (productDetails.listMedia != null&&productDetails.listMedia.size!=0) {
+            if (productDetails.listMedia != null && productDetails.listMedia.size != 0) {
                 other_image_layout.show()
                 productImagesList.clear()
                 if (productDetails.listMedia.isNotEmpty())
@@ -1277,10 +1332,10 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                 productImagesList.addAll(productDetails.listMedia)
                 productImagesAdapter.notifyDataSetChanged()
 
-                setPagerDots( mapImageSelectModelToHomeSliderItem(productDetails.listMedia))
+                setPagerDots(mapImageSelectModelToHomeSliderItem(productDetails.listMedia))
 
             } else {
-                productImagesList.add(ImageSelectModel(url =productDetails.productImage.toString() ))
+                productImagesList.add(ImageSelectModel(url = productDetails.productImage.toString()))
                 other_image_layout.hide()
             }
             /**product data*/
@@ -1293,9 +1348,9 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             tvProductItemName.text = productDetails.name ?: ""
             tvProductSubtitle.text = productDetails.subTitle ?: ""
 
-            if(productDetails.description!=""){
+            if (productDetails.description != "") {
                 layDetails.show()
-                readMoreTextView.text = productDetails.description?:""
+                readMoreTextView.text = productDetails.description ?: ""
 //                tvProductDescriptionShort.text = productDetails.description ?: ""
 //                tvProductDescriptionLong.text = productDetails.description ?: ""
             }
@@ -1352,10 +1407,10 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 //            tvNegotiationPrice.text = productDetails.price.toString()
 
             if (productDetails.isAuctionEnabled) {
-                if(productDetails.highestBidPrice.toDouble()!=0.0){
+                if (productDetails.highestBidPrice.toDouble() != 0.0) {
                     Bid_on_price_tv.text =
                         "${productDetails.highestBidPrice} ${getString(R.string.Rayal)}"
-                }else{
+                } else {
                     Bid_on_price_tv.text =
                         "${productDetails.auctionStartPrice} ${getString(R.string.Rayal)}"
                 }
@@ -1378,15 +1433,17 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             showError(getString(R.string.serverError))
         }
     }
+
     private fun setPagerDots(list: List<HomeSliderItem>) {
         if (list.isNotEmpty()) {
 
-            val viewPagerAdapter = SliderAdaptor(this, list,true,this)
+            val viewPagerAdapter = SliderAdaptor(this, list, true, this)
             slider_details.adapter = viewPagerAdapter
 //            dots_indicator.attachTo(slider_details)
 //            slider_details.startAutoScroll()
         }
     }
+
     private fun mapImageSelectModelToHomeSliderItem(imageSelectModels: ArrayList<ImageSelectModel>): List<HomeSliderItem> {
         return imageSelectModels.filter { it.type != 2 }.map { imageSelectModel ->
             HomeSliderItem(
@@ -1430,6 +1487,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         val daysDifference = duration.standardDays
         val hoursDifference = duration.standardHours % 24
         val minutesDifference = duration.standardMinutes % 60
+        val secondDifference = duration.standardSeconds % 60
 
         // Display the difference
         val differenceMessage = String.format(
@@ -1447,9 +1505,25 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             containerAuctioncountdownTimer_bar.show()
         }
 
+        if (daysDifference == 0L || (daysDifference < 0L)) {
+            days.visibility = View.GONE
+            titleDay.visibility = View.GONE
+        }
+        if (hoursDifference == 0L || (hoursDifference < 0L)) {
+            hours.visibility = View.GONE
+            titleHours.visibility = View.GONE
+        }
+
+        if (minutesDifference == 0L || (minutesDifference < 0L)) {
+            minutes.visibility = View.GONE
+            titleMinutes.visibility = View.GONE
+        }
+
+
         days.text = daysDifference.toString()
         hours.text = hoursDifference.toString()
         minutes.text = minutesDifference.toString()
+        seconds.text = secondDifference.toString()
     }
 
     /**send QUestion for sller**/
@@ -1568,6 +1642,9 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         super.onDestroy()
         productDetialsViewModel.closeAllCall()
         productDetialsViewModel.baseCancel()
+        handler.removeCallbacks(runnable)
+        sellerProductAdapter.onDestroyHandler()
+        similarProductAdapter.onDestroyHandler()
     }
 
     override fun onClickImage(url: String) {

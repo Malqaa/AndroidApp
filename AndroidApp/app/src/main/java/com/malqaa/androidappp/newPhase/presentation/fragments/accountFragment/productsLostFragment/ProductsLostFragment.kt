@@ -204,6 +204,7 @@ class ProductsLostFragment : Fragment(R.layout.fragment_lost), SetOnProductItemL
         super.onDestroy()
         accountViewModel?.closeAllCall()
         accountViewModel?.baseCancel()
+        productAdapter.onDestroyHandler()
     }
 
 }

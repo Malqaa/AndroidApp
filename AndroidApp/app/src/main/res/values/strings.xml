@@ -531,7 +531,7 @@
     <string name="title_home">Home</string>
     <string name="title_account">Account</string>
     <string name="title_notifications">Notifications</string>
-    <string name="title_watchlist">Watchlist</string>
+    <string name="title_watchlist">Favorite</string>
     <string name="title_about_seller">About The Seller</string>
     <string name="something_went_wrong">Something went wrong</string>
     <string name="listing"> %1$d Listing</string>

@@ -9,18 +9,18 @@
         android:title="@string/title_home" />
 
     <item
-        android:id="@+id/navigation_notifications"
-        android:icon="@drawable/ic_baseline_notifications_none_24"
-        android:title="@string/title_notifications" />
-
-    <item
-        android:title="" />
-
-    <item
         android:id="@+id/navigation_watchlist"
         android:icon="@drawable/startab"
         android:title="@string/title_watchlist" />
 
+    <item
+        android:title="" />
+
+
+    <item
+        android:id="@+id/navigation_notifications"
+        android:icon="@drawable/ic_baseline_notifications_none_24"
+        android:title="@string/title_notifications" />
 
     <item
         android:id="@+id/navigation_account"

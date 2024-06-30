@@ -3,15 +3,12 @@ package com.malqaa.androidappp.newPhase.presentation.adapterShared
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Paint
-import android.graphics.drawable.Drawable
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.Target
 import com.malqaa.androidappp.R
 import com.malqaa.androidappp.databinding.ProductItemBinding
 import com.malqaa.androidappp.newPhase.data.network.service.SetOnProductItemListeners
@@ -38,6 +35,11 @@ class ProductHorizontalAdapter(
     private var isMyProduct: Boolean = false
 ) : RecyclerView.Adapter<ProductHorizontalAdapter.SellerProductViewHolder>() {
     lateinit var context: Context
+
+    private lateinit var handler: Handler
+    private lateinit var runnable: Runnable
+    private val INTERVAL: Long = 10000 // 1 minute in milliseconds
+
     class SellerProductViewHolder(var viewBinding: ProductItemBinding) :
         RecyclerView.ViewHolder(viewBinding.root)
 
@@ -47,6 +49,11 @@ class ProductHorizontalAdapter(
             ProductItemBinding
                 .inflate(LayoutInflater.from(parent.context), parent, false)
         )
+    }
+    fun  onDestroyHandler(){
+        if (::handler.isInitialized && ::runnable.isInitialized) {
+            handler.removeCallbacks(runnable)
+        }
     }
 
     override fun getItemCount(): Int = productList.size
@@ -239,22 +246,33 @@ class ProductHorizontalAdapter(
 //        }
 
         if (productList[position].auctionClosingTime != null) {
+
             if (!productList[position].auctionClosingTime!!.contains("T00:00:00")) {
-                holder.viewBinding.containerTimeBar.show()
-                val endDate: Date? =
-                    HelpFunctions.getAuctionClosingTimeByDate(productList[position].auctionClosingTime!!)
+                handler = Handler()
+                runnable = object : Runnable {
+                    override fun run() {
+                        holder.viewBinding.containerTimeBar.show()
+                        val endDate: Date? =
+                            HelpFunctions.getAuctionClosingTimeByDate(productList[position].auctionClosingTime!!)
 //                println("hhhh "+endDate.toString()+" "+Calendar.getInstance().time)
-                if (endDate != null) {
-                    getDifference(productList[position].auctionClosingTime!!, holder)
-                } else {
-                    holder.viewBinding.containerTimeBar.hide()
+                        if (endDate != null) {
+                            getDifference(productList[position].auctionClosingTime!!, holder)
+                        } else {
+                            holder.viewBinding.containerTimeBar.hide()
+                        }
+                        handler.postDelayed(this, INTERVAL)
+                    }
                 }
+
+                handler.post(runnable)
+
             } else {
                 holder.viewBinding.containerTimeBar.hide()
             }
         } else {
             holder.viewBinding.containerTimeBar.hide()
         }
+
 
 //        if (productList[position].highestBidPrice != 0f) {
 //            holder.viewBinding.LowestPriceLayout.show()
@@ -369,6 +387,7 @@ class ProductHorizontalAdapter(
             val daysDifference = duration.standardDays
             val hoursDifference = duration.standardHours % 24
             val minutesDifference = duration.standardMinutes % 60
+            val secondsDifference = duration.standardSeconds % 60
 
 
             if (daysDifference <= 0 && (hoursDifference <= 0) && (minutesDifference <= 0)) {
@@ -376,10 +395,24 @@ class ProductHorizontalAdapter(
             } else
                 holder.viewBinding.containerTimeBar.show()
 
+            if(daysDifference==0L || (daysDifference<0L) ){
+                holder.viewBinding.daysTv.visibility=View.GONE
+                holder.viewBinding.titleDay.visibility=View.GONE
+            }
+            if(hoursDifference==0L || (hoursDifference<0L) ){
+                holder.viewBinding.hoursTv.visibility=View.GONE
+                holder.viewBinding.titleHour.visibility=View.GONE
+            }
+
+            if(minutesDifference==0L || (minutesDifference<0L) ){
+                holder.viewBinding.minutesTv.visibility=View.GONE
+                holder.viewBinding.titleMinutes.visibility=View.GONE
+            }
+
             holder.viewBinding.daysTv.text = daysDifference.toString()
             holder.viewBinding.hoursTv.text = hoursDifference.toString()
             holder.viewBinding.minutesTv.text = minutesDifference.toString()
-
+            holder.viewBinding.secondsTv.text=secondsDifference.toString()
         } catch (e: Exception) {
 
         }

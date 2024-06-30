@@ -70,7 +70,6 @@ class CategoryProductAdapter(
             categoryProductHomeList[position].catId
         )
     }
-
     @SuppressLint("SuspiciousIndentation")
     private fun setHomeProductAdaptor(
         product: List<Product>?,
@@ -88,6 +87,7 @@ class CategoryProductAdapter(
             layoutManager = linearLayoutManager(RecyclerView.HORIZONTAL)
         }
     }
+
 
     override fun onProductSelect(position: Int, productID: Int, categoryID: Int) {
         setOnSelectedProductInCategory.onSelectedProductInCategory(position, productID, categoryID)

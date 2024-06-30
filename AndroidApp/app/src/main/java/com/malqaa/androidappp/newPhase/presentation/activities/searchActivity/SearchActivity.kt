@@ -356,6 +356,7 @@ class SearchActivity : BaseActivity(),
         super.onDestroy()
         homeViewModel.closeAllCall()
         homeViewModel.baseCancel()
+        searchAdapter.onDestroyHandler()
     }
 
 }

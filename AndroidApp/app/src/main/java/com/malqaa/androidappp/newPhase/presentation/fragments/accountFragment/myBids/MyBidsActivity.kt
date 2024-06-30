@@ -231,6 +231,7 @@ class MyBidsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
 
     override fun onDestroy() {
         super.onDestroy()
+        productAdapter.onDestroyHandler()
         productsListViewModel.closeAllCall()
         productsListViewModel.baseCancel()
     }
