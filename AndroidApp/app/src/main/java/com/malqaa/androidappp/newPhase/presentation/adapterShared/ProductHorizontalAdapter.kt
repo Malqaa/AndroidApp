@@ -7,6 +7,8 @@ import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.malqaa.androidappp.R
@@ -17,6 +19,7 @@ import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.Extension
 import com.malqaa.androidappp.newPhase.utils.Extension.decimalNumberFormat
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
+import com.malqaa.androidappp.newPhase.utils.HelpFunctions.Companion.getDifference
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.show
 import com.yariksoffice.lingver.Lingver
@@ -50,7 +53,8 @@ class ProductHorizontalAdapter(
                 .inflate(LayoutInflater.from(parent.context), parent, false)
         )
     }
-    fun  onDestroyHandler(){
+
+    fun onDestroyHandler() {
         if (::handler.isInitialized && ::runnable.isInitialized) {
             handler.removeCallbacks(runnable)
         }
@@ -110,7 +114,7 @@ class ProductHorizontalAdapter(
                 ContextCompat.getDrawable(context, R.drawable.product_attribute_bg1_en)
         }
         holder.viewBinding.titlenamee.text = productList[position].name ?: ""
-        holder.viewBinding.subTitlenamee.text=productList[position].subTitle?:""
+        holder.viewBinding.subTitlenamee.text = productList[position].subTitle ?: ""
 
         if (productList[position].isAuctionEnabled) {
             holder.viewBinding.typeProduct.text = context.getString(R.string.auction)
@@ -119,7 +123,8 @@ class ProductHorizontalAdapter(
         }
 
         holder.viewBinding.cityTv.text = productList[position].regionName ?: ""
-        holder.viewBinding.dateTv.text = HelpFunctions.getViewFormatForDateTrack(productList[position].createdAt, "dd/MM/yyyy")
+        holder.viewBinding.dateTv.text =
+            HelpFunctions.getViewFormatForDateTrack(productList[position].createdAt, "dd/MM/yyyy")
 
 
         if (productList[position].productImage != null && productList[position].productImage != "") {
@@ -237,14 +242,6 @@ class ProductHorizontalAdapter(
                 categoryId
             )
         }
-//        if(productList[position].isFixedPriceEnabled && productList[position].isAuctionEnabled){
-//            holder.viewBinding.containerTimeBar.show()
-//        }else if(productList[position].isAuctionEnabled){
-//            holder.viewBinding.containerTimeBar.show()
-//        }else{
-//            holder.viewBinding.containerTimeBar.hide()
-//        }
-
         if (productList[position].auctionClosingTime != null) {
 
             if (!productList[position].auctionClosingTime!!.contains("T00:00:00")) {
@@ -256,7 +253,16 @@ class ProductHorizontalAdapter(
                             HelpFunctions.getAuctionClosingTimeByDate(productList[position].auctionClosingTime!!)
 //                println("hhhh "+endDate.toString()+" "+Calendar.getInstance().time)
                         if (endDate != null) {
-                            getDifference(productList[position].auctionClosingTime!!, holder)
+                            getDifference(
+                                productList[position].auctionClosingTime!!,
+                                holder.viewBinding.containerTimeBar,
+                                holder.viewBinding.titleDay,
+                                holder.viewBinding.daysTv,
+                                holder.viewBinding.titleHour, holder.viewBinding.hoursTv,
+                                holder.viewBinding.titleMinutes, holder.viewBinding.minutesTv,
+                                holder.viewBinding.titleSeconds, holder.viewBinding.secondsTv,
+                                null
+                            )
                         } else {
                             holder.viewBinding.containerTimeBar.hide()
                         }
@@ -274,21 +280,7 @@ class ProductHorizontalAdapter(
         }
 
 
-//        if (productList[position].highestBidPrice != 0f) {
-//            holder.viewBinding.LowestPriceLayout.show()
-//            holder.viewBinding.LowestPriceLayout2.show()
-//            holder.viewBinding.LowestPrice.text =
-//                "${productList[position].highestBidPrice} ${context.getString(R.string.SAR)}"
-//            holder.viewBinding.LowestPrice2.text =
-//                "${productList[position].highestBidPrice} ${context.getString(R.string.SAR)}"
-//        } else {
-//            holder.viewBinding.LowestPriceLayout.hide()
-//            holder.viewBinding.LowestPriceLayout2.hide()
-//        }
-
-
-
-        if(productList[position].price.toDouble()!=0.0){
+        if (productList[position].price.toDouble() != 0.0) {
             holder.viewBinding.purchaseContainer.visibility = View.VISIBLE
             holder.viewBinding.tvOldPRiceProductPriceForHorizentalView.text =
                 "${productList[position].price.toDouble()} ${
@@ -310,22 +302,30 @@ class ProductHorizontalAdapter(
                         R.string.SAR
                     )
                 }"
-        }else{
+        } else {
             holder.viewBinding.purchaseContainer.visibility = View.INVISIBLE
 
         }
-        if(productList[position].highestBidPrice.toDouble()==0.0){
-            if(productList[position].auctionStartPrice.toDouble()!=0.0){
+        if (productList[position].highestBidPrice.toDouble() == 0.0) {
+            if (productList[position].auctionStartPrice.toDouble() != 0.0) {
                 holder.viewBinding.LowestPriceLayout.visibility = View.VISIBLE
                 holder.viewBinding.LowestPrice.text =
-                    "${productList[position].auctionStartPrice} ${holder.viewBinding.typeProduct.context.getString(R.string.SAR)}"
-            }else{
+                    "${productList[position].auctionStartPrice} ${
+                        holder.viewBinding.typeProduct.context.getString(
+                            R.string.SAR
+                        )
+                    }"
+            } else {
                 holder.viewBinding.LowestPriceLayout.visibility = View.INVISIBLE
             }
-        }else{
+        } else {
             holder.viewBinding.LowestPriceLayout.visibility = View.VISIBLE
             holder.viewBinding.LowestPrice.text =
-                "${productList[position].highestBidPrice} ${holder.viewBinding.typeProduct.context.getString(R.string.SAR)}"
+                "${productList[position].highestBidPrice} ${
+                    holder.viewBinding.typeProduct.context.getString(
+                        R.string.SAR
+                    )
+                }"
         }
 
 
@@ -371,52 +371,7 @@ class ProductHorizontalAdapter(
         notifyDataSetChanged()
     }
 
-    private fun getDifference(targetDateTimeString: String, holder: SellerProductViewHolder) {
-        try {
 
-            val formatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss")
-            val targetDateTime = formatter.parseDateTime(targetDateTimeString)
-
-            // Get the current date and time
-            val currentDateTime = DateTime()
-
-            // Calculate the duration between the current time and the target time
-            val duration = Duration(currentDateTime, targetDateTime)
-
-            // Get the difference in days, hours, and minutes as Long values
-            val daysDifference = duration.standardDays
-            val hoursDifference = duration.standardHours % 24
-            val minutesDifference = duration.standardMinutes % 60
-            val secondsDifference = duration.standardSeconds % 60
-
-
-            if (daysDifference <= 0 && (hoursDifference <= 0) && (minutesDifference <= 0)) {
-                holder.viewBinding.containerTimeBar.hide()
-            } else
-                holder.viewBinding.containerTimeBar.show()
-
-            if(daysDifference==0L || (daysDifference<0L) ){
-                holder.viewBinding.daysTv.visibility=View.GONE
-                holder.viewBinding.titleDay.visibility=View.GONE
-            }
-            if(hoursDifference==0L || (hoursDifference<0L) ){
-                holder.viewBinding.hoursTv.visibility=View.GONE
-                holder.viewBinding.titleHour.visibility=View.GONE
-            }
-
-            if(minutesDifference==0L || (minutesDifference<0L) ){
-                holder.viewBinding.minutesTv.visibility=View.GONE
-                holder.viewBinding.titleMinutes.visibility=View.GONE
-            }
-
-            holder.viewBinding.daysTv.text = daysDifference.toString()
-            holder.viewBinding.hoursTv.text = hoursDifference.toString()
-            holder.viewBinding.minutesTv.text = minutesDifference.toString()
-            holder.viewBinding.secondsTv.text=secondsDifference.toString()
-        } catch (e: Exception) {
-
-        }
-    }
 
 
 }

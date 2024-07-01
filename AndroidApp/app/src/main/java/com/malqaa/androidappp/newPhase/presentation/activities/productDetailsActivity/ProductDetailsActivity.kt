@@ -14,6 +14,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -56,6 +57,7 @@ import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.Extension
 import com.malqaa.androidappp.newPhase.utils.Extension.shared
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
+import com.malqaa.androidappp.newPhase.utils.HelpFunctions.Companion.getDifference
 import com.malqaa.androidappp.newPhase.utils.activitiesMain.PlayActivity
 import com.malqaa.androidappp.newPhase.utils.helper.*
 import com.malqaa.androidappp.newPhase.utils.helper.shared_preferences.SharedPreferencesStaticClass
@@ -89,7 +91,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     private lateinit var handler: Handler
     private lateinit var runnable: Runnable
     private val INTERVAL: Long = 10000 // 1 minute in milliseconds
-    var hideBars = false
+    var hideBars = MutableLiveData<Boolean>(false)
     lateinit var questionAnswerAdapter: QuestionAnswerAdapter
     lateinit var reviewProductAdapter: ReviewProductAdapter
     lateinit var smallRatesList: ArrayList<RateReviewItem>
@@ -691,6 +693,12 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                 }
             }
         }
+//        hideBars.observe(this){
+//            if (it) {
+//                containerBidOnPrice.hide()
+//            } else
+//                containerBidOnPrice.show()
+//        }
         productDetialsViewModel.productDetailsObservable.observe(this) { productResp ->
 
             if (productResp.productDetails != null) {
@@ -932,7 +940,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                 if (!it.bidPersonsDataList.isNullOrEmpty()) {
                     bidCount = it.bidPersonsDataList.size
                     tvAuctionNumber.text = "${getString(R.string.bidding)} ${bidCount}"
-                    if (hideBars) {
+                    if (hideBars.value == true) {
                         containerAuctionNumber.hide()
                     } else
                         containerAuctionNumber.show()
@@ -1297,21 +1305,21 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
             showButtons()
             if (productDetails.auctionClosingTime != null) {
-
                 handler = Handler()
                 runnable = object : Runnable {
                     override fun run() {
                         val endDate: Date? =
                             HelpFunctions.getAuctionClosingTimeByDate(productDetails.auctionClosingTime)
                         if (endDate != null) {
-                            timeDifferent(productDetails.auctionClosingTime)
+                            hideBars.value=  getDifference(productDetails.auctionClosingTime,
+                                containerAuctioncountdownTimer_bar,titleDay,days,titleHours,hours,titleMinutes,minutes,titleSeconds,seconds,containerAuctionNumber
+                            )
                         } else {
                             containerAuctioncountdownTimer_bar.hide()
                         }
                         handler.postDelayed(this, INTERVAL)
                     }
                 }
-
                 handler.post(runnable)
             } else {
                 containerAuctioncountdownTimer_bar.hide()
@@ -1415,7 +1423,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                         "${productDetails.auctionStartPrice} ${getString(R.string.Rayal)}"
                 }
 
-                if (hideBars) {
+                if (hideBars.value==true) {
                     containerBidOnPrice.hide()
                 } else
                     containerBidOnPrice.show()
@@ -1495,12 +1503,13 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             daysDifference, hoursDifference, minutesDifference
         )
 
+
         if (daysDifference <= 0 && (hoursDifference <= 0) && (minutesDifference <= 0)) {
-            hideBars = true
+            hideBars.value = true
             containerAuctionNumber.hide()
             containerAuctioncountdownTimer_bar.hide()
         } else {
-            hideBars = false
+            hideBars.value = false
             containerAuctionNumber.show()
             containerAuctioncountdownTimer_bar.show()
         }

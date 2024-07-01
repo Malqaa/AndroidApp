@@ -20,7 +20,9 @@ import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.Spinner
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.loader.content.CursorLoader
@@ -48,6 +50,9 @@ import com.malqaa.androidappp.newPhase.utils.PicassoSingleton.getPicassoInstance
 import io.paperdb.Paper
 import kotlinx.android.synthetic.main.alertpopup.view.*
 import kotlinx.android.synthetic.main.progress_bar.view.*
+import org.joda.time.DateTime
+import org.joda.time.Duration
+import org.joda.time.format.DateTimeFormat
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.HttpException
@@ -62,6 +67,7 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 import java.util.regex.Matcher
 import java.util.regex.Pattern
+import kotlin.Boolean
 import kotlin.Boolean as Boolean1
 
 
@@ -699,6 +705,77 @@ class HelpFunctions {
                     }
 
                 })
+        }
+
+
+
+        fun getDifference(
+            targetDateTimeString: String,
+            container: LinearLayout,
+            tDay: TextView,
+            day: TextView,
+            tHour: TextView,
+            hour: TextView,
+            tMinute: TextView,
+            minute: TextView,
+            tSecond: TextView,
+            second: TextView,
+            containerAuction: LinearLayout?
+        ):Boolean {
+            var hideBars = false
+            try {
+
+                val formatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss")
+                val targetDateTime = formatter.parseDateTime(targetDateTimeString)
+
+                // Get the current date and time
+                val currentDateTime = DateTime()
+
+                // Calculate the duration between the current time and the target time
+                val duration = Duration(currentDateTime, targetDateTime)
+
+                // Get the difference in days, hours, and minutes as Long values
+                val daysDifference = duration.standardDays
+                val hoursDifference = duration.standardHours % 24
+                val minutesDifference = duration.standardMinutes % 60
+                val secondsDifference = duration.standardSeconds % 60
+
+
+                if (daysDifference <= 0 && (hoursDifference <= 0) && (minutesDifference <= 0)) {
+                    hideBars = true
+//                    if(containerAuction!=null)
+//                        containerAuction.hide()
+
+                    container.hide()
+                } else{
+//                    if(containerAuction!=null)
+//                        containerAuction.show()
+                    hideBars = false
+                    container.show()
+                }
+
+                if (daysDifference == 0L || (daysDifference < 0L)) {
+                    tDay.visibility = View.GONE
+                    day.visibility = View.GONE
+                }
+                if (hoursDifference == 0L || (hoursDifference < 0L)) {
+                    tHour.visibility = View.GONE
+                    hour.visibility = View.GONE
+                }
+
+                if (minutesDifference == 0L || (minutesDifference < 0L)) {
+                    tMinute.visibility = View.GONE
+                    minute.visibility = View.GONE
+                }
+
+                day.text = daysDifference.toString()
+                hour.text = hoursDifference.toString()
+                minute.text = minutesDifference.toString()
+                second.text = secondsDifference.toString()
+            } catch (e: Exception) {
+
+            }
+            return hideBars
         }
 
     }

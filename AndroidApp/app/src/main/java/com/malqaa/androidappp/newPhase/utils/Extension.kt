@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
@@ -37,6 +38,7 @@ object Extension {
 
     val requestOptions = RequestOptions()
         .override(desiredWidth, desiredHeight)
+        .transform(RoundedCorners(12))
         .fitCenter() // or .centerCrop(), depending on how you want to fit the image
 
     fun Double.decimalNumberFormat(): String {
@@ -69,6 +71,7 @@ object Extension {
         Glide.with(context)
             .load(path?: "")
             .apply(requestOptions)
+
             .error(R.mipmap.ic_launcher)
             .listener(object  :RequestListener<Drawable>{
                 override fun onLoadFailed(
