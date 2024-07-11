@@ -182,12 +182,16 @@ class AddPhotoActivity : BaseActivity(), SelectedImagesAdapter.SetOnSelectedMain
 
         }
         floatingActionButton.setOnClickListener() {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                if (PermissionChecker.checkSelfPermission(
-                        this,
-                        Manifest.permission.READ_EXTERNAL_STORAGE
-                    ) == PermissionChecker.PERMISSION_DENIED
-                ) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                if (PermissionChecker.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES) == PermissionChecker.PERMISSION_DENIED) {
+                    val permissions = arrayOf(Manifest.permission.READ_MEDIA_IMAGES)
+                    requestPermissions(permissions, PERMISSION_CODE)
+                } else {
+                    pickImageFromGallery2()
+                }
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (PermissionChecker.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PermissionChecker.PERMISSION_DENIED) {
                     val permissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
                     requestPermissions(permissions, PERMISSION_CODE)
                 } else {
@@ -197,8 +201,20 @@ class AddPhotoActivity : BaseActivity(), SelectedImagesAdapter.SetOnSelectedMain
                 pickImageFromGallery2()
             }
 
-//            addcamera.setOnClickListener {
-//                floatingActionButton.performClick()
+
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                if (PermissionChecker.checkSelfPermission(
+//                        this,
+//                        Manifest.permission.READ_EXTERNAL_STORAGE
+//                    ) == PermissionChecker.PERMISSION_DENIED
+//                ) {
+//                    val permissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
+//                    requestPermissions(permissions, PERMISSION_CODE)
+//                } else {
+//                    pickImageFromGallery2()
+//                }
+//            } else {
+//                pickImageFromGallery2()
 //            }
         }
     }
@@ -215,59 +231,20 @@ class AddPhotoActivity : BaseActivity(), SelectedImagesAdapter.SetOnSelectedMain
             }
         }
     }
-
-
-    //handle requested permission result
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        when (requestCode) {
-            PERMISSION_CODE -> {
-                if (grantResults.size > 0 && grantResults[0] ==
-                    PackageManager.PERMISSION_GRANTED
-                ) {
-                    pickImageFromGallery2()
-                } else {
-                    HelpFunctions.ShowLongToast("Permission denied", this)
-                }
+        if (requestCode == PERMISSION_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                pickImageFromGallery2()
+            } else {
+                // Permission denied, show a message to the user
+                HelpFunctions.ShowLongToast("Permission denied", this)
             }
         }
     }
 
 
     fun pickImageFromGallery2() {
-//        FishBun.with(this)
-//            .setImageAdapter(GlideAdapter())
-//            .setMaxCount(5)
-//            .setMinCount(3)
-//            .setPickerSpanCount(5)
-//            .setActionBarColor(Color.parseColor("#795548"), Color.parseColor("#5D4037"), false)
-//            .setActionBarTitleColor(Color.parseColor("#ffffff"))
-//            //.setArrayPaths(path)
-//           // .setAlbumSpanCount(2, 3)
-//            .setButtonInAlbumActivity(false)
-//           // .setCamera(true)
-//            //.exceptGif(true)
-//            .setReachLimitAutomaticClose(true)
-//            .setHomeAsUpIndicatorDrawable(
-//                ContextCompat.getDrawable(
-//                    this,
-//                    R.drawable.ic_search_black_24dp
-//                )
-//            )
-//            .setDoneButtonDrawable(ContextCompat.getDrawable(this, R.drawable.ic_search_black_24dp))
-//            .setAllDoneButtonDrawable(ContextCompat.getDrawable(this, R.drawable.ic_add_a_photo_gray_100dp))
-//            .setIsUseAllDoneButton(true)
-//            .setAllViewTitle("All")
-//            .setMenuAllDoneText("All Done")
-//            .setActionBarTitle("FishBun Dark")
-//            .textOnNothingSelected("Please select three or more!")
-//            .exceptMimeType(listOf(MimeType.GIF))
-//            .setSpecifyFolderList(arrayListOf("Screenshots", "Camera"))
-//            .startAlbumWithOnActivityResult(IMAGE_PICk_CODE_2)
         FishBun.with(this)
             .setImageAdapter(GlideAdapter())
             .setMaxCount(100)
@@ -296,22 +273,14 @@ class AddPhotoActivity : BaseActivity(), SelectedImagesAdapter.SetOnSelectedMain
                 if (resultCode == Activity.RESULT_OK) {
                     val data = data?.getParcelableArrayListExtra<Uri>(INTENT_PATH)
                     val path: ArrayList<Uri> = ArrayList()
-//                    selectedImagesURI.clear()
                     data?.let {
                         path.addAll(it)
                         path.forEach {
                             try {
                                 val uri: Uri = it
                                 selectedImagesURI.add(ImageSelectModel(uri, ""))
-                                //  val path: String? = getRealPathFromURI(it)
-                                //   val base64 = path?.let { it1 -> HelpFunctions.encodeImage(it1) }
-//                                base64?.let {
-//                                    it
-//                                    selectedImagesURI.add(ImageSelectModel(uri, it))
-//                                }
 
                             } catch (e: Exception) {
-                                //
                             }
                         }
                         if(selectedImagesURI.isNotEmpty())
@@ -320,7 +289,6 @@ class AddPhotoActivity : BaseActivity(), SelectedImagesAdapter.SetOnSelectedMain
                         selectedImagesAdapter.updateData(selectedImagesURI)
                         selectedImagesAdapter.notifyDataSetChanged()
                     }
-                    // you can get an image path(ArrayList<Uri>) on 0.6.2 and later
                 }
             }
         }
@@ -362,54 +330,7 @@ class AddPhotoActivity : BaseActivity(), SelectedImagesAdapter.SetOnSelectedMain
         selectedImagesAdapter.notifyDataSetChanged()
 
     }
-//    private fun getRealPathFromURI(contentUri: Uri): String? {
-//        val proj = arrayOf(MediaStore.Images.Media.DATA)
-//        val loader = CursorLoader(this, contentUri, proj, null, null, null)
-//        val cursor: Cursor? = loader.loadInBackground()
-//        val column_index: Int? = cursor?.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-//        cursor?.moveToFirst()
-//        val result: String? = column_index?.let { cursor?.getString(it) }
-//        cursor?.close()
-//        return result
-//    }
 
-
-//    private fun storePath() {
-//        Extension.clearPath()
-//        for (i in 0 until AddProductObjectData.subCategoryPath.size) {
-//            if (i == 0) {
-//                AddProductObjectData.subcatone = AddProductObjectData.subCategoryPath[i]
-//                AddProductObjectData.subcatonekey =
-//                    AddProductObjectData.subCategoryPath[i] + "-${culture()}"
-//            }
-//            if (i == 1) {
-//                AddProductObjectData.subcattwo = AddProductObjectData.subCategoryPath[i]
-//                AddProductObjectData.subcattwokey =
-//                    AddProductObjectData.subCategoryPath[i] + "-${culture()}"
-//            }
-//            if (i == 2) {
-//                AddProductObjectData.subcatthree = AddProductObjectData.subCategoryPath[i]
-//                AddProductObjectData.subcatthreekey =
-//                    AddProductObjectData.subCategoryPath[i] + "-${culture()}"
-//            }
-//            if (i == 3) {
-//                AddProductObjectData.subcatfour = AddProductObjectData.subCategoryPath[i]
-//                AddProductObjectData.subcatfourkey =
-//                    AddProductObjectData.subCategoryPath[i] + "-${culture()}"
-//            }
-//            if (i == 4) {
-//                AddProductObjectData.subcatfive = AddProductObjectData.subCategoryPath[i]
-//                AddProductObjectData.subcatfivekey =
-//                    AddProductObjectData.subCategoryPath[i] + "-${culture()}"
-//            }
-//            if (i == 5) {
-//                AddProductObjectData.subcatsix = AddProductObjectData.subCategoryPath[i]
-//                AddProductObjectData.subcatsixkey =
-//                    AddProductObjectData.subCategoryPath[i] + "-${culture()}"
-//            }
-//
-//        }
-//    }
 
 
 }
