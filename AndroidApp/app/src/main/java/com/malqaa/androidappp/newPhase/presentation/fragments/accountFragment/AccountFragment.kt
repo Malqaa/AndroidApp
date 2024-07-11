@@ -239,7 +239,7 @@ class AccountFragment : Fragment(R.layout.fragment_account),
             }
         }
 
-        accountViewModel.logoutObserver.observe(this){
+        accountViewModel.logoutObserver.observe(this) {
             ConstantObjects.logged_userid = ""
             Paper.book().write(
                 SharedPreferencesStaticClass.islogin,
@@ -470,7 +470,9 @@ class AccountFragment : Fragment(R.layout.fragment_account),
                                                     }
 
                                                     getString(R.string.logout) -> {
-                                                        accountViewModel.logoutUser(SharedPreferencesStaticClass.getFcmToken())
+                                                        accountViewModel.logoutUser(
+                                                            SharedPreferencesStaticClass.getFcmToken()
+                                                        )
 
                                                     }
                                                 }
@@ -617,7 +619,8 @@ class AccountFragment : Fragment(R.layout.fragment_account),
 
     override fun onDestroy() {
         super.onDestroy()
-        accountViewModel.closeAllCall()
+        if (::accountViewModel.isInitialized)
+            accountViewModel.closeAllCall()
     }
 
 }
