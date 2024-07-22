@@ -62,6 +62,12 @@ class AdapterSubCategories(
             holder.categoryIcon.hide()
 //            holder.not_category_iv.show()
         }
+
+        // Hide the arrow for the last subcategory
+        if (position == allSubCategories.size - 1) {
+            holder.categoryIcon.hide()
+            // holder.not_category_iv.hide()
+        }
     }
 
     fun updateAdapter(allSubCategories: List<Category>) {
