@@ -18,41 +18,58 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.malqaa.androidappp.R
-import com.malqaa.androidappp.newPhase.utils.helper.*
-import com.malqaa.androidappp.newPhase.utils.helper.shared_preferences.SharedPreferencesStaticClass
-import com.malqaa.androidappp.newPhase.utils.helper.widgets.rcv.GenericListAdapter
+import com.malqaa.androidappp.newPhase.domain.models.addProductToCartResp.AccountObject
 import com.malqaa.androidappp.newPhase.domain.models.loginResp.LoginUser
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.AccountItem
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.AccountSubItem
 import com.malqaa.androidappp.newPhase.presentation.MainActivity
+import com.malqaa.androidappp.newPhase.presentation.activities.addressUser.addressListActivity.ListAddressesActivity
+import com.malqaa.androidappp.newPhase.presentation.dialogsShared.PickImageMethodsDialog
 import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.businessAccount.businessAccountsList.SwitchAccountActivity
 import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.editProfileActivity.EditProfileActivity
 import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.myBids.MyBidsActivity
 import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.negotiationOffersPurchase.negotiationOfferPurchase.NegotiationOffersPurchaseActivity
 import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.negotiationOffersPurchase.negotiationOfferSale.NegotiationOffersSaleActivity
 import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.technicalSupportActivity.listtechincalSupportMessage.TechnicalSupportListActivity
-import com.malqaa.androidappp.newPhase.domain.models.addProductToCartResp.AccountObject
-import com.malqaa.androidappp.newPhase.presentation.activities.addressUser.addressListActivity.ListAddressesActivity
-import com.malqaa.androidappp.newPhase.presentation.dialogsShared.PickImageMethodsDialog
-import com.malqaa.androidappp.newPhase.utils.helper.CameraHelper
 import com.malqaa.androidappp.newPhase.utils.BetterActivityResult
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.ImagePicker
 import com.malqaa.androidappp.newPhase.utils.PicassoSingleton.getPicassoInstance
 import com.malqaa.androidappp.newPhase.utils.SetOnImagePickedListeners
+import com.malqaa.androidappp.newPhase.utils.helper.CameraHelper
+import com.malqaa.androidappp.newPhase.utils.helper.shared_preferences.SharedPreferencesStaticClass
+import com.malqaa.androidappp.newPhase.utils.helper.widgets.rcv.GenericListAdapter
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.show
-
 import io.paperdb.Paper
-import kotlinx.android.synthetic.main.account_main_item.view.*
-import kotlinx.android.synthetic.main.account_sub_item.view.*
-import kotlinx.android.synthetic.main.activity_signup_pg4.*
-import kotlinx.android.synthetic.main.fragment_account.*
+import kotlinx.android.synthetic.main.account_main_item.view.main_item_tv
+import kotlinx.android.synthetic.main.account_main_item.view.sub_item_rcv
+import kotlinx.android.synthetic.main.account_sub_item.view.item_icon
+import kotlinx.android.synthetic.main.account_sub_item.view.item_right_icon
+import kotlinx.android.synthetic.main.account_sub_item.view.line
+import kotlinx.android.synthetic.main.account_sub_item.view.sub_item_tv
+import kotlinx.android.synthetic.main.fragment_account.follow_up
 import kotlinx.android.synthetic.main.fragment_account.ivUserImage
+import kotlinx.android.synthetic.main.fragment_account.ivUserImageContainer
+import kotlinx.android.synthetic.main.fragment_account.loader
+import kotlinx.android.synthetic.main.fragment_account.main_item_rcv
+import kotlinx.android.synthetic.main.fragment_account.my_points
+import kotlinx.android.synthetic.main.fragment_account.my_wallet
+import kotlinx.android.synthetic.main.fragment_account.rate3
+import kotlinx.android.synthetic.main.fragment_account.rating_btn
+import kotlinx.android.synthetic.main.fragment_account.sub_title
+import kotlinx.android.synthetic.main.fragment_account.tvFollowCategory
+import kotlinx.android.synthetic.main.fragment_account.tvMemberSince
+import kotlinx.android.synthetic.main.fragment_account.tvUserName
+import kotlinx.android.synthetic.main.fragment_account.tvUserPointTotalBalance
+import kotlinx.android.synthetic.main.fragment_account.tvWalletTotalBalance
+import kotlinx.android.synthetic.main.fragment_account.tv_membership_number
+import kotlinx.android.synthetic.main.fragment_account.user_rating
 import kotlin.math.roundToInt
-
 
 class AccountFragment : Fragment(R.layout.fragment_account),
     PickImageMethodsDialog.OnAttachedImageMethodSelected {
@@ -66,8 +83,11 @@ class AccountFragment : Fragment(R.layout.fragment_account),
     val activityLauncher: BetterActivityResult<Intent, ActivityResult> =
         BetterActivityResult.registerActivityForResult(this)
 
+    private lateinit var layoutManager: LinearLayoutManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         list.apply {
             add(
                 AccountItem(
@@ -299,6 +319,7 @@ class AccountFragment : Fragment(R.layout.fragment_account),
 
     @SuppressLint("ResourceType")
     private fun setAdaptor() {
+        layoutManager = LinearLayoutManager(requireContext())
         main_item_rcv.adapter =
             object : GenericListAdapter<AccountItem>(
                 R.layout.account_main_item,
@@ -484,32 +505,58 @@ class AccountFragment : Fragment(R.layout.fragment_account),
                                 }
                             ) {
                                 override fun getFilter(): Filter {
-                                    TODO("Not yet implemented")
+                                    // Your filter implementation
+                                    return object : Filter() {
+                                        override fun performFiltering(constraint: CharSequence?): FilterResults {
+                                            return FilterResults()
+                                        }
+
+                                        override fun publishResults(
+                                            constraint: CharSequence?,
+                                            results: FilterResults?
+                                        ) {
+                                            // Handle filter results
+                                        }
+                                    }
                                 }
-
                             }.apply {
-                                submitList(
-                                    list
-                                )
+                                submitList(list)
                             }
-
                         }
                     }
                 }
             ) {
                 override fun getFilter(): Filter {
-                    TODO("Not yet implemented")
-                }
+                    // Your filter implementation
+                    return object : Filter() {
+                        override fun performFiltering(constraint: CharSequence?): FilterResults {
+                            return FilterResults()
+                        }
 
+                        override fun publishResults(
+                            constraint: CharSequence?,
+                            results: FilterResults?
+                        ) {
+                            // Handle filter results
+                        }
+                    }
+                }
             }.apply {
-                submitList(
-                    list
-                )
+                submitList(list)
             }
         main_item_rcv.isNestedScrollingEnabled = false
-
+        main_item_rcv.layoutManager = layoutManager
+        main_item_rcv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val position = layoutManager.findFirstVisibleItemPosition()
+                val currentItem = list[position]
+                if (position != 0) sub_title.visibility = View.VISIBLE
+                else sub_title.visibility = View.GONE
+                sub_title.text = currentItem.name
+            }
+        })
     }
-
 
     /*****/
     private fun openCameraChooser() {
