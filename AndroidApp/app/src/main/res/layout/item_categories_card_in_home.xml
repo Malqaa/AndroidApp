@@ -25,6 +25,7 @@
                     android:id="@+id/category_icon"
                     android:layout_width="115dp"
                     android:layout_height="130dp"
+                    android:scaleType="fitXY"
                     app:sriv_border_color="@color/white"
                     />
                 <ProgressBar
