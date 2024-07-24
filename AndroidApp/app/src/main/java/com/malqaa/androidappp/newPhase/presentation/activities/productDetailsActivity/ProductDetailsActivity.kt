@@ -58,6 +58,7 @@ import com.malqaa.androidappp.newPhase.utils.Extension
 import com.malqaa.androidappp.newPhase.utils.Extension.shared
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions.Companion.getDifference
+import com.malqaa.androidappp.newPhase.utils.VideoDialogFragment
 import com.malqaa.androidappp.newPhase.utils.activitiesMain.PlayActivity
 import com.malqaa.androidappp.newPhase.utils.helper.*
 import com.malqaa.androidappp.newPhase.utils.helper.shared_preferences.SharedPreferencesStaticClass
@@ -66,19 +67,109 @@ import com.malqaa.androidappp.newPhase.utils.linearLayoutManager
 import com.malqaa.androidappp.newPhase.utils.show
 import com.yariksoffice.lingver.Lingver
 import io.paperdb.Paper
-import kotlinx.android.synthetic.main.activity_product_details2.*
-import kotlinx.android.synthetic.main.activity_product_details_item_2.*
-import kotlinx.android.synthetic.main.atrribute_item.view.*
-import kotlinx.android.synthetic.main.item_image_for_product_details.view.*
-import kotlinx.android.synthetic.main.item_review_product.*
-import kotlinx.android.synthetic.main.product_item.view.*
+import kotlinx.android.synthetic.main.activity_product_details2.Bid_on_price_tv
+import kotlinx.android.synthetic.main.activity_product_details2.btnNextImage
+import kotlinx.android.synthetic.main.activity_product_details2.btnShare
+import kotlinx.android.synthetic.main.activity_product_details2.containerBidOnPrice
+import kotlinx.android.synthetic.main.activity_product_details2.containerBuyNow
+import kotlinx.android.synthetic.main.activity_product_details2.containerCurrentPriceBuy
+import kotlinx.android.synthetic.main.activity_product_details2.containerMainProduct
+import kotlinx.android.synthetic.main.activity_product_details2.containerMyBid
+import kotlinx.android.synthetic.main.activity_product_details2.containerShareAndFav
+import kotlinx.android.synthetic.main.activity_product_details2.current_price_buy_tv
+import kotlinx.android.synthetic.main.activity_product_details2.fbButtonBack
+import kotlinx.android.synthetic.main.activity_product_details2.ivFav
+import kotlinx.android.synthetic.main.activity_product_details2.loader
+import kotlinx.android.synthetic.main.activity_product_details2.other_image_layout
+import kotlinx.android.synthetic.main.activity_product_details2.productimg
+import kotlinx.android.synthetic.main.activity_product_details2.rvProductImages
+import kotlinx.android.synthetic.main.activity_product_details2.slider_details
+import kotlinx.android.synthetic.main.activity_product_details2.swipe_to_refresh
+import kotlinx.android.synthetic.main.activity_product_details2.tvMyBidPrice
+import kotlinx.android.synthetic.main.activity_product_details2.txtPriceNow
+import kotlinx.android.synthetic.main.activity_product_details_item_2.btnMapSeller
+import kotlinx.android.synthetic.main.activity_product_details_item_2.btnMoreItemDetails
+import kotlinx.android.synthetic.main.activity_product_details_item_2.btnMoreSpecification
+import kotlinx.android.synthetic.main.activity_product_details_item_2.btnPriceNegotiation
+import kotlinx.android.synthetic.main.activity_product_details_item_2.btnSellerProducts
+import kotlinx.android.synthetic.main.activity_product_details_item_2.contaienrSimilerProduts
+import kotlinx.android.synthetic.main.activity_product_details_item_2.containerAuctionNumber
+import kotlinx.android.synthetic.main.activity_product_details_item_2.containerAuctioncountdownTimer_bar
+import kotlinx.android.synthetic.main.activity_product_details_item_2.containerMada
+import kotlinx.android.synthetic.main.activity_product_details_item_2.containerMainAskQuestion
+import kotlinx.android.synthetic.main.activity_product_details_item_2.containerMaster
+import kotlinx.android.synthetic.main.activity_product_details_item_2.containerSellerImage
+import kotlinx.android.synthetic.main.activity_product_details_item_2.containerSellerInfo
+import kotlinx.android.synthetic.main.activity_product_details_item_2.containerSellerProduct
+import kotlinx.android.synthetic.main.activity_product_details_item_2.contianerAskQuestion
+import kotlinx.android.synthetic.main.activity_product_details_item_2.contianerBankAccount
+import kotlinx.android.synthetic.main.activity_product_details_item_2.contianerCash
+import kotlinx.android.synthetic.main.activity_product_details_item_2.contianerRateText
+import kotlinx.android.synthetic.main.activity_product_details_item_2.days
+import kotlinx.android.synthetic.main.activity_product_details_item_2.etWriteQuestion
+import kotlinx.android.synthetic.main.activity_product_details_item_2.facebook_btn
+import kotlinx.android.synthetic.main.activity_product_details_item_2.hintQuestion
+import kotlinx.android.synthetic.main.activity_product_details_item_2.hours
+import kotlinx.android.synthetic.main.activity_product_details_item_2.instagram_btn
+import kotlinx.android.synthetic.main.activity_product_details_item_2.isSellerProductHide_iv
+import kotlinx.android.synthetic.main.activity_product_details_item_2.ivRateSeller
+import kotlinx.android.synthetic.main.activity_product_details_item_2.ivSellerFollow
+import kotlinx.android.synthetic.main.activity_product_details_item_2.layDetails
+import kotlinx.android.synthetic.main.activity_product_details_item_2.laySpec
+import kotlinx.android.synthetic.main.activity_product_details_item_2.linHappy
+import kotlinx.android.synthetic.main.activity_product_details_item_2.linSad
+import kotlinx.android.synthetic.main.activity_product_details_item_2.linSmile
+import kotlinx.android.synthetic.main.activity_product_details_item_2.linked_in_btn
+import kotlinx.android.synthetic.main.activity_product_details_item_2.member_since_Tv
+import kotlinx.android.synthetic.main.activity_product_details_item_2.minutes
+import kotlinx.android.synthetic.main.activity_product_details_item_2.rating_bar_detail_tv
+import kotlinx.android.synthetic.main.activity_product_details_item_2.readMoreTextView
+import kotlinx.android.synthetic.main.activity_product_details_item_2.rvProductSpecification
+import kotlinx.android.synthetic.main.activity_product_details_item_2.rvQuestionForProduct
+import kotlinx.android.synthetic.main.activity_product_details_item_2.rvSellerProduct
+import kotlinx.android.synthetic.main.activity_product_details_item_2.rvSimilarProducts
+import kotlinx.android.synthetic.main.activity_product_details_item_2.rv_review
+import kotlinx.android.synthetic.main.activity_product_details_item_2.seconds
+import kotlinx.android.synthetic.main.activity_product_details_item_2.sectionQs
+import kotlinx.android.synthetic.main.activity_product_details_item_2.sellerName
+import kotlinx.android.synthetic.main.activity_product_details_item_2.sellerProgressBar
+import kotlinx.android.synthetic.main.activity_product_details_item_2.seller_city
+import kotlinx.android.synthetic.main.activity_product_details_item_2.seller_number
+import kotlinx.android.synthetic.main.activity_product_details_item_2.seller_picture
+import kotlinx.android.synthetic.main.activity_product_details_item_2.seller_product_tv
+import kotlinx.android.synthetic.main.activity_product_details_item_2.skype_btn
+import kotlinx.android.synthetic.main.activity_product_details_item_2.snapChat_btn
+import kotlinx.android.synthetic.main.activity_product_details_item_2.tiktok_btn
+import kotlinx.android.synthetic.main.activity_product_details_item_2.titleDay
+import kotlinx.android.synthetic.main.activity_product_details_item_2.titleHours
+import kotlinx.android.synthetic.main.activity_product_details_item_2.titleMinutes
+import kotlinx.android.synthetic.main.activity_product_details_item_2.titleSeconds
+import kotlinx.android.synthetic.main.activity_product_details_item_2.tvAddReview
+import kotlinx.android.synthetic.main.activity_product_details_item_2.tvAuctionNumber
+import kotlinx.android.synthetic.main.activity_product_details_item_2.tvErrorNoQuestion
+import kotlinx.android.synthetic.main.activity_product_details_item_2.tvErrorNoSellerProduct
+import kotlinx.android.synthetic.main.activity_product_details_item_2.tvErrorNoSpecification
+import kotlinx.android.synthetic.main.activity_product_details_item_2.tvNumberQuestionNotAnswer
+import kotlinx.android.synthetic.main.activity_product_details_item_2.tvProductItemName
+import kotlinx.android.synthetic.main.activity_product_details_item_2.tvProductReview
+import kotlinx.android.synthetic.main.activity_product_details_item_2.tvProductSubtitle
+import kotlinx.android.synthetic.main.activity_product_details_item_2.tvQuestionAndAnswersShowAll
+import kotlinx.android.synthetic.main.activity_product_details_item_2.tvReviewsError
+import kotlinx.android.synthetic.main.activity_product_details_item_2.tvShippingOptions
+import kotlinx.android.synthetic.main.activity_product_details_item_2.tvShowAllReviews
+import kotlinx.android.synthetic.main.activity_product_details_item_2.twitter_btn
+import kotlinx.android.synthetic.main.activity_product_details_item_2.txtHappy
+import kotlinx.android.synthetic.main.activity_product_details_item_2.txtSad
+import kotlinx.android.synthetic.main.activity_product_details_item_2.txtSmile
+import kotlinx.android.synthetic.main.activity_product_details_item_2.txtTypeUser
+import kotlinx.android.synthetic.main.activity_product_details_item_2.youtube_btn
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.joda.time.DateTime
 import org.joda.time.Duration
 import org.joda.time.format.DateTimeFormat
-import java.util.*
+import java.util.Date
 
 
 @SuppressLint("SetTextI18n")
@@ -1153,15 +1244,9 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                 override fun onSelectImage(position: Int) {
                     urlImg = productImagesList[position].url
                     if (productImagesList[position].type == 2) {     //video
-                        startActivity(
-                            Intent(
-                                this@ProductDetailsActivity,
-                                PlayActivity::class.java
-                            ).putExtra(
-                                "videourl",
-                                productImagesList[position].url
-                            )
-                        )
+                        val videoUrl = productImagesList[position].url
+                        val videoDialogFragment = VideoDialogFragment.newInstance(videoUrl)
+                        videoDialogFragment.show(supportFragmentManager, "videoDialog")
                     } else {
 
                         imgPosition = position
