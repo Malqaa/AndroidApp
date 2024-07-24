@@ -3085,4 +3085,6 @@
     <!--  </string>-->
     <!--    <string name="OTPwillexpirein">OTP will expire in</string>-->
 
+  <string name="product_price_sar">%1$s SAR</string>
+  <string name="offer_price_sar">Offer Price %1$s SAR</string>
 </resources>

@@ -2879,4 +2879,7 @@
     <!--  </string>-->
     <!--    <string name="Profileinformationhasbeenupdated">تم تحديث معلومات الملف الشخصي</string>-->
 
+    <string name="product_price_sar">%1$s ر.س</string>
+    <string name="offer_price_sar">سعر العرض %1$s ر.س</string>
+
 </resources>
