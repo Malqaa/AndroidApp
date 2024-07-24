@@ -35,6 +35,7 @@ import com.malqaa.androidappp.newPhase.presentation.activities.productDetailsAct
 import com.malqaa.androidappp.newPhase.presentation.activities.searchProductListActivity.CategoryProductViewModel
 import com.malqaa.androidappp.newPhase.presentation.activities.searchProductListActivity.ProductRowFullAdapter
 import com.malqaa.androidappp.newPhase.presentation.activities.searchProductListActivity.browse_market.filterDialog.FilterCategoryProductsDialog
+import com.malqaa.androidappp.newPhase.utils.isTextInEnglish
 import kotlinx.android.synthetic.main.fragment_browse_market.btnRegion
 import kotlinx.android.synthetic.main.fragment_browse_market.btnSpecification
 import kotlinx.android.synthetic.main.fragment_browse_market.btnSubCatgeoryFilter
@@ -449,7 +450,7 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         productName = etSearch.text.toString()
         productsListViewModel.searchForProduct(
             categoryID,
-            ConstantObjects.currentLanguage,
+            if (isTextInEnglish(productName.toString())) "en" else "ar",
             1,
             countryList,
             regionList,
