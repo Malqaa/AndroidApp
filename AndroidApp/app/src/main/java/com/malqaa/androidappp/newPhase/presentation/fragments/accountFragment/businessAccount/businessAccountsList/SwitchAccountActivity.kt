@@ -156,7 +156,7 @@ class SwitchAccountActivity : BaseActivity(), BusinessAccountsAdapter.SetOnBusin
                     .error(R.drawable.profileicon_bottomnav)
                     .placeholder(R.drawable.profileicon_bottomnav)
                     .into(review_profile_pic)
-                review_name.text = userData.userName.toString()
+                review_name.text = "${userData.firstName} ${userData.lastName}"
             }
         } catch (_: Exception) {
         }
