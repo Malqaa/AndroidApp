@@ -98,7 +98,7 @@ class ListingDetailsActivity : BaseActivity() {
                 }
             }
         }
-        addProductViewModel!!.configurationRespObserver.observe(this) { configurationRespObserver ->
+        addProductViewModel!!.configurationRespDidNotReceive.observe(this) { configurationRespObserver ->
             if (configurationRespObserver.status_code == 200) {
                 configurationRespObserver.configurationData?.let {
                     if (it.configValue == "1") {
@@ -106,7 +106,9 @@ class ListingDetailsActivity : BaseActivity() {
                     } else {
                         AddProductObjectData.quantity = "1"
                         quantityavail.number = "1"
-                        containerQuantity.hide()
+//                        containerQuantity.hide()
+                        quantityavail.setEnabledSubtractBtn(false)
+                        quantityavail.setEnabledAddBtn(false)
                     }
                 }
             }

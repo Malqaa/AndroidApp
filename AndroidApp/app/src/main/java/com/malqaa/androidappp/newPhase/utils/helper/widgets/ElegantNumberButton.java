@@ -91,6 +91,13 @@ public class ElegantNumberButton extends RelativeLayout {
         }
     }
 
+    public void setEnabledSubtractBtn(Boolean isEnabled) {
+        subtractBtn.setEnabled(isEnabled);
+    }
+
+    public void setEnabledAddBtn(Boolean isEnabled) {
+        addBtn.setEnabled(isEnabled);
+    }
 
     public void setNumber(String number) {
         lastNumber = currentNumber;
