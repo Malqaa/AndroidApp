@@ -1,14 +1,16 @@
 package com.malqaa.androidappp.newPhase.presentation.activities.productDetailsActivity.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.malqaa.androidappp.R
 import com.malqaa.androidappp.databinding.AtrributeItemBinding
+import com.malqaa.androidappp.newPhase.domain.models.dynamicSpecification.DynamicSpecificationSentObject
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.getDrawableCompat
-import com.malqaa.androidappp.newPhase.domain.models.dynamicSpecification.DynamicSpecificationSentObject
 
 class SpecificationAdapter(var specificationList: ArrayList<DynamicSpecificationSentObject>) :
     RecyclerView.Adapter<SpecificationAdapter.AttributeViewHolder>() {
@@ -28,14 +30,31 @@ class SpecificationAdapter(var specificationList: ArrayList<DynamicSpecification
     override fun getItemCount(): Int = specificationList.size
 
     override fun onBindViewHolder(holder: AttributeViewHolder, position: Int) {
-        if (ConstantObjects.currentLanguage == ConstantObjects.ARABIC) {
-            holder.viewBinding.keyTv.text = specificationList[position].HeaderSpeAr
-            holder.viewBinding.valueTv.text = specificationList[position].valueSpe
-        }else{
-            holder.viewBinding.keyTv.text = specificationList[position].HeaderSpeEn
-            holder.viewBinding.valueTv.text = specificationList[position].valueSpe
+        val headerSpeAr = specificationList[position].HeaderSpeAr
+        val headerSpeEn = specificationList[position].HeaderSpeEn
+        val valueSpe = specificationList[position].valueSpe
+        var _position = position + 1
+
+        // Visibility Management
+        if (valueSpe.isEmpty() || valueSpe.isBlank()) {
+            holder.viewBinding.keyTv.visibility = View.GONE
+            holder.viewBinding.valueTv.visibility = View.GONE
+            _position -= 1
+        } else {
+            holder.viewBinding.keyTv.visibility = View.VISIBLE
+            holder.viewBinding.valueTv.visibility = View.VISIBLE
         }
-        val _position = position + 1
+
+        // Language Management
+        if (ConstantObjects.currentLanguage == ConstantObjects.ARABIC) {
+            holder.viewBinding.keyTv.text = headerSpeAr
+            holder.viewBinding.valueTv.text = valueSpe
+        } else {
+            holder.viewBinding.keyTv.text = headerSpeEn
+            holder.viewBinding.valueTv.text = valueSpe
+        }
+
+        // Alternating Backgrounds
         if (_position % 2 == 0) {
             holder.viewBinding.mainLayout.background =
                 context.getDrawableCompat(R.drawable.product_attribute_bg_gray)
@@ -43,5 +62,10 @@ class SpecificationAdapter(var specificationList: ArrayList<DynamicSpecification
             holder.viewBinding.mainLayout.background =
                 context.getDrawableCompat(R.drawable.product_attribute_bg_white)
         }
+
+        // Logging
+        Log.i("test #1", "HeaderSpeAr: ${specificationList[position].HeaderSpeAr}, valueSpe: ${specificationList[position].valueSpe}")
+        Log.i("test #1", "HeaderSpeAr: ${specificationList[position].HeaderSpeEn}, valueSpe: ${specificationList[position].valueSpe}")
     }
+
 }
