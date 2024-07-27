@@ -9,10 +9,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.malqaa.androidappp.R
+import com.malqaa.androidappp.newPhase.domain.models.servicemodels.Category
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.show
-import com.malqaa.androidappp.newPhase.domain.models.servicemodels.Category
-import kotlinx.android.synthetic.main.all_categories_card.view.*
+import kotlinx.android.synthetic.main.all_categories_card.view.arrowimgmobile
+import kotlinx.android.synthetic.main.all_categories_card.view.categoryName
+import kotlinx.android.synthetic.main.all_categories_card.view.not_category_iv
 
 class AdapterSubCategories(
     private var allSubCategories: List<Category>,
@@ -52,28 +54,20 @@ class AdapterSubCategories(
     override fun getItemCount() = allSubCategories.size
 
     override fun onBindViewHolder(holder: AdapterSubCategoriesViewHolder, position: Int) {
-
         holder.categoryName.text = allSubCategories[position].name
 
-        if (allSubCategories[position].isCategory) {
-            holder.categoryIcon.hide()
-//            holder.not_category_iv.hide()
-        } else {
-            holder.categoryIcon.hide()
-//            holder.not_category_iv.show()
-        }
-
         // Hide the arrow for the last subcategory
-        if (position == allSubCategories.size - 1) {
+        if (allSubCategories[position].list.isEmpty()) {
             holder.categoryIcon.hide()
-            // holder.not_category_iv.hide()
+        } else {
+            holder.categoryIcon.show()
         }
     }
 
     fun updateAdapter(allSubCategories: List<Category>) {
         val handler = Handler(Looper.getMainLooper())
         handler.post {
-            if (allSubCategories.isNotEmpty()){
+            if (allSubCategories.isNotEmpty()) {
                 this.allSubCategories = allSubCategories
                 notifyDataSetChanged()
             }
