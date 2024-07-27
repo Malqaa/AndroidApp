@@ -298,6 +298,7 @@ class AddPhotoActivity : BaseActivity(), SelectedImagesAdapter.SetOnSelectedMain
     private fun categoryTemplate() {
         val title = title
 
+        selectedImagesURI = ArrayList(selectedImagesURI.sortedByDescending { it.is_main })
         AddProductObjectData.images = selectedImagesURI
 
         startActivity(Intent(this, DynamicTemplateActivtiy::class.java).apply {
@@ -326,11 +327,9 @@ class AddPhotoActivity : BaseActivity(), SelectedImagesAdapter.SetOnSelectedMain
     override fun onSelectedMainImage(data: ArrayList<ImageSelectModel>, position: Int) {
         selectedImagesURI = arrayListOf()
         selectedImagesURI.addAll(data)
+        selectedImagesURI[position].is_main = true
         selectedImagesAdapter.updateData(selectedImagesURI)
         selectedImagesAdapter.notifyDataSetChanged()
-
     }
-
-
 
 }
