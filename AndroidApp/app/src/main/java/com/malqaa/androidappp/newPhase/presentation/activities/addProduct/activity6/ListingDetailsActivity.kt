@@ -106,9 +106,7 @@ class ListingDetailsActivity : BaseActivity() {
                     } else {
                         AddProductObjectData.quantity = "1"
                         quantityavail.number = "1"
-//                        containerQuantity.hide()
-                        quantityavail.setEnabledSubtractBtn(false)
-                        quantityavail.setEnabledAddBtn(false)
+                        containerQuantity.hide()
                     }
                 }
             }
