@@ -62,10 +62,6 @@ class SpecificationAdapter(var specificationList: ArrayList<DynamicSpecification
             holder.viewBinding.mainLayout.background =
                 context.getDrawableCompat(R.drawable.product_attribute_bg_white)
         }
-
-        // Logging
-        Log.i("test #1", "HeaderSpeAr: ${specificationList[position].HeaderSpeAr}, valueSpe: ${specificationList[position].valueSpe}")
-        Log.i("test #1", "HeaderSpeAr: ${specificationList[position].HeaderSpeEn}, valueSpe: ${specificationList[position].valueSpe}")
     }
 
 }

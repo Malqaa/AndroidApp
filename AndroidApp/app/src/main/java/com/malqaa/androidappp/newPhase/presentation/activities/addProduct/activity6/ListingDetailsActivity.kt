@@ -2,6 +2,7 @@ package com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activ
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.CompoundButton
 import androidx.lifecycle.ViewModelProvider
@@ -98,7 +99,7 @@ class ListingDetailsActivity : BaseActivity() {
                 }
             }
         }
-        addProductViewModel!!.configurationRespDidNotReceive.observe(this) { configurationRespObserver ->
+        addProductViewModel!!.configurationRespObserver.observe(this) { configurationRespObserver ->
             if (configurationRespObserver.status_code == 200) {
                 configurationRespObserver.configurationData?.let {
                     if (it.configValue == "1") {
