@@ -14,6 +14,7 @@ data class NegotiationOfferDetails(
     var productImage: String? = null,
     var senderImage: String? = null,
     var receiverImage: String? = null,
+    var offerQuantity: Int,
     var productPrice: Float,
     var region: String? = null,
     var offerFromModule: String,

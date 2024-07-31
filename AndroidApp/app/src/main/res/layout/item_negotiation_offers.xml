@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools">
 
 
     <LinearLayout
@@ -87,6 +88,16 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/madani_arabic_light"
                     android:text="@string/Riyadh"
+                    android:textColor="#6D6C74"
+                    android:textSize="@dimen/_12sdp" />
+
+                <TextView
+                    android:id="@+id/text_offer_quantity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/madani_arabic_light"
+                    tools:text="Qty. 1"
+                    android:visibility="gone"
                     android:textColor="#6D6C74"
                     android:textSize="@dimen/_12sdp" />
 

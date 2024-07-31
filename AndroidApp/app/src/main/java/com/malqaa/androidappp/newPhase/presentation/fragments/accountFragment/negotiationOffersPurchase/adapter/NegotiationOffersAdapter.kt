@@ -2,10 +2,10 @@ package com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.n
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.malqaa.androidappp.R
@@ -72,13 +72,14 @@ class NegotiationOffersAdapter(
         )
 
         // product price
-        val productPriceFloat= negotiationOfferDetailsList[position].productPrice
-        val productPrice = context.getString(R.string.product_price_sar, productPriceFloat.toString())
+        val productPriceFloat = negotiationOfferDetailsList[position].productPrice
+        val productPrice =
+            context.getString(R.string.product_price_sar, productPriceFloat.toString())
         holder.viewBinding.tvProductPrice.text = productPrice
 
         if (productPriceFloat > 0f) {
             holder.viewBinding.tvProductPrice.visibility = View.VISIBLE
-        }else{
+        } else {
             holder.viewBinding.tvProductPrice.visibility = View.GONE
         }
 
@@ -89,8 +90,21 @@ class NegotiationOffersAdapter(
 
         if (offerPriceFloat > 0f) {
             holder.viewBinding.tvOfferedPrice.visibility = View.VISIBLE
-        }else{
+        } else {
             holder.viewBinding.tvOfferedPrice.visibility = View.GONE
+        }
+
+        // offer quantity
+        val offerQuantity = negotiationOfferDetailsList[position].offerQuantity
+        val formattedQuantity = HtmlCompat.fromHtml(
+            "<b>${context.getString(R.string.qty)}</b> $offerQuantity",
+            HtmlCompat.FROM_HTML_MODE_LEGACY
+        )
+        holder.viewBinding.textOfferQuantity.text = formattedQuantity
+        if (offerQuantity > 0) {
+            holder.viewBinding.textOfferQuantity.visibility = View.VISIBLE
+        } else {
+            holder.viewBinding.textOfferQuantity.visibility = View.GONE
         }
 
         if (saleOrNot) {
