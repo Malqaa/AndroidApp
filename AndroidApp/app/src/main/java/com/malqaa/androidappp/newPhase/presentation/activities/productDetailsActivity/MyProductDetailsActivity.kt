@@ -996,6 +996,12 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
 //
 //            }
 
+            val fixedPriceEnabled = productDetails.isFixedPriceEnabled
+            if(fixedPriceEnabled)
+                discountProduct.show()
+            else
+                discountProduct.hide()
+
         } else {
             showError(getString(R.string.serverError))
         }
