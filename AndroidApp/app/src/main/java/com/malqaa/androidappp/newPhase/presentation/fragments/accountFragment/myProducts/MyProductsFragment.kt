@@ -406,8 +406,11 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
 
     override fun onShowMoreSetting(position: Int, productID: Int, categoryID: Int) {
         val productForeSale = tapId == 1
+
+        val fixedPriceEnabled = productList[0].isFixedPriceEnabled
         val myProductSettingDialog =
             MyProductSettingDialog(
+                fixedPriceEnabled = fixedPriceEnabled,
                 productList[position].isAuctionEnabled,
                 productList[position].auctionClosingTime ?: "",
                 requireActivity(),

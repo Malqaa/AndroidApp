@@ -12,6 +12,7 @@ import java.util.Calendar
 import java.util.Date
 
 class MyProductSettingDialog(
+    private val fixedPriceEnabled: Boolean = false,
     private val isAuctionEnabled: Boolean,
     private val auctionClosingTime: String,
     context: Context,
@@ -35,7 +36,7 @@ class MyProductSettingDialog(
             }
 
         if (productsForSale) {
-            if (isAuctionEnabled)
+            if (isAuctionEnabled || !fixedPriceEnabled)
                 viewBinding.btnAddDiscount.hide()
             else
                 viewBinding.btnAddDiscount.show()

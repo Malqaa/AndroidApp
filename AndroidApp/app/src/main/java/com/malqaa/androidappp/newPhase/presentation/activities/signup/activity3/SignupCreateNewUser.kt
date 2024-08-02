@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.result.ActivityResult
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -412,6 +413,7 @@ class SignupCreateNewUser : BaseActivity(), PickImageMethodsDialog.OnAttachedIma
         userImageUri?.let {
             file = File(it.path)
         }
+        Log.i("text #1", "invitationCode: $invitationCode")
         signupViewModel.createUser(
             otpData?.userName.toString(),
             otpData?.phoneNumber.toString(),
