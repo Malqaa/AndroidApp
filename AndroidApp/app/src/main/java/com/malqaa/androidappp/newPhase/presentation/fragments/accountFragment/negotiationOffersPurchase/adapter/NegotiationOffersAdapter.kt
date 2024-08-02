@@ -71,18 +71,6 @@ class NegotiationOffersAdapter(
             holder.viewBinding.loader
         )
 
-        // product price
-        val productPriceFloat = negotiationOfferDetailsList[position].productPrice
-        val productPrice =
-            context.getString(R.string.product_price_sar, productPriceFloat.toString())
-        holder.viewBinding.tvProductPrice.text = productPrice
-
-        if (productPriceFloat > 0f) {
-            holder.viewBinding.tvProductPrice.visibility = View.VISIBLE
-        } else {
-            holder.viewBinding.tvProductPrice.visibility = View.GONE
-        }
-
         // offer price
         val offerPriceFloat = negotiationOfferDetailsList[position].offerPrice
         val offerPrice = context.getString(R.string.offer_price_sar, offerPriceFloat.toString())
