@@ -4,24 +4,24 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
 import com.bumptech.glide.Glide;
+import com.google.android.exoplayer2.ExoPlayer;
+import com.google.android.exoplayer2.MediaItem;
+import com.google.android.exoplayer2.ui.PlayerView;
 import com.jsibbold.zoomage.ZoomageView;
 import com.malqaa.androidappp.R;
 import com.malqaa.androidappp.newPhase.domain.models.ImageSelectModel;
-import com.malqaa.androidappp.newPhase.utils.Extension;
-import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ImagePagerAdapter extends PagerAdapter {
     private Context mContext;
     private List<ImageSelectModel> mImageIds;
+    private ExoPlayer player;
 
     public ImagePagerAdapter(Context context, List<ImageSelectModel> imageIds) {
         mContext = context;
@@ -37,22 +37,26 @@ public class ImagePagerAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         LayoutInflater inflater = LayoutInflater.from(mContext);
-        View itemView = inflater.inflate(R.layout.item_image, container, false);
-        ZoomageView imageView = itemView.findViewById(R.id.imageView);
+        View itemView;
 
+        if (mImageIds.get(position).getType() == 2) { // Assuming type 2 is video
+            itemView = inflater.inflate(R.layout.item_video, container, false);
+            PlayerView playerView = itemView.findViewById(R.id.playerView);
+            player = new ExoPlayer.Builder(mContext).build();
+            playerView.setPlayer(player);
 
-        if(mImageIds.get(position).getType()!=2){
+            MediaItem mediaItem = MediaItem.fromUri(mImageIds.get(position).getUrl());
+            player.setMediaItem(mediaItem);
+            player.prepare();
+            player.play();
+        } else {
+            itemView = inflater.inflate(R.layout.item_image, container, false);
+            ZoomageView imageView = itemView.findViewById(R.id.imageView);
             Glide.with(mContext)
                     .load(mImageIds.get(position).getUrl())
-                    .into(imageView);
-        }else {
-            Glide.with(mContext)
-                    .load(mImageIds.get(position).getUrl())
-                    .error(R.drawable.ic_play)
                     .into(imageView);
         }
 
-        
         container.addView(itemView);
 
         return itemView;
@@ -61,6 +65,12 @@ public class ImagePagerAdapter extends PagerAdapter {
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         container.removeView((View) object);
+
+        // Release the player when the item is destroyed
+        if (mImageIds.get(position).getType() == 2 && player != null) {
+            player.release();
+            player = null;
+        }
     }
 
     @Override
@@ -68,4 +78,16 @@ public class ImagePagerAdapter extends PagerAdapter {
         return view == object;
     }
 
+    public void releasePlayer() {
+        if (player != null) {
+            player.release();
+            player = null;
+        }
+    }
+
+    public void releaseStop() {
+        if (player != null) {
+            player.stop();
+        }
+    }
 }

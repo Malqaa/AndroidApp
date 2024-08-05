@@ -9,6 +9,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
@@ -34,7 +35,6 @@ import com.malqaa.androidappp.newPhase.domain.models.productResp.Product
 import com.malqaa.androidappp.newPhase.domain.models.questionResp.QuestionItem
 import com.malqaa.androidappp.newPhase.domain.models.ratingResp.RateReviewItem
 import com.malqaa.androidappp.newPhase.domain.models.sellerInfoResp.SellerInformation
-import com.malqaa.androidappp.newPhase.domain.models.servicemodels.*
 import com.malqaa.androidappp.newPhase.presentation.MainActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.addProductReviewActivity.AddRateProductActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.addProductReviewActivity.ProductReviewsActivity
@@ -59,8 +59,6 @@ import com.malqaa.androidappp.newPhase.utils.Extension.shared
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions.Companion.getDifference
 import com.malqaa.androidappp.newPhase.utils.VideoDialogFragment
-import com.malqaa.androidappp.newPhase.utils.activitiesMain.PlayActivity
-import com.malqaa.androidappp.newPhase.utils.helper.*
 import com.malqaa.androidappp.newPhase.utils.helper.shared_preferences.SharedPreferencesStaticClass
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.linearLayoutManager
@@ -1243,24 +1241,21 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             object : ProductImagesAdapter.SetOnSelectedImage {
                 override fun onSelectImage(position: Int) {
                     urlImg = productImagesList[position].url
-                    if (productImagesList[position].type == 2) {     //video
+                    if (productImagesList[position].type == 2) {
+                        // video: "https://video.blender.org/download/videos/3d95fb3d-c866-42c8-9db1-fe82f48ccb95-804.mp4"
                         val videoUrl = productImagesList[position].url
+                        Log.i("test #1", "videoUrl: $videoUrl")
+                        Log.i("test #1", "productImagesList: ${productImagesList[position]}")
                         val videoDialogFragment = VideoDialogFragment.newInstance(videoUrl)
                         videoDialogFragment.show(supportFragmentManager, "videoDialog")
                     } else {
-
                         imgPosition = position
                         productimg.tag = productImagesList[position].url
-//                        //==zoom image
-//                        Extension.loadImgGlide(
-//                            this@ProductDetailsActivity,
-//                            productImagesList[position].url,
-//                            productimg,
-//                            loader
-//                        )
 
-                        val intent =
-                            Intent(this@ProductDetailsActivity, ImageViewLargeActivity::class.java)
+                        val intent = Intent(
+                            this@ProductDetailsActivity,
+                            ImageViewLargeActivity::class.java
+                        )
                         intent.putParcelableArrayListExtra("imgList", productImagesList)
                         intent.putExtra("UrlImg", productImagesList[position].url)
                         startActivity(intent)

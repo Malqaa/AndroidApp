@@ -20,7 +20,7 @@ class ImageViewLargeActivity : AppCompatActivity() {
     private lateinit var mBtnNext: ImageButton
     private lateinit var mAdapter: ImagePagerAdapter
     private var mCurrentPosition = 0
-    private  var UrlImg: String=""
+    private var UrlImg: String = ""
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,7 +46,6 @@ class ImageViewLargeActivity : AppCompatActivity() {
 
         val distinctItems = receivedList.distinctBy { it.url }
 
-
         imageCancel = findViewById(R.id.imageCancel)
         mViewPager = findViewById(R.id.viewPager)
         mBtnPrevious = findViewById(R.id.btnPrevious)
@@ -55,6 +54,24 @@ class ImageViewLargeActivity : AppCompatActivity() {
 
         mAdapter = ImagePagerAdapter(this, distinctItems)
         mViewPager.adapter = mAdapter
+        mViewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+                // Not used
+            }
+
+            override fun onPageSelected(position: Int) {
+                // Release the ExoPlayer when the page is changed
+                mAdapter.releaseStop()
+            }
+
+            override fun onPageScrollStateChanged(state: Int) {
+                // Not used
+            }
+        })
 
         imageCancel.setOnClickListener {
             setFinishOnTouchOutside(true)
@@ -84,5 +101,15 @@ class ImageViewLargeActivity : AppCompatActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
         finish()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mAdapter.releasePlayer()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        mAdapter.releasePlayer()
     }
 }
