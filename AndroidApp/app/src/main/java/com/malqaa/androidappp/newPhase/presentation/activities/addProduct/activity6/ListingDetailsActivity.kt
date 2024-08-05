@@ -99,7 +99,7 @@ class ListingDetailsActivity : BaseActivity() {
                 }
             }
         }
-        addProductViewModel!!.configurationRespObserver.observe(this) { configurationRespObserver ->
+        addProductViewModel!!.configurationRespDidNotReceive.observe(this) { configurationRespObserver ->
             if (configurationRespObserver.status_code == 200) {
                 configurationRespObserver.configurationData?.let {
                     if (it.configValue == "1") {
