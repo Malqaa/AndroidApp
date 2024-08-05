@@ -207,9 +207,8 @@ class DynamicTemplateActivtiy : BaseActivity(), DynamicSpecificationsAdapter.OnC
 
                 if (dynamicSpecificationItem.type == 1) {
                     if (dynamicSpecificationItem.subSpecifications != null && dynamicSpecificationItem.subSpecifications!!.isNotEmpty()) {
-                        if (dynamicSpecificationItem.valueArText == "" || dynamicSpecificationItem.valueArText == null || dynamicSpecificationItem.valueEnText == "" || dynamicSpecificationItem.valueEnText == null) {
+                        if (dynamicSpecificationItem.valueArText == "" || dynamicSpecificationItem.valueArText == null /*|| dynamicSpecificationItem.valueEnText == "" || dynamicSpecificationItem.valueEnText == null*/) {
                             allValuesSet = false
-
                         } else {
                             data.add(
                                 DynamicSpecificationSentObject(
@@ -270,7 +269,7 @@ class DynamicTemplateActivtiy : BaseActivity(), DynamicSpecificationsAdapter.OnC
                     }
                 }
                 else {
-                    if (dynamicSpecificationItem.isRequired&&(dynamicSpecificationItem.valueArText == "" || dynamicSpecificationItem.valueArText == null || dynamicSpecificationItem.valueEnText == "" || dynamicSpecificationItem.valueEnText == null)) {
+                    if (dynamicSpecificationItem.isRequired&&(dynamicSpecificationItem.valueArText == "" || dynamicSpecificationItem.valueArText == null /*|| dynamicSpecificationItem.valueEnText == "" || dynamicSpecificationItem.valueEnText == null*/)) {
                         allValuesSet = false
                     } else {
                         data.add(

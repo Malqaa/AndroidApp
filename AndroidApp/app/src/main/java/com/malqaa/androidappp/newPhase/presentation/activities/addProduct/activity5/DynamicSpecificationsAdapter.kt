@@ -252,7 +252,7 @@ class DynamicSpecificationsAdapter(
         if(dynamicSpecificationList[position].isRequired){
             textBoxViewHolder.txtRequired.visibility=View.VISIBLE
             if (dynamicSpecificationList.get(position).type != numberType){
-                textBoxViewHolder.txtRequiredEn.visibility=View.VISIBLE
+                textBoxViewHolder.txtRequiredEn.visibility=View.GONE
             }
         }
         textBoxViewHolder.etValueAr.addTextChangedListener(object : TextWatcher {
