@@ -3087,5 +3087,5 @@
 
   <string name="product_price_sar">%1$s SAR</string>
   <string name="offer_price_sar">Offer Price %1$s SAR</string>
-  <string name="qty">Qty.</string>
+  <string name="qty">Quantity:</string>
 </resources>
