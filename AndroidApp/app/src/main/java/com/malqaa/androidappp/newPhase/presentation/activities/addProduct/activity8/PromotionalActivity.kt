@@ -62,7 +62,7 @@ class PromotionalActivity : BaseActivity(), PakatAdapter.SetOnPakatSelected {
 //
 //        }
         setFreePakageData()
-        addProductViewModel.getPakatList(2)
+        addProductViewModel.getPakatList(AddProductObjectData.selectedCategoryId)
     }
 
     private fun setFreePakageData() {
