@@ -1,6 +1,7 @@
 package com.malqaa.androidappp.newPhase.presentation.activities.productsSellerInfoActivity
 
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -9,18 +10,24 @@ import com.malqaa.androidappp.R
 import com.malqaa.androidappp.newPhase.core.BaseActivity
 import com.malqaa.androidappp.newPhase.domain.models.sellerInfoResp.SellerInformation
 import com.malqaa.androidappp.newPhase.domain.models.sellerRateListResp.SellerRateItem
-import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.Reviewmodel
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.Selection
 import com.malqaa.androidappp.newPhase.presentation.activities.productDetailsActivity.viewModels.ProductDetailsViewModel
 import com.malqaa.androidappp.newPhase.presentation.activities.productsSellerInfoActivity.adapter.SellerRateAdapter
 import com.malqaa.androidappp.newPhase.presentation.activities.productsSellerInfoActivity.dialog.SellerFilterReviewDialog
+import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.EndlessRecyclerViewScrollListener
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.show
-import kotlinx.android.synthetic.main.activity_seller_rate.*
-import kotlinx.android.synthetic.main.toolbar_main.*
+import kotlinx.android.synthetic.main.activity_seller_rate.progressbar
+import kotlinx.android.synthetic.main.activity_seller_rate.review_type1
+import kotlinx.android.synthetic.main.activity_seller_rate.review_type2
+import kotlinx.android.synthetic.main.activity_seller_rate.rvRate
+import kotlinx.android.synthetic.main.activity_seller_rate.swipe_to_refresh
+import kotlinx.android.synthetic.main.activity_seller_rate.tvError
+import kotlinx.android.synthetic.main.toolbar_main.back_btn
+import kotlinx.android.synthetic.main.toolbar_main.toolbar_title
 
 class SellerRateActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
     SellerFilterReviewDialog.ApplySellerReviewFilter {
@@ -30,7 +37,6 @@ class SellerRateActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
     val typeOption: ArrayList<Selection> = ArrayList()
     var selection: Selection? = null
     private lateinit var productDetialsViewModel: ProductDetailsViewModel
-    var rateAsBuyer = false
 
     //=====
     lateinit var sellerRateAdapter: SellerRateAdapter
@@ -82,16 +88,25 @@ class SellerRateActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
         }
         productDetialsViewModel.sellerRateListObservable.observe(this) { sellerRateListResp ->
             if (sellerRateListResp.status_code == 200) {
-                if(rateAsBuyer){
-                    sellerRateListResp.SellerRateObject?.let {
-                        it.rateBuyerListDto?.let { it1 -> sellerRateList.addAll(it1) }
-                    }
-                }else{
+
+                if (sellerAsASeller == SellerFilterReviewDialog.sellerAsAll) {
                     sellerRateListResp.SellerRateObject?.let {
                         it.rateSellerListDto?.let { it1 -> sellerRateList.addAll(it1) }
                     }
+                    sellerRateListResp.SellerRateObject?.let {
+                        it.rateBuyerListDto?.let { it1 -> sellerRateList.addAll(it1) }
+                    }
+                } else if (sellerAsASeller == SellerFilterReviewDialog.sellerAsASeller) {
+                    sellerRateListResp.SellerRateObject?.let {
+                        it.rateSellerListDto?.let { it1 -> sellerRateList.addAll(it1) }
+                    }
+                } else {
+                    sellerRateListResp.SellerRateObject?.let {
+                        it.rateBuyerListDto?.let { it1 -> sellerRateList.addAll(it1) }
+                    }
                 }
 
+                Log.i("test #1", "sellerRateList size: ${sellerRateList.size}")
 
                 sellerRateAdapter.notifyDataSetChanged()
                 if (sellerRateList.isEmpty()) {
@@ -132,9 +147,8 @@ class SellerRateActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
         endlessRecyclerViewScrollListener =
             object : EndlessRecyclerViewScrollListener(linerlayoutManager) {
                 override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
-                    if (sellerAsASeller == SellerFilterReviewDialog.sellerAsASeller) {
 
-                        rateAsBuyer=false
+                    if (sellerAsASeller == SellerFilterReviewDialog.sellerAsAll) {
                         var sendRate: Int? = null
                         if (retReviewType != SellerFilterReviewDialog.allReview) {
                             sendRate = retReviewType
@@ -145,8 +159,26 @@ class SellerRateActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
                             page,
                             sendRate
                         )
+                        productDetialsViewModel.getSellerRates2AsAbuyer(
+                            sellerInformation?.providerId ?: "",
+                            sellerInformation?.businessAccountId,
+                            page,
+                            sendRate
+                        )
+                        Log.i("test #1", "productDetialsViewModel: sellerAsAll")
+                    } else if (sellerAsASeller == SellerFilterReviewDialog.sellerAsASeller) {
+                        var sendRate: Int? = null
+                        if (retReviewType != SellerFilterReviewDialog.allReview) {
+                            sendRate = retReviewType
+                        }
+                        productDetialsViewModel.getSellerRates2AsSeller(
+                            sellerInformation?.providerId ?: "",
+                            sellerInformation?.businessAccountId,
+                            page,
+                            sendRate
+                        )
+                        Log.i("test #1", "productDetialsViewModel: sellerAsASeller")
                     } else {
-                        rateAsBuyer=true
                         var sendRate: Int? = null
                         if (retReviewType != SellerFilterReviewDialog.allReview) {
                             sendRate = retReviewType
@@ -157,8 +189,8 @@ class SellerRateActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
                             page,
                             sendRate
                         )
+                        Log.i("test #1", "productDetialsViewModel: sellerAsABuyer")
                     }
-
                 }
             }
         rvRate.addOnScrollListener(endlessRecyclerViewScrollListener)
@@ -170,8 +202,25 @@ class SellerRateActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
         sellerRateList.clear()
         sellerRateAdapter.notifyDataSetChanged()
         tvError.hide()
-        if (sellerAsASeller == SellerFilterReviewDialog.sellerAsASeller) {
-            rateAsBuyer=false
+
+        if (sellerAsASeller == SellerFilterReviewDialog.sellerAsAll) {
+            var sendRate: Int? = null
+            if (retReviewType != SellerFilterReviewDialog.allReview) {
+                sendRate = retReviewType
+            }
+            productDetialsViewModel.getSellerRates2AsSeller(
+                sellerInformation?.providerId ?: "",
+                sellerInformation?.businessAccountId,
+                1,
+                sendRate
+            )
+            productDetialsViewModel.getSellerRates2AsAbuyer(
+                sellerInformation?.providerId ?: "",
+                sellerInformation?.businessAccountId,
+                1,
+                sendRate
+            )
+        } else if (sellerAsASeller == SellerFilterReviewDialog.sellerAsASeller) {
             var sendRate: Int? = null
             if (retReviewType != SellerFilterReviewDialog.allReview) {
                 sendRate = retReviewType
@@ -183,7 +232,6 @@ class SellerRateActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
                 sendRate
             )
         } else {
-            rateAsBuyer=true
             var sendRate: Int? = null
             if (retReviewType != SellerFilterReviewDialog.allReview) {
                 sendRate = retReviewType
@@ -195,7 +243,6 @@ class SellerRateActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
                 sendRate
             )
         }
-
     }
 
     private fun setListener() {

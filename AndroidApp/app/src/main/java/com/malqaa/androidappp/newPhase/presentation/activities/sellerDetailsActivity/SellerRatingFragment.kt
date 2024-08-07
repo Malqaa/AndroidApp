@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Filter
 import androidx.fragment.app.Fragment
@@ -12,14 +13,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.malqaa.androidappp.R
-import com.malqaa.androidappp.newPhase.utils.EndlessRecyclerViewScrollListener
-import com.malqaa.androidappp.newPhase.utils.HelpFunctions
-import com.malqaa.androidappp.newPhase.utils.hide
-import com.malqaa.androidappp.newPhase.utils.show
-import com.malqaa.androidappp.newPhase.utils.helper.widgets.rcv.GenericListAdapter
 import com.malqaa.androidappp.newPhase.domain.models.sellerRateListResp.SellerRateItem
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.Selection
 import com.malqaa.androidappp.newPhase.presentation.activities.productsSellerInfoActivity.adapter.SellerRateAdapter
+import com.malqaa.androidappp.newPhase.utils.EndlessRecyclerViewScrollListener
+import com.malqaa.androidappp.newPhase.utils.HelpFunctions
+import com.malqaa.androidappp.newPhase.utils.helper.widgets.rcv.GenericListAdapter
+import com.malqaa.androidappp.newPhase.utils.hide
+import com.malqaa.androidappp.newPhase.utils.show
 import kotlinx.android.synthetic.main.activity_seller_rate.swipe_to_refresh
 import kotlinx.android.synthetic.main.activity_seller_rate.tvError
 import kotlinx.android.synthetic.main.fragment_seller_rating.bottom_btns
@@ -67,21 +68,40 @@ class SellerRatingFragment : Fragment(R.layout.fragment_seller_rating),
         }
 
         typeOption.apply {
+            add(Selection(getString(R.string.all)))
             add(Selection(getString(R.string.reviews_as_a_seller)))
             add(Selection(getString(R.string.reviews_as_a_buyer)))
         }
-
         sellerRatingViewModel?.sellerRateListObservable?.observe(this) { sellerRateListResp ->
             if (sellerRateListResp.status_code == 200) {
-                if(typeOption[1].isSelected){
-                    sellerRateListResp.SellerRateObject?.let {
-                        it.rateBuyerListDto?.let { it1 -> sellerRateList?.addAll(it1) }
+
+                when {
+                    // rate all
+                    typeOption[0].isSelected -> {
+                        sellerRateListResp.SellerRateObject?.let {
+                            it.rateBuyerListDto?.let { buyerList -> sellerRateList?.addAll(buyerList) }
+                            it.rateSellerListDto?.let { sellerList ->
+                                sellerRateList?.addAll(
+                                    sellerList
+                                )
+                            }
+                        }
                     }
-                }else{
-                    sellerRateListResp.SellerRateObject?.let {
-                        it.rateSellerListDto?.let { it1 -> sellerRateList?.addAll(it1) }
+                    // reviews as a seller
+                    typeOption[1].isSelected -> {
+                        sellerRateListResp.SellerRateObject?.let {
+                            it.rateBuyerListDto?.let { it1 -> sellerRateList?.addAll(it1) }
+                        }
+                    }
+                    // reviews as a buyer
+                    else -> {
+                        sellerRateListResp.SellerRateObject?.let {
+                            it.rateSellerListDto?.let { it1 -> sellerRateList?.addAll(it1) }
+                        }
                     }
                 }
+
+                Log.i("test #1", "sellerRateList size: ${sellerRateList?.size}")
 
                 sellerRateAdapter?.notifyDataSetChanged()
                 if (sellerRateList?.isEmpty() == true) {
@@ -136,19 +156,24 @@ class SellerRatingFragment : Fragment(R.layout.fragment_seller_rating),
         sellerRateList?.clear()
         sellerRateAdapter?.notifyDataSetChanged()
         tvError.hide()
-        if(typeOption.size!=0){
-            if(typeOption[1].isSelected){
-                sellerRatingViewModel?.getBuyerRates(
-                    1, null)
-            }else{
-                sellerRatingViewModel?.getSellerRates(
-                    1, null)
-            }
-        }else{
-            sellerRatingViewModel?.getSellerRates(
-                1, null)
-        }
+        if (typeOption.size != 0) {
+            when {
+                typeOption[0].isSelected -> {
+                    sellerRatingViewModel?.getBuyerRates(1, null)
+                    sellerRatingViewModel?.getSellerRates(1, null)
+                }
 
+                typeOption[1].isSelected -> {
+                    sellerRatingViewModel?.getBuyerRates(1, null)
+                }
+
+                else -> {
+                    sellerRatingViewModel?.getSellerRates(1, null)
+                }
+            }
+        } else {
+            sellerRatingViewModel?.getSellerRates(1, null)
+        }
 
 
     }
@@ -222,23 +247,33 @@ class SellerRatingFragment : Fragment(R.layout.fragment_seller_rating),
             }
             view.filter_application.setOnClickListener {
                 sellerRateList?.clear()
-                if (typeOption[1].isSelected) {
-                    val obj = sampleOption.find { it.isSelected }!!
-                    if (obj.id == 4) {
-                        sellerRatingViewModel?.getBuyerRates(1, rate = null)
-                    } else
-                        sellerRatingViewModel?.getBuyerRates(1, obj.id)
+                when {
+                    typeOption[0].isSelected -> {
+                        val obj = sampleOption.find { it.isSelected }!!
+                        if (obj.id == 4) {
+                            sellerRatingViewModel?.getBuyerRates(1, rate = null)
+                            sellerRatingViewModel?.getSellerRates(1, rate = null)
+                        } else {
+                            sellerRatingViewModel?.getBuyerRates(1, obj.id)
+                            sellerRatingViewModel?.getSellerRates(1, obj.id)
+                        }
+                    }
 
-                } else {
+                    typeOption[1].isSelected -> {
+                        val obj = sampleOption.find { it.isSelected }!!
+                        if (obj.id == 4) {
+                            sellerRatingViewModel?.getBuyerRates(1, rate = null)
+                        } else
+                            sellerRatingViewModel?.getBuyerRates(1, obj.id)
+                    }
 
-                    val obj = sampleOption.find { it.isSelected }!!
-                    if (obj.id == 4) {
-                        sellerRatingViewModel?.getSellerRates(1, rate = null)
-                    } else
-                        sellerRatingViewModel?.getSellerRates(1, obj.id)
-
-
-
+                    else -> {
+                        val obj = sampleOption.find { it.isSelected }!!
+                        if (obj.id == 4) {
+                            sellerRatingViewModel?.getSellerRates(1, rate = null)
+                        } else
+                            sellerRatingViewModel?.getSellerRates(1, obj.id)
+                    }
                 }
 
                 builder.dismiss()
@@ -313,11 +348,22 @@ class SellerRatingFragment : Fragment(R.layout.fragment_seller_rating),
 
             view.filter_application.setOnClickListener {
                 sellerRateList?.clear()
-                if (typeOption[0].isSelected) {
-                    sellerRatingViewModel?.getSellerRates(1, null)
-                } else if (typeOption[1].isSelected) {
-                    sellerRatingViewModel?.getBuyerRates(1, null)
+
+                when {
+                    typeOption[0].isSelected -> {
+                        sellerRatingViewModel?.getSellerRates(1, null)
+                        sellerRatingViewModel?.getBuyerRates(1, null)
+                    }
+
+                    typeOption[1].isSelected -> {
+                        sellerRatingViewModel?.getSellerRates(1, null)
+                    }
+
+                    else -> {
+                        sellerRatingViewModel?.getBuyerRates(1, null)
+                    }
                 }
+
                 builder.dismiss()
                 bottom_btns.show()
             }

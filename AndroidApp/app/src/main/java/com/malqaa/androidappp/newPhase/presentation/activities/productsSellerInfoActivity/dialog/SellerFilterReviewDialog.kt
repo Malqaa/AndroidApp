@@ -21,6 +21,7 @@ class SellerFilterReviewDialog(
         const val reviewTypeTap = 2
         const val sellerAsASeller = 3
         const val sellerAsABuyer = 4
+        const val sellerAsAll = 5
         const val happyReview = 1
         const val satisfiedReview = 2
         const val unsatisfiedReview = 3
@@ -45,16 +46,26 @@ class SellerFilterReviewDialog(
             ContainerReviewAsAsAsSellerOrBuyer.hide()
             containerReviewTypes.show()
         }
+        cbReviewsAsAll.setOnCheckedChangeListener { p0, p1 ->
+            if (p1) {
+                getReviewAsAsSellerOrBuyer = sellerAsAll
+                review_type2.text = context.getString(R.string.all)
+                cbReviewsAsSeller.isChecked = false
+                cbReviewsAsBuyer.isChecked = false
+            }
+        }
         cbReviewsAsSeller.setOnCheckedChangeListener { p0, p1 ->
             if (p1) {
                 getReviewAsAsSellerOrBuyer = sellerAsASeller
                 review_type2.text = context.getString(R.string.reviews_as_a_seller)
+                cbReviewsAsAll.isChecked = false
                 cbReviewsAsBuyer.isChecked = false
             }
         }
         cbReviewsAsBuyer.setOnCheckedChangeListener { p0, p1 ->
             if (p1) {
                 getReviewAsAsSellerOrBuyer = sellerAsABuyer
+                cbReviewsAsAll.isChecked = false
                 cbReviewsAsSeller.isChecked = false
                 review_type2.text = context.getString(R.string.reviews_as_a_buyer)
             }
@@ -104,12 +115,20 @@ class SellerFilterReviewDialog(
             }
         }
         when (getReviewAsAsSellerOrBuyer) {
+            sellerAsAll -> {
+                cbReviewsAsAll.isChecked = true
+                cbReviewsAsSeller.isChecked = false
+                cbReviewsAsBuyer.isChecked = false
+                review_type2.text = context.getString(R.string.all)
+            }
             sellerAsASeller -> {
+                cbReviewsAsAll.isChecked = false
                 cbReviewsAsSeller.isChecked = true
                 cbReviewsAsBuyer.isChecked = false
                 review_type2.text = context.getString(R.string.reviews_as_a_seller)
             }
             sellerAsABuyer -> {
+                cbReviewsAsAll.isChecked = false
                 cbReviewsAsSeller.isChecked = false
                 cbReviewsAsBuyer.isChecked = true
                 review_type2.text = context.getString(R.string.reviews_as_a_buyer)

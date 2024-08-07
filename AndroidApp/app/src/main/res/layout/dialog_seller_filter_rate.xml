@@ -2,12 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:layout_marginStart="20dp"
     android:layout_alignParentBottom="true"
+    android:layout_marginStart="20dp"
     android:layout_marginEnd="20dp"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:orientation="vertical">
 
 
     <LinearLayout
@@ -25,97 +23,101 @@
 
             <TextView
                 android:id="@+id/btnApplyFilter"
-                android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/applyFilter"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:textColor="@color/bg"
+                android:layout_weight="1"
                 android:fontFamily="@font/madani_arabic_light"
-                android:textSize="@dimen/_12sdp"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:gravity="start"
-                />
+                android:text="@string/applyFilter"
+                android:textColor="@color/bg"
+                android:textSize="@dimen/_12sdp" />
 
             <TextView
                 android:id="@+id/btnFilter"
-                android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/Filter"
-                android:gravity="center"
-                android:textColor="@color/black"
+                android:layout_weight="1"
                 android:fontFamily="@font/madani_arabic_medium"
-                android:textSize="@dimen/_12sdp"
-                />
+                android:gravity="center"
+                android:text="@string/Filter"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp" />
 
 
             <TextView
                 android:id="@+id/btnResetFilter"
-                android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/madani_arabic_light"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:gravity="end"
                 android:text="@string/reset"
                 android:textColor="@color/bg"
-                android:gravity="end"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:fontFamily="@font/madani_arabic_light"
-                android:textSize="@dimen/_12sdp"
-                />
+                android:textSize="@dimen/_12sdp" />
         </LinearLayout>
 
         <RelativeLayout
+            android:id="@+id/containerSellerOrBuyer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:id="@+id/containerSellerOrBuyer">
+            android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/ContainerReviewAsAsAsSellerOrBuyer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:id="@+id/ContainerReviewAsAsAsSellerOrBuyer">
+                android:orientation="vertical">
+
+                <CheckBox
+                    android:id="@+id/cbReviewsAsAll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/all" />
+
                 <CheckBox
                     android:id="@+id/cbReviewsAsSeller"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/reviews_as_a_seller"
-                    />
+                    android:text="@string/reviews_as_a_seller" />
+
                 <CheckBox
                     android:id="@+id/cbReviewsAsBuyer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/reviews_as_a_buyer"
-                    />
+                    android:text="@string/reviews_as_a_buyer" />
             </LinearLayout>
+
             <LinearLayout
+                android:id="@+id/containerReviewTypes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:id="@+id/containerReviewTypes">
+                android:orientation="vertical">
 
                 <CheckBox
                     android:id="@+id/cbReviewsHappy"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/happy"
-                    />
+                    android:text="@string/happy" />
+
                 <CheckBox
                     android:id="@+id/cbReviewsSatisfied"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/satisfied"
-                    />
+                    android:text="@string/satisfied" />
+
                 <CheckBox
                     android:id="@+id/cbReviewsNotSatisfied"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/unsatisfied"
-                    />
+                    android:text="@string/unsatisfied" />
             </LinearLayout>
 
         </RelativeLayout>
 
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/_45sdp"
