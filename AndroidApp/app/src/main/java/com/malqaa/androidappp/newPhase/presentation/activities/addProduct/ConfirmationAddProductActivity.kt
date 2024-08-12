@@ -4,14 +4,13 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Paint
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.net.toUri
 import androidx.lifecycle.ViewModelProvider
 import com.google.gson.Gson
 import com.malqaa.androidappp.R
 import com.malqaa.androidappp.newPhase.core.BaseActivity
-import com.malqaa.androidappp.newPhase.utils.helper.*
-import com.malqaa.androidappp.newPhase.utils.helper.widgets.searchdialog.SearchListItem
 import com.malqaa.androidappp.newPhase.domain.models.ImageSelectModel
 import com.malqaa.androidappp.newPhase.domain.models.addProductToCartResp.AddProductObjectData
 import com.malqaa.androidappp.newPhase.domain.models.productResp.Product
@@ -27,12 +26,69 @@ import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.viewmo
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.PicassoSingleton.getPicassoInstance
+import com.malqaa.androidappp.newPhase.utils.helper.widgets.searchdialog.SearchListItem
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.show
-import kotlinx.android.synthetic.main.activity_confirmation_add_product.*
+import kotlinx.android.synthetic.main.activity_confirmation_add_product.ContainerPackge
+import kotlinx.android.synthetic.main.activity_confirmation_add_product.auction_start_price_tv
+import kotlinx.android.synthetic.main.activity_confirmation_add_product.btnCoupon
+import kotlinx.android.synthetic.main.activity_confirmation_add_product.btn_cancel
+import kotlinx.android.synthetic.main.activity_confirmation_add_product.btn_confirm_details
+import kotlinx.android.synthetic.main.activity_confirmation_add_product.containerAuction
+import kotlinx.android.synthetic.main.activity_confirmation_add_product.containerAuctionFee
+import kotlinx.android.synthetic.main.activity_confirmation_add_product.containerFixedPriceFee
+import kotlinx.android.synthetic.main.activity_confirmation_add_product.containerImageExtraFee
+import kotlinx.android.synthetic.main.activity_confirmation_add_product.containerNegotiationFee
+import kotlinx.android.synthetic.main.activity_confirmation_add_product.containerProductPublishPriceFee
+import kotlinx.android.synthetic.main.activity_confirmation_add_product.containerSubTitleFee
+import kotlinx.android.synthetic.main.activity_confirmation_add_product.containerVideoExtraFee
+import kotlinx.android.synthetic.main.activity_confirmation_add_product.discount_tv
+import kotlinx.android.synthetic.main.activity_confirmation_add_product.edit_item_payment
+import kotlinx.android.synthetic.main.activity_confirmation_add_product.edit_selected_package
+import kotlinx.android.synthetic.main.activity_confirmation_add_product.edit_shoping_option
+import kotlinx.android.synthetic.main.activity_confirmation_add_product.etCoupon
+import kotlinx.android.synthetic.main.activity_confirmation_add_product.layEdtCoupon
+import kotlinx.android.synthetic.main.activity_confirmation_add_product.layPackage
+import kotlinx.android.synthetic.main.activity_confirmation_add_product.layPaymentOption
+import kotlinx.android.synthetic.main.activity_confirmation_add_product.linearSaleType
+import kotlinx.android.synthetic.main.activity_confirmation_add_product.minimum_price_tv
+import kotlinx.android.synthetic.main.activity_confirmation_add_product.negotiable_tv
+import kotlinx.android.synthetic.main.activity_confirmation_add_product.package_cost_tv
+import kotlinx.android.synthetic.main.activity_confirmation_add_product.product_type
+import kotlinx.android.synthetic.main.activity_confirmation_add_product.purchasing_price_tv
+import kotlinx.android.synthetic.main.activity_confirmation_add_product.selectedImages
+import kotlinx.android.synthetic.main.activity_confirmation_add_product.titleCoupon
+import kotlinx.android.synthetic.main.activity_confirmation_add_product.tvAuctionFee
+import kotlinx.android.synthetic.main.activity_confirmation_add_product.tvAuctionOpitonSale
+import kotlinx.android.synthetic.main.activity_confirmation_add_product.tvCardOptionPayment
+import kotlinx.android.synthetic.main.activity_confirmation_add_product.tvCashOptionPayment
+import kotlinx.android.synthetic.main.activity_confirmation_add_product.tvDateAuction
+import kotlinx.android.synthetic.main.activity_confirmation_add_product.tvEditProductDetails
+import kotlinx.android.synthetic.main.activity_confirmation_add_product.tvFixedPriceFee
+import kotlinx.android.synthetic.main.activity_confirmation_add_product.tvFixedPriceOptionSale
+import kotlinx.android.synthetic.main.activity_confirmation_add_product.tvImageExtraFee
+import kotlinx.android.synthetic.main.activity_confirmation_add_product.tvItemCondition
+import kotlinx.android.synthetic.main.activity_confirmation_add_product.tvMadaOptionPayment
+import kotlinx.android.synthetic.main.activity_confirmation_add_product.tvNegotiationFee
+import kotlinx.android.synthetic.main.activity_confirmation_add_product.tvNegotiationPriceOptionSale
+import kotlinx.android.synthetic.main.activity_confirmation_add_product.tvPickupOptionData
+import kotlinx.android.synthetic.main.activity_confirmation_add_product.tvProductDetail
+import kotlinx.android.synthetic.main.activity_confirmation_add_product.tvProductPublishPriceFee
+import kotlinx.android.synthetic.main.activity_confirmation_add_product.tvQuantityData
+import kotlinx.android.synthetic.main.activity_confirmation_add_product.tvSaudiBankDepositOptionPayment
+import kotlinx.android.synthetic.main.activity_confirmation_add_product.tvShippingOption
+import kotlinx.android.synthetic.main.activity_confirmation_add_product.tvSubTitleData
+import kotlinx.android.synthetic.main.activity_confirmation_add_product.tvSubTitleFee
+import kotlinx.android.synthetic.main.activity_confirmation_add_product.tvTitleData
+import kotlinx.android.synthetic.main.activity_confirmation_add_product.tvTotal
+import kotlinx.android.synthetic.main.activity_confirmation_add_product.tvTotalAfterDiscount
+import kotlinx.android.synthetic.main.activity_confirmation_add_product.tvVideoExtraFee
+import kotlinx.android.synthetic.main.activity_confirmation_add_product.tv_package_name
+import kotlinx.android.synthetic.main.activity_confirmation_add_product.tv_package_price
 import kotlinx.android.synthetic.main.my_product_details.containerMainProduct
 import kotlinx.android.synthetic.main.my_product_details.containerShareAndFav
-import kotlinx.android.synthetic.main.toolbar_main.*
+import kotlinx.android.synthetic.main.toolbar_main.back_btn
+import kotlinx.android.synthetic.main.toolbar_main.toolbar_title
 import java.io.File
 
 class ConfirmationAddProductActivity : BaseActivity() {
@@ -159,6 +215,11 @@ class ConfirmationAddProductActivity : BaseActivity() {
         } else {
             negotiable_tv.text = getString(R.string.No)
             tvNegotiationPriceOptionSale.hide()
+        }
+        if (AddProductObjectData.auctionOption || productDetails?.isFixedPriceEnabled == true) {
+            linearSaleType.show()
+        } else {
+            linearSaleType.hide()
         }
         /**Back**/
         tvCashOptionPayment.hide()
@@ -725,6 +786,11 @@ class ConfirmationAddProductActivity : BaseActivity() {
             tvAuctionOpitonSale.show()
         } else {
             tvAuctionOpitonSale.hide()
+        }
+        if (AddProductObjectData.auctionOption || productDetails.isFixedPriceEnabled) {
+            linearSaleType.show()
+        } else {
+            linearSaleType.hide()
         }
         if (productDetails.isFixedPriceEnabled) {
             tvFixedPriceOptionSale.show()

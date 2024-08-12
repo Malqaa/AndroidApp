@@ -364,6 +364,7 @@ class SellerRatingFragment : Fragment(R.layout.fragment_seller_rating),
                     }
                 }
 
+                onRefresh()
                 builder.dismiss()
                 bottom_btns.show()
             }

@@ -266,6 +266,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/linearSaleType"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_40sdp"
                     android:layout_marginTop="@dimen/_10sdp"
