@@ -225,29 +225,42 @@ class DynamicTemplateActivtiy : BaseActivity(), DynamicSpecificationsAdapter.OnC
                 }
 
                 else if (dynamicSpecificationItem.type == 5 || (dynamicSpecificationItem.type == 6)) {
-                    val supIdAr =
-                        dynamicSpecificationItem.subSpecifications?.find { dynamicSpecificationItem.valueBoolean }
 
-                    if(supIdAr==null){
-                        allValuesSet = false
-                        if(dynamicSpecificationItem.isRequired){
-                            runOnUiThread {
-                                HelpFunctions.ShowLongToast(
-                                    getString(R.string.enterAllSpecificaiton),
-                                    this@DynamicTemplateActivtiy
-                                )
+                    val required = dynamicSpecificationItem.isRequired
+                    if (required){
+                        val supIdAr =
+                            dynamicSpecificationItem.subSpecifications?.find { dynamicSpecificationItem.valueBoolean }
+
+                        if(supIdAr==null){
+                            allValuesSet = false
+                            if(dynamicSpecificationItem.isRequired){
+                                runOnUiThread {
+                                    HelpFunctions.ShowLongToast(
+                                        getString(R.string.enterAllSpecificaiton),
+                                        this@DynamicTemplateActivtiy
+                                    )
+                                }
                             }
+                        }else{
+                            data.add(
+                                DynamicSpecificationSentObject(
+                                    HeaderSpeAr = dynamicSpecificationItem.nameAr.toString(),
+                                    HeaderSpeEn = dynamicSpecificationItem.nameEn.toString(),
+                                    ValueSpeAr = supIdAr?.id.toString(),
+                                    ValueSpeEn = supIdEn?.id.toString(),
+                                    Type = dynamicSpecificationItem.type,
+                                    SpecificationId = dynamicSpecificationItem.id
+                                )
+                            )
                         }
                     }else{
-                        data.add(
-                            DynamicSpecificationSentObject(
-                                HeaderSpeAr = dynamicSpecificationItem.nameAr.toString(),
-                                HeaderSpeEn = dynamicSpecificationItem.nameEn.toString(),
-                                ValueSpeAr = supIdAr?.id.toString(),
-                                ValueSpeEn = supIdAr?.id.toString(),
-                                Type = dynamicSpecificationItem.type,
-                                SpecificationId = dynamicSpecificationItem.id
-                            )
+                        DynamicSpecificationSentObject(
+                            HeaderSpeAr = dynamicSpecificationItem.nameAr.toString(),
+                            HeaderSpeEn = dynamicSpecificationItem.nameEn.toString(),
+                            ValueSpeAr = supIdAr?.id.toString(),
+                            ValueSpeEn = supIdEn?.id.toString(),
+                            Type = dynamicSpecificationItem.type,
+                            SpecificationId = dynamicSpecificationItem.id
                         )
                     }
 
