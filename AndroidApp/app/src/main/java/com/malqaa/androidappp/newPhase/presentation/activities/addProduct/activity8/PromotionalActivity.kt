@@ -172,12 +172,16 @@ class PromotionalActivity : BaseActivity(), PakatAdapter.SetOnPakatSelected {
                         getString(R.string.noPackagesFound),
                         this
                     )
+                    AddProductObjectData.selectedPakat = null
+                    goNextActivity()
                 }
             } else {
                 HelpFunctions.ShowLongToast(
                     getString(R.string.noPackagesFound),
                     this
                 )
+                AddProductObjectData.selectedPakat = null
+                goNextActivity()
             }
         }
     }
