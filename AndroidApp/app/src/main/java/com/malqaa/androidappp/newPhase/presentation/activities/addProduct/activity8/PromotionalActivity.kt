@@ -172,16 +172,12 @@ class PromotionalActivity : BaseActivity(), PakatAdapter.SetOnPakatSelected {
                         getString(R.string.noPackagesFound),
                         this
                     )
-                    AddProductObjectData.selectedPakat = null
-                    goNextActivity()
                 }
             } else {
                 HelpFunctions.ShowLongToast(
                     getString(R.string.noPackagesFound),
                     this
                 )
-                AddProductObjectData.selectedPakat = null
-                goNextActivity()
             }
         }
     }
@@ -227,14 +223,12 @@ class PromotionalActivity : BaseActivity(), PakatAdapter.SetOnPakatSelected {
 
     //Promotion Validation
     private fun validatepromotion(): Boolean {
-        val list = pakatList.filter {
-            it.isSelected == true
-        }
-        return list.size > 0
+        val list = pakatList.filter { it.isSelected }
+        return list.isNotEmpty()
     }
 
     fun confirmpromotion() {
-        if (!validatepromotion() && (containerExtraPakage.visibility != View.VISIBLE)) {
+        if (pakatList.isNotEmpty()&& !validatepromotion() && (containerExtraPakage.visibility != View.VISIBLE)) {
             showError(getString(R.string.choose_one_of_our_special_packages))
         } else {
             if (isEdit) {
