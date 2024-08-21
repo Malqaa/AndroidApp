@@ -9,6 +9,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
@@ -169,15 +170,18 @@ import org.joda.time.Duration
 import org.joda.time.format.DateTimeFormat
 import java.util.Date
 
-
 @SuppressLint("SetTextI18n")
 class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
     SetOnProductItemListeners, QuestionAnswerAdapter.SetonSelectedQuestion,
     BuyCurrentPriceDialog.OnAttachedCartMethodSelected, ListenerSlider {
+
     val PERMISSION_PHONE = 120
     var addProductReviewRequestCode = 1000
     lateinit var product: Product
-    private lateinit var handler: Handler
+    private val handler: Handler by lazy {
+        Handler(Looper.getMainLooper())
+    }
+
     private lateinit var runnable: Runnable
     private val INTERVAL: Long = 10000 // 1 minute in milliseconds
     var hideBars = MutableLiveData<Boolean>(false)
@@ -241,10 +245,10 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product_details2)
         productId = intent.getIntExtra(ConstantObjects.productIdKey, -1)
-        println("hhhh product if $productId")
         comeFrom = intent.getStringExtra("ComeFrom") ?: ""
 
         isMyProduct = intent.getBooleanExtra(ConstantObjects.isMyProduct, false)
+
         setViewChanges()
         setProductDetailsViewModel()
         setupViewClickListeners()
@@ -255,8 +259,6 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             userData = Paper.book().read<LoginUser>(SharedPreferencesStaticClass.user_object)
             productDetialsViewModel.addLastViewedProduct(productId)
         }
-
-
     }
 
     private fun callGetPriceCart(nameProduct: String) {
@@ -364,10 +366,6 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     private fun setupViewClickListeners() {
 
         productimg.setOnClickListener {
-//            val customDialog = OpenImgLargeDialog(this, urlImg)
-//            if (!customDialog.isShowing)
-//                customDialog.show()
-
             val intent = Intent(this@ProductDetailsActivity, ImageViewLargeActivity::class.java)
             intent.putParcelableArrayListExtra("imgList", productImagesList)
             intent.putExtra("UrlImg", productimg.tag.toString())
@@ -562,19 +560,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
                         putExtra(ConstantObjects.sellerObjectKey, sellerInformation)
                     })
-//                startActivity(Intent(this, SellerInformationActivity::class.java))
             }
-
-
-//            if (sellerInformation != null) {
-//                sellerInformationLaucher.launch(
-//                    Intent(
-//                        this,
-//                        SellerInformationActivity::class.java
-//                    ).apply {
-//                        putExtra(ConstantObjects.sellerObjectKey, sellerInformation)
-//                    })
-//            }
         }
         containerCurrentPriceBuy.setOnClickListener {
             callGetPriceCart(productDetails?.name ?: "")
@@ -729,14 +715,6 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     }
 
     private fun openLocationInMap(branches: ArrayList<Branch>) {
-//        branches.get(0).location
-//        val URL = ("http://maps.google.com/maps?saddr=&daddr=30.2424242,30.54364547&dirflg=d")
-//        val location = Uri.parse(URL)
-//        val mapIntent = Intent(Intent.ACTION_VIEW, location)
-//        // Make the Intent explicit by setting the Google Maps package
-//        mapIntent.setPackage("com.google.android.apps.maps")
-//        startActivity(mapIntent)
-//
         startActivity(Intent(this, ShowBranchesMapActivity::class.java).apply {
             putParcelableArrayListExtra("customBranches", branches)
 
@@ -782,12 +760,6 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                 }
             }
         }
-//        hideBars.observe(this){
-//            if (it) {
-//                containerBidOnPrice.hide()
-//            } else
-//                containerBidOnPrice.show()
-//        }
         productDetialsViewModel.productDetailsObservable.observe(this) { productResp ->
 
             if (productResp.productDetails != null) {
@@ -1076,7 +1048,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         }
 
         showButtons()
-//        containerSellerInfo.show()
+
         Extension.loadImgGlide(
             this,
             it.image,
@@ -1374,25 +1346,25 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         if (productDetails != null) {
             containerMainProduct.show()
             containerShareAndFav.show()
-            /**Action endTime**/
 
-            if (productDetails.acceptQuestion) {
-                sectionQs.show()
-            } else {
-                hintQuestion.show()
-                sectionQs.hide()
-            }
-
-            showButtons()
+            // Handling the auction closing time
             if (productDetails.auctionClosingTime != null) {
-                handler = Handler()
                 runnable = object : Runnable {
                     override fun run() {
-                        val endDate: Date? =
-                            HelpFunctions.getAuctionClosingTimeByDate(productDetails.auctionClosingTime)
+                        val endDate: Date? = HelpFunctions.getAuctionClosingTimeByDate(productDetails.auctionClosingTime)
                         if (endDate != null) {
-                            hideBars.value=  getDifference(productDetails.auctionClosingTime,
-                                containerAuctioncountdownTimer_bar,titleDay,days,titleHours,hours,titleMinutes,minutes,titleSeconds,seconds,containerAuctionNumber
+                            hideBars.value = getDifference(
+                                productDetails.auctionClosingTime,
+                                containerAuctioncountdownTimer_bar,
+                                titleDay,
+                                days,
+                                titleHours,
+                                hours,
+                                titleMinutes,
+                                minutes,
+                                titleSeconds,
+                                seconds,
+                                containerAuctionNumber
                             )
                         } else {
                             containerAuctioncountdownTimer_bar.hide()
@@ -1404,6 +1376,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             } else {
                 containerAuctioncountdownTimer_bar.hide()
             }
+
             /**product iamges*/
             Extension.loadImgGlide(
                 this,
@@ -1439,28 +1412,8 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             if (productDetails.description != "") {
                 layDetails.show()
                 readMoreTextView.text = productDetails.description ?: ""
-//                tvProductDescriptionShort.text = productDetails.description ?: ""
-//                tvProductDescriptionLong.text = productDetails.description ?: ""
             }
-//            val isEllipsize: Boolean = tvProductDescriptionShort.text.toString().trim() != productDetails.description?.trim()
-//            if (isEllipsize) {
-////                btnMoreItemDetails.show()
-//            } else {
-//                btnMoreItemDetails.hide()
-//            }
-            btnMoreItemDetails.setOnClickListener {
-
-//                if (getString(R.string.Showmore) == btnMoreItemDetails.text.toString() && isEllipsize) {
-//                    btnMoreItemDetails.text = getString(R.string.showLess)
-//                    tvProductDescriptionLong.show()
-//                    tvProductDescriptionShort.hide()
-//                } else if (getString(R.string.showLess) == btnMoreItemDetails.text.toString()) {
-//                    btnMoreItemDetails.text = getString(R.string.Showmore)
-//                    tvProductDescriptionLong.hide()
-//                    tvProductDescriptionShort.show()
-//                }
-
-            }
+            btnMoreItemDetails.setOnClickListener {}
 
             current_price_buy_tv.text =
                 "${productDetails.priceDisc.toString()} ${getString(R.string.sar)}"
@@ -1492,8 +1445,6 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                 btnPriceNegotiation.hide()
             }
 
-//            tvNegotiationPrice.text = productDetails.price.toString()
-
             if (productDetails.isAuctionEnabled) {
                 if (productDetails.highestBidPrice.toDouble() != 0.0) {
                     Bid_on_price_tv.text =
@@ -1503,7 +1454,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                         "${productDetails.auctionStartPrice} ${getString(R.string.Rayal)}"
                 }
 
-                if (hideBars.value==true) {
+                if (hideBars.value == true) {
                     containerBidOnPrice.hide()
                 } else
                     containerBidOnPrice.show()
@@ -1527,8 +1478,6 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
             val viewPagerAdapter = SliderAdaptor(this, list, true, this)
             slider_details.adapter = viewPagerAdapter
-//            dots_indicator.attachTo(slider_details)
-//            slider_details.startAutoScroll()
         }
     }
 
@@ -1541,7 +1490,6 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             )
         }
     }
-
 
     @SuppressLint("SetTextI18n")
     private fun showButtons() {
@@ -1558,10 +1506,8 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         }
     }
 
-
     private fun timeDifferent(targetDateTimeString: String) {
         // Specify the target date and time
-
         val formatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss")
         val targetDateTime = formatter.parseDateTime(targetDateTimeString)
 
@@ -1576,13 +1522,6 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         val hoursDifference = duration.standardHours % 24
         val minutesDifference = duration.standardMinutes % 60
         val secondDifference = duration.standardSeconds % 60
-
-        // Display the difference
-        val differenceMessage = String.format(
-            "Difference: %d days, %d hours, %d minutes",
-            daysDifference, hoursDifference, minutesDifference
-        )
-
 
         if (daysDifference <= 0 && (hoursDifference <= 0) && (minutesDifference <= 0)) {
             hideBars.value = true
@@ -1670,33 +1609,20 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     }
 
     override fun onBackPressed() {
-        val returnIntent = Intent()
-        returnIntent.putExtra(ConstantObjects.productIdKey, productId)
-        returnIntent.putExtra(ConstantObjects.productFavStatusKey, productfavStatus)
-        if (favAddingChange) {
-            returnIntent.getBooleanExtra(ConstantObjects.isSuccess, false).let {
-                if (it) {
-                    startActivity(Intent(this, MainActivity::class.java).apply {})
-                    finish()
-                } else {
-                    setResult(Activity.RESULT_OK, returnIntent)
-                    finish()
-                }
-            }
-
-        } else {
-            returnIntent.getBooleanExtra(ConstantObjects.isSuccess, false).let {
-                if (it) {
-                    startActivity(Intent(this, MainActivity::class.java).apply {})
-                    finish()
-                } else {
-                    startActivity(Intent(this, MainActivity::class.java).apply {})
-                    finish()
-                }
-            }
+        val returnIntent = Intent().apply {
+            putExtra(ConstantObjects.productIdKey, productId)
+            putExtra(ConstantObjects.productFavStatusKey, productfavStatus)
         }
 
+        val isSuccess = returnIntent.getBooleanExtra(ConstantObjects.isSuccess, false)
 
+        if (favAddingChange && isSuccess) {
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
+        } else {
+            setResult(Activity.RESULT_OK, returnIntent)
+            finish()
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -1722,8 +1648,6 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                     }
                 })
             answerDialog.show()
-
-
         }
     }
 
@@ -1731,7 +1655,11 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         super.onDestroy()
         productDetialsViewModel.closeAllCall()
         productDetialsViewModel.baseCancel()
-        handler.removeCallbacks(runnable)
+
+        if (this::runnable.isInitialized) {
+            handler.removeCallbacks(runnable)
+        }
+
         sellerProductAdapter.onDestroyHandler()
         similarProductAdapter.onDestroyHandler()
     }
@@ -1742,163 +1670,4 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         intent.putExtra("UrlImg", url)
         startActivity(intent)
     }
-
-
-//    private fun setListener() {
-//
-//        fbButtonBack.setOnClickListener {
-//            onBackPressed()
-//        }
-//
-//        next_image.setOnClickListener {
-//
-//        }
-//        sellerName.setOnClickListener {
-//
-//        }
-////        tvShowAllReviews.setOnClickListener {
-////            startActivity(Intent(this, ProductReviewsActivity::class.java).apply {
-////
-////            })
-////        }
-//
-//
-////        Bid_on_price.setOnClickListener {
-////
-////            val builder = AlertDialog.Builder(this@ProductDetailsActivity)
-////                .create()
-////            val view = layoutInflater.inflate(R.layout.bid_alert_box, null)
-////            builder.setView(view)
-////            view.close_alert_bid.setOnClickListener {
-////                builder.dismiss()
-////            }
-////
-////            builder.setCanceledOnTouchOutside(false)
-////            builder.show()
-////
-////
-////            view.btn_bid.setOnClickListener {
-////                builder.dismiss()
-////                AlertDialog.Builder(this@ProductDetailsActivity)
-////                    .create().apply {
-////                        layoutInflater.inflate(R.layout.bid_confirmation, null).also {
-////                            this.setView(it)
-////                            it.apply {
-////                                close_alert.setOnClickListener {
-////                                    dismiss()
-////                                }
-////
-////                                back_to_shopping.setOnClickListener {
-////                                    dismiss()
-////                                    startActivity(
-////                                        Intent(
-////                                            this@ProductDetailsActivity,
-////                                            MainActivity::class.java
-////                                        ).apply {
-////                                            flags =
-////                                                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-////
-////                                        })
-////                                    finish()
-////
-////                                }
-////                                manage_bid.setOnClickListener {
-////                                    dismiss()
-////                                    startActivity(
-////                                        Intent(
-////                                            this@ProductDetailsActivity,
-////                                            MainActivity::class.java
-////                                        ).apply {
-////                                            flags =
-////                                                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-////                                            putExtra(ConstantObjects.isBid, true)
-////                                        })
-////                                    finish()
-////                                }
-////
-////                            }
-////
-////                        }
-////                        setCanceledOnTouchOutside(false)
-////                        show()
-////                    }
-////
-////
-////            }
-////
-////        }
-////        add_to_cart.setOnClickListener {
-////            current_price_buy.performClick()
-////        }
-////        current_price_buy.setOnClickListener {
-////            AddToCart()
-////        }
-//
-//
-//        btnMapSeller.setOnClickListener {
-//            val uri: String =
-//                java.lang.String.format(Locale.ENGLISH, "geo:%f,%f", 33.7295, 73.0372)
-//            startActivity(
-//                Intent(
-//                    Intent.ACTION_VIEW, Uri.parse(uri)
-//                )
-//            )
-//        }
-//
-//    }
-//    private fun replyItemClicked(question: Question) {
-//
-//        answerLayout.isVisible = true
-//        cross_reply_layout.setOnClickListener {
-//            answerLayout.isVisible = false
-//        }
-//        quetsion_tv.text = question.question
-//        ReplyAnswer_btn.setOnClickListener {
-//            ReplyAnswer.text.toString().let {
-//                if (it.isEmpty()) {
-//                    showError(getString(R.string.Please_enter, getString(R.string.Answer)))
-//                } else {
-//                    PostAnsApi(question._id, it)
-//                }
-//            }
-//        }
-//    }
-//    fun getIgnoreCase(jobj: JsonObject, key: String?): String {
-//        val iter: Iterator<String> = jobj.keySet().iterator()
-//        while (iter.hasNext()) {
-//            val key1 = iter.next()
-//            if (key1.equals(key, ignoreCase = true)) {
-//                if (!jobj[key1].isJsonNull) {
-//                    return jobj[key1].asString ?: ""
-//                }
-//            }
-//        }
-//        return ""
-//    }
-//    private fun activeWatch(view: FloatingActionButton) {
-//        val myFabSrc = ContextCompat.getDrawable(this@ProductDetailsActivity, R.drawable.starcolor)
-//        val willBeWhite = myFabSrc!!.constantState!!.newDrawable()
-//        willBeWhite.mutate()
-//            .setColorFilter(
-//                ContextCompat.getColor(this@ProductDetailsActivity, R.color.bg),
-//                PorterDuff.Mode.MULTIPLY
-//            )
-//        view.setImageDrawable(willBeWhite)
-//    }
-//    fun PostAnsApi(questionId: String, answer: String) {
-//        productDetailHelper.PostAnsApi(questionId, answer) { respone ->
-//            if (respone.status_code >= 200 || respone.status_code <= 299) {
-//                answerLayout.isVisible = false
-//                ReplyAnswer.setText("")
-//                HelpFunctions.ShowLongToast(
-//                    getString(R.string.Answerhasbeenposted),
-//                    this@ProductDetailsActivity
-//                )
-//
-//            }
-//        }
-//
-//    }
-
-
 }
