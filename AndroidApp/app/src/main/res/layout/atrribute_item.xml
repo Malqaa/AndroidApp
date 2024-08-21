@@ -1,41 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/_5sdp"
-    android:id="@+id/main_layout"
-    android:layout_weight="2"
     android:background="@drawable/product_attribute_bg_gray"
-
-   >
-
+    android:padding="@dimen/_5sdp">
 
     <TextView
-        android:layout_weight="1"
+        android:id="@+id/key_tv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_15sdp"
-        android:id="@+id/key_tv"
-        android:textAlignment="viewStart"
+        android:layout_weight="1"
         android:fontFamily="@font/madani_arabic_light"
-        android:text=""
+        android:textAlignment="viewStart"
         android:textColor="#6D6C74"
         android:textSize="@dimen/_12sdp" />
 
-
     <TextView
-        android:layout_weight="1"
+        android:id="@+id/value_tv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginEnd="@dimen/_15sdp"
+        android:layout_weight="1"
         android:fontFamily="@font/madani_arabic_light"
         android:gravity="end"
-        android:text=""
         android:textAlignment="viewEnd"
-        android:id="@+id/value_tv"
         android:textColor="#6D6C74"
         android:textSize="@dimen/_12sdp" />
-
-
 </LinearLayout>
