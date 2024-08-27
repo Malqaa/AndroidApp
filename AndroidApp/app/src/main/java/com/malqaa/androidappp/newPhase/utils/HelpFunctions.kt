@@ -12,7 +12,7 @@ import android.graphics.drawable.ColorDrawable
 import android.location.Address
 import android.location.Geocoder
 import android.net.Uri
-import android.os.StrictMode
+import android.os.Build
 import android.provider.MediaStore
 import android.util.Base64
 import android.util.Log
@@ -24,47 +24,36 @@ import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
-import androidx.fragment.app.Fragment
+import androidx.annotation.RequiresApi
 import androidx.loader.content.CursorLoader
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
-import com.google.gson.JsonObject
 import com.malqaa.androidappp.R
-import com.malqaa.androidappp.fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ModelShipAddresses
-import com.malqaa.androidappp.fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ShippingAddressesData
-import com.malqaa.androidappp.newPhase.utils.helper.shared_preferences.SharedPreferencesStaticClass
-import com.malqaa.androidappp.newPhase.data.network.CommonAPI
 import com.malqaa.androidappp.newPhase.data.network.callApi
-import com.malqaa.androidappp.newPhase.data.network.constants.Constants
-import com.malqaa.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
 import com.malqaa.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
-import com.malqaa.androidappp.newPhase.data.network.service.MalqaApiService
 import com.malqaa.androidappp.newPhase.domain.models.loginResp.LoginUser
-import com.malqaa.androidappp.newPhase.domain.models.servicemodels.*
-import com.malqaa.androidappp.newPhase.domain.models.servicemodels.addtocart.AddToCartResponseModel
-import com.malqaa.androidappp.newPhase.domain.models.servicemodels.favourites.FavouriteObject
-import com.malqaa.androidappp.newPhase.domain.models.servicemodels.favourites.favouriteadd
-import com.malqaa.androidappp.newPhase.domain.models.servicemodels.watchlist.watchlistadd
 import com.malqaa.androidappp.newPhase.utils.PicassoSingleton.getPicassoInstance
-
+import com.malqaa.androidappp.newPhase.utils.helper.shared_preferences.SharedPreferencesStaticClass
 import io.paperdb.Paper
-import kotlinx.android.synthetic.main.alertpopup.view.*
-import kotlinx.android.synthetic.main.progress_bar.view.*
-import org.joda.time.DateTime
-import org.joda.time.Duration
-import org.joda.time.format.DateTimeFormat
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.HttpException
-import retrofit2.Response
-import java.io.*
+import kotlinx.android.synthetic.main.alertpopup.view.Lbl_ALertTitle
+import kotlinx.android.synthetic.main.alertpopup.view.Lbl_AlertMessage
+import kotlinx.android.synthetic.main.alertpopup.view.btn_alertclose
+import kotlinx.android.synthetic.main.progress_bar.view.splash_view
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileInputStream
+import java.io.PrintWriter
+import java.io.StringWriter
 import java.text.DateFormat
 import java.text.ParseException
 import java.text.ParsePosition
 import java.text.SimpleDateFormat
+import java.time.Duration
 import java.time.LocalDateTime
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
-import java.util.*
+import java.util.Date
+import java.util.Locale
+import java.util.TimeZone
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 import kotlin.Boolean
@@ -238,6 +227,7 @@ class HelpFunctions {
             }
             return result
         }
+
         fun getViewFormatForDate(dateStr: String?): String? {
             try {
 //        String outputPattern = "EEEE MMMM d, yyyy"
@@ -263,8 +253,9 @@ class HelpFunctions {
                 return ""
             }
         }
-//        @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
-        fun getViewFormatForDateTrack(dateStr: String?,outputPattern :String): String? {
+
+        //        @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
+        fun getViewFormatForDateTrack(dateStr: String?, outputPattern: String): String? {
             try {
 //        String outputPattern = "EEEE MMMM d, yyyy"
 //                val outputPattern = "dd/MM/yyyy HH:mm:ss"
@@ -289,7 +280,8 @@ class HelpFunctions {
                 return ""
             }
         }
-        fun getViewFormatForDateTrackWithoutUTC(dateStr: String?,outputPattern :String): String? {
+
+        fun getViewFormatForDateTrackWithoutUTC(dateStr: String?, outputPattern: String): String? {
             try {
                 val outputFormat = SimpleDateFormat(outputPattern, Locale.getDefault())
                 val df = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH)
@@ -508,7 +500,10 @@ class HelpFunctions {
         ) {
             startProgressBar(context as Activity)
             try {
-                val callWatchList = getRetrofitBuilder().deleteAdFromUserWatchlist(ConstantObjects.logged_userid, AdsId)
+                val callWatchList = getRetrofitBuilder().deleteAdFromUserWatchlist(
+                    ConstantObjects.logged_userid,
+                    AdsId
+                )
                 callApi(callWatchList,
                     onSuccess = {
                         if (it.status_code == 200 && (it.data == true || it.data == 1 || it.data == 1.0)) {
@@ -597,7 +592,7 @@ class HelpFunctions {
         }
 
         fun dismissProgressBar() {
-            Log.i("notifyListRespObserver","true "+isdialog)
+            Log.i("notifyListRespObserver", "true " + isdialog)
             if (isdialog != null) {
                 isdialog?.dismiss()
 //                isdialog = null
@@ -708,9 +703,9 @@ class HelpFunctions {
         }
 
 
-
+        @RequiresApi(Build.VERSION_CODES.O)
         fun getDifference(
-            targetDateTimeString: String,
+            auctionClosingTimeStr: String,
             container: LinearLayout,
             tDay: TextView,
             day: TextView,
@@ -721,59 +716,53 @@ class HelpFunctions {
             tSecond: TextView,
             second: TextView,
             containerAuction: LinearLayout?
-        ):Boolean {
+        ): Boolean {
             var hideBars = false
             try {
+                val formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME
+                val auctionClosingTime = LocalDateTime.parse(auctionClosingTimeStr, formatter)
 
-                val formatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss")
-                val targetDateTime = formatter.parseDateTime(targetDateTimeString)
+                // Get the current time
+                val currentTime = LocalDateTime.now(ZoneId.systemDefault())
 
-                // Get the current date and time
-                val currentDateTime = DateTime()
+                // Calculate the duration between the current time and the auction closing time
+                val duration = Duration.between(currentTime, auctionClosingTime)
 
-                // Calculate the duration between the current time and the target time
-                val duration = Duration(currentDateTime, targetDateTime)
+                // Extract days, hours, minutes, and seconds
+                val days = duration.toDays()
+                val hours = duration.toHours() % 24
+                val minutes = duration.toMinutes() % 60
+                val seconds = duration.seconds % 60
 
-                // Get the difference in days, hours, and minutes as Long values
-                val daysDifference = duration.standardDays
-                val hoursDifference = duration.standardHours % 24
-                val minutesDifference = duration.standardMinutes % 60
-                val secondsDifference = duration.standardSeconds % 60
+                // Update UI elements
+                tDay.visibility = if (days > 0) View.VISIBLE else View.GONE
+                day.visibility = if (days > 0) View.VISIBLE else View.GONE
+                tHour.visibility = if (days > 0 || hours > 0) View.VISIBLE else View.GONE
+                hour.visibility = if (days > 0 || hours > 0) View.VISIBLE else View.GONE
+                tMinute.visibility =
+                    if (days > 0 || hours > 0 || minutes > 0) View.VISIBLE else View.GONE
+                minute.visibility =
+                    if (days > 0 || hours > 0 || minutes > 0) View.VISIBLE else View.GONE
+                tSecond.visibility = View.VISIBLE
+                second.visibility = View.VISIBLE
 
+                day.text = days.toString()
+                hour.text = hours.toString()
+                minute.text = minutes.toString()
+                second.text = seconds.toString()
 
-                if (daysDifference <= 0 && (hoursDifference <= 0) && (minutesDifference <= 0)) {
+                // Decide whether to hide bars
+                if (days <= 0 && hours <= 0 && minutes <= 0 && seconds <= 0) {
                     hideBars = true
-//                    if(containerAuction!=null)
-//                        containerAuction.hide()
-
-                    container.hide()
-                } else{
-//                    if(containerAuction!=null)
-//                        containerAuction.show()
+                    container.visibility = View.GONE
+                    containerAuction?.visibility = View.GONE
+                } else {
                     hideBars = false
-                    container.show()
+                    container.visibility = View.VISIBLE
+                    containerAuction?.visibility = View.VISIBLE
                 }
-
-                if (daysDifference == 0L || (daysDifference < 0L)) {
-                    tDay.visibility = View.GONE
-                    day.visibility = View.GONE
-                }
-                if (hoursDifference == 0L || (hoursDifference < 0L)) {
-                    tHour.visibility = View.GONE
-                    hour.visibility = View.GONE
-                }
-
-                if (minutesDifference == 0L || (minutesDifference < 0L)) {
-                    tMinute.visibility = View.GONE
-                    minute.visibility = View.GONE
-                }
-
-                day.text = daysDifference.toString()
-                hour.text = hoursDifference.toString()
-                minute.text = minutesDifference.toString()
-                second.text = secondsDifference.toString()
             } catch (e: Exception) {
-
+                Log.e("CountdownError", "Error calculating time difference", e)
             }
             return hideBars
         }

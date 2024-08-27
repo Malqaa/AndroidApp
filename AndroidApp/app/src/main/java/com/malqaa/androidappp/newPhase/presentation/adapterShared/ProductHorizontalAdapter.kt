@@ -7,8 +7,6 @@ import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.malqaa.androidappp.R
@@ -23,11 +21,7 @@ import com.malqaa.androidappp.newPhase.utils.HelpFunctions.Companion.getDifferen
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.show
 import com.yariksoffice.lingver.Lingver
-import kotlinx.android.synthetic.main.activity_product_details_item_2.*
-import org.joda.time.DateTime
-import org.joda.time.Duration
-import org.joda.time.format.DateTimeFormat
-import java.util.*
+import java.util.Date
 
 
 class ProductHorizontalAdapter(
@@ -39,9 +33,9 @@ class ProductHorizontalAdapter(
 ) : RecyclerView.Adapter<ProductHorizontalAdapter.SellerProductViewHolder>() {
     lateinit var context: Context
 
-    private lateinit var handler: Handler
-    private lateinit var runnable: Runnable
-    private val INTERVAL: Long = 10000 // 1 minute in milliseconds
+    private var handler: Handler? = null
+    private var runnable: Runnable? = null
+    private val INTERVAL: Long = 1000L // 1 second in milliseconds
 
     class SellerProductViewHolder(var viewBinding: ProductItemBinding) :
         RecyclerView.ViewHolder(viewBinding.root)
@@ -55,9 +49,9 @@ class ProductHorizontalAdapter(
     }
 
     fun onDestroyHandler() {
-        if (::handler.isInitialized && ::runnable.isInitialized) {
-            handler.removeCallbacks(runnable)
-        }
+        handler?.removeCallbacks(runnable!!)
+        handler = null
+        runnable = null
     }
 
     override fun getItemCount(): Int = productList.size
@@ -242,43 +236,15 @@ class ProductHorizontalAdapter(
                 categoryId
             )
         }
-        if (productList[position].auctionClosingTime != null) {
 
-            if (!productList[position].auctionClosingTime!!.contains("T00:00:00")) {
-                handler = Handler()
-                runnable = object : Runnable {
-                    override fun run() {
-                        holder.viewBinding.containerTimeBar.show()
-                        val endDate: Date? =
-                            HelpFunctions.getAuctionClosingTimeByDate(productList[position].auctionClosingTime!!)
-//                println("hhhh "+endDate.toString()+" "+Calendar.getInstance().time)
-                        if (endDate != null) {
-                            getDifference(
-                                productList[position].auctionClosingTime!!,
-                                holder.viewBinding.containerTimeBar,
-                                holder.viewBinding.titleDay,
-                                holder.viewBinding.daysTv,
-                                holder.viewBinding.titleHour, holder.viewBinding.hoursTv,
-                                holder.viewBinding.titleMinutes, holder.viewBinding.minutesTv,
-                                holder.viewBinding.titleSeconds, holder.viewBinding.secondsTv,
-                                null
-                            )
-                        } else {
-                            holder.viewBinding.containerTimeBar.hide()
-                        }
-                        handler.postDelayed(this, INTERVAL)
-                    }
-                }
+        val product = productList[position]
 
-                handler.post(runnable)
-
-            } else {
-                holder.viewBinding.containerTimeBar.hide()
-            }
+        // Handle auction closing time countdown
+        if (!product.auctionClosingTime.isNullOrEmpty() && !product.auctionClosingTime.contains("T00:00:00")) {
+            startCountdown(holder, product.auctionClosingTime)
         } else {
             holder.viewBinding.containerTimeBar.hide()
         }
-
 
         if (productList[position].price.toDouble() != 0.0) {
             holder.viewBinding.purchaseContainer.visibility = View.VISIBLE
@@ -360,6 +326,35 @@ class ProductHorizontalAdapter(
         }
     }
 
+    private fun startCountdown(holder: SellerProductViewHolder, auctionClosingTime: String) {
+        handler = Handler()
+        runnable = object : Runnable {
+            override fun run() {
+                holder.viewBinding.containerTimeBar.show()
+                val endDate: Date? = HelpFunctions.getAuctionClosingTimeByDate(auctionClosingTime)
+                if (endDate != null) {
+                    getDifference(
+                        auctionClosingTime,
+                        holder.viewBinding.containerTimeBar,
+                        holder.viewBinding.titleDay,
+                        holder.viewBinding.daysTv,
+                        holder.viewBinding.titleHour,
+                        holder.viewBinding.hoursTv,
+                        holder.viewBinding.titleMinutes,
+                        holder.viewBinding.minutesTv,
+                        holder.viewBinding.titleSeconds,
+                        holder.viewBinding.secondsTv,
+                        null
+                    )
+                } else {
+                    holder.viewBinding.containerTimeBar.hide()
+                }
+                handler?.postDelayed(this, INTERVAL)
+            }
+        }
+        runnable?.let { handler?.post(it) }
+    }
+
     fun updateAdapter(
         productList: List<Product>,
         isHorizontal: Boolean = false,
@@ -370,8 +365,6 @@ class ProductHorizontalAdapter(
         this.isMyProduct = isMyProduct
         notifyDataSetChanged()
     }
-
-
 
 
 }

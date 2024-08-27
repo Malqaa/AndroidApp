@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 <data >
     <variable
         name="vmItem"
@@ -38,8 +39,8 @@
 
                 <ImageView
                     android:id="@+id/product_image"
-                    android:layout_width="@dimen/_110sdp"
-                    android:layout_height="@dimen/_115sdp"
+                    android:layout_width="155dp"
+                    android:layout_height="155dp"
                     android:scaleType="fitXY"
                     android:src="@drawable/detailpic1"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -56,10 +57,11 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:padding="@dimen/_2sdp"
-                    app:layout_constraintStart_toStartOf="@id/product_image"
+                    app:layout_constraintEnd_toEndOf="@+id/productimg"
                     app:layout_constraintTop_toTopOf="@id/product_image">
 
                     <TextView
+                        android:id="@+id/titleDay"
                         android:layout_width="@dimen/_15sdp"
                         android:layout_height="@dimen/_15sdp"
                         android:gravity="center"
@@ -73,10 +75,11 @@
                         android:background="@drawable/product_attribute_bg_gray"
                         android:gravity="center"
                         android:padding="@dimen/_2sdp"
-                        android:text="01"
+                        android:text="00"
                         android:textSize="@dimen/_6sdp" />
 
                     <TextView
+                        android:id="@+id/titleHour"
                         android:layout_width="@dimen/_15sdp"
                         android:layout_height="@dimen/_15sdp"
                         android:gravity="center"
@@ -90,10 +93,11 @@
                         android:background="@drawable/product_attribute_bg_gray"
                         android:gravity="center"
                         android:padding="@dimen/_2sdp"
-                        android:text="01"
+                        android:text="00"
                         android:textSize="@dimen/_6sdp" />
 
                     <TextView
+                        android:id="@+id/titleMinutes"
                         android:layout_width="@dimen/_15sdp"
                         android:layout_height="@dimen/_15sdp"
                         android:gravity="center"
@@ -108,7 +112,26 @@
                         android:background="@drawable/product_attribute_bg_gray"
                         android:gravity="center"
                         android:padding="@dimen/_2sdp"
-                        android:text="01"
+                        android:text="00"
+                        android:textSize="@dimen/_6sdp" />
+
+                    <TextView
+                        android:id="@+id/titleSeconds"
+                        android:layout_width="@dimen/_15sdp"
+                        android:layout_height="@dimen/_15sdp"
+                        android:gravity="center"
+                        android:text="S"
+                        android:textSize="@dimen/_6sdp" />
+
+                    <TextView
+                        android:id="@+id/seconds_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_5sdp"
+                        android:background="@drawable/product_attribute_bg_gray"
+                        android:gravity="center"
+                        android:padding="@dimen/_2sdp"
+                        android:text="00"
                         android:textSize="@dimen/_6sdp" />
 
 
@@ -123,6 +146,41 @@
                     app:layout_constraintEnd_toEndOf="@id/product_image"
                     app:layout_constraintStart_toStartOf="@id/product_image"
                     app:layout_constraintTop_toTopOf="@id/product_image" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/productimg"
+                    app:layout_constraintEnd_toEndOf="@+id/productimg">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btnMerchant"
+                        android:layout_width="@dimen/_45sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:background="@drawable/round_btn"
+                        android:text="@string/merchant"
+                        android:textAllCaps="false"
+                        android:textColor="#ffffff"
+                        android:textSize="@dimen/_7sdp"
+                        tools:ignore="TouchTargetSizeCheck" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btnFreeDelivery"
+                        android:layout_width="@dimen/_65sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:background="@drawable/round_btn_grey"
+                        android:text="@string/free_delivery"
+                        android:textAllCaps="false"
+                        android:textColor="#ffffff"
+                        android:textSize="@dimen/_7sdp"
+                        tools:ignore="TouchTargetSizeCheck" />
+
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/product_name"

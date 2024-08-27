@@ -94,7 +94,7 @@
                         android:background="@drawable/product_attribute_bg_gray"
                         android:gravity="center"
                         android:padding="@dimen/_2sdp"
-                        android:text="01"
+                        android:text="00"
                         android:textSize="@dimen/_6sdp" />
 
                     <TextView
@@ -112,7 +112,7 @@
                         android:background="@drawable/product_attribute_bg_gray"
                         android:gravity="center"
                         android:padding="@dimen/_2sdp"
-                        android:text="01"
+                        android:text="00"
                         android:textSize="@dimen/_6sdp" />
 
                     <TextView
@@ -131,7 +131,7 @@
                         android:background="@drawable/product_attribute_bg_gray"
                         android:gravity="center"
                         android:padding="@dimen/_2sdp"
-                        android:text="01"
+                        android:text="00"
                         android:textSize="@dimen/_6sdp" />
 
                     <TextView
@@ -150,7 +150,7 @@
                         android:background="@drawable/product_attribute_bg_gray"
                         android:gravity="center"
                         android:padding="@dimen/_2sdp"
-                        android:text="01"
+                        android:text="00"
                         android:textSize="@dimen/_6sdp" />
 
                 </LinearLayout>
