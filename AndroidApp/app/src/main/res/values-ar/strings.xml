@@ -2882,4 +2882,9 @@
     <string name="product_price_sar">%1$s ر.س</string>
     <string name="offer_price_sar">سعر العرض %1$s ر.س</string>
     <string name="qty">الكمية</string>
+    <string name="downloading">جاري تنزيل %1$s</string>
+    <string name="please_wait">يرجى الانتظار…</string>
+    <string name="download_started">بدأ التنزيل</string>
+    <string name="error_cannot_download_from_the_provided_link">خطأ: لا يمكن التنزيل من الرابط المقدم.</string>
+    <string name="error">خطأ: %1$s</string>
 </resources>

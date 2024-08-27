@@ -25,6 +25,7 @@ data class OrderFullInfoDto(
     val shippingAddress: String? = null,
     val shippingCount: Int,
     val status: String? = null,
-    val totalOrderPrice: Float
+    val totalOrderPrice: Float,
+    val orderInvoice: String
 
 ) : Parcelable

@@ -7,21 +7,37 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.malqaa.androidappp.R
 import com.malqaa.androidappp.newPhase.core.BaseActivity
-import com.malqaa.androidappp.newPhase.utils.HelpFunctions
-import com.malqaa.androidappp.newPhase.utils.hide
-import com.malqaa.androidappp.newPhase.utils.linearLayoutManager
-import com.malqaa.androidappp.newPhase.utils.show
 import com.malqaa.androidappp.newPhase.domain.models.orderDetailsByMasterID.OrderDetailsByMasterIDData
 import com.malqaa.androidappp.newPhase.domain.models.orderDetailsByMasterID.OrderDetailsByMasterIDResp
 import com.malqaa.androidappp.newPhase.domain.models.orderDetailsByMasterID.OrderFullInfoDto
 import com.malqaa.androidappp.newPhase.domain.models.orderListResp.OrderItem
-import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.presentation.activities.myOrderDetails.adapter.CurrentOrderAdapter
-import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.myOrderFragment.MyOrdersViewModel
 import com.malqaa.androidappp.newPhase.presentation.activities.shipmentRateActivity.ShipmentRateActivity
-import kotlinx.android.synthetic.main.activity_order_details.*
-import kotlinx.android.synthetic.main.activity_success_order.txt_request
-import kotlinx.android.synthetic.main.toolbar_main.*
+import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.myOrderFragment.MyOrdersViewModel
+import com.malqaa.androidappp.newPhase.utils.ConstantObjects
+import com.malqaa.androidappp.newPhase.utils.HelpFunctions
+import com.malqaa.androidappp.newPhase.utils.downloadFile
+import com.malqaa.androidappp.newPhase.utils.hide
+import com.malqaa.androidappp.newPhase.utils.linearLayoutManager
+import com.malqaa.androidappp.newPhase.utils.show
+import kotlinx.android.synthetic.main.activity_order_details.discount_tv
+import kotlinx.android.synthetic.main.activity_order_details.mainContainer
+import kotlinx.android.synthetic.main.activity_order_details.order_number_tv
+import kotlinx.android.synthetic.main.activity_order_details.order_status_tv
+import kotlinx.android.synthetic.main.activity_order_details.order_time_tv
+import kotlinx.android.synthetic.main.activity_order_details.progressBar
+import kotlinx.android.synthetic.main.activity_order_details.rvCurentOrder
+import kotlinx.android.synthetic.main.activity_order_details.shipments_tv
+import kotlinx.android.synthetic.main.activity_order_details.subtotal_tv
+import kotlinx.android.synthetic.main.activity_order_details.swipe_to_refresh
+import kotlinx.android.synthetic.main.activity_order_details.total_order_tv
+import kotlinx.android.synthetic.main.activity_order_details.total_tv
+import kotlinx.android.synthetic.main.activity_order_details.tvClientAddress
+import kotlinx.android.synthetic.main.activity_order_details.tvClientPhone
+import kotlinx.android.synthetic.main.activity_order_details.tvError
+import kotlinx.android.synthetic.main.activity_order_details.tv_request_type
+import kotlinx.android.synthetic.main.toolbar_main.back_btn
+import kotlinx.android.synthetic.main.toolbar_main.toolbar_title
 
 class MyOrderDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
     CurrentOrderAdapter.SetOnClickListeners {
@@ -63,14 +79,15 @@ class MyOrderDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 //                order_number_tv.text = "#${orderItem.orderId}"
 //            }
 
-            if(orderItem.requestType?.lowercase().equals("FixedPrice".lowercase())){
-                tv_request_type.text=getString(R.string.fixed_price)
-            }else if(orderItem.requestType?.lowercase().equals("Negotiation".lowercase())){
-                tv_request_type.text=getString(R.string.Negotiation)
-            }else if(orderItem.requestType?.lowercase().equals("Auction".lowercase())){
-                tv_request_type.text=getString(R.string.auction)
+            if (orderItem.requestType?.lowercase().equals("FixedPrice".lowercase())) {
+                tv_request_type.text = getString(R.string.fixed_price)
+            } else if (orderItem.requestType?.lowercase().equals("Negotiation".lowercase())) {
+                tv_request_type.text = getString(R.string.Negotiation)
+            } else if (orderItem.requestType?.lowercase().equals("Auction".lowercase())) {
+                tv_request_type.text = getString(R.string.auction)
             }
-            order_time_tv.text = HelpFunctions.getViewFormatForDateTrack(orderItem.createdAt,"dd/MM/yyyy HH:mm:ss")
+            order_time_tv.text =
+                HelpFunctions.getViewFormatForDateTrack(orderItem.createdAt, "dd/MM/yyyy HH:mm:ss")
             shipments_tv.text = orderItem.providersCount.toString()
             total_order_tv.text =
                 "${orderItem.totalOrderAmountAfterDiscount} ${getString(R.string.rial)}"
@@ -221,6 +238,16 @@ class MyOrderDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 //        } else {
 //
 //        }
+    }
+
+    override fun onDownloadInvoiceSelected(position: Int) {
+        val orderInvoice =
+            orderDetailsByMasterIDResp.orderDetailsByMasterIDData?.orderFullInfoDtoList?.get(
+                position
+            )?.orderInvoice
+        if (orderInvoice != null) {
+            downloadFile(context = this, orderInvoice)
+        }
     }
 
     override fun onAddRateToShipmentSelected(position: Int) {

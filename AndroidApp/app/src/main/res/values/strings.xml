@@ -3088,4 +3088,9 @@
   <string name="product_price_sar">%1$s SAR</string>
   <string name="offer_price_sar">Offer Price %1$s SAR</string>
   <string name="qty">Quantity:</string>
+  <string name="downloading">Downloading %1$s</string>
+  <string name="please_wait">Please wait…</string>
+  <string name="download_started">Download started</string>
+  <string name="error_cannot_download_from_the_provided_link">Error: Cannot download from the provided link.</string>
+  <string name="error">Error: %1$s</string>
 </resources>

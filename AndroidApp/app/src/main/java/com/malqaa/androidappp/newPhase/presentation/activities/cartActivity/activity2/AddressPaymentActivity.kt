@@ -741,6 +741,12 @@ class AddressPaymentActivity : BaseActivity(),
         cartDataObject = null
     }
 
+    override fun onDownloadInvoiceSelected(position: Int) {
+        // TODO: onDownloadInvoiceSelected
+//        val orderInvoice = orderFullInfoDtoList[position].orderInvoice
+//        downloadFile(context = this, orderInvoice)
+    }
+
     override fun onAddRateToShipmentSelected(position: Int) {
     }
 
