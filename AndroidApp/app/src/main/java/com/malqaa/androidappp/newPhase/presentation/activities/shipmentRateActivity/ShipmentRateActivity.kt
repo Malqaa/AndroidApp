@@ -4,23 +4,44 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.malqaa.androidappp.R
 import com.malqaa.androidappp.newPhase.core.BaseActivity
-import com.malqaa.androidappp.newPhase.utils.HelpFunctions
-import com.malqaa.androidappp.newPhase.utils.linearLayoutManager
-import com.malqaa.androidappp.newPhase.domain.models.orderDetailsByMasterID.*
+import com.malqaa.androidappp.newPhase.domain.models.orderDetailsByMasterID.OrderFullInfoDto
+import com.malqaa.androidappp.newPhase.domain.models.orderDetailsByMasterID.OrderProductFullInfoDto
 import com.malqaa.androidappp.newPhase.domain.models.orderRateResp.RateObject
 import com.malqaa.androidappp.newPhase.domain.models.orderRateResp.RateProductObject
 import com.malqaa.androidappp.newPhase.domain.models.orderRateResp.SellerDateDto
 import com.malqaa.androidappp.newPhase.domain.models.orderRateResp.ShippmentRateDto
-import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.SuccessProductActivity
-import kotlinx.android.synthetic.main.activity_shipment_rate.*
-import kotlinx.android.synthetic.main.toolbar_main.*
+import com.malqaa.androidappp.newPhase.utils.ConstantObjects
+import com.malqaa.androidappp.newPhase.utils.HelpFunctions
+import com.malqaa.androidappp.newPhase.utils.linearLayoutManager
+import kotlinx.android.synthetic.main.activity_shipment_rate.btnSend
+import kotlinx.android.synthetic.main.activity_shipment_rate.etProductComment
+import kotlinx.android.synthetic.main.activity_shipment_rate.etSellerCommnet
+import kotlinx.android.synthetic.main.activity_shipment_rate.etShipmentCommnet
+import kotlinx.android.synthetic.main.activity_shipment_rate.ivProductHappyRate
+import kotlinx.android.synthetic.main.activity_shipment_rate.ivProductNeutralRate
+import kotlinx.android.synthetic.main.activity_shipment_rate.ivProductSadeRate
+import kotlinx.android.synthetic.main.activity_shipment_rate.ivSellerHappyRate
+import kotlinx.android.synthetic.main.activity_shipment_rate.ivSellerNeutralRate
+import kotlinx.android.synthetic.main.activity_shipment_rate.ivSellerSadeRate
+import kotlinx.android.synthetic.main.activity_shipment_rate.ivShipmentHappyRate
+import kotlinx.android.synthetic.main.activity_shipment_rate.ivShipmentNeutralRate
+import kotlinx.android.synthetic.main.activity_shipment_rate.ivShipmentSadeRate
+import kotlinx.android.synthetic.main.activity_shipment_rate.lLinearProductRateIcon
+import kotlinx.android.synthetic.main.activity_shipment_rate.linearProductRateComment
+import kotlinx.android.synthetic.main.activity_shipment_rate.rvProduct
+import kotlinx.android.synthetic.main.activity_shipment_rate.textProductsRateCommentTitle
+import kotlinx.android.synthetic.main.activity_shipment_rate.textProductsRateTitle
+import kotlinx.android.synthetic.main.activity_shipment_rate.view.lLinearProductRateIcon
+import kotlinx.android.synthetic.main.toolbar_main.back_btn
+import kotlinx.android.synthetic.main.toolbar_main.toolbar_title
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -50,7 +71,7 @@ class ShipmentRateActivity : BaseActivity(), ProductRateAdapter.SetOnClickListen
         setData()
         setupViewModel()
         shipmentRateViewModel.getShipmentRate(orderId)
-
+        handelProductsRate(orderProductFullInfoDtoList)
     }
 
     private fun setupViewModel() {
@@ -130,7 +151,7 @@ class ShipmentRateActivity : BaseActivity(), ProductRateAdapter.SetOnClickListen
                         ivSellerSadeRate.setImageResource(R.drawable.sadcolor_gray)
                     }
                 }
-                etSellerCommnet.setText(rateObject.sellerDateDto.comment )
+                etSellerCommnet.setText(rateObject.sellerDateDto.comment)
             }
             //shipment
             if (rateObject.shippmentRateDto != null) {
@@ -157,7 +178,7 @@ class ShipmentRateActivity : BaseActivity(), ProductRateAdapter.SetOnClickListen
                         ivShipmentSadeRate.setImageResource(R.drawable.sadcolor_gray)
                     }
                 }
-                etShipmentCommnet.setText(rateObject.shippmentRateDto.comment )
+                etShipmentCommnet.setText(rateObject.shippmentRateDto.comment)
             }
             rateObject.productsRate.let { productsRateList ->
                 for (item in orderProductFullInfoDtoList) {
@@ -219,7 +240,7 @@ class ShipmentRateActivity : BaseActivity(), ProductRateAdapter.SetOnClickListen
 
         /**seller rate */
         ivSellerHappyRate.setOnClickListener {
-            sellerRate =3
+            sellerRate = 3
             ivSellerHappyRate.setImageResource(R.drawable.happyface_color)
             ivSellerNeutralRate.setImageResource(R.drawable.smileface_gray)
             ivSellerSadeRate.setImageResource(R.drawable.sadface_gray)
@@ -395,5 +416,21 @@ class ShipmentRateActivity : BaseActivity(), ProductRateAdapter.SetOnClickListen
     override fun onDestroy() {
         super.onDestroy()
         shipmentRateViewModel.closeAllCall()
+    }
+
+    private fun handelProductsRate(orderProductFullInfoDtoList: ArrayList<OrderProductFullInfoDto>) {
+        if (orderProductFullInfoDtoList.size > 0) {
+            textProductsRateTitle.visibility = View.VISIBLE
+            rvProduct.visibility = View.VISIBLE
+            lLinearProductRateIcon.visibility = View.VISIBLE
+            textProductsRateCommentTitle.visibility = View.VISIBLE
+            linearProductRateComment.visibility = View.VISIBLE
+        } else {
+            textProductsRateTitle.visibility = View.GONE
+            rvProduct.visibility = View.GONE
+            lLinearProductRateIcon.visibility = View.GONE
+            textProductsRateCommentTitle.visibility = View.GONE
+            linearProductRateComment.visibility = View.GONE
+        }
     }
 }
