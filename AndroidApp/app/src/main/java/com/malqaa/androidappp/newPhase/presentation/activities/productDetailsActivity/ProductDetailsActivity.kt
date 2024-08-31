@@ -107,7 +107,6 @@ import kotlinx.android.synthetic.main.activity_product_details_item_2.contianerR
 import kotlinx.android.synthetic.main.activity_product_details_item_2.days
 import kotlinx.android.synthetic.main.activity_product_details_item_2.etWriteQuestion
 import kotlinx.android.synthetic.main.activity_product_details_item_2.facebook_btn
-import kotlinx.android.synthetic.main.activity_product_details_item_2.hintQuestion
 import kotlinx.android.synthetic.main.activity_product_details_item_2.hours
 import kotlinx.android.synthetic.main.activity_product_details_item_2.instagram_btn
 import kotlinx.android.synthetic.main.activity_product_details_item_2.isSellerProductHide_iv
@@ -1351,7 +1350,8 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             if (productDetails.auctionClosingTime != null) {
                 runnable = object : Runnable {
                     override fun run() {
-                        val endDate: Date? = HelpFunctions.getAuctionClosingTimeByDate(productDetails.auctionClosingTime)
+                        val endDate: Date? =
+                            HelpFunctions.getAuctionClosingTimeByDate(productDetails.auctionClosingTime)
                         if (endDate != null) {
                             hideBars.value = getDifference(
                                 productDetails.auctionClosingTime,
@@ -1466,6 +1466,12 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                 tvMyBidPrice.text = "${productDetails.myBid} ${getString(R.string.sar)}"
             } else {
                 containerMyBid.hide()
+            }
+
+            if (productDetails.acceptQuestion) {
+                sectionQs.show()
+            } else {
+                sectionQs.hide()
             }
 
         } else {
