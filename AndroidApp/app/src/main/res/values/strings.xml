@@ -3091,6 +3091,12 @@
   <string name="downloading">Downloading %1$s</string>
   <string name="please_wait">Please wait…</string>
   <string name="download_started">Download started</string>
-  <string name="error_cannot_download_from_the_provided_link">Error: Cannot download from the provided link.</string>
+  <string name="error_cannot_download_from_the_provided_link">Cannot download from the provided link.</string>
+  <string name="error_invalid_url">Invalid URL. Please check the link.</string>
+  <string name="error_network_issue">Network issue. Please check your connection.</string>
+  <string name="error_connection_timeout">Connection timed out. Please try again.</string>
+  <string name="error_io_exception">I/O error: %1$s</string>
+  <string name="error_unexpected">Unexpected error: %1$s</string>
   <string name="error">Error: %1$s</string>
+
 </resources>
