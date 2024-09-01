@@ -47,13 +47,12 @@ class SignInActivity : BaseActivity() {
                     ) ConstantObjects.ENGLISH else ConstantObjects.ARABIC
                 )
             else
-                setLocate()
+                setLocale()
         }
 
         loginViewModel?.languageObserver?.observe(this, Observer {
             HelpFunctions.ShowLongToast(it.message, this)
-            setLocate()
-
+            setLocale()
         })
 
     }

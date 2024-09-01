@@ -6,6 +6,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Patterns
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.hbb20.CountryCodePicker
@@ -169,8 +170,7 @@ class SignupConfirmNewUserActivity : BaseActivity(), CountryDialog.GetSelectedCo
 
         signupViewModel?.languageObserver?.observe(this, Observer {
             HelpFunctions.ShowLongToast(it.message, this)
-            setLocate()
-
+            setLocale()
         })
     }
 
@@ -184,7 +184,7 @@ class SignupConfirmNewUserActivity : BaseActivity(), CountryDialog.GetSelectedCo
                     ) ConstantObjects.ENGLISH else ConstantObjects.ARABIC
                 )
             else
-                setLocate()
+                setLocale()
 
         }
         btnLogin.setOnClickListener {

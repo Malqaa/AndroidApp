@@ -51,7 +51,7 @@ class ApplicationSettingFragment : Fragment(R.layout.activity_application_settin
 
         settingViewModel?.languageObserver?.observe(viewLifecycleOwner, Observer {
             HelpFunctions.ShowLongToast(it.message, requireActivity())
-            (requireActivity() as BaseActivity).setLocate()
+            (requireActivity() as BaseActivity).setLocale()
 
         })
         swNotify.isChecked=SharedPreferencesStaticClass.getSwitchNotify()
@@ -83,7 +83,7 @@ class ApplicationSettingFragment : Fragment(R.layout.activity_application_settin
                     ConstantObjects.ENGLISH else ConstantObjects.ARABIC
             )
         else
-            (requireActivity() as BaseActivity).setLocate()
+            (requireActivity() as BaseActivity).setLocale()
     }
 
     override fun onDestroyView() {
