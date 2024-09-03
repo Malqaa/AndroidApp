@@ -1176,8 +1176,8 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
         super.onDestroy()
         productDetialsViewModel.closeAllCall()
         productDetialsViewModel.baseCancel()
-        similarProductAdapter.onDestroyHandler()
-        sellerProductAdapter.onDestroyHandler()
+//        similarProductAdapter.onDestroyHandler()
+//        sellerProductAdapter.onDestroyHandler()
     }
 
     override fun onClickImage(url: String) {
