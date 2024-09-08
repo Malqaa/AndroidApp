@@ -28,11 +28,11 @@ class ProductHorizontalAdapter(
     var productList: List<Product>,
     private var setOnProductItemListeners: SetOnProductItemListeners,
     var categoryId: Int = 0,
-    private var isHorizenal: Boolean,
+    private var isHorizontal: Boolean,
     private var isMyProduct: Boolean = false
 ) : RecyclerView.Adapter<ProductHorizontalAdapter.SellerProductViewHolder>() {
-    lateinit var context: Context
 
+    lateinit var context: Context
     private var handler: Handler? = null
     private var runnable: Runnable? = null
     private val INTERVAL: Long = 1000L // 1 second in milliseconds
@@ -58,271 +58,112 @@ class ProductHorizontalAdapter(
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: SellerProductViewHolder, position: Int) {
-        if (isHorizenal) {
+        val product = productList[position]
+
+        // Handle horizontal or vertical layout based on the flag
+        if (isHorizontal) {
             val params: ViewGroup.LayoutParams = holder.viewBinding.fullview.layoutParams
             params.width = context.resources.getDimension(R.dimen._220sdp).toInt()
-            params.height = params.height
             holder.viewBinding.fullview.layoutParams = params
         }
 
-        if (productList[position].isFreeDelivery) {
-            holder.viewBinding.btnFreeDelivery.show()
-        } else {
-            holder.viewBinding.btnFreeDelivery.hide()
-        }
-        if (productList[position].isMerchant) {
-            holder.viewBinding.btnMerchant.show()
-        } else {
-            holder.viewBinding.btnMerchant.hide()
-        }
+        // Handle visibility of free delivery and merchant buttons
+        holder.viewBinding.btnFreeDelivery.visibility =
+            if (product.isFreeDelivery) View.VISIBLE else View.GONE
+        holder.viewBinding.btnMerchant.visibility =
+            if (product.isMerchant) View.VISIBLE else View.GONE
 
+        // Handle favorite or settings icon based on product ownership
         if (isMyProduct) {
-            holder.viewBinding.ivFav.hide()
-            holder.viewBinding.ivSetting.show()
+            holder.viewBinding.ivFav.visibility = View.GONE
+            holder.viewBinding.ivSetting.visibility = View.VISIBLE
             holder.viewBinding.ivSetting.setOnClickListener {
                 setOnProductItemListeners.onShowMoreSetting(
                     position,
-                    productList[position].id,
+                    product.id,
                     categoryId
                 )
             }
         } else {
-            holder.viewBinding.ivFav.show()
-            holder.viewBinding.ivSetting.hide()
-            if (HelpFunctions.isUserLoggedIn()) {
-                if (productList[position].isFavourite) {
-                    holder.viewBinding.ivFav.setImageResource(R.drawable.starcolor)
-                } else {
-                    holder.viewBinding.ivFav.setImageResource(R.drawable.star)
-                }
-            } else {
-                holder.viewBinding.ivFav.setImageResource(R.drawable.star)
-            }
+            holder.viewBinding.ivFav.visibility = View.VISIBLE
+            holder.viewBinding.ivSetting.visibility = View.GONE
+            holder.viewBinding.ivFav.setImageResource(
+                if (product.isFavourite) R.drawable.starcolor else R.drawable.star
+            )
         }
 
-        if (Lingver.getInstance().getLanguage() == ConstantObjects.ARABIC) {
-            holder.viewBinding.containerTimeBar.background =
-                ContextCompat.getDrawable(context, R.drawable.product_attribute_bg1_ar)
-        } else {
-            holder.viewBinding.containerTimeBar.background =
-                ContextCompat.getDrawable(context, R.drawable.product_attribute_bg1_en)
-        }
-        holder.viewBinding.titlenamee.text = productList[position].name ?: ""
-        holder.viewBinding.subTitlenamee.text = productList[position].subTitle ?: ""
-
-        if (productList[position].isAuctionEnabled) {
-            holder.viewBinding.typeProduct.text = context.getString(R.string.auction)
-        } else if (productList[position].isNegotiationEnabled) {
-            holder.viewBinding.typeProduct.text = context.getString(R.string.Negotiation)
-        }
-
-        holder.viewBinding.cityTv.text = productList[position].regionName ?: ""
-        holder.viewBinding.dateTv.text =
-            HelpFunctions.getViewFormatForDateTrack(productList[position].createdAt, "dd/MM/yyyy")
-
-
-        if (productList[position].productImage != null && productList[position].productImage != "") {
-            Extension.loadImgGlide(
+        // Handle localization for time bar background
+        holder.viewBinding.containerTimeBar.background =
+            ContextCompat.getDrawable(
                 context,
-                productList[position].productImage ?: "",
-                holder.viewBinding.productimg,
-                holder.viewBinding.loader
+                if (Lingver.getInstance().getLanguage() == ConstantObjects.ARABIC)
+                    R.drawable.product_attribute_bg1_ar else R.drawable.product_attribute_bg1_en
             )
 
+        // Set product title and subtitle
+        holder.viewBinding.titlenamee.text = product.name ?: ""
+        holder.viewBinding.subTitlenamee.text = product.subTitle ?: ""
 
-        } else {
-//            Extension.loadImgGlide(
-//                context,
-//                productList[position].productImage ?: "",
-//                holder.viewBinding.productimg,
-//                holder.viewBinding.loader
-//            )
-
-            Extension.loadImgGlide(
-                context,
-                productList[position].image ?: "",
-                holder.viewBinding.productimg,
-                holder.viewBinding.loader
-            )
-
+        // Auction and Negotiation flags
+        holder.viewBinding.typeProduct.text = when {
+            product.isAuctionEnabled -> context.getString(R.string.auction)
+            product.isNegotiationEnabled -> context.getString(R.string.Negotiation)
+            else -> ""
         }
-//        if (categoryId != 0) {
-//            Extension.loadImgGlide(
-//                context,
-//                productList[position].image ?: "",
-//                holder.viewBinding.productimg,
-//                holder.viewBinding.loader
-//            )
-//        } else {
-//            Extension.loadImgGlide(
-//                context,
-//                productList[position].productImage ?: "",
-//                holder.viewBinding.productimg,
-//                holder.viewBinding.loader
-//            )
-//        }
-//        holder.viewBinding.LowestPriceLayout.hide()
-//        holder.viewBinding.LowestPriceLayout2.hide()
-        holder.viewBinding.lisView.hide()
 
-        if (productList[position].priceDisc == productList[position].price
-            || productList[position].priceDiscount == productList[position].price
-        ) {
-            holder.viewBinding.tvProductPrice.text =
-                "${productList[position].price.toDouble()} ${
-                    context.getString(
-                        R.string.SAR
-                    )
-                }"
-            holder.viewBinding.tvOldPRiceProductPriceForVertiaclView.hide()
-            holder.viewBinding.tvOldPRiceProductPriceForHorizentalView.hide()
+        // Load product image
+        val imageUrl = if (!product.productImage.isNullOrEmpty()) product.productImage else product.image
+        Extension.loadImgGlide(context, imageUrl ?: "", holder.viewBinding.productimg, holder.viewBinding.loader)
+
+        // Handle product price and discounts
+        if (product.price == product.priceDisc || product.price == product.priceDiscount) {
+            holder.viewBinding.tvProductPrice.text = "${product.price.toDouble()} ${context.getString(R.string.SAR)}"
+            holder.viewBinding.tvOldPRiceProductPriceForVertiaclView.visibility = View.GONE
+            holder.viewBinding.tvOldPRiceProductPriceForHorizentalView.visibility = View.GONE
         } else {
-            if (isHorizenal) {
-                // for Horizental View
-                holder.viewBinding.tvOldPRiceProductPriceForHorizentalView.show()
-                holder.viewBinding.tvOldPRiceProductPriceForVertiaclView.hide()
+            if (isHorizontal) {
+                holder.viewBinding.tvOldPRiceProductPriceForHorizentalView.visibility = View.VISIBLE
                 holder.viewBinding.tvOldPRiceProductPriceForHorizentalView.paintFlags =
                     holder.viewBinding.tvOldPRiceProductPriceForHorizentalView.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
                 holder.viewBinding.tvOldPRiceProductPriceForHorizentalView.text =
-                    "${productList[position].price.toDouble()} ${
-                        context.getString(
-                            R.string.SAR
-                        )
-                    }"
+                    "${product.price.toDouble()} ${context.getString(R.string.SAR)}"
                 holder.viewBinding.tvProductPrice.text =
-                    "${productList[position].priceDiscount.toDouble()} ${
-                        context.getString(
-                            R.string.SAR
-                        )
-                    }"
+                    "${product.priceDiscount.toDouble()} ${context.getString(R.string.SAR)}"
             } else {
-                // for Vertical View
-                holder.viewBinding.tvOldPRiceProductPriceForHorizentalView.hide()
-                holder.viewBinding.tvOldPRiceProductPriceForVertiaclView.show()
-//                holder.viewBinding.tvOldPRiceProductPriceForVertiaclView.paintFlags =
-//                    holder.viewBinding.tvOldPRiceProductPriceForVertiaclView.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-//                holder.viewBinding.tvOldPRiceProductPriceForVertiaclView.text =
-//                    "${productList[position].price.toDouble()} ${
-//                        context.getString(
-//                            R.string.SAR
-//                        )
-//                    }"
-//                holder.viewBinding.tvProductPrice.text =
-//                    "${productList[position].priceDisc.toDouble()} ${
-//                        context.getString(
-//                            R.string.SAR
-//                        )
-//                    }"
+                holder.viewBinding.tvOldPRiceProductPriceForVertiaclView.visibility = View.VISIBLE
+                holder.viewBinding.tvOldPRiceProductPriceForVertiaclView.paintFlags =
+                    holder.viewBinding.tvOldPRiceProductPriceForVertiaclView.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                holder.viewBinding.tvOldPRiceProductPriceForVertiaclView.text =
+                    "${product.price.toDouble()} ${context.getString(R.string.SAR)}"
+                holder.viewBinding.tvProductPrice.text =
+                    "${product.priceDisc.toDouble()} ${context.getString(R.string.SAR)}"
             }
-
-
         }
 
-        holder.viewBinding.purchasingPriceTv2.text = "${
-            productList[position].price.toDouble().decimalNumberFormat()
-        } ${context.getString(R.string.SAR)}"
+        // Show/hide auction start or highest bid price
+        holder.viewBinding.LowestPriceLayout.visibility = if (product.highestBidPrice.toDouble() != 0.0) {
+            holder.viewBinding.LowestPrice.text = "${product.highestBidPrice} ${context.getString(R.string.SAR)}"
+            View.VISIBLE
+        } else if (product.auctionStartPrice.toDouble() != 0.0) {
+            holder.viewBinding.LowestPrice.text = "${product.auctionStartPrice} ${context.getString(R.string.SAR)}"
+            View.VISIBLE
+        } else {
+            View.INVISIBLE
+        }
 
+        // Click listeners for product item and favorite icon
         holder.viewBinding.fullview.setOnClickListener {
-            setOnProductItemListeners.onProductSelect(
-                position,
-                productList[position].id,
-                categoryId
-            )
+            setOnProductItemListeners.onProductSelect(position, product.id, categoryId)
         }
         holder.viewBinding.ivFav.setOnClickListener {
-            setOnProductItemListeners.onAddProductToFav(
-                position,
-                productList[position].id,
-                categoryId
-            )
+            setOnProductItemListeners.onAddProductToFav(position, product.id, categoryId)
         }
 
-        val product = productList[position]
-
-        // Handle auction closing time countdown
+        // Auction countdown logic
         if (!product.auctionClosingTime.isNullOrEmpty() && !product.auctionClosingTime.contains("T00:00:00")) {
             startCountdown(holder, product.auctionClosingTime)
         } else {
-            holder.viewBinding.containerTimeBar.hide()
-        }
-
-        if (productList[position].price.toDouble() != 0.0) {
-            holder.viewBinding.purchaseContainer.visibility = View.VISIBLE
-            holder.viewBinding.tvOldPRiceProductPriceForHorizentalView.text =
-                "${productList[position].price.toDouble()} ${
-                    context.getString(
-                        R.string.SAR
-                    )
-                }"
-            holder.viewBinding.tvOldPRiceProductPriceForVertiaclView.paintFlags =
-                holder.viewBinding.tvOldPRiceProductPriceForVertiaclView.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-            holder.viewBinding.tvOldPRiceProductPriceForVertiaclView.text =
-                "${productList[position].price.toDouble()} ${
-                    context.getString(
-                        R.string.SAR
-                    )
-                }"
-            holder.viewBinding.tvProductPrice.text =
-                "${productList[position].priceDisc.toDouble()} ${
-                    context.getString(
-                        R.string.SAR
-                    )
-                }"
-        } else {
-            holder.viewBinding.purchaseContainer.visibility = View.INVISIBLE
-
-        }
-        if (productList[position].highestBidPrice.toDouble() == 0.0) {
-            if (productList[position].auctionStartPrice.toDouble() != 0.0) {
-                holder.viewBinding.LowestPriceLayout.visibility = View.VISIBLE
-                holder.viewBinding.LowestPrice.text =
-                    "${productList[position].auctionStartPrice} ${
-                        holder.viewBinding.typeProduct.context.getString(
-                            R.string.SAR
-                        )
-                    }"
-            } else {
-                holder.viewBinding.LowestPriceLayout.visibility = View.INVISIBLE
-            }
-        } else {
-            holder.viewBinding.LowestPriceLayout.visibility = View.VISIBLE
-            holder.viewBinding.LowestPrice.text =
-                "${productList[position].highestBidPrice} ${
-                    holder.viewBinding.typeProduct.context.getString(
-                        R.string.SAR
-                    )
-                }"
-        }
-
-
-        if (productList[position].isAuctionEnabled) {
-//            holder.viewBinding.purchaseContainer.visibility = View.GONE
-//            holder.viewBinding.LowestPriceLayout.visibility = View.VISIBLE
-
-            holder.viewBinding.typeProduct.text =
-                holder.viewBinding.typeProduct.context.getString(R.string.auction)
-//            holder.viewBinding.LowestPrice.text =
-//                "${productList[position].highestBidPrice} ${holder.viewBinding.typeProduct.context.getString(R.string.SAR)}"
-        } else if (productList[position].isNegotiationEnabled) {
-
-//            holder.viewBinding.purchaseContainer.visibility = View.GONE
-//            holder.viewBinding.LowestPriceLayout.visibility = View.VISIBLE
-
-            holder.viewBinding.typeProduct.text =
-                holder.viewBinding.typeProduct.context.getString(R.string.Negotiation)
-//            holder.viewBinding.LowestPrice.text =
-//                "${productList[position].highestBidPrice} ${holder.viewBinding.typeProduct.context.getString(R.string.SAR)}"
-        } else {
-//            if(productList[position].price.toDouble()!=0.0)
-//            holder.viewBinding.purchaseContainer.visibility = View.VISIBLE
-//            else{
-//                holder.viewBinding.purchaseContainer.visibility = View.INVISIBLE
-//            }
-//            holder.viewBinding.LowestPriceLayout.visibility = View.GONE
-//
-//            holder.viewBinding.tvProductPrice.text = "${
-//                productList[position].price.toDouble().decimalNumberFormat()
-//            } ${holder.viewBinding.tvProductPrice.context.getString(R.string.SAR)}"
+            holder.viewBinding.containerTimeBar.visibility = View.GONE
         }
     }
 
@@ -330,8 +171,8 @@ class ProductHorizontalAdapter(
         handler = Handler()
         runnable = object : Runnable {
             override fun run() {
-                holder.viewBinding.containerTimeBar.show()
-                val endDate: Date? = HelpFunctions.getAuctionClosingTimeByDate(auctionClosingTime)
+                holder.viewBinding.containerTimeBar.visibility = View.VISIBLE
+                val endDate = HelpFunctions.getAuctionClosingTimeByDate(auctionClosingTime)
                 if (endDate != null) {
                     getDifference(
                         auctionClosingTime,
@@ -347,7 +188,7 @@ class ProductHorizontalAdapter(
                         null
                     )
                 } else {
-                    holder.viewBinding.containerTimeBar.hide()
+                    holder.viewBinding.containerTimeBar.visibility = View.GONE
                 }
                 handler?.postDelayed(this, INTERVAL)
             }
@@ -355,16 +196,15 @@ class ProductHorizontalAdapter(
         runnable?.let { handler?.post(it) }
     }
 
+    // Update adapter method to refresh the product list
     fun updateAdapter(
         productList: List<Product>,
         isHorizontal: Boolean = false,
         isMyProduct: Boolean = false
     ) {
         this.productList = productList
-        isHorizenal = isHorizontal
+        this.isHorizontal = isHorizontal
         this.isMyProduct = isMyProduct
         notifyDataSetChanged()
     }
-
-
 }

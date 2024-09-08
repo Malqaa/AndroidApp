@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.malqaa.androidappp.R
 import com.malqaa.androidappp.databinding.ProductItemRowBinding
@@ -42,9 +43,17 @@ class ProductRowFullAdapter(
 
     override fun getItemCount(): Int = mItemsList.size
 
-    fun updateAdapter(mItemsList: List<Product>) {
-        this.mItemsList = mItemsList
-        notifyDataSetChanged()
+    override fun onViewRecycled(holder: ProductViewHolder) {
+        super.onViewRecycled(holder)
+        holder.onDestroyHandler() // Stop the countdown when the ViewHolder is recycled
+    }
+
+    fun updateAdapter(newItemsList: List<Product>) {
+        val diffCallback = ProductDiffCallback(mItemsList, newItemsList)
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
+
+        this.mItemsList = newItemsList
+        diffResult.dispatchUpdatesTo(this)
     }
 }
 
@@ -121,6 +130,11 @@ class ProductViewHolder(
     }
 
     private fun startCountdown(auctionClosingTime: String) {
+        // Avoid creating a new handler if one is already running
+        if (handler != null && runnable != null) {
+            return
+        }
+
         handler = Handler()
         runnable = object : Runnable {
             override fun run() {
@@ -155,3 +169,22 @@ class ProductViewHolder(
         runnable = null
     }
 }
+
+class ProductDiffCallback(
+    private val oldList: List<Product>,
+    private val newList: List<Product>
+) : DiffUtil.Callback() {
+
+    override fun getOldListSize(): Int = oldList.size
+    override fun getNewListSize(): Int = newList.size
+
+    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        return oldList[oldItemPosition].id == newList[newItemPosition].id
+    }
+
+    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        return oldList[oldItemPosition] == newList[newItemPosition]
+    }
+}
+
+

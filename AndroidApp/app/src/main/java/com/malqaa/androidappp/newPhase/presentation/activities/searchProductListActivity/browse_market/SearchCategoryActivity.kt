@@ -198,49 +198,54 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         }
         productsListViewModel.searchProductListRespObserver.observe(this) { productListResp ->
             if (productListResp.status_code == 200) {
+                val products = productListResp.data?.products.orEmpty()
 
-                if (productListResp.data?.products != null && productListResp.data.products.isNotEmpty()) {
+                // Update the total result text view
+                total_result_tv.text = "${productListResp.totaRecords} ${getString(R.string.results)}"
 
-                    val listVip =
-                        productListResp.data.products.filter { it.productPosition == ProductPosition.Vip.value }
-                    val allListOutVip =
-                        productListResp.data.products.filter { it.productPosition != ProductPosition.Vip.value }
+                if (products.isNotEmpty()) {
+                    val listVip = products.filter { it.productPosition == ProductPosition.Vip.value }
+                    val allListOutVip = products.filter { it.productPosition != ProductPosition.Vip.value }
 
-                    total_result_tv.text =
-                        "" + productListResp.totaRecords + " " + getString(R.string.results)
-
+                    // Handle VIP product list
                     if (listVip.isNotEmpty()) {
                         recyclerMarketFull.visibility = View.VISIBLE
-                        productListVip.addAll(listVip)
-                        recyclerMarketFull.adapter = productCategoryAdapter
+                        productListVip.addAll(listVip) // Append to existing list
+
+                        // Update adapter if necessary
                         productCategoryAdapter.updateAdapter(productListVip)
                     } else {
                         recyclerMarketFull.visibility = View.GONE
                     }
 
                     recyclerViewMarket.visibility = View.VISIBLE
+
+                    // Check if search was initiated by a click and clear the list if necessary
                     if (clickSearch) {
-                        productList.clear()
+                        productList.clear()  // Clear the list on a new search
                         clickSearch = false
                     }
+
+                    // Append new non-VIP products to the existing list
                     productList.addAll(allListOutVip)
 
+                    // Update adapter without resetting it each time
                     if (flagList) {
-                        recyclerViewMarket.apply {
-                            adapter = productRowFullAdapter
-                            layoutManager = linerlayout
+                        if (recyclerViewMarket.adapter != productRowFullAdapter) {
+                            recyclerViewMarket.adapter = productRowFullAdapter
+                            recyclerViewMarket.layoutManager = linerlayout
                         }
-
                         productRowFullAdapter.updateAdapter(productList)
                     } else {
-                        recyclerViewMarket.apply {
-                            adapter = productSearchCategoryAdapter
-                            layoutManager = gridViewLayoutManager
+                        if (recyclerViewMarket.adapter != productSearchCategoryAdapter) {
+                            recyclerViewMarket.adapter = productSearchCategoryAdapter
+                            recyclerViewMarket.layoutManager = gridViewLayoutManager
                         }
                         productSearchCategoryAdapter.updateAdapter(productList)
                     }
 
                 } else {
+                    // No products found
                     if (productList.isEmpty()) {
                         recyclerViewMarket.visibility = View.GONE
                         recyclerMarketFull.visibility = View.GONE
@@ -248,16 +253,18 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                     }
                 }
 
+                // Only set the category filter once
                 if (!getCategoryForFirstTimeOnlyToUseInFilter) {
-                    if (productListResp.data?.categories != null) {
+                    productListResp.data?.categories?.let { categories ->
                         categoriesForProductList.clear()
-                        categoriesForProductList.addAll(productListResp.data.categories)
+                        categoriesForProductList.addAll(categories)
                         filterCategoryProductsDialog.setCategories(categoriesForProductList)
                         getCategoryForFirstTimeOnlyToUseInFilter = true
                     }
                 }
             }
         }
+
         productsListViewModel.isNetworkFailProductToFav.observe(this) {
             if (it) {
                 HelpFunctions.ShowLongToast(
