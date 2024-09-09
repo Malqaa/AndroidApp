@@ -164,8 +164,15 @@ class ProductHorizontalAdapter(
             startCountdown(holder, product.auctionClosingTime)
         } else {
             holder.viewBinding.containerTimeBar.visibility = View.GONE
+            onDestroyHandler() // Stop handler if the countdown is not needed
         }
     }
+
+    override fun onViewRecycled(holder: SellerProductViewHolder) {
+        super.onViewRecycled(holder)
+        onDestroyHandler()  // Stops the countdown when the view is recycled
+    }
+
 
     private fun startCountdown(holder: SellerProductViewHolder, auctionClosingTime: String) {
         handler = Handler()

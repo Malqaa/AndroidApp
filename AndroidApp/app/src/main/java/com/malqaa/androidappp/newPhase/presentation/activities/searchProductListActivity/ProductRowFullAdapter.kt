@@ -124,6 +124,7 @@ class ProductViewHolder(
             startCountdown(requestItem.auctionClosingTime)
         } else {
             itemBinding.containerTimeBar.hide()
+            onDestroyHandler() // Stop handler if the countdown is not needed
         }
 
         itemBinding.vmItem = requestItem
