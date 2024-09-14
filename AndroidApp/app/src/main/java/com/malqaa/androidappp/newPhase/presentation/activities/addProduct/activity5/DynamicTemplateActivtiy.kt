@@ -259,9 +259,9 @@ class DynamicTemplateActivtiy : BaseActivity(), DynamicSpecificationsAdapter.OnC
                         val newObject = DynamicSpecificationSentObject(
                             HeaderSpeAr = dynamicSpecificationItem.nameAr.toString(),
                             HeaderSpeEn = dynamicSpecificationItem.nameAr.toString(),
-                            ValueSpeAr = dynamicSpecificationItem.valueArText ?: "",
+                            ValueSpeAr = dynamicSpecificationItem.valueArText,
                             Type = dynamicSpecificationItem.type,
-                            ValueSpeEn = dynamicSpecificationItem.valueArText ?: "",
+                            ValueSpeEn = dynamicSpecificationItem.valueArText,
                             SpecificationId = dynamicSpecificationItem.id
                         )
 
@@ -276,9 +276,9 @@ class DynamicTemplateActivtiy : BaseActivity(), DynamicSpecificationsAdapter.OnC
                         val newObject = DynamicSpecificationSentObject(
                             HeaderSpeAr = dynamicSpecificationItem.nameAr.toString(),
                             HeaderSpeEn = dynamicSpecificationItem.nameEn.toString(),
-                            ValueSpeAr = dynamicSpecificationItem.valueArText ?: "",
+                            ValueSpeAr = dynamicSpecificationItem.valueArText,
                             Type = dynamicSpecificationItem.type,
-                            ValueSpeEn = dynamicSpecificationItem.valueEnText ?: "",
+                            ValueSpeEn = dynamicSpecificationItem.valueEnText,
                             SpecificationId = dynamicSpecificationItem.id
                         )
 
