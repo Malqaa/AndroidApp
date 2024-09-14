@@ -198,42 +198,38 @@ class DynamicTemplateActivtiy : BaseActivity(), DynamicSpecificationsAdapter.OnC
     private fun checkAllDataSet(data: ArrayList<DynamicSpecificationSentObject>) {
         lifecycleScope.launch(Dispatchers.IO) {
             var allValuesSet = true
+
             dynamicSpecificationsArrayList.forEach { dynamicSpecificationItem ->
 
-                val supIdAr =
-                    dynamicSpecificationItem.subSpecifications?.find { it.nameAr == dynamicSpecificationItem.valueArText }
-                val supIdEn =
-                    dynamicSpecificationItem.subSpecifications?.find { it.nameEn == dynamicSpecificationItem.valueEnText }
+                val supIdAr = dynamicSpecificationItem.subSpecifications?.find { it.nameAr == dynamicSpecificationItem.valueArText }
+                val supIdEn = dynamicSpecificationItem.subSpecifications?.find { it.nameEn == dynamicSpecificationItem.valueEnText }
 
                 if (dynamicSpecificationItem.type == 1) {
                     if (dynamicSpecificationItem.subSpecifications != null && dynamicSpecificationItem.subSpecifications!!.isNotEmpty()) {
-                        if (dynamicSpecificationItem.valueArText == "" || dynamicSpecificationItem.valueArText == null /*|| dynamicSpecificationItem.valueEnText == "" || dynamicSpecificationItem.valueEnText == null*/) {
+                        if (dynamicSpecificationItem.valueArText.isEmpty()) {
                             allValuesSet = false
                         } else {
-                            data.add(
-                                DynamicSpecificationSentObject(
-                                    HeaderSpeAr = dynamicSpecificationItem.nameAr.toString(),
-                                    HeaderSpeEn = dynamicSpecificationItem.nameEn.toString(),
-                                    ValueSpeAr = supIdAr?.id.toString(),
-                                    ValueSpeEn = supIdEn?.id.toString(),
-                                    Type = dynamicSpecificationItem.type,
-                                    SpecificationId = dynamicSpecificationItem.id
-                                )
+                            val newObject = DynamicSpecificationSentObject(
+                                HeaderSpeAr = dynamicSpecificationItem.nameAr.toString(),
+                                HeaderSpeEn = dynamicSpecificationItem.nameEn.toString(),
+                                ValueSpeAr = supIdAr?.id.toString(),
+                                ValueSpeEn = supIdEn?.id.toString(),
+                                Type = dynamicSpecificationItem.type,
+                                SpecificationId = dynamicSpecificationItem.id
                             )
+
+                            if (!data.any { it.SpecificationId == newObject.SpecificationId }) {
+                                data.add(newObject)
+                            }
                         }
                     }
-                }
-
-                else if (dynamicSpecificationItem.type == 5 || (dynamicSpecificationItem.type == 6)) {
-
+                } else if (dynamicSpecificationItem.type == 5 || dynamicSpecificationItem.type == 6) {
                     val required = dynamicSpecificationItem.isRequired
-                    if (required){
-                        val supIdAr =
-                            dynamicSpecificationItem.subSpecifications?.find { dynamicSpecificationItem.valueBoolean }
-
-                        if(supIdAr==null){
+                    if (required) {
+                        val supIdAr = dynamicSpecificationItem.subSpecifications?.find { dynamicSpecificationItem.valueBoolean }
+                        if (supIdAr == null) {
                             allValuesSet = false
-                            if(dynamicSpecificationItem.isRequired){
+                            if (dynamicSpecificationItem.isRequired) {
                                 runOnUiThread {
                                     HelpFunctions.ShowLongToast(
                                         getString(R.string.enterAllSpecificaiton),
@@ -241,64 +237,58 @@ class DynamicTemplateActivtiy : BaseActivity(), DynamicSpecificationsAdapter.OnC
                                     )
                                 }
                             }
-                        }else{
-                            data.add(
-                                DynamicSpecificationSentObject(
-                                    HeaderSpeAr = dynamicSpecificationItem.nameAr.toString(),
-                                    HeaderSpeEn = dynamicSpecificationItem.nameEn.toString(),
-                                    ValueSpeAr = supIdAr?.id.toString(),
-                                    ValueSpeEn = supIdEn?.id.toString(),
-                                    Type = dynamicSpecificationItem.type,
-                                    SpecificationId = dynamicSpecificationItem.id
-                                )
-                            )
-                        }
-                    }else{
-                        DynamicSpecificationSentObject(
-                            HeaderSpeAr = dynamicSpecificationItem.nameAr.toString(),
-                            HeaderSpeEn = dynamicSpecificationItem.nameEn.toString(),
-                            ValueSpeAr = supIdAr?.id.toString(),
-                            ValueSpeEn = supIdEn?.id.toString(),
-                            Type = dynamicSpecificationItem.type,
-                            SpecificationId = dynamicSpecificationItem.id
-                        )
-                    }
-
-                }
-                else if(dynamicSpecificationItem.type == 4){
-                    if(dynamicSpecificationItem.isRequired&&(dynamicSpecificationItem.valueArText == "" || dynamicSpecificationItem.valueArText == null)){
-                        allValuesSet = false
-                    }else{
-                        data.add(
-                            DynamicSpecificationSentObject(
-                                HeaderSpeAr = dynamicSpecificationItem.nameAr.toString(),
-                                HeaderSpeEn = dynamicSpecificationItem.nameAr.toString(),
-                                ValueSpeAr = dynamicSpecificationItem.valueArText?:"",
-                                Type = dynamicSpecificationItem.type,
-                                ValueSpeEn = dynamicSpecificationItem.valueArText?:"",
-                                SpecificationId = dynamicSpecificationItem.id
-                            )
-                        )
-                    }
-                }
-                else {
-                    if (dynamicSpecificationItem.isRequired&&(dynamicSpecificationItem.valueArText == "" || dynamicSpecificationItem.valueArText == null /*|| dynamicSpecificationItem.valueEnText == "" || dynamicSpecificationItem.valueEnText == null*/)) {
-                        allValuesSet = false
-                    } else {
-                        data.add(
-                            DynamicSpecificationSentObject(
+                        } else {
+                            val newObject = DynamicSpecificationSentObject(
                                 HeaderSpeAr = dynamicSpecificationItem.nameAr.toString(),
                                 HeaderSpeEn = dynamicSpecificationItem.nameEn.toString(),
-                                ValueSpeAr = dynamicSpecificationItem.valueArText?:"",
+                                ValueSpeAr = supIdAr.id.toString(),
+                                ValueSpeEn = supIdEn?.id.toString(),
                                 Type = dynamicSpecificationItem.type,
-                                ValueSpeEn = dynamicSpecificationItem.valueEnText?:"",
                                 SpecificationId = dynamicSpecificationItem.id
                             )
+
+                            if (!data.any { it.SpecificationId == newObject.SpecificationId }) {
+                                data.add(newObject)
+                            }
+                        }
+                    }
+                } else if (dynamicSpecificationItem.type == 4) {
+                    if (dynamicSpecificationItem.isRequired && dynamicSpecificationItem.valueArText.isEmpty()) {
+                        allValuesSet = false
+                    } else {
+                        val newObject = DynamicSpecificationSentObject(
+                            HeaderSpeAr = dynamicSpecificationItem.nameAr.toString(),
+                            HeaderSpeEn = dynamicSpecificationItem.nameAr.toString(),
+                            ValueSpeAr = dynamicSpecificationItem.valueArText ?: "",
+                            Type = dynamicSpecificationItem.type,
+                            ValueSpeEn = dynamicSpecificationItem.valueArText ?: "",
+                            SpecificationId = dynamicSpecificationItem.id
                         )
+
+                        if (!data.any { it.SpecificationId == newObject.SpecificationId }) {
+                            data.add(newObject)
+                        }
+                    }
+                } else {
+                    if (dynamicSpecificationItem.isRequired && dynamicSpecificationItem.valueArText.isEmpty()) {
+                        allValuesSet = false
+                    } else {
+                        val newObject = DynamicSpecificationSentObject(
+                            HeaderSpeAr = dynamicSpecificationItem.nameAr.toString(),
+                            HeaderSpeEn = dynamicSpecificationItem.nameEn.toString(),
+                            ValueSpeAr = dynamicSpecificationItem.valueArText ?: "",
+                            Type = dynamicSpecificationItem.type,
+                            ValueSpeEn = dynamicSpecificationItem.valueEnText ?: "",
+                            SpecificationId = dynamicSpecificationItem.id
+                        )
+
+                        if (!data.any { it.SpecificationId == newObject.SpecificationId }) {
+                            data.add(newObject)
+                        }
                     }
                 }
-
             }
+
             withContext(Dispatchers.Main) {
                 if (allValuesSet) {
                     AddProductObjectData.productSpecificationList = data
