@@ -2,32 +2,68 @@ package com.malqaa.androidappp.newPhase.presentation.activities.loginScreen
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns
 import android.view.View
+import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.malqaa.androidappp.R
-import com.malqaa.androidappp.newPhase.presentation.activities.forgotPasswordActivity.activtiy1.ForgotPasswordActivity
-import com.malqaa.androidappp.newPhase.utils.helper.shared_preferences.SharedPreferencesStaticClass
 import com.malqaa.androidappp.newPhase.core.BaseActivity
-import com.malqaa.androidappp.newPhase.domain.enums.ShowUserInfo
-import com.malqaa.androidappp.newPhase.utils.HelpFunctions
-import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.domain.models.loginResp.LoginUser
+import com.malqaa.androidappp.newPhase.domain.utils.NetworkResponse
+import com.malqaa.androidappp.newPhase.presentation.activities.forgotPasswordActivity.activtiy1.ForgotPasswordActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.signup.activity1.SignupConfirmNewUserActivity
+import com.malqaa.androidappp.newPhase.utils.ConstantObjects
+import com.malqaa.androidappp.newPhase.utils.HelpFunctions
+import com.malqaa.androidappp.newPhase.utils.helper.shared_preferences.SharedPreferencesStaticClass
 import com.yariksoffice.lingver.Lingver
+import dagger.hilt.android.AndroidEntryPoint
 import io.paperdb.Paper
 import kotlinx.android.synthetic.main.activity_sign_in.*
 
-
+@AndroidEntryPoint
 class SignInActivity : BaseActivity() {
 
-
+    private val viewModel: LoginViewModel1 by viewModels()
     private var loginViewModel: LoginViewModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_in)
+
+        // Observing loginState LiveData
+        viewModel.loginState.observe(this) { response ->
+            when (response) {
+                is NetworkResponse.Loading -> {
+                    // Show loading indicator
+                }
+
+                is NetworkResponse.Success -> {
+                    // Handle success
+                    val loginResponse = response.data
+                    Log.i("SignInActivity", "loginResponse: $loginResponse")
+                }
+
+                is NetworkResponse.Error -> {
+                    // Handle error
+                    val errorMessage = response.message
+                    Log.i("SignInActivity", "errorMessage: $errorMessage")
+
+                }
+
+                is NetworkResponse.Retry -> {
+                    // Handle retry
+                    val retryMessage = response.message
+                    Log.i("SignInActivity", "retryMessage: $retryMessage")
+                }
+
+                else -> {
+                    // Handle other states if needed
+                    Log.i("SignInActivity", "Handle other states if needed")
+                }
+            }
+        }
 
         setupLoginViewModel()
         setClickListeners()
@@ -130,6 +166,12 @@ class SignInActivity : BaseActivity() {
                 passwword_tv.text.toString().trim(),
                 SharedPreferencesStaticClass.getFcmToken()
             )
+
+            val email = email_tv.text.toString().trim()
+            val password = passwword_tv.text.toString().trim()
+            val deviceId = SharedPreferencesStaticClass.getFcmToken()
+            // Trigger login
+            viewModel.login(email = email, password = password, deviceId = deviceId)
         }
     }
 

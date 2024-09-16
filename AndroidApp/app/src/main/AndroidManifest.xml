@@ -23,7 +23,7 @@
         android:xlargeScreens="true" />
 
     <application
-        android:name=".newPhase.core.App"
+        android:name=".newPhase.OnRufApplication"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
