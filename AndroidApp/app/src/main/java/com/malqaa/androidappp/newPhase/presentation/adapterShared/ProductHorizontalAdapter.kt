@@ -128,7 +128,7 @@ class ProductHorizontalAdapter(
                 holder.viewBinding.tvOldPRiceProductPriceForHorizentalView.text =
                     "${product.price.toDouble()} ${context.getString(R.string.SAR)}"
                 holder.viewBinding.tvProductPrice.text =
-                    "${product.priceDiscount.toDouble()} ${context.getString(R.string.SAR)}"
+                    "${product.priceDisc.toDouble()} ${context.getString(R.string.SAR)}"
             } else {
                 holder.viewBinding.tvOldPRiceProductPriceForVertiaclView.visibility = View.VISIBLE
                 holder.viewBinding.tvOldPRiceProductPriceForVertiaclView.paintFlags =

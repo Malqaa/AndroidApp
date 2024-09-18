@@ -102,6 +102,7 @@
                 android:layout_marginStart="@dimen/_5sdp"
                 android:fontFamily="@font/madani_arabic_light"
                 android:text="0.0"
+                android:visibility="gone"
                 android:textColor="@color/white" />
 
             <!--                    <ImageView-->
