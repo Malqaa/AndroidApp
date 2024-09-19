@@ -2,6 +2,7 @@ package com.malqaa.androidappp.newPhase.domain.usecase
 
 import com.casecode.domain.model.GeneralResponse
 import com.casecode.domain.model.changeLanguage.ChangeLanguageResponse
+import com.malqaa.androidappp.newPhase.domain.model.loginWebsite.LoginRequest
 import com.malqaa.androidappp.newPhase.domain.model.loginWebsite.LoginResponse
 import com.malqaa.androidappp.newPhase.domain.repository.UserRepository
 import com.malqaa.androidappp.newPhase.domain.utils.NetworkResponse
@@ -15,11 +16,9 @@ class ChangeLanguageUseCase(private val userRepository: UserRepository) {
 
 class LoginWebsiteUseCase(private val userRepository: UserRepository) {
     suspend operator fun invoke(
-        email: String,
-        password: String,
-        deviceId: String,
+        loginRequest: LoginRequest
     ): NetworkResponse<LoginResponse> {
-        return userRepository.loginWebsite(email, password, deviceId)
+        return userRepository.loginWebsite(loginRequest)
     }
 }
 

@@ -22,7 +22,7 @@ interface OnRufApiService {
     @Multipart
     @POST("loginWebsite")
     suspend fun loginWebsite(
-        @PartMap partMap: Map<String, @JvmSuppressWildcards RequestBody>,
+        @PartMap partMap: Map<String, @JvmSuppressWildcards RequestBody>
     ): NetworkResponse<LoginResponse>
 
     @POST("ForgetPassword")

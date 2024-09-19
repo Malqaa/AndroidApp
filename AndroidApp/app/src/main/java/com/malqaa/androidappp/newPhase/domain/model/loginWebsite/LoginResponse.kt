@@ -3,6 +3,7 @@ package com.malqaa.androidappp.newPhase.domain.model.loginWebsite
 import com.google.gson.annotations.SerializedName
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 
 data class LoginResponse(
     val code: String? = null,
@@ -51,26 +52,62 @@ data class BusinessAccountsDetails(
     var providerId: String? = null,
 )
 
-fun String.toRequestBody(mediaType: String = "multipart/form-data"): RequestBody {
-    return this.toRequestBody(mediaType.toMediaType().toString())
-}
-
-
 data class LoginRequest(
     val email: String,
     val password: String,
     val lang: String,
     val deviceId: String,
     val deviceType: String
-) {
-    fun toPartMap(): Map<String, @JvmSuppressWildcards RequestBody> {
-        return mapOf(
-            "email" to email.toRequestBody(),
-            "password" to password.toRequestBody(),
-            "lang" to lang.toRequestBody(),
-            "deviceId" to deviceId.toRequestBody(),
-            "deviceType" to deviceType.toRequestBody()
-        )
-    }
+)
+
+// Extension function to convert String to RequestBody
+fun String.toRequestBody(mediaType: String = "multipart/form-data"): RequestBody {
+    return this.toRequestBody(mediaType.toMediaType())
 }
+
+
+data class DomainLoginResponse(
+    val code: String?,
+    val message: String?,
+    val statusCode: Int,
+    val status: String?,
+    val loginUser: DomainLoginUser?
+)
+
+data class DomainLoginUser(
+    val activeCode: Boolean,
+    val businessAccounts: List<DomainBusinessAccount>? = null,
+    val closeNotify: Boolean,
+    val code: Int,
+    val countryId: Int,
+    val createdAt: String?,
+    val dateOfBirth: String?,
+    val districtName: String?,
+    val email: String?,
+    val firstName: String?,
+    val gender: Int,
+    val id: String,
+    val img: String?,
+    val invitationCode: String?,
+    val lang: String?,
+    val lastName: String?,
+    val membershipNumber: Int,
+    val neighborhoodId: Int,
+    val password: String?,
+    val phone: String?,
+    val rate: Float,
+    val regionId: Int,
+    val streetNumber: String?,
+    val token: String?,
+    val typeUser: Int,
+    val userName: String?,
+    val zipCode: String?,
+    val showUserInformation: String?
+)
+data class DomainBusinessAccount(
+    val businessAccountId: Int,
+    val businessAccountName: String?,
+    val providerId: String?
+)
+
 

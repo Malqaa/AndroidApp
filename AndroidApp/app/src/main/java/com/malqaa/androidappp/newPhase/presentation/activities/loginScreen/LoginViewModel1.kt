@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.malqaa.androidappp.newPhase.domain.model.loginWebsite.LoginRequest
 import com.malqaa.androidappp.newPhase.domain.model.loginWebsite.LoginResponse
 import com.malqaa.androidappp.newPhase.domain.usecase.LoginWebsiteUseCase
 import com.malqaa.androidappp.newPhase.domain.utils.NetworkResponse
@@ -16,13 +17,57 @@ class LoginViewModel1 @Inject constructor(
     private val loginWebsiteUseCase: LoginWebsiteUseCase
 ) : ViewModel() {
 
-    private val _loginState = MutableLiveData<NetworkResponse<LoginResponse>>()
-    val loginState: LiveData<NetworkResponse<LoginResponse>> = _loginState
+    // Separate LiveData for each state
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> = _isLoading
 
-    fun login(email: String, password: String, deviceId: String) {
+    private val _loginResponse = MutableLiveData<LoginResponse?>()
+    val loginResponse: LiveData<LoginResponse?> = _loginResponse
+
+    private val _errorMessage = MutableLiveData<String?>()
+    val errorMessage: LiveData<String?> = _errorMessage
+
+    private val _retryMessage = MutableLiveData<String?>()
+    val retryMessage: LiveData<String?> = _retryMessage
+
+    // Function to handle login
+    fun login(loginRequest: LoginRequest) {
         viewModelScope.launch {
-            _loginState.value = NetworkResponse.Loading
-            _loginState.value = loginWebsiteUseCase(email, password, deviceId)
+            _isLoading.value = true
+            when (val response = loginWebsiteUseCase(loginRequest)) {
+                is NetworkResponse.Loading -> {
+                    _isLoading.value = true
+                }
+
+                is NetworkResponse.Success -> {
+                    _isLoading.value = false
+                    _loginResponse.value = response.data
+                }
+
+                is NetworkResponse.Error -> {
+                    _isLoading.value = false
+                    _errorMessage.value = response.message
+                }
+
+                is NetworkResponse.Retry -> {
+                    _isLoading.value = false
+                    _retryMessage.value = response.message
+                }
+
+                else -> {
+                    _isLoading.value = false
+                    // Handle other states if needed
+                }
+            }
         }
+    }
+
+    // Optionally, you can add functions to reset states after consumption
+    fun clearErrorMessage() {
+        _errorMessage.value = null
+    }
+
+    fun clearRetryMessage() {
+        _retryMessage.value = null
     }
 }

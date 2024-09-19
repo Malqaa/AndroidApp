@@ -10,17 +10,22 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.malqaa.androidappp.R
 import com.malqaa.androidappp.newPhase.core.BaseActivity
+import com.malqaa.androidappp.newPhase.domain.model.loginWebsite.LoginRequest
 import com.malqaa.androidappp.newPhase.domain.models.loginResp.LoginUser
-import com.malqaa.androidappp.newPhase.domain.utils.NetworkResponse
 import com.malqaa.androidappp.newPhase.presentation.activities.forgotPasswordActivity.activtiy1.ForgotPasswordActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.signup.activity1.SignupConfirmNewUserActivity
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
+import com.malqaa.androidappp.newPhase.utils.Extension.requestBody
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.helper.shared_preferences.SharedPreferencesStaticClass
 import com.yariksoffice.lingver.Lingver
 import dagger.hilt.android.AndroidEntryPoint
 import io.paperdb.Paper
-import kotlinx.android.synthetic.main.activity_sign_in.*
+import kotlinx.android.synthetic.main.activity_sign_in.Forgot_your_password
+import kotlinx.android.synthetic.main.activity_sign_in.email_tv
+import kotlinx.android.synthetic.main.activity_sign_in.language_toggle
+import kotlinx.android.synthetic.main.activity_sign_in.new_registration
+import kotlinx.android.synthetic.main.activity_sign_in.passwword_tv
 
 @AndroidEntryPoint
 class SignInActivity : BaseActivity() {
@@ -32,38 +37,7 @@ class SignInActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_in)
 
-        // Observing loginState LiveData
-        viewModel.loginState.observe(this) { response ->
-            when (response) {
-                is NetworkResponse.Loading -> {
-                    // Show loading indicator
-                }
-
-                is NetworkResponse.Success -> {
-                    // Handle success
-                    val loginResponse = response.data
-                    Log.i("SignInActivity", "loginResponse: $loginResponse")
-                }
-
-                is NetworkResponse.Error -> {
-                    // Handle error
-                    val errorMessage = response.message
-                    Log.i("SignInActivity", "errorMessage: $errorMessage")
-
-                }
-
-                is NetworkResponse.Retry -> {
-                    // Handle retry
-                    val retryMessage = response.message
-                    Log.i("SignInActivity", "retryMessage: $retryMessage")
-                }
-
-                else -> {
-                    // Handle other states if needed
-                    Log.i("SignInActivity", "Handle other states if needed")
-                }
-            }
-        }
+        initObserve()
 
         setupLoginViewModel()
         setClickListeners()
@@ -91,6 +65,45 @@ class SignInActivity : BaseActivity() {
             setLocale()
         })
 
+    }
+
+    private fun initObserve() {
+        viewModel.isLoading.observe(this) { isLoading ->
+            if (isLoading) {
+                // Show loading indicator
+                Log.i("LoginScreen", "Loading...")
+            } else {
+                // Hide loading indicator
+                Log.i("LoginScreen", "Loading finished.")
+            }
+        }
+
+        viewModel.loginResponse.observe(this) { loginResponse ->
+            loginResponse?.let {
+                // Handle successful login
+                Log.i("LoginScreen", "Login successful: $loginResponse")
+                // Update UI with success data
+            }
+        }
+
+        viewModel.errorMessage.observe(this) { errorMessage ->
+            errorMessage?.let {
+                // Show error message
+                Log.i("LoginScreen", "Error occurred: $errorMessage")
+                // Optionally show error in a dialog or Snackbar
+                // Clear error message after showing it
+                viewModel.clearErrorMessage()
+            }
+        }
+
+        viewModel.retryMessage.observe(this) { retryMessage ->
+            retryMessage?.let {
+                // Show retry message or prompt the user
+                Log.i("LoginScreen", "Retry: $retryMessage")
+                // Clear retry message after showing it
+                viewModel.clearRetryMessage()
+            }
+        }
     }
 
     private fun setupLoginViewModel() {
@@ -170,8 +183,15 @@ class SignInActivity : BaseActivity() {
             val email = email_tv.text.toString().trim()
             val password = passwword_tv.text.toString().trim()
             val deviceId = SharedPreferencesStaticClass.getFcmToken()
+            val loginRequest = LoginRequest(
+                email = email,
+                password = password,
+                lang = Lingver.getInstance().getLanguage(),
+                deviceId = deviceId,
+                deviceType = HelpFunctions.deviceType
+            )
             // Trigger login
-            viewModel.login(email = email, password = password, deviceId = deviceId)
+            viewModel.login(loginRequest = loginRequest)
         }
     }
 

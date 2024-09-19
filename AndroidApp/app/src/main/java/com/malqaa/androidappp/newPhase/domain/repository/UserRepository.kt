@@ -2,6 +2,7 @@ package com.malqaa.androidappp.newPhase.domain.repository
 
 import com.casecode.domain.model.GeneralResponse
 import com.casecode.domain.model.changeLanguage.ChangeLanguageResponse
+import com.malqaa.androidappp.newPhase.domain.model.loginWebsite.LoginRequest
 import com.malqaa.androidappp.newPhase.domain.model.loginWebsite.LoginResponse
 import com.malqaa.androidappp.newPhase.domain.utils.NetworkResponse
 
@@ -10,9 +11,7 @@ interface UserRepository {
     suspend fun changeLanguage(language: String): NetworkResponse<ChangeLanguageResponse>
 
     suspend fun loginWebsite(
-        email: String,
-        password: String,
-        deviceId: String
+        loginRequest: LoginRequest
     ): NetworkResponse<LoginResponse>
 
     suspend fun forgetPassword(email: String): NetworkResponse<GeneralResponse>

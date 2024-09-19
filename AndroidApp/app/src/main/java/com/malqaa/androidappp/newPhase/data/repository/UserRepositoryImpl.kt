@@ -8,7 +8,9 @@ import com.malqaa.androidappp.newPhase.domain.model.loginWebsite.LoginRequest
 import com.malqaa.androidappp.newPhase.domain.model.loginWebsite.LoginResponse
 import com.malqaa.androidappp.newPhase.domain.repository.UserRepository
 import com.malqaa.androidappp.newPhase.domain.utils.NetworkResponse
+import com.malqaa.androidappp.newPhase.utils.Extension.requestBody
 import com.yariksoffice.lingver.Lingver
+import okhttp3.RequestBody
 
 // Data Layer: Repository Implementation
 class UserRepositoryImpl(
@@ -19,19 +21,17 @@ class UserRepositoryImpl(
         return onRufApiService.changeLanguage(language)
     }
 
-    override suspend fun loginWebsite(
-        email: String,
-        password: String,
-        deviceId: String
-    ): NetworkResponse<LoginResponse> {
-        val loginRequest = LoginRequest(
-            email = email,
-            password = password,
-            lang = Lingver.getInstance().getLanguage(),
-            deviceId = deviceId,
-            deviceType = DEVICE_TYPE
-        )
-        return onRufApiService.loginWebsite(loginRequest.toPartMap())
+    // Login function in the repository
+    override suspend fun loginWebsite(loginRequest: LoginRequest): NetworkResponse<LoginResponse> {
+        val map: HashMap<String, RequestBody> = HashMap()
+        map["email"] = loginRequest.email.requestBody()
+        map["password"] = loginRequest.password.requestBody()
+        map["lang"] = loginRequest.lang.requestBody()
+        map["deviceId"] = loginRequest.deviceId.requestBody()
+        map["deviceType"] = loginRequest.deviceType.requestBody()
+
+        val response = onRufApiService.loginWebsite(map)
+        return response // Assuming you map the API response to a domain model
     }
 
     override suspend fun forgetPassword(email: String): NetworkResponse<GeneralResponse> {

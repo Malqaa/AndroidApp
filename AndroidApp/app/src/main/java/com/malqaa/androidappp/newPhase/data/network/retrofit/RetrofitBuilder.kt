@@ -36,51 +36,12 @@ object RetrofitBuilder {
             httpClient.writeTimeout(2, TimeUnit.MINUTES)
             httpClient.connectTimeout(2, TimeUnit.MINUTES)
 
-
-//            var builder = OkHttpClient.Builder()
-//            try {
-//                // Load your custom CA
-//                val cf = CertificateFactory.getInstance("X.509")
-//                val caInput: InputStream =
-//                    BufferedInputStream(FileInputStream("path/to/your/ca.crt"))
-//                val ca: Certificate
-//                ca = try {
-//                    cf.generateCertificate(caInput)
-//                } finally {
-//                    caInput.close()
-//                }
-//
-//                // Create a KeyStore containing your trusted CAs
-//                val keyStoreType = KeyStore.getDefaultType()
-//                val keyStore = KeyStore.getInstance(keyStoreType)
-//                keyStore.load(null, null)
-//                keyStore.setCertificateEntry("ca", ca)
-//
-//                // Create a TrustManager that trusts the CAs in your KeyStore
-//                val tmfAlgorithm = TrustManagerFactory.getDefaultAlgorithm()
-//                val tmf = TrustManagerFactory.getInstance(tmfAlgorithm)
-//                tmf.init(keyStore)
-//
-//                // Create an SSLContext that uses your TrustManager
-//                val sslContext = SSLContext.getInstance("TLS")
-//                sslContext.init(null, tmf.trustManagers, SecureRandom())
-//                httpClient.sslSocketFactory(
-//                    sslContext.socketFactory,
-//                    tmf.trustManagers[0] as X509TrustManager
-//                )
-//            } catch (e: Exception) {
-//                e.printStackTrace()
-//            }
             if (builder == null) {
                 builder = Retrofit.Builder()
                     .client(httpClient.build())
                     .baseUrl(Constants.API_BASE_URL)
                     .addConverterFactory(
-                        GsonConverterFactory.create(
-//                        GsonBuilder()
-//                            .setLenient()
-//                            .create()
-                        )
+                        GsonConverterFactory.create()
                     )
                 println("hhhh " + Constants.API_BASE_URL)
                 builder!!.client(httpClient.build())
