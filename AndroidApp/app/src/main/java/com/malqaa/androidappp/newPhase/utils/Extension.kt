@@ -177,3 +177,13 @@ object Extension {
     }
 
 }
+
+// Extension function to check if a price is valid (non-null, not empty, and not zero)
+fun String?.isValidPrice(): Boolean {
+    return this?.toDoubleOrNull()?.let { it > 0.0 } ?: false
+}
+
+// Extension function to check if a price is valid (greater than zero)
+fun Float.isValidPrice(): Boolean {
+    return this > 0.0
+}

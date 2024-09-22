@@ -424,6 +424,7 @@
                             android:id="@+id/tvOldPRiceProductPriceForVertiaclView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:visibility="gone"
                             android:fontFamily="@font/madani_arabic_bold"
                             android:text="0 Rayal"
                             android:textColor="@color/gray_light"

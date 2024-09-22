@@ -19,6 +19,7 @@ import com.malqaa.androidappp.newPhase.utils.Extension.decimalNumberFormat
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions.Companion.getDifference
 import com.malqaa.androidappp.newPhase.utils.hide
+import com.malqaa.androidappp.newPhase.utils.isValidPrice
 import com.malqaa.androidappp.newPhase.utils.show
 import com.yariksoffice.lingver.Lingver
 import java.util.Date
@@ -116,35 +117,47 @@ class ProductHorizontalAdapter(
         Extension.loadImgGlide(context, imageUrl ?: "", holder.viewBinding.productimg, holder.viewBinding.loader)
 
         // Handle product price and discounts
-        if (product.price == product.priceDisc || product.price == product.priceDiscount) {
-            holder.viewBinding.tvProductPrice.text = "${product.price.toDouble()} ${context.getString(R.string.SAR)}"
-            holder.viewBinding.tvOldPRiceProductPriceForVertiaclView.visibility = View.GONE
-            holder.viewBinding.tvOldPRiceProductPriceForHorizentalView.visibility = View.GONE
-        } else {
-            if (isHorizontal) {
-                holder.viewBinding.tvOldPRiceProductPriceForHorizentalView.visibility = View.VISIBLE
-                holder.viewBinding.tvOldPRiceProductPriceForHorizentalView.paintFlags =
-                    holder.viewBinding.tvOldPRiceProductPriceForHorizentalView.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-                holder.viewBinding.tvOldPRiceProductPriceForHorizentalView.text =
-                    "${product.price.toDouble()} ${context.getString(R.string.SAR)}"
-                holder.viewBinding.tvProductPrice.text =
-                    "${product.priceDisc.toDouble()} ${context.getString(R.string.SAR)}"
+        val price = product.price
+        val priceDisc = product.priceDisc ?: product.priceDiscount
+
+        // Check if price and discount values are valid
+        if (price.isValidPrice() && priceDisc.isValidPrice()) {
+            val priceValue = price.toDouble()
+            val priceDiscValue = priceDisc.toDouble()
+
+            if (priceValue == priceDiscValue) {
+                holder.viewBinding.tvProductPrice.text = "$priceValue ${context.getString(R.string.SAR)}"
+                holder.viewBinding.tvOldPRiceProductPriceForVertiaclView.visibility = View.GONE
+                holder.viewBinding.tvOldPRiceProductPriceForHorizentalView.visibility = View.GONE
             } else {
-                holder.viewBinding.tvOldPRiceProductPriceForVertiaclView.visibility = View.VISIBLE
-                holder.viewBinding.tvOldPRiceProductPriceForVertiaclView.paintFlags =
-                    holder.viewBinding.tvOldPRiceProductPriceForVertiaclView.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-                holder.viewBinding.tvOldPRiceProductPriceForVertiaclView.text =
-                    "${product.price.toDouble()} ${context.getString(R.string.SAR)}"
-                holder.viewBinding.tvProductPrice.text =
-                    "${product.priceDisc.toDouble()} ${context.getString(R.string.SAR)}"
+                if (isHorizontal) {
+                    holder.viewBinding.tvOldPRiceProductPriceForHorizentalView.visibility = View.VISIBLE
+                    holder.viewBinding.tvOldPRiceProductPriceForHorizentalView.paintFlags =
+                        holder.viewBinding.tvOldPRiceProductPriceForHorizentalView.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                    holder.viewBinding.tvOldPRiceProductPriceForHorizentalView.text =
+                        "$priceValue ${context.getString(R.string.SAR)}"
+                    holder.viewBinding.tvProductPrice.text =
+                        "$priceDiscValue ${context.getString(R.string.SAR)}"
+                } else {
+                    holder.viewBinding.tvOldPRiceProductPriceForVertiaclView.visibility = View.VISIBLE
+                    holder.viewBinding.tvOldPRiceProductPriceForVertiaclView.paintFlags =
+                        holder.viewBinding.tvOldPRiceProductPriceForVertiaclView.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                    holder.viewBinding.tvOldPRiceProductPriceForVertiaclView.text =
+                        "$priceValue ${context.getString(R.string.SAR)}"
+                    holder.viewBinding.tvProductPrice.text =
+                        "$priceDiscValue ${context.getString(R.string.SAR)}"
+                }
             }
+        } else {
+            // Hide views if price or discount is not valid
+            holder.viewBinding.purchaseContainer.visibility = View.GONE
         }
 
         // Show/hide auction start or highest bid price
-        holder.viewBinding.LowestPriceLayout.visibility = if (product.highestBidPrice.toDouble() != 0.0) {
+        holder.viewBinding.LowestPriceLayout.visibility = if (product.highestBidPrice.toDouble() > 0) {
             holder.viewBinding.LowestPrice.text = "${product.highestBidPrice} ${context.getString(R.string.SAR)}"
             View.VISIBLE
-        } else if (product.auctionStartPrice.toDouble() != 0.0) {
+        } else if (product.auctionStartPrice.toDouble() > 0) {
             holder.viewBinding.LowestPrice.text = "${product.auctionStartPrice} ${context.getString(R.string.SAR)}"
             View.VISIBLE
         } else {
