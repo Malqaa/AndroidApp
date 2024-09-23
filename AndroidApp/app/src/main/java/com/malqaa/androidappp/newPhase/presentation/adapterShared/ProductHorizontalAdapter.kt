@@ -104,6 +104,7 @@ class ProductHorizontalAdapter(
         // Set product title and subtitle
         holder.viewBinding.titlenamee.text = product.name ?: ""
         holder.viewBinding.subTitlenamee.text = product.subTitle ?: ""
+        holder.viewBinding.cityTv.text = product.regionName ?: ""
 
         // Auction and Negotiation flags
         holder.viewBinding.typeProduct.text = when {
