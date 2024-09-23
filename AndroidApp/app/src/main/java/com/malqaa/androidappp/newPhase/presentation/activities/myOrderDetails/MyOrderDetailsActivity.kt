@@ -67,17 +67,11 @@ class MyOrderDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         back_btn.setOnClickListener {
             onBackPressed()
         }
-
-
     }
 
     private fun setOrderDetails(orderItem: OrderItem?) {
         orderItem?.let {
-            //  if (tapId == 1) {
             order_number_tv.text = "#${orderItem.orderMasterId}"
-//            } else {
-//                order_number_tv.text = "#${orderItem.orderId}"
-//            }
 
             if (orderItem.requestType?.lowercase().equals("FixedPrice".lowercase())) {
                 tv_request_type.text = getString(R.string.fixed_price)
@@ -89,12 +83,8 @@ class MyOrderDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             order_time_tv.text =
                 HelpFunctions.getViewFormatForDateTrack(orderItem.createdAt, "dd/MM/yyyy HH:mm:ss")
             shipments_tv.text = orderItem.providersCount.toString()
-            total_order_tv.text =
-                "${orderItem.totalOrderAmountAfterDiscount} ${getString(R.string.rial)}"
-
-
+            total_order_tv.text = "${orderItem.totalOrderAmountAfterDiscount} ${getString(R.string.rial)}"
         }
-
     }
 
     private fun setOrderDetailsAdapter() {

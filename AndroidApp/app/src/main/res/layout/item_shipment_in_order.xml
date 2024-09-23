@@ -17,7 +17,6 @@
             android:layout_marginStart="@dimen/_5sdp"
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_5sdp"
-            android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -27,42 +26,47 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/madani_arabic_medium"
-                android:text="@string/shipment_no_1"
                 android:textColor="#45495E"
                 android:textSize="@dimen/_10sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Shipment No. 1234" />
 
             <TextView
                 android:id="@+id/tvSellerName"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginStart="8dp"
+                android:ellipsize="end"
                 android:fontFamily="@font/madani_arabic_medium"
-                android:text=""
+                android:maxLines="2"
                 android:textColor="@color/bg"
                 android:textSize="@dimen/_10sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/tvShippingStatus"
                 app:layout_constraintStart_toEndOf="@+id/shipment_no_tv"
-                app:layout_constraintTop_toTopOf="parent" />
-
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Abdelaziz Mahmoud Daoud" />
 
             <TextView
                 android:id="@+id/tvShippingStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
+                android:layout_marginStart="8dp"
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:fontFamily="@font/madani_arabic_medium"
                 android:text="shippingStatus"
                 android:textColor="#45495E"
                 android:textSize="@dimen/_10sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tvSellerName"
                 app:layout_constraintTop_toTopOf="parent" />
 
-
-
-
         </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvCart"
