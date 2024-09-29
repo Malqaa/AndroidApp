@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.gson.Gson
@@ -40,6 +41,7 @@ import com.malqaa.androidappp.newPhase.presentation.activities.searchProductList
 import com.malqaa.androidappp.newPhase.presentation.activities.productDetailsActivity.ProductDetailsActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.searchActivity.SearchActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.splashActivity.SplashActivity
+import com.malqaa.androidappp.newPhase.utils.ConstantObjects.Companion.categoryList
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.linearLayoutManager
@@ -52,21 +54,16 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-
 class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnItemClickListener,
     SwipeRefreshLayout.OnRefreshListener, SetOnProductItemListeners,
-    CategoryProductAdapter.SetOnSelectedProductInCategory,ListenerSlider {
+    CategoryProductAdapter.SetOnSelectedProductInCategory, ListenerSlider {
     private var dotscount = 0
-
-    //    var slider_home_: AutoScrollViewPager? = null
     private var homeViewModel: HomeViewModel? = null
     private var dots: ArrayList<ImageView>? = null
     private var lastviewedPorductAdatper: ProductHorizontalAdapter? = null
     private var lastviewedPorductList: ArrayList<Product>? = null
     private var categoryProductHomeList: ArrayList<CategoryProductItem>? = null
     private var categoryPrductAdapter: CategoryProductAdapter? = null
-
-    //===== 1 added from product in category  , 2 added from product in category
     private val added_from_product_in_category = 1
     private val added_from_last_product_view = 2
     private var status_product_added_to_fav_from = 0
@@ -81,21 +78,6 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
         setupLastViewedPorductsAdapter()
         setUpCategoryProductAdapter()
         setupLoginViewModel()
-
-//        // Assuming hubConnection is a property of your Application class
-//        val hubConnection = (requireActivity().application as App).hubConnection
-//        // Register a callback for the "ReceiveMessage" event
-//        hubConnection.on("ReceiveMessage", Action1 { args ->
-//            val message = args[0].toString()
-//            // Handle the incoming message (e.g., show a notification)
-//            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-//        }, String::class.java) // Spe
-//
-//        // Set click listener for the button
-//        imgLogo.setOnClickListener {
-//            // Invoke the "SendMessage" method on the server
-//            hubConnection.send("SendMessage", "Ahmed", "Says Hello")
-//        }
 
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -117,21 +99,27 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
                     ) ConstantObjects.ENGLISH else ConstantObjects.ARABIC
                 )
             else
-            setLocate()
+                setLocate()
         }
 
         homeViewModel?.languageObserver?.observe(viewLifecycleOwner, Observer {
             HelpFunctions.ShowLongToast(it.message, requireActivity())
             setLocate()
-
         })
 
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+
+        // view all categories
+        textViewAll.setOnClickListener {
+            // Navigate to CategoriesFragment or CategoriesActivity
+            val action = HomeFragmentDirections.actionNavigationHomeToCategoriesFragment()
+            findNavController().navigate(action)
+        }
     }
 
     private fun setLocate() {
-        ConstantObjects.categoryList = ArrayList()
+        categoryList = ArrayList()
         ConstantObjects.categoryProductHomeList = ArrayList()
         Lingver.getInstance().setLocale(
             requireContext(),
@@ -240,12 +228,12 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
         })
 
         homeViewModel!!.categoriesObserver.observe(viewLifecycleOwner) { categoriesResp ->
-            ConstantObjects.categoryList = Gson().fromJson(
+            categoryList = Gson().fromJson(
                 Gson().toJson(categoriesResp.data),
                 object : TypeToken<ArrayList<Category>>() {}.type
             )
             all_categories_recycler.adapter = AdapterAllCategories(
-                ConstantObjects.categoryList,
+                categoryList,
                 this@HomeFragment
             )
             homeViewModel!!.getListHomeCategoryProduct()
@@ -469,9 +457,9 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
             }
         }
 
-        homeViewModel!!.getUnReadNotification(1,10)
-        homeViewModel!!.unreadObserve.observe(viewLifecycleOwner){
-            (activity as? MainActivity)?.numBadge?.value=it.data
+        homeViewModel!!.getUnReadNotification(1, 10)
+        homeViewModel!!.unreadObserve.observe(viewLifecycleOwner) {
+            (activity as? MainActivity)?.numBadge?.value = it.data
         }
 
 
@@ -479,7 +467,6 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
 
         onRefresh()
     }
-
 
     private fun setListener() {
         ivCart.setOnClickListener {
@@ -510,11 +497,15 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
                         etSearch.error =
                             getString(R.string.enter_the_name_of_the_product_you_want_to_sell)
                     } else {
-                        startActivity(Intent(requireContext(), SearchCategoryActivity::class.java).apply {
-                            putExtra("ComeFrom", ConstantObjects.search_product)
-                            putExtra("productName", etSearch.text.trim().toString())
-                            putExtra("typeView", "SearchHome")
-                        })
+                        startActivity(
+                            Intent(
+                                requireContext(),
+                                SearchCategoryActivity::class.java
+                            ).apply {
+                                putExtra("ComeFrom", ConstantObjects.search_product)
+                                putExtra("productName", etSearch.text.trim().toString())
+                                putExtra("typeView", "SearchHome")
+                            })
                         etSearch.setText("")
                     }
                     return true
@@ -524,20 +515,6 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
 
         })
 
-        /*       textInputLayout11._view2()
-        //            .setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
-        //                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-        //                    SearchAndNavigateToCategoryListing(textInputLayout11.getText())
-        //                    return@OnEditorActionListener true
-        //                }
-        //                true
-        //            })
-        //        textInputLayout11._attachInfoClickListener {
-        //            SearchAndNavigateToCategoryListing(textInputLayout11.getText())
-        //
-        //        }
-
-         */
         textInputLayout11.onClickListener {
             startActivity(Intent(requireContext(), SearchCategoryActivity::class.java).apply {
                 putExtra("ComeFrom", ConstantObjects.search_product)
@@ -554,14 +531,13 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
         }
     }
 
-
     override fun pnCategorySelected(position: Int) {
         startActivity(Intent(requireContext(), SearchCategoryActivity::class.java).apply {
-            putExtra("CategoryDesc", ConstantObjects.categoryList[position].name)
-            putExtra("CategoryID", ConstantObjects.categoryList[position].id)
+            putExtra("CategoryDesc", categoryList[position].name)
+            putExtra("CategoryID", categoryList[position].id)
             putExtra("ComeFrom", ConstantObjects.search_categoriesDetails)
             putExtra("SearchQuery", "")
-            putExtra("isMapShow", ConstantObjects.categoryList[position].id == 3)
+            putExtra("isMapShow", categoryList[position].id == 3)
 
         })
     }
@@ -569,7 +545,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
     private fun setPagerDots(list: List<HomeSliderItem>) {
         if (list.isNotEmpty()) {
             sliderLayout.show()
-            val viewPagerAdapter = SliderAdaptor(requireContext(), list,false,this)
+            val viewPagerAdapter = SliderAdaptor(requireContext(), list, false, this)
             slider_home.adapter = viewPagerAdapter
             dots_indicator.attachTo(slider_home)
             slider_home.startAutoScroll()
@@ -610,19 +586,10 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
     }
 
     override fun onShowMoreSetting(position: Int, productID: Int, categoryID: Int) {
-
     }
 
     override fun onSelectedProductInCategory(position: Int, productID: Int, categoryID: Int) {
-//        SharedPreferencesStaticClass.ad_userid = ""
-//        ConstantObjects.is_watch_iv = ivFav
-//        startActivity(
-//            Intent(requireActivity(), ProductDetailsActivity::class.java).apply {
-//                putExtra(ConstantObjects.productIdKey, productID)
-//                putExtra("Template", "")
-//            })
         goToProductDetails(productID)
-
     }
 
     override fun onAddProductInCategoryToFav(position: Int, productID: Int, categoryID: Int) {
@@ -737,7 +704,6 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
             }
         }
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

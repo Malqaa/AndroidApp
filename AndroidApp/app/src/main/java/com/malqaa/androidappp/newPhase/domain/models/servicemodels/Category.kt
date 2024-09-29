@@ -22,9 +22,7 @@ data class Category(
     var isSelected: Boolean = false,
     var isFollow: Boolean = false,
     var list: List<Category>,
-
     var isSelect:Boolean,
-    /***/
     var isRealState: Boolean,
     var freeProductImagesCount: Int,
     var freeProductVidoesCount: Int,
@@ -40,41 +38,4 @@ data class Category(
     var enableFixedPriceSaleFee: Float,
     var enableAuctionFee:Float,
     var enableNegotiationFee:Float,
-
-
-
-//    "isRealState": false,
-//    "freeProductImagesCount": 5,
-//"freeProductVidoesCount": 2,
-//"extraProductImageFee": 2,
-//"extraProductVidoeFee": 1,
-//"enableAuction": true,
-//"enableNegotiation": true,
-//"minimumBidValue": 10,
-//"subTitleFee": 2,
-//"auctionClosingPeriods": "1,2,3,4",
-//"auctionClosingPeriodsUnit": 2,
-//"auctionClosingTimeFee": 25
-
-//
-//{ tags
-//    "productTitle": "test 123",
-//    "productCategoryId": 5,
-//    "categories": [
-//    "cars"
-//    ],
-//    "category": "cars",
-//    "freeProductImagesCount": 5,
-//    "freeProductVidoesCount": 2,
-//    "extraProductImageFee": 2,
-//    "extraProductVidoeFee": 1,
-//    "enableAuction": true,
-//    "enableNegotiation": true,
-//    "minimumBidValue": 10,
-//    "subTitleFee": 2,
-//    "auctionClosingPeriods": "1,2,3,4",
-//    "auctionClosingPeriodsUnit": 2,
-//    "auctionClosingTimeFee": 25
-//},
-
 )

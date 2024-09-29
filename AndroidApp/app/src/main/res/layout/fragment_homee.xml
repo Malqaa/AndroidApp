@@ -216,14 +216,31 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/_12sdp" />
 
-                <TextView
-
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/madani_arabic_extra_light"
-                    android:text="@string/lot_of_things"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_12sdp" />
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/madani_arabic_extra_light"
+                        android:text="@string/lot_of_things"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12sdp" />
+
+                    <TextView
+                        android:id="@+id/textViewAll"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:text="@string/view_all"
+                        android:textColor="@color/colorPrimary"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
 
                 <RelativeLayout
                     android:layout_width="match_parent"
