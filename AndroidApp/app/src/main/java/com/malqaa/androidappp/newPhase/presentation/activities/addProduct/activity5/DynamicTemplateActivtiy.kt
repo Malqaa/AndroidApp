@@ -176,36 +176,39 @@ class DynamicTemplateActivtiy : BaseActivity(), DynamicSpecificationsAdapter.OnC
 
             dynamicSpecificationsArrayList.forEach { dynamicSpecificationItem ->
 
-                val supIdAr =
-                    dynamicSpecificationItem.subSpecifications?.find { it.nameAr == dynamicSpecificationItem.valueArText }
-                val supIdEn =
-                    dynamicSpecificationItem.subSpecifications?.find { it.nameEn == dynamicSpecificationItem.valueEnText }
+                // Get the sub-specifications by matching the names in Arabic and English
+                val supIdAr = dynamicSpecificationItem.subSpecifications?.find { it.nameAr == dynamicSpecificationItem.valueArText }
+                val supIdEn = dynamicSpecificationItem.subSpecifications?.find { it.nameEn == dynamicSpecificationItem.valueEnText }
 
+                // Check for type 1 (e.g., dropdowns, selectors)
                 if (dynamicSpecificationItem.type == 1) {
                     if (!dynamicSpecificationItem.subSpecifications.isNullOrEmpty()) {
-                        if (dynamicSpecificationItem.valueArText.isNullOrEmpty()) {
+                        if (dynamicSpecificationItem.isRequired && dynamicSpecificationItem.valueArText.isNullOrEmpty()) {
                             allValuesSet = false
                         } else {
                             val newObject = DynamicSpecificationSentObject(
-                                HeaderSpeAr = dynamicSpecificationItem.nameAr ?: "",
-                                HeaderSpeEn = dynamicSpecificationItem.nameEn ?: "",
-                                ValueSpeAr = supIdAr?.id?.toString() ?: "",
-                                ValueSpeEn = supIdEn?.id?.toString() ?: "",
+                                HeaderSpeAr = dynamicSpecificationItem.nameAr.orEmpty(),
+                                HeaderSpeEn = dynamicSpecificationItem.nameEn.orEmpty(),
+                                ValueSpeAr = supIdAr?.id?.toString().orEmpty(),
+                                ValueSpeEn = supIdEn?.id?.toString().orEmpty(),
                                 Type = dynamicSpecificationItem.type,
                                 SpecificationId = dynamicSpecificationItem.id
                             )
-
+                            // Add to data if it doesn't already exist
                             if (!data.any { it.SpecificationId == newObject.SpecificationId }) {
                                 data.add(newObject)
                             }
                         }
                     }
-                } else if (dynamicSpecificationItem.type == 5 || dynamicSpecificationItem.type == 6) {
+                }
+                // Check for type 5 or 6 (e.g., boolean switches, checkboxes)
+                else if (dynamicSpecificationItem.type == 5 || dynamicSpecificationItem.type == 6) {
                     val required = dynamicSpecificationItem.isRequired
-                    if (required) {
-                        val supIdAr =
-                            dynamicSpecificationItem.subSpecifications?.find { dynamicSpecificationItem.valueBoolean }
-                        if (supIdAr == null) {
+                    if (required && dynamicSpecificationItem.valueBoolean == null) {
+                        allValuesSet = false
+                    } else {
+                        val supId = dynamicSpecificationItem.subSpecifications?.find { dynamicSpecificationItem.valueBoolean }
+                        if (supId == null) {
                             allValuesSet = false
                             if (dynamicSpecificationItem.isRequired) {
                                 runOnUiThread {
@@ -217,49 +220,50 @@ class DynamicTemplateActivtiy : BaseActivity(), DynamicSpecificationsAdapter.OnC
                             }
                         } else {
                             val newObject = DynamicSpecificationSentObject(
-                                HeaderSpeAr = dynamicSpecificationItem.nameAr ?: "",
-                                HeaderSpeEn = dynamicSpecificationItem.nameEn ?: "",
-                                ValueSpeAr = supIdAr.id.toString(),
-                                ValueSpeEn = supIdEn?.id?.toString() ?: "",
+                                HeaderSpeAr = dynamicSpecificationItem.nameAr.orEmpty(),
+                                HeaderSpeEn = dynamicSpecificationItem.nameEn.orEmpty(),
+                                ValueSpeAr = supId.id.toString(),
+                                ValueSpeEn = supIdEn?.id?.toString().orEmpty(),
                                 Type = dynamicSpecificationItem.type,
                                 SpecificationId = dynamicSpecificationItem.id
                             )
-
                             if (!data.any { it.SpecificationId == newObject.SpecificationId }) {
                                 data.add(newObject)
                             }
                         }
                     }
-                } else if (dynamicSpecificationItem.type == 4) {
+                }
+                // Check for type 4 (e.g., text input)
+                else if (dynamicSpecificationItem.type == 4) {
                     if (dynamicSpecificationItem.isRequired && dynamicSpecificationItem.valueArText.isNullOrEmpty()) {
                         allValuesSet = false
                     } else {
                         val newObject = DynamicSpecificationSentObject(
-                            HeaderSpeAr = dynamicSpecificationItem.nameAr ?: "",
-                            HeaderSpeEn = dynamicSpecificationItem.nameAr ?: "",
-                            ValueSpeAr = dynamicSpecificationItem.valueArText ?: "",
+                            HeaderSpeAr = dynamicSpecificationItem.nameAr.orEmpty(),
+                            HeaderSpeEn = dynamicSpecificationItem.nameEn.orEmpty(),
+                            ValueSpeAr = dynamicSpecificationItem.valueArText.orEmpty(),
                             Type = dynamicSpecificationItem.type,
-                            ValueSpeEn = dynamicSpecificationItem.valueArText ?: "",
+                            ValueSpeEn = dynamicSpecificationItem.valueEnText.orEmpty(),
                             SpecificationId = dynamicSpecificationItem.id
                         )
-
                         if (!data.any { it.SpecificationId == newObject.SpecificationId }) {
                             data.add(newObject)
                         }
                     }
-                } else {
+                }
+                // Check for other types
+                else {
                     if (dynamicSpecificationItem.isRequired && dynamicSpecificationItem.valueArText.isNullOrEmpty()) {
                         allValuesSet = false
                     } else {
                         val newObject = DynamicSpecificationSentObject(
-                            HeaderSpeAr = dynamicSpecificationItem.nameAr ?: "",
-                            HeaderSpeEn = dynamicSpecificationItem.nameEn ?: "",
-                            ValueSpeAr = dynamicSpecificationItem.valueArText ?: "",
+                            HeaderSpeAr = dynamicSpecificationItem.nameAr.orEmpty(),
+                            HeaderSpeEn = dynamicSpecificationItem.nameEn.orEmpty(),
+                            ValueSpeAr = dynamicSpecificationItem.valueArText.orEmpty(),
                             Type = dynamicSpecificationItem.type,
-                            ValueSpeEn = dynamicSpecificationItem.valueEnText ?: "",
+                            ValueSpeEn = dynamicSpecificationItem.valueEnText.orEmpty(),
                             SpecificationId = dynamicSpecificationItem.id
                         )
-
                         if (!data.any { it.SpecificationId == newObject.SpecificationId }) {
                             data.add(newObject)
                         }
