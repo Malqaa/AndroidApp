@@ -223,38 +223,40 @@ class DynamicSpecificationsAdapter(
         textBoxViewHolder: TextBoxViewHolder,
         position: Int
     ) {
-        if (dynamicSpecificationList.get(position).type == numberType){
+        val dynamicSpecItem = dynamicSpecificationList[position]
 
-        }
-        //textBoxHolder.etValue.setHint(attributesList.get(position).getTitle());
-        if (dynamicSpecificationList.get(position).type == numberType){
-            textBoxViewHolder.tvTitleAr.text =
-                "${dynamicSpecificationList[position].name}"
-            textBoxViewHolder.etValueAr.inputType = InputType.TYPE_CLASS_NUMBER;
-            textBoxViewHolder.etValueEn.inputType = InputType.TYPE_CLASS_NUMBER;
-            textBoxViewHolder.tvTitleEn.visibility=View.GONE
-            textBoxViewHolder.etValueEn.visibility=View.GONE
-            textBoxViewHolder.txtRequiredEn.visibility=View.GONE
-        }else{
-            textBoxViewHolder.tvTitleAr.text =
-                "${dynamicSpecificationList[position].name} ${context.getString(R.string.inArabic)}"
-            textBoxViewHolder.tvTitleEn.text =
-                "${dynamicSpecificationList[position].name} ${context.getString(R.string.inEnglish)}"
+        if (dynamicSpecItem.type == numberType) {
+            textBoxViewHolder.tvTitleAr.text = dynamicSpecItem.name
+            textBoxViewHolder.etValueAr.inputType = InputType.TYPE_CLASS_NUMBER
+            textBoxViewHolder.etValueEn.inputType = InputType.TYPE_CLASS_NUMBER
+            textBoxViewHolder.tvTitleEn.visibility = View.GONE
+            textBoxViewHolder.etValueEn.visibility = View.GONE
+            textBoxViewHolder.txtRequiredEn.visibility = View.GONE
+        } else {
+            textBoxViewHolder.tvTitleAr.text = "${dynamicSpecItem.name} ${context.getString(R.string.inArabic)}"
+            textBoxViewHolder.tvTitleEn.text = "${dynamicSpecItem.name} ${context.getString(R.string.inEnglish)}"
         }
 
+        // Set the hint for Arabic and English EditText fields
+        textBoxViewHolder.etValueAr.hint = "${dynamicSpecItem.name} ${context.getString(R.string.inArabic)}"
+        textBoxViewHolder.etValueEn.hint = "${dynamicSpecItem.name} ${context.getString(R.string.inEnglish)}"
 
-        if(dynamicSpecificationList[position].isSelected){
-            textBoxViewHolder.etValueAr.setText(dynamicSpecificationList[position].valueArText?:"")
-            textBoxViewHolder.etValueEn.setText(dynamicSpecificationList[position].valueEnText?:"")
-
+        // Set text if the item is selected, otherwise set an empty string
+        if (dynamicSpecItem.isSelected) {
+            textBoxViewHolder.etValueAr.setText(dynamicSpecItem.valueArText ?: "")
+            textBoxViewHolder.etValueEn.setText(dynamicSpecItem.valueEnText ?: "")
+        } else {
+            textBoxViewHolder.etValueAr.setText("")
+            textBoxViewHolder.etValueEn.setText("")
         }
 
-        if(dynamicSpecificationList[position].isRequired){
-            textBoxViewHolder.txtRequired.visibility=View.VISIBLE
-            if (dynamicSpecificationList.get(position).type != numberType){
-                textBoxViewHolder.txtRequiredEn.visibility=View.GONE
+        if (dynamicSpecItem.isRequired) {
+            textBoxViewHolder.txtRequired.visibility = View.VISIBLE
+            if (dynamicSpecItem.type != numberType) {
+                textBoxViewHolder.txtRequiredEn.visibility = View.GONE
             }
         }
+
         textBoxViewHolder.etValueAr.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
@@ -264,6 +266,7 @@ class DynamicSpecificationsAdapter(
                 )
             }
         })
+
         textBoxViewHolder.etValueEn.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
@@ -274,6 +277,7 @@ class DynamicSpecificationsAdapter(
             }
         })
     }
+
 
     private lateinit var itemDropDownArrayList: ArrayList<SubSpecificationItem>
     private lateinit var spinnerVisitAdapter: SpinnerVisitAdapter
