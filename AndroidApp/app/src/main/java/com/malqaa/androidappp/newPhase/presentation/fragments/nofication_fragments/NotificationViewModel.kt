@@ -1,6 +1,5 @@
 package com.malqaa.androidappp.newPhase.presentation.fragments.nofication_fragments
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.malqaa.androidappp.newPhase.core.BaseViewModel
 import com.malqaa.androidappp.newPhase.data.network.callApi
@@ -13,13 +12,13 @@ class NotificationViewModel : BaseViewModel() {
     var notifyListRespObserver: MutableLiveData<NotificationResp> = MutableLiveData()
     private var callNotifyList: Call<NotificationResp>? = null
 
-    fun getAllNotificationList(pageIndex:Int,rowCount:Int){
-        isLoading.value=true
+    fun getAllNotificationList(pageIndex: Int, rowCount: Int) {
+        isLoading.value = true
 
-        callNotifyList = RetrofitBuilder.getRetrofitBuilder().getListNotifications(pageIndex,rowCount)
+        callNotifyList =
+            RetrofitBuilder.getRetrofitBuilder().getListNotifications(pageIndex, rowCount)
         callApi(callNotifyList!!,
             onSuccess = {
-                Log.i("Notifications loaded","true")
                 isLoading.value = false
                 notifyListRespObserver.value = it
             },
@@ -37,6 +36,7 @@ class NotificationViewModel : BaseViewModel() {
                 needToLogin.value = true
             })
     }
+
     fun closeAllCall() {
         if (callNotifyList != null) {
             callNotifyList?.cancel()

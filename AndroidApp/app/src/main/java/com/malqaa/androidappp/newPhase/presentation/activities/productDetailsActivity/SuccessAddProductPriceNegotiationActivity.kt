@@ -2,41 +2,41 @@ package com.malqaa.androidappp.newPhase.presentation.activities.productDetailsAc
 
 import android.content.Intent
 import android.os.Bundle
-import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.ActivitySuccessAddProductPriceNegotiationBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
 import com.malqaa.androidappp.newPhase.presentation.MainActivity
 import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.negotiationOffersPurchase.negotiationOfferPurchase.NegotiationOffersPurchaseActivity
-import kotlinx.android.synthetic.main.activity_success_add_product_price_negotiation.*
 
-class SuccessAddProductPriceNegotiationActivity : BaseActivity() {
+class SuccessAddProductPriceNegotiationActivity :
+    BaseActivity<ActivitySuccessAddProductPriceNegotiationBinding>() {
 
     var price: String? = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_success_add_product_price_negotiation)
+
+        // Initialize view binding
+        binding = ActivitySuccessAddProductPriceNegotiationBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         price = intent?.getStringExtra("price")
-        tvNegotiationPrice.text=price?:""
-        //template = intent?.getStringExtra("Template").toString()
+        binding.tvNegotiationPrice.text = price ?: ""
 
-        btnFollowNegotiationsOffers.setOnClickListener {
+        binding.btnFollowNegotiationsOffers.setOnClickListener {
             startActivity(
                 Intent(
                     this,
                     NegotiationOffersPurchaseActivity::class.java
                 ).apply {
-                    putExtra("ComeFrom","SuccessAddNegotiation")
+                    putExtra("ComeFrom", "SuccessAddNegotiation")
                 })
             finish()
 
         }
-        back_to_main.setOnClickListener {
+
+        binding.backToMain.setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java).apply {})
             finish()
         }
-
     }
-
-
 }

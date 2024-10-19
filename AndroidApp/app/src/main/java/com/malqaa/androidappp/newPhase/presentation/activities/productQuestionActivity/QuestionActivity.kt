@@ -5,58 +5,53 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.ActivityQuestionBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
 import com.malqaa.androidappp.newPhase.domain.models.questionResp.QuestionItem
-import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.presentation.activities.productDetailsActivity.AnswerQuestionDialog
 import com.malqaa.androidappp.newPhase.presentation.activities.productDetailsActivity.adapter.QuestionAnswerAdapter
 import com.malqaa.androidappp.newPhase.presentation.activities.productDetailsActivity.viewModels.ProductDetailsViewModel
+import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.linearLayoutManager
 import com.malqaa.androidappp.newPhase.utils.show
-import kotlinx.android.synthetic.main.activity_question.containerMainAskQuestion
-import kotlinx.android.synthetic.main.activity_question.contianerAskQuestion
-import kotlinx.android.synthetic.main.activity_question.etWriteQuestion
-import kotlinx.android.synthetic.main.activity_question.rvQuestionForProduct
-import kotlinx.android.synthetic.main.activity_question.tvErrorNoQuestion
-import kotlinx.android.synthetic.main.activity_question.tvNumberQuestionNotAnswer
-import kotlinx.android.synthetic.main.toolbar_main.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class QuestionActivity : BaseActivity(), QuestionAnswerAdapter.SetonSelectedQuestion {
+class QuestionActivity : BaseActivity<ActivityQuestionBinding>(),
+    QuestionAnswerAdapter.SetonSelectedQuestion {
     var productId: Int = 0
-    private  var productDetailsViewModel: ProductDetailsViewModel?=null
+    private var productDetailsViewModel: ProductDetailsViewModel? = null
     lateinit var subQuestionsList: ArrayList<QuestionItem>
     lateinit var questionAnswerAdapter: QuestionAnswerAdapter
-    private var isMyProduct=false
+    private var isMyProduct = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_question)
-        toolbar_title.text = getString(R.string.questions_and_answers)
+
+        // Initialize view binding
+        binding = ActivityQuestionBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.toolbarMain.toolbarTitle.text = getString(R.string.questions_and_answers)
         productId = intent.getIntExtra(ConstantObjects.productIdKey, 0)
-        isMyProduct=intent.getBooleanExtra(ConstantObjects.isMyProduct,false)
+        isMyProduct = intent.getBooleanExtra(ConstantObjects.isMyProduct, false)
         setQuestionAnswerAdapter()
         setClickListeners()
         setProductDetailsViewModel()
-        tvNumberQuestionNotAnswer.text =
+        binding.tvNumberQuestionNotAnswer.text =
             getString(R.string.there_are_2_questions_that_the_seller_did_not_answer, "0")
         if (HelpFunctions.isUserLoggedIn()) {
-            containerMainAskQuestion.show()
+            binding.containerMainAskQuestion.show()
         } else {
-            containerMainAskQuestion.hide()
+            binding.containerMainAskQuestion.hide()
         }
-        if(isMyProduct){
-            containerMainAskQuestion.hide()
+        if (isMyProduct) {
+            binding.containerMainAskQuestion.hide()
         }
 
         productDetailsViewModel!!.getListOfQuestionsForActivity(productId)
-        // productDetailHelper= ProductDetailHelper(this)
-        //   GenericAdaptor(). questionAnswerAdaptor(rvQuestionForProduct,questionList)
-//        quesAnss()
-//
     }
 
     private fun setProductDetailsViewModel() {
@@ -76,9 +71,9 @@ class QuestionActivity : BaseActivity(), QuestionAnswerAdapter.SetonSelectedQues
 
         }
         productDetailsViewModel!!.errorResponseObserver.observe(this) {
-            if(it.status!=null && it.status=="409"){
+            if (it.status != null && it.status == "409") {
                 HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), this)
-            }else {
+            } else {
                 if (it.message != null) {
                     showProductApiError(it.message!!)
                 } else {
@@ -90,7 +85,7 @@ class QuestionActivity : BaseActivity(), QuestionAnswerAdapter.SetonSelectedQues
         productDetailsViewModel!!.addQuestionObservable.observe(this) { questResp ->
             HelpFunctions.ShowLongToast(questResp.message, this)
             if (questResp.status_code == 200) {
-                etWriteQuestion.setText("")
+                binding.etWriteQuestion.setText("")
                 questResp.question?.let {
                     val tempArraylist: ArrayList<QuestionItem> = ArrayList()
                     tempArraylist.addAll(subQuestionsList)
@@ -98,17 +93,16 @@ class QuestionActivity : BaseActivity(), QuestionAnswerAdapter.SetonSelectedQues
                     subQuestionsList.add(it)
                     subQuestionsList.addAll(tempArraylist)
                     questionAnswerAdapter.notifyDataSetChanged()
-                    rvQuestionForProduct.scrollToPosition(0)
+                    binding.rvQuestionForProduct.scrollToPosition(0)
                 }
-                //resetQuestionAndAnswerAdapter()
             }
         }
         productDetailsViewModel!!.getListOfQuestionsObservable.observe(this) { questionListResp ->
             if (!questionListResp.questionList.isNullOrEmpty()) {
-                tvErrorNoQuestion.hide()
+                binding.tvErrorNoQuestion.hide()
                 setQuestionsView(questionListResp.questionList)
             } else {
-                tvErrorNoQuestion.show()
+                binding.tvErrorNoQuestion.show()
             }
         }
 
@@ -126,7 +120,7 @@ class QuestionActivity : BaseActivity(), QuestionAnswerAdapter.SetonSelectedQues
                 }
             }
             withContext(Dispatchers.Main) {
-                tvNumberQuestionNotAnswer.text = getString(
+                binding.tvNumberQuestionNotAnswer.text = getString(
                     R.string.there_are_2_questions_that_the_seller_did_not_answer,
                     numberOfNotAnswerYet.toString()
                 )
@@ -140,22 +134,23 @@ class QuestionActivity : BaseActivity(), QuestionAnswerAdapter.SetonSelectedQues
     }
 
     private fun setClickListeners() {
-        back_btn.setOnClickListener {
+        binding.toolbarMain.backBtn.setOnClickListener {
             finish()
         }
-        contianerAskQuestion.setOnClickListener {
+        binding.contianerAskQuestion.setOnClickListener {
             confrmAskQues()
         }
     }
 
     private fun setQuestionAnswerAdapter() {
         subQuestionsList = ArrayList()
-        questionAnswerAdapter = QuestionAnswerAdapter(subQuestionsList,this)
-        rvQuestionForProduct.apply {
+        questionAnswerAdapter = QuestionAnswerAdapter(subQuestionsList, this)
+        binding.rvQuestionForProduct.apply {
             layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
             adapter = questionAnswerAdapter
         }
     }
+
     private fun confrmAskQues() {
         if (!validateAskQuesInputText()) {
             return
@@ -164,8 +159,9 @@ class QuestionActivity : BaseActivity(), QuestionAnswerAdapter.SetonSelectedQues
         }
 
     }
-        private fun validateAskQuesInputText(): Boolean {
-        val inputEmail = etWriteQuestion!!.text.toString().trim { it <= ' ' }
+
+    private fun validateAskQuesInputText(): Boolean {
+        val inputEmail = binding.etWriteQuestion!!.text.toString().trim { it <= ' ' }
 
         return if (inputEmail.isEmpty()) {
             showError(getString(R.string.Please_enter, getString(R.string.Question)))
@@ -176,14 +172,13 @@ class QuestionActivity : BaseActivity(), QuestionAnswerAdapter.SetonSelectedQues
     }
 
     private fun askquesApi() {
-//        productDetailHelper.askquesApi(etWriteQuestion.text.toString(), productId.toString(), {
-//            etWriteQuestion.setText("")
-//            quesAnss()
-//        })
-        productDetailsViewModel!!.addQuestion(productId, etWriteQuestion.text.trim().toString())
+        productDetailsViewModel!!.addQuestion(
+            productId,
+            binding.etWriteQuestion.text.trim().toString()
+        )
     }
 
-        override fun onSelectQuestion(position: Int) {
+    override fun onSelectQuestion(position: Int) {
         if (isMyProduct) {
             val answerDialog = AnswerQuestionDialog(productDetailsViewModel!!,
                 this,
@@ -196,14 +191,12 @@ class QuestionActivity : BaseActivity(), QuestionAnswerAdapter.SetonSelectedQues
                     }
                 })
             answerDialog.show()
-
-
         }
     }
+
     override fun onDestroy() {
         super.onDestroy()
         productDetailsViewModel!!.closeAllCall()
     }
-
 
 }

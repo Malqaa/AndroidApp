@@ -8,13 +8,13 @@ import com.malqaa.androidappp.newPhase.domain.models.productResp.ProductListResp
 import retrofit2.Call
 import retrofit2.HttpException
 
-class WishListViewModel:BaseViewModel() {
+class WishListViewModel : BaseViewModel() {
 
-    var wishListRespObserver:MutableLiveData<ProductListResp> = MutableLiveData()
+    var wishListRespObserver: MutableLiveData<ProductListResp> = MutableLiveData()
     private var callUserWatchlist: Call<ProductListResp>? = null
 
-    fun getWishListProduct(){
-        isLoading.value=true
+    fun getWishListProduct() {
+        isLoading.value = true
 
         callUserWatchlist = getRetrofitBuilder()
             .getUserWatchlist()
@@ -37,6 +37,7 @@ class WishListViewModel:BaseViewModel() {
                 needToLogin.value = true
             })
     }
+
     fun closeAllCall() {
         if (callUserWatchlist != null) {
             callUserWatchlist?.cancel()

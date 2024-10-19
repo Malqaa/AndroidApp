@@ -2,31 +2,24 @@ package com.malqaa.androidappp.newPhase.presentation.activities.searchProductLis
 
 import android.app.Activity
 import android.content.Context
-import android.view.View
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.malqaa.androidappp.R
 import com.malqaa.androidappp.newPhase.core.BaseViewModel
 import com.malqaa.androidappp.newPhase.data.network.callApi
-import com.malqaa.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
 import com.malqaa.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malqaa.androidappp.newPhase.data.network.service.ListenerCallBackNeighborhoods
 import com.malqaa.androidappp.newPhase.data.network.service.ListenerCallBackRegions
 import com.malqaa.androidappp.newPhase.data.network.service.ListenerCallDynamicSpecification
-import com.malqaa.androidappp.newPhase.data.network.service.MalqaApiService
 import com.malqaa.androidappp.newPhase.domain.models.ErrorResponse
 import com.malqaa.androidappp.newPhase.domain.models.categoryFollowResp.AddFollowObj
 import com.malqaa.androidappp.newPhase.domain.models.categoryFollowResp.CategoryFollowResp
 import com.malqaa.androidappp.newPhase.domain.models.dynamicSpecification.DynamicSpecificationResp
 import com.malqaa.androidappp.newPhase.domain.models.productResp.ProductListResp
 import com.malqaa.androidappp.newPhase.domain.models.productResp.ProductListSearchResp
-import com.malqaa.androidappp.newPhase.domain.models.regionsResp.Region
 import com.malqaa.androidappp.newPhase.domain.models.regionsResp.RegionsResp
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
-import com.malqaa.androidappp.newPhase.utils.show
-import kotlinx.android.synthetic.main.dialog_filter_category_products.progressBar
-import kotlinx.android.synthetic.main.dialog_filter_category_products.tvError
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.HttpException
@@ -46,16 +39,17 @@ class CategoryProductViewModel : BaseViewModel() {
     private var callMyBids: Call<ProductListResp>? = null
     private var callFollow: Call<GeneralResponse>? = null
     private var regionsCallback: Call<RegionsResp>? = null
-    private var neighborhoodsCallback : Call<RegionsResp>? = null
-    private var dynamicSpecificationCallback : Call<DynamicSpecificationResp>? = null
+    private var neighborhoodsCallback: Call<RegionsResp>? = null
+    private var dynamicSpecificationCallback: Call<DynamicSpecificationResp>? = null
+
     /***get Specification**/
-    fun getDynamicSpecification(categoryId: Int,listener: ListenerCallDynamicSpecification) {
+    fun getDynamicSpecification(categoryId: Int, listener: ListenerCallDynamicSpecification) {
         dynamicSpecificationCallback = getRetrofitBuilder()
             .getDynamicSpecificationForCategory(categoryId.toString())
         dynamicSpecificationCallback?.enqueue(object : Callback<DynamicSpecificationResp> {
             override fun onFailure(call: Call<DynamicSpecificationResp>, t: Throwable) {
 
-                listener.callBackDynamicSpecification(true,null)
+                listener.callBackDynamicSpecification(true, null)
             }
 
             override fun onResponse(
@@ -63,7 +57,7 @@ class CategoryProductViewModel : BaseViewModel() {
                 response: Response<DynamicSpecificationResp>
             ) {
                 if (response.isSuccessful) {
-                        listener.callBackDynamicSpecification(false,response.body()!!)
+                    listener.callBackDynamicSpecification(false, response.body()!!)
                 }
             }
         })
@@ -92,7 +86,7 @@ class CategoryProductViewModel : BaseViewModel() {
     }
 
     fun getNeighborhoods(cityId: Int, listener: ListenerCallBackNeighborhoods) {
-         neighborhoodsCallback = getRetrofitBuilder().getNeighborhoodByRegionNew(cityId)
+        neighborhoodsCallback = getRetrofitBuilder().getNeighborhoodByRegionNew(cityId)
         neighborhoodsCallback?.enqueue(object : Callback<RegionsResp> {
             override fun onFailure(call: Call<RegionsResp>, t: Throwable) {
             }

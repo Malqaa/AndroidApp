@@ -18,7 +18,7 @@ class PiechartUserNoAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
     }
 
     override fun createFragment(position: Int): Fragment {
-        return when(position){
+        return when (position) {
             0 -> PieChartFrag1.newInstance()
             1 -> PieChartFrag2()
             2 -> PieChartFrag3()

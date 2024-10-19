@@ -2,22 +2,22 @@ package com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment
 
 import androidx.lifecycle.MutableLiveData
 import com.malqaa.androidappp.newPhase.core.BaseViewModel
-import com.malqaa.androidappp.newPhase.utils.Extension.requestBody
+import com.malqaa.androidappp.newPhase.data.network.callApi
 import com.malqaa.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
+import com.malqaa.androidappp.newPhase.domain.models.accountProfile.AccountInfo
 import com.malqaa.androidappp.newPhase.domain.models.addWaletTransactionResp.AddWalletTranactionResp
 import com.malqaa.androidappp.newPhase.domain.models.contauctUsMessage.ContactUsMessageResp
 import com.malqaa.androidappp.newPhase.domain.models.contauctUsMessage.TechnicalSupportMessageListResp
-import com.malqaa.androidappp.newPhase.domain.models.productResp.ProductListResp
-import com.malqaa.androidappp.newPhase.data.network.callApi
-import com.malqaa.androidappp.newPhase.domain.models.accountProfile.AccountInfo
 import com.malqaa.androidappp.newPhase.domain.models.editProfileResp.EditProfileResp
 import com.malqaa.androidappp.newPhase.domain.models.loginResp.LoginResp
 import com.malqaa.androidappp.newPhase.domain.models.loginResp.LogoutResp
+import com.malqaa.androidappp.newPhase.domain.models.productResp.ProductListResp
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
 import com.malqaa.androidappp.newPhase.domain.models.userPointsDataResp.ConvertMoneyToPointResp
 import com.malqaa.androidappp.newPhase.domain.models.userPointsDataResp.UserPointDataResp
 import com.malqaa.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.ValidateAndGenerateOTPResp
 import com.malqaa.androidappp.newPhase.domain.models.walletDetailsResp.WalletDetailsResp
+import com.malqaa.androidappp.newPhase.utils.Extension.requestBody
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -118,17 +118,17 @@ class AccountViewModel : BaseViewModel() {
         if (callUpdateAccountProfile != null) {
             callUpdateAccountProfile?.cancel()
         }
-        if(callLogout!=  null ){
+        if (callLogout != null) {
             callLogout?.cancel()
         }
     }
 
-    fun logoutUser(deviceId:String) {
+    fun logoutUser(deviceId: String) {
         isLoading.value = true
-      callLogout= getRetrofitBuilder().logout(deviceId)
-          callApi(callLogout!!, onSuccess = {
-              isLoading.value = false
-            logoutObserver.value=it
+        callLogout = getRetrofitBuilder().logout(deviceId)
+        callApi(callLogout!!, onSuccess = {
+            isLoading.value = false
+            logoutObserver.value = it
 
         }, onFailure = { throwable, statusCode, errorBody ->
             isLoading.value = false

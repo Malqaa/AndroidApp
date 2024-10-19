@@ -12,22 +12,21 @@ import com.malqaa.androidappp.newPhase.domain.models.servicemodels.GeneralRespon
 import retrofit2.Call
 import retrofit2.HttpException
 
-class MyOrdersViewModel: BaseViewModel() {
+class MyOrdersViewModel : BaseViewModel() {
     var currentOrderRespObserver: MutableLiveData<OrderListResp> = MutableLiveData()
-    var currentOrderByMusterIdRespObserver: MutableLiveData<OrderDetailsByMasterIDResp> = MutableLiveData()
-    var soldOutOrderDetailsByOrderIdRespObserver: MutableLiveData<OrderDetailsResp> = MutableLiveData()
+    var currentOrderByMusterIdRespObserver: MutableLiveData<OrderDetailsByMasterIDResp> =
+        MutableLiveData()
+    var soldOutOrderDetailsByOrderIdRespObserver: MutableLiveData<OrderDetailsResp> =
+        MutableLiveData()
     var changeOrderRespObserver: MutableLiveData<GeneralResponse> = MutableLiveData()
     var isNetworkFailCancel: MutableLiveData<Boolean> = MutableLiveData()
     var errorResponseCancelObserver: MutableLiveData<ErrorResponse> = MutableLiveData()
-
 
     private var callSoldOutOrder: Call<OrderDetailsResp>? = null
     private var callCurrentOrders: Call<OrderListResp>? = null
     private var callFinishOOrders: Call<OrderListResp>? = null
     private var callCurrentOrderDetails: Call<OrderDetailsByMasterIDResp>? = null
     private var callChangeOrderStatus: Call<GeneralResponse>? = null
-
-
 
     fun closeAllCall() {
         if (callSoldOutOrder != null) {
@@ -47,7 +46,7 @@ class MyOrdersViewModel: BaseViewModel() {
         }
     }
 
-    fun getSoldOutOrderDetailsByOrderId(orderId:Int){
+    fun getSoldOutOrderDetailsByOrderId(orderId: Int) {
         isLoading.value = true
         callSoldOutOrder = getRetrofitBuilder().getOrderDetailsByOrderID(orderId)
         callApi(callSoldOutOrder!!,
@@ -69,13 +68,14 @@ class MyOrdersViewModel: BaseViewModel() {
                 needToLogin.value = true
             })
     }
-    fun getCurrentOrderOrders(pageIndex: Int,userId:String) {
+
+    fun getCurrentOrderOrders(pageIndex: Int, userId: String) {
         if (pageIndex == 1)
             isLoading.value = true
         else
             isloadingMore.value = true
 
-        callCurrentOrders = getRetrofitBuilder().getCurrentOrders(pageIndex,userId)
+        callCurrentOrders = getRetrofitBuilder().getCurrentOrders(pageIndex, userId)
         callApi(callCurrentOrders!!,
             onSuccess = {
                 isloadingMore.value = false
@@ -98,12 +98,13 @@ class MyOrdersViewModel: BaseViewModel() {
                 needToLogin.value = true
             })
     }
-    fun getFinishOOrders(pageIndex: Int,userId:String) {
+
+    fun getFinishOOrders(pageIndex: Int, userId: String) {
         if (pageIndex == 1)
             isLoading.value = true
         else
             isloadingMore.value = true
-        callFinishOOrders = getRetrofitBuilder().getFinishedOrders(pageIndex,userId)
+        callFinishOOrders = getRetrofitBuilder().getFinishedOrders(pageIndex, userId)
         callApi(callFinishOOrders!!,
             onSuccess = {
                 isloadingMore.value = false
@@ -125,11 +126,13 @@ class MyOrdersViewModel: BaseViewModel() {
                 isLoading.value = false
                 needToLogin.value = true
             })
-                
+
     }
-    fun getCurrentOrderDetailsByMasterID(orderMasterID:Int){
+
+    fun getCurrentOrderDetailsByMasterID(orderMasterID: Int) {
         isLoading.value = true
-        callCurrentOrderDetails = getRetrofitBuilder().getOrderMasterDetailsByMasterOrderId(orderMasterID)
+        callCurrentOrderDetails =
+            getRetrofitBuilder().getOrderMasterDetailsByMasterOrderId(orderMasterID)
         callApi(callCurrentOrderDetails!!,
             onSuccess = {
                 isLoading.value = false
@@ -149,9 +152,10 @@ class MyOrdersViewModel: BaseViewModel() {
                 needToLogin.value = true
             })
     }
+
     fun cancelOrder(orderId: Int, status: Int) {
         isLoading.value = true
-        callChangeOrderStatus = getRetrofitBuilder().changeOrderStatus(orderId,status)
+        callChangeOrderStatus = getRetrofitBuilder().changeOrderStatus(orderId, status)
         callApi(callChangeOrderStatus!!,
             onSuccess = {
                 isLoading.value = false

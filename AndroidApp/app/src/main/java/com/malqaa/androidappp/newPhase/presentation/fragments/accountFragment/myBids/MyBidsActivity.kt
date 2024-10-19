@@ -9,24 +9,23 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.ActivityMyBidsBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
-import com.malqaa.androidappp.newPhase.domain.models.productResp.Product
-import com.malqaa.androidappp.newPhase.presentation.adapterShared.ProductHorizontalAdapter
 import com.malqaa.androidappp.newPhase.data.network.service.SetOnProductItemListeners
+import com.malqaa.androidappp.newPhase.domain.models.productResp.Product
 import com.malqaa.androidappp.newPhase.presentation.activities.loginScreen.SignInActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.productDetailsActivity.ProductDetailsActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.searchProductListActivity.CategoryProductViewModel
+import com.malqaa.androidappp.newPhase.presentation.adapterShared.ProductHorizontalAdapter
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.show
-import kotlinx.android.synthetic.main.activity_my_bids.*
-import kotlinx.android.synthetic.main.toolbar_main.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class MyBidsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
+class MyBidsActivity : BaseActivity<ActivityMyBidsBinding>(), SwipeRefreshLayout.OnRefreshListener,
     SetOnProductItemListeners {
     lateinit var productAdapter: ProductHorizontalAdapter
     private lateinit var productList: ArrayList<Product>
@@ -37,10 +36,15 @@ class MyBidsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Initialize view binding
+        binding = ActivityMyBidsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         setContentView(R.layout.activity_my_bids)
-        toolbar_title.text = getString(R.string.my_bids)
-        swipe_to_refresh.setColorSchemeResources(R.color.colorPrimaryDark)
-        swipe_to_refresh.setOnRefreshListener(this)
+        binding.toolbarMain.toolbarTitle.text = getString(R.string.my_bids)
+        binding.swipeToRefresh.setColorSchemeResources(R.color.colorPrimaryDark)
+        binding.swipeToRefresh.setOnRefreshListener(this)
         setProductSearchCategoryAdapter()
         setVeiwClickListeners()
         setupViewModel()
@@ -48,7 +52,7 @@ class MyBidsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
     }
 
     private fun setVeiwClickListeners() {
-        back_btn.setOnClickListener {
+        binding.toolbarMain.backBtn.setOnClickListener {
             finish()
         }
     }
@@ -57,7 +61,7 @@ class MyBidsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
         productList = ArrayList()
         gridViewLayoutManager = GridLayoutManager(this, 2)
         productAdapter = ProductHorizontalAdapter(productList, this, 0, false, false)
-        rvProduct.apply {
+        binding.rvProduct.apply {
             adapter = productAdapter
             layoutManager = gridViewLayoutManager
         }
@@ -67,9 +71,9 @@ class MyBidsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
         productsListViewModel = ViewModelProvider(this).get(CategoryProductViewModel::class.java)
         productsListViewModel.isLoading.observe(this) {
             if (it)
-                progressBar.show()
+                binding.progressBar.show()
             else
-                progressBar.hide()
+                binding.progressBar.hide()
         }
 
         productsListViewModel.isNetworkFail.observe(this) {
@@ -159,12 +163,12 @@ class MyBidsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
     }
 
     private fun showProductApiError(message: String) {
-        tvError.show()
-        tvError.text = message
+        binding.tvError.show()
+        binding.tvError.text = message
     }
 
     override fun onRefresh() {
-        swipe_to_refresh.isRefreshing = false
+        binding.swipeToRefresh.isRefreshing = false
         productList.clear()
         productAdapter.notifyDataSetChanged()
         productsListViewModel.getMyBids()

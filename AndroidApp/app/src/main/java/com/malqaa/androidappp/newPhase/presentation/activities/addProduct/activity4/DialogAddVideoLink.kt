@@ -2,12 +2,14 @@ package com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activ
 
 import android.content.Context
 import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.DialogAddVideoLinkBinding
 import com.malqaa.androidappp.newPhase.core.BaseDialog
-import kotlinx.android.synthetic.main.dialog_add_video_link.*
 
-class DialogAddVideoLink(context: Context,var setSaveLinkListeners:SetSaveLinkListeners) : BaseDialog(context) {
-    override fun getViewId(): Int {
-        return R.layout.dialog_add_video_link
+class DialogAddVideoLink(context: Context, var setSaveLinkListeners: SetSaveLinkListeners) :
+    BaseDialog<DialogAddVideoLinkBinding>(context) {
+
+    override fun inflateViewBinding(): DialogAddVideoLinkBinding {
+        return DialogAddVideoLinkBinding.inflate(layoutInflater)
     }
 
     override fun isFullScreen(): Boolean = false
@@ -15,16 +17,16 @@ class DialogAddVideoLink(context: Context,var setSaveLinkListeners:SetSaveLinkLi
     override fun isCancelable(): Boolean = true
 
     override fun initialization() {
-        ivClose.setOnClickListener {
+        binding.ivClose.setOnClickListener {
             dismiss()
         }
-        complete_order_btn.setOnClickListener {
-            if (etAddVideo.text.toString().trim()!="") {
-                setSaveLinkListeners.saveLinkListeners(etAddVideo.text.toString().trim())
+        binding.completeOrderBtn.setOnClickListener {
+            if (binding.etAddVideo.text.toString().trim() != "") {
+                setSaveLinkListeners.saveLinkListeners(binding.etAddVideo.text.toString().trim())
                 dismiss()
 
             } else {
-                etAddVideo.error =
+                binding.etAddVideo.error =
                     context.getString(
                         R.string.please_enter_valid,
                         context.getString(R.string.video_link)
@@ -35,7 +37,7 @@ class DialogAddVideoLink(context: Context,var setSaveLinkListeners:SetSaveLinkLi
     }
 
     override fun isLoadingDialog(): Boolean = false
-    interface SetSaveLinkListeners{
-        fun saveLinkListeners(value:String)
+    interface SetSaveLinkListeners {
+        fun saveLinkListeners(value: String)
     }
 }

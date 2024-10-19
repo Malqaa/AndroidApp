@@ -8,9 +8,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.malqaa.androidappp.databinding.RowImageCommercialBinding
 import com.malqaa.androidappp.newPhase.utils.PicassoSingleton
 
-class AdapterCommercialImage(private var listBitMap:ArrayList<Uri>,val iRemoveImg:IRemoveImg) : RecyclerView.Adapter<AdapterCommercialImage.CommercialViewHolder>() {
+class AdapterCommercialImage(private var listBitMap: ArrayList<Uri>, val iRemoveImg: IRemoveImg) :
+    RecyclerView.Adapter<AdapterCommercialImage.CommercialViewHolder>() {
 
     lateinit var context: Context
+
     class CommercialViewHolder(var viewBinding: RowImageCommercialBinding) :
         RecyclerView.ViewHolder(viewBinding.root)
 
@@ -26,7 +28,8 @@ class AdapterCommercialImage(private var listBitMap:ArrayList<Uri>,val iRemoveIm
 
 
     override fun onBindViewHolder(holder: CommercialViewHolder, position: Int) {
-        PicassoSingleton.getPicassoInstance().load(listBitMap[position]).into( holder.viewBinding.commercialImg)
+        PicassoSingleton.getPicassoInstance().load(listBitMap[position])
+            .into(holder.viewBinding.commercialImg)
 
 
         holder.viewBinding.imgClose.setOnClickListener {
@@ -34,12 +37,12 @@ class AdapterCommercialImage(private var listBitMap:ArrayList<Uri>,val iRemoveIm
         }
     }
 
-    fun updateAdapter(listBitMap:ArrayList<Uri>){
-        this.listBitMap=listBitMap
+    fun updateAdapter(listBitMap: ArrayList<Uri>) {
+        this.listBitMap = listBitMap
         notifyDataSetChanged()
     }
 
-    interface IRemoveImg{
-        fun onClickClose(pos :Int)
+    interface IRemoveImg {
+        fun onClickClose(pos: Int)
     }
 }

@@ -5,14 +5,13 @@ import android.content.DialogInterface
 import android.view.View
 import android.widget.AdapterView
 import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.DialogAddProductBidOffersBinding
 import com.malqaa.androidappp.newPhase.core.BaseDialog
-import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malqaa.androidappp.newPhase.domain.models.productResp.RequestBidOffers
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
 import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.negotiationOffersPurchase.adapter.SpinnerExpireHoursAdapter
-import kotlinx.android.synthetic.main.dialog_acceot_offer.spinnerValues
-import kotlinx.android.synthetic.main.dialog_add_product_bid_offers.*
+import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.HttpException
@@ -24,13 +23,15 @@ class AddProductBidOffersDialog(
     var productId: Int,
     var bidIDsList: List<String>,
     var listener: SetClickListeners
-) : BaseDialog(context) {
+) : BaseDialog<DialogAddProductBidOffersBinding>(context) {
+
     var countriesCallback: Call<GeneralResponse>? = null
     var generalRespone: GeneralResponse? = null
     var expireHour: Float = 0f
     private lateinit var spinnerExpireHoursAdapter: SpinnerExpireHoursAdapter
-    override fun getViewId(): Int {
-        return R.layout.dialog_add_product_bid_offers
+
+    override fun inflateViewBinding(): DialogAddProductBidOffersBinding {
+        return DialogAddProductBidOffersBinding.inflate(layoutInflater)
     }
 
     override fun isFullScreen(): Boolean = false
@@ -42,26 +43,27 @@ class AddProductBidOffersDialog(
     }
 
     private fun setOnClickListenres() {
-        close_alert_bid.setOnClickListener {
+        binding.closeAlertBid.setOnClickListener {
             dismiss()
         }
-        btnSend.setOnClickListener {
+        binding.btnSend.setOnClickListener {
             var readytosend = true
-            if (etNegotiationPrice.text.toString().trim() == "") {
+            if (binding.etNegotiationPrice.text.toString().trim() == "") {
                 readytosend = false
-                etNegotiationPrice.error = context.getString(R.string.writeNegotiationPrice2)
+                binding.etNegotiationPrice.error =
+                    context.getString(R.string.writeNegotiationPrice2)
             }
-            if (etQuentity.text.toString().trim() == "") {
+            if (binding.etQuentity.text.toString().trim() == "") {
                 readytosend = false
-                etQuentity.error = context.getString(R.string.quantity)
+                binding.etQuentity.error = context.getString(R.string.quantity)
             }
 
             if (readytosend) {
                 addProductOffer(
                     expireHour,
                     productId,
-                    etNegotiationPrice.text.toString().trim().toFloat(),
-                    etQuentity.text.toString().trim().toInt()
+                    binding.etNegotiationPrice.text.toString().trim().toFloat(),
+                    binding.etQuentity.text.toString().trim().toInt()
                 )
             }
         }
@@ -69,8 +71,8 @@ class AddProductBidOffersDialog(
 
     private fun setSpinnerExpireHoursAdapter() {
         spinnerExpireHoursAdapter = SpinnerExpireHoursAdapter(context, expireHoursList)
-        spinnerValues.adapter = spinnerExpireHoursAdapter
-        spinnerValues.onItemSelectedListener = object :
+        binding.spinnerValues.adapter = spinnerExpireHoursAdapter
+        binding.spinnerValues.onItemSelectedListener = object :
             AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 adapterView: AdapterView<*>?,
@@ -92,16 +94,16 @@ class AddProductBidOffersDialog(
         price: Float,
         quentity: Int
     ) {
-        close_alert_bid.isEnabled = false
-        btnSend.isEnabled = false
+        binding.closeAlertBid.isEnabled = false
+        binding.btnSend.isEnabled = false
 
         val req = RequestBidOffers(expire, price, productId, quentity, bidIDsList)
         countriesCallback = getRetrofitBuilder().addProductBidOffers(req)
         countriesCallback?.enqueue(object : Callback<GeneralResponse> {
             override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
-                progressBar.visibility = View.GONE
-                btnSend.isEnabled = true
-                close_alert_bid.isEnabled = true
+                binding.progressBar.visibility = View.GONE
+                binding.btnSend.isEnabled = true
+                binding.closeAlertBid.isEnabled = true
                 if (t is HttpException) {
                     HelpFunctions.ShowLongToast(context.getString(R.string.serverError), context)
 
@@ -117,9 +119,9 @@ class AddProductBidOffersDialog(
                 call: Call<GeneralResponse>,
                 response: Response<GeneralResponse>
             ) {
-                btnSend.isEnabled = true
-                close_alert_bid.isEnabled = true
-                progressBar.visibility = View.GONE
+                binding.btnSend.isEnabled = true
+                binding.closeAlertBid.isEnabled = true
+                binding.progressBar.visibility = View.GONE
                 try {
                     if (response.isSuccessful) {
                         response.body()?.let {

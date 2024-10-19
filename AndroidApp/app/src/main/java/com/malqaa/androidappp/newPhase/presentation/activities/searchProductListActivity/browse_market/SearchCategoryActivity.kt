@@ -18,52 +18,33 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.gson.Gson
 import com.google.gson.TypeAdapter
 import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.FragmentBrowseMarketBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
-import com.malqaa.androidappp.newPhase.utils.ConstantObjects
-import com.malqaa.androidappp.newPhase.utils.EndlessRecyclerViewScrollListener
-import com.malqaa.androidappp.newPhase.utils.HelpFunctions
-import com.malqaa.androidappp.newPhase.utils.hide
-import com.malqaa.androidappp.newPhase.utils.show
+import com.malqaa.androidappp.newPhase.data.network.service.SetOnProductItemListeners
 import com.malqaa.androidappp.newPhase.domain.enums.ProductPosition
 import com.malqaa.androidappp.newPhase.domain.models.ErrorResponse
 import com.malqaa.androidappp.newPhase.domain.models.productResp.CategoriesSearchItem
 import com.malqaa.androidappp.newPhase.domain.models.productResp.Product
-import com.malqaa.androidappp.newPhase.presentation.adapterShared.ProductHorizontalAdapter
-import com.malqaa.androidappp.newPhase.data.network.service.SetOnProductItemListeners
 import com.malqaa.androidappp.newPhase.presentation.activities.loginScreen.SignInActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.productDetailsActivity.ProductDetailsActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.searchProductListActivity.CategoryProductViewModel
 import com.malqaa.androidappp.newPhase.presentation.activities.searchProductListActivity.ProductRowFullAdapter
 import com.malqaa.androidappp.newPhase.presentation.activities.searchProductListActivity.browse_market.filterDialog.FilterCategoryProductsDialog
+import com.malqaa.androidappp.newPhase.presentation.adapterShared.ProductHorizontalAdapter
+import com.malqaa.androidappp.newPhase.utils.ConstantObjects
+import com.malqaa.androidappp.newPhase.utils.EndlessRecyclerViewScrollListener
+import com.malqaa.androidappp.newPhase.utils.HelpFunctions
+import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.isTextInEnglish
-import kotlinx.android.synthetic.main.fragment_browse_market.btnRegion
-import kotlinx.android.synthetic.main.fragment_browse_market.btnSpecification
-import kotlinx.android.synthetic.main.fragment_browse_market.btnSubCatgeoryFilter
-import kotlinx.android.synthetic.main.fragment_browse_market.etSearch
-import kotlinx.android.synthetic.main.fragment_browse_market.follow_category
-import kotlinx.android.synthetic.main.fragment_browse_market.icon_grid
-import kotlinx.android.synthetic.main.fragment_browse_market.icon_list
-import kotlinx.android.synthetic.main.fragment_browse_market.imgFollow
-import kotlinx.android.synthetic.main.fragment_browse_market.ivSearch
-import kotlinx.android.synthetic.main.fragment_browse_market.layCategory
-import kotlinx.android.synthetic.main.fragment_browse_market.laySearch
-import kotlinx.android.synthetic.main.fragment_browse_market.lbl_toolbar_category
-import kotlinx.android.synthetic.main.fragment_browse_market.progressBar
-import kotlinx.android.synthetic.main.fragment_browse_market.progressBarMore
-import kotlinx.android.synthetic.main.fragment_browse_market.recyclerMarketFull
-import kotlinx.android.synthetic.main.fragment_browse_market.recyclerViewMarket
-import kotlinx.android.synthetic.main.fragment_browse_market.saveSearch
-import kotlinx.android.synthetic.main.fragment_browse_market.swipe_to_refresh
-import kotlinx.android.synthetic.main.fragment_browse_market.total_result_tv
-import kotlinx.android.synthetic.main.fragment_browse_market.tvError
-import kotlinx.android.synthetic.main.fragment_homee.textInputLayout11
+import com.malqaa.androidappp.newPhase.utils.show
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.ResponseBody
 
 
-class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
+class SearchCategoryActivity : BaseActivity<FragmentBrowseMarketBinding>(),
+    SwipeRefreshLayout.OnRefreshListener,
     SetOnProductItemListeners, FilterCategoryProductsDialog.SetOnClickListeners {
 
     var categoryID: Int = 0
@@ -105,9 +86,18 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
+        // Initialize view binding
+        binding = FragmentBrowseMarketBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+
+
+
         setContentView(R.layout.fragment_browse_market)
-        swipe_to_refresh.setColorSchemeResources(R.color.colorPrimaryDark)
-        swipe_to_refresh.setOnRefreshListener(this)
+        binding.swipeToRefresh.setColorSchemeResources(R.color.colorPrimaryDark)
+        binding.swipeToRefresh.setOnRefreshListener(this)
         setProductSearchCategoryAdapter()
         setViewClickListeners()
 
@@ -115,30 +105,30 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         if (typeView == "SearchHome") {
             comeFrom = 3
             categoryID = 0
-            follow_category.visibility = View.GONE
-            laySearch.visibility = View.VISIBLE
+            binding.followCategory.visibility = View.GONE
+            binding.laySearch.visibility = View.VISIBLE
         } else {
             categoryName = intent.getStringExtra("CategoryDesc") ?: "CategoryName"
             categoryID = intent.getIntExtra("CategoryID", 0)
             comeFrom = intent.getIntExtra("ComeFrom", 0)
-            laySearch.visibility = View.GONE
-            follow_category.visibility = View.VISIBLE
+            binding.laySearch.visibility = View.GONE
+            binding.followCategory.visibility = View.VISIBLE
         }
         productName = intent.getStringExtra("productName")
 
-        lbl_toolbar_category.text = categoryName
+        binding.lblToolbarCategory.text = categoryName
         setupViewModel()
         when (comeFrom) {
             ConstantObjects.search_categoriesDetails -> {
-                btnSubCatgeoryFilter.text = getText(R.string.sub_categories)
+                binding.btnSubCatgeoryFilter.text = getText(R.string.sub_categories)
             }
 
             ConstantObjects.search_product -> {
-                btnSubCatgeoryFilter.text = getText(R.string.Categories)
+                binding.btnSubCatgeoryFilter.text = getText(R.string.Categories)
             }
 
             ConstantObjects.search_seller -> {
-                btnSubCatgeoryFilter.text = getText(R.string.Categories)
+                binding.btnSubCatgeoryFilter.text = getText(R.string.Categories)
             }
         }
 
@@ -158,17 +148,17 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         productsListViewModel = ViewModelProvider(this).get(CategoryProductViewModel::class.java)
         productsListViewModel.isLoading.observe(this) {
             if (it)
-                progressBar.show()
+                binding.progressBar.show()
             else
-                progressBar.hide()
+                binding.progressBar.hide()
         }
 
 
         productsListViewModel.isloadingMore.observe(this) {
             if (it)
-                progressBarMore.show()
+                binding.progressBarMore.show()
             else
-                progressBarMore.hide()
+                binding.progressBarMore.hide()
         }
         productsListViewModel.isNetworkFail.observe(this) {
             if (it) {
@@ -190,9 +180,9 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         productsListViewModel.saveSearchObserver.observe(this) {
             if (it != null) {
                 if (it.status_code == 200) {
-                    strSearch = etSearch.text.toString()
+                    strSearch = binding.etSearch.text.toString()
                     HelpFunctions.ShowLongToast(getString(R.string.saveDone), this)
-                    imgFollow.setImageResource(R.drawable.notification)
+                    binding.imgFollow.setImageResource(R.drawable.notification)
                 }
             }
         }
@@ -201,24 +191,27 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                 val products = productListResp.data?.products.orEmpty()
 
                 // Update the total result text view
-                total_result_tv.text = "${productListResp.totaRecords} ${getString(R.string.results)}"
+                binding.totalResultTv.text =
+                    "${productListResp.totaRecords} ${getString(R.string.results)}"
 
                 if (products.isNotEmpty()) {
-                    val listVip = products.filter { it.productPosition == ProductPosition.Vip.value }
-                    val allListOutVip = products.filter { it.productPosition != ProductPosition.Vip.value }
+                    val listVip =
+                        products.filter { it.productPosition == ProductPosition.Vip.value }
+                    val allListOutVip =
+                        products.filter { it.productPosition != ProductPosition.Vip.value }
 
                     // Handle VIP product list
                     if (listVip.isNotEmpty()) {
-                        recyclerMarketFull.visibility = View.VISIBLE
+                        binding.recyclerMarketFull.visibility = View.VISIBLE
                         productListVip.addAll(listVip) // Append to existing list
 
                         // Update adapter if necessary
                         productCategoryAdapter.updateAdapter(productListVip)
                     } else {
-                        recyclerMarketFull.visibility = View.GONE
+                        binding.recyclerMarketFull.visibility = View.GONE
                     }
 
-                    recyclerViewMarket.visibility = View.VISIBLE
+                    binding.recyclerViewMarket.visibility = View.VISIBLE
 
                     // Check if search was initiated by a click and clear the list if necessary
                     if (clickSearch) {
@@ -231,15 +224,15 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
                     // Update adapter without resetting it each time
                     if (flagList) {
-                        if (recyclerViewMarket.adapter != productRowFullAdapter) {
-                            recyclerViewMarket.adapter = productRowFullAdapter
-                            recyclerViewMarket.layoutManager = linerlayout
+                        if (binding.recyclerViewMarket.adapter != productRowFullAdapter) {
+                            binding.recyclerViewMarket.adapter = productRowFullAdapter
+                            binding.recyclerViewMarket.layoutManager = linerlayout
                         }
                         productRowFullAdapter.updateAdapter(productList)
                     } else {
-                        if (recyclerViewMarket.adapter != productSearchCategoryAdapter) {
-                            recyclerViewMarket.adapter = productSearchCategoryAdapter
-                            recyclerViewMarket.layoutManager = gridViewLayoutManager
+                        if (binding.recyclerViewMarket.adapter != productSearchCategoryAdapter) {
+                            binding.recyclerViewMarket.adapter = productSearchCategoryAdapter
+                            binding.recyclerViewMarket.layoutManager = gridViewLayoutManager
                         }
                         productSearchCategoryAdapter.updateAdapter(productList)
                     }
@@ -247,8 +240,8 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                 } else {
                     // No products found
                     if (productList.isEmpty()) {
-                        recyclerViewMarket.visibility = View.GONE
-                        recyclerMarketFull.visibility = View.GONE
+                        binding.recyclerViewMarket.visibility = View.GONE
+                        binding.recyclerMarketFull.visibility = View.GONE
                         showProductApiError(getString(R.string.noProductsFound))
                     }
                 }
@@ -350,25 +343,25 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
 
     private fun showProductApiError(message: String) {
-        tvError.show()
-        tvError.text = message
+        binding.tvError.show()
+        binding.tvError.text = message
     }
 
     private fun setViewClickListeners() {
-        lbl_toolbar_category.setOnClickListener {
+        binding.lblToolbarCategory.setOnClickListener {
             onBackPressed()
         }
 
-        etSearch.setOnEditorActionListener(object : TextView.OnEditorActionListener {
+        binding.etSearch.setOnEditorActionListener(object : TextView.OnEditorActionListener {
             override fun onEditorAction(p0: TextView?, actionId: Int, p2: KeyEvent?): Boolean {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    if (etSearch.text.trim().toString() == "") {
-                        etSearch.error =
+                    if (binding.etSearch.text.trim().toString() == "") {
+                        binding.etSearch.error =
                             getString(R.string.enter_the_name_of_the_product_you_want_to_sell)
                     } else {
 
                         advanceSearch()
-                        etSearch.setText("")
+                        binding.etSearch.setText("")
                     }
                     return true
                 }
@@ -376,21 +369,22 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             }
 
         })
-        ivSearch.setOnClickListener {
-            if (etSearch.text.toString().trim() != "") {
+        binding.ivSearch.setOnClickListener {
+            if (binding.etSearch.text.toString().trim() != "") {
                 advanceSearch()
 //                homeViewModel.doSearch(mapOf("productName" to etSearch.text.toString().trim()))
             } else {
-                etSearch.error = getString(R.string.want_to_search_for_a_commodity_or_an_auction)
+                binding.etSearch.error =
+                    getString(R.string.want_to_search_for_a_commodity_or_an_auction)
             }
         }
-        saveSearch.setOnClickListener {
+        binding.saveSearch.setOnClickListener {
             if (!HelpFunctions.isUserLoggedIn()) {
                 startActivity(Intent(this, SignInActivity::class.java))
             } else {
 
-                if (strSearch != etSearch.text.toString()) {
-                    productsListViewModel.saveSearch(etSearch.text.toString())
+                if (strSearch != binding.etSearch.text.toString()) {
+                    productsListViewModel.saveSearch(binding.etSearch.text.toString())
                 } else
                     HelpFunctions.ShowLongToast(getString(R.string.saveDone), this)
 
@@ -398,47 +392,47 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             }
         }
 
-        icon_grid.setOnClickListener {
+        binding.iconGrid.setOnClickListener {
             flagList = false
-            icon_grid.setImageResource(R.drawable.ic_icon_grid_active)
-            icon_list.setImageResource(R.drawable.icon_list)
+            binding.iconGrid.setImageResource(R.drawable.ic_icon_grid_active)
+            binding.iconList.setImageResource(R.drawable.icon_list)
 
-            recyclerViewMarket.apply {
+            binding.recyclerViewMarket.apply {
                 productSearchCategoryAdapter.updateAdapter(productList, isHorizontal = false)
 
                 adapter = productSearchCategoryAdapter
                 layoutManager = gridViewLayoutManager
             }
         }
-        icon_list.setOnClickListener {
+        binding.iconList.setOnClickListener {
             flagList = true
-            icon_list.setImageResource(R.drawable.ic_icon_list_active)
-            icon_grid.setImageResource(R.drawable.icon_grid)
-            recyclerViewMarket.apply {
+            binding.iconList.setImageResource(R.drawable.ic_icon_list_active)
+            binding.iconGrid.setImageResource(R.drawable.icon_grid)
+            binding.recyclerViewMarket.apply {
                 adapter = productRowFullAdapter
                 layoutManager = linerlayout
             }
 
         }
-        btnSubCatgeoryFilter.setOnClickListener {
+        binding.btnSubCatgeoryFilter.setOnClickListener {
             filterCategoryProductsDialog.show()
             filterCategoryProductsDialog.setCategories(categoriesForProductList)
             filterCategoryProductsDialog.setSelectedTap(FilterCategoryProductsDialog.subCategoryType)
 
         }
-        btnRegion.setOnClickListener {
+        binding.btnRegion.setOnClickListener {
             filterCategoryProductsDialog.show()
             filterCategoryProductsDialog.setCategories(categoriesForProductList)
             filterCategoryProductsDialog.setSelectedTap(FilterCategoryProductsDialog.regionType)
 
         }
-        btnSpecification.setOnClickListener {
+        binding.btnSpecification.setOnClickListener {
             filterCategoryProductsDialog.show()
             filterCategoryProductsDialog.setCategories(categoriesForProductList)
             filterCategoryProductsDialog.setSelectedTap(FilterCategoryProductsDialog.specificationType)
 
         }
-        follow_category.setOnClickListener {
+        binding.followCategory.setOnClickListener {
             if (HelpFunctions.isUserLoggedIn()) {
                 if (isFollowCategory) {
                     productsListViewModel.removeFollow(categoryID, this)
@@ -454,7 +448,7 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
     fun advanceSearch() {
         clickSearch = true
-        productName = etSearch.text.toString()
+        productName = binding.etSearch.text.toString()
         productsListViewModel.searchForProduct(
             categoryID,
             if (isTextInEnglish(productName.toString())) "en" else "ar",
@@ -470,14 +464,14 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             comeFrom
         )
 
-        hideSoftKeyboard(etSearch)
+        hideSoftKeyboard(binding.etSearch)
     }
 
     private fun setProductSearchCategoryAdapter() {
         productList = ArrayList()
         productListVip = arrayListOf()
-        icon_list.setImageResource(R.drawable.ic_icon_list_active)
-        icon_grid.setImageResource(R.drawable.icon_grid)
+        binding.iconList.setImageResource(R.drawable.ic_icon_list_active)
+        binding.iconGrid.setImageResource(R.drawable.icon_grid)
         gridViewLayoutManager = GridLayoutManager(this, 2)
         linerlayout = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
 
@@ -525,12 +519,12 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                     )
                 }
             }
-        recyclerViewMarket.addOnScrollListener(endlessRecyclerViewScrollListener)
-        recyclerViewMarket.addOnScrollListener(endlessRecyclerViewScrollListener2)
+        binding.recyclerViewMarket.addOnScrollListener(endlessRecyclerViewScrollListener)
+        binding.recyclerViewMarket.addOnScrollListener(endlessRecyclerViewScrollListener2)
     }
 
     override fun onRefresh() {
-        tvError.hide()
+        binding.tvError.hide()
         getResetAll()
 
 
@@ -669,8 +663,7 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                 R.drawable.notification_log
             )
         }
-        follow_category.setCompoundDrawablesWithIntrinsicBounds(img, null, null, null)
-
+        binding.followCategory.setCompoundDrawablesWithIntrinsicBounds(img, null, null, null)
     }
 
     override fun onDestroy() {
@@ -684,11 +677,11 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     fun applyFilterAll() {
         endlessRecyclerViewScrollListener.resetState()
         endlessRecyclerViewScrollListener2.resetState()
-        swipe_to_refresh.isRefreshing = false
+        binding.swipeToRefresh.isRefreshing = false
         productList = arrayListOf()
         when (comeFrom) {
             ConstantObjects.search_categoriesDetails -> {
-                follow_category.show()
+                binding.followCategory.show()
                 if (HelpFunctions.isUserLoggedIn())
                     productsListViewModel.getCategoryFollow()
                 productsListViewModel.searchForProduct(
@@ -708,8 +701,8 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             }
 
             ConstantObjects.search_product -> {
-                follow_category.hide()
-                lbl_toolbar_category.text = productName
+                binding.followCategory.hide()
+                binding.lblToolbarCategory.text = productName
                 productsListViewModel.searchForProduct(
                     categoryID,
                     ConstantObjects.currentLanguage,
@@ -731,11 +724,11 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     private fun getResetAll() {
         endlessRecyclerViewScrollListener.resetState()
         endlessRecyclerViewScrollListener2.resetState()
-        swipe_to_refresh.isRefreshing = false
+        binding.swipeToRefresh.isRefreshing = false
         productList = arrayListOf()
         when (comeFrom) {
             ConstantObjects.search_categoriesDetails -> {
-                follow_category.show()
+                binding.followCategory.show()
                 if (HelpFunctions.isUserLoggedIn())
                     productsListViewModel.getCategoryFollow()
                 productsListViewModel.searchForProduct(
@@ -755,9 +748,9 @@ class SearchCategoryActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             }
 
             ConstantObjects.search_product -> {
-                follow_category.hide()
-                etSearch.setText(productName)
-                lbl_toolbar_category.text = productName
+                binding.followCategory.hide()
+                binding.etSearch.setText(productName)
+                binding.lblToolbarCategory.text = productName
                 productsListViewModel.searchForProduct(
                     categoryID,
                     ConstantObjects.currentLanguage,

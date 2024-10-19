@@ -71,15 +71,15 @@ class SelectedImagesAdapter(
         }
 
 
-
     }
 
-    private fun setOtherFalse(itemSelect : ImageSelectModel ){
-        for(i in data.indices){
+    private fun setOtherFalse(itemSelect: ImageSelectModel) {
+        for (i in data.indices) {
             data[i].isMainMadia = false
-            data[i].is_main =false
+            data[i].is_main = false
         }
     }
+
     fun updateData(listMedia: ArrayList<ImageSelectModel>) {
         this.data = listMedia
         notifyDataSetChanged()

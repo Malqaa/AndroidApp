@@ -31,33 +31,18 @@ class VideoAddLinkAdapter(
         holder: VideoAddLinkViewHolder,
         position: Int
     ) {
-        var currntposition = position
         holder.viewBinding.etAddVideo.setText(videoLinks[position])
         holder.viewBinding.etAddVideo.isEnabled = false
-//        holder.viewBinding.etAddVideo.addTextChangedListener(object :
-//            TextWatcher {
-//            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-//            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-//
-//            }
-//            override fun afterTextChanged(s: Editable) {
-//                if (s.isNullOrBlank()) {
-//                    videoLinks[currntposition] = holder.viewBinding.etAddVideo.text.toString().trim()
-//                    setOnTypingVideoLinkTypingVideoLinks.onTypeTypingVideoLink(
-//                        holder.viewBinding.etAddVideo.text.toString().trim(), currntposition
-//                    )
-//                }
-//            }
-//        })
         holder.viewBinding.ivDelete.setOnClickListener {
             setOnTypingVideoLinkTypingVideoLinks.onDeleteItem(position)
         }
     }
 
-    fun updateAdapter(videoLinks: ArrayList<String>){
-        this.videoLinks=videoLinks
+    fun updateAdapter(videoLinks: ArrayList<String>) {
+        this.videoLinks = videoLinks
         notifyDataSetChanged()
     }
+
     interface SetOnTypingVideoLinkTypingVideoLinks {
         fun onTypeTypingVideoLink(value: String, position: Int)
         fun onDeleteItem(position: Int)

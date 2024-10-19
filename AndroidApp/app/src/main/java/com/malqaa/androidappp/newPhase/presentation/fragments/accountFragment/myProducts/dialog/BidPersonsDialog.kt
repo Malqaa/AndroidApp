@@ -5,15 +5,15 @@ import android.content.Context
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.DialogBidPersonsBinding
 import com.malqaa.androidappp.newPhase.core.BaseDialog
+import com.malqaa.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
+import com.malqaa.androidappp.newPhase.domain.models.bidPersonsResp.BidPersonData
+import com.malqaa.androidappp.newPhase.domain.models.bidPersonsResp.BidPersonsResp
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.linearLayoutManager
 import com.malqaa.androidappp.newPhase.utils.show
-import com.malqaa.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
-import com.malqaa.androidappp.newPhase.domain.models.bidPersonsResp.BidPersonData
-import com.malqaa.androidappp.newPhase.domain.models.bidPersonsResp.BidPersonsResp
-import kotlinx.android.synthetic.main.dialog_bid_persons.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.HttpException
@@ -25,15 +25,18 @@ class BidPersonsDialog(
     var productId: Int,
     var setOnAddBidOffersListeners: SetOnAddBidOffersListeners,
     var fromProductDetails: Boolean = false
-) :
-    BaseDialog(context), BidPersonsAdapter.SetOnViewClickListeners {
+) : BaseDialog<DialogBidPersonsBinding>(context), BidPersonsAdapter.SetOnViewClickListeners {
+
     lateinit var bidPersonsAdapter: BidPersonsAdapter
     lateinit var bidPersonsDataList: ArrayList<BidPersonData>
     var countriesCallback: Call<BidPersonsResp>? = null
     var bidPersonsResp: BidPersonsResp? = null
     var bidIdList: ArrayList<String> = ArrayList()
     var offerList: ArrayList<BidPersonData> = ArrayList()
-    override fun getViewId(): Int = R.layout.dialog_bid_persons
+
+    override fun inflateViewBinding(): DialogBidPersonsBinding {
+        return DialogBidPersonsBinding.inflate(layoutInflater)
+    }
 
     override fun isFullScreen(): Boolean = false
     override fun isCancelable(): Boolean = true
@@ -43,46 +46,44 @@ class BidPersonsDialog(
         setRecyclerView()
         getBidsPersons()
         if (fromProductDetails) {
-            tvSelctAll.hide()
-            tvUserCount.hide()
-            tvTitle.text = context.getString(R.string.my_bids)
-            btnSend.hide()
-            containerBidOnPrice.show()
-            Bid_on_price_tv.text = priceAuction
+            binding.tvSelctAll.hide()
+            binding.tvUserCount.hide()
+            binding.tvTitle.text = context.getString(R.string.my_bids)
+            binding.btnSend.hide()
+            binding.containerBidOnPrice.show()
+            binding.BidOnPriceTv.text = priceAuction
         } else {
-            tvSelctAll.show()
-            tvUserCount.show()
-            tvTitle.text = context.getString(R.string.sendOffer)
-            btnSend.show()
-            containerBidOnPrice.hide()
+            binding.tvSelctAll.show()
+            binding.tvUserCount.show()
+            binding.tvTitle.text = context.getString(R.string.sendOffer)
+            binding.btnSend.show()
+            binding.containerBidOnPrice.hide()
         }
-
-
     }
 
     private fun setRecyclerView() {
         bidPersonsDataList = ArrayList()
         bidPersonsAdapter = BidPersonsAdapter(bidPersonsDataList, this, fromProductDetails)
-        rvBid.apply {
+        binding.rvBid.apply {
             layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
             adapter = bidPersonsAdapter
         }
     }
 
     private fun setViewClickListeners() {
-        ivClose.setOnClickListener {
+        binding.ivClose.setOnClickListener {
             dismiss()
         }
-        tvSelctAll.setOnClickListener {
+        binding.tvSelctAll.setOnClickListener {
             bidIdList.clear()
             for (item in bidPersonsDataList) {
                 item.isSelected = true
                 item.userId?.let { it1 -> bidIdList.add(it1) }
             }
             bidPersonsAdapter.notifyDataSetChanged()
-            tvUserCount.text = "${bidIdList.size} ${context.getString(R.string.user)}"
+            binding.tvUserCount.text = "${bidIdList.size} ${context.getString(R.string.user)}"
         }
-        btnSend.setOnClickListener {
+        binding.btnSend.setOnClickListener {
             if (offerList.isNullOrEmpty()) {
                 HelpFunctions.ShowLongToast(
                     context.getString(R.string.noFoundUserOffers),
@@ -102,7 +103,7 @@ class BidPersonsDialog(
                 }
             }
         }
-        containerBidOnPrice.setOnClickListener {
+        binding.containerBidOnPrice.setOnClickListener {
             setOnAddBidOffersListeners.onOpenAuctionDialog()
             dismiss()
         }
@@ -110,17 +111,17 @@ class BidPersonsDialog(
 
 
     private fun getBidsPersons() {
-        ivClose.isEnabled = false
-        btnSend.isEnabled = false
-        progressBar.visibility = View.VISIBLE
+        binding.ivClose.isEnabled = false
+        binding.btnSend.isEnabled = false
+        binding.progressBar.visibility = View.VISIBLE
         countriesCallback = getRetrofitBuilder().getBidsPersons(
             productId
         )
         countriesCallback?.enqueue(object : Callback<BidPersonsResp> {
             override fun onFailure(call: Call<BidPersonsResp>, t: Throwable) {
-                progressBar.visibility = View.GONE
-                btnSend.isEnabled = true
-                ivClose.isEnabled = true
+                binding.progressBar.visibility = View.GONE
+                binding.btnSend.isEnabled = true
+                binding.ivClose.isEnabled = true
                 if (t is HttpException) {
                     HelpFunctions.ShowLongToast(context.getString(R.string.serverError), context)
 
@@ -136,9 +137,9 @@ class BidPersonsDialog(
                 call: Call<BidPersonsResp>,
                 response: Response<BidPersonsResp>
             ) {
-                btnSend.isEnabled = true
-                ivClose.isEnabled = true
-                progressBar.visibility = View.GONE
+                binding.btnSend.isEnabled = true
+                binding.ivClose.isEnabled = true
+                binding.progressBar.visibility = View.GONE
                 try {
                     if (response.isSuccessful) {
                         response.body()?.let {
@@ -179,7 +180,7 @@ class BidPersonsDialog(
             }
         }
         bidPersonsAdapter.notifyDataSetChanged()
-        tvUserCount.text = "${bidIdList.size} ${context.getString(R.string.user)}"
+        binding.tvUserCount.text = "${bidIdList.size} ${context.getString(R.string.user)}"
 
     }
 

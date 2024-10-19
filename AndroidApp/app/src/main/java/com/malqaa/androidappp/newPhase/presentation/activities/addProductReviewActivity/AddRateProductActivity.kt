@@ -5,30 +5,31 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.ActivityRateProductBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
-import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.domain.models.ratingResp.RateReviewItem
-import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.presentation.activities.productDetailsActivity.viewModels.ProductDetailsViewModel
-import kotlinx.android.synthetic.main.activity_rate_product.*
-import kotlinx.android.synthetic.main.activity_rate_product.rating_bar
-import kotlinx.android.synthetic.main.toolbar_main.*
+import com.malqaa.androidappp.newPhase.utils.ConstantObjects
+import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 
-class AddRateProductActivity : BaseActivity() {
-
+class AddRateProductActivity : BaseActivity<ActivityRateProductBinding>() {
 
     private var productId: Int = 0
     private lateinit var productDetailsViewModel: ProductDetailsViewModel
     private var rateReviewItemEdit: RateReviewItem? = null
     private var editRate = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_rate_product)
-        toolbar_title.text = getString(R.string.add_Review)
+
+        // Initialize view binding
+        binding = ActivityRateProductBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.toolbarMain.toolbarTitle.text = getString(R.string.add_Review)
         productId = intent.getIntExtra(ConstantObjects.productIdKey, 0)
         setClickListeners()
         setProductDetailsViewModel()
-      //  println("hhhh product id =$productId")
         productDetailsViewModel.getCurrentUserRate(productId)
     }
 
@@ -49,13 +50,13 @@ class AddRateProductActivity : BaseActivity() {
 
         }
         productDetailsViewModel.errorResponseObserver.observe(this) {
-            if(it.status!=null && it.status=="409"){
+            if (it.status != null && it.status == "409") {
                 HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), this)
-            }else {
+            } else {
                 if (it.message != null) {
                     HelpFunctions.ShowLongToast(it.message!!, this)
-                }else if (it.message2 != null) {
-                    HelpFunctions.ShowLongToast(it.message2!!,this)
+                } else if (it.message2 != null) {
+                    HelpFunctions.ShowLongToast(it.message2!!, this)
                 } else {
                     HelpFunctions.ShowLongToast(getString(R.string.serverError), this)
                 }
@@ -112,17 +113,17 @@ class AddRateProductActivity : BaseActivity() {
         editRate = true
         rateReviewItemEdit = data
         try {
-            rating_bar.rating = data.rate
-            etCommnet.setText(data.comment)
+            binding.ratingBar.rating = data.rate
+            binding.etCommnet.setText(data.comment)
         } catch (e: Exception) {
         }
     }
 
     private fun setClickListeners() {
-        btnSend.setOnClickListener {
+        binding.btnSend.setOnClickListener {
             checkValidations()
         }
-        back_btn.setOnClickListener {
+        binding.toolbarMain.backBtn.setOnClickListener {
             onBackPressed()
         }
 
@@ -130,11 +131,11 @@ class AddRateProductActivity : BaseActivity() {
 
     private fun checkValidations() {
         var readyToSave = true
-        if (etCommnet.text.trim().toString() == "") {
-            etCommnet.error = getString(R.string.enterComment)
+        if (binding.etCommnet.text.trim().toString() == "") {
+            binding.etCommnet.error = getString(R.string.enterComment)
             readyToSave = false
         }
-        if (rating_bar.rating == 0f) {
+        if (binding.ratingBar.rating == 0f) {
             readyToSave = false
             HelpFunctions.ShowLongToast(getString(R.string.add_Review), this)
         }
@@ -142,18 +143,19 @@ class AddRateProductActivity : BaseActivity() {
             if (editRate && rateReviewItemEdit != null) {
                 productDetailsViewModel.editRateProduct(
                     rateReviewItemEdit!!.id,
-                    rating_bar.rating,
-                    etCommnet.text.trim().toString()
+                    binding.ratingBar.rating,
+                    binding.etCommnet.text.trim().toString()
                 )
             } else {
                 productDetailsViewModel.addRateProduct(
                     productId,
-                    rating_bar.rating,
-                    etCommnet.text.trim().toString()
+                    binding.ratingBar.rating,
+                    binding.etCommnet.text.trim().toString()
                 )
             }
         }
     }
+
     override fun onDestroy() {
         super.onDestroy()
         productDetailsViewModel.closeAllCall()

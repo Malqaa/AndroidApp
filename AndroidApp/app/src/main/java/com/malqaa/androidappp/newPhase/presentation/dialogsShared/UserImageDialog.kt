@@ -3,27 +3,20 @@ package com.malqaa.androidappp.newPhase.presentation.dialogsShared
 import android.content.Context
 import android.view.View
 import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.DialogUserImageBinding
 import com.malqaa.androidappp.newPhase.core.BaseDialog
-import kotlinx.android.synthetic.main.dialog_user_image.*
 
-class UserImageDialog(context: Context, var setOnImageSelectListeners: SetOnImageSelectListeners) : BaseDialog(context),
+class UserImageDialog(context: Context, var setOnImageSelectListeners: SetOnImageSelectListeners) :
+    BaseDialog<DialogUserImageBinding>(context),
     View.OnClickListener {
 
-
-    override fun getViewId(): Int {
-        return R.layout.dialog_user_image
+    override fun initialization() {
+        binding.btnTakePhoto.setOnClickListener(this)
+        binding.btnDeletePhoto.setOnClickListener(this)
     }
 
-    override fun initialization() {
-        btnTakePhoto.setOnClickListener(this)
-        btnDeletePhoto.setOnClickListener(this)
-//        if (globalPreferences.getLang() == "ar") {
-//            btnArabic.setTextColor(ContextCompat.getColor(context, R.color.blueDark))
-//            btnEnglish.setTextColor(ContextCompat.getColor(context, R.color.black))
-//        } else {
-//            btnEnglish.setTextColor(ContextCompat.getColor(context, R.color.blueDark))
-//            btnArabic.setTextColor(ContextCompat.getColor(context, R.color.black))
-//        }
+    override fun inflateViewBinding(): DialogUserImageBinding {
+        return DialogUserImageBinding.inflate(layoutInflater)
     }
 
     override fun isFullScreen(): Boolean {
@@ -44,6 +37,7 @@ class UserImageDialog(context: Context, var setOnImageSelectListeners: SetOnImag
                 setOnImageSelectListeners.onImageSelectListeners(0)
                 dismiss()
             }
+
             R.id.btnDeletePhoto -> {
                 setOnImageSelectListeners.onImageSelectListeners(1)
                 dismiss()
@@ -52,7 +46,7 @@ class UserImageDialog(context: Context, var setOnImageSelectListeners: SetOnImag
     }
 
 
-    interface SetOnImageSelectListeners{
+    interface SetOnImageSelectListeners {
         fun onImageSelectListeners(position: Int)
     }
 

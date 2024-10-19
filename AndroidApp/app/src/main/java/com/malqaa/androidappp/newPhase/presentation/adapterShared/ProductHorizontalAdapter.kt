@@ -15,14 +15,10 @@ import com.malqaa.androidappp.newPhase.data.network.service.SetOnProductItemList
 import com.malqaa.androidappp.newPhase.domain.models.productResp.Product
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.Extension
-import com.malqaa.androidappp.newPhase.utils.Extension.decimalNumberFormat
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions.Companion.getDifference
-import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.isValidPrice
-import com.malqaa.androidappp.newPhase.utils.show
 import com.yariksoffice.lingver.Lingver
-import java.util.Date
 
 
 class ProductHorizontalAdapter(
@@ -114,8 +110,14 @@ class ProductHorizontalAdapter(
         }
 
         // Load product image
-        val imageUrl = if (!product.productImage.isNullOrEmpty()) product.productImage else product.image
-        Extension.loadImgGlide(context, imageUrl ?: "", holder.viewBinding.productimg, holder.viewBinding.loader)
+        val imageUrl =
+            if (!product.productImage.isNullOrEmpty()) product.productImage else product.image
+        Extension.loadImgGlide(
+            context,
+            imageUrl ?: "",
+            holder.viewBinding.productimg,
+            holder.viewBinding.loader
+        )
 
         // Handle product price and discounts
         val price = product.price
@@ -127,12 +129,14 @@ class ProductHorizontalAdapter(
             val priceDiscValue = priceDisc.toDouble()
 
             if (priceValue == priceDiscValue) {
-                holder.viewBinding.tvProductPrice.text = "$priceValue ${context.getString(R.string.SAR)}"
+                holder.viewBinding.tvProductPrice.text =
+                    "$priceValue ${context.getString(R.string.SAR)}"
                 holder.viewBinding.tvOldPRiceProductPriceForVertiaclView.visibility = View.GONE
                 holder.viewBinding.tvOldPRiceProductPriceForHorizentalView.visibility = View.GONE
             } else {
                 if (isHorizontal) {
-                    holder.viewBinding.tvOldPRiceProductPriceForHorizentalView.visibility = View.VISIBLE
+                    holder.viewBinding.tvOldPRiceProductPriceForHorizentalView.visibility =
+                        View.VISIBLE
                     holder.viewBinding.tvOldPRiceProductPriceForHorizentalView.paintFlags =
                         holder.viewBinding.tvOldPRiceProductPriceForHorizentalView.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
                     holder.viewBinding.tvOldPRiceProductPriceForHorizentalView.text =
@@ -140,7 +144,8 @@ class ProductHorizontalAdapter(
                     holder.viewBinding.tvProductPrice.text =
                         "$priceDiscValue ${context.getString(R.string.SAR)}"
                 } else {
-                    holder.viewBinding.tvOldPRiceProductPriceForVertiaclView.visibility = View.VISIBLE
+                    holder.viewBinding.tvOldPRiceProductPriceForVertiaclView.visibility =
+                        View.VISIBLE
                     holder.viewBinding.tvOldPRiceProductPriceForVertiaclView.paintFlags =
                         holder.viewBinding.tvOldPRiceProductPriceForVertiaclView.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
                     holder.viewBinding.tvOldPRiceProductPriceForVertiaclView.text =
@@ -155,15 +160,18 @@ class ProductHorizontalAdapter(
         }
 
         // Show/hide auction start or highest bid price
-        holder.viewBinding.LowestPriceLayout.visibility = if (product.highestBidPrice.toDouble() > 0) {
-            holder.viewBinding.LowestPrice.text = "${product.highestBidPrice} ${context.getString(R.string.SAR)}"
-            View.VISIBLE
-        } else if (product.auctionStartPrice.toDouble() > 0) {
-            holder.viewBinding.LowestPrice.text = "${product.auctionStartPrice} ${context.getString(R.string.SAR)}"
-            View.VISIBLE
-        } else {
-            View.INVISIBLE
-        }
+        holder.viewBinding.LowestPriceLayout.visibility =
+            if (product.highestBidPrice.toDouble() > 0) {
+                holder.viewBinding.LowestPrice.text =
+                    "${product.highestBidPrice} ${context.getString(R.string.SAR)}"
+                View.VISIBLE
+            } else if (product.auctionStartPrice.toDouble() > 0) {
+                holder.viewBinding.LowestPrice.text =
+                    "${product.auctionStartPrice} ${context.getString(R.string.SAR)}"
+                View.VISIBLE
+            } else {
+                View.INVISIBLE
+            }
 
         // Click listeners for product item and favorite icon
         holder.viewBinding.fullview.setOnClickListener {

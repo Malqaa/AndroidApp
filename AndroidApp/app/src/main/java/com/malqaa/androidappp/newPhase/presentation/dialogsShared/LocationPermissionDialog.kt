@@ -5,40 +5,35 @@ import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
 import com.malqaa.androidappp.BuildConfig
-import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.DialogLocationPermissionBinding
 import com.malqaa.androidappp.newPhase.core.BaseDialog
-import kotlinx.android.synthetic.main.dialog_location_permission.*
 
-class LocationPermissionDialog(context: Context): BaseDialog(context) {
+class LocationPermissionDialog(context: Context) :
+    BaseDialog<DialogLocationPermissionBinding>(context) {
 
+    override fun inflateViewBinding(): DialogLocationPermissionBinding {
+        return DialogLocationPermissionBinding.inflate(layoutInflater)
+    }
 
-    override fun getViewId(): Int = R.layout.dialog_location_permission
+    override fun isFullScreen(): Boolean = false
 
-    override fun isFullScreen(): Boolean =false
-
-    override fun isCancelable(): Boolean =false
+    override fun isCancelable(): Boolean = false
     override fun isLoadingDialog(): Boolean = false
 
 
-
     override fun initialization() {
-        btnOpen.setOnClickListener {
+        binding.btnOpen.setOnClickListener {
             dismiss()
             openLocationPermissionScreen()
         }
-//        viewBinding.btnCancel.setOnClickListener {
-//            dismiss()
-//        }
     }
 
-
-
-    private fun openLocationPermissionScreen(){
+    private fun openLocationPermissionScreen() {
         val intent = Intent(
             Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-            Uri.parse("package:" + BuildConfig.APPLICATION_ID))
+            Uri.parse("package:" + BuildConfig.APPLICATION_ID)
+        )
         context.startActivity(intent)
     }
-
 
 }

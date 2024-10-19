@@ -6,28 +6,25 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.ActivityCartBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
-import com.malqaa.androidappp.newPhase.domain.models.addOrderResp.ProductOrderPaymentDetailsDto
-import com.malqaa.androidappp.newPhase.utils.HelpFunctions
-import com.malqaa.androidappp.newPhase.utils.hide
-import com.malqaa.androidappp.newPhase.utils.linearLayoutManager
-import com.malqaa.androidappp.newPhase.utils.helper.shared_preferences.SharedPreferencesStaticClass
-import com.malqaa.androidappp.newPhase.utils.show
 import com.malqaa.androidappp.newPhase.domain.models.cartListResp.CartProductDetails
 import com.malqaa.androidappp.newPhase.domain.models.cartListResp.ProductCartItem
-import com.malqaa.androidappp.newPhase.utils.ConstantObjects
-import com.malqaa.androidappp.newPhase.utils.helper.shared_preferences.SharedPreferencesStaticClass.Companion.removeItemCart
 import com.malqaa.androidappp.newPhase.presentation.activities.cartActivity.activity1.adapter.CartAdapter
 import com.malqaa.androidappp.newPhase.presentation.activities.cartActivity.activity2.AddressPaymentActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.cartActivity.viewModel.CartViewModel
-import kotlinx.android.synthetic.main.activity_cart.*
-import kotlinx.android.synthetic.main.toolbar_main.*
+import com.malqaa.androidappp.newPhase.utils.ConstantObjects
+import com.malqaa.androidappp.newPhase.utils.HelpFunctions
+import com.malqaa.androidappp.newPhase.utils.helper.shared_preferences.SharedPreferencesStaticClass
+import com.malqaa.androidappp.newPhase.utils.helper.shared_preferences.SharedPreferencesStaticClass.Companion.removeItemCart
+import com.malqaa.androidappp.newPhase.utils.hide
+import com.malqaa.androidappp.newPhase.utils.linearLayoutManager
+import com.malqaa.androidappp.newPhase.utils.show
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-
-class CartActivity : BaseActivity(), CartAdapter.SetProductCartListeners {
+class CartActivity : BaseActivity<ActivityCartBinding>(), CartAdapter.SetProductCartListeners {
     private var lastUpdatePosition: Int = 0
     lateinit var cartAdapter: CartAdapter
     private lateinit var cartViewModel: CartViewModel
@@ -36,8 +33,12 @@ class CartActivity : BaseActivity(), CartAdapter.SetProductCartListeners {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_cart)
-        toolbar_title.text = getString(R.string.shopping_basket)
+
+        // Initialize view binding
+        binding = ActivityCartBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.toolbarMain.toolbarTitle.text = getString(R.string.shopping_basket)
         setViewClickListeners()
         setCartAdapter()
         setupCartViewModel()
@@ -48,9 +49,9 @@ class CartActivity : BaseActivity(), CartAdapter.SetProductCartListeners {
         cartViewModel = ViewModelProvider(this).get(CartViewModel::class.java)
         cartViewModel.isLoading.observe(this) {
             if (it)
-                progressBar.show()
+                binding.progressBar.show()
             else
-                progressBar.hide()
+                binding.progressBar.hide()
         }
         cartViewModel.isLoadingAssignCartToUser.observe(this) {
             if (it) {
@@ -159,7 +160,7 @@ class CartActivity : BaseActivity(), CartAdapter.SetProductCartListeners {
             withContext(Dispatchers.Main) {
                 ConstantObjects.newUserCart = productCartItemRespList
                 cartAdapter.notifyDataSetChanged()
-                price_total.text = totalPrice.toString()
+                binding.priceTotal.text = totalPrice.toString()
 
             }
         }
@@ -170,53 +171,28 @@ class CartActivity : BaseActivity(), CartAdapter.SetProductCartListeners {
         productsCartListResp = ArrayList()
         productCartItemRespList = ArrayList()
         cartAdapter = CartAdapter(productCartItemRespList, this)
-        rvCart.apply {
+        binding.rvCart.apply {
             adapter = cartAdapter
             layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
         }
     }
 
     private fun setViewClickListeners() {
-        back_btn.setOnClickListener {
+        binding.toolbarMain.backBtn.setOnClickListener {
             finish()
         }
-        the_next.setOnClickListener {
-//            var paymentDetailsDtoList = ArrayList<Triple<Int, Int, Int>>()
-//            paymentDetailsDtoList?.add(
-//                Triple(
-//                    30,
-//                    2,
-//                    1.toInt()
-//                )
-//            )
-//            val mergedList = mergeTuplesInList(paymentDetailsDtoList ?: arrayListOf())
-//            val customList = mergedList.map { triple ->
-//                ProductOrderPaymentDetailsDto(triple.first, triple.second, triple.third)}
-//                cartViewModel.addOrder(
-//                    "20601",
-//                    1,
-//                    1,
-//                    "",
-//                    customList
-//                )
-
-                if (HelpFunctions.isUserLoggedIn()) {
-                    if (ConstantObjects.newUserCart.isNotEmpty()) {
-                        //  if (SharedPreferencesStaticClass.getAssignCartToUser()) {
-//                        gotToNextCartActivity()
-//                    } else {
-                        cartViewModel.assignCardToUser(SharedPreferencesStaticClass.getMasterCartId())
-                        //  }
-                    } else {
-                        showError(getString(R.string.empty_cart))
-                    }
+        binding.theNext.setOnClickListener {
+            if (HelpFunctions.isUserLoggedIn()) {
+                if (ConstantObjects.newUserCart.isNotEmpty()) {
+                    cartViewModel.assignCardToUser(SharedPreferencesStaticClass.getMasterCartId())
                 } else {
-                    goToSignInActivity()
+                    showError(getString(R.string.empty_cart))
                 }
-
+            } else {
+                goToSignInActivity()
             }
-
         }
+    }
 
     private fun mergeTuples(
         tuple1: Triple<Int, Int, Int>,
@@ -227,6 +203,7 @@ class CartActivity : BaseActivity(), CartAdapter.SetProductCartListeners {
         val mergedThird = tuple1.third + tuple2.third
         return Triple(mergedFirst, mergedSecond, mergedThird)
     }
+
     fun mergeTuplesInList(tupleList: ArrayList<Triple<Int, Int, Int>>): ArrayList<Triple<Int, Int, Int>> {
         val mergedList = ArrayList<Triple<Int, Int, Int>>()
 
@@ -249,37 +226,36 @@ class CartActivity : BaseActivity(), CartAdapter.SetProductCartListeners {
 
 
     private fun gotToNextCartActivity() {
-            startActivity(Intent(this, AddressPaymentActivity::class.java))
-        }
-
-        override fun onIncreaseQuantityProduct(position: Int) {
-            lastUpdatePosition = position
-            val productCartId = productCartItemRespList[position].cartproductId
-            cartViewModel.increaseCartProductQuantity(productCartId.toString())
-        }
-
-        override fun onDecreaseQuantityProduct(position: Int) {
-            lastUpdatePosition = position
-            val productCartId = productCartItemRespList[position].cartproductId
-            cartViewModel.decreaseCartProductQuantity(productCartId.toString())
-        }
-
-        override fun onDeleteProduct(position: Int) {
-            val productCartId = productCartItemRespList[position].cartproductId
-            cartViewModel.removeProductFromCartProducts(productCartId.toString())
-        }
-
-
-        override fun onResume() {
-            super.onResume()
-            if (SharedPreferencesStaticClass.getMasterCartId().toInt() != 0)
-                cartViewModel.getCartList(SharedPreferencesStaticClass.getMasterCartId())
-        }
-
-        override fun onDestroy() {
-            super.onDestroy()
-            cartViewModel.closeAllCall()
-        }
-
-
+        startActivity(Intent(this, AddressPaymentActivity::class.java))
     }
+
+    override fun onIncreaseQuantityProduct(position: Int) {
+        lastUpdatePosition = position
+        val productCartId = productCartItemRespList[position].cartproductId
+        cartViewModel.increaseCartProductQuantity(productCartId.toString())
+    }
+
+    override fun onDecreaseQuantityProduct(position: Int) {
+        lastUpdatePosition = position
+        val productCartId = productCartItemRespList[position].cartproductId
+        cartViewModel.decreaseCartProductQuantity(productCartId.toString())
+    }
+
+    override fun onDeleteProduct(position: Int) {
+        val productCartId = productCartItemRespList[position].cartproductId
+        cartViewModel.removeProductFromCartProducts(productCartId.toString())
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        if (SharedPreferencesStaticClass.getMasterCartId().toInt() != 0)
+            cartViewModel.getCartList(SharedPreferencesStaticClass.getMasterCartId())
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        cartViewModel.closeAllCall()
+    }
+
+}

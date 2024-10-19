@@ -8,11 +8,14 @@ import com.malqaa.androidappp.R
 import com.malqaa.androidappp.databinding.ItemSuggestedCategoriesBinding
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.Category
 
+class ProductTagsAdapter(
+    var data: ArrayList<Category>,
+    var setOnSelectedListeners: SetOnSelectedListeners
+) : RecyclerView.Adapter<ProductTagsAdapter.ProductTagsViewHolder>() {
+    lateinit var context: Context
 
-class ProductTagsAdapter(var data: ArrayList<Category>, var setOnSelectedListeners:SetOnSelectedListeners) :RecyclerView.Adapter<ProductTagsAdapter.ProductTagsViewHolder>() {
-    lateinit var context:Context
-
-    class ProductTagsViewHolder(var viewBinding:ItemSuggestedCategoriesBinding)  : RecyclerView.ViewHolder(viewBinding.root)
+    class ProductTagsViewHolder(var viewBinding: ItemSuggestedCategoriesBinding) :
+        RecyclerView.ViewHolder(viewBinding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductTagsViewHolder {
         context = parent.context
@@ -22,34 +25,25 @@ class ProductTagsAdapter(var data: ArrayList<Category>, var setOnSelectedListene
         )
     }
 
-    override fun getItemCount(): Int=data.size
+    override fun getItemCount(): Int = data.size
 
     override fun onBindViewHolder(holder: ProductTagsViewHolder, position: Int) {
-      val currentPosition=position
-        holder.viewBinding.categoryNameTv.text=data[position].category ?:""
+        val currentPosition = position
+        holder.viewBinding.categoryNameTv.text = data[position].category ?: ""
         holder.viewBinding.ivCheck.setOnClickListener {
             setOnSelectedListeners.onSelectTagItem(
-                                currentPosition)
+                currentPosition
+            )
         }
-        if(data[position].isSelect){
+        if (data[position].isSelect) {
             holder.viewBinding.ivCheck.setImageDrawable(context.getDrawable(R.drawable.ic_radio_button_checked))
-        }else{
+        } else {
             holder.viewBinding.ivCheck.setImageDrawable(context.getDrawable(R.drawable.ic_radio_button_unchecked))
         }
-     //
-    //   holder.viewBinding.radioButtonSelect.setOnCheckedChangeListener { p0, selectedStatus ->
-        //            setOnSelectedListeners.onSelectTagItem(
-        //                currentPosition,
-        //                selectedStatus
-        //            )
-        //        }
-    //
-    //
-    //   holder.viewBinding.radioButtonSelect.setChecked(  data[position].isSelect)
 
     }
 
-    interface SetOnSelectedListeners{
-        fun onSelectTagItem(position:Int)
+    interface SetOnSelectedListeners {
+        fun onSelectTagItem(position: Int)
     }
 }

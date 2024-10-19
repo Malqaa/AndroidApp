@@ -9,45 +9,47 @@ import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.ActivityConfirmChangeNumberBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
-import com.malqaa.androidappp.newPhase.utils.ConstantObjects
-import com.malqaa.androidappp.newPhase.utils.HelpFunctions
-import com.malqaa.androidappp.newPhase.utils.hide
-import com.malqaa.androidappp.newPhase.utils.helper.shared_preferences.SharedPreferencesStaticClass
-import com.malqaa.androidappp.newPhase.utils.show
 import com.malqaa.androidappp.newPhase.data.network.constants.Constants
 import com.malqaa.androidappp.newPhase.domain.models.loginResp.LoginUser
 import com.malqaa.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.OtpData
 import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.AccountViewModel
+import com.malqaa.androidappp.newPhase.utils.ConstantObjects
+import com.malqaa.androidappp.newPhase.utils.HelpFunctions
+import com.malqaa.androidappp.newPhase.utils.helper.shared_preferences.SharedPreferencesStaticClass
+import com.malqaa.androidappp.newPhase.utils.hide
+import com.malqaa.androidappp.newPhase.utils.show
 import io.paperdb.Paper
-import kotlinx.android.synthetic.main.activity_confirm_change_number.*
-import kotlinx.android.synthetic.main.activity_forgot_pass_otpcode.txtDontReceive
-import kotlinx.android.synthetic.main.toolbar_main.*
 
-class ConfirmChangeNumberActivity : BaseActivity() {
+class ConfirmChangeNumberActivity : BaseActivity<ActivityConfirmChangeNumberBinding>() {
+
     private var countDownTimer: CountDownTimer? = null
     private var START_TIME_IN_MILLIS: Long = 60000
     lateinit var countdownTimer: TextView
     private var mTimeLeftInMillis = START_TIME_IN_MILLIS
     private var otpData: OtpData? = null
-    private var accountViewModel: AccountViewModel?=null
+    private var accountViewModel: AccountViewModel? = null
     var expireMinutes: Int = 1
     var expireReceiveMinutes = 1
     var typeClick = 1
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_confirm_change_number)
-        toolbar_title.text = ""
+
+        // Initialize view binding
+        binding = ActivityConfirmChangeNumberBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.toolbarMain.toolbarTitle.text = ""
         countdownTimer = findViewById(R.id.countdownTimer)
         otpData = intent.getParcelableExtra(Constants.otpDataKey)
         setupRegisterViewModel()
         setClickListeners()
-        resend_btn.hide()
+        binding.resendBtn.hide()
         /***thisForTest*/
-//        if (BuildConfig.DEBUG) {
         val dataCode: String? = otpData?.otpCode
-        pinview.value = dataCode ?: ""
-//        }
+        binding.pinview.value = dataCode ?: ""
         accountViewModel!!.getConfigurationResp(ConstantObjects.configration_otpExpiryTime)
         accountViewModel!!.getConfigurationResp(ConstantObjects.Configuration_DidNotReceiveCodeTime)
 
@@ -118,11 +120,10 @@ class ConfirmChangeNumberActivity : BaseActivity() {
         accountViewModel!!.validateAndGenerateOTPObserver.observe(this) { validateUserAndGenerateOTP ->
             if (validateUserAndGenerateOTP.otpData != null) {
                 if (typeClick == 1) startTimeCounter(expireMinutes)
-                button3.isEnabled = true
+                binding.button3.isEnabled = true
                 /***thisForTest*/
                 val otpCode = validateUserAndGenerateOTP.otpData!!.otpCode
-                pinview.value = otpCode
-
+                binding.pinview.value = otpCode
             } else {
                 HelpFunctions.ShowLongToast(
                     getString(R.string.serverError), this
@@ -175,7 +176,7 @@ class ConfirmChangeNumberActivity : BaseActivity() {
         val expireMilliSeconds = expireSeconds * 1000
         countDownTimer = object : CountDownTimer(expireMilliSeconds.toLong(), 1000) {
             override fun onTick(millisUntilFinished: Long) {
-                resend_btn.hide()
+                binding.resendBtn.hide()
                 mTimeLeftInMillis = millisUntilFinished
                 var seconds = (mTimeLeftInMillis / 1000).toInt()
                 val minutes = seconds / 60
@@ -185,34 +186,34 @@ class ConfirmChangeNumberActivity : BaseActivity() {
                 ))
                 val timeReceive = "${String.format("%02d", expireReceiveMinutes)}:00"
                 if (timeText == timeReceive) {
-                    resend_btn.hide()
-                    txtDontReceive.show()
+                    binding.resendBtn.hide()
+                    binding.txtDontReceive.show()
                 }
                 countdownTimer.text = "${getString(R.string.Seconds2)}: $timeText"
 
             }
 
             override fun onFinish() {
-                resend_btn.show()
+                binding.resendBtn.show()
                 countdownTimer.text = getString(R.string.CodeExpired)
-                button3.isEnabled = false
+                binding.button3.isEnabled = false
             }
 
         }.start()
     }
 
     private fun setClickListeners() {
-        back_btn.setOnClickListener {
+        binding.toolbarMain.backBtn.setOnClickListener {
             onBackPressed()
         }
-        resend_btn.setOnClickListener {
+        binding.resendBtn.setOnClickListener {
             if (mTimeLeftInMillis >= 1000) {
                 HelpFunctions.ShowLongToast(
                     getString(R.string.Pleasewaituntilthecodeexpires), applicationContext
                 )
             } else {
                 typeClick = 1
-                txtDontReceive.hide()
+                binding.txtDontReceive.hide()
                 val userPhone: String? = otpData?.phoneNumber
                 accountViewModel!!.resendOtp(
                     userPhone.toString(), "IndividualUpdateMoileNumber", "3"
@@ -220,8 +221,8 @@ class ConfirmChangeNumberActivity : BaseActivity() {
                 //resendOTPApi()
             }
         }
-        txtDontReceive.setOnClickListener {
-            resend_btn.hide()
+        binding.txtDontReceive.setOnClickListener {
+            binding.resendBtn.hide()
             countdownTimer.show()
             typeClick = 2
             val userPhone: String? = otpData?.phoneNumber
@@ -233,14 +234,14 @@ class ConfirmChangeNumberActivity : BaseActivity() {
 
     /***/
     private fun validatePin(): Boolean {
-        val input = pinview.value
+        val input = binding.pinview.value
         return if (input.length != 4) {
-            redmessage.visibility = View.VISIBLE
-            redmessage.text = getString(R.string.Fieldcantbeempty)
+            binding.redmessage.visibility = View.VISIBLE
+            binding.redmessage.text = getString(R.string.Fieldcantbeempty)
             false
         } else {
-            redmessage.error = null
-            redmessage.visibility = View.GONE
+            binding.redmessage.error = null
+            binding.redmessage.visibility = View.GONE
             true
         }
     }
@@ -250,7 +251,7 @@ class ConfirmChangeNumberActivity : BaseActivity() {
             return
         } else {
             //apicallSignup2()
-            val otpCode: String? = pinview.value
+            val otpCode: String? = binding.pinview.value
             accountViewModel!!.updateMobileNumber(
                 otpData?.phoneNumber.toString(), ConstantObjects.logged_userid, otpCode.toString()
             )
@@ -264,9 +265,9 @@ class ConfirmChangeNumberActivity : BaseActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        countDownTimer =null
+        countDownTimer = null
         accountViewModel?.closeAllCall()
         accountViewModel?.baseCancel()
-        accountViewModel=null
+        accountViewModel = null
     }
 }

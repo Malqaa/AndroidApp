@@ -10,26 +10,25 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.ActivityNegotiationOffersPurchaseBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
-import com.malqaa.androidappp.newPhase.utils.HelpFunctions
-import com.malqaa.androidappp.newPhase.utils.hide
-import com.malqaa.androidappp.newPhase.utils.linearLayoutManager
-import com.malqaa.androidappp.newPhase.utils.show
 import com.malqaa.androidappp.newPhase.domain.models.negotiationOfferResp.NegotiationOfferDetails
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.PurchaseResponse
 import com.malqaa.androidappp.newPhase.presentation.MainActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.cartActivity.activity2.AddressPaymentActivity
-import com.malqaa.androidappp.newPhase.presentation.activities.myOrderDetails.MyOrderDetailsActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.productDetailsActivity.ProductDetailsActivity
 import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.negotiationOffersPurchase.AcceptOfferDialog
-import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.negotiationOffersPurchase.adapter.NegotiationOffersAdapter
 import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.negotiationOffersPurchase.NegotiationOffersViewModel
+import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.negotiationOffersPurchase.adapter.NegotiationOffersAdapter
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
+import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.helper.shared_preferences.SharedPreferencesStaticClass.Companion.saveMasterCartId
-import kotlinx.android.synthetic.main.activity_negotiation_offers_purchase.*
-import kotlinx.android.synthetic.main.toolbar_main.*
+import com.malqaa.androidappp.newPhase.utils.hide
+import com.malqaa.androidappp.newPhase.utils.linearLayoutManager
+import com.malqaa.androidappp.newPhase.utils.show
 
-class NegotiationOffersPurchaseActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
+class NegotiationOffersPurchaseActivity : BaseActivity<ActivityNegotiationOffersPurchaseBinding>(),
+    SwipeRefreshLayout.OnRefreshListener,
     NegotiationOffersAdapter.SetOnOfferClickListeners {
 
     lateinit var negotiationOffersAdapter: NegotiationOffersAdapter
@@ -41,11 +40,15 @@ class NegotiationOffersPurchaseActivity : BaseActivity(), SwipeRefreshLayout.OnR
     var comeFrom = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_negotiation_offers_purchase)
-        toolbar_title.text = getString(R.string.negotiation_offers)
+
+        // Initialize view binding
+        binding = ActivityNegotiationOffersPurchaseBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.toolbarMain.toolbarTitle.text = getString(R.string.negotiation_offers)
         comeFrom = intent.getStringExtra("ComeFrom") ?: ""
-        swipeToRefresh.setColorSchemeResources(R.color.colorPrimaryDark)
-        swipeToRefresh.setOnRefreshListener(this)
+        binding.swipeToRefresh.setColorSchemeResources(R.color.colorPrimaryDark)
+        binding.swipeToRefresh.setOnRefreshListener(this)
         setViewClickListeners()
         setNegotiationOffersAdapter()
         setUpViewModel()
@@ -57,9 +60,9 @@ class NegotiationOffersPurchaseActivity : BaseActivity(), SwipeRefreshLayout.OnR
             ViewModelProvider(this).get(NegotiationOffersViewModel::class.java)
         negotiationOffersViewModel.isLoading.observe(this) {
             if (it)
-                progressBar.show()
+                binding.progressBar.show()
             else
-                progressBar.hide()
+                binding.progressBar.hide()
         }
         negotiationOffersViewModel.loadingDialogObserver.observe(this) {
             if (it) {
@@ -76,14 +79,6 @@ class NegotiationOffersPurchaseActivity : BaseActivity(), SwipeRefreshLayout.OnR
             }
         }
         negotiationOffersViewModel.errorResponseObserver.observe(this) {
-
-//            saveMasterCartId( "426")
-//
-//            startActivity(Intent(this, AddressPaymentActivity::class.java).apply {
-//                putExtra("flagTypeSale", false)
-//                putExtra("fromNegotiation",true)
-//                putExtra(ConstantObjects.orderNumberKey, 426)
-//            })
             if (it.message != null) {
                 showApiError(it.message!!)
             } else {
@@ -119,8 +114,6 @@ class NegotiationOffersPurchaseActivity : BaseActivity(), SwipeRefreshLayout.OnR
                 }
             }
         }
-
-
         negotiationOffersViewModel.purchaseOfferObserver.observe(this) {
             if (it.status_code == 200) {
                 negotiationOfferDetailsList[purchasePosition].offerStatus = "Purchcased"
@@ -128,14 +121,17 @@ class NegotiationOffersPurchaseActivity : BaseActivity(), SwipeRefreshLayout.OnR
                 purchasePosition = -1
 
 
-                val response: PurchaseResponse = Gson().fromJson(it.data.toString(), object : TypeToken<PurchaseResponse>() {}.type)
+                val response: PurchaseResponse = Gson().fromJson(
+                    it.data.toString(),
+                    object : TypeToken<PurchaseResponse>() {}.type
+                )
 
 
-                saveMasterCartId( response.orderMasterId.toInt().toString())
+                saveMasterCartId(response.orderMasterId.toInt().toString())
 
                 startActivity(Intent(this, AddressPaymentActivity::class.java).apply {
                     putExtra("flagTypeSale", false)
-                    putExtra("fromNegotiation",true)
+                    putExtra("fromNegotiation", true)
                     putExtra(ConstantObjects.orderNumberKey, response.orderMasterId.toInt())
                 })
 
@@ -152,8 +148,8 @@ class NegotiationOffersPurchaseActivity : BaseActivity(), SwipeRefreshLayout.OnR
 
     private fun showApiError(message: String) {
         if (negotiationOfferDetailsList.isEmpty()) {
-            tvError.show()
-            tvError.text = message
+            binding.tvError.show()
+            binding.tvError.text = message
         } else {
             HelpFunctions.ShowLongToast(message, this)
         }
@@ -162,7 +158,7 @@ class NegotiationOffersPurchaseActivity : BaseActivity(), SwipeRefreshLayout.OnR
     private fun setNegotiationOffersAdapter() {
         negotiationOfferDetailsList = ArrayList()
         negotiationOffersAdapter = NegotiationOffersAdapter(negotiationOfferDetailsList, this)
-        rvNegotiation.apply {
+        binding.rvNegotiation.apply {
             layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
             adapter = negotiationOffersAdapter
 
@@ -170,47 +166,46 @@ class NegotiationOffersPurchaseActivity : BaseActivity(), SwipeRefreshLayout.OnR
     }
 
     private fun setViewClickListeners() {
-        back_btn.setOnClickListener {
+        binding.toolbarMain.backBtn.setOnClickListener {
             onBackPressed()
         }
-        sent.setOnClickListener {
+        binding.sent.setOnClickListener {
             onSentNegotiation()
         }
 
-        received.setOnClickListener {
+        binding.received.setOnClickListener {
             onReceivedNegotiation()
         }
 
     }
 
     private fun onReceivedNegotiation() {
-        received.background = ContextCompat.getDrawable(
+        binding.received.background = ContextCompat.getDrawable(
             this,
             R.drawable.round_btn
         )
-        received.setTextColor(Color.parseColor("#FFFFFF"))
-        sent.setTextColor(Color.parseColor("#45495E"))
-        sent.background = null
+        binding.received.setTextColor(Color.parseColor("#FFFFFF"))
+        binding.sent.setTextColor(Color.parseColor("#45495E"))
+        binding.sent.background = null
         isSent = false
         onRefresh()
     }
 
     private fun onSentNegotiation() {
-        sent.background = ContextCompat.getDrawable(
+        binding.sent.background = ContextCompat.getDrawable(
             this,
             R.drawable.round_btn
         )
-        sent.setTextColor(Color.parseColor("#FFFFFF"))
-        received.setTextColor(Color.parseColor("#45495E"))
-//            btn.setText("Accept")
-        received.background = null
+        binding.sent.setTextColor(Color.parseColor("#FFFFFF"))
+        binding.received.setTextColor(Color.parseColor("#45495E"))
+        binding.received.background = null
         isSent = true
         onRefresh()
     }
 
     override fun onRefresh() {
-        swipeToRefresh.isRefreshing = false
-        tvError.hide()
+        binding.swipeToRefresh.isRefreshing = false
+        binding.tvError.hide()
         negotiationOfferDetailsList.clear()
         negotiationOffersAdapter.notifyDataSetChanged()
         negotiationOffersViewModel.getPurchaseProductsOffers(isSent)
@@ -268,6 +263,7 @@ class NegotiationOffersPurchaseActivity : BaseActivity(), SwipeRefreshLayout.OnR
             })
         acceptOfferDialog.show()
     }
+
     override fun onItemDetails(position: Int) {
         startActivity(Intent(this, ProductDetailsActivity::class.java).apply {
             putExtra(ConstantObjects.productIdKey, negotiationOfferDetailsList[position].productId)

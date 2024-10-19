@@ -6,22 +6,19 @@ import android.widget.Filter
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.FavoriteSubCategoryLayoutBinding
+import com.malqaa.androidappp.databinding.FragmentFavoriteSubCategoryBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.Category
-import com.malqaa.androidappp.newPhase.utils.hide
-import com.malqaa.androidappp.newPhase.utils.show
-import com.malqaa.androidappp.newPhase.utils.helper.widgets.rcv.GenericListAdapter
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.Selection
 import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activity1.ListCategoryViewModel
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
-import kotlinx.android.synthetic.main.favorite_sub_category_layout.view.*
-import kotlinx.android.synthetic.main.fragment_favorite_sub_category.*
-import kotlinx.android.synthetic.main.fragment_sub_categories.progressBar
-import kotlinx.android.synthetic.main.toolbar_main.*
+import com.malqaa.androidappp.newPhase.utils.helper.widgets.rcv.GenericListAdapter
+import com.malqaa.androidappp.newPhase.utils.hide
+import com.malqaa.androidappp.newPhase.utils.show
 
-
-class FavoriteSubCategory : BaseActivity() {
+class FavoriteSubCategory : BaseActivity<FragmentFavoriteSubCategoryBinding>() {
     val subCategory: ArrayList<Selection> = ArrayList()
     var allCategoryList: ArrayList<Category>? = null
     var categoryIdList: ArrayList<Int>? = null
@@ -32,20 +29,24 @@ class FavoriteSubCategory : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.fragment_favorite_sub_category)
+
+        // Initialize view binding
+        binding = FragmentFavoriteSubCategoryBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         categoryIdList = arrayListOf()
         initView()
 
         allCategoryList = arrayListOf()
 
-        back_btn.setOnClickListener {
+        binding.toolbarMain.backBtn.setOnClickListener {
             finish()
         }
         categoryid = intent.getIntExtra(ConstantObjects.categoryIdKey, 0)
         categoryName = intent.getStringExtra(ConstantObjects.categoryName).toString()
         setUpViewModel()
 
-        btnDone.setOnClickListener {
+        binding.btnDone.setOnClickListener {
             listCategoryViewModel!!.followCategoryAPI(categoryIdList!!, this)
         }
 
@@ -56,9 +57,9 @@ class FavoriteSubCategory : BaseActivity() {
         listCategoryViewModel = ViewModelProvider(this).get(ListCategoryViewModel::class.java)
         listCategoryViewModel!!.isLoading.observe(this) {
             if (it)
-                progressBar.show()
+                binding.progressBar.show()
             else
-                progressBar.hide()
+                binding.progressBar.hide()
         }
         listCategoryViewModel!!.isNetworkFail.observe(this) {
             if (it) {
@@ -137,33 +138,36 @@ class FavoriteSubCategory : BaseActivity() {
 
 
     private fun initView() {
-        toolbar_title.visibility = View.GONE
+        binding.toolbarMain.toolbarTitle.visibility = View.GONE
         listCategoryViewModel = ViewModelProvider(this).get(ListCategoryViewModel::class.java)
-
     }
 
 
     private fun subCategoryAdapter(list: ArrayList<Category>) {
-        all_sub_category_rcv.adapter = object : GenericListAdapter<Category>(
+        binding.allSubCategoryRcv.adapter = object : GenericListAdapter<Category>(
             R.layout.favorite_sub_category_layout,
             bind = { element, holder, itemCount, position ->
+
+                // Use view binding to bind each item in the RecyclerView
+                val itemBinding = FavoriteSubCategoryLayoutBinding.bind(holder.itemView)
+
                 holder.view.run {
                     element.run {
-                        category_name_tv.text = name
+                        itemBinding.categoryNameTv.text = name
                         if (allCategoryList?.get(position)?.isSelected == true) {
 
-                            bgline.show()
-                            is_selectimage.show()
-                            category_icon.borderColor = ContextCompat.getColor(
+                            itemBinding.bgline.show()
+                            itemBinding.isSelectimage.show()
+                            itemBinding.categoryIcon.borderColor = ContextCompat.getColor(
                                 context,
                                 R.color.bg
                             )
 
                             categoryIdList?.add(allCategoryList?.get(position)?.id ?: 0)
                         } else {
-                            bgline.hide()
-                            is_selectimage.hide()
-                            category_icon.borderColor = ContextCompat.getColor(
+                            itemBinding.bgline.hide()
+                            itemBinding.isSelectimage.hide()
+                            itemBinding.categoryIcon.borderColor = ContextCompat.getColor(
                                 context,
                                 R.color.white
                             )
@@ -173,7 +177,7 @@ class FavoriteSubCategory : BaseActivity() {
 
                             allCategoryList?.get(position)?.isSelected =
                                 (allCategoryList?.get(position)?.isSelected != true)
-                            all_sub_category_rcv.adapter?.notifyDataSetChanged()
+                            binding.allSubCategoryRcv.adapter?.notifyDataSetChanged()
                         }
                     }
                 }

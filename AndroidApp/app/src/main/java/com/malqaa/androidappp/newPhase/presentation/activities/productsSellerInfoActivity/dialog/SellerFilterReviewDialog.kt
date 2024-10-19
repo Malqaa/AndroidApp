@@ -2,16 +2,15 @@ package com.malqaa.androidappp.newPhase.presentation.activities.productsSellerIn
 
 import android.content.Context
 import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.DialogSellerFilterRateBinding
 import com.malqaa.androidappp.newPhase.core.BaseDialog
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.show
 
-import kotlinx.android.synthetic.main.dialog_seller_filter_rate.*
-
 class SellerFilterReviewDialog(
     context: Context,
     var applySellerReviewFilter: ApplySellerReviewFilter
-) : BaseDialog(context) {
+) : BaseDialog<DialogSellerFilterRateBinding>(context) {
     var selectionTap: Int = sellerOrBayerFilterTap;
     var getReviewAsAsSellerOrBuyer = sellerAsASeller
     var getReviewType = 8
@@ -28,8 +27,8 @@ class SellerFilterReviewDialog(
         const val allReview = 8
     }
 
-    override fun getViewId(): Int {
-        return R.layout.dialog_seller_filter_rate
+    override fun inflateViewBinding(): DialogSellerFilterRateBinding {
+        return DialogSellerFilterRateBinding.inflate(layoutInflater)
     }
 
     override fun isFullScreen(): Boolean = false
@@ -38,63 +37,63 @@ class SellerFilterReviewDialog(
     override fun isLoadingDialog(): Boolean = false
 
     override fun initialization() {
-        review_type2.setOnClickListener {
-            ContainerReviewAsAsAsSellerOrBuyer.show()
-            containerReviewTypes.hide()
+        binding.reviewType2.setOnClickListener {
+            binding.ContainerReviewAsAsAsSellerOrBuyer.show()
+            binding.containerReviewTypes.hide()
         }
-        review_type1.setOnClickListener {
-            ContainerReviewAsAsAsSellerOrBuyer.hide()
-            containerReviewTypes.show()
+        binding.reviewType1.setOnClickListener {
+            binding.ContainerReviewAsAsAsSellerOrBuyer.hide()
+            binding.containerReviewTypes.show()
         }
-        cbReviewsAsAll.setOnCheckedChangeListener { p0, p1 ->
+        binding.cbReviewsAsAll.setOnCheckedChangeListener { p0, p1 ->
             if (p1) {
                 getReviewAsAsSellerOrBuyer = sellerAsAll
-                review_type2.text = context.getString(R.string.all)
-                cbReviewsAsSeller.isChecked = false
-                cbReviewsAsBuyer.isChecked = false
+                binding.reviewType2.text = context.getString(R.string.all)
+                binding.cbReviewsAsSeller.isChecked = false
+                binding.cbReviewsAsBuyer.isChecked = false
             }
         }
-        cbReviewsAsSeller.setOnCheckedChangeListener { p0, p1 ->
+        binding.cbReviewsAsSeller.setOnCheckedChangeListener { p0, p1 ->
             if (p1) {
                 getReviewAsAsSellerOrBuyer = sellerAsASeller
-                review_type2.text = context.getString(R.string.reviews_as_a_seller)
-                cbReviewsAsAll.isChecked = false
-                cbReviewsAsBuyer.isChecked = false
+                binding.reviewType2.text = context.getString(R.string.reviews_as_a_seller)
+                binding.cbReviewsAsAll.isChecked = false
+                binding.cbReviewsAsBuyer.isChecked = false
             }
         }
-        cbReviewsAsBuyer.setOnCheckedChangeListener { p0, p1 ->
+        binding.cbReviewsAsBuyer.setOnCheckedChangeListener { p0, p1 ->
             if (p1) {
                 getReviewAsAsSellerOrBuyer = sellerAsABuyer
-                cbReviewsAsAll.isChecked = false
-                cbReviewsAsSeller.isChecked = false
-                review_type2.text = context.getString(R.string.reviews_as_a_buyer)
+                binding.cbReviewsAsAll.isChecked = false
+                binding.cbReviewsAsSeller.isChecked = false
+                binding.reviewType2.text = context.getString(R.string.reviews_as_a_buyer)
             }
         }
-        cbReviewsHappy.setOnCheckedChangeListener { p0, p1 ->
+        binding.cbReviewsHappy.setOnCheckedChangeListener { p0, p1 ->
             if (p1) {
                 getReviewType = happyReview
-                cbReviewsSatisfied.isChecked = false
-                cbReviewsNotSatisfied.isChecked = false
+                binding.cbReviewsSatisfied.isChecked = false
+                binding.cbReviewsNotSatisfied.isChecked = false
             }
         }
-        cbReviewsSatisfied.setOnCheckedChangeListener { p0, p1 ->
+        binding.cbReviewsSatisfied.setOnCheckedChangeListener { p0, p1 ->
             if (p1) {
                 getReviewType = satisfiedReview
-                cbReviewsHappy.isChecked = false
-                cbReviewsNotSatisfied.isChecked = false
+                binding.cbReviewsHappy.isChecked = false
+                binding.cbReviewsNotSatisfied.isChecked = false
             }
         }
-        cbReviewsNotSatisfied.setOnCheckedChangeListener { p0, p1 ->
+        binding.cbReviewsNotSatisfied.setOnCheckedChangeListener { p0, p1 ->
             if (p1) {
                 getReviewType = unsatisfiedReview
-                cbReviewsHappy.isChecked = false
-                cbReviewsSatisfied.isChecked = false
+                binding.cbReviewsHappy.isChecked = false
+                binding.cbReviewsSatisfied.isChecked = false
             }
         }
-        btnApplyFilter.setOnClickListener {
+        binding.btnApplyFilter.setOnClickListener {
             applySellerReviewFilter.onApplyFilter(getReviewType, getReviewAsAsSellerOrBuyer)
         }
-        btnResetFilter.setOnClickListener {
+        binding.btnResetFilter.setOnClickListener {
             selectionTap = sellerOrBayerFilterTap;
             getReviewAsAsSellerOrBuyer = sellerAsASeller
             getReviewType = 8
@@ -108,52 +107,58 @@ class SellerFilterReviewDialog(
         getReviewType = reviewType
         when (selectionTap) {
             sellerOrBayerFilterTap -> {
-                review_type2.performClick()
+                binding.reviewType2.performClick()
             }
+
             reviewTypeTap -> {
-                review_type1.performClick()
+                binding.reviewType1.performClick()
             }
         }
         when (getReviewAsAsSellerOrBuyer) {
             sellerAsAll -> {
-                cbReviewsAsAll.isChecked = true
-                cbReviewsAsSeller.isChecked = false
-                cbReviewsAsBuyer.isChecked = false
-                review_type2.text = context.getString(R.string.all)
+                binding.cbReviewsAsAll.isChecked = true
+                binding.cbReviewsAsSeller.isChecked = false
+                binding.cbReviewsAsBuyer.isChecked = false
+                binding.reviewType2.text = context.getString(R.string.all)
             }
+
             sellerAsASeller -> {
-                cbReviewsAsAll.isChecked = false
-                cbReviewsAsSeller.isChecked = true
-                cbReviewsAsBuyer.isChecked = false
-                review_type2.text = context.getString(R.string.reviews_as_a_seller)
+                binding.cbReviewsAsAll.isChecked = false
+                binding.cbReviewsAsSeller.isChecked = true
+                binding.cbReviewsAsBuyer.isChecked = false
+                binding.reviewType2.text = context.getString(R.string.reviews_as_a_seller)
             }
+
             sellerAsABuyer -> {
-                cbReviewsAsAll.isChecked = false
-                cbReviewsAsSeller.isChecked = false
-                cbReviewsAsBuyer.isChecked = true
-                review_type2.text = context.getString(R.string.reviews_as_a_buyer)
+                binding.cbReviewsAsAll.isChecked = false
+                binding.cbReviewsAsSeller.isChecked = false
+                binding.cbReviewsAsBuyer.isChecked = true
+                binding.reviewType2.text = context.getString(R.string.reviews_as_a_buyer)
             }
         }
         when (getReviewType) {
             allReview -> {
-                cbReviewsHappy.isChecked = false
-                cbReviewsSatisfied.isChecked = false
-                cbReviewsNotSatisfied.isChecked = false
+                binding.cbReviewsHappy.isChecked = false
+                binding.cbReviewsSatisfied.isChecked = false
+                binding.cbReviewsNotSatisfied.isChecked = false
             }
+
             happyReview -> {
-                cbReviewsHappy.isChecked = true
-                cbReviewsSatisfied.isChecked = false
-                cbReviewsNotSatisfied.isChecked = false
+                binding.cbReviewsHappy.isChecked = true
+                binding.cbReviewsSatisfied.isChecked = false
+                binding.cbReviewsNotSatisfied.isChecked = false
             }
+
             satisfiedReview -> {
-                cbReviewsHappy.isChecked = false
-                cbReviewsSatisfied.isChecked = true
-                cbReviewsNotSatisfied.isChecked = false
+                binding.cbReviewsHappy.isChecked = false
+                binding.cbReviewsSatisfied.isChecked = true
+                binding.cbReviewsNotSatisfied.isChecked = false
             }
+
             unsatisfiedReview -> {
-                cbReviewsHappy.isChecked = false
-                cbReviewsSatisfied.isChecked = false
-                cbReviewsNotSatisfied.isChecked = true
+                binding.cbReviewsHappy.isChecked = false
+                binding.cbReviewsSatisfied.isChecked = false
+                binding.cbReviewsNotSatisfied.isChecked = true
             }
         }
     }
@@ -162,6 +167,4 @@ class SellerFilterReviewDialog(
         fun onApplyFilter(reviewType: Int, rateAsSellerOrBuyer: Int)
         fun onResetFilter()
     }
-
-
 }

@@ -14,9 +14,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.malqaa.androidappp.R
+import com.malqaa.androidappp.fragments.create_ads.categoriesmodel_jsons.JsonFileNames
 import com.malqaa.androidappp.newPhase.domain.models.categoryResp.Categories
 import com.malqaa.androidappp.newPhase.domain.models.categoryResp.CategoriesItem
-import com.malqaa.androidappp.fragments.create_ads.categoriesmodel_jsons.JsonFileNames
 import java.io.InputStream
 
 
@@ -28,8 +28,6 @@ class SubcategoriesDialogFragment : AppCompatDialogFragment(),
         val builder: AlertDialog.Builder = AlertDialog.Builder(activity)
         val inflater = activity!!.layoutInflater
         val view: View = inflater.inflate(R.layout.alert_subcategories_context, null)
-//
-//
 
         if (StaticGetSubcategoryByBrowseCateClick.getcategory == "Vehicles") {
             val subcategory = loadJson(requireContext(), JsonFileNames.VEHICLE_CATEGORY)
@@ -41,20 +39,16 @@ class SubcategoriesDialogFragment : AppCompatDialogFragment(),
             //else if (StaticGetSubcategoryByBrowseCateClick.getcategory == "Boats & Marine") {
             val subcategory = loadJson(requireContext(), JsonFileNames.BOATSMARINE_CATEGORY)
             StaticGetSubcategoryByBrowseCateClick.getsubcategory = subcategory!!
-        }else if (StaticGetSubcategoryByBrowseCateClick.getcategory == "General") {
-        //else if (StaticGetSubcategoryByBrowseCateClick.getcategory == "Electronics & video games") {
+        } else if (StaticGetSubcategoryByBrowseCateClick.getcategory == "General") {
             val subcategory = loadJson(requireContext(), JsonFileNames.ELECTRONIC_GAME_CATEGORY)
             StaticGetSubcategoryByBrowseCateClick.getsubcategory = subcategory!!
-        }else if (StaticGetSubcategoryByBrowseCateClick.getcategory == "General") {
-        //else if (StaticGetSubcategoryByBrowseCateClick.getcategory == "Furniture's") {
+        } else if (StaticGetSubcategoryByBrowseCateClick.getcategory == "General") {
             val subcategory = loadJson(requireContext(), JsonFileNames.FURNITURE_FURNISH_CATEGORY)
             StaticGetSubcategoryByBrowseCateClick.getsubcategory = subcategory!!
         }
 
-//
-//
         val getsubcategory = StaticGetSubcategoryByBrowseCateClick.getsubcategory
-        if(getsubcategory!=null && getsubcategory.toString().trim().length>0) {
+        if (getsubcategory != null && getsubcategory.toString().trim().length > 0) {
             val gson = Gson()
             val data = gson.fromJson(getsubcategory, Categories::class.java)
             val subcatRecycler: RecyclerView = view.findViewById(R.id.subcat_recycler)

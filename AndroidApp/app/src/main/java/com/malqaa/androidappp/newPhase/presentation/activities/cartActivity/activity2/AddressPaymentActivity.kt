@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.ActivityAddressPaymentBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
 import com.malqaa.androidappp.newPhase.domain.models.ErrorAddOrder
 import com.malqaa.androidappp.newPhase.domain.models.addOrderResp.ProductOrderPaymentDetailsDto
@@ -26,19 +27,16 @@ import com.malqaa.androidappp.newPhase.presentation.activities.cartActivity.view
 import com.malqaa.androidappp.newPhase.presentation.activities.myOrderDetails.adapter.CurrentOrderAdapter
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
-import com.malqaa.androidappp.newPhase.utils.helper.*
 import com.malqaa.androidappp.newPhase.utils.helper.shared_preferences.SharedPreferencesStaticClass
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.linearLayoutManager
 import com.malqaa.androidappp.newPhase.utils.show
-import kotlinx.android.synthetic.main.activity_address_payment.*
-import kotlinx.android.synthetic.main.toolbar_main.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 @SuppressLint("NotifyDataSetChanged")
-class AddressPaymentActivity : BaseActivity(),
+class AddressPaymentActivity : BaseActivity<ActivityAddressPaymentBinding>(),
     AddressesAdapter.SetOnSelectedAddress, CartNewAdapter.SetProductNewCartListeners,
     SwipeRefreshLayout.OnRefreshListener,
     CurrentOrderAdapter.SetOnClickListeners {
@@ -76,29 +74,29 @@ class AddressPaymentActivity : BaseActivity(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_address_payment)
+
+        // Initialize view binding
+        binding = ActivityAddressPaymentBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         flagTypeSale = intent.getBooleanExtra("flagTypeSale", true)
         fromNegotiation = intent.getBooleanExtra("fromNegotiation", false)
         orderId = intent.getIntExtra(ConstantObjects.orderNumberKey, 0)
 
-        toolbar_title.text = getString(R.string.CheckoutProduct)
-        swipe_to_refresh.setColorSchemeResources(R.color.colorPrimaryDark)
-        swipe_to_refresh.setOnRefreshListener(this)
+        binding.toolbarMain.toolbarTitle.text = getString(R.string.CheckoutProduct)
+        binding.swipeToRefresh.setColorSchemeResources(R.color.colorPrimaryDark)
+        binding.swipeToRefresh.setOnRefreshListener(this)
         setAddressesAdapter()
         setupCartViewModel()
         setViewClickListeners()
 
         if (flagTypeSale) {
-            titleCoupon.visibility = View.VISIBLE
-            lay_activeCoupon.visibility = View.VISIBLE
+            binding.titleCoupon.visibility = View.VISIBLE
+            binding.layActiveCoupon.visibility = View.VISIBLE
         } else {
-            titleCoupon.visibility = View.GONE
-            lay_activeCoupon.visibility = View.GONE
+            binding.titleCoupon.visibility = View.GONE
+            binding.layActiveCoupon.visibility = View.GONE
         }
-//        initView()
-//        setListener()
-
-
     }
 
     override fun onResume() {
@@ -121,16 +119,14 @@ class AddressPaymentActivity : BaseActivity(),
 
     private fun setViewClickListeners() {
         paymentDetailsDtoList = arrayListOf()
-        back_btn.setOnClickListener {
+        binding.toolbarMain.backBtn.setOnClickListener {
             finish()
         }
-        add_new_add.setOnClickListener {
+        binding.addNewAdd.setOnClickListener {
             addAddressLaucher.launch(Intent(this, AddAddressActivity::class.java))
         }
 
-        btn_confirm_details.setOnClickListener {
-//          val objAddress=  userAddressesList.find { isSelect }
-
+        binding.btnConfirmDetails.setOnClickListener {
             val mergedList = mergeTuplesInList(paymentDetailsDtoList ?: arrayListOf())
             val customList = mergedList.map { triple ->
                 ProductOrderPaymentDetailsDto(triple.first, triple.second, triple.third)
@@ -140,14 +136,11 @@ class AddressPaymentActivity : BaseActivity(),
 
                 if (addressId == 0) {
                     HelpFunctions.ShowLongToast(getString(R.string.selectDeliveryAddress), this)
-                }
-                else if (deliveryOptionSelect == "0") {
+                } else if (deliveryOptionSelect == "0") {
                     HelpFunctions.ShowLongToast(getString(R.string.please_delivery_options), this)
-                }
-                else if (paymentOptionSelect == 0) {
+                } else if (paymentOptionSelect == 0) {
                     HelpFunctions.ShowLongToast(getString(R.string.please_payment_options), this)
-                }
-                else if (productsCartList!!.isEmpty()) {
+                } else if (productsCartList!!.isEmpty()) {
                     HelpFunctions.ShowLongToast(getString(R.string.empty_cart), this)
                 } else {
                     cartViewModel?.addOrder(
@@ -179,13 +172,13 @@ class AddressPaymentActivity : BaseActivity(),
 
         }
 
-        btnApplyCode.setOnClickListener {
-            if (edtCoupon.text.toString().trim() == "") {
-                edtCoupon.error = getString(R.string.enter_the_coupon)
+        binding.btnApplyCode.setOnClickListener {
+            if (binding.edtCoupon.text.toString().trim() == "") {
+                binding.edtCoupon.error = getString(R.string.enter_the_coupon)
             } else {
                 cartViewModel?.applyCouponOnCart(
                     SharedPreferencesStaticClass.getMasterCartId(),
-                    edtCoupon.text.toString().trim()
+                    binding.edtCoupon.text.toString().trim()
                 )
             }
         }
@@ -196,9 +189,9 @@ class AddressPaymentActivity : BaseActivity(),
         cartViewModel = ViewModelProvider(this).get(CartViewModel::class.java)
         cartViewModel!!.isLoadingAddresses.observe(this) {
             if (it)
-                progressBarAddresses.show()
+                binding.progressBarAddresses.show()
             else
-                progressBarAddresses.hide()
+                binding.progressBarAddresses.hide()
         }
         cartViewModel!!.isLoading.observe(this) {
             if (it)
@@ -239,7 +232,7 @@ class AddressPaymentActivity : BaseActivity(),
                                     error.productName
                                 )
                                 if (error.quantity == 0) {
-                                    product.msgError  =getString(R.string.notFoundQuantity)
+                                    product.msgError = getString(R.string.notFoundQuantity)
                                 } else
                                     product.msgError = message
                             }
@@ -256,12 +249,12 @@ class AddressPaymentActivity : BaseActivity(),
         cartViewModel!!.userAddressesListObserver.observe(this) { userAddressResp ->
             if (userAddressResp.status_code == 200) {
                 if (userAddressResp.addressesList != null && userAddressResp.addressesList?.isNotEmpty() == true) {
-                    tvAddressError.hide()
+                    binding.tvAddressError.hide()
                     userAddressesList?.clear()
                     userAddressesList?.addAll(userAddressResp.addressesList!!)
                     addressesAdapter?.notifyDataSetChanged()
                 } else {
-                    tvAddressError.show()
+                    binding.tvAddressError.show()
                 }
             }
         }
@@ -269,23 +262,18 @@ class AddressPaymentActivity : BaseActivity(),
             if (increaseProductResp.status_code == 200) {
                 productsCartList?.get(lastUpdateMainPosition)?.listProduct?.get(
                     lastUpdateProductPosition
-                )
-                    ?.let {
-//                        if(it.qty==null){
-                        it.cartProductQuantity = (it.cartProductQuantity ?: 0) + 1
-//                        }else{
-//                            it.qty = (it.qty?:0) + 1
-//                        }
-                        cartDataObject?.let { cartDataObject ->
-                            cartDataObject.totalPriceForCartFinal += it.priceDiscount
-                            cartDataObject.totalPriceForCartBeforeDiscount += it.priceDiscount
-                        }
-                        productsCartList!![lastUpdateMainPosition].couponAppliedBussinessAccountDto?.let { couponAppliedBussinessAccountDto ->
-                            couponAppliedBussinessAccountDto.businessAccountAmountBeforeCoupon += it.priceDiscount
-                            couponAppliedBussinessAccountDto.businessAccountAmountAfterCoupon += it.priceDiscount
-                            couponAppliedBussinessAccountDto.finalTotalPriceForBusinessAccount += it.priceDiscount
-                        }
+                )?.let {
+                    it.cartProductQuantity = (it.cartProductQuantity ?: 0) + 1
+                    cartDataObject?.let { cartDataObject ->
+                        cartDataObject.totalPriceForCartFinal += it.priceDiscount
+                        cartDataObject.totalPriceForCartBeforeDiscount += it.priceDiscount
                     }
+                    productsCartList!![lastUpdateMainPosition].couponAppliedBussinessAccountDto?.let { couponAppliedBussinessAccountDto ->
+                        couponAppliedBussinessAccountDto.businessAccountAmountBeforeCoupon += it.priceDiscount
+                        couponAppliedBussinessAccountDto.businessAccountAmountAfterCoupon += it.priceDiscount
+                        couponAppliedBussinessAccountDto.finalTotalPriceForBusinessAccount += it.priceDiscount
+                    }
+                }
 
 
                 cartNewAdapter?.notifyItemChanged(lastUpdateMainPosition)
@@ -361,13 +349,13 @@ class AddressPaymentActivity : BaseActivity(),
                             ?: resp.orderDetailsByMasterIDData.totalOrderMasterAmountBeforDiscount)!!
                     cartDataObject!!.totalPriceForCartBeforeDiscount =
                         resp.orderDetailsByMasterIDData.totalOrderMasterAmountBeforDiscount!!
-                    total_tv.text =
+                    binding.totalTv.text =
                         "${resp.orderDetailsByMasterIDData.totalOrderMasterAmountAfterDiscount ?: resp.orderDetailsByMasterIDData.totalOrderMasterAmountBeforDiscount} ${
                             getString(
                                 R.string.Rayal
                             )
                         }"
-                    subtotal_tv.text =
+                    binding.subtotalTv.text =
                         "${resp.orderDetailsByMasterIDData.totalOrderMasterAmountBeforDiscount} ${
                             getString(
                                 R.string.Rayal
@@ -407,9 +395,9 @@ class AddressPaymentActivity : BaseActivity(),
             if (applyCouponResp.status_code == 200) {
                 productsCartList?.clear()
                 cartNewAdapter?.notifyDataSetChanged()
-                total_tv.text = "0 ${getString(R.string.Rayal)}"
-                subtotal_tv.text = "0 ${getString(R.string.Rayal)}"
-                discount_tv.text = "0 ${getString(R.string.Rayal)}"
+                binding.totalTv.text = "0 ${getString(R.string.Rayal)}"
+                binding.subtotalTv.text = "0 ${getString(R.string.Rayal)}"
+                binding.discountTv.text = "0 ${getString(R.string.Rayal)}"
                 if (!fromNegotiation)
                     getCartList()
             } else {
@@ -482,7 +470,7 @@ class AddressPaymentActivity : BaseActivity(),
     private fun setOrderDetailsAdapter() {
         orderFullInfoDtoList = ArrayList<OrderFullInfoDto>()
         purchaseOrderAdapter = CurrentOrderAdapter(orderFullInfoDtoList, this)
-        rvNewCart.apply {
+        binding.rvNewCart.apply {
             adapter = purchaseOrderAdapter
             layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
         }
@@ -492,58 +480,21 @@ class AddressPaymentActivity : BaseActivity(),
     private fun setCartNewAdapter() {
         productsCartList = ArrayList<CartProductDetails>()
         cartNewAdapter = CartNewAdapter(flagTypeSale, productsCartList ?: arrayListOf(), this)
-        rvNewCart.apply {
+        binding.rvNewCart.apply {
             adapter = cartNewAdapter
             layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
         }
     }
 
-    //    private fun setCartTotalPrice() {
-//        lifecycleScope.launch(Dispatchers.IO) {
-//            var totalPrice = 0F
-//            for (item in productsCartList) {
-//                item.listProduct?.get(0)?.let { product ->
-//                    if (product.priceDiscount == product.price) {
-//                        totalPrice += (product.price * product.qty)
-//                    } else {
-//                        totalPrice += (product.priceDiscount * product.qty)
-//                    }
-//                }
-//            }
-//            withContext(Dispatchers.Main) {
-//                subtotal_tv.text = "$totalPrice ${getString(R.string.Rayal)}"
-//                var finalPrice = totalPrice
-//                try {
-//                    var priceCoupon = discount_tv.text.trim().toString().toFloat()
-//                    finalPrice += priceCoupon
-//                } catch (e: Exception) {
-//                }
-//
-//                total_tv.text = "$finalPrice ${getString(R.string.Rayal)}"
-//
-//            }
-//        }
-//
-//    }
     private fun setCartTotalPrice() {
         lifecycleScope.launch(Dispatchers.IO) {
-
-//            for (item in productsCartList) {
-//                item.listProduct?.get(0)?.let { product ->
-//                    if (product.priceDiscount == product.price) {
-//                        totalPrice += (product.price * product.qty)
-//                    } else {
-//                        totalPrice += (product.priceDiscount * product.qty)
-//                    }
-//                }
-//            }
             withContext(Dispatchers.Main) {
                 if (cartDataObject != null) {
-                    total_tv.text =
+                    binding.totalTv.text =
                         "${cartDataObject!!.totalPriceForCartFinal} ${getString(R.string.Rayal)}"
-                    subtotal_tv.text =
+                    binding.subtotalTv.text =
                         "${cartDataObject!!.totalPriceForCartBeforeDiscount} ${getString(R.string.Rayal)}"
-                    discount_tv.text =
+                    binding.discountTv.text =
                         "${cartDataObject!!.adminCouponcodeDiscount} ${getString(R.string.Rayal)}"
                 }
 
@@ -555,12 +506,11 @@ class AddressPaymentActivity : BaseActivity(),
     private fun setAddressesAdapter() {
         userAddressesList = ArrayList()
         addressesAdapter = AddressesAdapter(userAddressesList ?: arrayListOf(), this, true)
-        rvAddress.apply {
+        binding.rvAddress.apply {
             adapter = addressesAdapter
             layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
         }
     }
-
 
     override fun onIncreaseQuantityProduct(position: Int, mainPosition: Int) {
         lastUpdateMainPosition = mainPosition
@@ -595,13 +545,6 @@ class AddressPaymentActivity : BaseActivity(),
                 deliveryOptionSelect.toInt()
             )
         )
-//        paymentDetailsList.add(
-//            ProductOrderPaymentDetailsDto(
-//                productId = productId,
-//                paymentOption = paymentSelection,
-//                shippingOption = deliveryOptionSelect.toInt()
-//            )
-//        )
     }
 
     override fun onSelectDelivery(productId: Int, deliverySelection: String) {
@@ -613,8 +556,6 @@ class AddressPaymentActivity : BaseActivity(),
                 deliveryOptionSelect.toInt()
             )
         )
-
-
     }
 
     override fun onDeleteShipping(position: Int) {
@@ -713,7 +654,7 @@ class AddressPaymentActivity : BaseActivity(),
     }
 
     override fun onRefresh() {
-        swipe_to_refresh.isRefreshing = false
+        binding.swipeToRefresh.isRefreshing = false
         productsCartList?.clear()
         cartNewAdapter?.notifyDataSetChanged()
         userAddressesList?.clear()
@@ -743,15 +684,9 @@ class AddressPaymentActivity : BaseActivity(),
 
     override fun onDownloadInvoiceSelected(position: Int) {
         // TODO: onDownloadInvoiceSelected
-//        val orderInvoice = orderFullInfoDtoList[position].orderInvoice
-//        downloadFile(context = this, orderInvoice)
     }
 
-    override fun onAddRateToShipmentSelected(position: Int) {
-    }
+    override fun onAddRateToShipmentSelected(position: Int) {}
 
-    override fun onCancelOrder(position: Int) {
-    }
-
-
+    override fun onCancelOrder(position: Int) {}
 }

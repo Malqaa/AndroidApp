@@ -8,28 +8,28 @@ import com.malqaa.androidappp.newPhase.domain.models.sellerRateListResp.SellerRa
 import retrofit2.Call
 import retrofit2.HttpException
 
-class SellerRatingViewModel : BaseViewModel(){
+class SellerRatingViewModel : BaseViewModel() {
     var sellerRateListObservable: MutableLiveData<SellerRateListResp> = MutableLiveData()
 
     private var callSellerRates: Call<SellerRateListResp>? = null
     private var callBuyerRates: Call<SellerRateListResp>? = null
 
-    fun getSellerRates(page: Int,rate:Int?) {
+    fun getSellerRates(page: Int, rate: Int?) {
         if (page == 1)
             isLoading.value = true
         else
-            isloadingMore .value = true
+            isloadingMore.value = true
 
-        callSellerRates = getRetrofitBuilder().getSellerRates( page,rate)
+        callSellerRates = getRetrofitBuilder().getSellerRates(page, rate)
         callApi(callSellerRates!!,
             onSuccess = {
                 isLoading.value = false
-                isloadingMore.value=false
+                isloadingMore.value = false
                 sellerRateListObservable.value = it
             },
             onFailure = { throwable, statusCode, errorBody ->
                 isLoading.value = false
-                isloadingMore.value=false
+                isloadingMore.value = false
                 if (throwable != null && errorBody == null)
                     isNetworkFail.value = throwable !is HttpException
                 else {
@@ -38,28 +38,28 @@ class SellerRatingViewModel : BaseViewModel(){
                 }
             },
             goLogin = {
-                isloadingMore.value=false
+                isloadingMore.value = false
                 isLoading.value = false
                 needToLogin.value = true
             })
 
     }
 
-    fun getBuyerRates(page: Int,rate:Int?) {
+    fun getBuyerRates(page: Int, rate: Int?) {
         if (page == 1)
             isLoading.value = true
         else
-            isloadingMore .value = true
-        callBuyerRates = getRetrofitBuilder().getBuyerRates( page,rate)
+            isloadingMore.value = true
+        callBuyerRates = getRetrofitBuilder().getBuyerRates(page, rate)
         callApi(callBuyerRates!!,
             onSuccess = {
                 isLoading.value = false
-                isloadingMore.value=false
+                isloadingMore.value = false
                 sellerRateListObservable.value = it
             },
             onFailure = { throwable, statusCode, errorBody ->
                 isLoading.value = false
-                isloadingMore.value=false
+                isloadingMore.value = false
                 if (throwable != null && errorBody == null)
                     isNetworkFail.value = throwable !is HttpException
                 else {
@@ -68,11 +68,12 @@ class SellerRatingViewModel : BaseViewModel(){
                 }
             },
             goLogin = {
-                isloadingMore.value=false
+                isloadingMore.value = false
                 isLoading.value = false
                 needToLogin.value = true
             })
     }
+
     fun closeAllCall() {
         if (callSellerRates != null) {
             callSellerRates?.cancel()

@@ -9,9 +9,13 @@ import android.widget.TextView
 import com.malqaa.androidappp.R
 import com.malqaa.androidappp.newPhase.domain.models.orderDetailsByMasterID.ProductBankAccountsDto
 
-class CustomDropDownAdapter (val context: Context, private var dataSource: List<ProductBankAccountsDto>) : BaseAdapter() {
+class CustomDropDownAdapter(
+    val context: Context,
+    private var dataSource: List<ProductBankAccountsDto>
+) : BaseAdapter() {
 
-    private val inflater: LayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+    private val inflater: LayoutInflater =
+        context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
 

@@ -8,37 +8,38 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.malqaa.androidappp.R
-import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activity3.SubCategoriesActivity
+import com.malqaa.androidappp.databinding.ActivityChooseCategoryBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
 import com.malqaa.androidappp.newPhase.domain.models.addProductToCartResp.AddProductObjectData
+import com.malqaa.androidappp.newPhase.domain.models.servicemodels.Category
+import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.ConfirmationAddProductActivity
+import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activity3.SubCategoriesActivity
+import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.show
-import com.malqaa.androidappp.newPhase.utils.ConstantObjects
-import com.malqaa.androidappp.newPhase.domain.models.servicemodels.Category
-import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.ConfirmationAddProductActivity
-import kotlinx.android.synthetic.main.activity_choose_category.*
-import kotlinx.android.synthetic.main.toolbar_main.*
 
-class ChooseCategoryActivity : BaseActivity() {
+class ChooseCategoryActivity : BaseActivity<ActivityChooseCategoryBinding>() {
     var allCategoryList: List<Category> = ArrayList()
     var position = -1
     private var isEdit: Boolean = false
     private var categoryViewModel: CategoryViewModel? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_choose_category)
+        // Initialize view binding
+        binding = ActivityChooseCategoryBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         isEdit = intent.getBooleanExtra(ConstantObjects.isEditKey, false)
 
         setupLoginViewModel()
-        toolbar_title.text = getString(R.string.choose_department)
+        binding.toolBar.toolbarTitle.text = getString(R.string.choose_department)
 
 
-        back_btn.setOnClickListener {
+        binding.toolBar.backBtn.setOnClickListener {
             onBackPressed()
         }
-        add_product_button4.setOnClickListener {
-//            AddProductObjectData.subCategoryPath.clear()
+        binding.addProductButton4.setOnClickListener {
             if (isEdit) {
 
                 startActivity(Intent(this, SubCategoriesActivity::class.java).apply {
@@ -84,7 +85,7 @@ class ChooseCategoryActivity : BaseActivity() {
                 }
             }
 
-            recycler_all_category.adapter =
+            binding.recyclerAllCategory.adapter =
                 AdapterAllCategoriesAdapter(
                     allCategoryList
                 ) {
@@ -106,9 +107,9 @@ class ChooseCategoryActivity : BaseActivity() {
 
         categoryViewModel?.isLoadingAllCategory?.observe(this, Observer {
             if (it)
-                progressbar.show()
+                binding.progressbar.show()
             else
-                progressbar.hide()
+                binding.progressbar.hide()
         })
 
         categoryViewModel?.categoriesObserver?.observe(this) { categoriesResp ->
@@ -121,7 +122,6 @@ class ChooseCategoryActivity : BaseActivity() {
             }
         }
         categoryViewModel!!.errorResponseObserver.observe(this) {
-            //HelpFunctions.ShowLongToast(getString(R.string.NoCategoriesfound), context)
             if (it.status != null && it.status == "409") {
                 HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), this)
             } else {
@@ -147,15 +147,13 @@ class ChooseCategoryActivity : BaseActivity() {
                 it.is_select = false
             }
             setDataForUpdate()
-            recycler_all_category.adapter =
+            binding.recyclerAllCategory.adapter =
                 AdapterAllCategoriesAdapter(
                     allCategoryList
                 ) {
                     position = it
                 }
-            //HelpFunctions.dismissProgressBar()
         } else {
-            //HelpFunctions.dismissProgressBar()
             Toast.makeText(this@ChooseCategoryActivity, "No Categories found", Toast.LENGTH_LONG)
                 .show()
         }

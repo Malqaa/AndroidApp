@@ -10,34 +10,32 @@ import androidx.activity.result.ActivityResult
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.ActivitySignupPg4Binding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
-import com.malqaa.androidappp.newPhase.utils.helper.shared_preferences.SharedPreferencesStaticClass
-import com.malqaa.androidappp.newPhase.utils.helper.widgets.DatePickerFragment
 import com.malqaa.androidappp.newPhase.data.network.constants.Constants
-import com.malqaa.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
-import com.malqaa.androidappp.newPhase.domain.models.countryResp.CountriesResp
-import com.malqaa.androidappp.newPhase.domain.models.countryResp.Country
 import com.malqaa.androidappp.newPhase.domain.models.loginResp.LoginUser
 import com.malqaa.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.OtpData
+import com.malqaa.androidappp.newPhase.presentation.activities.loginScreen.SignInActivity
+import com.malqaa.androidappp.newPhase.presentation.activities.signup.signupViewModel.SignupViewModel
 import com.malqaa.androidappp.newPhase.presentation.dialogsShared.PickImageMethodsDialog
 import com.malqaa.androidappp.newPhase.presentation.dialogsShared.countryDialog.CountryDialog
 import com.malqaa.androidappp.newPhase.presentation.dialogsShared.neighborhoodDialog.NeighborhoodDialog
 import com.malqaa.androidappp.newPhase.presentation.dialogsShared.regionDialog.RegionDialog
-import com.malqaa.androidappp.newPhase.presentation.activities.loginScreen.SignInActivity
-import com.malqaa.androidappp.newPhase.presentation.activities.signup.signupViewModel.SignupViewModel
 import com.malqaa.androidappp.newPhase.utils.BetterActivityResult
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.ImagePicker
 import com.malqaa.androidappp.newPhase.utils.PicassoSingleton.getPicassoInstance
 import com.malqaa.androidappp.newPhase.utils.SetOnImagePickedListeners
+import com.malqaa.androidappp.newPhase.utils.helper.shared_preferences.SharedPreferencesStaticClass
+import com.malqaa.androidappp.newPhase.utils.helper.widgets.DatePickerFragment
 import com.yariksoffice.lingver.Lingver
 import io.paperdb.Paper
-import kotlinx.android.synthetic.main.activity_signup_pg4.*
 import java.io.File
 import kotlin.math.roundToInt
 
-class SignupCreateNewUser : BaseActivity(), PickImageMethodsDialog.OnAttachedImageMethodSelected {
+class SignupCreateNewUser : BaseActivity<ActivitySignupPg4Binding>(),
+    PickImageMethodsDialog.OnAttachedImageMethodSelected {
 
     var selectedCountryId: Int = 0
     var selectedRegionId: Int = 0
@@ -54,21 +52,15 @@ class SignupCreateNewUser : BaseActivity(), PickImageMethodsDialog.OnAttachedIma
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Initialize view binding
+        binding = ActivitySignupPg4Binding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         setContentView(R.layout.activity_signup_pg4)
         otpData = intent.getParcelableExtra(Constants.otpDataKey)
         setupRegisterViewModel()
         setupClickListeners()
-
-//        ConstantObjects.countryList.filter {
-//            it.id == ConstantObjects.defaltCountry }.let { if (it.size > 0) {
-//                it.get(0).run{
-//                    selectedCountryText = SearchListItem(id,name)
-//                    select_country._setStartIconImage(flagimglink)
-//                    select_country.text=it.get(0).name
-//                }
-//            }
-//        }
-
     }
 
     private fun setupRegisterViewModel() {
@@ -169,17 +161,17 @@ class SignupCreateNewUser : BaseActivity(), PickImageMethodsDialog.OnAttachedIma
 
     /***clickEvents*/
     private fun setupClickListeners() {
-        btnDate._setOnClickListener {
+        binding.btnDate._setOnClickListener {
             DatePickerFragment(maxdayToday = true, minDateToday = false) { selectDate_ ->
-                btnDate.text = "$selectDate_ "
+                binding.btnDate.text = "$selectDate_ "
 
             }.show(supportFragmentManager, "")
 
         }
-        countryContainer._setOnClickListener {
+        binding.countryContainer._setOnClickListener {
             openCountryDialog()
         }
-        regionContainer._setOnClickListener {
+        binding.regionContainer._setOnClickListener {
             if (selectedCountryId == 0) {
                 showError(getString(R.string.Please_select, getString(R.string.Country)))
             } else {
@@ -187,30 +179,30 @@ class SignupCreateNewUser : BaseActivity(), PickImageMethodsDialog.OnAttachedIma
             }
 
         }
-        neighborhoodContainer._setOnClickListener {
+        binding.neighborhoodContainer._setOnClickListener {
             if (selectedRegionId == 0) {
                 showError(getString(R.string.Please_select, getString(R.string.Region)))
             } else {
                 openNeighborhoodDialog()
             }
         }
-        radiomale._setOnClickListener {
-            radiomale._setCheck(!radiomale.getCheck())
-            radiofemale._setCheck(false)
+        binding.radiomale._setOnClickListener {
+            binding.radiomale._setCheck(!binding.radiomale.getCheck())
+            binding.radiofemale._setCheck(false)
             gender_ = Constants.male
         }
-        radiofemale._setOnClickListener {
-            radiofemale._setCheck(!radiofemale.getCheck())
-            radiomale._setCheck(false)
+        binding.radiofemale._setOnClickListener {
+            binding.radiofemale._setCheck(!binding.radiofemale.getCheck())
+            binding.radiomale._setCheck(false)
             gender_ = Constants.female
 
         }
-        confirm_button.setOnClickListener {
+        binding.confirmButton.setOnClickListener {
             if (isValid()) {
                 callCreateUser()
             }
         }
-        ivPickUserImage.setOnClickListener {
+        binding.ivPickUserImage.setOnClickListener {
             openCameraChooser()
         }
     }
@@ -267,7 +259,7 @@ class SignupCreateNewUser : BaseActivity(), PickImageMethodsDialog.OnAttachedIma
             println("hhhh loaded")
             getPicassoInstance()
                 .load(imageUri)
-                .into(ivUserImage)
+                .into(binding.ivUserImage)
             userImageUri = imageUri
 
 
@@ -299,14 +291,14 @@ class SignupCreateNewUser : BaseActivity(), PickImageMethodsDialog.OnAttachedIma
             ) {
                 /**setCountryData*/
                 selectedCountryId = id
-                countryContainer.text = countryName.toString()
-                countryContainer._setStartIconImage(countryFlag)
+                binding.countryContainer.text = countryName.toString()
+                binding.countryContainer._setStartIconImage(countryFlag)
                 /**resetRegion*/
                 selectedRegionId = 0
-                regionContainer.text = null
+                binding.regionContainer.text = null
                 /**resetRegion*/
                 selectedNeighborhoodId = 0
-                neighborhoodContainer.text = null
+                binding.neighborhoodContainer.text = null
             }
         })
         countryDialog.show()
@@ -319,10 +311,10 @@ class SignupCreateNewUser : BaseActivity(), PickImageMethodsDialog.OnAttachedIma
                 override fun onSelectedRegion(id: Int, regionName: String) {
                     /**setRegionData*/
                     selectedRegionId = id
-                    regionContainer.text = regionName
+                    binding.regionContainer.text = regionName
                     /**resetNeighborhood*/
                     selectedNeighborhoodId = 0
-                    neighborhoodContainer.text = null
+                    binding.neighborhoodContainer.text = null
                 }
             })
         regionDialog.show()
@@ -336,31 +328,31 @@ class SignupCreateNewUser : BaseActivity(), PickImageMethodsDialog.OnAttachedIma
                 override fun onSelectedNeighborhood(id: Int, neighborhoodName: String) {
                     /**setNeighborhoodData*/
                     selectedNeighborhoodId = id
-                    neighborhoodContainer.text = neighborhoodName.toString()
+                    binding.neighborhoodContainer.text = neighborhoodName.toString()
                 }
             })
         neighborhoodDialog.show()
     }
 
     private fun isValid(): Boolean {
-        if (firstName!!.text.toString().isEmpty()) {
+        if (binding.firstName!!.text.toString().isEmpty()) {
             showError(getString(R.string.Please_enter, getString(R.string.First_Name)))
             return false
         }
-        if (firstName!!.text.toString().length < 2) {
+        if (binding.firstName!!.text.toString().length < 2) {
             showError("${getString(R.string.typingTwoLetter)} ${getString(R.string.First_Name)}")
             return false
         }
 
-        if (lastName!!.text.toString().isEmpty()) {
+        if (binding.lastName!!.text.toString().isEmpty()) {
             showError(getString(R.string.Please_enter, getString(R.string.Last_Name)))
             return false
         }
-        if (lastName!!.text.toString().length < 2) {
+        if (binding.lastName!!.text.toString().length < 2) {
             showError("${getString(R.string.typingTwoLetter)} ${getString(R.string.Last_Name)}")
             return false
         }
-        if (btnDate!!.text.toString().isEmpty()) {
+        if (binding.btnDate!!.text.toString().isEmpty()) {
             showError(getString(R.string.Please_select, getString(R.string.Date_of_Birth)))
             return false
         }
@@ -387,15 +379,15 @@ class SignupCreateNewUser : BaseActivity(), PickImageMethodsDialog.OnAttachedIma
         }
 
 //
-        if (area!!.text.toString().isEmpty()) {
+        if (binding.area!!.text.toString().isEmpty()) {
             showError(getString(R.string.Please_enter, getString(R.string.Area)))
             return false
         }
-        if (streetNUmber!!.text.toString().isEmpty()) {
+        if (binding.streetNUmber!!.text.toString().isEmpty()) {
             showError(getString(R.string.Please_enter, getString(R.string.StreetNumber)))
             return false
         }
-        if (county_code!!.text.toString().isEmpty()) {
+        if (binding.countyCode!!.text.toString().isEmpty()) {
             showError(getString(R.string.Please_enter, getString(R.string.ZipCode)))
             return false
         }
@@ -407,7 +399,11 @@ class SignupCreateNewUser : BaseActivity(), PickImageMethodsDialog.OnAttachedIma
         otpData?.let {
             invitationCode = it.invitationCode ?: ""
         }
-        println("hhhh data:${btnDate.text.toString().trim()} , gender:${gender_} ,countryId ")
+        println(
+            "hhhh data:${
+                binding.btnDate.text.toString().trim()
+            } , gender:${gender_} ,countryId "
+        )
 
         var file: File? = null
         userImageUri?.let {
@@ -420,16 +416,16 @@ class SignupCreateNewUser : BaseActivity(), PickImageMethodsDialog.OnAttachedIma
             otpData?.userEmail.toString(),
             otpData?.userPass.toString(),
             invitationCode,
-            firstName.text.toString().trim(),
-            lastName.text.toString().trim(),
-            btnDate.text.toString().trim(),
+            binding.firstName.text.toString().trim(),
+            binding.lastName.text.toString().trim(),
+            binding.btnDate.text.toString().trim(),
             gender_.toString(),
             selectedCountryId.toString(),
             selectedRegionId.toString(),
             selectedNeighborhoodId.toString(),
-            area.text.toString(),
-            streetNUmber.text.toString(),
-            county_code.text.toString(),
+            binding.area.text.toString(),
+            binding.streetNUmber.text.toString(),
+            binding.countyCode.text.toString(),
             otpData?.isBusinessAccount.toString(),
             Lingver.getInstance().getLanguage(),
             HelpFunctions.projectName,
@@ -441,21 +437,11 @@ class SignupCreateNewUser : BaseActivity(), PickImageMethodsDialog.OnAttachedIma
 
     private fun saveUserData(userObject: LoginUser) {
         ConstantObjects.logged_userid = userObject.id
-        // ConstantObjects.businessAccountUser = userObject.businessAccounts
         val userId: String = userObject.id
         ConstantObjects.logged_userid = userId
         HelpFunctions.ShowLongToast(getString(R.string.LoginSuccessfully), this)
         Paper.book().write(SharedPreferencesStaticClass.islogin, true)
         Paper.book().write<LoginUser>(SharedPreferencesStaticClass.user_object, userObject)
-//        if (userObject.showUserInformation.toString().lowercase() == ShowUserInfo.EveryOne.name.lowercase())
-//            SharedPreferencesStaticClass.saveShowUserInformation(1)
-//        else if(userObject.showUserInformation.toString().lowercase() == ShowUserInfo.MembersOnly.name.lowercase()){
-//            SharedPreferencesStaticClass.saveShowUserInformation(2)
-//        }else{
-//            SharedPreferencesStaticClass.saveShowUserInformation(3)
-//        }
-
-
         setResult(RESULT_OK, Intent())
         finish()
     }
@@ -478,6 +464,7 @@ class SignupCreateNewUser : BaseActivity(), PickImageMethodsDialog.OnAttachedIma
         super.finish()
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
     }
+
     override fun onDestroy() {
         super.onDestroy()
         signupViewModel.closeAllCall()

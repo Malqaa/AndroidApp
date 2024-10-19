@@ -14,20 +14,25 @@ import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.common.api.ResolvableApiException
-import com.google.android.gms.location.*
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.LocationSettingsRequest
+import com.google.android.gms.location.LocationSettingsResponse
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
-import com.malqaa.androidappp.R
 import com.google.android.gms.maps.model.MarkerOptions
+import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.ActivityMapBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
 import com.malqaa.androidappp.newPhase.presentation.dialogsShared.LocationPermissionDialog
-import kotlinx.android.synthetic.main.activity_map.*
-import kotlinx.android.synthetic.main.toolbar_main.*
 
-class MapActivity : BaseActivity(), OnMapReadyCallback {
+class MapActivity : BaseActivity<ActivityMapBinding>(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private lateinit var mapFragment: SupportMapFragment
@@ -45,34 +50,36 @@ class MapActivity : BaseActivity(), OnMapReadyCallback {
     private val REQUEST_CHECK_PERMISSION_LOCATION = 2000
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_map)
-        toolbar_title.text =getString(R.string.selectLocation)
+
+        // Initialize view binding
+        binding = ActivityMapBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.toolbarMain.toolbarTitle.text = getString(R.string.selectLocation)
         setViewClickListener()
         mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
         locationPermissionDialog = LocationPermissionDialog(this)
-
-
     }
+
     private fun setViewClickListener() {
-        back_btn.setOnClickListener {
+        binding.toolbarMain.backBtn.setOnClickListener {
             finish()
         }
-        containerLocation.setOnClickListener {
+        binding.containerLocation.setOnClickListener {
             checkLocationSetting()
         }
-        btnSaveLocatiionData.setOnClickListener {
-            if(latLngLocation!=null) {
+        binding.btnSaveLocatiionData.setOnClickListener {
+            if (latLngLocation != null) {
                 val intent = Intent()
                 intent.putExtra("lat", latLngLocation!!.latitude)
                 intent.putExtra("longitude", latLngLocation!!.longitude)
-                setResult(Activity.RESULT_OK,intent)
+                setResult(Activity.RESULT_OK, intent)
                 finish()
             }
         }
     }
 
-    //=====
     //----------------------------- location setting------------
     private val resolutionForResult =
         registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { activityResult ->
@@ -166,6 +173,7 @@ class MapActivity : BaseActivity(), OnMapReadyCallback {
         }
         setupCurrentLocation()
     }
+
     private fun setupCurrentLocation() {
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         locationRequest = LocationRequest.create()
@@ -187,6 +195,7 @@ class MapActivity : BaseActivity(), OnMapReadyCallback {
             }
         }
     }
+
     private fun loadLocation(latLngLocation: LatLng) {
         mMap.clear()
         val cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLngLocation, 16f)
@@ -194,6 +203,5 @@ class MapActivity : BaseActivity(), OnMapReadyCallback {
         val marker = MarkerOptions().position(latLngLocation)
         mMap.addMarker(marker)
     }
-
 
 }

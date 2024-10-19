@@ -10,31 +10,38 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.malqaa.androidappp.R
-import com.malqaa.androidappp.newPhase.utils.HelpFunctions
-import com.malqaa.androidappp.newPhase.utils.hide
-import com.malqaa.androidappp.newPhase.utils.show
-import com.malqaa.androidappp.newPhase.utils.helper.widgets.rcv.GenericListAdapter
+import com.malqaa.androidappp.databinding.FavoriteCategoriesDesignBinding
+import com.malqaa.androidappp.databinding.FavoriteSearchDesignBinding
+import com.malqaa.androidappp.databinding.FavoriteSellerDesignBinding
+import com.malqaa.androidappp.databinding.FragmentFollowUpFragmentBinding
 import com.malqaa.androidappp.newPhase.domain.models.categoryFollowResp.CategoryFollowItem
 import com.malqaa.androidappp.newPhase.domain.models.categoryFollowResp.FavoriteSeller
 import com.malqaa.androidappp.newPhase.domain.models.categoryFollowResp.SavedSearch
+import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.PicassoSingleton.getPicassoInstance
-
-import kotlinx.android.synthetic.main.favorite_categories_design.view.*
-import kotlinx.android.synthetic.main.favorite_search_design.view.*
-import kotlinx.android.synthetic.main.favorite_seller_design.view.*
-import kotlinx.android.synthetic.main.fragment_follow_up_fragment.*
-import kotlinx.android.synthetic.main.toolbar_main.*
+import com.malqaa.androidappp.newPhase.utils.helper.widgets.rcv.GenericListAdapter
+import com.malqaa.androidappp.newPhase.utils.hide
+import com.malqaa.androidappp.newPhase.utils.show
 
 @SuppressLint("ResourceType")
 class FollowUpFragment : Fragment(R.layout.fragment_follow_up_fragment) {
+
+    // Declare the binding object
+    private var _binding: FragmentFollowUpFragmentBinding? = null
+    private val binding get() = _binding!!
+
+
     private var favoriteCategory: List<FavoriteSeller> = ArrayList()
     private var categoryFollow: List<CategoryFollowItem> = ArrayList()
 
     private var savedSearchList: List<SavedSearch> = ArrayList()
-    private lateinit var followCategoryViewModel:FollowCategoryViewModel
+    private lateinit var followCategoryViewModel: FollowCategoryViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // Initialize the binding object
+        _binding = FragmentFollowUpFragmentBinding.bind(view)
 
         initView()
         setListenser()
@@ -43,7 +50,7 @@ class FollowUpFragment : Fragment(R.layout.fragment_follow_up_fragment) {
         followCategoryViewModel.getCategoryFollow()
     }
 
-    private fun setUpViewModel(){
+    private fun setUpViewModel() {
 
         followCategoryViewModel = ViewModelProvider(this).get(FollowCategoryViewModel::class.java)
 
@@ -64,24 +71,24 @@ class FollowUpFragment : Fragment(R.layout.fragment_follow_up_fragment) {
 
         }
         followCategoryViewModel.favoriteSellerRespObserver.observe(this) {
-                    favoriteCategory=it
-                    favoriteSellerAdapter(it)
+            favoriteCategory = it
+            favoriteSellerAdapter(it)
 
         }
 
         followCategoryViewModel.categoryFollowRespObserver.observe(this) { categoryFolloeResp ->
             if (categoryFolloeResp.status_code == 200) {
                 categoryFolloeResp.CategoryFollowList?.let {
-                    categoryFollow= it
+                    categoryFollow = it
                     favoriteCategoryAdapter(it)
                 }
             }
         }
 
-        followCategoryViewModel.savedSearchObserve.observe(this){
-            savedSearchList =it
+        followCategoryViewModel.savedSearchObserve.observe(this) {
+            savedSearchList = it
             favoriteSearchAdapter(it)
-            }
+        }
 
         followCategoryViewModel.removeSellerToFavObserver.observe(this) {
             if (it.status_code == 200) {
@@ -90,114 +97,110 @@ class FollowUpFragment : Fragment(R.layout.fragment_follow_up_fragment) {
         }
         followCategoryViewModel.isLoading.observe(this) {
             if (it) {
-                progressBar.show()
+                binding.progressBar.show()
             } else {
-                progressBar.hide()
+                binding.progressBar.hide()
             }
         }
     }
 
     private fun showProductApiError(message: String) {
-        tvError.show()
-        tvError.text = message
+        binding.tvError.show()
+        binding.tvError.text = message
     }
+
     private fun initView() {
-        toolbar_title.text = getString(R.string.follow_up)
+        binding.toolbarMain.toolbarTitle.text = getString(R.string.follow_up)
     }
 
 
     private fun setListenser() {
 
-        back_btn.setOnClickListener {
+        binding.toolbarMain.toolbarTitle.setOnClickListener {
             requireActivity().onBackPressed()
         }
 
-        add_new_category.setOnClickListener() {
+        binding.addNewCategory.setOnClickListener() {
             findNavController().navigate(R.id.newCategory)
         }
 
-        fav_category.setOnClickListener {
+        binding.favCategory.setOnClickListener {
 
             followCategoryViewModel.getCategoryFollow()
-            fav_seller.background = ContextCompat.getDrawable(
+            binding.favSeller.background = ContextCompat.getDrawable(
                 requireContext(),
                 R.drawable.edittext_bg
             )
-            fav_search.background = ContextCompat.getDrawable(
+            binding.favSearch.background = ContextCompat.getDrawable(
                 requireContext(),
                 R.drawable.edittext_bg
             )
-            fav_category.background = ContextCompat.getDrawable(
+            binding.favCategory.background = ContextCompat.getDrawable(
                 requireContext(),
                 R.drawable.round_btn
             )
 
-
-            fav_category.setTextColor(Color.parseColor("#FFFFFF"));
-            fav_seller.setTextColor(Color.parseColor("#45495E"));
-            fav_search.setTextColor(Color.parseColor("#45495E"));
-            fav_category_rcv.show()
-            fav_seller_rcv.hide()
-            fav_search_rcv.hide()
-            add_new_category.show()
+            binding.favCategory.setTextColor(Color.parseColor("#FFFFFF"));
+            binding.favSeller.setTextColor(Color.parseColor("#45495E"));
+            binding.favSearch.setTextColor(Color.parseColor("#45495E"));
+            binding.favCategoryRcv.show()
+            binding.favSellerRcv.hide()
+            binding.favSearchRcv.hide()
+            binding.addNewCategory.show()
             favoriteCategoryAdapter(categoryFollow)
 
         }
 
-
-
-        fav_seller.setOnClickListener {
+        binding.favSeller.setOnClickListener {
             followCategoryViewModel.getListFavoriteSeller()
-            fav_category.background = ContextCompat.getDrawable(
+            binding.favCategory.background = ContextCompat.getDrawable(
                 requireContext(),
                 R.drawable.edittext_bg
             )
-            fav_search.background = ContextCompat.getDrawable(
+            binding.favSearch.background = ContextCompat.getDrawable(
                 requireContext(),
                 R.drawable.edittext_bg
             )
-            fav_seller.background = ContextCompat.getDrawable(
+            binding.favSeller.background = ContextCompat.getDrawable(
                 requireContext(),
                 R.drawable.round_btn
             )
 
-
-            fav_seller.setTextColor(Color.parseColor("#FFFFFF"));
-            fav_category.setTextColor(Color.parseColor("#45495E"));
-            fav_search.setTextColor(Color.parseColor("#45495E"));
-            fav_category_rcv.hide()
-            fav_seller_rcv.show()
-            fav_search_rcv.hide()
-            add_new_category.hide()
+            binding.favSeller.setTextColor(Color.parseColor("#FFFFFF"));
+            binding.favCategory.setTextColor(Color.parseColor("#45495E"));
+            binding.favSearch.setTextColor(Color.parseColor("#45495E"));
+            binding.favCategoryRcv.hide()
+            binding.favSellerRcv.show()
+            binding.favSearchRcv.hide()
+            binding.addNewCategory.hide()
             favoriteSellerAdapter(favoriteCategory)
 
         }
 
-        fav_search.setOnClickListener {
+        binding.favSearch.setOnClickListener {
 
             followCategoryViewModel.getListSaveSearch()
 
-            fav_category.background = ContextCompat.getDrawable(
+            binding.favCategory.background = ContextCompat.getDrawable(
                 requireContext(),
                 R.drawable.edittext_bg
             )
-            fav_seller.background = ContextCompat.getDrawable(
+            binding.favSeller.background = ContextCompat.getDrawable(
                 requireContext(),
                 R.drawable.edittext_bg
             )
-            fav_search.background = ContextCompat.getDrawable(
+            binding.favSearch.background = ContextCompat.getDrawable(
                 requireContext(),
                 R.drawable.round_btn
             )
 
-
-            fav_search.setTextColor(Color.parseColor("#FFFFFF"));
-            fav_category.setTextColor(Color.parseColor("#45495E"));
-            fav_seller.setTextColor(Color.parseColor("#45495E"));
-            fav_category_rcv.hide()
-            fav_seller_rcv.hide()
-            fav_search_rcv.show()
-            add_new_category.hide()
+            binding.favSearch.setTextColor(Color.parseColor("#FFFFFF"));
+            binding.favCategory.setTextColor(Color.parseColor("#45495E"));
+            binding.favSeller.setTextColor(Color.parseColor("#45495E"));
+            binding.favCategoryRcv.hide()
+            binding.favSellerRcv.hide()
+            binding.favSearchRcv.show()
+            binding.addNewCategory.hide()
             favoriteSearchAdapter(savedSearchList)
 
         }
@@ -206,99 +209,115 @@ class FollowUpFragment : Fragment(R.layout.fragment_follow_up_fragment) {
 
 
     private fun favoriteCategoryAdapter(list: List<CategoryFollowItem>) {
-        fav_category_rcv.adapter =
-        object : GenericListAdapter<CategoryFollowItem>(
-            R.layout.favorite_categories_design,
-            bind = { element, holder, itemCount, position ->
-                holder.view.run {
-                    fav_category_rcv.show()
-                    fav_seller_rcv.hide()
-                    fav_search_rcv.hide()
-                    element.run {
-                        category_name_tv.text = name
-                        getPicassoInstance()
-                            .load( image)
-                            .into(category_img)
+        binding.favCategoryRcv.adapter =
+            object : GenericListAdapter<CategoryFollowItem>(
+                R.layout.favorite_categories_design,
+                bind = { element, holder, itemCount, position ->
 
-                        linFollowCategory.setOnClickListener {
-                            followCategoryViewModel.removeCategoryFollow(id)
+                    // Use view binding to bind each item in the RecyclerView
+                    val itemBinding = FavoriteCategoriesDesignBinding.bind(holder.itemView)
+
+                    holder.view.run {
+                        binding.favCategoryRcv.show()
+                        binding.favSellerRcv.hide()
+                        binding.favSearchRcv.hide()
+                        element.run {
+                            itemBinding.categoryNameTv.text = name
+                            getPicassoInstance()
+                                .load(image)
+                                .into(itemBinding.categoryImg)
+
+                            itemBinding.linFollowCategory.setOnClickListener {
+                                followCategoryViewModel.removeCategoryFollow(id)
+                            }
                         }
+
                     }
-
                 }
-            }
-        ) {
-            override fun getFilter(): Filter {
-                TODO("Not yet implemented")
-            }
+            ) {
+                override fun getFilter(): Filter {
+                    TODO("Not yet implemented")
+                }
 
-        }.apply {
-            submitList(
-                list
-            )
-        }
+            }.apply {
+                submitList(
+                    list
+                )
+            }
     }
 
 
     private fun favoriteSellerAdapter(list: List<FavoriteSeller>) {
-        fav_seller_rcv.adapter = object : GenericListAdapter<FavoriteSeller>(
+        binding.favSellerRcv.adapter = object : GenericListAdapter<FavoriteSeller>(
             R.layout.favorite_seller_design,
             bind = { element, holder, itemCount, position ->
+
+                // Use view binding to bind each item in the RecyclerView
+                val itemBinding = FavoriteSellerDesignBinding.bind(holder.itemView)
+
                 holder.view.run {
-                    fav_category_rcv.hide()
-                    fav_seller_rcv.show()
-                    fav_search_rcv.hide()
+                    binding.favCategoryRcv.hide()
+                    binding.favSellerRcv.show()
+                    binding.favSearchRcv.hide()
 
                     element.run {
-                        seller_name.text = name
-                        txtCity.text=city
-                        txt_phone.text=phone
-                        txt_date_since.text= HelpFunctions.getViewFormatForDateTrack(createdAt,"dd/MM/yyyy HH:mm:ss")
+                        itemBinding.sellerName.text = name
+                        itemBinding.txtCity.text = city
+                        itemBinding.txtPhone.text = phone
+                        itemBinding.txtDateSince.text = HelpFunctions.getViewFormatForDateTrack(
+                            createdAt,
+                            "dd/MM/yyyy HH:mm:ss"
+                        )
                         getPicassoInstance()
-                            .load( image)
-                            .into(imgSeller)
+                            .load(image)
+                            .into(itemBinding.imgSeller)
 
-                        skype_btn.setOnClickListener {
-                            if (skype != null &&skype != "") {
+                        itemBinding.skypeBtn.setOnClickListener {
+                            if (skype != null && skype != "") {
                                 HelpFunctions.openExternalLInk(skype.toString(), requireContext())
                             }
                         }
-                        youtube_btn.setOnClickListener {
-                            if (youTube != null &&youTube != "") {
+                        itemBinding.youtubeBtn.setOnClickListener {
+                            if (youTube != null && youTube != "") {
                                 HelpFunctions.openExternalLInk(youTube.toString(), requireContext())
 
                             }
                         }
-                        instagram_btn.setOnClickListener {
-                            if (instagram != null &&instagram != "") {
-                                HelpFunctions.openExternalLInk(instagram.toString(), requireContext())
+                        itemBinding.instagramBtn.setOnClickListener {
+                            if (instagram != null && instagram != "") {
+                                HelpFunctions.openExternalLInk(
+                                    instagram.toString(),
+                                    requireContext()
+                                )
                             }
                         }
 
                         when (rate) {
                             3 -> {
-                                ivRateSeller.setImageResource(R.drawable.happyface_color)
+                                itemBinding.ivRateSeller.setImageResource(R.drawable.happyface_color)
                             }
+
                             2 -> {
-                                ivRateSeller.setImageResource(R.drawable.smileface_color)
+                                itemBinding.ivRateSeller.setImageResource(R.drawable.smileface_color)
                             }
+
                             1 -> {
-                                ivRateSeller.setImageResource(R.drawable.sadcolor_gray)
+                                itemBinding.ivRateSeller.setImageResource(R.drawable.sadcolor_gray)
                             }
                         }
 
-                        if(isMerchant){
-                            txtMerchant.visibility=View.VISIBLE
-                        }else{
-                            txtMerchant.visibility=View.GONE
+                        if (isMerchant) {
+                            itemBinding.txtMerchant.visibility = View.VISIBLE
+                        } else {
+                            itemBinding.txtMerchant.visibility = View.GONE
                         }
                         if (isFollowed) {
-                            imgFollow.setImageResource(R.drawable.notification)
+                            itemBinding.imgFollow.setImageResource(R.drawable.notification)
                         } else {
-                            imgFollow.setImageResource(R.drawable.notification_log)
+                            itemBinding.imgFollow.setImageResource(R.drawable.notification_log)
                         }
-                        linFollow.setOnClickListener {
-                            followCategoryViewModel.removeSellerToFav(providerId,businessAccountId)
+                        itemBinding.linFollow.setOnClickListener {
+                            followCategoryViewModel.removeSellerToFav(providerId, businessAccountId)
                         }
                     }
                 }
@@ -316,16 +335,20 @@ class FollowUpFragment : Fragment(R.layout.fragment_follow_up_fragment) {
     }
 
     private fun favoriteSearchAdapter(list: List<SavedSearch>) {
-        fav_search_rcv.adapter = object : GenericListAdapter<SavedSearch>(
+        binding.favSearchRcv.adapter = object : GenericListAdapter<SavedSearch>(
             R.layout.favorite_search_design,
             bind = { element, holder, itemCount, position ->
+
+                // Use view binding to bind each item in the RecyclerView
+                val itemBinding = FavoriteSearchDesignBinding.bind(holder.itemView)
+
                 holder.view.run {
-                    fav_category_rcv.hide()
-                    fav_seller_rcv.hide()
-                    fav_search_rcv.show()
+                    binding.favCategoryRcv.hide()
+                    binding.favSellerRcv.hide()
+                    binding.favSearchRcv.show()
                     element.run {
-                        search_tv.text = searchString
-                        linFollowSearch.setOnClickListener {
+                        itemBinding.searchTv.text = searchString
+                        itemBinding.linFollowSearch.setOnClickListener {
                             followCategoryViewModel.removeSearchFollow(id)
                         }
                     }
@@ -346,7 +369,7 @@ class FollowUpFragment : Fragment(R.layout.fragment_follow_up_fragment) {
     override fun onResume() {
         super.onResume()
 
-        add_new_category.show()
+        binding.addNewCategory.show()
     }
 
 }

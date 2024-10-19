@@ -11,17 +11,16 @@ import com.bumptech.glide.Glide
 import com.malqaa.androidappp.R
 import com.malqaa.androidappp.newPhase.domain.models.ratingResp.RateReviewItem
 import de.hdodenhof.circleimageview.CircleImageView
-import kotlinx.android.synthetic.main.activity_product_details_item_2.ivRateSeller
 
-class RateAdapter(val context: Context, var rateData: List<RateReviewItem>):
-    RecyclerView.Adapter<RateAdapter.RateViewHolder>()
-{
+class RateAdapter(val context: Context, var rateData: List<RateReviewItem>) :
+    RecyclerView.Adapter<RateAdapter.RateViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RateViewHolder {
-       val view = LayoutInflater.from(context).inflate(R.layout.item_seller_review,parent,false)
+        val view = LayoutInflater.from(context).inflate(R.layout.item_seller_review, parent, false)
         return RateViewHolder(view)
     }
+
     override fun getItemCount(): Int {
         return rateData.size
     }
@@ -31,7 +30,6 @@ class RateAdapter(val context: Context, var rateData: List<RateReviewItem>):
         holder.name.text = rate.userName
         holder.comment.text = rate.comment
         holder.ratetext.text = rate.rate.toString()
-       // holder.date.text = HelpFunctions.getViewFormatForDateTrack(rate.createdAt)
         Glide.with(context).load(rate.image).error(R.mipmap.ic_launcher_round).into(holder.image)
         when (rate.rate) {
             3f -> {
@@ -52,15 +50,11 @@ class RateAdapter(val context: Context, var rateData: List<RateReviewItem>):
         }
     }
 
-
-
-    class RateViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+    class RateViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val image = itemView.findViewById<CircleImageView>(R.id.review_profile_pic)
         val name = itemView.findViewById<TextView>(R.id.review_name)
         val comment = itemView.findViewById<TextView>(R.id.review_comment)
         val ratetext = itemView.findViewById<TextView>(R.id.review_rating)
         val ivRateSeller = itemView.findViewById<ImageView>(R.id.ivRateSeller)
-
-       // val date = itemView.findViewById<TextView>(R.id.review_date)
     }
 }

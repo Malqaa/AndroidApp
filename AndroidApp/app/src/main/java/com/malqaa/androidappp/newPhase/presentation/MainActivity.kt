@@ -10,38 +10,36 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.firebase.messaging.FirebaseMessaging
 import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.ActivityBottmmmBinding
+import com.malqaa.androidappp.newPhase.core.BaseActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activity1.ProductsTagsForAddProductActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.loginScreen.SignInActivity
-import com.malqaa.androidappp.newPhase.core.BaseActivity
-import com.malqaa.androidappp.newPhase.utils.HelpFunctions
-import com.malqaa.androidappp.newPhase.utils.ConstantObjects
-import com.malqaa.androidappp.newPhase.utils.helper.shared_preferences.SharedPreferencesStaticClass
 import com.malqaa.androidappp.newPhase.presentation.activities.productDetailsActivity.ProductDetailsActivity
-import com.malqaa.androidappp.newPhase.utils.BadgeUtils
-import kotlinx.android.synthetic.main.activity_bottmmm.*
+import com.malqaa.androidappp.newPhase.utils.ConstantObjects
+import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 
+class MainActivity : BaseActivity<ActivityBottmmmBinding>() {
 
-class MainActivity : BaseActivity() {
+    var numBadge = MutableLiveData(0)
 
-var numBadge=MutableLiveData<Int>(0)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_bottmmm)
-        //====nav control
-//        getFcmToken()
-//        val deviceIdHelper = DeviceIdHelper(this)
-//        val deviceId = deviceIdHelper.getDeviceId()
-        nav_view.setupWithNavController(findNavController(R.id.nav_host_fragment))
+        // Initialize view binding
+        binding = ActivityBottmmmBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        nav_view.setOnItemSelectedListener { item ->
+        binding.navView.setupWithNavController(findNavController(R.id.nav_host_fragment))
+
+        binding.navView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_notifications -> {
                     if (!HelpFunctions.isUserLoggedIn()) {
-                      startActivity(Intent(this, SignInActivity::class.java))
+                        startActivity(Intent(this, SignInActivity::class.java))
                     } else {
                         findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_notifications)
                     }
                 }
+
                 R.id.navigation_account -> {
 
                     if (!HelpFunctions.isUserLoggedIn()) {
@@ -52,6 +50,7 @@ var numBadge=MutableLiveData<Int>(0)
                         findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_account)
                     }
                 }
+
                 R.id.navigation_watchlist -> {
                     if (!HelpFunctions.isUserLoggedIn()) {
                         startActivity(Intent(this, SignInActivity::class.java))
@@ -59,17 +58,18 @@ var numBadge=MutableLiveData<Int>(0)
                         findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_watchlist)
                     }
                 }
+
                 R.id.navigation_home -> {
                     findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_home)
                 }
 
             }
-            return@setOnItemSelectedListener true;
+            return@setOnItemSelectedListener true
 
         }
 
 
-        floatingActionButtonBottm.setOnClickListener {
+        binding.floatingActionButtonBottm.setOnClickListener {
             if (HelpFunctions.isUserLoggedIn()) {
                 startActivity(Intent(this, ProductsTagsForAddProductActivity::class.java))
             } else {
@@ -77,28 +77,22 @@ var numBadge=MutableLiveData<Int>(0)
             }
         }
         //============
-//        val isBid = intent.getBooleanExtra(ConstantObjects.isBid, false)
         val isMyOrder = intent.getBooleanExtra(ConstantObjects.isMyOrder, false)
-//        if (isBid) {
-//            nav_view_!!.selectedItemId = R.id.navigation_account
-//            myBidTrigger = true
-//        }
+
         if (isMyOrder) {
-            nav_view!!.selectedItemId = R.id.navigation_account
+            binding.navView!!.selectedItemId = R.id.navigation_account
             myOrderTrigger = true
         }
 
-        //notification numberBadge
-
-        val productId=intent.getIntExtra("productId",0)
-        if(productId!=0){
+        val productId = intent.getIntExtra("productId", 0)
+        if (productId != 0) {
             startActivity(Intent(this, ProductDetailsActivity::class.java).apply {
                 putExtra(ConstantObjects.productIdKey, productId)
 
             })
         }
         numBadge.observe(this, Observer {
-            nav_view.getOrCreateBadge(R.id.navigation_notifications).apply {
+            binding.navView.getOrCreateBadge(R.id.navigation_notifications).apply {
                 isVisible = it != 0
                 number = it
                 backgroundColor = ContextCompat.getColor(this@MainActivity, R.color.bg)
@@ -109,38 +103,29 @@ var numBadge=MutableLiveData<Int>(0)
 
 
     private fun getFcmToken() {
-        FirebaseMessaging.getInstance().token
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    // Get the FCM token
-                    val token = task.result
+        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                // Get the FCM token
+                val token = task.result
 
 //                    SharedPreferencesStaticClass.saveFcmToken(token)
-                    Log.d("FCM Token", "Token: $token")
+                Log.d("FCM Token", "Token: $token")
 
-                    // Now you have the FCM token, you can use it as needed
-                } else {
-                    Log.w("FCM Token", "Fetching FCM registration token failed", task.exception)
-                }
+                // Now you have the FCM token, you can use it as needed
+            } else {
+                Log.w("FCM Token", "Fetching FCM registration token failed", task.exception)
             }
+        }
     }
 
     override fun onResume() {
         super.onResume()
         Log.d("FCM Token", "Token: ")
     }
+
     companion object {
-//        var nav_view_: BottomNavigationView? = null
         var myOrderTrigger = false
         var myBidTrigger = false
     }
 
-//    val loginLuncher =
-//        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-//            if (result.resultCode == Activity.RESULT_OK) {
-//                checkPriceLayout()
-//            }
-//        }
-
 }
-

@@ -7,12 +7,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.malqaa.androidappp.R
 import com.malqaa.androidappp.databinding.ItemQuestionAnswerDesignBinding
+import com.malqaa.androidappp.newPhase.domain.models.questionResp.QuestionItem
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.show
-import com.malqaa.androidappp.newPhase.domain.models.questionResp.QuestionItem
 
-class QuestionAnswerAdapter(var questionList: List<QuestionItem>,var setonSelectedQuestion:SetonSelectedQuestion) :
+class QuestionAnswerAdapter(
+    var questionList: List<QuestionItem>,
+    var setonSelectedQuestion: SetonSelectedQuestion
+) :
     RecyclerView.Adapter<QuestionAnswerAdapter.QuestionAnswerViewHolder>() {
     lateinit var context: Context
 
@@ -31,20 +34,21 @@ class QuestionAnswerAdapter(var questionList: List<QuestionItem>,var setonSelect
 
     override fun onBindViewHolder(holder: QuestionAnswerViewHolder, position: Int) {
         holder.viewBinding.tvQuestion.text = questionList[position].question.toString()
-        holder.viewBinding.questionTime.text = HelpFunctions.getViewFormatForDateTrack(questionList[position].createdAt,"dd/MM/yyyy HH:mm:ss")
-//        Extension.loadImgGlide(
-//            context,
-//            questionList[position].clientImage,
-//            holder.viewBinding.ivQuestionUser,
-//           null
-//        )
-        Glide.with(context).load( questionList[position].clientImage).error(R.mipmap.ic_launcher_round).into(    holder.viewBinding.ivQuestionUser)
+        holder.viewBinding.questionTime.text = HelpFunctions.getViewFormatForDateTrack(
+            questionList[position].createdAt,
+            "dd/MM/yyyy HH:mm:ss"
+        )
+        Glide.with(context).load(questionList[position].clientImage)
+            .error(R.mipmap.ic_launcher_round).into(holder.viewBinding.ivQuestionUser)
 
-        if (questionList[position].answer!=null && questionList[position].answer !="") {
+        if (questionList[position].answer != null && questionList[position].answer != "") {
             holder.viewBinding.questionResponseYet.hide()
             holder.viewBinding.answerView.show()
             holder.viewBinding.answerTv.text = questionList[position].answer
-            holder.viewBinding.answerTime.text =  HelpFunctions.getViewFormatForDateTrack(questionList[position].answeredAt,"dd/MM/yyyy HH:mm:ss")
+            holder.viewBinding.answerTime.text = HelpFunctions.getViewFormatForDateTrack(
+                questionList[position].answeredAt,
+                "dd/MM/yyyy HH:mm:ss"
+            )
             holder.viewBinding.answerTime.show()
         } else {
             holder.viewBinding.questionResponseYet.show()
@@ -55,7 +59,8 @@ class QuestionAnswerAdapter(var questionList: List<QuestionItem>,var setonSelect
             setonSelectedQuestion.onSelectQuestion(position)
         }
     }
-    interface SetonSelectedQuestion{
+
+    interface SetonSelectedQuestion {
         fun onSelectQuestion(position: Int)
     }
 }

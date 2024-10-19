@@ -8,7 +8,10 @@ import com.malqaa.androidappp.databinding.ItemSubCategorySearchFilterBinding
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.Category
 
 
-class SubCategorySearchFilterAdapter(var categoryList: List<Category>, var setOnselectedListerner:SetOnselectedListerner) :
+class SubCategorySearchFilterAdapter(
+    var categoryList: List<Category>,
+    var setOnselectedListerner: SetOnselectedListerner
+) :
     RecyclerView.Adapter<SubCategorySearchFilterAdapter.CategorySearchFilterViewHolder>() {
     //var categoryList: List<Category>
     class CategorySearchFilterViewHolder(var viewBinding: ItemSubCategorySearchFilterBinding) :
@@ -29,19 +32,19 @@ class SubCategorySearchFilterAdapter(var categoryList: List<Category>, var setOn
 
     override fun getItemCount(): Int = categoryList.size
     override fun onBindViewHolder(holder: CategorySearchFilterViewHolder, position: Int) {
-       holder.viewBinding.tvSubCategory.text=categoryList[position].name
+        holder.viewBinding.tvSubCategory.text = categoryList[position].name
         if (categoryList[position].isSelected) {
             holder.viewBinding.ivSelectCategory.setImageResource(R.drawable.checkbox_selected)
         } else {
             holder.viewBinding.ivSelectCategory.setImageResource(R.drawable.checkbox_un_selected)
         }
-         holder.viewBinding.ivSelectCategory.setOnClickListener {
-             setOnselectedListerner.setOnSelectSubCategories(position,categoryList[position].id)
-         }
+        holder.viewBinding.ivSelectCategory.setOnClickListener {
+            setOnselectedListerner.setOnSelectSubCategories(position, categoryList[position].id)
+        }
 
     }
 
     interface SetOnselectedListerner {
-        fun setOnSelectSubCategories(position: Int,subCategoryId:Int)
+        fun setOnSelectSubCategories(position: Int, subCategoryId: Int)
     }
 }

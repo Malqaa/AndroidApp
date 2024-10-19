@@ -10,95 +10,73 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.FragmentMyOrdersBinding
 import com.malqaa.androidappp.newPhase.domain.models.orderListResp.OrderItem
-import com.malqaa.androidappp.newPhase.utils.ConstantObjects
+import com.malqaa.androidappp.newPhase.presentation.activities.cartActivity.activity2.AddressPaymentActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.myOrderDetails.MyOrderDetailsActivity
 import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.myOrderFragment.adapter.MyOrdersAdapter
-import com.malqaa.androidappp.newPhase.presentation.activities.cartActivity.activity2.AddressPaymentActivity
+import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.EndlessRecyclerViewScrollListener
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.show
-import kotlinx.android.synthetic.main.fragment_my_orders.*
-import kotlinx.android.synthetic.main.fragment_my_orders.progressBar
-import kotlinx.android.synthetic.main.fragment_my_orders.progressBarMore
-import kotlinx.android.synthetic.main.fragment_my_orders.swipe_to_refresh
-import kotlinx.android.synthetic.main.fragment_my_orders.tvError
-import kotlinx.android.synthetic.main.toolbar_main.*
 
 
 class MyOrdersFragment : Fragment(R.layout.fragment_my_orders),
     SwipeRefreshLayout.OnRefreshListener {
+
+    private var _binding: FragmentMyOrdersBinding? = null
+    private val binding get() = _binding!!
+
     lateinit var currentOrdersList: ArrayList<OrderItem>
     private lateinit var currentOrderAdapter: MyOrdersAdapter
     lateinit var currentOrderLayOutManager: GridLayoutManager
     private lateinit var endlessRecyclerViewScrollListener: EndlessRecyclerViewScrollListener
 
-    //  tap id 1 ,2,3
     private var tapId: Int = 1
     lateinit var myOrdersViewModel: MyOrdersViewModel
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        _binding = FragmentMyOrdersBinding.bind(view)  // Initialize binding
         initView()
         setListener()
         setupViewModel()
-        swipe_to_refresh.setColorSchemeResources(R.color.colorPrimaryDark)
-        swipe_to_refresh.setOnRefreshListener(this)
+
+        binding.swipeToRefresh.setColorSchemeResources(R.color.colorPrimaryDark)
+        binding.swipeToRefresh.setOnRefreshListener(this)
+
         setUpCurrentOrderAdapter()
         onRefresh()
     }
 
     private fun setupViewModel() {
         myOrdersViewModel = ViewModelProvider(this).get(MyOrdersViewModel::class.java)
-        myOrdersViewModel.isLoading.observe(this) {
-            if (it)
-                progressBar.show()
-            else
-                progressBar.hide()
+        myOrdersViewModel.isLoading.observe(viewLifecycleOwner) {
+            if (it) binding.progressBar.show() else binding.progressBar.hide()
         }
-        myOrdersViewModel.isloadingMore.observe(this) {
-            if (it)
-                progressBarMore.show()
-            else
-                progressBarMore.hide()
+        myOrdersViewModel.isloadingMore.observe(viewLifecycleOwner) {
+            if (it) binding.progressBarMore.show() else binding.progressBarMore.hide()
         }
-        myOrdersViewModel.isNetworkFail.observe(this) {
-            if (it) {
-                showApiError(getString(R.string.connectionError))
-            } else {
-                showApiError(getString(R.string.serverError))
-            }
-
+        myOrdersViewModel.isNetworkFail.observe(viewLifecycleOwner) {
+            showApiError(if (it) getString(R.string.connectionError) else getString(R.string.serverError))
         }
-        myOrdersViewModel.errorResponseObserver.observe(this) {
-            if (it.status != null && it.status == "409") {
+        myOrdersViewModel.errorResponseObserver.observe(viewLifecycleOwner) {
+            if (it.status == "409") {
                 HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), requireActivity())
             } else {
-                if (it.message != null) {
-                    showApiError(it.message!!)
-                } else {
-                    showApiError(getString(R.string.serverError))
-                }
+                showApiError(it.message ?: getString(R.string.serverError))
             }
-
         }
         myOrdersViewModel.errorResponseObserverProductToFav.observe(viewLifecycleOwner) {
-            if (it.status != null && it.status == "409") {
+            if (it.status == "409") {
                 HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), requireActivity())
             } else {
-                if (it.message != null && it.message != "") {
-                    HelpFunctions.ShowLongToast(
-                        it.message!!,
-                        requireActivity()
-                    )
-                } else {
-                    HelpFunctions.ShowLongToast(
-                        getString(R.string.serverError),
-                        requireActivity()
-                    )
-                }
+                HelpFunctions.ShowLongToast(
+                    it.message ?: getString(R.string.serverError),
+                    requireActivity()
+                )
             }
-
         }
         myOrdersViewModel.currentOrderRespObserver.observe(viewLifecycleOwner) { orderListResp ->
             if (orderListResp.status_code == 200) {
@@ -124,9 +102,8 @@ class MyOrdersFragment : Fragment(R.layout.fragment_my_orders),
                         currentOrdersList[position]
                     )
                 }
-
             })
-        current_recycler.apply {
+        binding.currentRecycler.apply {
             adapter = currentOrderAdapter
             layoutManager = currentOrderLayOutManager
         }
@@ -140,72 +117,79 @@ class MyOrdersFragment : Fragment(R.layout.fragment_my_orders),
                     }
                 }
             }
-        current_recycler.addOnScrollListener(endlessRecyclerViewScrollListener)
+        binding.currentRecycler.addOnScrollListener(endlessRecyclerViewScrollListener)
     }
 
     private fun goToMyOrderDetails(orderId: Int, orderItem: OrderItem) {
-        if (orderItem.orderStatus == ConstantObjects.WaitingForPayment && (orderItem.requestType != ConstantObjects.Fixed_Price)) {
-            startActivity(Intent(requireContext(), AddressPaymentActivity::class.java).apply {
-                putExtra("flagTypeSale", false)
-                putExtra("fromNegotiation", true)
-                putExtra(ConstantObjects.orderNumberKey, orderId)
-            })
-        } else {
-            startActivity(Intent(requireActivity(), MyOrderDetailsActivity::class.java).apply {
-                putExtra(ConstantObjects.orderItemKey, orderItem)
-                putExtra(ConstantObjects.orderNumberKey, orderId)
-                putExtra(ConstantObjects.orderTypeKey, tapId)
-                putExtra("flagTypeSale", true)
-            })
-        }
-
+        val intent =
+            if (orderItem.orderStatus == ConstantObjects.WaitingForPayment && orderItem.requestType != ConstantObjects.Fixed_Price) {
+                Intent(requireContext(), AddressPaymentActivity::class.java).apply {
+                    putExtra("flagTypeSale", false)
+                    putExtra("fromNegotiation", true)
+                    putExtra(ConstantObjects.orderNumberKey, orderId)
+                }
+            } else {
+                Intent(requireActivity(), MyOrderDetailsActivity::class.java).apply {
+                    putExtra(ConstantObjects.orderItemKey, orderItem)
+                    putExtra(ConstantObjects.orderNumberKey, orderId)
+                    putExtra(ConstantObjects.orderTypeKey, tapId)
+                    putExtra("flagTypeSale", true)
+                }
+            }
+        startActivity(intent)
     }
-//    private fun goToOrderDetailsRequestedFromMe(orderId: Int, orderItem: OrderItem) {
-//        startActivity(Intent(requireActivity(), MyOrderDetailsRequestedFromMeActivity::class.java).apply {
-//            putExtra(ConstantObjects.orderItemKey,orderItem)
-//            putExtra(ConstantObjects.orderNumberKey,orderId)
-//            putExtra(ConstantObjects.orderTypeKey,tapId)
-//        })
-//    }
 
     private fun showApiError(message: String) {
-        tvError.show()
-        tvError.text = message
+        binding.tvError.show()
+        binding.tvError.text = message
     }
 
     private fun initView() {
-        toolbar_title.text = getString(R.string.my_orders)
+        binding.toolbarMain.toolbarTitle.text = getString(R.string.my_orders)
     }
 
-
     private fun setListener() {
-        back_btn.setOnClickListener {
+        binding.toolbarMain.toolbarTitle.setOnClickListener {
             requireActivity().onBackPressed()
         }
-        btnCurrent.setOnClickListener {
+        binding.btnCurrent.setOnClickListener {
             tapId = 1
-            btnCurrent.setBackgroundResource(R.drawable.round_btn)
-            btnCurrent.setTextColor(ContextCompat.getColor(requireActivity(), R.color.white))
-            btnReceived.setBackgroundResource(R.drawable.round_btn_white)
-            btnReceived.setTextColor(ContextCompat.getColor(requireActivity(), R.color.gray))
+            binding.btnCurrent.setBackgroundResource(R.drawable.round_btn)
+            binding.btnCurrent.setTextColor(
+                ContextCompat.getColor(
+                    requireActivity(),
+                    R.color.white
+                )
+            )
+            binding.btnReceived.setBackgroundResource(R.drawable.round_btn_white)
+            binding.btnReceived.setTextColor(
+                ContextCompat.getColor(
+                    requireActivity(),
+                    R.color.gray
+                )
+            )
             onRefresh()
         }
-        btnReceived.setOnClickListener {
+        binding.btnReceived.setOnClickListener {
             tapId = 2
-            btnCurrent.setBackgroundResource(R.drawable.round_btn_white)
-            btnCurrent.setTextColor(ContextCompat.getColor(requireActivity(), R.color.gray))
-            btnReceived.setBackgroundResource(R.drawable.round_btn)
-            btnReceived.setTextColor(ContextCompat.getColor(requireActivity(), R.color.white))
+            binding.btnCurrent.setBackgroundResource(R.drawable.round_btn_white)
+            binding.btnCurrent.setTextColor(ContextCompat.getColor(requireActivity(), R.color.gray))
+            binding.btnReceived.setBackgroundResource(R.drawable.round_btn)
+            binding.btnReceived.setTextColor(
+                ContextCompat.getColor(
+                    requireActivity(),
+                    R.color.white
+                )
+            )
             onRefresh()
         }
-
     }
 
     override fun onRefresh() {
-        swipe_to_refresh.isRefreshing = false
+        binding.swipeToRefresh.isRefreshing = false
         currentOrdersList.clear()
         currentOrderAdapter.notifyDataSetChanged()
-        tvError.hide()
+        binding.tvError.hide()
         endlessRecyclerViewScrollListener.resetState()
         if (tapId == 1) {
             currentOrderAdapter.currentOrder = true
@@ -219,6 +203,6 @@ class MyOrdersFragment : Fragment(R.layout.fragment_my_orders),
     override fun onDestroyView() {
         super.onDestroyView()
         myOrdersViewModel.closeAllCall()
+        _binding = null  // Clear the binding reference
     }
-
 }

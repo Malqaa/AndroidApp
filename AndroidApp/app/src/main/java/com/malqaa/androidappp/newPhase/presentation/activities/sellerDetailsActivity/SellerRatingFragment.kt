@@ -13,6 +13,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.FragmentSellerRatingBinding
+import com.malqaa.androidappp.databinding.ReviewDialogLayoutBinding
+import com.malqaa.androidappp.databinding.ReviewFilterDesignBinding
 import com.malqaa.androidappp.newPhase.domain.models.sellerRateListResp.SellerRateItem
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.Selection
 import com.malqaa.androidappp.newPhase.presentation.activities.productsSellerInfoActivity.adapter.SellerRateAdapter
@@ -21,26 +24,11 @@ import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.helper.widgets.rcv.GenericListAdapter
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.show
-import kotlinx.android.synthetic.main.activity_seller_rate.swipe_to_refresh
-import kotlinx.android.synthetic.main.activity_seller_rate.tvError
-import kotlinx.android.synthetic.main.fragment_seller_rating.bottom_btns
-import kotlinx.android.synthetic.main.fragment_seller_rating.review_type1
-import kotlinx.android.synthetic.main.fragment_seller_rating.review_type2
-import kotlinx.android.synthetic.main.fragment_seller_rating.rvPakat
-import kotlinx.android.synthetic.main.review_dialog_layout.view.filter_application
-import kotlinx.android.synthetic.main.review_dialog_layout.view.reset_tv
-import kotlinx.android.synthetic.main.review_dialog_layout.view.review_btn
-import kotlinx.android.synthetic.main.review_dialog_layout.view.review_type1_rcv
-import kotlinx.android.synthetic.main.review_dialog_layout.view.review_type_btn
-import kotlinx.android.synthetic.main.review_dialog_layout.view.reviews_type2_rcv
-import kotlinx.android.synthetic.main.review_filter_design.view.checkbox
-import kotlinx.android.synthetic.main.review_filter_design.view.filter_tv
-import kotlinx.android.synthetic.main.review_filter_design.view.review_filter_layout
-import kotlinx.android.synthetic.main.toolbar_main.back_btn
-import kotlinx.android.synthetic.main.toolbar_main.toolbar_title
 
 class SellerRatingFragment : Fragment(R.layout.fragment_seller_rating),
     SwipeRefreshLayout.OnRefreshListener {
+
+    private lateinit var binding: FragmentSellerRatingBinding
     private val sampleOption: ArrayList<Selection> = ArrayList()
     private val typeOption: ArrayList<Selection> = ArrayList()
     private var selection: Selection? = null
@@ -52,6 +40,9 @@ class SellerRatingFragment : Fragment(R.layout.fragment_seller_rating),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // Initialize view binding
+        binding = FragmentSellerRatingBinding.bind(view)
 
         sellerRatingViewModel = ViewModelProvider(this).get(SellerRatingViewModel::class.java)
         initView()
@@ -105,9 +96,9 @@ class SellerRatingFragment : Fragment(R.layout.fragment_seller_rating),
 
                 sellerRateAdapter?.notifyDataSetChanged()
                 if (sellerRateList?.isEmpty() == true) {
-                    tvError.show()
+                    binding.tvError.show()
                 } else {
-                    tvError.hide()
+                    binding.tvError.hide()
                 }
             } else {
                 if (sellerRateList?.isEmpty() == true) {
@@ -120,10 +111,9 @@ class SellerRatingFragment : Fragment(R.layout.fragment_seller_rating),
                         )
                     }
                 } else {
-                    tvError.hide()
+                    binding.tvError.hide()
                 }
             }
-            //tvError
         }
 
     }
@@ -133,7 +123,7 @@ class SellerRatingFragment : Fragment(R.layout.fragment_seller_rating),
         sellerRateList = ArrayList()
         sellerRateAdapter = SellerRateAdapter(requireContext(), sellerRateList ?: arrayListOf())
         linearLayoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-        rvPakat.apply {
+        binding.rvPakat.apply {
             adapter = sellerRateAdapter
             layoutManager = linearLayoutManager
         }
@@ -147,15 +137,15 @@ class SellerRatingFragment : Fragment(R.layout.fragment_seller_rating),
 
                 }
             }
-        rvPakat.addOnScrollListener(endlessRecyclerViewScrollListener!!)
+        binding.rvPakat.addOnScrollListener(endlessRecyclerViewScrollListener!!)
     }
 
     override fun onRefresh() {
         endlessRecyclerViewScrollListener?.resetState()
-        swipe_to_refresh.isRefreshing = false
+        binding.swipeToRefresh.isRefreshing = false
         sellerRateList?.clear()
         sellerRateAdapter?.notifyDataSetChanged()
-        tvError.hide()
+        binding.tvError.hide()
         if (typeOption.size != 0) {
             when {
                 typeOption[0].isSelected -> {
@@ -179,52 +169,50 @@ class SellerRatingFragment : Fragment(R.layout.fragment_seller_rating),
     }
 
     private fun initView() {
-        swipe_to_refresh.setColorSchemeResources(R.color.colorPrimaryDark)
-        swipe_to_refresh.setOnRefreshListener(this)
-        toolbar_title.text = getString(R.string.rates)
+        binding.swipeToRefresh.setColorSchemeResources(R.color.colorPrimaryDark)
+        binding.swipeToRefresh.setOnRefreshListener(this)
+        binding.toolbarMain.toolbarTitle.text = getString(R.string.rates)
     }
 
 
     private fun setListener() {
-        back_btn.setOnClickListener {
+        // Access views using binding
+        binding.toolbarMain.backBtn.setOnClickListener {
             requireActivity().onBackPressed()
         }
 
-        review_type1.setOnClickListener {
-            val builder = AlertDialog.Builder(requireContext())
-                .create()
+        binding.reviewType1.setOnClickListener {
+            val builder = AlertDialog.Builder(requireContext()).create()
             builder.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-            val view = layoutInflater.inflate(R.layout.review_dialog_layout, null)
-            builder.setView(view)
-            bottom_btns.hide()
-
+            val viewBinding = ReviewDialogLayoutBinding.inflate(layoutInflater)
+            builder.setView(viewBinding.root)
+            binding.bottomBtns.hide()
 
             fun reviewAdaptor(list: List<Selection>, rcv: RecyclerView) {
                 rcv.adapter = object : GenericListAdapter<Selection>(
                     R.layout.review_filter_design,
                     bind = { element, holder, itemCount, position ->
-                        holder.view.run {
-                            element.run {
-                                checkbox.isChecked = isSelected
-                                review_filter_layout.isSelected = isSelected
-                                filter_tv.text = name
-                                review_filter_layout.setOnClickListener {
-                                    list.forEach {
-                                        it.isSelected = false
+                        // Use ViewBinding for the item layout
+                        val itemBinding = ReviewFilterDesignBinding.bind(holder.view)
 
-                                    }
-                                    list[position].isSelected = true
-                                    rcv.post { rcv.adapter?.notifyDataSetChanged() }
-                                    selection = element
+                        // Now use the binding object to access views
+                        element.run {
+                            itemBinding.checkbox.isChecked = isSelected
+                            itemBinding.reviewFilterLayout.isSelected = isSelected
+                            itemBinding.filterTv.text = name
+
+                            itemBinding.reviewFilterLayout.setOnClickListener {
+                                list.forEach { it.isSelected = false }
+                                list[position].isSelected = true
+                                rcv.post { rcv.adapter?.notifyDataSetChanged() }
+                                selection = element
+                            }
+
+                            itemBinding.checkbox.setOnCheckedChangeListener { _, isChecked ->
+                                if (isChecked) {
+                                    itemBinding.reviewFilterLayout.performClick()
                                 }
-
-                                checkbox.setOnCheckedChangeListener { buttonView, isChecked ->
-                                    if (isChecked) {
-                                        review_filter_layout.performClick()
-                                    }
-                                }
-
                             }
                         }
                     }
@@ -232,20 +220,18 @@ class SellerRatingFragment : Fragment(R.layout.fragment_seller_rating),
                     override fun getFilter(): Filter {
                         TODO("Not yet implemented")
                     }
-
                 }.apply {
-                    submitList(
-                        list
-                    )
+                    submitList(list)
                 }
             }
 
             builder.setCanceledOnTouchOutside(true)
             builder.show()
             builder.setOnCancelListener {
-                bottom_btns.show()
+                binding.bottomBtns.show()
             }
-            view.filter_application.setOnClickListener {
+
+            viewBinding.filterApplication.setOnClickListener {
                 sellerRateList?.clear()
                 when {
                     typeOption[0].isSelected -> {
@@ -263,68 +249,68 @@ class SellerRatingFragment : Fragment(R.layout.fragment_seller_rating),
                         val obj = sampleOption.find { it.isSelected }!!
                         if (obj.id == 4) {
                             sellerRatingViewModel?.getBuyerRates(1, rate = null)
-                        } else
+                        } else {
                             sellerRatingViewModel?.getBuyerRates(1, obj.id)
+                        }
                     }
 
                     else -> {
                         val obj = sampleOption.find { it.isSelected }!!
                         if (obj.id == 4) {
                             sellerRatingViewModel?.getSellerRates(1, rate = null)
-                        } else
+                        } else {
                             sellerRatingViewModel?.getSellerRates(1, obj.id)
+                        }
                     }
                 }
 
                 builder.dismiss()
-                bottom_btns.show()
-            }
-            view.reset_tv.setOnClickListener {
-                builder.dismiss()
-                bottom_btns.show()
+                binding.bottomBtns.show()
             }
 
-            view.review_type_btn.setOnClickListener {
+            viewBinding.resetTv.setOnClickListener {
                 builder.dismiss()
-                review_type2.performClick()
+                binding.bottomBtns.show()
             }
-            reviewAdaptor(sampleOption, view.review_type1_rcv)
 
+            viewBinding.reviewTypeBtn.setOnClickListener {
+                builder.dismiss()
+                binding.reviewType2.performClick()
+            }
+
+            reviewAdaptor(sampleOption, viewBinding.reviewType1Rcv)
         }
 
-        review_type2.setOnClickListener {
-            val builder = AlertDialog.Builder(requireContext())
-                .create()
+        binding.reviewType2.setOnClickListener {
+            val builder = AlertDialog.Builder(requireContext()).create()
             builder.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            val view = layoutInflater.inflate(R.layout.review_dialog_layout, null)
-            builder.setView(view)
-            bottom_btns.hide()
+
+            val viewBinding = ReviewDialogLayoutBinding.inflate(layoutInflater)
+            builder.setView(viewBinding.root)
+            binding.bottomBtns.hide()
 
             fun reviewAdaptor(list: List<Selection>, rcv: RecyclerView) {
                 rcv.adapter = object : GenericListAdapter<Selection>(
                     R.layout.review_filter_design,
                     bind = { element, holder, itemCount, position ->
-                        holder.view.run {
-                            element.run {
-                                checkbox.isChecked = isSelected
-                                filter_tv.isSelected = isSelected
-                                review_filter_layout.isSelected = isSelected
-                                filter_tv.text = name
-                                review_filter_layout.setOnClickListener {
-                                    list.forEach {
-                                        it.isSelected = false
-                                    }
-                                    element.isSelected = true
-                                    rcv.post { rcv.adapter?.notifyDataSetChanged() }
-                                    selection = element
-                                }
+                        val itemBinding = ReviewFilterDesignBinding.bind(holder.view)
 
-                                checkbox.setOnCheckedChangeListener { buttonView, isChecked ->
-                                    if (isChecked) {
-                                        review_filter_layout.performClick()
-                                    }
-                                }
+                        element.run {
+                            itemBinding.checkbox.isChecked = isSelected
+                            itemBinding.reviewFilterLayout.isSelected = isSelected
+                            itemBinding.filterTv.text = name
 
+                            itemBinding.reviewFilterLayout.setOnClickListener {
+                                list.forEach { it.isSelected = false }
+                                element.isSelected = true
+                                rcv.post { rcv.adapter?.notifyDataSetChanged() }
+                                selection = element
+                            }
+
+                            itemBinding.checkbox.setOnCheckedChangeListener { _, isChecked ->
+                                if (isChecked) {
+                                    itemBinding.reviewFilterLayout.performClick()
+                                }
                             }
                         }
                     }
@@ -332,23 +318,19 @@ class SellerRatingFragment : Fragment(R.layout.fragment_seller_rating),
                     override fun getFilter(): Filter {
                         TODO("Not yet implemented")
                     }
-
                 }.apply {
-                    submitList(
-                        list
-                    )
+                    submitList(list)
                 }
             }
 
             builder.setCanceledOnTouchOutside(true)
             builder.show()
             builder.setOnCancelListener {
-                bottom_btns.show()
+                binding.bottomBtns.show()
             }
 
-            view.filter_application.setOnClickListener {
+            viewBinding.filterApplication.setOnClickListener {
                 sellerRateList?.clear()
-
                 when {
                     typeOption[0].isSelected -> {
                         sellerRatingViewModel?.getSellerRates(1, null)
@@ -366,23 +348,22 @@ class SellerRatingFragment : Fragment(R.layout.fragment_seller_rating),
 
                 onRefresh()
                 builder.dismiss()
-                bottom_btns.show()
-            }
-            view.reset_tv.setOnClickListener {
-                builder.dismiss()
-                bottom_btns.show()
-            }
-            view.review_btn.setOnClickListener {
-                builder.dismiss()
-                review_type1.performClick()
+                binding.bottomBtns.show()
             }
 
-            reviewAdaptor(typeOption, view.reviews_type2_rcv)
+            viewBinding.resetTv.setOnClickListener {
+                builder.dismiss()
+                binding.bottomBtns.show()
+            }
+
+            viewBinding.reviewBtn.setOnClickListener {
+                builder.dismiss()
+                binding.reviewType1.performClick()
+            }
+
+            reviewAdaptor(typeOption, viewBinding.reviewsType2Rcv)
         }
-
-
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -395,30 +376,4 @@ class SellerRatingFragment : Fragment(R.layout.fragment_seller_rating),
         sellerRatingViewModel?.closeAllCall()
 
     }
-
-//    private fun reviewAdaptor(list: ArrayList<Reviewmodel>) {
-//        rvPakat.adapter = object : GenericListAdapter<Reviewmodel>(
-//            R.layout.item_seller_review,
-//            bind = { element, holder, itemCount, position ->
-//                element.run {
-//                    holder.view.review_name.text = (name)
-////                        review_date.text=date
-////                        review_rating.text=rating
-//                    holder.view.review_comment.text = comment
-//                    holder.view.review_profile_pic.setImageResource(image)
-//
-//                }
-//            }
-//        ) {
-//            override fun getFilter(): Filter {
-//                TODO("Not yet implemented")
-//            }
-//
-//        }.apply {
-//            submitList(
-//                list
-//            )
-//        }
-//    }
-
 }

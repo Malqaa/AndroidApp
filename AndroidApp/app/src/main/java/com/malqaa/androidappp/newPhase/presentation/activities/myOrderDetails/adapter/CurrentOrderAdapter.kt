@@ -40,7 +40,8 @@ class CurrentOrderAdapter(
     override fun onBindViewHolder(holder: OrderDetailsViewHOlder, position: Int) {
         val orderFullInfo = orderFullInfoDto[position]
 
-        holder.viewBinding.shipmentNoTv.text = "${context.getString(R.string.shipment_no_1)} ${orderFullInfo.orderId}"
+        holder.viewBinding.shipmentNoTv.text =
+            "${context.getString(R.string.shipment_no_1)} ${orderFullInfo.orderId}"
         holder.viewBinding.tvSellerName.text = "(${orderFullInfo.providerName ?: ""})"
         holder.viewBinding.tvShippingStatus.text = orderFullInfo.status ?: ""
 

@@ -4,26 +4,28 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.ActivityChangePasswordBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
+import com.malqaa.androidappp.newPhase.domain.models.loginResp.LoginUser
+import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.AccountViewModel
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions.Companion.PASSWORD_PATTERN
 import com.malqaa.androidappp.newPhase.utils.helper.shared_preferences.SharedPreferencesStaticClass
-import com.malqaa.androidappp.newPhase.domain.models.loginResp.LoginUser
-import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.AccountViewModel
 import io.paperdb.Paper
-import kotlinx.android.synthetic.main.activity_change_password.*
-import kotlinx.android.synthetic.main.toolbar_main.*
 
-class ChangePasswordActivity : BaseActivity() {
+class ChangePasswordActivity : BaseActivity<ActivityChangePasswordBinding>() {
     private lateinit var accountViewModel: AccountViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_change_password)
-        toolbar_title.text = ""
+
+        // Initialize view binding
+        binding = ActivityChangePasswordBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.toolbarMain.toolbarTitle.text = ""
         setViewClickListeners()
         setUpViewModel()
-
     }
 
     private fun setUpViewModel() {
@@ -45,7 +47,7 @@ class ChangePasswordActivity : BaseActivity() {
         accountViewModel.errorResponseObserver.observe(this) {
             if (it.status != null) {
                 if (it.status == "WrongPassword") {
-                    tvCurrentPassword.error = getString(R.string.wrongPassword)
+                    binding.tvCurrentPassword.error = getString(R.string.wrongPassword)
                 } else {
                     HelpFunctions.ShowLongToast(it.status!!, this)
                 }
@@ -58,7 +60,7 @@ class ChangePasswordActivity : BaseActivity() {
             if (it.status == "Success") {
                 val userData =
                     Paper.book().read<LoginUser>(SharedPreferencesStaticClass.user_object)
-                userData?.password = tvNewPassword.text.toString().trim()
+                userData?.password = binding.tvNewPassword.text.toString().trim()
                 userData?.let { it ->
                     Paper.book()
                         .write<LoginUser>(SharedPreferencesStaticClass.user_object, it)
@@ -70,7 +72,7 @@ class ChangePasswordActivity : BaseActivity() {
                 )
                 finish()
             } else if (it.status == "WrongPassword") {
-                tvCurrentPassword.error = getString(R.string.wrongPassword)
+                binding.tvCurrentPassword.error = getString(R.string.wrongPassword)
             } else {
                 if (it.message != null) {
                     HelpFunctions.ShowLongToast(it.message, this)
@@ -89,61 +91,61 @@ class ChangePasswordActivity : BaseActivity() {
     }
 
     private fun setViewClickListeners() {
-        back_btn.setOnClickListener {
+        binding.toolbarMain.backBtn.setOnClickListener {
             onBackPressed()
         }
-        btnChangePassword.setOnClickListener {
+        binding.btnChangePassword.setOnClickListener {
             if (validateOldPassword() && validateNewPassword()
                 && validateConfirmPassword()
             ) {
                 accountViewModel.changeUserPassword(
                     ConstantObjects.logged_userid,
-                    tvCurrentPassword.text.toString().trim(),
-                    tvNewPassword.text.toString().trim()
+                    binding.tvCurrentPassword.text.toString().trim(),
+                    binding.tvNewPassword.text.toString().trim()
                 )
             }
         }
     }
 
     private fun validateOldPassword(): Boolean {
-        val passwordInput = tvCurrentPassword.text.toString().trim { it <= ' ' }
+        val passwordInput = binding.tvCurrentPassword.text.toString().trim { it <= ' ' }
         return if (passwordInput.isEmpty()) {
-            tvCurrentPassword.error = getString(R.string.Fieldcantbeempty)
+            binding.tvCurrentPassword.error = getString(R.string.Fieldcantbeempty)
             false
         } else if (!PASSWORD_PATTERN.matcher(passwordInput).matches()) {
-            tvCurrentPassword.error = getString(R.string.regexPassword)
+            binding.tvCurrentPassword.error = getString(R.string.regexPassword)
             false
         } else {
-            tvCurrentPassword.error = null
+            binding.tvCurrentPassword.error = null
             true
         }
     }
 
     private fun validateNewPassword(): Boolean {
-        val passwordInput = tvNewPassword.text.toString().trim { it <= ' ' }
+        val passwordInput = binding.tvNewPassword.text.toString().trim { it <= ' ' }
         return if (passwordInput.isEmpty()) {
-            tvNewPassword.error = getString(R.string.Fieldcantbeempty)
+            binding.tvNewPassword.error = getString(R.string.Fieldcantbeempty)
             false
         } else if (!PASSWORD_PATTERN.matcher(passwordInput).matches()) {
-            tvNewPassword.error = getString(R.string.regexPassword)
+            binding.tvNewPassword.error = getString(R.string.regexPassword)
             false
         } else {
-            tvNewPassword.error = null
+            binding.tvNewPassword.error = null
             true
         }
     }
 
     private fun validateConfirmPassword(): Boolean {
-        val passwordInput = tvNewPassword.text.toString().trim { it <= ' ' }
-        val confrmpassInput = tvConfirmNewPassword.text.toString().trim { it <= ' ' }
+        val passwordInput = binding.tvNewPassword.text.toString().trim { it <= ' ' }
+        val confrmpassInput = binding.tvConfirmNewPassword.text.toString().trim { it <= ' ' }
         return if (confrmpassInput.isEmpty()) {
-            tvConfirmNewPassword.error = getString(R.string.Fieldcantbeempty)
+            binding.tvConfirmNewPassword.error = getString(R.string.Fieldcantbeempty)
             false
         } else if (confrmpassInput != passwordInput) {
-            tvConfirmNewPassword.error = getString(R.string.Passworddonotmatch)
+            binding.tvConfirmNewPassword.error = getString(R.string.Passworddonotmatch)
             false
         } else {
-            tvConfirmNewPassword.error = null
+            binding.tvConfirmNewPassword.error = null
             true
         }
     }

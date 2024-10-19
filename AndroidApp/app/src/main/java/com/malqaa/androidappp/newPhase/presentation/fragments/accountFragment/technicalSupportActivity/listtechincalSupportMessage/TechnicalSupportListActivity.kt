@@ -8,45 +8,51 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.ActivityTechnicalSupportListBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
+import com.malqaa.androidappp.newPhase.domain.models.contauctUsMessage.TechnicalSupportMessageDetails
+import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.AccountViewModel
+import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.technicalSupportActivity.addTechencalSupport.AddTechnicalSupportMessageActivity
+import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.linearLayoutManager
 import com.malqaa.androidappp.newPhase.utils.show
-import com.malqaa.androidappp.newPhase.domain.models.contauctUsMessage.TechnicalSupportMessageDetails
-import com.malqaa.androidappp.newPhase.utils.ConstantObjects
-import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.AccountViewModel
-import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.technicalSupportActivity.addTechencalSupport.AddTechnicalSupportMessageActivity
-import kotlinx.android.synthetic.main.activity_technical_support_list.*
 
-import kotlinx.android.synthetic.main.toolbar_main.*
+class TechnicalSupportListActivity : BaseActivity<ActivityTechnicalSupportListBinding>(),
+    SwipeRefreshLayout.OnRefreshListener {
 
-class TechnicalSupportListActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
-
-    private lateinit var technicalSupportListAdapter:TechnicalSupportListAdapter
-    private lateinit var  technicalSupportMessageList:ArrayList<TechnicalSupportMessageDetails>
+    private lateinit var technicalSupportListAdapter: TechnicalSupportListAdapter
+    private lateinit var technicalSupportMessageList: ArrayList<TechnicalSupportMessageDetails>
     private lateinit var accountViewModel: AccountViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_technical_support_list)
-        toolbar_title.text = getString(R.string.technical_support)
-        swipe_to_refresh.setColorSchemeResources(R.color.colorPrimaryDark)
-        swipe_to_refresh.setOnRefreshListener(this)
+
+        // Initialize view binding
+        binding = ActivityTechnicalSupportListBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.toolbarMain.toolbarTitle.text = getString(R.string.technical_support)
+        binding.swipeToRefresh.setColorSchemeResources(R.color.colorPrimaryDark)
+        binding.swipeToRefresh.setOnRefreshListener(this)
         setUpRecyclerView()
         setClickListeners()
         setUpViewModel()
         onRefresh()
     }
+
     val activityLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 onRefresh()
             }
         }
+
     private fun setClickListeners() {
-        back_btn.setOnClickListener {
+        binding.toolbarMain.backBtn.setOnClickListener {
             onBackPressed()
         }
-        btnAddTechnicalSupport.setOnClickListener {
+        binding.btnAddTechnicalSupport.setOnClickListener {
             activityLauncher.launch(
                 Intent(
                     this,
@@ -60,9 +66,9 @@ class TechnicalSupportListActivity : BaseActivity(), SwipeRefreshLayout.OnRefres
         accountViewModel = ViewModelProvider(this).get(AccountViewModel::class.java)
         accountViewModel.isLoading.observe(this) {
             if (it)
-                progressBar.show()
+                binding.progressBar.show()
             else
-                progressBar.hide()
+                binding.progressBar.hide()
         }
         accountViewModel.isNetworkFail.observe(this) {
             if (it) {
@@ -76,53 +82,63 @@ class TechnicalSupportListActivity : BaseActivity(), SwipeRefreshLayout.OnRefres
             showMessageError(it.message)
         }
         accountViewModel.technicalSupportMessageListObserver.observe(this) { technicalSupportMessageListResp ->
-            if(technicalSupportMessageListResp.status_code==200){
-                if(technicalSupportMessageListResp.technicalSupportMessageList!=null){
+            if (technicalSupportMessageListResp.status_code == 200) {
+                if (technicalSupportMessageListResp.technicalSupportMessageList != null) {
                     technicalSupportMessageList.addAll(technicalSupportMessageListResp.technicalSupportMessageList)
                     technicalSupportListAdapter.notifyDataSetChanged()
-                }else{
+                } else {
                     showMessageError(technicalSupportMessageListResp.message)
                 }
-            }else{
+            } else {
                 showMessageError(technicalSupportMessageListResp.message)
             }
         }
 
     }
-   private fun showMessageError(error: String?) {
-        tvError.text=error?:getString(R.string.serverError)
-        tvError.show()
-    }
-    private fun setUpRecyclerView() {
-        technicalSupportMessageList= ArrayList()
-        technicalSupportListAdapter=TechnicalSupportListAdapter(technicalSupportMessageList,object:TechnicalSupportListAdapter.SetonClickListeners{
-            override fun onEditClickListener(position: Int) {
-                activityLauncher.launch(
-                    Intent(
-                        this@TechnicalSupportListActivity,
-                        AddTechnicalSupportMessageActivity::class.java
-                    ).apply {
-                        putExtra(ConstantObjects.isEditKey,true)
-                        putExtra(ConstantObjects.idKey,technicalSupportMessageList[position].id)
-                        putExtra(ConstantObjects.objectKey,technicalSupportMessageList[position])
-                    }
-                )
-            }
 
-        })
-        rvMessages.apply {
-            adapter=technicalSupportListAdapter
-            layoutManager=linearLayoutManager(RecyclerView.VERTICAL)
+    private fun showMessageError(error: String?) {
+        binding.tvError.text = error ?: getString(R.string.serverError)
+        binding.tvError.show()
+    }
+
+    private fun setUpRecyclerView() {
+        technicalSupportMessageList = ArrayList()
+        technicalSupportListAdapter = TechnicalSupportListAdapter(technicalSupportMessageList,
+            object : TechnicalSupportListAdapter.SetonClickListeners {
+                override fun onEditClickListener(position: Int) {
+                    activityLauncher.launch(
+                        Intent(
+                            this@TechnicalSupportListActivity,
+                            AddTechnicalSupportMessageActivity::class.java
+                        ).apply {
+                            putExtra(ConstantObjects.isEditKey, true)
+                            putExtra(
+                                ConstantObjects.idKey,
+                                technicalSupportMessageList[position].id
+                            )
+                            putExtra(
+                                ConstantObjects.objectKey,
+                                technicalSupportMessageList[position]
+                            )
+                        }
+                    )
+                }
+
+            })
+        binding.rvMessages.apply {
+            adapter = technicalSupportListAdapter
+            layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
         }
     }
 
     override fun onRefresh() {
-        swipe_to_refresh.isRefreshing=false
-        tvError.hide()
+        binding.swipeToRefresh.isRefreshing = false
+        binding.tvError.hide()
         technicalSupportMessageList.clear()
         technicalSupportListAdapter.notifyDataSetChanged()
         accountViewModel.getListContactUs()
     }
+
     override fun onDestroy() {
         super.onDestroy()
         accountViewModel.closeAllCall()

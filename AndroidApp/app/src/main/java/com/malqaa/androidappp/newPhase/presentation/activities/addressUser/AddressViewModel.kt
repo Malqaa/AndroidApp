@@ -2,11 +2,11 @@ package com.malqaa.androidappp.newPhase.presentation.activities.addressUser
 
 import androidx.lifecycle.MutableLiveData
 import com.malqaa.androidappp.newPhase.core.BaseViewModel
-import com.malqaa.androidappp.newPhase.utils.Extension.requestBody
 import com.malqaa.androidappp.newPhase.data.network.callApi
 import com.malqaa.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
 import com.malqaa.androidappp.newPhase.domain.models.userAddressesResp.UserAddressesResp
+import com.malqaa.androidappp.newPhase.utils.Extension.requestBody
 import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.HttpException

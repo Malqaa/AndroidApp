@@ -8,13 +8,16 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.malqaa.androidappp.databinding.ItemFilterSpecificationBinding
+import com.malqaa.androidappp.newPhase.domain.models.dynamicSpecification.DynamicSpecificationItem
+import com.malqaa.androidappp.newPhase.domain.models.dynamicSpecification.SubSpecificationItem
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.linearLayoutManager
 import com.malqaa.androidappp.newPhase.utils.show
-import com.malqaa.androidappp.newPhase.domain.models.dynamicSpecification.DynamicSpecificationItem
-import com.malqaa.androidappp.newPhase.domain.models.dynamicSpecification.SubSpecificationItem
 
-class SpecificationFilterAdapter(var dynamicSpecificationsArrayList: ArrayList<DynamicSpecificationItem>,var onChangeValueListener:OnChangeValueListener) :
+class SpecificationFilterAdapter(
+    var dynamicSpecificationsArrayList: ArrayList<DynamicSpecificationItem>,
+    var onChangeValueListener: OnChangeValueListener
+) :
     RecyclerView.Adapter<SpecificationFilterAdapter.SpecificationFilterViewHolder>() {
     lateinit var context: Context
 
@@ -34,19 +37,23 @@ class SpecificationFilterAdapter(var dynamicSpecificationsArrayList: ArrayList<D
 
     override fun getItemCount(): Int = dynamicSpecificationsArrayList.size
 
-    override fun onBindViewHolder(holder: SpecificationFilterViewHolder, @SuppressLint("RecyclerView") position: Int) {
+    override fun onBindViewHolder(
+        holder: SpecificationFilterViewHolder,
+        @SuppressLint("RecyclerView") position: Int
+    ) {
         holder.viewBinding.headerTitle.text = dynamicSpecificationsArrayList[position].name
-        if(dynamicSpecificationsArrayList[position].subSpecifications != null
-            &&dynamicSpecificationsArrayList[position].subSpecifications!!.isNotEmpty()){
+        if (dynamicSpecificationsArrayList[position].subSpecifications != null
+            && dynamicSpecificationsArrayList[position].subSpecifications!!.isNotEmpty()
+        ) {
             holder.viewBinding.subItemRcv.show()
             holder.viewBinding.mainContainerText.hide()
-        }else{
+        } else {
             holder.viewBinding.subItemRcv.hide()
             holder.viewBinding.mainContainerText.show()
-            if(dynamicSpecificationsArrayList[position].filterValue!=""){
-                holder.viewBinding.etValue.setText(dynamicSpecificationsArrayList[position].filterValue )
-            }else{
-                holder.viewBinding.etValue.text=null
+            if (dynamicSpecificationsArrayList[position].filterValue != "") {
+                holder.viewBinding.etValue.setText(dynamicSpecificationsArrayList[position].filterValue)
+            } else {
+                holder.viewBinding.etValue.text = null
             }
         }
         holder.viewBinding.etValue.addTextChangedListener(object : TextWatcher {
@@ -59,13 +66,13 @@ class SpecificationFilterAdapter(var dynamicSpecificationsArrayList: ArrayList<D
             }
         })
 
-        if(dynamicSpecificationsArrayList[position].subSpecifications!=null) {
+        if (dynamicSpecificationsArrayList[position].subSpecifications != null) {
             setAdapterForSpecificationSubItem(
                 holder.viewBinding.subItemRcv,
                 dynamicSpecificationsArrayList[position].subSpecifications!!,
                 position
             )
-        }else{
+        } else {
             setAdapterForSpecificationSubItem(
                 holder.viewBinding.subItemRcv,
                 ArrayList(),
@@ -79,12 +86,18 @@ class SpecificationFilterAdapter(var dynamicSpecificationsArrayList: ArrayList<D
         subSpecifications: List<SubSpecificationItem>,
         parentPosition: Int
     ) {
-        val specificationSubItemAdapter = SpecificationSubItemAdapter(subSpecifications,parentPosition,object :SpecificationSubItemAdapter.SetOnClickListeners{
-            override fun setonClickListeners(parentPosition: Int, childPosition: Int) {
-                onChangeValueListener.setOnSelectedSpecificationItemFromList(parentPosition,childPosition)
-            }
+        val specificationSubItemAdapter = SpecificationSubItemAdapter(
+            subSpecifications,
+            parentPosition,
+            object : SpecificationSubItemAdapter.SetOnClickListeners {
+                override fun setonClickListeners(parentPosition: Int, childPosition: Int) {
+                    onChangeValueListener.setOnSelectedSpecificationItemFromList(
+                        parentPosition,
+                        childPosition
+                    )
+                }
 
-        })
+            })
         subItemRcv.apply {
             adapter = specificationSubItemAdapter
             layoutManager = linearLayoutManager(RecyclerView.HORIZONTAL)
@@ -94,6 +107,7 @@ class SpecificationFilterAdapter(var dynamicSpecificationsArrayList: ArrayList<D
 
     interface OnChangeValueListener {
         fun setOnTextBoxTextChange(value: String, position: Int)
+
         //        fun setData(position: Int)
         fun setOnSelectedSpecificationItemFromList(parentPosition: Int, childPosition: Int)
     }

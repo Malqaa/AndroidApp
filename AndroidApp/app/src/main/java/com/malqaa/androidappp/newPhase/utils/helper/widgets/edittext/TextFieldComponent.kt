@@ -23,6 +23,7 @@ import androidx.core.content.ContextCompat
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.ItemDetailedTextFieldDescriptionBinding
 import com.malqaa.androidappp.newPhase.presentation.activities.signup.activity3.SpinnerCountryAdapter
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.PicassoSingleton.getPicassoInstance
@@ -31,10 +32,11 @@ import com.malqaa.androidappp.newPhase.utils.helper.widgets.searchdialog.SearchL
 import com.malqaa.androidappp.newPhase.utils.helper.widgets.searchdialog.SearchableDialog
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.show
-import kotlinx.android.synthetic.main.item_detailed_text_field_description.view.*
-
 
 class TextFieldComponent : LinearLayout {
+
+    // Binding instance
+    private var binding: ItemDetailedTextFieldDescriptionBinding? = null
 
     val selectedItem: Any
         get() {
@@ -102,8 +104,13 @@ class TextFieldComponent : LinearLayout {
      * the current context for the view.
      */
     private fun initializeViews(context: Context) {
-        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        inflater.inflate(R.layout.item_detailed_text_field_description, this)
+        binding = ItemDetailedTextFieldDescriptionBinding.inflate(LayoutInflater.from(context), this, true)
+    }
+
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        // Clean up the binding reference to avoid memory leaks
+        binding = null
     }
 
     override fun onFinishInflate() {
@@ -616,7 +623,7 @@ class TextFieldComponent : LinearLayout {
                 iv_end_icon.layoutParams.height = 30
                 iv_end_icon.layoutParams.width = 30
 
-                right_session.setOnClickListener {
+                binding?.rightSession?.setOnClickListener {
 
                     val list: ArrayList<SearchListItem> = ArrayList()
                     ConstantObjects.countryList.forEachIndexed { index, country ->

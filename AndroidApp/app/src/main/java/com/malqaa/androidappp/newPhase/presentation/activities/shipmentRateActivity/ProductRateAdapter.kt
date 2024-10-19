@@ -7,8 +7,8 @@ import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.malqaa.androidappp.R
 import com.malqaa.androidappp.databinding.ItemProductInRateOrderBinding
-import com.malqaa.androidappp.newPhase.utils.Extension
 import com.malqaa.androidappp.newPhase.domain.models.orderDetailsByMasterID.OrderProductFullInfoDto
+import com.malqaa.androidappp.newPhase.utils.Extension
 
 class ProductRateAdapter(
     var dataList: ArrayList<OrderProductFullInfoDto>,

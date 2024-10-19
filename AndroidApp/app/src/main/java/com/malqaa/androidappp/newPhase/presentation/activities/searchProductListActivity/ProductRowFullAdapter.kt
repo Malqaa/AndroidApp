@@ -79,9 +79,15 @@ class ProductViewHolder(
             itemBinding.loader
         )
 
-        itemBinding.subTitlenamee.visibility = if (requestItem.subTitle.isNullOrEmpty()) View.GONE else View.VISIBLE
+        itemBinding.subTitlenamee.visibility =
+            if (requestItem.subTitle.isNullOrEmpty()) View.GONE else View.VISIBLE
         itemBinding.subTitlenamee.text = requestItem.subTitle ?: ""
-        itemBinding.productCity.text = "${requestItem.country} ${HelpFunctions.getViewFormatForDateTrack(requestItem.createdAt, "dd/MM/yyyy")}"
+        itemBinding.productCity.text = "${requestItem.country} ${
+            HelpFunctions.getViewFormatForDateTrack(
+                requestItem.createdAt,
+                "dd/MM/yyyy"
+            )
+        }"
 
         itemBinding.ivSetting.setOnClickListener {
             setOnProductItemListeners.onProductSelect(
@@ -97,17 +103,24 @@ class ProductViewHolder(
         } else {
             itemBinding.titleBuy.visibility = View.VISIBLE
             itemBinding.purchasingPrice.visibility = View.VISIBLE
-            itemBinding.purchasingPrice.text = "${requestItem.price.toDouble().decimalNumberFormat()} ${itemBinding.purchasingPrice.context.getString(R.string.SAR)}"
+            itemBinding.purchasingPrice.text = "${
+                requestItem.price.toDouble().decimalNumberFormat()
+            } ${itemBinding.purchasingPrice.context.getString(R.string.SAR)}"
         }
 
         if (requestItem.highestBidPrice.toDouble() == 0.0) {
-            itemBinding.titlePrice.visibility = if (requestItem.auctionStartPrice.toDouble() != 0.0) View.VISIBLE else View.GONE
+            itemBinding.titlePrice.visibility =
+                if (requestItem.auctionStartPrice.toDouble() != 0.0) View.VISIBLE else View.GONE
             itemBinding.lowestPrice.visibility = itemBinding.titlePrice.visibility
-            itemBinding.lowestPrice.text = "${requestItem.auctionStartPrice.toDouble().decimalNumberFormat()} ${itemBinding.purchasingPrice.context.getString(R.string.SAR)}"
+            itemBinding.lowestPrice.text = "${
+                requestItem.auctionStartPrice.toDouble().decimalNumberFormat()
+            } ${itemBinding.purchasingPrice.context.getString(R.string.SAR)}"
         } else {
             itemBinding.titlePrice.visibility = View.VISIBLE
             itemBinding.lowestPrice.visibility = View.VISIBLE
-            itemBinding.lowestPrice.text = "${requestItem.highestBidPrice.toDouble().decimalNumberFormat()} ${itemBinding.purchasingPrice.context.getString(R.string.SAR)}"
+            itemBinding.lowestPrice.text = "${
+                requestItem.highestBidPrice.toDouble().decimalNumberFormat()
+            } ${itemBinding.purchasingPrice.context.getString(R.string.SAR)}"
         }
 
         itemBinding.typeProduct.text = when {
@@ -120,7 +133,10 @@ class ProductViewHolder(
         if (requestItem.isMerchant) itemBinding.btnMerchant.show() else itemBinding.btnMerchant.hide()
 
         // Handle auction closing time countdown
-        if (!requestItem.auctionClosingTime.isNullOrEmpty() && !requestItem.auctionClosingTime.contains("T00:00:00")) {
+        if (!requestItem.auctionClosingTime.isNullOrEmpty() && !requestItem.auctionClosingTime.contains(
+                "T00:00:00"
+            )
+        ) {
             startCountdown(requestItem.auctionClosingTime)
         } else {
             itemBinding.containerTimeBar.hide()

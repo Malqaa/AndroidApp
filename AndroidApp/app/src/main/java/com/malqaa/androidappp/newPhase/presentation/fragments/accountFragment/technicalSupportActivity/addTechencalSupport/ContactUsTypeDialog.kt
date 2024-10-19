@@ -2,39 +2,44 @@ package com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.t
 
 import android.content.Context
 import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.DialogContactUsTypeBinding
 import com.malqaa.androidappp.newPhase.core.BaseDialog
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
-import kotlinx.android.synthetic.main.dialog_contact_us_type.*
 
 
-class ContactUsTypeDialog(context: Context, private var setOnSelectCommunicationType: SetOnSelectCommunicationType) :
-    BaseDialog(context){
-    override fun getViewId(): Int = R.layout.dialog_contact_us_type
+class ContactUsTypeDialog(
+    context: Context,
+    private var setOnSelectCommunicationType: SetOnSelectCommunicationType
+) : BaseDialog<DialogContactUsTypeBinding>(context) {
 
-    override fun isFullScreen(): Boolean =false
+    override fun inflateViewBinding(): DialogContactUsTypeBinding {
+        return DialogContactUsTypeBinding.inflate(layoutInflater)
+    }
 
-    override fun isCancelable(): Boolean=true
-    override fun isLoadingDialog(): Boolean  =false
+    override fun isFullScreen(): Boolean = false
+    override fun isCancelable(): Boolean = true
+    override fun isLoadingDialog(): Boolean = false
     override fun initialization() {
-        ivClose.setOnClickListener {
+        binding.ivClose.setOnClickListener {
             dismiss()
         }
-        btnSave.setOnClickListener {
-            if(tvSuggestions.isChecked){
+        binding.btnSave.setOnClickListener {
+            if (binding.tvSuggestions.isChecked) {
                 setOnSelectCommunicationType.onSelectCommunicationType(1)
                 dismiss()
-            }else if(tvComplaint.isChecked){
+            } else if (binding.tvComplaint.isChecked) {
                 setOnSelectCommunicationType.onSelectCommunicationType(2)
                 dismiss()
-            }else{
-                HelpFunctions.ShowLongToast(context.getString(R.string.select_type_of_communication),context)
+            } else {
+                HelpFunctions.ShowLongToast(
+                    context.getString(R.string.select_type_of_communication),
+                    context
+                )
             }
         }
     }
 
-    interface SetOnSelectCommunicationType{
-      fun  onSelectCommunicationType(position:Int)
+    interface SetOnSelectCommunicationType {
+        fun onSelectCommunicationType(position: Int)
     }
-
-
 }

@@ -12,43 +12,26 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.ActivitySellerInformationBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
+import com.malqaa.androidappp.newPhase.data.network.service.SetOnProductItemListeners
+import com.malqaa.androidappp.newPhase.domain.models.categoryFollowResp.Branch
 import com.malqaa.androidappp.newPhase.domain.models.productResp.Product
 import com.malqaa.androidappp.newPhase.domain.models.sellerInfoResp.SellerInformation
-import com.malqaa.androidappp.newPhase.utils.ConstantObjects
-import com.malqaa.androidappp.newPhase.domain.models.categoryFollowResp.Branch
-import com.malqaa.androidappp.newPhase.presentation.adapterShared.ProductHorizontalAdapter
-import com.malqaa.androidappp.newPhase.data.network.service.SetOnProductItemListeners
 import com.malqaa.androidappp.newPhase.presentation.activities.loginScreen.SignInActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.productDetailsActivity.ProductDetailsActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.productDetailsActivity.ShowBranchesMapActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.productsSellerInfoActivity.viewModel.SellerViewModel
+import com.malqaa.androidappp.newPhase.presentation.adapterShared.ProductHorizontalAdapter
+import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.EndlessRecyclerViewScrollListener
 import com.malqaa.androidappp.newPhase.utils.Extension
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.show
-import kotlinx.android.synthetic.main.activity_seller_information.*
-import kotlinx.android.synthetic.main.activity_seller_information.facebook_btn
-import kotlinx.android.synthetic.main.activity_seller_information.instagram_btn
-import kotlinx.android.synthetic.main.activity_seller_information.ivRateSeller
-import kotlinx.android.synthetic.main.activity_seller_information.ivSellerFollow
-import kotlinx.android.synthetic.main.activity_seller_information.linked_in_btn
-import kotlinx.android.synthetic.main.activity_seller_information.member_since_Tv
-import kotlinx.android.synthetic.main.activity_seller_information.sellerName
-import kotlinx.android.synthetic.main.activity_seller_information.sellerProgressBar
-import kotlinx.android.synthetic.main.activity_seller_information.seller_city
-import kotlinx.android.synthetic.main.activity_seller_information.seller_number
-import kotlinx.android.synthetic.main.activity_seller_information.seller_picture
-import kotlinx.android.synthetic.main.activity_seller_information.skype_btn
-import kotlinx.android.synthetic.main.activity_seller_information.snapChat_btn
-import kotlinx.android.synthetic.main.activity_seller_information.tiktok_btn
-import kotlinx.android.synthetic.main.activity_seller_information.twitter_btn
-import kotlinx.android.synthetic.main.activity_seller_information.youtube_btn
-import kotlinx.android.synthetic.main.toolbar_main.*
-import kotlin.collections.ArrayList
 
-class SellerInformationActivity : BaseActivity(), SetOnProductItemListeners,
+class SellerInformationActivity : BaseActivity<ActivitySellerInformationBinding>(),
+    SetOnProductItemListeners,
     SwipeRefreshLayout.OnRefreshListener {
     val PERMISSION_PHONE = 120
     var sellerInformation: SellerInformation? = null
@@ -60,24 +43,25 @@ class SellerInformationActivity : BaseActivity(), SetOnProductItemListeners,
     private lateinit var endlessRecyclerViewScrollListener: EndlessRecyclerViewScrollListener
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_seller_information)
-        btnMapSeller.hide()
-//        getSellerByID(ConstantObjects.logged_userid, ConstantObjects.logged_userid)
 
-        toolbar_title.text = getString(R.string.merchant_page)
+        // Initialize view binding
+        binding = ActivitySellerInformationBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.btnMapSeller.hide()
+
+        binding.toolbarMain.toolbarTitle.text = getString(R.string.merchant_page)
 
         sellerInformation = intent.getParcelableExtra(ConstantObjects.sellerObjectKey)
         sellerInformation?.let {
             setSellerInfo(it)
         }
         setViewClickListeners()
-        swipe_to_refresh.setColorSchemeResources(R.color.colorPrimaryDark)
-        swipe_to_refresh.setOnRefreshListener(this)
+        binding.swipeToRefresh.setColorSchemeResources(R.color.colorPrimaryDark)
+        binding.swipeToRefresh.setOnRefreshListener(this)
         setAdapterForSellerProduct()
         setupViewModel()
         onRefresh()
-
-
     }
 
     private fun setSellerInfo(it: SellerInformation) {
@@ -87,105 +71,105 @@ class SellerInformationActivity : BaseActivity(), SetOnProductItemListeners,
         Extension.loadImgGlide(
             this,
             it.image,
-            seller_picture,
+            binding.sellerPicture,
             null
         )
-        sellerName.text = it.name ?: ""
-        member_since_Tv.text = HelpFunctions.getViewFormatForDateTrack(
+        binding.sellerName.text = it.name ?: ""
+        binding.memberSinceTv.text = HelpFunctions.getViewFormatForDateTrack(
             it.createdAt ?: "", "dd/MM/yyyy"
         )
         if (it.businessAccountId == null) {
-            txtTypeUser.text = getString(R.string.personal)
+            binding.txtTypeUser.text = getString(R.string.personal)
         } else {
-            txtTypeUser.text = getString(R.string.merchant)
+            binding.txtTypeUser.text = getString(R.string.merchant)
         }
-        seller_city.text = it.city ?: ""
-        seller_number.text = it.phone ?: ""
+        binding.sellerCity.text = it.city ?: ""
+        binding.sellerNumber.text = it.phone ?: ""
         if (it.isFollowed) {
-            ivSellerFollow.setImageResource(R.drawable.notification)
+            binding.ivSellerFollow.setImageResource(R.drawable.notification)
         } else {
-            ivSellerFollow.setImageResource(R.drawable.notification_log)
+            binding.ivSellerFollow.setImageResource(R.drawable.notification_log)
         }
         //   tvRateText.text=it.rate.toString()
         when (it.rate) {
             3f -> {
-                ivRateSeller.setImageResource(R.drawable.happyface_color)
+                binding.ivRateSeller.setImageResource(R.drawable.happyface_color)
             }
 
             2f -> {
-                ivRateSeller.setImageResource(R.drawable.smileface_color)
+                binding.ivRateSeller.setImageResource(R.drawable.smileface_color)
             }
 
             1f -> {
-                ivRateSeller.setImageResource(R.drawable.sadcolor_gray)
+                binding.ivRateSeller.setImageResource(R.drawable.sadcolor_gray)
             }
 
             else -> {
-                ivRateSeller.setImageResource(R.drawable.smileface_color)
+                binding.ivRateSeller.setImageResource(R.drawable.smileface_color)
             }
         }
         if (it.businessAccountId != "") {
-            btnMapSeller.show()
+            binding.btnMapSeller.show()
         } else {
             if (it.lat != null && it.lon != null) {
-                btnMapSeller.show()
+                binding.btnMapSeller.show()
             } else {
-                btnMapSeller.hide()
+                binding.btnMapSeller.hide()
             }
         }
 
 
         if (it.instagram != null && it.instagram != "") {
-            instagram_btn.show()
+            binding.instagramBtn.show()
         } else {
-            instagram_btn.hide()
+            binding.instagramBtn.hide()
         }
         if (it.youTube != null && it.youTube != "") {
-            youtube_btn.show()
+            binding.youtubeBtn.show()
         } else {
-            youtube_btn.hide()
+            binding.youtubeBtn.hide()
         }
         if (it.skype != null && it.skype != "") {
-            skype_btn.show()
+            binding.skypeBtn.show()
         } else {
-            skype_btn.hide()
+            binding.skypeBtn.hide()
         }
         if (it.faceBook != null && it.faceBook != "") {
-            facebook_btn.show()
+            binding.facebookBtn.show()
         } else {
-            facebook_btn.hide()
+            binding.facebookBtn.hide()
         }
         if (it.twitter != null && it.twitter != "") {
-            twitter_btn.show()
+            binding.twitterBtn.show()
         } else {
-            twitter_btn.hide()
+            binding.twitterBtn.hide()
         }
         if (it.linkedIn != null && it.linkedIn != "") {
-            linked_in_btn.show()
+            binding.linkedInBtn.show()
         } else {
-            linked_in_btn.hide()
+            binding.linkedInBtn.hide()
         }
         if (it.tikTok != null && it.tikTok != "") {
-            tiktok_btn.show()
+            binding.tiktokBtn.show()
         } else {
-            tiktok_btn.hide()
+            binding.tiktokBtn.hide()
         }
         if (it.snapchat != null && it.snapchat != "") {
-            snapChat_btn.show()
+            binding.snapChatBtn.show()
         } else {
-            snapChat_btn.hide()
+            binding.snapChatBtn.hide()
         }
 
 
         if (it.businessAccountId != "") {
-            btnMapSeller.show()
+            binding.btnMapSeller.show()
         } else {
             if (it.lat != null && it.lon != null) {
                 if (it.lat != 0.0 && it.lon != 0.0) {
-                    btnMapSeller.show()
+                    binding.btnMapSeller.show()
                 }
             } else {
-                btnMapSeller.hide()
+                binding.btnMapSeller.hide()
             }
         }
     }
@@ -194,7 +178,7 @@ class SellerInformationActivity : BaseActivity(), SetOnProductItemListeners,
         productList = ArrayList()
         gridLayoutManager = GridLayoutManager(this@SellerInformationActivity, 2)
         productAdapter = ProductHorizontalAdapter(productList, this, 0, false)
-        fav_rcv.apply {
+        binding.favRcv.apply {
             adapter = productAdapter
             layoutManager = gridLayoutManager
         }
@@ -208,22 +192,22 @@ class SellerInformationActivity : BaseActivity(), SetOnProductItemListeners,
                     )
                 }
             }
-        fav_rcv.addOnScrollListener(endlessRecyclerViewScrollListener)
+        binding.favRcv.addOnScrollListener(endlessRecyclerViewScrollListener)
     }
 
     private fun setupViewModel() {
         sellerViewModel = ViewModelProvider(this).get(SellerViewModel::class.java)
         sellerViewModel!!.isLoading.observe(this) {
             if (it)
-                progressBar.show()
+                binding.progressBar.show()
             else
-                progressBar.hide()
+                binding.progressBar.hide()
         }
         sellerViewModel!!.sellerLoading.observe(this) {
             if (it) {
-                sellerProgressBar.show()
+                binding.sellerProgressBar.show()
             } else {
-                sellerProgressBar.hide()
+                binding.sellerProgressBar.hide()
             }
         }
         sellerViewModel!!.isNetworkFail.observe(this) {
@@ -299,13 +283,13 @@ class SellerInformationActivity : BaseActivity(), SetOnProductItemListeners,
         sellerViewModel!!.addSellerToFavObserver.observe(this) {
             if (it.status_code == 200) {
                 sellerInformation?.isFollowed = true
-                ivSellerFollow.setImageResource(R.drawable.notification)
+                binding.ivSellerFollow.setImageResource(R.drawable.notification)
             }
         }
         sellerViewModel!!.removeSellerToFavObserver.observe(this) {
             if (it.status_code == 200) {
                 sellerInformation?.isFollowed = false
-                ivSellerFollow.setImageResource(R.drawable.notification_log)
+                binding.ivSellerFollow.setImageResource(R.drawable.notification_log)
             }
         }
 
@@ -313,8 +297,8 @@ class SellerInformationActivity : BaseActivity(), SetOnProductItemListeners,
     }
 
     override fun onRefresh() {
-        swipe_to_refresh.isRefreshing = false
-        tvError.hide()
+        binding.swipeToRefresh.isRefreshing = false
+        binding.tvError.hide()
         productList.clear()
         productAdapter.notifyDataSetChanged()
         endlessRecyclerViewScrollListener.resetState()
@@ -326,12 +310,12 @@ class SellerInformationActivity : BaseActivity(), SetOnProductItemListeners,
     }
 
     private fun showProductApiError(message: String) {
-        tvError.show()
-        tvError.text = message
+        binding.tvError.show()
+        binding.tvError.text = message
     }
 
     private fun setViewClickListeners() {
-        ivSellerFollow.setOnClickListener {
+        binding.ivSellerFollow.setOnClickListener {
             sellerInformation?.let {
                 if (it.isFollowed) {
                     sellerViewModel!!.removeSellerToFav(it.providerId, it.businessAccountId)
@@ -340,9 +324,9 @@ class SellerInformationActivity : BaseActivity(), SetOnProductItemListeners,
                 }
             }
         }
-        seller_number.setOnClickListener {
+        binding.sellerNumber.setOnClickListener {
             val callIntent = Intent(Intent.ACTION_CALL)
-            callIntent.data = Uri.parse("tel:" + seller_number.text.toString())
+            callIntent.data = Uri.parse("tel:" + binding.sellerNumber.text.toString())
 
             if (ActivityCompat.checkSelfPermission(
                     this,
@@ -359,76 +343,63 @@ class SellerInformationActivity : BaseActivity(), SetOnProductItemListeners,
                 startActivity(callIntent)
             }
         }
-        back_btn.setOnClickListener {
+        binding.toolbarMain.backBtn.setOnClickListener {
             onBackPressed()
         }
-        btnRate.setOnClickListener {
+        binding.btnRate.setOnClickListener {
             startActivity(Intent(this, SellerRateActivity::class.java).apply {
                 putExtra(ConstantObjects.sellerObjectKey, sellerInformation)
             })
         }
 
-        skype_btn.setOnClickListener {
+        binding.skypeBtn.setOnClickListener {
             if (sellerInformation?.skype != null && sellerInformation?.skype != "") {
                 HelpFunctions.openExternalLInk(sellerInformation?.skype!!, this)
             }
         }
-        youtube_btn.setOnClickListener {
+        binding.youtubeBtn.setOnClickListener {
             if (sellerInformation?.youTube != null && sellerInformation?.youTube != "") {
                 HelpFunctions.openExternalLInk(sellerInformation?.youTube!!, this)
 
             }
         }
-        instagram_btn.setOnClickListener {
+        binding.instagramBtn.setOnClickListener {
             if (sellerInformation?.instagram != null && sellerInformation?.instagram != "") {
                 HelpFunctions.openExternalLInk(sellerInformation?.instagram!!, this)
             }
         }
-        facebook_btn.setOnClickListener {
+        binding.facebookBtn.setOnClickListener {
             if (sellerInformation?.faceBook != null && sellerInformation?.faceBook != "") {
                 HelpFunctions.openExternalLInk(sellerInformation?.faceBook!!, this)
             }
         }
-        twitter_btn.setOnClickListener {
+        binding.twitterBtn.setOnClickListener {
             if (sellerInformation?.twitter != null && sellerInformation?.twitter != "") {
                 HelpFunctions.openExternalLInk(sellerInformation?.twitter!!, this)
             }
         }
-        linked_in_btn.setOnClickListener {
+        binding.linkedInBtn.setOnClickListener {
             if (sellerInformation?.linkedIn != null && sellerInformation?.linkedIn != "") {
                 HelpFunctions.openExternalLInk(sellerInformation?.linkedIn!!, this)
             }
         }
-        tiktok_btn.setOnClickListener {
+        binding.tiktokBtn.setOnClickListener {
             if (sellerInformation?.tikTok != null && sellerInformation?.tikTok != "") {
                 HelpFunctions.openExternalLInk(sellerInformation?.tikTok!!, this)
             }
         }
-        snapChat_btn.setOnClickListener {
+        binding.snapChatBtn.setOnClickListener {
             if (sellerInformation?.snapchat != null && sellerInformation?.snapchat != "") {
                 HelpFunctions.openExternalLInk(sellerInformation?.snapchat!!, this)
             }
         }
-        btnMapSeller.setOnClickListener {
+        binding.btnMapSeller.setOnClickListener {
             openLocationInMap(sellerInformation?.branches!!)
-//            if (sellerInformation?.lat != null && sellerInformation?.lon != null) {
-//                openLocationInMap(sellerInformation?.lat!!, sellerInformation?.lon!!)
-//            } else {
-//                HelpFunctions.ShowLongToast(getString(R.string.noLocationFound), this)
-//            }
-            //  openLocationInMap(0.0, 0.0)
         }
 
     }
 
     private fun openLocationInMap(branches: ArrayList<Branch>) {
-//        val URL = ("http://maps.google.com/maps?saddr=&daddr=$lat,$langtiude&dirflg=d")
-//        val location = Uri.parse(URL)
-//        val mapIntent = Intent(Intent.ACTION_VIEW, location)
-//        // Make the Intent explicit by setting the Google Maps package
-//        mapIntent.setPackage("com.google.android.apps.maps")
-//        startActivity(mapIntent)
-
         startActivity(Intent(this, ShowBranchesMapActivity::class.java).apply {
             putParcelableArrayListExtra("customBranches", branches)
 
@@ -447,7 +418,7 @@ class SellerInformationActivity : BaseActivity(), SetOnProductItemListeners,
                     PackageManager.PERMISSION_GRANTED
                 ) {
                     val callIntent = Intent(Intent.ACTION_CALL)
-                    callIntent.data = Uri.parse("tel:" + seller_number.text.toString())
+                    callIntent.data = Uri.parse("tel:" + binding.sellerNumber.text.toString())
                     startActivity(callIntent)
                 } else {
                     HelpFunctions.ShowLongToast("Permission Phone denied", this)

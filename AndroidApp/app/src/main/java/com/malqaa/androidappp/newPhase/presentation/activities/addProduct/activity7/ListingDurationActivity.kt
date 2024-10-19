@@ -10,6 +10,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.ActivityListingDurationBinding
+import com.malqaa.androidappp.databinding.SelectionItemBinding
+import com.malqaa.androidappp.databinding.ShippingOptionBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
 import com.malqaa.androidappp.newPhase.domain.models.addProductToCartResp.AddProductObjectData
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.Selection
@@ -24,19 +27,15 @@ import com.malqaa.androidappp.newPhase.utils.helper.widgets.TimePickerFragment
 import com.malqaa.androidappp.newPhase.utils.helper.widgets.rcv.GenericListAdapter
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.show
-import kotlinx.android.synthetic.main.activity_listing_duration.*
-import kotlinx.android.synthetic.main.activity_listing_duration.switchMustPickUp
-import kotlinx.android.synthetic.main.activity_listing_duration.tvMustPickUp
-import kotlinx.android.synthetic.main.activity_pricing_payment.*
-import kotlinx.android.synthetic.main.selection_item.view.*
-import kotlinx.android.synthetic.main.shipping_option.view.*
-import kotlinx.android.synthetic.main.toolbar_main.*
 import java.text.ParseException
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
 
-class ListingDurationActivity : BaseActivity(), ShippingAdapter.SetOnSelectedShipping {
+class ListingDurationActivity : BaseActivity<ActivityListingDurationBinding>(),
+    ShippingAdapter.SetOnSelectedShipping {
     var fixlenghtselected: TimeAuctionSelection? = null
     var selectdate = ""
     var selectTime = ""
@@ -51,126 +50,93 @@ class ListingDurationActivity : BaseActivity(), ShippingAdapter.SetOnSelectedShi
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_listing_duration)
+        // Initialize view binding
+        binding = ActivityListingDurationBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         shippingViewModel = ViewModelProvider(this).get(ShippingViewModel::class.java)
 
-        toolbar_title.text = getString(R.string.shipping_options)
+        binding.toolbarListduration.toolbarTitle.text = getString(R.string.shipping_options)
         isEdit = intent.getBooleanExtra(ConstantObjects.isEditKey, false)
         setVieClickListeners()
         shippingAdapter = ShippingAdapter(arrayListOf(), this)
-        containerPickUpOption.hide()
+        binding.containerPickUpOption.hide()
         if (AddProductObjectData.auctionOption) {
-            contianerClosingOption.show()
+            binding.contianerClosingOption.show()
         } else {
-            contianerClosingOption.hide()
+            binding.contianerClosingOption.hide()
         }
         shippingViewModel.getAllShippingOptions()
-        /**set time for normal clossing*/
+
         val c = Calendar.getInstance()
         val currentDay = c.get(Calendar.DAY_OF_MONTH)
-        // Variables to get weeks from the current date
-//        val currentDate = SimpleDateFormat("MM/dd/yyyy")
-//        val todayDate = Date()
-//        val thisDate = currentDate.format(todayDate)
-//        val week1 = addDay(day.toString(), 7)
-//        val week2 = addDay(day.toString(), 14)
-//        val week3 = addDay(day.toString(), 21)
-//        val week4 = addDay(day.toString(), 28)
+
         try {
             AddProductObjectData.selectedCategory?.let {
-                val characterList =   convertStringToIntArray(it.auctionClosingPeriods!!)
-//                val characterList = it.auctionClosingPeriods?.toCharArray()
+                val characterList = convertStringToIntArray(it.auctionClosingPeriods!!)
                 if (characterList != null) {
                     for (c in characterList) {
-//                        if (c != ',') {
-                            var cNumer = 1
-                            try {
-                                cNumer = c.toString().toInt()
-                            } catch (e: java.lang.Exception) {
-//
+                        var cNumer = 1
+                        try {
+                            cNumer = c.toString().toInt()
+                        } catch (e: java.lang.Exception) {
+                        }
+
+                        when (it.auctionClosingPeriodsUnit) {
+                            ConstantObjects.auctionClosingPeriodsUnit_day -> {
+                                val date = addDay(currentDay.toString(), cNumer)
+                                allWeeks.add(
+                                    TimeAuctionSelection(
+                                        c.toString(),
+                                        date,
+                                        HelpFunctions.getAuctionClosingTime2(date),
+                                        it.auctionClosingPeriodsUnit
+                                    )
+                                )
                             }
 
-                            when (it.auctionClosingPeriodsUnit) {
-                                ConstantObjects.auctionClosingPeriodsUnit_day -> {
-                                    val date = addDay(currentDay.toString(), cNumer)
-                                    allWeeks.add(
-                                        TimeAuctionSelection(
-                                            c.toString(),
-                                            date,
-                                            HelpFunctions.getAuctionClosingTime2(date),
-                                            it.auctionClosingPeriodsUnit
-                                        )
+                            ConstantObjects.auctionClosingPeriodsUnit_month -> {
+                                val date = addMonth(currentDay.toString(), cNumer)
+                                allWeeks.add(
+                                    TimeAuctionSelection(
+                                        c.toString(),
+                                        date,
+                                        HelpFunctions.getAuctionClosingTime2(date),
+                                        it.auctionClosingPeriodsUnit
                                     )
-                                }
+                                )
+                            }
 
-                                ConstantObjects.auctionClosingPeriodsUnit_month -> {
-                                    val date = addMonth(currentDay.toString(), cNumer)
-                                    allWeeks.add(
-                                        TimeAuctionSelection(
-                                            c.toString(),
-                                            date,
-                                            HelpFunctions.getAuctionClosingTime2(date),
-                                            it.auctionClosingPeriodsUnit
-                                        )
+                            else -> {
+                                val date = addDay(currentDay.toString(), cNumer * 7)
+                                allWeeks.add(
+                                    TimeAuctionSelection(
+                                        c.toString(),
+                                        date,
+                                        HelpFunctions.getAuctionClosingTime2(date),
+                                        it.auctionClosingPeriodsUnit
                                     )
-                                }
-
-                                else -> {
-                                    val date = addDay(currentDay.toString(), cNumer * 7)
-                                    allWeeks.add(
-                                        TimeAuctionSelection(
-                                            c.toString(),
-                                            date,
-                                            HelpFunctions.getAuctionClosingTime2(date),
-                                            it.auctionClosingPeriodsUnit
-                                        )
-                                    )
-                                }
+                                )
                             }
                         }
                     }
+                }
 //                }
             }
-            fixLenghtAdaptor(allWeeks)
+            fixLengthAdapter(allWeeks)
         } catch (e: Exception) {
             //
         }
 
 
         /**shipping data */
-//        pickUpOptionList.apply {
-//            add(
-//                Selection(
-//                    getString(R.string.integratedShippingCompanies),
-                    ConstantObjects.shippingOption_integratedShippingCompanyOptions
-//                )
-//            )
-//            add(
-//                Selection(
-//                    getString(R.string.free_shipping_within_Saudi_Arabia),
-//                    ConstantObjects.shippingOption_freeShippingWithinSaudiArabia
-//                )
-//            )
-//            add(
-//                Selection(
-//                    getString(R.string.arrangementWillBeMadeWithTheBuyer),
-//                    ConstantObjects.shippingOption_arrangementWillBeMadeWithTheBuyer
-//                )
-//            )
-////            add(Selection("Shipping Not Available" ))
-////            add(Selection("To be Arranged" ))
-////            add(Selection("Specify Shipping Cost" ))
-//        }
+        ConstantObjects.shippingOption_integratedShippingCompanyOptions
+
         /**adding price off custom clossing fee*/
         AddProductObjectData.selectedCategory?.let {
-            tvPriceCustomClosingAuctionOption2.text =
+            binding.tvPriceCustomClosingAuctionOption2.text =
                 "${it.auctionClosingTimeFee} ${getString(R.string.Rayal)}"
         }
-        /****/
-
-//        else {
-//           a(pickUpOptionList, rvShippingOption)
-//        }
 
         getAllShippingObserver()
     }
@@ -190,6 +156,7 @@ class ListingDurationActivity : BaseActivity(), ShippingAdapter.SetOnSelectedShi
         }
         return intArray
     }
+
     private fun setData() {
         pickUpOption = AddProductObjectData.shippingOption
         for (i in shippingOptionList.indices) {
@@ -200,15 +167,15 @@ class ListingDurationActivity : BaseActivity(), ShippingAdapter.SetOnSelectedShi
 
         when (AddProductObjectData.shippingOption) {
             ConstantObjects.pickUp_Must -> {
-                containerPickUpOption.hide()
+                binding.containerPickUpOption.hide()
             }
 
             ConstantObjects.pickUp_No -> {
-                containerPickUpOption.show()
+                binding.containerPickUpOption.show()
             }
 
             ConstantObjects.pickUp_Available -> {
-                containerPickUpOption.show()
+                binding.containerPickUpOption.show()
             }
         }
 
@@ -241,28 +208,34 @@ class ListingDurationActivity : BaseActivity(), ShippingAdapter.SetOnSelectedShi
             }
         }
 
-        pickUpOptionAdapter(pickUpOptionList, rvShippingOption)
-        if(AddProductObjectData.isAuctionClosingTimeFixed){
-            closingAuctionOption2.performClick()
-            tvClosingAuctionCustomDataOption2.text =
-                HelpFunctions.getViewFormatForDateTrack(AddProductObjectData.selectTimeAuction?.endTime,"dd/MM/yyyy HH:mm:ss")
+        pickUpOptionAdapter(pickUpOptionList, binding.rvShippingOption)
+        if (AddProductObjectData.isAuctionClosingTimeFixed) {
+            binding.closingAuctionOption2.performClick()
+            binding.tvClosingAuctionCustomDataOption2.text =
+                HelpFunctions.getViewFormatForDateTrack(
+                    AddProductObjectData.selectTimeAuction?.endTime,
+                    "dd/MM/yyyy HH:mm:ss"
+                )
 
-        }else{
+        } else {
             AddProductObjectData.selectTimeAuction?.let {
                 if (it.customOption) {
-                    closingAuctionOption2.performClick()
+                    binding.closingAuctionOption2.performClick()
                     if (it.text == "")
-                        tvClosingAuctionCustomDataOption2.text =
-                            HelpFunctions.getViewFormatForDateTrack(it.endTime,"dd/MM/yyyy HH:mm:ss")
+                        binding.tvClosingAuctionCustomDataOption2.text =
+                            HelpFunctions.getViewFormatForDateTrack(
+                                it.endTime,
+                                "dd/MM/yyyy HH:mm:ss"
+                            )
                 } else {
-                    closingAuctionOption1.performClick()
+                    binding.closingAuctionOption1.performClick()
                     for (item in allWeeks) {
                         if (item.text == it.text) {
                             item.isSelect = true
                             break
                         }
                     }
-                    fixLenghtAdaptor(allWeeks)
+                    fixLengthAdapter(allWeeks)
                 }
             }
         }
@@ -274,8 +247,8 @@ class ListingDurationActivity : BaseActivity(), ShippingAdapter.SetOnSelectedShi
             pickUpOptionList.addAll(it.shippingOptionObject?.subList(3, 6) ?: arrayListOf())
             shippingOptionList.addAll(it.shippingOptionObject?.subList(0, 3) ?: arrayListOf())
             shippingAdapter?.updateAdapter(shippingOptionList)
-            recycleShipping.adapter = shippingAdapter
-            pickUpOptionAdapter(pickUpOptionList, rvShippingOption)
+            binding.recycleShipping.adapter = shippingAdapter
+            pickUpOptionAdapter(pickUpOptionList, binding.rvShippingOption)
             if (isEdit) {
                 setData()
             }
@@ -285,98 +258,94 @@ class ListingDurationActivity : BaseActivity(), ShippingAdapter.SetOnSelectedShi
     private fun setPickUpMust() {
 
         /**pickUpNo*/
-        switchNoPickUp.setBackgroundResource(R.drawable.edittext_bg)
-        tvNoPickUp.setTextColor(ContextCompat.getColor(this, R.color.text_color))
-        rbNoPickup.isChecked = false
+        binding.switchNoPickUp.setBackgroundResource(R.drawable.edittext_bg)
+        binding.tvNoPickUp.setTextColor(ContextCompat.getColor(this, R.color.text_color))
+        binding.rbNoPickup.isChecked = false
         /**pickUpAvailable*/
-        switchAvailablePickUp.setBackgroundResource(R.drawable.edittext_bg)
-        tvAvailablePickUp.setTextColor(ContextCompat.getColor(this, R.color.text_color))
-        rbAvailablePickup.isChecked = false
+        binding.switchAvailablePickUp.setBackgroundResource(R.drawable.edittext_bg)
+        binding.tvAvailablePickUp.setTextColor(ContextCompat.getColor(this, R.color.text_color))
+        binding.rbAvailablePickup.isChecked = false
         /**pickUpMust*/
-        switchMustPickUp.setBackgroundResource(R.drawable.field_selection_border_enable)
-        tvMustPickUp.setTextColor(ContextCompat.getColor(this, R.color.bg))
-        rbMustPickup.isChecked = true
+        binding.switchMustPickUp.setBackgroundResource(R.drawable.field_selection_border_enable)
+        binding.tvMustPickUp.setTextColor(ContextCompat.getColor(this, R.color.bg))
+        binding.rbMustPickup.isChecked = true
     }
 
     private fun setPickUpNo() {
         /**pickUpMust*/
-        switchMustPickUp.setBackgroundResource(R.drawable.edittext_bg)
-        tvMustPickUp.setTextColor(ContextCompat.getColor(this, R.color.text_color))
-        rbMustPickup.isChecked = false
+        binding.switchMustPickUp.setBackgroundResource(R.drawable.edittext_bg)
+        binding.tvMustPickUp.setTextColor(ContextCompat.getColor(this, R.color.text_color))
+        binding.rbMustPickup.isChecked = false
 
         /**pickUpAvailable*/
-        switchAvailablePickUp.setBackgroundResource(R.drawable.edittext_bg)
-        tvAvailablePickUp.setTextColor(ContextCompat.getColor(this, R.color.text_color))
-        rbAvailablePickup.isChecked = false
+        binding.switchAvailablePickUp.setBackgroundResource(R.drawable.edittext_bg)
+        binding.tvAvailablePickUp.setTextColor(ContextCompat.getColor(this, R.color.text_color))
+        binding.rbAvailablePickup.isChecked = false
         /**pickUpNo*/
-        switchNoPickUp.setBackgroundResource(R.drawable.field_selection_border_enable)
-        tvNoPickUp.setTextColor(ContextCompat.getColor(this, R.color.bg))
-        rbNoPickup.isChecked = true
+        binding.switchNoPickUp.setBackgroundResource(R.drawable.field_selection_border_enable)
+        binding.tvNoPickUp.setTextColor(ContextCompat.getColor(this, R.color.bg))
+        binding.rbNoPickup.isChecked = true
     }
 
     private fun setPickUpAvailable() {
         /**pickUpMust*/
-        switchMustPickUp.setBackgroundResource(R.drawable.edittext_bg)
-        tvMustPickUp.setTextColor(ContextCompat.getColor(this, R.color.text_color))
-        rbMustPickup.isChecked = false
+        binding.switchMustPickUp.setBackgroundResource(R.drawable.edittext_bg)
+        binding.tvMustPickUp.setTextColor(ContextCompat.getColor(this, R.color.text_color))
+        binding.rbMustPickup.isChecked = false
         /**pickUpNo*/
-        switchNoPickUp.setBackgroundResource(R.drawable.edittext_bg)
-        tvNoPickUp.setTextColor(ContextCompat.getColor(this, R.color.text_color))
-        rbNoPickup.isChecked = false
+        binding.switchNoPickUp.setBackgroundResource(R.drawable.edittext_bg)
+        binding.tvNoPickUp.setTextColor(ContextCompat.getColor(this, R.color.text_color))
+        binding.rbNoPickup.isChecked = false
         /**pickUpAvailable*/
-        switchAvailablePickUp.setBackgroundResource(R.drawable.field_selection_border_enable)
-        tvAvailablePickUp.setTextColor(ContextCompat.getColor(this, R.color.bg))
-        rbAvailablePickup.isChecked = true
+        binding.switchAvailablePickUp.setBackgroundResource(R.drawable.field_selection_border_enable)
+        binding.tvAvailablePickUp.setTextColor(ContextCompat.getColor(this, R.color.bg))
+        binding.rbAvailablePickup.isChecked = true
     }
 
     private fun setVieClickListeners() {
-        btnRadioClosingAuctionOption1.setOnCheckedChangeListener { compoundButton, b ->
+        binding.btnRadioClosingAuctionOption1.setOnCheckedChangeListener { compoundButton, b ->
             if (b) {
-                closingAuctionOption1.performClick()
+                binding.closingAuctionOption1.performClick()
             }
         }
-        closingAuctionOption1.setOnClickListener {
-            AddProductObjectData.isAuctionClosingTimeFixed=false
-            closingAuctionOption1.background =
+        binding.closingAuctionOption1.setOnClickListener {
+            AddProductObjectData.isAuctionClosingTimeFixed = false
+            binding.closingAuctionOption1.background =
                 ContextCompat.getDrawable(this, R.drawable.field_selection_border_enable)
-            FixedLength.setTextColor(ContextCompat.getColor(this, R.color.bg))
-            closingAuctionOption2.isSelected = false
-            btnRadioClosingAuctionOption1.isChecked = true
-            btnRadioClosingAuctionOption2.isChecked = false
-
-            tvClosingAuctionCustomDataOption2.text = ""
-            tvClosingAuctionCustomDataOption2.hint = getString(R.string.SelectTime)
+            binding.FixedLength.setTextColor(ContextCompat.getColor(this, R.color.bg))
+            binding.closingAuctionOption2.isSelected = false
+            binding.btnRadioClosingAuctionOption1.isChecked = true
+            binding.btnRadioClosingAuctionOption2.isChecked = false
+            binding.tvClosingAuctionCustomDataOption2.text = ""
+            binding.tvClosingAuctionCustomDataOption2.hint = getString(R.string.SelectTime)
         }
-        btnRadioClosingAuctionOption2.setOnCheckedChangeListener { compoundButton, b ->
+        binding.btnRadioClosingAuctionOption2.setOnCheckedChangeListener { compoundButton, b ->
             if (b) {
-                closingAuctionOption2.performClick()
+                binding.closingAuctionOption2.performClick()
             }
         }
-        closingAuctionOption2.setOnClickListener {
-            AddProductObjectData.isAuctionClosingTimeFixed=true
-            closingAuctionOption2.isSelected = true
-            closingAuctionOption1.background =
+        binding.closingAuctionOption2.setOnClickListener {
+            AddProductObjectData.isAuctionClosingTimeFixed = true
+            binding.closingAuctionOption2.isSelected = true
+            binding.closingAuctionOption1.background =
                 ContextCompat.getDrawable(this, R.drawable.edittext_bg)
-            FixedLength.setTextColor(ContextCompat.getColor(this, R.color.text_color))
-            btnRadioClosingAuctionOption1.isChecked = false
-            btnRadioClosingAuctionOption2.isChecked = true
+            binding.FixedLength.setTextColor(ContextCompat.getColor(this, R.color.text_color))
+            binding.btnRadioClosingAuctionOption1.isChecked = false
+            binding.btnRadioClosingAuctionOption2.isChecked = true
             allWeeks.forEach {
                 it.isSelect = false
             }
-            fixLenghtAdaptor(allWeeks)
-            //tvClosingAuctionCustomDataOption2.text = "$selectdate - $selectTime"
-
-
+            fixLengthAdapter(allWeeks)
         }
-        tvClosingAuctionCustomDataOption2.setOnClickListener {
+        binding.tvClosingAuctionCustomDataOption2.setOnClickListener {
             fm = supportFragmentManager
             val dateDialog = DatePickerFragment(false, true) { selectdate_ ->
-                tvClosingAuctionCustomDataOption2.text = ""
+                binding.tvClosingAuctionCustomDataOption2.text = ""
                 selectdate = selectdate_
                 val timeDialog = TimePickerFragment { selectTime_ ->
                     selectTime = selectTime_
-                    btnRadioClosingAuctionOption2.isChecked = true
-                    tvClosingAuctionCustomDataOption2.text = selectdate + " " + selectTime
+                    binding.btnRadioClosingAuctionOption2.isChecked = true
+                    binding.tvClosingAuctionCustomDataOption2.text = selectdate + " " + selectTime
                     println("hhhh " + HelpFunctions.getAuctionClosingTime("$selectdate_ $selectTime$"))
 
                 }
@@ -384,121 +353,139 @@ class ListingDurationActivity : BaseActivity(), ShippingAdapter.SetOnSelectedShi
             }
             dateDialog.show(fm!!, "")
         }
-        back_btn.setOnClickListener {
+        binding.toolbarListduration.backBtn.setOnClickListener {
             onBackPressed()
         }
 
-        rbMustPickup.setOnCheckedChangeListener { _, b ->
+        binding.rbMustPickup.setOnCheckedChangeListener { _, b ->
             if (b) {
                 pickUpOption = ConstantObjects.pickUp_Must
                 setPickUpMust()
             } else {
                 pickUpOption = 0
-                switchMustPickUp.setBackgroundResource(R.drawable.edittext_bg)
-                tvMustPickUp.setTextColor(ContextCompat.getColor(this, R.color.text_color))
+                binding.switchMustPickUp.setBackgroundResource(R.drawable.edittext_bg)
+                binding.tvMustPickUp.setTextColor(ContextCompat.getColor(this, R.color.text_color))
             }
-            containerPickUpOption.hide()
-
+            binding.containerPickUpOption.hide()
         }
-        rbNoPickup.setOnCheckedChangeListener { _, b ->
+
+        binding.rbNoPickup.setOnCheckedChangeListener { _, b ->
             if (b) {
                 pickUpOption = ConstantObjects.pickUp_No
                 setPickUpNo()
-                containerPickUpOption.show()
+                binding.containerPickUpOption.show()
             } else {
                 pickUpOption = 0
-                switchNoPickUp.setBackgroundResource(R.drawable.edittext_bg)
-                tvNoPickUp.setTextColor(ContextCompat.getColor(this, R.color.text_color))
-                containerPickUpOption.hide()
+                binding.switchNoPickUp.setBackgroundResource(R.drawable.edittext_bg)
+                binding.tvNoPickUp.setTextColor(ContextCompat.getColor(this, R.color.text_color))
+                binding.containerPickUpOption.hide()
             }
         }
-        rbAvailablePickup.setOnCheckedChangeListener { _, b ->
+        binding.rbAvailablePickup.setOnCheckedChangeListener { _, b ->
             if (b) {
                 pickUpOption = ConstantObjects.pickUp_Available
                 setPickUpAvailable()
-                containerPickUpOption.show()
+                binding.containerPickUpOption.show()
             } else {
                 pickUpOption = 0
-                switchAvailablePickUp.setBackgroundResource(R.drawable.edittext_bg)
-                tvAvailablePickUp.setTextColor(ContextCompat.getColor(this, R.color.text_color))
-                containerPickUpOption.hide()
+                binding.switchAvailablePickUp.setBackgroundResource(R.drawable.edittext_bg)
+                binding.tvAvailablePickUp.setTextColor(
+                    ContextCompat.getColor(
+                        this,
+                        R.color.text_color
+                    )
+                )
+                binding.containerPickUpOption.hide()
             }
         }
-        btn_listduration.setOnClickListener {
+        binding.btnListduration.setOnClickListener {
             confirmListDuration2()
         }
     }
 
     @SuppressLint("ResourceType")
-    private fun fixLenghtAdaptor(list: ArrayList<TimeAuctionSelection>) {
+    private fun fixLengthAdapter(list: ArrayList<TimeAuctionSelection>) {
         println("hhh " + Gson().toJson(list))
-        rvClosingTimeListOption1.adapter =
+
+        // Set up adapter with ViewBinding for selection_item layout
+        binding.rvClosingTimeListOption1.adapter =
             object : GenericListAdapter<TimeAuctionSelection>(
                 R.layout.selection_item,
                 bind = { element, holder, itemCount, position ->
-                    holder.view.run {
+
+                    // Use ViewBinding to bind the view for the current item
+                    val bindingItem = SelectionItemBinding.bind(holder.view)
+
+                    // Bind the data using ViewBinding
+                    bindingItem.run {
                         element.run {
+                            // Determine unit type
                             val unit: String = when (unitType) {
                                 ConstantObjects.auctionClosingPeriodsUnit_day -> {
-                                    getString(R.string.day)
+                                    holder.view.context.getString(R.string.day)
                                 }
 
                                 ConstantObjects.auctionClosingPeriodsUnit_month -> {
-                                    getString(R.string.month)
+                                    holder.view.context.getString(R.string.month)
                                 }
 
                                 else -> {
-                                    getString(R.string.week)
+                                    holder.view.context.getString(R.string.week)
                                 }
                             }
-                            selection_tv.text = "$text $unit"
-                            selection_tv.isSelected = isSelect
+
+                            // Set the selection text and its state
+                            selectionTv.text = "$text $unit"
+                            selectionTv.isSelected = isSelect
                             fixlenghtselected = list.find { it.isSelect }
 
-                            setOnClickListener {
-                                list.forEachIndexed { index, addBankDetail ->
-                                    addBankDetail.isSelect = index == position
+                            // Handle item click to select the option
+                            root.setOnClickListener {
+                                // Update the selected state in the list
+                                list.forEachIndexed { index, item ->
+                                    item.isSelect = index == position
                                 }
-                                rvClosingTimeListOption1.post {
-                                    rvClosingTimeListOption1.adapter!!.notifyDataSetChanged()
+
+                                // Notify adapter to refresh the list
+                                binding.rvClosingTimeListOption1.post {
+                                    binding.rvClosingTimeListOption1.adapter?.notifyDataSetChanged()
                                 }
+
+                                // Set the selected item and adjust the end time
                                 fixlenghtselected = element
-                                val dateFormat = SimpleDateFormat("HH:mm:ss")
+                                val dateFormat = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
                                 val currentTime = dateFormat.format(Date())
-                                fixlenghtselected?.endTime=fixlenghtselected?.endTime+" "+currentTime
-                                btnRadioClosingAuctionOption1.isChecked = true
+                                fixlenghtselected?.endTime =
+                                    "${fixlenghtselected?.endTime} $currentTime"
+
+                                // Check the button related to this selection
+                                binding.btnRadioClosingAuctionOption1.isChecked = true
                             }
                         }
                     }
                 }
             ) {
                 override fun getFilter(): Filter {
+                    // Implement the filter logic here if needed
                     TODO("Not yet implemented")
                 }
-
             }.apply {
-                submitList(
-                    list
-                )
+                submitList(list)
             }
     }
 
     fun confirmListDuration2() {
-//        if (!ValidateRadiobtmchecked()) {
-//            return
-//        } else
-        if (rbMustPickup.isChecked) {
+        if (binding.rbMustPickup.isChecked) {
             pickUpOption = ConstantObjects.pickUp_Must
-        } else if (rbNoPickup.isChecked) {
+        } else if (binding.rbNoPickup.isChecked) {
             pickUpOption = ConstantObjects.pickUp_No
-        } else if (rbAvailablePickup.isChecked) {
+        } else if (binding.rbAvailablePickup.isChecked) {
             pickUpOption = ConstantObjects.pickUp_Available
         }
 
         if (AddProductObjectData.auctionOption && !validateListDuration()) {
             return
-        }
-        else if (!validatePickUpOption()) {
+        } else if (!validatePickUpOption()) {
             return
         } else {
             println("hhh date " + Gson().toJson(AddProductObjectData.shippingOptionSelections))
@@ -532,21 +519,8 @@ class ListingDurationActivity : BaseActivity(), ShippingAdapter.SetOnSelectedShi
         return true
     }
 
-//    private fun ValidateRadiobtmchecked(): Boolean {
-//        pickUpOptionList.filter {
-//            it.isSelected == true
-//        }.isEmpty().let {
-//            if (it) {
-//                showError(getString(R.string.Please_select, getString(R.string.shipping_options)))
-//                return false
-//            } else {
-//                return true
-//            }
-//        }
-//    }
-
     private fun validateListDuration(): Boolean {
-        return if (btnRadioClosingAuctionOption1.isChecked) {
+        return if (binding.btnRadioClosingAuctionOption1.isChecked) {
             if (fixlenghtselected == null) {
                 showError(getString(R.string.close_time))
                 return false
@@ -559,16 +533,16 @@ class ListingDurationActivity : BaseActivity(), ShippingAdapter.SetOnSelectedShi
                 AddProductObjectData.selectTimeAuction = fixlenghtselected
                 return true
             }
-        } else if (btnRadioClosingAuctionOption2.isChecked) {
-            if (tvClosingAuctionCustomDataOption2.text.toString().isEmpty()) {
+        } else if (binding.btnRadioClosingAuctionOption2.isChecked) {
+            if (binding.tvClosingAuctionCustomDataOption2.text.toString().isEmpty()) {
 
                 showError(getString(R.string.close_time))
                 return false
             } else {
                 AddProductObjectData.selectTimeAuction = TimeAuctionSelection(
-                    tvClosingAuctionCustomDataOption2.text.toString(),
-                    tvClosingAuctionCustomDataOption2.text.toString(),
-                    HelpFunctions.getAuctionClosingTime(tvClosingAuctionCustomDataOption2.text.toString()),
+                    binding.tvClosingAuctionCustomDataOption2.text.toString(),
+                    binding.tvClosingAuctionCustomDataOption2.text.toString(),
+                    HelpFunctions.getAuctionClosingTime(binding.tvClosingAuctionCustomDataOption2.text.toString()),
                     0,
                     customOption = true
                 )
@@ -632,27 +606,35 @@ class ListingDurationActivity : BaseActivity(), ShippingAdapter.SetOnSelectedShi
         rcv.adapter = object : GenericListAdapter<ShippingOptionObject>(
             R.layout.shipping_option,
             bind = { element, holder, itemCount, position ->
-                holder.view.run {
+
+                // Use ViewBinding to bind the view for the current item
+                val binding = ShippingOptionBinding.bind(holder.view)
+
+                // Bind the data using ViewBinding
+                binding.run {
                     element.run {
-                        shipping_opt_tv.text = list[position].shippingOptionName
+                        shippingOptTv.text = list[position].shippingOptionName
+
+                        // Set the selected state
                         if (selected) {
                             rvSelected.setImageResource(R.drawable.ic_radio_button_checked)
                         } else {
                             rvSelected.setImageResource(R.drawable.ic_radio_button_unchecked)
                         }
-                        shipping_option_layout.setOnClickListener {
-                            list.forEach { item ->
-                                item.selected = false
-                            }
+
+                        // Handle the selection click
+                        shippingOptionLayout.setOnClickListener {
+                            list.forEach { item -> item.selected = false }
                             list[position].selected = true
 
                             AddProductObjectData.pickUpOption = list[position].id
 
                             rcv.post { rcv.adapter?.notifyDataSetChanged() }
-                            // selection = element
                         }
+
+                        // Mirror the click for the selected image
                         rvSelected.setOnClickListener {
-                            shipping_option_layout.performClick()
+                            shippingOptionLayout.performClick()
                         }
                     }
                 }
@@ -661,14 +643,10 @@ class ListingDurationActivity : BaseActivity(), ShippingAdapter.SetOnSelectedShi
             override fun getFilter(): Filter {
                 TODO("Not yet implemented")
             }
-
         }.apply {
-            submitList(
-                list
-            )
+            submitList(list)
         }
     }
-
 
     private fun goNextActivity() {
         if (isEdit) {
@@ -690,15 +668,15 @@ class ListingDurationActivity : BaseActivity(), ShippingAdapter.SetOnSelectedShi
             AddProductObjectData.shippingOption = shippingItem.id
             if (shippingItem.id != 1) {
                 pickUpOption = shippingItem.id
-                containerPickUpOption.show()
-                pickUpOptionAdapter(pickUpOptionList, rvShippingOption)
+                binding.containerPickUpOption.show()
+                pickUpOptionAdapter(pickUpOptionList, binding.rvShippingOption)
             } else {
                 pickUpOption = shippingItem.id
-                containerPickUpOption.hide()
+                binding.containerPickUpOption.hide()
             }
 
         } else {
-            containerPickUpOption.hide()
+            binding.containerPickUpOption.hide()
         }
 
     }
@@ -707,56 +685,4 @@ class ListingDurationActivity : BaseActivity(), ShippingAdapter.SetOnSelectedShi
         super.onDestroy()
         shippingViewModel.closeAllCall()
     }
-
-    /*****************/
-
-
-//    fun confirmListDuration() {
-//        if (!validateListDuration() or !ValidateRadiobtmchecked()) {
-//            return
-//        } else {
-//            if (btnRadioClosingAuctionOption1.isChecked) {
-//                AddProductObjectData.fixLength = "fixed_length"
-//                val sdf = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
-//                AddProductObjectData.timepicker = sdf.format(Date())
-//                AddProductObjectData.duration = fixlenghtselected!!.text
-//                AddProductObjectData.endtime =
-//                    fixlenghtselected!!.endTime + " " + sdf.format(Date())
-//                AddProductObjectData.fixlenghtselected = fixlenghtselected
-//
-//            } else if (btnRadioClosingAuctionOption2.isChecked) {
-//                AddProductObjectData.fixLength = "end_time"
-//                AddProductObjectData.timepicker = selectTime
-//                AddProductObjectData.duration = ""
-//                AddProductObjectData.endtime = selectdate + " " + selectTime
-//            }
-//            saveSelectedcheckbox()
-//            saveShippingOption()
-//            if (isEdit) {
-//                startActivity(Intent(this, ConfirmationAddProductActivity::class.java).apply {
-//                    finish()
-//                })
-//            } else {
-//                startActivity(Intent(this, PromotionalActivity::class.java).apply {
-//                })
-//
-//            }
-//        }
-//
-//    }
-
-
-//    fun saveSelectedcheckbox() {
-//
-//        val list = allWeeks.filter {
-//            it.isSelect == true
-//
-//        }
-//        list.forEach {
-//            AddProductObjectData.weekSelection = it
-//        }
-//    }
-
-
 }
-

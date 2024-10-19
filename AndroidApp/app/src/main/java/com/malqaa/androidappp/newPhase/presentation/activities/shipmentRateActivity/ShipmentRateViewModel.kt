@@ -10,16 +10,17 @@ import com.malqaa.androidappp.newPhase.domain.models.servicemodels.GeneralRespon
 import retrofit2.Call
 import retrofit2.HttpException
 
-class ShipmentRateViewModel :BaseViewModel() {
-    var addShipmentRateObserver:MutableLiveData<GeneralResponse> = MutableLiveData()
-    var getShipmentRate:MutableLiveData<ShipmentRateResp> = MutableLiveData()
+class ShipmentRateViewModel : BaseViewModel() {
+
+    var addShipmentRateObserver: MutableLiveData<GeneralResponse> = MutableLiveData()
+    var getShipmentRate: MutableLiveData<ShipmentRateResp> = MutableLiveData()
 
     private var callAddShipmentRate: Call<GeneralResponse>? = null
     private var callShipmentRate: Call<ShipmentRateResp>? = null
 
-    fun addShipmentRate( rateObject: RateObject){
+    fun addShipmentRate(rateObject: RateObject) {
         isLoading.value = true
-        callAddShipmentRate= getRetrofitBuilder().addShipmentRate(rateObject)
+        callAddShipmentRate = getRetrofitBuilder().addShipmentRate(rateObject)
         callApi(callAddShipmentRate!!,
             onSuccess = {
                 isLoading.value = false
@@ -40,9 +41,10 @@ class ShipmentRateViewModel :BaseViewModel() {
             })
 
     }
-    fun getShipmentRate(orderId:Int){
+
+    fun getShipmentRate(orderId: Int) {
         isLoading.value = true
-        callShipmentRate= getRetrofitBuilder().getShipmentRate(orderId)
+        callShipmentRate = getRetrofitBuilder().getShipmentRate(orderId)
         callApi(callShipmentRate!!,
             onSuccess = {
                 isLoading.value = false

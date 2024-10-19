@@ -12,7 +12,7 @@ import com.malqaa.androidappp.newPhase.domain.models.CountryCode
 import com.malqaa.androidappp.newPhase.utils.helper.ConstantsHelper.openRawResourceByName
 
 class CustomSpinnerAdapter(private val context: Context, private val items: Array<CountryCode>) :
-    BaseAdapter(){
+    BaseAdapter() {
 
 
     override fun getCount(): Int {
@@ -28,16 +28,16 @@ class CustomSpinnerAdapter(private val context: Context, private val items: Arra
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        val convertView = LayoutInflater.from(context).inflate(R.layout.custom_spinner_item, parent, false)
+        val convertView =
+            LayoutInflater.from(context).inflate(R.layout.custom_spinner_item, parent, false)
 
 
         val icon = convertView.findViewById<ImageView>(R.id.imgCode)
         val text = convertView.findViewById<TextView>(R.id.textCode)
 
-        context.openRawResourceByName(icon,items[position].code.toLowerCase())
+        context.openRawResourceByName(icon, items[position].code.toLowerCase())
         text.text = items[position].dialCode
         return convertView
     }
-
 
 }

@@ -34,5 +34,4 @@ class EconomicalRegistrationTypeAdapter(
         return i.toLong()
     }
 
-
 }

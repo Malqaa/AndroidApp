@@ -10,30 +10,29 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.ActivitySwitchAccountBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
-import com.malqaa.androidappp.newPhase.utils.helper.shared_preferences.SharedPreferencesStaticClass
 import com.malqaa.androidappp.newPhase.domain.models.bussinessAccountsListResp.BusinessAccountDetials
 import com.malqaa.androidappp.newPhase.domain.models.loginResp.LoginUser
 import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.businessAccount.BusinessAccountViewModel
 import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.businessAccount.addBusinessAccount.BusinessAccountCreateActivity
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.PicassoSingleton.getPicassoInstance
+import com.malqaa.androidappp.newPhase.utils.helper.shared_preferences.SharedPreferencesStaticClass
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.linearLayoutManager
 import com.malqaa.androidappp.newPhase.utils.show
 import io.paperdb.Paper
-import kotlinx.android.synthetic.main.activity_switch_account.*
-import kotlinx.android.synthetic.main.toolbar_main.*
 
 
-class SwitchAccountActivity : BaseActivity(), BusinessAccountsAdapter.SetOnBusinessAccountSelected,
+class SwitchAccountActivity : BaseActivity<ActivitySwitchAccountBinding>(),
+    BusinessAccountsAdapter.SetOnBusinessAccountSelected,
     SwipeRefreshLayout.OnRefreshListener {
-
 
     lateinit var businessAccountsAdapter: BusinessAccountsAdapter
     lateinit var accountList: ArrayList<BusinessAccountDetials>
     private var userData: LoginUser? = null
-    private var businessAccountViewModel: BusinessAccountViewModel?=null
+    private var businessAccountViewModel: BusinessAccountViewModel? = null
     private val createAccountLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
@@ -43,10 +42,15 @@ class SwitchAccountActivity : BaseActivity(), BusinessAccountsAdapter.SetOnBusin
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Initialize view binding
+        binding = ActivitySwitchAccountBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         setContentView(R.layout.activity_switch_account)
-        toolbar_title.text = getString(R.string.switch_accounts)
-        swipe_to_refresh.setColorSchemeResources(R.color.colorPrimaryDark)
-        swipe_to_refresh.setOnRefreshListener(this)
+        binding.toolbarMain.toolbarTitle.text = getString(R.string.switch_accounts)
+        binding.swipeToRefresh.setColorSchemeResources(R.color.colorPrimaryDark)
+        binding.swipeToRefresh.setOnRefreshListener(this)
         userData = Paper.book().read<LoginUser>(SharedPreferencesStaticClass.user_object)
         setViewClickListeners()
         setBusinessAccountsAdapter()
@@ -60,9 +64,9 @@ class SwitchAccountActivity : BaseActivity(), BusinessAccountsAdapter.SetOnBusin
         businessAccountViewModel = ViewModelProvider(this).get(BusinessAccountViewModel::class.java)
         businessAccountViewModel!!.isLoading.observe(this) {
             if (it)
-                progressBar.show()
+                binding.progressBar.show()
             else
-                progressBar.hide()
+                binding.progressBar.hide()
         }
 
 
@@ -145,8 +149,8 @@ class SwitchAccountActivity : BaseActivity(), BusinessAccountsAdapter.SetOnBusin
     }
 
     private fun showErrorMessage(message: String) {
-        tvError.show()
-        tvError.text = message
+        binding.tvError.show()
+        binding.tvError.text = message
     }
 
     private fun setUserData(userData: LoginUser?) {
@@ -155,8 +159,8 @@ class SwitchAccountActivity : BaseActivity(), BusinessAccountsAdapter.SetOnBusin
                 getPicassoInstance().load(userData.img)
                     .error(R.drawable.profileicon_bottomnav)
                     .placeholder(R.drawable.profileicon_bottomnav)
-                    .into(review_profile_pic)
-                review_name.text = "${userData.firstName} ${userData.lastName}"
+                    .into(binding.reviewProfilePic)
+                binding.reviewName.text = "${userData.firstName} ${userData.lastName}"
             }
         } catch (_: Exception) {
         }
@@ -165,17 +169,17 @@ class SwitchAccountActivity : BaseActivity(), BusinessAccountsAdapter.SetOnBusin
     private fun setBusinessAccountsAdapter() {
         accountList = ArrayList()
         businessAccountsAdapter = BusinessAccountsAdapter(accountList, this)
-        business_rcv.apply {
+        binding.businessRcv.apply {
             adapter = businessAccountsAdapter
             layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
         }
     }
 
     private fun setViewClickListeners() {
-        back_btn.setOnClickListener {
+        binding.toolbarMain.backBtn.setOnClickListener {
             finish()
         }
-        add_business_account_btn.setOnClickListener {
+        binding.addBusinessAccountBtn.setOnClickListener {
             val intent =
                 Intent(this@SwitchAccountActivity, BusinessAccountCreateActivity::class.java)
             createAccountLauncher.launch(intent)
@@ -191,17 +195,17 @@ class SwitchAccountActivity : BaseActivity(), BusinessAccountsAdapter.SetOnBusin
     }
 
     override fun onRefresh() {
-        swipe_to_refresh.isRefreshing = false
+        binding.swipeToRefresh.isRefreshing = false
         accountList.clear()
-        tvError.hide()
+        binding.tvError.hide()
         businessAccountViewModel!!.getBusinessAccount()
     }
 
     override fun onDestroy() {
         super.onDestroy()
         businessAccountViewModel!!.closeAllCall()
-        businessAccountViewModel=null
+        businessAccountViewModel = null
     }
-    
+
 }
 

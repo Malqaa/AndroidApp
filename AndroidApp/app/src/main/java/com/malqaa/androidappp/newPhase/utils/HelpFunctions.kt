@@ -28,16 +28,14 @@ import androidx.annotation.RequiresApi
 import androidx.loader.content.CursorLoader
 import com.bumptech.glide.Glide
 import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.AlertpopupBinding
+import com.malqaa.androidappp.databinding.ProgressBarBinding
 import com.malqaa.androidappp.newPhase.data.network.callApi
 import com.malqaa.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malqaa.androidappp.newPhase.domain.models.loginResp.LoginUser
 import com.malqaa.androidappp.newPhase.utils.PicassoSingleton.getPicassoInstance
 import com.malqaa.androidappp.newPhase.utils.helper.shared_preferences.SharedPreferencesStaticClass
 import io.paperdb.Paper
-import kotlinx.android.synthetic.main.alertpopup.view.Lbl_ALertTitle
-import kotlinx.android.synthetic.main.alertpopup.view.Lbl_AlertMessage
-import kotlinx.android.synthetic.main.alertpopup.view.btn_alertclose
-import kotlinx.android.synthetic.main.progress_bar.view.splash_view
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileInputStream
@@ -124,25 +122,28 @@ class HelpFunctions {
 
         fun ShowAlert(context: Context?, alertTitle: String, alertMessage: String) {
             if (context != null) {
-                val dialogBuilder: AlertDialog.Builder = AlertDialog.Builder(context)
-                val inflater =
-                    context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-                val dialogView: View = inflater.inflate(R.layout.alertpopup, null).also {
-                    if (alertTitle.isNotEmpty()) {
-                        it.Lbl_ALertTitle.setText(alertTitle)
-                    }
-                    it.Lbl_AlertMessage.setText(alertMessage)
+                val dialogBuilder = AlertDialog.Builder(context)
+                val inflater = LayoutInflater.from(context)
+
+                // Use View Binding
+                val binding = AlertpopupBinding.inflate(inflater)
+
+                // Set title and message
+                if (alertTitle.isNotEmpty()) {
+                    binding.LblALertTitle.text = alertTitle
                 }
-                dialogBuilder.setView(dialogView)
-                val alertDialog: AlertDialog = dialogBuilder.create()
-                alertDialog.getWindow()!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                binding.LblAlertMessage.text = alertMessage
+
+                dialogBuilder.setView(binding.root)
+                val alertDialog = dialogBuilder.create()
+                alertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                 alertDialog.show()
-                dialogView.btn_alertclose.setOnClickListener() {
+
+                binding.btnAlertclose.setOnClickListener {
                     alertDialog.dismiss()
                 }
             }
         }
-
 
         fun isEmailValid(email: String): Boolean1 {
             var isValid = false
@@ -579,16 +580,23 @@ class HelpFunctions {
 
         var isdialog: AlertDialog? = null
 
+
         fun startProgressBar(mActivity: Activity) {
-            val infalter = mActivity.layoutInflater
-            val dialogView = infalter.inflate(R.layout.progress_bar, null)
-            Glide.with(mActivity).asGif().load(R.raw.loader).into(dialogView.splash_view)
-            val bulider = AlertDialog.Builder(mActivity)
-            bulider.setView(dialogView)
-            bulider.setCancelable(false)
-            isdialog = bulider.create()
+            // Inflate the layout using View Binding
+            val binding = ProgressBarBinding.inflate(mActivity.layoutInflater)
+
+            // Load the GIF into the ImageView using Glide
+            Glide.with(mActivity).asGif().load(R.raw.loader).into(binding.splashView)
+
+            // Build the AlertDialog
+            val builder = AlertDialog.Builder(mActivity)
+            builder.setView(binding.root)
+            builder.setCancelable(false)
+
+            // Create and show the dialog
+            isdialog = builder.create()
             isdialog?.show()
-            isdialog?.window!!.setBackgroundDrawableResource(R.color.transparent)
+            isdialog?.window?.setBackgroundDrawableResource(R.color.transparent)
         }
 
         fun dismissProgressBar() {

@@ -1,12 +1,9 @@
 package com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.businessAccount
 
-import android.content.Context
-import android.content.Intent
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
 import com.malqaa.androidappp.newPhase.core.BaseViewModel
-import com.malqaa.androidappp.newPhase.utils.Extension.requestBody
 import com.malqaa.androidappp.newPhase.data.network.callApi
 import com.malqaa.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malqaa.androidappp.newPhase.domain.models.bussinessAccountsListResp.BusinessAccountsListResp
@@ -14,6 +11,7 @@ import com.malqaa.androidappp.newPhase.domain.models.bussinessAccountsListResp.C
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.GeneralRespone
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.getBusinessRegisterFile
+import com.malqaa.androidappp.newPhase.utils.Extension.requestBody
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -113,7 +111,7 @@ class BusinessAccountViewModel : BaseViewModel() {
     ) {
         isLoading.value = true
 
-        callAddBusinessAccount=  getRetrofitBuilder()
+        callAddBusinessAccount = getRetrofitBuilder()
             .addEditBusinessAccount(
                 id.requestBody(),
 
@@ -173,15 +171,18 @@ class BusinessAccountViewModel : BaseViewModel() {
     }
 
 
-
-    fun addBusinessRegisterFile(businessId: String,businessDocument:String,context: AppCompatActivity) {
+    fun addBusinessRegisterFile(
+        businessId: String,
+        businessDocument: String,
+        context: AppCompatActivity
+    ) {
         val addBusinessDocumentFile = getBusinessRegisterFile.GetDocuments(
             isActive = true,
             documentName = businessDocument,
             uploadedOn = "",
             createdBy = "",
             businessId = businessId,
-            )
+        )
         val call = getRetrofitBuilder().addBusinessRegisterFile(addBusinessDocumentFile)
 
         call.enqueue(object : retrofit2.Callback<GeneralRespone?> {

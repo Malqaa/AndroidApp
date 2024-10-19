@@ -2,15 +2,13 @@ package com.malqaa.androidappp.newPhase.presentation.activities.addProduct.viewm
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.malqaa.androidappp.newPhase.core.BaseViewModel
-import com.malqaa.androidappp.newPhase.utils.ConstantObjects
-import com.malqaa.androidappp.newPhase.utils.Extension.requestBody
 import com.malqaa.androidappp.newPhase.data.network.callApi
 import com.malqaa.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malqaa.androidappp.newPhase.domain.models.accountBackListResp.AccountBankListResp
+import com.malqaa.androidappp.newPhase.domain.models.addProductToCartResp.AddProductObjectData
 import com.malqaa.androidappp.newPhase.domain.models.cartPriceSummery.CartPriceSummeryResp
 import com.malqaa.androidappp.newPhase.domain.models.discopuntResp.DiscountCouponResp
 import com.malqaa.androidappp.newPhase.domain.models.dynamicSpecification.DynamicSpecificationResp
@@ -20,16 +18,12 @@ import com.malqaa.androidappp.newPhase.domain.models.productResp.ProductResp
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.AddProductResponse
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
 import com.malqaa.androidappp.newPhase.domain.models.shippingOptionsResp.ShippingOptionResp
-import com.malqaa.androidappp.newPhase.domain.models.addProductToCartResp.AddProductObjectData
-import com.malqaa.androidappp.newPhase.presentation.YourProductData
+import com.malqaa.androidappp.newPhase.utils.ConstantObjects
+import com.malqaa.androidappp.newPhase.utils.Extension.requestBody
 import com.malqaa.androidappp.newPhase.utils.helper.ConstantsHelper
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -297,7 +291,6 @@ class AddProductViewModel : BaseViewModel() {
     }
 
 
-
     @SuppressLint("SuspiciousIndentation")
     fun getAddProduct3(
         isEdit: Boolean,
@@ -425,28 +418,29 @@ class AddProductViewModel : BaseViewModel() {
         map["nameAr"] = nameAr.toRequestBody("multipart/form-data".toMediaTypeOrNull())
         map["nameEn"] = nameEn.toRequestBody("multipart/form-data".toMediaTypeOrNull())
         if (subTitleAr != "")
-        map["subTitleAr"] = subTitleAr.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+            map["subTitleAr"] = subTitleAr.toRequestBody("multipart/form-data".toMediaTypeOrNull())
         if (subTitleEn != "")
-        map["subTitleEn"] = subTitleEn.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+            map["subTitleEn"] = subTitleEn.toRequestBody("multipart/form-data".toMediaTypeOrNull())
         if (descriptionAr != "")
-        map["descriptionAr"] =
-            descriptionAr.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+            map["descriptionAr"] =
+                descriptionAr.toRequestBody("multipart/form-data".toMediaTypeOrNull())
         if (descriptionEn != "")
-        map["descriptionEn"] =
-            descriptionEn.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+            map["descriptionEn"] =
+                descriptionEn.toRequestBody("multipart/form-data".toMediaTypeOrNull())
         if (qty != "")
-        map["qty"] = qty.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+            map["qty"] = qty.toRequestBody("multipart/form-data".toMediaTypeOrNull())
         if (productCondition != "0" && productCondition != "" && productCondition != "null")
-        map["status"] = productCondition.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+            map["status"] =
+                productCondition.toRequestBody("multipart/form-data".toMediaTypeOrNull())
         if (categoryId != "0" && categoryId != "")
-        map["categoryId"] = categoryId.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+            map["categoryId"] = categoryId.toRequestBody("multipart/form-data".toMediaTypeOrNull())
         if (countryId != "0" && countryId != "" && countryId != "null")
-        map["countryId"] = countryId.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+            map["countryId"] = countryId.toRequestBody("multipart/form-data".toMediaTypeOrNull())
         if (regionId != "0" && regionId != "" && regionId != "null")
-        map["regionId"] = regionId.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+            map["regionId"] = regionId.toRequestBody("multipart/form-data".toMediaTypeOrNull())
         if (neighborhoodId != "0" && neighborhoodId != "" && neighborhoodId != "null")
-        map["neighborhoodId"] =
-            neighborhoodId.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+            map["neighborhoodId"] =
+                neighborhoodId.toRequestBody("multipart/form-data".toMediaTypeOrNull())
         map["Street"] = Street.requestBody()
         if (productSep != null)
             productSep.let {
@@ -485,13 +479,13 @@ class AddProductViewModel : BaseViewModel() {
         map["SendYourAccountInfoToAuctionWinner"] =
             "false".toRequestBody("multipart/form-data".toMediaTypeOrNull())
         if (ProductPaymentDetailsDto_AdditionalPakatId != "")
-        map["ProductPaymentDetailsDto.AdditionalPakatId"] =
-            pakatId.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+            map["ProductPaymentDetailsDto.AdditionalPakatId"] =
+                pakatId.toRequestBody("multipart/form-data".toMediaTypeOrNull())
 
         if (ProductPaymentDetailsDto_ProductPublishPrice != 0f)
-        map["ProductPaymentDetailsDto.ProductPublishPrice"] =
-            ProductPaymentDetailsDto_ProductPublishPrice.toString()
-                .toRequestBody("multipart/form-data".toMediaTypeOrNull())
+            map["ProductPaymentDetailsDto.ProductPublishPrice"] =
+                ProductPaymentDetailsDto_ProductPublishPrice.toString()
+                    .toRequestBody("multipart/form-data".toMediaTypeOrNull())
 
         map["ProductPaymentDetailsDto.EnableFixedPriceSaleFee"] =
             (AddProductObjectData.selectedCategory?.enableFixedPriceSaleFee).toString()
@@ -502,20 +496,24 @@ class AddProductViewModel : BaseViewModel() {
                 .toRequestBody("multipart/form-data".toMediaTypeOrNull())
 
         if (ProductPaymentDetailsDto_EnableNegotiationFee != 0f) {
-        map["ProductPaymentDetailsDto.EnableNegotiationFee"] =
-            ProductPaymentDetailsDto_EnableNegotiationFee.toString().toRequestBody("multipart/form-data".toMediaTypeOrNull())
+            map["ProductPaymentDetailsDto.EnableNegotiationFee"] =
+                ProductPaymentDetailsDto_EnableNegotiationFee.toString()
+                    .toRequestBody("multipart/form-data".toMediaTypeOrNull())
         }
         if (ProductPaymentDetailsDto_ExtraProductImageFee != 0f) {
-        map["ProductPaymentDetailsDto.ExtraProductImageFee"] =
-            ProductPaymentDetailsDto_ExtraProductImageFee.toString().toRequestBody("multipart/form-data".toMediaTypeOrNull())
+            map["ProductPaymentDetailsDto.ExtraProductImageFee"] =
+                ProductPaymentDetailsDto_ExtraProductImageFee.toString()
+                    .toRequestBody("multipart/form-data".toMediaTypeOrNull())
         }
         if (ProductPaymentDetailsDto_ExtraProductVidoeFee != 0f) {
-        map["ProductPaymentDetailsDto.ExtraProductVidoeFee"] =
-            ProductPaymentDetailsDto_ExtraProductVidoeFee.toString().toRequestBody("multipart/form-data".toMediaTypeOrNull())
+            map["ProductPaymentDetailsDto.ExtraProductVidoeFee"] =
+                ProductPaymentDetailsDto_ExtraProductVidoeFee.toString()
+                    .toRequestBody("multipart/form-data".toMediaTypeOrNull())
         }
         if (ProductPaymentDetailsDto_SubTitleFee != 0f) {
-        map["ProductPaymentDetailsDto.SubTitleFee"] =
-            ProductPaymentDetailsDto_SubTitleFee.toString().toRequestBody("multipart/form-data".toMediaTypeOrNull())
+            map["ProductPaymentDetailsDto.SubTitleFee"] =
+                ProductPaymentDetailsDto_SubTitleFee.toString()
+                    .toRequestBody("multipart/form-data".toMediaTypeOrNull())
         }
         if (ProductPaymentDetailsDto_CouponId != 0) {
             map["ProductPaymentDetailsDto.CouponId"] =
@@ -539,58 +537,6 @@ class AddProductViewModel : BaseViewModel() {
         }
         map["ProductPaymentDetailsDto.PaymentType"] =
             "Cash".toRequestBody("multipart/form-data".toMediaTypeOrNull())
-
-//        if (isFixedPriceEnabled) {
-////            map["isMazad"] = "false".requestBody()
-////            map["startPriceMazad"] = "0".requestBody()
-////            map["lessPriceMazad"] = "0".requestBody()
-//            map["mazadNegotiatePrice"] = price.requestBody()
-//        } else {
-//            map["startPriceMazad"] = auctionStartPrice.requestBody()
-//            map["lessPriceMazad"] = auctionMinimumPrice.requestBody()
-//            map["isMazad"] = "true".requestBody()
-//        }
-//        map["isSendOfferForMazad"] = "false".requestBody()
-//        map["appointment"] = "".requestBody()
-//        map["PaymentOptionId"] = "1".requestBody()
-//        map["mazadNegotiateForWhom"] = "0".requestBody()
-//        map["AuctionNegotiatePrice"] = price.requestBody()
-
-
-//        if (pakatId != "")
-//            map["pakatId"] = pakatId.requestBody()
-//        map["HighestBidPrice"] = price.toRequestBody()
-
-//    /***PaymentObject*/
-//        map["PickUpDelivery"] = PickUpDelivery.requestBody()
-//        println("hhhh d " + DeliveryOption.toString())
-        // map["videoUrl"] = videoUrl.toString().requestBody()
-        // map["ShippingOptions"] = DeliveryOption.toString().requestBody()
-//    map["Lat"] = "".requestBody()
-//    map["Lon"] = "".requestBody()
-        //  map["District"] = Street.requestBody()
-        //map["GovernmentCode"] = GovernmentCode.requestBody()
-        //map["AuctionNegotiateForWhom"]="".requestBody()
-//    //map["ProductPaymentDetailsDto.PakatId"] = "".toRequestBody()
-////    map["IsAuctionPaied"]="".requestBody()
-//    map["SendOfferForAuction"]="false".requestBody()
-//        map["ProductPaymentDetailsDto.typePay"] = "1".toRequestBody()
-
-//        map["withFixedPrice"] = "false".requestBody()
-
-//        map["isNegotiationOffers"] =
-//            AddProductObjectData.selectedCategory?.enableNegotiation.toString().toRequestBody()
-//        map["ProductPaymentDetailsDto.FixedPriceSaleFee"] =
-//            (AddProductObjectData.selectedCategory?.enableFixedPriceSaleFee).toString()
-//                .requestBody()
-//        map["ProductPaymentDetailsDto.EnableNegotiationFee"] = "1.5".toRequestBody()
-//        if (ProductPaymentDetailsDto_AdditionalPakatId != "")
-//            map["ProductPaymentDetailsDto.AdditionalPakatId"] = pakatId.toRequestBody()
-//        if (ProductPaymentDetailsDto_EnableAuctionFee != 0f) {
-//            map["ProductPaymentDetailsDto.EnableAuctionFee"] =
-//                "1.5".toString().toRequestBody()
-//        }
-
 
         if (isEdit) {
             map["id"] = AddProductObjectData.productId.toString()
@@ -645,8 +591,5 @@ class AddProductViewModel : BaseViewModel() {
                 isLoading.value = false
                 needToLogin.value = true
             })
-
     }
-
-
 }

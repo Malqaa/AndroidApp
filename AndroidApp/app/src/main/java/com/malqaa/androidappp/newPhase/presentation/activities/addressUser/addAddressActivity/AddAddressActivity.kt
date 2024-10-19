@@ -15,7 +15,13 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.common.api.ResolvableApiException
-import com.google.android.gms.location.*
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.LocationSettingsRequest
+import com.google.android.gms.location.LocationSettingsResponse
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -24,35 +30,22 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.hbb20.CountryCodePicker
 import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.AddAddressActivityBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
-import com.malqaa.androidappp.newPhase.utils.HelpFunctions
-import com.malqaa.androidappp.newPhase.utils.helper.widgets.searchdialog.SearchListItem
-import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.GetAddressResponse
 import com.malqaa.androidappp.newPhase.domain.models.userAddressesResp.AddressItem
 import com.malqaa.androidappp.newPhase.presentation.activities.addressUser.AddressViewModel
 import com.malqaa.androidappp.newPhase.presentation.dialogsShared.LocationPermissionDialog
+import com.malqaa.androidappp.newPhase.utils.ConstantObjects
+import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.yariksoffice.lingver.Lingver
-import kotlinx.android.synthetic.main.activity_list_details_add_product.*
-import kotlinx.android.synthetic.main.add_address_activity.*
-import kotlinx.android.synthetic.main.add_address_activity.countryCodePicker
-import kotlinx.android.synthetic.main.add_address_activity.etPhoneNumber
-import kotlinx.android.synthetic.main.toolbar_main.*
 
+class AddAddressActivity : BaseActivity<AddAddressActivityBinding>(), OnMapReadyCallback {
 
-class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
-
-    var selectedCountry: SearchListItem? = null
-    var selectedRegion: SearchListItem? = null
-    var selectedCity: SearchListItem? = null
     var isEdit: Boolean = false
-    lateinit var oldAddress: GetAddressResponse.AddressModel
     var addressObject: AddressItem? = null
 
-    /***/
     private var isPhoneNumberValid = false
-
-
     private lateinit var mMap: GoogleMap
     private lateinit var mapFragment: SupportMapFragment
     private var latLngLocation: LatLng? = null
@@ -68,11 +61,13 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
             Manifest.permission.ACCESS_COARSE_LOCATION,
         )
     val REQUEST_CHECK_PERMISSION_LOCATION = 2000
-    val REQUEST_CHECK_SETTINGS_LOCATIONS = 1000
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.add_address_activity)
+
+        // Initialize view binding
+        binding = AddAddressActivityBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         setViewClickListeners()
         setupCountryCodePiker()
@@ -86,95 +81,24 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
 
         if (isEdit) {
             setAddressData()
-            btnAddAddress.text = getString(R.string.Edit)
-            toolbar_title.text = getString(R.string.edit_address)
+            binding.btnAddAddress.text = getString(R.string.Edit)
+            binding.toolbarMain.toolbarTitle.text = getString(R.string.edit_address)
         } else {
-            btnAddAddress.text = getString(R.string.Add)
-            toolbar_title.text = getString(R.string.add_a_new_address)
+            binding.btnAddAddress.text = getString(R.string.Add)
+            binding.toolbarMain.toolbarTitle.text = getString(R.string.add_a_new_address)
         }
-
-//
-//        if (isEdit) {
-//            val addressObject = intent.getStringExtra("addressObject")
-//            oldAddress = Gson().fromJson(addressObject, GetAddressResponse.AddressModel::class.java)
-//
-//
-//            oldAddress.run {
-//                countryContainer.text = country
-//                regionContainer.text = region
-//                neighborhoodContainer.text = city
-//                area_address.text = address
-//
-//                ConstantObjects.countryList.forEach {
-//                    if (mobileNo.startsWith(it.countryCode!!)){
-//                        PhoneNumber_tv.text = mobileNo.replace(it.countryCode!!,"")
-//                        PhoneNumber_tv._setEndText(it.countryCode)
-//
-//                    }
-//                }
-//                firstname_tv.text = firstName
-//                lastname_tv.text = lastName
-//            }
-//
-//            add_button.text = getString(R.string.Confirm)
-//            toolbar_title.text = getString(R.string.update_address)
-//            ConstantObjects.countryList.filter {
-//                it.name==countryContainer.text.toString()
-//            }.let {
-//                if(it.isNotEmpty()){
-//                    it.get(0).run {
-//                        selectedCountry = SearchListItem(id, name)
-//
-//                        CommonAPI().getRegion(selectedCountry!!.id, this@AddAddressActivity) {
-//                            it.filter {
-//                                it.name==regionContainer.text.toString()
-//                            }.let {
-//                                if (it.isNotEmpty()) {
-//                                    it.get(0).run {
-//                                        selectedRegion = SearchListItem(id, name)
-//                                    }
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//
-//
-//        } else {
-//
-//            toolbar_title.text = getString(R.string.add_a_new_address)
-//            ConstantObjects.userobj?.let {
-//                setPreValue()
-//            } ?: kotlin.run {
-//                CommonAPI().GetUserInfo(this, ConstantObjects.logged_userid) {
-//                    setPreValue()
-//                }
-//            }
-//
-//        }
-//
-//        add_button.setOnClickListener {
-//
-//            addressDetailValidation()
-//
-//        }
-//
-//        initView()
-//        setListener()
-
     }
 
     private fun setAddressData() {
         addressObject?.let {
-            tvAddressTitle.text = it.title ?: ""
-            tvAddress.text = it.location ?: ""
-            tvStreet.text = it.street ?: ""
-            tvBuildingNumber.text = it.building ?: ""
-            tvFloor.text = it.floor ?: ""
-            tvApartmentNumber.text = it.appartment ?: ""
+            binding.tvAddressTitle.text = it.title ?: ""
+            binding.tvAddress.text = it.location ?: ""
+            binding.tvStreet.text = it.street ?: ""
+            binding.tvBuildingNumber.text = it.building ?: ""
+            binding.tvFloor.text = it.floor ?: ""
+            binding.tvApartmentNumber.text = it.appartment ?: ""
             try {
-                countryCodePicker.fullNumber = it.phone
+                binding.countryCodePicker.fullNumber = it.phone
             } catch (e: Exception) {
 
             }
@@ -219,7 +143,7 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
             } else {
                 if (it.message != null) {
                     HelpFunctions.ShowLongToast(it.message!!, this)
-                }else if (it.message2 != null) {
+                } else if (it.message2 != null) {
                     HelpFunctions.ShowLongToast(it.message2!!, this)
                 } else {
                     HelpFunctions.ShowLongToast(getString(R.string.serverError), this)
@@ -241,93 +165,89 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
 
     private fun setupCountryCodePiker() {
         if (Lingver.getInstance().getLanguage() == ConstantObjects.ARABIC) {
-            countryCodePicker.changeDefaultLanguage(CountryCodePicker.Language.ARABIC)
+            binding.countryCodePicker.changeDefaultLanguage(CountryCodePicker.Language.ARABIC)
         } else {
-            countryCodePicker.changeDefaultLanguage(CountryCodePicker.Language.ENGLISH)
+            binding.countryCodePicker.changeDefaultLanguage(CountryCodePicker.Language.ENGLISH)
             //  etPhoneNumber.textAlignment=View.TEXT_ALIGNMENT_VIEW_START
         }
-        countryCodePicker.registerCarrierNumberEditText(etPhoneNumber)
-        countryCodePicker.setPhoneNumberValidityChangeListener { isValidNumber ->
+        binding.countryCodePicker.registerCarrierNumberEditText(binding.etPhoneNumber)
+        binding.countryCodePicker.setPhoneNumberValidityChangeListener { isValidNumber ->
             isPhoneNumberValid = isValidNumber
         }
-        countryCodePicker.setOnCountryChangeListener {
-            etPhoneNumber.text = Editable.Factory.getInstance().newEditable("")
+        binding.countryCodePicker.setOnCountryChangeListener {
+            binding.etPhoneNumber.text = Editable.Factory.getInstance().newEditable("")
         }
     }
 
     private fun setViewClickListeners() {
-        back_btn.setOnClickListener {
+        binding.toolbarMain.backBtn.setOnClickListener {
             finish()
         }
-        containerLocation.setOnClickListener {
+        binding.containerLocation.setOnClickListener {
             checkLocationSetting()
         }
-        btnAddAddress.setOnClickListener {
+        binding.btnAddAddress.setOnClickListener {
             checkDataToAddAddress()
         }
     }
 
     private fun checkDataToAddAddress() {
         var readyToSave = true
-//        if (latLngLocation == null) {
-//            readyToSave = false
-//            HelpFunctions.ShowLongToast(getString(R.string.plaseSelectYourLocation), this)
-//        }
-        if (tvAddressTitle.text?.trim().toString() == "") {
+        if (binding.tvAddressTitle.text?.trim().toString() == "") {
             readyToSave = false
-            tvAddressTitle.error = getString(R.string.addressTitle)
+            binding.tvAddressTitle.error = getString(R.string.addressTitle)
         }
-        if (tvAddress.text?.trim().toString() == "") {
+        if (binding.tvAddress.text?.trim().toString() == "") {
             readyToSave = false
-            tvAddress.error = getString(R.string.address)
+            binding.tvAddress.error = getString(R.string.address)
         }
-        if (tvStreet.text?.trim().toString() == "") {
+        if (binding.tvStreet.text?.trim().toString() == "") {
             readyToSave = false
-            tvStreet.error = getString(R.string.street)
+            binding.tvStreet.error = getString(R.string.street)
         }
-        if (tvBuildingNumber.text?.trim().toString() == "") {
+        if (binding.tvBuildingNumber.text?.trim().toString() == "") {
             readyToSave = false
-            tvBuildingNumber.error = getString(R.string.buildingNumber)
+            binding.tvBuildingNumber.error = getString(R.string.buildingNumber)
         }
-        if (tvFloor.text?.trim().toString() == "") {
+        if (binding.tvFloor.text?.trim().toString() == "") {
             readyToSave = false
-            tvFloor.error = getString(R.string.floorNumber)
+            binding.tvFloor.error = getString(R.string.floorNumber)
         }
-        if (tvApartmentNumber.text?.trim().toString() == "") {
+        if (binding.tvApartmentNumber.text?.trim().toString() == "") {
             readyToSave = false
-            tvApartmentNumber.error = getString(R.string.apartmentNumber)
+            binding.tvApartmentNumber.error = getString(R.string.apartmentNumber)
         }
         if (!isPhoneNumberValid) {
             readyToSave = false
-            etPhoneNumber.error = getString(R.string.PleaseenteravalidPhoneNumber)
+            binding.etPhoneNumber.error = getString(R.string.PleaseenteravalidPhoneNumber)
         }
         if (readyToSave) {
             if (isEdit) {
                 addressObject?.id?.let {
                     addressViewModel.editUserAddress(
                         id = it,
-                        title = tvAddressTitle.text?.trim().toString(),
-                        location = tvAddress.text?.trim().toString(),
-                        street = tvStreet.text?.trim().toString(),
-                        appartment = tvApartmentNumber.text?.trim().toString(),
-                        floor = tvFloor.text?.trim().toString(),
-                        building = tvBuildingNumber.text?.trim().toString(),
+                        title = binding.tvAddressTitle.text?.trim().toString(),
+                        location = binding.tvAddress.text?.trim().toString(),
+                        street = binding.tvStreet.text?.trim().toString(),
+                        appartment = binding.tvApartmentNumber.text?.trim().toString(),
+                        floor = binding.tvFloor.text?.trim().toString(),
+                        building = binding.tvBuildingNumber.text?.trim().toString(),
                         lat = latLngLocation?.latitude.toString(),
                         lng = latLngLocation?.longitude.toString(),
-                        phone = countryCodePicker.fullNumberWithPlus
+                        phone = binding.countryCodePicker.fullNumberWithPlus
                     )
                 }
             } else {
                 addressViewModel.addUserAddress(
-                    title = tvAddressTitle.text?.trim().toString(),
-                    location = tvAddress.text?.trim().toString(),
-                    street = tvStreet.text?.trim().toString(),
-                    appartment = tvApartmentNumber.text?.trim().toString(),
-                    floor = tvFloor.text?.trim().toString(),
-                    building = tvBuildingNumber.text?.trim().toString(),
+                    title = binding.tvAddressTitle.text?.trim().toString(),
+                    location = binding.tvAddress.text?.trim().toString(),
+                    street = binding.tvStreet.text?.trim().toString(),
+                    appartment = binding.tvApartmentNumber.text?.trim().toString(),
+                    floor = binding.tvFloor.text?.trim().toString(),
+                    building = binding.tvBuildingNumber.text?.trim().toString(),
                     lat = latLngLocation?.latitude.toString(),
                     lng = latLngLocation?.longitude.toString(),
-                    phone = countryCodePicker.fullNumberWithPlus
+                    phone = binding.countryCodePicker.fullNumberWithPlus
                 )
             }
         }
@@ -350,7 +270,6 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
                     )
                     loadLocation(latLngLocation!!)
                     mFusedLocationClient.removeLocationUpdates(mLocationCallback)
-                    // println("hhhh " + latLngLocation.latitude + " " + latLngLocation.longitude)
                 } catch (e: java.lang.Exception) {
                 }
             }

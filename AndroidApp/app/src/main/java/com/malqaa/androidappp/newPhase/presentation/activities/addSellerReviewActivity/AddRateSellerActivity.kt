@@ -3,22 +3,25 @@ package com.malqaa.androidappp.newPhase.presentation.activities.addSellerReviewA
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.ActivityAddRateSellerBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
-import com.malqaa.androidappp.newPhase.utils.HelpFunctions
-import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.presentation.activities.productDetailsActivity.viewModels.ProductDetailsViewModel
-import kotlinx.android.synthetic.main.activity_add_rate_seller.*
-import kotlinx.android.synthetic.main.toolbar_main.*
+import com.malqaa.androidappp.newPhase.utils.ConstantObjects
+import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 
-class AddRateSellerActivity : BaseActivity() {
+class AddRateSellerActivity : BaseActivity<ActivityAddRateSellerBinding>() {
 
     var providerId: String = ""
     var businessAccountId: String = ""
     private lateinit var productDetialsViewModel: ProductDetailsViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_rate_seller)
-        toolbar_title.text = getString(R.string.add_Review)
+
+        // Initialize view binding
+        binding = ActivityAddRateSellerBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.toolbarMain.toolbarTitle.text = getString(R.string.add_Review)
         if (intent.getStringExtra(ConstantObjects.providerIdKey) != null) {
             providerId = intent.getStringExtra(ConstantObjects.providerIdKey)!!
         }
@@ -28,8 +31,6 @@ class AddRateSellerActivity : BaseActivity() {
         println("hhhh $providerId $businessAccountId")
         setClickListeners()
         setProductDetailsViewModel()
-        //  println("hhhh product id =$productId")
-     //   productDetialsViewModel.getCurrentUserRate(productId)
     }
 
     private fun setProductDetailsViewModel() {
@@ -49,82 +50,26 @@ class AddRateSellerActivity : BaseActivity() {
 
         }
         productDetialsViewModel.errorResponseObserver.observe(this) {
-            if(it.status!=null && it.status=="409"){
+            if (it.status != null && it.status == "409") {
                 HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), this)
-            }else {
+            } else {
                 if (it.message != null) {
                     HelpFunctions.ShowLongToast(it.message!!, this)
-                }else if (it.message2 != null) {
+                } else if (it.message2 != null) {
                     HelpFunctions.ShowLongToast(it.message2!!, this)
-                }
-                else {
+                } else {
                     HelpFunctions.ShowLongToast(getString(R.string.serverError), this)
                 }
             }
 
         }
-//        productDetialsViewModel.addRateRespObservable.observe(this) { addRateResp ->
-//            if (addRateResp.status_code == 200) {
-//                var intent = Intent()
-//                addRateResp.rateObject?.let {
-//                    intent.putExtra(ConstantObjects.rateObjectKey, it);
-//                }
-//                setResult(Activity.RESULT_OK, intent);
-//                finish();
-//            } else {
-//                if (addRateResp.message != null) {
-//                    HelpFunctions.ShowLongToast(addRateResp.message, this)
-//                } else {
-//                    HelpFunctions.ShowLongToast(getString(R.string.serverError), this)
-//                }
-//            }
-//
-//        }
-//        productDetialsViewModel.editRateRespObservable.observe(this) { addRateResp ->
-//            if (addRateResp.status_code == 200) {
-//                var intent = Intent()
-//                addRateResp.rateObject?.let {
-//                    intent.putExtra(ConstantObjects.rateObjectKey, it);
-//                    intent.putExtra(ConstantObjects.editRateKey, true);
-//                }
-//                setResult(Activity.RESULT_OK, intent);
-//                finish();
-//            } else {
-//                if (addRateResp.message != null) {
-//                    HelpFunctions.ShowLongToast(addRateResp.message, this)
-//                } else {
-//                    HelpFunctions.ShowLongToast(getString(R.string.serverError), this)
-//                }
-//            }
-//
-//        }
-//        productDetialsViewModel.getCurrentUserRateObservable.observe(this) { currentUserRate ->
-//            if (currentUserRate.status_code == 200) {
-//                currentUserRate.data?.let { data ->
-//                    setPerviosUserRate(data)
-//                }
-//
-//            }
-//
-//        }
-
     }
 
-//    private fun setPerviosUserRate(data: RateReviewItem) {
-//        editRate = true
-//        rateReviewItemEdit = data
-//        try {
-//            rating_bar.rating = data.rate
-//            etCommnet.setText(data.comment)
-//        } catch (e: Exception) {
-//        }
-//    }
-
     private fun setClickListeners() {
-        btnSend.setOnClickListener {
+        binding.btnSend.setOnClickListener {
             checkValidations()
         }
-        back_btn.setOnClickListener {
+        binding.toolbarMain.backBtn.setOnClickListener {
             onBackPressed()
         }
 
@@ -132,29 +77,21 @@ class AddRateSellerActivity : BaseActivity() {
 
     private fun checkValidations() {
         var readyToSave = true
-        if (etCommnet.text.trim().toString() == "") {
-            etCommnet.error = getString(R.string.enterComment)
+        if (binding.etCommnet.text.trim().toString() == "") {
+            binding.etCommnet.error = getString(R.string.enterComment)
             readyToSave = false
         }
-        if (rating_bar.rating == 0f) {
+        if (binding.ratingBar.rating == 0f) {
             readyToSave = false
             HelpFunctions.ShowLongToast(getString(R.string.add_Review), this)
         }
         if (readyToSave) {
-//            if (editRate && rateReviewItemEdit != null) {
-//                productDetialsViewModel.editRateProduct(
-//                    rateReviewItemEdit!!.id,
-//                    rating_bar.rating,
-//                    etCommnet.text.trim().toString()
-//                )
-//            } else {
-                productDetialsViewModel.addSellerRate(
-                    providerId,
-                    businessAccountId,
-                    rating_bar.rating,
-                    etCommnet.text.trim().toString()
-                )
-           // }
+            productDetialsViewModel.addSellerRate(
+                providerId,
+                businessAccountId,
+                binding.ratingBar.rating,
+                binding.etCommnet.text.trim().toString()
+            )
         }
     }
 

@@ -9,50 +9,48 @@ import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.ActivityConfirmChangeEmailBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
-import com.malqaa.androidappp.newPhase.utils.ConstantObjects
-import com.malqaa.androidappp.newPhase.utils.HelpFunctions
-import com.malqaa.androidappp.newPhase.utils.hide
-import com.malqaa.androidappp.newPhase.utils.helper.shared_preferences.SharedPreferencesStaticClass
-import com.malqaa.androidappp.newPhase.utils.show
 import com.malqaa.androidappp.newPhase.data.network.constants.Constants
 import com.malqaa.androidappp.newPhase.domain.models.loginResp.LoginUser
 import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.AccountViewModel
+import com.malqaa.androidappp.newPhase.utils.ConstantObjects
+import com.malqaa.androidappp.newPhase.utils.HelpFunctions
+import com.malqaa.androidappp.newPhase.utils.helper.shared_preferences.SharedPreferencesStaticClass
+import com.malqaa.androidappp.newPhase.utils.hide
+import com.malqaa.androidappp.newPhase.utils.show
 import io.paperdb.Paper
-import kotlinx.android.synthetic.main.activity_confirm_change_email.button3
-import kotlinx.android.synthetic.main.activity_confirm_change_email.pinViewEmail
-import kotlinx.android.synthetic.main.activity_confirm_change_email.redmessage
-import kotlinx.android.synthetic.main.activity_confirm_change_email.resend_btn
-import kotlinx.android.synthetic.main.activity_confirm_change_email.txtReceive
-import kotlinx.android.synthetic.main.toolbar_main.back_btn
-import kotlinx.android.synthetic.main.toolbar_main.toolbar_title
 
-class ConfirmChangeEmailActivity : BaseActivity() {
+class ConfirmChangeEmailActivity : BaseActivity<ActivityConfirmChangeEmailBinding>() {
 
     private var START_TIME_IN_MILLIS: Long = 60000
     lateinit var countdownTimer: TextView
     private var mTimeLeftInMillis = START_TIME_IN_MILLIS
     private var otpCode: String? = null
-    private var countDownTimer :CountDownTimer ?=null
-    private var accountViewModel: AccountViewModel?=null
+    private var countDownTimer: CountDownTimer? = null
+    private var accountViewModel: AccountViewModel? = null
     var expireMinutes: Int = 1
     var expireReceiveMinutes = 1
     var typeClick = 1
     var newEmail: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_confirm_change_email)
-        toolbar_title.text = ""
+
+        // Initialize view binding
+        binding = ActivityConfirmChangeEmailBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.toolbarMain.toolbarTitle.text = ""
         countdownTimer = findViewById(R.id.countdownTimer)
         newEmail = intent.getStringExtra(ConstantObjects.emailKey)
         otpCode = intent.getStringExtra(Constants.otpDataKey)
         setupRegisterViewModel()
         setClickListeners()
-        resend_btn.hide()
-        pinViewEmail.value = otpCode!!
+        binding.resendBtn.hide()
+        binding.pinViewEmail.value = otpCode!!
         accountViewModel?.getConfigurationResp(ConstantObjects.Configuration_DidNotReceiveCodeTime)
         accountViewModel?.getConfigurationResp(ConstantObjects.configration_otpExpiryTime)
-
     }
 
     private fun setupRegisterViewModel() {
@@ -152,12 +150,13 @@ class ConfirmChangeEmailActivity : BaseActivity() {
 
         accountViewModel?.changeEmailObserver?.observe(this) {
             if (it.status == "Success") {
-                pinViewEmail.value = it.data.toString().split(".0")[0]
+                binding.pinViewEmail.value = it.data.toString().split(".0")[0]
                 if (typeClick == 1)
                     startTimeCounter((expireMinutes * 60 * 1000).toLong())
-                button3.isEnabled = true
+                binding.button3.isEnabled = true
             }
         }
+
         accountViewModel?.confirmChangeEmailOtpObserver?.observe(this) {
             if (it.status == "Success") {
                 val userData =
@@ -181,10 +180,10 @@ class ConfirmChangeEmailActivity : BaseActivity() {
 
     /**clickEvents*/
     private fun startTimeCounter(expireMinutes: Long) {
-        countDownTimer=  object : CountDownTimer(expireMinutes, 1000) {
+        countDownTimer = object : CountDownTimer(expireMinutes, 1000) {
 
             override fun onTick(millisUntilFinished: Long) {
-                resend_btn.hide()
+                binding.resendBtn.hide()
 
                 mTimeLeftInMillis = millisUntilFinished
                 var seconds = (mTimeLeftInMillis / 1000).toInt()
@@ -197,58 +196,56 @@ class ConfirmChangeEmailActivity : BaseActivity() {
 
                 val timeReceive = "${String.format("%02d", expireReceiveMinutes)}:00"
                 if (timeText == timeReceive) {
-                    resend_btn.hide()
-                    txtReceive.show()
+                    binding.resendBtn.hide()
+                    binding.txtReceive.show()
                 }
                 countdownTimer.text = "${getString(R.string.Seconds2)}: $timeText"
 
             }
 
             override fun onFinish() {
-                resend_btn.show()
+                binding.resendBtn.show()
                 countdownTimer.text = getString(R.string.CodeExpired)
-                button3.isEnabled = false
+                binding.button3.isEnabled = false
             }
 
         }.start()
     }
 
 
-
     private fun setClickListeners() {
-        back_btn.setOnClickListener {
+        binding.toolbarMain.backBtn.setOnClickListener {
             finish()
         }
-        resend_btn.setOnClickListener {
+        binding.resendBtn.setOnClickListener {
             if (mTimeLeftInMillis >= 1000) {
                 HelpFunctions.ShowLongToast(
                     getString(R.string.Pleasewaituntilthecodeexpires),
                     applicationContext
                 )
             } else {
-                txtReceive.hide()
-                typeClick=1
+                binding.txtReceive.hide()
+                typeClick = 1
                 accountViewModel?.changeUserEmail(newEmail ?: "")
             }
         }
 
-        txtReceive.setOnClickListener {
-            typeClick=2
+        binding.txtReceive.setOnClickListener {
+            typeClick = 2
             accountViewModel?.changeUserEmail(newEmail ?: "")
         }
-
     }
 
     /***/
     private fun validatePin(): Boolean {
-        val inputtt = pinViewEmail.value
+        val inputtt = binding.pinViewEmail.value
         return if (inputtt.length != 4) {
-            redmessage.visibility = View.VISIBLE
-            redmessage.text = getString(R.string.Fieldcantbeempty)
+            binding.redmessage.visibility = View.VISIBLE
+            binding.redmessage.text = getString(R.string.Fieldcantbeempty)
             false
         } else {
-            redmessage.error = null
-            redmessage.visibility = View.GONE
+            binding.redmessage.error = null
+            binding.redmessage.visibility = View.GONE
             true
         }
     }
@@ -257,16 +254,17 @@ class ConfirmChangeEmailActivity : BaseActivity() {
         if (!validatePin()) {
             return
         } else {
-            val otpCode: String? = pinViewEmail.value
+            val otpCode: String? = binding.pinViewEmail.value
             accountViewModel?.changeUserEmail(newEmail ?: "", otpCode.toString())
         }
     }
+
     override fun onDestroy() {
         super.onDestroy()
-        countDownTimer =null
+        countDownTimer = null
         accountViewModel?.closeAllCall()
         accountViewModel?.baseCancel()
-        accountViewModel=null
+        accountViewModel = null
     }
 
 }

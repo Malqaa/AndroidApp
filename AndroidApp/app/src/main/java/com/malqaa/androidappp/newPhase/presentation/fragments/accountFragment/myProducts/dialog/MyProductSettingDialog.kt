@@ -5,7 +5,6 @@ import com.malqaa.androidappp.databinding.DialogMyProductSttingBinding
 import com.malqaa.androidappp.newPhase.core.BaseBottomSheetDialog
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.show
-import kotlinx.android.synthetic.main.dialog_add_product_bid_offers.etExpireDate
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.Calendar

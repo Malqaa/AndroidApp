@@ -6,24 +6,25 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.ActivityMyOrderDetailsRequestedFromMeBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
-import com.malqaa.androidappp.newPhase.utils.HelpFunctions
-import com.malqaa.androidappp.newPhase.utils.hide
-import com.malqaa.androidappp.newPhase.utils.linearLayoutManager
-import com.malqaa.androidappp.newPhase.utils.show
 import com.malqaa.androidappp.newPhase.domain.models.orderDetails.OrderDetailsData
 import com.malqaa.androidappp.newPhase.domain.models.orderDetails.OrderDetailsResp
 import com.malqaa.androidappp.newPhase.domain.models.orderDetailsByMasterID.OrderProductFullInfoDto
 import com.malqaa.androidappp.newPhase.domain.models.orderListResp.OrderItem
-import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.presentation.activities.myOrderDetails.adapter.OrderProductAdapter
-import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.myOrderFragment.MyOrdersViewModel
 import com.malqaa.androidappp.newPhase.presentation.activities.myOrderDetails.dialogs.OrderStatusDialog
-import kotlinx.android.synthetic.main.activity_my_order_details_requested_from_me.*
-import kotlinx.android.synthetic.main.activity_order_details.tv_request_type
-import kotlinx.android.synthetic.main.toolbar_main.*
+import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.myOrderFragment.MyOrdersViewModel
+import com.malqaa.androidappp.newPhase.utils.ConstantObjects
+import com.malqaa.androidappp.newPhase.utils.HelpFunctions
+import com.malqaa.androidappp.newPhase.utils.hide
+import com.malqaa.androidappp.newPhase.utils.linearLayoutManager
+import com.malqaa.androidappp.newPhase.utils.show
 
-class MyOrderDetailsRequestedFromMeActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
+class MyOrderDetailsRequestedFromMeActivity :
+    BaseActivity<ActivityMyOrderDetailsRequestedFromMeBinding>(),
+    SwipeRefreshLayout.OnRefreshListener {
+
     lateinit var myOrdersViewModel: MyOrdersViewModel
     lateinit var currentOrderAdapter: OrderProductAdapter
     var orderDetailsResp: OrderDetailsResp? = null
@@ -34,29 +35,32 @@ class MyOrderDetailsRequestedFromMeActivity : BaseActivity(), SwipeRefreshLayout
 
     //  tap id 1 ,2,3
     private var tapId: Int = 1
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_my_order_details_requested_from_me)
-        toolbar_title.text = getString(R.string.order_details)
+
+        // Initialize view binding
+        binding = ActivityMyOrderDetailsRequestedFromMeBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.toolbarMain.toolbarTitle.text = getString(R.string.order_details)
         orderId = intent.getIntExtra(ConstantObjects.orderNumberKey, 0)
-        //tapId = intent.getIntExtra(ConstantObjects.orderTypeKey, 1)
+
         orderItem = intent.getParcelableExtra(ConstantObjects.orderItemKey)
         setOrderDetails(orderItem)
-        swipe_to_refresh.setColorSchemeResources(R.color.colorPrimaryDark)
-        swipe_to_refresh.setOnRefreshListener(this)
+        binding.swipeToRefresh.setColorSchemeResources(R.color.colorPrimaryDark)
+        binding.swipeToRefresh.setOnRefreshListener(this)
         setOrderDetailsAdapter()
         setupViewModel()
         onRefresh()
         setUpViewClickListeners()
-
-
     }
 
     private fun setUpViewClickListeners() {
-        back_btn.setOnClickListener {
+        binding.toolbarMain.toolbarTitle.setOnClickListener {
             onBackPressed()
         }
-        btnChangeOrderStatus.setOnClickListener {
+        binding.btnChangeOrderStatus.setOnClickListener {
             var orderStatusDialog =
                 OrderStatusDialog(
                     this,
@@ -71,50 +75,31 @@ class MyOrderDetailsRequestedFromMeActivity : BaseActivity(), SwipeRefreshLayout
             orderStatusDialog.show()
         }
 
-        btnRateBuyer.setOnClickListener {
+        binding.btnRateBuyer.setOnClickListener {
 
             startActivity(Intent(this, AddRateBuyerActivity::class.java).apply {
-                putExtra("orderId",orderDetailsResp?.orderDetails?.orderId)
-                putExtra("clientId",orderDetailsResp?.orderDetails?.clientId)
+                putExtra("orderId", orderDetailsResp?.orderDetails?.orderId)
+                putExtra("clientId", orderDetailsResp?.orderDetails?.clientId)
             })
         }
     }
 
     private fun setOrderDetails(orderItem: OrderItem?) {
         orderItem?.let {
-//            if (tapId == 1) {
-//                order_number_tv.text = "#${orderItem.orderMasterId}"
-//            } else {
-            order_number_tv.text = "#${orderItem.orderId}"
-            //  }
+            binding.orderNumberTv.text = "#${orderItem.orderId}"
 
-            if(orderItem.requestType?.lowercase().equals("FixedPrice".lowercase())){
-                tv_request_type.text=getString(R.string.fixed_price)
-            }else if(orderItem.requestType?.lowercase().equals("Negotiation".lowercase())){
-                tv_request_type.text=getString(R.string.Negotiation)
-            }else if(orderItem.requestType?.lowercase().equals("Auction".lowercase())){
-                tv_request_type.text=getString(R.string.auction)
+            if (orderItem.requestType?.lowercase().equals("FixedPrice".lowercase())) {
+                binding.tvRequestType.text = getString(R.string.fixed_price)
+            } else if (orderItem.requestType?.lowercase().equals("Negotiation".lowercase())) {
+                binding.tvRequestType.text = getString(R.string.Negotiation)
+            } else if (orderItem.requestType?.lowercase().equals("Auction".lowercase())) {
+                binding.tvRequestType.text = getString(R.string.auction)
             }
-            order_time_tv.text = HelpFunctions.getViewFormatForDateTrack(orderItem.createdAt,"dd/MM/yyyy HH:mm:ss")
-            shipments_tv.text = orderItem.providersCount.toString()
-            total_order_tv.text =
+            binding.orderTimeTv.text =
+                HelpFunctions.getViewFormatForDateTrack(orderItem.createdAt, "dd/MM/yyyy HH:mm:ss")
+            binding.shipmentsTv.text = orderItem.providersCount.toString()
+            binding.totalOrderTv.text =
                 "${orderItem.totalOrderAmountAfterDiscount} ${getString(R.string.rial)}"
-//            when (orderItem.orderStatus) {
-//                ConstantObjects.WaitingForPayment -> {
-//                    order_status_tv.text = getString(R.string.WaitingForPayment)
-//                }
-//                ConstantObjects.Retrieved -> {
-//                    order_status_tv.text = getString(R.string.Retrieved)
-//                }
-//                ConstantObjects.InProgress -> {
-//                    order_status_tv.text = getString(R.string.InProgress)
-//                }
-//                ConstantObjects.DeliveryInProgress -> {
-//                    order_status_tv.text = getString(R.string.DeliveryInProgress)
-//                }
-//            }
-
-
         }
 
     }
@@ -122,7 +107,7 @@ class MyOrderDetailsRequestedFromMeActivity : BaseActivity(), SwipeRefreshLayout
     private fun setOrderDetailsAdapter() {
         productsList = ArrayList<OrderProductFullInfoDto>()
         currentOrderAdapter = OrderProductAdapter(productsList)
-        rvCurentOrder.apply {
+        binding.rvCurentOrder.apply {
             adapter = currentOrderAdapter
             layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
         }
@@ -132,9 +117,9 @@ class MyOrderDetailsRequestedFromMeActivity : BaseActivity(), SwipeRefreshLayout
         myOrdersViewModel = ViewModelProvider(this).get(MyOrdersViewModel::class.java)
         myOrdersViewModel.isLoading.observe(this) {
             if (it)
-                progressBar.show()
+                binding.progressBar.show()
             else
-                progressBar.hide()
+                binding.progressBar.hide()
         }
         myOrdersViewModel.isNetworkFail.observe(this) {
             if (it) {
@@ -158,7 +143,7 @@ class MyOrderDetailsRequestedFromMeActivity : BaseActivity(), SwipeRefreshLayout
 
         myOrdersViewModel.soldOutOrderDetailsByOrderIdRespObserver.observe(this) { resp ->
             if (resp.status_code == 200) {
-                mainContainer.show()
+                binding.mainContainer.show()
                 orderDetailsResp = resp
                 setOrderData(orderDetailsResp?.orderDetails)
 
@@ -170,6 +155,7 @@ class MyOrderDetailsRequestedFromMeActivity : BaseActivity(), SwipeRefreshLayout
                 }
             }
         }
+
         myOrdersViewModel.changeOrderRespObserver.observe(this) { resp ->
             if (resp.status_code == 200) {
                 onRefresh()
@@ -188,54 +174,23 @@ class MyOrderDetailsRequestedFromMeActivity : BaseActivity(), SwipeRefreshLayout
 
     private fun setOrderData(orderDetailsData: OrderDetailsData?) {
         orderDetailsData?.let {
-            order_number_tv.text = it.orderId.toString()
-//            if (it.totalOrderPrice != null) {
-//                total_tv.text =
-//                    orderDetailsData.totalOrderPrice!!.toString()
-//            }
+            binding.orderNumberTv.text = it.orderId.toString()
 
-            total_tv.text =
+            binding.totalTv.text =
                 "${orderDetailsResp?.orderDetails?.totalOrderAmountAfterDiscount} ${getString(R.string.rial)}"
-            shipments_tv.text = "${orderDetailsResp?.orderDetails?.shippingCount}"
-            subtotal_tv.text =
+            binding.shipmentsTv.text = "${orderDetailsResp?.orderDetails?.shippingCount}"
+            binding.subtotalTv.text =
                 "${orderDetailsResp?.orderDetails?.totalOrderAmountBeforDiscount} ${getString(R.string.rial)}"
             if (orderDetailsResp?.orderDetails?.orderStatus == ConstantObjects.Delivered) {
-                btnChangeOrderStatus.hide()
-                btnRateBuyer.show()
-            }else{
-                btnRateBuyer.hide()
+                binding.btnChangeOrderStatus.hide()
+                binding.btnRateBuyer.show()
+            } else {
+                binding.btnRateBuyer.hide()
             }
 
-
-            order_status_tv.text = orderDetailsData.status
-
-//            when (orderDetailsData.orderStatus) {
-//                ConstantObjects.WaitingForPayment -> {
-//                    order_status_tv.text = getString(R.string.WaitingForPayment)
-//                }
-//                ConstantObjects.Retrieved -> {
-//                    order_status_tv.text = getString(R.string.order_productsProcessing)
-//                }
-//                ConstantObjects.InProgress -> {
-//                    order_status_tv.text = getString(R.string.order_deliveryPhase)
-//                }
-//                ConstantObjects.DeliveryInProgress -> {
-//                    order_status_tv.text = getString(R.string.order_deliveryConfirmation)
-//                }
-//            }
-
-//            if (it.totalOrderMasterAmountBeforDiscount != null) {
-//                subtotal_tv.text =
-//                    orderDetailsByMasterIDData.totalOrderMasterAmountBeforDiscount!!.toString()
-//                total_tv.text =
-//                    orderDetailsByMasterIDData.totalOrderMasterAmountBeforDiscount!!.toString()
-//            }
-//            if (it.totalOrderMasterAmountAfterDiscount != null && it.totalOrderMasterAmountBeforDiscount != null) {
-//                discount_tv.text =
-//                    (it.totalOrderMasterAmountBeforDiscount - orderDetailsByMasterIDData.totalOrderMasterAmountAfterDiscount!!).toString()
-//            }
-            tvClientAddress.text = it.shippingAddress ?: ""
-            tvClientPhone.text = it.phoneNumber ?: ""
+            binding.orderStatusTv.text = orderDetailsData.status
+            binding.tvClientAddress.text = it.shippingAddress ?: ""
+            binding.tvClientPhone.text = it.phoneNumber ?: ""
         }
 
         orderDetailsData?.orderProductFullInfoDto?.let {
@@ -247,21 +202,16 @@ class MyOrderDetailsRequestedFromMeActivity : BaseActivity(), SwipeRefreshLayout
     }
 
     private fun showApiError(messaage: String) {
-        tvError.text = messaage
-        tvError.show()
-        mainContainer.hide()
+        binding.tvError.text = messaage
+        binding.tvError.show()
+        binding.mainContainer.hide()
     }
 
     override fun onRefresh() {
-        swipe_to_refresh.isRefreshing = false
-        tvError.hide()
-        mainContainer.hide()
+        binding.swipeToRefresh.isRefreshing = false
+        binding.tvError.hide()
+        binding.mainContainer.hide()
         myOrdersViewModel.getSoldOutOrderDetailsByOrderId(orderId)
-//        if (tapId == 1) {
-//            myOrdersViewModel.getCurrentOrderDetailsByMasterID(orderId)
-//        } else {
-//            myOrdersViewModel.getSoldOutOrderDetailsByOrderId(orderId)
-//        }
     }
 
     override fun onDestroy() {

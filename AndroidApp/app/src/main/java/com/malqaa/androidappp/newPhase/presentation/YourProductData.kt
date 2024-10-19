@@ -1,7 +1,5 @@
 package com.malqaa.androidappp.newPhase.presentation
 
-import okhttp3.RequestBody
-
 data class YourProductData(
     val nameAr: String,
     val nameEn: String,

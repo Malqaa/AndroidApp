@@ -6,27 +6,34 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.malqaa.androidappp.R
 import com.malqaa.androidappp.databinding.ItemFilterRegionBinding
-import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.domain.models.regionsResp.Region
+import com.malqaa.androidappp.newPhase.utils.hide
 
-class RegionFilterAdapter(var mainNeighborhoodList: List<Region>,var countryPositon:Int,var citiyPosition:Int,var setOnselectedListerner:SetOnselectedListerner) :
-    RecyclerView.Adapter<RegionFilterAdapter.RegionFilterViewHolder>(){
+class RegionFilterAdapter(
+    var mainNeighborhoodList: List<Region>,
+    var countryPositon: Int,
+    var citiyPosition: Int,
+    var setOnselectedListerner: SetOnselectedListerner
+) :
+    RecyclerView.Adapter<RegionFilterAdapter.RegionFilterViewHolder>() {
     lateinit var context: Context
-    class  RegionFilterViewHolder(var viewBinding: ItemFilterRegionBinding) :
+
+    class RegionFilterViewHolder(var viewBinding: ItemFilterRegionBinding) :
         RecyclerView.ViewHolder(viewBinding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RegionFilterViewHolder {
         context = parent.context
-        return  RegionFilterViewHolder(
+        return RegionFilterViewHolder(
             ItemFilterRegionBinding
-                .inflate(LayoutInflater.from(parent.context), parent, false))
+                .inflate(LayoutInflater.from(parent.context), parent, false)
+        )
     }
 
     override fun getItemCount(): Int = mainNeighborhoodList.size
 
     override fun onBindViewHolder(holder: RegionFilterViewHolder, position: Int) {
         holder.viewBinding.iVExpandIcon.hide()
-       holder.viewBinding.tvRegionName.text=mainNeighborhoodList[position].name
+        holder.viewBinding.tvRegionName.text = mainNeighborhoodList[position].name
         if (mainNeighborhoodList[position].isSelected) {
             holder.viewBinding.cbCity.setImageResource(R.drawable.checkbox_selected)
         } else {
@@ -34,17 +41,30 @@ class RegionFilterAdapter(var mainNeighborhoodList: List<Region>,var countryPosi
         }
 
         holder.viewBinding.cbCity.setOnClickListener {
-            if(position==0){
-                setOnselectedListerner.setOnSaveCityToQuery(countryPositon, citiyPosition,position)
-            }else{
-                setOnselectedListerner.setOnSaveNeighborhoodToQuery(countryPositon, citiyPosition,position)
+            if (position == 0) {
+                setOnselectedListerner.setOnSaveCityToQuery(countryPositon, citiyPosition, position)
+            } else {
+                setOnselectedListerner.setOnSaveNeighborhoodToQuery(
+                    countryPositon,
+                    citiyPosition,
+                    position
+                )
             }
 
         }
     }
 
     interface SetOnselectedListerner {
-        fun setOnSaveCityToQuery(countryPosition: Int, cityPostion: Int,mainNeighborhoodPosition: Int)
-        fun setOnSaveNeighborhoodToQuery(countryPosition: Int, cityPostion: Int,mainNeighborhoodPosition: Int)
+        fun setOnSaveCityToQuery(
+            countryPosition: Int,
+            cityPostion: Int,
+            mainNeighborhoodPosition: Int
+        )
+
+        fun setOnSaveNeighborhoodToQuery(
+            countryPosition: Int,
+            cityPostion: Int,
+            mainNeighborhoodPosition: Int
+        )
     }
 }

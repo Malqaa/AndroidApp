@@ -13,32 +13,31 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.malqaa.androidappp.R
-import com.malqaa.androidappp.newPhase.utils.helper.*
+import com.malqaa.androidappp.databinding.FragmentSoldBusinessBinding
+import com.malqaa.androidappp.newPhase.data.network.service.SetOnProductItemListeners
 import com.malqaa.androidappp.newPhase.domain.models.orderListResp.OrderItem
 import com.malqaa.androidappp.newPhase.domain.models.productResp.Product
+import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.ConfirmationAddProductActivity
+import com.malqaa.androidappp.newPhase.presentation.activities.loginScreen.SignInActivity
+import com.malqaa.androidappp.newPhase.presentation.activities.myOrderDetails.MyOrderDetailsRequestedFromMeActivity
+import com.malqaa.androidappp.newPhase.presentation.activities.productDetailsActivity.MyProductDetailsActivity
+import com.malqaa.androidappp.newPhase.presentation.adapterShared.ProductHorizontalAdapter
 import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.myOrderFragment.adapter.MyOrdersAdapter
 import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.myProducts.dialog.AddDiscountDialog
 import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.myProducts.dialog.AddProductBidOffersDialog
 import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.myProducts.dialog.BidPersonsDialog
 import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.myProducts.dialog.MyProductSettingDialog
 import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.myProducts.viewModel.MyProductViewModel
-import com.malqaa.androidappp.newPhase.presentation.adapterShared.ProductHorizontalAdapter
-import com.malqaa.androidappp.newPhase.data.network.service.SetOnProductItemListeners
-import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.ConfirmationAddProductActivity
-import com.malqaa.androidappp.newPhase.presentation.activities.loginScreen.SignInActivity
-import com.malqaa.androidappp.newPhase.presentation.activities.myOrderDetails.MyOrderDetailsRequestedFromMeActivity
-import com.malqaa.androidappp.newPhase.presentation.activities.productDetailsActivity.MyProductDetailsActivity
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.EndlessRecyclerViewScrollListener
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.show
-import kotlinx.android.synthetic.main.fragment_sold_business.*
-import kotlinx.android.synthetic.main.toolbar_main.*
-
 
 class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
     SetOnProductItemListeners {
+
+    private lateinit var binding: FragmentSoldBusinessBinding
 
     private var lastPriceDiscount: Float = 0f
     private lateinit var myProductsViewModel: MyProductViewModel
@@ -60,30 +59,32 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_sold_business, container, false)
+        binding = FragmentSoldBusinessBinding.inflate(inflater, container, false)
+
+        return binding.root
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        toolbar_title.text = getString(R.string.MyProducts)
+        binding.toolbar.toolbarTitle.text = getString(R.string.MyProducts)
         setupViewModel()
-        swipe_to_refresh.setColorSchemeResources(R.color.colorPrimaryDark)
-        swipe_to_refresh.setOnRefreshListener(this)
+        binding.swipeToRefresh.setColorSchemeResources(R.color.colorPrimaryDark)
+        binding.swipeToRefresh.setOnRefreshListener(this)
         setViewClickListeners()
         setAdapterForSaleAdapter()
         setUpSoldOutAdapter()
 
-        sold_out_rcv.hide()
-        did_not_sale_rcv.hide()
-        for_sale_recycler.show()
+        binding.soldOutRcv.hide()
+        binding.didNotSaleRcv.hide()
+        binding.forSaleRecycler.show()
     }
 
     override fun onResume() {
         super.onResume()
         onRefresh()
-        ConstantObjects.isModify=false
-        ConstantObjects.isRepost=false
+        ConstantObjects.isModify = false
+        ConstantObjects.isRepost = false
     }
 
     private fun setUpSoldOutAdapter() {
@@ -107,7 +108,7 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
 
             })
         myOrdersAdapter.currentOrder = false
-        sold_out_rcv.apply {
+        binding.soldOutRcv.apply {
             adapter = myOrdersAdapter
             layoutManager = soldoUtLayOutManager
         }
@@ -119,13 +120,13 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
                     }
                 }
             }
-        sold_out_rcv.addOnScrollListener(endlessRecyclerViewScrollListener)
+        binding.soldOutRcv.addOnScrollListener(endlessRecyclerViewScrollListener)
     }
 
     private fun setAdapterForSaleAdapter() {
         productList = ArrayList()
         myProductForSaleListAdapter = ProductHorizontalAdapter(productList, this, 0, false, true)
-        for_sale_recycler.apply {
+        binding.forSaleRecycler.apply {
             adapter = myProductForSaleListAdapter
             layoutManager = GridLayoutManager(requireActivity(), 2)
         }
@@ -133,48 +134,49 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
 
 
     private fun setViewClickListeners() {
-        back_btn.setOnClickListener {
+        binding.toolbar.backBtn.setOnClickListener {
             requireActivity().onBackPressed()
         }
-        for_sale.setOnClickListener {
+        binding.forSale.setOnClickListener {
             tapId = 1
-            sold_out_rcv.hide()
-            //   did_not_sale_rcv.hide()
-            for_sale_recycler.show()
-            for_sale.setBackgroundResource(R.drawable.round_btn)
-            for_sale.setTextColor(ContextCompat.getColor(requireActivity(), R.color.white))
-            sold_out.setBackgroundResource(R.drawable.edittext_bg)
-            sold_out.setTextColor(ContextCompat.getColor(requireActivity(), R.color.gray))
-            did_not_Sell.setBackgroundResource(R.drawable.edittext_bg)
-            did_not_Sell.setTextColor(ContextCompat.getColor(requireActivity(), R.color.gray))
+            binding.soldOutRcv.hide()
+            binding.forSaleRecycler.show()
+            binding.forSale.setBackgroundResource(R.drawable.round_btn)
+            binding.forSale.setTextColor(ContextCompat.getColor(requireActivity(), R.color.white))
+            binding.soldOut.setBackgroundResource(R.drawable.edittext_bg)
+            binding.soldOut.setTextColor(ContextCompat.getColor(requireActivity(), R.color.gray))
+            binding.didNotSell.setBackgroundResource(R.drawable.edittext_bg)
+            binding.didNotSell.setTextColor(ContextCompat.getColor(requireActivity(), R.color.gray))
             onRefresh()
         }
-        sold_out.setOnClickListener {
+        binding.soldOut.setOnClickListener {
             tapId = 2
-            sold_out_rcv.show()
-            //  did_not_sale_rcv.hide()
-            for_sale_recycler.hide()
+            binding.soldOutRcv.show()
+            binding.forSaleRecycler.hide()
 
-            for_sale.setBackgroundResource(R.drawable.edittext_bg)
-            for_sale.setTextColor(ContextCompat.getColor(requireActivity(), R.color.gray))
-            sold_out.setBackgroundResource(R.drawable.round_btn)
-            sold_out.setTextColor(ContextCompat.getColor(requireActivity(), R.color.white))
-            did_not_Sell.setBackgroundResource(R.drawable.edittext_bg)
-            did_not_Sell.setTextColor(ContextCompat.getColor(requireActivity(), R.color.gray))
+            binding.forSale.setBackgroundResource(R.drawable.edittext_bg)
+            binding.forSale.setTextColor(ContextCompat.getColor(requireActivity(), R.color.gray))
+            binding.soldOut.setBackgroundResource(R.drawable.round_btn)
+            binding.soldOut.setTextColor(ContextCompat.getColor(requireActivity(), R.color.white))
+            binding.didNotSell.setBackgroundResource(R.drawable.edittext_bg)
+            binding.didNotSell.setTextColor(ContextCompat.getColor(requireActivity(), R.color.gray))
             onRefresh()
         }
-        did_not_Sell.setOnClickListener {
+        binding.didNotSell.setOnClickListener {
             tapId = 3
-            sold_out_rcv.hide()
-            //   did_not_sale_rcv.show()
-            for_sale_recycler.show()
-
-            for_sale.setBackgroundResource(R.drawable.edittext_bg)
-            for_sale.setTextColor(ContextCompat.getColor(requireActivity(), R.color.gray))
-            sold_out.setBackgroundResource(R.drawable.edittext_bg)
-            sold_out.setTextColor(ContextCompat.getColor(requireActivity(), R.color.gray))
-            did_not_Sell.setBackgroundResource(R.drawable.round_btn)
-            did_not_Sell.setTextColor(ContextCompat.getColor(requireActivity(), R.color.white))
+            binding.soldOutRcv.hide()
+            binding.forSaleRecycler.show()
+            binding.forSale.setBackgroundResource(R.drawable.edittext_bg)
+            binding.forSale.setTextColor(ContextCompat.getColor(requireActivity(), R.color.gray))
+            binding.soldOut.setBackgroundResource(R.drawable.edittext_bg)
+            binding.soldOut.setTextColor(ContextCompat.getColor(requireActivity(), R.color.gray))
+            binding.didNotSell.setBackgroundResource(R.drawable.round_btn)
+            binding.didNotSell.setTextColor(
+                ContextCompat.getColor(
+                    requireActivity(),
+                    R.color.white
+                )
+            )
             onRefresh()
         }
     }
@@ -184,9 +186,9 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         myProductsViewModel = ViewModelProvider(this).get(MyProductViewModel::class.java)
         myProductsViewModel.isLoading.observe(this) {
             if (it)
-                progressBar.show()
+                binding.progressBar.show()
             else
-                progressBar.hide()
+                binding.progressBar.hide()
         }
         myProductsViewModel.loadingAddDiscountDialog.observe(this) {
             if (it)
@@ -196,9 +198,9 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         }
         myProductsViewModel.isloadingMore.observe(this) {
             if (it)
-                progressBarMore.show()
+                binding.progressBarMore.show()
             else
-                progressBarMore.hide()
+                binding.progressBarMore.hide()
         }
         myProductsViewModel.isNetworkFail.observe(this) {
             if (it) {
@@ -349,8 +351,8 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
     @SuppressLint("NotifyDataSetChanged")
     override fun onRefresh() {
         endlessRecyclerViewScrollListener.resetState()
-        swipe_to_refresh.isRefreshing = false
-        tvError.hide()
+        binding.swipeToRefresh.isRefreshing = false
+        binding.tvError.hide()
         when (tapId) {
             1 -> {
                 productList.clear()
@@ -374,8 +376,8 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
     }
 
     private fun showProductApiError(message: String) {
-        tvError.show()
-        tvError.text = message
+        binding.tvError.show()
+        binding.tvError.text = message
     }
 
     override fun onProductSelect(position: Int, productID: Int, categoryID: Int) {
@@ -422,14 +424,18 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
                     }
 
                     override fun onModifyProduct() {
-                        ConstantObjects.isModify=true
-                        ConstantObjects.isRepost=false
-                        startActivity(Intent(context, ConfirmationAddProductActivity::class.java).apply {
-                            putExtra("productID",productID)
-                            putExtra("whereCome","repost")
-                            putExtra(ConstantObjects.isEditKey, true)
+                        ConstantObjects.isModify = true
+                        ConstantObjects.isRepost = false
+                        startActivity(
+                            Intent(
+                                context,
+                                ConfirmationAddProductActivity::class.java
+                            ).apply {
+                                putExtra("productID", productID)
+                                putExtra("whereCome", "repost")
+                                putExtra(ConstantObjects.isEditKey, true)
 
-                        })
+                            })
                     }
 
                     override fun onDeleteProduct() {
@@ -442,14 +448,17 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
                     }
 
                     override fun onRepostProduct() {
-                        ConstantObjects.isRepost=true
-                        ConstantObjects.isModify=false
-                        startActivity(Intent(context, ConfirmationAddProductActivity::class.java).apply {
-                            putExtra("productID",productID)
-                            putExtra("whereCome","repost")
-                            putExtra(ConstantObjects.isEditKey, true)
-                        })
-//                        myProductsViewModel.repostProduct(productID)
+                        ConstantObjects.isRepost = true
+                        ConstantObjects.isModify = false
+                        startActivity(
+                            Intent(
+                                context,
+                                ConfirmationAddProductActivity::class.java
+                            ).apply {
+                                putExtra("productID", productID)
+                                putExtra("whereCome", "repost")
+                                putExtra(ConstantObjects.isEditKey, true)
+                            })
                     }
 
                 })
@@ -499,10 +508,13 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
                     override fun onAddDiscount(finaldate: String, newPrice: Float) {
                         lastUpdateIndex = position
                         lastPriceDiscount = newPrice
-                        if(newPrice<productList[position].price && (newPrice>1)){
+                        if (newPrice < productList[position].price && (newPrice > 1)) {
                             myProductsViewModel.addDiscount(productID, newPrice, finaldate)
-                        }else{
-                            HelpFunctions.ShowLongToast(getString(R.string.notAbleToApplyDiscount), context)
+                        } else {
+                            HelpFunctions.ShowLongToast(
+                                getString(R.string.notAbleToApplyDiscount),
+                                context
+                            )
                         }
 
 

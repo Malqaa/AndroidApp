@@ -26,9 +26,10 @@ import com.google.android.gms.location.LocationSettingsRequest
 import com.google.android.gms.location.LocationSettingsStatusCodes
 import com.google.gson.Gson
 import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.ActivityBusinessSignupBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
 import com.malqaa.androidappp.newPhase.domain.models.ImageSelectModel
-import com.malqaa.androidappp.newPhase.domain.models.servicemodels.*
+import com.malqaa.androidappp.newPhase.domain.models.servicemodels.LocationPickerModel
 import com.malqaa.androidappp.newPhase.presentation.dialogsShared.PickImageMethodsDialog
 import com.malqaa.androidappp.newPhase.presentation.dialogsShared.countryDialog.CountryDialog
 import com.malqaa.androidappp.newPhase.presentation.dialogsShared.neighborhoodDialog.NeighborhoodDialog
@@ -48,15 +49,14 @@ import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.show
 import com.squareup.picasso.Picasso
 import com.zfdang.multiple_images_selector.SelectorSettings
-import kotlinx.android.synthetic.main.activity_business_signup.*
 import okhttp3.MultipartBody
 import kotlin.math.roundToInt
 
-
-class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedCountry,
+class BusinessAccountCreateActivity : BaseActivity<ActivityBusinessSignupBinding>(),
+    CountryDialog.GetSelectedCountry,
     AdapterCommercialImage.IRemoveImg,
     PickImageMethodsDialog.OnAttachedImageMethodSelected {
-    //==== userImage= 1 ,commericalimage=2
+
     private var imageType: Int = 1
     private var selectedCommericalRegisterType: Int = 1
     var youtube = false
@@ -99,7 +99,7 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
             if (result.resultCode == Activity.RESULT_OK) {
                 lat = result.data?.getDoubleExtra("lat", 0.0) ?: 0.0
                 longitude = result.data?.getDoubleExtra("longitude", 0.0) ?: 0.0
-                locating_the_company.text = "$lat,$longitude"
+                binding.locatingTheCompany.text = "$lat,$longitude"
             }
         }
     private lateinit var imageMethodsPickerDialog: PickImageMethodsDialog
@@ -111,11 +111,15 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
     private lateinit var businessAccountViewModel: BusinessAccountViewModel
     private var lat: Double = 0.0
     private var longitude: Double = 0.0
-    private lateinit var adapter : AdapterCommercialImage
+    private lateinit var adapter: AdapterCommercialImage
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_business_signup)
-        adapter = AdapterCommercialImage(listBitMap,this)
+
+        // Initialize view binding
+        binding = ActivityBusinessSignupBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        adapter = AdapterCommercialImage(listBitMap, this)
         countryDialog = CountryDialog(this, this)
         commercialRegistryFileList = ArrayList()
         setupCommircalRegisteration()
@@ -123,8 +127,7 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
         setupViewModel()
 
 
-        commercial_registration_no._setMaxLength(15)
-
+        binding.commercialRegistrationNo._setMaxLength(15)
     }
 
     private fun setupViewModel() {
@@ -174,8 +177,8 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
         commricaalRegisterationTyesList.add(getString(R.string.freelanceCertificate))
         economicalRegistrationTypeAdapter =
             EconomicalRegistrationTypeAdapter(this, commricaalRegisterationTyesList)
-        spinnerCommirecalRegisterationType.adapter = economicalRegistrationTypeAdapter
-        spinnerCommirecalRegisterationType.onItemSelectedListener =
+        binding.spinnerCommirecalRegisterationType.adapter = economicalRegistrationTypeAdapter
+        binding.spinnerCommirecalRegisterationType.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
                     adapterView: AdapterView<*>?, view: View, position: Int, l: Long
@@ -191,98 +194,98 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
 
 
     private fun setViewClickListeners() {
-        ivPickUserImage.setOnClickListener {
+        binding.ivPickUserImage.setOnClickListener {
             imageType = 1
             openCameraChooser()
         }
 
-        download_the_commercial_registry_file.setOnClickListener {
+        binding.downloadTheCommercialRegistryFile.setOnClickListener {
             imageType = 2
             openCameraChooser()
 
         }
-        btnOpenCountry.setOnClickListener {
+        binding.btnOpenCountry.setOnClickListener {
             countryDialog.show()
         }
-        ic_twitter_select.setOnClickListener {
+        binding.icTwitterSelect.setOnClickListener {
             twitter = !twitter
             if (twitter) {
-                ic_twitter_select.background =
+                binding.icTwitterSelect.background =
                     ContextCompat.getDrawable(this, R.drawable.circle_bg_enable)
-                ic_twitter.show()
+                binding.icTwitter.show()
             } else {
-                ic_twitter_select.background =
+                binding.icTwitterSelect.background =
                     ContextCompat.getDrawable(this, R.drawable.circle_bg_disable)
-                ic_twitter.hide()
+                binding.icTwitter.hide()
             }
 
         }
-        ic_youtube_select.setOnClickListener {
+        binding.icYoutubeSelect.setOnClickListener {
             youtube = !youtube
             if (youtube) {
-                ic_youtube_select.background =
+                binding.icYoutubeSelect.background =
                     ContextCompat.getDrawable(this, R.drawable.circle_bg_enable)
-                ic_youtube.show()
+                binding.icYoutube.show()
             } else {
-                ic_youtube_select.background =
+                binding.icYoutubeSelect.background =
                     ContextCompat.getDrawable(this, R.drawable.circle_bg_disable)
-                ic_youtube.hide()
+                binding.icYoutube.hide()
             }
 
         }
-        ic_linkedin.setOnClickListener {
+        binding.icLinkedin.setOnClickListener {
             linkedin = !linkedin
             if (linkedin) {
-                ic_linkedIn.background =
+                binding.icLinkedIn.background =
                     ContextCompat.getDrawable(this, R.drawable.circle_bg_enable)
-                ic_linkedIn.show()
+                binding.icLinkedIn.show()
             } else {
-                ic_linkedIn.background =
+                binding.icLinkedIn.background =
                     ContextCompat.getDrawable(this, R.drawable.circle_bg_disable)
-                ic_linkedIn.hide()
+                binding.icLinkedIn.hide()
             }
 
         }
-        ic_snapshot_select.setOnClickListener {
+        binding.icSnapshotSelect.setOnClickListener {
             snapShot = !snapShot
             if (snapShot) {
-                ic_snapshot_select.background =
+                binding.icSnapshotSelect.background =
                     ContextCompat.getDrawable(this, R.drawable.circle_bg_enable)
-                ic_snapshot.show()
+                binding.icSnapshot.show()
             } else {
-                ic_snapshot_select.background =
+                binding.icSnapshotSelect.background =
                     ContextCompat.getDrawable(this, R.drawable.circle_bg_disable)
-                ic_snapshot.hide()
+                binding.icSnapshot.hide()
             }
 
         }
-        ic_ticktok_select.setOnClickListener {
+        binding.icTicktokSelect.setOnClickListener {
             itickTok = !itickTok
             if (itickTok) {
-                ic_ticktok_select.background =
+                binding.icTicktokSelect.background =
                     ContextCompat.getDrawable(this, R.drawable.circle_bg_enable)
-                ic_tickTok.show()
+                binding.icTickTok.show()
             } else {
-                ic_ticktok_select.background =
+                binding.icTicktokSelect.background =
                     ContextCompat.getDrawable(this, R.drawable.circle_bg_disable)
-                ic_tickTok.hide()
+                binding.icTickTok.hide()
             }
 
         }
-        tvDate.setOnClickListener {
-            tvDate.error = null
+        binding.tvDate.setOnClickListener {
+            binding.tvDate.error = null
             fm = supportFragmentManager
             val dateDialog = DatePickerFragment(false, true) { selectDate ->
-                tvDate.text = "$selectDate "
+                binding.tvDate.text = "$selectDate "
                 selectdate = selectDate
 
             }
             dateDialog.show(fm!!, "")
         }
-        countryContainer._setOnClickListener {
+        binding.countryContainer._setOnClickListener {
             openCountryDialog()
         }
-        regionContainer._setOnClickListener {
+        binding.regionContainer._setOnClickListener {
             if (selectedCountryId == 0) {
                 showError(getString(R.string.Please_select, getString(R.string.Country)))
             } else {
@@ -290,24 +293,22 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
             }
 
         }
-        neighborhoodContainer._setOnClickListener {
+        binding.neighborhoodContainer._setOnClickListener {
             if (selectedRegionId == 0) {
                 showError(getString(R.string.Please_select, getString(R.string.Region)))
             } else {
                 openNeighborhoodDialog()
             }
         }
-        locating_the_company.setOnClickListener {
-//            checkLocationPermission()
+        binding.locatingTheCompany.setOnClickListener {
             getLocationLauncher.launch(Intent(this, MapActivity::class.java))
         }
 
-
-        btnSaveBussinessAccount.setOnClickListener() {
+        binding.btnSaveBussinessAccount.setOnClickListener() {
             checkAccountData()
         }
 
-        busi_signup2_btn.setOnClickListener {
+        binding.busiSignup2Btn.setOnClickListener {
             onBackPressed()
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
         }
@@ -321,14 +322,14 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
             ) {
                 /**setCountryData*/
                 selectedCountryId = id
-                countryContainer.text = countryName
-                countryContainer._setStartIconImage(countryFlag)
+                binding.countryContainer.text = countryName
+                binding.countryContainer._setStartIconImage(countryFlag)
                 /**resetRegion*/
                 selectedRegionId = 0
-                regionContainer.text = null
+                binding.regionContainer.text = null
                 /**resetRegion*/
                 selectedNeighborhoodId = 0
-                neighborhoodContainer.text = null
+                binding.neighborhoodContainer.text = null
             }
         })
         countryDialog.show()
@@ -341,11 +342,11 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
                     /**setRegionData*/
                     /**setRegionData*/
                     selectedRegionId = id
-                    regionContainer.text = regionName
+                    binding.regionContainer.text = regionName
                     /**resetNeighborhood*/
                     /**resetNeighborhood*/
                     selectedNeighborhoodId = 0
-                    neighborhoodContainer.text = null
+                    binding.neighborhoodContainer.text = null
                 }
             })
         regionDialog.show()
@@ -359,7 +360,7 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
                     /**setNeighborhoodData*/
                     /**setNeighborhoodData*/
                     selectedNeighborhoodId = id
-                    neighborhoodContainer.text = neighborhoodName
+                    binding.neighborhoodContainer.text = neighborhoodName
                 }
             })
         neighborhoodDialog.show()
@@ -402,7 +403,6 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
     private val startForResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == Activity.RESULT_OK) {
-//                val bitmap = CameraHelper.handleResult(it?.data?.data!!, this)
                 setImage(it.data?.data!!)
             }
         }
@@ -413,7 +413,6 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
     }
 
     override fun onDeleteImage() {
-
     }
 
     private fun setImage(imageUri: Uri) {
@@ -427,10 +426,10 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
                 true
             )
             adapter.updateAdapter(listBitMap)
-            commercialImgRecycle.visibility = View.VISIBLE
-            commercialImgRecycle.adapter = adapter
+            binding.commercialImgRecycle.visibility = View.VISIBLE
+            binding.commercialImgRecycle.adapter = adapter
             if (imageType == 1) {
-                getPicassoInstance().load(imageUri).into(ivUserImageBusiness)
+                getPicassoInstance().load(imageUri).into(binding.ivUserImageBusiness)
                 userImageUri = bitmap
             } else if (imageType == 2) {
                 val file =
@@ -487,37 +486,37 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
 
         businessAccountViewModel.addBusinessAccount(
             0.toString(),
-            userNamee.text.toString().trim(),
+            binding.userNamee.text.toString().trim(),
             ConstantObjects.logged_userid,
-            company_name_ar.text.toString().trim(),
-            company_name_en.text.toString().trim(),
-            textEmaill.text.toString().trim(),
-            etPhoneNumber!!.text.toString().trim(),
+            binding.companyNameAr.text.toString().trim(),
+            binding.companyNameEn.text.toString().trim(),
+            binding.textEmaill.text.toString().trim(),
+            binding.etPhoneNumber!!.text.toString().trim(),
 
             fileUserImage,
-            et_web_site.text.toString().trim(),
-            Facebook.text.toString().trim(),
-            Instagram.text.toString().trim(),
-            ic_twitter.text.toString().trim(),
-            ic_youtube.text.toString().trim(),
-            ic_linkedIn.text.toString().trim(),
-            ic_snapshot.text.toString().trim(),
-            ic_tickTok.text.toString().trim(),
+            binding.etWebSite.text.toString().trim(),
+            binding.Facebook.text.toString().trim(),
+            binding.Instagram.text.toString().trim(),
+            binding.icTwitter.text.toString().trim(),
+            binding.icYoutube.text.toString().trim(),
+            binding.icLinkedIn.text.toString().trim(),
+            binding.icSnapshot.text.toString().trim(),
+            binding.icTickTok.text.toString().trim(),
             selectedCommericalRegisterType,
-            commercial_registration_no.text.toString().trim(),
-            tvDate.text.toString().trim(),
-            TaxNumber.text.toString().trim(),
-            etMaroof.text.toString().trim(),
+            binding.commercialRegistrationNo.text.toString().trim(),
+            binding.tvDate.text.toString().trim(),
+            binding.TaxNumber.text.toString().trim(),
+            binding.etMaroof.text.toString().trim(),
             commercialRegistryFileList,
             selectedCountryId,
             selectedRegionId,
             selectedNeighborhoodId,
-            area.text.toString().trim(),
-            streetNUmber.text.toString().trim(),
-            county_code.text.toString().trim(),
+            binding.area.text.toString().trim(),
+            binding.streetNUmber.text.toString().trim(),
+            binding.countyCode.text.toString().trim(),
             lat,
             longitude,
-            switch_trade._getChecked()
+            binding.switchTrade._getChecked()
         )
     }
 
@@ -525,121 +524,77 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
     /**validations*/
     //CompanyName Validation
     private fun validateUserName(): Boolean {
-        val emailInput = userNamee!!.text.toString().trim { it <= ' ' }
+        val emailInput = binding.userNamee!!.text.toString().trim { it <= ' ' }
         return if (emailInput.isEmpty()) {
-            userNamee.error = (getString(R.string.Please_enter, getString(R.string.Username)))
+            binding.userNamee.error =
+                (getString(R.string.Please_enter, getString(R.string.Username)))
             false
         } else {
-            userNamee.error = null
+            binding.userNamee.error = null
             true
         }
     }
 
     private fun validateCompanyNameAr(): Boolean {
-        val emailInput = company_name_ar!!.text.toString().trim { it <= ' ' }
+        val emailInput = binding.companyNameAr!!.text.toString().trim { it <= ' ' }
         return if (emailInput.isEmpty()) {
-            company_name_ar.error =
+            binding.companyNameAr.error =
                 (getString(R.string.Please_enter, getString(R.string.the_company_s_name)))
             false
         } else if (emailInput.length < 5) {
-            company_name_ar.error = (getString(
+            binding.companyNameAr.error = (getString(
                 R.string.please_enter_valid, getString(R.string.the_company_s_name)
             ))
             false
         } else {
-            company_name_ar.error = null
+            binding.companyNameAr.error = null
             true
         }
     }
 
     private fun validateCompanyNameEn(): Boolean {
-        val emailInput = company_name_en!!.text.toString().trim { it <= ' ' }
+        val emailInput = binding.companyNameEn!!.text.toString().trim { it <= ' ' }
         return if (emailInput.isEmpty()) {
-            company_name_en.error =
+            binding.companyNameEn.error =
                 (getString(R.string.Please_enter, getString(R.string.the_company_s_name)))
             false
         } else if (emailInput.length < 5) {
-            company_name_en.error = (getString(
+            binding.companyNameEn.error = (getString(
                 R.string.please_enter_valid, getString(R.string.the_company_s_name)
             ))
             false
         } else {
-            company_name_en.error = null
+            binding.companyNameEn.error = null
             true
         }
     }
 
     private fun validateCommercialRegisterNo(): Boolean {
-        val emailInput = commercial_registration_no!!.text.toString().trim { it <= ' ' }
+        val emailInput = binding.commercialRegistrationNo!!.text.toString().trim { it <= ' ' }
         return if (emailInput.isEmpty()) {
-            commercial_registration_no.error = (
+            binding.commercialRegistrationNo.error = (
                     getString(
                         R.string.Please_enter, getString(R.string.commercial_registration_no)
                     )
                     )
             false
         } else {
-            commercial_registration_no.error = null
+            binding.commercialRegistrationNo.error = null
             true
         }
     }
 
     private fun validateExpiryDate(): Boolean {
-        val emailInput = tvDate!!.text.toString().trim { it <= ' ' }
+        val emailInput = binding.tvDate!!.text.toString().trim { it <= ' ' }
         return if (emailInput.isEmpty()) {
-            tvDate.error = (getString(R.string.Please_select, getString(R.string.expiry_date)))
+            binding.tvDate.error =
+                (getString(R.string.Please_select, getString(R.string.expiry_date)))
             false
         } else {
-            tvDate.error = null
+            binding.tvDate.error = null
             true
         }
     }
-
-
-//    private fun checkPermissions() {
-//
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//            if (PermissionChecker.checkSelfPermission(
-//                    this, Manifest.permission.READ_EXTERNAL_STORAGE
-//                ) == PermissionChecker.PERMISSION_DENIED
-//            ) {
-//                val permissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
-//                requestPermissions(permissions, PERMISSION_CODE)
-//            } else {
-//                pickImageFromGallery()
-//            }
-//        } else {
-//            pickImageFromGallery()
-//        }
-//
-//    }
-//    private fun checkLocationPermission() {
-//        if (ContextCompat.checkSelfPermission(
-//                this@BusinessAccountCreateActivity, Manifest.permission.ACCESS_FINE_LOCATION
-//            ) != PackageManager.PERMISSION_GRANTED
-//        ) {
-//            ActivityCompat.requestPermissions(
-//                this@BusinessAccountCreateActivity,
-//                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-//                PERMISSION_REQUEST_ACCESS_FINE_LOCATION
-//            )
-//
-//        } else {
-//            checkGPS()
-//        }
-//    }
-
-
-//    private fun pickImageFromGallery() {
-//        mResults.clear()
-//        val intent = Intent(this, ImagesSelectorActivity::class.java)
-//        intent.putExtra(SelectorSettings.SELECTOR_MAX_IMAGE_NUMBER, 1)
-//        intent.putExtra(SelectorSettings.SELECTOR_SHOW_CAMERA, false)
-//        intent.putStringArrayListExtra(SelectorSettings.SELECTOR_INITIAL_SELECTED_LIST, mResults)
-//
-//        startActivityForResult(intent, IMAGE_PICK_CODE)
-//    }
-
 
     private fun openPlacePicker() {
         val intent = Intent(this@BusinessAccountCreateActivity, LocationPickerActivity::class.java)
@@ -749,11 +704,11 @@ class BusinessAccountCreateActivity : BaseActivity(), CountryDialog.GetSelectedC
     override fun onSelectedCountry(
         id: Int, countryName: String, countryFlag: String?, countryCode: String?
     ) {
-        tvCode.text = countryCode
-        ivFlag.setImageDrawable(null)
+        binding.tvCode.text = countryCode
+        binding.ivFlag.setImageDrawable(null)
         Picasso.get()
             .load(countryFlag)
-            .into(ivFlag)
+            .into(binding.ivFlag)
     }
 
     override fun onDestroy() {

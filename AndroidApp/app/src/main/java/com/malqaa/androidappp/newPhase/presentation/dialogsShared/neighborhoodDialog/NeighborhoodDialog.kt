@@ -9,23 +9,23 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.DialogCountriesBinding
 import com.malqaa.androidappp.newPhase.core.BaseDialog
-import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malqaa.androidappp.newPhase.domain.models.regionsResp.Region
 import com.malqaa.androidappp.newPhase.domain.models.regionsResp.RegionsResp
 import com.malqaa.androidappp.newPhase.presentation.dialogsShared.regionDialog.RegionAdapter
-import kotlinx.android.synthetic.main.activity_search.*
-import kotlinx.android.synthetic.main.activity_search.etSearch
-import kotlinx.android.synthetic.main.dialog_countries.*
+import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.HttpException
 import retrofit2.Response
 
-class NeighborhoodDialog(context: Context, var regionId:Int, var getSelectedNeighborhood: GetSelectedNeighborhood) :
-    BaseDialog(context), RegionAdapter.OnRegionSelected {
-
+class NeighborhoodDialog(
+    context: Context,
+    var regionId: Int,
+    var getSelectedNeighborhood: GetSelectedNeighborhood
+) : BaseDialog<DialogCountriesBinding>(context), RegionAdapter.OnRegionSelected {
 
     lateinit var linearLayoutManager: LinearLayoutManager
     lateinit var neighborhoodAdapter: RegionAdapter
@@ -33,16 +33,14 @@ class NeighborhoodDialog(context: Context, var regionId:Int, var getSelectedNeig
     lateinit var mainNeighborhoodList: ArrayList<Region>
     lateinit var neighborhoodsResp: RegionsResp
 
-
     var countriesCallback: Call<RegionsResp>? = null
-
-    override fun getViewId(): Int {
-        return R.layout.dialog_countries
-    }
-
 
     override fun isLoadingDialog(): Boolean {
         return false
+    }
+
+    override fun inflateViewBinding(): DialogCountriesBinding {
+        return DialogCountriesBinding.inflate(layoutInflater)
     }
 
     override fun isFullScreen(): Boolean {
@@ -55,19 +53,19 @@ class NeighborhoodDialog(context: Context, var regionId:Int, var getSelectedNeig
 
 
     override fun initialization() {
-        tvTitleAr.text=context.getString(R.string.selectDistrict)
-        ivClose.setOnClickListener {
+        binding.tvTitleAr.text = context.getString(R.string.selectDistrict)
+        binding.ivClose.setOnClickListener {
             dismiss()
         }
         mainNeighborhoodList = ArrayList()
         neighborhoodsList = ArrayList()
         neighborhoodAdapter = RegionAdapter(context, neighborhoodsList, this)
         linearLayoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-        recycler.apply {
+        binding.recycler.apply {
             layoutManager = linearLayoutManager
             adapter = neighborhoodAdapter
         }
-        etSearch.addTextChangedListener(object : TextWatcher {
+        binding.etSearch.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
             }
 
@@ -75,7 +73,7 @@ class NeighborhoodDialog(context: Context, var regionId:Int, var getSelectedNeig
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (etSearch.text.toString().trim() == "") {
+                if (binding.etSearch.text.toString().trim() == "") {
                     updateList(mainNeighborhoodList)
                 } else {
                     if (s != null)
@@ -102,9 +100,9 @@ class NeighborhoodDialog(context: Context, var regionId:Int, var getSelectedNeig
         neighborhoodsList.clear()
         neighborhoodsList.addAll(temp)
         if (temp.isEmpty()) {
-            tvNoCountries.visibility = View.VISIBLE
+            binding.tvNoCountries.visibility = View.VISIBLE
         } else {
-            tvNoCountries.visibility = View.GONE
+            binding.tvNoCountries.visibility = View.GONE
         }
         neighborhoodAdapter.notifyDataSetChanged()
     }
@@ -120,12 +118,12 @@ class NeighborhoodDialog(context: Context, var regionId:Int, var getSelectedNeig
     }
 
     fun getNeighborhoods() {
-        progressBar.visibility = View.VISIBLE
+        binding.progressBar.visibility = View.VISIBLE
         countriesCallback = getRetrofitBuilder().getNeighborhoodByRegionNew(regionId)
         countriesCallback?.enqueue(object : Callback<RegionsResp> {
             override fun onFailure(call: Call<RegionsResp>, t: Throwable) {
                 // println("hhhh "+t.message)
-                progressBar.visibility = View.GONE
+                binding.progressBar.visibility = View.GONE
                 if (t is HttpException) {
                     HelpFunctions.ShowLongToast(context.getString(R.string.serverError), context)
 
@@ -141,7 +139,7 @@ class NeighborhoodDialog(context: Context, var regionId:Int, var getSelectedNeig
                 call: Call<RegionsResp>,
                 response: Response<RegionsResp>
             ) {
-                progressBar.visibility = View.GONE
+                binding.progressBar.visibility = View.GONE
                 try {
                     if (response.isSuccessful) {
                         response.body()?.let {

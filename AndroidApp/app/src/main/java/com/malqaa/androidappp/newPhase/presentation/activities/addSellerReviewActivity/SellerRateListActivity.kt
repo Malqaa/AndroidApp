@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.malqaa.androidappp.R
-import com.malqaa.androidappp.newPhase.domain.models.addRateResp.AddRateItem
+import com.malqaa.androidappp.databinding.ActivitySellerRateListBinding
 import com.malqaa.androidappp.newPhase.domain.models.sellerRateListResp.SellerRateItem
 import com.malqaa.androidappp.newPhase.presentation.activities.loginScreen.SignInActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.productDetailsActivity.viewModels.ProductDetailsViewModel
@@ -17,14 +17,12 @@ import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.linearLayoutManager
 import com.malqaa.androidappp.newPhase.utils.show
-import kotlinx.android.synthetic.main.activity_seller_rate_list.progressBar
-import kotlinx.android.synthetic.main.activity_seller_rate_list.rvAllReviews
-import kotlinx.android.synthetic.main.activity_seller_rate_list.swipe_to_refresh
-import kotlinx.android.synthetic.main.activity_seller_rate_list.tvError
-import kotlinx.android.synthetic.main.product_reviews1.*
-import kotlinx.android.synthetic.main.toolbar_main.*
 
 class SellerRateListActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
+
+
+    lateinit var binding: ActivitySellerRateListBinding
+
     var providerId: String = ""
     var businessAccountId: String = ""
     lateinit var sellerRateList: ArrayList<SellerRateItem>
@@ -33,10 +31,14 @@ class SellerRateListActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefresh
     var addSellerReviewRequestCode = 2000
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_seller_rate_list)
-        toolbar_title.text = getString(R.string.sellerRate)
-        swipe_to_refresh.setColorSchemeResources(R.color.colorPrimaryDark)
-        swipe_to_refresh.setOnRefreshListener(this)
+
+        // init binding
+        binding = ActivitySellerRateListBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.toolbarMain.toolbarTitle.text = getString(R.string.sellerRate)
+        binding.swipeToRefresh.setColorSchemeResources(R.color.colorPrimaryDark)
+        binding.swipeToRefresh.setOnRefreshListener(this)
         if (intent.getStringExtra(ConstantObjects.providerIdKey) != null) {
             providerId = intent.getStringExtra(ConstantObjects.providerIdKey)!!
         }
@@ -48,11 +50,11 @@ class SellerRateListActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefresh
         onRefresh()
         println("hhhh $providerId $businessAccountId")
         //**view click Listeners***/
-        back_btn.setOnClickListener {
+        binding.toolbarMain.backBtn.setOnClickListener {
             finish()
         }
-        floatingActionButtonBottm.hide()
-        floatingActionButtonBottm.setOnClickListener {
+        binding.floatingActionButtonBottm.hide()
+        binding.floatingActionButtonBottm.setOnClickListener {
             if (HelpFunctions.isUserLoggedIn()) {
                 startActivityForResult(Intent(this, AddRateSellerActivity::class.java).apply {
                     putExtra(ConstantObjects.providerIdKey, providerId)
@@ -66,9 +68,9 @@ class SellerRateListActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefresh
     }
 
     private fun setSellerRatesAdapter() {
-        sellerRateList= ArrayList()
-        sellerRateAdapter = SellerRateAdapter(this,sellerRateList)
-        rvAllReviews.apply {
+        sellerRateList = ArrayList()
+        sellerRateAdapter = SellerRateAdapter(this, sellerRateList)
+        binding.rvAllReviews.apply {
             adapter = sellerRateAdapter
             layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
         }
@@ -78,9 +80,9 @@ class SellerRateListActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefresh
         productDetialsViewModel = ViewModelProvider(this).get(ProductDetailsViewModel::class.java)
         productDetialsViewModel.isLoading.observe(this) {
             if (it)
-                progressBar.show()
+                binding.progressBar.show()
             else
-                progressBar.hide()
+                binding.progressBar.hide()
         }
         productDetialsViewModel.isNetworkFail.observe(this) {
             if (it) {
@@ -91,14 +93,14 @@ class SellerRateListActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefresh
 
         }
         productDetialsViewModel.errorResponseObserver.observe(this) {
-            if(it.status!=null && it.status=="409"){
+            if (it.status != null && it.status == "409") {
                 HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), this)
-            }else {
+            } else {
                 if (it.message != null) {
                     showErrorText(it.message!!)
-                }else if (it.message2 != null) {
+                } else if (it.message2 != null) {
                     showErrorText(it.message2!!)
-                }else {
+                } else {
                     showErrorText(getString(R.string.serverError))
                 }
             }
@@ -116,7 +118,7 @@ class SellerRateListActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefresh
                 if (sellerRateList.isEmpty()) {
                     showErrorText(getString(R.string.no_Reviews_Found))
                 } else {
-                    tvError.hide()
+                    binding.tvError.hide()
                 }
             } else {
                 showErrorText(sellerRateListResp.message)
@@ -127,32 +129,28 @@ class SellerRateListActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefresh
     }
 
     private fun showErrorText(string: String) {
-        tvError.text = string
-        tvError.show()
+        binding.tvError.text = string
+        binding.tvError.show()
     }
 
     override fun onRefresh() {
-        swipe_to_refresh.isRefreshing = false
+        binding.swipeToRefresh.isRefreshing = false
         sellerRateList.clear()
         sellerRateAdapter.notifyDataSetChanged()
         productDetialsViewModel.getSellerRates(providerId, businessAccountId)
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK && requestCode == addSellerReviewRequestCode) {
-            var addRateItem: AddRateItem? = data?.getParcelableExtra(ConstantObjects.rateObjectKey)
             var editRate = data?.getBooleanExtra(ConstantObjects.editRateKey, false)
             if (editRate == true) {
-//                addRateItem?.let {
-//                    searchForEditRate(addRateItem)
-//                }
-
             } else {
-                productDetialsViewModel.getSellerRates(providerId,businessAccountId)
+                productDetialsViewModel.getSellerRates(providerId, businessAccountId)
             }
         }
-
     }
+
     override fun onDestroy() {
         super.onDestroy()
         productDetialsViewModel.closeAllCall()

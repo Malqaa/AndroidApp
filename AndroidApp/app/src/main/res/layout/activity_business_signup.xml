@@ -217,7 +217,6 @@
                             app:ccp_contentColor="@color/text_color"
                             app:ccp_defaultNameCode="SA"
                             app:ccp_hintExampleNumber="false"
-                            app:ccp_hintExampleNumberFormat="NATIONAL"
                             app:ccp_hintExampleNumberType="MOBILE"
                             app:ccp_rememberLastSelection="false"
                             app:ccp_showNameCode="false"

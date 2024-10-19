@@ -9,8 +9,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.AddressListActivityBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
-import com.malqaa.androidappp.newPhase.utils.helper.*
 import com.malqaa.androidappp.newPhase.domain.models.userAddressesResp.AddressItem
 import com.malqaa.androidappp.newPhase.presentation.activities.addressUser.AddressViewModel
 import com.malqaa.androidappp.newPhase.presentation.activities.addressUser.addAddressActivity.AddAddressActivity
@@ -20,13 +20,11 @@ import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.linearLayoutManager
 import com.malqaa.androidappp.newPhase.utils.show
 
-import kotlinx.android.synthetic.main.address_list_activity.*
-import kotlinx.android.synthetic.main.address_list_activity.swipe_to_refresh
-import kotlinx.android.synthetic.main.toolbar_main.*
-
 @SuppressLint("NotifyDataSetChanged")
-class ListAddressesActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
+class ListAddressesActivity : BaseActivity<AddressListActivityBinding>(),
+    SwipeRefreshLayout.OnRefreshListener,
     AddressesAdapter.SetOnSelectedAddress {
+
     private lateinit var addressViewModel: AddressViewModel
     private lateinit var userAddressesList: ArrayList<AddressItem>
     private lateinit var addressesAdapter: AddressesAdapter
@@ -43,10 +41,14 @@ class ListAddressesActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListen
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.address_list_activity)
-        toolbar_title.text = getString(R.string.addresses)
-        swipe_to_refresh.setColorSchemeResources(R.color.colorPrimaryDark)
-        swipe_to_refresh.setOnRefreshListener(this)
+
+        // Initialize view binding
+        binding = AddressListActivityBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.toolbarMain.toolbarTitle.text = getString(R.string.addresses)
+        binding.swipeToRefresh.setColorSchemeResources(R.color.colorPrimaryDark)
+        binding.swipeToRefresh.setOnRefreshListener(this)
         setAddressesAdapter()
         setClickListeners()
         setUpViewModel()
@@ -54,10 +56,10 @@ class ListAddressesActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListen
     }
 
     private fun setClickListeners() {
-        back_btn.setOnClickListener {
+        binding.toolbarMain.backBtn.setOnClickListener {
             onBackPressed()
         }
-        containerAddNewAddress.setOnClickListener {
+        binding.containerAddNewAddress.setOnClickListener {
             addAddressLauncher.launch(Intent(this, AddAddressActivity::class.java))
         }
 
@@ -66,7 +68,7 @@ class ListAddressesActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListen
     private fun setAddressesAdapter() {
         userAddressesList = ArrayList()
         addressesAdapter = AddressesAdapter(userAddressesList, this, false)
-        rvAdddresses.apply {
+        binding.rvAdddresses.apply {
             adapter = addressesAdapter
             layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
         }
@@ -79,9 +81,9 @@ class ListAddressesActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListen
 
         addressViewModel.isLoading.observe(this) {
             if (it)
-                progressBar.show()
+                binding.progressBar.show()
             else
-                progressBar.hide()
+                binding.progressBar.hide()
         }
         addressViewModel.isLoadingDeleteAddress.observe(this) {
             if (it) {
@@ -99,9 +101,9 @@ class ListAddressesActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListen
 
         }
         addressViewModel.errorResponseObserver.observe(this) {
-            if(it.status!=null && it.status=="409"){
+            if (it.status != null && it.status == "409") {
                 HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), this)
-            }else {
+            } else {
                 if (it.message != null) {
                     HelpFunctions.ShowLongToast(it.message!!, this)
                 } else {
@@ -112,12 +114,12 @@ class ListAddressesActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListen
         addressViewModel.userAddressesListObserver.observe(this) { userAddressResp ->
             if (userAddressResp.status_code == 200) {
                 if (userAddressResp.addressesList != null && userAddressResp.addressesList?.isNotEmpty() == true) {
-                    tvError.hide()
+                    binding.tvError.hide()
                     userAddressesList.clear()
                     userAddressesList.addAll(userAddressResp.addressesList!!)
                     addressesAdapter.notifyDataSetChanged()
                 } else {
-                    tvError.show()
+                    binding.tvError.show()
                 }
             }
         }
@@ -126,8 +128,8 @@ class ListAddressesActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListen
                 if (lastSelectedPosition < userAddressesList.size) {
                     userAddressesList.removeAt(lastSelectedPosition)
                     addressesAdapter.notifyDataSetChanged()
-                    if(userAddressesList.isEmpty()){
-                        tvError.show()
+                    if (userAddressesList.isEmpty()) {
+                        binding.tvError.show()
                     }
                 }
             } else {
@@ -142,14 +144,13 @@ class ListAddressesActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListen
     }
 
     override fun onRefresh() {
-        swipe_to_refresh.isRefreshing = false
+        binding.swipeToRefresh.isRefreshing = false
         userAddressesList.clear()
         addressesAdapter.notifyDataSetChanged()
         addressViewModel.getUserAddress()
     }
 
     override fun setOnSelectedAddress(position: Int) {
-        //====not used here
     }
 
     override fun setOnSelectedEditAddress(position: Int) {
@@ -163,6 +164,7 @@ class ListAddressesActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListen
         lastSelectedPosition = position
         addressViewModel.deleteUSerAddress(userAddressesList[position].id)
     }
+
     override fun onDestroy() {
         super.onDestroy()
         addressViewModel.closeAllCall()

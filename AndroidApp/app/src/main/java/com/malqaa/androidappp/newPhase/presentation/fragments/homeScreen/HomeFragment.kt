@@ -20,36 +20,33 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.malqaa.androidappp.R
-import com.malqaa.androidappp.newPhase.presentation.activities.cartActivity.activity1.CartActivity
+import com.malqaa.androidappp.databinding.FragmentHomeeBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
+import com.malqaa.androidappp.newPhase.data.network.service.SetOnProductItemListeners
 import com.malqaa.androidappp.newPhase.domain.models.homeCategoryProductResp.CategoryProductItem
 import com.malqaa.androidappp.newPhase.domain.models.homeSilderResp.HomeSliderItem
 import com.malqaa.androidappp.newPhase.domain.models.productResp.Product
-import com.malqaa.androidappp.newPhase.utils.ConstantObjects
-import com.malqaa.androidappp.newPhase.utils.helper.shared_preferences.SharedPreferencesStaticClass
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.Category
-import com.malqaa.androidappp.newPhase.presentation.adapterShared.ProductHorizontalAdapter
-import com.malqaa.androidappp.newPhase.data.network.service.SetOnProductItemListeners
-import com.malqaa.androidappp.newPhase.domain.models.productResp.ProductListSearchResp
 import com.malqaa.androidappp.newPhase.presentation.MainActivity
+import com.malqaa.androidappp.newPhase.presentation.activities.cartActivity.activity1.CartActivity
+import com.malqaa.androidappp.newPhase.presentation.activities.loginScreen.SignInActivity
+import com.malqaa.androidappp.newPhase.presentation.activities.productDetailsActivity.ProductDetailsActivity
+import com.malqaa.androidappp.newPhase.presentation.activities.searchProductListActivity.browse_market.SearchCategoryActivity
+import com.malqaa.androidappp.newPhase.presentation.activities.splashActivity.SplashActivity
+import com.malqaa.androidappp.newPhase.presentation.adapterShared.ProductHorizontalAdapter
 import com.malqaa.androidappp.newPhase.presentation.fragments.homeScreen.adapters.AdapterAllCategories
 import com.malqaa.androidappp.newPhase.presentation.fragments.homeScreen.adapters.CategoryProductAdapter
 import com.malqaa.androidappp.newPhase.presentation.fragments.homeScreen.adapters.SliderAdaptor
 import com.malqaa.androidappp.newPhase.presentation.fragments.homeScreen.viewModel.HomeViewModel
-import com.malqaa.androidappp.newPhase.presentation.activities.loginScreen.SignInActivity
-import com.malqaa.androidappp.newPhase.presentation.activities.searchProductListActivity.browse_market.SearchCategoryActivity
-import com.malqaa.androidappp.newPhase.presentation.activities.productDetailsActivity.ProductDetailsActivity
-import com.malqaa.androidappp.newPhase.presentation.activities.searchActivity.SearchActivity
-import com.malqaa.androidappp.newPhase.presentation.activities.splashActivity.SplashActivity
+import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects.Companion.categoryList
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
+import com.malqaa.androidappp.newPhase.utils.helper.shared_preferences.SharedPreferencesStaticClass
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.linearLayoutManager
 import com.malqaa.androidappp.newPhase.utils.show
 import com.yariksoffice.lingver.Lingver
 import io.paperdb.Paper
-import kotlinx.android.synthetic.main.activity_sign_in.language_toggle
-import kotlinx.android.synthetic.main.fragment_homee.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -57,6 +54,10 @@ import kotlinx.coroutines.withContext
 class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnItemClickListener,
     SwipeRefreshLayout.OnRefreshListener, SetOnProductItemListeners,
     CategoryProductAdapter.SetOnSelectedProductInCategory, ListenerSlider {
+
+    private var _binding: FragmentHomeeBinding? = null
+    private val binding get() = _binding!!
+
     private var dotscount = 0
     private var homeViewModel: HomeViewModel? = null
     private var dots: ArrayList<ImageView>? = null
@@ -72,6 +73,9 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        _binding = FragmentHomeeBinding.bind(view) // Initialize View Binding
+
         dots = arrayListOf()
         settingUpView()
         setListener()
@@ -86,12 +90,12 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
         }
 
         if (ConstantObjects.currentLanguage == ConstantObjects.ENGLISH) {
-            language_toggle.checkedTogglePosition = 0
+            binding.languageToggle.checkedTogglePosition = 0
         } else {
-            language_toggle.checkedTogglePosition = 1
+            binding.languageToggle.checkedTogglePosition = 1
         }
 
-        language_toggle.setOnToggleSwitchChangeListener { position, isChecked ->
+        binding.languageToggle.setOnToggleSwitchChangeListener { position, isChecked ->
             if (Paper.book().read(SharedPreferencesStaticClass.islogin, false) == true)
                 homeViewModel?.setLanguageChange(
                     if (Lingver.getInstance()
@@ -111,7 +115,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
 
         // view all categories
-        textViewAll.setOnClickListener {
+        binding.textViewAll.setOnClickListener {
             // Navigate to CategoriesFragment or CategoriesActivity
             val action = HomeFragmentDirections.actionNavigationHomeToCategoriesFragment()
             findNavController().navigate(action)
@@ -134,22 +138,22 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
     }
 
     private fun settingUpView() {
-        swipe_to_refresh.setColorSchemeResources(R.color.colorPrimaryDark)
-        swipe_to_refresh.setOnRefreshListener(this)
+        binding.swipeToRefresh.setColorSchemeResources(R.color.colorPrimaryDark)
+        binding.swipeToRefresh.setOnRefreshListener(this)
         if (Lingver.getInstance().getLanguage() == ConstantObjects.ARABIC) {
-            ivNewImage.scaleX = 1f
+            binding.ivNewImage.scaleX = 1f
         } else {
-            ivNewImage.scaleX = -1f
+            binding.ivNewImage.scaleX = -1f
         }
 
-        containerLastView.hide()
+        binding.containerLastView.hide()
     }
 
     private fun setupLastViewedPorductsAdapter() {
         lastviewedPorductList = ArrayList()
         lastviewedPorductAdatper =
             ProductHorizontalAdapter(lastviewedPorductList ?: arrayListOf(), this, 0, true)
-        rvLastViewedProducts.apply {
+        binding.rvLastViewedProducts.apply {
             adapter = lastviewedPorductAdatper
             layoutManager = linearLayoutManager(RecyclerView.HORIZONTAL)
         }
@@ -160,7 +164,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
         categoryProductHomeList = ArrayList()
         categoryPrductAdapter =
             CategoryProductAdapter(categoryProductHomeList ?: arrayListOf(), this)
-        dynamic_product_rcv.apply {
+        binding.dynamicProductRcv.apply {
             adapter = categoryPrductAdapter
             layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
         }
@@ -176,9 +180,9 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
         })
         homeViewModel?.isLoadingAllCategory?.observe(viewLifecycleOwner, Observer {
             if (it)
-                progressBarAllCAtegory.show()
+                binding.progressBarAllCAtegory.show()
             else
-                progressBarAllCAtegory.hide()
+                binding.progressBarAllCAtegory.hide()
         })
 
         homeViewModel!!.isNetworkFail.observe(viewLifecycleOwner, Observer {
@@ -218,11 +222,8 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
             if (homeSliderResp != null) {
                 if (homeSliderResp.status_code == 200) {
                     homeSliderResp.sliderList?.let {
-                        //var sliderList: ArrayList<HomeSliderResp> = Gson().fromJson(Gson().toJson(userLoginResp.data), object : TypeToken<ArrayList<Slider>>() {}.type)
                         setPagerDots(it)
                     }
-
-
                 }
             }
         })
@@ -232,14 +233,13 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
                 Gson().toJson(categoriesResp.data),
                 object : TypeToken<ArrayList<Category>>() {}.type
             )
-            all_categories_recycler.adapter = AdapterAllCategories(
+            binding.allCategoriesRecycler.adapter = AdapterAllCategories(
                 categoryList,
                 this@HomeFragment
             )
             homeViewModel!!.getListHomeCategoryProduct()
         }
         homeViewModel!!.categoriesErrorResponseObserver.observe(viewLifecycleOwner) {
-            //HelpFunctions.ShowLongToast(getString(R.string.NoCategoriesfound), context)
             if (it.status != null && it.status == "409") {
                 HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), requireActivity())
             } else {
@@ -277,12 +277,12 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
         homeViewModel!!.lastViewProductsObserver.observe(viewLifecycleOwner) { productListResp ->
             if (productListResp.productList != null) {
                 if (productListResp.productList.isNotEmpty()) {
-                    containerLastView.show()
+                    binding.containerLastView.show()
                     (lastviewedPorductList ?: arrayListOf()).clear()
                     (lastviewedPorductList ?: arrayListOf()).addAll(productListResp.productList)
                     lastviewedPorductAdatper!!.notifyDataSetChanged()
                 } else {
-                    containerLastView.hide()
+                    binding.containerLastView.hide()
                 }
             }
 
@@ -346,7 +346,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
                                     if (changedCategoryItemPosition != -1 && changedProductItemPosition != -1) {
                                         // 1. get ith item of the parent recyclerView
                                         val ithChildViewHolder: CategoryProductAdapter.CategoryProductHolder =
-                                            dynamic_product_rcv.findViewHolderForAdapterPosition(
+                                            binding.dynamicProductRcv.findViewHolderForAdapterPosition(
                                                 changedCategoryItemPosition
                                             ) as CategoryProductAdapter.CategoryProductHolder
                                         val ithChildsRecyclerView: RecyclerView =
@@ -430,7 +430,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
                                     if (changedCategoryItemPosition != -1 && changedProductItemPosition != -1) {
                                         // 1. get ith item of the parent recyclerView
                                         val ithChildViewHolder: CategoryProductAdapter.CategoryProductHolder =
-                                            dynamic_product_rcv.findViewHolderForAdapterPosition(
+                                            binding.dynamicProductRcv.findViewHolderForAdapterPosition(
                                                 changedCategoryItemPosition
                                             ) as CategoryProductAdapter.CategoryProductHolder
                                         val ithChildsRecyclerView: RecyclerView =
@@ -469,7 +469,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
     }
 
     private fun setListener() {
-        ivCart.setOnClickListener {
+        binding.ivCart.setOnClickListener {
             if (ConstantObjects.logged_userid.isEmpty()) {
                 startActivity(Intent(context, SignInActivity::class.java).apply {
                 })
@@ -477,24 +477,25 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
                 startActivity(Intent(context, CartActivity::class.java))
             }
         }
-        ivSearchIcon.setOnClickListener {
-            if (etSearch.text.trim().toString() == "") {
-                etSearch.error = getString(R.string.enter_the_name_of_the_product_you_want_to_sell)
+        binding.ivSearchIcon.setOnClickListener {
+            if (binding.etSearch.text.trim().toString() == "") {
+                binding.etSearch.error =
+                    getString(R.string.enter_the_name_of_the_product_you_want_to_sell)
             } else {
                 startActivity(Intent(requireContext(), SearchCategoryActivity::class.java).apply {
                     putExtra("ComeFrom", ConstantObjects.search_product)
-                    putExtra("productName", etSearch.text.trim().toString())
+                    putExtra("productName", binding.etSearch.text.trim().toString())
                     putExtra("typeView", "SearchHome")
 
                 })
-                etSearch.setText("")
+                binding.etSearch.setText("")
             }
         }
-        etSearch.setOnEditorActionListener(object : TextView.OnEditorActionListener {
+        binding.etSearch.setOnEditorActionListener(object : TextView.OnEditorActionListener {
             override fun onEditorAction(p0: TextView?, actionId: Int, p2: KeyEvent?): Boolean {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    if (etSearch.text.trim().toString() == "") {
-                        etSearch.error =
+                    if (binding.etSearch.text.trim().toString() == "") {
+                        binding.etSearch.error =
                             getString(R.string.enter_the_name_of_the_product_you_want_to_sell)
                     } else {
                         startActivity(
@@ -503,10 +504,10 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
                                 SearchCategoryActivity::class.java
                             ).apply {
                                 putExtra("ComeFrom", ConstantObjects.search_product)
-                                putExtra("productName", etSearch.text.trim().toString())
+                                putExtra("productName", binding.etSearch.text.trim().toString())
                                 putExtra("typeView", "SearchHome")
                             })
-                        etSearch.setText("")
+                        binding.etSearch.setText("")
                     }
                     return true
                 }
@@ -515,18 +516,18 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
 
         })
 
-        textInputLayout11.onClickListener {
+        binding.textInputLayout11.onClickListener {
             startActivity(Intent(requireContext(), SearchCategoryActivity::class.java).apply {
                 putExtra("ComeFrom", ConstantObjects.search_product)
                 putExtra("productName", it.name)
             })
-            (requireActivity() as BaseActivity).hideSoftKeyboard(textInputLayout11._view2())
+            (requireActivity() as BaseActivity<*>).hideSoftKeyboard(binding.textInputLayout11._view2())
         }
-        textInputLayout11._onChange { query ->
+        binding.textInputLayout11._onChange { query ->
             if (query.isNotEmpty()) {
                 homeViewModel?.doSearch(mapOf("productName" to query))
             } else {
-                textInputLayout11.updateList(arrayListOf())
+                binding.textInputLayout11.updateList(arrayListOf())
             }
         }
     }
@@ -544,30 +545,28 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
 
     private fun setPagerDots(list: List<HomeSliderItem>) {
         if (list.isNotEmpty()) {
-            sliderLayout.show()
+            binding.sliderLayout.show()
             val viewPagerAdapter = SliderAdaptor(requireContext(), list, false, this)
-            slider_home.adapter = viewPagerAdapter
-            dots_indicator.attachTo(slider_home)
-            slider_home.startAutoScroll()
+            binding.sliderHome.adapter = viewPagerAdapter
+            binding.dotsIndicator.attachTo(binding.sliderHome)
+            binding.sliderHome.startAutoScroll()
         }
     }
 
     override fun onRefresh() {
-        swipe_to_refresh.isRefreshing = false
+        binding.swipeToRefresh.isRefreshing = false
         dotscount = 0
         dots?.clear()
-        SliderDots.removeAllViews()
+        binding.SliderDots.removeAllViews()
         homeViewModel?.getSliderData(1)
         homeViewModel?.getAllCategories()
         if (HelpFunctions.isUserLoggedIn()) {
             homeViewModel?.getLastViewedProduct()
-            //  HelpFunctions.GetUserWatchlist()
         }
     }
 
     override fun onProductSelect(position: Int, productId: Int, categoryID: Int) {
         goToProductDetails(productId)
-
     }
 
     override fun onAddProductToFav(position: Int, productId: Int, categoryID: Int) {
@@ -630,10 +629,10 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
     override fun onResume() {
         super.onResume()
         if (SharedPreferencesStaticClass.getCartCount() == 0) {
-            txtCount.hide()
+            binding.txtCount.hide()
         } else {
-            txtCount.show()
-            txtCount.text = SharedPreferencesStaticClass.getCartCount().toString()
+            binding.txtCount.show()
+            binding.txtCount.text = SharedPreferencesStaticClass.getCartCount().toString()
         }
     }
 
@@ -683,7 +682,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
                     if (changedCategoryItemPosition != -1 && changedProductItemPosition != -1) {
                         // 1. get ith item of the parent recyclerView
                         val ithChildViewHolder: CategoryProductAdapter.CategoryProductHolder =
-                            dynamic_product_rcv.findViewHolderForAdapterPosition(
+                            binding.dynamicProductRcv.findViewHolderForAdapterPosition(
                                 changedCategoryItemPosition
                             ) as CategoryProductAdapter.CategoryProductHolder
                         val itChildRecyclerView: RecyclerView =

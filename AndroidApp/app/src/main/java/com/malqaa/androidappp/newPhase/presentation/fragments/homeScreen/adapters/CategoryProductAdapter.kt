@@ -7,16 +7,15 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.malqaa.androidappp.databinding.ParenetCategoryItemBinding
+import com.malqaa.androidappp.newPhase.data.network.service.SetOnProductItemListeners
+import com.malqaa.androidappp.newPhase.domain.models.homeCategoryProductResp.CategoryProductItem
+import com.malqaa.androidappp.newPhase.domain.models.productResp.Product
+import com.malqaa.androidappp.newPhase.presentation.activities.searchProductListActivity.browse_market.SearchCategoryActivity
+import com.malqaa.androidappp.newPhase.presentation.adapterShared.ProductHorizontalAdapter
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
-import com.malqaa.androidappp.newPhase.utils.Extension
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.linearLayoutManager
 import com.malqaa.androidappp.newPhase.utils.show
-import com.malqaa.androidappp.newPhase.domain.models.homeCategoryProductResp.CategoryProductItem
-import com.malqaa.androidappp.newPhase.domain.models.productResp.Product
-import com.malqaa.androidappp.newPhase.presentation.adapterShared.ProductHorizontalAdapter
-import com.malqaa.androidappp.newPhase.data.network.service.SetOnProductItemListeners
-import com.malqaa.androidappp.newPhase.presentation.activities.searchProductListActivity.browse_market.SearchCategoryActivity
 
 class CategoryProductAdapter(
     private var categoryProductHomeList: ArrayList<CategoryProductItem>,
@@ -42,18 +41,10 @@ class CategoryProductAdapter(
     override fun onBindViewHolder(holder: CategoryProductHolder, position: Int) {
         holder.viewBinding.categoryHeaderContainer.show()
         holder.viewBinding.productListLayout.hide()
-//        Extension.loadImgGlide(
-//            context,
-//            categoryProductHomeList[position].image,
-//            holder.viewBinding.categoryIconIv,
-//            null
-//        )
-         holder.viewBinding.detailTv.text = ""
+        holder.viewBinding.detailTv.text = ""
         holder.viewBinding.categoryNameTv.text = categoryProductHomeList[position].name
         holder.viewBinding.categoryNameTv2.text = categoryProductHomeList[position].name
         holder.viewBinding.viewAllCategoriesProduct.setOnClickListener {
-
-
             context.startActivity(Intent(context, SearchCategoryActivity::class.java).apply {
                 putExtra("CategoryDesc", categoryProductHomeList[position].name)
                 putExtra("CategoryID", categoryProductHomeList[position].catId)
@@ -61,8 +52,6 @@ class CategoryProductAdapter(
                 putExtra("SearchQuery", "")
 
             })
-
-
         }
         setHomeProductAdaptor(
             categoryProductHomeList[position].listProducts,
@@ -70,6 +59,7 @@ class CategoryProductAdapter(
             categoryProductHomeList[position].catId
         )
     }
+
     @SuppressLint("SuspiciousIndentation")
     private fun setHomeProductAdaptor(
         product: List<Product>?,
@@ -98,7 +88,6 @@ class CategoryProductAdapter(
     }
 
     override fun onShowMoreSetting(position: Int, productID: Int, categoryID: Int) {
-
     }
 
 

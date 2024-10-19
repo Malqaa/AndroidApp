@@ -4,9 +4,6 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.malqaa.androidappp.R
 import com.malqaa.androidappp.newPhase.core.BaseViewModel
-import com.malqaa.androidappp.newPhase.utils.ConstantObjects
-import com.malqaa.androidappp.newPhase.utils.Extension.requestBody
-import com.malqaa.androidappp.newPhase.utils.helper.shared_preferences.SharedPreferencesStaticClass
 import com.malqaa.androidappp.newPhase.data.network.callApi
 import com.malqaa.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malqaa.androidappp.newPhase.data.network.service.ListenerCallBack
@@ -25,7 +22,10 @@ import com.malqaa.androidappp.newPhase.domain.models.sellerRateListResp.SellerRa
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.GeneralRespone
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
 import com.malqaa.androidappp.newPhase.domain.models.shippingOptionsResp.ShippingOptionResp
+import com.malqaa.androidappp.newPhase.utils.ConstantObjects
+import com.malqaa.androidappp.newPhase.utils.Extension.requestBody
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
+import com.malqaa.androidappp.newPhase.utils.helper.shared_preferences.SharedPreferencesStaticClass
 import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -234,17 +234,8 @@ class ProductDetailsViewModel : BaseViewModel() {
                 shippingOptionObserver.value = it
             },
             onFailure = { throwable, statusCode, errorBody ->
-//                isLoading.value = false
-//                isloadingMore.value = false
-//                if (throwable != null && errorBody == null)
-//                    isNetworkFail.value = throwable !is HttpException
-//                else {
-//                    errorResponseObserver.value =
-//                        getErrorResponse(statusCode, errorBody)
-//                }
             },
             goLogin = {
-//                sellerLoading.value = false
                 needToLogin.value = true
             })
     }
@@ -254,19 +245,9 @@ class ProductDetailsViewModel : BaseViewModel() {
         callProductPaymentOp = getRetrofitBuilder().getProductPaymentOptions(productId)
         callApi(callProductPaymentOp!!,
             onSuccess = {
-//                isLoading.value = false
-//                isloadingMore.value = false
                 paymentOptionObserver.value = it
             },
             onFailure = { throwable, statusCode, errorBody ->
-//                isLoading.value = false
-//                isloadingMore.value = false
-//                if (throwable != null && errorBody == null)
-//                    isNetworkFail.value = throwable !is HttpException
-//                else {
-//                    errorResponseObserver.value =
-//                        getErrorResponse(statusCode, errorBody)
-//                }
             },
             goLogin = {
                 sellerLoading.value = false
@@ -285,14 +266,6 @@ class ProductDetailsViewModel : BaseViewModel() {
                 getCartPrice.value = it
             },
             onFailure = { throwable, statusCode, errorBody ->
-//                isLoading.value = false
-//                isloadingMore.value = false
-//                if (throwable != null && errorBody == null)
-//                    isNetworkFail.value = throwable !is HttpException
-//                else {
-//                    errorResponseObserver.value =
-//                        getErrorResponse(statusCode, errorBody)
-//                }
             },
             goLogin = {
                 sellerLoading.value = false
@@ -350,17 +323,9 @@ class ProductDetailsViewModel : BaseViewModel() {
         callBidsPersons = getRetrofitBuilder().getBidsPersons(productId)
         callApi(callBidsPersons!!,
             onSuccess = {
-//                isLoading.value = false
                 bidsPersonsObserver.value = it
             },
             onFailure = { throwable, statusCode, errorBody ->
-//                isLoading.value = false
-//                if (throwable != null && errorBody == null)
-//                    isNetworkFail.value = throwable !is HttpException
-//                else {
-//                    errorResponseObserver.value =
-//                        getErrorResponse(statusCode, errorBody)
-//                }
             },
             goLogin = {
                 needToLogin.value = true
@@ -379,10 +344,6 @@ class ProductDetailsViewModel : BaseViewModel() {
                 sellerInfoLoadingObservable.value = false
                 if (throwable != null && errorBody == null)
                     isNetworkFail.value = throwable !is HttpException
-//                else {
-//                    errorResponseObserver.value =
-//                        getErrorResponse(statusCode, errorBody)
-//                }
             },
             goLogin = {
                 needToLogin.value = true
@@ -431,10 +392,6 @@ class ProductDetailsViewModel : BaseViewModel() {
                 isLoading.value = false
                 if (throwable != null && errorBody == null)
                     isNetworkFail.value = throwable !is HttpException
-//                else {
-//                    errorResponseObserver.value =
-//                        getErrorResponse(statusCode, errorBody)
-//                }
             },
             goLogin = {
                 needToLogin.value = true
@@ -471,10 +428,6 @@ class ProductDetailsViewModel : BaseViewModel() {
                 isLoading.value = false
                 if (throwable != null && errorBody == null)
                     isNetworkFail.value = throwable !is HttpException
-//                else {
-//                    errorResponseObserver.value =
-//                        getErrorResponse(statusCode, errorBody)
-//                }
             },
             goLogin = {
                 needToLogin.value = true
@@ -535,14 +488,6 @@ class ProductDetailsViewModel : BaseViewModel() {
                 getRateResponseObservable.value = it
             },
             onFailure = { throwable, statusCode, errorBody ->
-//                isLoading.value = false
-//                isloadingMore.value = false
-//                if (throwable != null && errorBody == null)
-//                    isNetworkFail.value = throwable !is HttpException
-//                else {
-//                    errorResponseObserver.value =
-//                        getErrorResponse(statusCode, errorBody)
-//                }
             },
             goLogin = {
                 needToLogin.value = true
@@ -601,7 +546,6 @@ class ProductDetailsViewModel : BaseViewModel() {
             goLogin = {
                 needToLogin.value = true
             })
-
     }
 
     fun addRateProduct(productID: Int, rate: Float, comment: String) {

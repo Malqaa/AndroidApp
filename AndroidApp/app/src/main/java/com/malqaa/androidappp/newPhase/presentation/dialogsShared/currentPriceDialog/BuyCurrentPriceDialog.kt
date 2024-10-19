@@ -1,35 +1,39 @@
 package com.malqaa.androidappp.newPhase.presentation.dialogsShared.currentPriceDialog
 
 import android.content.Context
-import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.DialogBuyCurrentPriceBinding
 import com.malqaa.androidappp.newPhase.core.BaseDialog
-import kotlinx.android.synthetic.main.dialog_buy_current_price.*
 
-class BuyCurrentPriceDialog(context: Context,var totalPrice:String ,var nameProduct:String ,var onAttachedImageMethodSelected:OnAttachedCartMethodSelected
-) : BaseDialog(context) {
+class BuyCurrentPriceDialog(
+    context: Context,
+    var totalPrice: String,
+    var nameProduct: String,
+    var onAttachedImageMethodSelected: OnAttachedCartMethodSelected
+) : BaseDialog<DialogBuyCurrentPriceBinding>(context) {
 
-    override fun getViewId(): Int = R.layout.dialog_buy_current_price
-
+    override fun inflateViewBinding(): DialogBuyCurrentPriceBinding {
+        return DialogBuyCurrentPriceBinding.inflate(layoutInflater)
+    }
 
     override fun isFullScreen(): Boolean = false
 
     override fun isCancelable(): Boolean = true
 
-
     override fun isLoadingDialog(): Boolean = false
 
     override fun initialization() {
-        txt_name.text = nameProduct
-        num_total.text = totalPrice
-        txt_go_cart.setOnClickListener {
+        binding.txtName.text = nameProduct
+        binding.numTotal.text = totalPrice
+        binding.txtGoCart.setOnClickListener {
             onAttachedImageMethodSelected.setOnGoCart()
             dismiss()
         }
-        txt_following.setOnClickListener {
+        binding.txtFollowing.setOnClickListener {
             onAttachedImageMethodSelected.setOnFollowShopping()
             dismiss()
         }
     }
+
     interface OnAttachedCartMethodSelected {
         fun setOnGoCart()
         fun setOnFollowShopping()

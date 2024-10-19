@@ -7,25 +7,24 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.ProductReviews1Binding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
+import com.malqaa.androidappp.newPhase.domain.models.addRateResp.AddRateItem
+import com.malqaa.androidappp.newPhase.domain.models.ratingResp.RateReviewItem
+import com.malqaa.androidappp.newPhase.domain.models.servicemodels.Reviewmodel
+import com.malqaa.androidappp.newPhase.presentation.activities.loginScreen.SignInActivity
+import com.malqaa.androidappp.newPhase.presentation.activities.productDetailsActivity.viewModels.ProductDetailsViewModel
+import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.linearLayoutManager
 import com.malqaa.androidappp.newPhase.utils.show
-import com.malqaa.androidappp.newPhase.domain.models.addRateResp.AddRateItem
-import com.malqaa.androidappp.newPhase.domain.models.ratingResp.RateReviewItem
-import com.malqaa.androidappp.newPhase.utils.ConstantObjects
-import com.malqaa.androidappp.newPhase.domain.models.servicemodels.Reviewmodel
-import com.malqaa.androidappp.newPhase.presentation.activities.loginScreen.SignInActivity
-import com.malqaa.androidappp.newPhase.presentation.activities.productDetailsActivity.viewModels.ProductDetailsViewModel
-import kotlinx.android.synthetic.main.product_reviews1.*
-import kotlinx.android.synthetic.main.toolbar_main.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class ProductReviewsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener {
-
+class ProductReviewsActivity : BaseActivity<ProductReviews1Binding>(),
+    SwipeRefreshLayout.OnRefreshListener {
 
     private val list: ArrayList<Reviewmodel> = ArrayList()
     private var addReviewRequestrCode = 1000
@@ -33,20 +32,25 @@ class ProductReviewsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     lateinit var mainRatesList: ArrayList<RateReviewItem>
     var productId = 0
     private lateinit var productDetialsViewModel: ProductDetailsViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.product_reviews1)
+
+        // Initialize view binding
+        binding = ProductReviews1Binding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         productId = intent.getIntExtra(ConstantObjects.productIdKey, 0)
-        swipe_to_refresh.setColorSchemeResources(R.color.colorPrimaryDark)
-        swipe_to_refresh.setOnRefreshListener(this)
+        binding.swipeToRefresh.setColorSchemeResources(R.color.colorPrimaryDark)
+        binding.swipeToRefresh.setOnRefreshListener(this)
         setReviewsAdapter()
-        toolbar_title.text = getString(R.string.reviews)
+        binding.toolbarMain.toolbarTitle.text = getString(R.string.reviews)
         setProductDetailsViewModel()
         onRefresh()
-        back_btn.setOnClickListener {
+        binding.toolbarMain.backBtn.setOnClickListener {
             finish()
         }
-        floatingActionButtonBottm.setOnClickListener {
+        binding.floatingActionButtonBottm.setOnClickListener {
             if (HelpFunctions.isUserLoggedIn()) {
                 startActivityForResult(Intent(this, AddRateProductActivity::class.java).apply {
                     putExtra(ConstantObjects.productIdKey, productId)
@@ -62,9 +66,9 @@ class ProductReviewsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         productDetialsViewModel = ViewModelProvider(this).get(ProductDetailsViewModel::class.java)
         productDetialsViewModel.isLoading.observe(this) {
             if (it)
-                progressBar.show()
+                binding.progressBar.show()
             else
-                progressBar.hide()
+                binding.progressBar.hide()
         }
         productDetialsViewModel.isNetworkFail.observe(this) {
             if (it) {
@@ -75,15 +79,14 @@ class ProductReviewsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
         }
         productDetialsViewModel.errorResponseObserver.observe(this) {
-            if(it.status!=null && it.status=="409"){
+            if (it.status != null && it.status == "409") {
                 HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), this)
-            }else {
+            } else {
                 if (it.message != null) {
                     showErrorText(it.message!!)
                 } else if (it.message2 != null) {
                     showErrorText(it.message2!!)
-                }
-                    else {
+                } else {
                     showErrorText(getString(R.string.serverError))
                 }
             }
@@ -98,7 +101,7 @@ class ProductReviewsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                 if (mainRatesList.isEmpty()) {
                     showErrorText(getString(R.string.no_Reviews_Found))
                 } else {
-                    tvError.hide()
+                    binding.tvError.hide()
                 }
             } else {
                 showErrorText(rateListResp.message)
@@ -109,21 +112,21 @@ class ProductReviewsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     }
 
     private fun showErrorText(string: String) {
-        tvError.text = string
-        tvError.show()
+        binding.tvError.text = string
+        binding.tvError.show()
     }
 
     private fun setReviewsAdapter() {
         mainRatesList = ArrayList()
         reviewsadapter = RateAdapter(this, mainRatesList)
-        rvAllReviews.apply {
+        binding.rvAllReviews.apply {
             layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
             adapter = reviewsadapter
         }
     }
 
     override fun onRefresh() {
-        swipe_to_refresh.isRefreshing = false
+        binding.swipeToRefresh.isRefreshing = false
         mainRatesList.clear()
         reviewsadapter.notifyDataSetChanged()
         productDetialsViewModel.getProductRatesForActivity(productId)
@@ -162,13 +165,11 @@ class ProductReviewsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                 if (selectedIndex != -1)
                     reviewsadapter.notifyItemChanged(selectedIndex)
             }
-
         }
     }
+
     override fun onDestroy() {
         super.onDestroy()
         productDetialsViewModel.closeAllCall()
     }
 }
-
-

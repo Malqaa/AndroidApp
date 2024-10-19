@@ -13,7 +13,7 @@ class NotificationAdapter(private var itemList: ArrayList<NotifyOut>) :
         parent: ViewGroup,
         viewType: Int
     ): NotificationViewHolder {
-      return  NotificationViewHolder(
+        return NotificationViewHolder(
             NotificationFragmentDesignBinding
                 .inflate(LayoutInflater.from(parent.context), parent, false)
         )
@@ -26,12 +26,12 @@ class NotificationAdapter(private var itemList: ArrayList<NotifyOut>) :
         holder: NotificationViewHolder,
         position: Int
     ) {
-        holder.viewBinding.title.text=itemList[position].title
-        holder.viewBinding.txtBody.text=itemList[position].body
+        holder.viewBinding.title.text = itemList[position].title
+        holder.viewBinding.txtBody.text = itemList[position].body
     }
 
-    fun updateAdapter( itemList: ArrayList<NotifyOut>){
-        this.itemList=itemList
+    fun updateAdapter(itemList: ArrayList<NotifyOut>) {
+        this.itemList = itemList
         notifyDataSetChanged()
     }
 

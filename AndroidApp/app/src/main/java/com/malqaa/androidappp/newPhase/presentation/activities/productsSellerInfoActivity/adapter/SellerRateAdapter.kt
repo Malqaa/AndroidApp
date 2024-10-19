@@ -9,10 +9,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.malqaa.androidappp.R
-import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.domain.models.sellerRateListResp.SellerRateItem
+import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import de.hdodenhof.circleimageview.CircleImageView
-import kotlinx.android.synthetic.main.activity_product_details_item_2.ivRateSeller
 
 class SellerRateAdapter(
     val context: Context,

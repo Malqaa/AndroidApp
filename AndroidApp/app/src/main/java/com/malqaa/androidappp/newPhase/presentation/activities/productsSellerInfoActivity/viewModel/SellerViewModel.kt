@@ -26,8 +26,9 @@ class SellerViewModel : BaseViewModel() {
             isloadingMore.value = true
 
         getRetrofitBuilder()
-            .getListSellerProducts(page,sellerProviderID,businessAccountId)
-        callSellerListProduct=  getRetrofitBuilder().getListSellerProducts(page,sellerProviderID, businessAccountId)
+            .getListSellerProducts(page, sellerProviderID, businessAccountId)
+        callSellerListProduct =
+            getRetrofitBuilder().getListSellerProducts(page, sellerProviderID, businessAccountId)
         callApi(callSellerListProduct!!,
             onSuccess = {
                 isLoading.value = false
@@ -51,12 +52,13 @@ class SellerViewModel : BaseViewModel() {
 
     }
 
-    fun addSellerToFav(sellerProviderID:String?,businessAccountId:String?){
+    fun addSellerToFav(sellerProviderID: String?, businessAccountId: String?) {
         sellerLoading.value = true
         getRetrofitBuilder()
             .addFavoriteSeller(sellerProviderID, businessAccountId)
 
-        callAddSellerToFav=  getRetrofitBuilder().addFavoriteSeller(sellerProviderID, businessAccountId)
+        callAddSellerToFav =
+            getRetrofitBuilder().addFavoriteSeller(sellerProviderID, businessAccountId)
         callApi(callAddSellerToFav!!,
             onSuccess = {
                 sellerLoading.value = false
@@ -77,10 +79,12 @@ class SellerViewModel : BaseViewModel() {
             })
 
     }
-    fun removeSellerToFav(sellerProviderID:String?,businessAccountId:String?){
+
+    fun removeSellerToFav(sellerProviderID: String?, businessAccountId: String?) {
         sellerLoading.value = true
 
-        callRemoveSellerToFav=  getRetrofitBuilder().removeFavoriteSeller(sellerProviderID, businessAccountId)
+        callRemoveSellerToFav =
+            getRetrofitBuilder().removeFavoriteSeller(sellerProviderID, businessAccountId)
         callApi(callRemoveSellerToFav!!,
             onSuccess = {
                 sellerLoading.value = false

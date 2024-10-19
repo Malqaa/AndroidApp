@@ -6,11 +6,11 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.malqaa.androidappp.databinding.ItemCountryCityInFilterBinding
+import com.malqaa.androidappp.newPhase.domain.models.countryResp.Country
+import com.malqaa.androidappp.newPhase.domain.models.regionsResp.Region
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.linearLayoutManager
 import com.malqaa.androidappp.newPhase.utils.show
-import com.malqaa.androidappp.newPhase.domain.models.countryResp.Country
-import com.malqaa.androidappp.newPhase.domain.models.regionsResp.Region
 
 class CountryFilterAdapter(
     var mainCountriesList: ArrayList<Country>,

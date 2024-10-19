@@ -11,7 +11,7 @@ import androidx.core.content.ContextCompat
 import com.malqaa.androidappp.R
 import com.malqaa.androidappp.newPhase.domain.models.productResp.CategoriesSearchItem
 
-class CategorySearchFilterSpinnerAdapter (
+class CategorySearchFilterSpinnerAdapter(
     var context: Context,
     var categories: List<CategoriesSearchItem>,
 ) : BaseAdapter() {
@@ -25,7 +25,7 @@ class CategorySearchFilterSpinnerAdapter (
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val convertView = layoutInflater.inflate(R.layout.item_type_spinner, parent, false)
         val tvTypeName: TextView = convertView.findViewById(R.id.tvTypeName)
-        tvTypeName.text =categories[position].name?:""
+        tvTypeName.text = categories[position].name ?: ""
         return convertView
     }
 

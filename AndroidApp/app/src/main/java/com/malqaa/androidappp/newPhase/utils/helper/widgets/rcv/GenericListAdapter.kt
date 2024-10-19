@@ -1,4 +1,5 @@
 package com.malqaa.androidappp.newPhase.utils.helper.widgets.rcv
+
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filterable
@@ -7,13 +8,13 @@ import com.malqaa.androidappp.newPhase.utils.helper.BaseItemCallback
 import com.malqaa.androidappp.newPhase.utils.helper.BaseViewHolder
 
 abstract class GenericListAdapter<T : Any>(
-     val layoutId: Int,
-    inline val bind: (item: T, holder: BaseViewHolder, itemCount: Int,position:Int, ) -> Unit
+    val layoutId: Int,
+    inline val bind: (item: T, holder: BaseViewHolder, itemCount: Int, position: Int) -> Unit
 ) : ListAdapter<T, BaseViewHolder>(
     BaseItemCallback<T>()
-),Filterable {
+), Filterable {
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
-        bind(getItem(position), holder, itemCount,position)
+        bind(getItem(position), holder, itemCount, position)
     }
 
     override fun getItemViewType(position: Int) = layoutId
@@ -27,5 +28,6 @@ abstract class GenericListAdapter<T : Any>(
     fun updateAdapter(list: List<T>) {
         submitList(list)
     }
+
     override fun getItemCount() = currentList.size
 }

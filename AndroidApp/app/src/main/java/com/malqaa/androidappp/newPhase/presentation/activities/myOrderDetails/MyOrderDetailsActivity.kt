@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.ActivityOrderDetailsBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
 import com.malqaa.androidappp.newPhase.domain.models.orderDetailsByMasterID.OrderDetailsByMasterIDData
 import com.malqaa.androidappp.newPhase.domain.models.orderDetailsByMasterID.OrderDetailsByMasterIDResp
@@ -20,26 +21,9 @@ import com.malqaa.androidappp.newPhase.utils.downloadFile
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.linearLayoutManager
 import com.malqaa.androidappp.newPhase.utils.show
-import kotlinx.android.synthetic.main.activity_order_details.discount_tv
-import kotlinx.android.synthetic.main.activity_order_details.mainContainer
-import kotlinx.android.synthetic.main.activity_order_details.order_number_tv
-import kotlinx.android.synthetic.main.activity_order_details.order_status_tv
-import kotlinx.android.synthetic.main.activity_order_details.order_time_tv
-import kotlinx.android.synthetic.main.activity_order_details.progressBar
-import kotlinx.android.synthetic.main.activity_order_details.rvCurentOrder
-import kotlinx.android.synthetic.main.activity_order_details.shipments_tv
-import kotlinx.android.synthetic.main.activity_order_details.subtotal_tv
-import kotlinx.android.synthetic.main.activity_order_details.swipe_to_refresh
-import kotlinx.android.synthetic.main.activity_order_details.total_order_tv
-import kotlinx.android.synthetic.main.activity_order_details.total_tv
-import kotlinx.android.synthetic.main.activity_order_details.tvClientAddress
-import kotlinx.android.synthetic.main.activity_order_details.tvClientPhone
-import kotlinx.android.synthetic.main.activity_order_details.tvError
-import kotlinx.android.synthetic.main.activity_order_details.tv_request_type
-import kotlinx.android.synthetic.main.toolbar_main.back_btn
-import kotlinx.android.synthetic.main.toolbar_main.toolbar_title
 
-class MyOrderDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
+class MyOrderDetailsActivity : BaseActivity<ActivityOrderDetailsBinding>(),
+    SwipeRefreshLayout.OnRefreshListener,
     CurrentOrderAdapter.SetOnClickListeners {
 
     lateinit var myOrdersViewModel: MyOrdersViewModel
@@ -53,44 +37,49 @@ class MyOrderDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     private var tapId: Int = 1
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_order_details)
-        toolbar_title.text = getString(R.string.order_details)
+
+        // Initialize view binding
+        binding = ActivityOrderDetailsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.toolbarMain.toolbarTitle.text = getString(R.string.order_details)
         orderId = intent.getIntExtra(ConstantObjects.orderNumberKey, 0)
         tapId = intent.getIntExtra(ConstantObjects.orderTypeKey, 1)
         orderItem = intent.getParcelableExtra(ConstantObjects.orderItemKey)
         setOrderDetails(orderItem)
-        swipe_to_refresh.setColorSchemeResources(R.color.colorPrimaryDark)
-        swipe_to_refresh.setOnRefreshListener(this)
+        binding.swipeToRefresh.setColorSchemeResources(R.color.colorPrimaryDark)
+        binding.swipeToRefresh.setOnRefreshListener(this)
         setOrderDetailsAdapter()
         setupViewModel()
         onRefresh()
-        back_btn.setOnClickListener {
+        binding.toolbarMain.backBtn.setOnClickListener {
             onBackPressed()
         }
     }
 
     private fun setOrderDetails(orderItem: OrderItem?) {
         orderItem?.let {
-            order_number_tv.text = "#${orderItem.orderMasterId}"
+            binding.orderNumberTv.text = "#${orderItem.orderMasterId}"
 
             if (orderItem.requestType?.lowercase().equals("FixedPrice".lowercase())) {
-                tv_request_type.text = getString(R.string.fixed_price)
+                binding.tvRequestType.text = getString(R.string.fixed_price)
             } else if (orderItem.requestType?.lowercase().equals("Negotiation".lowercase())) {
-                tv_request_type.text = getString(R.string.Negotiation)
+                binding.tvRequestType.text = getString(R.string.Negotiation)
             } else if (orderItem.requestType?.lowercase().equals("Auction".lowercase())) {
-                tv_request_type.text = getString(R.string.auction)
+                binding.tvRequestType.text = getString(R.string.auction)
             }
-            order_time_tv.text =
+            binding.orderTimeTv.text =
                 HelpFunctions.getViewFormatForDateTrack(orderItem.createdAt, "dd/MM/yyyy HH:mm:ss")
-            shipments_tv.text = orderItem.providersCount.toString()
-            total_order_tv.text = "${orderItem.totalOrderAmountAfterDiscount} ${getString(R.string.rial)}"
+            binding.shipmentsTv.text = orderItem.providersCount.toString()
+            binding.totalOrderTv.text =
+                "${orderItem.totalOrderAmountAfterDiscount} ${getString(R.string.rial)}"
         }
     }
 
     private fun setOrderDetailsAdapter() {
         orderFullInfoDtoList = ArrayList<OrderFullInfoDto>()
         currentOrderAdapter = CurrentOrderAdapter(orderFullInfoDtoList, this)
-        rvCurentOrder.apply {
+        binding.rvCurentOrder.apply {
             adapter = currentOrderAdapter
             layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
         }
@@ -100,9 +89,9 @@ class MyOrderDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         myOrdersViewModel = ViewModelProvider(this).get(MyOrdersViewModel::class.java)
         myOrdersViewModel.isLoading.observe(this) {
             if (it)
-                progressBar.show()
+                binding.progressBar.show()
             else
-                progressBar.hide()
+                binding.progressBar.hide()
         }
         myOrdersViewModel.isNetworkFail.observe(this) {
             if (it) {
@@ -150,10 +139,9 @@ class MyOrderDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         }
         myOrdersViewModel.currentOrderByMusterIdRespObserver.observe(this) { resp ->
             if (resp.status_code == 200) {
-                mainContainer.show()
+                binding.mainContainer.show()
                 orderDetailsByMasterIDResp = resp
-
-                order_status_tv.text = resp.orderDetailsByMasterIDData?.status.toString()
+                binding.orderStatusTv.text = resp.orderDetailsByMasterIDData?.status.toString()
 
                 setCurrentOrderData(orderDetailsByMasterIDResp.orderDetailsByMasterIDData)
             } else {
@@ -182,20 +170,20 @@ class MyOrderDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
     private fun setCurrentOrderData(orderDetailsByMasterIDData: OrderDetailsByMasterIDData?) {
         orderDetailsByMasterIDData?.let {
-            order_number_tv.text = it.orderMasterId.toString()
+            binding.orderNumberTv.text = it.orderMasterId.toString()
             if (it.totalOrderMasterAmountAfterDiscount != null) {
-                total_tv.text =
+                binding.totalTv.text =
                     orderDetailsByMasterIDData.totalOrderMasterAmountAfterDiscount!!.toString()
             }
 
             if (it.totalOrderMasterAmountBeforDiscount != null) {
-                subtotal_tv.text =
+                binding.subtotalTv.text =
                     orderDetailsByMasterIDData.totalOrderMasterAmountBeforDiscount.toString()
-                total_tv.text =
+                binding.totalTv.text =
                     orderDetailsByMasterIDData.totalOrderMasterAmountBeforDiscount.toString()
             }
             if (it.totalOrderMasterAmountAfterDiscount != null && it.totalOrderMasterAmountBeforDiscount != null) {
-                discount_tv.text =
+                binding.discountTv.text =
                     (it.totalOrderMasterAmountBeforDiscount - orderDetailsByMasterIDData.totalOrderMasterAmountAfterDiscount!!).toString()
             }
 
@@ -207,27 +195,23 @@ class MyOrderDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             currentOrderAdapter.notifyDataSetChanged()
         }
         if (orderFullInfoDtoList.isNotEmpty()) {
-            tvClientAddress.text = orderFullInfoDtoList[0].shippingAddress ?: ""
-            tvClientPhone.text = orderFullInfoDtoList[0].phoneNumber ?: ""
+            binding.tvClientAddress.text = orderFullInfoDtoList[0].shippingAddress ?: ""
+            binding.tvClientPhone.text = orderFullInfoDtoList[0].phoneNumber ?: ""
         }
 
     }
 
     private fun showApiError(messaage: String) {
-        tvError.text = messaage
-        tvError.show()
-        mainContainer.hide()
+        binding.tvError.text = messaage
+        binding.tvError.show()
+        binding.mainContainer.hide()
     }
 
     override fun onRefresh() {
-        swipe_to_refresh.isRefreshing = false
-        tvError.hide()
-        mainContainer.hide()
-        //if (tapId == 1) {
+        binding.swipeToRefresh.isRefreshing = false
+        binding.tvError.hide()
+        binding.mainContainer.hide()
         myOrdersViewModel.getCurrentOrderDetailsByMasterID(orderId)
-//        } else {
-//
-//        }
     }
 
     override fun onDownloadInvoiceSelected(position: Int) {
@@ -241,7 +225,6 @@ class MyOrderDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     }
 
     override fun onAddRateToShipmentSelected(position: Int) {
-
         startActivity(Intent(this, ShipmentRateActivity::class.java).apply {
             putExtra(
                 ConstantObjects.shipmentOrderDataKey,

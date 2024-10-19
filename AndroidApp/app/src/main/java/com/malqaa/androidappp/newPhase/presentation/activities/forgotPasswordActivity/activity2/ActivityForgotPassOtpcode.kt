@@ -9,38 +9,40 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.ActivityForgotPassOtpcodeBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
+import com.malqaa.androidappp.newPhase.presentation.activities.loginScreen.LoginViewModel
+import com.malqaa.androidappp.newPhase.presentation.activities.loginScreen.SignInActivity
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.show
-import com.malqaa.androidappp.newPhase.presentation.activities.loginScreen.LoginViewModel
-import com.malqaa.androidappp.newPhase.presentation.activities.loginScreen.SignInActivity
-import kotlinx.android.synthetic.main.activity_forgot_pass_otpcode.*
-import kotlinx.android.synthetic.main.activity_signup_pg1.confirmPass
 
-class ActivityForgotPassOtpcode : BaseActivity() {
+class ActivityForgotPassOtpcode : BaseActivity<ActivityForgotPassOtpcodeBinding>() {
+
     private var START_TIME_IN_MILLIS: Long = 60000
-
     private var mTimeLeftInMillis = START_TIME_IN_MILLIS
-    private var loginViewModel: LoginViewModel?=null
+    private var loginViewModel: LoginViewModel? = null
     var email: String = ""
     private var codeOtp: String = ""
     private var expireMinutes: Int = 1
     var expireReceiveMinutes = 1
     private var typeClick = 1
     var countDownTimer: CountDownTimer? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_forgot_pass_otpcode)
+
+        // Initialize view binding
+        binding = ActivityForgotPassOtpcodeBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         email = intent.getStringExtra(ConstantObjects.emailKey) ?: ""
         codeOtp = intent.getStringExtra("codeOtp").toString().split(".0")[0]
-//        if(BuildConfig.DEBUG){
-        pinview.value = codeOtp
-//        }
+        binding.pinview.value = codeOtp
         setupLoginViewModel()
-        resend_btn.hide()
-        countdownTimer.hide()
+        binding.resendBtn.hide()
+        binding.countdownTimer.hide()
         setClickListeners()
 
         loginViewModel!!.getConfigurationResp(ConstantObjects.configration_otpExpiryTime)
@@ -118,7 +120,7 @@ class ActivityForgotPassOtpcode : BaseActivity() {
 
         loginViewModel!!.configurationRespObserver.observe(this) {
             if (it.configurationData != null) {
-                countdownTimer.show()
+                binding.countdownTimer.show()
                 try {
                     expireMinutes = it.configurationData.configValue.toInt()
                 } catch (_: Exception) {
@@ -138,7 +140,7 @@ class ActivityForgotPassOtpcode : BaseActivity() {
 
         loginViewModel!!.forgetPasswordObserver.observe(this, Observer {
             if (it.status_code == 200) {
-                pinview.value = it.data.toString().split(".0")[0]
+                binding.pinview.value = it.data.toString().split(".0")[0]
             } else {
                 if (it.message != null) {
                     HelpFunctions.ShowLongToast(
@@ -168,7 +170,7 @@ class ActivityForgotPassOtpcode : BaseActivity() {
         countDownTimer = object : CountDownTimer(expireMinutes.toLong(), 1000) {
 
             override fun onTick(millisUntilFinished: Long) {
-                resend_btn.hide()
+                binding.resendBtn.hide()
 
                 mTimeLeftInMillis = millisUntilFinished
                 var seconds = (mTimeLeftInMillis / 1000).toInt()
@@ -181,18 +183,16 @@ class ActivityForgotPassOtpcode : BaseActivity() {
 
                 val timeReceive = "${String.format("%02d", expireReceiveMinutes)}:00"
                 if (timeText == timeReceive) {
-                    resend_btn.hide()
-                    txtDontReceive.show()
+                    binding.resendBtn.hide()
+                    binding.txtDontReceive.show()
                 }
-                countdownTimer.text = "${getString(R.string.Seconds2)}: $timeText"
-
+                binding.countdownTimer.text = "${getString(R.string.Seconds2)}: $timeText"
             }
 
             override fun onFinish() {
-                countdownTimer.text = getString(R.string.CodeExpired)
-                resend_btn.show()
-                countdownTimer.hide()
-
+                binding.countdownTimer.text = getString(R.string.CodeExpired)
+                binding.resendBtn.show()
+                binding.countdownTimer.hide()
             }
 
         }.start()
@@ -200,8 +200,7 @@ class ActivityForgotPassOtpcode : BaseActivity() {
 
 
     private fun setClickListeners() {
-
-        confirmPass!!._addTextChangedListener(object : TextWatcher {
+        binding.confirmPass!!._addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
 
@@ -214,78 +213,79 @@ class ActivityForgotPassOtpcode : BaseActivity() {
 
         })
 
-        ibBack.setOnClickListener {
+        binding.ibBack.setOnClickListener {
             onBackPressed()
         }
-        resend_btn.setOnClickListener {
-            txtDontReceive.hide()
-            resend_btn.hide()
-            countdownTimer.show()
+
+        binding.resendBtn.setOnClickListener {
+            binding.txtDontReceive.hide()
+            binding.resendBtn.hide()
+            binding.countdownTimer.show()
             typeClick = 1
             startTimeCounter((expireMinutes * 60 * 1000).toLong())
             loginViewModel!!.forgetPassword(email)
         }
 
-        txtDontReceive.setOnClickListener {
-            resend_btn.hide()
-            countdownTimer.show()
+        binding.txtDontReceive.setOnClickListener {
+            binding.resendBtn.hide()
+            binding.countdownTimer.show()
             typeClick = 2
             loginViewModel!!.forgetPassword(email)
         }
-        button3.setOnClickListener {
+        binding.button3.setOnClickListener {
             var readyToGo = true
             if (!validatePin() or !validateSignupPassword() or !validateSignupConfrmPassword()) {
                 readyToGo = false
             } else {
                 loginViewModel!!.changePasswordAfterForget(
                     email,
-                    pinview.value,
-                    textPass.text.toString().trim()
+                    binding.pinview.value,
+                    binding.textPass.text.toString().trim()
                 )
             }
         }
     }
 
     private fun validateSignupPassword(): Boolean {
-        val passwordInput = textPass!!.text.toString().trim { it <= ' ' }
+        val passwordInput = binding.textPass!!.text.toString().trim { it <= ' ' }
         return if (passwordInput.isEmpty()) {
-            textPass!!.error = getString(R.string.Fieldcantbeempty)
+            binding.textPass!!.error = getString(R.string.Fieldcantbeempty)
             false
         } else if (!HelpFunctions.PASSWORD_PATTERN.matcher(passwordInput).matches()) {
-            textPass!!.error = getString(R.string.regexPassword)
+            binding.textPass!!.error = getString(R.string.regexPassword)
             false
         } else {
-            textPass!!.error = null
+            binding.textPass!!.error = null
             true
         }
     }
 
     //confirmpass validation
     private fun validateSignupConfrmPassword(): Boolean {
-        val passwordInput = textPass!!.text.toString().trim { it <= ' ' }
-        val confrmpassInput = confirmPass!!.text.toString().trim { it <= ' ' }
+        val passwordInput = binding.textPass!!.text.toString().trim { it <= ' ' }
+        val confrmpassInput = binding.confirmPass!!.text.toString().trim { it <= ' ' }
         return if (confrmpassInput.isEmpty()) {
-            confirmPass!!.error = getString(R.string.Fieldcantbeempty)
+            binding.confirmPass!!.error = getString(R.string.Fieldcantbeempty)
             false
         } else if (confrmpassInput != passwordInput) {
-            confirmPass!!.error = getString(R.string.Passworddonotmatch)
+            binding.confirmPass!!.error = getString(R.string.Passworddonotmatch)
             false
         } else {
-            confirmPass!!.error = null
+            binding.confirmPass!!.error = null
             true
         }
     }
 
     /***/
     private fun validatePin(): Boolean {
-        val inputtt = pinview.value
+        val inputtt = binding.pinview.value
         return if (inputtt.length != 4) {
-            redmessage.visibility = View.VISIBLE
-            redmessage.text = getString(R.string.Fieldcantbeempty)
+            binding.redmessage.visibility = View.VISIBLE
+            binding.redmessage.text = getString(R.string.Fieldcantbeempty)
             false
         } else {
-            redmessage.error = null
-            redmessage.visibility = View.GONE
+            binding.redmessage.error = null
+            binding.redmessage.visibility = View.GONE
             true
         }
     }
@@ -294,8 +294,7 @@ class ActivityForgotPassOtpcode : BaseActivity() {
         if (!validatePin()) {
             return
         } else {
-            //apicallSignup2()
-            val otpCode: String? = pinview.value
+            val otpCode: String? = binding.pinview.value
             loginViewModel!!.forgetPassword(email)
         }
     }
@@ -305,7 +304,7 @@ class ActivityForgotPassOtpcode : BaseActivity() {
         countDownTimer = null
         loginViewModel!!.closeAllCall()
         loginViewModel!!.baseCancel()
-        loginViewModel=null
+        loginViewModel = null
 
     }
 }

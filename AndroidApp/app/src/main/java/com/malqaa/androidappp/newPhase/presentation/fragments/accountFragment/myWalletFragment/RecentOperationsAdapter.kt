@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.malqaa.androidappp.databinding.ItemWalletRecentOperationsBinding
-import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.domain.models.walletDetailsResp.WalletTransactionsDetails
+import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 
 class RecentOperationsAdapter(var walletTransactionslist: ArrayList<WalletTransactionsDetails>) :
     Adapter<RecentOperationsAdapter.RecentOperationViewHolder>() {
@@ -26,9 +26,13 @@ class RecentOperationsAdapter(var walletTransactionslist: ArrayList<WalletTransa
     override fun getItemCount(): Int = walletTransactionslist.size
 
     override fun onBindViewHolder(holder: RecentOperationViewHolder, position: Int) {
-        holder.viewBinding.tvAmount.text= walletTransactionslist[position].transactionAmount.toString()
+        holder.viewBinding.tvAmount.text =
+            walletTransactionslist[position].transactionAmount.toString()
         holder.viewBinding.tvDescription.text =
             walletTransactionslist[position].transactionSource ?: ""
-        holder.viewBinding.tvDate.text= HelpFunctions.getViewFormatForDateTrack(walletTransactionslist[position].transactionDate,"dd/MM/yyyy HH:mm:ss")
+        holder.viewBinding.tvDate.text = HelpFunctions.getViewFormatForDateTrack(
+            walletTransactionslist[position].transactionDate,
+            "dd/MM/yyyy HH:mm:ss"
+        )
     }
 }

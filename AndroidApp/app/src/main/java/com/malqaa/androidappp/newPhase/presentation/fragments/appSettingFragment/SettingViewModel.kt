@@ -8,10 +8,9 @@ import com.malqaa.androidappp.newPhase.domain.models.servicemodels.AddFavRespons
 import retrofit2.Call
 import retrofit2.HttpException
 
-class SettingViewModel : BaseViewModel(){
+class SettingViewModel : BaseViewModel() {
     var languageObserver: MutableLiveData<AddFavResponse> = MutableLiveData()
     private var changeLanguage: Call<AddFavResponse>? = null
-
 
 
     fun setLanguageChange(language: String) {

@@ -11,24 +11,21 @@ import com.malqaa.androidappp.R
 import com.malqaa.androidappp.databinding.ItemCartSellNewBinding
 import com.malqaa.androidappp.newPhase.domain.enums.PaymentType
 import com.malqaa.androidappp.newPhase.domain.enums.ShippingType
-import com.malqaa.androidappp.newPhase.utils.helper.CommonBottomSheet
-import com.malqaa.androidappp.newPhase.utils.Extension
-import com.malqaa.androidappp.newPhase.utils.HelpFunctions
-import com.malqaa.androidappp.newPhase.utils.hide
-import com.malqaa.androidappp.newPhase.utils.show
 import com.malqaa.androidappp.newPhase.domain.models.cartListResp.ProductCartItem
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.Selection
+import com.malqaa.androidappp.newPhase.utils.Extension
+import com.malqaa.androidappp.newPhase.utils.HelpFunctions
+import com.malqaa.androidappp.newPhase.utils.helper.CommonBottomSheet
+import com.malqaa.androidappp.newPhase.utils.hide
+import com.malqaa.androidappp.newPhase.utils.show
 
 class DetailCartAdapter(
-//    val providerId:String,
-//    val coupon: CouponAppliedBussinessAccountDto,
     var listProduct: ArrayList<ProductCartItem>,
     var setProductCartListeners: SetProductCartListeners,
     private val deliveryOptionList: ArrayList<Selection> = ArrayList(),
     private val paymentMethodList: ArrayList<Selection> = ArrayList(),
+) : RecyclerView.Adapter<DetailCartAdapter.CartViewHolder>() {
 
-    ) :
-    RecyclerView.Adapter<DetailCartAdapter.CartViewHolder>() {
     lateinit var context: Context
 
     class CartViewHolder(var viewBinding: ItemCartSellNewBinding) :
@@ -50,11 +47,11 @@ class DetailCartAdapter(
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
 
-        if(listProduct[position].msgError=="" || listProduct[position].msgError==null)
-            holder.viewBinding.tvError.visibility=View.GONE
-        else{
-            holder.viewBinding.tvError.visibility=View.VISIBLE
-            holder.viewBinding.tvError.text=listProduct[position].msgError
+        if (listProduct[position].msgError == "" || listProduct[position].msgError == null)
+            holder.viewBinding.tvError.visibility = View.GONE
+        else {
+            holder.viewBinding.tvError.visibility = View.VISIBLE
+            holder.viewBinding.tvError.text = listProduct[position].msgError
         }
         Extension.loadImgGlide(
             context,
@@ -190,7 +187,7 @@ class DetailCartAdapter(
 
                         PaymentType.BankTransfer.value.toString() -> {
                             paymentList[index].name =
-                               PaymentType.BankTransfer.name
+                                PaymentType.BankTransfer.name
                         }
 
                         PaymentType.CreditCard.value.toString() -> {
@@ -227,10 +224,8 @@ class DetailCartAdapter(
         fun onIncreaseQuantityProduct(position: Int)
         fun onDecreaseQuantityProduct(position: Int)
         fun onDeleteProduct(position: Int)
-
         fun onSelectPayment(productId: Int, paymentSelection: Int)
         fun onSelectDelivery(productId: Int, deliverySelection: String)
-//        fun onApplyBusinessCardCoupon(mainPosition: Int, businessAccountId: String, coupon: String,providerId:String)
     }
 
 }

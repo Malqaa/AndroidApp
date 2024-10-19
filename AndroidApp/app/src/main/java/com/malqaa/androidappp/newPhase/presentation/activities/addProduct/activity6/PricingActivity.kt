@@ -13,29 +13,29 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.ActivityPricingPaymentBinding
+import com.malqaa.androidappp.databinding.AddAccountLayoutBinding
+import com.malqaa.androidappp.databinding.AddBankLayoutBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
-import com.malqaa.androidappp.newPhase.utils.ConstantObjects
-import com.malqaa.androidappp.newPhase.utils.HelpFunctions
-import com.malqaa.androidappp.newPhase.utils.hide
-import com.malqaa.androidappp.newPhase.utils.show
-import com.malqaa.androidappp.newPhase.utils.helper.widgets.DatePickerFragment
-import com.malqaa.androidappp.newPhase.utils.helper.widgets.rcv.GenericListAdapter
 import com.malqaa.androidappp.newPhase.domain.models.accountBackListResp.AccountDetails
 import com.malqaa.androidappp.newPhase.domain.models.addProductToCartResp.AddProductObjectData
 import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.ConfirmationAddProductActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activity7.ListingDurationActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.viewmodel.AddProductViewModel
-import kotlinx.android.synthetic.main.activity_pricing_payment.*
-import kotlinx.android.synthetic.main.add_account_layout.*
-import kotlinx.android.synthetic.main.add_bank_layout.view.*
-import kotlinx.android.synthetic.main.toolbar_main.*
+import com.malqaa.androidappp.newPhase.utils.ConstantObjects
+import com.malqaa.androidappp.newPhase.utils.HelpFunctions
+import com.malqaa.androidappp.newPhase.utils.helper.widgets.DatePickerFragment
+import com.malqaa.androidappp.newPhase.utils.helper.widgets.rcv.GenericListAdapter
+import com.malqaa.androidappp.newPhase.utils.hide
+import com.malqaa.androidappp.newPhase.utils.show
+//import kotlinx.android.synthetic.main.activity_pricing_payment.*
+//import kotlinx.android.synthetic.main.add_account_layout.*
+//import kotlinx.android.synthetic.main.add_bank_layout.view.*
+//import kotlinx.android.synthetic.main.toolbar_main.*
 
 
-class PricingActivity : BaseActivity() {
-    //    var bankList: List<BankListRespone.BankDetail> = ArrayList()
-//    var selectTime = ""
-    //    var selectedAccountDetails: AccountDetails? = null
-//    var dateString =""
+class PricingActivity : BaseActivity<ActivityPricingPaymentBinding>() {
+
     private lateinit var addProductViewModel: AddProductViewModel
     private var bottomSheetDialog: BottomSheetDialog? = null
     private var selectedAccountDetails: ArrayList<AccountDetails> = ArrayList()
@@ -43,76 +43,40 @@ class PricingActivity : BaseActivity() {
     private var selectdate = ""
     private var fm: FragmentManager? = null
 
+    private lateinit var addBankLayoutBinding: AddBankLayoutBinding
 
     val adapterList = object : GenericListAdapter<AccountDetails>(
         R.layout.add_bank_layout,
         bind = { element, holder, itemCount, position ->
             holder.view.run {
                 element.run {
-
-                    bank_name.text = bankName
-                    account_number.text = accountNumber
-                    user_name.text = bankHolderName
-                    iban_number.text = ibanNumber
-
-
-                    bank.isSelected = isSelected
-                    bank.isChecked = isSelected
-//                        bank.setOnCheckedChangeListener { buttonView, isChecked ->
-////                                if(isChecked){
-////                                    list[position].isSelected = false
-////                                    selectedAccountDetails.remove(list[position])
-////                                }else{
-////                                    list[position].isSelected = true
-////                                    selectedAccountDetails.add(list[position])
-////
-////                                }
-////                                addbank_rcv.post {
-////                                    addbank_rcv.adapter!!.notifyDataSetChanged()
-////                                }
-//                            if (isChecked) {
-//                                list.forEach {
-//                                    it.isSelected = false
-//                                }
-//                                list[position].isSelected = true
-//                                selectedAccountDetails.add(list[position])
-////                                    addbank_rcv.post {
-////                                        addbank_rcv.adapter!!.notifyDataSetChanged()
-////                                    }
-//
-//
-//                            } else {
-//
-//                                list[position].isSelected = true
-//                                selectedAccountDetails.add(list[position])
-//                            }
-//                        }
-
+                    addBankLayoutBinding.bankName.text = bankName
+                    addBankLayoutBinding.accountNumber.text = accountNumber
+                    addBankLayoutBinding.userName.text = bankHolderName
+                    addBankLayoutBinding.ibanNumber.text = ibanNumber
+                    addBankLayoutBinding.bank.isSelected = isSelected
+                    addBankLayoutBinding.bank.isChecked = isSelected
                 }
 
-                this.bank.setOnClickListener {
-                    if (this.bank.isSelected) {
+                addBankLayoutBinding.bank.setOnClickListener {
+                    if (addBankLayoutBinding.bank.isSelected) {
                         selectedAccountDetails.forEach {
                             if (it.id == element.id)
                                 element.isSelected = false
                         }
-                        this.bank.isSelected = false
-                        this.bank.isChecked = false
-//                        selectedAccountDetails.removeAt(position)
+                        addBankLayoutBinding.bank.isSelected = false
+                        addBankLayoutBinding.bank.isChecked = false
                         addBankAdaptor(selectedAccountDetails)
                     } else {
                         selectedAccountDetails.forEach {
                             if (it.id == element.id)
                                 element.isSelected = true
                         }
-                        this.bank.isSelected = true
-                        this.bank.isChecked = true
+                        addBankLayoutBinding.bank.isSelected = true
+                        addBankLayoutBinding.bank.isChecked = true
 
                         addBankAdaptor(selectedAccountDetails)
                     }
-//                        addbank_rcv.post {
-//                            addbank_rcv.adapter!!.notifyDataSetChanged()
-//                        }
                 }
             }
         }
@@ -120,38 +84,33 @@ class PricingActivity : BaseActivity() {
         override fun getFilter(): Filter {
             TODO("Not yet implemented")
         }
-
     }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_pricing_payment)
-        toolbar_title.text = getString(R.string.sale_details)
+        // Initialize view binding
+        binding = ActivityPricingPaymentBinding.inflate(layoutInflater)
+        addBankLayoutBinding = AddBankLayoutBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        binding.toolbarMain.toolbarTitle.text = getString(R.string.sale_details)
         isEdit = intent.getBooleanExtra(ConstantObjects.isEditKey, false)
         setViewClickListeners()
         disableTextFields()
         setUpViewModel()
         if (isEdit) {
             setDataEdit()
-        }else{
+        } else {
             setDataInit()
         }
         if (ConstantObjects.isModify) {
-            fixedPriceType_rb1.isEnabled = false
-            auctionType_rb2.isEnabled = false
-            priceNegotiable_rb3.isEnabled = false
-
-            buynowprice.isEnabled = false
-            startprice.isEnabled = false
-            reserveprice.isEnabled = false
+            binding.fixedPriceTypeRb1.isEnabled = false
+            binding.auctionTypeRb2.isEnabled = false
+            binding.priceNegotiableRb3.isEnabled = false
+            binding.buynowprice.isEnabled = false
+            binding.startprice.isEnabled = false
+            binding.reserveprice.isEnabled = false
         }
-        //  getBankAccount()
-//        if(!AddProductObjectData.listingType.isEmpty()){
-//            isEdit=true
-//        }
-
-
     }
 
     private fun setUpViewModel() {
@@ -196,9 +155,9 @@ class PricingActivity : BaseActivity() {
         }
         addProductViewModel.isLoadingBackAccountList.observe(this) {
             if (it) {
-                progressBarBankAccount.show()
+                binding.progressBarBankAccount.show()
             } else {
-                progressBarBankAccount.hide()
+                binding.progressBarBankAccount.hide()
             }
         }
         addProductViewModel.listBackAccountObserver.observe(this) {
@@ -223,21 +182,12 @@ class PricingActivity : BaseActivity() {
                                 } else {
                                     addBankAdaptor(it.accountsList)
                                 }
-
-//                            for (item in it.accountsList) {
-////                                if (item.id == AddProductObjectData.selectedAccountDetails!!.id) {
-////                                    item.isSelected = true
-////                                    break
-////                                }
-//                            }
                             } else
                                 addBankAdaptor(it.accountsList)
                         }
                     } else {
                         addBankAdaptor(it.accountsList)
                     }
-
-
                 }
             }
         }
@@ -252,120 +202,106 @@ class PricingActivity : BaseActivity() {
 
         addProductViewModel.getBankAccountsList()
     }
-    private fun setDataInit(){
-        if (AddProductObjectData.selectedCategory?.enableNegotiation != false ||AddProductObjectData.selectedCategory?.enableAuction!=false|| AddProductObjectData.selectedCategory?.enableFixedPrice!=false) {
-            titleSaleType.isVisible = true
-        }
-        if (AddProductObjectData.selectedCategory?.enableFixedPrice==true) {
-            fix_Price_l.isVisible = true
-            fixedPriceType_rb1.isChecked = false
-            fix_Price_l.setBackgroundResource(R.drawable.edittext_bg)
-            fixed_price_tv.setTextColor(ContextCompat.getColor(this, R.color.text_color))
-        } else {
-            fixed_price_layout.isVisible = false
-            fixedPriceType_rb1.isChecked = false
-            fix_Price_l.setBackgroundResource(R.drawable.edittext_bg)
-            fixed_price_tv.setTextColor(ContextCompat.getColor(this, R.color.text_color))
-        }
-        if (AddProductObjectData.selectedCategory?.enableAuction==true) {
-            Auction_layout.isVisible = false
-            auction_option.isVisible = true
-            auction_option.setBackgroundResource(R.drawable.edittext_bg)
-            Auction_price_tv.setTextColor(ContextCompat.getColor(this, R.color.text_color))
-        }
-        if (AddProductObjectData.selectedCategory?.enableNegotiation==true) {
-            switchMustPickUp.isVisible = true
-            switchMustPickUp.setBackgroundResource(R.drawable.edittext_bg)
-            tvMustPickUp.setTextColor(ContextCompat.getColor(this, R.color.text_color))
 
+    private fun setDataInit() {
+        if (AddProductObjectData.selectedCategory?.enableNegotiation != false || AddProductObjectData.selectedCategory?.enableAuction != false || AddProductObjectData.selectedCategory?.enableFixedPrice != false) {
+            binding.titleSaleType.isVisible = true
+        }
+        if (AddProductObjectData.selectedCategory?.enableFixedPrice == true) {
+            binding.fixPriceL.isVisible = true
+            binding.fixedPriceTypeRb1.isChecked = false
+            binding.fixPriceL.setBackgroundResource(R.drawable.edittext_bg)
+            binding.fixedPriceTv.setTextColor(ContextCompat.getColor(this, R.color.text_color))
+        } else {
+            binding.fixedPriceLayout.isVisible = false
+            binding.fixedPriceTypeRb1.isChecked = false
+            binding.fixPriceL.setBackgroundResource(R.drawable.edittext_bg)
+            binding.fixedPriceTv.setTextColor(ContextCompat.getColor(this, R.color.text_color))
+        }
+        if (AddProductObjectData.selectedCategory?.enableAuction == true) {
+            binding.AuctionLayout.isVisible = false
+            binding.auctionOption.isVisible = true
+            binding.auctionOption.setBackgroundResource(R.drawable.edittext_bg)
+            binding.AuctionPriceTv.setTextColor(ContextCompat.getColor(this, R.color.text_color))
+        }
+        if (AddProductObjectData.selectedCategory?.enableNegotiation == true) {
+            binding.switchMustPickUp.isVisible = true
+            binding.switchMustPickUp.setBackgroundResource(R.drawable.edittext_bg)
+            binding.tvMustPickUp.setTextColor(ContextCompat.getColor(this, R.color.text_color))
         }
     }
 
     private fun setDataEdit() {
         if (AddProductObjectData.priceFixedOption || AddProductObjectData.auctionOption || AddProductObjectData.isNegotiablePrice) {
-            titleSaleType.isVisible = true
+            binding.titleSaleType.isVisible = true
         }
         if (AddProductObjectData.priceFixedOption) {
-            fixed_price_layout.isVisible = true
-            fixedPriceType_rb1.isChecked = true
-            fix_Price_l.isVisible = true
-            fixed_price_layout.isVisible = true
-            fix_Price_l.setBackgroundResource(R.drawable.field_selection_border_enable)
-            fixed_price_tv.setTextColor(ContextCompat.getColor(this, R.color.bg))
-            buynowprice.setText(AddProductObjectData.priceFixed)
+            binding.fixedPriceLayout.isVisible = true
+            binding.fixedPriceTypeRb1.isChecked = true
+            binding.fixPriceL.isVisible = true
+            binding.fixedPriceLayout.isVisible = true
+            binding.fixPriceL.setBackgroundResource(R.drawable.field_selection_border_enable)
+            binding.fixedPriceTv.setTextColor(ContextCompat.getColor(this, R.color.bg))
+            binding.buynowprice.setText(AddProductObjectData.priceFixed)
         } else {
-            fixed_price_layout.isVisible = false
-            fixedPriceType_rb1.isChecked = false
-            fix_Price_l.setBackgroundResource(R.drawable.edittext_bg)
-            fixed_price_tv.setTextColor(ContextCompat.getColor(this, R.color.text_color))
+            binding.fixedPriceLayout.isVisible = false
+            binding.fixedPriceTypeRb1.isChecked = false
+            binding.fixPriceL.setBackgroundResource(R.drawable.edittext_bg)
+            binding.fixedPriceTv.setTextColor(ContextCompat.getColor(this, R.color.text_color))
         }
         if (AddProductObjectData.auctionOption) {
-            Auction_layout.isVisible = true
-            auctionType_rb2.isChecked = true
-            auction_option.isVisible = true
-            auction_option.setBackgroundResource(R.drawable.field_selection_border_enable)
-            Auction_price_tv.setTextColor(ContextCompat.getColor(this, R.color.bg))
-            startprice.setText(AddProductObjectData.auctionStartPrice)
-            reserveprice.setText(AddProductObjectData.auctionMinPrice)
+            binding.AuctionLayout.isVisible = true
+            binding.auctionTypeRb2.isChecked = true
+            binding.auctionOption.isVisible = true
+            binding.auctionOption.setBackgroundResource(R.drawable.field_selection_border_enable)
+            binding.AuctionPriceTv.setTextColor(ContextCompat.getColor(this, R.color.bg))
+            binding.startprice.setText(AddProductObjectData.auctionStartPrice)
+            binding.reserveprice.setText(AddProductObjectData.auctionMinPrice)
         }
         if (AddProductObjectData.isNegotiablePrice) {
-            buynowprice.setText(AddProductObjectData.priceFixed)
-            priceNegotiable_rb3.isChecked = true
-            switchMustPickUp.isVisible = true
-            switchMustPickUp.setBackgroundResource(R.drawable.field_selection_border_enable)
-            tvMustPickUp.setTextColor(ContextCompat.getColor(this, R.color.bg))
-
+            binding.buynowprice.setText(AddProductObjectData.priceFixed)
+            binding.priceNegotiableRb3.isChecked = true
+            binding.switchMustPickUp.isVisible = true
+            binding.switchMustPickUp.setBackgroundResource(R.drawable.field_selection_border_enable)
+            binding.tvMustPickUp.setTextColor(ContextCompat.getColor(this, R.color.bg))
         }
         AddProductObjectData.paymentOptionList?.let {
             for (item in it) {
                 if (item == AddProductObjectData.PAYMENT_OPTION_CASH) {
-                    saudi_bank_option.visibility = View.GONE
-                    switchSaudiBankDeposit1.isChecked = false
-                    switchCashPayment.isChecked = true
-                    layoutCashPayment.background =
+                    binding.saudiBankOption.visibility = View.GONE
+                    binding.switchSaudiBankDeposit1.isChecked = false
+                    binding.switchCashPayment.isChecked = true
+                    binding.layoutCashPayment.background =
                         ContextCompat.getDrawable(this, R.drawable.field_selection_border_enable)
-                    tvCashPayment.setTextColor(ContextCompat.getColor(this, R.color.bg))
+                    binding.tvCashPayment.setTextColor(ContextCompat.getColor(this, R.color.bg))
                 } else if (item == AddProductObjectData.PAYMENT_OPTION_BANk) {
-                    switchCashPayment.isChecked = false
-                    switchSaudiBankDeposit1.isChecked = true
-                    //  saudi_bank_auction.visibility = View.GONE
-                    saudi_bank_option.visibility = View.VISIBLE
-                    //switchSaudiBankDeposit2.isChecked = true
+                    binding.switchCashPayment.isChecked = false
+                    binding.switchSaudiBankDeposit1.isChecked = true
+                    binding.saudiBankOption.visibility = View.VISIBLE
                     addProductViewModel.getBankAccountsList()
                 } else if (item == AddProductObjectData.PAYMENT_OPTION_Mada) {
-                    switchMadaPayment.isChecked = true
-                    saudi_bank_option.visibility = View.GONE
-                    switchSaudiBankDeposit1.isChecked = false
-                    layoutMadaPayment.background =
+                    binding.switchMadaPayment.isChecked = true
+                    binding.saudiBankOption.visibility = View.GONE
+                    binding.switchSaudiBankDeposit1.isChecked = false
+                    binding.layoutMadaPayment.background =
                         ContextCompat.getDrawable(this, R.drawable.field_selection_border_enable)
-                    tvMadaPayment.setTextColor(ContextCompat.getColor(this, R.color.bg))
+                    binding.tvMadaPayment.setTextColor(ContextCompat.getColor(this, R.color.bg))
                 } else if (item == AddProductObjectData.PAYMENT_OPTION_MasterCard) {
-                    switchCreditCard.isChecked = true
-                    saudi_bank_option.visibility = View.GONE
-                    switchSaudiBankDeposit1.isChecked = false
-                    layoutCreditCard.background =
+                    binding.switchCreditCard.isChecked = true
+                    binding.saudiBankOption.visibility = View.GONE
+                    binding.switchSaudiBankDeposit1.isChecked = false
+                    binding.layoutCreditCard.background =
                         ContextCompat.getDrawable(this, R.drawable.field_selection_border_enable)
-                    tvCreditCard.setTextColor(ContextCompat.getColor(this, R.color.bg))
+                    binding.tvCreditCard.setTextColor(ContextCompat.getColor(this, R.color.bg))
                 }
             }
         }
-
-
-//        if (AddProductObjectData.paymentOptionList == AddProductObjectData.PAYMENT_OPTION_CASH) {
-//
-//        }
-//
-//        if (AddProductObjectData.paymentOptionList == AddProductObjectData.PAYMENT_OPTION_BANk) {
-//
-//        }
-
     }
 
     override fun onBackPressed() {
         if (isEdit) {
             startActivity(Intent(this, ConfirmationAddProductActivity::class.java).apply {
                 putExtra("whereCome", "Add")
-
             })
             finish()
         } else {
@@ -374,226 +310,203 @@ class PricingActivity : BaseActivity() {
     }
 
     private fun setViewClickListeners() {
-        back_btn.setOnClickListener {
+        binding.toolbarMain.backBtn.setOnClickListener {
             onBackPressed()
         }
-        btnnn.setOnClickListener {
+        binding.btnnn.setOnClickListener {
             confirmPricePaymentFrag()
         }
-        btnAddNewAccount.setOnClickListener {
+        binding.btnAddNewAccount.setOnClickListener {
             showBottomSheetDialog()
         }
-        switchSaudiBankDeposit1.setOnCheckedChangeListener { _, b ->
+        binding.switchSaudiBankDeposit1.setOnCheckedChangeListener { _, b ->
             if (b) {
-                // switchCashPayment.isChecked = false
-                // saudi_bank_auction.visibility = View.GONE
-                saudi_bank_option.visibility = View.VISIBLE
-                //switchSaudiBankDeposit2.isChecked = true
+                binding.saudiBankOption.visibility = View.VISIBLE
                 addProductViewModel.getBankAccountsList()
             } else {
-                saudi_bank_option.visibility = View.GONE
-                //switchSaudiBankDeposit2.isChecked = false
+                binding.saudiBankOption.visibility = View.GONE
             }
         }
-//        switchSaudiBankDeposit2.setOnCheckedChangeListener { _, b ->
-//            if (b) {
-//                // switchCashPayment.isChecked = false
-//                saudi_bank_auction.background =
-//                    ContextCompat.getDrawable(this, R.drawable.field_selection_border_enable)
-//                tvBackAccount.setTextColor(ContextCompat.getColor(this, R.color.bg))
-//                saudi_bank_option.visibility = View.VISIBLE
-//                switchSaudiBankDeposit1.isChecked = true
-//                addProductViewModel.getBankAccountsList()
-//            } else {
-//                saudi_bank_option.visibility = View.GONE
-//                switchSaudiBankDeposit1.isChecked = false
-//                saudi_bank_auction.background =
-//                    ContextCompat.getDrawable(this, R.drawable.edittext_bg)
-//                tvBackAccount.setTextColor(ContextCompat.getColor(this, R.color.text_color))
-//                // saudi_bank_auction.visibility = View.VISIBLE
-//            }
-//        }
-        switchCashPayment.setOnCheckedChangeListener { _, b ->
+
+        binding.switchCashPayment.setOnCheckedChangeListener { _, b ->
             if (b) {
                 // saudi_bank_auction.visibility = View.VISIBLE
                 //saudi_bank_option.visibility = View.GONE
                 // switchSaudiBankDeposit1.isChecked = false
-                layoutCashPayment.background =
+                binding.layoutCashPayment.background =
                     ContextCompat.getDrawable(this, R.drawable.field_selection_border_enable)
-                tvCashPayment.setTextColor(ContextCompat.getColor(this, R.color.bg))
+                binding.tvCashPayment.setTextColor(ContextCompat.getColor(this, R.color.bg))
 
             } else {
-                layoutCashPayment.background =
+                binding.layoutCashPayment.background =
                     ContextCompat.getDrawable(this, R.drawable.edittext_bg)
-                tvCashPayment.setTextColor(ContextCompat.getColor(this, R.color.text_color))
-
+                binding.tvCashPayment.setTextColor(ContextCompat.getColor(this, R.color.text_color))
             }
         }
-        switchMadaPayment.setOnCheckedChangeListener { _, b ->
+        binding.switchMadaPayment.setOnCheckedChangeListener { _, b ->
             if (b) {
                 // saudi_bank_auction.visibility = View.VISIBLE
                 //saudi_bank_option.visibility = View.GONE
                 // switchSaudiBankDeposit1.isChecked = false
-                layoutMadaPayment.background =
+                binding.layoutMadaPayment.background =
                     ContextCompat.getDrawable(this, R.drawable.field_selection_border_enable)
-                tvMadaPayment.setTextColor(ContextCompat.getColor(this, R.color.bg))
+                binding.tvMadaPayment.setTextColor(ContextCompat.getColor(this, R.color.bg))
 
             } else {
-                layoutMadaPayment.background =
+                binding.layoutMadaPayment.background =
                     ContextCompat.getDrawable(this, R.drawable.edittext_bg)
-                tvMadaPayment.setTextColor(ContextCompat.getColor(this, R.color.text_color))
-
+                binding.tvMadaPayment.setTextColor(ContextCompat.getColor(this, R.color.text_color))
             }
         }
-        switchCreditCard.setOnCheckedChangeListener { _, b ->
+        binding.switchCreditCard.setOnCheckedChangeListener { _, b ->
             if (b) {
                 // saudi_bank_auction.visibility = View.VISIBLE
                 //saudi_bank_option.visibility = View.GONE
                 // switchSaudiBankDeposit1.isChecked = false
-                layoutCreditCard.background =
+                binding.layoutCreditCard.background =
                     ContextCompat.getDrawable(this, R.drawable.field_selection_border_enable)
-                tvCreditCard.setTextColor(ContextCompat.getColor(this, R.color.bg))
+                binding.tvCreditCard.setTextColor(ContextCompat.getColor(this, R.color.bg))
 
             } else {
-                layoutCreditCard.background =
+                binding.layoutCreditCard.background =
                     ContextCompat.getDrawable(this, R.drawable.edittext_bg)
-                tvCreditCard.setTextColor(ContextCompat.getColor(this, R.color.text_color))
+                binding.tvCreditCard.setTextColor(ContextCompat.getColor(this, R.color.text_color))
 
             }
         }
     }
 
     private fun disableTextFields() {
-        fixedPriceType_rb1.setOnCheckedChangeListener { _, b ->
-            if (fixedPriceType_rb1.isChecked)
-                fixed_price_layout.isVisible = true
-            else if (!fixedPriceType_rb1.isChecked && priceNegotiable_rb3.isChecked)
-                fixed_price_layout.isVisible = false
-            else if (!fixedPriceType_rb1.isChecked && !priceNegotiable_rb3.isChecked) {
-                fixed_price_layout.isVisible = false
+        binding.fixedPriceTypeRb1.setOnCheckedChangeListener { _, b ->
+            if (binding.fixedPriceTypeRb1.isChecked)
+                binding.fixedPriceLayout.isVisible = true
+            else if (!binding.fixedPriceTypeRb1.isChecked && binding.priceNegotiableRb3.isChecked)
+                binding.fixedPriceLayout.isVisible = false
+            else if (!binding.fixedPriceTypeRb1.isChecked && !binding.priceNegotiableRb3.isChecked) {
+                binding.fixedPriceLayout.isVisible = false
             }
 
             if (b) {
-                fix_Price_l.setBackgroundResource(R.drawable.field_selection_border_enable)
-                fixed_price_tv.setTextColor(ContextCompat.getColor(this, R.color.bg))
+                binding.fixPriceL.setBackgroundResource(R.drawable.field_selection_border_enable)
+                binding.fixedPriceTv.setTextColor(ContextCompat.getColor(this, R.color.bg))
 
             } else {
-                fix_Price_l.setBackgroundResource(R.drawable.edittext_bg)
-                fixed_price_tv.setTextColor(ContextCompat.getColor(this, R.color.text_color))
+                binding.fixPriceL.setBackgroundResource(R.drawable.edittext_bg)
+                binding.fixedPriceTv.setTextColor(ContextCompat.getColor(this, R.color.text_color))
 
             }
         }
-        auctionType_rb2.setOnCheckedChangeListener { _, b ->
-            Auction_layout.isVisible = b
-//            if (auctionType_rb2.isChecked)
-//                fixed_price_layout.isVisible = true
-//            else if(!auctionType_rb2.isChecked&&priceNegotiable_rb3.isChecked)
-//                fixed_price_layout.isVisible = false
-
+        binding.auctionTypeRb2.setOnCheckedChangeListener { _, b ->
+            binding.AuctionLayout.isVisible = b
             if (b) {
-                auction_option.setBackgroundResource(R.drawable.field_selection_border_enable)
-                Auction_price_tv.setTextColor(ContextCompat.getColor(this, R.color.bg))
+                binding.auctionOption.setBackgroundResource(R.drawable.field_selection_border_enable)
+                binding.AuctionPriceTv.setTextColor(ContextCompat.getColor(this, R.color.bg))
 
             } else {
-                auction_option.setBackgroundResource(R.drawable.edittext_bg)
-                Auction_price_tv.setTextColor(ContextCompat.getColor(this, R.color.text_color))
-
-
+                binding.auctionOption.setBackgroundResource(R.drawable.edittext_bg)
+                binding.AuctionPriceTv.setTextColor(
+                    ContextCompat.getColor(
+                        this,
+                        R.color.text_color
+                    )
+                )
             }
         }
-        priceNegotiable_rb3.setOnCheckedChangeListener { _, b ->
-            if (priceNegotiable_rb3.isChecked && fixedPriceType_rb1.isChecked) {
-                fixed_price_layout.isVisible = true
-            } else if (!priceNegotiable_rb3.isChecked && !fixedPriceType_rb1.isChecked) {
-                fixed_price_layout.isVisible = false
+        binding.priceNegotiableRb3.setOnCheckedChangeListener { _, b ->
+            if (binding.priceNegotiableRb3.isChecked && binding.fixedPriceTypeRb1.isChecked) {
+                binding.fixedPriceLayout.isVisible = true
+            } else if (!binding.priceNegotiableRb3.isChecked && !binding.fixedPriceTypeRb1.isChecked) {
+                binding.fixedPriceLayout.isVisible = false
             }
 
-
-
             if (b) {
-                switchMustPickUp.setBackgroundResource(R.drawable.field_selection_border_enable)
-                tvMustPickUp.setTextColor(ContextCompat.getColor(this, R.color.bg))
-
+                binding.switchMustPickUp.setBackgroundResource(R.drawable.field_selection_border_enable)
+                binding.tvMustPickUp.setTextColor(ContextCompat.getColor(this, R.color.bg))
             } else {
-                switchMustPickUp.setBackgroundResource(R.drawable.edittext_bg)
-                tvMustPickUp.setTextColor(ContextCompat.getColor(this, R.color.text_color))
-
+                binding.switchMustPickUp.setBackgroundResource(R.drawable.edittext_bg)
+                binding.tvMustPickUp.setTextColor(ContextCompat.getColor(this, R.color.text_color))
             }
         }
 
     }
 
     private fun showBottomSheetDialog() {
-        bottomSheetDialog = BottomSheetDialog(this)
-        bottomSheetDialog?.setContentView(R.layout.add_account_layout)
-        bottomSheetDialog?.add_account_btn?.setOnClickListener {
-            //  addBankAccount(bottomSheetDialog)
-            if (bottomSheetDialog != null)
-                checkDataToAddBackAccount(bottomSheetDialog!!)
-        }
-        bottomSheetDialog?.etExpireDate?.setOnClickListener {
-            fm = supportFragmentManager
-            val dateDialog = DatePickerFragment(false, true) { selectdate_ ->
-                selectdate = selectdate_
-                bottomSheetDialog?.etExpireDate?.text = selectdate
-            }
-            dateDialog.show(fm!!, "")
+        // Inflate the layout using ViewBinding
+        val binding = AddAccountLayoutBinding.inflate(layoutInflater)
+
+        // Initialize the BottomSheetDialog and set the view using binding.root
+        val bottomSheetDialog = BottomSheetDialog(this)
+        bottomSheetDialog.setContentView(binding.root)
+
+        // Handle button click event using ViewBinding
+        binding.addAccountBtn.setOnClickListener {
+            // Check and add bank account
+            checkDataToAddBackAccount(bottomSheetDialog = bottomSheetDialog, binding = binding)
         }
 
-        bottomSheetDialog?.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        bottomSheetDialog?.show()
+        // Handle expire date click event using ViewBinding
+        binding.etExpireDate.setOnClickListener {
+            val fm = supportFragmentManager
+            val dateDialog = DatePickerFragment(false, true) { selectedDate ->
+                selectdate = selectedDate
+                binding.etExpireDate.text = selectdate
+            }
+            dateDialog.show(fm, "")
+        }
+
+        // Set background to transparent
+        bottomSheetDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        // Show the dialog
+        bottomSheetDialog.show()
     }
 
-    private fun checkDataToAddBackAccount(bottomSheetDialog: BottomSheetDialog) {
+    private fun checkDataToAddBackAccount(
+        bottomSheetDialog: BottomSheetDialog,
+        binding: AddAccountLayoutBinding
+    ) {
         var readyToAdd = true
-        if (bottomSheetDialog.account_holder_name.text.toString().trim() == "") {
+        if (binding.accountHolderName.text.toString().trim() == "") {
             readyToAdd = false
-            bottomSheetDialog.account_holder_name.error =
+            binding.accountHolderName.error =
                 "${getString(R.string.enter)} ${getString(R.string.account_holder_s_name)}"
         }
 
-        if (bottomSheetDialog.bank_name.text.toString().trim() == "") {
+        if (binding.bankName.text.toString().trim() == "") {
             readyToAdd = false
-            bottomSheetDialog.bank_name.error =
+            binding.bankName.error =
                 "${getString(R.string.enter)} ${getString(R.string.bank_name)}"
         }
-        if (bottomSheetDialog.account_number.text.toString().trim() == "") {
+        if (binding.accountNumber.text.toString().trim() == "") {
             readyToAdd = false
-            bottomSheetDialog.account_number.error =
+            binding.accountNumber.error =
                 "${getString(R.string.enter)} ${getString(R.string.account_number)}"
         }
-        if (bottomSheetDialog.etSwiftCode.text.toString().trim() == "") {
+        if (binding.etSwiftCode.text.toString().trim() == "") {
             readyToAdd = false
-            bottomSheetDialog.etSwiftCode.error =
+            binding.etSwiftCode.error =
                 "${getString(R.string.enter)} ${getString(R.string.swiftCode)}"
         }
-        if (bottomSheetDialog.iban_number.text.toString().trim() == "") {
+        if (binding.ibanNumber.text.toString().trim() == "") {
             readyToAdd = false
-            bottomSheetDialog.iban_number.error =
+            binding.ibanNumber.error =
                 "${getString(R.string.enter)} ${getString(R.string.iban)}"
         }
-        if (bottomSheetDialog.etExpireDate.text.toString().trim() == "") {
+        if (binding.etExpireDate.text.toString().trim() == "") {
             readyToAdd = false
-            bottomSheetDialog.etExpireDate.error =
+            binding.etExpireDate.error =
                 "${getString(R.string.enter)} ${getString(R.string.ExpiryDate)}"
         }
-//        else if(bottomSheetDialog.etExpireDate.text.toString().trim().matches("(?:0[1-9]|1[0-2])/[0-9]{2}".toRegex())){
-//            readyToAdd=false
-//            bottomSheetDialog.etExpireDate.error=getString(R.string.please_enter_valid,getString(R.string.ExpiryDate))
-//        }
-
-        // "(?:0[1-9]|1[0-2])/[0-9]{2}"
-
 
         if (readyToAdd) {
             addProductViewModel.addBackAccountData(
-                accountNumber = bottomSheetDialog.account_number.text.toString().trim(),
-                bankName = bottomSheetDialog.bank_name.text.toString().trim(),
-                bankHolderName = bottomSheetDialog.account_holder_name.text.toString().trim(),
-                ibanNumber = bottomSheetDialog.iban_number.text.toString().trim(),
-                swiftCode = bottomSheetDialog.etSwiftCode.text.toString().trim(),
-                expiaryDate = bottomSheetDialog.etExpireDate.text.toString().trim(),
-                SaveForLaterUse = bottomSheetDialog.switch_save_later.isChecked.toString()
+                accountNumber = binding.accountNumber.text.toString().trim(),
+                bankName = binding.bankName.text.toString().trim(),
+                bankHolderName = binding.accountHolderName.text.toString().trim(),
+                ibanNumber = binding.ibanNumber.text.toString().trim(),
+                swiftCode = binding.etSwiftCode.text.toString().trim(),
+                expiaryDate = binding.etExpireDate.text.toString().trim(),
+                SaveForLaterUse = binding.switchSaveLater.isChecked.toString()
             )
             bottomSheetDialog.dismiss()
         }
@@ -604,7 +517,7 @@ class PricingActivity : BaseActivity() {
     private fun addBankAdaptor(list: ArrayList<AccountDetails>) {
         selectedAccountDetails = list
         adapterList.updateAdapter(list)
-        addbank_rcv.adapter = adapterList
+        binding.addbankRcv.adapter = adapterList
     }
 
     /****validate selected data**/
@@ -623,77 +536,51 @@ class PricingActivity : BaseActivity() {
     }
 
     fun callNextScreen() {
-        if (switchSaudiBankDeposit1.isChecked && ((selectedAccountDetails.filter { it.isSelected }).isEmpty())) {
+        if (binding.switchSaudiBankDeposit1.isChecked && ((selectedAccountDetails.filter { it.isSelected }).isEmpty())) {
             showError(getString(R.string.selectBackAccount))
         } else {
             ////////to get edittext data and save to static class////////
-            val priceText: String = buynowprice.text.toString()
-            val startPrice: String = startprice.text.toString()
-            val reservedPrice: String = reserveprice.text.toString()
+            val priceText: String = binding.buynowprice.text.toString()
+            val startPrice: String = binding.startprice.text.toString()
+            val reservedPrice: String = binding.reserveprice.text.toString()
             AddProductObjectData.priceFixed = priceText
-            AddProductObjectData.priceFixedOption = fixedPriceType_rb1.isChecked
-            AddProductObjectData.auctionOption = auctionType_rb2.isChecked
+            AddProductObjectData.priceFixedOption = binding.fixedPriceTypeRb1.isChecked
+            AddProductObjectData.auctionOption = binding.auctionTypeRb2.isChecked
             AddProductObjectData.auctionMinPrice = reservedPrice
             AddProductObjectData.auctionStartPrice = startPrice
             AddProductObjectData.selectedAccountDetails = null
             val paymentOptionList: ArrayList<Int> = ArrayList()
-            if (switchSaudiBankDeposit1.isChecked && selectedAccountDetails != null) {
+            if (binding.switchSaudiBankDeposit1.isChecked && selectedAccountDetails != null) {
                 paymentOptionList.add(AddProductObjectData.PAYMENT_OPTION_BANk)
                 AddProductObjectData.selectedAccountDetails = arrayListOf()
                 AddProductObjectData.selectedAccountDetails?.addAll((selectedAccountDetails.filter { it.isSelected }))
             }
-            if (switchCashPayment.isChecked) {
+            if (binding.switchCashPayment.isChecked) {
                 paymentOptionList.add(AddProductObjectData.PAYMENT_OPTION_CASH)
             }
-            if (switchMadaPayment.isChecked) {
+            if (binding.switchMadaPayment.isChecked) {
                 paymentOptionList.add(AddProductObjectData.PAYMENT_OPTION_Mada)
             }
-            if (switchCreditCard.isChecked) {
+            if (binding.switchCreditCard.isChecked) {
                 paymentOptionList.add(AddProductObjectData.PAYMENT_OPTION_MasterCard)
             }
             AddProductObjectData.paymentOptionList = paymentOptionList
             AddProductObjectData.isNegotiablePrice =
-                priceNegotiable_rb3.isChecked
-
-//                        if (isEdit) {
-//                            startActivity(
-//                                Intent(
-//                                    this,
-//                                    ConfirmationAddProductActivity::class.java
-//                                ).apply {
-//                                    putExtra("whereCome", "Add")
-//                                    finish()
-//                                })
-//                        } else {
+                binding.priceNegotiableRb3.isChecked
             startActivity(Intent(this, ListingDurationActivity::class.java).apply {
                 putExtra(ConstantObjects.isEditKey, isEdit)
                 finish()
             })
-//                        }
-
-
         }
     }
 
     private fun validaterSaleTypeRadiobutton(): Boolean {
-//        return if (fixedPriceType_rb1.isChecked or auctionType_rb2.isChecked or priceNegotiable_rb3.isChecked) {
-//            true
-//        } else {
-//            showError(getString(R.string.SelectSaleType))
-//            false
-//        }
-
-        return if (fixedPriceType_rb1.isChecked or auctionType_rb2.isChecked or priceNegotiable_rb3.isChecked) {
-
-            //            if (!fixedPriceType_rb1.isChecked) {
-//                showError(getString(R.string.SelectFixedType))
-//                false
-//            } else
+        return if (binding.fixedPriceTypeRb1.isChecked or binding.auctionTypeRb2.isChecked or binding.priceNegotiableRb3.isChecked) {
             true
-        }else if (titleSaleType.visibility==View.GONE) {
+        } else if (binding.titleSaleType.visibility == View.GONE) {
 
             true
-        }else {
+        } else {
             showError(getString(R.string.SelectSaleType))
             false
         }
@@ -701,38 +588,18 @@ class PricingActivity : BaseActivity() {
 
     private fun checkValidation(): Boolean {
         var status = true
-        if (fixedPriceType_rb1.isChecked && !validateCheckPriceBox()) {
+        if (binding.fixedPriceTypeRb1.isChecked && !validateCheckPriceBox()) {
             status = false
-        } else if (auctionType_rb2.isChecked && !validateStartPriceBox() or !validateReservePriceBox()) {
+        } else if (binding.auctionTypeRb2.isChecked && !validateStartPriceBox() or !validateReservePriceBox()) {
             status = false
         }
-//        when {
-//            fixedPriceType_rb1.isChecked -> {
-//                //!limitBuyNowPrice()
-//                if (!validateCheckPriceBox()) {
-//                    return  false
-//                }
-//            }
-//            auctionType_rb2.isChecked -> {
-//                if (!validateStartPriceBox() or !validateReservePriceBox() or !validAmount() or !limitReservePrice() or !limitStartPrice())
-//                    return false
-//            }
-////            priceNegotiable_rb3.isChecked -> {
-////                if (!validateCheckPriceBox() or !validateStartPriceBox() or !validateReservePriceBox()
-////                    or !validAmount() or !limitBuyNowPrice() or !limitReservePrice()
-////                    or !limitStartPrice()
-////                )
-////                    return false
-////            }
-//        }
         return status
     }
 
     private fun validateCheckPriceBox(): Boolean {
-        val Inputname = buynowprice.text.toString().trim { it <= ' ' }
+        val Inputname = binding.buynowprice.text.toString().trim { it <= ' ' }
         return if (Inputname.isEmpty()) {
-            buynowprice.error = getString(R.string.Fieldcantbeempty)
-            //  showError(getString(R.string.Fieldcantbeempty))
+            binding.buynowprice.error = getString(R.string.Fieldcantbeempty)
             false
         } else {
             true
@@ -740,10 +607,9 @@ class PricingActivity : BaseActivity() {
     }
 
     private fun validateStartPriceBox(): Boolean {
-        val InputStartPrice = startprice.text.toString().trim { it <= ' ' }
+        val InputStartPrice = binding.startprice.text.toString().trim { it <= ' ' }
         return if (InputStartPrice.isEmpty()) {
-            // showError(getString(R.string.Fieldcantbeempty))
-            startprice.error = getString(R.string.Fieldcantbeempty)
+            binding.startprice.error = getString(R.string.Fieldcantbeempty)
             false
         } else {
             true
@@ -751,9 +617,9 @@ class PricingActivity : BaseActivity() {
     }
 
     private fun validateReservePriceBox(): Boolean {
-        val InputReservePrice = reserveprice.text.toString().trim { it <= ' ' }
+        val InputReservePrice = binding.reserveprice.text.toString().trim { it <= ' ' }
         return if (InputReservePrice.isEmpty()) {
-            reserveprice.error = getString(R.string.Fieldcantbeempty)
+            binding.reserveprice.error = getString(R.string.Fieldcantbeempty)
             false
         } else {
             true
@@ -763,14 +629,14 @@ class PricingActivity : BaseActivity() {
     private fun validateradiobutton(): Boolean {
         var ready = true
         ready =
-            if (switchCashPayment.isChecked || switchSaudiBankDeposit1.isChecked || switchCreditCard.isChecked || switchMadaPayment.isChecked) {
+            if (binding.switchCashPayment.isChecked || binding.switchSaudiBankDeposit1.isChecked || binding.switchCreditCard.isChecked || binding.switchMadaPayment.isChecked) {
                 true
             } else {
                 showError(getString(R.string.Selectanyonepaymentmethod))
                 false
             }
 
-        if (switchSaudiBankDeposit1.isChecked && selectedAccountDetails == null) {
+        if (binding.switchSaudiBankDeposit1.isChecked && selectedAccountDetails == null) {
             ready = false
             showError(getString(R.string.selectBackAccount))
         }

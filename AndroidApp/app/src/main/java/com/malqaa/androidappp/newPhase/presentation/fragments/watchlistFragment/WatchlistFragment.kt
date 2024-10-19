@@ -12,22 +12,16 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.FragmentWatchlistBinding
+import com.malqaa.androidappp.newPhase.data.network.service.SetOnProductItemListeners
+import com.malqaa.androidappp.newPhase.domain.models.productResp.Product
+import com.malqaa.androidappp.newPhase.presentation.activities.loginScreen.SignInActivity
+import com.malqaa.androidappp.newPhase.presentation.activities.productDetailsActivity.ProductDetailsActivity
+import com.malqaa.androidappp.newPhase.presentation.adapterShared.ProductHorizontalAdapter
+import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.show
-import com.malqaa.androidappp.newPhase.domain.models.productResp.Product
-
-import com.malqaa.androidappp.newPhase.utils.ConstantObjects
-
-import com.malqaa.androidappp.newPhase.presentation.adapterShared.ProductHorizontalAdapter
-import com.malqaa.androidappp.newPhase.data.network.service.SetOnProductItemListeners
-
-import com.malqaa.androidappp.newPhase.presentation.activities.loginScreen.SignInActivity
-import com.malqaa.androidappp.newPhase.presentation.activities.productDetailsActivity.ProductDetailsActivity
-
-import kotlinx.android.synthetic.main.fragment_watchlist.*
-import kotlinx.android.synthetic.main.fragment_watchlist.swipe_to_refresh
-import kotlinx.android.synthetic.main.toolbar_main.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -36,42 +30,31 @@ import kotlinx.coroutines.withContext
 class WatchlistFragment : Fragment(R.layout.fragment_watchlist),
     SwipeRefreshLayout.OnRefreshListener, SetOnProductItemListeners {
 
+    private var _binding: FragmentWatchlistBinding? = null
+    private val binding get() = _binding!!
 
     private var wishListViewModel: WishListViewModel? = null
     private var wishListAdapter: ProductHorizontalAdapter? = null
     private var productList: ArrayList<Product>? = null
     private var lastUpdateIndex = -1
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        toolbar_title.text = getString(R.string.favorite)
 
-        swipe_to_refresh.setColorSchemeResources(R.color.colorPrimaryDark)
-        swipe_to_refresh.setOnRefreshListener(this)
+        _binding = FragmentWatchlistBinding.bind(view) // Initialize View Binding
+
+        binding.toolbarMain.toolbarTitle.text = getString(R.string.favorite)
+        binding.swipeToRefresh.setColorSchemeResources(R.color.colorPrimaryDark)
+        binding.swipeToRefresh.setOnRefreshListener(this)
         setAdapterForWhisList()
         setClickListeners()
         setupViewModel()
-
-
-//        if(!EventBus.getDefault().isRegistered(this)){
-//            EventBus.getDefault().register(this)
-//        }
-
-//        fav_rcv!!.adapter = GenericProductAdapter(ConstantObjects.userwatchlist,requireContext())
-//
-//        if (!ConstantObjects.userwatchlist.isEmpty()) {
-//            fav_rcv!!.adapter!!.notifyDataSetChanged()
-//        } else {
-//            HelpFunctions.ShowLongToast(
-//                getString(R.string.NoRecordFound),
-//                this@WatchlistFragment.context
-//            )
-//        }
     }
 
     private fun setAdapterForWhisList() {
         productList = ArrayList()
         wishListAdapter = ProductHorizontalAdapter(productList ?: arrayListOf(), this, 0, false)
-        fav_rcv.apply {
+        binding.favRcv.apply {
             adapter = wishListAdapter
             layoutManager = GridLayoutManager(requireActivity(), 2)
         }
@@ -81,11 +64,11 @@ class WatchlistFragment : Fragment(R.layout.fragment_watchlist),
         wishListViewModel = ViewModelProvider(this).get(WishListViewModel::class.java)
         wishListViewModel!!.isLoading.observe(this) {
             if (it)
-                progressBar.show()
+                binding.progressBar.show()
             else {
 
                 HelpFunctions.dismissProgressBar()
-                progressBar.hide()
+                binding.progressBar.hide()
             }
         }
         wishListViewModel!!.isNetworkFail.observe(this) {
@@ -175,8 +158,8 @@ class WatchlistFragment : Fragment(R.layout.fragment_watchlist),
     }
 
     override fun onRefresh() {
-        swipe_to_refresh.isRefreshing = false
-        tvError.hide()
+        binding.swipeToRefresh.isRefreshing = false
+        binding.tvError.hide()
         wishListViewModel?.getWishListProduct()
     }
 
@@ -187,14 +170,13 @@ class WatchlistFragment : Fragment(R.layout.fragment_watchlist),
 
 
     private fun showProductApiError(message: String) {
-        tvError.show()
-        tvError.text = message
+        binding.tvError.show()
+        binding.tvError.text = message
     }
 
     private fun setClickListeners() {
-        back_btn.setOnClickListener {
+        binding.toolbarMain.backBtn.setOnClickListener {
             findNavController().popBackStack()
-
         }
     }
 
@@ -279,14 +261,4 @@ class WatchlistFragment : Fragment(R.layout.fragment_watchlist),
         productList = null
     }
 
-//    @Subscribe(threadMode = ThreadMode.MAIN)
-//    fun onMessageEvent(event: WatchList?) {
-//        fav_rcv!!.adapter!!.notifyDataSetChanged()
-//    }
-//
-//    override fun onDestroyView() {
-//        super.onDestroyView()
-//        EventBus.getDefault().unregister(this)
-//
-//    }
 }

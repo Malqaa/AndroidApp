@@ -12,22 +12,21 @@ import androidx.core.content.PermissionChecker
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.ActivityAddPhotoBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
+import com.malqaa.androidappp.newPhase.domain.models.ImageSelectModel
+import com.malqaa.androidappp.newPhase.domain.models.addProductToCartResp.AddProductObjectData
+import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activity5.DynamicTemplateActivtiy
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.getColorCompat
 import com.malqaa.androidappp.newPhase.utils.linearLayoutManager
-import com.malqaa.androidappp.newPhase.domain.models.ImageSelectModel
-import com.malqaa.androidappp.newPhase.domain.models.addProductToCartResp.AddProductObjectData
-import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activity5.DynamicTemplateActivtiy
 import com.sangcomz.fishbun.FishBun
 import com.sangcomz.fishbun.FishBun.Companion.INTENT_PATH
 import com.sangcomz.fishbun.adapter.image.impl.GlideAdapter
-import kotlinx.android.synthetic.main.activity_add_photo.*
-import kotlinx.android.synthetic.main.toolbar_main.*
 
-
-class AddPhotoActivity : BaseActivity(), SelectedImagesAdapter.SetOnSelectedMainImage {
+class AddPhotoActivity : BaseActivity<ActivityAddPhotoBinding>(),
+    SelectedImagesAdapter.SetOnSelectedMainImage {
 
     private var title: String = ""
     private var file_name: String = ""
@@ -43,7 +42,9 @@ class AddPhotoActivity : BaseActivity(), SelectedImagesAdapter.SetOnSelectedMain
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_photo)
+        // Initialize view binding
+        binding = ActivityAddPhotoBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         title = intent?.getStringExtra("title").toString()
         file_name = intent?.getStringExtra("file_name") ?: ""
@@ -51,17 +52,13 @@ class AddPhotoActivity : BaseActivity(), SelectedImagesAdapter.SetOnSelectedMain
 
         setupVideoLinksAapter()
         if (!ConstantObjects.isModify) {
-//            HelpFunctions.ShowLongToast(
-//                getString(R.string.noSubCategoryFound),
-//                this@AddPhotoActivity
-//            )
+
         }
 
-        toolbar_title.text = getString(R.string.item_details)
+        binding.toolbarMain.toolbarTitle.text = getString(R.string.item_details)
         setViewClickListeners()
         setImagesAdapter()
 
-        //    storePath()
         if (intent.getBooleanExtra(ConstantObjects.isEditKey, false)) {
             AddProductObjectData.images?.forEach { list ->
                 list.isEdit = true
@@ -77,10 +74,6 @@ class AddPhotoActivity : BaseActivity(), SelectedImagesAdapter.SetOnSelectedMain
 
         }
     }
-
-//    fun setData() {
-//        selectedImagesAdapter.updateData(AddProductObjectData.listMedia ?: arrayListOf())
-//    }
 
     private fun setupVideoLinksAapter() {
         videoLinks = ArrayList()
@@ -108,7 +101,7 @@ class AddPhotoActivity : BaseActivity(), SelectedImagesAdapter.SetOnSelectedMain
                 }
 
             })
-        rvVidoes.apply {
+        binding.rvVidoes.apply {
             adapter = videoAddLinkAdapter
             layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
         }
@@ -116,17 +109,17 @@ class AddPhotoActivity : BaseActivity(), SelectedImagesAdapter.SetOnSelectedMain
 
     private fun setImagesAdapter() {
         selectedImagesAdapter = SelectedImagesAdapter(selectedImagesURI, this)
-        rvPakat.apply {
+        binding.rvPakat.apply {
             adapter = selectedImagesAdapter
             layoutManager = GridLayoutManager(this@AddPhotoActivity, 2)
         }
     }
 
     private fun setViewClickListeners() {
-        back_btn.setOnClickListener {
+        binding.toolbarMain.backBtn.setOnClickListener {
             finish()
         }
-        containerAddVideo.setOnClickListener {
+        binding.containerAddVideo.setOnClickListener {
             val dialogAddVideoLink =
                 DialogAddVideoLink(this, object : DialogAddVideoLink.SetSaveLinkListeners {
                     override fun saveLinkListeners(value: String) {
@@ -138,7 +131,7 @@ class AddPhotoActivity : BaseActivity(), SelectedImagesAdapter.SetOnSelectedMain
             dialogAddVideoLink.show()
         }
 
-        butt555.setOnClickListener {
+        binding.butt555.setOnClickListener {
             if (selectedImagesURI.size == 0) {
                 showError(getString(R.string.Pleaseaddaphoto))
             } else if (videoLinks!!.isNotEmpty()) {
@@ -162,36 +155,26 @@ class AddPhotoActivity : BaseActivity(), SelectedImagesAdapter.SetOnSelectedMain
             } else {
                 GO()
             }
-//            else {
-//                val video = addvideo.text.toString()
-//                if (video.isEmpty()) {
-//                    GO()
-//                } else {
-//                    if (URLUtil.isValidUrl(video)) {
-//                        GO()
-//                    } else {
-//                        showError(
-//                            getString(
-//                                R.string.please_enter_valid,
-//                                getString(R.string.video_link)
-//                            )
-//                        )
-//                    }
-//                }
-//            }
-
         }
-        floatingActionButton.setOnClickListener() {
+        binding.floatingActionButton.setOnClickListener() {
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                if (PermissionChecker.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES) == PermissionChecker.PERMISSION_DENIED) {
+                if (PermissionChecker.checkSelfPermission(
+                        this,
+                        Manifest.permission.READ_MEDIA_IMAGES
+                    ) == PermissionChecker.PERMISSION_DENIED
+                ) {
                     val permissions = arrayOf(Manifest.permission.READ_MEDIA_IMAGES)
                     requestPermissions(permissions, PERMISSION_CODE)
                 } else {
                     pickImageFromGallery2()
                 }
             } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                if (PermissionChecker.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PermissionChecker.PERMISSION_DENIED) {
+                if (PermissionChecker.checkSelfPermission(
+                        this,
+                        Manifest.permission.READ_EXTERNAL_STORAGE
+                    ) == PermissionChecker.PERMISSION_DENIED
+                ) {
                     val permissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
                     requestPermissions(permissions, PERMISSION_CODE)
                 } else {
@@ -200,22 +183,6 @@ class AddPhotoActivity : BaseActivity(), SelectedImagesAdapter.SetOnSelectedMain
             } else {
                 pickImageFromGallery2()
             }
-
-
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//                if (PermissionChecker.checkSelfPermission(
-//                        this,
-//                        Manifest.permission.READ_EXTERNAL_STORAGE
-//                    ) == PermissionChecker.PERMISSION_DENIED
-//                ) {
-//                    val permissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
-//                    requestPermissions(permissions, PERMISSION_CODE)
-//                } else {
-//                    pickImageFromGallery2()
-//                }
-//            } else {
-//                pickImageFromGallery2()
-//            }
         }
     }
 
@@ -231,7 +198,12 @@ class AddPhotoActivity : BaseActivity(), SelectedImagesAdapter.SetOnSelectedMain
             }
         }
     }
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == PERMISSION_CODE) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -283,8 +255,8 @@ class AddPhotoActivity : BaseActivity(), SelectedImagesAdapter.SetOnSelectedMain
                             } catch (e: Exception) {
                             }
                         }
-                        if(selectedImagesURI.isNotEmpty())
-                        selectedImagesURI[0].is_main = true
+                        if (selectedImagesURI.isNotEmpty())
+                            selectedImagesURI[0].is_main = true
 
                         selectedImagesAdapter.updateData(selectedImagesURI)
                         selectedImagesAdapter.notifyDataSetChanged()

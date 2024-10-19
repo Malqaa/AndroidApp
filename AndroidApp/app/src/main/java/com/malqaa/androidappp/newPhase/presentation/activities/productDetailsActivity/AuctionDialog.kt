@@ -5,15 +5,14 @@ import android.content.DialogInterface
 import android.view.View
 import com.google.gson.Gson
 import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.DialogAuctionBinding
 import com.malqaa.androidappp.newPhase.core.BaseDialog
+import com.malqaa.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
+import com.malqaa.androidappp.newPhase.domain.models.addBidResp.AddBidResp
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.show
-import com.malqaa.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
-import com.malqaa.androidappp.newPhase.domain.models.addBidResp.AddBidResp
-
-import kotlinx.android.synthetic.main.dialog_auction.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.HttpException
@@ -26,12 +25,14 @@ class AuctionDialog(
     var auctionMinimumPrice: Float,
     var auctionNegotiatePrice: Float,
     var setClickListeners: SetClickListeners
-) : BaseDialog(context) {
+) : BaseDialog<DialogAuctionBinding>(context) {
+
     var automaticBid = false
     var countriesCallback: Call<AddBidResp>? = null
     var generalRespone: AddBidResp? = null
-    override fun getViewId(): Int {
-        return R.layout.dialog_auction
+
+    override fun inflateViewBinding(): DialogAuctionBinding {
+        return DialogAuctionBinding.inflate(layoutInflater)
     }
 
     override fun isFullScreen(): Boolean = false
@@ -39,117 +40,114 @@ class AuctionDialog(
     override fun isCancelable(): Boolean = false
     override fun isLoadingDialog(): Boolean = false
     override fun initialization() {
-        containerAutomaticBidding.hide()
-        tvBidStartPrice.text = auctionStartPrice.toString()
-        etCountNumber.setText(auctionNegotiatePrice.toString())
+        binding.containerAutomaticBidding.hide()
+        binding.tvBidStartPrice.text = auctionStartPrice.toString()
+        binding.etCountNumber.setText(auctionNegotiatePrice.toString())
         if (ConstantObjects.currentLanguage == ConstantObjects.ARABIC) {
-            btnAdd.setBackgroundResource(R.drawable.background_corener_from_end_light_orange)
-            btnSubtract.setBackgroundResource(R.drawable.background_corener_from_start_light_orange)
-            conatinerRayal.setBackgroundResource(R.drawable.background_corener_from_start_light_orange)
+            binding.btnAdd.setBackgroundResource(R.drawable.background_corener_from_end_light_orange)
+            binding.btnSubtract.setBackgroundResource(R.drawable.background_corener_from_start_light_orange)
+            binding.conatinerRayal.setBackgroundResource(R.drawable.background_corener_from_start_light_orange)
         } else {
-            btnSubtract.setBackgroundResource(R.drawable.background_corener_from_end_light_orange)
-            btnAdd.setBackgroundResource(R.drawable.background_corener_from_start_light_orange)
-            conatinerRayal.setBackgroundResource(R.drawable.background_corener_from_end_light_orange)
+            binding.btnSubtract.setBackgroundResource(R.drawable.background_corener_from_end_light_orange)
+            binding.btnAdd.setBackgroundResource(R.drawable.background_corener_from_start_light_orange)
+            binding.conatinerRayal.setBackgroundResource(R.drawable.background_corener_from_end_light_orange)
         }
         setOnClickListenres()
 
     }
 
     private fun setOnClickListenres() {
-        switchAutoBid.setOnCheckedChangeListener { _, b ->
+        binding.switchAutoBid.setOnCheckedChangeListener { _, b ->
             if (b) {
                 automaticBid = true
-                containerAutomaticBidding.show()
+                binding.containerAutomaticBidding.show()
             } else {
                 automaticBid = false
-                containerAutomaticBidding.hide()
+                binding.containerAutomaticBidding.hide()
             }
         }
-        btnAdd.setOnClickListener {
-            var count = etCountNumber.text.toString().toFloat()
+
+        binding.btnAdd.setOnClickListener {
+            var count = binding.etCountNumber.text.toString().toFloat()
             count += 1
             println(count)
-            etCountNumber.setText(count.toString())
+            binding.etCountNumber.setText(count.toString())
         }
-        btnSubtract.setOnClickListener {
-            if (etCountNumber.text.toString().trim()
-                    .toFloat() > auctionStartPrice && etCountNumber.text.toString().trim()
+
+        binding.btnSubtract.setOnClickListener {
+            if (binding.etCountNumber.text.toString().trim()
+                    .toFloat() > auctionStartPrice && binding.etCountNumber.text.toString().trim()
                     .toFloat() > auctionNegotiatePrice
             ) {
-                var count = etCountNumber.text.toString().toFloat()
+                var count = binding.etCountNumber.text.toString().toFloat()
                 count -= 1
-                etCountNumber.setText(count.toString())
+                binding.etCountNumber.setText(count.toString())
             }
 
         }
-        close_alert_bid.setOnClickListener {
+        binding.closeAlertBid.setOnClickListener {
             dismiss()
         }
-        btn_bid.setOnClickListener {
-//            if (etCountNumber.text.toString().trim() == "") {
-//                HelpFunctions.ShowLongToast(context.getString(R.string.enterBidPrice), context)
-//            } else if (etCountNumber.text.toString().trim()
-//                    .toFloat() <= auctionStartPrice || etCountNumber.text.toString().trim()
-//                    .toFloat() <= auctionNegotiatePrice
-//            ) {
-//                HelpFunctions.ShowLongToast(
-//                    context.getString(R.string.enterCorrectBidPrice),
-//                    context
-//                )
-//            } else
+        binding.btnBid.setOnClickListener {
+            if (binding.switchAutoBid.isChecked) {
 
-                if (switchAutoBid.isChecked) {
-
-                    var ready = true
-                    if (etCountNumber.text.toString().trim() == "") {
-                        HelpFunctions.ShowLongToast(
-                            context.getString(R.string.enterBidPrice),
-                            context
-                        )
-                    } else if (etIncreaseForEachTIme.text.toString()
-                            .trim() == "" || etIncreaseForEachTIme.text.toString().trim()
-                            .toFloat() == 0f
-                    ) {
-                        ready = false
-                        etIncreaseForEachTIme.error = context.getString(R.string.Fieldcantbeempty)
-                    }
-
-                    if (etIncreaseForEachTIme.text.toString()
-                            .trim() == "" || etIncreaseForEachTIme.text.toString().trim()
-                            .toFloat() == 0f
-                    ) {
-                        ready = false
-                        etIncreaseForEachTIme.error = context.getString(R.string.Fieldcantbeempty)
-                    }
-
-                    if (etHighestBidPrice.text.toString().trim() == "") {
-                        ready = false
-                        etHighestBidPrice.error = context.getString(R.string.Fieldcantbeempty)
-                    }
-                    else if (etHighestBidPrice.text.toString().trim()
-                            .toFloat() < etCountNumber.text.toString().trim().toFloat()
-                    ) {
-                        ready = false
-                        etHighestBidPrice.error = context.getString(R.string.enterCorrectBidPrice)
-                    }
-
-                    if (ready) {
-                        addBid(
-                            productId,
-                            etCountNumber.text.toString().toFloat(),
-                            true,
-                            etIncreaseForEachTIme.text.toString().trim().toFloat(),
-                            etHighestBidPrice.text.toString().trim().toFloat()
-                        )
-                    }
+                var ready = true
+                if (binding.etCountNumber.text.toString().trim() == "") {
+                    HelpFunctions.ShowLongToast(
+                        context.getString(R.string.enterBidPrice),
+                        context
+                    )
+                } else if (binding.etIncreaseForEachTIme.text.toString()
+                        .trim() == "" || binding.etIncreaseForEachTIme.text.toString().trim()
+                        .toFloat() == 0f
+                ) {
+                    ready = false
+                    binding.etIncreaseForEachTIme.error =
+                        context.getString(R.string.Fieldcantbeempty)
                 }
-                else {
-                    if (etCountNumber.text.toString().trim() == "") {
-                        HelpFunctions.ShowLongToast(context.getString(R.string.enterBidPrice), context)
-                    }else {
-                        addBid(productId, etCountNumber.text.toString().toFloat(), false, 0f, 0f)
-                    }
+
+                if (binding.etIncreaseForEachTIme.text.toString()
+                        .trim() == "" || binding.etIncreaseForEachTIme.text.toString().trim()
+                        .toFloat() == 0f
+                ) {
+                    ready = false
+                    binding.etIncreaseForEachTIme.error =
+                        context.getString(R.string.Fieldcantbeempty)
                 }
+
+                if (binding.etHighestBidPrice.text.toString().trim() == "") {
+                    ready = false
+                    binding.etHighestBidPrice.error = context.getString(R.string.Fieldcantbeempty)
+                } else if (binding.etHighestBidPrice.text.toString().trim()
+                        .toFloat() < binding.etCountNumber.text.toString().trim().toFloat()
+                ) {
+                    ready = false
+                    binding.etHighestBidPrice.error =
+                        context.getString(R.string.enterCorrectBidPrice)
+                }
+
+                if (ready) {
+                    addBid(
+                        productId,
+                        binding.etCountNumber.text.toString().toFloat(),
+                        true,
+                        binding.etIncreaseForEachTIme.text.toString().trim().toFloat(),
+                        binding.etHighestBidPrice.text.toString().trim().toFloat()
+                    )
+                }
+            } else {
+                if (binding.etCountNumber.text.toString().trim() == "") {
+                    HelpFunctions.ShowLongToast(context.getString(R.string.enterBidPrice), context)
+                } else {
+                    addBid(
+                        productId,
+                        binding.etCountNumber.text.toString().toFloat(),
+                        false,
+                        0f,
+                        0f
+                    )
+                }
+            }
         }
     }
 
@@ -160,9 +158,9 @@ class AuctionDialog(
         increaseEachTimePrice: Float,
         highestBidPrice: Float
     ) {
-        progressBar.visibility = View.VISIBLE
-        close_alert_bid.isEnabled = false
-        btn_bid.isEnabled = false
+        binding.progressBar.visibility = View.VISIBLE
+        binding.closeAlertBid.isEnabled = false
+        binding.btnBid.isEnabled = false
         var data: HashMap<String, Any> = HashMap()
         data["productId"] = productId
         data["id"] = 0
@@ -174,9 +172,9 @@ class AuctionDialog(
         countriesCallback = getRetrofitBuilder().addBid(data)
         countriesCallback?.enqueue(object : Callback<AddBidResp> {
             override fun onFailure(call: Call<AddBidResp>, t: Throwable) {
-                progressBar.visibility = View.GONE
-                btn_bid.isEnabled = true
-                close_alert_bid.isEnabled = true
+                binding.progressBar.visibility = View.GONE
+                binding.btnBid.isEnabled = true
+                binding.closeAlertBid.isEnabled = true
                 if (call.isCanceled) {
 
                 } else if (t is HttpException) {
@@ -194,9 +192,9 @@ class AuctionDialog(
                 call: Call<AddBidResp>,
                 response: Response<AddBidResp>
             ) {
-                btn_bid.isEnabled = true
-                close_alert_bid.isEnabled = true
-                progressBar.visibility = View.GONE
+                binding.btnBid.isEnabled = true
+                binding.closeAlertBid.isEnabled = true
+                binding.progressBar.visibility = View.GONE
                 try {
                     if (response.isSuccessful) {
                         response.body()?.let {

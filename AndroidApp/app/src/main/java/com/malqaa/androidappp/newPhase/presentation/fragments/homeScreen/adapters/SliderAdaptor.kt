@@ -1,24 +1,23 @@
 package com.malqaa.androidappp.newPhase.presentation.fragments.homeScreen.adapters
 
 import android.content.Context
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.MediaController
 import android.widget.ProgressBar
-import android.widget.VideoView
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.malqaa.androidappp.R
-import com.malqaa.androidappp.newPhase.utils.Extension
 import com.malqaa.androidappp.newPhase.domain.models.homeSilderResp.HomeSliderItem
 import com.malqaa.androidappp.newPhase.presentation.fragments.homeScreen.ListenerSlider
+import com.malqaa.androidappp.newPhase.utils.Extension
 
 
-class SliderAdaptor(context: Context, private val sliderList: List<HomeSliderItem>, val details :Boolean,
-                    private val listenerSlider: ListenerSlider) :
+class SliderAdaptor(
+    context: Context, private val sliderList: List<HomeSliderItem>, val details: Boolean,
+    private val listenerSlider: ListenerSlider
+) :
     PagerAdapter() {
     private val context: Context
     private var layoutInflater: LayoutInflater? = null
@@ -37,7 +36,7 @@ class SliderAdaptor(context: Context, private val sliderList: List<HomeSliderIte
         val view = layoutInflater!!.inflate(R.layout.slider_item, null)
         val slider_image: ImageView = view.findViewById(R.id.slider_image)
         val loader: ProgressBar = view.findViewById(R.id.loader)
-        if(details){
+        if (details) {
             if (sliderList[position].type != 2) {
                 Extension.loadImgGlide(
                     context,
@@ -45,7 +44,7 @@ class SliderAdaptor(context: Context, private val sliderList: List<HomeSliderIte
                     slider_image, loader
                 )
             }
-        }else{
+        } else {
             slider_image.scaleType = ImageView.ScaleType.FIT_XY;
 
             Extension.loadImgGlide(

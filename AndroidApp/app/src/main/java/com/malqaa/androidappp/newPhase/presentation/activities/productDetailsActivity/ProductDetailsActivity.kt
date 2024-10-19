@@ -23,6 +23,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.ActivityProductDetails2Binding
+import com.malqaa.androidappp.databinding.ActivityProductDetailsItem2Binding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
 import com.malqaa.androidappp.newPhase.data.network.service.SetOnProductItemListeners
 import com.malqaa.androidappp.newPhase.domain.enums.ShowUserInfo
@@ -66,101 +68,6 @@ import com.malqaa.androidappp.newPhase.utils.linearLayoutManager
 import com.malqaa.androidappp.newPhase.utils.show
 import com.yariksoffice.lingver.Lingver
 import io.paperdb.Paper
-import kotlinx.android.synthetic.main.activity_product_details2.Bid_on_price_tv
-import kotlinx.android.synthetic.main.activity_product_details2.btnNextImage
-import kotlinx.android.synthetic.main.activity_product_details2.btnShare
-import kotlinx.android.synthetic.main.activity_product_details2.containerBidOnPrice
-import kotlinx.android.synthetic.main.activity_product_details2.containerBuyNow
-import kotlinx.android.synthetic.main.activity_product_details2.containerCurrentPriceBuy
-import kotlinx.android.synthetic.main.activity_product_details2.containerMainProduct
-import kotlinx.android.synthetic.main.activity_product_details2.containerMyBid
-import kotlinx.android.synthetic.main.activity_product_details2.containerShareAndFav
-import kotlinx.android.synthetic.main.activity_product_details2.current_price_buy_tv
-import kotlinx.android.synthetic.main.activity_product_details2.fbButtonBack
-import kotlinx.android.synthetic.main.activity_product_details2.ivFav
-import kotlinx.android.synthetic.main.activity_product_details2.loader
-import kotlinx.android.synthetic.main.activity_product_details2.other_image_layout
-import kotlinx.android.synthetic.main.activity_product_details2.productimg
-import kotlinx.android.synthetic.main.activity_product_details2.rvProductImages
-import kotlinx.android.synthetic.main.activity_product_details2.slider_details
-import kotlinx.android.synthetic.main.activity_product_details2.swipe_to_refresh
-import kotlinx.android.synthetic.main.activity_product_details2.tvMyBidPrice
-import kotlinx.android.synthetic.main.activity_product_details2.txtPriceNow
-import kotlinx.android.synthetic.main.activity_product_details_item_2.btnMapSeller
-import kotlinx.android.synthetic.main.activity_product_details_item_2.btnMoreItemDetails
-import kotlinx.android.synthetic.main.activity_product_details_item_2.btnMoreSpecification
-import kotlinx.android.synthetic.main.activity_product_details_item_2.btnPriceNegotiation
-import kotlinx.android.synthetic.main.activity_product_details_item_2.btnSellerProducts
-import kotlinx.android.synthetic.main.activity_product_details_item_2.contaienrSimilerProduts
-import kotlinx.android.synthetic.main.activity_product_details_item_2.containerAuctionNumber
-import kotlinx.android.synthetic.main.activity_product_details_item_2.containerAuctioncountdownTimer_bar
-import kotlinx.android.synthetic.main.activity_product_details_item_2.containerMada
-import kotlinx.android.synthetic.main.activity_product_details_item_2.containerMainAskQuestion
-import kotlinx.android.synthetic.main.activity_product_details_item_2.containerMaster
-import kotlinx.android.synthetic.main.activity_product_details_item_2.containerSellerImage
-import kotlinx.android.synthetic.main.activity_product_details_item_2.containerSellerInfo
-import kotlinx.android.synthetic.main.activity_product_details_item_2.containerSellerProduct
-import kotlinx.android.synthetic.main.activity_product_details_item_2.contianerAskQuestion
-import kotlinx.android.synthetic.main.activity_product_details_item_2.contianerBankAccount
-import kotlinx.android.synthetic.main.activity_product_details_item_2.contianerCash
-import kotlinx.android.synthetic.main.activity_product_details_item_2.contianerRateText
-import kotlinx.android.synthetic.main.activity_product_details_item_2.days
-import kotlinx.android.synthetic.main.activity_product_details_item_2.etWriteQuestion
-import kotlinx.android.synthetic.main.activity_product_details_item_2.facebook_btn
-import kotlinx.android.synthetic.main.activity_product_details_item_2.hours
-import kotlinx.android.synthetic.main.activity_product_details_item_2.instagram_btn
-import kotlinx.android.synthetic.main.activity_product_details_item_2.isSellerProductHide_iv
-import kotlinx.android.synthetic.main.activity_product_details_item_2.ivRateSeller
-import kotlinx.android.synthetic.main.activity_product_details_item_2.ivSellerFollow
-import kotlinx.android.synthetic.main.activity_product_details_item_2.layDetails
-import kotlinx.android.synthetic.main.activity_product_details_item_2.laySpec
-import kotlinx.android.synthetic.main.activity_product_details_item_2.linHappy
-import kotlinx.android.synthetic.main.activity_product_details_item_2.linSad
-import kotlinx.android.synthetic.main.activity_product_details_item_2.linSmile
-import kotlinx.android.synthetic.main.activity_product_details_item_2.linked_in_btn
-import kotlinx.android.synthetic.main.activity_product_details_item_2.member_since_Tv
-import kotlinx.android.synthetic.main.activity_product_details_item_2.minutes
-import kotlinx.android.synthetic.main.activity_product_details_item_2.rating_bar_detail_tv
-import kotlinx.android.synthetic.main.activity_product_details_item_2.readMoreTextView
-import kotlinx.android.synthetic.main.activity_product_details_item_2.rvProductSpecification
-import kotlinx.android.synthetic.main.activity_product_details_item_2.rvQuestionForProduct
-import kotlinx.android.synthetic.main.activity_product_details_item_2.rvSellerProduct
-import kotlinx.android.synthetic.main.activity_product_details_item_2.rvSimilarProducts
-import kotlinx.android.synthetic.main.activity_product_details_item_2.rv_review
-import kotlinx.android.synthetic.main.activity_product_details_item_2.seconds
-import kotlinx.android.synthetic.main.activity_product_details_item_2.sectionQs
-import kotlinx.android.synthetic.main.activity_product_details_item_2.sellerName
-import kotlinx.android.synthetic.main.activity_product_details_item_2.sellerProgressBar
-import kotlinx.android.synthetic.main.activity_product_details_item_2.seller_city
-import kotlinx.android.synthetic.main.activity_product_details_item_2.seller_number
-import kotlinx.android.synthetic.main.activity_product_details_item_2.seller_picture
-import kotlinx.android.synthetic.main.activity_product_details_item_2.seller_product_tv
-import kotlinx.android.synthetic.main.activity_product_details_item_2.skype_btn
-import kotlinx.android.synthetic.main.activity_product_details_item_2.snapChat_btn
-import kotlinx.android.synthetic.main.activity_product_details_item_2.tiktok_btn
-import kotlinx.android.synthetic.main.activity_product_details_item_2.titleDay
-import kotlinx.android.synthetic.main.activity_product_details_item_2.titleHours
-import kotlinx.android.synthetic.main.activity_product_details_item_2.titleMinutes
-import kotlinx.android.synthetic.main.activity_product_details_item_2.titleSeconds
-import kotlinx.android.synthetic.main.activity_product_details_item_2.tvAddReview
-import kotlinx.android.synthetic.main.activity_product_details_item_2.tvAuctionNumber
-import kotlinx.android.synthetic.main.activity_product_details_item_2.tvErrorNoQuestion
-import kotlinx.android.synthetic.main.activity_product_details_item_2.tvErrorNoSellerProduct
-import kotlinx.android.synthetic.main.activity_product_details_item_2.tvErrorNoSpecification
-import kotlinx.android.synthetic.main.activity_product_details_item_2.tvNumberQuestionNotAnswer
-import kotlinx.android.synthetic.main.activity_product_details_item_2.tvProductItemName
-import kotlinx.android.synthetic.main.activity_product_details_item_2.tvProductReview
-import kotlinx.android.synthetic.main.activity_product_details_item_2.tvProductSubtitle
-import kotlinx.android.synthetic.main.activity_product_details_item_2.tvQuestionAndAnswersShowAll
-import kotlinx.android.synthetic.main.activity_product_details_item_2.tvReviewsError
-import kotlinx.android.synthetic.main.activity_product_details_item_2.tvShippingOptions
-import kotlinx.android.synthetic.main.activity_product_details_item_2.tvShowAllReviews
-import kotlinx.android.synthetic.main.activity_product_details_item_2.twitter_btn
-import kotlinx.android.synthetic.main.activity_product_details_item_2.txtHappy
-import kotlinx.android.synthetic.main.activity_product_details_item_2.txtSad
-import kotlinx.android.synthetic.main.activity_product_details_item_2.txtSmile
-import kotlinx.android.synthetic.main.activity_product_details_item_2.txtTypeUser
-import kotlinx.android.synthetic.main.activity_product_details_item_2.youtube_btn
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -170,9 +77,12 @@ import org.joda.time.format.DateTimeFormat
 import java.util.Date
 
 @SuppressLint("SetTextI18n")
-class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
+class ProductDetailsActivity : BaseActivity<ActivityProductDetails2Binding>(),
+    SwipeRefreshLayout.OnRefreshListener,
     SetOnProductItemListeners, QuestionAnswerAdapter.SetonSelectedQuestion,
     BuyCurrentPriceDialog.OnAttachedCartMethodSelected, ListenerSlider {
+
+    lateinit var productDetailsItem2Binding: ActivityProductDetailsItem2Binding
 
     val PERMISSION_PHONE = 120
     var addProductReviewRequestCode = 1000
@@ -231,9 +141,9 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                     val isFollow = intent.getBooleanExtra("isFollow", false)
                     sellerInformation?.isFollowed = isFollow
                     if (isFollow) {
-                        ivSellerFollow.setImageResource(R.drawable.notification)
+                        productDetailsItem2Binding.ivSellerFollow.setImageResource(R.drawable.notification)
                     } else {
-                        ivSellerFollow.setImageResource(R.drawable.notification_log)
+                        productDetailsItem2Binding.ivSellerFollow.setImageResource(R.drawable.notification_log)
                     }
                 }
             }
@@ -242,7 +152,13 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_product_details2)
+
+        // Initialize view binding
+        binding = ActivityProductDetails2Binding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        productDetailsItem2Binding = ActivityProductDetailsItem2Binding.inflate(layoutInflater)
+
         productId = intent.getIntExtra(ConstantObjects.productIdKey, -1)
         comeFrom = intent.getStringExtra("ComeFrom") ?: ""
 
@@ -307,54 +223,54 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
     /**set view changes*/
     private fun setViewChanges() {
-        swipe_to_refresh.setColorSchemeResources(R.color.colorPrimaryDark)
-        swipe_to_refresh.setOnRefreshListener(this)
+        binding.swipeToRefresh.setColorSchemeResources(R.color.colorPrimaryDark)
+        binding.swipeToRefresh.setOnRefreshListener(this)
         if (Lingver.getInstance().getLanguage() == ConstantObjects.ARABIC) {
-            fbButtonBack.scaleX = 1f
+            binding.fbButtonBack.scaleX = 1f
         } else {
-            fbButtonBack.scaleX = -1f
+            binding.fbButtonBack.scaleX = -1f
         }
-        btnMapSeller.hide()
-        containerMyBid.hide()
-        containerAuctionNumber.hide()
+        productDetailsItem2Binding.btnMapSeller.hide()
+        binding.containerMyBid.hide()
+        productDetailsItem2Binding.containerAuctionNumber.hide()
+        val containerMainProduct = binding.root.findViewById<View>(R.id.containerMainProduct)
         containerMainProduct.hide()
-        other_image_layout.hide()
-        btnMoreSpecification.hide()
-        btnMoreItemDetails.hide()
-        contaienrSimilerProduts.hide()
-        containerBidOnPrice.hide()
-        tvShippingOptions.hide()
-        contianerBankAccount.hide()
-        containerMada.hide()
-        containerMaster.hide()
-        contianerCash.hide()
-        containerAuctioncountdownTimer_bar.hide()
+        binding.otherImageLayout.hide()
+        productDetailsItem2Binding.btnMoreSpecification.hide()
+        productDetailsItem2Binding.btnMoreItemDetails.hide()
+        productDetailsItem2Binding.contaienrSimilerProduts.hide()
+        binding.containerBidOnPrice.hide()
+        productDetailsItem2Binding.tvShippingOptions.hide()
+        productDetailsItem2Binding.contianerBankAccount.hide()
+        productDetailsItem2Binding.containerMada.hide()
+        productDetailsItem2Binding.containerMaster.hide()
+        productDetailsItem2Binding.contianerCash.hide()
+        productDetailsItem2Binding.containerAuctioncountdownTimerBar.hide()
         //for reviewa
-        tvReviewsError.hide()
-        contianerRateText.hide()
-        containerSellerInfo.hide()
-        containerSellerProduct.hide()
+        productDetailsItem2Binding.tvReviewsError.hide()
+        productDetailsItem2Binding.contianerRateText.hide()
+        productDetailsItem2Binding.containerSellerInfo.hide()
+        productDetailsItem2Binding.containerSellerProduct.hide()
         //====
-        tvNumberQuestionNotAnswer.text =
+        productDetailsItem2Binding.tvNumberQuestionNotAnswer.text =
             getString(R.string.there_are_2_questions_that_the_seller_did_not_answer, "0")
         if (HelpFunctions.isUserLoggedIn()) {
-            containerMainAskQuestion.show()
-            //  containerBuyButtons.show()
+            productDetailsItem2Binding.containerMainAskQuestion.show()
         } else {
-            containerMainAskQuestion.hide()
-            // containerBuyButtons.hide()
+            productDetailsItem2Binding.containerMainAskQuestion.hide()
         }
         if (isMyProduct) {
-            containerMainAskQuestion.hide()
+            productDetailsItem2Binding.containerMainAskQuestion.hide()
         } else {
-            containerMainAskQuestion.show()
+            productDetailsItem2Binding.containerMainAskQuestion.show()
         }
     }
 
     private fun showProductApiError(message: String) {
         if (productDetails == null) {
+            val containerMainProduct = binding.root.findViewById<View>(R.id.containerMainProduct)
             containerMainProduct.hide()
-            containerShareAndFav.hide()
+            binding.containerShareAndFav.hide()
         }
         HelpFunctions.ShowLongToast(message, this)
     }
@@ -364,14 +280,14 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
     private fun setupViewClickListeners() {
 
-        productimg.setOnClickListener {
+        binding.productimg.setOnClickListener {
             val intent = Intent(this@ProductDetailsActivity, ImageViewLargeActivity::class.java)
             intent.putParcelableArrayListExtra("imgList", productImagesList)
-            intent.putExtra("UrlImg", productimg.tag.toString())
+            intent.putExtra("UrlImg", binding.productimg.tag.toString())
             startActivity(intent)
         }
 
-        ivSellerFollow.setOnClickListener {
+        productDetailsItem2Binding.ivSellerFollow.setOnClickListener {
             if (HelpFunctions.isUserLoggedIn()) {
                 sellerInformation?.let {
                     if (it.isFollowed) {
@@ -393,7 +309,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
 
         }
-        containerAuctionNumber.setOnClickListener {
+        productDetailsItem2Binding.containerAuctionNumber.setOnClickListener {
 
             val bidPersonsDialog = BidPersonsDialog(
                 "${productDetails?.highestBidPrice} ${getString(R.string.Rayal)}",
@@ -411,7 +327,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             )
             bidPersonsDialog.show()
         }
-        tvAddReview.setOnClickListener {
+        productDetailsItem2Binding.tvAddReview.setOnClickListener {
             if (HelpFunctions.isUserLoggedIn()) {
                 startActivityForResult(Intent(this, AddRateProductActivity::class.java).apply {
                     putExtra(ConstantObjects.productIdKey, productId)
@@ -424,55 +340,53 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                     ).apply {})
             }
         }
-        skype_btn.setOnClickListener {
+        productDetailsItem2Binding.skypeBtn.setOnClickListener {
             if (sellerInformation?.skype != null && sellerInformation?.skype != "") {
                 HelpFunctions.openExternalLInk(sellerInformation?.skype!!, this)
             }
         }
-        youtube_btn.setOnClickListener {
+        productDetailsItem2Binding.youtubeBtn.setOnClickListener {
             if (sellerInformation?.youTube != null && sellerInformation?.youTube != "") {
                 HelpFunctions.openExternalLInk(sellerInformation?.youTube!!, this)
 
             }
         }
-        instagram_btn.setOnClickListener {
+        productDetailsItem2Binding.instagramBtn.setOnClickListener {
             if (sellerInformation?.instagram != null && sellerInformation?.instagram != "") {
                 HelpFunctions.openExternalLInk(sellerInformation?.instagram!!, this)
             }
         }
-        facebook_btn.setOnClickListener {
+        productDetailsItem2Binding.facebookBtn.setOnClickListener {
             if (sellerInformation?.faceBook != null && sellerInformation?.faceBook != "") {
                 HelpFunctions.openExternalLInk(sellerInformation?.faceBook!!, this)
             }
         }
-        twitter_btn.setOnClickListener {
+        productDetailsItem2Binding.twitterBtn.setOnClickListener {
             if (sellerInformation?.twitter != null && sellerInformation?.twitter != "") {
                 HelpFunctions.openExternalLInk(sellerInformation?.twitter!!, this)
             }
         }
-        linked_in_btn.setOnClickListener {
+        productDetailsItem2Binding.linkedInBtn.setOnClickListener {
             if (sellerInformation?.linkedIn != null && sellerInformation?.linkedIn != "") {
                 HelpFunctions.openExternalLInk(sellerInformation?.linkedIn!!, this)
             }
         }
-        tiktok_btn.setOnClickListener {
+        productDetailsItem2Binding.tiktokBtn.setOnClickListener {
             if (sellerInformation?.tikTok != null && sellerInformation?.tikTok != "") {
                 HelpFunctions.openExternalLInk(sellerInformation?.tikTok!!, this)
             }
         }
-        snapChat_btn.setOnClickListener {
+        productDetailsItem2Binding.snapChatBtn.setOnClickListener {
             if (sellerInformation?.snapchat != null && sellerInformation?.snapchat != "") {
                 HelpFunctions.openExternalLInk(sellerInformation?.snapchat!!, this)
             }
         }
-        btnMapSeller.setOnClickListener {
+        productDetailsItem2Binding.btnMapSeller.setOnClickListener {
             openLocationInMap(sellerInformation?.branches ?: arrayListOf())
 
         }
 
-
-
-        ivFav.setOnClickListener {
+        binding.ivFav.setOnClickListener {
             if (HelpFunctions.isUserLoggedIn()) {
                 status_product_added_to_fav_from = added_from_product_Destails_status
                 productDetialsViewModel.addProductToFav(productId)
@@ -485,22 +399,21 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             }
 
         }
-        fbButtonBack.setOnClickListener {
+        binding.fbButtonBack.setOnClickListener {
             onBackPressed()
         }
-        btnPriceNegotiation.setOnClickListener {
+        productDetailsItem2Binding.btnPriceNegotiation.setOnClickListener {
             if (HelpFunctions.isUserLoggedIn()) {
                 openPriceNegotiationDialog(productDetails?.qty ?: 0)
             } else {
                 startActivity(Intent(this, SignInActivity::class.java))
             }
         }
-        btnShare.setOnClickListener {
+        binding.btnShare.setOnClickListener {
             shared("http://advdev-001-site1.dtempurl.com/Home/GetProductById?id=$productId")
-            //shared("${Constants.HTTP_PROTOCOL}://${Constants.SERVER_LOCATION}/Advertisement/Detail/$AdvId")
         }
 
-        tvQuestionAndAnswersShowAll.setOnClickListener {
+        productDetailsItem2Binding.tvQuestionAndAnswersShowAll.setOnClickListener {
             if (HelpFunctions.isUserLoggedIn()) {
                 startActivity(Intent(this, QuestionActivity::class.java).apply {
                     putExtra(ConstantObjects.productIdKey, productId)
@@ -512,42 +425,26 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
         }
 
-
-        tvShowAllReviews.setOnClickListener {
+        productDetailsItem2Binding.tvShowAllReviews.setOnClickListener {
             startActivity(Intent(this, ProductReviewsActivity::class.java).apply {
                 putExtra(ConstantObjects.productIdKey, productId)
             })
-
-
         }
-        btnSellerProducts.setOnClickListener {
-            if (containerSellerProduct.isVisible) {
-                containerSellerProduct.hide()
-                seller_product_tv.text = getString(R.string.view_similar_product_from_seller)
-                isSellerProductHide_iv.setImageResource(R.drawable.down_arrow)
+
+        productDetailsItem2Binding.btnSellerProducts.setOnClickListener {
+            if (productDetailsItem2Binding.containerSellerProduct.isVisible) {
+                productDetailsItem2Binding.containerSellerProduct.hide()
+                productDetailsItem2Binding.sellerProductTv.text =
+                    getString(R.string.view_similar_product_from_seller)
+                productDetailsItem2Binding.isSellerProductHideIv.setImageResource(R.drawable.down_arrow)
             } else {
-                containerSellerProduct.show()
-                seller_product_tv.text = getString(R.string.showLess)
-                isSellerProductHide_iv.setImageResource(R.drawable.ic_arrow_up)
+                productDetailsItem2Binding.containerSellerProduct.show()
+                productDetailsItem2Binding.sellerProductTv.text = getString(R.string.showLess)
+                productDetailsItem2Binding.isSellerProductHideIv.setImageResource(R.drawable.ic_arrow_up)
             }
         }
 
-        containerSellerInfo.setOnClickListener {
-            if (sellerInformation != null) {
-                sellerInformationLaucher.launch(
-                    Intent(
-                        this,
-                        SellerInformationActivity::class.java
-                    ).apply {
-                        if (sellerInformation?.branches == null)
-                            sellerInformation?.branches = arrayListOf()
-
-                        putExtra(ConstantObjects.sellerObjectKey, sellerInformation)
-                    })
-//                startActivity(Intent(this, SellerInformationActivity::class.java))
-            }
-        }
-        containerSellerImage.setOnClickListener {
+        productDetailsItem2Binding.containerSellerInfo.setOnClickListener {
             if (sellerInformation != null) {
                 sellerInformationLaucher.launch(
                     Intent(
@@ -561,12 +458,27 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                     })
             }
         }
-        containerCurrentPriceBuy.setOnClickListener {
+
+        productDetailsItem2Binding.containerSellerImage.setOnClickListener {
+            if (sellerInformation != null) {
+                sellerInformationLaucher.launch(
+                    Intent(
+                        this,
+                        SellerInformationActivity::class.java
+                    ).apply {
+                        if (sellerInformation?.branches == null)
+                            sellerInformation?.branches = arrayListOf()
+
+                        putExtra(ConstantObjects.sellerObjectKey, sellerInformation)
+                    })
+            }
+        }
+        binding.containerCurrentPriceBuy.setOnClickListener {
             callGetPriceCart(productDetails?.name ?: "")
 
         }
 
-        containerBuyNow.setOnClickListener {
+        binding.containerBuyNow.setOnClickListener {
             if (HelpFunctions.isUserLoggedIn()) {
                 productDetialsViewModel.callBuyNow(productDetails?.id ?: 0)
             } else {
@@ -574,11 +486,11 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             }
 
         }
-        containerBidOnPrice.setOnClickListener {
+        binding.containerBidOnPrice.setOnClickListener {
             openBidPrice()
 
         }
-        contianerAskQuestion.setOnClickListener {
+        productDetailsItem2Binding.contianerAskQuestion.setOnClickListener {
             if (HelpFunctions.isUserLoggedIn()) {
                 confirmAskQues()
             } else {
@@ -586,9 +498,10 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             }
         }
 
-        seller_number.setOnClickListener {
+        productDetailsItem2Binding.sellerNumber.setOnClickListener {
             val callIntent = Intent(Intent.ACTION_CALL)
-            callIntent.data = Uri.parse("tel:" + seller_number.text.toString())
+            callIntent.data =
+                Uri.parse("tel:" + productDetailsItem2Binding.sellerNumber.text.toString())
 
             if (ActivityCompat.checkSelfPermission(
                     this,
@@ -606,15 +519,15 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             }
         }
 
-        btnNextImage.setOnClickListener {
+        binding.btnNextImage.setOnClickListener {
             try {
                 if (productImagesList.size > 0) {
-                    val position = getLastVisiblePosition(rvProductImages)
+                    val position = getLastVisiblePosition(binding.rvProductImages)
 //                println("hhhh "+ position+" "+(productImagesList.size-1))
                     if (position < productImagesList.size - 1) {
-                        rvProductImages.smoothScrollToPosition(position + 1)
+                        binding.rvProductImages.smoothScrollToPosition(position + 1)
                     } else {
-                        rvProductImages.smoothScrollToPosition(0)
+                        binding.rvProductImages.smoothScrollToPosition(0)
                     }
                 }
             } catch (_: Exception) {
@@ -636,7 +549,8 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                     PackageManager.PERMISSION_GRANTED
                 ) {
                     val callIntent = Intent(Intent.ACTION_CALL)
-                    callIntent.data = Uri.parse("tel:" + seller_number.text.toString())
+                    callIntent.data =
+                        Uri.parse("tel:" + productDetailsItem2Binding.sellerNumber.text.toString())
                     startActivity(callIntent)
                 } else {
                     HelpFunctions.ShowLongToast("Permission Phone denied", this)
@@ -657,14 +571,14 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                         override fun setOnSuccessListeners(highestBidPrice: Float) {
                             productDetails?.highestBidPrice = highestBidPrice
                             if (productDetails?.highestBidPrice?.toDouble() != 0.0) {
-                                Bid_on_price_tv.text =
+                                binding.BidOnPriceTv.text =
                                     "${productDetails?.highestBidPrice} ${getString(R.string.Rayal)}"
                             } else {
-                                Bid_on_price_tv.text =
+                                binding.BidOnPriceTv.text =
                                     "${productDetails?.auctionStartPrice} ${getString(R.string.Rayal)}"
                             }
                             bidCount += 1
-                            tvAuctionNumber.text =
+                            productDetailsItem2Binding.tvAuctionNumber.text =
                                 "${getString(R.string.bidding)} ${bidCount}"
                         }
 
@@ -773,7 +687,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         productDetialsViewModel.addQuestionObservable.observe(this) { questResp ->
             HelpFunctions.ShowLongToast(questResp.message, this)
             if (questResp.status_code == 200) {
-                etWriteQuestion.setText("")
+                productDetailsItem2Binding.etWriteQuestion.setText("")
 
                 productDetialsViewModel.getListOfQuestions(productId)
             }
@@ -783,15 +697,15 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                 similerProductList.clear()
                 similerProductList.addAll(similarProductRes.productList)
                 similarProductAdapter.notifyDataSetChanged()
-                contaienrSimilerProduts.show()
+                productDetailsItem2Binding.contaienrSimilerProduts.show()
             }
         }
         productDetialsViewModel.getListOfQuestionsObservable.observe(this) { questionListResp ->
             if (!questionListResp.questionList.isNullOrEmpty()) {
-                tvErrorNoQuestion.hide()
+                productDetailsItem2Binding.tvErrorNoQuestion.hide()
                 setQuestionsView(questionListResp.questionList)
             } else {
-                tvErrorNoQuestion.show()
+                productDetailsItem2Binding.tvErrorNoQuestion.show()
             }
         }
         productDetialsViewModel.isNetworkFailProductToFav.observe(this) {
@@ -871,19 +785,20 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         }
         productDetialsViewModel.getRateResponseObservable.observe(this) { rateListResp ->
             if (rateListResp.data.happyCount != 0) {
-                linHappy.show()
-                txtHappy.text = rateListResp.data.happyCount.toString()
+                productDetailsItem2Binding.linHappy.show()
+                productDetailsItem2Binding.txtHappy.text = rateListResp.data.happyCount.toString()
             }
             if (rateListResp.data.satisfiedCount != 0) {
-                linSmile.show()
-                txtSmile.text = rateListResp.data.satisfiedCount.toString()
+                productDetailsItem2Binding.linSmile.show()
+                productDetailsItem2Binding.txtSmile.text =
+                    rateListResp.data.satisfiedCount.toString()
             }
             if (rateListResp.data.disgustedCount != 0) {
-                linSad.show()
-                txtSad.text = rateListResp.data.disgustedCount.toString()
+                productDetailsItem2Binding.linSad.show()
+                productDetailsItem2Binding.txtSad.text = rateListResp.data.disgustedCount.toString()
             }
 
-            rating_bar_detail_tv.text =
+            productDetailsItem2Binding.ratingBarDetailTv.text =
                 "${rateListResp.data.totalRecords} ${getString(R.string.visitors)} "
             if (rateListResp.status_code == 200) {
                 setReviewRateView(rateListResp.data.rateProductListDto)
@@ -924,9 +839,9 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         }
         productDetialsViewModel.sellerLoading.observe(this) {
             if (it) {
-                sellerProgressBar.show()
+                productDetailsItem2Binding.sellerProgressBar.show()
             } else {
-                sellerProgressBar.hide()
+                productDetailsItem2Binding.sellerProgressBar.hide()
             }
         }
         productDetialsViewModel.sellerProductsRespObserver.observe(this) { sellerProductListResp ->
@@ -935,12 +850,12 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                 sellerProductListResp.productList?.let { sellerSimilerProductList.addAll(it) }
                 sellerProductAdapter.notifyDataSetChanged()
                 if (sellerSimilerProductList.isEmpty()) {
-                    tvErrorNoSellerProduct.show()
+                    productDetailsItem2Binding.tvErrorNoSellerProduct.show()
                 } else {
-                    tvErrorNoSellerProduct.hide()
+                    productDetailsItem2Binding.tvErrorNoSellerProduct.hide()
                 }
             } else {
-                tvErrorNoSellerProduct.show()
+                productDetailsItem2Binding.tvErrorNoSellerProduct.show()
             }
         }
         productDetialsViewModel.shippingOptionObserver.observe(this) {
@@ -948,25 +863,27 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                 if (!it.shippingOptionObject.isNullOrEmpty()) {
                     when (it.shippingOptionObject[0].shippingOptionId) {
                         ConstantObjects.shippingOption_integratedShippingCompanyOptions -> {
-                            tvShippingOptions.show()
-                            tvShippingOptions.text = getString(R.string.integratedShippingCompanies)
+                            productDetailsItem2Binding.tvShippingOptions.show()
+                            productDetailsItem2Binding.tvShippingOptions.text =
+                                getString(R.string.integratedShippingCompanies)
                         }
 
                         ConstantObjects.shippingOption_freeShippingWithinSaudiArabia -> {
-                            tvShippingOptions.show()
-                            tvShippingOptions.text =
+                            productDetailsItem2Binding.tvShippingOptions.show()
+                            productDetailsItem2Binding.tvShippingOptions.text =
                                 getString(R.string.free_shipping_within_Saudi_Arabia)
                         }
 
                         ConstantObjects.shippingOption_arrangementWillBeMadeWithTheBuyer -> {
-                            tvShippingOptions.show()
-                            tvShippingOptions.text =
+                            productDetailsItem2Binding.tvShippingOptions.show()
+                            productDetailsItem2Binding.tvShippingOptions.text =
                                 getString(R.string.arrangementWillBeMadeWithTheBuyer)
                         }
                     }
                 } else {
-                    tvShippingOptions.show()
-                    tvShippingOptions.text = getString(R.string.mustPickUp)
+                    productDetailsItem2Binding.tvShippingOptions.show()
+                    productDetailsItem2Binding.tvShippingOptions.text =
+                        getString(R.string.mustPickUp)
                 }
             }
         }
@@ -976,19 +893,19 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                     for (item in list) {
                         when (item.paymentOptionId) {
                             AddProductObjectData.PAYMENT_OPTION_CASH -> {
-                                contianerCash.show()
+                                productDetailsItem2Binding.contianerCash.show()
                             }
 
                             AddProductObjectData.PAYMENT_OPTION_BANk -> {
-                                contianerBankAccount.show()
+                                productDetailsItem2Binding.contianerBankAccount.show()
                             }
 
                             AddProductObjectData.PAYMENT_OPTION_Mada -> {
-                                containerMada.show()
+                                productDetailsItem2Binding.containerMada.show()
                             }
 
                             AddProductObjectData.PAYMENT_OPTION_MasterCard -> {
-                                containerMaster.show()
+                                productDetailsItem2Binding.containerMaster.show()
                             }
                         }
                     }
@@ -999,35 +916,36 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
             if (it.status_code == 200) {
                 if (!it.bidPersonsDataList.isNullOrEmpty()) {
                     bidCount = it.bidPersonsDataList.size
-                    tvAuctionNumber.text = "${getString(R.string.bidding)} ${bidCount}"
+                    productDetailsItem2Binding.tvAuctionNumber.text =
+                        "${getString(R.string.bidding)} ${bidCount}"
                     if (hideBars.value == true) {
-                        containerAuctionNumber.hide()
+                        productDetailsItem2Binding.containerAuctionNumber.hide()
                     } else
-                        containerAuctionNumber.show()
+                        productDetailsItem2Binding.containerAuctionNumber.show()
                 } else {
-                    containerAuctionNumber.hide()
+                    productDetailsItem2Binding.containerAuctionNumber.hide()
                 }
             } else {
-                containerAuctionNumber.hide()
+                productDetailsItem2Binding.containerAuctionNumber.hide()
             }
         }
         productDetialsViewModel.addSellerToFavObserver.observe(this) {
             if (it.status_code == 200) {
                 sellerInformation?.isFollowed = true
-                ivSellerFollow.setImageResource(R.drawable.notification)
+                productDetailsItem2Binding.ivSellerFollow.setImageResource(R.drawable.notification)
             }
         }
         productDetialsViewModel.removeSellerToFavObserver.observe(this) {
             if (it.status_code == 200) {
                 sellerInformation?.isFollowed = false
-                ivSellerFollow.setImageResource(R.drawable.notification_log)
+                productDetailsItem2Binding.ivSellerFollow.setImageResource(R.drawable.notification_log)
             }
         }
 
     }
 
     private fun setSellerInfo(it: SellerInformation) {
-        tvErrorNoSellerProduct.hide()
+        productDetailsItem2Binding.tvErrorNoSellerProduct.hide()
         productDetialsViewModel.getSellerListProduct(
             it.providerId ?: "",
             it.businessAccountId ?: ""
@@ -1035,15 +953,15 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         sellerInformation = it
 
         if (it.showUserInformation == ShowUserInfo.EveryOne.name) {
-            containerSellerInfo.show()
+            productDetailsItem2Binding.containerSellerInfo.show()
         } else if (it.showUserInformation == ShowUserInfo.MembersOnly.name) {
             if (HelpFunctions.isUserLoggedIn()) {
-                containerSellerInfo.show()
+                productDetailsItem2Binding.containerSellerInfo.show()
             } else {
-                containerSellerInfo.hide()
+                productDetailsItem2Binding.containerSellerInfo.hide()
             }
         } else {
-            containerSellerInfo.hide()
+            productDetailsItem2Binding.containerSellerInfo.hide()
         }
 
         showButtons()
@@ -1051,104 +969,103 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         Extension.loadImgGlide(
             this,
             it.image,
-            seller_picture,
-            loader
+            productDetailsItem2Binding.sellerPicture,
+            binding.loader
         )
         if (it.businessAccountId == null) {
-            txtTypeUser.text = getString(R.string.personal)
+            productDetailsItem2Binding.txtTypeUser.text = getString(R.string.personal)
         } else {
-            txtTypeUser.text = getString(R.string.merchant)
+            productDetailsItem2Binding.txtTypeUser.text = getString(R.string.merchant)
         }
-        sellerName.text = it.name ?: ""
-        member_since_Tv.text = HelpFunctions.getViewFormatForDateTrack(
+        productDetailsItem2Binding.sellerName.text = it.name ?: ""
+        productDetailsItem2Binding.memberSinceTv.text = HelpFunctions.getViewFormatForDateTrack(
             it.createdAt ?: "", "dd/MM/yyyy"
         )
-        seller_city.text = it.city ?: ""
-        seller_number.text = it.phone ?: ""
+        productDetailsItem2Binding.sellerCity.text = it.city ?: ""
+        productDetailsItem2Binding.sellerNumber.text = it.phone ?: ""
         if (it.isFollowed) {
-            ivSellerFollow.setImageResource(R.drawable.notification)
+            productDetailsItem2Binding.ivSellerFollow.setImageResource(R.drawable.notification)
         } else {
-            ivSellerFollow.setImageResource(R.drawable.notification_log)
+            productDetailsItem2Binding.ivSellerFollow.setImageResource(R.drawable.notification_log)
         }
 //        tvRateText.text = it.rate.toString()
         if (it.businessAccountId != "") {
-            btnMapSeller.show()
+            productDetailsItem2Binding.btnMapSeller.show()
         } else {
             if (it.lat != null && it.lon != null) {
-                btnMapSeller.show()
+                productDetailsItem2Binding.btnMapSeller.show()
             } else {
-                btnMapSeller.hide()
+                productDetailsItem2Binding.btnMapSeller.hide()
             }
         }
 
         when (it.rate) {
             3f -> {
-                ivRateSeller.setImageResource(R.drawable.happyface_color)
+                productDetailsItem2Binding.ivRateSeller.setImageResource(R.drawable.happyface_color)
             }
 
             2f -> {
-                ivRateSeller.setImageResource(R.drawable.smileface_color)
+                productDetailsItem2Binding.ivRateSeller.setImageResource(R.drawable.smileface_color)
             }
 
             1f -> {
-                ivRateSeller.setImageResource(R.drawable.sadcolor_gray)
+                productDetailsItem2Binding.ivRateSeller.setImageResource(R.drawable.sadcolor_gray)
             }
 
             else -> {
-                ivRateSeller.setImageResource(R.drawable.smileface_color)
+                productDetailsItem2Binding.ivRateSeller.setImageResource(R.drawable.smileface_color)
             }
         }
         if (it.instagram != null && it.instagram != "") {
-            instagram_btn.show()
+            productDetailsItem2Binding.instagramBtn.show()
         } else {
-            instagram_btn.hide()
+            productDetailsItem2Binding.instagramBtn.hide()
         }
         if (it.youTube != null && it.youTube != "") {
-            youtube_btn.show()
+            productDetailsItem2Binding.youtubeBtn.show()
         } else {
-            youtube_btn.hide()
+            productDetailsItem2Binding.youtubeBtn.hide()
         }
         if (it.skype != null && it.skype != "") {
-            skype_btn.show()
+            productDetailsItem2Binding.skypeBtn.show()
         } else {
-            skype_btn.hide()
+            productDetailsItem2Binding.skypeBtn.hide()
         }
         if (it.faceBook != null && it.faceBook != "") {
-            facebook_btn.show()
+            productDetailsItem2Binding.facebookBtn.show()
         } else {
-            facebook_btn.hide()
+            productDetailsItem2Binding.facebookBtn.hide()
         }
         if (it.twitter != null && it.twitter != "") {
-            twitter_btn.show()
+            productDetailsItem2Binding.twitterBtn.show()
         } else {
-            twitter_btn.hide()
+            productDetailsItem2Binding.twitterBtn.hide()
         }
         if (it.linkedIn != null && it.linkedIn != "") {
-            linked_in_btn.show()
+            productDetailsItem2Binding.linkedInBtn.show()
         } else {
-            linked_in_btn.hide()
+            productDetailsItem2Binding.linkedInBtn.hide()
         }
         if (it.tikTok != null && it.tikTok != "") {
-            tiktok_btn.show()
+            productDetailsItem2Binding.tiktokBtn.show()
         } else {
-            tiktok_btn.hide()
+            productDetailsItem2Binding.tiktokBtn.hide()
         }
         if (it.snapchat != null && it.snapchat != "") {
-            snapChat_btn.show()
+            productDetailsItem2Binding.snapChatBtn.show()
         } else {
-            snapChat_btn.hide()
+            productDetailsItem2Binding.snapChatBtn.hide()
         }
-        //println("hhh "+it.providerId+" "+it.businessAccountId)
 
         if (it.businessAccountId != "") {
-            btnMapSeller.show()
+            productDetailsItem2Binding.btnMapSeller.show()
         } else {
             if (it.lat != null && it.lon != null) {
                 if (it.lat != 0.0 && it.lon != 0.0) {
-                    btnMapSeller.show()
+                    productDetailsItem2Binding.btnMapSeller.show()
                 }
             } else {
-                btnMapSeller.hide()
+                productDetailsItem2Binding.btnMapSeller.hide()
             }
         }
     }
@@ -1168,7 +1085,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                 }
             }
             withContext(Dispatchers.Main) {
-                tvNumberQuestionNotAnswer.text = getString(
+                productDetailsItem2Binding.tvNumberQuestionNotAnswer.text = getString(
                     R.string.there_are_2_questions_that_the_seller_did_not_answer,
                     numberOfNotAnswerYet.toString()
                 )
@@ -1186,13 +1103,13 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         reviewProductAdapter.notifyDataSetChanged()
 
         if (mainRatesList.isEmpty()) {
-            tvReviewsError.show()
-            tvShowAllReviews.hide()
-            contianerRateText.hide()
+            productDetailsItem2Binding.tvReviewsError.show()
+            productDetailsItem2Binding.tvShowAllReviews.hide()
+            productDetailsItem2Binding.contianerRateText.hide()
         } else {
-            tvShowAllReviews.show()
-            tvReviewsError.hide()
-            contianerRateText.show()
+            productDetailsItem2Binding.tvShowAllReviews.show()
+            productDetailsItem2Binding.tvReviewsError.hide()
+            productDetailsItem2Binding.contianerRateText.show()
         }
     }
 
@@ -1221,7 +1138,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                         videoDialogFragment.show(supportFragmentManager, "videoDialog")
                     } else {
                         imgPosition = position
-                        productimg.tag = productImagesList[position].url
+                        binding.productimg.tag = productImagesList[position].url
 
                         val intent = Intent(
                             this@ProductDetailsActivity,
@@ -1234,7 +1151,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                 }
 
             })
-        rvProductImages.apply {
+        binding.rvProductImages.apply {
             layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
             adapter = productImagesAdapter
         }
@@ -1243,7 +1160,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     private fun setSimilarProductAdapter() {
         similerProductList = ArrayList()
         similarProductAdapter = ProductHorizontalAdapter(similerProductList, this, 0, true)
-        rvSimilarProducts.apply {
+        productDetailsItem2Binding.rvSimilarProducts.apply {
             layoutManager = linearLayoutManager(RecyclerView.HORIZONTAL)
             adapter = similarProductAdapter
         }
@@ -1267,7 +1184,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                 }
 
             }, 0, true)
-        rvSellerProduct.apply {
+        productDetailsItem2Binding.rvSellerProduct.apply {
             layoutManager = linearLayoutManager(RecyclerView.HORIZONTAL)
             adapter = sellerProductAdapter
         }
@@ -1291,7 +1208,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         mainRatesList = ArrayList()
         smallRatesList = ArrayList()
         reviewProductAdapter = ReviewProductAdapter(smallRatesList)
-        rv_review.apply {
+        productDetailsItem2Binding.rvReview.apply {
             layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
             adapter = reviewProductAdapter
         }
@@ -1301,8 +1218,8 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         specificationList = ArrayList()
         specificationAdapter = SpecificationAdapter(specificationList)
         if (specificationList.size != 0)
-            laySpec.show()
-        rvProductSpecification.apply {
+            productDetailsItem2Binding.laySpec.show()
+        productDetailsItem2Binding.rvProductSpecification.apply {
             layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
             adapter = specificationAdapter
         }
@@ -1311,7 +1228,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     private fun setQuestionAnswerAdapter() {
         subQuestionsList = ArrayList()
         questionAnswerAdapter = QuestionAnswerAdapter(subQuestionsList, this)
-        rvQuestionForProduct.apply {
+        productDetailsItem2Binding.rvQuestionForProduct.apply {
             layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
             adapter = questionAnswerAdapter
         }
@@ -1320,20 +1237,16 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     /**set product data*/
 
     override fun onRefresh() {
-        swipe_to_refresh.isRefreshing = false
+        binding.swipeToRefresh.isRefreshing = false
+        val containerMainProduct = binding.root.findViewById<View>(R.id.containerMainProduct)
         containerMainProduct.hide()
-        containerShareAndFav.hide()
-        containerSellerInfo.hide()
+        binding.containerShareAndFav.hide()
+        productDetailsItem2Binding.containerSellerInfo.hide()
         productDetialsViewModel.getProductDetailsById(productId)
         productDetialsViewModel.getSimilarProduct(productId, 1)
         productDetialsViewModel.getListOfQuestions(productId)
         productDetialsViewModel.getProductRatesForProductDetails(productId)
-
         productDetialsViewModel.getSellerInfo(productId)
-
-
-
-
         productDetialsViewModel.getProductShippingOptions(productId)
         productDetialsViewModel.getProductPaymentOptions(productId)
         productDetialsViewModel.getBidsPersons(productId)
@@ -1343,8 +1256,9 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     @SuppressLint("SetTextI18n")
     private fun setProductData(productDetails: Product?) {
         if (productDetails != null) {
+            val containerMainProduct = binding.root.findViewById<View>(R.id.containerMainProduct)
             containerMainProduct.show()
-            containerShareAndFav.show()
+            binding.containerShareAndFav.show()
 
             // Handling the auction closing time
             if (productDetails.auctionClosingTime != null) {
@@ -1355,38 +1269,38 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
                         if (endDate != null) {
                             hideBars.value = getDifference(
                                 productDetails.auctionClosingTime,
-                                containerAuctioncountdownTimer_bar,
-                                titleDay,
-                                days,
-                                titleHours,
-                                hours,
-                                titleMinutes,
-                                minutes,
-                                titleSeconds,
-                                seconds,
-                                containerAuctionNumber
+                                productDetailsItem2Binding.containerAuctioncountdownTimerBar,
+                                productDetailsItem2Binding.titleDay,
+                                productDetailsItem2Binding.days,
+                                productDetailsItem2Binding.titleHours,
+                                productDetailsItem2Binding.hours,
+                                productDetailsItem2Binding.titleMinutes,
+                                productDetailsItem2Binding.minutes,
+                                productDetailsItem2Binding.titleSeconds,
+                                productDetailsItem2Binding.seconds,
+                                productDetailsItem2Binding.containerAuctionNumber
                             )
                         } else {
-                            containerAuctioncountdownTimer_bar.hide()
+                            productDetailsItem2Binding.containerAuctioncountdownTimerBar.hide()
                         }
                         handler.postDelayed(this, INTERVAL)
                     }
                 }
                 handler.post(runnable)
             } else {
-                containerAuctioncountdownTimer_bar.hide()
+                productDetailsItem2Binding.containerAuctioncountdownTimerBar.hide()
             }
 
             /**product iamges*/
             Extension.loadImgGlide(
                 this,
                 productDetails.productImage,
-                productimg,
-                loader
+                binding.productimg,
+                binding.loader
             )
-            productimg.setTag(productDetails.productImage)
+            binding.productimg.setTag(productDetails.productImage)
             if (productDetails.listMedia != null && productDetails.listMedia.size != 0) {
-                other_image_layout.show()
+                binding.otherImageLayout.show()
                 productImagesList.clear()
                 if (productDetails.listMedia.isNotEmpty())
                     urlImg = productDetails.listMedia[0].url
@@ -1397,81 +1311,81 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
             } else {
                 productImagesList.add(ImageSelectModel(url = productDetails.productImage.toString()))
-                other_image_layout.hide()
+                binding.otherImageLayout.hide()
             }
             /**product data*/
-            tvProductReview.text =
+            productDetailsItem2Binding.tvProductReview.text =
                 "${productDetails.viewsCount} ${getString(R.string.Views)} - #${productDetails.id} - ${
                     HelpFunctions.getViewFormatForDateTrack(
                         productDetails.createdAt, "dd/MM/yyyy"
                     )
                 }"
-            tvProductItemName.text = productDetails.name ?: ""
-            tvProductSubtitle.text = productDetails.subTitle ?: ""
+            productDetailsItem2Binding.tvProductItemName.text = productDetails.name ?: ""
+            productDetailsItem2Binding.tvProductSubtitle.text = productDetails.subTitle ?: ""
 
             if (productDetails.description != "") {
-                layDetails.show()
-                readMoreTextView.text = productDetails.description ?: ""
+                productDetailsItem2Binding.layDetails.show()
+                productDetailsItem2Binding.readMoreTextView.text = productDetails.description ?: ""
             }
-            btnMoreItemDetails.setOnClickListener {}
+            productDetailsItem2Binding.btnMoreItemDetails.setOnClickListener {}
 
-            current_price_buy_tv.text =
+            binding.currentPriceBuyTv.text =
                 "${productDetails.priceDisc.toString()} ${getString(R.string.sar)}"
-            Bid_on_price_tv.text = " ${getString(R.string.sar)}"
+            binding.BidOnPriceTv.text = " ${getString(R.string.sar)}"
 
             /**specification*/
             if (productDetails.listProductSep != null) {
-                tvErrorNoSpecification.hide()
+                productDetailsItem2Binding.tvErrorNoSpecification.hide()
                 if (productDetails.listProductSep.isNotEmpty())
-                    laySpec.show()
+                    productDetailsItem2Binding.laySpec.show()
                 specificationList.clear()
                 specificationList.addAll(productDetails.listProductSep)
                 specificationAdapter.notifyDataSetChanged()
             } else {
-                tvErrorNoSpecification.show()
+                productDetailsItem2Binding.tvErrorNoSpecification.show()
             }
             /**pidding views*/
-            tvAuctionNumber.text = "${getString(R.string.bidding)} "
+            productDetailsItem2Binding.tvAuctionNumber.text = "${getString(R.string.bidding)} "
             productfavStatus = productDetails.isFavourite
             if (productDetails.isFavourite) {
-                ivFav.setImageResource(R.drawable.starcolor)
-                ivFav.setColorFilter(resources.getColor(R.color.orange))
+                binding.ivFav.setImageResource(R.drawable.starcolor)
+                binding.ivFav.setColorFilter(resources.getColor(R.color.orange))
             } else {
-                ivFav.setImageResource(R.drawable.star)
+                binding.ivFav.setImageResource(R.drawable.star)
             }
             if (productDetails.isNegotiationEnabled) {
-                btnPriceNegotiation.show()
+                productDetailsItem2Binding.btnPriceNegotiation.show()
             } else {
-                btnPriceNegotiation.hide()
+                productDetailsItem2Binding.btnPriceNegotiation.hide()
             }
 
             if (productDetails.isAuctionEnabled) {
                 if (productDetails.highestBidPrice.toDouble() != 0.0) {
-                    Bid_on_price_tv.text =
+                    binding.BidOnPriceTv.text =
                         "${productDetails.highestBidPrice} ${getString(R.string.Rayal)}"
                 } else {
-                    Bid_on_price_tv.text =
+                    binding.BidOnPriceTv.text =
                         "${productDetails.auctionStartPrice} ${getString(R.string.Rayal)}"
                 }
 
                 if (hideBars.value == true) {
-                    containerBidOnPrice.hide()
+                    binding.containerBidOnPrice.hide()
                 } else
-                    containerBidOnPrice.show()
+                    binding.containerBidOnPrice.show()
             } else {
-                containerBidOnPrice.hide()
+                binding.containerBidOnPrice.hide()
             }
             if (productDetails.myBid != 0f) {
-                containerMyBid.show()
-                tvMyBidPrice.text = "${productDetails.myBid} ${getString(R.string.sar)}"
+                binding.containerMyBid.show()
+                binding.tvMyBidPrice.text = "${productDetails.myBid} ${getString(R.string.sar)}"
             } else {
-                containerMyBid.hide()
+                binding.containerMyBid.hide()
             }
 
             if (productDetails.acceptQuestion) {
-                sectionQs.show()
+                productDetailsItem2Binding.sectionQs.show()
             } else {
-                sectionQs.hide()
+                productDetailsItem2Binding.sectionQs.hide()
             }
 
         } else {
@@ -1483,7 +1397,7 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         if (list.isNotEmpty()) {
 
             val viewPagerAdapter = SliderAdaptor(this, list, true, this)
-            slider_details.adapter = viewPagerAdapter
+            binding.sliderDetails.adapter = viewPagerAdapter
         }
     }
 
@@ -1500,15 +1414,15 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
     @SuppressLint("SetTextI18n")
     private fun showButtons() {
         if (productDetails?.isFixedPriceEnabled == true) {
-            containerBuyNow.show()
-            txtPriceNow.text = "${productDetails?.priceDisc} ${getString(R.string.sar)}"
+            binding.containerBuyNow.show()
+            binding.txtPriceNow.text = "${productDetails?.priceDisc} ${getString(R.string.sar)}"
             if (sellerInformation?.businessAccountId != null) {
-                containerCurrentPriceBuy.show() // AddToCart
+                binding.containerCurrentPriceBuy.show() // AddToCart
             } else {
-                containerCurrentPriceBuy.hide()
+                binding.containerCurrentPriceBuy.hide()
             }
         } else {
-            containerBuyNow.hide()
+            binding.containerBuyNow.hide()
         }
     }
 
@@ -1531,33 +1445,32 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
 
         if (daysDifference <= 0 && (hoursDifference <= 0) && (minutesDifference <= 0)) {
             hideBars.value = true
-            containerAuctionNumber.hide()
-            containerAuctioncountdownTimer_bar.hide()
+            productDetailsItem2Binding.containerAuctionNumber.hide()
+            productDetailsItem2Binding.containerAuctioncountdownTimerBar.hide()
         } else {
             hideBars.value = false
-            containerAuctionNumber.show()
-            containerAuctioncountdownTimer_bar.show()
+            productDetailsItem2Binding.containerAuctionNumber.show()
+            productDetailsItem2Binding.containerAuctioncountdownTimerBar.show()
         }
 
         if (daysDifference == 0L || (daysDifference < 0L)) {
-            days.visibility = View.GONE
-            titleDay.visibility = View.GONE
+            productDetailsItem2Binding.days.visibility = View.GONE
+            productDetailsItem2Binding.titleDay.visibility = View.GONE
         }
         if (hoursDifference == 0L || (hoursDifference < 0L)) {
-            hours.visibility = View.GONE
-            titleHours.visibility = View.GONE
+            productDetailsItem2Binding.hours.visibility = View.GONE
+            productDetailsItem2Binding.titleHours.visibility = View.GONE
         }
 
         if (minutesDifference == 0L || (minutesDifference < 0L)) {
-            minutes.visibility = View.GONE
-            titleMinutes.visibility = View.GONE
+            productDetailsItem2Binding.minutes.visibility = View.GONE
+            productDetailsItem2Binding.titleMinutes.visibility = View.GONE
         }
 
-
-        days.text = daysDifference.toString()
-        hours.text = hoursDifference.toString()
-        minutes.text = minutesDifference.toString()
-        seconds.text = secondDifference.toString()
+        productDetailsItem2Binding.days.text = daysDifference.toString()
+        productDetailsItem2Binding.hours.text = hoursDifference.toString()
+        productDetailsItem2Binding.minutes.text = minutesDifference.toString()
+        productDetailsItem2Binding.seconds.text = secondDifference.toString()
     }
 
     /**send QUestion for sller**/
@@ -1565,13 +1478,17 @@ class ProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListe
         if (!validateAskQuesInputText()) {
             return
         } else {
-            productDetialsViewModel.addQuestion(productId, etWriteQuestion.text.trim().toString())
+            productDetialsViewModel.addQuestion(
+                productId,
+                productDetailsItem2Binding.etWriteQuestion.text.trim().toString()
+            )
         }
 
     }
 
     private fun validateAskQuesInputText(): Boolean {
-        val Inputemail = etWriteQuestion!!.text.toString().trim { it <= ' ' }
+        val Inputemail =
+            productDetailsItem2Binding.etWriteQuestion!!.text.toString().trim { it <= ' ' }
 
         return if (Inputemail.isEmpty()) {
             showError(getString(R.string.Please_enter, getString(R.string.Question)))

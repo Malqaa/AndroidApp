@@ -9,22 +9,22 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.DialogCountriesBinding
 import com.malqaa.androidappp.newPhase.core.BaseDialog
-import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malqaa.androidappp.newPhase.domain.models.regionsResp.Region
 import com.malqaa.androidappp.newPhase.domain.models.regionsResp.RegionsResp
-import kotlinx.android.synthetic.main.activity_search.*
-import kotlinx.android.synthetic.main.activity_search.etSearch
-import kotlinx.android.synthetic.main.dialog_countries.*
+import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.HttpException
 import retrofit2.Response
 
-class RegionDialog(context: Context, private var countryId:Int, private var getSelectedRegion: GetSelectedRegion) :
-    BaseDialog(context), RegionAdapter.OnRegionSelected {
-
+class RegionDialog(
+    context: Context,
+    private var countryId: Int,
+    private var getSelectedRegion: GetSelectedRegion
+) : BaseDialog<DialogCountriesBinding>(context), RegionAdapter.OnRegionSelected {
 
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var regionAdapter: RegionAdapter
@@ -32,16 +32,14 @@ class RegionDialog(context: Context, private var countryId:Int, private var getS
     private lateinit var mainRegionsList: ArrayList<Region>
     private lateinit var regionsResp: RegionsResp
 
-
     var countriesCallback: Call<RegionsResp>? = null
-
-    override fun getViewId(): Int {
-        return R.layout.dialog_countries
-    }
-
 
     override fun isLoadingDialog(): Boolean {
         return false
+    }
+
+    override fun inflateViewBinding(): DialogCountriesBinding {
+        return DialogCountriesBinding.inflate(layoutInflater)
     }
 
     override fun isFullScreen(): Boolean {
@@ -54,8 +52,8 @@ class RegionDialog(context: Context, private var countryId:Int, private var getS
 
 
     override fun initialization() {
-        tvTitleAr.text=context.getString(R.string.selectRegionTitle)
-        ivClose.setOnClickListener {
+        binding.tvTitleAr.text = context.getString(R.string.selectRegionTitle)
+        binding.ivClose.setOnClickListener {
             dismiss()
         }
         //=========
@@ -63,11 +61,11 @@ class RegionDialog(context: Context, private var countryId:Int, private var getS
         regionsList = ArrayList()
         regionAdapter = RegionAdapter(context, regionsList, this)
         linearLayoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-        recycler.apply {
+        binding.recycler.apply {
             layoutManager = linearLayoutManager
             adapter = regionAdapter
         }
-        etSearch.addTextChangedListener(object : TextWatcher {
+        binding.etSearch.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
             }
 
@@ -75,7 +73,7 @@ class RegionDialog(context: Context, private var countryId:Int, private var getS
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (etSearch.text.toString().trim() == "") {
+                if (binding.etSearch.text.toString().trim() == "") {
                     updateList(mainRegionsList)
                 } else {
                     if (s != null)
@@ -103,9 +101,9 @@ class RegionDialog(context: Context, private var countryId:Int, private var getS
         regionsList.clear()
         regionsList.addAll(temp)
         if (temp.isEmpty()) {
-            tvNoCountries.visibility = View.VISIBLE
+            binding.tvNoCountries.visibility = View.VISIBLE
         } else {
-            tvNoCountries.visibility = View.GONE
+            binding.tvNoCountries.visibility = View.GONE
         }
         regionAdapter.notifyDataSetChanged()
     }
@@ -121,12 +119,12 @@ class RegionDialog(context: Context, private var countryId:Int, private var getS
     }
 
     private fun getCountries() {
-        progressBar.visibility = View.VISIBLE
+        binding.progressBar.visibility = View.VISIBLE
         countriesCallback = getRetrofitBuilder().getRegionNew(countryId)
         countriesCallback?.enqueue(object : Callback<RegionsResp> {
             override fun onFailure(call: Call<RegionsResp>, t: Throwable) {
                 // println("hhhh "+t.message)
-                progressBar.visibility = View.GONE
+                binding.progressBar.visibility = View.GONE
                 if (t is HttpException) {
                     HelpFunctions.ShowLongToast(context.getString(R.string.serverError), context)
 
@@ -142,7 +140,7 @@ class RegionDialog(context: Context, private var countryId:Int, private var getS
                 call: Call<RegionsResp>,
                 response: Response<RegionsResp>
             ) {
-                progressBar.visibility = View.GONE
+                binding.progressBar.visibility = View.GONE
                 try {
                     if (response.isSuccessful) {
                         response.body()?.let {

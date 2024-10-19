@@ -1,46 +1,42 @@
 package com.malqaa.androidappp.newPhase.presentation.dialogsShared
 
 import android.content.Context
-import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.DialogPickImageMethodsBinding
 import com.malqaa.androidappp.newPhase.core.BaseDialog
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.show
-import kotlinx.android.synthetic.main.dialog_pick_image_methods.*
 
 class PickImageMethodsDialog(
     context: Context, private var showDeleteImage: Boolean,
     private var onAttachedImageMethodSelected: OnAttachedImageMethodSelected
-) : BaseDialog(context) {
+) : BaseDialog<DialogPickImageMethodsBinding>(context) {
 
-
-    override fun getViewId(): Int = R.layout.dialog_pick_image_methods
+    override fun inflateViewBinding(): DialogPickImageMethodsBinding {
+        return DialogPickImageMethodsBinding.inflate(layoutInflater)
+    }
 
     override fun isFullScreen(): Boolean = false
 
     override fun isCancelable(): Boolean = true
 
-
-//    override fun getViewId(): Int = R.layout.dialog_attached_file
-
-
     override fun isLoadingDialog(): Boolean = false
 
     override fun initialization() {
         if (showDeleteImage) {
-            btnDeleteImage.show()
+            binding.btnDeleteImage.show()
         } else {
-            btnDeleteImage.hide()
+            binding.btnDeleteImage.hide()
         }
-        btnSelectGallery.setOnClickListener {
+        binding.btnSelectGallery.setOnClickListener {
             onAttachedImageMethodSelected.setOnAttachedImageMethodSelected(ConstantObjects.FILES)
             dismiss()
         }
-        btnSelectCamera.setOnClickListener {
+        binding.btnSelectCamera.setOnClickListener {
             onAttachedImageMethodSelected.setOnAttachedImageMethodSelected(ConstantObjects.CAMERA)
             dismiss()
         }
-        btnDeleteImage.setOnClickListener {
+        binding.btnDeleteImage.setOnClickListener {
             onAttachedImageMethodSelected.onDeleteImage()
             dismiss()
         }

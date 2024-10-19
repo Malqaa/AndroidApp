@@ -8,11 +8,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.malqaa.androidappp.R
 import com.malqaa.androidappp.databinding.ItemProductInCartBinding
+import com.malqaa.androidappp.newPhase.domain.models.cartListResp.ProductCartItem
 import com.malqaa.androidappp.newPhase.utils.Extension
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.show
-import com.malqaa.androidappp.newPhase.domain.models.cartListResp.ProductCartItem
 
 class CartAdapter(
     var listProduct: ArrayList<ProductCartItem>,
@@ -84,7 +84,8 @@ class CartAdapter(
                 }"
         }
 
-        holder.viewBinding.tvQuentitiy.text = (listProduct[position].cartProductQuantity?:"0").toString()
+        holder.viewBinding.tvQuentitiy.text =
+            (listProduct[position].cartProductQuantity ?: "0").toString()
 
         holder.viewBinding.btnSubtract.setOnClickListener {
             if ((listProduct[position].cartProductQuantity ?: 0) > 1) {
@@ -93,10 +94,12 @@ class CartAdapter(
 
         }
         holder.viewBinding.btnAdd.setOnClickListener {
-            if (listProduct[position].qty == null ) {
+            if (listProduct[position].qty == null) {
                 setProductCartListeners.onIncreaseQuantityProduct(position)
             } else {
-                if (holder.viewBinding.tvQuentitiy.text.toString().toInt() < (listProduct[position].qty ?: 0))
+                if (holder.viewBinding.tvQuentitiy.text.toString()
+                        .toInt() < (listProduct[position].qty ?: 0)
+                )
                     setProductCartListeners.onIncreaseQuantityProduct(position)
                 else
                     HelpFunctions.ShowLongToast(

@@ -17,19 +17,20 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.malqaa.androidappp.R
-import com.malqaa.androidappp.newPhase.utils.HelpFunctions
+import com.malqaa.androidappp.databinding.ActivityShowBranchesMapBinding
 import com.malqaa.androidappp.newPhase.domain.models.categoryFollowResp.Branch
-import kotlinx.android.synthetic.main.activity_show_branches_map.mapBranches
+import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 
 class ShowBranchesMapActivity : AppCompatActivity() {
-//    private lateinit var binding: ActivityShowBranchesMapBinding
 
     var lat: Double = -1.0
     var long: Double = -1.0
     lateinit var map: GoogleMap
     var receivedObjects = ArrayList<Branch>()
-    lateinit var locationManager :LocationManager
-    lateinit var  locationListener :LocationListener
+    lateinit var locationManager: LocationManager
+    lateinit var locationListener: LocationListener
+    private lateinit var binding: ActivityShowBranchesMapBinding // ViewBinding instance
+
     private val callback = OnMapReadyCallback { googleMap ->
 
         map = googleMap
@@ -39,51 +40,48 @@ class ShowBranchesMapActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_show_branches_map)
-         receivedObjects = intent.getParcelableArrayListExtra<Branch>("customBranches")?: arrayListOf()
+        // Initialize view binding
+        binding = ActivityShowBranchesMapBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        val mapFragment =   mapBranches as SupportMapFragment?
+        // Retrieve received objects
+        receivedObjects =
+            intent.getParcelableArrayListExtra<Branch>("customBranches") ?: arrayListOf()
+
+        // Manually find the fragment using the fragment manager
+        val mapFragment =
+            supportFragmentManager.findFragmentById(R.id.mapBranches) as SupportMapFragment?
         mapFragment?.getMapAsync(callback)
-
     }
 
     fun getLocation() {
-         locationManager =
-             (this@ShowBranchesMapActivity.getSystemService(Context.LOCATION_SERVICE) as LocationManager?)!!
-         locationListener = object : LocationListener {
+        locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        locationListener = object : LocationListener {
             override fun onLocationChanged(location: Location) {
-                if (this@ShowBranchesMapActivity::map != null &&this@ShowBranchesMapActivity::map.isInitialized) {
+                if (this@ShowBranchesMapActivity::map.isInitialized) {
                     lat = location.latitude
                     long = location.longitude
-                    val currentloc = LatLng(lat, long)
-                    for(i in receivedObjects){
+                    val currentLoc = LatLng(lat, long)
+
+                    for (i in receivedObjects) {
                         val loc = LatLng(i.lat?.toDouble()!!, i.lng?.toDouble()!!)
-
                         map.addMarker(MarkerOptions().position(loc).title(""))
-
                     }
-                    map.addMarker(MarkerOptions().position(currentloc).title("Current Location"))
-                    map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentloc, 15.0f))
 
+                    map.addMarker(MarkerOptions().position(currentLoc).title("Current Location"))
+                    map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLoc, 15.0f))
                 }
             }
 
-            override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
-            }
-
-            override fun onProviderEnabled(provider: String) {
-            }
-
-            override fun onProviderDisabled(provider: String) {
-            }
-
+            override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
+            override fun onProviderEnabled(provider: String) {}
+            override fun onProviderDisabled(provider: String) {}
         }
 
         if (ContextCompat.checkSelfPermission(
                 this@ShowBranchesMapActivity,
                 Manifest.permission.ACCESS_FINE_LOCATION
-            )
-            != PackageManager.PERMISSION_GRANTED
+            ) != PackageManager.PERMISSION_GRANTED
         ) {
             ActivityCompat.requestPermissions(
                 this@ShowBranchesMapActivity,
@@ -121,10 +119,9 @@ class ShowBranchesMapActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         locationManager.removeUpdates(locationListener)
-
     }
+
     companion object {
         private const val PERMISSION_REQUEST_ACCESS_FINE_LOCATION = 100
     }
-
 }

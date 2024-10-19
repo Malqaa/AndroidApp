@@ -8,20 +8,27 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.malqaa.androidappp.R
 import com.malqaa.androidappp.databinding.ItemShipmentInOrderProductBinding
+import com.malqaa.androidappp.newPhase.domain.models.orderDetailsByMasterID.OrderProductFullInfoDto
 import com.malqaa.androidappp.newPhase.utils.Extension
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.show
-import com.malqaa.androidappp.newPhase.domain.models.orderDetailsByMasterID.OrderProductFullInfoDto
 
-class OrderProductAdapter(var dataList: ArrayList<OrderProductFullInfoDto>) :Adapter<OrderProductAdapter.OrderProductViewHOlder>() {
+class OrderProductAdapter(var dataList: ArrayList<OrderProductFullInfoDto>) :
+    Adapter<OrderProductAdapter.OrderProductViewHOlder>() {
 
-    lateinit var context:Context
-    class OrderProductViewHOlder(var viewBinding:ItemShipmentInOrderProductBinding): RecyclerView.ViewHolder(viewBinding.root)
+    lateinit var context: Context
+
+    class OrderProductViewHOlder(var viewBinding: ItemShipmentInOrderProductBinding) :
+        RecyclerView.ViewHolder(viewBinding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderProductViewHOlder {
-        context=parent.context
+        context = parent.context
         return OrderProductViewHOlder(
-            ItemShipmentInOrderProductBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+            ItemShipmentInOrderProductBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
         )
     }
 
@@ -41,7 +48,7 @@ class OrderProductAdapter(var dataList: ArrayList<OrderProductFullInfoDto>) :Ada
         holder.viewBinding.tvProductName.text = dataList[position].productName ?: ""
         var location = ""
         if (dataList[position].region != null) {
-            location +=dataList[position].region
+            location += dataList[position].region
         }
         if (dataList[position].region != null) {
             location += "-${dataList[position].region}"
@@ -73,7 +80,7 @@ class OrderProductAdapter(var dataList: ArrayList<OrderProductFullInfoDto>) :Ada
                     )
                 }"
         }
-        holder.viewBinding.tvQuentity.text =dataList[position].quantity.toString()
+        holder.viewBinding.tvQuentity.text = dataList[position].quantity.toString()
 
 
     }

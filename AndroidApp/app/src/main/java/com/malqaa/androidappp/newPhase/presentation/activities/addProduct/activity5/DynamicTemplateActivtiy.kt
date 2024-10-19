@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.FragmentDynamicTemplateBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
 import com.malqaa.androidappp.newPhase.domain.models.addProductToCartResp.AddProductObjectData
 import com.malqaa.androidappp.newPhase.domain.models.dynamicSpecification.DynamicSpecificationItem
@@ -18,17 +19,13 @@ import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.linearLayoutManager
 import com.malqaa.androidappp.newPhase.utils.show
-import kotlinx.android.synthetic.main.fragment_dynamic_template.btn_dynamic_next
-import kotlinx.android.synthetic.main.fragment_dynamic_template.progressBar
-import kotlinx.android.synthetic.main.fragment_dynamic_template.rvDynamicList
-import kotlinx.android.synthetic.main.toolbar_main.back_btn
-import kotlinx.android.synthetic.main.toolbar_main.toolbar_title
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 
-class DynamicTemplateActivtiy : BaseActivity(), DynamicSpecificationsAdapter.OnChangeValueListener {
+class DynamicTemplateActivtiy : BaseActivity<FragmentDynamicTemplateBinding>(),
+    DynamicSpecificationsAdapter.OnChangeValueListener {
 
     private var dataList: ArrayList<DynamicSpecificationSentObject>? = null
     private var isEdit: Boolean = false
@@ -39,8 +36,10 @@ class DynamicTemplateActivtiy : BaseActivity(), DynamicSpecificationsAdapter.OnC
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.fragment_dynamic_template)
-        toolbar_title.text = getString(R.string.item_details)
+        // Initialize view binding
+        binding = FragmentDynamicTemplateBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        binding.toolbarMain.toolbarTitle.text = getString(R.string.item_details)
         setViewClickListeners()
         setDynamicListAdapter()
         setUpViewModel()
@@ -91,9 +90,9 @@ class DynamicTemplateActivtiy : BaseActivity(), DynamicSpecificationsAdapter.OnC
         addProductViewModel = ViewModelProvider(this).get(AddProductViewModel::class.java)
         addProductViewModel.isLoading.observe(this) {
             if (it)
-                progressBar.show()
+                binding.progressBar.show()
             else
-                progressBar.hide()
+                binding.progressBar.hide()
         }
         addProductViewModel.isNetworkFail.observe(this) {
             if (it) {
@@ -154,18 +153,18 @@ class DynamicTemplateActivtiy : BaseActivity(), DynamicSpecificationsAdapter.OnC
     private fun setDynamicListAdapter() {
         dynamicSpecificationsAdapter =
             DynamicSpecificationsAdapter(dynamicSpecificationsArrayList, this)
-        rvDynamicList.apply {
+        binding.rvDynamicList.apply {
             adapter = dynamicSpecificationsAdapter
             layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
         }
     }
 
     private fun setViewClickListeners() {
-        back_btn.setOnClickListener {
+        binding.toolbarMain.backBtn.setOnClickListener {
             finish()
         }
 
-        btn_dynamic_next.setOnClickListener {
+        binding.btnDynamicNext.setOnClickListener {
             checkAllDataSet(dataList!!)
         }
     }
@@ -177,8 +176,10 @@ class DynamicTemplateActivtiy : BaseActivity(), DynamicSpecificationsAdapter.OnC
             dynamicSpecificationsArrayList.forEach { dynamicSpecificationItem ->
 
                 // Get the sub-specifications by matching the names in Arabic and English
-                val supIdAr = dynamicSpecificationItem.subSpecifications?.find { it.nameAr == dynamicSpecificationItem.valueArText }
-                val supIdEn = dynamicSpecificationItem.subSpecifications?.find { it.nameEn == dynamicSpecificationItem.valueEnText }
+                val supIdAr =
+                    dynamicSpecificationItem.subSpecifications?.find { it.nameAr == dynamicSpecificationItem.valueArText }
+                val supIdEn =
+                    dynamicSpecificationItem.subSpecifications?.find { it.nameEn == dynamicSpecificationItem.valueEnText }
 
                 // Check for type 1 (e.g., dropdowns, selectors)
                 if (dynamicSpecificationItem.type == 1) {
@@ -207,7 +208,8 @@ class DynamicTemplateActivtiy : BaseActivity(), DynamicSpecificationsAdapter.OnC
                     if (required && dynamicSpecificationItem.valueBoolean == null) {
                         allValuesSet = false
                     } else {
-                        val supId = dynamicSpecificationItem.subSpecifications?.find { dynamicSpecificationItem.valueBoolean }
+                        val supId =
+                            dynamicSpecificationItem.subSpecifications?.find { dynamicSpecificationItem.valueBoolean }
                         if (supId == null) {
                             allValuesSet = false
                             if (dynamicSpecificationItem.isRequired) {

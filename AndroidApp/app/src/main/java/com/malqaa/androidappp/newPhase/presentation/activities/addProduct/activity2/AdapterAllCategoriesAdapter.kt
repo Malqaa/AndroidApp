@@ -1,105 +1,75 @@
 package com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activity2
 
-import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.malqaa.androidappp.R
-import com.malqaa.androidappp.newPhase.utils.helper.BaseViewHolder
-import com.malqaa.androidappp.newPhase.utils.Extension
+import com.malqaa.androidappp.newPhase.domain.models.addProductToCartResp.AddProductObjectData
+import com.malqaa.androidappp.newPhase.domain.models.servicemodels.Category
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.show
-import com.malqaa.androidappp.newPhase.domain.models.servicemodels.Category
-import com.malqaa.androidappp.newPhase.domain.models.addProductToCartResp.AddProductObjectData
-import com.malqaa.androidappp.newPhase.utils.PicassoSingleton
-import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.all_categories_cardview.view.*
-import kotlinx.android.synthetic.main.all_categories_cardview.view.category_icon
-import kotlinx.android.synthetic.main.all_categories_cardview.view.category_name_tv
 
 class AdapterAllCategoriesAdapter(
     private var allCategories: List<Category>,
     var onItemClick: (position: Int) -> Unit
-) : RecyclerView.Adapter<BaseViewHolder>() {
+) : RecyclerView.Adapter<AdapterAllCategoriesAdapter.CategoryViewHolder>() {
 
+    // ViewHolder class
+    class CategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val categoryNameTextView: TextView = itemView.findViewById(R.id.category_name_tv)
+        val categoryIcon: ImageView = itemView.findViewById(R.id.category_icon)
+        val bgLine: View =
+            itemView.findViewById(R.id.bgline) // Assuming there's a view with this ID
+        val isSelectImage: View =
+            itemView.findViewById(R.id.is_selectimage) // Assuming there's a view with this ID
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): BaseViewHolder {
-        val view: View =
-            LayoutInflater.from(parent.context)
-                .inflate(R.layout.all_categories_cardview, parent, false)
-        return BaseViewHolder(view)
+        // Optionally, you can create a method to bind data to views
+        fun bind(category: Category) {
+            categoryNameTextView.text = category.name
 
+            if (category.is_select) {
+                AddProductObjectData.selectedCategoryId = category.id
+                isSelectImage.show()
+                // Set stroke color, show/hide views as necessary
+            } else {
+                bgLine.hide()
+                isSelectImage.hide()
+                // Set stroke color, show/hide views as necessary
+            }
+
+            if (category.image.isNullOrEmpty()) {
+                categoryIcon.setImageResource(R.mipmap.ic_launcher)
+            } else {
+                Glide.with(itemView.context)
+                    .load(category.image)
+                    .error(R.mipmap.ic_launcher_round)
+                    .into(categoryIcon)
+            }
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
+        val view: View = LayoutInflater.from(parent.context)
+            .inflate(R.layout.all_categories_cardview, parent, false)
+        return CategoryViewHolder(view)
     }
 
     override fun getItemCount() = allCategories.size
 
-    override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
-        holder.view.run {
-            allCategories[position].run {
-                category_name_tv.text = name
-                if (allCategories[position].is_select) {
-                    AddProductObjectData.selectedCategoryId = allCategories[position].id
-                    // bgline.show()
-                    is_selectimage.show()
-                    category_icon.strokeColor = ColorStateList.valueOf(
-                        ContextCompat.getColor(
-                            context,
-                            R.color.bg
-                        )
-                    )
+    override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
+        val category = allCategories[position]
+        holder.bind(category) // Bind data to the view
 
-
-                } else {
-                    bgline.hide()
-                    is_selectimage.hide()
-                    category_icon.strokeColor = ColorStateList.valueOf(
-                        ContextCompat.getColor(
-                            context,
-                            R.color.white
-                        )
-                    )
-//                    category_icon.borderColor=  ContextCompat.getColor(
-//                        context,
-//                        R.color.white
-//                    )
-                }
-
-
-
-                if (image.isNullOrEmpty()) {
-                    category_icon.setImageResource(R.mipmap.ic_launcher)
-                } else {
-                    Glide.with(context).load(image).error(R.mipmap.ic_launcher_round).into(category_icon)
-
-//                    Extension.loadImgGlide(
-//                        context,
-//                        image,
-//                        category_icon,
-//                        null
-//                    )
-
-//                    Picasso.get()
-//                        .load(Constants.IMAGE_URL + image)
-//                        .into(category_icon)
-                }
-                holder.itemView.setOnClickListener {
-                    allCategories.forEach {
-                        it.is_select = false
-                    }
-                    allCategories.get(position).is_select = true
-                    notifyDataSetChanged()
-                    onItemClick.invoke(position)
-                }
-            }
+        holder.itemView.setOnClickListener {
+            // Reset selection
+            allCategories.forEach { it.is_select = false }
+            category.is_select = true // Set the selected category
+            notifyDataSetChanged() // Notify the adapter of data change
+            onItemClick.invoke(position) // Invoke the click callback
         }
-
     }
-
-
 }

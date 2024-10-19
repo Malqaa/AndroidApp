@@ -2,38 +2,38 @@ package com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.m
 
 import android.graphics.Paint
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.malqaa.androidappp.R
-import com.malqaa.androidappp.newPhase.utils.Extension.shared
-import com.malqaa.androidappp.newPhase.utils.HelpFunctions
-import com.malqaa.androidappp.newPhase.utils.linearLayoutManager
+import com.malqaa.androidappp.databinding.FragmentMyPointsFragmentBinding
+import com.malqaa.androidappp.newPhase.domain.models.addProductToCartResp.AccountObject
 import com.malqaa.androidappp.newPhase.domain.models.userPointsDataResp.PointsTransactionsItem
 import com.malqaa.androidappp.newPhase.domain.models.userPointsDataResp.UserPointData
 import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.AccountViewModel
-import com.malqaa.androidappp.newPhase.domain.models.addProductToCartResp.AccountObject
-import kotlinx.android.synthetic.main.fragment_my_points_fragment.*
-import kotlinx.android.synthetic.main.fragment_my_points_fragment.etAmount
-import kotlinx.android.synthetic.main.fragment_my_points_fragment.swipeRefresh
-import kotlinx.android.synthetic.main.fragment_my_points_fragment.textView
-import kotlinx.android.synthetic.main.item_wallet_recent_operations.*
-import kotlinx.android.synthetic.main.toolbar_main.*
+import com.malqaa.androidappp.newPhase.utils.Extension.shared
+import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 
 
 class MyPointsFragment : Fragment(R.layout.fragment_my_points_fragment),
     SwipeRefreshLayout.OnRefreshListener {
 
+    private var _binding: FragmentMyPointsFragmentBinding? = null
+    private val binding get() = _binding!!
+
     private lateinit var recentOperationsPointsAdapter: RecentOperationsPointsAdapter
     lateinit var pointsTransactionsList: ArrayList<PointsTransactionsItem>
     private lateinit var accountViewModel: AccountViewModel
     var userPointData: UserPointData? = null
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        textView.paintFlags = textView.paintFlags or Paint.UNDERLINE_TEXT_FLAG
+        _binding = FragmentMyPointsFragmentBinding.bind(view) // Initialize View Binding
+
+        binding.textView.paintFlags = binding.textView.paintFlags or Paint.UNDERLINE_TEXT_FLAG
 
         initView()
         setViewClickListeners()
@@ -46,77 +46,51 @@ class MyPointsFragment : Fragment(R.layout.fragment_my_points_fragment),
             accountViewModel.getUserPointDetailsInWallet()
         }
 
-        imgShare.setOnClickListener {
-            requireActivity().shared("${getString(R.string.msgShowCode)} (${tvRefrerCode.text.toString()})")
-
+        binding.imgShare.setOnClickListener {
+            requireActivity().shared("${getString(R.string.msgShowCode)} (${binding.tvRefrerCode.text.toString()})")
         }
     }
 
     private fun setRecentOperationAdapter() {
         pointsTransactionsList = ArrayList()
         recentOperationsPointsAdapter = RecentOperationsPointsAdapter(pointsTransactionsList)
-        rvUserPointRecentOperation.apply {
+        binding.rvUserPointRecentOperation.apply {
             adapter = recentOperationsPointsAdapter
-            layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
+            layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
             isNestedScrollingEnabled = false
         }
     }
 
     private fun setUpViewModel() {
         accountViewModel = ViewModelProvider(this).get(AccountViewModel::class.java)
-        accountViewModel.isLoading.observe(this) {
+        accountViewModel.isLoading.observe(viewLifecycleOwner) {
             if (it)
                 HelpFunctions.startProgressBar(requireActivity())
             else
                 HelpFunctions.dismissProgressBar()
         }
-        accountViewModel.isNetworkFail.observe(this) {
+        accountViewModel.isNetworkFail.observe(viewLifecycleOwner) {
             if (it) {
                 HelpFunctions.ShowLongToast(getString(R.string.connectionError), requireActivity())
             } else {
                 HelpFunctions.ShowLongToast(getString(R.string.serverError), requireActivity())
             }
-
         }
-        accountViewModel.errorResponseObserver.observe(this) {
-            if (it.message != null) {
-                HelpFunctions.ShowLongToast(it.message!!, requireActivity())
-            } else {
-                HelpFunctions.ShowLongToast(getString(R.string.serverError), requireActivity())
-            }
-        }
-
-
-        accountViewModel.userPointsDetailsObserver.observe(this) { userPointsResp ->
+        accountViewModel.userPointsDetailsObserver.observe(viewLifecycleOwner) { userPointsResp ->
             if (userPointsResp.status_code == 200) {
-                etAmount.text = null
+                binding.etAmount.text = null
                 userPointsResp.userPointData?.let { setData(it) }
             } else {
-                if (userPointsResp.message != null) {
-                    HelpFunctions.ShowLongToast(userPointsResp.message, requireActivity())
-                } else {
-                    HelpFunctions.ShowLongToast(getString(R.string.serverError), requireActivity())
-                }
-            }
-        }
-
-        accountViewModel.convertMoneyToPointObserver.observe(this) { convertMoneyToPoint ->
-            if (convertMoneyToPoint.status_code == 200) {
-                onRefresh()
-                tvAmount.text = null
-            } else {
-                if (convertMoneyToPoint.message != null) {
-                    HelpFunctions.ShowLongToast(convertMoneyToPoint.message, requireActivity())
-                } else {
-                    HelpFunctions.ShowLongToast(getString(R.string.serverError), requireActivity())
-                }
+                HelpFunctions.ShowLongToast(
+                    userPointsResp.message ?: getString(R.string.serverError), requireActivity()
+                )
             }
         }
     }
 
     private fun setData(userPointData: UserPointData) {
-        tvTotalBalnce.text = userPointData.pointsBalance.toString()
-        tvRefrerCode.text = userPointData.newInvitationCode ?: ""
+        binding.tvTotalBalnce.text = userPointData.pointsBalance.toString()
+        binding.tvRefrerCode.text = userPointData.newInvitationCode ?: ""
         userPointData.pointsTransactionslist?.let {
             pointsTransactionsList.clear()
             pointsTransactionsList.addAll(it)
@@ -125,46 +99,35 @@ class MyPointsFragment : Fragment(R.layout.fragment_my_points_fragment),
     }
 
     private fun initView() {
-        toolbar_title.text = getString(R.string.my_points)
-        swipeRefresh.setOnRefreshListener(this)
-        swipeRefresh.setColorSchemeResources(R.color.colorPrimaryDark)
-
+        binding.toolbarMain.toolbarTitle.text = getString(R.string.my_points)
+        binding.swipeRefresh.setOnRefreshListener(this)
+        binding.swipeRefresh.setColorSchemeResources(R.color.colorPrimaryDark)
     }
 
-
     private fun setViewClickListeners() {
-
-        back_btn.setOnClickListener {
+        binding.toolbarMain.backBtn.setOnClickListener {
             requireActivity().onBackPressed()
         }
-        btnConvertion.setOnClickListener {
-            if (etAmount.text.toString().trim() == "") {
-                etAmount.error = getString(R.string.enterAmountPoint)
+        binding.btnConvertion.setOnClickListener {
+            val amount = binding.etAmount.text.toString().trim()
+            if (amount.isEmpty()) {
+                binding.etAmount.error = getString(R.string.enterAmountPoint)
+            } else if (amount.toLong() <= binding.tvTotalBalnce.text.toString().toLong()) {
+                accountViewModel.convertMountToPoints(amount)
             } else {
-                Log.i("tvTotalBalnce",tvTotalBalnce.text.toString())
-                Log.i("etAmount",etAmount.text.toString())
-                Log.i("result",(etAmount.text.toString().toLong() <= tvTotalBalnce.text.toString().toLong()).toString())
-                if (etAmount.text.toString().toLong() <= tvTotalBalnce.text.toString().toLong())
-                    accountViewModel.convertMountToPoints(
-                        etAmount.text.toString().trim()
-                    )
-                else{
-
-                    etAmount.error = getString(R.string.enterAmountPointLess)
-                }
+                binding.etAmount.error = getString(R.string.enterAmountPointLess)
             }
         }
-
     }
 
     override fun onRefresh() {
-        swipeRefresh.isRefreshing = false
+        binding.swipeRefresh.isRefreshing = false
         accountViewModel.getUserPointDetailsInWallet()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null // Avoid memory leaks
         accountViewModel.closeAllCall()
     }
-
 }

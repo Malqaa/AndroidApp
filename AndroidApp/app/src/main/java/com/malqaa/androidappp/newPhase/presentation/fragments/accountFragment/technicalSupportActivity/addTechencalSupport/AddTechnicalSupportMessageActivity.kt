@@ -10,64 +10,67 @@ import androidx.core.view.updatePadding
 import androidx.lifecycle.ViewModelProvider
 import com.hbb20.CountryCodePicker
 import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.ActivityTechnicalSupportAddMessageBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
+import com.malqaa.androidappp.newPhase.domain.models.contauctUsMessage.TechnicalSupportMessageDetails
+import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.AccountViewModel
+import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.show
-import com.malqaa.androidappp.newPhase.domain.models.contauctUsMessage.TechnicalSupportMessageDetails
-import com.malqaa.androidappp.newPhase.utils.ConstantObjects
-import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.AccountViewModel
 import com.yariksoffice.lingver.Lingver
-import kotlinx.android.synthetic.main.activity_technical_support_add_message.*
 
-
-import kotlinx.android.synthetic.main.toolbar_main.*
-
-
-class AddTechnicalSupportMessageActivity : BaseActivity() {
+class AddTechnicalSupportMessageActivity :
+    BaseActivity<ActivityTechnicalSupportAddMessageBinding>() {
     //1-> suggestion , 2_complaint
     private var communicationType = 0
     private var isPhoneNumberValid: Boolean = false
     private lateinit var accountViewModel: AccountViewModel
     private var isEdit = false
     private var editId = 0
-    private var technicalSupportMessageDetails: TechnicalSupportMessageDetails?=null
+    private var technicalSupportMessageDetails: TechnicalSupportMessageDetails? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_technical_support_add_message)
-        toolbar_title.text = getString(R.string.technical_support)
+
+        // Initialize view binding
+        binding = ActivityTechnicalSupportAddMessageBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.toolbarMain.toolbarTitle.text = getString(R.string.technical_support)
         isEdit = intent.getBooleanExtra(ConstantObjects.isEditKey, false)
         editId = intent.getIntExtra(ConstantObjects.idKey, 0)
-        technicalSupportMessageDetails=intent.getParcelableExtra(ConstantObjects.objectKey)
-        if(isEdit&&technicalSupportMessageDetails!=null){
+        technicalSupportMessageDetails = intent.getParcelableExtra(ConstantObjects.objectKey)
+        if (isEdit && technicalSupportMessageDetails != null) {
             setData(technicalSupportMessageDetails!!)
         }
-       // println("ttt "+editId)
+        // println("ttt "+editId)
         setClickListeners()
         setupCountryCodePiker()
         setUpViewModel()
     }
-     fun setData(technicalSupportMessageDetails: TechnicalSupportMessageDetails){
-         if(technicalSupportMessageDetails.typeOfCommunication==1){
-             tv_error_contact_us.hide()
-             communicationType = 1
-             tvContactUsTypeTitle.updatePadding(top = 0, bottom = 0, left = 0, right = 0)
-             tvContactUsTypeTitle.textSize = 11f
-             tvContactUsType.text = getString(R.string.suggestions)
-             tvContactUsType.show()
-         } else if (technicalSupportMessageDetails.typeOfCommunication == 2) {
-             tv_error_contact_us.hide()
-             communicationType = 2
-             tvContactUsTypeTitle.updatePadding(top = 0, bottom = 0, left = 0, right = 0)
-             tvContactUsTypeTitle.textSize = 11f
-             tvContactUsType.text = getString(R.string.complaint)
-             tvContactUsType.show()
-         }
-         etPhoneNumber.setText(technicalSupportMessageDetails.mobileNumber?:"")
-         etEmail.setText(technicalSupportMessageDetails.email)
-         problem_title.setText(technicalSupportMessageDetails.problemTitle)
-         tvDescriptionAr.setText(technicalSupportMessageDetails.meassageDetails)
+
+    fun setData(technicalSupportMessageDetails: TechnicalSupportMessageDetails) {
+        if (technicalSupportMessageDetails.typeOfCommunication == 1) {
+            binding.tvErrorContactUs.hide()
+            communicationType = 1
+            binding.tvContactUsTypeTitle.updatePadding(top = 0, bottom = 0, left = 0, right = 0)
+            binding.tvContactUsTypeTitle.textSize = 11f
+            binding.tvContactUsType.text = getString(R.string.suggestions)
+            binding.tvContactUsType.show()
+        } else if (technicalSupportMessageDetails.typeOfCommunication == 2) {
+            binding.tvErrorContactUs.hide()
+            communicationType = 2
+            binding.tvContactUsTypeTitle.updatePadding(top = 0, bottom = 0, left = 0, right = 0)
+            binding.tvContactUsTypeTitle.textSize = 11f
+            binding.tvContactUsType.text = getString(R.string.complaint)
+            binding.tvContactUsType.show()
+        }
+        binding.etPhoneNumber.setText(technicalSupportMessageDetails.mobileNumber ?: "")
+        binding.etEmail.setText(technicalSupportMessageDetails.email)
+        binding.problemTitle.setText(technicalSupportMessageDetails.problemTitle)
+        binding.tvDescriptionAr.setText(technicalSupportMessageDetails.meassageDetails)
     }
+
     private fun setUpViewModel() {
         accountViewModel = ViewModelProvider(this).get(AccountViewModel::class.java)
         accountViewModel.isLoading.observe(this) {
@@ -110,77 +113,72 @@ class AddTechnicalSupportMessageActivity : BaseActivity() {
 
     private fun setupCountryCodePiker() {
         if (Lingver.getInstance().getLanguage() == ConstantObjects.ARABIC) {
-            countryCodePicker.changeDefaultLanguage(CountryCodePicker.Language.ARABIC)
+            binding.countryCodePicker.changeDefaultLanguage(CountryCodePicker.Language.ARABIC)
         } else {
-            countryCodePicker.changeDefaultLanguage(CountryCodePicker.Language.ENGLISH)
-            //  etPhoneNumber.textAlignment=View.TEXT_ALIGNMENT_VIEW_START
+            binding.countryCodePicker.changeDefaultLanguage(CountryCodePicker.Language.ENGLISH)
         }
-        countryCodePicker.registerCarrierNumberEditText(etPhoneNumber)
-        countryCodePicker.setPhoneNumberValidityChangeListener { isValidNumber ->
+        binding.countryCodePicker.registerCarrierNumberEditText(binding.etPhoneNumber)
+        binding.countryCodePicker.setPhoneNumberValidityChangeListener { isValidNumber ->
             isPhoneNumberValid = isValidNumber
         }
-        countryCodePicker.setOnCountryChangeListener {
-            etPhoneNumber.text = Editable.Factory.getInstance().newEditable("")
+        binding.countryCodePicker.setOnCountryChangeListener {
+            binding.etPhoneNumber.text = Editable.Factory.getInstance().newEditable("")
         }
     }
 
     private fun setClickListeners() {
-        back_btn.setOnClickListener {
+        binding.toolbarMain.backBtn.setOnClickListener {
             onBackPressed()
         }
-
-
-        containerContactUsType.setOnClickListener {
+        binding.containerContactUsType.setOnClickListener {
             openCommunicationDialog()
         }
-        btnSend.setOnClickListener {
+        binding.btnSend.setOnClickListener {
             prepareDataToSave()
         }
-
     }
 
     private fun prepareDataToSave() {
         var readyToAdd = true
-        tv_phone_error.visibility = View.GONE
-        problem_title.error = null
+        binding.tvPhoneError.visibility = View.GONE
+        binding.problemTitle.error = null
         if (communicationType == 0) {
-            tv_error_contact_us.show()
+            binding.tvErrorContactUs.show()
             readyToAdd = false
         }
         if (!isPhoneNumberValid) {
-            tv_phone_error.visibility = View.VISIBLE
-            tv_phone_error.text = getString(R.string.PleaseenteravalidPhoneNumber)
+            binding.tvPhoneError.visibility = View.VISIBLE
+            binding.tvPhoneError.text = getString(R.string.PleaseenteravalidPhoneNumber)
             readyToAdd = false
-
         }
         if (!validateSignupEmail()) {
             readyToAdd = false
         }
-        if (problem_title.text.toString().trim() == "") {
+        if (binding.problemTitle.text.toString().trim() == "") {
             readyToAdd = false
-            problem_title.error = getString(R.string.enter_problem_title)
+            binding.problemTitle.error = getString(R.string.enter_problem_title)
         }
-        if (tvDescriptionAr.text.toString().trim() == "") {
+        if (binding.tvDescriptionAr.text.toString().trim() == "") {
             readyToAdd = false
-            tvDescriptionAr.error = getString(R.string.message_details)
+            binding.tvDescriptionAr.error = getString(R.string.message_details)
         }
         if (readyToAdd) {
             if (isEdit) {
                 accountViewModel.addContactUsMessage(
                     communicationType,
-                    countryCodePicker.fullNumberWithPlus,
-                    etEmail.text.toString().trim(),
-                    problem_title.text.toString().trim(),
-                    tvDescriptionAr.text.toString().trim(),
+                    binding.countryCodePicker.fullNumberWithPlus,
+                    binding.etEmail.text.toString().trim(),
+                    binding.problemTitle.text.toString().trim(),
+                    binding.tvDescriptionAr.text.toString().trim(),
                     editId
                 )
             } else {
                 accountViewModel.addContactUsMessage(
                     communicationType,
-                    countryCodePicker.fullNumberWithPlus,
-                    etEmail.text.toString().trim(),
-                    problem_title.text.toString().trim(),
-                    tvDescriptionAr.text.toString().trim(),
+                    binding.countryCodePicker.fullNumberWithPlus,
+                    binding.etEmail.text.toString().trim(),
+                    binding.problemTitle.text.toString().trim(),
+                    binding.tvDescriptionAr.text.toString().trim(),
                     null
                 )
             }
@@ -190,15 +188,15 @@ class AddTechnicalSupportMessageActivity : BaseActivity() {
 
     private fun validateSignupEmail(): Boolean {
         val emailInput =
-            etEmail.text.toString().trim { it <= ' ' }
+            binding.etEmail.text.toString().trim { it <= ' ' }
         return if (emailInput.isEmpty()) {
-            etEmail.error = getString(R.string.Fieldcantbeempty)
+            binding.etEmail.error = getString(R.string.Fieldcantbeempty)
             false
         } else if (!Patterns.EMAIL_ADDRESS.matcher(emailInput).matches()) {
-            etEmail.error = getString(R.string.Pleaseenteravalidemailaddress)
+            binding.etEmail.error = getString(R.string.Pleaseenteravalidemailaddress)
             false
         } else {
-            etEmail.error = null
+            binding.etEmail.error = null
             true
         }
     }
@@ -208,19 +206,29 @@ class AddTechnicalSupportMessageActivity : BaseActivity() {
             ContactUsTypeDialog(this, object : ContactUsTypeDialog.SetOnSelectCommunicationType {
                 override fun onSelectCommunicationType(position: Int) {
                     if (position == 1) {
-                        tv_error_contact_us.hide()
+                        binding.tvErrorContactUs.hide()
                         communicationType = position
-                        tvContactUsTypeTitle.updatePadding(top = 0, bottom = 0, left = 0, right = 0)
-                        tvContactUsTypeTitle.textSize = 11f
-                        tvContactUsType.text = getString(R.string.suggestions)
-                        tvContactUsType.show()
+                        binding.tvContactUsTypeTitle.updatePadding(
+                            top = 0,
+                            bottom = 0,
+                            left = 0,
+                            right = 0
+                        )
+                        binding.tvContactUsTypeTitle.textSize = 11f
+                        binding.tvContactUsType.text = getString(R.string.suggestions)
+                        binding.tvContactUsType.show()
                     } else if (position == 2) {
-                        tv_error_contact_us.hide()
+                        binding.tvErrorContactUs.hide()
                         communicationType = position
-                        tvContactUsTypeTitle.updatePadding(top = 0, bottom = 0, left = 0, right = 0)
-                        tvContactUsTypeTitle.textSize = 11f
-                        tvContactUsType.text = getString(R.string.complaint)
-                        tvContactUsType.show()
+                        binding.tvContactUsTypeTitle.updatePadding(
+                            top = 0,
+                            bottom = 0,
+                            left = 0,
+                            right = 0
+                        )
+                        binding.tvContactUsTypeTitle.textSize = 11f
+                        binding.tvContactUsType.text = getString(R.string.complaint)
+                        binding.tvContactUsType.show()
                     }
                 }
 

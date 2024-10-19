@@ -3,92 +3,99 @@ package com.malqaa.androidappp.newPhase.presentation.fragments.appSettingFragmen
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.ActivityApplicationSettingBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.helper.shared_preferences.SharedPreferencesStaticClass
 import com.yariksoffice.lingver.Lingver
 import io.paperdb.Paper
-import kotlinx.android.synthetic.main.activity_application_setting.btnSaveEdit
-import kotlinx.android.synthetic.main.activity_application_setting.language_toggle
-import kotlinx.android.synthetic.main.activity_application_setting.swNotify
-import kotlinx.android.synthetic.main.toolbar_main.*
 
 class ApplicationSettingFragment : Fragment(R.layout.activity_application_setting) {
 
+    // Declare the binding object
+    private var _binding: ActivityApplicationSettingBinding? = null
+    private val binding get() = _binding!!
 
     private var settingViewModel: SettingViewModel? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // Initialize the binding object
+        _binding = ActivityApplicationSettingBinding.bind(view)
+
         setUpModel()
-        toolbar_title.text = getString(R.string.application_settings)
-        back_btn.setOnClickListener {
+
+        // Use binding to access views
+        binding.toolbarMain.toolbarTitle.text = getString(R.string.application_settings)
+        binding.toolbarMain.backBtn.setOnClickListener {
             requireActivity().onBackPressed()
         }
+
         if (ConstantObjects.currentLanguage == "en") {
-            language_toggle.checkedTogglePosition = 0
+            binding.languageToggle.checkedTogglePosition = 0
         } else {
-            language_toggle.checkedTogglePosition = 1
+            binding.languageToggle.checkedTogglePosition = 1
         }
-
-
     }
 
-    private fun setUpModel(){
+    private fun setUpModel() {
         settingViewModel = ViewModelProvider(this).get(SettingViewModel::class.java)
-        settingViewModel?.isLoading?.observe(viewLifecycleOwner, Observer {
+        settingViewModel?.isLoading?.observe(viewLifecycleOwner) {
             if (it)
                 HelpFunctions.startProgressBar(requireActivity())
             else
                 HelpFunctions.dismissProgressBar()
-        })
-
-
-        settingViewModel?.languageObserver?.observe(viewLifecycleOwner, Observer {
-            HelpFunctions.ShowLongToast(it.message, requireActivity())
-            (requireActivity() as BaseActivity).setLocale()
-
-        })
-        swNotify.isChecked=SharedPreferencesStaticClass.getSwitchNotify()
-        swNotify.setOnClickListener {
         }
 
-        btnSaveEdit.setOnClickListener {
-            SharedPreferencesStaticClass.saveSwitchNotify(swNotify.isChecked)
-            if(ConstantObjects.currentLanguage == "en"){
-                if(language_toggle.checkedTogglePosition != 0){
+        settingViewModel?.languageObserver?.observe(viewLifecycleOwner) {
+            HelpFunctions.ShowLongToast(it.message, requireActivity())
+            (requireActivity() as BaseActivity<*>).setLocale()
+        }
+
+        // Use binding for the switch and save button
+        binding.swNotify.isChecked = SharedPreferencesStaticClass.getSwitchNotify()
+        binding.swNotify.setOnClickListener {
+            // Add logic if needed
+        }
+
+        binding.btnSaveEdit.setOnClickListener {
+            SharedPreferencesStaticClass.saveSwitchNotify(binding.swNotify.isChecked)
+            if (ConstantObjects.currentLanguage == "en") {
+                if (binding.languageToggle.checkedTogglePosition != 0) {
                     changeLanguage()
-                }else{
+                } else {
                     requireActivity().onBackPressed()
                 }
-            }else if(ConstantObjects.currentLanguage == "ar"){
-                if(language_toggle.checkedTogglePosition != 1){
+            } else if (ConstantObjects.currentLanguage == "ar") {
+                if (binding.languageToggle.checkedTogglePosition != 1) {
                     changeLanguage()
-                }else{
+                } else {
                     requireActivity().onBackPressed()
                 }
             }
         }
     }
 
-    private fun changeLanguage(){
+    private fun changeLanguage() {
         if (Paper.book().read(SharedPreferencesStaticClass.islogin, false) == true)
             settingViewModel?.setLanguageChange(
                 if (Lingver.getInstance().getLanguage() == ConstantObjects.ARABIC)
                     ConstantObjects.ENGLISH else ConstantObjects.ARABIC
             )
         else
-            (requireActivity() as BaseActivity).setLocale()
+            (requireActivity() as BaseActivity<*>).setLocale()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         settingViewModel?.closeAllCall()
-        settingViewModel=null
+        settingViewModel = null
+
+        // Clear the binding when the view is destroyed
+        _binding = null
     }
 }

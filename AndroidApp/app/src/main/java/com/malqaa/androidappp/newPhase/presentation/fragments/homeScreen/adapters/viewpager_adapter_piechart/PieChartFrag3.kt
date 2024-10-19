@@ -1,67 +1,80 @@
 package com.malqaa.androidappp.newPhase.presentation.fragments.homeScreen.adapters.viewpager_adapter_piechart
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.malqaa.androidappp.R
-import com.malqaa.androidappp.newPhase.utils.HelpFunctions
+import com.malqaa.androidappp.databinding.FragmentPieChartFrag3Binding
 import com.malqaa.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malqaa.androidappp.newPhase.data.network.service.MalqaApiService
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.total_members.ModelGetTotalMembers
-import kotlinx.android.synthetic.main.fragment_pie_chart_frag3.*
+import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-
 class PieChartFrag3 : Fragment() {
+
+    private var _binding: FragmentPieChartFrag3Binding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_pie_chart_frag3, container, false)
+        // Inflate the layout using view binding
+        _binding = FragmentPieChartFrag3Binding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Call the API to get total members
         getTotalMembersApi()
     }
 
-    fun getTotalMembersApi() {
-        val malqaa: MalqaApiService = getRetrofitBuilder()
-        val call: Call<ModelGetTotalMembers> = malqaa.getTotalMembers()
+    private fun getTotalMembersApi() {
+        val malqaApiService: MalqaApiService = getRetrofitBuilder()
+        val call: Call<ModelGetTotalMembers> = malqaApiService.getTotalMembers()
+
         call.enqueue(object : Callback<ModelGetTotalMembers> {
             override fun onResponse(
                 call: Call<ModelGetTotalMembers>,
                 response: Response<ModelGetTotalMembers>
             ) {
                 if (response.isSuccessful) {
-                    if (response.body() != null) {
-                        val totalMembersData = response.body()!!.data.toString()
-                        number_of_totalmembers.text = totalMembersData
-                    } else {
-                        HelpFunctions.ShowLongToast(getString(R.string.Nullbackresponse), context)
-
-//                        Toast.makeText(activity,"Null-back response",Toast.LENGTH_LONG).show()
+                    response.body()?.let { data ->
+                        // Update the TextView with the total members
+                        binding.numberOfTotalmembers.text = data.data.toString()
+                    } ?: run {
+                        // Handle null response body case
+                        HelpFunctions.ShowLongToast(
+                            getString(R.string.Nullbackresponse),
+                            requireContext()
+                        )
                     }
                 } else {
-                    HelpFunctions.ShowLongToast(getString(R.string.FailedResponse), context)
-//                    Toast.makeText(activity,"Failed Response",Toast.LENGTH_LONG).show()
+                    // Handle response failure
+                    HelpFunctions.ShowLongToast(
+                        getString(R.string.FailedResponse),
+                        requireContext()
+                    )
                 }
-
             }
 
             override fun onFailure(call: Call<ModelGetTotalMembers>, t: Throwable) {
-                t.message?.let { HelpFunctions.ShowLongToast(it, context) }
-
-//                Toast.makeText(activity, t.message, Toast.LENGTH_LONG).show()
+                // Handle request failure
+                t.message?.let { HelpFunctions.ShowLongToast(it, requireContext()) }
             }
         })
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        // Clear the binding when view is destroyed
+        _binding = null
+    }
 }

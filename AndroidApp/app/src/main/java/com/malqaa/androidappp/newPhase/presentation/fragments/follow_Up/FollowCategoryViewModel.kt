@@ -77,7 +77,7 @@ class FollowCategoryViewModel : BaseViewModel() {
 
     fun getCategoryFollow() {
         isLoading.value = true
-         getRetrofitBuilder()
+        getRetrofitBuilder()
             .getListCategoryFollow()
             .enqueue(object : Callback<CategoryFollowResp> {
                 override fun onFailure(call: Call<CategoryFollowResp>, t: Throwable) {
@@ -102,7 +102,7 @@ class FollowCategoryViewModel : BaseViewModel() {
 
     fun removeCategoryFollow(categoryID: Int) {
         isLoading.value = true
-         getRetrofitBuilder().removeFollow(categoryID)
+        getRetrofitBuilder().removeFollow(categoryID)
             .enqueue(object : Callback<GeneralResponse?> {
                 override fun onFailure(call: Call<GeneralResponse?>, t: Throwable) {
                     isLoading.value = false
@@ -123,7 +123,7 @@ class FollowCategoryViewModel : BaseViewModel() {
 
     fun getListSaveSearch() {
         isLoading.value = true
-         getRetrofitBuilder()
+        getRetrofitBuilder()
             .getListSaveSearch()
             .enqueue(object : Callback<GeneralResponses<List<SavedSearch>>> {
                 override fun onFailure(
@@ -150,7 +150,7 @@ class FollowCategoryViewModel : BaseViewModel() {
 
 
     fun removeSearchFollow(searchID: Int) {
-         getRetrofitBuilder().removeSavedSearch(searchID)
+        getRetrofitBuilder().removeSavedSearch(searchID)
             .enqueue(object : Callback<GeneralResponse?> {
                 override fun onFailure(call: Call<GeneralResponse?>, t: Throwable) {
                 }

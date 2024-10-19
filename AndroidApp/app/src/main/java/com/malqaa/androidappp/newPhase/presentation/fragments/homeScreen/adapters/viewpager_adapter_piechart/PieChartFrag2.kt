@@ -1,73 +1,82 @@
 package com.malqaa.androidappp.newPhase.presentation.fragments.homeScreen.adapters.viewpager_adapter_piechart
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.malqaa.androidappp.R
-import com.malqaa.androidappp.newPhase.utils.HelpFunctions
+import com.malqaa.androidappp.databinding.FragmentPieChartFrag2Binding
 import com.malqaa.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malqaa.androidappp.newPhase.data.network.service.MalqaApiService
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.total_online_users.ModelGetTotalOnlineUsers
-import kotlinx.android.synthetic.main.fragment_pie_chart_frag2.*
+import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-
 class PieChartFrag2 : Fragment() {
 
+    private var _binding: FragmentPieChartFrag2Binding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_pie_chart_frag2, container, false)
+        // Inflate the layout for this fragment using view binding
+        _binding = FragmentPieChartFrag2Binding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Call the API to get total online users
         getTotalOnlineUsersApi()
     }
 
+    private fun getTotalOnlineUsersApi() {
+        val malqaApiService: MalqaApiService = getRetrofitBuilder()
+        val call: Call<ModelGetTotalOnlineUsers> = malqaApiService.getTotalOnlineUsers()
 
-
-    fun getTotalOnlineUsersApi(){
-    val malqaa: MalqaApiService = getRetrofitBuilder()
-    val call:Call<ModelGetTotalOnlineUsers> = malqaa.getTotalOnlineUsers()
-
-    call.enqueue(object : Callback<ModelGetTotalOnlineUsers>{
-        override fun onResponse(call: Call<ModelGetTotalOnlineUsers>, response: Response<ModelGetTotalOnlineUsers>) {
-
-            if (response.isSuccessful)
-            {
-                if (response.body() != null)
-                {
-                    val totalOnlineUserData = response.body()!!.data.toString()
-                    number_of_totalonlineusers.text = totalOnlineUserData
-                }
-
-                else{
-                    HelpFunctions.ShowLongToast(getString(R.string.Nullbackresponse),context)
-//                    Toast.makeText(activity,"Null-back response",Toast.LENGTH_LONG).show()
+        call.enqueue(object : Callback<ModelGetTotalOnlineUsers> {
+            override fun onResponse(
+                call: Call<ModelGetTotalOnlineUsers>,
+                response: Response<ModelGetTotalOnlineUsers>
+            ) {
+                if (response.isSuccessful) {
+                    response.body()?.let { data ->
+                        // Update the TextView with the total online users
+                        binding.numberOfTotalonlineusers.text = data.data.toString()
+                    } ?: run {
+                        // Handle the case when the response body is null
+                        HelpFunctions.ShowLongToast(
+                            getString(R.string.Nullbackresponse),
+                            requireContext()
+                        )
+                    }
+                } else {
+                    // Handle the failed response scenario
+                    HelpFunctions.ShowLongToast(
+                        getString(R.string.FailedResponse),
+                        requireContext()
+                    )
                 }
             }
-            else
-            {
-                HelpFunctions.ShowLongToast(getString(R.string.FailedResponse),context)
-//                Toast.makeText(activity,"Failed Response",Toast.LENGTH_LONG).show()
+
+            override fun onFailure(call: Call<ModelGetTotalOnlineUsers>, t: Throwable) {
+                // Handle the failure case
+                t.message?.let {
+                    HelpFunctions.ShowLongToast(it, requireContext())
+                }
             }
-        }
-
-        override fun onFailure(call: Call<ModelGetTotalOnlineUsers>, t: Throwable) {
-            t.message?.let { HelpFunctions.ShowLongToast(it,context) }
-
-//            Toast.makeText(activity,t.message,Toast.LENGTH_LONG).show()
-        }
-    })
+        })
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        // Clear the binding when the view is destroyed
+        _binding = null
+    }
 }

@@ -11,26 +11,31 @@ import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 class SpecificationSubItemAdapter(
     var subSpecifications: List<SubSpecificationItem>,
     var parentPosition: Int,
-    var setOnClickListeners:SetOnClickListeners
+    var setOnClickListeners: SetOnClickListeners
 ) :
-    RecyclerView.Adapter<SpecificationSubItemAdapter.SpecificationSubItemViewHolder>(){
+    RecyclerView.Adapter<SpecificationSubItemAdapter.SpecificationSubItemViewHolder>() {
     lateinit var context: Context
+
     class SpecificationSubItemViewHolder(var viewBinding: ItemFilterSpecificationSubItemBinding) :
         RecyclerView.ViewHolder(viewBinding.root)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SpecificationSubItemViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): SpecificationSubItemViewHolder {
         context = parent.context
-        return  SpecificationSubItemViewHolder(
+        return SpecificationSubItemViewHolder(
             ItemFilterSpecificationSubItemBinding
-                .inflate(LayoutInflater.from(parent.context), parent, false))
+                .inflate(LayoutInflater.from(parent.context), parent, false)
+        )
     }
 
     override fun getItemCount(): Int = subSpecifications.size
 
     override fun onBindViewHolder(holder: SpecificationSubItemViewHolder, position: Int) {
-        if(ConstantObjects.currentLanguage== ConstantObjects.ARABIC) {
+        if (ConstantObjects.currentLanguage == ConstantObjects.ARABIC) {
             holder.viewBinding.specificationTv.text = subSpecifications[position].nameEn
-        }else{
+        } else {
             holder.viewBinding.specificationTv.text = subSpecifications[position].nameAr
         }
         holder.viewBinding.specificationTv.isSelected = subSpecifications[position].isSelected
@@ -39,7 +44,7 @@ class SpecificationSubItemAdapter(
         }
     }
 
-    interface SetOnClickListeners{
-        fun setonClickListeners(parentPosition:Int,childPosition:Int)
+    interface SetOnClickListeners {
+        fun setonClickListeners(parentPosition: Int, childPosition: Int)
     }
 }

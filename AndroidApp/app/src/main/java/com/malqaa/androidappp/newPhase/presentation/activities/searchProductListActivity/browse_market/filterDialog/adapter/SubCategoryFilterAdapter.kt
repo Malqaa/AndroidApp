@@ -9,7 +9,10 @@ import com.malqaa.androidappp.R
 import com.malqaa.androidappp.databinding.ItemFiltterSubCategoryDesignBinding
 import com.malqaa.androidappp.newPhase.domain.models.productResp.CategoriesSearchItem
 
-class SubCategoryFilterAdapter(var categoryList: ArrayList<CategoriesSearchItem>, var setOnSubCategorySelectListents:SetOnSubCategorySelectListents) :
+class SubCategoryFilterAdapter(
+    var categoryList: ArrayList<CategoriesSearchItem>,
+    var setOnSubCategorySelectListents: SetOnSubCategorySelectListents
+) :
     RecyclerView.Adapter<SubCategoryFilterAdapter.SubCategoryFilterViewHolder>() {
     lateinit var context: Context
 
@@ -41,11 +44,11 @@ class SubCategoryFilterAdapter(var categoryList: ArrayList<CategoriesSearchItem>
         }
 
         holder.viewBinding.cbCity.setOnClickListener {
-            setOnSubCategorySelectListents.onSubCategorySelected( position)
+            setOnSubCategorySelectListents.onSubCategorySelected(position)
         }
     }
 
-    interface SetOnSubCategorySelectListents{
+    interface SetOnSubCategorySelectListents {
         fun onSubCategorySelected(position: Int)
     }
 }

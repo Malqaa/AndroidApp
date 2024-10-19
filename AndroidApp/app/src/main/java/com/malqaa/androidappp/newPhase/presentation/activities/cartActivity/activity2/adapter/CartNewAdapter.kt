@@ -9,22 +9,19 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.malqaa.androidappp.R
 import com.malqaa.androidappp.databinding.ItemCartDesignNewBinding
-import com.malqaa.androidappp.newPhase.utils.hide
-import com.malqaa.androidappp.newPhase.utils.linearLayoutManager
-import com.malqaa.androidappp.newPhase.utils.show
 import com.malqaa.androidappp.newPhase.domain.models.cartListResp.CartProductDetails
 import com.malqaa.androidappp.newPhase.domain.models.cartListResp.CouponAppliedBussinessAccountDto
 import com.malqaa.androidappp.newPhase.domain.models.cartListResp.ProductCartItem
 import com.malqaa.androidappp.newPhase.presentation.activities.cartActivity.activity1.adapter.DetailCartAdapter
-import kotlinx.android.synthetic.main.item_cart_design_new.view.*
-
+import com.malqaa.androidappp.newPhase.utils.hide
+import com.malqaa.androidappp.newPhase.utils.linearLayoutManager
+import com.malqaa.androidappp.newPhase.utils.show
 
 class CartNewAdapter(
-    private val flagTypeSale:Boolean,
+    private val flagTypeSale: Boolean,
     private var productsCartListResp: List<CartProductDetails>,
     private var setProductCartListeners: SetProductNewCartListeners,
-
-    ) : RecyclerView.Adapter<CartNewAdapter.CartNewViewHolder>() {
+) : RecyclerView.Adapter<CartNewAdapter.CartNewViewHolder>() {
     lateinit var context: Context
 
     class CartNewViewHolder(var viewBinding: ItemCartDesignNewBinding) :
@@ -41,156 +38,90 @@ class CartNewAdapter(
         )
     }
 
-    fun updateAdapter(productsCartListResp: ArrayList<CartProductDetails>){
-        this.productsCartListResp=productsCartListResp
+    fun updateAdapter(productsCartListResp: ArrayList<CartProductDetails>) {
+        this.productsCartListResp = productsCartListResp
         notifyDataSetChanged()
     }
+
     override fun getItemCount(): Int = productsCartListResp.size
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: CartNewViewHolder, position: Int) {
-        if(flagTypeSale){
-            holder.itemView.laySelectBank.visibility =View.GONE
-            holder.itemView.couponContainer.visibility= View.VISIBLE
-        }
-//        else{
-//            holder.itemView.couponContainer.visibility= View.GONE
-//            holder.itemView.laySelectBank.visibility =View.VISIBLE
-//        }
-        if(productsCartListResp[position].businessAccountId!=null){
-            holder.itemView.tvSellerName.text = productsCartListResp[position].businessAccountName ?: ""
+        val productDetails = productsCartListResp[position]
 
-        }else{
-            holder.itemView.tvSellerName.text = productsCartListResp[position].providerName ?: ""
-
+        // Access views via viewBinding, not itemView
+        if (flagTypeSale) {
+            holder.viewBinding.laySelectBank.visibility = View.GONE
+            holder.viewBinding.couponContainer.visibility = View.VISIBLE
         }
 
-
+        holder.viewBinding.tvSellerName.text = productDetails.businessAccountName
+            ?: productDetails.providerName ?: ""
 
         holder.viewBinding.tvDeleteShipping.setOnClickListener {
             setProductCartListeners.onDeleteShipping(position)
         }
+
+        // Set up the nested adapter
         setAdapter(
-            productsCartListResp[position].providerId!!,
-            productsCartListResp[position].couponAppliedBussinessAccountDto!!,
+            productDetails.providerId!!,
+            productDetails.couponAppliedBussinessAccountDto!!,
             holder.viewBinding.rvCart,
-            productsCartListResp[position].listProduct,
+            productDetails.listProduct,
             position
         )
-        if (productsCartListResp[position].couponAppliedBussinessAccountDto != null) {
+
+        // Coupon related UI handling
+        val couponDetails = productDetails.couponAppliedBussinessAccountDto
+        if (couponDetails != null) {
             holder.viewBinding.tvTotalPrice.text =
-                "${productsCartListResp[position].couponAppliedBussinessAccountDto!!.finalTotalPriceForBusinessAccount} ${
-                    context.getString(R.string.Rayal)
-                }"
-            if (productsCartListResp[position].couponAppliedBussinessAccountDto!!.businessAccountAmountBeforeCoupon
-                == productsCartListResp[position].couponAppliedBussinessAccountDto!!.businessAccountAmountAfterCoupon
-            ) {
+                "${couponDetails.finalTotalPriceForBusinessAccount} ${context.getString(R.string.Rayal)}"
+
+            if (couponDetails.businessAccountAmountBeforeCoupon == couponDetails.businessAccountAmountAfterCoupon) {
                 holder.viewBinding.tvOldTotalPrice.hide()
             } else {
                 holder.viewBinding.tvOldTotalPrice.show()
                 holder.viewBinding.tvOldTotalPrice.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
                 holder.viewBinding.tvOldTotalPrice.text =
-                    "${productsCartListResp[position].couponAppliedBussinessAccountDto!!.businessAccountAmountBeforeCoupon} ${
-                        context.getString(R.string.Rayal)
-                    }"
+                    "${couponDetails.businessAccountAmountBeforeCoupon} ${context.getString(R.string.Rayal)}"
             }
-
         } else {
-//            holder.viewBinding.couponContainer.hide()
             holder.viewBinding.tvOldTotalPrice.hide()
             holder.viewBinding.tvTotalPrice.text = "0${context.getString(R.string.Rayal)}"
         }
 
-        if (productsCartListResp[position].shipmentCouponId!=null){
-            holder.viewBinding.btnApplyCode.text=context.getText(R.string.unactivate)
-        }else{
-            holder.viewBinding.btnApplyCode.text=context.getText(R.string.activation)
+        // Handle the coupon apply/unapply logic
+        if (productDetails.shipmentCouponId != null) {
+            holder.viewBinding.btnApplyCode.text = context.getText(R.string.unactivate)
+        } else {
+            holder.viewBinding.btnApplyCode.text = context.getText(R.string.activation)
         }
-        holder.viewBinding.btnApplyCode.setOnClickListener {
-            if (holder.viewBinding.etCoupon.text.toString().trim() == "") {
-                holder.viewBinding.etCoupon.error =
-                    context.getString(R.string.enter_the_coupon)
-            } else {
 
-                if (productsCartListResp[position].shipmentCouponId!=null){
+        holder.viewBinding.btnApplyCode.setOnClickListener {
+            if (holder.viewBinding.etCoupon.text.toString().trim().isEmpty()) {
+                holder.viewBinding.etCoupon.error = context.getString(R.string.enter_the_coupon)
+            } else {
+                val couponText = holder.viewBinding.etCoupon.text.toString().trim()
+                if (productDetails.shipmentCouponId != null) {
                     setProductCartListeners.unApplyBusinessCardCoupon(
                         position,
-                        productsCartListResp[position].couponAppliedBussinessAccountDto?.businessAccountId?:"null",
-                        holder.viewBinding.etCoupon.text.toString().trim(),
-                        providerId =productsCartListResp[position].providerId!!
+                        productDetails.couponAppliedBussinessAccountDto?.businessAccountId
+                            ?: "null",
+                        couponText,
+                        productDetails.providerId!!
                     )
                     holder.viewBinding.etCoupon.setText("")
-                }else{
+                } else {
                     setProductCartListeners.onApplyBusinessCardCoupon(
                         position,
-                        productsCartListResp[position].couponAppliedBussinessAccountDto?.businessAccountId?:"null",
-                        holder.viewBinding.etCoupon.text.toString().trim(),
-                        providerId =productsCartListResp[position].providerId!!
+                        productDetails.couponAppliedBussinessAccountDto?.businessAccountId
+                            ?: "null",
+                        couponText,
+                        productDetails.providerId!!
                     )
                 }
             }
         }
-
-//        var productItem: ProductCartItem? = productsCartListResp[position].listProduct?.get(0)
-//        if (productItem != null) {
-//            Extension.loadImgGlide(
-//                context,
-//                productItem.img ?: "",
-//                holder.viewBinding.ivProductImage,
-//                holder.viewBinding.loader
-//            )
-//            holder.viewBinding.tvProductType.text = productItem.categoryName ?: ""
-//            holder.viewBinding.tvProductName.text = productItem.name ?: ""
-//            var location = ""
-//            if (productItem.country != null) {
-//                location += productItem.country
-//            }
-//            if (productItem.region != null) {
-//                location += "-${productItem.region}"
-//            }
-//            holder.viewBinding.tvProductCity.text = location
-//            if (productItem.priceDiscount == productItem.price) {
-//                holder.viewBinding.prodPrice.text =
-//                    "${productItem.price.toDouble()} ${
-//                        context.getString(
-//                            R.string.Rayal
-//                        )
-//                    }"
-//                holder.viewBinding.tvOldPRiceProductPriceForHorizentalView.hide()
-//            } else {
-//                // for Horizental View
-//                holder.viewBinding.tvOldPRiceProductPriceForHorizentalView.show()
-//                holder.viewBinding.tvOldPRiceProductPriceForHorizentalView.paintFlags =
-//                    Paint.STRIKE_THRU_TEXT_FLAG
-//                holder.viewBinding.tvOldPRiceProductPriceForHorizentalView.text =
-//                    "${productItem.price.toDouble()} ${
-//                        context.getString(
-//                            R.string.Rayal
-//                        )
-//                    }"
-//                holder.viewBinding.prodPrice.text =
-//                    "${productItem.priceDiscount.toDouble()} ${
-//                        context.getString(
-//                            R.string.Rayal
-//                        )
-//                    }"
-//            }
-//            holder.viewBinding.tvQuentitiy.text = productItem.qty.toString()
-//
-//            holder.viewBinding.btnSubtract.setOnClickListener {
-//                if (productItem.qty > 1) {
-//                    setProductCartListeners.onDecreaseQuantityProduct(position)
-//                }
-//
-//            }
-//            holder.viewBinding.btnAdd.setOnClickListener {
-//                setProductCartListeners.onIncreaseQuantityProduct(position)
-//            }
-//            holder.viewBinding.btnDelete.setOnClickListener {
-//
-//            }
-//        }
-
     }
 
     private fun setAdapter(
@@ -202,8 +133,9 @@ class CartNewAdapter(
     ) {
         val dataList: ArrayList<ProductCartItem> = ArrayList()
         listProduct?.let { dataList.addAll(it) }
+
         val cartAdapter =
-            DetailCartAdapter( dataList, object : DetailCartAdapter.SetProductCartListeners {
+            DetailCartAdapter(dataList, object : DetailCartAdapter.SetProductCartListeners {
                 override fun onIncreaseQuantityProduct(position: Int) {
                     setProductCartListeners.onIncreaseQuantityProduct(position, mainPosition)
                 }
@@ -216,30 +148,15 @@ class CartNewAdapter(
                     setProductCartListeners.onDeleteProduct(position, mainPosition)
                 }
 
-                override fun onSelectPayment(productId:Int,paymentSelection: Int) {
-                    setProductCartListeners.onSelectPayment(productId,paymentSelection)
-
+                override fun onSelectPayment(productId: Int, paymentSelection: Int) {
+                    setProductCartListeners.onSelectPayment(productId, paymentSelection)
                 }
 
-                override fun onSelectDelivery(productId:Int,deliverySelection: String) {
-                    setProductCartListeners.onSelectDelivery(productId ,deliverySelection)
+                override fun onSelectDelivery(productId: Int, deliverySelection: String) {
+                    setProductCartListeners.onSelectDelivery(productId, deliverySelection)
                 }
-
-//                override fun onApplyBusinessCardCoupon(
-//                    mainPosition: Int,
-//                    businessAccountId: String,
-//                    coupon: String,
-//                    providerId:String
-//                ) {
-//                    setProductCartListeners.onApplyBusinessCardCoupon(
-//                        mainPosition,
-//                        businessAccountId,
-//                        coupon,
-//                        providerId
-//                    )
-//                }
-
             })
+
         rvCart.apply {
             adapter = cartAdapter
             layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
@@ -251,11 +168,22 @@ class CartNewAdapter(
         fun onIncreaseQuantityProduct(position: Int, mainPosition: Int)
         fun onDecreaseQuantityProduct(position: Int, mainPosition: Int)
         fun onDeleteProduct(position: Int, mainPosition: Int)
-        fun onSelectPayment(productId:Int,paymentSelection: Int)
-        fun onSelectDelivery(productId:Int,deliverySelection: String)
-        fun onApplyBusinessCardCoupon(mainPosition: Int, businessAccountId: String?, coupon: String,providerId:String)
-        fun unApplyBusinessCardCoupon(mainPosition: Int, businessAccountId: String?, coupon: String,providerId:String)
-        fun onDeleteShipping(position: Int)
+        fun onSelectPayment(productId: Int, paymentSelection: Int)
+        fun onSelectDelivery(productId: Int, deliverySelection: String)
+        fun onApplyBusinessCardCoupon(
+            mainPosition: Int,
+            businessAccountId: String?,
+            coupon: String,
+            providerId: String
+        )
 
+        fun unApplyBusinessCardCoupon(
+            mainPosition: Int,
+            businessAccountId: String?,
+            coupon: String,
+            providerId: String
+        )
+
+        fun onDeleteShipping(position: Int)
     }
 }

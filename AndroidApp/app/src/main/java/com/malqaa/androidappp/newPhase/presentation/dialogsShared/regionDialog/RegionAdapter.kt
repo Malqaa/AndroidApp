@@ -17,8 +17,6 @@ class RegionAdapter(
 ) :
     RecyclerView.Adapter<RegionAdapter.CountriesViewHolder>() {
 
-
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CountriesViewHolder {
         return CountriesViewHolder(
             LayoutInflater.from(parent.context).inflate(
@@ -35,19 +33,19 @@ class RegionAdapter(
     }
 
     override fun onBindViewHolder(holder: CountriesViewHolder, position: Int) {
-        val regionName:String = regionsList[position].name
+        val regionName: String = regionsList[position].name
         holder.btnCountry.text = regionName
         holder.btnCountry.setOnClickListener {
-            onRegionSelected.onRegionSelected(regionsList[position].id,regionName)
+            onRegionSelected.onRegionSelected(regionsList[position].id, regionName)
         }
     }
-
 
     class CountriesViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var btnCountry: TextView = view.findViewById(R.id.btnCity)
     }
-    interface OnRegionSelected{
-        fun onRegionSelected(id:Int, countryName:String)
+
+    interface OnRegionSelected {
+        fun onRegionSelected(id: Int, countryName: String)
     }
 
 }

@@ -2,9 +2,9 @@ package com.malqaa.androidappp.newPhase.presentation.activities.cartActivity
 
 import androidx.lifecycle.MutableLiveData
 import com.malqaa.androidappp.newPhase.core.BaseViewModel
-import com.malqaa.androidappp.newPhase.utils.Extension.requestBody
 import com.malqaa.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
+import com.malqaa.androidappp.newPhase.utils.Extension.requestBody
 import com.malqaa.androidappp.newPhase.utils.helper.ConstantsHelper
 import okhttp3.MultipartBody
 import okhttp3.RequestBody

@@ -1,16 +1,19 @@
 package com.malqaa.androidappp.newPhase.utils.activitiesMain
 
 import android.os.Bundle
-import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.ActivityFullImageBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
 import com.malqaa.androidappp.newPhase.utils.Extension
-import kotlinx.android.synthetic.main.activity_full_image.*
 
-class FullImageActivity : BaseActivity() {
+class FullImageActivity : BaseActivity<ActivityFullImageBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_full_image)
-        fbButtonBack.setOnClickListener {
+
+        // Initialize view binding
+        binding = ActivityFullImageBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.fbButtonBack.setOnClickListener {
             finish()
         }
 
@@ -19,10 +22,7 @@ class FullImageActivity : BaseActivity() {
         Extension.loadImgGlide(
             this@FullImageActivity,
             filepath,
-            imageviewFullimg, null
+            binding.imageviewFullimg, null
         )
-
-
-
     }
 }

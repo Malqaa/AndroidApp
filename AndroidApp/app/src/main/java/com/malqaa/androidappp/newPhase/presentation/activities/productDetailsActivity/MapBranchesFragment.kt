@@ -7,12 +7,12 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -23,7 +23,6 @@ import com.malqaa.androidappp.R
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 
 class MapBranchesFragment : Fragment() {
-
 
     var lat: Double = -1.0
     var long: Double = -1.0
@@ -116,8 +115,6 @@ class MapBranchesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(callback)
-
-
 
 
     }

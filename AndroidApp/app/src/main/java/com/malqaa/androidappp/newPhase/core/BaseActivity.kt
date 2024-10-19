@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.viewbinding.ViewBinding
 import com.malqaa.androidappp.newPhase.presentation.activities.splashActivity.SplashActivity
 import com.malqaa.androidappp.newPhase.domain.models.addProductToCartResp.AddProductObjectData
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
@@ -18,7 +19,10 @@ import com.malqaa.androidappp.newPhase.presentation.activities.loginScreen.SignI
 import com.yariksoffice.lingver.Lingver
 
 
-abstract class BaseActivity : AppCompatActivity() {
+abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
+
+    // Abstract property to be initialized in subclasses
+    protected lateinit var binding: VB
 
     // Method to get the current language based on a constant
     fun culture(): String {
@@ -43,7 +47,9 @@ abstract class BaseActivity : AppCompatActivity() {
         ConstantObjects.categoryProductHomeList = arrayListOf()
         Lingver.getInstance().setLocale(
             this,
-            if (Lingver.getInstance().getLanguage() == ConstantObjects.ARABIC) ConstantObjects.ENGLISH else ConstantObjects.ARABIC
+            if (Lingver.getInstance()
+                    .getLanguage() == ConstantObjects.ARABIC
+            ) ConstantObjects.ENGLISH else ConstantObjects.ARABIC
         )
         startActivity(Intent(this, SplashActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -56,14 +62,18 @@ abstract class BaseActivity : AppCompatActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         WindowInsetsControllerCompat(window, mainContainer).let { controller ->
             controller.hide(WindowInsetsCompat.Type.systemBars())
-            controller.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+            controller.systemBarsBehavior =
+                WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         }
     }
 
     // Method to show system UI
     fun showSystemUI(mainContainer: View) {
         WindowCompat.setDecorFitsSystemWindows(window, true)
-        WindowInsetsControllerCompat(window, mainContainer).show(WindowInsetsCompat.Type.systemBars())
+        WindowInsetsControllerCompat(
+            window,
+            mainContainer
+        ).show(WindowInsetsCompat.Type.systemBars())
     }
 
     // Method to display an error alert
@@ -94,13 +104,19 @@ abstract class BaseActivity : AppCompatActivity() {
     fun vibration() {
         try {
             val vibrator = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                val vibratorManager = getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
+                val vibratorManager =
+                    getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
                 vibratorManager.defaultVibrator
             } else {
                 getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
             }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                vibrator.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE))
+                vibrator.vibrate(
+                    VibrationEffect.createOneShot(
+                        500,
+                        VibrationEffect.DEFAULT_AMPLITUDE
+                    )
+                )
             } else {
                 vibrator.vibrate(500)
             }

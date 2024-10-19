@@ -3,17 +3,15 @@ package com.malqaa.androidappp.newPhase.presentation.fragments.homeScreen.viewMo
 import androidx.lifecycle.MutableLiveData
 import com.malqaa.androidappp.newPhase.core.BaseViewModel
 import com.malqaa.androidappp.newPhase.data.network.callApi
-import com.malqaa.androidappp.newPhase.data.network.retrofit.RetrofitBuilder
 import com.malqaa.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malqaa.androidappp.newPhase.domain.models.ErrorResponse
-import com.malqaa.androidappp.newPhase.domain.models.NotificationResp
 import com.malqaa.androidappp.newPhase.domain.models.NotificationUnReadResp
+import com.malqaa.androidappp.newPhase.domain.models.homeCategoryProductResp.HomeCategoryProductResp
 import com.malqaa.androidappp.newPhase.domain.models.homeSilderResp.HomeSliderResp
 import com.malqaa.androidappp.newPhase.domain.models.productResp.ProductListResp
-import com.malqaa.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
-import com.malqaa.androidappp.newPhase.domain.models.homeCategoryProductResp.HomeCategoryProductResp
 import com.malqaa.androidappp.newPhase.domain.models.productResp.ProductListSearchResp
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.AddFavResponse
+import com.malqaa.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
 import retrofit2.Call
 import retrofit2.HttpException
 
@@ -35,18 +33,18 @@ class HomeViewModel : BaseViewModel() {
     private var callSearch: Call<GeneralResponse>? = null
     private var callSaveSearch: Call<GeneralResponse>? = null
     private var callAllCategories: Call<GeneralResponse>? = null
-    private var callListHomeCategoryProduct : Call<HomeCategoryProductResp>? = null
+    private var callListHomeCategoryProduct: Call<HomeCategoryProductResp>? = null
     private var callLastViewedProduct: Call<ProductListResp>? = null
     private var changeLanguage: Call<AddFavResponse>? = null
 
     var unreadObserve: MutableLiveData<NotificationUnReadResp> = MutableLiveData()
     private var callNotifyUnread: Call<NotificationUnReadResp>? = null
 
-    fun getUnReadNotification(pageIndex:Int,rowCount:Int){
-        isLoading.value=true
+    fun getUnReadNotification(pageIndex: Int, rowCount: Int) {
+        isLoading.value = true
 
         callNotifyUnread = getRetrofitBuilder()
-            .unreadNotificationsCount(pageIndex,rowCount)
+            .unreadNotificationsCount(pageIndex, rowCount)
         callApi(callNotifyUnread!!,
             onSuccess = {
                 isLoading.value = false
@@ -211,7 +209,6 @@ class HomeViewModel : BaseViewModel() {
     }
 
 
-
     fun saveSearch(searchString: String) {
         callSaveSearch = getRetrofitBuilder().savedSearch(searchString)
         callApi(callSaveSearch!!,
@@ -322,10 +319,10 @@ class HomeViewModel : BaseViewModel() {
         if (callLastViewedProduct != null) {
             callLastViewedProduct?.cancel()
         }
-        if(changeLanguage !=null){
+        if (changeLanguage != null) {
             changeLanguage?.cancel()
         }
-        if(callNotifyUnread !=null){
+        if (callNotifyUnread != null) {
             callNotifyUnread?.cancel()
         }
 

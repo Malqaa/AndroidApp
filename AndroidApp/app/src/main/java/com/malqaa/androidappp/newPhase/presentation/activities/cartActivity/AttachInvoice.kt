@@ -6,18 +6,18 @@ import android.os.Bundle
 import androidx.activity.result.ActivityResult
 import androidx.lifecycle.ViewModelProvider
 import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.ActivityOrderDetailConfirmBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
+import com.malqaa.androidappp.newPhase.presentation.dialogsShared.PickImageMethodsDialog
 import com.malqaa.androidappp.newPhase.utils.BetterActivityResult
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.ImagePicker
 import com.malqaa.androidappp.newPhase.utils.SetOnImagePickedListeners
-import com.malqaa.androidappp.newPhase.presentation.dialogsShared.PickImageMethodsDialog
-import kotlinx.android.synthetic.main.activity_order_detail_confirm.attacted_picture
-import kotlinx.android.synthetic.main.activity_order_detail_confirm.shipment
 import java.io.File
 
-class AttachInvoice : BaseActivity(), PickImageMethodsDialog.OnAttachedImageMethodSelected {
+class AttachInvoice : BaseActivity<ActivityOrderDetailConfirmBinding>(),
+    PickImageMethodsDialog.OnAttachedImageMethodSelected {
 
     private lateinit var invoiceViewModel: InvoiceViewModel
     private lateinit var imageMethodsPickerDialog: PickImageMethodsDialog
@@ -30,17 +30,21 @@ class AttachInvoice : BaseActivity(), PickImageMethodsDialog.OnAttachedImageMeth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_order_detail_confirm)
-        orderId= intent.getIntExtra("orderId", 0)
+
+        // Initialize view binding
+        binding = ActivityOrderDetailConfirmBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        orderId = intent.getIntExtra("orderId", 0)
         setUpViewModel()
-        attacted_picture.setOnClickListener {
+        binding.attactedPicture.setOnClickListener {
             openCameraChooser()
         }
-        shipment.setOnClickListener {
+        binding.shipment.setOnClickListener {
 
             val file = File(pickImage)
 
-            invoiceViewModel.confirmBankTransferPayment(orderId ,file)
+            invoiceViewModel.confirmBankTransferPayment(orderId, file)
         }
 
     }
@@ -68,9 +72,9 @@ class AttachInvoice : BaseActivity(), PickImageMethodsDialog.OnAttachedImageMeth
 
         }
         invoiceViewModel.errorResponseObserver.observe(this) {
-            if(it.status!=null && it.status=="409"){
+            if (it.status != null && it.status == "409") {
                 HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), this)
-            }else{
+            } else {
                 if (it.message != null) {
                     HelpFunctions.ShowLongToast(it.message!!, this)
                 } else {
@@ -83,13 +87,11 @@ class AttachInvoice : BaseActivity(), PickImageMethodsDialog.OnAttachedImageMeth
         invoiceViewModel.confirmImageObserver.observe(this) {
             if (it.status_code == 200) {
                 imageMethodsPickerDialog.dismiss()
-//                loader.show()
-//                accountViewModel.getUserDataForAccountTap()
             }
         }
 
-
     }
+
     override fun setOnAttachedImageMethodSelected(attachedMethod: Int) {
         imagePicker = ImagePicker(this, null, object : SetOnImagePickedListeners {
             override fun onImagePicked(imageUri: Uri) {
@@ -118,33 +120,6 @@ class AttachInvoice : BaseActivity(), PickImageMethodsDialog.OnAttachedImageMeth
             imagePicker.choosePicture(ImagePicker.GALLERY)
         }
     }
-
-//    private fun setImage(imageUri: Uri) {
-//        try {
-//            val bitmap =
-//                BitmapFactory.decodeStream(
-//                    this.contentResolver.openInputStream(
-//                        imageUri
-//                    )
-//                )
-//            val scaleBitmap = Bitmap.createScaledBitmap(
-//                bitmap,
-//                (bitmap.width * 0.4f).roundToInt(),
-//                (bitmap.height * 0.4f).roundToInt(),
-//                true
-//            )
-//            println("hhhh loaded")
-////
-////                imageUri
-////            val file = File(imageUri.path)
-////
-////            accountViewModel.editProfileImage(file)
-//
-//        } catch (e: Exception) {
-//            // println("hhhh " + e.message)
-//            HelpFunctions.ShowLongToast(getString(R.string.pickRightImage), this)
-//        }
-//    }
 
     override fun onDeleteImage() {
         TODO("Not yet implemented")

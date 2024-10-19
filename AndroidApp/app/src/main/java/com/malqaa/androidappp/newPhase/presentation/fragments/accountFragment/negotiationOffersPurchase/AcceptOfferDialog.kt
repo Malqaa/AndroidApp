@@ -6,18 +6,17 @@ import android.content.DialogInterface
 import android.view.View
 import android.widget.AdapterView
 import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.DialogAcceotOfferBinding
 import com.malqaa.androidappp.newPhase.core.BaseDialog
 import com.malqaa.androidappp.newPhase.core.BaseViewModel
 import com.malqaa.androidappp.newPhase.data.network.callApi
-import com.malqaa.androidappp.newPhase.utils.ConstantObjects
-import com.malqaa.androidappp.newPhase.utils.HelpFunctions
-import com.malqaa.androidappp.newPhase.utils.hide
-import com.malqaa.androidappp.newPhase.utils.show
 import com.malqaa.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malqaa.androidappp.newPhase.domain.models.configrationResp.ConfigurationResp
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
 import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.negotiationOffersPurchase.adapter.SpinnerExpireHoursAdapter
-import kotlinx.android.synthetic.main.dialog_acceot_offer.*
+import com.malqaa.androidappp.newPhase.utils.ConstantObjects
+import com.malqaa.androidappp.newPhase.utils.HelpFunctions
+import com.malqaa.androidappp.newPhase.utils.hide
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.HttpException
@@ -30,7 +29,7 @@ class AcceptOfferDialog(
     var offerID: Int,
     var productId: Int,
     var listener: SetClickListeners
-) : BaseDialog(context) {
+) : BaseDialog<DialogAcceotOfferBinding>(context) {
     var countriesCallback: Call<ConfigurationResp>? = null
     private var acceptRejectOfferCallBack: Call<GeneralResponse>? = null
     var configurationResp: ConfigurationResp? = null
@@ -38,8 +37,9 @@ class AcceptOfferDialog(
     private lateinit var expireHoursList: ArrayList<Float>
     private lateinit var spinnerExpireHoursAdapter: SpinnerExpireHoursAdapter
     var expireHour: Float = 0f
-    override fun getViewId(): Int {
-        return R.layout.dialog_acceot_offer
+
+    override fun inflateViewBinding(): DialogAcceotOfferBinding {
+        return DialogAcceotOfferBinding.inflate(layoutInflater)
     }
 
     override fun isFullScreen(): Boolean = false
@@ -47,17 +47,18 @@ class AcceptOfferDialog(
     override fun isLoadingDialog(): Boolean = false
     override fun initialization() {
         if (accept) {
-            spTHours.visibility = View.VISIBLE
-            txtTHours.visibility = View.VISIBLE
-            tvAcceptAndRejectTitle.text = context.getString(R.string.acceptNegotiationsOffers)
-            btnSend.text = context.getString(R.string.accept)
-            contianerRefuseReason.hide()
+            binding.spTHours.visibility = View.VISIBLE
+            binding.txtTHours.visibility = View.VISIBLE
+            binding.tvAcceptAndRejectTitle.text =
+                context.getString(R.string.acceptNegotiationsOffers)
+            binding.btnSend.text = context.getString(R.string.accept)
+            binding.contianerRefuseReason.hide()
         } else {
-            spTHours.visibility = View.GONE
-            txtTHours.visibility = View.GONE
-            btnSend.text = context.getString(R.string.reject)
-            tvAcceptAndRejectTitle.text = context.getString(R.string.rejectNegotiationsOffers)
-//            contianerRefuseReason.show()
+            binding.spTHours.visibility = View.GONE
+            binding.txtTHours.visibility = View.GONE
+            binding.btnSend.text = context.getString(R.string.reject)
+            binding.tvAcceptAndRejectTitle.text =
+                context.getString(R.string.rejectNegotiationsOffers)
         }
         setSpinnerExpireHoursAdapter()
         setOnClickListeners()
@@ -67,8 +68,8 @@ class AcceptOfferDialog(
     private fun setSpinnerExpireHoursAdapter() {
         expireHoursList = ArrayList()
         spinnerExpireHoursAdapter = SpinnerExpireHoursAdapter(context, expireHoursList)
-        spinnerValues.adapter = spinnerExpireHoursAdapter
-        spinnerValues.onItemSelectedListener = object :
+        binding.spinnerValues.adapter = spinnerExpireHoursAdapter
+        binding.spinnerValues.onItemSelectedListener = object :
             AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 adapterView: AdapterView<*>?,
@@ -84,10 +85,10 @@ class AcceptOfferDialog(
     }
 
     private fun setOnClickListeners() {
-        close_alert_bid.setOnClickListener {
+        binding.closeAlertBid.setOnClickListener {
             dismiss()
         }
-        btnSend.setOnClickListener {
+        binding.btnSend.setOnClickListener {
             var readytosend = true
             if (accept) {
                 if (expireHour == 0f) {
@@ -98,11 +99,6 @@ class AcceptOfferDialog(
                     )
                 }
             }
-//
-//            if (!accept && etRefuseReason.text.toString().trim() == "") {
-//                readytosend = false
-//                etRefuseReason.error = context.getString(R.string.refuseReason)
-//            }
             if (readytosend) {
                 getAcceptRejectOffer()
             }
@@ -110,21 +106,18 @@ class AcceptOfferDialog(
     }
 
     fun getExpireHourse() {
-        close_alert_bid.isEnabled = false
-        btnSend.isEnabled = false
-//        var data: HashMap<String, Any> = HashMap()
-//        data["productId"] = productId
-//        data["quantity"] = quentity
-//        data["price"] = price
-        progressBar.visibility = View.VISIBLE
+        binding.closeAlertBid.isEnabled = false
+        binding.btnSend.isEnabled = false
+
+        binding.progressBar.visibility = View.VISIBLE
         countriesCallback = getRetrofitBuilder().getConfigurationData(
             ConstantObjects.configration_OfferExpiredHours
         )
         countriesCallback?.enqueue(object : Callback<ConfigurationResp> {
             override fun onFailure(call: Call<ConfigurationResp>, t: Throwable) {
-                progressBar.visibility = View.GONE
-                btnSend.isEnabled = true
-                close_alert_bid.isEnabled = true
+                binding.progressBar.visibility = View.GONE
+                binding.btnSend.isEnabled = true
+                binding.closeAlertBid.isEnabled = true
                 if (t is HttpException) {
                     HelpFunctions.ShowLongToast(context.getString(R.string.serverError), context)
 
@@ -140,9 +133,9 @@ class AcceptOfferDialog(
                 call: Call<ConfigurationResp>,
                 response: Response<ConfigurationResp>
             ) {
-                btnSend.isEnabled = true
-                close_alert_bid.isEnabled = true
-                progressBar.visibility = View.GONE
+                binding.btnSend.isEnabled = true
+                binding.closeAlertBid.isEnabled = true
+                binding.progressBar.visibility = View.GONE
                 try {
                     if (response.isSuccessful) {
                         response.body()?.let {
@@ -177,27 +170,23 @@ class AcceptOfferDialog(
     }
 
     private fun getAcceptRejectOffer() {
-        close_alert_bid.isEnabled = false
-        btnSend.isEnabled = false
-//        var data: HashMap<String, Any> = HashMap()
-//        data["productId"] = productId
-//        data["quantity"] = quentity
-//        data["price"] = price
-        progressBar.visibility = View.VISIBLE
+        binding.closeAlertBid.isEnabled = false
+        binding.btnSend.isEnabled = false
+        binding.progressBar.visibility = View.VISIBLE
         acceptRejectOfferCallBack = getRetrofitBuilder()
             .acceptRejectOffer(
                 ConstantObjects.currentLanguage,
                 offerID,
                 productId,
                 accept,
-                etRefuseReason.text.toString().trim(),
+                binding.etRefuseReason.text.toString().trim(),
                 expireHour
             )
         callApi(acceptRejectOfferCallBack!!,
             onSuccess = {
-                btnSend.isEnabled = true
-                close_alert_bid.isEnabled = true
-                progressBar.visibility = View.GONE
+                binding.btnSend.isEnabled = true
+                binding.closeAlertBid.isEnabled = true
+                binding.progressBar.visibility = View.GONE
 
                 generalResponse = it
                 if (generalResponse?.status_code == 200) {
@@ -212,72 +201,21 @@ class AcceptOfferDialog(
 
             },
             onFailure = { throwable, statusCode, errorBody ->
-                progressBar.visibility = View.GONE
-                btnSend.isEnabled = true
-                close_alert_bid.isEnabled = true
+                binding.progressBar.visibility = View.GONE
+                binding.btnSend.isEnabled = true
+                binding.closeAlertBid.isEnabled = true
                 if (throwable != null && errorBody == null)
                     HelpFunctions.ShowLongToast(context.getString(R.string.serverError), context)
                 else {
-                 val error=   BaseViewModel().getErrorResponse(statusCode, errorBody)
+                    val error = BaseViewModel().getErrorResponse(statusCode, errorBody)
                     HelpFunctions.ShowLongToast(error?.message.toString(), context)
                 }
             },
             goLogin = {
-                progressBar.visibility = View.GONE
-                btnSend.isEnabled = true
-                close_alert_bid.isEnabled = true
+                binding.progressBar.visibility = View.GONE
+                binding.btnSend.isEnabled = true
+                binding.closeAlertBid.isEnabled = true
             })
-
-
-//        acceptRejectOfferCallBack?.enqueue(object : Callback<GeneralResponse> {
-//            override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
-//                progressBar.visibility = View.GONE
-//                btnSend.isEnabled = true
-//                close_alert_bid.isEnabled = true
-//                if (t is HttpException) {
-//                    HelpFunctions.ShowLongToast(context.getString(R.string.serverError), context)
-//
-//                } else {
-//                    HelpFunctions.ShowLongToast(
-//                        context.getString(R.string.connectionError),
-//                        context
-//                    )
-//                }
-//            }
-//
-//            override fun onResponse(
-//                call: Call<GeneralResponse>,
-//                response: Response<GeneralResponse>
-//            ) {
-//                btnSend.isEnabled = true
-//                close_alert_bid.isEnabled = true
-//                progressBar.visibility = View.GONE
-//                try {
-//                    if (response.isSuccessful) {
-//                        response.body()?.let {
-//                            generalResponse = it
-//                            if (generalResponse?.status_code == 200) {
-//                                listener.setOnSuccessListeners(offerID, position, accept)
-//                                dismiss()
-//                            } else {
-//                                HelpFunctions.ShowLongToast(
-//                                    generalResponse?.message.toString(),
-//                                    context
-//                                )
-//                            }
-//                        }
-//
-//                    } else {
-//                        HelpFunctions.ShowLongToast(
-//                            context.getString(R.string.serverError),
-//                            context
-//                        )
-//
-//                    }
-//                } catch (e: Exception) {
-//                }
-//            }
-//        })
     }
 
     override fun setOnDismissListener(listener: DialogInterface.OnDismissListener?) {
@@ -294,5 +232,3 @@ class AcceptOfferDialog(
         fun setOnSuccessListeners(offerID: Int, position: Int, accept: Boolean)
     }
 }
-
-// accountViewModel.getConfigurationResp(ConstantObjects.configration_otpExpiryTime)

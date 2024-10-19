@@ -12,33 +12,24 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.malqaa.androidappp.R
-import com.malqaa.androidappp.newPhase.utils.activitiesMain.PlayActivity
+import com.malqaa.androidappp.databinding.ActivityMyProductDetails2Binding
+import com.malqaa.androidappp.databinding.ActivityProductDetailsItem2Binding
+import com.malqaa.androidappp.databinding.MyProductDetailsBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
-import com.malqaa.androidappp.newPhase.utils.ConstantObjects
-import com.malqaa.androidappp.newPhase.utils.Extension
-import com.malqaa.androidappp.newPhase.utils.Extension.shared
-import com.malqaa.androidappp.newPhase.utils.HelpFunctions
-import com.malqaa.androidappp.newPhase.utils.hide
-import com.malqaa.androidappp.newPhase.utils.linearLayoutManager
-import com.malqaa.androidappp.newPhase.utils.helper.shared_preferences.SharedPreferencesStaticClass
-import com.malqaa.androidappp.newPhase.utils.show
+import com.malqaa.androidappp.newPhase.data.network.service.SetOnProductItemListeners
 import com.malqaa.androidappp.newPhase.domain.models.ImageSelectModel
+import com.malqaa.androidappp.newPhase.domain.models.addProductToCartResp.AddProductObjectData
 import com.malqaa.androidappp.newPhase.domain.models.dynamicSpecification.DynamicSpecificationSentObject
+import com.malqaa.androidappp.newPhase.domain.models.homeSilderResp.HomeSliderItem
 import com.malqaa.androidappp.newPhase.domain.models.loginResp.LoginUser
 import com.malqaa.androidappp.newPhase.domain.models.productResp.Product
 import com.malqaa.androidappp.newPhase.domain.models.questionResp.QuestionItem
 import com.malqaa.androidappp.newPhase.domain.models.ratingResp.RateReviewItem
 import com.malqaa.androidappp.newPhase.presentation.MainActivity
-import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.myProducts.dialog.AddDiscountDialog
-import com.malqaa.androidappp.newPhase.presentation.adapterShared.ProductHorizontalAdapter
-import com.malqaa.androidappp.newPhase.data.network.service.SetOnProductItemListeners
-import com.malqaa.androidappp.newPhase.domain.models.addProductToCartResp.AddProductObjectData
-import com.malqaa.androidappp.newPhase.domain.models.homeSilderResp.HomeSliderItem
 import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.ConfirmationAddProductActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.addProductReviewActivity.AddRateProductActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.addProductReviewActivity.ProductReviewsActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.cartActivity.activity1.CartActivity
-import com.malqaa.androidappp.newPhase.presentation.dialogsShared.currentPriceDialog.BuyCurrentPriceDialog
 import com.malqaa.androidappp.newPhase.presentation.activities.loginScreen.SignInActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.productDetailsActivity.adapter.ProductImagesAdapter
 import com.malqaa.androidappp.newPhase.presentation.activities.productDetailsActivity.adapter.QuestionAnswerAdapter
@@ -46,75 +37,22 @@ import com.malqaa.androidappp.newPhase.presentation.activities.productDetailsAct
 import com.malqaa.androidappp.newPhase.presentation.activities.productDetailsActivity.adapter.SpecificationAdapter
 import com.malqaa.androidappp.newPhase.presentation.activities.productDetailsActivity.viewModels.ProductDetailsViewModel
 import com.malqaa.androidappp.newPhase.presentation.activities.productQuestionActivity.QuestionActivity
+import com.malqaa.androidappp.newPhase.presentation.adapterShared.ProductHorizontalAdapter
+import com.malqaa.androidappp.newPhase.presentation.dialogsShared.currentPriceDialog.BuyCurrentPriceDialog
+import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.myProducts.dialog.AddDiscountDialog
 import com.malqaa.androidappp.newPhase.presentation.fragments.homeScreen.ListenerSlider
 import com.malqaa.androidappp.newPhase.presentation.fragments.homeScreen.adapters.SliderAdaptor
+import com.malqaa.androidappp.newPhase.utils.ConstantObjects
+import com.malqaa.androidappp.newPhase.utils.Extension
+import com.malqaa.androidappp.newPhase.utils.Extension.shared
+import com.malqaa.androidappp.newPhase.utils.HelpFunctions
+import com.malqaa.androidappp.newPhase.utils.activitiesMain.PlayActivity
+import com.malqaa.androidappp.newPhase.utils.helper.shared_preferences.SharedPreferencesStaticClass
+import com.malqaa.androidappp.newPhase.utils.hide
+import com.malqaa.androidappp.newPhase.utils.linearLayoutManager
+import com.malqaa.androidappp.newPhase.utils.show
 import com.yariksoffice.lingver.Lingver
 import io.paperdb.Paper
-import kotlinx.android.synthetic.main.activity_my_product_details2.btnMoreItemDetails
-import kotlinx.android.synthetic.main.activity_my_product_details2.btnMoreSpecification
-import kotlinx.android.synthetic.main.activity_my_product_details2.containerAuctioncountdownTimer_bar
-import kotlinx.android.synthetic.main.activity_my_product_details2.containerDeleteProduct
-import kotlinx.android.synthetic.main.activity_my_product_details2.containerMada
-import kotlinx.android.synthetic.main.activity_my_product_details2.containerMaster
-import kotlinx.android.synthetic.main.activity_my_product_details2.containerReviews
-import kotlinx.android.synthetic.main.activity_my_product_details2.contianerBankAccount
-import kotlinx.android.synthetic.main.activity_my_product_details2.contianerCash
-import kotlinx.android.synthetic.main.activity_my_product_details2.contianerRateText
-import kotlinx.android.synthetic.main.activity_my_product_details2.days
-import kotlinx.android.synthetic.main.activity_my_product_details2.discountProduct
-import kotlinx.android.synthetic.main.activity_my_product_details2.editProduct
-import kotlinx.android.synthetic.main.activity_my_product_details2.hours
-import kotlinx.android.synthetic.main.activity_my_product_details2.layDiscount
-import kotlinx.android.synthetic.main.activity_my_product_details2.layInfo
-import kotlinx.android.synthetic.main.activity_my_product_details2.layPrice
-import kotlinx.android.synthetic.main.activity_my_product_details2.lay_auction
-import kotlinx.android.synthetic.main.activity_my_product_details2.minutes
-import kotlinx.android.synthetic.main.activity_my_product_details2.rating_bar_detail_tv
-import kotlinx.android.synthetic.main.activity_my_product_details2.rvProductSpecification
-import kotlinx.android.synthetic.main.activity_my_product_details2.rv_review
-import kotlinx.android.synthetic.main.activity_my_product_details2.tvAddReview
-import kotlinx.android.synthetic.main.activity_my_product_details2.tvErrorNoQuestion
-import kotlinx.android.synthetic.main.activity_my_product_details2.tvErrorNoSpecification
-import kotlinx.android.synthetic.main.activity_my_product_details2.tvNumberQuestionNotAnswer
-import kotlinx.android.synthetic.main.activity_my_product_details2.tvProductDescriptionLong
-import kotlinx.android.synthetic.main.activity_my_product_details2.tvProductDescriptionShort
-import kotlinx.android.synthetic.main.activity_my_product_details2.tvProductItemName
-import kotlinx.android.synthetic.main.activity_my_product_details2.tvProductReview
-import kotlinx.android.synthetic.main.activity_my_product_details2.tvProductSubtitle
-import kotlinx.android.synthetic.main.activity_my_product_details2.tvQuestionAndAnswersShowAll
-import kotlinx.android.synthetic.main.activity_my_product_details2.tvReviewsError
-import kotlinx.android.synthetic.main.activity_my_product_details2.tvShippingOptions
-import kotlinx.android.synthetic.main.activity_my_product_details2.tvShowAllReviews
-import kotlinx.android.synthetic.main.activity_my_product_details2.txtPrice
-import kotlinx.android.synthetic.main.activity_my_product_details2.txt_highAuction
-import kotlinx.android.synthetic.main.activity_my_product_details2.txt_lowAuction
-import kotlinx.android.synthetic.main.activity_my_product_details2.linHappy
-import kotlinx.android.synthetic.main.activity_my_product_details2.linSad
-import kotlinx.android.synthetic.main.activity_my_product_details2.linSmile
-import kotlinx.android.synthetic.main.activity_my_product_details2.rvQuestionForProduct
-import kotlinx.android.synthetic.main.activity_my_product_details2.tvPriceProductDisc
-import kotlinx.android.synthetic.main.activity_my_product_details2.txtCountFav
-import kotlinx.android.synthetic.main.activity_my_product_details2.txtCountNegotiation
-import kotlinx.android.synthetic.main.activity_my_product_details2.txtCountPurchase
-import kotlinx.android.synthetic.main.activity_my_product_details2.txtHappy
-import kotlinx.android.synthetic.main.activity_my_product_details2.txtSad
-import kotlinx.android.synthetic.main.activity_my_product_details2.txtSmile
-import kotlinx.android.synthetic.main.activity_product_details2.productimg
-import kotlinx.android.synthetic.main.my_product_details.myProductimg
-import kotlinx.android.synthetic.main.activity_product_details_item_2.laySpec
-import kotlinx.android.synthetic.main.activity_product_details_item_2.readMoreTextView
-import kotlinx.android.synthetic.main.my_product_details.btnNextImage
-import kotlinx.android.synthetic.main.my_product_details.btnShare
-import kotlinx.android.synthetic.main.my_product_details.containerMainProduct
-import kotlinx.android.synthetic.main.my_product_details.containerShareAndFav
-import kotlinx.android.synthetic.main.my_product_details.fbButtonBack
-import kotlinx.android.synthetic.main.my_product_details.ivFav
-import kotlinx.android.synthetic.main.my_product_details.loader
-import kotlinx.android.synthetic.main.my_product_details.next_image
-import kotlinx.android.synthetic.main.my_product_details.other_image_layout
-import kotlinx.android.synthetic.main.my_product_details.rvProductImages
-import kotlinx.android.synthetic.main.my_product_details.slider_my_details
-import kotlinx.android.synthetic.main.my_product_details.swipe_to_refresh
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -123,10 +61,13 @@ import org.joda.time.Duration
 import org.joda.time.format.DateTimeFormat
 import java.util.Date
 
-
-class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
+class MyProductDetailsActivity : BaseActivity<MyProductDetailsBinding>(),
+    SwipeRefreshLayout.OnRefreshListener,
     SetOnProductItemListeners, QuestionAnswerAdapter.SetonSelectedQuestion,
-    BuyCurrentPriceDialog.OnAttachedCartMethodSelected , ListenerSlider {
+    BuyCurrentPriceDialog.OnAttachedCartMethodSelected, ListenerSlider {
+
+    lateinit var myProductDetails2Binding: ActivityMyProductDetails2Binding
+    lateinit var productDetailsItem2Binding: ActivityProductDetailsItem2Binding
 
     var addProductReviewRequestCode = 1000
     lateinit var product: Product
@@ -143,7 +84,7 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
     lateinit var specificationList: ArrayList<DynamicSpecificationSentObject>
     lateinit var productImagesAdapter: ProductImagesAdapter
     lateinit var productImagesList: ArrayList<ImageSelectModel>
-    var imgPosition =0
+    var imgPosition = 0
     lateinit var similerProductList: ArrayList<Product>
     lateinit var sellerSimilerProductList: ArrayList<Product>
     var questionsList: List<QuestionItem> = ArrayList()
@@ -171,7 +112,14 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.my_product_details)
+
+        // Initialize view binding
+        binding = MyProductDetailsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        myProductDetails2Binding = ActivityMyProductDetails2Binding.inflate(layoutInflater)
+        productDetailsItem2Binding = ActivityProductDetailsItem2Binding.inflate(layoutInflater)
+
         productId = intent.getIntExtra(ConstantObjects.productIdKey, -1)
         println("hhhh product if $productId")
         comeFrom = intent.getStringExtra("ComeFrom") ?: ""
@@ -191,15 +139,15 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
         }
 
         if (isMyProductForSale) {
-            editProduct.show()
-            layInfo.show()
-            discountProduct.show()
+            myProductDetails2Binding.editProduct.show()
+            myProductDetails2Binding.layInfo.show()
+            myProductDetails2Binding.discountProduct.show()
         } else {
-            layInfo.hide()
-            editProduct.hide()
-            discountProduct.hide()
+            myProductDetails2Binding.layInfo.hide()
+            myProductDetails2Binding.editProduct.hide()
+            myProductDetails2Binding.discountProduct.hide()
         }
-        editProduct.setOnClickListener {
+        myProductDetails2Binding.editProduct.setOnClickListener {
             ConstantObjects.isModify = true
             ConstantObjects.isRepost = false
             startActivity(
@@ -213,7 +161,7 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
 
                 })
         }
-        discountProduct.setOnClickListener {
+        myProductDetails2Binding.discountProduct.setOnClickListener {
             openDiscountDialog(productId)
         }
 
@@ -235,14 +183,14 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
                 })
         addDiscountDialog.show()
     }
+
     private fun setPagerDots(list: List<HomeSliderItem>) {
         if (list.isNotEmpty()) {
-            val viewPagerAdapter = SliderAdaptor(this, list,true,this)
-            slider_my_details.adapter = viewPagerAdapter
-//            dots_indicator.attachTo(slider_details)
-//            slider_my_details.startAutoScroll()
+            val viewPagerAdapter = SliderAdaptor(this, list, true, this)
+            binding.sliderMyDetails.adapter = viewPagerAdapter
         }
     }
+
     private fun mapImageSelectModelToHomeSliderItem(imageSelectModels: ArrayList<ImageSelectModel>): List<HomeSliderItem> {
         return imageSelectModels.filter { it.type != 2 }.map { imageSelectModel ->
             HomeSliderItem(
@@ -254,7 +202,6 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
     }
 
     private fun callGetPriceCart(nameProduct: String) {
-
         if (SharedPreferencesStaticClass.getMasterCartId().toInt() != 0) {
             productDetialsViewModel.getCartTotalPrice()
             productDetialsViewModel.getCartPrice.observe(this) {
@@ -263,7 +210,6 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
                         productPrice + it.data.toString().toFloat()
                     } ${getString(R.string.sar)}", nameProduct
                 )
-
             }
         } else {
             openBuyCurrentPriceDialog("0 ${getString(R.string.sar)}", nameProduct)
@@ -291,28 +237,30 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
 
     /**set view changes*/
     private fun setViewChanges() {
-        swipe_to_refresh.setColorSchemeResources(R.color.colorPrimaryDark)
-        swipe_to_refresh.setOnRefreshListener(this)
+        binding.swipeToRefresh.setColorSchemeResources(R.color.colorPrimaryDark)
+        binding.swipeToRefresh.setOnRefreshListener(this)
         if (Lingver.getInstance().getLanguage() == ConstantObjects.ARABIC) {
-            fbButtonBack.scaleX = 1f
+            binding.fbButtonBack.scaleX = 1f
         } else {
-            fbButtonBack.scaleX = -1f
+            binding.fbButtonBack.scaleX = -1f
         }
+        // Get the container from the included layout
+        val containerMainProduct = binding.root.findViewById<View>(R.id.containerMainProduct)
         containerMainProduct.hide()
-        other_image_layout.hide()
-        btnMoreSpecification.hide()
-        btnMoreItemDetails.hide()
-        tvShippingOptions.hide()
-        contianerBankAccount.hide()
-        containerMada.hide()
-        containerMaster.hide()
-        contianerCash.hide()
-        containerAuctioncountdownTimer_bar.hide()
+        binding.otherImageLayout.hide()
+        myProductDetails2Binding.btnMoreSpecification.hide()
+        myProductDetails2Binding.btnMoreItemDetails.hide()
+        myProductDetails2Binding.tvShippingOptions.hide()
+        myProductDetails2Binding.contianerBankAccount.hide()
+        myProductDetails2Binding.containerMada.hide()
+        myProductDetails2Binding.containerMaster.hide()
+        myProductDetails2Binding.contianerCash.hide()
+        myProductDetails2Binding.containerAuctioncountdownTimerBar.hide()
         //for reviewa
-        tvReviewsError.hide()
-        contianerRateText.hide()
+        myProductDetails2Binding.tvReviewsError.hide()
+        myProductDetails2Binding.contianerRateText.hide()
         //====
-        tvNumberQuestionNotAnswer.text =
+        myProductDetails2Binding.tvNumberQuestionNotAnswer.text =
             getString(R.string.there_are_2_questions_that_the_seller_did_not_answer, "0")
 
 
@@ -320,8 +268,10 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
 
     private fun showProductApiError(message: String) {
         if (productDetails == null) {
+            // Get the container from the included layout
+            val containerMainProduct = binding.root.findViewById<View>(R.id.containerMainProduct)
             containerMainProduct.hide()
-            containerShareAndFav.hide()
+            binding.containerShareAndFav.hide()
         }
         HelpFunctions.ShowLongToast(message, this)
     }
@@ -330,18 +280,14 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
     /**set view listeners*/
 
     private fun setupViewClickListeners() {
-        myProductimg.setOnClickListener {
-////            val customDialog = OpenImgLargeDialog(this, urlImg)
-//            startActivity(Intent(this, OpenImgLargeDialog::class.java).apply {
-//                putExtra("urlImg", urlImg)
-//            })
+        binding.myProductimg.setOnClickListener {
             val intent = Intent(this@MyProductDetailsActivity, ImageViewLargeActivity::class.java)
             intent.putParcelableArrayListExtra("imgList", productImagesList)
-            intent.putExtra("UrlImg", myProductimg.tag.toString())
+            intent.putExtra("UrlImg", binding.myProductimg.tag.toString())
             startActivity(intent)
         }
 
-        tvAddReview.setOnClickListener {
+        myProductDetails2Binding.tvAddReview.setOnClickListener {
             if (HelpFunctions.isUserLoggedIn()) {
                 startActivityForResult(Intent(this, AddRateProductActivity::class.java).apply {
                     putExtra(ConstantObjects.productIdKey, productId)
@@ -355,7 +301,7 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
             }
         }
 
-        ivFav.setOnClickListener {
+        binding.ivFav.setOnClickListener {
             if (HelpFunctions.isUserLoggedIn()) {
                 status_product_added_to_fav_from = added_from_product_Destails_status
                 productDetialsViewModel.addProductToFav(productId)
@@ -368,15 +314,15 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
             }
 
         }
-        fbButtonBack.setOnClickListener {
+        binding.fbButtonBack.setOnClickListener {
             onBackPressed()
         }
-        btnShare.setOnClickListener {
+
+        binding.btnShare.setOnClickListener {
             shared("http://advdev-001-site1.dtempurl.com/Home/GetProductById?id=$productId")
-            //shared("${Constants.HTTP_PROTOCOL}://${Constants.SERVER_LOCATION}/Advertisement/Detail/$AdvId")
         }
 
-        tvQuestionAndAnswersShowAll.setOnClickListener {
+        myProductDetails2Binding.tvQuestionAndAnswersShowAll.setOnClickListener {
             if (!questionsList.isNullOrEmpty())
                 startActivity(Intent(this, QuestionActivity::class.java).apply {
                     putExtra(ConstantObjects.productIdKey, productId)
@@ -384,22 +330,20 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
                 })
         }
 
-
-        tvShowAllReviews.setOnClickListener {
+        myProductDetails2Binding.tvShowAllReviews.setOnClickListener {
             startActivity(Intent(this, ProductReviewsActivity::class.java).apply {
                 putExtra(ConstantObjects.productIdKey, productId)
             })
         }
 
-        btnNextImage.setOnClickListener {
+        binding.btnNextImage.setOnClickListener {
             try {
                 if (productImagesList.size > 0) {
-                    var position = getLastVisiblePosition(rvProductImages);
-//                println("hhhh "+ position+" "+(productImagesList.size-1))
+                    var position = getLastVisiblePosition(binding.rvProductImages);
                     if (position < productImagesList.size - 1) {
-                        rvProductImages.smoothScrollToPosition(position + 1);
+                        binding.rvProductImages.smoothScrollToPosition(position + 1);
                     } else {
-                        rvProductImages.smoothScrollToPosition(0);
+                        binding.rvProductImages.smoothScrollToPosition(0);
                     }
                 }
             } catch (e: Exception) {
@@ -460,13 +404,6 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
             else
                 HelpFunctions.dismissProgressBar()
         }
-//        productDetialsViewModel.sellerInfoLoadingObservable.observe(this){
-//            if(it){
-//                progressBarSellerInfo.show()
-//            }else{
-//                progressBarSellerInfo.hide()
-//            }
-//        }
         productDetialsViewModel.isNetworkFail.observe(this) {
             if (it) {
                 showProductApiError(getString(R.string.connectionError))
@@ -490,24 +427,26 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
         productDetialsViewModel.getRateResponseObservable.observe(this) { rateListResp ->
             if (rateListResp.status_code == 200) {
                 if (rateListResp.data.happyCount != 0) {
-                    linHappy.show()
-                    txtHappy.text = rateListResp.data.happyCount.toString()
+                    myProductDetails2Binding.linHappy.show()
+                    myProductDetails2Binding.txtHappy.text = rateListResp.data.happyCount.toString()
                 }
                 if (rateListResp.data.satisfiedCount != 0) {
-                    linSmile.show()
-                    txtSmile.text = rateListResp.data.satisfiedCount.toString()
+                    myProductDetails2Binding.linSmile.show()
+                    myProductDetails2Binding.txtSmile.text =
+                        rateListResp.data.satisfiedCount.toString()
                 }
                 if (rateListResp.data.disgustedCount != 0) {
-                    linSad.show()
-                    txtSad.text = rateListResp.data.disgustedCount.toString()
+                    myProductDetails2Binding.linSad.show()
+                    myProductDetails2Binding.txtSad.text =
+                        rateListResp.data.disgustedCount.toString()
                 }
 
-                rating_bar_detail_tv.text =
+                myProductDetails2Binding.ratingBarDetailTv.text =
                     "${rateListResp.data.totalRecords} ${getString(R.string.visitors)} "
                 if (!rateListResp.data.rateProductListDto.isNullOrEmpty()) {
                     setReviewRateView(rateListResp.data.rateProductListDto)
                 } else {
-                    containerReviews.hide()
+                    myProductDetails2Binding.containerReviews.hide()
                 }
             }
         }
@@ -515,7 +454,7 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
             if (productResp.productDetails != null) {
                 productDetails = productResp.productDetails
                 if (productDetails?.priceDisc != productDetails?.price)
-                    layDiscount.show()
+                    myProductDetails2Binding.layDiscount.show()
                 setProductData(productDetails)
             } else {
                 showProductApiError(productResp.message)
@@ -620,11 +559,6 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
             if (addproductToCartResp.status_code == 200) {
                 addproductToCartResp.addProductToCartData?.let {
                     SharedPreferencesStaticClass.saveMasterCartId(it.cartMasterId)
-//                    if (HelpFunctions.isUserLoggedIn()) {
-//                        SharedPreferencesStaticClass.saveAssignCartToUser(true)
-//                    }else{
-//                        SharedPreferencesStaticClass.saveAssignCartToUser(false)
-//                    }
                 }
                 HelpFunctions.ShowLongToast(getString(R.string.productAddedToCart), this)
                 startActivity(Intent(this, CartActivity::class.java))
@@ -641,11 +575,11 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
 
         productDetialsViewModel.getListOfQuestionsObservable.observe(this) { questionListResp ->
             if (!questionListResp.questionList.isNullOrEmpty()) {
-                tvErrorNoQuestion.hide()
+                myProductDetails2Binding.tvErrorNoQuestion.hide()
                 setQuestionsView(questionListResp.questionList)
             } else {
-                tvErrorNoQuestion.show()
-                tvQuestionAndAnswersShowAll.hide()
+                myProductDetails2Binding.tvErrorNoQuestion.show()
+                myProductDetails2Binding.tvQuestionAndAnswersShowAll.hide()
             }
         }
 
@@ -654,25 +588,26 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
                 if (it.shippingOptionObject != null && it.shippingOptionObject.isNotEmpty()) {
                     when (it.shippingOptionObject[0].shippingOptionId) {
                         ConstantObjects.shippingOption_integratedShippingCompanyOptions -> {
-                            tvShippingOptions.show()
-                            tvShippingOptions.text = getString(R.string.integratedShippingCompanies)
+                            myProductDetails2Binding.tvShippingOptions.show()
+                            myProductDetails2Binding.tvShippingOptions.text =
+                                getString(R.string.integratedShippingCompanies)
                         }
 
                         ConstantObjects.shippingOption_freeShippingWithinSaudiArabia -> {
-                            tvShippingOptions.show()
-                            tvShippingOptions.text =
+                            myProductDetails2Binding.tvShippingOptions.show()
+                            myProductDetails2Binding.tvShippingOptions.text =
                                 getString(R.string.free_shipping_within_Saudi_Arabia)
                         }
 
                         ConstantObjects.shippingOption_arrangementWillBeMadeWithTheBuyer -> {
-                            tvShippingOptions.show()
-                            tvShippingOptions.text =
+                            myProductDetails2Binding.tvShippingOptions.show()
+                            myProductDetails2Binding.tvShippingOptions.text =
                                 getString(R.string.arrangementWillBeMadeWithTheBuyer)
                         }
                     }
                 } else {
-                    tvShippingOptions.show()
-                    tvShippingOptions.text = getString(R.string.mustPickUp)
+                    myProductDetails2Binding.tvShippingOptions.show()
+                    myProductDetails2Binding.tvShippingOptions.text = getString(R.string.mustPickUp)
                 }
             }
         }
@@ -682,19 +617,19 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
                     for (item in list) {
                         when (item.paymentOptionId) {
                             AddProductObjectData.PAYMENT_OPTION_CASH -> {
-                                contianerCash.show()
+                                myProductDetails2Binding.contianerCash.show()
                             }
 
                             AddProductObjectData.PAYMENT_OPTION_BANk -> {
-                                contianerBankAccount.show()
+                                myProductDetails2Binding.contianerBankAccount.show()
                             }
 
                             AddProductObjectData.PAYMENT_OPTION_Mada -> {
-                                containerMada.show()
+                                myProductDetails2Binding.containerMada.show()
                             }
 
                             AddProductObjectData.PAYMENT_OPTION_MasterCard -> {
-                                containerMaster.show()
+                                myProductDetails2Binding.containerMaster.show()
                             }
                         }
                     }
@@ -715,7 +650,7 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
     private fun setQuestionAnswerAdapter() {
         subQuestionsList = ArrayList()
         questionAnswerAdapter = QuestionAnswerAdapter(subQuestionsList, this)
-        rvQuestionForProduct.apply {
+        myProductDetails2Binding.rvQuestionForProduct.apply {
             layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
             adapter = questionAnswerAdapter
         }
@@ -736,7 +671,7 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
                 }
             }
             withContext(Dispatchers.Main) {
-                tvNumberQuestionNotAnswer.text = getString(
+                myProductDetails2Binding.tvNumberQuestionNotAnswer.text = getString(
                     R.string.there_are_2_questions_that_the_seller_did_not_answer,
                     numberOfNotAnswerYet.toString()
                 )
@@ -749,7 +684,7 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
         mainRatesList = ArrayList()
         smallRatesList = ArrayList()
         reviewProductAdapter = ReviewProductAdapter(smallRatesList)
-        rv_review.apply {
+        myProductDetails2Binding.rvReview.apply {
             layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
             adapter = reviewProductAdapter
         }
@@ -763,28 +698,12 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
         smallRatesList.addAll(datalist)
         reviewProductAdapter.notifyDataSetChanged()
 
-//        lifecycleScope.launch(Dispatchers.IO) {
-//            var totalRating = 0.0
-//            mainRatesList.forEach {
-//                totalRating += it.rate.toDouble()
-//
-//            }
-//            val average = totalRating / mainRatesList.size
-//            withContext(Dispatchers.Main) {
-//                rating_bar.rating = average.toFloat()
-//                rating_bar_detail_tv.text = getString(
-//                    R.string._4_9_from_00_visitors,
-//                    rating_bar.rating.toString().format("%.2f"),
-//                    mainRatesList.size.toString()
-//                )
-//            }
-//        }
         if (mainRatesList.isEmpty()) {
-            tvReviewsError.show()
-            contianerRateText.hide()
+            myProductDetails2Binding.tvReviewsError.show()
+            myProductDetails2Binding.contianerRateText.hide()
         } else {
-            tvReviewsError.hide()
-            contianerRateText.show()
+            myProductDetails2Binding.tvReviewsError.hide()
+            myProductDetails2Binding.contianerRateText.show()
         }
     }
 
@@ -809,17 +728,20 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
                     } else {
 
                         imgPosition = position
-                        myProductimg.tag = productImagesList[position].url
+                        binding.myProductimg.tag = productImagesList[position].url
                         //==zoom image
-                        val intent = Intent(this@MyProductDetailsActivity, ImageViewLargeActivity::class.java)
+                        val intent = Intent(
+                            this@MyProductDetailsActivity,
+                            ImageViewLargeActivity::class.java
+                        )
                         intent.putParcelableArrayListExtra("imgList", productImagesList)
-                        intent.putExtra("UrlImg",  productImagesList[position].url)
+                        intent.putExtra("UrlImg", productImagesList[position].url)
                         startActivity(intent)
                     }
                 }
 
             })
-        rvProductImages.apply {
+        binding.rvProductImages.apply {
             layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
             adapter = productImagesAdapter
         }
@@ -830,8 +752,8 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
         specificationList = ArrayList()
         specificationAdapter = SpecificationAdapter(specificationList)
         if (specificationList.size != 0)
-            laySpec.show()
-        rvProductSpecification.apply {
+            productDetailsItem2Binding.laySpec.show()
+        myProductDetails2Binding.rvProductSpecification.apply {
             layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
             adapter = specificationAdapter
         }
@@ -841,9 +763,11 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
     /**set product data*/
 
     override fun onRefresh() {
-        swipe_to_refresh.isRefreshing = false
+        binding.swipeToRefresh.isRefreshing = false
+        // Get the container from the included layout
+        val containerMainProduct = binding.root.findViewById<View>(R.id.containerMainProduct)
         containerMainProduct.hide()
-        containerShareAndFav.hide()
+        binding.containerShareAndFav.hide()
         productDetialsViewModel.getProductDetailsById(productId)
         productDetialsViewModel.getSimilarProduct(productId, 1)
         productDetialsViewModel.getListOfQuestions(productId)
@@ -858,108 +782,114 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
     @SuppressLint("SetTextI18n")
     private fun setProductData(productDetails: Product?) {
         if (productDetails != null) {
+            val containerMainProduct = binding.root.findViewById<View>(R.id.containerMainProduct)
+            containerMainProduct.hide()
             containerMainProduct.show()
-            containerShareAndFav.show()
+            binding.containerShareAndFav.show()
             /**Action endTime**/
             if (productDetails.auctionClosingTime != null) {
-                containerAuctioncountdownTimer_bar.show()
+                myProductDetails2Binding.containerAuctioncountdownTimerBar.show()
                 var endDate: Date? =
                     HelpFunctions.getAuctionClosingTimeByDate(productDetails.auctionClosingTime)
-//                println("hhhh "+endDate.toString()+" "+Calendar.getInstance().time)
                 if (endDate != null) {
                     timeDifferent(productDetails.auctionClosingTime)
                 } else {
-                    containerAuctioncountdownTimer_bar.hide()
+                    myProductDetails2Binding.containerAuctioncountdownTimerBar.hide()
                 }
 
             } else {
-                containerAuctioncountdownTimer_bar.hide()
+                myProductDetails2Binding.containerAuctioncountdownTimerBar.hide()
             }
             /**product iamges*/
             Extension.loadThumbnail(
                 this,
                 productDetails.productImage,
-                myProductimg,
-                loader
+                binding.myProductimg,
+                binding.loader
             )
 
 
-            txtCountNegotiation.text = productDetails.negotiationOffersCount.toString()
-            txtCountPurchase.text = productDetails.purchasedQuantity.toString()
-            txtCountFav.text = productDetails.addedToFavoritsCount.toString()
-
-            tvPriceProductDisc.text = "${productDetails.priceDisc} ${getString(R.string.rial)}"
+            myProductDetails2Binding.txtCountNegotiation.text =
+                productDetails.negotiationOffersCount.toString()
+            myProductDetails2Binding.txtCountPurchase.text =
+                productDetails.purchasedQuantity.toString()
+            myProductDetails2Binding.txtCountFav.text =
+                productDetails.addedToFavoritsCount.toString()
+            myProductDetails2Binding.tvPriceProductDisc.text =
+                "${productDetails.priceDisc} ${getString(R.string.rial)}"
 
             productPrice = productDetails.priceDisc
 
-            myProductimg.setTag(productDetails.productImage)
+            binding.myProductimg.setTag(productDetails.productImage)
             if (productDetails.listMedia != null) {
-                other_image_layout.show()
+                binding.otherImageLayout.show()
                 productImagesList.clear()
                 if (productDetails.listMedia.isNotEmpty())
                     urlImg = productDetails.listMedia[0].url
                 productImagesList.addAll(productDetails.listMedia)
                 productImagesAdapter.notifyDataSetChanged()
-                setPagerDots( mapImageSelectModelToHomeSliderItem(productDetails.listMedia))
+                setPagerDots(mapImageSelectModelToHomeSliderItem(productDetails.listMedia))
 
             } else {
-                other_image_layout.hide()
+                binding.otherImageLayout.hide()
             }
             /**product data*/
-            tvProductReview.text =
+            myProductDetails2Binding.tvProductReview.text =
                 "${productDetails.viewsCount} ${getString(R.string.Views)} - #${productDetails.id} - ${
                     HelpFunctions.getViewFormatForDateTrack(
                         productDetails.createdAt, "dd/MM/yyyy"
                     )
                 }"
-            tvProductItemName.text = productDetails.name ?: ""
-            tvProductSubtitle.text = productDetails.subTitle ?: ""
+            myProductDetails2Binding.tvProductItemName.text = productDetails.name ?: ""
+            myProductDetails2Binding.tvProductSubtitle.text = productDetails.subTitle ?: ""
 
 
-            tvProductDescriptionShort.text =
+            myProductDetails2Binding.tvProductDescriptionShort.text =
                 productDetails.description ?: ""
-            tvProductDescriptionLong.text =
+            myProductDetails2Binding.tvProductDescriptionLong.text =
                 productDetails.description ?: ""
-            val isEllipsize: Boolean = tvProductDescriptionShort.text.toString()
-                .trim() != productDetails.description?.trim()
+            val isEllipsize: Boolean =
+                myProductDetails2Binding.tvProductDescriptionShort.text.toString()
+                    .trim() != productDetails.description?.trim()
             if (isEllipsize) {
-                btnMoreItemDetails.show()
+                myProductDetails2Binding.btnMoreItemDetails.show()
             } else {
-                btnMoreItemDetails.hide()
+                myProductDetails2Binding.btnMoreItemDetails.hide()
             }
 
-            txt_highAuction.text =
+            myProductDetails2Binding.txtHighAuction.text =
                 "${productDetails.auctionMinimumPrice} ${getString(R.string.Rayal)}"
-            txt_lowAuction.text =
+            myProductDetails2Binding.txtLowAuction.text =
                 "${productDetails.auctionStartPrice} ${getString(R.string.Rayal)}"
 
 
 
-            txtPrice.text = "${productDetails.price} ${getString(R.string.Rayal)}"
+            myProductDetails2Binding.txtPrice.text =
+                "${productDetails.price} ${getString(R.string.Rayal)}"
 
-            btnMoreItemDetails.setOnClickListener {
+            myProductDetails2Binding.btnMoreItemDetails.setOnClickListener {
 
-                if (getString(R.string.Showmore) == btnMoreItemDetails.text.toString() && isEllipsize) {
-                    btnMoreItemDetails.text = getString(R.string.showLess)
-                    tvProductDescriptionLong.show()
-                    tvProductDescriptionShort.hide()
-                } else if (getString(R.string.showLess) == btnMoreItemDetails.text.toString()) {
-                    btnMoreItemDetails.text = getString(R.string.Showmore)
-                    tvProductDescriptionLong.hide()
-                    tvProductDescriptionShort.show()
+                if (getString(R.string.Showmore) == myProductDetails2Binding.btnMoreItemDetails.text.toString() && isEllipsize) {
+                    myProductDetails2Binding.btnMoreItemDetails.text = getString(R.string.showLess)
+                    myProductDetails2Binding.tvProductDescriptionLong.show()
+                    myProductDetails2Binding.tvProductDescriptionShort.hide()
+                } else if (getString(R.string.showLess) == myProductDetails2Binding.btnMoreItemDetails.text.toString()) {
+                    myProductDetails2Binding.btnMoreItemDetails.text = getString(R.string.Showmore)
+                    myProductDetails2Binding.tvProductDescriptionLong.hide()
+                    myProductDetails2Binding.tvProductDescriptionShort.show()
                 }
 
             }
             /**specification*/
             if (productDetails.listProductSep != null) {
-                tvErrorNoSpecification.hide()
+                myProductDetails2Binding.tvErrorNoSpecification.hide()
                 specificationList.clear()
                 specificationList.addAll(productDetails.listProductSep)
                 specificationAdapter.notifyDataSetChanged()
             } else {
-                tvErrorNoSpecification.show()
+                myProductDetails2Binding.tvErrorNoSpecification.show()
             }
-            containerDeleteProduct.setOnClickListener {
+            myProductDetails2Binding.containerDeleteProduct.setOnClickListener {
                 if (productDetails.isFixedPriceEnabled) {
                     productDetialsViewModel.removeProduct(productDetails.id)
                 } else {
@@ -969,76 +899,41 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
             /**pidding views*/
             productfavStatus = productDetails.isFavourite
             if (productDetails.isFavourite) {
-                ivFav.setImageResource(R.drawable.starcolor)
-                ivFav.setColorFilter(resources.getColor(R.color.orange))
+                binding.ivFav.setImageResource(R.drawable.starcolor)
+                binding.ivFav.setColorFilter(resources.getColor(R.color.orange))
             } else {
-                ivFav.setImageResource(R.drawable.star)
+                binding.ivFav.setImageResource(R.drawable.star)
             }
 
             if (productDetails.isFixedPriceEnabled) {
                 if (productDetails.price.toDouble() == 0.0) {
-                    layPrice.visibility = View.GONE
+                    myProductDetails2Binding.layPrice.visibility = View.GONE
                 } else
-                    layPrice.visibility = View.VISIBLE
+                    myProductDetails2Binding.layPrice.visibility = View.VISIBLE
 
-                containerDeleteProduct.text = getString(R.string.deleteProduct)
+                myProductDetails2Binding.containerDeleteProduct.text =
+                    getString(R.string.deleteProduct)
             }
 
             if (productDetails.isAuctionEnabled) {
-                lay_auction.show()
-                layPrice.hide()
-                containerDeleteProduct.text = getString(R.string.deleteAuction)
+                myProductDetails2Binding.layAuction.show()
+                myProductDetails2Binding.layPrice.hide()
+                myProductDetails2Binding.containerDeleteProduct.text =
+                    getString(R.string.deleteAuction)
             } else {
-                lay_auction.hide()
+                myProductDetails2Binding.layAuction.hide()
             }
 
-//            if (productDetails.myBid != 0f) {
-//
-//            }
-
             val fixedPriceEnabled = productDetails.isFixedPriceEnabled
-            if(fixedPriceEnabled)
-                discountProduct.show()
+            if (fixedPriceEnabled)
+                myProductDetails2Binding.discountProduct.show()
             else
-                discountProduct.hide()
+                myProductDetails2Binding.discountProduct.hide()
 
         } else {
             showError(getString(R.string.serverError))
         }
     }
-
-    fun getDifference(curretndate: Date, endDate: Date) {
-        //milliseconds
-        //milliseconds
-        var different: Long = endDate.time - curretndate.time
-
-        val secondsInMilli: Long = 1000
-        val minutesInMilli = secondsInMilli * 60
-        val hoursInMilli = minutesInMilli * 60
-        val daysInMilli = hoursInMilli * 24
-
-        val elapsedDays = different / daysInMilli
-        different = different % daysInMilli
-
-        val elapsedHours = different / hoursInMilli
-        different = different % hoursInMilli
-
-        val elapsedMinutes = different / minutesInMilli
-        different = different % minutesInMilli
-
-        val elapsedSeconds = different / secondsInMilli
-
-//        Toast.makeText(
-//            this,
-//            "$elapsedDays $elapsedHours $elapsedMinutes $elapsedSeconds",
-//            Toast.LENGTH_LONG
-//        ).show()
-        days.text = elapsedDays.toString()
-        hours.text = elapsedHours.toString()
-        minutes.text = elapsedMinutes.toString()
-
-    }
-
 
     private fun timeDifferent(targetDateTimeString: String) {
         // Specify the target date and time
@@ -1064,9 +959,9 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
         )
 
 
-        days.text = daysDifference.toString()
-        hours.text = hoursDifference.toString()
-        minutes.text = minutesDifference.toString()
+        myProductDetails2Binding.days.text = daysDifference.toString()
+        myProductDetails2Binding.hours.text = hoursDifference.toString()
+        myProductDetails2Binding.minutes.text = minutesDifference.toString()
     }
 
 
@@ -1129,30 +1024,6 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
 
     }
 
-    private fun setListener() {
-
-        fbButtonBack.setOnClickListener {
-            onBackPressed()
-        }
-
-        next_image.setOnClickListener {
-
-        }
-
-
-    }
-
-
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//        if (resultCode == RESULT_OK && requestCode == addProductReviewRequestCode) {
-//            //var addRateItem: AddRateItem? =data?.getParcelableExtra(ConstantObjects.rateObjectKey)
-//            productDetialsViewModel.getProductRatesForProductDetails(productId)
-//
-//        }
-//
-//    }
-
     override fun onSelectQuestion(position: Int) {
         if (isMyProduct) {
             val answerDialog = AnswerQuestionDialog(
@@ -1176,8 +1047,6 @@ class MyProductDetailsActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshLis
         super.onDestroy()
         productDetialsViewModel.closeAllCall()
         productDetialsViewModel.baseCancel()
-//        similarProductAdapter.onDestroyHandler()
-//        sellerProductAdapter.onDestroyHandler()
     }
 
     override fun onClickImage(url: String) {

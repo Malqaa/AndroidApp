@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.ActivitySellerRateBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
 import com.malqaa.androidappp.newPhase.domain.models.sellerInfoResp.SellerInformation
 import com.malqaa.androidappp.newPhase.domain.models.sellerRateListResp.SellerRateItem
@@ -20,16 +21,9 @@ import com.malqaa.androidappp.newPhase.utils.EndlessRecyclerViewScrollListener
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.show
-import kotlinx.android.synthetic.main.activity_seller_rate.progressbar
-import kotlinx.android.synthetic.main.activity_seller_rate.review_type1
-import kotlinx.android.synthetic.main.activity_seller_rate.review_type2
-import kotlinx.android.synthetic.main.activity_seller_rate.rvRate
-import kotlinx.android.synthetic.main.activity_seller_rate.swipe_to_refresh
-import kotlinx.android.synthetic.main.activity_seller_rate.tvError
-import kotlinx.android.synthetic.main.toolbar_main.back_btn
-import kotlinx.android.synthetic.main.toolbar_main.toolbar_title
 
-class SellerRateActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
+class SellerRateActivity : BaseActivity<ActivitySellerRateBinding>(),
+    SwipeRefreshLayout.OnRefreshListener,
     SellerFilterReviewDialog.ApplySellerReviewFilter {
     private lateinit var linerlayoutManager: LinearLayoutManager
     val list: ArrayList<Reviewmodel> = ArrayList()
@@ -49,7 +43,11 @@ class SellerRateActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
     var retReviewType: Int = SellerFilterReviewDialog.allReview
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_seller_rate)
+
+        // Initialize view binding
+        binding = ActivitySellerRateBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         sellerInformation = intent.getParcelableExtra(ConstantObjects.sellerObjectKey)
         initView()
         setListener()
@@ -62,9 +60,9 @@ class SellerRateActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
         productDetialsViewModel = ViewModelProvider(this).get(ProductDetailsViewModel::class.java)
         productDetialsViewModel.isLoading.observe(this) {
             if (it)
-                progressbar.show()
+                binding.progressbar.show()
             else
-                progressbar.hide()
+                binding.progressbar.hide()
         }
         productDetialsViewModel.isNetworkFail.observe(this) {
             if (it) {
@@ -72,7 +70,6 @@ class SellerRateActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
             } else {
                 HelpFunctions.ShowLongToast(getString(R.string.serverError), this)
             }
-
         }
         productDetialsViewModel.errorResponseObserver.observe(this) {
             if (it.status != null && it.status == "409") {
@@ -110,9 +107,9 @@ class SellerRateActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
 
                 sellerRateAdapter.notifyDataSetChanged()
                 if (sellerRateList.isEmpty()) {
-                    tvError.show()
+                    binding.tvError.show()
                 } else {
-                    tvError.hide()
+                    binding.tvError.hide()
                 }
             } else {
                 if (sellerRateList.isEmpty()) {
@@ -122,7 +119,7 @@ class SellerRateActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
                         HelpFunctions.ShowLongToast(getString(R.string.serverError), this)
                     }
                 } else {
-                    tvError.hide()
+                    binding.tvError.hide()
                 }
             }
             //tvError
@@ -130,9 +127,9 @@ class SellerRateActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
     }
 
     private fun initView() {
-        swipe_to_refresh.setColorSchemeResources(R.color.colorPrimaryDark)
-        swipe_to_refresh.setOnRefreshListener(this)
-        toolbar_title.text = getString(R.string.all_reviews)
+        binding.swipeToRefresh.setColorSchemeResources(R.color.colorPrimaryDark)
+        binding.swipeToRefresh.setOnRefreshListener(this)
+        binding.toolbarMain.toolbarTitle.text = getString(R.string.all_reviews)
         sellerFilterReviewDialog = SellerFilterReviewDialog(this, this)
     }
 
@@ -140,7 +137,7 @@ class SellerRateActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
         sellerRateList = ArrayList()
         sellerRateAdapter = SellerRateAdapter(this, sellerRateList);
         linerlayoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-        rvRate.apply {
+        binding.rvRate.apply {
             adapter = sellerRateAdapter
             layoutManager = linerlayoutManager
         }
@@ -193,15 +190,15 @@ class SellerRateActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
                     }
                 }
             }
-        rvRate.addOnScrollListener(endlessRecyclerViewScrollListener)
+        binding.rvRate.addOnScrollListener(endlessRecyclerViewScrollListener)
     }
 
     override fun onRefresh() {
         endlessRecyclerViewScrollListener.resetState()
-        swipe_to_refresh.isRefreshing = false
+        binding.swipeToRefresh.isRefreshing = false
         sellerRateList.clear()
         sellerRateAdapter.notifyDataSetChanged()
-        tvError.hide()
+        binding.tvError.hide()
 
         if (sellerAsASeller == SellerFilterReviewDialog.sellerAsAll) {
             var sendRate: Int? = null
@@ -246,10 +243,10 @@ class SellerRateActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
     }
 
     private fun setListener() {
-        back_btn.setOnClickListener {
+        binding.toolbarMain.backBtn.setOnClickListener {
             onBackPressed()
         }
-        review_type2.setOnClickListener {
+        binding.reviewType2.setOnClickListener {
             sellerFilterReviewDialog.show()
             sellerFilterReviewDialog.setSelectedTap(
                 SellerFilterReviewDialog.sellerOrBayerFilterTap,
@@ -258,7 +255,7 @@ class SellerRateActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
             )
 
         }
-        review_type1.setOnClickListener {
+        binding.reviewType1.setOnClickListener {
             sellerFilterReviewDialog.show()
             sellerFilterReviewDialog.setSelectedTap(
                 SellerFilterReviewDialog.reviewTypeTap,
@@ -276,11 +273,11 @@ class SellerRateActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
         retReviewType = reviewType
         when (sellerAsASeller) {
             SellerFilterReviewDialog.sellerAsASeller -> {
-                review_type2.text = getString(R.string.reviews_as_a_seller)
+                binding.reviewType2.text = getString(R.string.reviews_as_a_seller)
             }
 
             SellerFilterReviewDialog.sellerAsABuyer -> {
-                review_type2.text = getString(R.string.reviews_as_a_buyer)
+                binding.reviewType2.text = getString(R.string.reviews_as_a_buyer)
             }
         }
         onRefresh()
@@ -293,11 +290,11 @@ class SellerRateActivity : BaseActivity(), SwipeRefreshLayout.OnRefreshListener,
         retReviewType = SellerFilterReviewDialog.allReview
         when (sellerAsASeller) {
             SellerFilterReviewDialog.sellerAsASeller -> {
-                review_type2.text = getString(R.string.reviews_as_a_seller)
+                binding.reviewType2.text = getString(R.string.reviews_as_a_seller)
             }
 
             SellerFilterReviewDialog.sellerAsABuyer -> {
-                review_type2.text = getString(R.string.reviews_as_a_buyer)
+                binding.reviewType2.text = getString(R.string.reviews_as_a_buyer)
             }
         }
         onRefresh()

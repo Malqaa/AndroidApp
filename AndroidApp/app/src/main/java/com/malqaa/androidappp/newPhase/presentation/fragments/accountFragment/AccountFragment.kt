@@ -21,6 +21,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.AccountMainItemBinding
+import com.malqaa.androidappp.databinding.AccountSubItemBinding
+import com.malqaa.androidappp.databinding.FragmentAccountBinding
 import com.malqaa.androidappp.newPhase.domain.models.addProductToCartResp.AccountObject
 import com.malqaa.androidappp.newPhase.domain.models.loginResp.LoginUser
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.AccountItem
@@ -46,29 +49,6 @@ import com.malqaa.androidappp.newPhase.utils.helper.widgets.rcv.GenericListAdapt
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.show
 import io.paperdb.Paper
-import kotlinx.android.synthetic.main.account_main_item.view.main_item_tv
-import kotlinx.android.synthetic.main.account_main_item.view.sub_item_rcv
-import kotlinx.android.synthetic.main.account_sub_item.view.item_icon
-import kotlinx.android.synthetic.main.account_sub_item.view.item_right_icon
-import kotlinx.android.synthetic.main.account_sub_item.view.line
-import kotlinx.android.synthetic.main.account_sub_item.view.sub_item_tv
-import kotlinx.android.synthetic.main.fragment_account.follow_up
-import kotlinx.android.synthetic.main.fragment_account.ivUserImage
-import kotlinx.android.synthetic.main.fragment_account.ivUserImageContainer
-import kotlinx.android.synthetic.main.fragment_account.loader
-import kotlinx.android.synthetic.main.fragment_account.main_item_rcv
-import kotlinx.android.synthetic.main.fragment_account.my_points
-import kotlinx.android.synthetic.main.fragment_account.my_wallet
-import kotlinx.android.synthetic.main.fragment_account.rate3
-import kotlinx.android.synthetic.main.fragment_account.rating_btn
-import kotlinx.android.synthetic.main.fragment_account.sub_title
-import kotlinx.android.synthetic.main.fragment_account.tvFollowCategory
-import kotlinx.android.synthetic.main.fragment_account.tvMemberSince
-import kotlinx.android.synthetic.main.fragment_account.tvUserName
-import kotlinx.android.synthetic.main.fragment_account.tvUserPointTotalBalance
-import kotlinx.android.synthetic.main.fragment_account.tvWalletTotalBalance
-import kotlinx.android.synthetic.main.fragment_account.tv_membership_number
-import kotlinx.android.synthetic.main.fragment_account.user_rating
 import kotlin.math.roundToInt
 
 class AccountFragment : Fragment(R.layout.fragment_account),
@@ -84,6 +64,10 @@ class AccountFragment : Fragment(R.layout.fragment_account),
         BetterActivityResult.registerActivityForResult(this)
 
     private lateinit var layoutManager: LinearLayoutManager
+
+    // View Binding variable
+    private var _binding: FragmentAccountBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -149,11 +133,15 @@ class AccountFragment : Fragment(R.layout.fragment_account),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // Initialize View Binding
+        _binding = FragmentAccountBinding.bind(view)
+
         if (MainActivity.myOrderTrigger) {
             MainActivity.myOrderTrigger = false
             findNavController().navigate(R.id.myRequest)
         }
-        tvUserName.setOnClickListener {
+        binding.tvUserName.setOnClickListener {
             startActivity(
                 Intent(
                     requireActivity(),
@@ -209,13 +197,13 @@ class AccountFragment : Fragment(R.layout.fragment_account),
             if (userPointsResp.status_code == 200) {
                 AccountObject.userPointData = userPointsResp.userPointData
                 userPointsResp.userPointData?.let {
-                    tvUserPointTotalBalance.text = "${it.pointsBalance} "
+                    binding.tvUserPointTotalBalance.text = "${it.pointsBalance} "
                 }
             }
         }
         accountViewModel.editProfileImageObserver.observe(this) {
             if (it.status_code == 200) {
-                loader.show()
+                binding.loader.show()
                 accountViewModel.getUserDataForAccountTap()
             }
         }
@@ -236,25 +224,25 @@ class AccountFragment : Fragment(R.layout.fragment_account),
             }
         }
         accountViewModel.accountInfoObserver.observe(this) {
-            tvUserPointTotalBalance.text = it.data.pointsBalance.toString()
-            tvWalletTotalBalance.text = it.data.walletBalance.toString()
-            tvFollowCategory.text = it.data.followCatergoriesCount.toString()
-            user_rating.text = it.data.rate.toString()
+            binding.tvUserPointTotalBalance.text = it.data.pointsBalance.toString()
+            binding.tvWalletTotalBalance.text = it.data.walletBalance.toString()
+            binding.tvFollowCategory.text = it.data.followCatergoriesCount.toString()
+            binding.userRating.text = it.data.rate.toString()
             when (it.data.rate) {
                 3 -> {
-                    rate3.setImageResource(R.drawable.happyface_color)
+                    binding.rate3.setImageResource(R.drawable.happyface_color)
                 }
 
                 2 -> {
-                    rate3.setImageResource(R.drawable.smileface_color)
+                    binding.rate3.setImageResource(R.drawable.smileface_color)
                 }
 
                 1 -> {
-                    rate3.setImageResource(R.drawable.sadcolor_gray)
+                    binding.rate3.setImageResource(R.drawable.sadcolor_gray)
                 }
 
                 else -> {
-                    rate3.setImageResource(R.drawable.smile)
+                    binding.rate3.setImageResource(R.drawable.smile)
                 }
             }
         }
@@ -286,16 +274,17 @@ class AccountFragment : Fragment(R.layout.fragment_account),
                 HelpFunctions.loadProfileImage(
                     requireContext(),
                     userData.img,
-                    ivUserImage,
-                    loader,
+                    binding.ivUserImage,
+                    binding.loader,
                 )
-                tvUserName.text = "${userData.firstName.toString()} ${userData.lastName.toString()}"
+                binding.tvUserName.text =
+                    "${userData.firstName.toString()} ${userData.lastName.toString()}"
                 userData.createdAt?.let {
-                    tvMemberSince.text = "${getString(R.string.member_since)} ${
+                    binding.tvMemberSince.text = "${getString(R.string.member_since)} ${
                         HelpFunctions.getViewFormatForDate(it)
                     }"
                 }
-                tv_membership_number.text =
+                binding.tvMembershipNumber.text =
                     "${getString(R.string.membership_number)} ${userData.membershipNumber}"
                 setAdaptor()
 
@@ -305,14 +294,15 @@ class AccountFragment : Fragment(R.layout.fragment_account),
     }
 
     private fun setViewClickListeners() {
-        my_wallet.setOnClickListener {
+        binding.myWallet.setOnClickListener {
             findNavController().navigate(R.id.myWallet)
         }
 
-        my_points.setOnClickListener {
+        binding.myPoints.setOnClickListener {
             findNavController().navigate(R.id.myPoints)
         }
-        ivUserImageContainer.setOnClickListener {
+
+        binding.ivUserImageContainer.setOnClickListener {
             openCameraChooser()
         }
     }
@@ -320,208 +310,193 @@ class AccountFragment : Fragment(R.layout.fragment_account),
     @SuppressLint("ResourceType")
     private fun setAdaptor() {
         layoutManager = LinearLayoutManager(requireContext())
-        main_item_rcv.adapter =
+        binding.mainItemRcv.adapter =
             object : GenericListAdapter<AccountItem>(
                 R.layout.account_main_item,
                 bind = { element, holder, itemCount, position ->
+
+                    // AccountMainItemBinding is the generated binding class for account_main_item.xml
+                    val mainItemBinding = AccountMainItemBinding.bind(holder.view)
+
                     holder.view.run {
                         element.run {
-                            main_item_tv.text = name
+                            mainItemBinding.mainItemTv.text = name
 
-                            sub_item_rcv.adapter = object : GenericListAdapter<AccountSubItem>(
-                                R.layout.account_sub_item,
-                                bind = { element, holder, itemCount, position ->
-                                    holder.view.run {
-                                        element.run {
-                                            sub_item_tv.text = name
-                                            item_icon.setImageResource(image)
-                                            if (MainActivity.myOrderTrigger) {
-                                                MainActivity.myOrderTrigger = false
-                                                findNavController().navigate(R.id.myRequest)
-                                            } else if (MainActivity.myBidTrigger) {
-                                                MainActivity.myBidTrigger = false
-                                                findNavController().navigate(R.id.mybids)
-                                            }
+                            mainItemBinding.subItemRcv.adapter =
+                                object : GenericListAdapter<AccountSubItem>(
+                                    R.layout.account_sub_item,
+                                    bind = { element, holder, itemCount, position ->
 
-                                            if (name == getString(R.string.logout)) {
-                                                sub_item_tv.setTextColor(
-                                                    ContextCompat.getColor(
-                                                        requireContext(),
-                                                        R.color.bg
-                                                    )
+                                        // AccountMainItemBinding is the generated binding class for account_main_item.xml
+                                        val accountSubItemBinding =
+                                            AccountSubItemBinding.bind(holder.view)
+
+                                        holder.view.run {
+                                            element.run {
+                                                accountSubItemBinding.subItemTv.text = name
+                                                accountSubItemBinding.itemIcon.setImageResource(
+                                                    image
                                                 )
-                                                item_right_icon.setColorFilter(
-                                                    ContextCompat.getColor(
-                                                        context,
-                                                        R.color.bg
-                                                    ), android.graphics.PorterDuff.Mode.SRC_IN
-                                                )
-                                                line.hide()
-                                            } else {
-                                                sub_item_tv.setTextColor(
-                                                    ContextCompat.getColor(
-                                                        requireContext(),
-                                                        R.color.black
-                                                    )
-                                                )
-                                                item_right_icon.setColorFilter(
-                                                    ContextCompat.getColor(
-                                                        context,
-                                                        R.color.black
-                                                    ), android.graphics.PorterDuff.Mode.SRC_IN
-                                                )
-                                                line.show()
+                                                if (MainActivity.myOrderTrigger) {
+                                                    MainActivity.myOrderTrigger = false
+                                                    findNavController().navigate(R.id.myRequest)
+                                                } else if (MainActivity.myBidTrigger) {
+                                                    MainActivity.myBidTrigger = false
+                                                    findNavController().navigate(R.id.mybids)
+                                                }
 
-                                            }
-                                            setOnClickListener {
-                                                when (name) {
-                                                    getString(R.string.MyProducts) -> {
-                                                        findNavController().navigate(R.id.myProduct)
-                                                    }
-
-                                                    getString(R.string.my_orders) -> {
-                                                        findNavController().navigate(R.id.myRequest)
-
-                                                    }
-
-                                                    getString(R.string.Loser) -> {
-                                                        findNavController().navigate(R.id.lost_frag)
-
-                                                    }
-
-                                                    getString(R.string.my_bids) -> {
-                                                        startActivity(
-                                                            Intent(
-                                                                requireActivity(),
-                                                                MyBidsActivity::class.java
-                                                            )
+                                                if (name == getString(R.string.logout)) {
+                                                    accountSubItemBinding.subItemTv.setTextColor(
+                                                        ContextCompat.getColor(
+                                                            requireContext(),
+                                                            R.color.bg
                                                         )
-//                                                    findNavController().navigate(R.id.mybids)
+                                                    )
+                                                    accountSubItemBinding.itemRightIcon.setColorFilter(
+                                                        ContextCompat.getColor(
+                                                            context,
+                                                            R.color.bg
+                                                        ), android.graphics.PorterDuff.Mode.SRC_IN
+                                                    )
+                                                    accountSubItemBinding.line.hide()
+                                                } else {
+                                                    accountSubItemBinding.subItemTv.setTextColor(
+                                                        ContextCompat.getColor(
+                                                            requireContext(),
+                                                            R.color.black
+                                                        )
+                                                    )
+                                                    accountSubItemBinding.itemRightIcon.setColorFilter(
+                                                        ContextCompat.getColor(
+                                                            context,
+                                                            R.color.black
+                                                        ), android.graphics.PorterDuff.Mode.SRC_IN
+                                                    )
+                                                    accountSubItemBinding.line.show()
 
-                                                    }
+                                                }
+                                                setOnClickListener {
+                                                    when (name) {
+                                                        getString(R.string.MyProducts) -> {
+                                                            findNavController().navigate(R.id.myProduct)
+                                                        }
 
-//                                                getString(R.string.shopping_basket) -> {
-//                                                    if (ConstantObjects.logged_userid.isEmpty()) {
-//                                                        startActivity(
-//                                                            Intent(
-//                                                                context,
-//                                                                SignInActivity::class.java
-//                                                            )
-//                                                        )
-//                                                    } else {
-//                                                        startActivity(
-//                                                            Intent(
-//                                                                requireActivity(),
-//                                                                CartActivity::class.java
-//                                                            )
-//                                                        )
-//                                                    }
-//                                                }
-                                                    getString(R.string.negotiation_offers) -> {
-                                                        startActivity(
-                                                            Intent(
-                                                                requireActivity(),
-                                                                NegotiationOffersPurchaseActivity::class.java
-                                                            ).apply {
-                                                                putExtra(
-                                                                    "ComeFrom",
-                                                                    "AccountFragment"
+                                                        getString(R.string.my_orders) -> {
+                                                            findNavController().navigate(R.id.myRequest)
+
+                                                        }
+
+                                                        getString(R.string.Loser) -> {
+                                                            findNavController().navigate(R.id.lost_frag)
+
+                                                        }
+
+                                                        getString(R.string.my_bids) -> {
+                                                            startActivity(
+                                                                Intent(
+                                                                    requireActivity(),
+                                                                    MyBidsActivity::class.java
                                                                 )
-                                                            }
-                                                        )
-                                                        // findNavController().navigate(R.id.negotiationOffer)
-
-                                                    }
-
-                                                    getString(R.string.MyProductsOffers) -> {
-                                                        startActivity(
-                                                            Intent(
-                                                                requireActivity(),
-                                                                NegotiationOffersSaleActivity::class.java
                                                             )
-                                                        )
-                                                        // findNavController().navigate(R.id.negotiationOffer)
+                                                        }
 
-                                                    }
-
-                                                    getString(R.string.edit_profile) -> {
-                                                        //  findNavController().navigate(R.id.editProfile)
-                                                        startActivity(
-                                                            Intent(
-                                                                requireActivity(),
-                                                                EditProfileActivity::class.java
+                                                        getString(R.string.negotiation_offers) -> {
+                                                            startActivity(
+                                                                Intent(
+                                                                    requireActivity(),
+                                                                    NegotiationOffersPurchaseActivity::class.java
+                                                                ).apply {
+                                                                    putExtra(
+                                                                        "ComeFrom",
+                                                                        "AccountFragment"
+                                                                    )
+                                                                }
                                                             )
-                                                        )
-                                                    }
-//                                                getString(R.string.payment_cards) -> {
-//                                                    findNavController().navigate(R.id.paymentCard)
-//
-//                                                }
-                                                    getString(R.string.save_addresses) -> {
-                                                        startActivity(
-                                                            Intent(
-                                                                requireActivity(),
-                                                                ListAddressesActivity::class.java
+                                                        }
+
+                                                        getString(R.string.MyProductsOffers) -> {
+                                                            startActivity(
+                                                                Intent(
+                                                                    requireActivity(),
+                                                                    NegotiationOffersSaleActivity::class.java
+                                                                )
                                                             )
-                                                        )
-                                                    }
+                                                        }
 
-                                                    getString(R.string.application_settings) -> {
-                                                        findNavController().navigate(R.id.applicationSetting)
-
-                                                    }
-
-                                                    getString(R.string.technical_support) -> {
-                                                        startActivity(
-                                                            Intent(
-                                                                requireActivity(),
-                                                                TechnicalSupportListActivity::class.java
+                                                        getString(R.string.edit_profile) -> {
+                                                            startActivity(
+                                                                Intent(
+                                                                    requireActivity(),
+                                                                    EditProfileActivity::class.java
+                                                                )
                                                             )
-                                                        )
+                                                        }
 
-                                                    }
-
-                                                    getString(R.string.switch_accounts_and_business_account) -> {
-                                                        startActivity(
-                                                            Intent(
-                                                                requireActivity(),
-                                                                SwitchAccountActivity::class.java
+                                                        getString(R.string.save_addresses) -> {
+                                                            startActivity(
+                                                                Intent(
+                                                                    requireActivity(),
+                                                                    ListAddressesActivity::class.java
+                                                                )
                                                             )
-                                                        )
-                                                    }
+                                                        }
 
-                                                    getString(R.string.logout) -> {
-                                                        accountViewModel.logoutUser(
-                                                            SharedPreferencesStaticClass.getFcmToken()
-                                                        )
+                                                        getString(R.string.application_settings) -> {
+                                                            findNavController().navigate(R.id.applicationSetting)
 
+                                                        }
+
+                                                        getString(R.string.technical_support) -> {
+                                                            startActivity(
+                                                                Intent(
+                                                                    requireActivity(),
+                                                                    TechnicalSupportListActivity::class.java
+                                                                )
+                                                            )
+
+                                                        }
+
+                                                        getString(R.string.switch_accounts_and_business_account) -> {
+                                                            startActivity(
+                                                                Intent(
+                                                                    requireActivity(),
+                                                                    SwitchAccountActivity::class.java
+                                                                )
+                                                            )
+                                                        }
+
+                                                        getString(R.string.logout) -> {
+                                                            accountViewModel.logoutUser(
+                                                                SharedPreferencesStaticClass.getFcmToken()
+                                                            )
+
+                                                        }
                                                     }
                                                 }
+
+
+                                            }
+                                        }
+                                    }
+                                ) {
+                                    override fun getFilter(): Filter {
+                                        // Your filter implementation
+                                        return object : Filter() {
+                                            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                                                return FilterResults()
                                             }
 
-
+                                            override fun publishResults(
+                                                constraint: CharSequence?,
+                                                results: FilterResults?
+                                            ) {
+                                                // Handle filter results
+                                            }
                                         }
                                     }
+                                }.apply {
+                                    submitList(list)
                                 }
-                            ) {
-                                override fun getFilter(): Filter {
-                                    // Your filter implementation
-                                    return object : Filter() {
-                                        override fun performFiltering(constraint: CharSequence?): FilterResults {
-                                            return FilterResults()
-                                        }
-
-                                        override fun publishResults(
-                                            constraint: CharSequence?,
-                                            results: FilterResults?
-                                        ) {
-                                            // Handle filter results
-                                        }
-                                    }
-                                }
-                            }.apply {
-                                submitList(list)
-                            }
                         }
                     }
                 }
@@ -544,16 +519,16 @@ class AccountFragment : Fragment(R.layout.fragment_account),
             }.apply {
                 submitList(list)
             }
-        main_item_rcv.isNestedScrollingEnabled = false
-        main_item_rcv.layoutManager = layoutManager
-        main_item_rcv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        binding.mainItemRcv.isNestedScrollingEnabled = false
+        binding.mainItemRcv.layoutManager = layoutManager
+        binding.mainItemRcv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 val position = layoutManager.findFirstVisibleItemPosition()
                 val currentItem = list[position]
-                if (position != 0) sub_title.visibility = View.VISIBLE
-                else sub_title.visibility = View.GONE
-                sub_title.text = currentItem.name
+                if (position != 0) binding.subTitle.visibility = View.VISIBLE
+                else binding.subTitle.visibility = View.GONE
+                binding.subTitle.text = currentItem.name
             }
         })
     }
@@ -610,7 +585,7 @@ class AccountFragment : Fragment(R.layout.fragment_account),
             println("hhhh loaded")
             getPicassoInstance()
                 .load(imageUri)
-                .into(ivUserImage)
+                .into(binding.ivUserImage)
             userImageUri = imageUri
 
             val file = CameraHelper.getMultiPartFromBitmap(bitmap, "attachment", requireContext())
@@ -628,7 +603,7 @@ class AccountFragment : Fragment(R.layout.fragment_account),
                 val file =
                     CameraHelper.getMultiPartFromBitmap(bitmap, "imgProfile", requireContext())
                 accountViewModel.editProfileImage(file)
-                ivUserImage.setImageBitmap(bitmap)
+                binding.ivUserImage.setImageBitmap(bitmap)
             }
         }
 
@@ -654,11 +629,11 @@ class AccountFragment : Fragment(R.layout.fragment_account),
     }
 
     private fun setListener() {
-        follow_up.setOnClickListener {
+        binding.followUp.setOnClickListener {
             findNavController().navigate(R.id.followUp)
         }
 
-        rating_btn.setOnClickListener {
+        binding.ratingBtn.setOnClickListener {
             findNavController().navigate(R.id.sellerRating)
         }
 

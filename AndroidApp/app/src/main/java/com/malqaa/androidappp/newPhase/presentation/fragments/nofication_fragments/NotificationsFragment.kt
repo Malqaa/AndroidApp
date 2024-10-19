@@ -1,7 +1,6 @@
 package com.malqaa.androidappp.newPhase.presentation.fragments.nofication_fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -10,44 +9,45 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.FragmentNotificationsBinding
 import com.malqaa.androidappp.newPhase.domain.models.NotifyOut
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
-import kotlinx.android.synthetic.main.fragment_notifications.*
-import kotlinx.android.synthetic.main.toolbar_main.*
 import kotlin.math.min
 
 
 class NotificationsFragment : Fragment(R.layout.fragment_notifications) {
+
+    private var _binding: FragmentNotificationsBinding? = null
+    private val binding get() = _binding!!
+
     var itemList: ArrayList<NotifyOut>? = null
     private var notificationAdapter: NotificationAdapter? = null
     private var notifyListViewModel: NotificationViewModel? = null
-    val new_order = "New_Order"
-    val new_product = "New_Product"
-    val new_product_fav = "New_Product_Fav"
     private var currentPage = 1 // Track current page
     private val pageSize = 20 // Define page size
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        _binding = FragmentNotificationsBinding.bind(view) // Initialize View Binding
+
         setupViewModel()
-        itemList= arrayListOf()
-        toolbar_title.text = getString(R.string.Notifications)
+        itemList = arrayListOf()
+        binding.toolbarMain.toolbarTitle.text = getString(R.string.Notifications)
 
-
-        back_btn.setOnClickListener {
+        binding.toolbarMain.backBtn.setOnClickListener {
             findNavController().popBackStack()
         }
 
 
         notificationAdapter = NotificationAdapter(arrayListOf())
-        notification_rcv.adapter = notificationAdapter
+        binding.notificationRcv.adapter = notificationAdapter
 
         // Implement RecyclerView pagination
-        notification_rcv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        binding.notificationRcv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                val totalItemCount = notification_rcv.layoutManager?.itemCount
+                val totalItemCount = binding.notificationRcv.layoutManager?.itemCount
                 val lastVisibleItem = findLastVisibleItemPosition()
 
                 if (lastVisibleItem + 1 == totalItemCount) {
@@ -63,7 +63,7 @@ class NotificationsFragment : Fragment(R.layout.fragment_notifications) {
     }
 
     private fun findLastVisibleItemPosition(): Int {
-        val layoutManager = notification_rcv.layoutManager
+        val layoutManager = binding.notificationRcv.layoutManager
         if (layoutManager is LinearLayoutManager) {
             val lastVisibleChild = layoutManager.findLastVisibleItemPosition()
             val totalItemCount = layoutManager.itemCount
@@ -111,9 +111,9 @@ class NotificationsFragment : Fragment(R.layout.fragment_notifications) {
         }
         notifyListViewModel!!.notifyListRespObserver.observe(this) {
             HelpFunctions.dismissProgressBar()
-            if (it.data.isNotEmpty()){
+            if (it.data.isNotEmpty()) {
                 itemList?.addAll(it.data)
-                notificationAdapter?.updateAdapter(itemList?: arrayListOf())
+                notificationAdapter?.updateAdapter(itemList ?: arrayListOf())
             }
 
         }
@@ -121,7 +121,7 @@ class NotificationsFragment : Fragment(R.layout.fragment_notifications) {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        itemList=null
+        itemList = null
         notificationAdapter = null
         notifyListViewModel?.closeAllCall()
         notifyListViewModel = null

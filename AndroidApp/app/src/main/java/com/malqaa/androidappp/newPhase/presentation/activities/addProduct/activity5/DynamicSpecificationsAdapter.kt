@@ -1,7 +1,6 @@
 package com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activity5
 
 import android.content.Context
-import android.opengl.Visibility
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
@@ -15,9 +14,9 @@ import android.widget.Spinner
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.malqaa.androidappp.R
-import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.domain.models.dynamicSpecification.DynamicSpecificationItem
 import com.malqaa.androidappp.newPhase.domain.models.dynamicSpecification.SubSpecificationItem
+import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -29,16 +28,11 @@ class DynamicSpecificationsAdapter(
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    //====viewHolder
     private val spinnerType = 1 // and 7
     private val textBoxType = 2 // and 3
     private val numberType = 4
     private val radioType = 5
     private val checkType = 6
-
-
-//    class TextBoxViewHolder(var viewBinding: ItemTextBoxsBinding) :
-//        RecyclerView.ViewHolder(viewBinding.root)
 
     class TextBoxViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val tvTitleAr: TextView = view.findViewById(R.id.tvTitleAr)
@@ -66,15 +60,13 @@ class DynamicSpecificationsAdapter(
         val type1: TextView = view.findViewById(R.id.type1)
         val txtRequired: TextView = view.findViewById(R.id.txtRequired)
         val type2: TextView = view.findViewById(R.id.type2)
-
-
     }
 
 
     lateinit var context: Context
     override fun getItemViewType(position: Int): Int {
         //type 1->dropdownlist  ,
-        if (dynamicSpecificationList[position].type == 1|| dynamicSpecificationList[position].type ==7) {
+        if (dynamicSpecificationList[position].type == 1 || dynamicSpecificationList[position].type == 7) {
             if (dynamicSpecificationList[position].subSpecifications!!.isNotEmpty()) {
                 //dropDown
                 return spinnerType
@@ -82,14 +74,11 @@ class DynamicSpecificationsAdapter(
                 // text box
                 return textBoxType
             }
-        } else if (dynamicSpecificationList[position].type == 6 ) {
+        } else if (dynamicSpecificationList[position].type == 6) {
             return checkType
-        }
-        else if ( dynamicSpecificationList[position].type ==5) {
+        } else if (dynamicSpecificationList[position].type == 5) {
             return radioType
-        }
-
-        else {
+        } else {
             // text box
             return textBoxType
 
@@ -125,8 +114,7 @@ class DynamicSpecificationsAdapter(
                     false
                 )
             )
-        }
-        else {
+        } else {
             return TextBoxViewHolder(
                 LayoutInflater.from(parent.context).inflate(
                     R.layout.item_text_boxs,
@@ -147,7 +135,7 @@ class DynamicSpecificationsAdapter(
             setSpinnerView(holder as SpinnerViewHolder, position)
         } else if (getItemViewType(position) == checkType) {
             setCheckView(holder as CheckViewHolder, position)
-        }else if (getItemViewType(position) == radioType) {
+        } else if (getItemViewType(position) == radioType) {
             setCheckView(holder as CheckViewHolder, position)
         } else {
             setTextBoxView(holder as TextBoxViewHolder, position)
@@ -159,19 +147,21 @@ class DynamicSpecificationsAdapter(
         position: Int
     ) {
         if (ConstantObjects.currentLanguage == "ar") {
-            checkViewHolder.type1.text= dynamicSpecificationList[position].subSpecifications?.get(0)?.nameAr
+            checkViewHolder.type1.text =
+                dynamicSpecificationList[position].subSpecifications?.get(0)?.nameAr
 
-            for(i in dynamicSpecificationList[position].subSpecifications!! ){
-                checkViewHolder.type2.text=i.nameAr
+            for (i in dynamicSpecificationList[position].subSpecifications!!) {
+                checkViewHolder.type2.text = i.nameAr
             }
             checkViewHolder.tvTitleAr.text = "${dynamicSpecificationList[position].nameAr}"
 
         } else {
-            checkViewHolder.type1.text= dynamicSpecificationList[position].subSpecifications?.get(0)?.nameEn
+            checkViewHolder.type1.text =
+                dynamicSpecificationList[position].subSpecifications?.get(0)?.nameEn
 
-           for(i in dynamicSpecificationList[position].subSpecifications!! ){
-               checkViewHolder.type2.text=i.nameEn
-           }
+            for (i in dynamicSpecificationList[position].subSpecifications!!) {
+                checkViewHolder.type2.text = i.nameEn
+            }
             checkViewHolder.tvTitleAr.text = "${dynamicSpecificationList[position].nameEn}"
 
         }
@@ -201,8 +191,8 @@ class DynamicSpecificationsAdapter(
             onChangeValueListener.setCheckClicked(position)
         }
 
-        if(dynamicSpecificationList[position].isRequired){
-            checkViewHolder.txtRequired.visibility=View.VISIBLE
+        if (dynamicSpecificationList[position].isRequired) {
+            checkViewHolder.txtRequired.visibility = View.VISIBLE
         }
 
         checkViewHolder.ivSelect2.setOnClickListener {
@@ -233,13 +223,17 @@ class DynamicSpecificationsAdapter(
             textBoxViewHolder.etValueEn.visibility = View.GONE
             textBoxViewHolder.txtRequiredEn.visibility = View.GONE
         } else {
-            textBoxViewHolder.tvTitleAr.text = "${dynamicSpecItem.name} ${context.getString(R.string.inArabic)}"
-            textBoxViewHolder.tvTitleEn.text = "${dynamicSpecItem.name} ${context.getString(R.string.inEnglish)}"
+            textBoxViewHolder.tvTitleAr.text =
+                "${dynamicSpecItem.name} ${context.getString(R.string.inArabic)}"
+            textBoxViewHolder.tvTitleEn.text =
+                "${dynamicSpecItem.name} ${context.getString(R.string.inEnglish)}"
         }
 
         // Set the hint for Arabic and English EditText fields
-        textBoxViewHolder.etValueAr.hint = "${dynamicSpecItem.name} ${context.getString(R.string.inArabic)}"
-        textBoxViewHolder.etValueEn.hint = "${dynamicSpecItem.name} ${context.getString(R.string.inEnglish)}"
+        textBoxViewHolder.etValueAr.hint =
+            "${dynamicSpecItem.name} ${context.getString(R.string.inArabic)}"
+        textBoxViewHolder.etValueEn.hint =
+            "${dynamicSpecItem.name} ${context.getString(R.string.inEnglish)}"
 
         // Set text if the item is selected, otherwise set an empty string
         if (dynamicSpecItem.isSelected) {
@@ -294,14 +288,14 @@ class DynamicSpecificationsAdapter(
         dynamicSpecificationList[position].subSpecifications?.let { itemDropDownArrayList.addAll(it) }
         spinnerVisitAdapter = SpinnerVisitAdapter(context, itemDropDownArrayList)
         spinnerViewHolder.spinner.adapter = spinnerVisitAdapter
-        if(dynamicSpecificationList[position].isRequired){
-            spinnerViewHolder.txtRequired.visibility=View.VISIBLE
+        if (dynamicSpecificationList[position].isRequired) {
+            spinnerViewHolder.txtRequired.visibility = View.VISIBLE
         }
 
-        if( dynamicSpecificationList[position].isSelected){
-            for( i in dynamicSpecificationList[position].subSpecifications!!.indices){
-                if(dynamicSpecificationList[position]?.subSpecifications?.get(i)?.isDataSelected == true){
-                    selectionType(spinnerViewHolder.spinner,i)
+        if (dynamicSpecificationList[position].isSelected) {
+            for (i in dynamicSpecificationList[position].subSpecifications!!.indices) {
+                if (dynamicSpecificationList[position]?.subSpecifications?.get(i)?.isDataSelected == true) {
+                    selectionType(spinnerViewHolder.spinner, i)
 
                 }
             }
@@ -321,7 +315,7 @@ class DynamicSpecificationsAdapter(
         }
     }
 
-    private  fun selectionType(sp: Spinner,  pos: Int) {
+    private fun selectionType(sp: Spinner, pos: Int) {
         GlobalScope.launch {
             delay(250)
             sp.setSelection(pos, true)
@@ -329,17 +323,15 @@ class DynamicSpecificationsAdapter(
         }
     }
 
-    fun updateAdapter(dynamicSpecificationList : List<DynamicSpecificationItem>){
-        this.dynamicSpecificationList=dynamicSpecificationList
+    fun updateAdapter(dynamicSpecificationList: List<DynamicSpecificationItem>) {
+        this.dynamicSpecificationList = dynamicSpecificationList
         notifyDataSetChanged()
     }
+
     interface OnChangeValueListener {
         fun setOnTextBoxTextChangeAR(value: String, position: Int)
         fun setOnTextBoxTextChangeEN(value: String, position: Int)
         fun setCheckClicked(position: Int)
-
-        //        fun setData(position: Int)
-//        fun setOnCheckBoxSelected(value: String?, position: Int)
         fun setOnSpinnerListSelected(mainAttributesPosition: Int, spinnerPosition: Int)
     }
 

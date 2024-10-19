@@ -4,11 +4,11 @@ import android.content.Context
 import android.content.DialogInterface
 import android.view.View
 import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.DialogPriceNegotiationBinding
 import com.malqaa.androidappp.newPhase.core.BaseDialog
-import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
-import kotlinx.android.synthetic.main.dialog_price_negotiation.*
+import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.HttpException
@@ -16,63 +16,64 @@ import retrofit2.Response
 
 class PriceNegotiationDialog(
     context: Context,
-    var quantity:Int,
+    var quantity: Int,
     var productId: Int,
     var listener: SetClickListeners
-) : BaseDialog(context) {
+) : BaseDialog<DialogPriceNegotiationBinding>(context) {
+
     var countriesCallback: Call<GeneralResponse>? = null
     var generalRespone: GeneralResponse? = null
-    override fun getViewId(): Int {
-        return R.layout.dialog_price_negotiation
+
+    override fun inflateViewBinding(): DialogPriceNegotiationBinding {
+        return DialogPriceNegotiationBinding.inflate(layoutInflater)
     }
 
     override fun isFullScreen(): Boolean = false
     override fun isCancelable(): Boolean = true
     override fun isLoadingDialog(): Boolean = false
     override fun initialization() {
-        if(quantity==1){
-            layQuantity.visibility=View.GONE
-        }else{
-            layQuantity.visibility=View.VISIBLE
+        if (quantity == 1) {
+            binding.layQuantity.visibility = View.GONE
+        } else {
+            binding.layQuantity.visibility = View.VISIBLE
         }
         setOnClickListenres()
     }
 
     private fun setOnClickListenres() {
-        close_alert_bid.setOnClickListener {
+        binding.closeAlertBid.setOnClickListener {
             dismiss()
         }
-        btnSend.setOnClickListener {
+        binding.btnSend.setOnClickListener {
             var readytosend = true
-            if (etNegotiationPrice.text.toString().trim() == "") {
+            if (binding.etNegotiationPrice.text.toString().trim() == "") {
                 readytosend = false
-                etNegotiationPrice.error = context.getString(R.string.writeNegotiationPrice2)
-            }else {
-                if(quantity!=1){
-                    if (etQuentity.text.toString().trim() == "") {
+                binding.etNegotiationPrice.error =
+                    context.getString(R.string.writeNegotiationPrice2)
+            } else {
+                if (quantity != 1) {
+                    if (binding.etQuentity.text.toString().trim() == "") {
                         readytosend = false
-                        etQuentity.error = context.getString(R.string.quantity)
-                    }
-                    else if(etQuentity.text.toString().toInt() > quantity){
+                        binding.etQuentity.error = context.getString(R.string.quantity)
+                    } else if (binding.etQuentity.text.toString().toInt() > quantity) {
                         readytosend = false
-                        etQuentity.error = context.getString(R.string.prevent_quantity)
+                        binding.etQuentity.error = context.getString(R.string.prevent_quantity)
                     }
                 }
             }
 
 
             if (readytosend) {
-                if(quantity!=1){
+                if (quantity != 1) {
                     addNegotiationPrice(
                         productId,
-                        etNegotiationPrice.text.toString().trim().toFloat(),
-
-                        etQuentity.text.toString().trim().toInt()
+                        binding.etNegotiationPrice.text.toString().trim().toFloat(),
+                        binding.etQuentity.text.toString().trim().toInt()
                     )
-                }else{
+                } else {
                     addNegotiationPrice(
                         productId,
-                        etNegotiationPrice.text.toString().trim().toFloat(),
+                        binding.etNegotiationPrice.text.toString().trim().toFloat(),
                         1
                     )
                 }
@@ -86,19 +87,15 @@ class PriceNegotiationDialog(
         price: Float,
         quantity: Int
     ) {
-        close_alert_bid.isEnabled = false
-        btnSend.isEnabled = false
-//        var data: HashMap<String, Any> = HashMap()
-//        data["productId"] = productId
-//        data["quantity"] = quentity
-//        data["price"] = price
+        binding.closeAlertBid.isEnabled = false
+        binding.btnSend.isEnabled = false
 
         countriesCallback = getRetrofitBuilder().addProductClientOffer(productId, quantity, price)
         countriesCallback?.enqueue(object : Callback<GeneralResponse> {
             override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
-                progressBar.visibility = View.GONE
-                btnSend.isEnabled = true
-                close_alert_bid.isEnabled = true
+                binding.progressBar.visibility = View.GONE
+                binding.btnSend.isEnabled = true
+                binding.closeAlertBid.isEnabled = true
                 if (t is HttpException) {
                     HelpFunctions.ShowLongToast(context.getString(R.string.serverError), context)
 
@@ -114,16 +111,16 @@ class PriceNegotiationDialog(
                 call: Call<GeneralResponse>,
                 response: Response<GeneralResponse>
             ) {
-                btnSend.isEnabled = true
-                close_alert_bid.isEnabled = true
-                progressBar.visibility = View.GONE
+                binding.btnSend.isEnabled = true
+                binding.closeAlertBid.isEnabled = true
+                binding.progressBar.visibility = View.GONE
                 try {
                     if (response.isSuccessful) {
                         response.body()?.let {
                             generalRespone = it
                             if (generalRespone?.status_code == 200) {
                                 listener.setOnSuccessListeners(
-                                    etNegotiationPrice.text.toString().trim()
+                                    binding.etNegotiationPrice.text.toString().trim()
                                 )
                             }
                         }
@@ -132,10 +129,8 @@ class PriceNegotiationDialog(
                             context.getString(R.string.serverError),
                             context
                         )
-
                     }
                 } catch (e: Exception) {
-                    //
                 }
             }
         })

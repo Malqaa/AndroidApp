@@ -2,7 +2,6 @@ package com.malqaa.androidappp.newPhase.presentation.activities.cartActivity.vie
 
 import androidx.lifecycle.MutableLiveData
 import com.malqaa.androidappp.newPhase.core.BaseViewModel
-import com.malqaa.androidappp.newPhase.utils.Extension.requestBody
 import com.malqaa.androidappp.newPhase.data.network.callApi
 import com.malqaa.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malqaa.androidappp.newPhase.domain.models.addOrderResp.AddOrderResp
@@ -11,6 +10,7 @@ import com.malqaa.androidappp.newPhase.domain.models.cartListResp.CartListResp
 import com.malqaa.androidappp.newPhase.domain.models.orderDetailsByMasterID.OrderDetailsByMasterIDResp
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
 import com.malqaa.androidappp.newPhase.domain.models.userAddressesResp.UserAddressesResp
+import com.malqaa.androidappp.newPhase.utils.Extension.requestBody
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -31,7 +31,8 @@ class CartViewModel : BaseViewModel() {
     var addOrderObserver: MutableLiveData<AddOrderResp> = MutableLiveData()
     var paymentTransaction: MutableLiveData<GeneralResponse> = MutableLiveData()
     var deleteShipment: MutableLiveData<GeneralResponse> = MutableLiveData()
-    var currentOrderByMusterIdRespObserver: MutableLiveData<OrderDetailsByMasterIDResp> = MutableLiveData()
+    var currentOrderByMusterIdRespObserver: MutableLiveData<OrderDetailsByMasterIDResp> =
+        MutableLiveData()
 
 
     private var callCurrentOrderDetails: Call<OrderDetailsByMasterIDResp>? = null
@@ -88,7 +89,7 @@ class CartViewModel : BaseViewModel() {
         if (callDeleteShipping != null) {
             callDeleteShipping?.cancel()
         }
-        if (callCurrentOrderDetails!= null) {
+        if (callCurrentOrderDetails != null) {
             callCurrentOrderDetails?.cancel()
         }
 
@@ -121,9 +122,10 @@ class CartViewModel : BaseViewModel() {
 
     }
 
-    fun getCurrentOrderDetailsByMasterID(orderMasterID:Int){
+    fun getCurrentOrderDetailsByMasterID(orderMasterID: Int) {
         isLoading.value = true
-        callCurrentOrderDetails = getRetrofitBuilder().getOrderMasterDetailsByMasterOrderId(orderMasterID)
+        callCurrentOrderDetails =
+            getRetrofitBuilder().getOrderMasterDetailsByMasterOrderId(orderMasterID)
         callApi(callCurrentOrderDetails!!,
             onSuccess = {
                 isLoading.value = false

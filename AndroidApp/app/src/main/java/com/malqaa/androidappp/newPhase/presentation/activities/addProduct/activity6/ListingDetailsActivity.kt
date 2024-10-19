@@ -2,11 +2,11 @@ package com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activ
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.CompoundButton
 import androidx.lifecycle.ViewModelProvider
 import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.ActivityListDetailsAddProductBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
 import com.malqaa.androidappp.newPhase.domain.models.addProductToCartResp.AddProductObjectData
 import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.ConfirmationAddProductActivity
@@ -19,11 +19,9 @@ import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.helper.widgets.searchdialog.SearchListItem
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.show
-import kotlinx.android.synthetic.main.activity_list_details_add_product.*
-import kotlinx.android.synthetic.main.toolbar_main.*
 
 
-class ListingDetailsActivity : BaseActivity() {
+class ListingDetailsActivity : BaseActivity<ActivityListDetailsAddProductBinding>() {
     var selectedCountry: SearchListItem? = null
     var selectedRegion: SearchListItem? = null
     var selectedCity: SearchListItem? = null
@@ -45,14 +43,14 @@ class ListingDetailsActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Initialize view binding
+        binding = ActivityListDetailsAddProductBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         setContentView(R.layout.activity_list_details_add_product)
-        toolbar_title.text = getString(R.string.item_details)
+        binding.toolbarMain.toolbarTitle.text = getString(R.string.item_details)
         isEdit = intent.getBooleanExtra(ConstantObjects.isEditKey, false)
         setUpViewModel()
-//        AddProductObjectData.productCondition = 0
-//        AddProductObjectData.quantity = ""
         setViewClickListeners()
-        // setupCountryCodePiker()
 
         if (isEdit) {
             setData()
@@ -103,11 +101,11 @@ class ListingDetailsActivity : BaseActivity() {
             if (configurationRespObserver.status_code == 200) {
                 configurationRespObserver.configurationData?.let {
                     if (it.configValue == "1") {
-                        containerQuantity.show()
+                        binding.containerQuantity.show()
                     } else {
                         AddProductObjectData.quantity = "1"
-                        quantityavail.number = "1"
-                        containerQuantity.hide()
+                        binding.quantityavail.number = "1"
+                        binding.containerQuantity.hide()
                     }
                 }
             }
@@ -117,192 +115,101 @@ class ListingDetailsActivity : BaseActivity() {
     }
 
     private fun setData() {
-        tvTitleAr.setText(AddProductObjectData.itemTitleAr)
-        tvTitleEn.setText(AddProductObjectData.itemTitleEn)
+        binding.tvTitleAr.setText(AddProductObjectData.itemTitleAr)
+        binding.tvTitleEn.setText(AddProductObjectData.itemTitleEn)
         if (ConstantObjects.isModify)
-            tvSubtitleAr.isEnabled = (AddProductObjectData.subtitleAr != "")
+            binding.tvSubtitleAr.isEnabled = (AddProductObjectData.subtitleAr != "")
 
         if (ConstantObjects.isModify)
-            tvSubtitleEn.isEnabled = (AddProductObjectData.subtitleEn != "")
+            binding.tvSubtitleEn.isEnabled = (AddProductObjectData.subtitleEn != "")
 
 
-        tvSubtitleAr.setText(AddProductObjectData.subtitleAr)
-        tvSubtitleEn.setText(AddProductObjectData.subtitleEn)
-        tvDescriptionAr.setText(AddProductObjectData.itemDescriptionAr)
-        tvDescriptionEn.setText(AddProductObjectData.itemDescriptionEn)
+        binding.tvSubtitleAr.setText(AddProductObjectData.subtitleAr)
+        binding.tvSubtitleEn.setText(AddProductObjectData.subtitleEn)
+        binding.tvDescriptionAr.setText(AddProductObjectData.itemDescriptionAr)
+        binding.tvDescriptionEn.setText(AddProductObjectData.itemDescriptionEn)
         selectedCountry = AddProductObjectData.country
         selectedRegion = AddProductObjectData.region
         selectedCity = AddProductObjectData.city
-        countryContainer.text = selectedCountry?.title ?: ""
-        regionContainer.text = selectedRegion?.title ?: ""
-        neighborhoodContainer.text = selectedCity?.title ?: ""
-        //countryCodePicker.setCountryForNameCode(AddProductObjectData.phoneCountryCode)
-        etPhoneNumber.setText(AddProductObjectData.phone)
-        quantityavail.number = AddProductObjectData.quantity
+        binding.countryContainer.text = selectedCountry?.title ?: ""
+        binding.regionContainer.text = selectedRegion?.title ?: ""
+        binding.neighborhoodContainer.text = selectedCity?.title ?: ""
+        binding.etPhoneNumber.setText(AddProductObjectData.phone)
+        binding.quantityavail.number = AddProductObjectData.quantity
         if (AddProductObjectData.productCondition == 2) {
-            tv_New.isSelected = true
-            tv_used.isSelected = false
-//            AddProductObjectData.productCondition = 1
+            binding.tvNew.isSelected = true
+            binding.tvUsed.isSelected = false
         } else if (AddProductObjectData.productCondition == 1) {
-            tv_New.isSelected = false
-            tv_used.isSelected = true
-//            AddProductObjectData.productCondition = 2
-
+            binding.tvNew.isSelected = false
+            binding.tvUsed.isSelected = true
         }
 
     }
 
-//    private fun setupCountryCodePiker() {
-//        if (Lingver.getInstance().getLanguage() == ConstantObjects.ARABIC) {
-//            countryCodePicker.changeDefaultLanguage(CountryCodePicker.Language.ARABIC)
-//        } else {
-//            countryCodePicker.changeDefaultLanguage(CountryCodePicker.Language.ENGLISH)
-//            //  etPhoneNumber.textAlignment=View.TEXT_ALIGNMENT_VIEW_START
-//        }
-//        countryCodePicker.registerCarrierNumberEditText(etPhoneNumber)
-//        countryCodePicker.setPhoneNumberValidityChangeListener { isValidNumber ->
-//            isPhoneNumberValid = isValidNumber
-//        }
-//        countryCodePicker.setOnCountryChangeListener {
-//            etPhoneNumber.text = Editable.Factory.getInstance().newEditable("")
-//        }
-//    }
-
     private fun setViewClickListeners() {
-        countryContainer._setOnClickListener {
+        binding.countryContainer._setOnClickListener {
             openCountryDialog()
-//            val list: ArrayList<SearchListItem> = ArrayList()
-//            ConstantObjects.countryList.forEachIndexed { index, country ->
-//                list.add(SearchListItem(country.id, country.name))
-//            }
-//            countryContainer.showSpinner(
-//                this,
-//                list,
-//                getString(R.string.Select, getString(R.string.Country))
-//            ) {
-//                countryContainer.text = it.title
-//                selectedCountry = it
-//                ConstantObjects.countryList.filter {
-//                    it.id == selectedCountry!!.id
-//                }.let {
-//                    if (it.size > 0) {
-//                        phone_number_edittext._setEndText(it.get(0).countryCode)
-//                        countryContainer._setStartIconImage(it.get(0).flagimglink)
-//                    }
-//                }
-//                regionContainer.text = ""
-//                selectedRegion = null
-//
-//                neighborhoodContainer.text = ""
-//                selectedCity = null
-//            }
-
         }
-        switchInfoEn.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
+        binding.switchInfoEn.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
-//                txtEdit.visibility = View.VISIBLE
-                viewEnglishInfo.visibility = View.VISIBLE
+                binding.viewEnglishInfo.visibility = View.VISIBLE
             } else {
-//                txtEdit.visibility = View.GONE
-                viewEnglishInfo.visibility = View.GONE
+                binding.viewEnglishInfo.visibility = View.GONE
             }
         })
-        box_value.setOnClickListener {
-            if (switchInfoEn.isChecked) {
-                switchInfoEn.isChecked = false
-                viewEnglishInfo.visibility = View.GONE
+        binding.boxValue.setOnClickListener {
+            if (binding.switchInfoEn.isChecked) {
+                binding.switchInfoEn.isChecked = false
+                binding.viewEnglishInfo.visibility = View.GONE
             } else {
-                switchInfoEn.isChecked = true
-                viewEnglishInfo.visibility = View.VISIBLE
+                binding.switchInfoEn.isChecked = true
+                binding.viewEnglishInfo.visibility = View.VISIBLE
             }
         }
-        boxEnglishInfo.setOnClickListener {
-            if (switchInfoEn.isChecked) {
-                switchInfoEn.isChecked = false
-                viewEnglishInfo.visibility = View.GONE
+        binding.boxEnglishInfo.setOnClickListener {
+            if (binding.switchInfoEn.isChecked) {
+                binding.switchInfoEn.isChecked = false
+                binding.viewEnglishInfo.visibility = View.GONE
             } else {
-                switchInfoEn.isChecked = true
-                viewEnglishInfo.visibility = View.VISIBLE
+                binding.switchInfoEn.isChecked = true
+                binding.viewEnglishInfo.visibility = View.VISIBLE
             }
         }
-        regionContainer._setOnClickListener {
+        binding.regionContainer._setOnClickListener {
             if (selectedCountry == null) {
                 showError(getString(R.string.Please_select, getString(R.string.Country)))
             } else {
                 openRegionDialog()
             }
-//            if (countryContainer.text.toString().isEmpty()) {
-//                showError(getString(R.string.Please_select, getString(R.string.Country)))
-//            } else {
-//                CommonAPI().getRegion(selectedCountry!!.id, this) {
-//                    val list: ArrayList<SearchListItem> = ArrayList()
-//                    it.forEachIndexed { index, country ->
-//                        list.add(SearchListItem(country.id, country.name))
-//                    }
-//                    regionContainer.showSpinner(
-//                        this,
-//                        list,
-//                        getString(R.string.Select, getString(R.string.Region))
-//                    ) {
-//                        regionContainer.text = it.title
-//                        selectedRegion = it
-//
-//
-//                        neighborhoodContainer.text = ""
-//                        selectedCity = null
-//
-//                    }
-//                }
-//            }
-
         }
-        neighborhoodContainer._setOnClickListener {
+        binding.neighborhoodContainer._setOnClickListener {
             if (selectedRegion == null) {
                 showError(getString(R.string.Please_select, getString(R.string.Region)))
             } else {
                 openNeighborhoodDialog()
             }
-//            if (regionContainer.text.toString().isEmpty()) {
-//                showError(getString(R.string.Please_select, getString(R.string.Region)))
-//            } else {
-//                CommonAPI().getCity(selectedRegion!!.id,this) {
-//                    val list: ArrayList<SearchListItem> = ArrayList()
-//                    it.forEachIndexed { index, country ->
-//                        list.add(SearchListItem(country.id, country.name))
-//                    }
-//                    neighborhoodContainer.showSpinner(
-//                        this,
-//                        list,
-//                        getString(R.string.Select, getString(R.string.district))
-//                    ) {
-//                        neighborhoodContainer.text = it.title
-//                        selectedCity = it
-//                    }
-//                }
-//            }
         }
 
 
-        btnotherr.setOnClickListener { listDetailsConfirmInput() }
+        binding.btnotherr.setOnClickListener { listDetailsConfirmInput() }
 
-        back_btn.setOnClickListener {
+        binding.toolbarMain.backBtn.setOnClickListener {
             onBackPressed()
         }
 
-        tv_New.setOnClickListener {
-            tv_New.isSelected = true
-            tv_used.isSelected = false
-            AddProductObjectData.brand_new_item = tv_New.text.toString()
+        binding.tvNew.setOnClickListener {
+            binding.tvNew.isSelected = true
+            binding.tvUsed.isSelected = false
+            AddProductObjectData.brand_new_item = binding.tvNew.text.toString()
             AddProductObjectData.productCondition = 2
         }
 
-        tv_used.setOnClickListener {
-            tv_New.isSelected = false
-            tv_used.isSelected = true
-            AddProductObjectData.brand_new_item = tv_used.text.toString()
+        binding.tvUsed.setOnClickListener {
+            binding.tvNew.isSelected = false
+            binding.tvUsed.isSelected = true
+            AddProductObjectData.brand_new_item = binding.tvUsed.text.toString()
             AddProductObjectData.productCondition = 1
         }
-
     }
 
     /**countries , region and Neighborhood Dialogs**/
@@ -317,16 +224,16 @@ class ListingDetailsActivity : BaseActivity() {
                 /**setCountryData*/
                 /**setCountryData*/
                 selectedCountry = SearchListItem(id, countryName)
-                countryContainer.text = countryName
-                countryContainer._setStartIconImage(countryFlag)
+                binding.countryContainer.text = countryName
+                binding.countryContainer._setStartIconImage(countryFlag)
                 /**resetRegion*/
                 /**resetRegion*/
                 selectedRegion = null
-                regionContainer.text = null
+                binding.regionContainer.text = null
                 /**resetRegion*/
                 /**resetRegion*/
                 selectedCity = null
-                neighborhoodContainer.text = null
+                binding.neighborhoodContainer.text = null
             }
         })
         countryDialog.show()
@@ -339,11 +246,11 @@ class ListingDetailsActivity : BaseActivity() {
                     /**setRegionData*/
                     /**setRegionData*/
                     selectedRegion = SearchListItem(id, regionName)
-                    regionContainer.text = regionName
+                    binding.regionContainer.text = regionName
                     /**resetNeighborhood*/
                     /**resetNeighborhood*/
                     selectedCity = null
-                    neighborhoodContainer.text = null
+                    binding.neighborhoodContainer.text = null
                 }
             })
         regionDialog.show()
@@ -358,7 +265,7 @@ class ListingDetailsActivity : BaseActivity() {
                     /**setNeighborhoodData*/
                     /**setNeighborhoodData*/
                     selectedCity = SearchListItem(id, neighborhoodName)
-                    neighborhoodContainer.text = neighborhoodName
+                    binding.neighborhoodContainer.text = neighborhoodName
                 }
             })
         neighborhoodDialog.show()
@@ -367,21 +274,10 @@ class ListingDetailsActivity : BaseActivity() {
     /***/
 
     private fun listDetailsConfirmInput() {
-        AddProductObjectData.quantity = quantityavail.number
-        if (tvTitleAr.getText().isEmpty()) {
+        AddProductObjectData.quantity = binding.quantityavail.number
+        if (binding.tvTitleAr.getText().isEmpty()) {
             showError(getString(R.string.Please_enter, getString(R.string.item_title)))
         }
-
-//        else if (tvSubtitleAr.getText().isEmpty()) {
-//            showError(getString(R.string.Please_enter, getString(R.string.sub_title)))
-//        } else if (tvSubtitleEn.getText().isEmpty()) {
-//            showError(getString(R.string.Please_enter, getString(R.string.sub_title)))
-//        }
-//        else if (tvDescriptionAr.getText().toString().isEmpty()) {
-//            showError(getString(R.string.Please_enter, getString(R.string.item_details)))
-//        } else if (tvDescriptionEn.getText().toString().isEmpty()) {
-//            showError(getString(R.string.Please_enter, getString(R.string.item_details)))
-//        }
 
         else if (AddProductObjectData.productCondition == 0) {
             showError(getString(R.string.Please_select, getString(R.string.item_condition)))
@@ -389,24 +285,16 @@ class ListingDetailsActivity : BaseActivity() {
             showError(getString(R.string.Please_select, getString(R.string.QuantityAvailable)))
         } else if (AddProductObjectData.quantity.toInt() <= 0) {
             showError(getString(R.string.Please_select, getString(R.string.QuantityAvailable)))
-        } else if (countryContainer.text.toString().isEmpty()) {
+        } else if (binding.countryContainer.text.toString().isEmpty()) {
             showError(getString(R.string.Please_select, getString(R.string.selectCountry)))
-        } else if (regionContainer.text.toString().isEmpty()) {
+        } else if (binding.regionContainer.text.toString().isEmpty()) {
             showError(getString(R.string.Please_select, getString(R.string.selectCountry)))
-        } else if (neighborhoodContainer.text.toString().isEmpty()) {
+        } else if (binding.neighborhoodContainer.text.toString().isEmpty()) {
             showError(getString(R.string.Please_select, getString(R.string.district)))
         }
 
-
-//        else if (etPhoneNumber.text.toString().isEmpty()) {
-//            showError(getString(R.string.Please_enter, getString(R.string.PhoneNumber)))
-//        }
-//        else if (etPhoneNumber.text.toString().trim().isEmpty()) {
-//            showError(getString(R.string.PleaseenteravalidPhoneNumber))
-//        }
-
-        else if (switchInfoEn.isChecked) {
-            if (tvTitleEn.getText().isEmpty()) {
+        else if (binding.switchInfoEn.isChecked) {
+            if (binding.tvTitleEn.getText().isEmpty()) {
                 showError(getString(R.string.Please_enter, getString(R.string.item_title)))
             } else {
                 checkAllRight()
@@ -420,25 +308,24 @@ class ListingDetailsActivity : BaseActivity() {
     }
 
     fun checkAllRight() {
-        AddProductObjectData.itemTitleAr = tvTitleAr.text.toString()
-        AddProductObjectData.subtitleAr = tvSubtitleAr.text.toString()
-        AddProductObjectData.itemDescriptionAr = tvDescriptionAr.text.trim().toString()
-        if (!switchInfoEn.isChecked) {
-            AddProductObjectData.itemTitleEn = tvTitleAr.text.toString()
-            AddProductObjectData.subtitleEn = tvSubtitleAr.text.toString()
-            AddProductObjectData.itemDescriptionEn = tvDescriptionAr.text.trim().toString()
+        AddProductObjectData.itemTitleAr = binding.tvTitleAr.text.toString()
+        AddProductObjectData.subtitleAr = binding.tvSubtitleAr.text.toString()
+        AddProductObjectData.itemDescriptionAr = binding.tvDescriptionAr.text.trim().toString()
+        if (!binding.switchInfoEn.isChecked) {
+            AddProductObjectData.itemTitleEn = binding.tvTitleAr.text.toString()
+            AddProductObjectData.subtitleEn =binding.tvSubtitleAr.text.toString()
+            AddProductObjectData.itemDescriptionEn = binding.tvDescriptionAr.text.trim().toString()
         } else {
-            AddProductObjectData.itemTitleEn = tvTitleEn.getText().toString()
-            AddProductObjectData.subtitleEn = tvSubtitleEn.text.toString()
-            AddProductObjectData.itemDescriptionEn = tvDescriptionEn.text.trim().toString()
+            AddProductObjectData.itemTitleEn = binding.tvTitleEn.getText().toString()
+            AddProductObjectData.subtitleEn = binding.tvSubtitleEn.text.toString()
+            AddProductObjectData.itemDescriptionEn = binding.tvDescriptionEn.text.trim().toString()
         }
 
 
         AddProductObjectData.country = selectedCountry
         AddProductObjectData.region = selectedRegion
         AddProductObjectData.city = selectedCity
-        AddProductObjectData.phone = etPhoneNumber.text.toString().trim()
-        // AddProductObjectData.phoneCountryCode = countryCodePicker.selectedCountryCodeWithPlus
+        AddProductObjectData.phone = binding.etPhoneNumber.text.toString().trim()
         if (isEdit) {
             startActivity(Intent(this, ConfirmationAddProductActivity::class.java).apply {
                 putExtra("whereCome", "Add")

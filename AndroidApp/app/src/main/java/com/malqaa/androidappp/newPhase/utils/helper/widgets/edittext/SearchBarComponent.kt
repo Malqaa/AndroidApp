@@ -2,26 +2,33 @@ package com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext
 
 import android.content.Context
 import android.content.res.TypedArray
-import android.text.*
+import android.text.Editable
+import android.text.InputFilter
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.TextWatcher
 import android.text.style.ForegroundColorSpan
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.*
+import android.widget.EditText
+import android.widget.Filter
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.malqaa.androidappp.R
-import com.malqaa.androidappp.newPhase.utils.helper.widgets.rcv.GenericListAdapter
+import com.malqaa.androidappp.databinding.ItemSearchBinding
 import com.malqaa.androidappp.newPhase.domain.models.productResp.Product
-import kotlinx.android.synthetic.main.item_search.view.*
-
+import com.malqaa.androidappp.newPhase.utils.helper.widgets.rcv.GenericListAdapter
 
 class SearchBarComponent : LinearLayout {
 
     private lateinit var suggestion_rcv: RecyclerView
     private lateinit var edittext: EditText
     private lateinit var itemLayout: LinearLayout
-    var adapter:GenericListAdapter<Product>?=null
+    var adapter: GenericListAdapter<Product>? = null
 
     var suggestionList: ArrayList<Product> = ArrayList()
 
@@ -92,18 +99,28 @@ class SearchBarComponent : LinearLayout {
         adapter = object : GenericListAdapter<Product>(
             R.layout.item_search,
             bind = { element, holder, itemCount, position ->
+
+                // Inflate the binding for the item view
+                val binding = ItemSearchBinding.bind(holder.view)
+
+
                 holder.view.run {
                     element.run {
                         val result = "$name ${context.getString(R.string.in_)} $category"
                         val spannable: Spannable = SpannableString(result)
 
                         spannable.setSpan(
-                            ForegroundColorSpan(ContextCompat.getColor(context, R.color.colorPrimary)),
-                            result.indexOf(category?:""),
+                            ForegroundColorSpan(
+                                ContextCompat.getColor(
+                                    context,
+                                    R.color.colorPrimary
+                                )
+                            ),
+                            result.indexOf(category ?: ""),
                             result.length,
                             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
                         )
-                        query_tv.setText(spannable, TextView.BufferType.SPANNABLE)
+                        binding.queryTv.setText(spannable, TextView.BufferType.SPANNABLE)
                         setOnClickListener {
                             onClick?.invoke(this)
                         }
@@ -122,12 +139,12 @@ class SearchBarComponent : LinearLayout {
             )
         }
 
-        suggestion_rcv.adapter=adapter
+        suggestion_rcv.adapter = adapter
 
     }
 
     fun onClickListener(onClick_: ((product: Product) -> Unit)? = null) {
-        onClick=onClick_
+        onClick = onClick_
     }
 
     fun updateList(newList: ArrayList<Product>) {
@@ -213,6 +230,7 @@ class SearchBarComponent : LinearLayout {
     public fun _attachInfoClickListener(listener: OnClickListener) {
         iv_end_icon.setOnClickListener(listener)
     }
+
     fun getStyles(context: Context, attrs: AttributeSet?): TypedArray {
         val a = context.obtainStyledAttributes(
             attrs,

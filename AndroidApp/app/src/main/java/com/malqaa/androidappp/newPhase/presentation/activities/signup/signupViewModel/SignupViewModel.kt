@@ -3,7 +3,6 @@ package com.malqaa.androidappp.newPhase.presentation.activities.signup.signupVie
 
 import androidx.lifecycle.MutableLiveData
 import com.malqaa.androidappp.newPhase.core.BaseViewModel
-import com.malqaa.androidappp.newPhase.utils.Extension.requestBody
 import com.malqaa.androidappp.newPhase.data.network.callApi
 import com.malqaa.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malqaa.androidappp.newPhase.domain.models.countryResp.CountriesResp
@@ -11,6 +10,7 @@ import com.malqaa.androidappp.newPhase.domain.models.resgisterResp.RegisterResp
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.AddFavResponse
 import com.malqaa.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.UserVerifiedResp
 import com.malqaa.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.ValidateAndGenerateOTPResp
+import com.malqaa.androidappp.newPhase.utils.Extension.requestBody
 import com.malqaa.androidappp.newPhase.utils.helper.ConstantsHelper.getMultiPart
 import retrofit2.Call
 import retrofit2.HttpException
@@ -18,6 +18,7 @@ import java.io.File
 
 
 class SignupViewModel : BaseViewModel() {
+
     var validateAndGenerateOTPObserver: MutableLiveData<ValidateAndGenerateOTPResp> =
         MutableLiveData()
     var userVerifiedObserver: MutableLiveData<UserVerifiedResp> = MutableLiveData()
@@ -25,14 +26,11 @@ class SignupViewModel : BaseViewModel() {
     var countryResp: MutableLiveData<CountriesResp> = MutableLiveData()
     var languageObserver: MutableLiveData<AddFavResponse> = MutableLiveData()
 
-
     private var callCreate: Call<RegisterResp>? = null
     private var callVerify: Call<ValidateAndGenerateOTPResp>? = null
     private var callResend: Call<ValidateAndGenerateOTPResp>? = null
     private var callVerifyOtp: Call<UserVerifiedResp>? = null
     private var changeLanguage: Call<AddFavResponse>? = null
-
-
 
     fun setLanguageChange(language: String) {
         isLoading.value = true
@@ -46,10 +44,6 @@ class SignupViewModel : BaseViewModel() {
                 isLoading.value = false
                 if (throwable != null && errorBody == null)
                     isNetworkFail.value = throwable !is HttpException
-//                else {
-//                    errorResponseObserver.value =
-//                        getErrorResponse(statusCode, errorBody)
-//                }
             },
             goLogin = {
                 isLoading.value = false
@@ -218,7 +212,7 @@ class SignupViewModel : BaseViewModel() {
         if (callResend != null) {
             callResend?.cancel()
         }
-        if(changeLanguage!=null)
+        if (changeLanguage != null)
             changeLanguage?.cancel()
 
     }

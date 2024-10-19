@@ -7,6 +7,7 @@ import android.widget.AdapterView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.DialogFilterCategoryProductsBinding
 import com.malqaa.androidappp.newPhase.core.BaseDialog
 import com.malqaa.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malqaa.androidappp.newPhase.data.network.service.ListenerCallBackNeighborhoods
@@ -22,14 +23,17 @@ import com.malqaa.androidappp.newPhase.domain.models.regionsResp.Region
 import com.malqaa.androidappp.newPhase.domain.models.regionsResp.RegionsResp
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.Category
 import com.malqaa.androidappp.newPhase.presentation.activities.searchProductListActivity.CategoryProductViewModel
-import com.malqaa.androidappp.newPhase.presentation.activities.searchProductListActivity.browse_market.filterDialog.adapter.*
+import com.malqaa.androidappp.newPhase.presentation.activities.searchProductListActivity.browse_market.filterDialog.adapter.CategorySearchFilterSpinnerAdapter
+import com.malqaa.androidappp.newPhase.presentation.activities.searchProductListActivity.browse_market.filterDialog.adapter.CountryFilterAdapter
+import com.malqaa.androidappp.newPhase.presentation.activities.searchProductListActivity.browse_market.filterDialog.adapter.SpecificationFilterAdapter
+import com.malqaa.androidappp.newPhase.presentation.activities.searchProductListActivity.browse_market.filterDialog.adapter.SubCategoryFilterAdapter
+import com.malqaa.androidappp.newPhase.presentation.activities.searchProductListActivity.browse_market.filterDialog.adapter.SubCategorySearchFilterAdapter
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.getColorCompat
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.linearLayoutManager
 import com.malqaa.androidappp.newPhase.utils.show
-import kotlinx.android.synthetic.main.dialog_filter_category_products.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -41,7 +45,8 @@ class FilterCategoryProductsDialog(
     var mianCategoryId: Int,
     var setOnClickListeners: SetOnClickListeners,
     var comeFrom: Int
-) : BaseDialog(context), CountryFilterAdapter.SetonClickListeners, ListenerCallBackRegions,
+) : BaseDialog<DialogFilterCategoryProductsBinding>(context),
+    CountryFilterAdapter.SetonClickListeners, ListenerCallBackRegions,
     ListenerCallDynamicSpecification,
     ListenerCallBackNeighborhoods {
 
@@ -71,12 +76,14 @@ class FilterCategoryProductsDialog(
 
     var subCategoriesCall: Call<CategoriesResp>? = null
 
-    override fun getViewId(): Int = R.layout.dialog_filter_category_products
-
     companion object { // 1 for region ,2 for sub category  ,3 for specification
         const val regionType = 1
         const val subCategoryType = 2
         const val specificationType = 3
+    }
+
+    override fun inflateViewBinding(): DialogFilterCategoryProductsBinding {
+        return DialogFilterCategoryProductsBinding.inflate(layoutInflater)
     }
 
     override fun isFullScreen(): Boolean = false
@@ -106,28 +113,28 @@ class FilterCategoryProductsDialog(
         restViewForTargetFilter(selectionType)
         when (selectionType) {
             regionType -> {
-                btnRegion.performClick()
+                binding.btnRegion.performClick()
             }
 
             subCategoryType -> {
-                btnSubCategory.performClick()
+                binding.btnSubCategory.performClick()
             }
 
             specificationType -> {
-                btnSpecification.performClick()
+                binding.btnSpecification.performClick()
             }
         }
         when (comeFrom) {
             ConstantObjects.search_categoriesDetails -> {
-                btnSubCategory.text = context.getText(R.string.sub_categories)
+                binding.btnSubCategory.text = context.getText(R.string.sub_categories)
             }
 
             ConstantObjects.search_product -> {
-                btnSubCategory.text = context.getText(R.string.Categories)
+                binding.btnSubCategory.text = context.getText(R.string.Categories)
             }
 
             ConstantObjects.search_seller -> {
-                btnSubCategory.text = context.getText(R.string.Categories)
+                binding.btnSubCategory.text = context.getText(R.string.Categories)
             }
         }
         setClickListeners()
@@ -154,7 +161,7 @@ class FilterCategoryProductsDialog(
                 }
 
             })
-        rv_sub_category_2.apply {
+        binding.rvSubCategory2.apply {
             adapter = subCategorySearchFilterAdapter
             layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
         }
@@ -181,7 +188,7 @@ class FilterCategoryProductsDialog(
                 }
 
             })
-        rv_sub_category.apply {
+        binding.rvSubCategory.apply {
             adapter = subCategoryAdaper
             layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
         }
@@ -200,8 +207,8 @@ class FilterCategoryProductsDialog(
         categoryList.add(header)
         categorySearchFilterSpinnerAdapter =
             CategorySearchFilterSpinnerAdapter(context, categoryList)
-        spinnerDegree.adapter = categorySearchFilterSpinnerAdapter
-        spinnerDegree.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        binding.spinnerDegree.adapter = categorySearchFilterSpinnerAdapter
+        binding.spinnerDegree.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
                 if (position != 0) {
                     mianCategoryId = categoryList[position].id
@@ -213,42 +220,13 @@ class FilterCategoryProductsDialog(
             override fun onNothingSelected(p0: AdapterView<*>?) {
 
             }
-
         }
-//        spinnerDegree.onItemSelectedListener =
-//            object : AdapterView.OnItemSelectedListener {
-//                override fun onItemSelected(
-//                    adapterView: AdapterView<*>?,
-//                    view: View,
-//                    position: Int,
-//                    l: Long
-//                ) {
-//                    if (position != 0) {
-//
-//                    }
-//
-//                }
-//
-//                override fun onNothingSelected(adapterView: AdapterView<*>?) {}
-//            }
-//        categorySearchFilterAdapter = CategorySearchFilterAdapter(categoryList,
-//            object :CategorySearchFilterAdapter.SetonClickListeners{
-//            override fun onSelectedCategory(position: Int, categoryId: Int) {
-//                getSubCategoryForCategory(position,categoryId)
-//            }
-//
-//        })
-//        rv_sub_category.apply {
-//            adapter = categorySearchFilterAdapter
-//            layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
-//        }
-
     }
 
     private fun setupCountryAdapter() {
         mainCountriesList = ArrayList()
         countryFilterAdapter = CountryFilterAdapter(mainCountriesList, this)
-        rv_region.apply {
+        binding.rvRegion.apply {
             adapter = countryFilterAdapter
             layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
         }
@@ -289,7 +267,7 @@ class FilterCategoryProductsDialog(
                     }
 
                 })
-        rv_specification.apply {
+        binding.rvSpecification.apply {
             adapter = specificationFilterAdapter
             layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
         }
@@ -297,19 +275,19 @@ class FilterCategoryProductsDialog(
 
 
     fun getCountries() {
-        progressBar.visibility = View.VISIBLE
+        binding.progressBar.visibility = View.VISIBLE
         countriesCallback = getRetrofitBuilder().getCountryNew()
         countriesCallback?.enqueue(object : Callback<CountriesResp> {
             override fun onFailure(call: Call<CountriesResp>, t: Throwable) {
                 // println("hhhh "+t.message)
-                progressBar.visibility = View.GONE
+                binding.progressBar.visibility = View.GONE
             }
 
             override fun onResponse(
                 call: Call<CountriesResp>,
                 response: Response<CountriesResp>
             ) {
-                progressBar.visibility = View.GONE
+                binding.progressBar.visibility = View.GONE
                 try {
                     if (response.isSuccessful) {
                         response.body()?.let {
@@ -335,22 +313,22 @@ class FilterCategoryProductsDialog(
     }
 
     private fun getSubCategoryForCategory(categoryId: Int) {
-        progressBar.visibility = View.VISIBLE
-        tvError.hide()
+        binding.progressBar.visibility = View.VISIBLE
+        binding.tvError.hide()
         subCategoriesCall =
             getRetrofitBuilder()
                 .getSubCategoryByMainCategory2(categoryId.toString())
         subCategoriesCall?.enqueue(object : Callback<CategoriesResp> {
             override fun onFailure(call: Call<CategoriesResp>, t: Throwable) {
-                tvError.show()
-                tvError.text = context.getString(R.string.noSubCategoryFound)
+                binding.tvError.show()
+                binding.tvError.text = context.getString(R.string.noSubCategoryFound)
             }
 
             override fun onResponse(
                 call: Call<CategoriesResp>,
                 response: Response<CategoriesResp>
             ) {
-                progressBar.visibility = View.GONE
+                binding.progressBar.visibility = View.GONE
                 try {
                     if (response.isSuccessful) {
                         response.body()?.let {
@@ -359,8 +337,9 @@ class FilterCategoryProductsDialog(
                                 subCategoryFromCategoryList.addAll(categoryList2)
 
                                 if (subCategoryFromCategoryList.isEmpty()) {
-                                    tvError.show()
-                                    tvError.text = context.getString(R.string.noSubCategoryFound)
+                                    binding.tvError.show()
+                                    binding.tvError.text =
+                                        context.getString(R.string.noSubCategoryFound)
                                 } else {
                                     updateCategoryWithSubCategoriesAdapter()
                                 }
@@ -369,8 +348,8 @@ class FilterCategoryProductsDialog(
 
                     }
                 } catch (e: Exception) {
-                    tvError.show()
-                    tvError.text = context.getString(R.string.noSubCategoryFound)
+                    binding.tvError.show()
+                    binding.tvError.text = context.getString(R.string.noSubCategoryFound)
                 }
             }
 
@@ -384,29 +363,25 @@ class FilterCategoryProductsDialog(
 
     /***click Listeners**/
     private fun setClickListeners() {
-        btnRegion.setOnClickListener {
-            tvError.hide()
+        binding.btnRegion.setOnClickListener {
+            binding.tvError.hide()
             selectionType = regionType
             restViewForTargetFilter(selectionType)
             if (mainCountriesList.isEmpty())
                 getCountries()
 
         }
-        btnSubCategory.setOnClickListener {
+        binding.btnSubCategory.setOnClickListener {
             selectionType = subCategoryType
             restViewForTargetFilter(selectionType)
-            tvError.hide()
+            binding.tvError.hide()
             if (categoryList.isEmpty()) {
-                tvError.show()
-                tvError.text = context.getString(R.string.noSubCategoryFound)
+                binding.tvError.show()
+                binding.tvError.text = context.getString(R.string.noSubCategoryFound)
             }
-//            if (categoryList.isEmpty()) {
-//                getSubCategoriesByCategoryID(categoryId = mianCategoryId)
-//            }
-
         }
-        btnSpecification.setOnClickListener {
-            tvError.hide()
+        binding.btnSpecification.setOnClickListener {
+            binding.tvError.hide()
             when (comeFrom) {
                 ConstantObjects.search_categoriesDetails -> {
                     selectionType = specificationType
@@ -420,8 +395,8 @@ class FilterCategoryProductsDialog(
                     selectionType = specificationType
                     restViewForTargetFilter(selectionType)
                     if (mianCategoryId == 0) {
-                        tvError.show()
-                        tvError.text = context.getString(R.string.SelectCategory)
+                        binding.tvError.show()
+                        binding.tvError.text = context.getString(R.string.SelectCategory)
                     } else {
                         dynamicSpecificationsArrayList.clear()
                         // if (dynamicSpecificationsArrayList.isEmpty()) {
@@ -435,8 +410,8 @@ class FilterCategoryProductsDialog(
                     selectionType = specificationType
                     restViewForTargetFilter(selectionType)
                     if (mianCategoryId == 0) {
-                        tvError.show()
-                        tvError.text = context.getString(R.string.SelectCategory)
+                        binding.tvError.show()
+                        binding.tvError.text = context.getString(R.string.SelectCategory)
                     } else {
                         dynamicSpecificationsArrayList.clear()
                         // if (dynamicSpecificationsArrayList.isEmpty()) {
@@ -449,7 +424,7 @@ class FilterCategoryProductsDialog(
             }
 
         }
-        btnApplyFilter.setOnClickListener {
+        binding.btnApplyFilter.setOnClickListener {
             val stringSpecification: ArrayList<String> = ArrayList()
             println("hhhh " + Gson().toJson(dynamicSpecificationsArrayList))
             for (item in dynamicSpecificationsArrayList) {
@@ -474,13 +449,13 @@ class FilterCategoryProductsDialog(
                 neighoodList = neiberhoodIdsList,
                 subCategoryList = subCategoryIdsList,
                 specificationList = stringSpecification,
-                startPrice = rangePrice.valueFrom,
-                endProce = rangePrice.valueTo,
+                startPrice = binding.rangePrice.valueFrom,
+                endProce = binding.rangePrice.valueTo,
                 mainCategoryId = mianCategoryId
             )
             dismiss()
         }
-        btnResetFilter.setOnClickListener {
+        binding.btnResetFilter.setOnClickListener {
             try {
                 for (item in dynamicSpecificationsArrayList) {
                     if (item.subSpecifications != null && item.subSpecifications?.isNotEmpty() == true) {
@@ -492,7 +467,7 @@ class FilterCategoryProductsDialog(
                     }
                 }
                 specificationFilterAdapter.notifyDataSetChanged()
-                rangePrice.setValues(0f, 0f)
+                binding.rangePrice.setValues(0f, 0f)
                 //===resetSubCategory
                 when (comeFrom) {
                     ConstantObjects.search_categoriesDetails -> {
@@ -548,15 +523,15 @@ class FilterCategoryProductsDialog(
         selectionType = selectedOne
         when (selectionType) {
             regionType -> {
-                btnRegion.performClick()
+                binding.btnRegion.performClick()
             }
 
             subCategoryType -> {
-                btnSubCategory.performClick()
+                binding.btnSubCategory.performClick()
             }
 
             specificationType -> {
-                btnSpecification.performClick()
+                binding.btnSpecification.performClick()
             }
         }
     }
@@ -565,52 +540,52 @@ class FilterCategoryProductsDialog(
         when (type) {
             regionType -> {
                 //region
-                btnRegion.setTextColor(context.getColorCompat(R.color.orange))
-                btnSubCategory.setTextColor(context.getColorCompat(R.color.black))
-                btnSpecification.setTextColor(context.getColorCompat(R.color.black))
-                rv_region.show()
-                rv_sub_category.hide()
-                containerCategory.hide()
-                rv_specification.hide()
-                containerPriceSpecification.hide()
+                binding.btnRegion.setTextColor(context.getColorCompat(R.color.orange))
+                binding.btnSubCategory.setTextColor(context.getColorCompat(R.color.black))
+                binding.btnSpecification.setTextColor(context.getColorCompat(R.color.black))
+                binding.rvRegion.show()
+                binding.rvSubCategory.hide()
+                binding.containerCategory.hide()
+                binding.rvSpecification.hide()
+                binding.containerPriceSpecification.hide()
             }
 
             subCategoryType -> {
                 //sub category
-                btnRegion.setTextColor(context.getColorCompat(R.color.black))
-                btnSubCategory.setTextColor(context.getColorCompat(R.color.orange))
-                btnSpecification.setTextColor(context.getColorCompat(R.color.black))
-                rv_region.hide()
-                rv_specification.hide()
-                containerPriceSpecification.hide()
+                binding.btnRegion.setTextColor(context.getColorCompat(R.color.black))
+                binding.btnSubCategory.setTextColor(context.getColorCompat(R.color.orange))
+                binding.btnSpecification.setTextColor(context.getColorCompat(R.color.black))
+                binding.rvRegion.hide()
+                binding.rvSpecification.hide()
+                binding.containerPriceSpecification.hide()
                 when (comeFrom) {
                     ConstantObjects.search_categoriesDetails -> {
-                        rv_sub_category.show()
-                        containerCategory.hide()
+                        binding.rvSubCategory.show()
+                        binding.containerCategory.hide()
                     }
 
                     ConstantObjects.search_product -> {
-                        rv_sub_category.hide()
-                        containerCategory.show()
+                        binding.rvSubCategory.hide()
+                        binding.containerCategory.show()
                     }
 
                     ConstantObjects.search_seller -> {
-                        rv_sub_category.hide()
-                        containerCategory.show()
+                        binding.rvSubCategory.hide()
+                        binding.containerCategory.show()
                     }
                 }
             }
 
             specificationType -> {
                 //specification
-                btnRegion.setTextColor(context.getColorCompat(R.color.black))
-                btnSubCategory.setTextColor(context.getColorCompat(R.color.black))
-                btnSpecification.setTextColor(context.getColorCompat(R.color.orange))
-                rv_region.hide()
-                rv_sub_category.hide()
-                containerCategory.hide()
-                rv_specification.show()
-                containerPriceSpecification.show()
+                binding.btnRegion.setTextColor(context.getColorCompat(R.color.black))
+                binding.btnSubCategory.setTextColor(context.getColorCompat(R.color.black))
+                binding.btnSpecification.setTextColor(context.getColorCompat(R.color.orange))
+                binding.rvRegion.hide()
+                binding.rvSubCategory.hide()
+                binding.containerCategory.hide()
+                binding.rvSpecification.show()
+                binding.containerPriceSpecification.show()
             }
         }
 
@@ -649,6 +624,7 @@ class FilterCategoryProductsDialog(
             }
         }
     }
+
     private fun updateCountryAdapter() {
         countryFilterAdapter.notifyDataSetChanged()
     }
@@ -682,14 +658,14 @@ class FilterCategoryProductsDialog(
 
     override fun onSelectedCountry(position: Int, countryId: Int) {
         lastSelectedCountryPosition = position
-        progressBar.visibility = View.VISIBLE
+        binding.progressBar.visibility = View.VISIBLE
         productsListViewModel.getRegions(countryId, this, context)
     }
 
     override fun onSelectedCity(positionCounty: Int, positionCity: Int, cityId: Int) {
         lastSelectedCountryPosition = positionCounty
         lastSelectedCityPosition = positionCity
-        progressBar.visibility = View.VISIBLE
+        binding.progressBar.visibility = View.VISIBLE
         productsListViewModel.getNeighborhoods(cityId, this)
     }
 
@@ -840,7 +816,7 @@ class FilterCategoryProductsDialog(
     }
 
     override fun callBackListener(isFailed: Boolean, response: RegionsResp?) {
-        progressBar.visibility = View.GONE
+        binding.progressBar.visibility = View.GONE
         if (!isFailed) {
             response?.let {
                 it.regionsList?.let { regionsList ->
@@ -861,7 +837,7 @@ class FilterCategoryProductsDialog(
     }
 
     override fun callBackListenerNeighborhoods(isFailed: Boolean, response: RegionsResp?) {
-        progressBar.visibility = View.GONE
+        binding.progressBar.visibility = View.GONE
         if (!isFailed) {
             val neighborhoodsArrayList: ArrayList<Region> = ArrayList()
             //ConstantObjects.countryList = countryList
@@ -885,12 +861,12 @@ class FilterCategoryProductsDialog(
         isFailed: Boolean,
         response: DynamicSpecificationResp?
     ) {
-        progressBar.visibility = View.GONE
+        binding.progressBar.visibility = View.GONE
         if (!isFailed) {
             response?.dynamicList?.let { dynamicList ->
                 if (dynamicList == null || dynamicList.isEmpty()) {
-                    tvError.text = context.getString(R.string.noSpecificationFound)
-                    tvError.show()
+                    binding.tvError.text = context.getString(R.string.noSpecificationFound)
+                    binding.tvError.show()
                 } else {
                     dynamicSpecificationsArrayList.clear()
                     dynamicSpecificationsArrayList.addAll(dynamicList)
