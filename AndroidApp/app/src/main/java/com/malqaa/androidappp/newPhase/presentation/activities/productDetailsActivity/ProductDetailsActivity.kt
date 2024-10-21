@@ -82,14 +82,14 @@ class ProductDetailsActivity : BaseActivity<ActivityProductDetails2Binding>(),
     SetOnProductItemListeners, QuestionAnswerAdapter.SetonSelectedQuestion,
     BuyCurrentPriceDialog.OnAttachedCartMethodSelected, ListenerSlider {
 
-    lateinit var productDetailsItem2Binding: ActivityProductDetailsItem2Binding
-
     val PERMISSION_PHONE = 120
     var addProductReviewRequestCode = 1000
     lateinit var product: Product
     private val handler: Handler by lazy {
         Handler(Looper.getMainLooper())
     }
+
+    lateinit var productDetailsItem2Binding: ActivityProductDetailsItem2Binding
 
     private lateinit var runnable: Runnable
     private val INTERVAL: Long = 10000 // 1 minute in milliseconds
@@ -153,11 +153,13 @@ class ProductDetailsActivity : BaseActivity<ActivityProductDetails2Binding>(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Initialize view binding
+        // Inflate the main layout using the main binding
         binding = ActivityProductDetails2Binding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(binding.root) // Use the main binding to set the content view
 
-        productDetailsItem2Binding = ActivityProductDetailsItem2Binding.inflate(layoutInflater)
+        // Inflate the item binding for a specific section if necessary
+        productDetailsItem2Binding =
+            binding.containerMainProduct // If it's nested in the main layout as an include
 
         productId = intent.getIntExtra(ConstantObjects.productIdKey, -1)
         comeFrom = intent.getStringExtra("ComeFrom") ?: ""
@@ -256,8 +258,10 @@ class ProductDetailsActivity : BaseActivity<ActivityProductDetails2Binding>(),
             getString(R.string.there_are_2_questions_that_the_seller_did_not_answer, "0")
         if (HelpFunctions.isUserLoggedIn()) {
             productDetailsItem2Binding.containerMainAskQuestion.show()
+            //  containerBuyButtons.show()
         } else {
             productDetailsItem2Binding.containerMainAskQuestion.hide()
+            // containerBuyButtons.hide()
         }
         if (isMyProduct) {
             productDetailsItem2Binding.containerMainAskQuestion.hide()
@@ -386,6 +390,8 @@ class ProductDetailsActivity : BaseActivity<ActivityProductDetails2Binding>(),
 
         }
 
+
+
         binding.ivFav.setOnClickListener {
             if (HelpFunctions.isUserLoggedIn()) {
                 status_product_added_to_fav_from = added_from_product_Destails_status
@@ -411,6 +417,7 @@ class ProductDetailsActivity : BaseActivity<ActivityProductDetails2Binding>(),
         }
         binding.btnShare.setOnClickListener {
             shared("http://advdev-001-site1.dtempurl.com/Home/GetProductById?id=$productId")
+            //shared("${Constants.HTTP_PROTOCOL}://${Constants.SERVER_LOCATION}/Advertisement/Detail/$AdvId")
         }
 
         productDetailsItem2Binding.tvQuestionAndAnswersShowAll.setOnClickListener {
@@ -425,12 +432,14 @@ class ProductDetailsActivity : BaseActivity<ActivityProductDetails2Binding>(),
 
         }
 
+
         productDetailsItem2Binding.tvShowAllReviews.setOnClickListener {
             startActivity(Intent(this, ProductReviewsActivity::class.java).apply {
                 putExtra(ConstantObjects.productIdKey, productId)
             })
-        }
 
+
+        }
         productDetailsItem2Binding.btnSellerProducts.setOnClickListener {
             if (productDetailsItem2Binding.containerSellerProduct.isVisible) {
                 productDetailsItem2Binding.containerSellerProduct.hide()
@@ -456,9 +465,9 @@ class ProductDetailsActivity : BaseActivity<ActivityProductDetails2Binding>(),
 
                         putExtra(ConstantObjects.sellerObjectKey, sellerInformation)
                     })
+//                startActivity(Intent(this, SellerInformationActivity::class.java))
             }
         }
-
         productDetailsItem2Binding.containerSellerImage.setOnClickListener {
             if (sellerInformation != null) {
                 sellerInformationLaucher.launch(
@@ -988,7 +997,6 @@ class ProductDetailsActivity : BaseActivity<ActivityProductDetails2Binding>(),
         } else {
             productDetailsItem2Binding.ivSellerFollow.setImageResource(R.drawable.notification_log)
         }
-//        tvRateText.text = it.rate.toString()
         if (it.businessAccountId != "") {
             productDetailsItem2Binding.btnMapSeller.show()
         } else {
@@ -1246,7 +1254,12 @@ class ProductDetailsActivity : BaseActivity<ActivityProductDetails2Binding>(),
         productDetialsViewModel.getSimilarProduct(productId, 1)
         productDetialsViewModel.getListOfQuestions(productId)
         productDetialsViewModel.getProductRatesForProductDetails(productId)
+
         productDetialsViewModel.getSellerInfo(productId)
+
+
+
+
         productDetialsViewModel.getProductShippingOptions(productId)
         productDetialsViewModel.getProductPaymentOptions(productId)
         productDetialsViewModel.getBidsPersons(productId)
@@ -1466,6 +1479,7 @@ class ProductDetailsActivity : BaseActivity<ActivityProductDetails2Binding>(),
             productDetailsItem2Binding.minutes.visibility = View.GONE
             productDetailsItem2Binding.titleMinutes.visibility = View.GONE
         }
+
 
         productDetailsItem2Binding.days.text = daysDifference.toString()
         productDetailsItem2Binding.hours.text = hoursDifference.toString()

@@ -87,15 +87,10 @@ class SearchCategoryActivity : BaseActivity<FragmentBrowseMarketBinding>(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
         // Initialize view binding
         binding = FragmentBrowseMarketBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
-
-
-        setContentView(R.layout.fragment_browse_market)
         binding.swipeToRefresh.setColorSchemeResources(R.color.colorPrimaryDark)
         binding.swipeToRefresh.setOnRefreshListener(this)
         setProductSearchCategoryAdapter()
@@ -372,7 +367,6 @@ class SearchCategoryActivity : BaseActivity<FragmentBrowseMarketBinding>(),
         binding.ivSearch.setOnClickListener {
             if (binding.etSearch.text.toString().trim() != "") {
                 advanceSearch()
-//                homeViewModel.doSearch(mapOf("productName" to etSearch.text.toString().trim()))
             } else {
                 binding.etSearch.error =
                     getString(R.string.want_to_search_for_a_commodity_or_an_auction)

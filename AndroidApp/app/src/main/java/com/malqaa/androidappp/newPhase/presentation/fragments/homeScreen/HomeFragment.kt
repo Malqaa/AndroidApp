@@ -20,6 +20,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.FragmentFollowUpFragmentBinding
 import com.malqaa.androidappp.databinding.FragmentHomeeBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
 import com.malqaa.androidappp.newPhase.data.network.service.SetOnProductItemListeners
@@ -55,6 +56,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
     SwipeRefreshLayout.OnRefreshListener, SetOnProductItemListeners,
     CategoryProductAdapter.SetOnSelectedProductInCategory, ListenerSlider {
 
+    // Declare the binding object
     private var _binding: FragmentHomeeBinding? = null
     private val binding get() = _binding!!
 
@@ -74,7 +76,8 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        _binding = FragmentHomeeBinding.bind(view) // Initialize View Binding
+        // Initialize the binding object
+        _binding = FragmentHomeeBinding.bind(view)
 
         dots = arrayListOf()
         settingUpView()
@@ -222,8 +225,11 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
             if (homeSliderResp != null) {
                 if (homeSliderResp.status_code == 200) {
                     homeSliderResp.sliderList?.let {
+                        //var sliderList: ArrayList<HomeSliderResp> = Gson().fromJson(Gson().toJson(userLoginResp.data), object : TypeToken<ArrayList<Slider>>() {}.type)
                         setPagerDots(it)
                     }
+
+
                 }
             }
         })
@@ -240,6 +246,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
             homeViewModel!!.getListHomeCategoryProduct()
         }
         homeViewModel!!.categoriesErrorResponseObserver.observe(viewLifecycleOwner) {
+            //HelpFunctions.ShowLongToast(getString(R.string.NoCategoriesfound), context)
             if (it.status != null && it.status == "409") {
                 HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), requireActivity())
             } else {
@@ -562,11 +569,13 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
         homeViewModel?.getAllCategories()
         if (HelpFunctions.isUserLoggedIn()) {
             homeViewModel?.getLastViewedProduct()
+            //  HelpFunctions.GetUserWatchlist()
         }
     }
 
     override fun onProductSelect(position: Int, productId: Int, categoryID: Int) {
         goToProductDetails(productId)
+
     }
 
     override fun onAddProductToFav(position: Int, productId: Int, categoryID: Int) {
@@ -721,4 +730,3 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
         TODO("Not yet implemented")
     }
 }
-
