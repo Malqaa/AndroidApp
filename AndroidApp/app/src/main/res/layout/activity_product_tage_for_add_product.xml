@@ -13,7 +13,7 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/button_2"
+        android:layout_above="@+id/nextButton"
         android:layout_below="@+id/toolbar_main">
 
         <LinearLayout
@@ -86,7 +86,7 @@
 
 
                 <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
-                    android:id="@+id/button2"
+                    android:id="@+id/chooseDepartmentTextField"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
@@ -104,7 +104,7 @@
 
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/button_2"
+        android:id="@+id/nextButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

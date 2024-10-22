@@ -10,20 +10,22 @@ import androidx.recyclerview.widget.RecyclerView
 import com.malqaa.androidappp.R
 import com.malqaa.androidappp.databinding.ActivityProductTageForAddProductBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
-import com.malqaa.androidappp.newPhase.domain.models.addProductToCartResp.AddProductObjectData
-import com.malqaa.androidappp.newPhase.domain.models.servicemodels.Category
-import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activity2.ChooseCategoryActivity
-import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activity4.AddPhotoActivity
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.linearLayoutManager
 import com.malqaa.androidappp.newPhase.utils.show
+import com.malqaa.androidappp.newPhase.domain.models.servicemodels.Category
+import com.malqaa.androidappp.newPhase.domain.models.addProductToCartResp.AddProductObjectData
+import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activity2.ChooseCategoryActivity
+import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activity4.AddPhotoActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+
 class ProductsTagsForAddProductActivity : BaseActivity<ActivityProductTageForAddProductBinding>(),
     ProductTagsAdapter.SetOnSelectedListeners {
+
     private var selectTag: Category? = null
     private var listCategoryViewModel: ListCategoryViewModel? = null
     private var productTagsAdapter: ProductTagsAdapter? = null
@@ -39,7 +41,9 @@ class ProductsTagsForAddProductActivity : BaseActivity<ActivityProductTageForAdd
         setViewClickListeners()
         setUpViewModel()
         setProductTagsAdapters()
+
     }
+
 
     private fun setProductTagsAdapters() {
         productTagsList = ArrayList()
@@ -108,7 +112,10 @@ class ProductsTagsForAddProductActivity : BaseActivity<ActivityProductTageForAdd
                             )
                         }
                     }
+
                 }
+
+
             } else {
                 HelpFunctions.ShowLongToast(
                     getString(R.string.no_tag_found),
@@ -133,11 +140,11 @@ class ProductsTagsForAddProductActivity : BaseActivity<ActivityProductTageForAdd
             finish()
         }
 
-        binding.button2.setOnClickListener {
+        binding.chooseDepartmentTextField.setOnClickListener {
             startActivity(Intent(this, ChooseCategoryActivity::class.java))
             //confirmListItem()
         }
-        binding.button2.setOnClickListener {
+        binding.nextButton.setOnClickListener {
             if ((productTagsList ?: arrayListOf()).size > 0 && selectTag != null) {
                 AddProductObjectData.selectedCategoryId = selectTag!!.id
                 AddProductObjectData.selectedCategoryName = selectTag!!.category.toString()
@@ -169,7 +176,6 @@ class ProductsTagsForAddProductActivity : BaseActivity<ActivityProductTageForAdd
         binding.textInputLayout11._attachInfoClickListener {
             if (validateitem()) {
                 listCategoryViewModel!!.getListCategoriesByProductName(binding.textInputLayout11.getText())
-                // getCategoryTags(textInputLayout11.getText())
             }
         }
     }
