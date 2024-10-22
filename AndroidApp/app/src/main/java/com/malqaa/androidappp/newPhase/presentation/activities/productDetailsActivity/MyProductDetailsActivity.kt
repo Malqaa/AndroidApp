@@ -117,11 +117,10 @@ class MyProductDetailsActivity : BaseActivity<MyProductDetailsBinding>(),
         binding = MyProductDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        myProductDetails2Binding = ActivityMyProductDetails2Binding.inflate(layoutInflater)
+        myProductDetails2Binding = binding.containerMainProduct
         productDetailsItem2Binding = ActivityProductDetailsItem2Binding.inflate(layoutInflater)
 
         productId = intent.getIntExtra(ConstantObjects.productIdKey, -1)
-        println("hhhh product if $productId")
         comeFrom = intent.getStringExtra("ComeFrom") ?: ""
 
         isMyProduct = intent.getBooleanExtra(ConstantObjects.isMyProduct, false)

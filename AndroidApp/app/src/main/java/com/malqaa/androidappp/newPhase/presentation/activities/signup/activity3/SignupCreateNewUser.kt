@@ -57,7 +57,6 @@ class SignupCreateNewUser : BaseActivity<ActivitySignupPg4Binding>(),
         binding = ActivitySignupPg4Binding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setContentView(R.layout.activity_signup_pg4)
         otpData = intent.getParcelableExtra(Constants.otpDataKey)
         setupRegisterViewModel()
         setupClickListeners()

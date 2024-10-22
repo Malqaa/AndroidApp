@@ -47,7 +47,6 @@ class SwitchAccountActivity : BaseActivity<ActivitySwitchAccountBinding>(),
         binding = ActivitySwitchAccountBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setContentView(R.layout.activity_switch_account)
         binding.toolbarMain.toolbarTitle.text = getString(R.string.switch_accounts)
         binding.swipeToRefresh.setColorSchemeResources(R.color.colorPrimaryDark)
         binding.swipeToRefresh.setOnRefreshListener(this)

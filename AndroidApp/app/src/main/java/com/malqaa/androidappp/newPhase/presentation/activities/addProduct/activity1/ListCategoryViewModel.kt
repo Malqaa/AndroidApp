@@ -22,8 +22,8 @@ class ListCategoryViewModel : BaseViewModel() {
     var categoryListObserver: MutableLiveData<CategoriesResp> = MutableLiveData()
     var error: MutableLiveData<String> = MutableLiveData()
 
-    private var callSubCategories: Call<CategoriesResp>? =null
-    private var callListCategories: Call<CategoryTagsResp>? =null
+    private var callSubCategories: Call<CategoriesResp>? = null
+    private var callListCategories: Call<CategoryTagsResp>? = null
     private var callFollow: Call<GeneralResponse>? = null
     var isFollowCategory: MutableLiveData<Boolean> = MutableLiveData()
 
@@ -52,7 +52,8 @@ class ListCategoryViewModel : BaseViewModel() {
 
     fun getSubCategoriesByCategoryID(categoryId: Int) {
         isLoading.value = true
-        callSubCategories = getRetrofitBuilder().getSubCategoryByMainCategory2(categoryId.toString())
+        callSubCategories =
+            getRetrofitBuilder().getSubCategoryByMainCategory2(categoryId.toString())
         callApi(callSubCategories!!,
             onSuccess = {
                 isLoading.value = false
@@ -93,7 +94,7 @@ class ListCategoryViewModel : BaseViewModel() {
                     val errResponse: ErrorResponse = getErrorResponse(statusCode, errorBody)!!
                     if (errResponse.message == "Categories already exists") {
                         error.value = errResponse.message
-                    }else{
+                    } else {
                         errorResponseObserver.value =
                             getErrorResponse(statusCode, errorBody)
                     }

@@ -57,7 +57,7 @@ class MyOrderDetailsRequestedFromMeActivity :
     }
 
     private fun setUpViewClickListeners() {
-        binding.toolbarMain.toolbarTitle.setOnClickListener {
+        binding.toolbarMain.backBtn.setOnClickListener {
             onBackPressed()
         }
         binding.btnChangeOrderStatus.setOnClickListener {

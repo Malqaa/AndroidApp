@@ -42,7 +42,7 @@ class ConfirmChangeNumberActivity : BaseActivity<ActivityConfirmChangeNumberBind
         setContentView(binding.root)
 
         binding.toolbarMain.toolbarTitle.text = ""
-        countdownTimer = findViewById(R.id.countdownTimer)
+        countdownTimer = binding.countdownTimer
         otpData = intent.getParcelableExtra(Constants.otpDataKey)
         setupRegisterViewModel()
         setClickListeners()

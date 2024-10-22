@@ -24,7 +24,6 @@ import io.paperdb.Paper
 
 class EditProfileActivity : AppCompatActivity() {
 
-
     lateinit var binding: ActivityEditProfileBinding
 
     private var gender: Int = 0

@@ -50,6 +50,7 @@ class ListingDurationActivity : BaseActivity<ActivityListingDurationBinding>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         // Initialize view binding
         binding = ActivityListingDurationBinding.inflate(layoutInflater)
         setContentView(binding.root)

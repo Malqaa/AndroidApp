@@ -1,32 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".newPhase.presentation.activities.productDetailsActivity.ProductDetailsActivity"
-    android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".newPhase.presentation.activities.productDetailsActivity.ProductDetailsActivity">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_to_refresh"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
+
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
+
                     <RelativeLayout
+                        android:id="@+id/containerProductImage"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_300sdp"
-                        android:background="@color/gray"
-                        android:id="@+id/containerProductImage">
+                        android:background="@color/gray">
 
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -41,12 +44,13 @@
                                 app:slideDirection="right"
                                 app:slideInterval="5000"
                                 app:stopWhenTouch="true" />
+
                             <com.jsibbold.zoomage.ZoomageView
                                 android:id="@+id/myProductimg"
-                                android:visibility="gone"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:scaleType="fitXY" />
+                                android:scaleType="fitXY"
+                                android:visibility="gone" />
 
                             <ProgressBar
                                 android:id="@+id/loader"
@@ -104,22 +108,21 @@
                                         tools:listitem="@layout/item_image_for_product_details" />
 
                                     <LinearLayout
-                                        android:visibility="gone"
                                         android:id="@+id/next_image"
                                         android:layout_width="match_parent"
                                         android:layout_height="@dimen/_20sdp"
-                                        android:gravity="center">
+                                        android:gravity="center"
+                                        android:visibility="gone">
 
                                         <ImageView
                                             android:id="@+id/btnNextImage"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:src="@drawable/down_arrow"
                                             android:paddingStart="20dp"
+                                            android:paddingTop="10dp"
                                             android:paddingEnd="20dp"
                                             android:paddingBottom="10dp"
-                                            android:paddingTop="10dp"
-                                            />
+                                            android:src="@drawable/down_arrow" />
                                     </LinearLayout>
 
 
@@ -136,8 +139,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_280sdp"
-                        android:orientation="vertical"
-                        android:layout_marginBottom="@dimen/_10sdp">
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:orientation="vertical">
 
                         <include
                             android:id="@+id/containerMainProduct"
@@ -151,8 +154,8 @@
                         android:id="@+id/containerShareAndFav"
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/_60sdp"
-                        android:layout_marginTop="@dimen/_250sdp"
                         android:layout_gravity="end"
+                        android:layout_marginTop="@dimen/_250sdp"
                         android:layout_marginEnd="@dimen/_20sdp"
                         android:backgroundTint="@color/white"
                         android:orientation="horizontal">
@@ -169,15 +172,15 @@
                             app:backgroundTint="@color/white"
                             app:elevation="5dp"
 
-                            app:tint="@color/black"/>
+                            app:tint="@color/black" />
 
                         <com.google.android.material.floatingactionbutton.FloatingActionButton
                             android:id="@+id/btnShare"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginEnd="@dimen/_5sdp"
                             android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_marginEnd="@dimen/_5sdp"
                             android:background="@null"
                             android:scaleType="center"
                             android:src="@drawable/share"
@@ -189,7 +192,6 @@
 
 
                     </LinearLayout>
-
 
 
                 </FrameLayout>

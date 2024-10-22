@@ -42,7 +42,7 @@ class ConfirmChangeEmailActivity : BaseActivity<ActivityConfirmChangeEmailBindin
         setContentView(binding.root)
 
         binding.toolbarMain.toolbarTitle.text = ""
-        countdownTimer = findViewById(R.id.countdownTimer)
+        countdownTimer = binding.countdownTimer
         newEmail = intent.getStringExtra(ConstantObjects.emailKey)
         otpCode = intent.getStringExtra(Constants.otpDataKey)
         setupRegisterViewModel()

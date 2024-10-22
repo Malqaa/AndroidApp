@@ -40,7 +40,7 @@ class SignupOTPVerificationActivity : BaseActivity<ActivitySignupPg2Binding>() {
         binding = ActivitySignupPg2Binding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        countdownTimer = findViewById(R.id.countdownTimer)
+        countdownTimer = binding.countdownTimer
         otpData = intent.getParcelableExtra(Constants.otpDataKey)
         setupRegisterViewModel()
         setClickListeners()

@@ -24,7 +24,6 @@ import kotlinx.coroutines.withContext
 
 class ProductsTagsForAddProductActivity : BaseActivity<ActivityProductTageForAddProductBinding>(),
     ProductTagsAdapter.SetOnSelectedListeners {
-
     private var selectTag: Category? = null
     private var listCategoryViewModel: ListCategoryViewModel? = null
     private var productTagsAdapter: ProductTagsAdapter? = null
@@ -32,14 +31,14 @@ class ProductsTagsForAddProductActivity : BaseActivity<ActivityProductTageForAdd
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Initialize view binding
+
         binding = ActivityProductTageForAddProductBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         binding.toolbarMain.toolbarTitle.text = getString(R.string.add_product)
         setViewClickListeners()
         setUpViewModel()
         setProductTagsAdapters()
-
     }
 
     private fun setProductTagsAdapters() {
@@ -96,7 +95,6 @@ class ProductsTagsForAddProductActivity : BaseActivity<ActivityProductTageForAdd
                 lifecycleScope.launch(Dispatchers.IO) {
                     productTagsList?.clear()
                     categoyProductTagResp.tagsList?.let { productTagsList?.addAll(it) }
-
                     withContext(Dispatchers.Main) {
                         productTagsAdapter?.notifyDataSetChanged()
                         if ((productTagsList ?: arrayListOf()).size > 0) {
@@ -110,10 +108,7 @@ class ProductsTagsForAddProductActivity : BaseActivity<ActivityProductTageForAdd
                             )
                         }
                     }
-
                 }
-
-
             } else {
                 HelpFunctions.ShowLongToast(
                     getString(R.string.no_tag_found),
@@ -174,6 +169,7 @@ class ProductsTagsForAddProductActivity : BaseActivity<ActivityProductTageForAdd
         binding.textInputLayout11._attachInfoClickListener {
             if (validateitem()) {
                 listCategoryViewModel!!.getListCategoriesByProductName(binding.textInputLayout11.getText())
+                // getCategoryTags(textInputLayout11.getText())
             }
         }
     }

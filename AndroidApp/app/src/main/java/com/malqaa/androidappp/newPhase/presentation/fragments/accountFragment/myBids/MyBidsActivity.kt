@@ -41,7 +41,6 @@ class MyBidsActivity : BaseActivity<ActivityMyBidsBinding>(), SwipeRefreshLayout
         binding = ActivityMyBidsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setContentView(R.layout.activity_my_bids)
         binding.toolbarMain.toolbarTitle.text = getString(R.string.my_bids)
         binding.swipeToRefresh.setColorSchemeResources(R.color.colorPrimaryDark)
         binding.swipeToRefresh.setOnRefreshListener(this)

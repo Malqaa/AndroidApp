@@ -46,7 +46,6 @@ class ListingDetailsActivity : BaseActivity<ActivityListDetailsAddProductBinding
         // Initialize view binding
         binding = ActivityListDetailsAddProductBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setContentView(R.layout.activity_list_details_add_product)
         binding.toolbarMain.toolbarTitle.text = getString(R.string.item_details)
         isEdit = intent.getBooleanExtra(ConstantObjects.isEditKey, false)
         setUpViewModel()

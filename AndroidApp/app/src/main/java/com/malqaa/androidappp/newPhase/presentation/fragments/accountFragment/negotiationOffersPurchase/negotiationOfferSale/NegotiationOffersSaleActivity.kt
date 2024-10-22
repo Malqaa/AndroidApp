@@ -38,7 +38,6 @@ class NegotiationOffersSaleActivity : BaseActivity<ActivityNegotiationOffersSale
         binding = ActivityNegotiationOffersSaleBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setContentView(R.layout.activity_negotiation_offers_sale)
         binding.toolbarMain.toolbarTitle.text = getString(R.string.MyProductsOffers)
         binding.swipeToRefresh.setColorSchemeResources(R.color.colorPrimaryDark)
         binding.swipeToRefresh.setOnRefreshListener(this)

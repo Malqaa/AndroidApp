@@ -31,9 +31,6 @@ class SuccessProductActivity : BaseActivity<FragmentContinueBinding>() {
         AdvId = intent?.getIntExtra(ConstantObjects.productIdKey, 0) ?: 0
         comeFrom = intent?.getStringExtra("comeFrom") ?: ""
 
-        println("hhhh product id " + AdvId)
-        //template = intent?.getStringExtra("Template").toString()
-
         if (comeFrom == "RatingShipping") {
             binding.txtTitleSuccess.text = getString(R.string.doneRate)
             binding.btnProduct.text = getString(R.string.back_to_main)
@@ -43,7 +40,6 @@ class SuccessProductActivity : BaseActivity<FragmentContinueBinding>() {
             binding.btnProduct.text = getString(R.string.view_the_product)
             binding.txtTitleSuccess.text =
                 getString(R.string.your_product_has_been_successfully_added)
-
         }
 
         binding.btnProduct.setOnClickListener() {
