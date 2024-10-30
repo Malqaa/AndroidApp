@@ -4,10 +4,12 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.malqaa.androidappp.R
 import com.malqaa.androidappp.databinding.AddressListActivityBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
@@ -67,7 +69,7 @@ class ListAddressesActivity : BaseActivity<AddressListActivityBinding>(),
 
     private fun setAddressesAdapter() {
         userAddressesList = ArrayList()
-        addressesAdapter = AddressesAdapter(userAddressesList, this, false)
+        addressesAdapter = AddressesAdapter(userAddressesList, this, true)
         binding.rvAdddresses.apply {
             adapter = addressesAdapter
             layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
@@ -141,6 +143,17 @@ class ListAddressesActivity : BaseActivity<AddressListActivityBinding>(),
             }
 
         }
+
+        observerUserMessage()
+    }
+
+    private fun observerUserMessage() {
+        addressViewModel.userMessage.observe(this) { message ->
+            if (message != null) {
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+                onRefresh()
+            }
+        }
     }
 
     override fun onRefresh() {
@@ -151,6 +164,14 @@ class ListAddressesActivity : BaseActivity<AddressListActivityBinding>(),
     }
 
     override fun setOnSelectedAddress(position: Int) {
+        MaterialAlertDialogBuilder(this)
+            .setMessage(resources.getString(R.string.change_default_address))
+            .setNegativeButton(resources.getString(R.string.cancel)) { dialog, which -> }
+            .setPositiveButton(resources.getString(R.string.accept)) { dialog, which ->
+                // Respond to positive button press
+                addressViewModel.setDefaultAddress(userAddressesList[position].id)
+            }
+            .show()
     }
 
     override fun setOnSelectedEditAddress(position: Int) {

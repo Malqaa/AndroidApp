@@ -1,17 +1,25 @@
 package com.malqaa.androidappp.newPhase.presentation.activities.addressUser
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.malqaa.androidappp.newPhase.core.BaseViewModel
 import com.malqaa.androidappp.newPhase.data.network.callApi
 import com.malqaa.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
 import com.malqaa.androidappp.newPhase.domain.models.userAddressesResp.UserAddressesResp
 import com.malqaa.androidappp.newPhase.utils.Extension.requestBody
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.HttpException
 
 class AddressViewModel : BaseViewModel() {
+
+    private var _userMessage : MutableLiveData<String?> = MutableLiveData( null)
+    val userMessage : MutableLiveData<String?> = _userMessage
+
     var addUserAddressesListObserver: MutableLiveData<GeneralResponse> = MutableLiveData()
     var userAddressesListObserver: MutableLiveData<UserAddressesResp> = MutableLiveData()
     var deleteUserAddressesObserver: MutableLiveData<GeneralResponse> = MutableLiveData()
@@ -181,5 +189,33 @@ class AddressViewModel : BaseViewModel() {
                 isLoading.value = false
                 needToLogin.value = true
             })
+    }
+
+    fun setDefaultAddress(addressId: Int){
+        viewModelScope.launch {
+            withContext(Dispatchers.IO){
+                val defaultAddress = getRetrofitBuilder().setDefaultAddress(addressId = addressId)
+                callApi(
+                    defaultAddress,
+                    onSuccess = {
+                        isLoading.value = false
+                        _userMessage.value = it.message
+                    },
+                    onFailure = { throwable, statusCode, errorBody ->
+                        isLoading.value = false
+                        if (throwable != null && errorBody == null)
+                            isNetworkFail.value = throwable !is HttpException
+                        else {
+                            errorResponseObserver.value =
+                                getErrorResponse(statusCode, errorBody)
+                        }
+                    },
+                    goLogin = {
+                        isLoading.value = false
+                        needToLogin.value = true
+                    })
+            }
+
+        }
     }
 }

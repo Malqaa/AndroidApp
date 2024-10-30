@@ -3,7 +3,6 @@ package com.malqaa.androidappp.newPhase.data.network.service
 import com.google.gson.JsonObject
 import com.malqaa.androidappp.fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ModelShipAddresses
 import com.malqaa.androidappp.fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ShippingAddressesData
-import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.data.network.constants.Constants
 import com.malqaa.androidappp.newPhase.domain.models.GeneralResponses
 import com.malqaa.androidappp.newPhase.domain.models.NotificationResp
@@ -57,11 +56,21 @@ import com.malqaa.androidappp.newPhase.domain.models.regionsResp.RegionsResp
 import com.malqaa.androidappp.newPhase.domain.models.resgisterResp.RegisterResp
 import com.malqaa.androidappp.newPhase.domain.models.sellerInfoResp.SellerInfoResp
 import com.malqaa.androidappp.newPhase.domain.models.sellerRateListResp.SellerRateListResp
-import com.malqaa.androidappp.newPhase.domain.models.servicemodels.*
+import com.malqaa.androidappp.newPhase.domain.models.servicemodels.AddFavResponse
+import com.malqaa.androidappp.newPhase.domain.models.servicemodels.AddProductResponse
+import com.malqaa.androidappp.newPhase.domain.models.servicemodels.BasicResponse
+import com.malqaa.androidappp.newPhase.domain.models.servicemodels.BasicResponseInt
+import com.malqaa.androidappp.newPhase.domain.models.servicemodels.BusinessUserRespone
+import com.malqaa.androidappp.newPhase.domain.models.servicemodels.GeneralRespone
+import com.malqaa.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
+import com.malqaa.androidappp.newPhase.domain.models.servicemodels.GetAddressResponse
+import com.malqaa.androidappp.newPhase.domain.models.servicemodels.ModelSoldUnsold
+import com.malqaa.androidappp.newPhase.domain.models.servicemodels.User
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.addtocart.AddToCartResponseModel
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.creditcard.CreditCardModel
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.creditcard.CreditCardResponse
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.favourites.FavouriteObject
+import com.malqaa.androidappp.newPhase.domain.models.servicemodels.getBusinessRegisterFile
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.questionModel.ModelAskQues
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.questionModel.ModelPostAns
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.questionModel.ModelQuesAnswr
@@ -75,10 +84,25 @@ import com.malqaa.androidappp.newPhase.domain.models.userPointsDataResp.UserPoin
 import com.malqaa.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.UserVerifiedResp
 import com.malqaa.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.ValidateAndGenerateOTPResp
 import com.malqaa.androidappp.newPhase.domain.models.walletDetailsResp.WalletDetailsResp
+import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
-import retrofit2.http.*
+import retrofit2.http.Body
+import retrofit2.http.DELETE
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
+import retrofit2.http.GET
+import retrofit2.http.Header
+import retrofit2.http.Headers
+import retrofit2.http.Multipart
+import retrofit2.http.POST
+import retrofit2.http.PUT
+import retrofit2.http.Part
+import retrofit2.http.PartMap
+import retrofit2.http.Query
+import retrofit2.http.QueryMap
+import retrofit2.http.Url
 
 
 interface MalqaApiService {
@@ -212,14 +236,12 @@ interface MalqaApiService {
         @Query("lang") language: String = ConstantObjects.currentLanguage,
     ): Call<AddQuestionResp>
 
-
     @GET("ListSimilarProducts")
     fun getSimilarProductForOtherProduct(
         @Query("currentPage") page: Int,
         @Query("productId") productId: Int,
         @Query("lang") language: String = ConstantObjects.currentLanguage
     ): Call<ProductListResp>
-
 
     @GET("ListLastView?pageIndex=1&PageRowsCount=10")
     fun getListLastView(
@@ -245,7 +267,6 @@ interface MalqaApiService {
     @GET("ListFavoriteProduct")
     fun getUserWatchlist(@Query("lang") language: String = ConstantObjects.currentLanguage): Call<ProductListResp>
 
-
     @GET("GetListCategoriesByProductName")
     fun getListCategoriesByProductName(
         @Query("productName") productName: String,
@@ -258,7 +279,6 @@ interface MalqaApiService {
         @Query("lang") language: String = ConstantObjects.currentLanguage,
         @Query("currentPage") page: String = "1"
     ): Call<DynamicSpecificationResp>
-
 
     @GET("GetAllPakatsList")
     fun getAllPakatList(
@@ -289,10 +309,8 @@ interface MalqaApiService {
         @Part("productSep") productSep: RequestBody,
         @Part listImageFile: List<MultipartBody.Part>,
         @Part("MainImageIndex") mainImageIndex: RequestBody,
-//        @Part("videoUrl") videoUrl: List<RequestBody>,
         @Part videoUrlList: ArrayList<MultipartBody.Part>,
-
-        @Part shippingOptions:  ArrayList<MultipartBody.Part>,
+        @Part shippingOptions: ArrayList<MultipartBody.Part>,
         @Part("Lat") lat: RequestBody,
         @Part("Lon") lon: RequestBody,
         @Part("AcceptQuestion") acceptQuestion: RequestBody,
@@ -301,7 +319,7 @@ interface MalqaApiService {
         @Part("IsNegotiationEnabled") isNegotiationEnabled: RequestBody,
         @Part("Price") price: RequestBody,
         @Part("PriceDisc") priceDisc: RequestBody,
-        @Part  paymentOptions: ArrayList<MultipartBody.Part>,
+        @Part paymentOptions: ArrayList<MultipartBody.Part>,
         @Part productBankAccounts: ArrayList<MultipartBody.Part>,
         @Part("IsCashEnabled") isCashEnabled: RequestBody,
         @Part("AuctionStartPrice") auctionStartPrice: RequestBody,
@@ -331,9 +349,10 @@ interface MalqaApiService {
         @Part("ProductPaymentDetailsDto.TotalAmountBeforeCoupon") productPaymentDetailsTotalAmountBeforeCoupon: RequestBody,
         @Part("ProductPaymentDetailsDto.TotalAmountAfterCoupon") productPaymentDetailsTotalAmountAfterCoupon: RequestBody,
         @Part("ProductPaymentDetailsDto.PaymentType") productPaymentDetailsPaymentType: RequestBody,
-        @Header("Content-Type") contentType:String,
+        @Header("Content-Type") contentType: String,
 
-    ): Call<AddProductResponse>
+        ): Call<AddProductResponse>
+
     @Multipart
     @POST("AddProduct")
     fun addProduct(
@@ -585,7 +604,6 @@ interface MalqaApiService {
         @PartMap partMap: Map<String, @JvmSuppressWildcards RequestBody>,
     ): Call<AddProductToCartResp>
 
-
     @GET("ListCartProductsForClient?currentPage=1&maxRows=10")
     fun getListCartProductsForClient(@Query("cartMasterId") cartMasterId: String): Call<CartListResp>
 
@@ -608,7 +626,6 @@ interface MalqaApiService {
 
     @DELETE("RemoveProductFromCartProducts")
     fun removeProductFromCartProducts(@Query("cartproductId") cartproductId: String): Call<GeneralResponse>
-
 
     @DELETE("RemoveProduct")
     fun removeProduct(@Query("id") productId: Int): Call<GeneralResponse>
@@ -1029,38 +1046,31 @@ interface MalqaApiService {
         @Query("lang") language: String = ConstantObjects.currentLanguage
     ): Call<GeneralResponse>
 
-
     @FormUrlEncoded
     @POST("loginWebsite")
     fun loginUser(
         @Field("email") email: String,
         @Field("password") password: String,
         @Field("lang") language: String,
-        @Field("deviceId")deviceID:String,
-        @Field("deviceType")deviceType:String,
+        @Field("deviceId") deviceID: String,
+        @Field("deviceType") deviceType: String,
     ): Call<LoginResp>
 
     @Multipart
     @POST("loginWebsite")
     fun loginUser(
-
         @PartMap partMap: Map<String, @JvmSuppressWildcards RequestBody>,
-//        @Part("email") email: MultipartBody.Part,
-//        @Part("password") password: MultipartBody.Part,
-//        @Part("lang") language: MultipartBody.Part,
-//        @Part("deviceId") deviceID: MultipartBody.Part,
-//        @Part("deviceType") deviceType: MultipartBody.Part
     ): Call<LoginResp>
 
     @POST("LogoutWebsite")
     fun logout(
-        @Query("deviceId")deviceID:String,
+        @Query("deviceId") deviceID: String,
         @Query("lang") language: String = ConstantObjects.currentLanguage
     ): Call<LogoutResp>
 
     @POST("ChangeLanguage")
     fun changeLanguage(
-        @Query("language")language:String,
+        @Query("language") language: String,
     ): Call<AddFavResponse>
 
     @POST("AddBid")
@@ -1096,204 +1106,18 @@ interface MalqaApiService {
     @GET("MyBids")
     fun getMyBids(): Call<ProductListResp>
 
-//    @GET("${Constants.GET_CATEGORY_TAGS_ENDPOINT}?")
-//    fun getCategoryTags(
-//        @Query("name") name: String
-//    ): Call<CategoryTagsResp>
-
-//    @POST("Accounts/ForgetEmailRequest")
-//    fun forgotpassemail(@Body forgottpass: User): Call<GeneralRespone>
-
-    //    @Multipart
-//    @POST("RegisterProviderWebsite")
-//    fun createuser(
-//        @Part("email") email: RequestBody,
-//        @Part("password") password: RequestBody,
-//        @Part("phone") phone: RequestBody,
-//        @Part("cPassword") cPassword: RequestBody,
-//        @Part("userName") userName: RequestBody,
-//        @Part("info") info: RequestBody,
-//        @Part("lang") lang: RequestBody,
-//        @Part("projectName") projectName: RequestBody,
-//        @Part("deviceType") deviceType: RequestBody,
-//        @Part("deviceId") deviceId: RequestBody,
-//        @Part file: MultipartBody.Part
-//    ): Call<GeneralRespone>
-
-
-//    @POST("Accounts/verify")
-//    fun verifycode(@Body verifyusercode: PostReqVerifyCode): Call<BasicResponse>
-
-    //    @GET("GetSliderImages")
-//    fun getHomeSlidersImages(
-//        @Query("lang")
-//        language: String = ConstantObjects.currentLanguage
-//    ): Call<HomeSliderResp>
-//    @GET("GetProductById")
-//    fun getAdDetailById(
-//        @Query("id") id: String,
-//        @Query("lang") language: String = ConstantObjects.currentLanguage
-//    ): Call<GeneralRespone>
-
-//    @GET("ListAllSpecificationAndSubSpecificationByCatId")
-//    fun getSpecification(
-//        @Query("id") id: String,
-//        @Query("lang") language: String = ConstantObjects.currentLanguage
-//    ): Call<GeneralResponse>
-
-//    @Multipart
-//    @POST("AddProduct")
-//    fun addProduct3(
-//        @PartMap partMap: Map<String, @JvmSuppressWildcards RequestBody>,
-//        @Part part: List<MultipartBody.Part>?,
-//    ): Call<AddProductResponse>
-
-    //    @GET("AdvancedFilter")
-//    fun searchForProductInCategory(@QueryName(encoded = true) queryString: HashMap<String,String>):Call<ProductListResp>
-//    @GET("AdvancedFilter")
-//    fun searchForProductInCategory(@Query("mainCatId")mainCatId:Int,@QueryName queryString: HashMap<String,String>):Call<ProductListResp>
-
-
-//    @POST("UserBankAccount/AddUserBankAccount")
-//    fun addbankaccount(@Body info: BankListRespone.BankDetail): Call<GeneralRespone>
-//    @GET("UserBankAccount/UserBankAccountsById")
-//    fun getBankDetail(@Query("UserID") loginId: String): Call<BankListRespone>
-//
-//    @GET("Accounts/GetBusinessListByUserId")
-//    fun getBusinessUserList(@Query("UserID") loginId: String): Call<BusinessUserRespone>
-
-    //    @GET("Auction/getall")
-//    fun getuserfeedback(@Query("loggedin") userid: String): Call<FeedbackObject>
-
-    //    @GET("Accounts/GetUser")
-//    fun getAdSeller(
-//        @Query("id") id: String,
-//        @Query("loggedin") loggedin: String
-//    ): Call<SellerResponseBack>
-//
-//    @GET("Accounts/GetUser")
-//    fun getAdSellerByID(
-//        @Query("id") id: String
-//    ): Call<ModelSellerDetails>
-
-//    @GET("ListAdvertisments")
-//    fun SliderAPI(): Call<GeneralResponse>
-
-
-//    @GET("BussinessProduct/detailsofproduct")
-//    fun getProductDetailById(
-//        @Query("id") id: String,
-//        @Query("loginUserId") loginUserId: String
-//    ): Call<ProductResponseBack>
-
-
-//    @POST("Accounts/updatePersonalInfo")
-//    fun updateUserSiginup(@Body updateusersignupp: User): Call<User>
-//
-//    @POST("Accounts/ResendCode")
-//    fun resendcode(@Body resendotpcode: User): Call<BasicResponse>
-
-
-//    @POST("CarTemplate/Create")
-//    fun createAllAd(@Body data: HashMap<String, String>): Call<CreateAdvResponseBack>
-//
-//
-//    @POST("CarTemplate/update")
-//    fun updateCarTemplate(@Body data: HashMap<String, String>): Call<CreateAdvResponseBack>
-//
-//
-//    @POST("Accounts/insertaddress")
-//    fun insertAddress(@Body info: GetAddressResponse.AddressModel): Call<GeneralRespone>
-//
-//    @POST("Accounts/updateAdress")
-//    fun updateAddress(@Body info: GetAddressResponse.AddressModel): Call<GeneralRespone>
-
-//    @POST("Accounts/userimageupload")
-//    fun userimageupload(
-//        @Query("userId") userid: String,
-//        @Body imagebase64string: String
-//    ): Call<UserImageResponseBack>
-
-//    @POST("?")
-//    fun InsertToUserFavouritelist(@Body insertfav: favouriteadd): Call<BasicResponse>
-
-//    @GET("BussinessProduct/getall")
-//    fun getAllProducts(): Call<AllProductsResponseBack>
-//
-//
-//    @POST("Favourite/insertseller")
-//    fun addSellerFav(@Body addfav: ModelAddSellerFav): Call<ModelAddSellerFav>
-
-//    @POST("Favourite/insertcategory")
-//    fun addCatFav(@Body addfav: ModelAddCatFav): Call<ModelAddCatFav>
-//
-//    @POST("Favourite/insertsearch")
-//    fun addSearchFav(@Body addfav: ModelAddSearchFav): Call<ModelAddSearchFav>
-
-
-//    @GET(Constants.HOME_TOTAL_VISIT_COUNT)
-//    fun GetTotalVisitCount(): Call<visit_count_object>
-//
-//    @GET("Accounts/soldunsolditems")
-//    fun getunsolditemsbyId(@Query("userid") userid: String): Call<ModelSoldUnsold>
-
-
-//    @POST("BusinessUser/Insertbusinessuser")
-//    fun busiRegis(@Body busiReg: ModelBusinessRegistration): Call<ModelBusinessRegistration>
-
-//    @GET(Constants.GET_AD_DETAIL_BIDING_PRICE_ENDPOINT)
-//    fun getbidgpricebyAdvId(@Query("advId") getbidByadvId: String): Call<ModelBidingResponse>
-//
-//    @POST(Constants.POST_MAX_BIDING_PRICE)
-//    fun postBidPrice(@Body postBidpricee: ModelPostBidPrice): Call<ModelPostBidPrice>
-
-//    @GET("CarTemplate/Search")
-//    fun searchcategorylist(@Query("query") category: String): Call<CategoryResponse>
-
-//    @POST("BussinessProduct/createproduct")
-//    fun createBusinessProduct(@Body createproduct: ModelCreateProduct): Call<CreateProductResponseBack>
-
-//    @POST("Auction/InsertFeedback")
-//    fun giveFeedback(@Body giveFeedback: ModelGiveFeedBack): Call<GiveFeedbackResponseBack>
-//
-//    @POST("BussinessProduct/editproduct")
-//    fun editBusinessProduct(@Body editproduct: ModelEditProduct): Call<EditProductResponseBack>
-
     @GET("ListFavoriteSeller")
     fun getListFavoriteSeller(@Query("lang") language: String = ConstantObjects.currentLanguage): Call<GeneralResponses<List<FavoriteSeller>>>
-//
+
     @GET("ListSavedSearch")
     fun getListSaveSearch(@Query("lang") language: String = ConstantObjects.currentLanguage): Call<GeneralResponses<List<SavedSearch>>>
+
     @POST("RemoveSavedSearch")
-    fun removeSavedSearch(@Query ("savedSearchId") savedSearchId :Int,@Query("lang") language: String = ConstantObjects.currentLanguage): Call<GeneralResponse>
+    fun removeSavedSearch(
+        @Query("savedSearchId") savedSearchId: Int,
+        @Query("lang") language: String = ConstantObjects.currentLanguage
+    ): Call<GeneralResponse>
 
-//    @POST("Checkout/checkoutiteminsert")
-//    fun PostUserCheckOut(@Body checkout: CheckoutRequestModel): Call<GeneralRespone>
-
-//    @POST("AddToCart/create")
-//    fun AddToUserCart(@Body addtocart: InsertToCartRequestModel): Call<BasicResponse>
-//
-//    @GET("AddToCart/getall")
-//    fun getMyRequest(@Query("loginId") loginId: String): Call<getCartModel>
-
-    //    @GET("GetCategoryById")
-//    fun GetCategoryById(
-//        @Query("id") id: Int,
-//        @Query("lang") language: String = ConstantObjects.currentLanguage
-//    ): Call<GeneralResponse>
-//
-//    @GET("AdvanceFiltter")
-//    fun AdvanceFiltter(
-//        @QueryMap filter: Map<String, String>,
-//        @Query("lang") language: String = ConstantObjects.currentLanguage
-//    ): Call<GeneralResponse>
-
-//    @GET("GetSubCategoryByMainCategory")
-//    fun GetSubCategoryByMainCategory(
-//        @Query("id") id: String,
-//        @Query("lang") language: String = ConstantObjects.currentLanguage
-//    ): Call<GeneralResponse>
-
-//    @GET("ListSimilarProducts?currentPage=1&lang=ar")
-//    fun getsimilar(): Call<BasicResponse>
+    @POST("SetDefaultAddress")
+    fun setDefaultAddress(@Query("addressId") addressId: Int): Call<GeneralResponse>
 }

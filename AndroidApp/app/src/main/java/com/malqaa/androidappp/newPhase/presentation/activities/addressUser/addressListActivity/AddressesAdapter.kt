@@ -49,28 +49,18 @@ class AddressesAdapter(
                     "${context.getString(R.string.floor)}:${userAddressesList[position].floor} - " +
                     "${context.getString(R.string.apartment)}:${userAddressesList[position].appartment}"
 
-        if (isSelectable) {
-            holder.viewBinding.ivSelectedAddress.show()
-            holder.viewBinding.btnDeleteAddress.hide()
-        } else {
-            holder.viewBinding.ivSelectedAddress.hide()
-            holder.viewBinding.btnDeleteAddress.show()
-        }
+
         if (SharedPreferencesStaticClass.getAddressTitle() == userAddressesList[position].title) {
             userAddressesList[position].isSelected = true
         }
-        if (userAddressesList[position].isSelected) {
+
+        if (userAddressesList[position].defaultAddress) {
             holder.viewBinding.ivSelectedAddress.setImageResource(R.drawable.ic_radio_button_checked)
         } else {
             holder.viewBinding.ivSelectedAddress.setImageResource(R.drawable.ic_radio_button_unchecked)
         }
 
-
-
         holder.viewBinding.ivSelectedAddress.setOnClickListener {
-            setOnSelectedAddress.setOnSelectedAddress(position)
-        }
-        holder.viewBinding.addressLay.setOnClickListener {
             setOnSelectedAddress.setOnSelectedAddress(position)
         }
         holder.viewBinding.editAddressBtn.setOnClickListener {

@@ -1337,4 +1337,6 @@
     <string name="choose_category">Choose Category</string>
     <string name="required_label">Required</string>
     <string name="the_selected_url_is_not_available_or_is_empty">The selected URL is not available or is empty.</string>
+  <string name="cancel">Cancel</string>
+  <string name="change_default_address">Are you sure to change the default address</string>
 </resources>
