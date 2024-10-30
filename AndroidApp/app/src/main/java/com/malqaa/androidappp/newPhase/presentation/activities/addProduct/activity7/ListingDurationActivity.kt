@@ -497,26 +497,28 @@ class ListingDurationActivity : BaseActivity<ActivityListingDurationBinding>(),
     }
 
     private fun validatePickUpOption(): Boolean {
+        // If no pickup option is selected, allow the user to proceed without showing an error.
         if (pickUpOption == 0) {
-            showError(getString(R.string.Please_select, getString(R.string.SelectaPickupOption)))
-            return false
-        } else if (pickUpOption == ConstantObjects.pickUp_No || pickUpOption == ConstantObjects.pickUp_Available) {
-            val list = pickUpOptionList.filter { it.selected }
-            if (list.isEmpty()) {
-                showError(
-                    getString(
-                        R.string.Please_select,
-                        getString(R.string.Selectshippingoptions)
-                    )
-                )
-                return false
+            return true
+        }
+
+        // If `pickUpOption` requires selection of shipping options, check if any are selected.
+        if (pickUpOption == ConstantObjects.pickUp_No || pickUpOption == ConstantObjects.pickUp_Available) {
+            val selectedOptions = pickUpOptionList.filter { it.selected }
+
+            // If there are no selected options, but it's optional, allow the user to proceed.
+            if (selectedOptions.isEmpty()) {
+                return true
             } else {
+                // If options are selected, store them in `shippingOptionSelections`.
                 AddProductObjectData.shippingOptionSelections?.clear()
                 AddProductObjectData.shippingOptionSelections?.add(pickUpOption)
-                AddProductObjectData.shippingOptionSelections?.add(list[0].id)
+                AddProductObjectData.shippingOptionSelections?.add(selectedOptions[0].id)
                 return true
             }
         }
+
+        // Default to true if no errors are encountered and all conditions are met.
         return true
     }
 

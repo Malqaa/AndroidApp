@@ -202,6 +202,7 @@
                     android:layout_marginStart="@dimen/_2sdp"
                     android:fontFamily="@font/madani_arabic_medium"
                     android:text="*"
+                    android:visibility="invisible"
                     android:textColor="@color/Red"
                     android:textSize="@dimen/_14sdp" />
 
