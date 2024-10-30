@@ -1598,16 +1598,20 @@ class ProductDetailsActivity : BaseActivity<ActivityProductDetails2Binding>(),
             putExtra(ConstantObjects.productFavStatusKey, productfavStatus)
         }
 
-        val isSuccess = returnIntent.getBooleanExtra(ConstantObjects.isSuccess, false)
-
-        if (favAddingChange && isSuccess) {
-            startActivity(Intent(this, MainActivity::class.java))
+        // Check if the current activity is the root of the task (no other activities to go back to)
+        if (isTaskRoot) {
+            // If it's the root, go to the main activity
+            val mainIntent = Intent(this, MainActivity::class.java)
+            mainIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(mainIntent)
             finish()
         } else {
+            // Not the root, return to the previous activity in the stack
             setResult(Activity.RESULT_OK, returnIntent)
-            finish()
+            super.onBackPressed()  // Proceed with normal back navigation
         }
     }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
