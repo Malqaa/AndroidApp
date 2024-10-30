@@ -3,15 +3,9 @@ package com.malqaa.androidappp.newPhase.utils
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
-import android.os.Build
-import android.provider.Settings
-import android.telephony.TelephonyManager
 import android.view.View
 import android.widget.ImageView
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -20,16 +14,15 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.malqaa.androidappp.R
-import com.malqaa.androidappp.newPhase.utils.PicassoSingleton.getPicassoInstance
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
-
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
-import java.util.*
+import java.util.Locale
+import java.util.regex.Pattern
 
 object Extension {
     val desiredWidth = 800 // Specify desired width
@@ -65,15 +58,15 @@ object Extension {
         path: String?,
         imageView: ImageView,
         pb_loading: View? = null,
-    ){
+    ) {
 
         pb_loading?.show()
         Glide.with(context)
-            .load(path?: "")
+            .load(path ?: "")
             .apply(requestOptions)
 
             .error(R.mipmap.ic_launcher)
-            .listener(object  :RequestListener<Drawable>{
+            .listener(object : RequestListener<Drawable> {
                 override fun onLoadFailed(
                     e: GlideException?,
                     model: Any?,
@@ -82,7 +75,7 @@ object Extension {
                 ): Boolean {
 
                     pb_loading?.hide()
-                  return  false
+                    return false
                 }
 
                 override fun onResourceReady(
@@ -94,7 +87,7 @@ object Extension {
                 ): Boolean {
 
                     pb_loading?.hide()
-                    return  false
+                    return false
                 }
 
             })
@@ -147,7 +140,7 @@ object Extension {
 //            .error(R.mipmap.malqa_iconn)
 //            .into(imageView)
         pb_loading?.show()
-        val imagePath= if(path==""||path==null) "emptyPath" else path
+        val imagePath = if (path == "" || path == null) "emptyPath" else path
 
 
         Picasso.get()
@@ -186,4 +179,32 @@ fun String?.isValidPrice(): Boolean {
 // Extension function to check if a price is valid (greater than zero)
 fun Float.isValidPrice(): Boolean {
     return this > 0.0
+}
+
+fun Int.dpToPx(context: Context): Int {
+    return (this * context.resources.displayMetrics.density).toInt()
+}
+
+fun String.extractYouTubeVideoId(): String? {
+    val regex = "v=([^&]+)".toRegex()
+    val matchResult = regex.find(this)
+    return matchResult?.groupValues?.get(1)
+}
+
+fun isYouTubeLink(url: String): Boolean {
+    return url.contains("youtube.com") || url.contains("youtu.be")
+}
+
+fun extractYouTubeId(url: String): String? {
+    // Logic to extract YouTube video ID from the URL
+    val pattern = Pattern.compile("(?<=v=|/)([a-zA-Z0-9_-]{11})")
+    val matcher = pattern.matcher(url)
+    return if (matcher.find()) {
+        matcher.group(1)
+    } else null
+}
+
+fun isVideoLink(url: String): Boolean {
+    val videoExtensions = listOf("mp4", "mkv", "webm", "avi", "mov")
+    return videoExtensions.any { url.endsWith(it, ignoreCase = true) }
 }

@@ -23,7 +23,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-
 class DynamicTemplateActivtiy : BaseActivity<FragmentDynamicTemplateBinding>(),
     DynamicSpecificationsAdapter.OnChangeValueListener {
 
@@ -36,7 +35,6 @@ class DynamicTemplateActivtiy : BaseActivity<FragmentDynamicTemplateBinding>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Initialize view binding
         binding = FragmentDynamicTemplateBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.toolbarMain.toolbarTitle.text = getString(R.string.item_details)
@@ -164,7 +162,7 @@ class DynamicTemplateActivtiy : BaseActivity<FragmentDynamicTemplateBinding>(),
             finish()
         }
 
-        binding.btnDynamicNext.setOnClickListener {
+        binding.btnDynamicNext.setOnClickListener() {
             checkAllDataSet(dataList!!)
         }
     }
@@ -172,107 +170,91 @@ class DynamicTemplateActivtiy : BaseActivity<FragmentDynamicTemplateBinding>(),
     private fun checkAllDataSet(data: ArrayList<DynamicSpecificationSentObject>) {
         lifecycleScope.launch(Dispatchers.IO) {
             var allValuesSet = true
-
             dynamicSpecificationsArrayList.forEach { dynamicSpecificationItem ->
 
-                // Get the sub-specifications by matching the names in Arabic and English
                 val supIdAr =
                     dynamicSpecificationItem.subSpecifications?.find { it.nameAr == dynamicSpecificationItem.valueArText }
                 val supIdEn =
                     dynamicSpecificationItem.subSpecifications?.find { it.nameEn == dynamicSpecificationItem.valueEnText }
 
-                // Check for type 1 (e.g., dropdowns, selectors)
                 if (dynamicSpecificationItem.type == 1) {
-                    if (!dynamicSpecificationItem.subSpecifications.isNullOrEmpty()) {
-                        if (dynamicSpecificationItem.isRequired && dynamicSpecificationItem.valueArText.isNullOrEmpty()) {
+                    if (dynamicSpecificationItem.subSpecifications != null && dynamicSpecificationItem.subSpecifications!!.isNotEmpty()) {
+                        if (dynamicSpecificationItem.valueArText == "" || dynamicSpecificationItem.valueArText == null || dynamicSpecificationItem.valueEnText == "" || dynamicSpecificationItem.valueEnText == null) {
                             allValuesSet = false
-                        } else {
-                            val newObject = DynamicSpecificationSentObject(
-                                HeaderSpeAr = dynamicSpecificationItem.nameAr.orEmpty(),
-                                HeaderSpeEn = dynamicSpecificationItem.nameEn.orEmpty(),
-                                ValueSpeAr = supIdAr?.id?.toString().orEmpty(),
-                                ValueSpeEn = supIdEn?.id?.toString().orEmpty(),
-                                Type = dynamicSpecificationItem.type,
-                                SpecificationId = dynamicSpecificationItem.id
-                            )
-                            // Add to data if it doesn't already exist
-                            if (!data.any { it.SpecificationId == newObject.SpecificationId }) {
-                                data.add(newObject)
-                            }
-                        }
-                    }
-                }
-                // Check for type 5 or 6 (e.g., boolean switches, checkboxes)
-                else if (dynamicSpecificationItem.type == 5 || dynamicSpecificationItem.type == 6) {
-                    val required = dynamicSpecificationItem.isRequired
-                    if (required && dynamicSpecificationItem.valueBoolean == null) {
-                        allValuesSet = false
-                    } else {
-                        val supId =
-                            dynamicSpecificationItem.subSpecifications?.find { dynamicSpecificationItem.valueBoolean }
-                        if (supId == null) {
-                            allValuesSet = false
-                            if (dynamicSpecificationItem.isRequired) {
-                                runOnUiThread {
-                                    HelpFunctions.ShowLongToast(
-                                        getString(R.string.enterAllSpecificaiton),
-                                        this@DynamicTemplateActivtiy
-                                    )
-                                }
-                            }
-                        } else {
-                            val newObject = DynamicSpecificationSentObject(
-                                HeaderSpeAr = dynamicSpecificationItem.nameAr.orEmpty(),
-                                HeaderSpeEn = dynamicSpecificationItem.nameEn.orEmpty(),
-                                ValueSpeAr = supId.id.toString(),
-                                ValueSpeEn = supIdEn?.id?.toString().orEmpty(),
-                                Type = dynamicSpecificationItem.type,
-                                SpecificationId = dynamicSpecificationItem.id
-                            )
-                            if (!data.any { it.SpecificationId == newObject.SpecificationId }) {
-                                data.add(newObject)
-                            }
-                        }
-                    }
-                }
-                // Check for type 4 (e.g., text input)
-                else if (dynamicSpecificationItem.type == 4) {
-                    if (dynamicSpecificationItem.isRequired && dynamicSpecificationItem.valueArText.isNullOrEmpty()) {
-                        allValuesSet = false
-                    } else {
-                        val newObject = DynamicSpecificationSentObject(
-                            HeaderSpeAr = dynamicSpecificationItem.nameAr.orEmpty(),
-                            HeaderSpeEn = dynamicSpecificationItem.nameEn.orEmpty(),
-                            ValueSpeAr = dynamicSpecificationItem.valueArText.orEmpty(),
-                            Type = dynamicSpecificationItem.type,
-                            ValueSpeEn = dynamicSpecificationItem.valueEnText.orEmpty(),
-                            SpecificationId = dynamicSpecificationItem.id
-                        )
-                        if (!data.any { it.SpecificationId == newObject.SpecificationId }) {
-                            data.add(newObject)
-                        }
-                    }
-                }
-                // Check for other types
-                else {
-                    if (dynamicSpecificationItem.isRequired && dynamicSpecificationItem.valueArText.isNullOrEmpty()) {
-                        allValuesSet = false
-                    } else {
-                        val newObject = DynamicSpecificationSentObject(
-                            HeaderSpeAr = dynamicSpecificationItem.nameAr.orEmpty(),
-                            HeaderSpeEn = dynamicSpecificationItem.nameEn.orEmpty(),
-                            ValueSpeAr = dynamicSpecificationItem.valueArText.orEmpty(),
-                            Type = dynamicSpecificationItem.type,
-                            ValueSpeEn = dynamicSpecificationItem.valueEnText.orEmpty(),
-                            SpecificationId = dynamicSpecificationItem.id
-                        )
-                        if (!data.any { it.SpecificationId == newObject.SpecificationId }) {
-                            data.add(newObject)
-                        }
-                    }
-                }
-            }
 
+                        } else {
+                            data.add(
+                                DynamicSpecificationSentObject(
+                                    HeaderSpeAr = dynamicSpecificationItem.nameAr.toString(),
+                                    HeaderSpeEn = dynamicSpecificationItem.nameEn.toString(),
+                                    ValueSpeAr = supIdAr?.id.toString(),
+                                    ValueSpeEn = supIdEn?.id.toString(),
+                                    Type = dynamicSpecificationItem.type,
+                                    SpecificationId = dynamicSpecificationItem.id
+                                )
+                            )
+                        }
+                    }
+                } else if (dynamicSpecificationItem.type == 5 || (dynamicSpecificationItem.type == 6)) {
+                    val supIdAr =
+                        dynamicSpecificationItem.subSpecifications?.find { dynamicSpecificationItem.valueBoolean }
+
+                    if (supIdAr == null) {
+                        allValuesSet = false
+                        if (dynamicSpecificationItem.isRequired) {
+                            runOnUiThread {
+                                HelpFunctions.ShowLongToast(
+                                    getString(R.string.enterAllSpecificaiton),
+                                    this@DynamicTemplateActivtiy
+                                )
+                            }
+                        }
+                    } else {
+                        data.add(
+                            DynamicSpecificationSentObject(
+                                HeaderSpeAr = dynamicSpecificationItem.nameAr.toString(),
+                                HeaderSpeEn = dynamicSpecificationItem.nameEn.toString(),
+                                ValueSpeAr = supIdAr?.id.toString(),
+                                ValueSpeEn = supIdAr?.id.toString(),
+                                Type = dynamicSpecificationItem.type,
+                                SpecificationId = dynamicSpecificationItem.id
+                            )
+                        )
+                    }
+
+                } else if (dynamicSpecificationItem.type == 4) {
+                    if (dynamicSpecificationItem.isRequired && (dynamicSpecificationItem.valueArText == "" || dynamicSpecificationItem.valueArText == null)) {
+                        allValuesSet = false
+                    } else {
+                        data.add(
+                            DynamicSpecificationSentObject(
+                                HeaderSpeAr = dynamicSpecificationItem.nameAr.toString(),
+                                HeaderSpeEn = dynamicSpecificationItem.nameAr.toString(),
+                                ValueSpeAr = dynamicSpecificationItem.valueArText ?: "",
+                                Type = dynamicSpecificationItem.type,
+                                ValueSpeEn = dynamicSpecificationItem.valueArText ?: "",
+                                SpecificationId = dynamicSpecificationItem.id
+                            )
+                        )
+                    }
+                } else {
+                    if (dynamicSpecificationItem.isRequired && (dynamicSpecificationItem.valueArText == "" || dynamicSpecificationItem.valueArText == null || dynamicSpecificationItem.valueEnText == "" || dynamicSpecificationItem.valueEnText == null)) {
+                        allValuesSet = false
+                    } else {
+                        data.add(
+                            DynamicSpecificationSentObject(
+                                HeaderSpeAr = dynamicSpecificationItem.nameAr.toString(),
+                                HeaderSpeEn = dynamicSpecificationItem.nameEn.toString(),
+                                ValueSpeAr = dynamicSpecificationItem.valueArText ?: "",
+                                Type = dynamicSpecificationItem.type,
+                                ValueSpeEn = dynamicSpecificationItem.valueEnText ?: "",
+                                SpecificationId = dynamicSpecificationItem.id
+                            )
+                        )
+                    }
+                }
+
+            }
             withContext(Dispatchers.Main) {
                 if (allValuesSet) {
                     AddProductObjectData.productSpecificationList = data
@@ -332,5 +314,4 @@ class DynamicTemplateActivtiy : BaseActivity<FragmentDynamicTemplateBinding>(),
                 spinnerPosition
             )?.nameEn ?: ""
     }
-
 }

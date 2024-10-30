@@ -8,12 +8,12 @@ import android.text.Editable
 import android.text.InputFilter
 import android.text.InputFilter.LengthFilter
 import android.text.TextWatcher
-import android.text.method.PasswordTransformationMethod
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -23,7 +23,6 @@ import androidx.core.content.ContextCompat
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.malqaa.androidappp.R
-import com.malqaa.androidappp.databinding.ItemDetailedTextFieldDescriptionBinding
 import com.malqaa.androidappp.newPhase.presentation.activities.signup.activity3.SpinnerCountryAdapter
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.PicassoSingleton.getPicassoInstance
@@ -34,14 +33,7 @@ import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.show
 
 class TextFieldComponent : LinearLayout {
-
-    // Binding instance
-    private var binding: ItemDetailedTextFieldDescriptionBinding? = null
-
-    val selectedItem: Any
-        get() {
-            TODO()
-        }
+    private lateinit var right_session: FrameLayout
     private lateinit var etl_Field: TextInputLayout
     private lateinit var textView: TextView
     private lateinit var edittext: EditText
@@ -53,16 +45,11 @@ class TextFieldComponent : LinearLayout {
     private lateinit var end_text_tv: TextView
     lateinit var spinnerCode: AppCompatSpinner
     var selectedCountry: SearchListItem? = null
-
-
     private var enableTopLine = true
     private var enableBottomLine = true
-
-
     private var enablePasswordToggle = false
     private var startIcon = 0
     private var endIcon = 0
-
     var textHint: CharSequence? = null
     private var inputType = EditorInfo.TYPE_CLASS_TEXT
     private var maxLength: Int? = null
@@ -71,7 +58,6 @@ class TextFieldComponent : LinearLayout {
     private var backgroundTint: Int = 0
     private var viewType = 0
     private var imeOptions = 0
-
 
     private var focusImpList = ArrayList<(View, Boolean) -> Unit>()
     val filterArray: ArrayList<InputFilter> = ArrayList()
@@ -104,13 +90,8 @@ class TextFieldComponent : LinearLayout {
      * the current context for the view.
      */
     private fun initializeViews(context: Context) {
-        binding = ItemDetailedTextFieldDescriptionBinding.inflate(LayoutInflater.from(context), this, true)
-    }
-
-    override fun onDetachedFromWindow() {
-        super.onDetachedFromWindow()
-        // Clean up the binding reference to avoid memory leaks
-        binding = null
+        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        inflater.inflate(R.layout.item_detailed_text_field_description, this)
     }
 
     override fun onFinishInflate() {
@@ -120,6 +101,9 @@ class TextFieldComponent : LinearLayout {
         // built-in images so you don't need to add images, but in
         // a real application your images should be in the
         // application package so they are always available.
+        right_session = findViewById(R.id.right_session)
+        right_session.id = TextFieldIdGenerator.viwId.getId(id)
+
         etl_Field = findViewById(R.id.tvl_field)
         etl_Field.id = TextFieldIdGenerator.viwId.getId(id)
 
@@ -623,7 +607,7 @@ class TextFieldComponent : LinearLayout {
                 iv_end_icon.layoutParams.height = 30
                 iv_end_icon.layoutParams.width = 30
 
-                binding?.rightSession?.setOnClickListener {
+                right_session.setOnClickListener {
 
                     val list: ArrayList<SearchListItem> = ArrayList()
                     ConstantObjects.countryList.forEachIndexed { index, country ->
@@ -650,14 +634,8 @@ class TextFieldComponent : LinearLayout {
                     }
                 }
             }
-
             else -> {
-
-
             }
         }
-
     }
-
-
 }

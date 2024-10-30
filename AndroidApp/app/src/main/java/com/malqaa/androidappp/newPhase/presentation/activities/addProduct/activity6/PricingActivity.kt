@@ -28,11 +28,6 @@ import com.malqaa.androidappp.newPhase.utils.helper.widgets.DatePickerFragment
 import com.malqaa.androidappp.newPhase.utils.helper.widgets.rcv.GenericListAdapter
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.show
-//import kotlinx.android.synthetic.main.activity_pricing_payment.*
-//import kotlinx.android.synthetic.main.add_account_layout.*
-//import kotlinx.android.synthetic.main.add_bank_layout.view.*
-//import kotlinx.android.synthetic.main.toolbar_main.*
-
 
 class PricingActivity : BaseActivity<ActivityPricingPaymentBinding>() {
 
@@ -43,37 +38,37 @@ class PricingActivity : BaseActivity<ActivityPricingPaymentBinding>() {
     private var selectdate = ""
     private var fm: FragmentManager? = null
 
-    private lateinit var addBankLayoutBinding: AddBankLayoutBinding
-
     val adapterList = object : GenericListAdapter<AccountDetails>(
         R.layout.add_bank_layout,
         bind = { element, holder, itemCount, position ->
+            // Use ViewBinding for the order_detail_design layout
+            val itemBinding = AddBankLayoutBinding.bind(holder.itemView)
             holder.view.run {
                 element.run {
-                    addBankLayoutBinding.bankName.text = bankName
-                    addBankLayoutBinding.accountNumber.text = accountNumber
-                    addBankLayoutBinding.userName.text = bankHolderName
-                    addBankLayoutBinding.ibanNumber.text = ibanNumber
-                    addBankLayoutBinding.bank.isSelected = isSelected
-                    addBankLayoutBinding.bank.isChecked = isSelected
+                    itemBinding.bankName.text = bankName
+                    itemBinding.accountNumber.text = accountNumber
+                    itemBinding.userName.text = bankHolderName
+                    itemBinding.ibanNumber.text = ibanNumber
+                    itemBinding.bank.isSelected = isSelected
+                    itemBinding.bank.isChecked = isSelected
                 }
 
-                addBankLayoutBinding.bank.setOnClickListener {
-                    if (addBankLayoutBinding.bank.isSelected) {
+                itemBinding.bank.setOnClickListener {
+                    if (itemBinding.bank.isSelected) {
                         selectedAccountDetails.forEach {
                             if (it.id == element.id)
                                 element.isSelected = false
                         }
-                        addBankLayoutBinding.bank.isSelected = false
-                        addBankLayoutBinding.bank.isChecked = false
+                        itemBinding.bank.isSelected = false
+                        itemBinding.bank.isChecked = false
                         addBankAdaptor(selectedAccountDetails)
                     } else {
                         selectedAccountDetails.forEach {
                             if (it.id == element.id)
                                 element.isSelected = true
                         }
-                        addBankLayoutBinding.bank.isSelected = true
-                        addBankLayoutBinding.bank.isChecked = true
+                        itemBinding.bank.isSelected = true
+                        itemBinding.bank.isChecked = true
 
                         addBankAdaptor(selectedAccountDetails)
                     }
@@ -89,10 +84,11 @@ class PricingActivity : BaseActivity<ActivityPricingPaymentBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         // Initialize view binding
         binding = ActivityPricingPaymentBinding.inflate(layoutInflater)
-        addBankLayoutBinding = AddBankLayoutBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         binding.toolbarMain.toolbarTitle.text = getString(R.string.sale_details)
         isEdit = intent.getBooleanExtra(ConstantObjects.isEditKey, false)
         setViewClickListeners()

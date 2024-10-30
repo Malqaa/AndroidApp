@@ -1,6 +1,7 @@
 package com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activity5
 
 import android.content.Context
+import android.graphics.Typeface
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
@@ -10,23 +11,24 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.malqaa.androidappp.R
 import com.malqaa.androidappp.newPhase.domain.models.dynamicSpecification.DynamicSpecificationItem
 import com.malqaa.androidappp.newPhase.domain.models.dynamicSpecification.SubSpecificationItem
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
+import com.malqaa.androidappp.newPhase.utils.dpToPx
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-
 class DynamicSpecificationsAdapter(
     private var dynamicSpecificationList: List<DynamicSpecificationItem>,
     private var onChangeValueListener: OnChangeValueListener
-) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val spinnerType = 1 // and 7
     private val textBoxType = 2 // and 3
@@ -41,11 +43,7 @@ class DynamicSpecificationsAdapter(
         val txtRequiredEn: TextView = view.findViewById(R.id.txtRequiredEn)
         val etValueEn: EditText = view.findViewById(R.id.etValueEn)
         val etValueAr: EditText = view.findViewById(R.id.etValueAr)
-
     }
-
-//    class SpinnerViewHolder(var viewBinding: ItemDropDownBinding) :
-//        RecyclerView.ViewHolder(viewBinding.root)
 
     class SpinnerViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val tvTitle: TextView = view.findViewById(R.id.tvTitleAr)
@@ -55,13 +53,7 @@ class DynamicSpecificationsAdapter(
 
     class CheckViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val tvTitleAr: TextView = view.findViewById(R.id.tvTitleAr)
-        val ivSelect: ImageView = view.findViewById(R.id.ivSelect)
-        val ivSelect2: ImageView = view.findViewById(R.id.ivSelect2)
-        val type1: TextView = view.findViewById(R.id.type1)
-        val txtRequired: TextView = view.findViewById(R.id.txtRequired)
-        val type2: TextView = view.findViewById(R.id.type2)
     }
-
 
     lateinit var context: Context
     override fun getItemViewType(position: Int): Int {
@@ -81,16 +73,12 @@ class DynamicSpecificationsAdapter(
         } else {
             // text box
             return textBoxType
-
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         context = parent.context
         if (viewType == spinnerType) {
-//            return DynamicSpecificationsAdapter.SpinnerViewHolder(
-//                ItemDropDownBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-//            )
             return SpinnerViewHolder(
                 LayoutInflater.from(parent.context).inflate(
                     R.layout.item_drop_down,
@@ -122,9 +110,6 @@ class DynamicSpecificationsAdapter(
                     false
                 )
             )
-//            return DynamicSpecificationsAdapter.TextBoxViewHolder(
-//                ItemTextBoxsBinding
-//                    .inflate(LayoutInflater.from(parent.context), parent, false)
         }
     }
 
@@ -146,66 +131,125 @@ class DynamicSpecificationsAdapter(
         checkViewHolder: CheckViewHolder,
         position: Int
     ) {
-        if (ConstantObjects.currentLanguage == "ar") {
-            checkViewHolder.type1.text =
-                dynamicSpecificationList[position].subSpecifications?.get(0)?.nameAr
+        val dynamicContainer =
+            checkViewHolder.itemView.findViewById<LinearLayout>(R.id.dynamicContainer)
+        dynamicContainer.removeAllViews() // Clear any previous dynamic views
 
-            for (i in dynamicSpecificationList[position].subSpecifications!!) {
-                checkViewHolder.type2.text = i.nameAr
-            }
-            checkViewHolder.tvTitleAr.text = "${dynamicSpecificationList[position].nameAr}"
+        val dynamicSpecItem = dynamicSpecificationList[position]
 
-        } else {
-            checkViewHolder.type1.text =
-                dynamicSpecificationList[position].subSpecifications?.get(0)?.nameEn
-
-            for (i in dynamicSpecificationList[position].subSpecifications!!) {
-                checkViewHolder.type2.text = i.nameEn
-            }
-            checkViewHolder.tvTitleAr.text = "${dynamicSpecificationList[position].nameEn}"
-
-        }
-//        if(dynamicSpecificationList[position].isSelected){
-//            if (dynamicSpecificationList[position].valueBoolean) {
-//                checkViewHolder.ivSelect.setImageResource(R.drawable.ic_radio_button_checked)
-//            } else {
-//                checkViewHolder.ivSelect.setImageResource(R.drawable.ic_radio_button_unchecked)
-//            }
-//        }
-
-        if (dynamicSpecificationList[position].valueBoolean) {
-            checkViewHolder.ivSelect.setImageResource(R.drawable.ic_radio_button_checked)
-        } else {
-            checkViewHolder.ivSelect.setImageResource(R.drawable.ic_radio_button_unchecked)
-        }
-        checkViewHolder.ivSelect.setOnClickListener {
-            if (dynamicSpecificationList[position].valueBoolean) {
-                dynamicSpecificationList[position].valueBoolean = false
-                checkViewHolder.ivSelect.setImageResource(R.drawable.ic_radio_button_unchecked)
-                checkViewHolder.ivSelect2.setImageResource(R.drawable.ic_radio_button_checked)
+        // Create a TextView for the title dynamically
+        val titleTextView = TextView(context).apply {
+            text = if (ConstantObjects.currentLanguage == "ar") {
+                dynamicSpecItem.nameAr ?: "Default Title (AR)"
             } else {
-                dynamicSpecificationList[position].valueBoolean = true
-                checkViewHolder.ivSelect.setImageResource(R.drawable.ic_radio_button_checked)
-                checkViewHolder.ivSelect2.setImageResource(R.drawable.ic_radio_button_unchecked)
+                dynamicSpecItem.nameEn ?: "Default Title (EN)"
             }
-            onChangeValueListener.setCheckClicked(position)
+            textSize = 14f // Adjust the text size as needed
+            setTypeface(null, Typeface.BOLD) // Make it bold to distinguish the title
+            setTextColor(ContextCompat.getColor(context, R.color.black)) // Adjust as necessary
+
+            // Set layout parameters for titleTextView with marginStart
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            ).apply {
+                marginStart = 24.dpToPx(context) // Set marginStart to 24dp
+            }
         }
 
-        if (dynamicSpecificationList[position].isRequired) {
-            checkViewHolder.txtRequired.visibility = View.VISIBLE
+        // Add the title TextView to the dynamic container
+        dynamicContainer.addView(titleTextView)
+
+        // Create a TextView for "Required" status dynamically if the item is required
+        if (dynamicSpecItem.isRequired) {
+            val requiredTextView = TextView(context).apply {
+                text =
+                    context.getString(R.string.required_label) // Assume you have a string resource for "Required"
+                textSize = 12f
+                setTextColor(
+                    ContextCompat.getColor(
+                        context,
+                        R.color.red
+                    )
+                ) // Adjust color to indicate importance
+            }
+            // Add the "Required" TextView right below the title or wherever appropriate
+            dynamicContainer.addView(requiredTextView)
         }
 
-        checkViewHolder.ivSelect2.setOnClickListener {
-            if (dynamicSpecificationList[position].valueBoolean) {
-                checkViewHolder.ivSelect.setImageResource(R.drawable.ic_radio_button_checked)
-                dynamicSpecificationList[position].valueBoolean = false
-                checkViewHolder.ivSelect2.setImageResource(R.drawable.ic_radio_button_unchecked)
-            } else {
-                dynamicSpecificationList[position].valueBoolean = true
-                checkViewHolder.ivSelect.setImageResource(R.drawable.ic_radio_button_unchecked)
-                checkViewHolder.ivSelect2.setImageResource(R.drawable.ic_radio_button_checked)
+        // Add sub-specifications (TextView and ImageView for each subSpec)
+        dynamicSpecItem.subSpecifications?.forEachIndexed { index, subSpec ->
+            // Create TextView for each sub-specification with layout_weight="1" and layout_width="0dp"
+            val textView = TextView(context).apply {
+                text =
+                    if (ConstantObjects.currentLanguage == "ar") subSpec.nameAr else subSpec.nameEn
+                textSize = 12f
+                setTextColor(ContextCompat.getColor(context, R.color.black)) // Adjust as necessary
+                layoutParams = LinearLayout.LayoutParams(
+                    0, // layout_width = 0dp
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                ).apply {
+                    weight = 1f // layout_weight = 1
+                }
             }
-            onChangeValueListener.setCheckClicked(position)
+
+            // Create ImageView for each sub-specification
+            val imageView = ImageView(context).apply {
+                val params = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                )
+                setPadding(
+                    10.dpToPx(context),
+                    0.dpToPx(context),
+                    10.dpToPx(context),
+                    0.dpToPx(context)
+                )
+                layoutParams = params
+                setImageResource(if (subSpec.isDataSelected) R.drawable.ic_radio_button_checked else R.drawable.ic_radio_button_unchecked)
+                setOnClickListener {
+                    // Handle selection logic
+                    dynamicSpecItem.subSpecifications?.forEach { it.isDataSelected = false }
+                    subSpec.isDataSelected = true
+
+                    // Update the parent item based on the selection
+                    dynamicSpecItem.valueBoolean = true // or set it based on the selected subSpec
+                    notifyItemChanged(position)
+
+                    onChangeValueListener.setCheckClicked(position)
+                }
+            }
+
+            // Add the TextView and ImageView to the container
+            val itemLayout = LinearLayout(context).apply {
+                orientation = LinearLayout.HORIZONTAL
+                setPadding(
+                    10.dpToPx(context),
+                    10.dpToPx(context),
+                    10.dpToPx(context),
+                    10.dpToPx(context)
+                ) // Padding 16dp
+
+                // Set margins using LayoutParams
+                val layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                )
+                layoutParams.setMargins(
+                    10.dpToPx(context),
+                    10.dpToPx(context),
+                    10.dpToPx(context),
+                    0.dpToPx(context)
+                ) // Margin 10dp
+                this.layoutParams = layoutParams
+
+                // Add TextView (with weight) and ImageView inside this LinearLayout
+                addView(textView)
+                addView(imageView)
+            }
+
+            // Add the itemLayout to the dynamicContainer
+            dynamicContainer.addView(itemLayout)
         }
     }
 
@@ -227,6 +271,8 @@ class DynamicSpecificationsAdapter(
                 "${dynamicSpecItem.name} ${context.getString(R.string.inArabic)}"
             textBoxViewHolder.tvTitleEn.text =
                 "${dynamicSpecItem.name} ${context.getString(R.string.inEnglish)}"
+            textBoxViewHolder.tvTitleEn.visibility = View.VISIBLE
+            textBoxViewHolder.etValueEn.visibility = View.VISIBLE
         }
 
         // Set the hint for Arabic and English EditText fields
@@ -244,11 +290,17 @@ class DynamicSpecificationsAdapter(
             textBoxViewHolder.etValueEn.setText("")
         }
 
+        // Handle visibility of required label
         if (dynamicSpecItem.isRequired) {
             textBoxViewHolder.txtRequired.visibility = View.VISIBLE
             if (dynamicSpecItem.type != numberType) {
+                textBoxViewHolder.txtRequiredEn.visibility = View.VISIBLE
+            } else {
                 textBoxViewHolder.txtRequiredEn.visibility = View.GONE
             }
+        } else {
+            textBoxViewHolder.txtRequired.visibility = View.GONE
+            textBoxViewHolder.txtRequiredEn.visibility = View.GONE
         }
 
         textBoxViewHolder.etValueAr.addTextChangedListener(object : TextWatcher {
@@ -272,7 +324,6 @@ class DynamicSpecificationsAdapter(
         })
     }
 
-
     private lateinit var itemDropDownArrayList: ArrayList<SubSpecificationItem>
     private lateinit var spinnerVisitAdapter: SpinnerVisitAdapter
     private fun setSpinnerView(
@@ -281,10 +332,6 @@ class DynamicSpecificationsAdapter(
     ) {
         spinnerViewHolder.tvTitle.text = dynamicSpecificationList[position].name
         itemDropDownArrayList = ArrayList<SubSpecificationItem>()
-//        val itemDropdownDetails = ItemDropdownDetails(
-//            0, 0, attributesList.get(position).getTitle()
-//        )
-//        itemDropDownArrayList.add(itemDropdownDetails)
         dynamicSpecificationList[position].subSpecifications?.let { itemDropDownArrayList.addAll(it) }
         spinnerVisitAdapter = SpinnerVisitAdapter(context, itemDropDownArrayList)
         spinnerViewHolder.spinner.adapter = spinnerVisitAdapter

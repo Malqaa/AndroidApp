@@ -55,17 +55,21 @@ class ImageViewLargeActivity : AppCompatActivity() {
         mAdapter = ImagePagerAdapter(this, distinctItems)
         mViewPager.adapter = mAdapter
         mViewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-            override fun onPageScrolled(
-                position: Int,
-                positionOffset: Float,
-                positionOffsetPixels: Int
-            ) {
+            private var previousPosition = -1
+
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
                 // Not used
             }
 
             override fun onPageSelected(position: Int) {
-                // Release the ExoPlayer when the page is changed
-                mAdapter.releaseStop()
+                // Pause media on the previous page
+                if (previousPosition != -1) {
+                    mAdapter.pauseMedia(previousPosition)
+                }
+
+                // Play media for the new selected page
+                mAdapter.playMedia(position)
+                previousPosition = position
             }
 
             override fun onPageScrollStateChanged(state: Int) {
@@ -105,11 +109,12 @@ class ImageViewLargeActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-        mAdapter.releasePlayer()
+        mAdapter.pauseMedia(mViewPager.currentItem)
     }
 
     override fun onStop() {
         super.onStop()
-        mAdapter.releasePlayer()
+        mAdapter.pauseMedia(mViewPager.currentItem)
     }
+
 }

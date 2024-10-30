@@ -25,10 +25,10 @@
 
                 <ImageView
                     android:id="@+id/productimg"
-                    android:scaleType="fitXY"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/gray_light" />
+                    android:background="@color/gray_light"
+                    android:scaleType="fitXY" />
 
                 <ProgressBar
                     android:id="@+id/loader"
@@ -211,20 +211,21 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:fontFamily="@font/madani_arabic_bold"
-                    android:textColor="#000000"
                     android:textAlignment="viewStart"
+                    android:textColor="#000000"
                     android:textSize="12sp"
                     app:layout_constraintEnd_toStartOf="@id/typeProduct"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
                 <TextView
                     android:id="@+id/subTitlenamee"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:fontFamily="@font/madani_arabic_medium"
-                    android:textColor="#000000"
                     android:textAlignment="viewStart"
+                    android:textColor="#000000"
                     android:textSize="11sp"
                     app:layout_constraintEnd_toStartOf="@id/typeProduct"
                     app:layout_constraintStart_toStartOf="parent"
@@ -377,8 +378,8 @@
                     <TextView
                         android:id="@+id/txtTitlePurchase"
                         android:layout_width="wrap_content"
-                        android:layout_weight="1"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:fontFamily="@font/madani_arabic_medium"
                         android:text="@string/purchasing_price"
                         android:textColor="@color/textColor2"
@@ -405,7 +406,8 @@
                                 android:text="0 Rayal"
                                 android:textColor="@color/gray_light"
                                 android:textSize="@dimen/_9sdp"
-                                android:textStyle="bold" />
+                                android:textStyle="bold"
+                                android:visibility="gone" />
 
                             <TextView
                                 android:id="@+id/tvProductPrice"
@@ -424,12 +426,12 @@
                             android:id="@+id/tvOldPRiceProductPriceForVertiaclView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:visibility="gone"
                             android:fontFamily="@font/madani_arabic_bold"
                             android:text="0 Rayal"
                             android:textColor="@color/gray_light"
                             android:textSize="@dimen/_9sdp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:visibility="gone" />
 
 
                     </LinearLayout>
@@ -440,16 +442,16 @@
                 <LinearLayout
                     android:id="@+id/LowestPrice_layout"
                     android:layout_width="match_parent"
-                    android:orientation="horizontal"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
                         android:layout_toStartOf="@+id/LowestPrice"
+                        android:layout_weight="1"
                         android:fontFamily="@font/madani_arabic_medium"
                         android:text="@string/highest_price"
                         android:textColor="@color/textColor2"

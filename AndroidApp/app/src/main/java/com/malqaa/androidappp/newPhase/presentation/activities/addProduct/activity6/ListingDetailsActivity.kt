@@ -3,7 +3,6 @@ package com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activ
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.CompoundButton
 import androidx.lifecycle.ViewModelProvider
 import com.malqaa.androidappp.R
 import com.malqaa.androidappp.databinding.ActivityListDetailsAddProductBinding
@@ -19,7 +18,6 @@ import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.helper.widgets.searchdialog.SearchListItem
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.show
-
 
 class ListingDetailsActivity : BaseActivity<ActivityListDetailsAddProductBinding>() {
     var selectedCountry: SearchListItem? = null
@@ -43,18 +41,17 @@ class ListingDetailsActivity : BaseActivity<ActivityListDetailsAddProductBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Initialize view binding
+
         binding = ActivityListDetailsAddProductBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         binding.toolbarMain.toolbarTitle.text = getString(R.string.item_details)
         isEdit = intent.getBooleanExtra(ConstantObjects.isEditKey, false)
         setUpViewModel()
         setViewClickListeners()
-
         if (isEdit) {
             setData()
         }
-
     }
 
     private fun setUpViewModel() {
@@ -130,6 +127,7 @@ class ListingDetailsActivity : BaseActivity<ActivityListDetailsAddProductBinding
         selectedCountry = AddProductObjectData.country
         selectedRegion = AddProductObjectData.region
         selectedCity = AddProductObjectData.city
+
         binding.countryContainer.text = selectedCountry?.title ?: ""
         binding.regionContainer.text = selectedRegion?.title ?: ""
         binding.neighborhoodContainer.text = selectedCity?.title ?: ""
@@ -149,13 +147,14 @@ class ListingDetailsActivity : BaseActivity<ActivityListDetailsAddProductBinding
         binding.countryContainer._setOnClickListener {
             openCountryDialog()
         }
-        binding.switchInfoEn.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
+
+        binding.switchInfoEn.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
                 binding.viewEnglishInfo.visibility = View.VISIBLE
             } else {
                 binding.viewEnglishInfo.visibility = View.GONE
             }
-        })
+        }
         binding.boxValue.setOnClickListener {
             if (binding.switchInfoEn.isChecked) {
                 binding.switchInfoEn.isChecked = false
@@ -189,7 +188,6 @@ class ListingDetailsActivity : BaseActivity<ActivityListDetailsAddProductBinding
             }
         }
 
-
         binding.btnotherr.setOnClickListener { listDetailsConfirmInput() }
 
         binding.toolbarMain.backBtn.setOnClickListener {
@@ -209,6 +207,7 @@ class ListingDetailsActivity : BaseActivity<ActivityListDetailsAddProductBinding
             AddProductObjectData.brand_new_item = binding.tvUsed.text.toString()
             AddProductObjectData.productCondition = 1
         }
+
     }
 
     /**countries , region and Neighborhood Dialogs**/
@@ -220,17 +219,11 @@ class ListingDetailsActivity : BaseActivity<ActivityListDetailsAddProductBinding
                 countryFlag: String?,
                 countryCode: String?
             ) {
-                /**setCountryData*/
-                /**setCountryData*/
                 selectedCountry = SearchListItem(id, countryName)
                 binding.countryContainer.text = countryName
                 binding.countryContainer._setStartIconImage(countryFlag)
-                /**resetRegion*/
-                /**resetRegion*/
                 selectedRegion = null
                 binding.regionContainer.text = null
-                /**resetRegion*/
-                /**resetRegion*/
                 selectedCity = null
                 binding.neighborhoodContainer.text = null
             }
@@ -242,12 +235,8 @@ class ListingDetailsActivity : BaseActivity<ActivityListDetailsAddProductBinding
         val regionDialog =
             RegionDialog(this, selectedCountry!!.id, object : RegionDialog.GetSelectedRegion {
                 override fun onSelectedRegion(id: Int, regionName: String) {
-                    /**setRegionData*/
-                    /**setRegionData*/
                     selectedRegion = SearchListItem(id, regionName)
                     binding.regionContainer.text = regionName
-                    /**resetNeighborhood*/
-                    /**resetNeighborhood*/
                     selectedCity = null
                     binding.neighborhoodContainer.text = null
                 }
@@ -261,8 +250,6 @@ class ListingDetailsActivity : BaseActivity<ActivityListDetailsAddProductBinding
             selectedRegion!!.id,
             object : NeighborhoodDialog.GetSelectedNeighborhood {
                 override fun onSelectedNeighborhood(id: Int, neighborhoodName: String) {
-                    /**setNeighborhoodData*/
-                    /**setNeighborhoodData*/
                     selectedCity = SearchListItem(id, neighborhoodName)
                     binding.neighborhoodContainer.text = neighborhoodName
                 }
@@ -270,15 +257,11 @@ class ListingDetailsActivity : BaseActivity<ActivityListDetailsAddProductBinding
         neighborhoodDialog.show()
     }
 
-    /***/
-
     private fun listDetailsConfirmInput() {
         AddProductObjectData.quantity = binding.quantityavail.number
         if (binding.tvTitleAr.getText().isEmpty()) {
             showError(getString(R.string.Please_enter, getString(R.string.item_title)))
-        }
-
-        else if (AddProductObjectData.productCondition == 0) {
+        } else if (AddProductObjectData.productCondition == 0) {
             showError(getString(R.string.Please_select, getString(R.string.item_condition)))
         } else if (AddProductObjectData.quantity.isEmpty()) {
             showError(getString(R.string.Please_select, getString(R.string.QuantityAvailable)))
@@ -290,20 +273,15 @@ class ListingDetailsActivity : BaseActivity<ActivityListDetailsAddProductBinding
             showError(getString(R.string.Please_select, getString(R.string.selectCountry)))
         } else if (binding.neighborhoodContainer.text.toString().isEmpty()) {
             showError(getString(R.string.Please_select, getString(R.string.district)))
-        }
-
-        else if (binding.switchInfoEn.isChecked) {
+        } else if (binding.switchInfoEn.isChecked) {
             if (binding.tvTitleEn.getText().isEmpty()) {
                 showError(getString(R.string.Please_enter, getString(R.string.item_title)))
             } else {
                 checkAllRight()
-
             }
         } else {
             checkAllRight()
         }
-
-
     }
 
     fun checkAllRight() {
@@ -312,7 +290,7 @@ class ListingDetailsActivity : BaseActivity<ActivityListDetailsAddProductBinding
         AddProductObjectData.itemDescriptionAr = binding.tvDescriptionAr.text.trim().toString()
         if (!binding.switchInfoEn.isChecked) {
             AddProductObjectData.itemTitleEn = binding.tvTitleAr.text.toString()
-            AddProductObjectData.subtitleEn =binding.tvSubtitleAr.text.toString()
+            AddProductObjectData.subtitleEn = binding.tvSubtitleAr.text.toString()
             AddProductObjectData.itemDescriptionEn = binding.tvDescriptionAr.text.trim().toString()
         } else {
             AddProductObjectData.itemTitleEn = binding.tvTitleEn.getText().toString()
@@ -320,11 +298,11 @@ class ListingDetailsActivity : BaseActivity<ActivityListDetailsAddProductBinding
             AddProductObjectData.itemDescriptionEn = binding.tvDescriptionEn.text.trim().toString()
         }
 
-
         AddProductObjectData.country = selectedCountry
         AddProductObjectData.region = selectedRegion
         AddProductObjectData.city = selectedCity
         AddProductObjectData.phone = binding.etPhoneNumber.text.toString().trim()
+        // AddProductObjectData.phoneCountryCode = countryCodePicker.selectedCountryCodeWithPlus
         if (isEdit) {
             startActivity(Intent(this, ConfirmationAddProductActivity::class.java).apply {
                 putExtra("whereCome", "Add")
@@ -340,9 +318,7 @@ class ListingDetailsActivity : BaseActivity<ActivityListDetailsAddProductBinding
                     ConstantObjects.isEditKey,
                     intent.getBooleanExtra(ConstantObjects.isEditKey, false)
                 )
-
             })
-
         }
     }
 

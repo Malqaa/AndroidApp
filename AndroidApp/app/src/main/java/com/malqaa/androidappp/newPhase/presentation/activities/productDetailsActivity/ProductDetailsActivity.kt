@@ -12,6 +12,7 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
@@ -62,8 +63,13 @@ import com.malqaa.androidappp.newPhase.utils.Extension.shared
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions.Companion.getDifference
 import com.malqaa.androidappp.newPhase.utils.VideoDialogFragment
+import com.malqaa.androidappp.newPhase.utils.WebViewPlayerDialogFragment
+import com.malqaa.androidappp.newPhase.utils.YouTubePlayerDialogFragment
+import com.malqaa.androidappp.newPhase.utils.extractYouTubeId
 import com.malqaa.androidappp.newPhase.utils.helper.shared_preferences.SharedPreferencesStaticClass
 import com.malqaa.androidappp.newPhase.utils.hide
+import com.malqaa.androidappp.newPhase.utils.isVideoLink
+import com.malqaa.androidappp.newPhase.utils.isYouTubeLink
 import com.malqaa.androidappp.newPhase.utils.linearLayoutManager
 import com.malqaa.androidappp.newPhase.utils.show
 import com.yariksoffice.lingver.Lingver
@@ -75,6 +81,7 @@ import org.joda.time.DateTime
 import org.joda.time.Duration
 import org.joda.time.format.DateTimeFormat
 import java.util.Date
+import java.util.regex.Pattern
 
 @SuppressLint("SetTextI18n")
 class ProductDetailsActivity : BaseActivity<ActivityProductDetails2Binding>(),
@@ -1138,12 +1145,52 @@ class ProductDetailsActivity : BaseActivity<ActivityProductDetails2Binding>(),
                 override fun onSelectImage(position: Int) {
                     urlImg = productImagesList[position].url
                     if (productImagesList[position].type == 2) {
-                        // video: "https://video.blender.org/download/videos/3d95fb3d-c866-42c8-9db1-fe82f48ccb95-804.mp4"
-                        val videoUrl = productImagesList[position].url
-                        Log.i("test #1", "videoUrl: $videoUrl")
-                        Log.i("test #1", "productImagesList: ${productImagesList[position]}")
-                        val videoDialogFragment = VideoDialogFragment.newInstance(videoUrl)
-                        videoDialogFragment.show(supportFragmentManager, "videoDialog")
+                        // "https://video.blender.org/download/videos/3d95fb3d-c866-42c8-9db1-fe82f48ccb95-804.mp4"
+                        // "https://www.youtube.com/watch?v=QfiH796sMAE"
+                        // "https://www.sumologic.com/live-demo/"
+                        // productImagesList[position].url
+                        val selectedUrl = productImagesList[position].url
+                        Log.i("test #1", "videoUrl: $selectedUrl")
+
+                        // Check if selectedUrl is not null or empty
+                        if (selectedUrl.isNotEmpty()) {
+                            when {
+                                isYouTubeLink(selectedUrl) -> {
+                                    // Extract video ID for YouTube
+                                    val videoId = extractYouTubeId(selectedUrl)
+                                    val dialogFragment =
+                                        YouTubePlayerDialogFragment.newInstance(videoId!!)
+                                    dialogFragment.show(
+                                        supportFragmentManager,
+                                        "YouTubePlayerDialogFragment"
+                                    )
+                                }
+
+                                isVideoLink(selectedUrl) -> {
+                                    val videoDialogFragment =
+                                        VideoDialogFragment.newInstance(selectedUrl)
+                                    videoDialogFragment.show(supportFragmentManager, "videoDialog")
+                                }
+
+                                else -> {
+                                    // Open WebViewPlayerDialogFragment for any other link
+                                    val webViewDialogFragment =
+                                        WebViewPlayerDialogFragment.newInstance(selectedUrl)
+                                    webViewDialogFragment.show(
+                                        supportFragmentManager,
+                                        "webViewPlayerDialog"
+                                    )
+                                }
+                            }
+                        } else {
+                            // Handle the case where the URL is null or empty, if necessary
+                            Log.e("test #1", "selectedUrl is null or empty")
+                            Toast.makeText(
+                                this@ProductDetailsActivity,
+                                getString(R.string.the_selected_url_is_not_available_or_is_empty),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                     } else {
                         imgPosition = position
                         binding.productimg.tag = productImagesList[position].url
@@ -1157,8 +1204,8 @@ class ProductDetailsActivity : BaseActivity<ActivityProductDetails2Binding>(),
                         startActivity(intent)
                     }
                 }
-
             })
+
         binding.rvProductImages.apply {
             layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
             adapter = productImagesAdapter

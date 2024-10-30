@@ -35,10 +35,10 @@ class MyProductSettingDialog(
             }
 
         if (productsForSale) {
-            if (isAuctionEnabled || !fixedPriceEnabled)
-                viewBinding.btnAddDiscount.hide()
-            else
+            if (fixedPriceEnabled)
                 viewBinding.btnAddDiscount.show()
+            else
+                viewBinding.btnAddDiscount.hide()
             viewBinding.btnModifyProduct.show()
             viewBinding.btnSendOffer.hide()
             viewBinding.btnRepostTheProduct.hide()

@@ -1,18 +1,12 @@
 package com.malqaa.androidappp.newPhase.utils
 
 import android.os.Bundle
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.ProgressBar
-import android.widget.SeekBar
-import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
-import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.ui.PlayerView
 import com.malqaa.androidappp.R
 
@@ -30,7 +24,7 @@ class VideoDialogFragment : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        playerView = view.findViewById(R.id.playerView)
+        playerView = view.findViewById(R.id.player_view)
         initializePlayer()
     }
 
