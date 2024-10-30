@@ -149,7 +149,7 @@ class MyOrdersFragment : Fragment(R.layout.fragment_my_orders),
     }
 
     private fun setListener() {
-        binding.toolbarMain.toolbarTitle.setOnClickListener {
+        binding.toolbarMain.backBtn.setOnClickListener {
             requireActivity().onBackPressed()
         }
         binding.btnCurrent.setOnClickListener {
