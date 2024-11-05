@@ -32,7 +32,6 @@ import com.hbb20.CountryCodePicker
 import com.malqaa.androidappp.R
 import com.malqaa.androidappp.databinding.AddAddressActivityBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
-import com.malqaa.androidappp.newPhase.domain.models.servicemodels.GetAddressResponse
 import com.malqaa.androidappp.newPhase.domain.models.userAddressesResp.AddressItem
 import com.malqaa.androidappp.newPhase.presentation.activities.addressUser.AddressViewModel
 import com.malqaa.androidappp.newPhase.presentation.dialogsShared.LocationPermissionDialog
@@ -234,7 +233,8 @@ class AddAddressActivity : BaseActivity<AddAddressActivityBinding>(), OnMapReady
                         building = binding.tvBuildingNumber.text?.trim().toString(),
                         lat = latLngLocation?.latitude.toString(),
                         lng = latLngLocation?.longitude.toString(),
-                        phone = binding.countryCodePicker.fullNumberWithPlus
+                        phone = binding.countryCodePicker.fullNumberWithPlus,
+                        defaultAddress = binding.checkDefault.isChecked
                     )
                 }
             } else {
@@ -247,7 +247,8 @@ class AddAddressActivity : BaseActivity<AddAddressActivityBinding>(), OnMapReady
                     building = binding.tvBuildingNumber.text?.trim().toString(),
                     lat = latLngLocation?.latitude.toString(),
                     lng = latLngLocation?.longitude.toString(),
-                    phone = binding.countryCodePicker.fullNumberWithPlus
+                    phone = binding.countryCodePicker.fullNumberWithPlus,
+                    defaultAddress = binding.checkDefault.isChecked
                 )
             }
         }

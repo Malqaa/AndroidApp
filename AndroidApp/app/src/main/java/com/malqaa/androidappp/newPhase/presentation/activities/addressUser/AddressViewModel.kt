@@ -17,8 +17,8 @@ import retrofit2.HttpException
 
 class AddressViewModel : BaseViewModel() {
 
-    private var _userMessage : MutableLiveData<String?> = MutableLiveData( null)
-    val userMessage : MutableLiveData<String?> = _userMessage
+    private var _userMessage: MutableLiveData<String?> = MutableLiveData(null)
+    val userMessage: MutableLiveData<String?> = _userMessage
 
     var addUserAddressesListObserver: MutableLiveData<GeneralResponse> = MutableLiveData()
     var userAddressesListObserver: MutableLiveData<UserAddressesResp> = MutableLiveData()
@@ -101,7 +101,8 @@ class AddressViewModel : BaseViewModel() {
         building: String,
         lat: String,
         lng: String,
-        phone: String
+        phone: String,
+        defaultAddress: Boolean? = false
     ) {
         isLoading.value = true
         val map: HashMap<String, RequestBody> = HashMap()
@@ -115,10 +116,9 @@ class AddressViewModel : BaseViewModel() {
         map["lat"] = lat.requestBody()
         map["lng"] = lng.requestBody()
         map["phone"] = phone.requestBody()
-        map["defaultAddress"] = "false".requestBody()
+        map["defaultAddress"] = defaultAddress.toString().requestBody()
         getRetrofitBuilder()
             .addAddressForUser(map)
-
 
         callAddUserAddress = getRetrofitBuilder().addAddressForUser(map)
         callApi(callAddUserAddress!!,
@@ -151,7 +151,8 @@ class AddressViewModel : BaseViewModel() {
         building: String,
         lat: String,
         lng: String,
-        phone: String
+        phone: String,
+        defaultAddress: Boolean? = false
     ) {
         isLoading.value = true
         val map: HashMap<String, RequestBody> = HashMap()
@@ -166,7 +167,7 @@ class AddressViewModel : BaseViewModel() {
         map["lat"] = lat.requestBody()
         map["lng"] = lng.requestBody()
         map["phone"] = phone.requestBody()
-        map["defaultAddress"] = "false".requestBody()
+        map["defaultAddress"] = defaultAddress.toString().requestBody()
         getRetrofitBuilder()
             .editAddressForUser(map)
 
@@ -191,9 +192,9 @@ class AddressViewModel : BaseViewModel() {
             })
     }
 
-    fun setDefaultAddress(addressId: Int){
+    fun setDefaultAddress(addressId: Int) {
         viewModelScope.launch {
-            withContext(Dispatchers.IO){
+            withContext(Dispatchers.IO) {
                 val defaultAddress = getRetrofitBuilder().setDefaultAddress(addressId = addressId)
                 callApi(
                     defaultAddress,
