@@ -1,7 +1,9 @@
 package com.malqaa.androidappp.newPhase.presentation.activities.loginScreen
 
 import android.content.Intent
+import android.icu.lang.UCharacter.GraphemeClusterBreak.L
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns
 import android.view.View
 import androidx.lifecycle.Observer
@@ -13,6 +15,7 @@ import com.malqaa.androidappp.newPhase.domain.models.loginResp.LoginUser
 import com.malqaa.androidappp.newPhase.presentation.activities.forgotPasswordActivity.activtiy1.ForgotPasswordActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.signup.activity1.SignupConfirmNewUserActivity
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
+import com.malqaa.androidappp.newPhase.utils.ConstantObjects.Companion.data
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.helper.shared_preferences.SharedPreferencesStaticClass
 import com.yariksoffice.lingver.Lingver
@@ -108,6 +111,21 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>() {
                 }
             }
         })
+
+        loginViewModel!!.isLoadingAssignCartToUser.observe(this) {
+            if (it) {
+                HelpFunctions.startProgressBar(this)
+            } else {
+                HelpFunctions.dismissProgressBar()
+            }
+        }
+
+        loginViewModel!!.assignCartToUserObserver.observe(this) {
+            if (it.status_code == 200) {
+                val masterCartId = it.data.toString().toLong().toString()
+                SharedPreferencesStaticClass.saveMasterCartId(masterCartId)
+            }
+        }
     }
 
     /**event clicks*/
@@ -137,12 +155,16 @@ class SignInActivity : BaseActivity<ActivitySignInBinding>() {
 
     private fun saveUserData(userObject: LoginUser) {
         ConstantObjects.logged_userid = userObject.id
-        // ConstantObjects.businessAccountUser = userObject.businessAccounts
         val userId: String = userObject.id
         ConstantObjects.logged_userid = userId
         HelpFunctions.ShowLongToast(getString(R.string.LoginSuccessfully), this)
         Paper.book().write(SharedPreferencesStaticClass.islogin, true)
         Paper.book().write<LoginUser>(SharedPreferencesStaticClass.user_object, userObject)
+
+        val masterCartId = SharedPreferencesStaticClass.getMasterCartId()
+        if (masterCartId != null && (masterCartId != "" || masterCartId.toInt() != 0)) {
+            loginViewModel?.assignCardToUser(SharedPreferencesStaticClass.getMasterCartId())
+        }
 
         setResult(RESULT_OK, Intent())
         finish()

@@ -128,6 +128,33 @@ class LoginViewModel : BaseViewModel() {
 
     }
 
+    var isLoadingAssignCartToUser: MutableLiveData<Boolean> = MutableLiveData()
+    private var callAssignCardToUser: Call<GeneralResponse>? = null
+    var assignCartToUserObserver: MutableLiveData<GeneralResponse> = MutableLiveData()
+
+    fun assignCardToUser(masterCartId: String) {
+        isLoadingAssignCartToUser.value = true
+        callAssignCardToUser = getRetrofitBuilder().assignCartMastetToUser(masterCartId)
+        callApi(callAssignCardToUser!!,
+            onSuccess = {
+                isLoadingAssignCartToUser.value = false
+                assignCartToUserObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoadingAssignCartToUser.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
+                }
+            },
+            goLogin = {
+                isLoadingAssignCartToUser.value = false
+                needToLogin.value = true
+            })
+    }
+
     fun closeAllCall() {
         if (callChangePassword != null) {
             callChangePassword?.cancel()
@@ -140,6 +167,9 @@ class LoginViewModel : BaseViewModel() {
         }
         if (changeLanguage != null) {
             changeLanguage?.cancel()
+        }
+        if (callAssignCardToUser != null) {
+            callAssignCardToUser?.cancel()
         }
     }
 
