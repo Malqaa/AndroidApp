@@ -270,7 +270,7 @@ class ListingDetailsActivity : BaseActivity<ActivityListDetailsAddProductBinding
         } else if (binding.countryContainer.text.toString().isEmpty()) {
             showError(getString(R.string.Please_select, getString(R.string.selectCountry)))
         } else if (binding.regionContainer.text.toString().isEmpty()) {
-            showError(getString(R.string.Please_select, getString(R.string.selectCountry)))
+            showError(getString(R.string.Please_select, getString(R.string.selectRegionTitle)))
         } else if (binding.neighborhoodContainer.text.toString().isEmpty()) {
             showError(getString(R.string.Please_select, getString(R.string.district)))
         } else if (binding.switchInfoEn.isChecked) {

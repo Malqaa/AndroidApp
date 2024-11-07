@@ -65,6 +65,25 @@
                         android:orientation="vertical"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
+                    <TextView
+                        android:id="@+id/tvError"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignStart="@+id/rvAddress"
+                        android:layout_alignTop="@+id/rvAddress"
+                        android:layout_alignEnd="@+id/rvAddress"
+                        android:layout_alignBottom="@+id/rvAddress"
+                        android:layout_marginStart="112dp"
+                        android:layout_marginTop="88dp"
+                        android:layout_marginEnd="113dp"
+                        android:layout_marginBottom="86dp"
+                        android:fontFamily="@font/madani_arabic_medium"
+                        android:text="@string/noAddressesFound"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/gray"
+                        android:textSize="@dimen/_10sdp"
+                        android:visibility="gone" />
+
                 </RelativeLayout>
 
 

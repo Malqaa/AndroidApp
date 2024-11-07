@@ -69,12 +69,11 @@ class ListAddressesActivity : BaseActivity<AddressListActivityBinding>(),
 
     private fun setAddressesAdapter() {
         userAddressesList = ArrayList()
-        addressesAdapter = AddressesAdapter(userAddressesList, this, true)
+        addressesAdapter = AddressesAdapter(userAddressesList, this)
         binding.rvAdddresses.apply {
             adapter = addressesAdapter
             layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
         }
-
     }
 
     private fun setUpViewModel() {

@@ -52,47 +52,58 @@
             android:layout_marginEnd="@dimen/_10sdp"
             android:orientation="vertical">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:fontFamily="@font/madani_arabic_light"
+                android:text="@string/address_details"
+                android:textColor="#293241"
+                android:textSize="@dimen/_14sdp" />
 
+            <!-- Country -->
             <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
-                android:id="@+id/tvAddressTitle"
+                android:id="@+id/countryContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:hint="@string/addressTitle"
-                android:inputType="text" />
+                android:hint="@string/Country"
+                app:endIcon="@drawable/ic_arrow_down"
+                app:startIcon="@drawable/ic_region"
+                app:viewType="spinner" />
 
+            <!-- Region -->
             <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
-                android:id="@+id/tvAddress"
+                android:id="@+id/regionContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:hint="@string/address"
-                android:inputType="text" />
+                android:hint="@string/Region"
+                app:endIcon="@drawable/ic_arrow_down"
+                app:startIcon="@drawable/ic_region"
+                app:viewType="spinner" />
 
+            <!-- City -->
+            <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
+                android:id="@+id/neighborhoodContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="@string/City"
+                app:endIcon="@drawable/ic_arrow_down"
+                app:startIcon="@drawable/ic_city"
+                app:viewType="spinner" />
+
+            <!-- Street Name and Number -->
             <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/tvStreet"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:hint="@string/street"
+                android:hint="@string/street_name_and_number"
                 android:inputType="text" />
 
-            <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
-                android:id="@+id/tvBuildingNumber"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:hint="@string/buildingNumber"
-                android:inputType="text" />
-
-            <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
-                android:id="@+id/tvFloor"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:hint="@string/floorNumber"
-                android:inputType="text" />
-
+            <!-- Apartment Number -->
             <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
                 android:id="@+id/tvApartmentNumber"
                 android:layout_width="match_parent"
@@ -101,14 +112,41 @@
                 android:hint="@string/apartmentNumber"
                 android:inputType="text" />
 
-            <CheckBox
-                android:id="@+id/check_default"
-                android:layout_width="wrap_content"
+            <!-- Building Number -->
+            <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
+                android:id="@+id/tvBuildingNumber"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:checked="false"
-                android:text="@string/is_default_address" />
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="@string/buildingNumber"
+                android:inputType="text" />
+
+            <!-- Floor Number -->
+            <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
+                android:id="@+id/tvFloor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="@string/floorNumber"
+                android:inputType="text" />
+
+            <!-- Address Name -->
+            <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
+                android:id="@+id/tvAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="@string/address_name"
+                android:inputType="text" />
+
+            <!-- Address Title -->
+            <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
+                android:id="@+id/tvAddressTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="@string/addressTitle"
+                android:inputType="text" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -195,17 +233,8 @@
                                 app:ccp_rememberLastSelection="false"
                                 app:ccp_showNameCode="false"
                                 app:ccp_showPhoneCode="true" />
-                            <!--
-                              app:ccp_autoDetectCountry="true"
-                             app:ccp_countryAutoDetectionPref="SIM_NETWORK_LOCALE"-->
-
-
                         </LinearLayout>
-
-
                     </RelativeLayout>
-
-
                 </LinearLayout>
 
                 <TextView
@@ -220,6 +249,16 @@
                     android:visibility="gone" />
 
             </LinearLayout>
+
+            <!-- Default Address -->
+            <CheckBox
+                android:id="@+id/check_default"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:checked="false"
+                android:text="@string/is_default_address" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnAddAddress"

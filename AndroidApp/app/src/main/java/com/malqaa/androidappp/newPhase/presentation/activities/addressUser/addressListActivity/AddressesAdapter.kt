@@ -3,19 +3,18 @@ package com.malqaa.androidappp.newPhase.presentation.activities.addressUser.addr
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.malqaa.androidappp.R
 import com.malqaa.androidappp.databinding.ItemAddressAddBinding
 import com.malqaa.androidappp.newPhase.domain.models.userAddressesResp.AddressItem
 import com.malqaa.androidappp.newPhase.utils.helper.shared_preferences.SharedPreferencesStaticClass
-import com.malqaa.androidappp.newPhase.utils.hide
-import com.malqaa.androidappp.newPhase.utils.show
 
 class AddressesAdapter(
     var userAddressesList: ArrayList<AddressItem>,
     var setOnSelectedAddress: SetOnSelectedAddress,
-    var isSelectable: Boolean
+    private var isSelectable: Boolean? = null
 ) : RecyclerView.Adapter<AddressesAdapter.AddressesViewHolder>() {
 
     lateinit var context: Context
@@ -40,7 +39,6 @@ class AddressesAdapter(
     override fun onBindViewHolder(holder: AddressesViewHolder, position: Int) {
         holder.viewBinding.addressName.text =
             context.getString(R.string.delivery_to_my_current_address)
-//        holder.viewBinding.countryName.text = "$country - $region -$city"
         holder.viewBinding.countryName.text = "${userAddressesList[position].title} "
         holder.viewBinding.phonenum.text = userAddressesList[position].phone
         holder.viewBinding.addressTv.text =
@@ -49,14 +47,15 @@ class AddressesAdapter(
                     "${context.getString(R.string.floor)}:${userAddressesList[position].floor} - " +
                     "${context.getString(R.string.apartment)}:${userAddressesList[position].appartment}"
 
-
         if (SharedPreferencesStaticClass.getAddressTitle() == userAddressesList[position].title) {
             userAddressesList[position].isSelected = true
         }
 
         if (userAddressesList[position].defaultAddress) {
+            holder.viewBinding.btnDeleteAddress.visibility = View.GONE
             holder.viewBinding.ivSelectedAddress.setImageResource(R.drawable.ic_radio_button_checked)
         } else {
+            holder.viewBinding.btnDeleteAddress.visibility = View.VISIBLE
             holder.viewBinding.ivSelectedAddress.setImageResource(R.drawable.ic_radio_button_unchecked)
         }
 

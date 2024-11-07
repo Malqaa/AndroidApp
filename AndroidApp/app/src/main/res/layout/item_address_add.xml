@@ -25,33 +25,40 @@
 
     <TextView
         android:id="@+id/country_name"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         android:fontFamily="@font/madani_arabic_light"
         android:text="country name"
         android:textAlignment="viewStart"
         android:textColor="#000000"
         android:textSize="@dimen/_10sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/address_name"
         app:layout_constraintTop_toBottomOf="@+id/address_name" />
 
     <TextView
         android:id="@+id/address_tv"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
         android:fontFamily="@font/madani_arabic_light"
         android:text="address "
         android:textAlignment="viewStart"
         android:textColor="#000000"
         android:textSize="@dimen/_10sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/country_name"
         app:layout_constraintTop_toBottomOf="@+id/country_name" />
 
     <TextView
         android:id="@+id/phonenum"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:fontFamily="@font/madani_arabic_light"
         android:text="phone number"
@@ -59,6 +66,7 @@
         android:textColor="#000000"
         android:textSize="@dimen/_10sdp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/address_tv"
         app:layout_constraintTop_toBottomOf="@+id/address_tv" />
 

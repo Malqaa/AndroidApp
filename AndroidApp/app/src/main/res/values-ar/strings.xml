@@ -1130,4 +1130,6 @@
     <string name="cancel">إلغاء</string>
     <string name="change_default_address">هل أنت متأكد من تغيير العنوان الافتراضي؟</string>
     <string name="is_default_address">هل هو العنوان الافتراضي</string>
+    <string name="street_name_and_number">اسم الشارع ورقمه</string>
+    <string name="address_name">اسم العنوان</string>
 </resources>

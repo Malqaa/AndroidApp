@@ -1,5 +1,6 @@
 package com.malqaa.androidappp.newPhase.presentation.activities.addressUser
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.malqaa.androidappp.newPhase.core.BaseViewModel
@@ -102,23 +103,28 @@ class AddressViewModel : BaseViewModel() {
         lat: String,
         lng: String,
         phone: String,
-        defaultAddress: Boolean? = false
+        defaultAddress: Boolean? = false,
+        countryId: Int,
+        regionId: Int,
+        neighborhoodId: Int,
     ) {
         isLoading.value = true
         val map: HashMap<String, RequestBody> = HashMap()
         map["name"] = title.requestBody()
+        map["phone"] = phone.requestBody()
         map["title"] = title.requestBody()
         map["location"] = location.requestBody()
         map["street"] = street.requestBody()
         map["appartment"] = appartment.requestBody()
         map["floor"] = floor.requestBody()
         map["building"] = building.requestBody()
+        map["defaultAddress"] = defaultAddress.toString().requestBody()
         map["lat"] = lat.requestBody()
         map["lng"] = lng.requestBody()
-        map["phone"] = phone.requestBody()
-        map["defaultAddress"] = defaultAddress.toString().requestBody()
-        getRetrofitBuilder()
-            .addAddressForUser(map)
+        map["CountryId"] = countryId.toString().requestBody()
+        map["RegionId"] = regionId.toString().requestBody()
+        map["NeighborhoodId"] = neighborhoodId.toString().requestBody()
+        getRetrofitBuilder().addAddressForUser(map)
 
         callAddUserAddress = getRetrofitBuilder().addAddressForUser(map)
         callApi(callAddUserAddress!!,
@@ -128,11 +134,17 @@ class AddressViewModel : BaseViewModel() {
             },
             onFailure = { throwable, statusCode, errorBody ->
                 isLoading.value = false
-                if (throwable != null && errorBody == null)
+                if (throwable != null && errorBody == null) {
                     isNetworkFail.value = throwable !is HttpException
-                else {
+                    Log.e("test #1", throwable.toString())
+                    Log.e("test #1", statusCode.toString())
+                    Log.e("test #1", errorBody.toString())
+                } else {
                     errorResponseObserver.value =
                         getErrorResponse(statusCode, errorBody)
+                    Log.e("test #1", errorBody.toString())
+                    Log.e("test #1", statusCode.toString())
+                    Log.e("test #1", throwable.toString())
                 }
             },
             goLogin = {
@@ -152,7 +164,10 @@ class AddressViewModel : BaseViewModel() {
         lat: String,
         lng: String,
         phone: String,
-        defaultAddress: Boolean? = false
+        defaultAddress: Boolean? = false,
+        countryId: Int,
+        regionId: Int,
+        neighborhoodId: Int,
     ) {
         isLoading.value = true
         val map: HashMap<String, RequestBody> = HashMap()
@@ -168,8 +183,10 @@ class AddressViewModel : BaseViewModel() {
         map["lng"] = lng.requestBody()
         map["phone"] = phone.requestBody()
         map["defaultAddress"] = defaultAddress.toString().requestBody()
-        getRetrofitBuilder()
-            .editAddressForUser(map)
+        map["CountryId"] = countryId.toString().requestBody()
+        map["RegionId"] = regionId.toString().requestBody()
+        map["NeighborhoodId"] = neighborhoodId.toString().requestBody()
+        getRetrofitBuilder().editAddressForUser(map)
 
         callEditUserAddress = getRetrofitBuilder().editAddressForUser(map)
         callApi(callEditUserAddress!!,

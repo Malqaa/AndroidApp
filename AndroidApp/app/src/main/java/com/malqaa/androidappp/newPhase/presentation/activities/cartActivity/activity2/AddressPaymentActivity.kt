@@ -5,11 +5,13 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.malqaa.androidappp.R
 import com.malqaa.androidappp.databinding.ActivityAddressPaymentBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
@@ -19,6 +21,7 @@ import com.malqaa.androidappp.newPhase.domain.models.cartListResp.CartDataObject
 import com.malqaa.androidappp.newPhase.domain.models.cartListResp.CartProductDetails
 import com.malqaa.androidappp.newPhase.domain.models.orderDetailsByMasterID.OrderFullInfoDto
 import com.malqaa.androidappp.newPhase.domain.models.userAddressesResp.AddressItem
+import com.malqaa.androidappp.newPhase.presentation.activities.addressUser.AddressViewModel
 import com.malqaa.androidappp.newPhase.presentation.activities.addressUser.addAddressActivity.AddAddressActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.addressUser.addressListActivity.AddressesAdapter
 import com.malqaa.androidappp.newPhase.presentation.activities.cartActivity.activity2.adapter.CartNewAdapter
@@ -40,6 +43,9 @@ class AddressPaymentActivity : BaseActivity<ActivityAddressPaymentBinding>(),
     AddressesAdapter.SetOnSelectedAddress, CartNewAdapter.SetProductNewCartListeners,
     SwipeRefreshLayout.OnRefreshListener,
     CurrentOrderAdapter.SetOnClickListeners {
+
+    private lateinit var addressViewModel: AddressViewModel
+
     private var deliveryOptionSelect: String = "0"
     private var paymentOptionSelect: Int = 0
     private var paymentDetailsDtoList: ArrayList<Triple<Int, Int, Int>>? = null
@@ -58,6 +64,8 @@ class AddressPaymentActivity : BaseActivity<ActivityAddressPaymentBinding>(),
     var flagTypeSale = true
     var fromNegotiation = false
     var orderId = 0
+
+    private var lastSelectedPosition = 0
 
     private val addAddressLaucher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -88,6 +96,7 @@ class AddressPaymentActivity : BaseActivity<ActivityAddressPaymentBinding>(),
         binding.swipeToRefresh.setOnRefreshListener(this)
         setAddressesAdapter()
         setupCartViewModel()
+        setupAddressViewModel()
         setViewClickListeners()
 
         if (flagTypeSale) {
@@ -97,6 +106,38 @@ class AddressPaymentActivity : BaseActivity<ActivityAddressPaymentBinding>(),
             binding.titleCoupon.visibility = View.GONE
             binding.layActiveCoupon.visibility = View.GONE
         }
+    }
+
+    private fun setupAddressViewModel() {
+        addressViewModel = ViewModelProvider(this).get(AddressViewModel::class.java)
+
+        addressViewModel.isLoadingDeleteAddress.observe(this) {
+            if (it) {
+                HelpFunctions.startProgressBar(this)
+            } else {
+                HelpFunctions.dismissProgressBar()
+            }
+        }
+
+        addressViewModel.deleteUserAddressesObserver.observe(this) { resp ->
+            if (resp.status_code == 200) {
+                if (lastSelectedPosition < userAddressesList?.size!!) {
+                    userAddressesList?.removeAt(lastSelectedPosition)
+                    addressesAdapter?.notifyDataSetChanged()
+                    if (userAddressesList?.isEmpty() == true) {
+                        binding.tvError.show()
+                    }
+                }
+            } else {
+                if (resp.message != null) {
+                    HelpFunctions.ShowLongToast(resp.message, this)
+                } else {
+                    HelpFunctions.ShowLongToast(getString(R.string.serverError), this)
+                }
+            }
+        }
+
+        observerUserMessage()
     }
 
     override fun onResume() {
@@ -634,12 +675,15 @@ class AddressPaymentActivity : BaseActivity<ActivityAddressPaymentBinding>(),
     }
 
     override fun setOnSelectedAddress(position: Int) {
-        for (item in userAddressesList ?: arrayListOf()) {
-            item.isSelected = false
-        }
-        userAddressesList?.get(position)?.isSelected = true
-        addressId = userAddressesList?.get(position)?.id ?: 0
-        addressesAdapter?.notifyDataSetChanged()
+        MaterialAlertDialogBuilder(this)
+            .setMessage(resources.getString(R.string.change_default_address))
+            .setNegativeButton(resources.getString(R.string.cancel)) { dialog, which -> }
+            .setPositiveButton(resources.getString(R.string.accept)) { dialog, which ->
+                // Respond to positive button press
+                addressId = userAddressesList?.get(position)?.id ?: 0
+                userAddressesList?.get(position)?.let { addressViewModel.setDefaultAddress(it.id) }
+            }
+            .show()
     }
 
     override fun setOnSelectedEditAddress(position: Int) {
@@ -650,9 +694,18 @@ class AddressPaymentActivity : BaseActivity<ActivityAddressPaymentBinding>(),
     }
 
     override fun onDeleteAddress(position: Int) {
-        //not used here
+        lastSelectedPosition = position
+        userAddressesList?.get(position)?.let { addressViewModel.deleteUSerAddress(it.id) }
     }
 
+    private fun observerUserMessage() {
+        addressViewModel.userMessage.observe(this) { message ->
+            if (message != null) {
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+                onRefresh()
+            }
+        }
+    }
     override fun onRefresh() {
         binding.swipeToRefresh.isRefreshing = false
         productsCartList?.clear()

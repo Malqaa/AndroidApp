@@ -32,11 +32,17 @@ import com.hbb20.CountryCodePicker
 import com.malqaa.androidappp.R
 import com.malqaa.androidappp.databinding.AddAddressActivityBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
+import com.malqaa.androidappp.newPhase.domain.models.countryResp.Country
 import com.malqaa.androidappp.newPhase.domain.models.userAddressesResp.AddressItem
+import com.malqaa.androidappp.newPhase.domain.models.userAddressesResp.toSearchListItem
 import com.malqaa.androidappp.newPhase.presentation.activities.addressUser.AddressViewModel
 import com.malqaa.androidappp.newPhase.presentation.dialogsShared.LocationPermissionDialog
+import com.malqaa.androidappp.newPhase.presentation.dialogsShared.countryDialog.CountryDialog
+import com.malqaa.androidappp.newPhase.presentation.dialogsShared.neighborhoodDialog.NeighborhoodDialog
+import com.malqaa.androidappp.newPhase.presentation.dialogsShared.regionDialog.RegionDialog
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
+import com.malqaa.androidappp.newPhase.utils.helper.widgets.searchdialog.SearchListItem
 import com.yariksoffice.lingver.Lingver
 
 class AddAddressActivity : BaseActivity<AddAddressActivityBinding>(), OnMapReadyCallback {
@@ -52,6 +58,10 @@ class AddAddressActivity : BaseActivity<AddAddressActivityBinding>(), OnMapReady
     private lateinit var locationRequest: LocationRequest
     private lateinit var mLocationCallback: LocationCallback
     private lateinit var addressViewModel: AddressViewModel
+
+    var selectedCountry: SearchListItem? = null
+    var selectedRegion: SearchListItem? = null
+    var selectedCity: SearchListItem? = null
 
     private var locationPermissionDialog: LocationPermissionDialog? = null
     var PERMISSIONS: Array<String> =
@@ -88,6 +98,52 @@ class AddAddressActivity : BaseActivity<AddAddressActivityBinding>(), OnMapReady
         }
     }
 
+    private fun openCountryDialog() {
+        val countryDialog = CountryDialog(this, object : CountryDialog.GetSelectedCountry {
+            override fun onSelectedCountry(
+                id: Int,
+                countryName: String,
+                countryFlag: String?,
+                countryCode: String?
+            ) {
+                selectedCountry = SearchListItem(id, countryName)
+                binding.countryContainer.text = countryName
+                binding.countryContainer._setStartIconImage(countryFlag)
+                selectedRegion = null
+                binding.regionContainer.text = null
+                selectedCity = null
+                binding.neighborhoodContainer.text = null
+            }
+        })
+        countryDialog.show()
+    }
+
+    private fun openRegionDialog() {
+        val regionDialog =
+            RegionDialog(this, selectedCountry!!.id, object : RegionDialog.GetSelectedRegion {
+                override fun onSelectedRegion(id: Int, regionName: String) {
+                    selectedRegion = SearchListItem(id, regionName)
+                    binding.regionContainer.text = regionName
+                    selectedCity = null
+                    binding.neighborhoodContainer.text = null
+                }
+            })
+        regionDialog.show()
+    }
+
+    private fun openNeighborhoodDialog() {
+        val neighborhoodDialog = NeighborhoodDialog(
+            this,
+            selectedRegion!!.id,
+            object : NeighborhoodDialog.GetSelectedNeighborhood {
+                override fun onSelectedNeighborhood(id: Int, neighborhoodName: String) {
+                    selectedCity = SearchListItem(id, neighborhoodName)
+                    binding.neighborhoodContainer.text = neighborhoodName
+                }
+            })
+        neighborhoodDialog.show()
+    }
+
     private fun setAddressData() {
         addressObject?.let {
             binding.tvAddressTitle.text = it.title ?: ""
@@ -96,6 +152,7 @@ class AddAddressActivity : BaseActivity<AddAddressActivityBinding>(), OnMapReady
             binding.tvBuildingNumber.text = it.building ?: ""
             binding.tvFloor.text = it.floor ?: ""
             binding.tvApartmentNumber.text = it.appartment ?: ""
+            binding.checkDefault.isChecked = it.defaultAddress
             try {
                 binding.countryCodePicker.fullNumber = it.phone
             } catch (e: Exception) {
@@ -116,7 +173,13 @@ class AddAddressActivity : BaseActivity<AddAddressActivityBinding>(), OnMapReady
                 println("hhhh " + e.message)
             }
 
+            selectedCountry = it.country.toSearchListItem()
+            selectedRegion = it.region.toSearchListItem()
+            selectedCity = it.neighborhood.toSearchListItem()
 
+            binding.countryContainer.text = it.country.name
+            binding.regionContainer.text = it.region.name
+            binding.neighborhoodContainer.text = it.neighborhood.name
         }
     }
 
@@ -188,6 +251,23 @@ class AddAddressActivity : BaseActivity<AddAddressActivityBinding>(), OnMapReady
         binding.btnAddAddress.setOnClickListener {
             checkDataToAddAddress()
         }
+        binding.countryContainer._setOnClickListener {
+            openCountryDialog()
+        }
+        binding.regionContainer._setOnClickListener {
+            if (selectedCountry == null) {
+                showError(getString(R.string.Please_select, getString(R.string.Country)))
+            } else {
+                openRegionDialog()
+            }
+        }
+        binding.neighborhoodContainer._setOnClickListener {
+            if (selectedRegion == null) {
+                showError(getString(R.string.Please_select, getString(R.string.Region)))
+            } else {
+                openNeighborhoodDialog()
+            }
+        }
     }
 
     private fun checkDataToAddAddress() {
@@ -220,6 +300,18 @@ class AddAddressActivity : BaseActivity<AddAddressActivityBinding>(), OnMapReady
             readyToSave = false
             binding.etPhoneNumber.error = getString(R.string.PleaseenteravalidPhoneNumber)
         }
+
+        if (binding.countryContainer.text.toString().isEmpty()) {
+            readyToSave = false
+            showError(getString(R.string.Please_select, getString(R.string.selectCountry)))
+        } else if (binding.regionContainer.text.toString().isEmpty()) {
+            readyToSave = false
+            showError(getString(R.string.Please_select, getString(R.string.selectRegionTitle)))
+        } else if (binding.neighborhoodContainer.text.toString().isEmpty()) {
+            readyToSave = false
+            showError(getString(R.string.Please_select, getString(R.string.City)))
+        }
+
         if (readyToSave) {
             if (isEdit) {
                 addressObject?.id?.let {
@@ -234,7 +326,10 @@ class AddAddressActivity : BaseActivity<AddAddressActivityBinding>(), OnMapReady
                         lat = latLngLocation?.latitude.toString(),
                         lng = latLngLocation?.longitude.toString(),
                         phone = binding.countryCodePicker.fullNumberWithPlus,
-                        defaultAddress = binding.checkDefault.isChecked
+                        defaultAddress = binding.checkDefault.isChecked,
+                        countryId = selectedCountry?.id!!,
+                        regionId = selectedRegion?.id!!,
+                        neighborhoodId = selectedCity?.id!!
                     )
                 }
             } else {
@@ -248,8 +343,12 @@ class AddAddressActivity : BaseActivity<AddAddressActivityBinding>(), OnMapReady
                     lat = latLngLocation?.latitude.toString(),
                     lng = latLngLocation?.longitude.toString(),
                     phone = binding.countryCodePicker.fullNumberWithPlus,
-                    defaultAddress = binding.checkDefault.isChecked
+                    defaultAddress = binding.checkDefault.isChecked,
+                    countryId = selectedCountry?.id!!,
+                    regionId = selectedRegion?.id!!,
+                    neighborhoodId = selectedCity?.id!!
                 )
+
             }
         }
     }

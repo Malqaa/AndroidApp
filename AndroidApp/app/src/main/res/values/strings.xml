@@ -1340,4 +1340,6 @@
     <string name="cancel">Cancel</string>
     <string name="change_default_address">Are you sure to change the default address</string>
     <string name="is_default_address">Is default address</string>
+    <string name="street_name_and_number">Street Name and Number</string>
+    <string name="address_name">Address Name</string>
 </resources>
