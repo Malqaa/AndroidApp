@@ -762,8 +762,8 @@ interface MalqaApiService {
     @POST("ChangePassword")
     fun changePasswordAfterForget(@Body data: HashMap<String, Any>): Call<GeneralResponse>
 
-    @GET("GatAllBusinessAccounts")
-    fun gatAllBusinessAccounts(): Call<BusinessAccountsListResp>
+    @GET("GetEmployeeBusinessAccounts")
+    fun getEmployeeBusinessAccounts(): Call<BusinessAccountsListResp>
 
     @GET("ChangeAccount")
     fun changeBusinessAccount(@Query("businessAccountId") businessAccountId: Int): Call<ChangeBusinessAccountResp>

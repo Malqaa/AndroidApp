@@ -32,7 +32,7 @@ class BusinessAccountViewModel : BaseViewModel() {
 
     fun getBusinessAccount() {
         isLoading.value = true
-        callAllBusinessAccount = getRetrofitBuilder().gatAllBusinessAccounts()
+        callAllBusinessAccount = getRetrofitBuilder().getEmployeeBusinessAccounts()
         callApi(callAllBusinessAccount!!,
             onSuccess = {
                 isLoading.value = false
