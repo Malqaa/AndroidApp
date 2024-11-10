@@ -208,3 +208,7 @@ fun isVideoLink(url: String): Boolean {
     val videoExtensions = listOf("mp4", "mkv", "webm", "avi", "mov")
     return videoExtensions.any { url.endsWith(it, ignoreCase = true) }
 }
+
+fun String.capitalizeFirstLetter(): String {
+    return this.lowercase().replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
+}

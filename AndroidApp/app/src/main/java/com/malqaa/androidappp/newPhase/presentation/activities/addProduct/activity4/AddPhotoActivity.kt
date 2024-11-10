@@ -16,7 +16,7 @@ import com.malqaa.androidappp.databinding.ActivityAddPhotoBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
 import com.malqaa.androidappp.newPhase.domain.models.ImageSelectModel
 import com.malqaa.androidappp.newPhase.domain.models.addProductToCartResp.AddProductObjectData
-import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activity5.DynamicTemplateActivtiy
+import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activity5.DynamicTemplateActivity
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.getColorCompat
@@ -273,7 +273,7 @@ class AddPhotoActivity : BaseActivity<ActivityAddPhotoBinding>(),
         selectedImagesURI = ArrayList(selectedImagesURI.sortedByDescending { it.is_main })
         AddProductObjectData.images = selectedImagesURI
 
-        startActivity(Intent(this, DynamicTemplateActivtiy::class.java).apply {
+        startActivity(Intent(this, DynamicTemplateActivity::class.java).apply {
             putExtra("file_name", file_name)
             putExtra("title", title)
             putExtra(

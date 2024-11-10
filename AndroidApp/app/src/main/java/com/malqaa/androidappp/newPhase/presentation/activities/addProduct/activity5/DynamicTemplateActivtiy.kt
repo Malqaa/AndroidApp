@@ -2,48 +2,46 @@ package com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activ
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.malqaa.androidappp.R
 import com.malqaa.androidappp.databinding.FragmentDynamicTemplateBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
 import com.malqaa.androidappp.newPhase.domain.models.addProductToCartResp.AddProductObjectData
 import com.malqaa.androidappp.newPhase.domain.models.dynamicSpecification.DynamicSpecificationItem
 import com.malqaa.androidappp.newPhase.domain.models.dynamicSpecification.DynamicSpecificationSentObject
-import com.malqaa.androidappp.newPhase.domain.models.dynamicSpecification.SubSpecificationItem
 import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activity6.ListingDetailsActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.viewmodel.AddProductViewModel
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
-import com.malqaa.androidappp.newPhase.utils.hide
-import com.malqaa.androidappp.newPhase.utils.linearLayoutManager
-import com.malqaa.androidappp.newPhase.utils.show
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class DynamicTemplateActivtiy : BaseActivity<FragmentDynamicTemplateBinding>(),
+class DynamicTemplateActivity : BaseActivity<FragmentDynamicTemplateBinding>(),
     DynamicSpecificationsAdapter.OnChangeValueListener {
 
-    private var dataList: ArrayList<DynamicSpecificationSentObject>? = null
+    private var dataList = ArrayList<DynamicSpecificationSentObject>()
     private var isEdit: Boolean = false
     private lateinit var addProductViewModel: AddProductViewModel
     private lateinit var dynamicSpecificationsAdapter: DynamicSpecificationsAdapter
-    private var dynamicSpecificationsArrayList: ArrayList<DynamicSpecificationItem> = ArrayList()
-    private var selectSpecificationsArrayList: ArrayList<DynamicSpecificationItem> = ArrayList()
+    private var dynamicSpecificationsArrayList = ArrayList<DynamicSpecificationItem>()
+    private var selectSpecificationsArrayList = ArrayList<DynamicSpecificationItem>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = FragmentDynamicTemplateBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.toolbarMain.toolbarTitle.text = getString(R.string.item_details)
+
         setViewClickListeners()
         setDynamicListAdapter()
         setUpViewModel()
-        dataList = arrayListOf()
-        isEdit = intent.getBooleanExtra(ConstantObjects.isEditKey, false)
 
+        isEdit = intent.getBooleanExtra(ConstantObjects.isEditKey, false)
         addProductViewModel.getDynamicSpecification(AddProductObjectData.selectedCategoryId)
     }
 
@@ -51,99 +49,51 @@ class DynamicTemplateActivtiy : BaseActivity<FragmentDynamicTemplateBinding>(),
         if (isEdit) {
             selectSpecificationsArrayList = dynamicSpecificationsArrayList
             for (item in selectSpecificationsArrayList) {
-                if (item.type == 2 || item.type == 3 || item.type == 4) {
-                    val obj =
-                        AddProductObjectData.productSpecificationList!!.find { it.SpecificationId == item.id }
-                    if (obj != null) {
-                        item.setData(obj)
-                        item.subSpecifications?.add(
-                            SubSpecificationItem(
-                                id = obj.SpecificationId,
-                                nameAr = obj.ValueSpeAr,
-                                nameEn = obj.ValueSpeEn,
-                                isDataSelected = true
-                            )
-                        )
-                    }
-                } else if (item.type == 5 || item.type == 6) {
-
-                } else {
-                    item.subSpecifications?.forEach {
-                        for (j in AddProductObjectData.productSpecificationList!!) {
-                            if (j.ValueSpeAr == it.id.toString()) {
-                                item.setData(j)
-                                it.isDataSelected = true
-                            }
-                        }
+                val existingSpec =
+                    AddProductObjectData.productSpecificationList?.find { it.SpecificationId == item.id }
+                existingSpec?.let {
+                    item.setData(it)
+                    item.subSpecifications?.find { sub -> sub.id == it.SpecificationId }?.apply {
+                        isDataSelected = true
                     }
                 }
-
             }
             dynamicSpecificationsAdapter.updateAdapter(selectSpecificationsArrayList)
         }
-
     }
 
     private fun setUpViewModel() {
         addProductViewModel = ViewModelProvider(this).get(AddProductViewModel::class.java)
-        addProductViewModel.isLoading.observe(this) {
-            if (it)
-                binding.progressBar.show()
-            else
-                binding.progressBar.hide()
-        }
-        addProductViewModel.isNetworkFail.observe(this) {
-            if (it) {
+
+        addProductViewModel.apply {
+            isLoading.observe(this@DynamicTemplateActivity) {
+                binding.progressBar.visibility = if (it) View.VISIBLE else View.GONE
+            }
+            isNetworkFail.observe(this@DynamicTemplateActivity) {
                 HelpFunctions.ShowLongToast(
-                    getString(R.string.connectionError),
-                    this
-                )
-            } else {
-                HelpFunctions.ShowLongToast(
-                    getString(R.string.serverError),
-                    this
+                    getString(if (it) R.string.connectionError else R.string.serverError),
+                    this@DynamicTemplateActivity
                 )
             }
-
-        }
-        addProductViewModel.errorResponseObserver.observe(this) {
-            if (it.status != null && it.status == "409") {
-                HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), this)
-            } else {
-                if (it.message != null && it.message != "") {
+            errorResponseObserver.observe(this@DynamicTemplateActivity) { response ->
+                response?.let {
                     HelpFunctions.ShowLongToast(
-                        it.message!!,
-                        this
-                    )
-                } else {
-                    HelpFunctions.ShowLongToast(
-                        getString(R.string.serverError),
-                        this
+                        it.message ?: getString(R.string.serverError),
+                        this@DynamicTemplateActivity
                     )
                 }
-
             }
-        }
-        addProductViewModel.getDynamicSpecificationObserver.observe(this) { dynamicSpecificationResp ->
-            if (dynamicSpecificationResp.status_code == 200) {
-                if (dynamicSpecificationResp.dynamicList != null && dynamicSpecificationResp.dynamicList.isNotEmpty()) {
-                    dynamicSpecificationsArrayList.clear()
-                    dynamicSpecificationsArrayList.addAll(dynamicSpecificationResp.dynamicList)
-
-                    setDataForUpdate()
-                    dynamicSpecificationsAdapter.updateAdapter(dynamicSpecificationsArrayList)
-                } else {
-                    goNextScreen(true)
-                    HelpFunctions.ShowLongToast(
-                        getString(R.string.noSpecificationFound),
-                        this
-                    )
+            getDynamicSpecificationObserver.observe(this@DynamicTemplateActivity) { response ->
+                response?.let {
+                    if (it.status_code == 200 && !it.dynamicList.isNullOrEmpty()) {
+                        dynamicSpecificationsArrayList.clear()
+                        dynamicSpecificationsArrayList.addAll(it.dynamicList)
+                        setDataForUpdate()
+                        dynamicSpecificationsAdapter.updateAdapter(dynamicSpecificationsArrayList)
+                    } else {
+                        showNoSpecificationMessage()
+                    }
                 }
-            } else {
-                HelpFunctions.ShowLongToast(
-                    getString(R.string.noSpecificationFound),
-                    this
-                )
             }
         }
     }
@@ -153,142 +103,147 @@ class DynamicTemplateActivtiy : BaseActivity<FragmentDynamicTemplateBinding>(),
             DynamicSpecificationsAdapter(dynamicSpecificationsArrayList, this)
         binding.rvDynamicList.apply {
             adapter = dynamicSpecificationsAdapter
-            layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
+            layoutManager = LinearLayoutManager(this@DynamicTemplateActivity)
         }
     }
 
     private fun setViewClickListeners() {
-        binding.toolbarMain.backBtn.setOnClickListener {
-            finish()
-        }
-
-        binding.btnDynamicNext.setOnClickListener() {
-            checkAllDataSet(dataList!!)
-        }
+        binding.toolbarMain.backBtn.setOnClickListener { finish() }
+        binding.btnDynamicNext.setOnClickListener { checkAllDataSet(dataList) }
     }
 
     private fun checkAllDataSet(data: ArrayList<DynamicSpecificationSentObject>) {
         lifecycleScope.launch(Dispatchers.IO) {
             var allValuesSet = true
-            dynamicSpecificationsArrayList.forEach { dynamicSpecificationItem ->
 
-                val supIdAr =
-                    dynamicSpecificationItem.subSpecifications?.find { it.nameAr == dynamicSpecificationItem.valueArText }
-                val supIdEn =
-                    dynamicSpecificationItem.subSpecifications?.find { it.nameEn == dynamicSpecificationItem.valueEnText }
+            dynamicSpecificationsArrayList.forEach { item ->
+                when (SpecificationType.fromType(item.type)) {
+                    SpecificationType.DropdownList -> handleDropdownListType(item, data)
+                    SpecificationType.Checkbox, SpecificationType.Radio ->
+                        handleCheckboxRadioType(item, data)
 
-                if (dynamicSpecificationItem.type == 1) {
-                    if (dynamicSpecificationItem.subSpecifications != null && dynamicSpecificationItem.subSpecifications!!.isNotEmpty()) {
-                        if (dynamicSpecificationItem.valueArText == "" || dynamicSpecificationItem.valueArText == null || dynamicSpecificationItem.valueEnText == "" || dynamicSpecificationItem.valueEnText == null) {
-                            allValuesSet = false
-
-                        } else {
-                            data.add(
-                                DynamicSpecificationSentObject(
-                                    HeaderSpeAr = dynamicSpecificationItem.nameAr.toString(),
-                                    HeaderSpeEn = dynamicSpecificationItem.nameEn.toString(),
-                                    ValueSpeAr = supIdAr?.id.toString(),
-                                    ValueSpeEn = supIdEn?.id.toString(),
-                                    Type = dynamicSpecificationItem.type,
-                                    SpecificationId = dynamicSpecificationItem.id
-                                )
-                            )
-                        }
-                    }
-                } else if (dynamicSpecificationItem.type == 5 || (dynamicSpecificationItem.type == 6)) {
-                    val supIdAr =
-                        dynamicSpecificationItem.subSpecifications?.find { dynamicSpecificationItem.valueBoolean }
-
-                    if (supIdAr == null) {
-                        allValuesSet = false
-                        if (dynamicSpecificationItem.isRequired) {
-                            runOnUiThread {
-                                HelpFunctions.ShowLongToast(
-                                    getString(R.string.enterAllSpecificaiton),
-                                    this@DynamicTemplateActivtiy
-                                )
-                            }
-                        }
-                    } else {
-                        data.add(
-                            DynamicSpecificationSentObject(
-                                HeaderSpeAr = dynamicSpecificationItem.nameAr.toString(),
-                                HeaderSpeEn = dynamicSpecificationItem.nameEn.toString(),
-                                ValueSpeAr = supIdAr?.id.toString(),
-                                ValueSpeEn = supIdAr?.id.toString(),
-                                Type = dynamicSpecificationItem.type,
-                                SpecificationId = dynamicSpecificationItem.id
-                            )
-                        )
-                    }
-
-                } else if (dynamicSpecificationItem.type == 4) {
-                    if (dynamicSpecificationItem.isRequired && (dynamicSpecificationItem.valueArText == "" || dynamicSpecificationItem.valueArText == null)) {
-                        allValuesSet = false
-                    } else {
-                        data.add(
-                            DynamicSpecificationSentObject(
-                                HeaderSpeAr = dynamicSpecificationItem.nameAr.toString(),
-                                HeaderSpeEn = dynamicSpecificationItem.nameAr.toString(),
-                                ValueSpeAr = dynamicSpecificationItem.valueArText ?: "",
-                                Type = dynamicSpecificationItem.type,
-                                ValueSpeEn = dynamicSpecificationItem.valueArText ?: "",
-                                SpecificationId = dynamicSpecificationItem.id
-                            )
-                        )
-                    }
-                } else {
-                    if (dynamicSpecificationItem.isRequired && (dynamicSpecificationItem.valueArText == "" || dynamicSpecificationItem.valueArText == null || dynamicSpecificationItem.valueEnText == "" || dynamicSpecificationItem.valueEnText == null)) {
-                        allValuesSet = false
-                    } else {
-                        data.add(
-                            DynamicSpecificationSentObject(
-                                HeaderSpeAr = dynamicSpecificationItem.nameAr.toString(),
-                                HeaderSpeEn = dynamicSpecificationItem.nameEn.toString(),
-                                ValueSpeAr = dynamicSpecificationItem.valueArText ?: "",
-                                Type = dynamicSpecificationItem.type,
-                                ValueSpeEn = dynamicSpecificationItem.valueEnText ?: "",
-                                SpecificationId = dynamicSpecificationItem.id
-                            )
-                        )
-                    }
+                    SpecificationType.Number -> handleNumberType(item, data)
+                    else -> handleOtherTypes(item, data)
                 }
 
+                if (item.isRequired && item.isValueMissing()) {
+                    allValuesSet = false
+                    // Exit the loop early if a required value is missing
+                    return@forEach
+                }
             }
+
             withContext(Dispatchers.Main) {
                 if (allValuesSet) {
+                    AddProductObjectData.productSpecificationList = null
                     AddProductObjectData.productSpecificationList = data
+                    Log.i("TAG", "checkAllDataSet: $data")
                     goNextScreen(false)
                 } else {
-                    HelpFunctions.ShowLongToast(
-                        getString(R.string.enterAllSpecificaiton),
-                        this@DynamicTemplateActivtiy
-                    )
+                    showToast(getString(R.string.enterAllSpecification))
                 }
             }
         }
     }
 
-    private fun goNextScreen(isFinished: Boolean) {
-        if (isFinished) {
-            startActivity(Intent(this, ListingDetailsActivity::class.java).apply {
-                putExtra(
-                    ConstantObjects.isEditKey,
-                    intent.getBooleanExtra(ConstantObjects.isEditKey, false)
-                )
+    private fun handleDropdownListType(
+        item: DynamicSpecificationItem,
+        data: ArrayList<DynamicSpecificationSentObject>
+    ) {
+        val selectedAr = item.subSpecifications?.find { it.nameAr == item.valueArText }
+        val selectedEn = item.subSpecifications?.find { it.nameEn == item.valueEnText }
 
-            })
-            finish()
-        } else {
-            startActivity(Intent(this, ListingDetailsActivity::class.java).apply {
-                putExtra(
-                    ConstantObjects.isEditKey,
-                    intent.getBooleanExtra(ConstantObjects.isEditKey, false)
+        if (!item.valueArText.isNullOrBlank() && !item.valueEnText.isNullOrBlank()) {
+            data.add(
+                DynamicSpecificationSentObject(
+                    HeaderSpeAr = item.nameAr.orEmpty(),
+                    HeaderSpeEn = item.nameEn.orEmpty(),
+                    ValueSpeAr = selectedAr?.id.toString(),
+                    ValueSpeEn = selectedEn?.id.toString(),
+                    Type = item.type,
+                    SpecificationId = item.id
                 )
-            })
-            finish()
+            )
+        }
+    }
+
+    private fun handleCheckboxRadioType(
+        item: DynamicSpecificationItem,
+        data: ArrayList<DynamicSpecificationSentObject>
+    ) {
+        val selectedSubs = item.subSpecifications?.filter { it.isDataSelected }
+
+        selectedSubs?.forEach {
+            data.add(
+                DynamicSpecificationSentObject(
+                    HeaderSpeAr = item.nameAr.orEmpty(),
+                    HeaderSpeEn = item.nameEn.orEmpty(),
+                    ValueSpeAr = it.id.toString(),
+                    ValueSpeEn = it.id.toString(),
+                    Type = item.type,
+                    SpecificationId = item.id
+                )
+            )
+        }
+    }
+
+    private fun handleNumberType(
+        item: DynamicSpecificationItem,
+        data: ArrayList<DynamicSpecificationSentObject>
+    ) {
+        if (ConstantObjects.currentLanguage == "ar" && item.valueArText.isNullOrBlank()) {
+            return
+        } else if (ConstantObjects.currentLanguage == "en" && item.valueEnText.isNullOrBlank()) {
+            return
         }
 
+        data.add(
+            DynamicSpecificationSentObject(
+                HeaderSpeAr = item.nameAr.orEmpty(),
+                HeaderSpeEn = item.nameEn.orEmpty(),
+                ValueSpeAr = item.valueArText.orEmpty(),
+                ValueSpeEn = item.valueEnText.orEmpty(),
+                Type = item.type,
+                SpecificationId = item.id
+            )
+        )
+    }
+
+    private fun handleOtherTypes(
+        item: DynamicSpecificationItem,
+        data: ArrayList<DynamicSpecificationSentObject>
+    ) {
+        if (item.isRequired && item.valueArText.isNullOrBlank() || item.valueEnText.isNullOrBlank()) return
+
+        data.add(
+            DynamicSpecificationSentObject(
+                HeaderSpeAr = item.nameAr.orEmpty(),
+                HeaderSpeEn = item.nameEn.orEmpty(),
+                ValueSpeAr = item.valueArText.orEmpty(),
+                ValueSpeEn = item.valueEnText.orEmpty(),
+                Type = item.type,
+                SpecificationId = item.id
+            )
+        )
+    }
+
+    private fun goNextScreen(isFinished: Boolean) {
+        val intent = Intent(this, ListingDetailsActivity::class.java).apply {
+            putExtra(ConstantObjects.isEditKey, isEdit)
+        }
+        startActivity(intent)
+        finish()
+    }
+
+    private fun showNoSpecificationMessage() {
+        showToast(getString(R.string.noSpecificationFound))
+        goNextScreen(true)
+    }
+
+    private fun showToast(message: String) {
+        runOnUiThread {
+            HelpFunctions.ShowLongToast(message, this)
+        }
     }
 
     override fun setOnTextBoxTextChangeAR(value: String, position: Int) {
@@ -299,19 +254,31 @@ class DynamicTemplateActivtiy : BaseActivity<FragmentDynamicTemplateBinding>(),
         dynamicSpecificationsArrayList[position].valueEnText = value
     }
 
-    override fun setCheckClicked(position: Int) {
-        dynamicSpecificationsArrayList[position].valueBoolean =
-            dynamicSpecificationsArrayList[position].valueBoolean
+    override fun setOnSpinnerListSelected(mainAttributesPosition: Int, spinnerPosition: Int) {
+        dynamicSpecificationsArrayList[mainAttributesPosition].apply {
+            valueArText = subSpecifications?.get(spinnerPosition)?.nameAr.orEmpty()
+            valueEnText = subSpecifications?.get(spinnerPosition)?.nameEn.orEmpty()
+        }
     }
 
-    override fun setOnSpinnerListSelected(mainAttributesPosition: Int, spinnerPosition: Int) {
-        dynamicSpecificationsArrayList[mainAttributesPosition].valueArText =
-            dynamicSpecificationsArrayList[mainAttributesPosition].subSpecifications?.get(
-                spinnerPosition
-            )?.nameAr ?: ""
-        dynamicSpecificationsArrayList[mainAttributesPosition].valueEnText =
-            dynamicSpecificationsArrayList[mainAttributesPosition].subSpecifications?.get(
-                spinnerPosition
-            )?.nameEn ?: ""
+    override fun onRadioItemSelected(position: Int, selectedId: Int) {
+        dynamicSpecificationsArrayList[position].subSpecifications?.forEach {
+            it.isDataSelected = it.id == selectedId
+        }
     }
+
+    override fun onCheckboxItemChecked(position: Int, checkboxId: Int, isChecked: Boolean) {
+        dynamicSpecificationsArrayList[position].subSpecifications?.forEach {
+            // If the checkbox ID matches, update its state
+            if (it.id == checkboxId) {
+                it.isDataSelected = isChecked
+            }
+        }
+    }
+}
+
+// Helper extension function to check if required value is missing based on the current language
+private fun DynamicSpecificationItem.isValueMissing(): Boolean {
+    return if (ConstantObjects.currentLanguage == "ar") valueArText.isNullOrBlank()
+    else valueEnText.isNullOrBlank()
 }

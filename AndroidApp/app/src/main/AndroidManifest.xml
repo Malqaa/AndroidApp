@@ -229,7 +229,7 @@
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".newPhase.presentation.activities.addProduct.activity5.DynamicTemplateActivtiy"
+            android:name=".newPhase.presentation.activities.addProduct.activity5.DynamicTemplateActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".newPhase.presentation.activities.addProduct.activity6.ListingDetailsActivity"

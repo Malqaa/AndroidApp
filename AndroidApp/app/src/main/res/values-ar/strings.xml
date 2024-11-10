@@ -18,7 +18,7 @@
     <string name="noProductsAdded">لم يتم إضافه اى منتجات</string>
     <string name="noProductsFound">لم يتم العثور على اى منتجات</string>
     <string name="noOrdersFound">لم يتم العثور على اى طلبات</string>
-    <string name="enterAllSpecificaiton"> أدخل جميع المواصفات</string>
+    <string name="enterAllSpecification"> أدخل جميع المواصفات</string>
     <string name="noSubCategoryFound">لم يتم العثور على فئات فرعية</string>
     <string name="Ididntreceiveacode">لم أتلق رمز!</string>
     <string name="CodeExpired">انتهت صلاحية الرمز</string>

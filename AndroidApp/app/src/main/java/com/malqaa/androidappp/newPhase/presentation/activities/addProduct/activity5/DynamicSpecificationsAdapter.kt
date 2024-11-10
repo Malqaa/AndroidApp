@@ -1,385 +1,349 @@
 package com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activity5
 
 import android.content.Context
-import android.graphics.Typeface
 import android.text.Editable
 import android.text.InputType
+import android.text.Spannable
+import android.text.SpannableString
 import android.text.TextWatcher
+import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.CheckBox
 import android.widget.EditText
-import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.malqaa.androidappp.R
 import com.malqaa.androidappp.newPhase.domain.models.dynamicSpecification.DynamicSpecificationItem
-import com.malqaa.androidappp.newPhase.domain.models.dynamicSpecification.SubSpecificationItem
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
-import com.malqaa.androidappp.newPhase.utils.dpToPx
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import com.malqaa.androidappp.newPhase.utils.capitalizeFirstLetter
+
+enum class SpecificationType(val type: Int) {
+    DropdownList(type = 1),
+    ShortText(type = 2),
+    LongText(type = 3),
+    Number(type = 4),
+    Radio(type = 5),
+    Checkbox(type = 6),
+    MultiSelect(type = 7);
+
+    companion object {
+        fun fromType(type: Int): SpecificationType? {
+            return values().find { it.type == type }
+        }
+    }
+}
 
 class DynamicSpecificationsAdapter(
     private var dynamicSpecificationList: List<DynamicSpecificationItem>,
     private var onChangeValueListener: OnChangeValueListener
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private val spinnerType = 1 // and 7
-    private val textBoxType = 2 // and 3
-    private val numberType = 4
-    private val radioType = 5
-    private val checkType = 6
+    // Use SpecificationType enum for clarity
+    private val spinnerType = SpecificationType.DropdownList.type
+    private val shortTextType = SpecificationType.ShortText.type
+    private val radioType = SpecificationType.Radio.type
+    private val checkboxType = SpecificationType.Checkbox.type
 
-    class TextBoxViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val tvTitleAr: TextView = view.findViewById(R.id.tvTitleAr)
-        val tvTitleEn: TextView = view.findViewById(R.id.tvTitleEn)
-        val txtRequired: TextView = view.findViewById(R.id.txtRequired)
-        val txtRequiredEn: TextView = view.findViewById(R.id.txtRequiredEn)
-        val etValueEn: EditText = view.findViewById(R.id.etValueEn)
-        val etValueAr: EditText = view.findViewById(R.id.etValueAr)
+    // View Holders
+    inner class TextBoxViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val tvTitle: TextView = view.findViewById(R.id.tvTitle)
+        val etArValue: EditText = view.findViewById(R.id.etArValue)
+        val etEnValue: EditText = view.findViewById(R.id.etEnValue)
     }
 
-    class SpinnerViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val tvTitle: TextView = view.findViewById(R.id.tvTitleAr)
+    inner class SpinnerViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val tvTitle: TextView = view.findViewById(R.id.tvTitle)
         val spinner: Spinner = view.findViewById(R.id.spinnerValues)
-        val txtRequired: TextView = view.findViewById(R.id.txtRequired)
     }
 
-    class CheckViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val tvTitleAr: TextView = view.findViewById(R.id.tvTitleAr)
+    inner class RadioViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val tvTitle: TextView = view.findViewById(R.id.tvTitle)
+        val radioGroup: RadioGroup = view.findViewById(R.id.radioGroup)
     }
 
-    lateinit var context: Context
+    inner class CheckboxViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val tvTitle: TextView = view.findViewById(R.id.tvTitle)
+        val checkboxGroup: LinearLayout = view.findViewById(R.id.checkboxGroup)
+    }
+
     override fun getItemViewType(position: Int): Int {
-        //type 1->dropdownlist  ,
-        if (dynamicSpecificationList[position].type == 1 || dynamicSpecificationList[position].type == 7) {
-            if (dynamicSpecificationList[position].subSpecifications!!.isNotEmpty()) {
-                //dropDown
-                return spinnerType
-            } else {
-                // text box
-                return textBoxType
-            }
-        } else if (dynamicSpecificationList[position].type == 6) {
-            return checkType
-        } else if (dynamicSpecificationList[position].type == 5) {
-            return radioType
-        } else {
-            // text box
-            return textBoxType
+        val specType = SpecificationType.values()
+            .firstOrNull { it.type == dynamicSpecificationList[position].type }
+        return when (specType) {
+            SpecificationType.DropdownList -> spinnerType
+            SpecificationType.ShortText, SpecificationType.LongText, SpecificationType.Number -> shortTextType
+            SpecificationType.Radio -> radioType
+            SpecificationType.Checkbox -> checkboxType
+            else -> shortTextType // Default to text box
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        context = parent.context
-        if (viewType == spinnerType) {
-            return SpinnerViewHolder(
-                LayoutInflater.from(parent.context).inflate(
+        val inflater = LayoutInflater.from(parent.context)
+        return when (viewType) {
+            spinnerType -> SpinnerViewHolder(
+                inflater.inflate(
                     R.layout.item_drop_down,
                     parent,
                     false
                 )
             )
-        } else if (viewType == checkType) {
-            return CheckViewHolder(
-                LayoutInflater.from(parent.context).inflate(
-                    R.layout.item_check,
+
+            radioType -> RadioViewHolder(inflater.inflate(R.layout.item_radio, parent, false))
+            checkboxType -> CheckboxViewHolder(
+                inflater.inflate(
+                    R.layout.item_checkbox,
                     parent,
                     false
                 )
             )
-        } else if (viewType == radioType) {
-            return CheckViewHolder(
-                LayoutInflater.from(parent.context).inflate(
-                    R.layout.item_check,
-                    parent,
-                    false
-                )
-            )
-        } else {
-            return TextBoxViewHolder(
-                LayoutInflater.from(parent.context).inflate(
-                    R.layout.item_text_boxs,
-                    parent,
-                    false
-                )
-            )
+
+            else -> TextBoxViewHolder(inflater.inflate(R.layout.item_text_box, parent, false))
         }
     }
 
     override fun getItemCount(): Int = dynamicSpecificationList.size
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (getItemViewType(position) == spinnerType) {
-            setSpinnerView(holder as SpinnerViewHolder, position)
-        } else if (getItemViewType(position) == checkType) {
-            setCheckView(holder as CheckViewHolder, position)
-        } else if (getItemViewType(position) == radioType) {
-            setCheckView(holder as CheckViewHolder, position)
+        val specItem = dynamicSpecificationList[position]
+
+        // Handle isActive: Hide the item if not active
+        if (!specItem.isActive) {
+            holder.itemView.visibility = View.GONE
+            holder.itemView.layoutParams = RecyclerView.LayoutParams(0, 0)
+            return
         } else {
-            setTextBoxView(holder as TextBoxViewHolder, position)
+            holder.itemView.visibility = View.VISIBLE
+            holder.itemView.layoutParams = RecyclerView.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+        }
+
+        when (holder) {
+            is SpinnerViewHolder -> bindSpinnerView(holder, specItem, position)
+            is RadioViewHolder -> bindRadioView(holder, specItem, position)
+            is CheckboxViewHolder -> bindCheckboxView(holder, specItem, position)
+            is TextBoxViewHolder -> bindTextBoxView(holder, specItem, position)
         }
     }
 
-    private fun setCheckView(
-        checkViewHolder: CheckViewHolder,
+    private fun bindTextBoxView(
+        holder: TextBoxViewHolder,
+        specItem: DynamicSpecificationItem,
         position: Int
     ) {
-        val dynamicContainer =
-            checkViewHolder.itemView.findViewById<LinearLayout>(R.id.dynamicContainer)
-        dynamicContainer.removeAllViews() // Clear any previous dynamic views
+        val context = holder.itemView.context
 
-        val dynamicSpecItem = dynamicSpecificationList[position]
+        val formattedTitle = formatTitleWithAsterisk(specItem, context)
+        holder.tvTitle.text = formattedTitle
 
-        // Create a TextView for the title dynamically
-        val titleTextView = TextView(context).apply {
-            text = if (ConstantObjects.currentLanguage == "ar") {
-                dynamicSpecItem.nameAr ?: "Default Title (AR)"
-            } else {
-                dynamicSpecItem.nameEn ?: "Default Title (EN)"
-            }
-            textSize = 14f // Adjust the text size as needed
-            setTypeface(null, Typeface.BOLD) // Make it bold to distinguish the title
-            setTextColor(ContextCompat.getColor(context, R.color.black)) // Adjust as necessary
-
-            // Set layout parameters for titleTextView with marginStart
-            layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-            ).apply {
-                marginStart = 24.dpToPx(context) // Set marginStart to 24dp
-            }
+        val inputType = when (SpecificationType.values().firstOrNull { it.type == specItem.type }) {
+            SpecificationType.Number -> InputType.TYPE_CLASS_NUMBER
+            SpecificationType.LongText -> InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE
+            else -> InputType.TYPE_CLASS_TEXT
         }
 
-        // Add the title TextView to the dynamic container
-        dynamicContainer.addView(titleTextView)
-
-        // Create a TextView for "Required" status dynamically if the item is required
-        if (dynamicSpecItem.isRequired) {
-            val requiredTextView = TextView(context).apply {
-                text =
-                    context.getString(R.string.required_label) // Assume you have a string resource for "Required"
-                textSize = 12f
-                setTextColor(
-                    ContextCompat.getColor(
-                        context,
-                        R.color.red
-                    )
-                ) // Adjust color to indicate importance
-            }
-            // Add the "Required" TextView right below the title or wherever appropriate
-            dynamicContainer.addView(requiredTextView)
-        }
-
-        // Add sub-specifications (TextView and ImageView for each subSpec)
-        dynamicSpecItem.subSpecifications?.forEachIndexed { index, subSpec ->
-            // Create TextView for each sub-specification with layout_weight="1" and layout_width="0dp"
-            val textView = TextView(context).apply {
-                text =
-                    if (ConstantObjects.currentLanguage == "ar") subSpec.nameAr else subSpec.nameEn
-                textSize = 12f
-                setTextColor(ContextCompat.getColor(context, R.color.black)) // Adjust as necessary
-                layoutParams = LinearLayout.LayoutParams(
-                    0, // layout_width = 0dp
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-                ).apply {
-                    weight = 1f // layout_weight = 1
-                }
-            }
-
-            // Create ImageView for each sub-specification
-            val imageView = ImageView(context).apply {
-                val params = LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-                )
-                setPadding(
-                    10.dpToPx(context),
-                    0.dpToPx(context),
-                    10.dpToPx(context),
-                    0.dpToPx(context)
-                )
-                layoutParams = params
-                setImageResource(if (subSpec.isDataSelected) R.drawable.ic_radio_button_checked else R.drawable.ic_radio_button_unchecked)
-                setOnClickListener {
-                    // Handle selection logic
-                    dynamicSpecItem.subSpecifications?.forEach { it.isDataSelected = false }
-                    subSpec.isDataSelected = true
-
-                    // Update the parent item based on the selection
-                    dynamicSpecItem.valueBoolean = true // or set it based on the selected subSpec
-                    notifyItemChanged(position)
-
-                    onChangeValueListener.setCheckClicked(position)
-                }
-            }
-
-            // Add the TextView and ImageView to the container
-            val itemLayout = LinearLayout(context).apply {
-                orientation = LinearLayout.HORIZONTAL
-                setPadding(
-                    10.dpToPx(context),
-                    10.dpToPx(context),
-                    10.dpToPx(context),
-                    10.dpToPx(context)
-                ) // Padding 16dp
-
-                // Set margins using LayoutParams
-                val layoutParams = LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-                )
-                layoutParams.setMargins(
-                    10.dpToPx(context),
-                    10.dpToPx(context),
-                    10.dpToPx(context),
-                    0.dpToPx(context)
-                ) // Margin 10dp
-                this.layoutParams = layoutParams
-
-                // Add TextView (with weight) and ImageView inside this LinearLayout
-                addView(textView)
-                addView(imageView)
-            }
-
-            // Add the itemLayout to the dynamicContainer
-            dynamicContainer.addView(itemLayout)
-        }
-    }
-
-    private fun setTextBoxView(
-        textBoxViewHolder: TextBoxViewHolder,
-        position: Int
-    ) {
-        val dynamicSpecItem = dynamicSpecificationList[position]
-
-        if (dynamicSpecItem.type == numberType) {
-            textBoxViewHolder.tvTitleAr.text = dynamicSpecItem.name
-            textBoxViewHolder.etValueAr.inputType = InputType.TYPE_CLASS_NUMBER
-            textBoxViewHolder.etValueEn.inputType = InputType.TYPE_CLASS_NUMBER
-            textBoxViewHolder.tvTitleEn.visibility = View.GONE
-            textBoxViewHolder.etValueEn.visibility = View.GONE
-            textBoxViewHolder.txtRequiredEn.visibility = View.GONE
+        if (inputType == InputType.TYPE_CLASS_NUMBER && ConstantObjects.currentLanguage == "ar") {
+            holder.etEnValue.visibility = View.GONE
+        } else if (inputType == InputType.TYPE_CLASS_NUMBER && ConstantObjects.currentLanguage == "en") {
+            holder.etArValue.visibility = View.GONE
         } else {
-            textBoxViewHolder.tvTitleAr.text =
-                "${dynamicSpecItem.name} ${context.getString(R.string.inArabic)}"
-            textBoxViewHolder.tvTitleEn.text =
-                "${dynamicSpecItem.name} ${context.getString(R.string.inEnglish)}"
-            textBoxViewHolder.tvTitleEn.visibility = View.VISIBLE
-            textBoxViewHolder.etValueEn.visibility = View.VISIBLE
+            holder.etArValue.visibility = View.VISIBLE
+            holder.etEnValue.visibility = View.VISIBLE
         }
 
-        // Set the hint for Arabic and English EditText fields
-        textBoxViewHolder.etValueAr.hint =
-            "${dynamicSpecItem.name} ${context.getString(R.string.inArabic)}"
-        textBoxViewHolder.etValueEn.hint =
-            "${dynamicSpecItem.name} ${context.getString(R.string.inEnglish)}"
+        // Set input type based on specification type
+        holder.etArValue.inputType = inputType
+        holder.etEnValue.inputType = inputType
 
-        // Set text if the item is selected, otherwise set an empty string
-        if (dynamicSpecItem.isSelected) {
-            textBoxViewHolder.etValueAr.setText(dynamicSpecItem.valueArText ?: "")
-            textBoxViewHolder.etValueEn.setText(dynamicSpecItem.valueEnText ?: "")
-        } else {
-            textBoxViewHolder.etValueAr.setText("")
-            textBoxViewHolder.etValueEn.setText("")
-        }
+        // Set placeholder
+        holder.etArValue.hint =
+            "${specItem.name} ${context.getString(R.string.inArabic)}".capitalizeFirstLetter()
+        holder.etEnValue.hint =
+            "${specItem.name} ${context.getString(R.string.inEnglish)}".capitalizeFirstLetter()
 
-        // Handle visibility of required label
-        if (dynamicSpecItem.isRequired) {
-            textBoxViewHolder.txtRequired.visibility = View.VISIBLE
-            if (dynamicSpecItem.type != numberType) {
-                textBoxViewHolder.txtRequiredEn.visibility = View.VISIBLE
-            } else {
-                textBoxViewHolder.txtRequiredEn.visibility = View.GONE
+        // Set existing value based on current language
+        holder.etArValue.setText(specItem.valueArText)
+        holder.etEnValue.setText(specItem.valueEnText)
+
+        // Handle text changes
+        holder.etArValue.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                val text = s.toString()
+                onChangeValueListener.setOnTextBoxTextChangeAR(text, position)
             }
-        } else {
-            textBoxViewHolder.txtRequired.visibility = View.GONE
-            textBoxViewHolder.txtRequiredEn.visibility = View.GONE
-        }
 
-        textBoxViewHolder.etValueAr.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(s: Editable) {
-                onChangeValueListener.setOnTextBoxTextChangeAR(
-                    textBoxViewHolder.etValueAr.text.toString().trim(), position
-                )
-            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
-
-        textBoxViewHolder.etValueEn.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(s: Editable) {
-                onChangeValueListener.setOnTextBoxTextChangeEN(
-                    textBoxViewHolder.etValueEn.text.toString().trim(), position
-                )
+        holder.etEnValue.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                val text = s.toString()
+                onChangeValueListener.setOnTextBoxTextChangeEN(text, position)
             }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
     }
 
-    private lateinit var itemDropDownArrayList: ArrayList<SubSpecificationItem>
-    private lateinit var spinnerVisitAdapter: SpinnerVisitAdapter
-    private fun setSpinnerView(
-        spinnerViewHolder: SpinnerViewHolder,
+    private fun bindSpinnerView(
+        holder: SpinnerViewHolder,
+        specItem: DynamicSpecificationItem,
         position: Int
     ) {
-        spinnerViewHolder.tvTitle.text = dynamicSpecificationList[position].name
-        itemDropDownArrayList = ArrayList<SubSpecificationItem>()
-        dynamicSpecificationList[position].subSpecifications?.let { itemDropDownArrayList.addAll(it) }
-        spinnerVisitAdapter = SpinnerVisitAdapter(context, itemDropDownArrayList)
-        spinnerViewHolder.spinner.adapter = spinnerVisitAdapter
-        if (dynamicSpecificationList[position].isRequired) {
-            spinnerViewHolder.txtRequired.visibility = View.VISIBLE
-        }
+        val context = holder.itemView.context
 
-        if (dynamicSpecificationList[position].isSelected) {
-            for (i in dynamicSpecificationList[position].subSpecifications!!.indices) {
-                if (dynamicSpecificationList[position]?.subSpecifications?.get(i)?.isDataSelected == true) {
-                    selectionType(spinnerViewHolder.spinner, i)
+        val formattedTitle = formatTitleWithAsterisk(specItem, context)
+        holder.tvTitle.text = formattedTitle
 
-                }
+        // Prepare spinner data
+        val subSpecs = specItem.subSpecifications ?: emptyList()
+        val spinnerAdapter = ArrayAdapter(
+            context,
+            android.R.layout.simple_spinner_item,
+            subSpecs.map {
+                if (ConstantObjects.currentLanguage == "ar") it.nameAr ?: "" else it.nameEn ?: ""
             }
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         }
-        spinnerViewHolder.spinner.onItemSelectedListener = object :
-            AdapterView.OnItemSelectedListener {
+
+        holder.spinner.adapter = spinnerAdapter
+
+        // Set selection if already selected
+        val selectedIndex = subSpecs.indexOfFirst { it.isDataSelected }
+        if (selectedIndex >= 0) {
+            holder.spinner.setSelection(selectedIndex)
+        }
+
+        // Handle selection changes
+        holder.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
-                adapterView: AdapterView<*>?,
-                view: View,
-                spinnerPosition: Int,
-                l: Long
+                parent: AdapterView<*>?, view: View?, spinnerPosition: Int, id: Long
             ) {
                 onChangeValueListener.setOnSpinnerListSelected(position, spinnerPosition)
             }
 
-            override fun onNothingSelected(adapterView: AdapterView<*>?) {}
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
     }
 
-    private fun selectionType(sp: Spinner, pos: Int) {
-        GlobalScope.launch {
-            delay(250)
-            sp.setSelection(pos, true)
+    private fun bindRadioView(
+        holder: RadioViewHolder,
+        specItem: DynamicSpecificationItem,
+        position: Int
+    ) {
+        val context = holder.itemView.context
 
+        val formattedTitle = formatTitleWithAsterisk(specItem, context)
+        holder.tvTitle.text = formattedTitle
+
+        holder.radioGroup.removeAllViews()
+
+        specItem.subSpecifications?.forEach { subSpec ->
+            if (subSpec.isActive) {
+                val radioButton = RadioButton(context).apply {
+                    text =
+                        if (ConstantObjects.currentLanguage == "ar") subSpec.nameAr else subSpec.nameEn
+                    isChecked = subSpec.isDataSelected
+                    id = subSpec.id
+                }
+                holder.radioGroup.addView(radioButton)
+            }
+        }
+
+        holder.radioGroup.setOnCheckedChangeListener { _, checkedId ->
+            specItem.subSpecifications?.forEach { subSpec ->
+                subSpec.isDataSelected = (subSpec.id == checkedId)
+            }
+            onChangeValueListener.onRadioItemSelected(position, checkedId)
         }
     }
 
-    fun updateAdapter(dynamicSpecificationList: List<DynamicSpecificationItem>) {
-        this.dynamicSpecificationList = dynamicSpecificationList
-        notifyDataSetChanged()
+    private fun bindCheckboxView(
+        holder: CheckboxViewHolder,
+        specItem: DynamicSpecificationItem,
+        position: Int
+    ) {
+        val context = holder.itemView.context
+
+        val formattedTitle = formatTitleWithAsterisk(specItem, context)
+        holder.tvTitle.text = formattedTitle
+
+        holder.checkboxGroup.removeAllViews()
+
+        specItem.subSpecifications?.forEach { subSpec ->
+            if (subSpec.isActive) {
+                val checkBox = CheckBox(context).apply {
+                    text =
+                        if (ConstantObjects.currentLanguage == "ar") subSpec.nameAr else subSpec.nameEn
+                    isChecked = subSpec.isDataSelected
+                    id = subSpec.id
+                }
+                checkBox.setOnCheckedChangeListener { _, isChecked ->
+                    subSpec.isDataSelected = isChecked
+                    onChangeValueListener.onCheckboxItemChecked(position, checkBox.id, isChecked)
+                }
+                holder.checkboxGroup.addView(checkBox)
+            }
+        }
     }
 
     interface OnChangeValueListener {
         fun setOnTextBoxTextChangeAR(value: String, position: Int)
         fun setOnTextBoxTextChangeEN(value: String, position: Int)
-        fun setCheckClicked(position: Int)
         fun setOnSpinnerListSelected(mainAttributesPosition: Int, spinnerPosition: Int)
+        fun onRadioItemSelected(position: Int, selectedId: Int)
+        fun onCheckboxItemChecked(position: Int, checkboxId: Int, isChecked: Boolean)
     }
 
+    fun updateAdapter(newList: List<DynamicSpecificationItem>) {
+        this.dynamicSpecificationList = newList
+        notifyDataSetChanged()
+    }
+}
+
+fun formatTitleWithAsterisk(specItem: DynamicSpecificationItem, context: Context): SpannableString {
+    val orangeColor = ContextCompat.getColor(context, R.color.orange)
+
+    // Set title with asterisk if required and based on current language
+    val titleText = if (specItem.isRequired) {
+        if (ConstantObjects.currentLanguage == "ar") "${specItem.nameAr} *" else "${specItem.nameEn} *"
+    } else {
+        if (ConstantObjects.currentLanguage == "ar") specItem.nameAr else specItem.nameEn
+    }
+
+    // Format title text with only the first letter capitalized and the rest in lowercase
+    val formattedTitleText = titleText?.capitalizeFirstLetter()
+
+    // Create a SpannableString from the formatted text
+    val spannableString = SpannableString(formattedTitleText)
+
+    // Apply orange color to asterisk if required
+    if (specItem.isRequired) {
+        val asteriskIndex = formattedTitleText?.indexOf("*")
+        if (asteriskIndex != null) {
+            if (asteriskIndex >= 0) {
+                spannableString.setSpan(
+                    ForegroundColorSpan(orangeColor),
+                    asteriskIndex,
+                    asteriskIndex + 1,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+            }
+        }
+    }
+
+    return spannableString
 }
