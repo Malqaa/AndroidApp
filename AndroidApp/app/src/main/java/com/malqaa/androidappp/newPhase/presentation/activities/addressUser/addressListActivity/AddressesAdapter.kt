@@ -52,10 +52,8 @@ class AddressesAdapter(
         }
 
         if (userAddressesList[position].defaultAddress) {
-            holder.viewBinding.btnDeleteAddress.visibility = View.GONE
             holder.viewBinding.ivSelectedAddress.setImageResource(R.drawable.ic_radio_button_checked)
         } else {
-            holder.viewBinding.btnDeleteAddress.visibility = View.VISIBLE
             holder.viewBinding.ivSelectedAddress.setImageResource(R.drawable.ic_radio_button_unchecked)
         }
 
