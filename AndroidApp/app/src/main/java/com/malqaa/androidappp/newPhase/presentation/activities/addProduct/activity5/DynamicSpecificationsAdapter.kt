@@ -167,10 +167,8 @@ class DynamicSpecificationsAdapter(
         holder.etEnValue.inputType = inputType
 
         // Set placeholder
-        holder.etArValue.hint =
-            "${specItem.name} ${context.getString(R.string.inArabic)}".capitalizeFirstLetter()
-        holder.etEnValue.hint =
-            "${specItem.name} ${context.getString(R.string.inEnglish)}".capitalizeFirstLetter()
+        holder.etArValue.hint = "${specItem.placeHolder}"
+        holder.etEnValue.hint = "${specItem.placeHolder}"
 
         // Set existing value based on current language
         holder.etArValue.setText(specItem.valueArText)
@@ -264,7 +262,8 @@ class DynamicSpecificationsAdapter(
                         RadioGroup.LayoutParams.WRAP_CONTENT
                     )
                     // Align the text to the left and the RadioButton to the right
-                    layoutDirection = View.LAYOUT_DIRECTION_RTL
+                    layoutDirection = if (ConstantObjects.currentLanguage == "en")
+                        View.LAYOUT_DIRECTION_RTL else View.LAYOUT_DIRECTION_LTR
                 }
                 holder.radioGroup.addView(radioButton)
             }
@@ -302,7 +301,8 @@ class DynamicSpecificationsAdapter(
                         RadioGroup.LayoutParams.WRAP_CONTENT
                     )
                     // Align the text to the left and the RadioButton to the right
-                    layoutDirection = View.LAYOUT_DIRECTION_RTL
+                    layoutDirection = if (ConstantObjects.currentLanguage == "en")
+                        View.LAYOUT_DIRECTION_RTL else View.LAYOUT_DIRECTION_LTR
                 }
                 checkBox.setOnCheckedChangeListener { _, isChecked ->
                     subSpec.isDataSelected = isChecked
