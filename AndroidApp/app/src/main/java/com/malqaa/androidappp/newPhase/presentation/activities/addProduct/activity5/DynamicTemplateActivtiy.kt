@@ -2,7 +2,6 @@ package com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activ
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -137,7 +136,6 @@ class DynamicTemplateActivity : BaseActivity<FragmentDynamicTemplateBinding>(),
                 if (allValuesSet) {
                     AddProductObjectData.productSpecificationList = null
                     AddProductObjectData.productSpecificationList = data
-                    Log.i("TAG", "checkAllDataSet: $data")
                     goNextScreen(false)
                 } else {
                     showToast(getString(R.string.enterAllSpecification))
@@ -191,11 +189,7 @@ class DynamicTemplateActivity : BaseActivity<FragmentDynamicTemplateBinding>(),
         item: DynamicSpecificationItem,
         data: ArrayList<DynamicSpecificationSentObject>
     ) {
-        if (ConstantObjects.currentLanguage == "ar" && item.valueArText.isNullOrBlank()) {
-            return
-        } else if (ConstantObjects.currentLanguage == "en" && item.valueEnText.isNullOrBlank()) {
-            return
-        }
+        if (item.valueEnText.isNullOrBlank()) return
 
         data.add(
             DynamicSpecificationSentObject(
@@ -213,7 +207,7 @@ class DynamicTemplateActivity : BaseActivity<FragmentDynamicTemplateBinding>(),
         item: DynamicSpecificationItem,
         data: ArrayList<DynamicSpecificationSentObject>
     ) {
-        if (item.isRequired && item.valueArText.isNullOrBlank() || item.valueEnText.isNullOrBlank()) return
+        if (item.valueArText.isNullOrBlank()) return
 
         data.add(
             DynamicSpecificationSentObject(
@@ -279,6 +273,6 @@ class DynamicTemplateActivity : BaseActivity<FragmentDynamicTemplateBinding>(),
 
 // Helper extension function to check if required value is missing based on the current language
 private fun DynamicSpecificationItem.isValueMissing(): Boolean {
-    return if (ConstantObjects.currentLanguage == "ar") valueArText.isNullOrBlank()
-    else valueEnText.isNullOrBlank()
+    return if (this.type == SpecificationType.Number.type)
+        valueEnText.isNullOrBlank() else valueArText.isNullOrBlank()
 }
