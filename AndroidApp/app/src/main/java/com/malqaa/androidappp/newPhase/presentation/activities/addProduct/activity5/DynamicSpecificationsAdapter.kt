@@ -155,22 +155,26 @@ class DynamicSpecificationsAdapter(
 
         if (inputType == InputType.TYPE_CLASS_NUMBER && ConstantObjects.currentLanguage == "ar") {
             holder.etEnValue.visibility = View.GONE
+            // Set placeholder
+            holder.etArValue.hint = "${specItem.placeHolder}".capitalizeFirstLetter()
         } else if (inputType == InputType.TYPE_CLASS_NUMBER && ConstantObjects.currentLanguage == "en") {
             holder.etArValue.visibility = View.GONE
+            // Set placeholder
+            holder.etEnValue.hint = "${specItem.placeHolder}".capitalizeFirstLetter()
         } else {
             holder.etArValue.visibility = View.VISIBLE
             holder.etEnValue.visibility = View.VISIBLE
+
+            // Set placeholder
+            holder.etArValue.hint =
+                "${specItem.placeHolder} ${context.getString(R.string.inArabic)}".capitalizeFirstLetter()
+            holder.etEnValue.hint =
+                "${specItem.placeHolder} ${context.getString(R.string.inEnglish)}".capitalizeFirstLetter()
         }
 
         // Set input type based on specification type
         holder.etArValue.inputType = inputType
         holder.etEnValue.inputType = inputType
-
-        // Set placeholder
-        holder.etArValue.hint =
-            "${specItem.placeHolder} ${context.getString(R.string.inArabic)}".capitalizeFirstLetter()
-        holder.etEnValue.hint =
-            "${specItem.placeHolder} ${context.getString(R.string.inEnglish)}".capitalizeFirstLetter()
 
         // Set existing value based on current language
         holder.etArValue.setText(specItem.valueArText)
