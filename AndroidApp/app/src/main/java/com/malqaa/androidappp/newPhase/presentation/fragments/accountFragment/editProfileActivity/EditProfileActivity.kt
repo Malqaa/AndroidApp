@@ -173,6 +173,7 @@ class EditProfileActivity : AppCompatActivity() {
                         .write<LoginUser>(SharedPreferencesStaticClass.user_object, userObjects)
                 }
                 HelpFunctions.ShowLongToast(getString(R.string.profileUpdatedSuccessfully), this)
+                pressBack()
             } else {
                 if (it.message != null) {
                     HelpFunctions.ShowLongToast(it.message, this)
@@ -362,6 +363,10 @@ class EditProfileActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         accountViewModel.closeAllCall()
+    }
+
+    fun pressBack() {
+        onBackPressed()
     }
 
 }
