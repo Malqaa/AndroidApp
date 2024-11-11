@@ -10,14 +10,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.malqaa.androidappp.R
 import com.malqaa.androidappp.databinding.ActivityProductTageForAddProductBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
+import com.malqaa.androidappp.newPhase.domain.models.addProductToCartResp.AddProductObjectData
+import com.malqaa.androidappp.newPhase.domain.models.servicemodels.Category
+import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activity2.ChooseCategoryActivity
+import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activity4.AddPhotoActivity
+import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.linearLayoutManager
 import com.malqaa.androidappp.newPhase.utils.show
-import com.malqaa.androidappp.newPhase.domain.models.servicemodels.Category
-import com.malqaa.androidappp.newPhase.domain.models.addProductToCartResp.AddProductObjectData
-import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activity2.ChooseCategoryActivity
-import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activity4.AddPhotoActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -38,6 +39,11 @@ class ProductsTagsForAddProductActivity : BaseActivity<ActivityProductTageForAdd
         setContentView(binding.root)
 
         binding.toolbarMain.toolbarTitle.text = getString(R.string.add_product)
+
+        binding.chooseDepartmentTextField.text = ConstantObjects.categoryList
+            .take(3) // Take the first three items
+            .joinToString(", ") { it.name } + ", ..."
+
         setViewClickListeners()
         setUpViewModel()
         setProductTagsAdapters()

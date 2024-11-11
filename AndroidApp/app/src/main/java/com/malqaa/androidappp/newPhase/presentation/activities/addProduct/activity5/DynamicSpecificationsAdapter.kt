@@ -167,8 +167,10 @@ class DynamicSpecificationsAdapter(
         holder.etEnValue.inputType = inputType
 
         // Set placeholder
-        holder.etArValue.hint = "${specItem.placeHolder}"
-        holder.etEnValue.hint = "${specItem.placeHolder}"
+        holder.etArValue.hint =
+            "${specItem.placeHolder} ${context.getString(R.string.inArabic)}".capitalizeFirstLetter()
+        holder.etEnValue.hint =
+            "${specItem.placeHolder} ${context.getString(R.string.inEnglish)}".capitalizeFirstLetter()
 
         // Set existing value based on current language
         holder.etArValue.setText(specItem.valueArText)
