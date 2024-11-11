@@ -258,6 +258,13 @@ class DynamicSpecificationsAdapter(
                         if (ConstantObjects.currentLanguage == "ar") subSpec.nameAr else subSpec.nameEn
                     isChecked = subSpec.isDataSelected
                     id = subSpec.id
+                    // Set width to match_parent and align text to the left
+                    layoutParams = RadioGroup.LayoutParams(
+                        RadioGroup.LayoutParams.MATCH_PARENT,
+                        RadioGroup.LayoutParams.WRAP_CONTENT
+                    )
+                    // Align the text to the left and the RadioButton to the right
+                    layoutDirection = View.LAYOUT_DIRECTION_RTL
                 }
                 holder.radioGroup.addView(radioButton)
             }
@@ -290,6 +297,12 @@ class DynamicSpecificationsAdapter(
                         if (ConstantObjects.currentLanguage == "ar") subSpec.nameAr else subSpec.nameEn
                     isChecked = subSpec.isDataSelected
                     id = subSpec.id
+                    layoutParams = RadioGroup.LayoutParams(
+                        RadioGroup.LayoutParams.MATCH_PARENT,
+                        RadioGroup.LayoutParams.WRAP_CONTENT
+                    )
+                    // Align the text to the left and the RadioButton to the right
+                    layoutDirection = View.LAYOUT_DIRECTION_RTL
                 }
                 checkBox.setOnCheckedChangeListener { _, isChecked ->
                     subSpec.isDataSelected = isChecked
