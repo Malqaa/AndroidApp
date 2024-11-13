@@ -178,11 +178,12 @@ class ProductDetailsActivity : BaseActivity<ActivityProductDetails2Binding>(),
         setupViewClickListeners()
         setupViewAdapters()
 
-        onRefresh()
         if (HelpFunctions.isUserLoggedIn()) {
             userData = Paper.book().read<LoginUser>(SharedPreferencesStaticClass.user_object)
             productDetialsViewModel.addLastViewedProduct(productId)
         }
+
+        onRefresh()
     }
 
     private fun callGetPriceCart(nameProduct: String) {
