@@ -55,7 +55,8 @@ class DynamicSpecificationsAdapter(
 
     // View Holders
     inner class TextBoxViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val tvTitle: TextView = view.findViewById(R.id.tvTitle)
+        val tvArTitle: TextView = view.findViewById(R.id.tvArTitle)
+        val tvEnTitle: TextView = view.findViewById(R.id.tvEnTitle)
         val etArValue: EditText = view.findViewById(R.id.etArValue)
         val etEnValue: EditText = view.findViewById(R.id.etEnValue)
     }
@@ -144,8 +145,7 @@ class DynamicSpecificationsAdapter(
     ) {
         val context = holder.itemView.context
 
-        val formattedTitle = formatTitleWithAsterisk(specItem, context)
-        holder.tvTitle.text = formattedTitle
+        val formattedTitle = formatTitleWithAsteriskForEditText(specItem, context)
 
         val inputType = when (SpecificationType.values().firstOrNull { it.type == specItem.type }) {
             SpecificationType.Number -> InputType.TYPE_CLASS_NUMBER
@@ -154,22 +154,36 @@ class DynamicSpecificationsAdapter(
         }
 
         if (inputType == InputType.TYPE_CLASS_NUMBER && ConstantObjects.currentLanguage == "ar") {
+            holder.tvEnTitle.visibility = View.GONE
             holder.etEnValue.visibility = View.GONE
+
+            // Set title
+            holder.tvArTitle.text = formatTitleWithAsterisk(specItem, context)
+
             // Set placeholder
             holder.etArValue.hint = "${specItem.placeHolder}".capitalizeFirstLetter()
         } else if (inputType == InputType.TYPE_CLASS_NUMBER && ConstantObjects.currentLanguage == "en") {
+            holder.tvArTitle.visibility = View.GONE
             holder.etArValue.visibility = View.GONE
+
+            // Set title
+            holder.tvEnTitle.text = formatTitleWithAsterisk(specItem, context)
+
             // Set placeholder
             holder.etEnValue.hint = "${specItem.placeHolder}".capitalizeFirstLetter()
         } else {
+            holder.tvArTitle.visibility = View.VISIBLE
+            holder.tvEnTitle.visibility = View.VISIBLE
             holder.etArValue.visibility = View.VISIBLE
             holder.etEnValue.visibility = View.VISIBLE
 
+            // Set title
+            holder.tvArTitle.text = formattedTitle.first
+            holder.tvEnTitle.text = formattedTitle.second
+
             // Set placeholder
-            holder.etArValue.hint =
-                "${specItem.placeHolder} ${context.getString(R.string.inArabic)}".capitalizeFirstLetter()
-            holder.etEnValue.hint =
-                "${specItem.placeHolder} ${context.getString(R.string.inEnglish)}".capitalizeFirstLetter()
+            holder.etArValue.hint = "${specItem.placeHolder}".capitalizeFirstLetter()
+            holder.etEnValue.hint = "${specItem.placeHolder}".capitalizeFirstLetter()
         }
 
         // Set input type based on specification type
@@ -365,4 +379,83 @@ fun formatTitleWithAsterisk(specItem: DynamicSpecificationItem, context: Context
     }
 
     return spannableString
+}
+
+private fun formatTitleWithAsteriskForEditText(
+    specItem: DynamicSpecificationItem,
+    context: Context
+): Pair<SpannableString, SpannableString> {
+    val orangeColor = ContextCompat.getColor(context, R.color.orange)
+
+    var spannableTitleAr: SpannableString?
+    var spannableTitleEn: SpannableString?
+
+    // Get the Arabic title with formatting
+    val nameArInArabic = "${specItem.nameAr} ${context.getString(R.string.inArabic)}"
+    val nameArInEnglish = "${specItem.nameAr} ${context.getString(R.string.inEnglish)}"
+
+    // Get the English title with formatting
+    val nameEnInArabic = "${specItem.nameEn} ${context.getString(R.string.inArabic)}"
+    val nameEnInEnglish = "${specItem.nameEn} ${context.getString(R.string.inEnglish)}"
+
+    // Set title with asterisk if required and based on current language
+    if (specItem.isRequired) {
+        if (ConstantObjects.currentLanguage == "ar") {
+            // Create SpannableString for Arabic title
+            spannableTitleAr = SpannableString(nameArInArabic.plus(" *").capitalizeFirstLetter())
+            // Create SpannableString for English title
+            spannableTitleEn = SpannableString(nameArInEnglish.capitalizeFirstLetter())
+        } else {
+            // Create SpannableString for Arabic title
+            spannableTitleAr = SpannableString(nameEnInArabic.plus(" *").capitalizeFirstLetter())
+            // Create SpannableString for English title
+            spannableTitleEn = SpannableString(nameEnInEnglish.capitalizeFirstLetter())
+        }
+    } else {
+        if (ConstantObjects.currentLanguage == "ar") {
+            // Create SpannableString for Arabic title
+            spannableTitleAr = SpannableString(nameArInArabic.capitalizeFirstLetter())
+            // Create SpannableString for English title
+            spannableTitleEn = SpannableString(nameArInEnglish.capitalizeFirstLetter())
+        } else {
+            // Create SpannableString for Arabic title
+            spannableTitleAr = SpannableString(nameEnInArabic.capitalizeFirstLetter())
+            // Create SpannableString for English title
+            spannableTitleEn = SpannableString(nameEnInEnglish.capitalizeFirstLetter())
+        }
+    }
+
+
+    // Apply orange color to asterisk in Arabic title if required
+    if (specItem.isRequired) {
+        val asteriskIndexAr = spannableTitleAr?.indexOf("*")
+        if (asteriskIndexAr != null) {
+            if (asteriskIndexAr >= 0) {
+                spannableTitleAr.setSpan(
+                    ForegroundColorSpan(orangeColor),
+                    asteriskIndexAr,
+                    asteriskIndexAr + 1,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+            }
+        }
+    }
+
+    // Apply orange color to asterisk in English title if required
+    if (specItem.isRequired) {
+        val asteriskIndexEn = spannableTitleEn.indexOf("*")
+        if (asteriskIndexEn != null) {
+            if (asteriskIndexEn >= 0) {
+                spannableTitleEn.setSpan(
+                    ForegroundColorSpan(orangeColor),
+                    asteriskIndexEn,
+                    asteriskIndexEn + 1,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+            }
+        }
+    }
+
+    // Return the pair of SpannableStrings (Arabic and English)
+    return Pair(spannableTitleAr, spannableTitleEn)
 }

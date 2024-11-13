@@ -8,13 +8,13 @@
     android:padding="16dp">
 
     <TextView
-        android:id="@+id/tvTitle"
+        android:id="@+id/tvArTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/madani_arabic_medium"
         android:textColor="@color/black"
         android:textSize="13sp"
-        tools:text="Dropdown Title" />
+        tools:text="EditText Title Ar" />
 
     <EditText
         android:id="@+id/etArValue"
@@ -31,6 +31,16 @@
         android:textColor="@color/textColor"
         android:textSize="12sp"
         tools:hint="Enter value" />
+
+    <TextView
+        android:id="@+id/tvEnTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/madani_arabic_medium"
+        android:textColor="@color/black"
+        android:textSize="13sp"
+        tools:text="EditText Title En" />
 
     <EditText
         android:id="@+id/etEnValue"
