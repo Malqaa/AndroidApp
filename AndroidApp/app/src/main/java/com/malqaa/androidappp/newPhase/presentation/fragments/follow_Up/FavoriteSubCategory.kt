@@ -106,27 +106,31 @@ class FavoriteSubCategory : BaseActivity<FragmentFavoriteSubCategoryBinding>() {
         }
         listCategoryViewModel!!.categoryListObserver.observe(this) { categoryListObserver ->
             if (categoryListObserver.status_code == 200) {
-                lastCategoryId = if (!categoryListObserver.categoryList.isNullOrEmpty()) {
-                    allCategoryList?.add(categoryListObserver.categoryList[0])
-                    categoryListObserver.categoryList[0].id
+                // Add all items to allCategoryList
+                if (!categoryListObserver.categoryList.isNullOrEmpty()) {
+                    // Add all categories
+                    allCategoryList?.addAll(categoryListObserver.categoryList)
+                    // Set the last category's id as the new lastCategoryId
+                    lastCategoryId = categoryListObserver.categoryList.last().id
                 } else {
-                    0
+                    lastCategoryId = 0
                 }
+
+                // Check if there are categories to process
                 if (lastCategoryId != 0) {
                     listCategoryViewModel!!.getSubCategoriesByCategoryID(lastCategoryId)
+                    // Pass the updated list of categories to the adapter
                     subCategoryAdapter(allCategoryList!!)
-
                 } else {
-                    if (allCategoryList?.isEmpty() == true)
+                    if (allCategoryList?.isEmpty() == true) {
                         categoryIdList?.add(categoryid)
-                }
-
-                if (allCategoryList != null) {
-                    if (allCategoryList?.size != 0) {
-                        subCategoryAdapter(allCategoryList!!)
                     }
                 }
 
+                // Ensure to update the adapter with the full list of categories
+                if (!allCategoryList.isNullOrEmpty()) {
+                    subCategoryAdapter(allCategoryList!!)
+                }
             } else {
                 HelpFunctions.ShowLongToast(
                     getString(R.string.noSubCategoryFound),
@@ -135,7 +139,6 @@ class FavoriteSubCategory : BaseActivity<FragmentFavoriteSubCategoryBinding>() {
             }
         }
     }
-
 
     private fun initView() {
         binding.toolbarMain.toolbarTitle.visibility = View.GONE
