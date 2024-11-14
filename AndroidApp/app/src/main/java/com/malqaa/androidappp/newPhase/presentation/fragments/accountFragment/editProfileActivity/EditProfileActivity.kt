@@ -17,6 +17,7 @@ import com.malqaa.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.
 import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.AccountViewModel
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
+import com.malqaa.androidappp.newPhase.utils.helper.ConstantsHelper.getCountryDialCodes
 import com.malqaa.androidappp.newPhase.utils.helper.ConstantsHelper.readJson
 import com.malqaa.androidappp.newPhase.utils.helper.shared_preferences.SharedPreferencesStaticClass
 import com.malqaa.androidappp.newPhase.utils.helper.widgets.DatePickerFragment
@@ -192,6 +193,7 @@ class EditProfileActivity : AppCompatActivity() {
     }
 
     private fun setUserData(tempUserData: LoginUser) {
+
         binding.password.setText(tempUserData.password ?: "")
         binding.etPhoneNumber.hint = tempUserData.phone ?: ""
         binding.userNamee.text = tempUserData.userName ?: ""
@@ -199,6 +201,7 @@ class EditProfileActivity : AppCompatActivity() {
         binding.fristName.setText(tempUserData.firstName ?: "")
         binding.lastName.setText(tempUserData.lastName ?: "")
         binding.btnDate.setText(tempUserData.dateOfBirth ?: "")
+
         gender = tempUserData.gender
         when (gender) {
             Constants.male -> {
@@ -211,6 +214,30 @@ class EditProfileActivity : AppCompatActivity() {
         }
         setInfoUser((tempUserData.showUserInformation ?: "0").toInt())
         showMYInfo = (tempUserData.showUserInformation ?: "0").toInt()
+
+        // Set the spinner selection based on the phone number's code
+        tempUserData.phone?.let { setSpinnerSelectionBasedOnPhoneNumber(it) }
+    }
+
+    // Function to set spinner selection based on the extracted country code
+    private fun setSpinnerSelectionBasedOnPhoneNumber(phoneNumber: String) {
+        val countryCode = extractCountryCode(phoneNumber)
+        val adapter = binding.spCode.adapter as? CustomSpinnerAdapter ?: return
+        val position = adapter.getPositionByDialCode(countryCode)
+        if (position >= 0) {
+            binding.spCode.setSelection(position)
+        }
+    }
+
+    // Function to normalize and extract the country code from a phone number
+    private fun extractCountryCode(phoneNumber: String): String {
+        // Remove any non-numeric characters and normalize to start with "+"
+        val normalizedNumber = if (phoneNumber.startsWith("+")) phoneNumber else "+$phoneNumber"
+
+        val countryDialCodes = getCountryDialCodes(this)
+
+        // Find the longest matching country code from the start of the normalized number
+        return countryDialCodes?.find { normalizedNumber.startsWith(it) } ?: "+20"
     }
 
     private fun setInfoUser(showMYInfo: Int) {

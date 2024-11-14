@@ -41,17 +41,29 @@ object ConstantsHelper {
 
     fun readJson(con: Context): Array<CountryCode>? {
         val countryCodes: Array<CountryCode>
-//        val countryCode: ArrayList<CountryCode>
         try {
             val cc: String = assetJSONFile("CountryCodes.json", con)
             val gson = Gson()
             countryCodes = gson.fromJson(cc, Array<CountryCode>::class.java)
-//            countryCode = ArrayList(listOf(*countryCodes))
         } catch (ex: IOException) {
             ex.printStackTrace()
             return null
         }
         return countryCodes
+    }
+
+    fun getCountryDialCodes(context: Context): Array<String>? {
+        return try {
+            val jsonString = assetJSONFile("CountryCodes.json", context)
+            val gson = Gson()
+            val countryCodes = gson.fromJson(jsonString, Array<CountryCode>::class.java)
+
+            // Map each CountryCode object to its dialCode and return as an Array
+            countryCodes.map { it.dialCode }.toTypedArray()
+        } catch (ex: IOException) {
+            ex.printStackTrace()
+            null
+        }
     }
 
     fun assetJSONFile(filename: String, context: Context): String {

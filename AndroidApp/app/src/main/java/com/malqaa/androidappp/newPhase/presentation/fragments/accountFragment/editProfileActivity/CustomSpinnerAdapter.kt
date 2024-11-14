@@ -40,4 +40,9 @@ class CustomSpinnerAdapter(private val context: Context, private val items: Arra
         return convertView
     }
 
+    // Function to find the position by dial code
+    fun getPositionByDialCode(dialCode: String): Int {
+        return items.indexOfFirst { it.dialCode == dialCode }
+    }
+
 }
