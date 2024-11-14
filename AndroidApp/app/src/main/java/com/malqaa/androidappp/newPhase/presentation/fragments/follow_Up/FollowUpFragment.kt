@@ -116,7 +116,7 @@ class FollowUpFragment : Fragment(R.layout.fragment_follow_up_fragment) {
 
     private fun setListenser() {
 
-        binding.toolbarMain.toolbarTitle.setOnClickListener {
+        binding.toolbarMain.backBtn.setOnClickListener {
             requireActivity().onBackPressed()
         }
 
