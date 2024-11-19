@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="@dimen/_2sdp"
@@ -346,6 +345,7 @@
                         android:background="@color/light_gray" />
 
                     <LinearLayout
+                        android:id="@+id/linearItemSpecification"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_14sdp"
@@ -377,6 +377,7 @@
 
 
                     <RelativeLayout
+                        android:id="@+id/relativeProductSpecification"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -407,15 +408,16 @@
                     </RelativeLayout>
 
                     <LinearLayout
+                        android:id="@+id/linearDividerForSpecification"
                         android:layout_width="@dimen/_200sdp"
                         android:layout_height="@dimen/_1sdp"
                         android:layout_gravity="center"
                         android:layout_marginTop="15dp"
-                        android:background="@color/light_gray">
-
-                    </LinearLayout>
+                        android:background="@color/light_gray"
+                        android:orientation="horizontal" />
 
                     <TextView
+                        android:id="@+id/textItemDetails"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_5sdp"
@@ -425,6 +427,7 @@
                         android:textSize="@dimen/_14sdp" />
 
                     <RelativeLayout
+                        android:id="@+id/relativeItemDetails"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
@@ -463,13 +466,13 @@
                         android:textSize="@dimen/_12sdp" />
 
                     <LinearLayout
+                        android:id="@+id/linearDividerForItemDetails"
                         android:layout_width="@dimen/_200sdp"
                         android:layout_height="@dimen/_1sdp"
                         android:layout_gravity="center"
                         android:layout_marginTop="12dp"
-                        android:background="@color/light_gray">
-
-                    </LinearLayout>
+                        android:background="@color/light_gray"
+                        android:orientation="horizontal" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -1011,9 +1014,9 @@
 
 
                 <LinearLayout
+                    android:id="@+id/layInfo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/layInfo"
                     android:layout_marginStart="@dimen/_14sdp"
                     android:layout_marginEnd="@dimen/_14sdp"
                     android:background="@drawable/product_attribute_bg4"
@@ -1023,37 +1026,37 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
-                        android:layout_weight="1"
                         android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_weight="1"
                         android:orientation="vertical">
 
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/_13sdp"
-
                             android:layout_marginTop="20dp"
-                            android:text="@string/negotiation_offers" />
+                            android:text="@string/negotiation_offers"
 
-                        <TextView
                             android:textColor="@color/black"
-                            android:textSize="@dimen/_13sdp"
+                            android:textSize="@dimen/_13sdp" />
+
+                        <TextView
                             android:layout_width="wrap_content"
-                            android:layout_marginTop="10dp"
                             android:layout_height="wrap_content"
-                            android:text="@string/purchaseOrder" />
+                            android:layout_marginTop="10dp"
+                            android:text="@string/purchaseOrder"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_13sdp" />
 
 
                         <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:layout_marginBottom="10dp"
-                            android:layout_width="wrap_content"
+                            android:text="@string/AddedtoFavorites"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/_13sdp"
-                            android:layout_height="wrap_content"
-                            android:text="@string/AddedtoFavorites" />
+                            android:textSize="@dimen/_13sdp" />
 
                     </LinearLayout>
 
@@ -1061,9 +1064,9 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="end"
-                        android:layout_weight="1"
                         android:layout_marginEnd="30dp"
+                        android:layout_weight="1"
+                        android:gravity="end"
                         android:orientation="vertical">
 
 
@@ -1071,30 +1074,30 @@
                             android:id="@+id/txtCountNegotiation"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/_13sdp"
                             android:layout_marginTop="20dp"
-                            android:text="0" />
+                            android:text="0"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_13sdp" />
 
                         <TextView
                             android:id="@+id/txtCountPurchase"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/_13sdp"
                             android:layout_width="wrap_content"
-                            android:layout_marginTop="10dp"
                             android:layout_height="wrap_content"
-                            android:text="0" />
+                            android:layout_marginTop="10dp"
+                            android:text="0"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_13sdp" />
 
 
                         <TextView
                             android:id="@+id/txtCountFav"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:layout_marginBottom="10dp"
-                            android:layout_width="wrap_content"
+                            android:text="0"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/_13sdp"
-                            android:layout_height="wrap_content"
-                            android:text="0" />
+                            android:textSize="@dimen/_13sdp" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -1119,8 +1122,8 @@
                     android:id="@+id/editProduct"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
                     android:layout_marginStart="@dimen/_14sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
                     android:layout_marginEnd="@dimen/_14sdp"
                     android:background="@drawable/button_curve_stroke_border_orange"
                     android:fontFamily="@font/madani_arabic_semi_bold"

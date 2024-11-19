@@ -638,9 +638,8 @@ class MyProductDetailsActivity : BaseActivity<MyProductDetailsBinding>(),
 
     }
 
-
     private fun setupViewAdapters() {
-        setSpeceificationAdapter()
+        setSpecificationAdapter()
         setupProductImagesAdapter()
         setReviewsAdapter()
         setQuestionAnswerAdapter()
@@ -747,17 +746,30 @@ class MyProductDetailsActivity : BaseActivity<MyProductDetailsBinding>(),
     }
 
 
-    private fun setSpeceificationAdapter() {
+    private fun setSpecificationAdapter() {
         specificationList = ArrayList()
         specificationAdapter = SpecificationAdapter(specificationList)
-        if (specificationList.size != 0)
+
+        if (specificationList.isNullOrEmpty()) {
+            // Hide the RecyclerView and layout if the list is empty
+            myProductDetails2Binding.linearItemSpecification.visibility = View.GONE
+            myProductDetails2Binding.relativeProductSpecification.visibility = View.GONE
+            myProductDetails2Binding.linearDividerForSpecification.visibility = View.GONE
+            productDetailsItem2Binding.laySpec.hide()
+        } else {
+            // Show the RecyclerView and layout if the list has items
+            myProductDetails2Binding.linearItemSpecification.visibility = View.VISIBLE
+            myProductDetails2Binding.relativeProductSpecification.visibility = View.VISIBLE
+            myProductDetails2Binding.linearDividerForSpecification.visibility = View.VISIBLE
             productDetailsItem2Binding.laySpec.show()
+        }
+
+        // Set up RecyclerView
         myProductDetails2Binding.rvProductSpecification.apply {
-            layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
+            layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
             adapter = specificationAdapter
         }
     }
-
 
     /**set product data*/
 
@@ -842,6 +854,19 @@ class MyProductDetailsActivity : BaseActivity<MyProductDetailsBinding>(),
             myProductDetails2Binding.tvProductItemName.text = productDetails.name ?: ""
             myProductDetails2Binding.tvProductSubtitle.text = productDetails.subTitle ?: ""
 
+
+            val description = productDetails.description ?: ""
+            if (description.isNullOrBlank()) {
+                myProductDetails2Binding.textItemDetails.visibility = View.GONE
+                myProductDetails2Binding.relativeItemDetails.visibility = View.GONE
+                myProductDetails2Binding.btnMoreItemDetails.visibility = View.GONE
+                myProductDetails2Binding.linearDividerForItemDetails.visibility = View.GONE
+            } else {
+                myProductDetails2Binding.textItemDetails.visibility = View.VISIBLE
+                myProductDetails2Binding.relativeItemDetails.visibility = View.VISIBLE
+                myProductDetails2Binding.btnMoreItemDetails.visibility = View.VISIBLE
+                myProductDetails2Binding.linearDividerForItemDetails.visibility = View.VISIBLE
+            }
 
             myProductDetails2Binding.tvProductDescriptionShort.text =
                 productDetails.description ?: ""
