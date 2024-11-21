@@ -54,35 +54,25 @@ class OrderProductAdapter(var dataList: ArrayList<OrderProductFullInfoDto>) :
             location += "-${dataList[position].region}"
         }
         holder.viewBinding.tvProductCity.text = location
-        if (dataList[position].priceDiscount == dataList[position].price) {
-            holder.viewBinding.prodPrice.text =
-                "${dataList[position].price.toDouble()} ${
-                    context.getString(
-                        R.string.Rayal
-                    )
-                }"
+
+        val price = (dataList[position].price.toDouble())
+        val priceDiscount = (dataList[position].priceDiscount.toDouble())
+
+        if (priceDiscount == 0.0 || priceDiscount >= price) {
+            // No discount or invalid discount; show only the current price
+            holder.viewBinding.prodPrice.text = "$price ${context.getString(R.string.Rayal)}"
             holder.viewBinding.tvOldPRiceProductPriceForHorizentalView.hide()
         } else {
-            // for Horizental View
+            // Discounted price; show both current and old prices
             holder.viewBinding.tvOldPRiceProductPriceForHorizentalView.show()
             holder.viewBinding.tvOldPRiceProductPriceForHorizentalView.paintFlags =
                 Paint.STRIKE_THRU_TEXT_FLAG
             holder.viewBinding.tvOldPRiceProductPriceForHorizentalView.text =
-                "${dataList[position].price.toDouble()} ${
-                    context.getString(
-                        R.string.Rayal
-                    )
-                }"
+                "$price ${context.getString(R.string.Rayal)}"
             holder.viewBinding.prodPrice.text =
-                "${dataList[position].priceDiscount.toDouble()} ${
-                    context.getString(
-                        R.string.Rayal
-                    )
-                }"
+                "$priceDiscount ${context.getString(R.string.Rayal)}"
         }
+
         holder.viewBinding.tvQuentity.text = dataList[position].quantity.toString()
-
-
     }
-
 }
