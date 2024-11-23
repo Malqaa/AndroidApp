@@ -2,6 +2,7 @@ package com.malqaa.androidappp.newPhase.presentation.activities.searchProductLis
 
 import android.app.Activity
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.malqaa.androidappp.R
@@ -184,27 +185,54 @@ class CategoryProductViewModel : BaseViewModel() {
 
         callSearchForProduct = getRetrofitBuilder()
             .searchForProductInCategory(stringUrl)
-        callApi(callSearchForProduct!!,
+        callApi(
+            callSearchForProduct!!,
             onSuccess = {
+                Log.d("SearchForProduct", "API call successful. Response: $it")
                 isloadingMore.value = false
                 isLoading.value = false
                 searchProductListRespObserver.value = it
             },
             onFailure = { throwable, statusCode, errorBody ->
+                Log.e(
+                    "SearchForProduct",
+                    "API call failed. Throwable: $throwable, StatusCode: $statusCode, ErrorBody: $errorBody"
+                )
                 isLoading.value = false
                 isloadingMore.value = false
-                if (throwable != null && errorBody == null)
-                    isNetworkFail.value = throwable !is HttpException
-                else {
-                    errorResponseObserver.value =
-                        getErrorResponse(statusCode, errorBody)
+
+                if (throwable != null && errorBody == null) {
+                    val errorMessage = throwable.message ?: ""
+
+                    if (errorMessage.contains(
+                            "Expected BEGIN_OBJECT but was STRING",
+                            ignoreCase = true
+                        )
+                    ) {
+                        Log.e("SearchForProduct", "Error indicates no data available.")
+                        // Handle the case where there is no data
+                        searchProductListRespObserver.value = ProductListSearchResp(
+                            status_code = 200,
+                            totaRecords = 0
+                        )
+                    } else {
+                        // Handle network failure
+                        isNetworkFail.value = throwable !is HttpException
+                        Log.e("SearchForProduct", "Network failure detected.")
+                    }
+                } else {
+                    // General error response handling
+                    errorResponseObserver.value = getErrorResponse(statusCode, errorBody)
+                    Log.e("SearchForProduct", "ErrorResponseObserver updated.")
                 }
             },
             goLogin = {
+                Log.w("SearchForProduct", "User needs to login.")
                 isloadingMore.value = false
                 isLoading.value = false
                 needToLogin.value = true
-            })
+            }
+        )
     }
 
     fun getCategoryFollow() {
