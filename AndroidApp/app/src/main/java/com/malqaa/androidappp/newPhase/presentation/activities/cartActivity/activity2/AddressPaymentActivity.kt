@@ -248,21 +248,21 @@ class AddressPaymentActivity : BaseActivity<ActivityAddressPaymentBinding>(),
             }
 
         }
-        cartViewModel!!.errorResponseObserver.observe(this) {
-            if (it.status != null && it.status == "409") {
+        cartViewModel!!.errorResponseObserver.observe(this) { response ->
+            if (response.status != null && response.status == "409") {
                 HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), this)
             } else {
-                val errorList = it.data as List<ErrorAddOrder>
-                if (errorList.isEmpty()) {
-                    if (it.message != null) {
-                        HelpFunctions.ShowLongToast(it.message!!, this)
+                val errorList = response.data as? List<ErrorAddOrder> // Safe cast
+                if (errorList.isNullOrEmpty()) { // Handle null or empty list
+                    if (response.message != null) {
+                        HelpFunctions.ShowLongToast(response.message!!, this)
                     } else {
                         HelpFunctions.ShowLongToast(getString(R.string.serverError), this)
                     }
                 } else {
-                    for (i in productsCartList!!) {
-                        for (product in i.listProduct!!) {
-                            val error = errorList.find { product.id == it.produtId }
+                    for (cartItem in productsCartList!!) {
+                        for (product in cartItem.listProduct!!) {
+                            val error = errorList.find { it.produtId == product.id }
                             if (error != null) {
                                 val remainingProduct =
                                     (product.qty ?: 0) - (product.cartProductQuantity ?: 0)
@@ -272,21 +272,19 @@ class AddressPaymentActivity : BaseActivity<ActivityAddressPaymentBinding>(),
                                     error.quantity,
                                     error.productName
                                 )
-                                if (error.quantity == 0) {
-                                    product.msgError = getString(R.string.notFoundQuantity)
-                                } else
-                                    product.msgError = message
+                                product.msgError = if (error.quantity == 0) {
+                                    getString(R.string.notFoundQuantity)
+                                } else {
+                                    message
+                                }
                             }
-
                         }
-
                     }
                     cartNewAdapter?.updateAdapter(productsCartList!!)
-
                 }
-
             }
         }
+
         cartViewModel!!.userAddressesListObserver.observe(this) { userAddressResp ->
             if (userAddressResp.status_code == 200) {
                 if (userAddressResp.addressesList != null && userAddressResp.addressesList?.isNotEmpty() == true) {
