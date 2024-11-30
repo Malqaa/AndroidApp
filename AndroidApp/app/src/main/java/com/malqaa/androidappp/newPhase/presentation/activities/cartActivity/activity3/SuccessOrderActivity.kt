@@ -38,13 +38,16 @@ class SuccessOrderActivity : BaseActivity<ActivitySuccessOrderBinding>() {
         }
 
         binding.orderNumberTv.text = intent.getStringExtra(ConstantObjects.orderNumberKey)
-        if (intent.getStringExtra(ConstantObjects.orderShippingSectionNumberKey) != null
-            || !intent.getStringExtra(ConstantObjects.orderShippingSectionNumberKey).equals("null")
-        )
-            binding.shipmentsTv.text =
-                intent.getStringExtra(ConstantObjects.orderShippingSectionNumberKey) ?: "0"
-        else
-            binding.shipmentsTv.visibility = View.GONE
+
+        val orderShippingSectionNumber =
+            intent.getStringExtra(ConstantObjects.orderShippingSectionNumberKey)
+        if (orderShippingSectionNumber.isNullOrEmpty()
+                .not() && orderShippingSectionNumber.equals("null").not()
+        ) {
+            binding.shipmentsTv.text = orderShippingSectionNumber ?: "0"
+        } else {
+            binding.linearShipments.visibility = View.GONE
+        }
 
         if (intent.getStringExtra("RequestType")?.lowercase().equals("FixedPrice".lowercase())) {
             binding.txtRequest.text = getString(R.string.fixed_price)
