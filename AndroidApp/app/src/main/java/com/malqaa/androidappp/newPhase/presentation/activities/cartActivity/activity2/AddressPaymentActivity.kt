@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -288,6 +289,11 @@ class AddressPaymentActivity : BaseActivity<ActivityAddressPaymentBinding>(),
         cartViewModel!!.userAddressesListObserver.observe(this) { userAddressResp ->
             if (userAddressResp.status_code == 200) {
                 if (userAddressResp.addressesList != null && userAddressResp.addressesList?.isNotEmpty() == true) {
+                    userAddressResp.addressesList!!.forEach { addressItem ->
+                        if (addressItem.defaultAddress){
+                            addressId = addressItem.id
+                        }
+                    }
                     binding.tvAddressError.hide()
                     userAddressesList?.clear()
                     userAddressesList?.addAll(userAddressResp.addressesList!!)
