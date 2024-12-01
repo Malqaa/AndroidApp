@@ -25,14 +25,12 @@ import com.malqaa.androidappp.newPhase.utils.show
 class SellerRateActivity : BaseActivity<ActivitySellerRateBinding>(),
     SwipeRefreshLayout.OnRefreshListener,
     SellerFilterReviewDialog.ApplySellerReviewFilter {
+
     private lateinit var linerlayoutManager: LinearLayoutManager
     val list: ArrayList<Reviewmodel> = ArrayList()
-    val sampleOption: ArrayList<Selection> = ArrayList()
-    val typeOption: ArrayList<Selection> = ArrayList()
     var selection: Selection? = null
     private lateinit var productDetialsViewModel: ProductDetailsViewModel
 
-    //=====
     lateinit var sellerRateAdapter: SellerRateAdapter
     lateinit var sellerRateList: ArrayList<SellerRateItem>
     var sellerInformation: SellerInformation? = null
@@ -41,9 +39,9 @@ class SellerRateActivity : BaseActivity<ActivitySellerRateBinding>(),
     lateinit var sellerFilterReviewDialog: SellerFilterReviewDialog
     var sellerAsASeller: Int = SellerFilterReviewDialog.sellerAsASeller
     var retReviewType: Int = SellerFilterReviewDialog.allReview
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         // Initialize view binding
         binding = ActivitySellerRateBinding.inflate(layoutInflater)
         setContentView(binding.root)
