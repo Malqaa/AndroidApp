@@ -17,7 +17,9 @@ import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.Extension
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions.Companion.getDifference
+import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.isValidPrice
+import com.malqaa.androidappp.newPhase.utils.show
 import com.yariksoffice.lingver.Lingver
 
 
@@ -197,10 +199,15 @@ class ProductHorizontalAdapter(
 
 
     private fun startCountdown(holder: SellerProductViewHolder, auctionClosingTime: String) {
+        // Avoid creating a new handler if one is already running
+        if (handler != null && runnable != null) {
+            return
+        }
+
         handler = Handler()
         runnable = object : Runnable {
             override fun run() {
-                holder.viewBinding.containerTimeBar.visibility = View.VISIBLE
+                holder.viewBinding.containerTimeBar.show()
                 val endDate = HelpFunctions.getAuctionClosingTimeByDate(auctionClosingTime)
                 if (endDate != null) {
                     getDifference(
@@ -217,7 +224,7 @@ class ProductHorizontalAdapter(
                         null
                     )
                 } else {
-                    holder.viewBinding.containerTimeBar.visibility = View.GONE
+                    holder.viewBinding.containerTimeBar.hide()
                 }
                 handler?.postDelayed(this, INTERVAL)
             }
