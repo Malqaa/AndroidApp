@@ -2,6 +2,7 @@ package com.malqaa.androidappp.newPhase.presentation.activities.searchProductLis
 
 import android.content.Context
 import android.content.DialogInterface
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import androidx.recyclerview.widget.RecyclerView
@@ -696,102 +697,87 @@ class FilterCategoryProductsDialog(
 
     override fun setOnSaveCityToQuery(
         countryPosition: Int,
-        cityPostion: Int,
+        cityPosition: Int,
         mainNeighborhoodPosition: Int
     ) {
         try {
+            val countryId = mainCountriesList[countryPosition].id
+            val cityId = mainCountriesList[countryPosition].regionsList?.get(cityPosition)?.id
+            val isSelected: Boolean? =
+                mainCountriesList[countryPosition].regionsList?.get(cityPosition)?.mainNeighborhoodList?.get(mainNeighborhoodPosition)?.isSelected
 
-
-            var isSelected: Boolean? =
-                mainCountriesList[countryPosition].regionsList?.get(cityPostion)?.mainNeighborhoodList?.get(
-                    mainNeighborhoodPosition
-                )?.isSelected
             if (isSelected == true) {
-                mainCountriesList[countryPosition].regionsList?.get(cityPostion)?.mainNeighborhoodList?.get(
-                    mainNeighborhoodPosition
-                )?.isSelected = false
-                if (cityIdsList.contains(
-                        mainCountriesList[countryPosition].regionsList?.get(
-                            cityPostion
-                        )?.id
-                    )
-                ) {
-                    cityIdsList.remove(
-                        mainCountriesList[countryPosition].regionsList?.get(
-                            cityPostion
-                        )?.id
-                    )
-                }
+                // Deselect the city
+                mainCountriesList[countryPosition].regionsList?.get(cityPosition)?.mainNeighborhoodList?.get(mainNeighborhoodPosition)?.isSelected = false
 
+                if (cityIdsList.contains(cityId)) {
+                    cityIdsList.remove(cityId)
+                }
             } else {
-                mainCountriesList[countryPosition].regionsList?.get(cityPostion)?.mainNeighborhoodList?.get(
-                    mainNeighborhoodPosition
-                )?.isSelected = true
-                if (!cityIdsList.contains(
-                        mainCountriesList[countryPosition].regionsList?.get(
-                            cityPostion
-                        )?.id
-                    )
-                ) {
-                    cityIdsList.add(
-                        mainCountriesList[countryPosition].regionsList?.get(cityPostion)?.id ?: 0
-                    )
+                // Only add if the City ID is not the same as the Country ID
+                if (cityId != countryId) {
+                    mainCountriesList[countryPosition].regionsList?.get(cityPosition)?.mainNeighborhoodList?.get(mainNeighborhoodPosition)?.isSelected = true
+
+                    if (!cityIdsList.contains(cityId)) {
+                        cityIdsList.add(cityId ?: 0) // Add city ID or 0 as a fallback
+                    }
                 }
             }
             updateCountryAdapter()
         } catch (e: Exception) {
+            e.printStackTrace()
         }
-        // println("hhhh city ids "+Gson().toJson(cityIdsList))
     }
 
     override fun setOnSaveNeighborhoodToQuery(
         countryPosition: Int,
-        cityPostion: Int,
+        cityPosition: Int,
         mainNeighborhoodPosition: Int
     ) {
         try {
-            val isSelected: Boolean? =
-                mainCountriesList[countryPosition].regionsList?.get(cityPostion)?.mainNeighborhoodList?.get(
-                    mainNeighborhoodPosition
-                )?.isSelected
-            if (isSelected == true) {
-                mainCountriesList[countryPosition].regionsList?.get(cityPostion)?.mainNeighborhoodList?.get(
-                    mainNeighborhoodPosition
-                )?.isSelected = false
-                if (neiberhoodIdsList.contains(
-                        mainCountriesList[countryPosition].regionsList?.get(
-                            cityPostion
-                        )?.mainNeighborhoodList?.get(mainNeighborhoodPosition)?.id
-                    )
-                ) {
-                    neiberhoodIdsList.remove(
-                        mainCountriesList[countryPosition].regionsList?.get(
-                            cityPostion
-                        )?.mainNeighborhoodList?.get(mainNeighborhoodPosition)?.id
-                    )
-                }
+            val countryId = mainCountriesList[countryPosition].id
+            val cityId = mainCountriesList[countryPosition].regionsList?.get(cityPosition)?.id
+            val neighborhoodId = mainCountriesList[countryPosition].regionsList
+                ?.get(cityPosition)
+                ?.mainNeighborhoodList
+                ?.get(mainNeighborhoodPosition)
+                ?.id
 
+            val isSelected: Boolean? = mainCountriesList[countryPosition].regionsList
+                ?.get(cityPosition)
+                ?.mainNeighborhoodList
+                ?.get(mainNeighborhoodPosition)
+                ?.isSelected
+
+            if (isSelected == true) {
+                // Deselect the neighborhood
+                mainCountriesList[countryPosition].regionsList
+                    ?.get(cityPosition)
+                    ?.mainNeighborhoodList
+                    ?.get(mainNeighborhoodPosition)
+                    ?.isSelected = false
+
+                if (neiberhoodIdsList.contains(neighborhoodId)) {
+                    neiberhoodIdsList.remove(neighborhoodId)
+                }
             } else {
-                mainCountriesList[countryPosition].regionsList?.get(cityPostion)?.mainNeighborhoodList?.get(
-                    mainNeighborhoodPosition
-                )?.isSelected = true
-                if (!neiberhoodIdsList.contains(
-                        mainCountriesList[countryPosition].regionsList?.get(
-                            cityPostion
-                        )?.mainNeighborhoodList?.get(mainNeighborhoodPosition)?.id
-                    )
-                ) {
-                    neiberhoodIdsList.add(
-                        mainCountriesList[countryPosition].regionsList?.get(
-                            cityPostion
-                        )?.mainNeighborhoodList?.get(mainNeighborhoodPosition)?.id ?: 0
-                    )
+                // Only add the neighborhood if its ID is unique and valid
+                if (neighborhoodId != countryId && neighborhoodId != cityId) {
+                    mainCountriesList[countryPosition].regionsList
+                        ?.get(cityPosition)
+                        ?.mainNeighborhoodList
+                        ?.get(mainNeighborhoodPosition)
+                        ?.isSelected = true
+
+                    if (!neiberhoodIdsList.contains(neighborhoodId)) {
+                        neiberhoodIdsList.add(neighborhoodId ?: 0) // Add neighborhood ID or 0 as fallback
+                    }
                 }
             }
             updateCountryAdapter()
-        } catch (e: java.lang.Exception) {
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
-        //  println("hhhh neigberhood ids "+Gson().toJson(neiberhoodIdsList))
     }
 
     /*****************************/
@@ -818,9 +804,10 @@ class FilterCategoryProductsDialog(
     override fun callBackListener(isFailed: Boolean, response: RegionsResp?) {
         binding.progressBar.visibility = View.GONE
         if (!isFailed) {
-            response?.let {
-                it.regionsList?.let { regionsList ->
+            response?.regionsList?.let { regionsList ->
+                if (lastSelectedCountryPosition in mainCountriesList.indices) {
                     val regionList: ArrayList<Region> = ArrayList()
+                    // Add "All" region
                     regionList.add(
                         Region(
                             mainCountriesList[lastSelectedCountryPosition].id,
@@ -828,9 +815,12 @@ class FilterCategoryProductsDialog(
                         )
                     )
                     regionList.addAll(regionsList)
-                    mainCountriesList[lastSelectedCountryPosition].regionsList =
-                        regionList
+                    // Update the regions list
+                    mainCountriesList[lastSelectedCountryPosition].regionsList = regionList
                     updateCountryAdapter()
+                } else {
+                    // Handle invalid country position
+                    Log.e("callBackListener", "Invalid country position: $lastSelectedCountryPosition")
                 }
             }
         }
@@ -839,21 +829,27 @@ class FilterCategoryProductsDialog(
     override fun callBackListenerNeighborhoods(isFailed: Boolean, response: RegionsResp?) {
         binding.progressBar.visibility = View.GONE
         if (!isFailed) {
-            val neighborhoodsArrayList: ArrayList<Region> = ArrayList()
-            //ConstantObjects.countryList = countryList
-            neighborhoodsArrayList.add(
-                Region(
-                    mainCountriesList[lastSelectedCountryPosition].regionsList?.get(
-                        lastSelectedCityPosition
-                    )?.id
-                        ?: 0, context.getString(R.string.all)
+            if (lastSelectedCountryPosition in mainCountriesList.indices &&
+                mainCountriesList[lastSelectedCountryPosition].regionsList?.let { lastSelectedCityPosition in it.indices } == true
+            ) {
+                val neighborhoodsArrayList: ArrayList<Region> = ArrayList()
+
+                // Add "All" neighborhood option
+                neighborhoodsArrayList.add(
+                    Region(
+                        mainCountriesList[lastSelectedCountryPosition].regionsList?.get(lastSelectedCityPosition)?.id ?: 0,
+                        context.getString(R.string.all)
+                    )
                 )
-            )
-            neighborhoodsArrayList.addAll(response!!.regionsList ?: arrayListOf())
-            mainCountriesList[lastSelectedCountryPosition].regionsList?.get(
-                lastSelectedCityPosition
-            )?.mainNeighborhoodList = neighborhoodsArrayList
-            updateCountryAdapter()
+                response?.regionsList?.let {
+                    neighborhoodsArrayList.addAll(it)
+                }
+
+                mainCountriesList[lastSelectedCountryPosition].regionsList?.get(lastSelectedCityPosition)?.mainNeighborhoodList = neighborhoodsArrayList
+                updateCountryAdapter()
+            } else {
+                Log.e("callBackListenerNeighborhoods", "Invalid country or city position")
+            }
         }
     }
 
@@ -863,17 +859,17 @@ class FilterCategoryProductsDialog(
     ) {
         binding.progressBar.visibility = View.GONE
         if (!isFailed) {
-            response?.dynamicList?.let { dynamicList ->
-                if (dynamicList == null || dynamicList.isEmpty()) {
-                    binding.tvError.text = context.getString(R.string.noSpecificationFound)
-                    binding.tvError.show()
-                } else {
-                    dynamicSpecificationsArrayList.clear()
-                    dynamicSpecificationsArrayList.addAll(dynamicList)
-                    specificationFilterAdapter.notifyDataSetChanged()
-                }
+            val dynamicList = response?.dynamicList
+            if (dynamicList.isNullOrEmpty()) {
+                binding.tvError.text = context.getString(R.string.noSpecificationFound)
+                binding.tvError.show()
+            } else {
+                dynamicSpecificationsArrayList.clear()
+                dynamicSpecificationsArrayList.addAll(dynamicList)
+                specificationFilterAdapter.notifyDataSetChanged()
             }
         }
     }
+
 
 }

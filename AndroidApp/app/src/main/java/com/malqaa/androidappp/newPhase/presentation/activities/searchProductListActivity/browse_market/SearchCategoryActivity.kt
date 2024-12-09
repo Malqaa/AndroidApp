@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.android.exoplayer2.util.Log
 import com.google.gson.Gson
 import com.google.gson.TypeAdapter
 import com.malqaa.androidappp.R
@@ -599,7 +600,7 @@ class SearchCategoryActivity : BaseActivity<FragmentBrowseMarketBinding>(),
         productList = arrayListOf()
         productSearchCategoryAdapter.notifyDataSetChanged()
         this.countryList = countryList
-        this.regionList = countryList
+        this.regionList = regionList
         this.neighoodList = neighoodList
         this.subCategoryList = subCategoryList
         this.specificationList = specificationList
@@ -678,6 +679,12 @@ class SearchCategoryActivity : BaseActivity<FragmentBrowseMarketBinding>(),
                 binding.followCategory.show()
                 if (HelpFunctions.isUserLoggedIn())
                     productsListViewModel.getCategoryFollow()
+
+
+                Log.i("test #1", "countryList: $countryList")
+                Log.i("test #1", "regionList: $regionList")
+                Log.i("test #1", "neighoodList: $neighoodList")
+
                 productsListViewModel.searchForProduct(
                     categoryID,
                     ConstantObjects.currentLanguage,
