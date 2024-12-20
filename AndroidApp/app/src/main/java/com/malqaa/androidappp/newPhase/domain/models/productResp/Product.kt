@@ -5,8 +5,9 @@ import com.malqaa.androidappp.newPhase.domain.models.dynamicSpecification.Dynami
 import com.malqaa.androidappp.newPhase.domain.models.pakatResp.PakatDetails
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.Category
 
-
 data class Product(
+    val businessAccountId: Int? = null,
+    val providerId: String? = null,
     val acceptQuestion: Boolean,
     val isFixedPriceEnabled: Boolean,
     val isAuctionEnabled: Boolean,
@@ -19,9 +20,9 @@ data class Product(
     val auctionStartPrice: Float,
     val disccountEndDate: String? = null,
     val sendOfferForAuction: Boolean,
-    val isAuctionClosingTimeFixed : Boolean,
+    val isAuctionClosingTimeFixed: Boolean,
     val auctionMinimumPrice: Float,
-    val auctionNegotiateForWhom: String?=null,
+    val auctionNegotiateForWhom: String? = null,
     val auctionNegotiatePrice: Float,
     val auctionClosingTime: String? = null,
     val id: Int,
@@ -72,106 +73,10 @@ data class Product(
     val listMedia: ArrayList<ImageSelectModel>? = null,
     val listProductSep: List<DynamicSpecificationSentObject>? = null,
     val productMazadNegotiate: ProductMazadNegotiateObject? = null,
-    var highestBidPrice:Float,
-    var bankAccountId:Int,
-    // val sellerInformation: SellerInformation?=null,
-
-    //*******
+    var highestBidPrice: Float,
+    var bankAccountId: Int,
     var image: String? = null,
-    var myBid:Float,
-
-
-
-
-    var productPublishPrice:Float,
+    var myBid: Float,
+    var productPublishPrice: Float,
     var selectedPacket: PakatDetails? = null,
-
-
-
-//    val isPaied: Boolean,
-//    val isNegotiationOffers: Boolean,
-//    val withFixedPrice: Boolean,
-//    val isMazad: Boolean,
-//    val isSendOfferForMazad: Boolean,
-//    val startPriceMazad: Int,
-//    val lessPriceMazad: Int,
-//
-//    val codeRegoin: String,
-//
-//    val publishDate: String,
-//    val streetName: String,
-//    val stutes: Int,
-//    val updateDate: String? = null,
-
-
-) {
-
-//    val createdOnFormated: String
-//        get() {
-//            updatedAt?.let {
-//                // val result: String = it.substring(0, updateDate.indexOf("."))
-//
-//                return HelpFunctions.FormatDateTime(
-//                    it,
-//                    HelpFunctions.datetimeformat_24hrs,
-//                    HelpFunctions.datetimeformat_mmddyyyy
-//                )
-//            } ?: kotlin.run {
-//                return ""
-//            }
-//
-//        }
-}
-
-
-//"sellerInformation":{
-//    "providerId":"string",
-//    "businessAccountId":0,
-//    "image":"string",
-//    "name":"string",
-//    "city":"string",
-//    "phone":"string",
-//    "instagram":"string",
-//    "youTube":"string",
-//    "webSite":"string",
-//    "faceBook":"string",
-//    "twitter":"string",
-//    "linkedIn":"string",
-//    "snapchat":"string",
-//    "tikTok":"string",
-//    "createdAt":"2023-06-24T11:17:21.421Z",
-//    "lat":"string",
-//    "lon":"string",
-//    "isFollowed":true,
-//    "rate":0,
-//    "showUserInformation":"EveryOne",
-//    "branches":[
-//    {
-//        "id":0,
-//        "location":"string",
-//        "lat":"string",
-//        "lng":"string",
-//        "streetName":"string",
-//        "regionCode":"string",
-//        "userName":"string",
-//        "name":"string",
-//        "isActive":true,
-//        "countryName":"string",
-//        "regionName":"string",
-//        "neighborhoodName":"string",
-//        "country":{
-//        "id":0,
-//        "name":"string"
-//    },
-//        "neighborhood":{
-//        "id":0,
-//        "name":"string"
-//    },
-//        "region":{
-//        "id":0,
-//        "name":"string"
-//    }
-//    }
-//    ]
-//},
-//"totalRecords":0
+)

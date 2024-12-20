@@ -520,9 +520,7 @@ class SearchCategoryActivity : BaseActivity<FragmentBrowseMarketBinding>(),
 
     override fun onRefresh() {
         binding.tvError.hide()
-        getResetAll()
-
-
+        applyFilterAll()
     }
 
     /**open activity product detials functions**/
