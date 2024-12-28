@@ -425,7 +425,7 @@ class SearchCategoryActivity : BaseActivity<FragmentBrowseMarketBinding>(),
             filterCategoryProductsDialog.show()
             filterCategoryProductsDialog.setCategories(categoriesForProductList)
             filterCategoryProductsDialog.setSelectedTap(FilterCategoryProductsDialog.specificationType)
-
+            filterCategoryProductsDialog.initProduct(products = productList)
         }
         binding.followCategory.setOnClickListener {
             if (HelpFunctions.isUserLoggedIn()) {
@@ -592,7 +592,7 @@ class SearchCategoryActivity : BaseActivity<FragmentBrowseMarketBinding>(),
         subCategoryList: List<Int>,
         specificationList: List<String>,
         startPrice: Float,
-        endProce: Float,
+        endPrice: Float,
         mainCategoryId: Int
     ) {
         productList = arrayListOf()
@@ -603,7 +603,7 @@ class SearchCategoryActivity : BaseActivity<FragmentBrowseMarketBinding>(),
         this.subCategoryList = subCategoryList
         this.specificationList = specificationList
         this.startPrice = startPrice
-        this.endProce = endProce
+        this.endProce = endPrice
         this.categoryID = mainCategoryId
         applyFilterAll()
         // productsListViewModel.searchForProduct(categoryID, ConstantObjects.currentLanguage, 1,countryList,regionList,neighoodList,subCategoryList,specificationList,startPrice,endProce)
