@@ -1115,13 +1115,11 @@
     <string name="qty">الكمية</string>
     <string name="downloading">جاري التنزيل %1$s</string>
     <string name="please_wait">يرجى الانتظار...</string>
-    <string name="download_started">تم بدء التنزيل</string>
     <string name="error_cannot_download_from_the_provided_link">لا يمكن التنزيل من الرابط المقدم.</string>
     <string name="error_invalid_url">رابط غير صالح. يرجى التحقق من الرابط.</string>
     <string name="error_network_issue">مشكلة في الشبكة. يرجى التحقق من الاتصال.</string>
     <string name="error_connection_timeout">انتهت مهلة الاتصال. يرجى المحاولة مرة أخرى.</string>
     <string name="error_io_exception">خطأ إدخال/إخراج: %1$s</string>
-    <string name="error_unexpected">خطأ غير متوقع: %1$s</string>
     <string name="error">خطأ: %1$s</string>
     <string name="view_all">عرض الكل</string>
     <string name="choose_category">اختر الفئة</string>
@@ -1132,4 +1130,10 @@
     <string name="is_default_address">هل هو العنوان الافتراضي</string>
     <string name="street_name_and_number">اسم الشارع ورقمه</string>
     <string name="address_name">اسم العنوان</string>
+
+    <string name="download_started">جارِ التنزيل…</string>
+    <string name="error_too_many_redirects">عدد كبير جدًا من عمليات إعادة التوجيه. حاول مرة أخرى لاحقًا.</string>
+    <string name="error_redirect_without_location">فشل إعادة التوجيه. لم يتم العثور على رابط تنزيل صالح.</string>
+    <string name="error_failed_download">فشل تنزيل الملف. رمز استجابة الخادم: %1$d</string>
+    <string name="error_unexpected">حدث خطأ غير متوقع: %1$s</string>
 </resources>

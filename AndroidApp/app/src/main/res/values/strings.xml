@@ -1325,13 +1325,11 @@
     <string name="qty">Quantity:</string>
     <string name="downloading">Downloading %1$s</string>
     <string name="please_wait">Please wait…</string>
-    <string name="download_started">Download started</string>
     <string name="error_cannot_download_from_the_provided_link">Cannot download from the provided link.</string>
     <string name="error_invalid_url">Invalid URL. Please check the link.</string>
     <string name="error_network_issue">Network issue. Please check your connection.</string>
     <string name="error_connection_timeout">Connection timed out. Please try again.</string>
     <string name="error_io_exception">I/O error: %1$s</string>
-    <string name="error_unexpected">Unexpected error: %1$s</string>
     <string name="error">Error: %1$s</string>
     <string name="view_all">View all</string>
     <string name="choose_category">Choose Category</string>
@@ -1342,4 +1340,10 @@
     <string name="is_default_address">Is default address</string>
     <string name="street_name_and_number">Street Name and Number</string>
     <string name="address_name">Address Name</string>
+
+  <string name="download_started">Download started…</string>
+  <string name="error_too_many_redirects">Too many redirects. Please try again later.</string>
+  <string name="error_redirect_without_location">Redirect failed. No valid download link found.</string>
+  <string name="error_failed_download">Failed to download the file. Server response code: %1$d</string>
+  <string name="error_unexpected">Unexpected error occurred: %1$s</string>
 </resources>

@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_navigation_home_to_categoriesFragment"
             app:destination="@id/categoriesFragment" />
+        <action
+            android:id="@+id/logout_to_home"
+            app:destination="@id/navigation_home" />
     </fragment>
 
 
