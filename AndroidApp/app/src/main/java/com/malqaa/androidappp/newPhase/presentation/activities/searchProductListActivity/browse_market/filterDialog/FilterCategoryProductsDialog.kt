@@ -144,32 +144,19 @@ class FilterCategoryProductsDialog(
     }
 
     fun initProduct(products: List<Product>) {
+        Log.i("text #1", "products size: ${products.size}, products: $products")
         val minPrice = products.minOfOrNull { it.price } ?: 0f
-        val maxPrice = products.maxOfOrNull { it.price } ?: 2000000f
-        Log.i("test #1", "size: ${products.size}, minPrice: $minPrice, maxPrice: $maxPrice")
+        var maxPrice = products.maxOfOrNull { it.price } ?: 2000000f
 
-        // Set the min and max values for the RangeSlider
+        // Ensure maxPrice is always greater than minPrice
+        if (minPrice == maxPrice) {
+            maxPrice += 1f
+        }
+
+        // Set range price values before adding the listener
         binding.rangePrice.valueFrom = minPrice
         binding.rangePrice.valueTo = maxPrice
-
-        // Set initial values for the slider within the range
         binding.rangePrice.values = listOf(minPrice, maxPrice)
-
-        // Handle value change and snap it to the nearest multiple of 10
-        binding.rangePrice.addOnChangeListener { slider, value, fromUser ->
-            // Snap the value to the nearest multiple of 10
-            val snappedValue = (value / 10).toInt() * 10
-
-            // Update the slider value, ensuring it increments by 10
-            val newValues = if (slider.values[0] == value) {
-                listOf(snappedValue.toFloat(), slider.values[1]) // Update min value
-            } else {
-                listOf(slider.values[0], snappedValue.toFloat()) // Update max value
-            }
-
-            // Update the slider with the snapped value in increments of 10
-            slider.values = newValues
-        }
     }
 
     private fun setupSubCategoryFromCategoryAdapetr() {

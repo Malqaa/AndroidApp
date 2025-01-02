@@ -610,8 +610,8 @@ class SearchCategoryActivity : BaseActivity<FragmentBrowseMarketBinding>(),
     }
 
     override fun resetFilter() {
-        productList = arrayListOf()
         productSearchCategoryAdapter.notifyDataSetChanged()
+        this.productList = ArrayList()
         this.countryList = ArrayList()
         this.regionList = ArrayList()
         this.neighoodList = ArrayList()

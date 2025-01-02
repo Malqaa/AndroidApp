@@ -26,10 +26,10 @@ class SpecificationAdapter(private var originalSpecificationList: ArrayList<Dyna
     override fun onBindViewHolder(holder: AttributeViewHolder, position: Int) {
         val item = filteredSpecificationList[position]
         val context = holder.itemView.context
-        val headerSpeAr = item.HeaderSpeAr
-        val headerSpeEn = item.HeaderSpeEn
-        val valueSpe = item.valueSpe
-        val valueSpeAr = item.ValueSpeAr
+        val headerSpeAr = item.HeaderSpeAr ?: ""
+        val headerSpeEn = item.HeaderSpeEn ?: ""
+        val valueSpe = item.valueSpe ?: ""
+        val valueSpeAr = item.ValueSpeAr ?: ""
 
         // Language Management
         if (ConstantObjects.currentLanguage == ConstantObjects.ARABIC) {
@@ -56,6 +56,6 @@ class SpecificationAdapter(private var originalSpecificationList: ArrayList<Dyna
 
     private val filteredSpecificationList: List<DynamicSpecificationSentObject>
         get() = originalSpecificationList.filter {
-            it.valueSpe.isNotEmpty() || it.ValueSpeAr.isNotEmpty()
+            (it.valueSpe ?: "").isNotEmpty() || (it.ValueSpeAr ?: "").isNotEmpty()
         }
 }
