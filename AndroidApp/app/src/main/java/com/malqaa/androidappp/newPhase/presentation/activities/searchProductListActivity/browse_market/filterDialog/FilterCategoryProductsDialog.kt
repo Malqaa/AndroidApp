@@ -25,8 +25,10 @@ import com.malqaa.androidappp.newPhase.domain.models.regionsResp.Region
 import com.malqaa.androidappp.newPhase.domain.models.regionsResp.RegionsResp
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.Category
 import com.malqaa.androidappp.newPhase.presentation.activities.searchProductListActivity.CategoryProductViewModel
+import com.malqaa.androidappp.newPhase.presentation.activities.searchProductListActivity.browse_market.filterDialog.adapter.CategoryAdapter
 import com.malqaa.androidappp.newPhase.presentation.activities.searchProductListActivity.browse_market.filterDialog.adapter.CategorySearchFilterSpinnerAdapter
 import com.malqaa.androidappp.newPhase.presentation.activities.searchProductListActivity.browse_market.filterDialog.adapter.CountryFilterAdapter
+import com.malqaa.androidappp.newPhase.presentation.activities.searchProductListActivity.browse_market.filterDialog.adapter.OnCategorySelectedListener
 import com.malqaa.androidappp.newPhase.presentation.activities.searchProductListActivity.browse_market.filterDialog.adapter.SpecificationFilterAdapter
 import com.malqaa.androidappp.newPhase.presentation.activities.searchProductListActivity.browse_market.filterDialog.adapter.SubCategoryFilterAdapter
 import com.malqaa.androidappp.newPhase.presentation.activities.searchProductListActivity.browse_market.filterDialog.adapter.SubCategorySearchFilterAdapter
@@ -50,7 +52,7 @@ class FilterCategoryProductsDialog(
 ) : BaseDialog<DialogFilterCategoryProductsBinding>(context),
     CountryFilterAdapter.SetonClickListeners, ListenerCallBackRegions,
     ListenerCallDynamicSpecification,
-    ListenerCallBackNeighborhoods {
+    ListenerCallBackNeighborhoods, OnCategorySelectedListener {
 
     private var dynamicSpecificationCallback: Call<DynamicSpecificationResp>? = null
     private var neighborhoodsCallback: Call<RegionsResp>? = null
@@ -63,6 +65,7 @@ class FilterCategoryProductsDialog(
     var categoryList: ArrayList<CategoriesSearchItem> = ArrayList()
     lateinit var subCategoryFromCategoryList: ArrayList<Category>
     lateinit var subCategorySearchFilterAdapter: SubCategorySearchFilterAdapter
+    lateinit var categoryAdapter: CategoryAdapter
 
     //========
     lateinit var mainCountriesList: ArrayList<Country>
@@ -96,6 +99,7 @@ class FilterCategoryProductsDialog(
         setupCountryAdapter()
         setupSpecificationAdapter()
         setupSubCategoryFromCategoryAdapetr()
+        initCategoryExpandableListAdapter()
         when (comeFrom) {
             ConstantObjects.search_categoriesDetails -> {
                 setupSubCategoryAdapetr()
@@ -159,6 +163,12 @@ class FilterCategoryProductsDialog(
         binding.rangePrice.values = listOf(minPrice, maxPrice)
     }
 
+    private fun initCategoryExpandableListAdapter() {
+        categoryAdapter =
+            CategoryAdapter(subCategoryFromCategoryList, onCategorySelectedListener = this)
+        binding.rvSubCategory.setAdapter(categoryAdapter)
+    }
+
     private fun setupSubCategoryFromCategoryAdapetr() {
         subCategoryFromCategoryList = ArrayList()
         subCategorySearchFilterAdapter = SubCategorySearchFilterAdapter(subCategoryFromCategoryList,
@@ -206,14 +216,15 @@ class FilterCategoryProductsDialog(
                 }
 
             })
-        binding.rvSubCategory.apply {
-            adapter = subCategoryAdaper
-            layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
-        }
+//        binding.rvSubCategory.apply {
+//            adapter = subCategoryAdaper
+//            layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
+//        }
     }
 
     private fun updateSubCategoryAdapter() {
         subCategoryAdaper.notifyDataSetChanged()
+        categoryAdapter.notifyDataSetChanged()
     }
 
     private fun setupCategorySpinnerAdapter() {
@@ -360,6 +371,7 @@ class FilterCategoryProductsDialog(
                                         context.getString(R.string.noSubCategoryFound)
                                 } else {
                                     updateCategoryWithSubCategoriesAdapter()
+                                    updateSubCategoryAdapter()
                                 }
                             }
                         }
@@ -465,6 +477,8 @@ class FilterCategoryProductsDialog(
             val startPrice = selectedRange[0]
             val endPrice = selectedRange[1]
 
+            Log.i("test #", "subCategoryIdsList: $subCategoryIdsList")
+
             setOnClickListeners.onApplyFilter(
                 countryList = countryIdsList,
                 regionList = cityIdsList,
@@ -475,6 +489,9 @@ class FilterCategoryProductsDialog(
                 endPrice = endPrice,
                 mainCategoryId = mianCategoryId
             )
+
+            // Call reset when needed
+            categoryAdapter.reset()
             dismiss()
         }
         binding.btnResetFilter.setOnClickListener {
@@ -620,6 +637,8 @@ class FilterCategoryProductsDialog(
         if (isShowing) {
             when (comeFrom) {
                 ConstantObjects.search_categoriesDetails -> {
+                    Log.i("test #1", "search_categoriesDetails")
+                    getSubCategoryForCategory(mianCategoryId)
                     categoryList.addAll(categories)
                     subCategoryAdaper.notifyDataSetChanged()
                 }
@@ -725,11 +744,15 @@ class FilterCategoryProductsDialog(
             val countryId = mainCountriesList[countryPosition].id
             val cityId = mainCountriesList[countryPosition].regionsList?.get(cityPosition)?.id
             val isSelected: Boolean? =
-                mainCountriesList[countryPosition].regionsList?.get(cityPosition)?.mainNeighborhoodList?.get(mainNeighborhoodPosition)?.isSelected
+                mainCountriesList[countryPosition].regionsList?.get(cityPosition)?.mainNeighborhoodList?.get(
+                    mainNeighborhoodPosition
+                )?.isSelected
 
             if (isSelected == true) {
                 // Deselect the city
-                mainCountriesList[countryPosition].regionsList?.get(cityPosition)?.mainNeighborhoodList?.get(mainNeighborhoodPosition)?.isSelected = false
+                mainCountriesList[countryPosition].regionsList?.get(cityPosition)?.mainNeighborhoodList?.get(
+                    mainNeighborhoodPosition
+                )?.isSelected = false
 
                 if (cityIdsList.contains(cityId)) {
                     cityIdsList.remove(cityId)
@@ -737,7 +760,9 @@ class FilterCategoryProductsDialog(
             } else {
                 // Only add if the City ID is not the same as the Country ID
                 if (cityId != countryId) {
-                    mainCountriesList[countryPosition].regionsList?.get(cityPosition)?.mainNeighborhoodList?.get(mainNeighborhoodPosition)?.isSelected = true
+                    mainCountriesList[countryPosition].regionsList?.get(cityPosition)?.mainNeighborhoodList?.get(
+                        mainNeighborhoodPosition
+                    )?.isSelected = true
 
                     if (!cityIdsList.contains(cityId)) {
                         cityIdsList.add(cityId ?: 0) // Add city ID or 0 as a fallback
@@ -791,7 +816,9 @@ class FilterCategoryProductsDialog(
                         ?.isSelected = true
 
                     if (!neiberhoodIdsList.contains(neighborhoodId)) {
-                        neiberhoodIdsList.add(neighborhoodId ?: 0) // Add neighborhood ID or 0 as fallback
+                        neiberhoodIdsList.add(
+                            neighborhoodId ?: 0
+                        ) // Add neighborhood ID or 0 as fallback
                     }
                 }
             }
@@ -841,7 +868,10 @@ class FilterCategoryProductsDialog(
                     updateCountryAdapter()
                 } else {
                     // Handle invalid country position
-                    Log.e("callBackListener", "Invalid country position: $lastSelectedCountryPosition")
+                    Log.e(
+                        "callBackListener",
+                        "Invalid country position: $lastSelectedCountryPosition"
+                    )
                 }
             }
         }
@@ -858,7 +888,9 @@ class FilterCategoryProductsDialog(
                 // Add "All" neighborhood option
                 neighborhoodsArrayList.add(
                     Region(
-                        mainCountriesList[lastSelectedCountryPosition].regionsList?.get(lastSelectedCityPosition)?.id ?: 0,
+                        mainCountriesList[lastSelectedCountryPosition].regionsList?.get(
+                            lastSelectedCityPosition
+                        )?.id ?: 0,
                         context.getString(R.string.all)
                     )
                 )
@@ -866,7 +898,9 @@ class FilterCategoryProductsDialog(
                     neighborhoodsArrayList.addAll(it)
                 }
 
-                mainCountriesList[lastSelectedCountryPosition].regionsList?.get(lastSelectedCityPosition)?.mainNeighborhoodList = neighborhoodsArrayList
+                mainCountriesList[lastSelectedCountryPosition].regionsList?.get(
+                    lastSelectedCityPosition
+                )?.mainNeighborhoodList = neighborhoodsArrayList
                 updateCountryAdapter()
             } else {
                 Log.e("callBackListenerNeighborhoods", "Invalid country or city position")
@@ -892,5 +926,19 @@ class FilterCategoryProductsDialog(
         }
     }
 
+    override fun onCategorySelected(category: Category) {
+        // Check if the category is selected
+        if (category.isSelected) {
+            // If the category is selected, add it to the list if it doesn't exist
+            if (!subCategoryIdsList.contains(category.id)) {
+                subCategoryIdsList.add(category.id)
+            }
+        } else {
+            // If the category is not selected, remove it from the list if it exists
+            subCategoryIdsList.remove(category.id)
+        }
 
+        // Update the adapter after modifying the list
+        updateSubCategoryAdapter()
+    }
 }
