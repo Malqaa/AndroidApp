@@ -273,6 +273,20 @@ class DynamicTemplateActivity : BaseActivity<FragmentDynamicTemplateBinding>(),
 
 // Helper extension function to check if required value is missing based on the current language
 private fun DynamicSpecificationItem.isValueMissing(): Boolean {
-    return if (this.type == SpecificationType.Number.type)
-        valueEnText.isNullOrBlank() else valueArText.isNullOrBlank()
+    return when (SpecificationType.fromType(this.type)) {
+        SpecificationType.Radio,
+        SpecificationType.Checkbox,
+        SpecificationType.MultiSelect -> {
+            // Return true if none of the subSpecifications are selected
+            subSpecifications?.none { it.isDataSelected } ?: true
+        }
+
+        SpecificationType.Number -> {
+            valueEnText.isNullOrBlank()
+        }
+
+        else -> {
+            valueArText.isNullOrBlank()
+        }
+    }
 }
