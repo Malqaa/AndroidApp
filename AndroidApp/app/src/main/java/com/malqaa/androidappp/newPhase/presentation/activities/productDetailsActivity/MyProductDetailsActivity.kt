@@ -132,10 +132,10 @@ class MyProductDetailsActivity : BaseActivity<MyProductDetailsBinding>(),
         setupViewAdapters()
 
         onRefresh()
-        if (HelpFunctions.isUserLoggedIn()) {
+//        if (HelpFunctions.isUserLoggedIn()) {
             userData = Paper.book().read<LoginUser>(SharedPreferencesStaticClass.user_object)
             productDetialsViewModel.addLastViewedProduct(productId)
-        }
+//        }
 
         if (isMyProductForSale) {
             myProductDetails2Binding.editProduct.show()

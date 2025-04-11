@@ -245,11 +245,24 @@ class ListingDurationActivity : BaseActivity<ActivityListingDurationBinding>(),
 
     private fun getAllShippingObserver() {
         shippingViewModel.shippingListObserver.observe(this) {
-            pickUpOptionList.addAll(it.shippingOptionObject?.subList(3, 6) ?: arrayListOf())
-            shippingOptionList.addAll(it.shippingOptionObject?.subList(0, 3) ?: arrayListOf())
+            val options = it.shippingOptionObject ?: emptyList()
+
+            // Clear the lists before adding (to prevent duplicates if observer is called multiple times)
+            pickUpOptionList.clear()
+            shippingOptionList.clear()
+
+            // Add items safely based on size
+            shippingOptionList.addAll(options.subList(0, minOf(3, options.size)))
+
+            if (options.size > 3) {
+                pickUpOptionList.addAll(options.subList(3, minOf(6, options.size)))
+            }
+
             shippingAdapter?.updateAdapter(shippingOptionList)
             binding.recycleShipping.adapter = shippingAdapter
+
             pickUpOptionAdapter(pickUpOptionList, binding.rvShippingOption)
+
             if (isEdit) {
                 setData()
             }

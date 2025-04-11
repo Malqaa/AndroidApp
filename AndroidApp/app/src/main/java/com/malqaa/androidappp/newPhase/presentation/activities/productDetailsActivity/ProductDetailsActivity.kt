@@ -178,10 +178,10 @@ class ProductDetailsActivity : BaseActivity<ActivityProductDetails2Binding>(),
         setupViewClickListeners()
         setupViewAdapters()
 
-        if (HelpFunctions.isUserLoggedIn()) {
+//        if (HelpFunctions.isUserLoggedIn()) {
             userData = Paper.book().read<LoginUser>(SharedPreferencesStaticClass.user_object)
             productDetialsViewModel.addLastViewedProduct(productId)
-        }
+//        }
 
         onRefresh()
     }
@@ -691,14 +691,29 @@ class ProductDetailsActivity : BaseActivity<ActivityProductDetails2Binding>(),
             }
         }
         productDetialsViewModel.productDetailsObservable.observe(this) { productResp ->
+            val businessAccountId = productResp.productDetails?.businessAccountId
+            val providerId = productResp.productDetails?.providerId
 
-            if (productResp.productDetails != null) {
-                productDetails = productResp.productDetails
+            Log.i("ProductDetailsActivity", "businessAccountId: $businessAccountId")
+            Log.i("ProductDetailsActivity", "providerId: $providerId")
 
-                productPrice = productResp.productDetails.priceDisc
-                setProductData(productDetails)
+            if (businessAccountId != null && providerId == ConstantObjects.logged_userid) {
+                startActivity(
+                    Intent(this, MyProductDetailsActivity::class.java).apply {
+                        putExtra(ConstantObjects.productIdKey, productId)
+                        putExtra(ConstantObjects.isMyProduct, true)
+                        putExtra("isMyProductForSale", true)
+                    })
+                finish()
             } else {
-                showProductApiError(productResp.message)
+                if (productResp.productDetails != null) {
+                    productDetails = productResp.productDetails
+
+                    productPrice = productResp.productDetails.priceDisc
+                    setProductData(productDetails)
+                } else {
+                    showProductApiError(productResp.message)
+                }
             }
         }
         productDetialsViewModel.addQuestionObservable.observe(this) { questResp ->
