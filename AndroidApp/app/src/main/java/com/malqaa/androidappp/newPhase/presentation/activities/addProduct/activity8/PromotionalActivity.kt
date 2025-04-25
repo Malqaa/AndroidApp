@@ -11,20 +11,21 @@ import com.malqaa.androidappp.newPhase.core.BaseActivity
 import com.malqaa.androidappp.newPhase.domain.models.addProductToCartResp.AddProductObjectData
 import com.malqaa.androidappp.newPhase.domain.models.pakatResp.PakatDetails
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.PromotionModel
-import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.ConfirmationAddProductActivity
+import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.confirmationAddProduct.ConfirmationAddProductActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.viewmodel.AddProductViewModel
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.linearLayoutManager
 import com.malqaa.androidappp.newPhase.utils.show
+import com.malqaa.androidappp.newPhase.utils.toStyledSpannable
 
 class PromotionalActivity : BaseActivity<ActivityPromotionalBinding>(),
-    PakatAdapter.SetOnPakatSelected {
+    PackagesAdapter.SetOnPackageSelected {
 
     val list: ArrayList<PromotionModel> = ArrayList()
     var isEdit: Boolean = false
-    lateinit var pakatAdapter: PakatAdapter
+    lateinit var packagesAdapter: PackagesAdapter
     var pakatList: ArrayList<PakatDetails> = ArrayList()
     private lateinit var addProductViewModel: AddProductViewModel
     override fun onBackPressed() {
@@ -49,50 +50,50 @@ class PromotionalActivity : BaseActivity<ActivityPromotionalBinding>(),
         binding.toolbarPromotional.toolbarTitle.text = getString(R.string.distinguish_your_product)
         isEdit = intent.getBooleanExtra(ConstantObjects.isEditKey, false)
 
-        setClickViewListenrs()
+        setClickViewListeners()
         setPromotionalAdaptor2()
         setUpViewModel()
 
-        setFreePakageData()
+        setFreePackageData()
         addProductViewModel.getPakatList(AddProductObjectData.selectedCategoryId)
     }
 
-    private fun setFreePakageData() {
-        binding.containerExtraProductImageCount.hide()
-        binding.containerExtraProductVideoCount.hide()
-        binding.containerExtraPakage.hide()
-        AddProductObjectData.selectedCategory?.let { selectedCategory ->
-            var extraImages = 0
-            AddProductObjectData.images?.let {
-                if (it.size > selectedCategory.freeProductImagesCount) {
-                    extraImages =
-                        it.size - selectedCategory.freeProductImagesCount
-                    binding.btnExtraProductImageCount.text = extraImages.toString()
-                    binding.containerExtraProductImageCount.show()
-                } else {
-                    binding.containerExtraProductImageCount.hide()
+    private fun setFreePackageData() {
+        binding.apply {
+            containerExtraProductImageCount.hide()
+            containerExtraProductVideoCount.hide()
+            containerExtraPakage.hide()
+        }
+        AddProductObjectData.selectedCategory?.let { category ->
+            val imageCount = AddProductObjectData.images?.size ?: 0
+            val videoCount = AddProductObjectData.videoList?.size ?: 0
+
+            val extraImages = maxOf(imageCount - category.freeProductImagesCount, b = 0)
+            val extraVideos = maxOf(videoCount - category.freeProductVidoesCount, b = 0)
+
+            binding.apply {
+                if (extraImages > 0) {
+                    btnExtraProductImageCount.text = extraImages.toString()
+                    containerExtraProductImageCount.show()
                 }
-            }
 
-            var extraVideos = 0
-            AddProductObjectData.videoList?.let {
-                if (it.size > selectedCategory.freeProductVidoesCount) {
-                    extraVideos = it.size - selectedCategory.freeProductVidoesCount
-                    binding.btnExtraProductVideoCount.text = extraVideos.toString()
-                    binding.containerExtraProductVideoCount.show()
-                } else {
-                    binding.containerExtraProductVideoCount.hide()
+                if (extraVideos > 0) {
+                    btnExtraProductVideoCount.text = extraVideos.toString()
+                    containerExtraProductVideoCount.show()
                 }
-            }
 
+                if (extraImages > 0 || extraVideos > 0) {
+                    val totalFee = (category.extraProductImageFee * extraImages) +
+                            (category.extraProductVidoeFee * extraVideos)
+                    val currency = getString(R.string.Rayal)
+                    val feeText = "$totalFee $currency"
 
-            if (extraVideos != 0 || extraImages != 0) {
-                binding.containerExtraPakage.show()
-                val totalFee =
-                    (selectedCategory.extraProductVidoeFee * extraVideos) + (selectedCategory.extraProductImageFee * extraImages)
-                binding.tvFreePakagePrice.text = "${totalFee} ${getString(R.string.Rayal)}"
-            } else {
-                binding.containerExtraPakage.hide()
+                    binding.tvFreePakagePrice.text = feeText.toStyledSpannable(
+                        highlightPart = totalFee.toString(),
+                        sizeInSp = 20
+                    )
+                    containerExtraPakage.show()
+                }
             }
         }
     }
@@ -146,52 +147,99 @@ class PromotionalActivity : BaseActivity<ActivityPromotionalBinding>(),
                         for (item in pakatList) {
                             if (item.id == AddProductObjectData.selectedPakat!!.id) {
                                 item.isSelected = true
+                                val countImagePackage = item.countImage
+                                val countVideoPackage = item.countVideo
+                                updateExtraPackageUI(
+                                    countImagePackage = countImagePackage,
+                                    countVideoPackage = countVideoPackage
+                                )
                                 break
                             }
                         }
                     }
-                    pakatAdapter.notifyDataSetChanged()
+                    packagesAdapter.notifyDataSetChanged()
                 } else {
-                    // goNextActivity()
-                    HelpFunctions.ShowLongToast(
-                        getString(R.string.noPackagesFound),
-                        this
-                    )
+                    HelpFunctions.ShowLongToast(getString(R.string.noPackagesFound), this)
                 }
             } else {
-                HelpFunctions.ShowLongToast(
-                    getString(R.string.noPackagesFound),
-                    this
-                )
+                HelpFunctions.ShowLongToast(getString(R.string.noPackagesFound), this)
             }
         }
     }
 
     private fun setPromotionalAdaptor2() {
-        pakatAdapter = PakatAdapter(pakatList, this)
+        packagesAdapter = PackagesAdapter(pakatList, this)
         binding.rvPakat.apply {
-            adapter = pakatAdapter
+            adapter = packagesAdapter
             layoutManager = linearLayoutManager(RecyclerView.VERTICAL)
         }
     }
 
-    override fun onSelectPakat(position: Int) {
-        pakatList.forEach { item ->
-            item.isSelected = false
-        }
+    override fun onSelectPackage(position: Int) {
+        pakatList.forEach { item -> item.isSelected = false }
         pakatList[position].isSelected = true
-        pakatAdapter.notifyDataSetChanged()
+        packagesAdapter.notifyDataSetChanged()
         AddProductObjectData.selectedPakat = pakatList[position]
-        println("hhhh " + pakatList[position].id)
+
+        val countImagePackage = pakatList[position].countImage
+        val countVideoPackage = pakatList[position].countVideo
+
+        updateExtraPackageUI(
+            countImagePackage = countImagePackage,
+            countVideoPackage = countVideoPackage
+        )
     }
 
-    private fun setClickViewListenrs() {
-        binding.toolbarPromotional.backBtn.setOnClickListener {
-            onBackPressed()
+    private fun updateExtraPackageUI(countImagePackage: Int, countVideoPackage: Int) {
+        AddProductObjectData.selectedCategory?.let { category ->
+            val imageCount = AddProductObjectData.images?.size ?: 0
+            val videoCount = AddProductObjectData.videoList?.size ?: 0
+
+            val currentImageCount = maxOf(imageCount - category.freeProductImagesCount, b = 0)
+            val currentVideoCount = maxOf(videoCount - category.freeProductVidoesCount, b = 0)
+
+            val extraImages = maxOf(currentImageCount - countImagePackage, b = 0)
+            val extraVideos = maxOf(currentVideoCount - countVideoPackage, b = 0)
+
+            if (extraImages > 0) {
+                binding.btnExtraProductImageCount.text = extraImages.toString()
+                binding.containerExtraProductImageCount.show()
+            } else {
+                binding.containerExtraProductImageCount.hide()
+            }
+
+            if (extraVideos > 0) {
+                binding.btnExtraProductVideoCount.text = extraVideos.toString()
+                binding.containerExtraProductVideoCount.show()
+            } else {
+                binding.containerExtraProductVideoCount.hide()
+            }
+
+            if (extraImages > 0 || extraVideos > 0) {
+                binding.containerExtraPakage.show()
+
+                val extraProductImageFee =
+                    extraImages * AddProductObjectData.selectedCategory?.extraProductImageFee!!
+                val extraProductVideoFree =
+                    extraVideos * AddProductObjectData.selectedCategory?.extraProductVidoeFee!!
+
+                val totalFee = extraProductImageFee + extraProductVideoFree
+                val currency = getString(R.string.Rayal)
+                val feeText = "$totalFee $currency"
+                binding.tvFreePakagePrice.text = feeText.toStyledSpannable(
+                    highlightPart = totalFee.toString(),
+                    sizeInSp = 20
+                )
+            } else {
+                binding.containerExtraPakage.hide()
+            }
+
         }
-        binding.button16611.setOnClickListener {
-            confirmpromotion()
-        }
+    }
+
+    private fun setClickViewListeners() {
+        binding.toolbarPromotional.backBtn.setOnClickListener { onBackPressed() }
+        binding.button16611.setOnClickListener { confirmPromotion() }
         binding.noThankYou.setOnClickListener {
             AddProductObjectData.selectedPakat = null
             goNextActivity()
@@ -204,15 +252,10 @@ class PromotionalActivity : BaseActivity<ActivityPromotionalBinding>(),
         })
     }
 
+    private fun validatePromotion() = pakatList.filter { it.isSelected }.isNotEmpty()
 
-    //Promotion Validation
-    private fun validatepromotion(): Boolean {
-        val list = pakatList.filter { it.isSelected }
-        return list.isNotEmpty()
-    }
-
-    fun confirmpromotion() {
-        if (pakatList.isNotEmpty() && !validatepromotion() && (binding.containerExtraPakage.visibility != View.VISIBLE)) {
+    private fun confirmPromotion() {
+        if (pakatList.isNotEmpty() && !validatePromotion() && (binding.containerExtraPakage.visibility != View.VISIBLE)) {
             showError(getString(R.string.choose_one_of_our_special_packages))
         } else {
             if (isEdit) {

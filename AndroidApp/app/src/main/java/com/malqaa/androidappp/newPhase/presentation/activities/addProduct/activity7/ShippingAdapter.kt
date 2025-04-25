@@ -69,4 +69,9 @@ class ShippingAdapter(
     interface SetOnSelectedShipping {
         fun setOnSelectedShipping(shippingItem: ShippingOptionObject)
     }
+
+    fun isNoItemSelected(): Boolean {
+        return dataList.none { it.selected }
+    }
+
 }

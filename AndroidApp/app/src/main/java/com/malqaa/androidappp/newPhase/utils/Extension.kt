@@ -210,5 +210,25 @@ fun isVideoLink(url: String): Boolean {
 }
 
 fun String.capitalizeFirstLetter(): String {
-    return this.lowercase().replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
+    return this.lowercase()
+        .replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
 }
+
+fun String?.formatAsCardNumber(): String {
+    val cleanNumber = this?.filter { it.isDigit() }.orEmpty()
+
+    return if (cleanNumber.length <= 4) {
+        cleanNumber // Show it as is if too short
+    } else {
+        val maskedPart = "X".repeat(cleanNumber.length - 4)
+            .chunked(4)
+            .joinToString(" ")
+        val visiblePart = cleanNumber.takeLast(4)
+        "$maskedPart $visiblePart"
+    }
+}
+
+fun String.getMonth() = this.split("/").getOrNull(index = 0)
+
+fun String.getYear() = this.split("/").getOrNull(1)
+

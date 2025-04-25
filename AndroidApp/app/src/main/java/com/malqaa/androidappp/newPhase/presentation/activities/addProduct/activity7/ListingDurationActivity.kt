@@ -3,6 +3,7 @@ package com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activ
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Filter
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
@@ -15,11 +16,12 @@ import com.malqaa.androidappp.databinding.SelectionItemBinding
 import com.malqaa.androidappp.databinding.ShippingOptionBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
 import com.malqaa.androidappp.newPhase.domain.models.addProductToCartResp.AddProductObjectData
+import com.malqaa.androidappp.newPhase.domain.models.addProductToCartResp.AddProductObjectData.Companion.selectedCategory
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.Selection
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.TimeAuctionSelection
 import com.malqaa.androidappp.newPhase.domain.models.shippingOptionsResp.ShippingOptionObject
-import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.ConfirmationAddProductActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activity8.PromotionalActivity
+import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.confirmationAddProduct.ConfirmationAddProductActivity
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.helper.widgets.DatePickerFragment
@@ -57,7 +59,7 @@ class ListingDurationActivity : BaseActivity<ActivityListingDurationBinding>(),
 
         shippingViewModel = ViewModelProvider(this).get(ShippingViewModel::class.java)
 
-        binding.toolbarListduration.toolbarTitle.text = getString(R.string.shipping_options)
+        binding.toolbarListduration.toolbarTitle.text = getString(R.string.shipping)
         isEdit = intent.getBooleanExtra(ConstantObjects.isEditKey, false)
         setVieClickListeners()
         shippingAdapter = ShippingAdapter(arrayListOf(), this)
@@ -134,9 +136,17 @@ class ListingDurationActivity : BaseActivity<ActivityListingDurationBinding>(),
         ConstantObjects.shippingOption_integratedShippingCompanyOptions
 
         /**adding price off custom clossing fee*/
-        AddProductObjectData.selectedCategory?.let {
-            binding.tvPriceCustomClosingAuctionOption2.text =
-                "${it.auctionClosingTimeFee} ${getString(R.string.Rayal)}"
+        val auctionClosingTimeFee = selectedCategory?.auctionClosingTimeFee ?: 0
+        val productPriceSar = getString(R.string.product_price_sar, auctionClosingTimeFee)
+        val priceCustomClosingAuctionOption = getString(
+            R.string.please_note_that_choosing_a_custom_date_for_the_auction_closing_time_will_cost_you,
+            productPriceSar
+        )
+
+        if (auctionClosingTimeFee.toInt() > 0) {
+            binding.tvPriceCustomClosingAuctionOption2.text = priceCustomClosingAuctionOption
+        } else {
+            binding.tvPriceCustomClosingAuctionOption2.visibility = View.GONE
         }
 
         getAllShippingObserver()
@@ -502,11 +512,12 @@ class ListingDurationActivity : BaseActivity<ActivityListingDurationBinding>(),
         } else if (!validatePickUpOption()) {
             return
         } else {
-            println("hhh date " + Gson().toJson(AddProductObjectData.shippingOptionSelections))
-            goNextActivity()
-
+            if (shippingAdapter?.isNoItemSelected() == true) {
+                showError(getString(R.string.please_select_a_shipping_option))
+            } else {
+                goNextActivity()
+            }
         }
-
     }
 
     private fun validatePickUpOption(): Boolean {
@@ -541,17 +552,11 @@ class ListingDurationActivity : BaseActivity<ActivityListingDurationBinding>(),
                 showError(getString(R.string.close_time))
                 return false
             } else {
-                println("hhhh " + fixlenghtselected)
-//                fixlenghtselected.apply {
-//                    this?.endTime=HelpFunctions.getAuctionClosingTime(fixlenghtselected?.endTime.toString())
-//                }
-
                 AddProductObjectData.selectTimeAuction = fixlenghtselected
                 return true
             }
         } else if (binding.btnRadioClosingAuctionOption2.isChecked) {
             if (binding.tvClosingAuctionCustomDataOption2.text.toString().isEmpty()) {
-
                 showError(getString(R.string.close_time))
                 return false
             } else {
@@ -564,13 +569,10 @@ class ListingDurationActivity : BaseActivity<ActivityListingDurationBinding>(),
                 )
                 return true
             }
-
         } else {
-
             showError(getString(R.string.close_time))
             false
         }
-
     }
 
     override fun onBackPressed() {

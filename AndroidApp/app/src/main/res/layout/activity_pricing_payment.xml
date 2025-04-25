@@ -39,12 +39,11 @@
 
                     <LinearLayout
                         android:id="@+id/titleSaleType"
-                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:orientation="horizontal">
-
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <TextView
                             android:id="@+id/listing_type"
@@ -68,42 +67,52 @@
 
                     <LinearLayout
                         android:id="@+id/fix_Price_l"
-                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:background="@drawable/field_selection_border_enable"
                         android:orientation="horizontal"
                         android:padding="@dimen/_5sdp"
+                        android:visibility="gone"
                         android:weightSum="2">
 
-                        <TextView
-                            android:id="@+id/fixed_price_tv"
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginStart="@dimen/_10sdp"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/madani_arabic_light"
-                            android:text="@string/fixed_price_sale"
-                            android:textColor="@color/orange"
-                            android:textSize="@dimen/_12sdp" />
+                            android:layout_weight="2"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/fixed_price_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginStart="@dimen/_10sdp"
+                                android:fontFamily="@font/madani_arabic_light"
+                                android:text="@string/fixed_price_sale"
+                                android:textColor="@color/orange"
+                                android:textSize="@dimen/_12sdp" />
+
+                            <TextView
+                                android:id="@+id/testFixedPriceHelper"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="16dp"
+                                android:visibility="gone"
+                                tools:text="fsknjfjksndsknjbfhfnsjnfsnsbfubufbuibsfjdbfhjdbfhjd" />
+                        </LinearLayout>
 
                         <androidx.appcompat.widget.SwitchCompat
                             android:id="@+id/fixedPriceType_rb1"
                             android:layout_width="wrap_content"
-                            android:checked="false"
                             android:layout_height="match_parent"
                             android:layout_gravity="center_vertical"
                             android:layout_weight="1"
+                            android:checked="false"
                             android:isScrollContainer="false" />
-
-
                     </LinearLayout>
 
-
                     <LinearLayout
-                        android:visibility="gone"
                         android:id="@+id/auction_option"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -111,19 +120,34 @@
                         android:background="@drawable/edittext_bg"
                         android:orientation="horizontal"
                         android:padding="@dimen/_5sdp"
+                        android:visibility="gone"
                         android:weightSum="2">
 
-                        <TextView
-                            android:id="@+id/Auction_price_tv"
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginStart="@dimen/_10sdp"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/madani_arabic_light"
-                            android:text="@string/Auction"
-                            android:textColor="@color/grey"
-                            android:textSize="@dimen/_12sdp" />
+                            android:layout_weight="2"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/Auction_price_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginStart="@dimen/_10sdp"
+                                android:fontFamily="@font/madani_arabic_light"
+                                android:text="@string/Auction"
+                                android:textColor="@color/grey"
+                                android:textSize="@dimen/_12sdp" />
+
+                            <TextView
+                                android:id="@+id/testAuctionPriceHelper"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="16dp"
+                                android:visibility="gone"
+                                tools:text="fsknjfjksndsknjbfhfnsjnfsnsbfubufbuibsfjdbfhjdbfhjd" />
+                        </LinearLayout>
 
                         <androidx.appcompat.widget.SwitchCompat
                             android:id="@+id/auctionType_rb2"
@@ -135,29 +159,43 @@
 
                     </LinearLayout>
 
-
                     <LinearLayout
                         android:id="@+id/switchMustPickUp"
                         android:layout_width="match_parent"
-                        android:visibility="gone"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:background="@drawable/edittext_bg"
                         android:orientation="horizontal"
                         android:padding="@dimen/_5sdp"
+                        android:visibility="gone"
                         android:weightSum="2">
 
-                        <TextView
-                            android:id="@+id/tvMustPickUp"
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginStart="@dimen/_10sdp"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/madani_arabic_light"
-                            android:text="@string/price_is_negotiable"
-                            android:textColor="@color/grey"
-                            android:textSize="@dimen/_12sdp" />
+                            android:layout_weight="2"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tvMustPickUp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginStart="@dimen/_10sdp"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/madani_arabic_light"
+                                android:text="@string/price_is_negotiable"
+                                android:textColor="@color/grey"
+                                android:textSize="@dimen/_12sdp" />
+
+                            <TextView
+                                android:id="@+id/testNegotiationHelper"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="16dp"
+                                android:visibility="gone"
+                                tools:text="fsknjfjksndsknjbfhfnsjnfsnsbfubufbuibsfjdbfhjdbfhjd" />
+                        </LinearLayout>
 
                         <androidx.appcompat.widget.SwitchCompat
                             android:id="@+id/priceNegotiable_rb3"
@@ -165,16 +203,14 @@
                             android:layout_height="match_parent"
                             android:layout_gravity="center_vertical"
                             android:layout_weight="1" />
-
-
                     </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/fixed_price_layout"
                         android:layout_width="match_parent"
-                        android:visibility="gone"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:visibility="gone">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -201,9 +237,7 @@
                                 android:text="*"
                                 android:textColor="@color/Red"
                                 android:textSize="@dimen/_13sdp" />
-
                         </LinearLayout>
-
 
                         <RelativeLayout
                             android:id="@+id/Buy_now_l"
@@ -221,8 +255,8 @@
                                 android:layout_height="match_parent"
                                 android:layout_alignParentStart="true"
                                 android:layout_alignParentLeft="true"
-                                android:layout_gravity="center_vertical"
                                 android:layout_centerVertical="true"
+                                android:layout_gravity="center_vertical"
                                 android:layout_marginStart="@dimen/_10sdp"
                                 android:layout_toStartOf="@+id/buynowprice_price"
                                 android:background="@null"
@@ -241,7 +275,6 @@
                                 android:gravity="center">
 
                                 <TextView
-
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
@@ -250,10 +283,7 @@
                                     android:textColor="@color/bg"
                                     android:textSize="@dimen/_12sdp" />
                             </LinearLayout>
-
                         </RelativeLayout>
-
-
                     </LinearLayout>
 
                     <LinearLayout
@@ -273,11 +303,9 @@
                             android:textSize="@dimen/_12sdp" />
 
                         <LinearLayout
-
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
-
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -386,7 +414,6 @@
                             android:orientation="horizontal"
                             android:padding="@dimen/_5sdp">
 
-
                             <EditText
                                 android:id="@+id/reserveprice"
                                 android:layout_width="match_parent"
@@ -413,7 +440,6 @@
                                 android:gravity="center">
 
                                 <TextView
-
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
@@ -425,7 +451,6 @@
 
                         </RelativeLayout>
                     </LinearLayout>
-
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -454,7 +479,6 @@
                             android:textSize="@dimen/_14sdp" />
 
                     </LinearLayout>
-
 
                     <LinearLayout
                         android:id="@+id/saudi_bank_auction"
@@ -496,36 +520,6 @@
                         android:background="@drawable/product_attribute_bg_linebg"
                         android:orientation="vertical"
                         android:visibility="gone">
-
-
-<!--                        <LinearLayout-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:layout_marginStart="@dimen/_10sdp"-->
-<!--                            android:layout_marginTop="@dimen/_10sdp"-->
-<!--                            android:layout_marginEnd="@dimen/_10sdp"-->
-<!--                            android:weightSum="2">-->
-
-<!--                            <TextView-->
-<!--                                android:id="@+id/tvSelctedBackTitle"-->
-<!--                                android:layout_width="wrap_content"-->
-<!--                                android:layout_height="wrap_content"-->
-<!--                                android:layout_weight="1"-->
-<!--                                android:fontFamily="@font/madani_arabic_light"-->
-<!--                                android:text="@string/bank_transfer"-->
-<!--                                android:textAlignment="viewStart"-->
-<!--                                android:textColor="@color/bg"-->
-<!--                                android:textSize="@dimen/_10sdp" />-->
-
-<!--                            <androidx.appcompat.widget.SwitchCompat-->
-<!--                                android:id="@+id/switchSaudiBankDeposit2"-->
-<!--                                android:layout_width="wrap_content"-->
-<!--                                android:layout_height="wrap_content"-->
-<!--                                android:layout_marginEnd="@dimen/_10sdp"-->
-<!--                                android:layout_weight="1"-->
-<!--                                android:checked="true" />-->
-<!--                        </LinearLayout>-->
-
 
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -578,7 +572,6 @@
 
 
                     </LinearLayout>
-
 
                     <LinearLayout
                         android:id="@+id/layoutCashPayment"

@@ -3,17 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:gravity="center_vertical"
-        android:padding="@dimen/_15sdp"
         android:layout_margin="@dimen/_5sdp"
         android:background="@drawable/product_attribute_bg4"
-        android:orientation="vertical">
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:padding="@dimen/_15sdp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -26,13 +24,14 @@
                 android:id="@+id/bankName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_10sdp"
                 android:fontFamily="@font/madani_arabic_medium"
                 android:text="@string/bankName"
-                android:layout_marginEnd="@dimen/_10sdp"
                 android:textColor="#293241"
                 android:textSize="@dimen/_12sdp" />
+
             <TextView
-                android:id="@+id/bank_name"
+                android:id="@+id/textCardHoldersName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
@@ -57,19 +56,21 @@
             </LinearLayout>
 
         </LinearLayout>
+
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_10sdp"
                 android:fontFamily="@font/madani_arabic_medium"
                 android:text="@string/accountNumber"
-                android:layout_marginEnd="@dimen/_10sdp"
                 android:textColor="#293241"
                 android:textSize="@dimen/_12sdp" />
+
             <TextView
                 android:id="@+id/account_number"
                 android:layout_width="0dp"
@@ -80,20 +81,22 @@
                 android:textColor="#293241"
                 android:textSize="@dimen/_10sdp" />
         </LinearLayout>
+
         <LinearLayout
-            android:orientation="horizontal"
-            android:layout_marginTop="@dimen/_4sdp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_10sdp"
                 android:fontFamily="@font/madani_arabic_medium"
                 android:text="@string/userName"
-                android:layout_marginEnd="@dimen/_10sdp"
                 android:textColor="#293241"
                 android:textSize="@dimen/_12sdp" />
+
             <TextView
                 android:id="@+id/user_name"
                 android:layout_width="wrap_content"

@@ -402,6 +402,8 @@
 
     <string name="SelectedImages">Selected Image(s)</string>
     <string name="pleaseSelectImages">please Select Image(s)</string>
+    <string name="please_select_a_shipping_option">Please select a shipping option</string>
+    <string name="please_select_option">Please select option</string>
     <string name="selected_image_limit_reached"> Images max limit  reached</string>
     <string name="SelectAnyoneCountry">Select Anyone Country</string>
 
@@ -780,11 +782,12 @@
     <string name="phone">phone</string>
     <string name="electronics_phones">Electronics - Phones</string>
     <string name="services_mobile_phone_services">Services - mobile phone services</string>
-    <string name="choose_department">Choose department</string>
+    <string name="choose_main_category">Choose Main Category</string>
     <string name="the_next">Next</string>
-    <string name="subsection">Subsection</string>
+    <string name="choose_subcategory">Choose Subcategory</string>
     <string name="attach_pictures_of_the_item">Attach pictures of the item</string>
     <string name="item_details">Item details</string>
+    <string name="ad_details">Ad Details</string>
     <string name="item_detailsEN">Item details in English</string>
     <string name="item_detailsAR">Item details in Arabic</string>
     <string name="attach_a_video_link_of_the_item">Attach a video link of the item</string>
@@ -815,7 +818,7 @@
     <string name="visa_mastercard">VisaCard</string>
     <string name="sale_details">Sale details</string>
     <string name="choose_one_of_our_special_packages">Choose one of our special packages</string>
-    <string name="ExtraFee">Extra fee</string>
+    <string name="ExtraFee">Additional Cost</string>
     <string name="silver_package">Silver package</string>
     <string name="and_get_many_advantages_of_displaying_your_product">And get many advantages of displaying your product</string>
     <string name="distinguish_your_product">Distinguish your product</string>
@@ -828,7 +831,7 @@
     <string name="auction_start_price">Auction start price</string>
     <string name="minimum_price">Minimum price for closing</string>
     <string name="negotiable">Negotiable</string>
-    <string name="shipping_options">Shipping Options</string>
+    <string name="shipping">Shipping</string>
     <string name="auction_closing_time">Auction closing time</string>
     <string name="option_1">Option #1</string>
     <string name="selected_package">Selected package</string>
@@ -1341,9 +1344,38 @@
     <string name="street_name_and_number">Street Name and Number</string>
     <string name="address_name">Address Name</string>
 
-  <string name="download_started">Download started…</string>
-  <string name="error_too_many_redirects">Too many redirects. Please try again later.</string>
-  <string name="error_redirect_without_location">Redirect failed. No valid download link found.</string>
-  <string name="error_failed_download">Failed to download the file. Server response code: %1$d</string>
-  <string name="error_unexpected">Unexpected error occurred: %1$s</string>
+    <string name="download_started">Download started…</string>
+    <string name="error_too_many_redirects">Too many redirects. Please try again later.</string>
+    <string name="error_redirect_without_location">Redirect failed. No valid download link found.</string>
+    <string name="error_failed_download">Failed to download the file. Server response code: %1$d</string>
+    <string name="error_unexpected">Unexpected error occurred: %1$s</string>
+
+    <string name="this_link_already_exists">This link already exists</string>
+    <string name="you_can_upload_images_and_video_links_for_free_each_additional_image_costs_and_each_additional_link_costs">You Can Upload %1$s Images And %2$s Video Links For Free Each Additional Image Costs %3$s, And Each Additional Link Costs %4$s</string>
+    <string name="please_note_that_adding_an_arabic_subtitle_to_your_product_ad_will_cost_you">Please Note That Adding An Arabic Subtitle To Your Product Ad Will Cost You %1$s.</string>
+    <string name="please_note_that_activating_it_will_cost_you">Please Note That Activating it Will Cost You %1$s.</string>
+    <string name="closing_time_option">Auction Closing Time Option (Set your own date and time)</string>
+    <string name="add_photos">Add Photos</string>
+    <string name="ad_display_priority">Ad Display Priority</string>
+    <string name="star_ruf">Star Ruf</string>
+    <string name="moon_ruf">Moon Ruf</string>
+    <string name="cloud_ruf">Cloud Ruf</string>
+    <string name="larger_ad_size">Larger Ad Size</string>
+    <string name="unavailable">N/A</string>
+    <string name="payment_method">Payment method</string>
+    <string name="visa_card">Visa Card</string>
+    <string name="visa_credit_card">Visa /Credit Card</string>
+    <string name="add_new">Add New</string>
+    <string name="card_holders_name">Card Holder’s Name</string>
+    <string name="card_number">Card Number</string>
+    <string name="choose_another_card">choose another card</string>
+    <string name="please_enter_cvv">Please enter CVV</string>
+  <string name="the_points_balance_equals">The Points balance equals %1$s</string>
+  <string name="please_activate_at_least_one_payment_method">Please activate at least one payment method</string>
+    <string name="mm_yyyy">MM/YYYY</string>
+  <string name="expiry_date_passed">Expiry date has passed</string>
+  <string name="invalid_date_format">Invalid date format (MM/YYYY, months from 01 to 12)</string>
+  <string name="card_number_must_be_16_digits">Card number must be at least 16 numbers</string>
+  <string name="please_note_that_choosing_a_custom_date_for_the_auction_closing_time_will_cost_you">Please Note That Choosing A Custom Date For The Auction Closing Time Will Cost You %1$s.</string>
+
 </resources>

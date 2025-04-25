@@ -26,7 +26,7 @@ import com.malqaa.androidappp.newPhase.domain.models.productResp.Product
 import com.malqaa.androidappp.newPhase.domain.models.questionResp.QuestionItem
 import com.malqaa.androidappp.newPhase.domain.models.ratingResp.RateReviewItem
 import com.malqaa.androidappp.newPhase.presentation.MainActivity
-import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.ConfirmationAddProductActivity
+import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.confirmationAddProduct.ConfirmationAddProductActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.addProductReviewActivity.AddRateProductActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.addProductReviewActivity.ProductReviewsActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.cartActivity.activity1.CartActivity

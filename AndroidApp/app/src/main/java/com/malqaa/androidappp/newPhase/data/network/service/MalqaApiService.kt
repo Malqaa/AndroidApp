@@ -8,6 +8,7 @@ import com.malqaa.androidappp.newPhase.domain.models.GeneralResponses
 import com.malqaa.androidappp.newPhase.domain.models.NotificationResp
 import com.malqaa.androidappp.newPhase.domain.models.NotificationUnReadResp
 import com.malqaa.androidappp.newPhase.domain.models.accountBackListResp.AccountBankListResp
+import com.malqaa.androidappp.newPhase.domain.models.accountBackListResp.BankAccountRequest
 import com.malqaa.androidappp.newPhase.domain.models.accountProfile.AccountInfo
 import com.malqaa.androidappp.newPhase.domain.models.addBidResp.AddBidResp
 import com.malqaa.androidappp.newPhase.domain.models.addOrderResp.AddOrderResp
@@ -43,6 +44,7 @@ import com.malqaa.androidappp.newPhase.domain.models.orderRateResp.BuyerRateResp
 import com.malqaa.androidappp.newPhase.domain.models.orderRateResp.RateObject
 import com.malqaa.androidappp.newPhase.domain.models.orderRateResp.ShipmentRateResp
 import com.malqaa.androidappp.newPhase.domain.models.pakatResp.PakatResp
+import com.malqaa.androidappp.newPhase.domain.models.pointsBalance.GetPointsBalanceResponse
 import com.malqaa.androidappp.newPhase.domain.models.productResp.ProductListResp
 import com.malqaa.androidappp.newPhase.domain.models.productResp.ProductListSearchResp
 import com.malqaa.androidappp.newPhase.domain.models.productResp.ProductResp
@@ -831,20 +833,18 @@ interface MalqaApiService {
     fun updateAccountProfile(@Body data: HashMap<String, Any>): Call<EditProfileResp>
 
 
-    @Multipart
     @POST("AddBankTransfer")
-    fun addBankAccount(
-        @Part("accountNumber") accountNumber: RequestBody,
-        @Part("bankName") bankName: RequestBody,
-        @Part("bankHolderName") bankHolderName: RequestBody,
-        @Part("ibanNumber") ibanNumber: RequestBody,
-        @Part("swiftCode") swiftCode: RequestBody,
-        @Part("expiaryDate") expiaryDate: RequestBody,
-        @Part("SaveForLaterUse") SaveForLaterUse: RequestBody,
-    ): Call<GeneralResponse>
+    fun addBankAccount(@Body bankAccountRequest: BankAccountRequest): Call<GeneralResponse>
 
-    @GET("BankTransfersList?pageIndex=1&PageRowsCount=100")
-    fun getAllBacksAccount(): Call<AccountBankListResp>
+    @POST("GetPointsBalance")
+    fun getPointsBalance(): Call<GetPointsBalanceResponse>
+
+    @GET("BankTransfersList")
+    fun getAllBanksAccount(
+        @Query("pageIndex") pageIndex: Int = 1,
+        @Query("PageRowsCount") pageRowsCount: Int = 100,
+        @Query("PaymentAccountType") paymentAccountType: Int? = null
+    ): Call<AccountBankListResp>
 
     @POST("AddProductClientOffer")
     fun addProductClientOffer(

@@ -241,7 +241,7 @@
             android:name=".newPhase.presentation.activities.addProduct.activity8.PromotionalActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".newPhase.presentation.activities.addProduct.ConfirmationAddProductActivity"
+            android:name=".newPhase.presentation.activities.addProduct.confirmationAddProduct.ConfirmationAddProductActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity

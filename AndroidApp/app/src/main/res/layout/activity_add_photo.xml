@@ -45,18 +45,22 @@
                         android:textColor="#293241"
                         android:textSize="@dimen/_14sdp" />
 
-
+                    <TextView
+                        android:id="@+id/testImageLink"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="You Can Upload 2 Images And 2 Video Links For Free Each Additional Image Costs 3.0 SAR, And Each Additional Link Costs 20 SAR" />
                 </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvPakat"
-                    tools:listitem="@layout/item_add_product_imgs"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/_5sdp"
                     android:nestedScrollingEnabled="false"
                     app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                    app:spanCount="2" />
+                    app:spanCount="2"
+                    tools:listitem="@layout/item_add_product_imgs" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -92,10 +96,10 @@
             </LinearLayout>
 
             <RelativeLayout
+                android:id="@+id/containerAddVideo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:id="@+id/containerAddVideo">
+                android:foreground="?android:attr/selectableItemBackground">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -127,7 +131,6 @@
                 android:layout_marginStart="@dimen/_15sdp"
                 android:layout_marginTop="@dimen/_12sdp"
                 android:layout_marginEnd="@dimen/_15sdp" />
-
 
 
         </LinearLayout>

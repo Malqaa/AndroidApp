@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.content.PermissionChecker
 import androidx.recyclerview.widget.GridLayoutManager
@@ -16,6 +17,7 @@ import com.malqaa.androidappp.databinding.ActivityAddPhotoBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
 import com.malqaa.androidappp.newPhase.domain.models.ImageSelectModel
 import com.malqaa.androidappp.newPhase.domain.models.addProductToCartResp.AddProductObjectData
+import com.malqaa.androidappp.newPhase.domain.models.addProductToCartResp.AddProductObjectData.Companion.selectedCategory
 import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activity5.DynamicTemplateActivity
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
@@ -50,12 +52,26 @@ class AddPhotoActivity : BaseActivity<ActivityAddPhotoBinding>(),
         file_name = intent?.getStringExtra("file_name") ?: ""
         idsImageRemoved = arrayListOf()
 
+
+        val freeProductImagesCount = selectedCategory?.freeProductImagesCount ?: 0
+        val freeProductVidoesCount = selectedCategory?.freeProductVidoesCount ?: 0
+        val extraProductImageFee =
+            getString(R.string.product_price_sar, selectedCategory?.extraProductImageFee ?: 0)
+        val extraProductVidoeFee =
+            getString(R.string.product_price_sar, selectedCategory?.extraProductVidoeFee ?: 0)
+
+        binding.testImageLink.text =
+            getString(
+                R.string.you_can_upload_images_and_video_links_for_free_each_additional_image_costs_and_each_additional_link_costs,
+                freeProductImagesCount.toString(),
+                freeProductVidoesCount.toString(),
+                extraProductImageFee,
+                extraProductVidoeFee
+            )
+
         setupVideoLinksAapter()
-        if (!ConstantObjects.isModify) {
 
-        }
-
-        binding.toolbarMain.toolbarTitle.text = getString(R.string.item_details)
+        binding.toolbarMain.toolbarTitle.text = getString(R.string.add_photos)
         setViewClickListeners()
         setImagesAdapter()
 
@@ -77,28 +93,40 @@ class AddPhotoActivity : BaseActivity<ActivityAddPhotoBinding>(),
 
     private fun setupVideoLinksAapter() {
         videoLinks = ArrayList()
-        videoAddLinkAdapter = VideoAddLinkAdapter(videoLinks!!,
+        videoAddLinkAdapter = VideoAddLinkAdapter(
+            videoLinks!!,
             object : VideoAddLinkAdapter.SetOnTypingVideoLinkTypingVideoLinks {
                 override fun onTypeTypingVideoLink(value: String, position: Int) {
                     videoLinks!![position] = value
                 }
 
                 override fun onDeleteItem(position: Int) {
-                    for (i in AddProductObjectData.images?.indices!!) {
-                        if (AddProductObjectData.images!![i].url == videoLinks!![position]) {
-                            idsImageRemoved?.add(AddProductObjectData.images!![i].id)
-                            AddProductObjectData.images?.removeAt(i)
-                            break
+                    if (position >= videoLinks!!.size) return
+
+                    val linkToRemove = videoLinks!![position]
+
+                    AddProductObjectData.images?.let { imageList ->
+                        val iterator = imageList.iterator()
+                        while (iterator.hasNext()) {
+                            val item = iterator.next()
+                            if (item.url == linkToRemove) {
+                                item.id.takeIf { it != 0 }?.let { idsImageRemoved?.add(it) }
+                                iterator.remove()
+                                break
+                            }
                         }
                     }
-                    videoLinks?.removeAt(position)
-                    AddProductObjectData.imagesListRemoved = arrayListOf()
-                    AddProductObjectData.imagesListRemoved?.addAll(idsImageRemoved!!)
 
-                    if (AddProductObjectData.videoList?.isNotEmpty() == true)
-                        AddProductObjectData.videoList?.removeAt(position)
+                    videoLinks!!.removeAt(position)
+
+                    AddProductObjectData.imagesListRemoved = arrayListOf()
+                    AddProductObjectData.imagesListRemoved?.addAll(idsImageRemoved ?: arrayListOf())
+
+                    AddProductObjectData.videoList?.takeIf { it.size > position }?.removeAt(position)
+
                     videoAddLinkAdapter.notifyDataSetChanged()
                 }
+
 
             })
         binding.rvVidoes.apply {
@@ -123,10 +151,18 @@ class AddPhotoActivity : BaseActivity<ActivityAddPhotoBinding>(),
             val dialogAddVideoLink =
                 DialogAddVideoLink(this, object : DialogAddVideoLink.SetSaveLinkListeners {
                     override fun saveLinkListeners(value: String) {
+                        if (videoLinks?.contains(value) == true) {
+                            Toast.makeText(
+                                this@AddPhotoActivity,
+                                getString(R.string.this_link_already_exists),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            return
+                        }
+
                         videoLinks?.add(value)
                         videoAddLinkAdapter.notifyDataSetChanged()
                     }
-
                 })
             dialogAddVideoLink.show()
         }

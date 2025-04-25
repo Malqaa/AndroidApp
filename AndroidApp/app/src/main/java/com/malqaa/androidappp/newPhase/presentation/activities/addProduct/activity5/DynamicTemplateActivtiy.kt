@@ -34,7 +34,7 @@ class DynamicTemplateActivity : BaseActivity<FragmentDynamicTemplateBinding>(),
         super.onCreate(savedInstanceState)
         binding = FragmentDynamicTemplateBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.toolbarMain.toolbarTitle.text = getString(R.string.item_details)
+        binding.toolbarMain.toolbarTitle.text = getString(R.string.ad_details)
 
         setViewClickListeners()
         setDynamicListAdapter()

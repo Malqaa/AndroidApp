@@ -19,7 +19,8 @@ import com.malqaa.androidappp.databinding.AddBankLayoutBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
 import com.malqaa.androidappp.newPhase.domain.models.accountBackListResp.AccountDetails
 import com.malqaa.androidappp.newPhase.domain.models.addProductToCartResp.AddProductObjectData
-import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.ConfirmationAddProductActivity
+import com.malqaa.androidappp.newPhase.domain.models.addProductToCartResp.AddProductObjectData.Companion.selectedCategory
+import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.confirmationAddProduct.ConfirmationAddProductActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activity7.ListingDurationActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.viewmodel.AddProductViewModel
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
@@ -91,6 +92,31 @@ class PricingActivity : BaseActivity<ActivityPricingPaymentBinding>() {
 
         binding.toolbarMain.toolbarTitle.text = getString(R.string.sale_details)
         isEdit = intent.getBooleanExtra(ConstantObjects.isEditKey, false)
+
+        val fixedPriceSaleFee =
+            getString(R.string.product_price_sar, selectedCategory?.enableFixedPriceSaleFee ?: 0)
+        binding.testFixedPriceHelper.visibility = if((selectedCategory?.enableFixedPriceSaleFee ?: 0f) > 0f) View.VISIBLE else View.GONE
+        binding.testFixedPriceHelper.text =getString(
+            R.string.please_note_that_activating_it_will_cost_you,
+            fixedPriceSaleFee
+        )
+
+        val auctionFee =
+            getString(R.string.product_price_sar, selectedCategory?.enableAuctionFee ?: 0)
+        binding.testAuctionPriceHelper.visibility = if((selectedCategory?.enableAuctionFee ?: 0f) > 0f) View.VISIBLE else View.GONE
+        binding.testAuctionPriceHelper.text =getString(
+            R.string.please_note_that_activating_it_will_cost_you,
+            auctionFee
+        )
+
+        val negotiationFee =
+            getString(R.string.product_price_sar, selectedCategory?.enableNegotiationFee ?: 0)
+        binding.testNegotiationHelper.visibility = if((selectedCategory?.enableNegotiationFee ?: 0f) > 0f) View.VISIBLE else View.GONE
+        binding.testNegotiationHelper.text =getString(
+            R.string.please_note_that_activating_it_will_cost_you,
+            negotiationFee
+        )
+
         setViewClickListeners()
         disableTextFields()
         setUpViewModel()
@@ -501,8 +527,8 @@ class PricingActivity : BaseActivity<ActivityPricingPaymentBinding>() {
                 bankHolderName = binding.accountHolderName.text.toString().trim(),
                 ibanNumber = binding.ibanNumber.text.toString().trim(),
                 swiftCode = binding.etSwiftCode.text.toString().trim(),
-                expiaryDate = binding.etExpireDate.text.toString().trim(),
-                SaveForLaterUse = binding.switchSaveLater.isChecked.toString()
+                expiryDate = binding.etExpireDate.text.toString().trim(),
+                saveForLaterUse = binding.switchSaveLater.isChecked
             )
             bottomSheetDialog.dismiss()
         }

@@ -19,6 +19,11 @@ data class PakatDetails(
     val countImage:Int,
     val countVideo:Int,
     val image: String? = null,
+    val common: Boolean = false,
+    val enableFixedPrice: Boolean = false,
+    val enableNegotiable: Boolean = false,
+    val enableAuction: Boolean = false,
+    val auctionClosingTimeOption: Boolean = false,
     val productPosition: String? = null,
     val popular:Boolean,
     val showSupTitle:Boolean,
@@ -43,6 +48,6 @@ data class CategoryItemBakat(
 )
 
 data class ItemPacket(
-    val Title: String? = null,
+    val title: String? = null,
     val value: Any? = null,
 )

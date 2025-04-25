@@ -1,23 +1,38 @@
-package com.malqaa.androidappp.newPhase.presentation.activities.addProduct
+package com.malqaa.androidappp.newPhase.presentation.activities.addProduct.confirmationAddProduct
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
 import android.view.View
+import android.widget.Filter
+import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.Gson
 import com.malqaa.androidappp.R
 import com.malqaa.androidappp.databinding.ActivityConfirmationAddProductBinding
+import com.malqaa.androidappp.databinding.AddCardBinding
+import com.malqaa.androidappp.databinding.AllCardsLayoutBinding
+import com.malqaa.androidappp.databinding.ItemCardBinding
 import com.malqaa.androidappp.databinding.MyProductDetailsBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
 import com.malqaa.androidappp.newPhase.domain.models.ImageSelectModel
+import com.malqaa.androidappp.newPhase.domain.models.accountBackListResp.AccountDetails
 import com.malqaa.androidappp.newPhase.domain.models.addProductToCartResp.AddProductObjectData
+import com.malqaa.androidappp.newPhase.domain.models.addProductToCartResp.AddProductObjectData.Companion.selectedCategory
 import com.malqaa.androidappp.newPhase.domain.models.productResp.Product
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.TimeAuctionSelection
 import com.malqaa.androidappp.newPhase.domain.models.shippingOptionsResp.ShippingOptionObject
 import com.malqaa.androidappp.newPhase.presentation.MainActivity
+import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.SuccessProductActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activity2.ChooseCategoryActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activity4.AddPhotoActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activity6.PricingActivity
@@ -27,15 +42,18 @@ import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.viewmo
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.PicassoSingleton.getPicassoInstance
+import com.malqaa.androidappp.newPhase.utils.formatAsCardNumber
+import com.malqaa.androidappp.newPhase.utils.helper.widgets.rcv.GenericListAdapter
 import com.malqaa.androidappp.newPhase.utils.helper.widgets.searchdialog.SearchListItem
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.show
 import java.io.File
+import java.util.Calendar
 
 class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProductBinding>() {
 
     private lateinit var myProductDetailsBinding: MyProductDetailsBinding
-
+    private lateinit var _binding: ActivityConfirmationAddProductBinding
 
     private lateinit var addProductViewModel: AddProductViewModel
     private var pakagePrice = 0f
@@ -54,6 +72,10 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
     private var shippingOptionText: StringBuilder? = null
     private var pickup: StringBuilder? = null
 
+    private var bottomSheetDialog: BottomSheetDialog? = null
+    private lateinit var selectedPaymentType: PaymentAccountType
+    private var pointsNumber: Double? = null
+
     var pakatId = ""
 
     override fun onNewIntent(intent: Intent) {
@@ -70,9 +92,87 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
         // Initialize view binding for the main activity
         binding = ActivityConfirmationAddProductBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        _binding = binding
+
+        setupAdapter()
+
+        addProductViewModel = ViewModelProvider(this).get(AddProductViewModel::class.java)
+        addProductViewModel.getPointsBalance()
+        addProductViewModel.listBackAccountObserver.observe(this) {
+            if (it.status_code == 200) {
+                if (it.accountsList != null) {
+                    if (AddProductObjectData.paymentOptionList != null) {
+                        AddProductObjectData.paymentOptionList?.let { paymentOptionList ->
+                            if (paymentOptionList.contains(AddProductObjectData.PAYMENT_OPTION_BANk) && AddProductObjectData.selectedAccountDetails != null) {
+                                addAllCardsAdaptor(it.accountsList)
+                            } else
+                                addAllCardsAdaptor(it.accountsList)
+                        }
+                    } else {
+                        addAllCardsAdaptor(it.accountsList)
+                    }
+                }
+            }
+        }
+        addProductViewModel.addBackAccountObserver.observe(this) {
+            if (it.status_code == 200) {
+                if (bottomSheetDialog != null) {
+                    bottomSheetDialog!!.dismiss()
+                }
+                addProductViewModel.getBankAccountsList(selectedPaymentType.value)
+            }
+        }
+        addProductViewModel.pointsBalance.observe(this) {
+            if (it.status_code == 200) {
+                val pointsBalance = it.pointsBalance?.pointsBalance ?: 0
+                val pointsCountToTransfer = it.pointsBalance?.pointsCountToTransfer ?: 0
+                val moneyOfPointsTransferred = it.pointsBalance?.moneyOfPointsTransferred ?: 0.0
+                val totalToPay = totalPrice
+
+                // Check to avoid division by zero
+                if (pointsCountToTransfer > 0 && moneyOfPointsTransferred > 0) {
+                    // How many points equal one pound
+                    val pointsPerMoney = pointsCountToTransfer.toDouble() / moneyOfPointsTransferred
+
+                    // The number of points required to pay the product price
+                    val pointsRequired = totalToPay * pointsPerMoney
+
+                    if (pointsBalance >= pointsRequired) {
+                        Log.d("test #1", "✅ You can pay with points!")
+
+                        // We calculate the value of the points available in the pound
+                        val moneyBalance =
+                            (pointsBalance.toDouble() / pointsCountToTransfer) * moneyOfPointsTransferred
+
+                        val productPriceSar =
+                            getString(R.string.product_price_sar, moneyBalance.toString())
+                        val myPointsBalance =
+                            getString(R.string.the_points_balance_equals, productPriceSar)
+
+                        binding.selectedMyPoints.textMyPointsBalance.text = myPointsBalance
+                        pointsNumber = pointsRequired
+                        binding.layoutMyPointsPayment.show()
+                    } else {
+                        Log.d(
+                            "test #1",
+                            "❌ Not enough points. You need $pointsRequired points, but you only have $pointsBalance."
+                        )
+                        binding.layoutMyPointsPayment.hide()
+                    }
+                } else {
+                    Log.e(
+                        "test #1",
+                        "❌ Invalid point conversion configuration (division by zero risk)"
+                    )
+                }
+
+            }
+        }
+
 
         // Initialize view binding for the product details layout
         myProductDetailsBinding = MyProductDetailsBinding.inflate(layoutInflater)
@@ -81,8 +181,6 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
         setViewClickListeners()
         setData()
         setUpViewModel()
-        // println("hhhh " + AddProductObjectData.selectedPakat?.id + " " + AddProductObjectData.selectedCategoryId)
-        //  getCartSummery()
         if (intent.getStringExtra("whereCome").equals("repost")) {
             addProductViewModel.getProductPaymentOptions(intent.getIntExtra("productID", 0))
             addProductViewModel.getProductShippingOptions(intent.getIntExtra("productID", 0))
@@ -342,7 +440,6 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
 
     @SuppressLint("SetTextI18n")
     private fun setUpViewModel() {
-        addProductViewModel = ViewModelProvider(this).get(AddProductViewModel::class.java)
         addProductViewModel.isLoading.observe(this) {
             if (it) HelpFunctions.startProgressBar(this)
             else HelpFunctions.dismissProgressBar()
@@ -397,7 +494,7 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
 
                     startActivity(intent)
                     finish()
-                } catch (e: java.lang.Exception) {
+                } catch (e: Exception) {
 
                 }
 
@@ -543,11 +640,11 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
         AddProductObjectData.selectedCategoryName = productDetails.category.toString()
         pakatId = productDetails.pakatId.toString()
 
-        AddProductObjectData.selectedCategory = productDetails.categoryDto
+        selectedCategory = productDetails.categoryDto
         /**productPublishFeee**/
         if (productDetails.categoryDto?.productPublishPrice?.toDouble() != 0.0) {
             binding.containerProductPublishPriceFee.show()
-            AddProductObjectData.selectedCategory?.productPublishPrice =
+            selectedCategory?.productPublishPrice =
                 productDetails.categoryDto?.productPublishPrice ?: 0f
             productPublishPriceFee = productDetails.categoryDto?.productPublishPrice ?: 0f
             binding.tvProductPublishPriceFee.text =
@@ -573,39 +670,39 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
         /**fixedPrice fee*/
         if (productDetails.isFixedPriceEnabled && productDetails.price != 0f) {
             binding.containerFixedPriceFee.show()
-            AddProductObjectData.selectedCategory?.enableFixedPriceSaleFee =
+            selectedCategory?.enableFixedPriceSaleFee =
                 productDetails.categoryDto?.enableFixedPriceSaleFee ?: 0f
-            fixedPriceFee = AddProductObjectData.selectedCategory?.enableFixedPriceSaleFee ?: 0f
+            fixedPriceFee = selectedCategory?.enableFixedPriceSaleFee ?: 0f
             binding.tvFixedPriceFee.text = "$fixedPriceFee ${getString(R.string.SAR)}"
         }
 
         /**AuctionFee fee*/
         if (productDetails.isAuctionEnabled && productDetails.auctionStartPrice != 0f) {
-            AddProductObjectData.selectedCategory?.enableAuctionFee =
+            selectedCategory?.enableAuctionFee =
                 productDetails.categoryDto?.enableAuctionFee ?: 0f
             binding.containerAuctionFee.show()
             AddProductObjectData.auctionStartPrice = productDetails.auctionStartPrice.toString()
             AddProductObjectData.auctionMinPrice = productDetails.auctionMinimumPrice.toString()
-            auctionEnableFee = AddProductObjectData.selectedCategory?.enableAuctionFee ?: 0f
+            auctionEnableFee = selectedCategory?.enableAuctionFee ?: 0f
             binding.tvAuctionFee.text =
                 "${productDetails.auctionStartPrice} ${getString(R.string.SAR)}"
         }
         /**negotiation fee*/
         if (productDetails.isNegotiationEnabled && productDetails.auctionNegotiatePrice != 0f) {
             AddProductObjectData.isNegotiablePrice = productDetails.isNegotiationEnabled
-            AddProductObjectData.selectedCategory?.enableNegotiationFee =
+            selectedCategory?.enableNegotiationFee =
                 productDetails.categoryDto?.enableNegotiationFee ?: 0f
             binding.containerNegotiationFee.show()
-            negotiationFee = AddProductObjectData.selectedCategory?.enableNegotiationFee ?: 0f
+            negotiationFee = selectedCategory?.enableNegotiationFee ?: 0f
             binding.tvNegotiationFee.text = "$negotiationFee ${getString(R.string.SAR)}"
         }
 
         /**subTitle fee*/
         if (productDetails.subTitle != "" && productDetails.categoryDto?.subTitleFee != 0f) {
-            AddProductObjectData.selectedCategory?.subTitleFee =
+            selectedCategory?.subTitleFee =
                 productDetails.categoryDto?.subTitleFee ?: 0f
             binding.containerSubTitleFee.show()
-            subTitleFee = AddProductObjectData.selectedCategory?.subTitleFee ?: 0f
+            subTitleFee = selectedCategory?.subTitleFee ?: 0f
             binding.tvSubTitleFee.text = "$subTitleFee ${getString(R.string.SAR)}"
         }
 
@@ -783,10 +880,10 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
         binding.containerVideoExtraFee.hide()
         binding.containerProductPublishPriceFee.hide()
 
-        if (AddProductObjectData.selectedCategory?.productPublishPrice?.toDouble() != 0.0) {
+        if (selectedCategory?.productPublishPrice?.toDouble() != 0.0) {
             binding.containerProductPublishPriceFee.show()
             productPublishPriceFee =
-                AddProductObjectData.selectedCategory?.productPublishPrice ?: 0f
+                selectedCategory?.productPublishPrice ?: 0f
             binding.tvProductPublishPriceFee.text =
                 "$productPublishPriceFee ${getString(R.string.SAR)}"
         } else {
@@ -805,27 +902,27 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
             binding.layPackage.hide()
         }
 
-        if (AddProductObjectData.priceFixedOption && AddProductObjectData.selectedCategory?.enableFixedPriceSaleFee != 0f) {
+        if (AddProductObjectData.priceFixedOption && selectedCategory?.enableFixedPriceSaleFee != 0f) {
             binding.containerFixedPriceFee.show()
-            fixedPriceFee = AddProductObjectData.selectedCategory?.enableFixedPriceSaleFee ?: 0f
+            fixedPriceFee = selectedCategory?.enableFixedPriceSaleFee ?: 0f
             binding.tvFixedPriceFee.text = "$fixedPriceFee ${getString(R.string.SAR)}"
         }
         /**AuctionFee fee*/
-        if (AddProductObjectData.auctionOption && AddProductObjectData.selectedCategory?.enableAuctionFee != 0f) {
+        if (AddProductObjectData.auctionOption && selectedCategory?.enableAuctionFee != 0f) {
             binding.containerAuctionFee.show()
-            auctionEnableFee = AddProductObjectData.selectedCategory?.enableAuctionFee ?: 0f
+            auctionEnableFee = selectedCategory?.enableAuctionFee ?: 0f
             binding.tvAuctionFee.text = "$auctionEnableFee ${getString(R.string.SAR)}"
         }
         /**negotiation fee*/
-        if (AddProductObjectData.isNegotiablePrice && AddProductObjectData.selectedCategory?.enableNegotiationFee != 0f) {
+        if (AddProductObjectData.isNegotiablePrice && selectedCategory?.enableNegotiationFee != 0f) {
             binding.containerNegotiationFee.show()
-            negotiationFee = AddProductObjectData.selectedCategory?.enableNegotiationFee ?: 0f
+            negotiationFee = selectedCategory?.enableNegotiationFee ?: 0f
             binding.tvNegotiationFee.text = "$negotiationFee ${getString(R.string.SAR)}"
         }
         /**subTitle fee*/
-        if ((AddProductObjectData.subtitleAr != "" || AddProductObjectData.subtitleEn != "") && AddProductObjectData.selectedCategory?.subTitleFee != 0f) {
+        if ((AddProductObjectData.subtitleAr != "" || AddProductObjectData.subtitleEn != "") && selectedCategory?.subTitleFee != 0f) {
             binding.containerSubTitleFee.show()
-            subTitleFee = AddProductObjectData.selectedCategory?.subTitleFee ?: 0f
+            subTitleFee = selectedCategory?.subTitleFee ?: 0f
             binding.tvSubTitleFee.text = "$subTitleFee ${getString(R.string.SAR)}"
 
             if (ConstantObjects.currentLanguage == ConstantObjects.ARABIC) {
@@ -864,38 +961,13 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
             }
         }
 
-        /**ExtreImageFee*/
-        AddProductObjectData.selectedCategory?.let { selectedCategory ->
-            var extraImages = 0
-            AddProductObjectData.images?.let {
-                if (it.size > selectedCategory.freeProductImagesCount) {
-                    extraImages = it.size - selectedCategory.freeProductImagesCount
-                }
-            }
-            if (extraImages > 0) {
-                extraImageFee = selectedCategory.extraProductImageFee * extraImages
-                if (extraImageFee != 0f) {
-                    binding.containerImageExtraFee.show()
-                    binding.tvImageExtraFee.text = "$extraImageFee ${getString(R.string.SAR)}"
-                }
-            }
-        }
-        /**ExtreVideoFee*/
-        AddProductObjectData.selectedCategory?.let { selectedCategory ->
-            var extraVideo = 0
-            AddProductObjectData.videoList?.let {
-                if (it.size > selectedCategory.freeProductVidoesCount) {
-                    extraVideo = it.size - selectedCategory.freeProductVidoesCount
-                }
-            }
-            if (extraVideo > 0) {
-                extraVideoFee = selectedCategory.extraProductVidoeFee * extraVideo
-                if (extraVideoFee != 0f) {
-                    binding.containerVideoExtraFee.show()
-                    binding.tvVideoExtraFee.text = "$extraVideoFee ${getString(R.string.SAR)}"
-                }
-            }
-        }
+        val countImagePackage = AddProductObjectData.selectedPakat?.countImage ?: 0
+        val countVideoPackage = AddProductObjectData.selectedPakat?.countVideo ?: 0
+
+        updateExtraPackageUI(
+            countImagePackage = countImagePackage,
+            countVideoPackage = countVideoPackage
+        )
 
         /**total*/
         totalPrice =
@@ -903,8 +975,37 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
         binding.tvTotal.text = "$totalPrice ${getString(R.string.SAR)}"
     }
 
+    private fun updateExtraPackageUI(countImagePackage: Int, countVideoPackage: Int) {
+        selectedCategory?.let { category ->
+            val imageCount = AddProductObjectData.images?.size ?: 0
+            val videoCount = AddProductObjectData.videoList?.size ?: 0
+
+            val currentImageCount = maxOf(imageCount - category.freeProductImagesCount, b = 0)
+            val currentVideoCount = maxOf(videoCount - category.freeProductVidoesCount, b = 0)
+
+            val extraImages = maxOf(currentImageCount - countImagePackage, b = 0)
+            val extraVideos = maxOf(currentVideoCount - countVideoPackage, b = 0)
+
+            if (extraImages > 0) {
+                extraImageFee = category.extraProductImageFee * extraImages
+                if (extraImageFee != 0f) {
+                    binding.containerImageExtraFee.show()
+                    binding.tvImageExtraFee.text = "$extraImageFee ${getString(R.string.SAR)}"
+                }
+            }
+
+            if (extraVideos > 0) {
+                extraVideoFee = category.extraProductVidoeFee * extraVideos
+                if (extraVideoFee != 0f) {
+                    binding.containerVideoExtraFee.show()
+                    binding.tvVideoExtraFee.text = "$extraVideoFee ${getString(R.string.SAR)}"
+                }
+            }
+        }
+    }
+
     private fun resetAddProductObject() {
-        AddProductObjectData.selectedCategory = null
+        selectedCategory = null
         AddProductObjectData.selectedCategoryId = 0
         AddProductObjectData.selectedCategoryName = ""
         AddProductObjectData.videoList = null
@@ -983,11 +1084,80 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
             })
             finish()
         }
+
+        // =========================================================================================
+        binding.switchVisaCreditCard.setOnCheckedChangeListener { _, b ->
+            if (b) {
+                allCardsBottomSheetDialog()
+                addProductViewModel.getBankAccountsList(paymentAccountType = PaymentAccountType.VisaMasterCard.value)
+                selectedPaymentType = PaymentAccountType.VisaMasterCard
+
+                // hide other
+                binding.switchMadaPayment.isChecked = false
+                binding.switchMyPointsPayment.isChecked = false
+            } else {
+                binding.selectedVisaCreditCard.linearLayoutSelectedPaymentOptions.visibility =
+                    View.GONE
+            }
+        }
+
+        binding.switchMadaPayment.setOnCheckedChangeListener { _, b ->
+            if (b) {
+                binding.layoutMadaPayment.background =
+                    ContextCompat.getDrawable(this, R.drawable.field_selection_border_enable)
+                binding.tvMadaPayment.setTextColor(ContextCompat.getColor(this, R.color.bg))
+                allCardsBottomSheetDialog()
+                addProductViewModel.getBankAccountsList(paymentAccountType = PaymentAccountType.Mada.value)
+                selectedPaymentType = PaymentAccountType.Mada
+
+                // hide other
+                binding.switchVisaCreditCard.isChecked = false
+                binding.switchMyPointsPayment.isChecked = false
+            } else {
+                binding.layoutMadaPayment.background =
+                    ContextCompat.getDrawable(this, R.drawable.edittext_bg)
+                binding.tvMadaPayment.setTextColor(ContextCompat.getColor(this, R.color.text_color))
+                binding.selectedMada.linearLayoutSelectedPaymentOptions.visibility = View.GONE
+            }
+        }
+
+        binding.switchMyPointsPayment.setOnCheckedChangeListener { _, b ->
+            if (b) {
+                binding.layoutMyPointsPayment.background =
+                    ContextCompat.getDrawable(this, R.drawable.field_selection_border_enable)
+                binding.tvMyPointsPayment.setTextColor(ContextCompat.getColor(this, R.color.bg))
+                binding.selectedMyPoints.linearLayoutSelectedPaymentOptions.visibility =
+                    View.VISIBLE
+                selectedPaymentType = PaymentAccountType.Points
+
+                // hide other
+                binding.switchVisaCreditCard.isChecked = false
+                binding.switchMadaPayment.isChecked = false
+            } else {
+                binding.layoutMyPointsPayment.background =
+                    ContextCompat.getDrawable(this, R.drawable.edittext_bg)
+                binding.tvMyPointsPayment.setTextColor(
+                    ContextCompat.getColor(this, R.color.text_color)
+                )
+                binding.selectedMyPoints.linearLayoutSelectedPaymentOptions.visibility = View.GONE
+            }
+        }
+
+        binding.selectedVisaCreditCard.btnChooseAnotherCard.setOnClickListener {
+            allCardsBottomSheetDialog()
+        }
+
+        binding.selectedMada.btnChooseAnotherCard.setOnClickListener {
+            allCardsBottomSheetDialog()
+        }
+        // =========================================================================================
+
+
         binding.btnConfirmDetails.setOnClickListener {
             if (ConstantObjects.isRepost || ConstantObjects.isModify)
-                confirmOrder(true)
+                confirmOrder(isEdit = true)
             else
-                confirmOrder(false)
+                confirmOrder(isEdit = false)
         }
         binding.btnCancel.setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
@@ -996,6 +1166,16 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
     }
 
     private fun confirmOrder(isEdit: Boolean) {
+
+        val isVisaEnabled = binding.switchVisaCreditCard.isChecked
+        val isMadaEnabled = binding.switchMadaPayment.isChecked
+        val isPointsEnabled = binding.switchMyPointsPayment.isChecked
+
+        if (!isVisaEnabled && !isMadaEnabled && !isPointsEnabled) {
+            showError(error = getString(R.string.please_activate_at_least_one_payment_method))
+            return
+        }
+
         val listImageFile: ArrayList<File> = ArrayList()
         var mainIndex = ""
 
@@ -1015,7 +1195,7 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
                 try {
                     val file = HelpFunctions.getFileImage(image.uri!!, this)
                     listImageFile.add(file)
-                } catch (e: java.lang.Exception) {
+                } catch (e: Exception) {
                     //
                 }
             }
@@ -1028,31 +1208,24 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
                         mainIndex = imageList.indexOf(image).toString()
                     }
                     try {
-                        // val file = File(image.uri.path)
                         val file = HelpFunctions.getFileImage(image.uri!!, this)
-
                         listImageFile.add(file)
-                    } catch (e: java.lang.Exception) {
-
+                    } catch (e: Exception) {
                     }
                 }
             }
         }
 
-        AddProductObjectData.selectedPakat?.let {
-            pakatId = it.id.toString()
-        }
+        AddProductObjectData.selectedPakat?.let { pakatId = it.id.toString() }
         val shippingOption: ArrayList<String> = ArrayList()
-        AddProductObjectData.shippingOptionSelection?.let {
-            shippingOption.add(it[0].id.toString())
-        }
+        AddProductObjectData.shippingOptionSelection?.let { shippingOption.add(it[0].id.toString()) }
 
         val bankList = AddProductObjectData.selectedAccountDetails?.map { it.id }
 
         addProductViewModel.getAddProduct3(
             isEdit,
-            productDetails?.id ?: 0,
-            this,
+            productId = productDetails?.id ?: 0,
+            context = this,
             nameAr = AddProductObjectData.itemTitleAr,
             nameEn = AddProductObjectData.itemTitleEn,
             subTitleAr = AddProductObjectData.subtitleAr,
@@ -1097,10 +1270,369 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
             ProductPaymentDetailsDto_CouponDiscountValue = couponDiscountValue,
             ProductPaymentDetailsDto_TotalAmountAfterCoupon = totalAfterDiscount,
             ProductPaymentDetailsDto_TotalAmountBeforeCoupon = totalPrice,
-
-            )
+            accountDetails = accountDetails?.copy(paymentAccountType = selectedPaymentType),
+            totalAmount = totalPrice,
+            pointsNumber = pointsNumber
+        )
     }
 
+    private lateinit var allCardsLayoutBinding: AllCardsLayoutBinding
+    private lateinit var allCardsBottomSheetDialog: BottomSheetDialog
+
+    private fun allCardsBottomSheetDialog() {
+        allCardsLayoutBinding = AllCardsLayoutBinding.inflate(layoutInflater)
+        allCardsBottomSheetDialog = BottomSheetDialog(this)
+        allCardsBottomSheetDialog.setContentView(allCardsLayoutBinding.root)
+
+        allCardsLayoutBinding.recyclerViewAllCards.apply {
+            layoutManager = LinearLayoutManager(this@ConfirmationAddProductActivity)
+            adapter = adapterList
+        }
+
+        // Flag to check if Done was clicked
+        var isDoneButtonClicked = false
+
+        allCardsLayoutBinding.apply {
+            buttonAddNew.setOnClickListener { addCardBottomSheetDialog() }
+
+            buttonDone.setOnClickListener {
+                val cvv = accountDetails?.cvv
+
+                if (cvv.toString().length != 3) {
+                    HelpFunctions.ShowLongToast(
+                        getString(R.string.please_enter_cvv),
+                        context = this@ConfirmationAddProductActivity
+                    )
+                    return@setOnClickListener
+                }
+
+                isDoneButtonClicked = true // Mark as completed
+                allCardsBottomSheetDialog.dismiss()
+
+                when (selectedPaymentType) {
+                    PaymentAccountType.VisaMasterCard -> {
+                        _binding.selectedVisaCreditCard.linearLayoutSelectedPaymentOptions.visibility =
+                            View.VISIBLE
+
+                        _binding.selectedVisaCreditCard.apply {
+                            textCardHoldersName.text = accountDetails?.bankHolderName
+                            textCardNumber.text = accountDetails?.accountNumber.formatAsCardNumber()
+                            textExpiryDate.text = accountDetails?.expiaryDate
+                        }
+                    }
+
+                    PaymentAccountType.Mada -> {
+                        _binding.selectedMada.linearLayoutSelectedPaymentOptions.visibility =
+                            View.VISIBLE
+
+                        _binding.selectedMada.apply {
+                            textCardHoldersName.text = accountDetails?.bankHolderName
+                            textCardNumber.text = accountDetails?.accountNumber.formatAsCardNumber()
+                            textExpiryDate.text = accountDetails?.expiaryDate
+                        }
+                    }
+                }
+            }
+        }
+
+        addProductViewModel.isLoadingBackAccountList.observe(this) {
+            if (it) {
+                allCardsLayoutBinding.progressBarAllCards.show()
+            } else {
+                allCardsLayoutBinding.progressBarAllCards.hide()
+            }
+        }
+
+        // Set background to transparent
+        allCardsBottomSheetDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        // 🔥 Set a dismiss listener to run command if nothing was selected
+        allCardsBottomSheetDialog.setOnDismissListener {
+            if (!isDoneButtonClicked && (accountDetails?.cvv ?: 0) == 0) {
+                handleBottomSheetDismissedWithoutAction()
+            }
+        }
+
+        // Show the dialog
+        allCardsBottomSheetDialog.show()
+    }
+
+    // Your custom logic here
+    private fun handleBottomSheetDismissedWithoutAction() {
+        // Do whatever you need — show a toast, log, open another dialog, etc.
+        val isVisaEnabled = binding.switchVisaCreditCard.isChecked
+        val isMadaEnabled = binding.switchMadaPayment.isChecked
+        when (selectedPaymentType) {
+            PaymentAccountType.VisaMasterCard -> if (isVisaEnabled) binding.switchVisaCreditCard.isChecked =
+                false
+
+            PaymentAccountType.Mada -> if (isMadaEnabled) binding.switchMadaPayment.isChecked =
+                false
+
+            else -> {}
+        }
+    }
+
+    private lateinit var addCardBinding: AddCardBinding
+    private lateinit var addCardBottomSheetDialog: BottomSheetDialog
+
+    private fun addCardBottomSheetDialog() {
+        // Inflate the layout using ViewBinding
+        addCardBinding = AddCardBinding.inflate(layoutInflater)
+
+        // Initialize the BottomSheetDialog and set the view using binding.root
+        addCardBottomSheetDialog = BottomSheetDialog(this)
+        addCardBottomSheetDialog.setContentView(addCardBinding.root)
+
+        addCardBinding.cardExpiryTv.addTextChangedListener(object : TextWatcher {
+            private var current = ""
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+            override fun afterTextChanged(s: Editable?) {
+                if (s == null) return
+
+                val input = s.toString().replace("/", "")
+                if (input == current || input.length > 6) return
+
+                val formatted = buildString {
+                    for (i in input.indices) {
+                        append(input[i])
+                        if (i == 1 && input.length > 2) append("/")
+                    }
+                }
+
+                current = input
+                addCardBinding.cardExpiryTv.removeTextChangedListener(this)
+                addCardBinding.cardExpiryTv.setText(formatted)
+                addCardBinding.cardExpiryTv.setSelection(formatted.length)
+                addCardBinding.cardExpiryTv.addTextChangedListener(this)
+            }
+        })
+
+
+        // Handle button click event using ViewBinding
+        addCardBinding.buttonAdd.setOnClickListener {
+            val isSaveLater = addCardBinding.switchSaveLater.isChecked
+
+            // Check and add bank account
+            checkAddCard(
+                bottomSheetDialog = addCardBottomSheetDialog,
+                binding = addCardBinding,
+                isSaveLater = isSaveLater
+            )
+
+        }
+
+        addCardBinding.buttonCancel.setOnClickListener {
+            addCardBottomSheetDialog.dismiss()
+        }
+
+        // Set background to transparent
+        addCardBottomSheetDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        // Show the dialog
+        addCardBottomSheetDialog.show()
+    }
+
+    private fun checkAddCard(
+        bottomSheetDialog: BottomSheetDialog,
+        binding: AddCardBinding,
+        isSaveLater: Boolean
+    ) {
+        var readyToAdd = true
+
+        val holderName = binding.cardHolderTv.text.toString().trim()
+        val cardNumber = binding.CardnoTv.text.toString().trim()
+        val expiryText = binding.cardExpiryTv.text.toString().trim()
+        val cvv = binding.cvvTv.text.toString().trim()
+
+        if (holderName.isEmpty()) {
+            readyToAdd = false
+            binding.cardHolderTv.error =
+                "${getString(R.string.enter)} ${getString(R.string.account_holder_s_name)}"
+        }
+
+        if (cardNumber.isEmpty()) {
+            readyToAdd = false
+            binding.CardnoTv.error =
+                "${getString(R.string.enter)} ${getString(R.string.Cardno)}"
+        } else if (cardNumber.filter { it.isDigit() }.length < 16) {
+            readyToAdd = false
+            binding.CardnoTv.error = getString(R.string.card_number_must_be_16_digits)
+        }
+
+        if (expiryText.isEmpty()) {
+            readyToAdd = false
+            binding.cardExpiryTv.error =
+                "${getString(R.string.enter)} ${getString(R.string.ExpiryDate)}"
+        } else {
+            // Validate format: MM/YYYY
+            val regex = Regex("""^(0[1-9]|1[0-2])/(\d{4})$""")
+            if (!regex.matches(expiryText)) {
+                readyToAdd = false
+                binding.cardExpiryTv.error =
+                    getString(R.string.invalid_date_format) // add this string resource
+            } else {
+                // Check if expiry date is in the future
+                val (monthStr, yearStr) = expiryText.split("/")
+                val enteredMonth = monthStr.toInt()
+                val enteredYear = yearStr.toInt()
+
+                val current = Calendar.getInstance()
+                val currentYear = current.get(Calendar.YEAR)
+                val currentMonth = current.get(Calendar.MONTH) + 1 // Calendar.MONTH is 0-based
+
+                if (enteredYear < currentYear || (enteredYear == currentYear && enteredMonth < currentMonth)) {
+                    readyToAdd = false
+                    binding.cardExpiryTv.error =
+                        getString(R.string.expiry_date_passed) // add this string resource
+                }
+            }
+        }
+
+        if (cvv.isEmpty()) {
+            readyToAdd = false
+            binding.cvvTv.error =
+                "${getString(R.string.enter)} ${getString(R.string.cvv)}"
+        }
+
+        if (readyToAdd) {
+            if (isSaveLater) {
+                addProductViewModel.addBackAccountData(
+                    bankHolderName = holderName,
+                    accountNumber = cardNumber,
+                    expiryDate = expiryText,
+                    saveForLaterUse = true,
+                    paymentAccountType = selectedPaymentType.value.toString()
+                )
+            }
+
+            accountDetails = AccountDetails(
+                id = 1,
+                bankAccountId = 1,
+                isSelected = true,
+                bankHolderName = holderName,
+                accountNumber = cardNumber,
+                expiaryDate = expiryText,
+                cvv = cvv.toInt(),
+                paymentAccountType = selectedPaymentType
+            )
+
+            allCardsLayoutBinding.apply {
+                when (selectedPaymentType) {
+                    PaymentAccountType.VisaMasterCard -> {
+                        _binding.selectedVisaCreditCard.linearLayoutSelectedPaymentOptions.visibility =
+                            View.VISIBLE
+
+                        _binding.selectedVisaCreditCard.apply {
+                            textCardHoldersName.text = accountDetails!!.bankHolderName
+                            textCardNumber.text = accountDetails!!.accountNumber.formatAsCardNumber()
+                            textExpiryDate.text = accountDetails!!.expiaryDate
+                        }
+                    }
+
+                    PaymentAccountType.Mada -> {
+                        _binding.selectedMada.linearLayoutSelectedPaymentOptions.visibility =
+                            View.VISIBLE
+ 
+                        _binding.selectedMada.apply {
+                            textCardHoldersName.text = accountDetails!!.bankHolderName
+                            textCardNumber.text = accountDetails!!.accountNumber.formatAsCardNumber()
+                            textExpiryDate.text = accountDetails!!.expiaryDate
+                        }
+                    }
+                }
+
+            }
+
+            bottomSheetDialog.dismiss()
+            allCardsBottomSheetDialog.dismiss()
+        }
+    }
+
+    private var selectedAccountDetails: ArrayList<AccountDetails> = ArrayList()
+    private var accountDetails: AccountDetails? = null
+
+    private lateinit var adapterList: GenericListAdapter<AccountDetails>
+
+    private fun setupAdapter() {
+        adapterList = object : GenericListAdapter<AccountDetails>(
+            R.layout.item_card,
+            bind = { element, holder, itemCount, position ->
+                val itemBinding = ItemCardBinding.bind(holder.itemView)
+
+                holder.view.run {
+                    element.run {
+                        itemBinding.textCardHoldersName.text = bankHolderName
+                        itemBinding.textCardNumber.text = accountNumber.formatAsCardNumber()
+                        itemBinding.textExpiryDate.text = expiaryDate
+                        itemBinding.radioButtonCard.isSelected = isSelected
+                        itemBinding.radioButtonCard.isChecked = isSelected
+
+                        itemBinding.editTextCvv.setText(
+                            if (cvv != 0) cvv.toString() else ""
+                        )
+                    }
+
+                    itemBinding.editTextCvv.addTextChangedListener(object : TextWatcher {
+                        override fun afterTextChanged(s: Editable?) {
+                            val newCvv = s?.toString()?.toIntOrNull()
+                            if (newCvv != null && newCvv.toString().length <= 3) {
+                                element.cvv = newCvv
+                            }
+                        }
+
+                        override fun beforeTextChanged(
+                            s: CharSequence?,
+                            start: Int,
+                            count: Int,
+                            after: Int
+                        ) {
+                        }
+
+                        override fun onTextChanged(
+                            s: CharSequence?,
+                            start: Int,
+                            before: Int,
+                            count: Int
+                        ) {
+                        }
+                    })
+
+                    itemBinding.radioButtonCard.setOnClickListener {
+                        val enteredCvv = itemBinding.editTextCvv.text.toString().toIntOrNull()
+                        if (enteredCvv != null) {
+                            element.cvv = enteredCvv
+                        }
+
+                        val previousSelectedPosition =
+                            selectedAccountDetails.indexOfFirst { it.isSelected }
+                        selectedAccountDetails.forEach { it.isSelected = false }
+                        element.isSelected = true
+                        accountDetails = element
+
+                        if (previousSelectedPosition != -1) {
+                            adapterList.notifyItemChanged(previousSelectedPosition)
+                        }
+                        adapterList.notifyItemChanged(position)
+                    }
+                }
+            }
+        ) {
+            override fun getFilter(): Filter {
+                TODO("Not yet implemented")
+            }
+        }
+    }
+
+    @SuppressLint("ResourceType")
+    private fun addAllCardsAdaptor(list: ArrayList<AccountDetails>) {
+        selectedAccountDetails = list
+        adapterList.updateAdapter(list)
+    }
 
     override fun onDestroy() {
         super.onDestroy()

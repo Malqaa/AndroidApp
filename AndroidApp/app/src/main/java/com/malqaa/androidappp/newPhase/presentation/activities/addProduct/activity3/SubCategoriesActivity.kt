@@ -17,6 +17,7 @@ import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.show
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class SubCategoriesActivity : BaseActivity<FragmentSubCategoriesBinding>(),
     AdapterSubCategories.OnItemClickListener {
@@ -34,7 +35,7 @@ class SubCategoriesActivity : BaseActivity<FragmentSubCategoriesBinding>(),
         binding = FragmentSubCategoriesBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.toolbar.toolbarTitle.text = getString(R.string.subsection)
+        binding.toolbar.toolbarTitle.text = getString(R.string.choose_subcategory)
         binding.toolbar.backBtn.setOnClickListener {
             finish()
         }
@@ -96,21 +97,21 @@ class SubCategoriesActivity : BaseActivity<FragmentSubCategoriesBinding>(),
                     if (!categoryListObserver.categoryList.isNullOrEmpty()) {
                         for (i in categoryListObserver.categoryList) {
                             allCategoryList?.add(i)
-
                         }
                     } else {
                         lastCategoryId = 0
                     }
-                    if (lastCategoryId != 0)
-                        subCategoryAdapter.updateAdapter(allCategoryList ?: arrayListOf())
-                    else {
-                        if (allCategoryList?.isEmpty() == true) {
-                            goNextScreen()
-                            finish()
+
+                    withContext(Dispatchers.Main) {
+                        if (lastCategoryId != 0) {
+                            subCategoryAdapter.updateAdapter(allCategoryList ?: arrayListOf())
+                        } else {
+                            if (allCategoryList?.isEmpty() == true) {
+                                goNextScreen()
+                                finish()
+                            }
                         }
                     }
-
-
                 }
             } else {
             }

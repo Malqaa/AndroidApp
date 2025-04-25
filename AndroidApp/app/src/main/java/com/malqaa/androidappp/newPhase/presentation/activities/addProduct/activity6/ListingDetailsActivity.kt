@@ -8,7 +8,8 @@ import com.malqaa.androidappp.R
 import com.malqaa.androidappp.databinding.ActivityListDetailsAddProductBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
 import com.malqaa.androidappp.newPhase.domain.models.addProductToCartResp.AddProductObjectData
-import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.ConfirmationAddProductActivity
+import com.malqaa.androidappp.newPhase.domain.models.addProductToCartResp.AddProductObjectData.Companion.selectedCategory
+import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.confirmationAddProduct.ConfirmationAddProductActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.viewmodel.AddProductViewModel
 import com.malqaa.androidappp.newPhase.presentation.dialogsShared.countryDialog.CountryDialog
 import com.malqaa.androidappp.newPhase.presentation.dialogsShared.neighborhoodDialog.NeighborhoodDialog
@@ -45,13 +46,21 @@ class ListingDetailsActivity : BaseActivity<ActivityListDetailsAddProductBinding
         binding = ActivityListDetailsAddProductBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.toolbarMain.toolbarTitle.text = getString(R.string.item_details)
+        binding.toolbarMain.toolbarTitle.text = getString(R.string.ad_details)
         isEdit = intent.getBooleanExtra(ConstantObjects.isEditKey, false)
         setUpViewModel()
         setViewClickListeners()
         if (isEdit) {
             setData()
         }
+
+        val subTitleFee =
+            getString(R.string.product_price_sar, selectedCategory?.subTitleFee ?: 0)
+        binding.testSubTitleFee.visibility = if((selectedCategory?.subTitleFee ?: 0f) > 0f) View.VISIBLE else View.GONE
+        binding.testSubTitleFee.text =getString(
+            R.string.please_note_that_adding_an_arabic_subtitle_to_your_product_ad_will_cost_you,
+            subTitleFee
+        )
     }
 
     private fun setUpViewModel() {
@@ -273,7 +282,10 @@ class ListingDetailsActivity : BaseActivity<ActivityListDetailsAddProductBinding
             showError(getString(R.string.Please_select, getString(R.string.selectRegionTitle)))
         } else if (binding.neighborhoodContainer.text.toString().isEmpty()) {
             showError(getString(R.string.Please_select, getString(R.string.district)))
-        } else if (binding.switchInfoEn.isChecked) {
+        } else if (binding.tvDescriptionAr.text.toString().isEmpty()) {
+            showError(getString(R.string.Please_enter, getString(R.string.item_details)))
+        }
+        else if (binding.switchInfoEn.isChecked) {
             if (binding.tvTitleEn.getText().isEmpty()) {
                 showError(getString(R.string.Please_enter, getString(R.string.item_title)))
             } else {

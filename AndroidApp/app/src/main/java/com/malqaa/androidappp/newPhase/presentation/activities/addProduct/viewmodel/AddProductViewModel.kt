@@ -8,18 +8,23 @@ import com.malqaa.androidappp.newPhase.core.BaseViewModel
 import com.malqaa.androidappp.newPhase.data.network.callApi
 import com.malqaa.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malqaa.androidappp.newPhase.domain.models.accountBackListResp.AccountBankListResp
+import com.malqaa.androidappp.newPhase.domain.models.accountBackListResp.AccountDetails
+import com.malqaa.androidappp.newPhase.domain.models.accountBackListResp.BankAccountRequest
 import com.malqaa.androidappp.newPhase.domain.models.addProductToCartResp.AddProductObjectData
 import com.malqaa.androidappp.newPhase.domain.models.cartPriceSummery.CartPriceSummeryResp
 import com.malqaa.androidappp.newPhase.domain.models.discopuntResp.DiscountCouponResp
 import com.malqaa.androidappp.newPhase.domain.models.dynamicSpecification.DynamicSpecificationResp
 import com.malqaa.androidappp.newPhase.domain.models.dynamicSpecification.DynamicSpecificationSentObject
 import com.malqaa.androidappp.newPhase.domain.models.pakatResp.PakatResp
+import com.malqaa.androidappp.newPhase.domain.models.pointsBalance.GetPointsBalanceResponse
 import com.malqaa.androidappp.newPhase.domain.models.productResp.ProductResp
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.AddProductResponse
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
 import com.malqaa.androidappp.newPhase.domain.models.shippingOptionsResp.ShippingOptionResp
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.Extension.requestBody
+import com.malqaa.androidappp.newPhase.utils.getMonth
+import com.malqaa.androidappp.newPhase.utils.getYear
 import com.malqaa.androidappp.newPhase.utils.helper.ConstantsHelper
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -42,6 +47,7 @@ class AddProductViewModel : BaseViewModel() {
     var getPakatRespObserver: MutableLiveData<PakatResp> = MutableLiveData()
     var confirmAddPorductRespObserver: MutableLiveData<AddProductResponse> = MutableLiveData()
     var addBackAccountObserver: MutableLiveData<GeneralResponse> = MutableLiveData()
+    var pointsBalance: MutableLiveData<GetPointsBalanceResponse> = MutableLiveData()
     var listBackAccountObserver: MutableLiveData<AccountBankListResp> = MutableLiveData()
     var isLoadingBackAccountList: MutableLiveData<Boolean> = MutableLiveData()
     var cartPriceSummeryObserver: MutableLiveData<CartPriceSummeryResp> = MutableLiveData()
@@ -81,7 +87,8 @@ class AddProductViewModel : BaseViewModel() {
 
     fun getProductShippingOptions(productId: Int) {
         callSellerListProductOp = getRetrofitBuilder().getProductShippingOptions(productId)
-        callApi(callSellerListProductOp!!,
+        callApi(
+            callSellerListProductOp!!,
             onSuccess = {
                 shippingOptionObserver.value = it
             },
@@ -95,7 +102,8 @@ class AddProductViewModel : BaseViewModel() {
 
     fun getProductBankAccounts(productId: Int) {
         callProductBankAccounts = getRetrofitBuilder().getProductBankAccounts(productId)
-        callApi(callProductBankAccounts!!,
+        callApi(
+            callProductBankAccounts!!,
             onSuccess = {
                 bankOptionObserver.value = it
             },
@@ -109,7 +117,8 @@ class AddProductViewModel : BaseViewModel() {
 
     fun getProductPaymentOptions(productId: Int) {
         callProductPaymentOp = getRetrofitBuilder().getProductPaymentOptions(productId)
-        callApi(callProductPaymentOp!!,
+        callApi(
+            callProductPaymentOp!!,
             onSuccess = {
                 paymentOptionObserver.value = it
             },
@@ -126,7 +135,8 @@ class AddProductViewModel : BaseViewModel() {
     fun getProductDetailsById(productId: Int) {
         isLoading.value = true
         callProductDetailsById = getRetrofitBuilder().getProductDetailById2(productId)
-        callApi(callProductDetailsById!!,
+        callApi(
+            callProductDetailsById!!,
             onSuccess = {
                 isLoading.value = false
                 productDetailsObservable.value = it
@@ -226,24 +236,28 @@ class AddProductViewModel : BaseViewModel() {
 
     fun addBackAccountData(
         accountNumber: String,
-        bankName: String,
+        bankName: String? = null,
         bankHolderName: String,
-        ibanNumber: String,
-        swiftCode: String,
-        expiaryDate: String,
-        SaveForLaterUse: String
+        ibanNumber: String? = null,
+        swiftCode: String? = null,
+        expiryDate: String,
+        saveForLaterUse: Boolean,
+        paymentAccountType: String? = null
     ) {
         isLoading.value = true
-        getRetrofitBuilder()
-            .addBankAccount(
-                accountNumber.requestBody(),
-                bankName.requestBody(),
-                bankHolderName.requestBody(),
-                ibanNumber.requestBody(),
-                swiftCode.requestBody(),
-                expiaryDate.requestBody(),
-                SaveForLaterUse.requestBody()
-            )
+
+        val bankAccountRequest = BankAccountRequest(
+            accountNumber = accountNumber,
+            bankName = bankName,
+            bankHolderName = bankHolderName,
+            ibanNumber = ibanNumber,
+            swiftCode = swiftCode,
+            expiryDate = expiryDate,
+            saveForLaterUse = saveForLaterUse,
+            paymentAccountType = paymentAccountType
+        )
+
+        getRetrofitBuilder().addBankAccount(bankAccountRequest = bankAccountRequest)
             .enqueue(object : Callback<GeneralResponse> {
                 override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
                     isNetworkFail.value = t !is HttpException
@@ -265,10 +279,36 @@ class AddProductViewModel : BaseViewModel() {
             })
     }
 
-    fun getBankAccountsList() {
+    fun getPointsBalance() {
+        isLoading.value = true
+        getRetrofitBuilder().getPointsBalance()
+            .enqueue(object : Callback<GetPointsBalanceResponse> {
+                override fun onFailure(call: Call<GetPointsBalanceResponse>, t: Throwable) {
+                    isNetworkFail.value = t !is HttpException
+                    isLoading.value = false
+                }
+
+                override fun onResponse(
+                    call: Call<GetPointsBalanceResponse>,
+                    response: Response<GetPointsBalanceResponse>
+                ) {
+                    isLoading.value = false
+                    if (response.isSuccessful) {
+                        pointsBalance.value = response.body()
+                    } else {
+                        errorResponseObserver.value =
+                            getErrorResponse(response.code(), response.errorBody())
+                    }
+                }
+            })
+    }
+
+    fun getBankAccountsList(
+        paymentAccountType: Int? = null
+    ) {
         isLoadingBackAccountList.value = true
         getRetrofitBuilder()
-            .getAllBacksAccount()
+            .getAllBanksAccount(paymentAccountType = paymentAccountType)
             .enqueue(object : Callback<AccountBankListResp> {
                 override fun onFailure(call: Call<AccountBankListResp>, t: Throwable) {
                     isNetworkFail.value = t !is HttpException
@@ -340,6 +380,9 @@ class AddProductViewModel : BaseViewModel() {
         ProductPaymentDetailsDto_CouponDiscountValue: Float,
         ProductPaymentDetailsDto_TotalAmountAfterCoupon: Float,
         ProductPaymentDetailsDto_TotalAmountBeforeCoupon: Float,
+        accountDetails: AccountDetails? = null,
+        totalAmount: Float,
+        pointsNumber: Double? = null
     ) {
         isLoading.value = true
         var validTime: String? = null
@@ -535,8 +578,63 @@ class AddProductViewModel : BaseViewModel() {
             map["AuctionClosingTime"] =
                 (validTime).toRequestBody("multipart/form-data".toMediaTypeOrNull())
         }
-        map["ProductPaymentDetailsDto.PaymentType"] =
-            "Cash".toRequestBody("multipart/form-data".toMediaTypeOrNull())
+
+        val paymentType = accountDetails?.paymentAccountType?.paymentType
+        if (!paymentType.isNullOrEmpty()) {
+            map["ProductPaymentDetailsDto.PaymentType"] =
+                "Cash".toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        }
+
+        // =========================================================================================
+        // execute payment
+        // =========================================================================================
+        // account number
+        val accountNumber = accountDetails?.accountNumber
+        if (!accountNumber.isNullOrEmpty()) {
+            map["ExecutePaymentDto.PaymentCard.Number"] =
+                accountNumber.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        }
+        // expiry month
+        val expiryMonth = accountDetails?.expiaryDate?.getMonth()
+        if (!expiryMonth.isNullOrEmpty()) {
+            map["ExecutePaymentDto.PaymentCard.ExpiryMonth"] =
+                expiryMonth.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        }
+        // expiry year
+        val expiryYear = accountDetails?.expiaryDate?.getYear()
+        if (!expiryYear.isNullOrEmpty()) {
+            map["ExecutePaymentDto.PaymentCard.ExpiryYear"] =
+                expiryYear.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        }
+        // security code
+        val securityCode = accountDetails?.cvv.toString()
+        if (securityCode.isNotEmpty()) {
+            map["ExecutePaymentDto.PaymentCard.SecurityCode"] =
+                securityCode.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        }
+        // holder name
+        val holderName = accountDetails?.bankHolderName
+        if (!holderName.isNullOrEmpty()) {
+            map["ExecutePaymentDto.PaymentCard.HolderName"] =
+                holderName.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        }
+        // payment method id
+        val paymentMethodId = accountDetails?.paymentAccountType?.value.toString()
+        if (paymentMethodId.isNotEmpty()) {
+            map["ExecutePaymentDto.PaymentMethodId"] =
+                paymentMethodId.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        }
+        // holder name
+        if (totalAmount > 0) {
+            map["ExecutePaymentDto.TotalAmount"] =
+                totalAmount.toString().toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        }
+        // points number
+        if (pointsNumber != null) {
+            map["ExecutePaymentDto.PointsNumber"] =
+                pointsNumber.toString().toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        }
+        // =========================================================================================
 
         if (isEdit) {
             map["id"] = AddProductObjectData.productId.toString()
@@ -571,7 +669,8 @@ class AddProductViewModel : BaseViewModel() {
                     sendBankList
                 )
         }
-        callApi(callProduct!!,
+        callApi(
+            callProduct!!,
             onSuccess = {
                 ConstantObjects.isRepost = false
                 ConstantObjects.isModify = false

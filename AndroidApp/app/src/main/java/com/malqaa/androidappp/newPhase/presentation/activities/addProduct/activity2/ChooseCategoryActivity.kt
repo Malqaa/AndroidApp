@@ -12,7 +12,7 @@ import com.malqaa.androidappp.databinding.ActivityChooseCategoryBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
 import com.malqaa.androidappp.newPhase.domain.models.addProductToCartResp.AddProductObjectData
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.Category
-import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.ConfirmationAddProductActivity
+import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.confirmationAddProduct.ConfirmationAddProductActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activity3.SubCategoriesActivity
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
@@ -33,7 +33,7 @@ class ChooseCategoryActivity : BaseActivity<ActivityChooseCategoryBinding>() {
         isEdit = intent.getBooleanExtra(ConstantObjects.isEditKey, false)
 
         setupLoginViewModel()
-        binding.toolBar.toolbarTitle.text = getString(R.string.choose_department)
+        binding.toolBar.toolbarTitle.text = getString(R.string.choose_main_category)
 
 
         binding.toolBar.backBtn.setOnClickListener {
