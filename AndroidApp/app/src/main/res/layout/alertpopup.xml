@@ -16,13 +16,22 @@
 
 
         <TextView
+            android:id="@+id/Lbl_ALertTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/madani_arabic_semi_bold"
             android:text="@string/alert"
-            android:id="@+id/Lbl_ALertTitle"
             android:textColor="#293241"
             android:textSize="@dimen/_14sdp" />
+
+        <ImageView
+            android:id="@+id/imageFailedMessage"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:visibility="gone"
+            app:srcCompat="@drawable/failed_message" />
 
         <TextView
             android:id="@+id/Lbl_AlertMessage"
@@ -37,30 +46,30 @@
 
 
         <TextView
+            android:id="@+id/btn_alertclose"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
             android:fontFamily="@font/madani_arabic_light"
             android:text="@string/dismiss"
-            android:textColor="@color/black"
-            android:layout_marginTop="@dimen/_10sdp"
-
-            android:id="@+id/btn_alertclose"
+            android:textColor="@color/colorPrimary"
             android:textSize="@dimen/_14sdp" />
+
         <androidx.appcompat.widget.AppCompatButton
             android:layout_width="match_parent"
             android:layout_height="@dimen/_30sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:visibility="gone"
-            android:background="@drawable/round_btn"
+            android:layout_marginStart="@dimen/_30sdp"
             android:layout_marginLeft="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_30sdp"
             android:layout_marginRight="@dimen/_30sdp"
+            android:background="@drawable/round_btn"
             android:fontFamily="@font/madani_arabic_semi_bold"
             android:text="@string/dismiss"
             android:textAllCaps="false"
             android:textColor="#ffffff"
             android:textSize="@dimen/_14sdp"
-            android:layout_marginStart="@dimen/_30sdp"
-            android:layout_marginEnd="@dimen/_30sdp" />
+            android:visibility="gone" />
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

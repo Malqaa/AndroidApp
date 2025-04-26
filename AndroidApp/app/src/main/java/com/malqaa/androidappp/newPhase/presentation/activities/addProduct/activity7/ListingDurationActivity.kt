@@ -3,6 +3,7 @@ package com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activ
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Filter
 import androidx.core.content.ContextCompat
@@ -34,7 +35,6 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
-
 
 class ListingDurationActivity : BaseActivity<ActivityListingDurationBinding>(),
     ShippingAdapter.SetOnSelectedShipping {
@@ -75,7 +75,7 @@ class ListingDurationActivity : BaseActivity<ActivityListingDurationBinding>(),
         val currentDay = c.get(Calendar.DAY_OF_MONTH)
 
         try {
-            AddProductObjectData.selectedCategory?.let {
+            selectedCategory?.let {
                 val characterList = convertStringToIntArray(it.auctionClosingPeriods!!)
                 if (characterList != null) {
                     for (c in characterList) {
@@ -153,7 +153,7 @@ class ListingDurationActivity : BaseActivity<ActivityListingDurationBinding>(),
     }
 
 
-    private fun convertStringToIntArray(str: String): IntArray? {
+    private fun convertStringToIntArray(str: String): IntArray {
         // Split the string by comma
         val stringArray = str.split(",".toRegex()).dropLastWhile { it.isEmpty() }
             .toTypedArray()
@@ -280,47 +280,45 @@ class ListingDurationActivity : BaseActivity<ActivityListingDurationBinding>(),
     }
 
     private fun setPickUpMust() {
-
-        /**pickUpNo*/
+        /** pickUpNo */
         binding.switchNoPickUp.setBackgroundResource(R.drawable.edittext_bg)
         binding.tvNoPickUp.setTextColor(ContextCompat.getColor(this, R.color.text_color))
         binding.rbNoPickup.isChecked = false
-        /**pickUpAvailable*/
+        /** pickUpAvailable */
         binding.switchAvailablePickUp.setBackgroundResource(R.drawable.edittext_bg)
         binding.tvAvailablePickUp.setTextColor(ContextCompat.getColor(this, R.color.text_color))
         binding.rbAvailablePickup.isChecked = false
-        /**pickUpMust*/
+        /** pickUpMust */
         binding.switchMustPickUp.setBackgroundResource(R.drawable.field_selection_border_enable)
         binding.tvMustPickUp.setTextColor(ContextCompat.getColor(this, R.color.bg))
         binding.rbMustPickup.isChecked = true
     }
 
     private fun setPickUpNo() {
-        /**pickUpMust*/
+        /** pickUpMust */
         binding.switchMustPickUp.setBackgroundResource(R.drawable.edittext_bg)
         binding.tvMustPickUp.setTextColor(ContextCompat.getColor(this, R.color.text_color))
         binding.rbMustPickup.isChecked = false
-
-        /**pickUpAvailable*/
+        /** pickUpAvailable */
         binding.switchAvailablePickUp.setBackgroundResource(R.drawable.edittext_bg)
         binding.tvAvailablePickUp.setTextColor(ContextCompat.getColor(this, R.color.text_color))
         binding.rbAvailablePickup.isChecked = false
-        /**pickUpNo*/
+        /** pickUpNo */
         binding.switchNoPickUp.setBackgroundResource(R.drawable.field_selection_border_enable)
         binding.tvNoPickUp.setTextColor(ContextCompat.getColor(this, R.color.bg))
         binding.rbNoPickup.isChecked = true
     }
 
     private fun setPickUpAvailable() {
-        /**pickUpMust*/
+        /** pickUpMust */
         binding.switchMustPickUp.setBackgroundResource(R.drawable.edittext_bg)
         binding.tvMustPickUp.setTextColor(ContextCompat.getColor(this, R.color.text_color))
         binding.rbMustPickup.isChecked = false
-        /**pickUpNo*/
+        /** pickUpNo */
         binding.switchNoPickUp.setBackgroundResource(R.drawable.edittext_bg)
         binding.tvNoPickUp.setTextColor(ContextCompat.getColor(this, R.color.text_color))
         binding.rbNoPickup.isChecked = false
-        /**pickUpAvailable*/
+        /** pickUpAvailable */
         binding.switchAvailablePickUp.setBackgroundResource(R.drawable.field_selection_border_enable)
         binding.tvAvailablePickUp.setTextColor(ContextCompat.getColor(this, R.color.bg))
         binding.rbAvailablePickup.isChecked = true
@@ -381,8 +379,8 @@ class ListingDurationActivity : BaseActivity<ActivityListingDurationBinding>(),
             onBackPressed()
         }
 
-        binding.rbMustPickup.setOnCheckedChangeListener { _, b ->
-            if (b) {
+        binding.rbMustPickup.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
                 pickUpOption = ConstantObjects.pickUp_Must
                 setPickUpMust()
             } else {
@@ -392,9 +390,8 @@ class ListingDurationActivity : BaseActivity<ActivityListingDurationBinding>(),
             }
             binding.containerPickUpOption.hide()
         }
-
-        binding.rbNoPickup.setOnCheckedChangeListener { _, b ->
-            if (b) {
+        binding.rbNoPickup.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
                 pickUpOption = ConstantObjects.pickUp_No
                 setPickUpNo()
                 binding.containerPickUpOption.show()
@@ -405,8 +402,8 @@ class ListingDurationActivity : BaseActivity<ActivityListingDurationBinding>(),
                 binding.containerPickUpOption.hide()
             }
         }
-        binding.rbAvailablePickup.setOnCheckedChangeListener { _, b ->
-            if (b) {
+        binding.rbAvailablePickup.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
                 pickUpOption = ConstantObjects.pickUp_Available
                 setPickUpAvailable()
                 binding.containerPickUpOption.show()
@@ -515,7 +512,16 @@ class ListingDurationActivity : BaseActivity<ActivityListingDurationBinding>(),
             if (shippingAdapter?.isNoItemSelected() == true) {
                 showError(getString(R.string.please_select_a_shipping_option))
             } else {
-                goNextActivity()
+                val isRequiredShippingOptionSelected =
+                    shippingAdapter?.isRequiredShippingOptionSelected() ?: false
+
+                if (isRequiredShippingOptionSelected && AddProductObjectData.pickUpOption == 0) {
+                    showError(getString(R.string.please_select_pickup_option))
+                    return
+                } else {
+                    goNextActivity()
+                }
+
             }
         }
     }

@@ -1142,6 +1142,12 @@
 
     <string name="this_link_already_exists">هذا الرابط موجود بالفعل</string>
     <string name="you_can_upload_images_and_video_links_for_free_each_additional_image_costs_and_each_additional_link_costs">يمكنك رفع %1$s صورة و %2$s رابط فيديو مجانًا، وكل صورة إضافية تكلف %3$s، وكل رابط إضافي يكلف %4$s</string>
+    <string name="upload_free_images">يمكنك رفع %1$d صورة مجانًا</string>
+    <string name="upload_free_videos">يمكنك رفع %1$d رابط فيديو مجانًا</string>
+    <string name="upload_free_images_and_videos">يمكنك رفع %1$d صورة و %2$d رابط فيديو مجانًا</string>
+    <string name="additional_image_fee">كل صورة إضافية تكلف %1$s</string>
+    <string name="additional_video_fee">كل رابط إضافي يكلف %1$s</string>
+    <string name="without_fees">بدون رسوم</string>
     <string name="please_note_that_adding_an_arabic_subtitle_to_your_product_ad_will_cost_you">يرجى ملاحظة أن إضافة عنوان فرعي باللغة العربية لإعلان منتجك ستكلفك %1$s.</string>
     <string name="please_note_that_activating_it_will_cost_you">يرجى ملاحظة أن تفعيلها سيكلفك %1$s.</string>
     <string name="closing_time_option">خيار وقت اغلاق المزاد (حدد تاريخك ووقتك الخاص)</string>
@@ -1166,5 +1172,8 @@
     <string name="expiry_date_passed">تاريخ الانتهاء قد مضى</string>
     <string name="invalid_date_format">تنسيق التاريخ غير صالح (شهر/سنة، الأشهر من 01 إلى 12)</string>
     <string name="card_number_must_be_16_digits">رقم البطاقة يجب أن يتكون على الأقل 16 رقم</string>
-    <string name="please_note_that_choosing_a_custom_date_for_the_auction_closing_time_will_cost_you">Please Note That Choosing A Custom Date For The Auction Closing Time Will Cost You %1$s.</string>
+    <string name="please_note_that_choosing_a_custom_date_for_the_auction_closing_time_will_cost_you">يرجى العلم أن اختيار تاريخ مخصص لوقت نهاية المزاد سيكلفك %1$s.</string>
+    <string name="points_balance_equals">رصيد النقاط يساوي %1$s</string>
+    <string name="balance_insufficient">الرصيد غير كافٍ لإتمام عملية الدفع. يرجى اختيار طريقة دفع بديلة.</string>
+    <string name="please_select_pickup_option">الرجاء تحديد خيار الاستلام</string>
 </resources>

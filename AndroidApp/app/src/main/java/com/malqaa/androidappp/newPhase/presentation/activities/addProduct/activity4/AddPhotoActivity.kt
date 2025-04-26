@@ -55,19 +55,69 @@ class AddPhotoActivity : BaseActivity<ActivityAddPhotoBinding>(),
 
         val freeProductImagesCount = selectedCategory?.freeProductImagesCount ?: 0
         val freeProductVidoesCount = selectedCategory?.freeProductVidoesCount ?: 0
-        val extraProductImageFee =
-            getString(R.string.product_price_sar, selectedCategory?.extraProductImageFee ?: 0)
-        val extraProductVidoeFee =
-            getString(R.string.product_price_sar, selectedCategory?.extraProductVidoeFee ?: 0)
+        val extraProductImageFeeValue = selectedCategory?.extraProductImageFee ?: 0
+        val extraProductVidoeFeeValue = selectedCategory?.extraProductVidoeFee ?: 0
 
-        binding.testImageLink.text =
-            getString(
-                R.string.you_can_upload_images_and_video_links_for_free_each_additional_image_costs_and_each_additional_link_costs,
-                freeProductImagesCount.toString(),
-                freeProductVidoesCount.toString(),
-                extraProductImageFee,
-                extraProductVidoeFee
+        val extraProductImageFee = getString(R.string.product_price_sar, extraProductImageFeeValue)
+        val extraProductVidoeFee = getString(R.string.product_price_sar, extraProductVidoeFeeValue)
+
+        val messageParts = mutableListOf<String>()
+
+        // Free uploads part
+        if (freeProductImagesCount > 0 && freeProductVidoesCount > 0) {
+            messageParts.add(
+                getString(
+                    R.string.upload_free_images_and_videos,
+                    freeProductImagesCount,
+                    freeProductVidoesCount
+                )
             )
+        } else if (freeProductImagesCount > 0) {
+            messageParts.add(
+                getString(
+                    R.string.upload_free_images,
+                    freeProductImagesCount
+                )
+            )
+        } else if (freeProductVidoesCount > 0) {
+            messageParts.add(
+                getString(
+                    R.string.upload_free_videos,
+                    freeProductVidoesCount
+                )
+            )
+        }
+
+        // Extra fees part
+        val extraFees = mutableListOf<String>()
+        if (extraProductImageFeeValue.toInt() > 0) {
+            extraFees.add(
+                getString(
+                    R.string.additional_image_fee,
+                    extraProductImageFee
+                )
+            )
+        }
+        if (extraProductVidoeFeeValue.toInt() > 0) {
+            extraFees.add(
+                getString(
+                    R.string.additional_video_fee,
+                    extraProductVidoeFee
+                )
+            )
+        }
+
+        if (extraFees.isNotEmpty()) {
+            messageParts.add(extraFees.joinToString(", "))
+        }
+
+        // Final result
+        binding.testImageLink.text = if (messageParts.isNotEmpty()) {
+            messageParts.joinToString(". ") + "."
+        } else {
+            getString(R.string.without_fees)
+        }
+
 
         setupVideoLinksAapter()
 
@@ -122,7 +172,8 @@ class AddPhotoActivity : BaseActivity<ActivityAddPhotoBinding>(),
                     AddProductObjectData.imagesListRemoved = arrayListOf()
                     AddProductObjectData.imagesListRemoved?.addAll(idsImageRemoved ?: arrayListOf())
 
-                    AddProductObjectData.videoList?.takeIf { it.size > position }?.removeAt(position)
+                    AddProductObjectData.videoList?.takeIf { it.size > position }
+                        ?.removeAt(position)
 
                     videoAddLinkAdapter.notifyDataSetChanged()
                 }

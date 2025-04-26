@@ -176,19 +176,27 @@ class PromotionalActivity : BaseActivity<ActivityPromotionalBinding>(),
     }
 
     override fun onSelectPackage(position: Int) {
-        pakatList.forEach { item -> item.isSelected = false }
-        pakatList[position].isSelected = true
+        val selectedItem = pakatList[position]
+
+        if (selectedItem.isSelected) {
+            // If it's already selected, unselect it
+            selectedItem.isSelected = false
+            AddProductObjectData.selectedPakat = null
+            updateExtraPackageUI(countImagePackage = 0, countVideoPackage = 0)
+        } else {
+            // Unselect all, then select this one
+            pakatList.forEach { it.isSelected = false }
+            selectedItem.isSelected = true
+            AddProductObjectData.selectedPakat = selectedItem
+            updateExtraPackageUI(
+                countImagePackage = selectedItem.countImage,
+                countVideoPackage = selectedItem.countVideo
+            )
+        }
+
         packagesAdapter.notifyDataSetChanged()
-        AddProductObjectData.selectedPakat = pakatList[position]
-
-        val countImagePackage = pakatList[position].countImage
-        val countVideoPackage = pakatList[position].countVideo
-
-        updateExtraPackageUI(
-            countImagePackage = countImagePackage,
-            countVideoPackage = countVideoPackage
-        )
     }
+
 
     private fun updateExtraPackageUI(countImagePackage: Int, countVideoPackage: Int) {
         AddProductObjectData.selectedCategory?.let { category ->
@@ -240,10 +248,6 @@ class PromotionalActivity : BaseActivity<ActivityPromotionalBinding>(),
     private fun setClickViewListeners() {
         binding.toolbarPromotional.backBtn.setOnClickListener { onBackPressed() }
         binding.button16611.setOnClickListener { confirmPromotion() }
-        binding.noThankYou.setOnClickListener {
-            AddProductObjectData.selectedPakat = null
-            goNextActivity()
-        }
     }
 
     private fun goNextActivity() {
@@ -256,7 +260,8 @@ class PromotionalActivity : BaseActivity<ActivityPromotionalBinding>(),
 
     private fun confirmPromotion() {
         if (pakatList.isNotEmpty() && !validatePromotion() && (binding.containerExtraPakage.visibility != View.VISIBLE)) {
-            showError(getString(R.string.choose_one_of_our_special_packages))
+            AddProductObjectData.selectedPakat = null
+            goNextActivity()
         } else {
             if (isEdit) {
                 startActivity(Intent(this, ConfirmationAddProductActivity::class.java).apply {

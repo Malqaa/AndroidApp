@@ -56,8 +56,9 @@ class ListingDetailsActivity : BaseActivity<ActivityListDetailsAddProductBinding
 
         val subTitleFee =
             getString(R.string.product_price_sar, selectedCategory?.subTitleFee ?: 0)
-        binding.testSubTitleFee.visibility = if((selectedCategory?.subTitleFee ?: 0f) > 0f) View.VISIBLE else View.GONE
-        binding.testSubTitleFee.text =getString(
+        binding.testSubTitleFee.visibility =
+            if ((selectedCategory?.subTitleFee ?: 0f) > 0f) View.VISIBLE else View.GONE
+        binding.testSubTitleFee.text = getString(
             R.string.please_note_that_adding_an_arabic_subtitle_to_your_product_ad_will_cost_you,
             subTitleFee
         )
@@ -197,7 +198,13 @@ class ListingDetailsActivity : BaseActivity<ActivityListDetailsAddProductBinding
             }
         }
 
-        binding.btnotherr.setOnClickListener { listDetailsConfirmInput() }
+        binding.btnotherr.setOnClickListener {
+            it.isEnabled = false
+            it.post {
+                listDetailsConfirmInput()
+                it.isEnabled = true
+            }
+        }
 
         binding.toolbarMain.backBtn.setOnClickListener {
             onBackPressed()
@@ -267,6 +274,12 @@ class ListingDetailsActivity : BaseActivity<ActivityListDetailsAddProductBinding
     }
 
     private fun listDetailsConfirmInput() {
+        AddProductObjectData.productCondition = when {
+            binding.tvNew.isSelected -> 2
+            binding.tvUsed.isSelected -> 1
+            else -> 0
+        }
+
         AddProductObjectData.quantity = binding.quantityavail.number
         if (binding.tvTitleAr.getText().isEmpty()) {
             showError(getString(R.string.Please_enter, getString(R.string.item_title)))
@@ -284,10 +297,11 @@ class ListingDetailsActivity : BaseActivity<ActivityListDetailsAddProductBinding
             showError(getString(R.string.Please_select, getString(R.string.district)))
         } else if (binding.tvDescriptionAr.text.toString().isEmpty()) {
             showError(getString(R.string.Please_enter, getString(R.string.item_details)))
-        }
-        else if (binding.switchInfoEn.isChecked) {
+        } else if (binding.switchInfoEn.isChecked) {
             if (binding.tvTitleEn.getText().isEmpty()) {
                 showError(getString(R.string.Please_enter, getString(R.string.item_title)))
+            } else if (binding.tvDescriptionEn.getText().isEmpty()) {
+                showError(getString(R.string.Please_enter, getString(R.string.item_detailsEN)))
             } else {
                 checkAllRight()
             }

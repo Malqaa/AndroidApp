@@ -34,38 +34,51 @@ class ShippingAdapter(
 
     override fun onBindViewHolder(holder: ShippingViewHolder, position: Int) {
         val details: ShippingOptionObject = dataList[position]
-        holder.viewBinding.tvMustPickUp.text= details.shippingOptionName
+        holder.viewBinding.tvMustPickUp.text = details.shippingOptionName
 
-        if(dataList[position].selected){
-            holder.viewBinding.rbMustPickup.isChecked=true
-            dataList[position].selected=true
+        if (dataList[position].selected) {
+            holder.viewBinding.rbMustPickup.isChecked = true
+            dataList[position].selected = true
             holder.viewBinding.switchMustPickUp.setBackgroundResource(R.drawable.field_selection_border_enable)
-            holder.viewBinding.tvMustPickUp.setTextColor(ContextCompat.getColor(holder.viewBinding.tvMustPickUp.context, R.color.bg))
-        }else{
-            holder.viewBinding.rbMustPickup.isChecked=false
-            dataList[position].selected=false
+            holder.viewBinding.tvMustPickUp.setTextColor(
+                ContextCompat.getColor(
+                    holder.viewBinding.tvMustPickUp.context,
+                    R.color.bg
+                )
+            )
+        } else {
+            holder.viewBinding.rbMustPickup.isChecked = false
+            dataList[position].selected = false
             holder.viewBinding.switchMustPickUp.setBackgroundResource(R.drawable.edittext_bg)
-            holder.viewBinding.tvMustPickUp.setTextColor(ContextCompat.getColor(holder.viewBinding.tvMustPickUp.context, R.color.grey))
+            holder.viewBinding.tvMustPickUp.setTextColor(
+                ContextCompat.getColor(
+                    holder.viewBinding.tvMustPickUp.context,
+                    R.color.grey
+                )
+            )
         }
 
         holder.viewBinding.rbMustPickup.setOnClickListener {
-            updateAdapter(dataList[position],dataList)
+            updateAdapter(dataList[position], dataList)
             setOnSelectedShipping.setOnSelectedShipping(dataList[position])
         }
 
     }
-    fun updateAdapter(item :ShippingOptionObject,dataList: List<ShippingOptionObject>){
-        for(i in dataList){
-            i.selected = item.id==i.id&&( !item.selected)
+
+    fun updateAdapter(item: ShippingOptionObject, dataList: List<ShippingOptionObject>) {
+        for (i in dataList) {
+            i.selected = item.id == i.id && (!item.selected)
         }
 
-        this.dataList=dataList
+        this.dataList = dataList
         notifyDataSetChanged()
     }
-    fun updateAdapter(dataList: List<ShippingOptionObject>){
-        this.dataList=dataList
+
+    fun updateAdapter(dataList: List<ShippingOptionObject>) {
+        this.dataList = dataList
         notifyDataSetChanged()
     }
+
     interface SetOnSelectedShipping {
         fun setOnSelectedShipping(shippingItem: ShippingOptionObject)
     }
@@ -74,4 +87,17 @@ class ShippingAdapter(
         return dataList.none { it.selected }
     }
 
+    fun isRequiredShippingOptionSelected(): Boolean {
+        var noPickUpSelected = false
+        var pickUpAvailableSelected = false
+
+        for (item in dataList) {
+            when (item.shippingOptionDescription) {
+                "NoPickUp" -> noPickUpSelected = item.selected
+                "PickUpAvailable" -> pickUpAvailableSelected = item.selected
+            }
+        }
+
+        return noPickUpSelected || pickUpAvailableSelected
+    }
 }

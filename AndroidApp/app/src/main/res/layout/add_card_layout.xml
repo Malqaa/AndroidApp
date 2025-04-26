@@ -41,8 +41,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:hint="@string/Cardno"
-                android:maxLength="16"
-                android:inputType="number" />
+                android:inputType="number"
+                android:maxLength="16" />
 
 
             <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
@@ -66,21 +66,20 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="MM/YYYY"
-                    android:maxLength="7"
-                    android:inputType="number" />
+                    android:inputType="number"
+                    android:maxLength="7" />
+
                 <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
                     android:id="@+id/card_cvv_tv"
                     android:layout_width="0dp"
-                    android:layout_marginStart="@dimen/_10sdp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
                     android:layout_weight="1"
                     android:hint="@string/cvv"
+                    android:inputType="numberPassword"
                     android:maxLength="4"
-                    app:imeOptions="done"
-                    android:inputType="numberPassword" />
-
+                    app:imeOptions="done" />
             </LinearLayout>
-
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/switch_save_later"

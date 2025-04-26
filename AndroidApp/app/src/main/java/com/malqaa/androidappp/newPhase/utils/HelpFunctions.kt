@@ -145,6 +145,37 @@ class HelpFunctions {
             }
         }
 
+        fun ShowAlert(
+            context: Context?,
+            alertTitle: String,
+            showFailedMessage: Boolean,
+            alertMessage: String
+        ) {
+            if (context != null) {
+                val dialogBuilder = AlertDialog.Builder(context)
+                val inflater = LayoutInflater.from(context)
+
+                // Use View Binding
+                val binding = AlertpopupBinding.inflate(inflater)
+                binding.imageFailedMessage.visibility = if (showFailedMessage) View.VISIBLE else View.GONE
+
+                // Set title and message
+                if (alertTitle.isNotEmpty()) {
+                    binding.LblALertTitle.text = alertTitle
+                }
+                binding.LblAlertMessage.text = alertMessage
+
+                dialogBuilder.setView(binding.root)
+                val alertDialog = dialogBuilder.create()
+                alertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                alertDialog.show()
+
+                binding.btnAlertclose.setOnClickListener {
+                    alertDialog.dismiss()
+                }
+            }
+        }
+
         fun isEmailValid(email: String): Boolean1 {
             var isValid = false
             val expression = "^[\\w.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$"
@@ -463,7 +494,8 @@ class HelpFunctions {
             startProgressBar(context as Activity)
             try {
                 val callWatchList = getRetrofitBuilder().insertAddToUserWatchlist(15)
-                callApi(callWatchList,
+                callApi(
+                    callWatchList,
                     onSuccess = {
                         if (it.status_code == 200) {
                             //  GetUserWatchlist()
@@ -505,7 +537,8 @@ class HelpFunctions {
                     ConstantObjects.logged_userid,
                     AdsId
                 )
-                callApi(callWatchList,
+                callApi(
+                    callWatchList,
                     onSuccess = {
                         if (it.status_code == 200 && (it.data == true || it.data == 1 || it.data == 1.0)) {
                             // GetUserWatchlist()

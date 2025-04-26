@@ -41,6 +41,7 @@ import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activi
 import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.viewmodel.AddProductViewModel
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
+import com.malqaa.androidappp.newPhase.utils.HelpFunctions.Companion.ShowAlert
 import com.malqaa.androidappp.newPhase.utils.PicassoSingleton.getPicassoInstance
 import com.malqaa.androidappp.newPhase.utils.formatAsCardNumber
 import com.malqaa.androidappp.newPhase.utils.helper.widgets.rcv.GenericListAdapter
@@ -101,7 +102,6 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
         setupAdapter()
 
         addProductViewModel = ViewModelProvider(this).get(AddProductViewModel::class.java)
-        addProductViewModel.getPointsBalance()
         addProductViewModel.listBackAccountObserver.observe(this) {
             if (it.status_code == 200) {
                 if (it.accountsList != null) {
@@ -155,21 +155,54 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
 
                         binding.selectedMyPoints.textMyPointsBalance.text = myPointsBalance
                         pointsNumber = pointsRequired
-                        binding.layoutMyPointsPayment.show()
-                    } else {
-                        Log.d(
-                            "test #1",
-                            "❌ Not enough points. You need $pointsRequired points, but you only have $pointsBalance."
+
+                        binding.layoutMyPointsPayment.background =
+                            ContextCompat.getDrawable(
+                                this,
+                                R.drawable.field_selection_border_enable
+                            )
+                        binding.tvMyPointsPayment.setTextColor(
+                            ContextCompat.getColor(
+                                this,
+                                R.color.bg
+                            )
                         )
-                        binding.layoutMyPointsPayment.hide()
+                        binding.selectedMyPoints.linearLayoutSelectedPaymentOptions.visibility =
+                            View.VISIBLE
+                    } else {
+                        binding.switchMyPointsPayment.isChecked = false
+
+                        // Calculate available money value of points
+                        val moneyBalance =
+                            (pointsBalance.toDouble() / pointsCountToTransfer) * moneyOfPointsTransferred
+
+                        // Format the money balance as SAR
+                        val productPriceSar =
+                            getString(R.string.product_price_sar, moneyBalance.toString())
+
+                        // Full message
+                        val pointsBalanceText =
+                            getString(R.string.points_balance_equals, productPriceSar)
+                        val insufficientMessage = getString(R.string.balance_insufficient)
+                        val finalMessage = "$pointsBalanceText\n$insufficientMessage"
+
+                        ShowAlert(
+                            context = this,
+                            alertTitle = getString(R.string.my_points),
+                            showFailedMessage = true,
+                            alertMessage = finalMessage
+                        )
                     }
                 } else {
+                    binding.switchMyPointsPayment.isChecked = false
                     Log.e(
                         "test #1",
                         "❌ Invalid point conversion configuration (division by zero risk)"
                     )
                 }
 
+            } else {
+                binding.switchMyPointsPayment.isChecked = false
             }
         }
 
@@ -1123,11 +1156,7 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
 
         binding.switchMyPointsPayment.setOnCheckedChangeListener { _, b ->
             if (b) {
-                binding.layoutMyPointsPayment.background =
-                    ContextCompat.getDrawable(this, R.drawable.field_selection_border_enable)
-                binding.tvMyPointsPayment.setTextColor(ContextCompat.getColor(this, R.color.bg))
-                binding.selectedMyPoints.linearLayoutSelectedPaymentOptions.visibility =
-                    View.VISIBLE
+                addProductViewModel.getPointsBalance()
                 selectedPaymentType = PaymentAccountType.Points
 
                 // hide other
@@ -1529,7 +1558,8 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
 
                         _binding.selectedVisaCreditCard.apply {
                             textCardHoldersName.text = accountDetails!!.bankHolderName
-                            textCardNumber.text = accountDetails!!.accountNumber.formatAsCardNumber()
+                            textCardNumber.text =
+                                accountDetails!!.accountNumber.formatAsCardNumber()
                             textExpiryDate.text = accountDetails!!.expiaryDate
                         }
                     }
@@ -1537,10 +1567,11 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
                     PaymentAccountType.Mada -> {
                         _binding.selectedMada.linearLayoutSelectedPaymentOptions.visibility =
                             View.VISIBLE
- 
+
                         _binding.selectedMada.apply {
                             textCardHoldersName.text = accountDetails!!.bankHolderName
-                            textCardNumber.text = accountDetails!!.accountNumber.formatAsCardNumber()
+                            textCardNumber.text =
+                                accountDetails!!.accountNumber.formatAsCardNumber()
                             textExpiryDate.text = accountDetails!!.expiaryDate
                         }
                     }

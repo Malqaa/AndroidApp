@@ -237,18 +237,6 @@
             android:textAllCaps="false"
             android:textColor="#ffffff" />
 
-        <TextView
-            android:id="@+id/no_thank_you"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/_10sdp"
-            android:fontFamily="@font/madani_arabic_medium"
-            android:gravity="center"
-            android:text="@string/no_thank_you"
-            android:textColor="#000000"
-            android:textSize="@dimen/_14sdp" />
-
-
     </LinearLayout>
 
 </RelativeLayout>

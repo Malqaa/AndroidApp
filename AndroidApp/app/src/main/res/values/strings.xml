@@ -1352,6 +1352,12 @@
 
     <string name="this_link_already_exists">This link already exists</string>
     <string name="you_can_upload_images_and_video_links_for_free_each_additional_image_costs_and_each_additional_link_costs">You Can Upload %1$s Images And %2$s Video Links For Free Each Additional Image Costs %3$s, And Each Additional Link Costs %4$s</string>
+    <string name="upload_free_images">You can upload %1$d Images for free</string>
+    <string name="upload_free_videos">You can upload %1$d Video Links for free</string>
+    <string name="upload_free_images_and_videos">You can upload %1$d Images and %2$d Video Links for free</string>
+    <string name="additional_image_fee">Each additional image costs %1$s</string>
+    <string name="additional_video_fee">Each additional link costs %1$s</string>
+    <string name="without_fees">Without fees</string>
     <string name="please_note_that_adding_an_arabic_subtitle_to_your_product_ad_will_cost_you">Please Note That Adding An Arabic Subtitle To Your Product Ad Will Cost You %1$s.</string>
     <string name="please_note_that_activating_it_will_cost_you">Please Note That Activating it Will Cost You %1$s.</string>
     <string name="closing_time_option">Auction Closing Time Option (Set your own date and time)</string>
@@ -1370,12 +1376,15 @@
     <string name="card_number">Card Number</string>
     <string name="choose_another_card">choose another card</string>
     <string name="please_enter_cvv">Please enter CVV</string>
-  <string name="the_points_balance_equals">The Points balance equals %1$s</string>
-  <string name="please_activate_at_least_one_payment_method">Please activate at least one payment method</string>
+    <string name="the_points_balance_equals">The Points balance equals %1$s</string>
+    <string name="please_activate_at_least_one_payment_method">Please activate at least one payment method</string>
     <string name="mm_yyyy">MM/YYYY</string>
-  <string name="expiry_date_passed">Expiry date has passed</string>
-  <string name="invalid_date_format">Invalid date format (MM/YYYY, months from 01 to 12)</string>
-  <string name="card_number_must_be_16_digits">Card number must be at least 16 numbers</string>
-  <string name="please_note_that_choosing_a_custom_date_for_the_auction_closing_time_will_cost_you">Please Note That Choosing A Custom Date For The Auction Closing Time Will Cost You %1$s.</string>
+    <string name="expiry_date_passed">Expiry date has passed</string>
+    <string name="invalid_date_format">Invalid date format (MM/YYYY, months from 01 to 12)</string>
+    <string name="card_number_must_be_16_digits">Card number must be at least 16 numbers</string>
+    <string name="please_note_that_choosing_a_custom_date_for_the_auction_closing_time_will_cost_you">Please Note That Choosing A Custom Date For The Auction Closing Time Will Cost You %1$s.</string>
+    <string name="points_balance_equals">The Points balance equals %1$s</string>
+    <string name="balance_insufficient">The Balance is insufficient to complete the payment. Please select an alternative payment method.</string>
+    <string name="please_select_pickup_option">Please select a pickup option</string>
 
 </resources>
