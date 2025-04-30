@@ -3,7 +3,6 @@ package com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activ
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Filter
 import androidx.core.content.ContextCompat
@@ -64,108 +63,13 @@ class ListingDurationActivity : BaseActivity<ActivityListingDurationBinding>(),
         setVieClickListeners()
         shippingAdapter = ShippingAdapter(arrayListOf(), this)
         binding.containerPickUpOption.hide()
-        if (AddProductObjectData.auctionOption) {
-            binding.contianerClosingOption.show()
-        } else {
-            binding.contianerClosingOption.hide()
-        }
+
         shippingViewModel.getAllShippingOptions()
-
-        val c = Calendar.getInstance()
-        val currentDay = c.get(Calendar.DAY_OF_MONTH)
-
-        try {
-            selectedCategory?.let {
-                val characterList = convertStringToIntArray(it.auctionClosingPeriods!!)
-                if (characterList != null) {
-                    for (c in characterList) {
-                        var cNumer = 1
-                        try {
-                            cNumer = c.toString().toInt()
-                        } catch (e: java.lang.Exception) {
-                        }
-
-                        when (it.auctionClosingPeriodsUnit) {
-                            ConstantObjects.auctionClosingPeriodsUnit_day -> {
-                                val date = addDay(currentDay.toString(), cNumer)
-                                allWeeks.add(
-                                    TimeAuctionSelection(
-                                        c.toString(),
-                                        date,
-                                        HelpFunctions.getAuctionClosingTime2(date),
-                                        it.auctionClosingPeriodsUnit
-                                    )
-                                )
-                            }
-
-                            ConstantObjects.auctionClosingPeriodsUnit_month -> {
-                                val date = addMonth(currentDay.toString(), cNumer)
-                                allWeeks.add(
-                                    TimeAuctionSelection(
-                                        c.toString(),
-                                        date,
-                                        HelpFunctions.getAuctionClosingTime2(date),
-                                        it.auctionClosingPeriodsUnit
-                                    )
-                                )
-                            }
-
-                            else -> {
-                                val date = addDay(currentDay.toString(), cNumer * 7)
-                                allWeeks.add(
-                                    TimeAuctionSelection(
-                                        c.toString(),
-                                        date,
-                                        HelpFunctions.getAuctionClosingTime2(date),
-                                        it.auctionClosingPeriodsUnit
-                                    )
-                                )
-                            }
-                        }
-                    }
-                }
-//                }
-            }
-            fixLengthAdapter(allWeeks)
-        } catch (e: Exception) {
-            //
-        }
-
 
         /**shipping data */
         ConstantObjects.shippingOption_integratedShippingCompanyOptions
 
-        /**adding price off custom clossing fee*/
-        val auctionClosingTimeFee = selectedCategory?.auctionClosingTimeFee ?: 0
-        val productPriceSar = getString(R.string.product_price_sar, auctionClosingTimeFee)
-        val priceCustomClosingAuctionOption = getString(
-            R.string.please_note_that_choosing_a_custom_date_for_the_auction_closing_time_will_cost_you,
-            productPriceSar
-        )
-
-        if (auctionClosingTimeFee.toInt() > 0) {
-            binding.tvPriceCustomClosingAuctionOption2.text = priceCustomClosingAuctionOption
-        } else {
-            binding.tvPriceCustomClosingAuctionOption2.visibility = View.GONE
-        }
-
         getAllShippingObserver()
-    }
-
-
-    private fun convertStringToIntArray(str: String): IntArray {
-        // Split the string by comma
-        val stringArray = str.split(",".toRegex()).dropLastWhile { it.isEmpty() }
-            .toTypedArray()
-
-        // Initialize an integer array with the same length
-        val intArray = IntArray(stringArray.size)
-
-        // Convert each string element to an integer
-        for (i in stringArray.indices) {
-            intArray[i] = stringArray[i].toInt()
-        }
-        return intArray
     }
 
     private fun setData() {
@@ -220,37 +124,6 @@ class ListingDurationActivity : BaseActivity<ActivityListingDurationBinding>(),
         }
 
         pickUpOptionAdapter(pickUpOptionList, binding.rvShippingOption)
-        if (AddProductObjectData.isAuctionClosingTimeFixed) {
-            binding.closingAuctionOption2.performClick()
-            binding.tvClosingAuctionCustomDataOption2.text =
-                HelpFunctions.getViewFormatForDateTrack(
-                    AddProductObjectData.selectTimeAuction?.endTime,
-                    "dd/MM/yyyy HH:mm:ss"
-                )
-
-        } else {
-            AddProductObjectData.selectTimeAuction?.let {
-                if (it.customOption) {
-                    binding.closingAuctionOption2.performClick()
-                    if (it.text == "")
-                        binding.tvClosingAuctionCustomDataOption2.text =
-                            HelpFunctions.getViewFormatForDateTrack(
-                                it.endTime,
-                                "dd/MM/yyyy HH:mm:ss"
-                            )
-                } else {
-                    binding.closingAuctionOption1.performClick()
-                    for (item in allWeeks) {
-                        if (item.text == it.text) {
-                            item.isSelect = true
-                            break
-                        }
-                    }
-                    fixLengthAdapter(allWeeks)
-                }
-            }
-        }
-
     }
 
     private fun getAllShippingObserver() {
@@ -325,56 +198,6 @@ class ListingDurationActivity : BaseActivity<ActivityListingDurationBinding>(),
     }
 
     private fun setVieClickListeners() {
-        binding.btnRadioClosingAuctionOption1.setOnCheckedChangeListener { compoundButton, b ->
-            if (b) {
-                binding.closingAuctionOption1.performClick()
-            }
-        }
-        binding.closingAuctionOption1.setOnClickListener {
-            AddProductObjectData.isAuctionClosingTimeFixed = false
-            binding.closingAuctionOption1.background =
-                ContextCompat.getDrawable(this, R.drawable.field_selection_border_enable)
-            binding.FixedLength.setTextColor(ContextCompat.getColor(this, R.color.bg))
-            binding.closingAuctionOption2.isSelected = false
-            binding.btnRadioClosingAuctionOption1.isChecked = true
-            binding.btnRadioClosingAuctionOption2.isChecked = false
-            binding.tvClosingAuctionCustomDataOption2.text = ""
-            binding.tvClosingAuctionCustomDataOption2.hint = getString(R.string.SelectTime)
-        }
-        binding.btnRadioClosingAuctionOption2.setOnCheckedChangeListener { compoundButton, b ->
-            if (b) {
-                binding.closingAuctionOption2.performClick()
-            }
-        }
-        binding.closingAuctionOption2.setOnClickListener {
-            AddProductObjectData.isAuctionClosingTimeFixed = true
-            binding.closingAuctionOption2.isSelected = true
-            binding.closingAuctionOption1.background =
-                ContextCompat.getDrawable(this, R.drawable.edittext_bg)
-            binding.FixedLength.setTextColor(ContextCompat.getColor(this, R.color.text_color))
-            binding.btnRadioClosingAuctionOption1.isChecked = false
-            binding.btnRadioClosingAuctionOption2.isChecked = true
-            allWeeks.forEach {
-                it.isSelect = false
-            }
-            fixLengthAdapter(allWeeks)
-        }
-        binding.tvClosingAuctionCustomDataOption2.setOnClickListener {
-            fm = supportFragmentManager
-            val dateDialog = DatePickerFragment(false, true) { selectdate_ ->
-                binding.tvClosingAuctionCustomDataOption2.text = ""
-                selectdate = selectdate_
-                val timeDialog = TimePickerFragment { selectTime_ ->
-                    selectTime = selectTime_
-                    binding.btnRadioClosingAuctionOption2.isChecked = true
-                    binding.tvClosingAuctionCustomDataOption2.text = selectdate + " " + selectTime
-                    println("hhhh " + HelpFunctions.getAuctionClosingTime("$selectdate_ $selectTime$"))
-
-                }
-                timeDialog.show(fm!!, "")
-            }
-            dateDialog.show(fm!!, "")
-        }
         binding.toolbarListduration.backBtn.setOnClickListener {
             onBackPressed()
         }
@@ -424,76 +247,7 @@ class ListingDurationActivity : BaseActivity<ActivityListingDurationBinding>(),
         }
     }
 
-    @SuppressLint("ResourceType")
-    private fun fixLengthAdapter(list: ArrayList<TimeAuctionSelection>) {
-        println("hhh " + Gson().toJson(list))
 
-        // Set up adapter with ViewBinding for selection_item layout
-        binding.rvClosingTimeListOption1.adapter =
-            object : GenericListAdapter<TimeAuctionSelection>(
-                R.layout.selection_item,
-                bind = { element, holder, itemCount, position ->
-
-                    // Use ViewBinding to bind the view for the current item
-                    val bindingItem = SelectionItemBinding.bind(holder.view)
-
-                    // Bind the data using ViewBinding
-                    bindingItem.run {
-                        element.run {
-                            // Determine unit type
-                            val unit: String = when (unitType) {
-                                ConstantObjects.auctionClosingPeriodsUnit_day -> {
-                                    holder.view.context.getString(R.string.day)
-                                }
-
-                                ConstantObjects.auctionClosingPeriodsUnit_month -> {
-                                    holder.view.context.getString(R.string.month)
-                                }
-
-                                else -> {
-                                    holder.view.context.getString(R.string.week)
-                                }
-                            }
-
-                            // Set the selection text and its state
-                            selectionTv.text = "$text $unit"
-                            selectionTv.isSelected = isSelect
-                            fixlenghtselected = list.find { it.isSelect }
-
-                            // Handle item click to select the option
-                            root.setOnClickListener {
-                                // Update the selected state in the list
-                                list.forEachIndexed { index, item ->
-                                    item.isSelect = index == position
-                                }
-
-                                // Notify adapter to refresh the list
-                                binding.rvClosingTimeListOption1.post {
-                                    binding.rvClosingTimeListOption1.adapter?.notifyDataSetChanged()
-                                }
-
-                                // Set the selected item and adjust the end time
-                                fixlenghtselected = element
-                                val dateFormat = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
-                                val currentTime = dateFormat.format(Date())
-                                fixlenghtselected?.endTime =
-                                    "${fixlenghtselected?.endTime} $currentTime"
-
-                                // Check the button related to this selection
-                                binding.btnRadioClosingAuctionOption1.isChecked = true
-                            }
-                        }
-                    }
-                }
-            ) {
-                override fun getFilter(): Filter {
-                    // Implement the filter logic here if needed
-                    TODO("Not yet implemented")
-                }
-            }.apply {
-                submitList(list)
-            }
-    }
 
     fun confirmListDuration2() {
         if (binding.rbMustPickup.isChecked) {
@@ -504,9 +258,7 @@ class ListingDurationActivity : BaseActivity<ActivityListingDurationBinding>(),
             pickUpOption = ConstantObjects.pickUp_Available
         }
 
-        if (AddProductObjectData.auctionOption && !validateListDuration()) {
-            return
-        } else if (!validatePickUpOption()) {
+        if (!validatePickUpOption()) {
             return
         } else {
             if (shippingAdapter?.isNoItemSelected() == true) {
@@ -552,35 +304,6 @@ class ListingDurationActivity : BaseActivity<ActivityListingDurationBinding>(),
         return true
     }
 
-    private fun validateListDuration(): Boolean {
-        return if (binding.btnRadioClosingAuctionOption1.isChecked) {
-            if (fixlenghtselected == null) {
-                showError(getString(R.string.close_time))
-                return false
-            } else {
-                AddProductObjectData.selectTimeAuction = fixlenghtselected
-                return true
-            }
-        } else if (binding.btnRadioClosingAuctionOption2.isChecked) {
-            if (binding.tvClosingAuctionCustomDataOption2.text.toString().isEmpty()) {
-                showError(getString(R.string.close_time))
-                return false
-            } else {
-                AddProductObjectData.selectTimeAuction = TimeAuctionSelection(
-                    binding.tvClosingAuctionCustomDataOption2.text.toString(),
-                    binding.tvClosingAuctionCustomDataOption2.text.toString(),
-                    HelpFunctions.getAuctionClosingTime(binding.tvClosingAuctionCustomDataOption2.text.toString()),
-                    0,
-                    customOption = true
-                )
-                return true
-            }
-        } else {
-            showError(getString(R.string.close_time))
-            false
-        }
-    }
-
     override fun onBackPressed() {
 
         if (isEdit) {
@@ -593,35 +316,6 @@ class ListingDurationActivity : BaseActivity<ActivityListingDurationBinding>(),
         }
 
     }
-
-    private fun addDay(oldDate: String?, numberOfDays: Int): String {
-        var dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
-        val c = Calendar.getInstance()
-        try {
-            c.time = dateFormat.parse(oldDate)
-        } catch (e: ParseException) {
-            e.printStackTrace()
-        }
-        c.add(Calendar.DAY_OF_YEAR, numberOfDays)
-        dateFormat = SimpleDateFormat("dd/MM/yyyy")
-        val newDate = Date(c.timeInMillis)
-        return dateFormat.format(newDate)
-    }
-
-    private fun addMonth(oldDate: String?, numberOfDays: Int): String {
-        var dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
-        val c = Calendar.getInstance()
-        try {
-            c.time = dateFormat.parse(oldDate ?: "")
-        } catch (e: ParseException) {
-            e.printStackTrace()
-        }
-        c.add(Calendar.MONTH, numberOfDays)
-        dateFormat = SimpleDateFormat("dd/MM/yyyy")
-        val newDate = Date(c.timeInMillis)
-        return dateFormat.format(newDate)
-    }
-
 
     var selection: Selection? = null
 

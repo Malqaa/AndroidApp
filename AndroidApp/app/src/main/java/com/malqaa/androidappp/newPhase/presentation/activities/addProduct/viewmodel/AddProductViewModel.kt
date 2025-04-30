@@ -2,6 +2,7 @@ package com.malqaa.androidappp.newPhase.presentation.activities.addProduct.viewm
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.malqaa.androidappp.newPhase.core.BaseViewModel
@@ -21,6 +22,7 @@ import com.malqaa.androidappp.newPhase.domain.models.productResp.ProductResp
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.AddProductResponse
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
 import com.malqaa.androidappp.newPhase.domain.models.shippingOptionsResp.ShippingOptionResp
+import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.confirmationAddProduct.PaymentAccountType
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.Extension.requestBody
 import com.malqaa.androidappp.newPhase.utils.getMonth
@@ -382,7 +384,8 @@ class AddProductViewModel : BaseViewModel() {
         ProductPaymentDetailsDto_TotalAmountBeforeCoupon: Float,
         accountDetails: AccountDetails? = null,
         totalAmount: Float,
-        pointsNumber: Double? = null
+        pointsNumber: Double? = null,
+        selectedPaymentType: PaymentAccountType,
     ) {
         isLoading.value = true
         var validTime: String? = null
@@ -619,7 +622,8 @@ class AddProductViewModel : BaseViewModel() {
                 holderName.toRequestBody("multipart/form-data".toMediaTypeOrNull())
         }
         // payment method id
-        val paymentMethodId = accountDetails?.paymentAccountType?.value.toString()
+        val paymentMethodId = selectedPaymentType.value.toString()
+        Log.d("test #1", "PaymentMethodId: $paymentMethodId")
         if (paymentMethodId.isNotEmpty()) {
             map["ExecutePaymentDto.PaymentMethodId"] =
                 paymentMethodId.toRequestBody("multipart/form-data".toMediaTypeOrNull())
@@ -630,9 +634,10 @@ class AddProductViewModel : BaseViewModel() {
                 totalAmount.toString().toRequestBody("multipart/form-data".toMediaTypeOrNull())
         }
         // points number
+        Log.d("test #1", "pointsNumber: $pointsNumber")
         if (pointsNumber != null) {
             map["ExecutePaymentDto.PointsNumber"] =
-                pointsNumber.toString().toRequestBody("multipart/form-data".toMediaTypeOrNull())
+                pointsNumber.toInt().toString().toRequestBody("multipart/form-data".toMediaTypeOrNull())
         }
         // =========================================================================================
 

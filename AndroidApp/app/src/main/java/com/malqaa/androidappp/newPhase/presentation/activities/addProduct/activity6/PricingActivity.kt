@@ -12,23 +12,32 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.gson.Gson
 import com.malqaa.androidappp.R
 import com.malqaa.androidappp.databinding.ActivityPricingPaymentBinding
 import com.malqaa.androidappp.databinding.AddAccountLayoutBinding
 import com.malqaa.androidappp.databinding.AddBankLayoutBinding
+import com.malqaa.androidappp.databinding.SelectionItemBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
 import com.malqaa.androidappp.newPhase.domain.models.accountBackListResp.AccountDetails
 import com.malqaa.androidappp.newPhase.domain.models.addProductToCartResp.AddProductObjectData
 import com.malqaa.androidappp.newPhase.domain.models.addProductToCartResp.AddProductObjectData.Companion.selectedCategory
-import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.confirmationAddProduct.ConfirmationAddProductActivity
+import com.malqaa.androidappp.newPhase.domain.models.servicemodels.TimeAuctionSelection
 import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activity7.ListingDurationActivity
+import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.confirmationAddProduct.ConfirmationAddProductActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.viewmodel.AddProductViewModel
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.helper.widgets.DatePickerFragment
+import com.malqaa.androidappp.newPhase.utils.helper.widgets.TimePickerFragment
 import com.malqaa.androidappp.newPhase.utils.helper.widgets.rcv.GenericListAdapter
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.show
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
 class PricingActivity : BaseActivity<ActivityPricingPaymentBinding>() {
 
@@ -37,7 +46,11 @@ class PricingActivity : BaseActivity<ActivityPricingPaymentBinding>() {
     private var selectedAccountDetails: ArrayList<AccountDetails> = ArrayList()
     private var isEdit: Boolean = false
     private var selectdate = ""
+    var selectTime = ""
     private var fm: FragmentManager? = null
+    val allWeeks: ArrayList<TimeAuctionSelection> = ArrayList()
+    var fixlenghtselected: TimeAuctionSelection? = null
+
 
     val adapterList = object : GenericListAdapter<AccountDetails>(
         R.layout.add_bank_layout,
@@ -95,27 +108,168 @@ class PricingActivity : BaseActivity<ActivityPricingPaymentBinding>() {
 
         val fixedPriceSaleFee =
             getString(R.string.product_price_sar, selectedCategory?.enableFixedPriceSaleFee ?: 0)
-        binding.testFixedPriceHelper.visibility = if((selectedCategory?.enableFixedPriceSaleFee ?: 0f) > 0f) View.VISIBLE else View.GONE
-        binding.testFixedPriceHelper.text =getString(
+        binding.testFixedPriceHelper.visibility =
+            if ((selectedCategory?.enableFixedPriceSaleFee ?: 0f) > 0f) View.VISIBLE else View.GONE
+        binding.testFixedPriceHelper.text = getString(
             R.string.please_note_that_activating_it_will_cost_you,
             fixedPriceSaleFee
         )
 
         val auctionFee =
             getString(R.string.product_price_sar, selectedCategory?.enableAuctionFee ?: 0)
-        binding.testAuctionPriceHelper.visibility = if((selectedCategory?.enableAuctionFee ?: 0f) > 0f) View.VISIBLE else View.GONE
-        binding.testAuctionPriceHelper.text =getString(
+        binding.testAuctionPriceHelper.visibility =
+            if ((selectedCategory?.enableAuctionFee ?: 0f) > 0f) View.VISIBLE else View.GONE
+        binding.testAuctionPriceHelper.text = getString(
             R.string.please_note_that_activating_it_will_cost_you,
             auctionFee
         )
 
         val negotiationFee =
             getString(R.string.product_price_sar, selectedCategory?.enableNegotiationFee ?: 0)
-        binding.testNegotiationHelper.visibility = if((selectedCategory?.enableNegotiationFee ?: 0f) > 0f) View.VISIBLE else View.GONE
-        binding.testNegotiationHelper.text =getString(
+        binding.testNegotiationHelper.visibility =
+            if ((selectedCategory?.enableNegotiationFee ?: 0f) > 0f) View.VISIBLE else View.GONE
+        binding.testNegotiationHelper.text = getString(
             R.string.please_note_that_activating_it_will_cost_you,
             negotiationFee
         )
+
+        /**adding price off custom clossing fee*/
+        val auctionClosingTimeFee = selectedCategory?.auctionClosingTimeFee ?: 0
+        val productPriceSar = getString(R.string.product_price_sar, auctionClosingTimeFee)
+        val priceCustomClosingAuctionOption = getString(
+            R.string.please_note_that_choosing_a_custom_date_for_the_auction_closing_time_will_cost_you,
+            productPriceSar
+        )
+
+        if (auctionClosingTimeFee.toInt() > 0) {
+            binding.tvPriceCustomClosingAuctionOption2.text = priceCustomClosingAuctionOption
+        } else {
+            binding.tvPriceCustomClosingAuctionOption2.visibility = View.GONE
+        }
+
+        val c = Calendar.getInstance()
+        val currentDay = c.get(Calendar.DAY_OF_MONTH)
+
+        try {
+            selectedCategory?.let {
+                val characterList = convertStringToIntArray(it.auctionClosingPeriods!!)
+                if (characterList != null) {
+                    for (c in characterList) {
+                        var cNumer = 1
+                        try {
+                            cNumer = c.toString().toInt()
+                        } catch (e: java.lang.Exception) {
+                        }
+
+                        when (it.auctionClosingPeriodsUnit) {
+                            ConstantObjects.auctionClosingPeriodsUnit_day -> {
+                                val date = addDay(currentDay.toString(), cNumer)
+                                allWeeks.add(
+                                    TimeAuctionSelection(
+                                        c.toString(),
+                                        date,
+                                        HelpFunctions.getAuctionClosingTime2(date),
+                                        it.auctionClosingPeriodsUnit
+                                    )
+                                )
+                            }
+
+                            ConstantObjects.auctionClosingPeriodsUnit_month -> {
+                                val date = addMonth(currentDay.toString(), cNumer)
+                                allWeeks.add(
+                                    TimeAuctionSelection(
+                                        c.toString(),
+                                        date,
+                                        HelpFunctions.getAuctionClosingTime2(date),
+                                        it.auctionClosingPeriodsUnit
+                                    )
+                                )
+                            }
+
+                            else -> {
+                                val date = addDay(currentDay.toString(), cNumer * 7)
+                                allWeeks.add(
+                                    TimeAuctionSelection(
+                                        c.toString(),
+                                        date,
+                                        HelpFunctions.getAuctionClosingTime2(date),
+                                        it.auctionClosingPeriodsUnit
+                                    )
+                                )
+                            }
+                        }
+                    }
+                }
+//                }
+            }
+            fixLengthAdapter(allWeeks)
+        } catch (e: Exception) {
+            //
+        }
+
+        if (AddProductObjectData.isAuctionClosingTimeFixed) {
+            binding.closingAuctionOption2.performClick()
+            binding.tvClosingAuctionCustomDataOption2.text =
+                HelpFunctions.getViewFormatForDateTrack(
+                    AddProductObjectData.selectTimeAuction?.endTime,
+                    "dd/MM/yyyy HH:mm:ss"
+                )
+
+        } else {
+            AddProductObjectData.selectTimeAuction?.let {
+                if (it.customOption) {
+                    binding.closingAuctionOption2.performClick()
+                    if (it.text == "")
+                        binding.tvClosingAuctionCustomDataOption2.text =
+                            HelpFunctions.getViewFormatForDateTrack(
+                                it.endTime,
+                                "dd/MM/yyyy HH:mm:ss"
+                            )
+                } else {
+                    binding.closingAuctionOption1.performClick()
+                    for (item in allWeeks) {
+                        if (item.text == it.text) {
+                            item.isSelect = true
+                            break
+                        }
+                    }
+                    fixLengthAdapter(allWeeks)
+                }
+            }
+        }
+
+        if (AddProductObjectData.isAuctionClosingTimeFixed) {
+            binding.closingAuctionOption2.performClick()
+            binding.tvClosingAuctionCustomDataOption2.text =
+                HelpFunctions.getViewFormatForDateTrack(
+                    AddProductObjectData.selectTimeAuction?.endTime,
+                    "dd/MM/yyyy HH:mm:ss"
+                )
+
+        } else {
+            AddProductObjectData.selectTimeAuction?.let {
+                if (it.customOption) {
+                    binding.closingAuctionOption2.performClick()
+                    if (it.text == "")
+                        binding.tvClosingAuctionCustomDataOption2.text =
+                            HelpFunctions.getViewFormatForDateTrack(
+                                it.endTime,
+                                "dd/MM/yyyy HH:mm:ss"
+                            )
+                } else {
+                    binding.closingAuctionOption1.performClick()
+                    for (item in allWeeks) {
+                        if (item.text == it.text) {
+                            item.isSelect = true
+                            break
+                        }
+                    }
+                    fixLengthAdapter(allWeeks)
+                }
+            }
+        }
+
+        setVieClickListeners()
 
         setViewClickListeners()
         disableTextFields()
@@ -423,15 +577,13 @@ class PricingActivity : BaseActivity<ActivityPricingPaymentBinding>() {
             if (b) {
                 binding.auctionOption.setBackgroundResource(R.drawable.field_selection_border_enable)
                 binding.AuctionPriceTv.setTextColor(ContextCompat.getColor(this, R.color.bg))
-
+                binding.contianerClosingOption.show()
             } else {
                 binding.auctionOption.setBackgroundResource(R.drawable.edittext_bg)
                 binding.AuctionPriceTv.setTextColor(
-                    ContextCompat.getColor(
-                        this,
-                        R.color.text_color
-                    )
+                    ContextCompat.getColor(this, R.color.text_color)
                 )
+                binding.contianerClosingOption.hide()
             }
         }
         binding.priceNegotiableRb3.setOnCheckedChangeListener { _, b ->
@@ -600,7 +752,6 @@ class PricingActivity : BaseActivity<ActivityPricingPaymentBinding>() {
         return if (binding.fixedPriceTypeRb1.isChecked or binding.auctionTypeRb2.isChecked or binding.priceNegotiableRb3.isChecked) {
             true
         } else if (binding.titleSaleType.visibility == View.GONE) {
-
             true
         } else {
             showError(getString(R.string.SelectSaleType))
@@ -612,7 +763,7 @@ class PricingActivity : BaseActivity<ActivityPricingPaymentBinding>() {
         var status = true
         if (binding.fixedPriceTypeRb1.isChecked && !validateCheckPriceBox()) {
             status = false
-        } else if (binding.auctionTypeRb2.isChecked && !validateStartPriceBox() or !validateReservePriceBox()) {
+        } else if (binding.auctionTypeRb2.isChecked && !validateStartPriceBox() or !validateReservePriceBox() or !validateListDuration()) {
             status = false
         }
         return status
@@ -664,6 +815,202 @@ class PricingActivity : BaseActivity<ActivityPricingPaymentBinding>() {
         }
 
         return ready
+    }
+
+    @SuppressLint("ResourceType")
+    private fun fixLengthAdapter(list: ArrayList<TimeAuctionSelection>) {
+        println("hhh " + Gson().toJson(list))
+
+        // Set up adapter with ViewBinding for selection_item layout
+        binding.rvClosingTimeListOption1.adapter =
+            object : GenericListAdapter<TimeAuctionSelection>(
+                R.layout.selection_item,
+                bind = { element, holder, itemCount, position ->
+
+                    // Use ViewBinding to bind the view for the current item
+                    val bindingItem = SelectionItemBinding.bind(holder.view)
+
+                    // Bind the data using ViewBinding
+                    bindingItem.run {
+                        element.run {
+                            // Determine unit type
+                            val unit: String = when (unitType) {
+                                ConstantObjects.auctionClosingPeriodsUnit_day -> {
+                                    holder.view.context.getString(R.string.day)
+                                }
+
+                                ConstantObjects.auctionClosingPeriodsUnit_month -> {
+                                    holder.view.context.getString(R.string.month)
+                                }
+
+                                else -> {
+                                    holder.view.context.getString(R.string.week)
+                                }
+                            }
+
+                            // Set the selection text and its state
+                            selectionTv.text = "$text $unit"
+                            selectionTv.isSelected = isSelect
+                            fixlenghtselected = list.find { it.isSelect }
+
+                            // Handle item click to select the option
+                            root.setOnClickListener {
+                                // Update the selected state in the list
+                                list.forEachIndexed { index, item ->
+                                    item.isSelect = index == position
+                                }
+
+                                // Notify adapter to refresh the list
+                                binding.rvClosingTimeListOption1.post {
+                                    binding.rvClosingTimeListOption1.adapter?.notifyDataSetChanged()
+                                }
+
+                                // Set the selected item and adjust the end time
+                                fixlenghtselected = element
+                                val dateFormat = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
+                                val currentTime = dateFormat.format(Date())
+                                fixlenghtselected?.endTime =
+                                    "${fixlenghtselected?.endTime} $currentTime"
+
+                                // Check the button related to this selection
+                                binding.btnRadioClosingAuctionOption1.isChecked = true
+                            }
+                        }
+                    }
+                }
+            ) {
+                override fun getFilter(): Filter {
+                    // Implement the filter logic here if needed
+                    TODO("Not yet implemented")
+                }
+            }.apply {
+                submitList(list)
+            }
+    }
+
+    private fun convertStringToIntArray(str: String): IntArray {
+        // Split the string by comma
+        val stringArray = str.split(",".toRegex()).dropLastWhile { it.isEmpty() }
+            .toTypedArray()
+
+        // Initialize an integer array with the same length
+        val intArray = IntArray(stringArray.size)
+
+        // Convert each string element to an integer
+        for (i in stringArray.indices) {
+            intArray[i] = stringArray[i].toInt()
+        }
+        return intArray
+    }
+
+    private fun setVieClickListeners() {
+        binding.btnRadioClosingAuctionOption1.setOnCheckedChangeListener { compoundButton, b ->
+            if (b) {
+                binding.closingAuctionOption1.performClick()
+            }
+        }
+        binding.closingAuctionOption1.setOnClickListener {
+            AddProductObjectData.isAuctionClosingTimeFixed = false
+            binding.closingAuctionOption1.background =
+                ContextCompat.getDrawable(this, R.drawable.field_selection_border_enable)
+            binding.FixedLength.setTextColor(ContextCompat.getColor(this, R.color.bg))
+            binding.closingAuctionOption2.isSelected = false
+            binding.btnRadioClosingAuctionOption1.isChecked = true
+            binding.btnRadioClosingAuctionOption2.isChecked = false
+            binding.tvClosingAuctionCustomDataOption2.text = ""
+            binding.tvClosingAuctionCustomDataOption2.hint = getString(R.string.SelectTime)
+        }
+        binding.btnRadioClosingAuctionOption2.setOnCheckedChangeListener { compoundButton, b ->
+            if (b) {
+                binding.closingAuctionOption2.performClick()
+            }
+        }
+        binding.closingAuctionOption2.setOnClickListener {
+            AddProductObjectData.isAuctionClosingTimeFixed = true
+            binding.closingAuctionOption2.isSelected = true
+            binding.closingAuctionOption1.background =
+                ContextCompat.getDrawable(this, R.drawable.edittext_bg)
+            binding.FixedLength.setTextColor(ContextCompat.getColor(this, R.color.text_color))
+            binding.btnRadioClosingAuctionOption1.isChecked = false
+            binding.btnRadioClosingAuctionOption2.isChecked = true
+            allWeeks.forEach {
+                it.isSelect = false
+            }
+            fixLengthAdapter(allWeeks)
+        }
+        binding.tvClosingAuctionCustomDataOption2.setOnClickListener {
+            fm = supportFragmentManager
+            val dateDialog = DatePickerFragment(false, true) { selectdate_ ->
+                binding.tvClosingAuctionCustomDataOption2.text = ""
+                selectdate = selectdate_
+                val timeDialog = TimePickerFragment { selectTime_ ->
+                    selectTime = selectTime_
+                    binding.btnRadioClosingAuctionOption2.isChecked = true
+                    binding.tvClosingAuctionCustomDataOption2.text = selectdate + " " + selectTime
+                    println("hhhh " + HelpFunctions.getAuctionClosingTime("$selectdate_ $selectTime$"))
+
+                }
+                timeDialog.show(fm!!, "")
+            }
+            dateDialog.show(fm!!, "")
+        }
+    }
+
+    private fun addDay(oldDate: String?, numberOfDays: Int): String {
+        var dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
+        val c = Calendar.getInstance()
+        try {
+            c.time = dateFormat.parse(oldDate)
+        } catch (e: ParseException) {
+            e.printStackTrace()
+        }
+        c.add(Calendar.DAY_OF_YEAR, numberOfDays)
+        dateFormat = SimpleDateFormat("dd/MM/yyyy")
+        val newDate = Date(c.timeInMillis)
+        return dateFormat.format(newDate)
+    }
+
+    private fun addMonth(oldDate: String?, numberOfDays: Int): String {
+        var dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
+        val c = Calendar.getInstance()
+        try {
+            c.time = dateFormat.parse(oldDate ?: "")
+        } catch (e: ParseException) {
+            e.printStackTrace()
+        }
+        c.add(Calendar.MONTH, numberOfDays)
+        dateFormat = SimpleDateFormat("dd/MM/yyyy")
+        val newDate = Date(c.timeInMillis)
+        return dateFormat.format(newDate)
+    }
+
+    private fun validateListDuration(): Boolean {
+        return if (binding.btnRadioClosingAuctionOption1.isChecked) {
+            if (fixlenghtselected == null) {
+                showError(getString(R.string.close_time))
+                return false
+            } else {
+                AddProductObjectData.selectTimeAuction = fixlenghtselected
+                return true
+            }
+        } else if (binding.btnRadioClosingAuctionOption2.isChecked) {
+            if (binding.tvClosingAuctionCustomDataOption2.text.toString().isEmpty()) {
+                showError(getString(R.string.close_time))
+                return false
+            } else {
+                AddProductObjectData.selectTimeAuction = TimeAuctionSelection(
+                    binding.tvClosingAuctionCustomDataOption2.text.toString(),
+                    binding.tvClosingAuctionCustomDataOption2.text.toString(),
+                    HelpFunctions.getAuctionClosingTime(binding.tvClosingAuctionCustomDataOption2.text.toString()),
+                    0,
+                    customOption = true
+                )
+                return true
+            }
+        } else {
+            showError(getString(R.string.close_time))
+            false
+        }
     }
 
 }

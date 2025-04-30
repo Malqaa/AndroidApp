@@ -76,6 +76,10 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
     private var bottomSheetDialog: BottomSheetDialog? = null
     private lateinit var selectedPaymentType: PaymentAccountType
     private var pointsNumber: Double? = null
+    private var selectedAccountDetails: ArrayList<AccountDetails> = ArrayList()
+    private var accountDetails: AccountDetails? = null
+    private lateinit var adapterList: GenericListAdapter<AccountDetails>
+
 
     var pakatId = ""
 
@@ -155,6 +159,7 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
 
                         binding.selectedMyPoints.textMyPointsBalance.text = myPointsBalance
                         pointsNumber = pointsRequired
+                        selectedPaymentType = PaymentAccountType.Points
 
                         binding.layoutMyPointsPayment.background =
                             ContextCompat.getDrawable(
@@ -1158,6 +1163,7 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
             if (b) {
                 addProductViewModel.getPointsBalance()
                 selectedPaymentType = PaymentAccountType.Points
+                Log.i("test #1", "selectedPaymentType: $selectedPaymentType")
 
                 // hide other
                 binding.switchVisaCreditCard.isChecked = false
@@ -1250,6 +1256,7 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
         AddProductObjectData.shippingOptionSelection?.let { shippingOption.add(it[0].id.toString()) }
 
         val bankList = AddProductObjectData.selectedAccountDetails?.map { it.id }
+        val accountDetails = accountDetails?.copy(paymentAccountType = selectedPaymentType)
 
         addProductViewModel.getAddProduct3(
             isEdit,
@@ -1299,9 +1306,10 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
             ProductPaymentDetailsDto_CouponDiscountValue = couponDiscountValue,
             ProductPaymentDetailsDto_TotalAmountAfterCoupon = totalAfterDiscount,
             ProductPaymentDetailsDto_TotalAmountBeforeCoupon = totalPrice,
-            accountDetails = accountDetails?.copy(paymentAccountType = selectedPaymentType),
+            accountDetails = accountDetails,
             totalAmount = totalPrice,
-            pointsNumber = pointsNumber
+            pointsNumber = pointsNumber,
+            selectedPaymentType = selectedPaymentType
         )
     }
 
@@ -1539,7 +1547,7 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
                 )
             }
 
-            accountDetails = AccountDetails(
+             accountDetails = AccountDetails(
                 id = 1,
                 bankAccountId = 1,
                 isSelected = true,
@@ -1583,11 +1591,6 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
             allCardsBottomSheetDialog.dismiss()
         }
     }
-
-    private var selectedAccountDetails: ArrayList<AccountDetails> = ArrayList()
-    private var accountDetails: AccountDetails? = null
-
-    private lateinit var adapterList: GenericListAdapter<AccountDetails>
 
     private fun setupAdapter() {
         adapterList = object : GenericListAdapter<AccountDetails>(
