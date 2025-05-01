@@ -165,6 +165,13 @@ object Extension {
         startActivity(Intent.createChooser(sharingIntent, "Share via"))
     }
 
+    fun Context.shared(shareBody: String) {
+        val sharingIntent = Intent(Intent.ACTION_SEND)
+        sharingIntent.type = "text/plain"
+        sharingIntent.putExtra(Intent.EXTRA_TEXT, shareBody)
+        startActivity(Intent.createChooser(sharingIntent, "Share via"))
+    }
+
     fun String.requestBody(): RequestBody {
         return this.toRequestBody("text/plain".toMediaTypeOrNull())
     }

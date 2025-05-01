@@ -63,6 +63,7 @@ data class Product(
     val productShippingOptions: List<PorductShippingOptionItem>? = null,
     val isFreeDelivery: Boolean,
     val isMerchant: Boolean,
+    val isFeatured: Boolean,
     val negotiationOffersCount: Int,
     val purchasedQuantity: Int,
     val restQuantity: Int,

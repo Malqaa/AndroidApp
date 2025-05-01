@@ -569,7 +569,7 @@
     <string name="youtube">یوٹیوب</string>
     <string name="it_was_completed">تم</string>
     <string name="favorite">المفضلة</string>
-    <string name="purchasing_price">سعر الشراء : </string>
+    <string name="purchasing_price">سعر الشراء</string>
     <string name="want_to_search_for_a_commodity_or_an_auction">تريد ان تبحث عن سلعة او مزاد ؟</string>
     <string name="search_by_name_auction_number_or_item">أبحث باسم /رقم المزاد او السلعة</string>
     <string name="Browse_our_departments">تصفح اقسامنا</string>
@@ -1176,4 +1176,5 @@
     <string name="points_balance_equals">رصيد النقاط يساوي %1$s</string>
     <string name="balance_insufficient">الرصيد غير كافٍ لإتمام عملية الدفع. يرجى اختيار طريقة دفع بديلة.</string>
     <string name="please_select_pickup_option">الرجاء تحديد خيار الاستلام</string>
+    <string name="featured">متميز</string>
 </resources>

@@ -15,13 +15,13 @@ import com.malqaa.androidappp.newPhase.data.network.service.SetOnProductItemList
 import com.malqaa.androidappp.newPhase.domain.models.productResp.Product
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.Extension
+import com.malqaa.androidappp.newPhase.utils.Extension.shared
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions.Companion.getDifference
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.isValidPrice
 import com.malqaa.androidappp.newPhase.utils.show
 import com.yariksoffice.lingver.Lingver
-
 
 class ProductHorizontalAdapter(
     var productList: List<Product>,
@@ -72,6 +72,13 @@ class ProductHorizontalAdapter(
         holder.viewBinding.btnMerchant.visibility =
             if (product.isMerchant) View.VISIBLE else View.GONE
 
+        holder.viewBinding.linearLayoutFeatured.visibility =
+            if (product.isFeatured) View.VISIBLE else View.GONE
+
+        holder.viewBinding.imageViewShare.setOnClickListener {
+            context.shared(shareBody = "http://advdev-001-site1.dtempurl.com/Home/GetProductById?id=${product.id}")
+        }
+
         // Handle favorite or settings icon based on product ownership
         if (isMyProduct) {
             holder.viewBinding.ivFav.visibility = View.GONE
@@ -101,7 +108,12 @@ class ProductHorizontalAdapter(
 
         // Set product title and subtitle
         holder.viewBinding.titlenamee.text = product.name ?: ""
-        holder.viewBinding.subTitlenamee.text = product.subTitle ?: ""
+
+        val subtitle = product.subTitle
+        holder.viewBinding.subTitlenamee.text = subtitle ?: ""
+        holder.viewBinding.subTitlenamee.visibility =
+            if (subtitle.isNullOrBlank()) View.GONE else View.VISIBLE
+
         holder.viewBinding.cityTv.text = product.regionName ?: ""
 
         // Auction and Negotiation flags
@@ -162,18 +174,24 @@ class ProductHorizontalAdapter(
         }
 
         // Show/hide auction start or highest bid price
-        holder.viewBinding.LowestPriceLayout.visibility =
-            if (product.highestBidPrice.toDouble() > 0) {
+        val priceVisibility = when {
+            product.highestBidPrice.toDouble() > 0 -> {
                 holder.viewBinding.LowestPrice.text =
                     "${product.highestBidPrice} ${context.getString(R.string.SAR)}"
                 View.VISIBLE
-            } else if (product.auctionStartPrice.toDouble() > 0) {
+            }
+
+            product.auctionStartPrice.toDouble() > 0 -> {
                 holder.viewBinding.LowestPrice.text =
                     "${product.auctionStartPrice} ${context.getString(R.string.SAR)}"
                 View.VISIBLE
-            } else {
-                View.INVISIBLE
             }
+
+            else -> View.INVISIBLE
+        }
+
+        holder.viewBinding.LowestPriceLayout.visibility = priceVisibility
+        holder.viewBinding.divider4.visibility = priceVisibility
 
         // Click listeners for product item and favorite icon
         holder.viewBinding.fullview.setOnClickListener {

@@ -758,7 +758,7 @@
     <string name="we_have_sent_the_activation_code_to_your_phone">We have sent the activation code to your phone</string>
     <string name="resend_the_code_after_50_seconds" translatable="false">Resend the code after: 50 seconds</string>
     <string name="favorite">Favorite</string>
-    <string name="purchasing_price">Purchasing price : </string>
+    <string name="purchasing_price">Purchasing price</string>
     <string name="want_to_search_for_a_commodity_or_an_auction">Want to search for a commodity or an auction?</string>
     <string name="search_by_name_auction_number_or_item">Search by name / auction number or item</string>
     <string name="Browse_our_departments">Browse our departments</string>
@@ -1041,7 +1041,7 @@
     <string name="to_be_sure">To be sure</string>
     <string name="please_attach_a_copy_of_the_invoice">Please attach a copy of the invoice</string>
     <string name="attach_the_picture">Attach the picture</string>
-    <string name="highest_price">Highest Price: </string>
+    <string name="highest_price">Highest Price</string>
     <string name="bidding_completed_successfully">Bidding completed successfully</string>
     <string name="manage_your_bid">Manage Your Bid</string>
     <string name="seller">Seller</string>
@@ -1386,5 +1386,6 @@
     <string name="points_balance_equals">The Points balance equals %1$s</string>
     <string name="balance_insufficient">The Balance is insufficient to complete the payment. Please select an alternative payment method.</string>
     <string name="please_select_pickup_option">Please select a pickup option</string>
+  <string name="featured">Featured</string>
 
 </resources>
