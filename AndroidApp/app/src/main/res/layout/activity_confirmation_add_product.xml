@@ -549,6 +549,39 @@
 
                 </RelativeLayout>
 
+                <RelativeLayout
+                    android:id="@+id/containerAuction"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:background="@drawable/product_attribute_bg4"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_15sdp"
+                        android:fontFamily="@font/madani_arabic_medium"
+                        android:text="@string/auction_closing_time"
+
+                        android:textColor="@color/grey"
+                        android:textSize="@dimen/_10sdp" />
+
+                    <TextView
+                        android:id="@+id/tvDateAuction"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="@dimen/_15sdp"
+                        android:fontFamily="@font/madani_arabic_medium"
+                        android:gravity="end"
+                        android:textColor="@color/grey"
+                        android:textSize="@dimen/_10sdp" />
+                </RelativeLayout>
+
                 <LinearLayout
                     android:id="@+id/layPaymentOption"
                     android:layout_width="match_parent"
@@ -647,7 +680,6 @@
 
 
                 </LinearLayout>
-
 
             </LinearLayout>
 
@@ -800,40 +832,6 @@
 
 
                 </LinearLayout>
-
-                <RelativeLayout
-                    android:id="@+id/containerAuction"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_40sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:background="@drawable/product_attribute_bg4"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:weightSum="2">
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_15sdp"
-                        android:fontFamily="@font/madani_arabic_medium"
-                        android:text="@string/auction_closing_time"
-
-                        android:textColor="@color/grey"
-                        android:textSize="@dimen/_10sdp" />
-
-                    <TextView
-                        android:id="@+id/tvDateAuction"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginEnd="@dimen/_15sdp"
-                        android:fontFamily="@font/madani_arabic_medium"
-                        android:gravity="end"
-                        android:textColor="@color/grey"
-                        android:textSize="@dimen/_10sdp" />
-                </RelativeLayout>
-
             </LinearLayout>
 
             <LinearLayout
