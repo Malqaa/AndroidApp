@@ -1387,5 +1387,6 @@
     <string name="balance_insufficient">The Balance is insufficient to complete the payment. Please select an alternative payment method.</string>
     <string name="please_select_pickup_option">Please select a pickup option</string>
   <string name="featured">Featured</string>
+  <string name="please_choose_a_card">Please choose a card</string>
 
 </resources>

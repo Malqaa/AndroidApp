@@ -1335,7 +1335,13 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
             buttonDone.setOnClickListener {
                 val cvv = accountDetails?.cvv
 
-                if (cvv.toString().length != 3) {
+                if (accountDetails == null) {
+                    HelpFunctions.ShowLongToast(
+                        getString(R.string.please_choose_a_card),
+                        context = this@ConfirmationAddProductActivity
+                    )
+                    return@setOnClickListener
+                } else if (cvv.toString().length !in 3..4) {
                     HelpFunctions.ShowLongToast(
                         getString(R.string.please_enter_cvv),
                         context = this@ConfirmationAddProductActivity
@@ -1547,7 +1553,7 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
                 )
             }
 
-             accountDetails = AccountDetails(
+            accountDetails = AccountDetails(
                 id = 1,
                 bankAccountId = 1,
                 isSelected = true,

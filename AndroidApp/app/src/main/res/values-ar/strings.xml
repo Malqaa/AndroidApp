@@ -1177,4 +1177,5 @@
     <string name="balance_insufficient">الرصيد غير كافٍ لإتمام عملية الدفع. يرجى اختيار طريقة دفع بديلة.</string>
     <string name="please_select_pickup_option">الرجاء تحديد خيار الاستلام</string>
     <string name="featured">متميز</string>
+    <string name="please_choose_a_card">الرجاء اختيار بطاقة</string>
 </resources>
