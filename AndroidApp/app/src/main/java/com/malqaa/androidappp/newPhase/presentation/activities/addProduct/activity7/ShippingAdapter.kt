@@ -93,8 +93,8 @@ class ShippingAdapter(
 
         for (item in dataList) {
             when (item.shippingOptionDescription) {
-                "NoPickUp" -> noPickUpSelected = item.selected
-                "PickUpAvailable" -> pickUpAvailableSelected = item.selected
+                "NoPickUp", "الاستلام غير متاح" -> noPickUpSelected = item.selected
+                "PickUpAvailable", "الاستلام متاح" -> pickUpAvailableSelected = item.selected
             }
         }
 
