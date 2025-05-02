@@ -1,6 +1,7 @@
 package com.malqaa.androidappp.newPhase.presentation.activities.addProduct.activity7
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -93,8 +94,8 @@ class ShippingAdapter(
 
         for (item in dataList) {
             when (item.shippingOptionDescription) {
-                "NoPickUp" -> noPickUpSelected = item.selected
-                "PickUpAvailable" -> pickUpAvailableSelected = item.selected
+                "NoPickUp", "الاستلام غير متاح" -> noPickUpSelected = item.selected
+                "PickUpAvailable", "الاستلام متاح" -> pickUpAvailableSelected = item.selected
             }
         }
 
