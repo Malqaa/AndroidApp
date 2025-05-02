@@ -986,6 +986,7 @@
                         android:textSize="@dimen/_10sdp" />
                 </LinearLayout>
 
+                <!-- additional package price -->
                 <LinearLayout
                     android:id="@+id/ContainerPackge"
                     android:layout_width="match_parent"
@@ -1000,7 +1001,7 @@
                         android:layout_marginStart="@dimen/_15sdp"
                         android:layout_weight="1"
                         android:fontFamily="@font/madani_arabic_light"
-                        android:text="@string/package_cost"
+                        android:text="@string/additional_package_price"
                         android:textColor="@color/grey"
                         android:textSize="@dimen/_10sdp" />
 
@@ -1021,6 +1022,7 @@
                     </LinearLayout>
                 </LinearLayout>
 
+                <!-- coupon discount -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -1035,7 +1037,7 @@
                         android:layout_marginStart="@dimen/_15sdp"
                         android:layout_weight="1"
                         android:fontFamily="@font/madani_arabic_light"
-                        android:text="@string/discount_coupon"
+                        android:text="@string/coupon_discount"
                         android:textColor="@color/grey"
                         android:textSize="@dimen/_10sdp" />
 
@@ -1056,6 +1058,7 @@
                     </LinearLayout>
                 </LinearLayout>
 
+                <!-- ad publishing fees -->
                 <LinearLayout
                     android:id="@+id/containerProductPublishPriceFee"
                     android:layout_width="match_parent"
@@ -1070,7 +1073,7 @@
                         android:layout_marginStart="@dimen/_15sdp"
                         android:layout_weight="1"
                         android:fontFamily="@font/madani_arabic_light"
-                        android:text="@string/productPublishPrice"
+                        android:text="@string/ad_publishing_fees"
                         android:textColor="@color/grey"
                         android:textSize="@dimen/_10sdp" />
 
@@ -1091,6 +1094,7 @@
                     </LinearLayout>
                 </LinearLayout>
 
+                <!-- fixed sale price option fees -->
                 <LinearLayout
                     android:id="@+id/containerFixedPriceFee"
                     android:layout_width="match_parent"
@@ -1105,7 +1109,7 @@
                         android:layout_marginStart="@dimen/_15sdp"
                         android:layout_weight="1"
                         android:fontFamily="@font/madani_arabic_light"
-                        android:text="@string/fixedPriceFee"
+                        android:text="@string/fixed_sale_price_option_fees"
                         android:textColor="@color/grey"
                         android:textSize="@dimen/_10sdp" />
 
@@ -1126,6 +1130,7 @@
                     </LinearLayout>
                 </LinearLayout>
 
+                <!-- public auction option fees -->
                 <LinearLayout
                     android:id="@+id/containerAuctionFee"
                     android:layout_width="match_parent"
@@ -1140,7 +1145,7 @@
                         android:layout_marginStart="@dimen/_15sdp"
                         android:layout_weight="1"
                         android:fontFamily="@font/madani_arabic_light"
-                        android:text="@string/auctionFee"
+                        android:text="@string/public_auction_option_fees"
                         android:textColor="@color/grey"
                         android:textSize="@dimen/_10sdp" />
 
@@ -1161,6 +1166,7 @@
                     </LinearLayout>
                 </LinearLayout>
 
+                <!-- negotiable price option fees -->
                 <LinearLayout
                     android:id="@+id/containerNegotiationFee"
                     android:layout_width="match_parent"
@@ -1175,7 +1181,7 @@
                         android:layout_marginStart="@dimen/_15sdp"
                         android:layout_weight="1"
                         android:fontFamily="@font/madani_arabic_light"
-                        android:text="@string/negotiationFee"
+                        android:text="@string/negotiable_price_option_fees"
                         android:textColor="@color/grey"
                         android:textSize="@dimen/_10sdp" />
 
@@ -1196,6 +1202,7 @@
                     </LinearLayout>
                 </LinearLayout>
 
+                <!-- arabic subtitle fees -->
                 <LinearLayout
                     android:id="@+id/containerSubTitleFee"
                     android:layout_width="match_parent"
@@ -1210,7 +1217,7 @@
                         android:layout_marginStart="@dimen/_15sdp"
                         android:layout_weight="1"
                         android:fontFamily="@font/madani_arabic_light"
-                        android:text="@string/subTitleFee"
+                        android:text="@string/arabic_subtitle_fees"
                         android:textColor="@color/grey"
                         android:textSize="@dimen/_10sdp" />
 
@@ -1231,6 +1238,7 @@
                     </LinearLayout>
                 </LinearLayout>
 
+                <!-- additional image fees -->
                 <LinearLayout
                     android:id="@+id/containerImageExtraFee"
                     android:layout_width="match_parent"
@@ -1245,7 +1253,7 @@
                         android:layout_marginStart="@dimen/_15sdp"
                         android:layout_weight="1"
                         android:fontFamily="@font/madani_arabic_light"
-                        android:text="@string/imageExtraFee"
+                        android:text="@string/additional_image_fees"
                         android:textColor="@color/grey"
                         android:textSize="@dimen/_10sdp" />
 
@@ -1266,7 +1274,7 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <!-- extra videos fee -->
+                <!-- additional video link fees -->
                 <LinearLayout
                     android:id="@+id/containerVideoExtraFee"
                     android:layout_width="match_parent"
@@ -1281,7 +1289,7 @@
                         android:layout_marginStart="@dimen/_15sdp"
                         android:layout_weight="1"
                         android:fontFamily="@font/madani_arabic_light"
-                        android:text="@string/videoExtraFee"
+                        android:text="@string/additional_video_link_fees"
                         android:textColor="@color/grey"
                         android:textSize="@dimen/_10sdp" />
 
@@ -1302,6 +1310,79 @@
                     </LinearLayout>
                 </LinearLayout>
 
+                <!-- subtotal -->
+                <LinearLayout
+                    android:id="@+id/containerSubtotal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_15sdp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/madani_arabic_light"
+                        android:text="@string/Subtotal"
+                        android:textColor="@color/grey"
+                        android:textSize="@dimen/_10sdp" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/tvSubtotal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_marginEnd="@dimen/_15sdp"
+                            android:fontFamily="@font/madani_arabic_light"
+                            android:text="0"
+                            android:textColor="@color/grey"
+                            android:textSize="@dimen/_14sdp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- tax (15%) -->
+                <LinearLayout
+                    android:id="@+id/containerVat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_15sdp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/madani_arabic_light"
+                        android:text="@string/tax_15"
+                        android:textColor="@color/grey"
+                        android:textSize="@dimen/_10sdp" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/tvVat"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_marginEnd="@dimen/_15sdp"
+                            android:fontFamily="@font/madani_arabic_light"
+                            android:text="0"
+                            android:textColor="@color/grey"
+                            android:textSize="@dimen/_14sdp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- total -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

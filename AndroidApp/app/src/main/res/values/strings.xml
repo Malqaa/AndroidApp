@@ -841,7 +841,9 @@
     <string name="enter_the_coupon">Enter the coupon</string>
     <string name="invalidCoupon">Invalid Coupon</string>
     <string name="discount_coupon">Discount coupon</string>
+    <string name="coupon_discount">Coupon Discount</string>
     <string name="package_cost">Package cost</string>
+    <string name="additional_package_price">Additional Package Price</string>
     <string name="added_tax">Added tax</string>
     <string name="total">Total</string>
     <string name="complete_the_order">Complete order</string>
@@ -876,6 +878,7 @@
     <string name="select_or_search" translatable="false">Select or Search</string>
     <string name="close" translatable="false">Close</string>
     <string name="subtotal">Cart total</string>
+    <string name="Subtotal">Subtotal</string>
     <string name="no_thank_you">No thank you</string>
 
     <string name="my_saved_addresses">My saved addresses</string>
@@ -1197,6 +1200,7 @@
     <string name="extraProductImageCount">Extra product image count</string>
     <string name="extraProductVidoeCount">Extra product video count</string>
     <string name="subTitleFee">Sub title fee</string>
+    <string name="arabic_subtitle_fees">Arabic Subtitle Fees</string>
     <string name="day">Day</string>
     <string name="week">Week</string>
     <string name="month">Month</string>
@@ -1205,11 +1209,17 @@
     <string name="highestBidPrice">Highest Bid Price</string>
     <string name="writeHighestBidPrice">Write Highest Bid Price</string>
     <string name="fixedPriceFee">Fixed Price Fee</string>
+    <string name="fixed_sale_price_option_fees">Fixed Sale Price Option Fees</string>
     <string name="auctionFee">Auction Fee</string>
+    <string name="public_auction_option_fees">Public Auction Option Fees</string>
     <string name="negotiationFee">Negotiation Fee</string>
+    <string name="negotiable_price_option_fees">Negotiable Price Option Fees</string>
     <string name="imageExtraFee">Extra Images Fee</string>
+    <string name="additional_image_fees">Additional Image Fees</string>
     <string name="videoExtraFee">Extra Videos Fee</string>
+    <string name="additional_video_link_fees">Additional Video Link Fees</string>
     <string name="SubTitleFee">Subtitle Fee</string>
+    <string name="ad_publishing_fees">Ad Publishing Fees</string>
     <string name="productPublishPrice">Product Publish Price</string>
 
     <string name="enterBidPrice">Enter Bid Price</string>
@@ -1386,7 +1396,8 @@
     <string name="points_balance_equals">The Points balance equals %1$s</string>
     <string name="balance_insufficient">The Balance is insufficient to complete the payment. Please select an alternative payment method.</string>
     <string name="please_select_pickup_option">Please select a pickup option</string>
-  <string name="featured">Featured</string>
-  <string name="please_choose_a_card">Please choose a card</string>
+    <string name="featured">Featured</string>
+    <string name="please_choose_a_card">Please choose a card</string>
+    <string name="tax_15">Tax (15%)</string>
 
 </resources>

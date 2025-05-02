@@ -658,7 +658,9 @@
     <string name="enter_the_coupon">ادخل كود الخصم</string>
     <string name="invalidCoupon">كود الخصم غير صحيح</string>
     <string name="discount_coupon">كود الخصم</string>
+    <string name="coupon_discount">خصم الكوبون</string>
     <string name="package_cost">تكلفة الباقة</string>
+    <string name="additional_package_price">سعر الباقة الاضافية</string>
     <string name="added_tax">الضريبة المضافة</string>
     <string name="total">الاجمالى</string>
     <string name="complete_the_order">إتمام الطلب</string>
@@ -667,6 +669,7 @@
     <string name="order_number">رقم الطلب</string>
     <string name="waiting_for_confirmation">بأنتظار التأكيد</string>
     <string name="subtotal">الاجمالي</string>
+    <string name="Subtotal">الاجمالى</string>
     <string name="no_thank_you">لا، شكرا</string>
     <string name="your_favorite_merchant_added_a_product">أضاف التاجر المفضل لديك منتجًا</string>
     <string name="new_product_has_been_added">تمت إضافة منتج جديد</string>
@@ -993,6 +996,7 @@
     <string name="extraProductImageCount">عدد صورة المنتج الإضافية</string>
     <string name="extraProductVidoeCount">عدد فيديو المنتج الإضافية</string>
     <string name="subTitleFee">رسوم العنوان الفرعي</string>
+    <string name="arabic_subtitle_fees">رسوم العنوان الفرعى</string>
     <string name="day">يوم</string>
     <string name="week">أسبوع</string>
     <string name="month">شهر</string>
@@ -1001,12 +1005,18 @@
     <string name="highestBidPrice">أعلى سعر للمزايده</string>
     <string name="writeHighestBidPrice">اكتب أعلى سعر للمزايده</string>
     <string name="fixedPriceFee">رسوم السعر الثابت</string>
+    <string name="fixed_sale_price_option_fees">رسوم "خيار سعر البيع الثابت"</string>
     <string name="auctionFee">رسوم المزاد</string>
+    <string name="public_auction_option_fees">رسوم "خيار المزاد العلنى"</string>
     <string name="negotiationFee">رسوم التفاوض</string>
+    <string name="negotiable_price_option_fees">رسوم "خيار السعر قابل للتفاوض"</string>
     <string name="SubTitleFee">رسوم العنوان الفرعي</string>
+    <string name="ad_publishing_fees">رسوم نشر الإعلان</string>
     <string name="productPublishPrice">رسوم رفع الإعلان</string>
     <string name="imageExtraFee">رسوم الصور الإضافية</string>
+    <string name="additional_image_fees">رسوم الصور الإضافية</string>
     <string name="videoExtraFee">رسوم الفيديو الإضافية</string>
+    <string name="additional_video_link_fees">رسوم روابط الفيديو الإضافية</string>
     <string name="enterBidPrice">أدخل سعر المزايده</string>
     <string name="enterCorrectBidPrice">أدخل سعر المزايده الصحيح</string>
     <string name="writeNegotionPrice">من فضللك اكتب السعرالذى تريد ارساله للبائع</string>
@@ -1178,4 +1188,5 @@
     <string name="please_select_pickup_option">الرجاء تحديد خيار الاستلام</string>
     <string name="featured">متميز</string>
     <string name="please_choose_a_card">الرجاء اختيار بطاقة</string>
+    <string name="tax_15">الضريبة (15 ٪)</string>
 </resources>
