@@ -784,12 +784,20 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
             }
         }
 
+        // Step 1: Calculate Subtotal
+        val subtotal = pakagePrice + fixedPriceFee + auctionEnableFee + negotiationFee +
+                subTitleFee + extraImageFee + extraVideoFee + productPublishPriceFee
 
-        /**total*/
-        totalPrice =
-            (pakagePrice + fixedPriceFee + auctionEnableFee + negotiationFee + subTitleFee + extraImageFee + extraVideoFee + productPublishPriceFee)
-        binding.tvTotal.text = "$totalPrice ${getString(R.string.SAR)}"
+        // Step 2: Calculate Tax (15%)
+        val taxAmount = subtotal * 0.15
 
+        // Step 3: Calculate Total with VAT
+        val totalWithVat = subtotal + taxAmount
+
+        // Step 4: Display the values
+        binding.tvSubtotal.text = String.format("%.2f", subtotal)  // e.g., "150.00"
+        binding.tvVat.text = String.format("%.2f", taxAmount)       // e.g., "22.50"
+        binding.tvTotal.text = "${String.format("%.2f", totalWithVat)} ${getString(R.string.SAR)}"
 
         AddProductObjectData.productCondition = productDetails.status
 
@@ -1007,10 +1015,20 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
             countVideoPackage = countVideoPackage
         )
 
-        /**total*/
-        totalPrice =
-            (pakagePrice + fixedPriceFee + auctionEnableFee + negotiationFee + subTitleFee + extraImageFee + extraVideoFee + productPublishPriceFee)
-        binding.tvTotal.text = "$totalPrice ${getString(R.string.SAR)}"
+        // Step 1: Calculate Subtotal
+        val subtotal = pakagePrice + fixedPriceFee + auctionEnableFee + negotiationFee +
+                subTitleFee + extraImageFee + extraVideoFee + productPublishPriceFee
+
+        // Step 2: Calculate Tax (15%)
+        val taxAmount = subtotal * 0.15
+
+        // Step 3: Calculate Total with VAT
+        val totalWithVat = subtotal + taxAmount
+
+        // Step 4: Display the values
+        binding.tvSubtotal.text = String.format("%.2f", subtotal)  // e.g., "150.00"
+        binding.tvVat.text = String.format("%.2f", taxAmount)       // e.g., "22.50"
+        binding.tvTotal.text = "${String.format("%.2f", totalWithVat)} ${getString(R.string.SAR)}"
     }
 
     private fun updateExtraPackageUI(countImagePackage: Int, countVideoPackage: Int) {
