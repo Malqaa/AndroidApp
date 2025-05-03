@@ -20,7 +20,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.malqaa.androidappp.R
-import com.malqaa.androidappp.databinding.FragmentFollowUpFragmentBinding
 import com.malqaa.androidappp.databinding.FragmentHomeeBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
 import com.malqaa.androidappp.newPhase.data.network.service.SetOnProductItemListeners
@@ -65,6 +64,8 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
     private var dots: ArrayList<ImageView>? = null
     private var lastviewedPorductAdatper: ProductHorizontalAdapter? = null
     private var lastviewedPorductList: ArrayList<Product>? = null
+    private var closingSoonAdatper: ProductHorizontalAdapter? = null
+    private var closingSoonList: ArrayList<Product>? = null
     private var categoryProductHomeList: ArrayList<CategoryProductItem>? = null
     private var categoryPrductAdapter: CategoryProductAdapter? = null
     private val added_from_product_in_category = 1
@@ -83,6 +84,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
         settingUpView()
         setListener()
         setupLastViewedPorductsAdapter()
+        setupClosingSoonAdapter()
         setUpCategoryProductAdapter()
         setupLoginViewModel()
 
@@ -161,6 +163,16 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
             layoutManager = linearLayoutManager(RecyclerView.HORIZONTAL)
         }
 
+    }
+
+    private fun setupClosingSoonAdapter() {
+        closingSoonList = ArrayList()
+        closingSoonAdatper =
+            ProductHorizontalAdapter(closingSoonList ?: arrayListOf(), this, 0, true)
+        binding.recyclerViewClosingSoon.apply {
+            adapter = closingSoonAdatper
+            layoutManager = linearLayoutManager(RecyclerView.HORIZONTAL)
+        }
     }
 
     private fun setUpCategoryProductAdapter() {
@@ -294,6 +306,19 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
             }
 
         }
+        homeViewModel!!.closingSoonObserver.observe(viewLifecycleOwner) { productListResp ->
+            if (productListResp.productList != null) {
+                if (productListResp.productList.isNotEmpty()) {
+                    binding.linearLayoutClosingSoon.show()
+                    (closingSoonList ?: arrayListOf()).clear()
+                    (closingSoonList ?: arrayListOf()).addAll(productListResp.productList)
+                    closingSoonAdatper!!.notifyDataSetChanged()
+                } else {
+                    binding.linearLayoutClosingSoon.hide()
+                }
+            }
+
+        }
         homeViewModel!!.isNetworkFailProductToFav.observe(viewLifecycleOwner, Observer {
             if (it) {
                 HelpFunctions.ShowLongToast(
@@ -385,9 +410,24 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
                             withContext(Dispatchers.Main) {
                                 selectedSimilerProduct?.let { product ->
                                     lastviewedPorductAdatper!!.notifyItemChanged(
-                                        lastviewedPorductList!!.indexOf(
-                                            product
-                                        )
+                                        lastviewedPorductList!!.indexOf(product)
+                                    )
+                                }
+                            }
+                        }
+                        lifecycleScope.launch(Dispatchers.IO) {
+                            var selectedClosingSoon: Product? = null
+                            for (product in closingSoonList ?: arrayListOf()) {
+                                if (product.id == added_product_id_to_fav) {
+                                    product.isFavourite = !product.isFavourite
+                                    selectedClosingSoon = product
+                                    break
+                                }
+                            }
+                            withContext(Dispatchers.Main) {
+                                selectedClosingSoon?.let { product ->
+                                    closingSoonAdatper!!.notifyItemChanged(
+                                        closingSoonList!!.indexOf(product)
                                     )
                                 }
                             }
@@ -410,6 +450,23 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
                                         lastviewedPorductList?.indexOf(
                                             product
                                         )!!
+                                    )
+                                }
+                            }
+                        }
+                        lifecycleScope.launch(Dispatchers.IO) {
+                            var selectedClosingSoon: Product? = null
+                            for (product in closingSoonList ?: arrayListOf()) {
+                                if (product.id == added_product_id_to_fav) {
+                                    product.isFavourite = !product.isFavourite
+                                    selectedClosingSoon = product
+                                    break
+                                }
+                            }
+                            withContext(Dispatchers.Main) {
+                                selectedClosingSoon?.let { product ->
+                                    closingSoonAdatper?.notifyItemChanged(
+                                        closingSoonList?.indexOf(product)!!
                                     )
                                 }
                             }
@@ -569,7 +626,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
         homeViewModel?.getAllCategories()
         if (HelpFunctions.isUserLoggedIn()) {
             homeViewModel?.getLastViewedProduct()
-            //  HelpFunctions.GetUserWatchlist()
+            homeViewModel?.getClosingSoon()
         }
     }
 
@@ -585,11 +642,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
             homeViewModel?.addProductToFav(productId)
 
         } else {
-            requireActivity().startActivity(
-                Intent(
-                    context,
-                    SignInActivity::class.java
-                ).apply {})
+            requireActivity().startActivity(Intent(context, SignInActivity::class.java).apply {})
         }
     }
 
@@ -660,9 +713,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
                 /**update similer product*/
                 selectedSimilerProduct?.let { product ->
                     lastviewedPorductAdatper?.notifyItemChanged(
-                        lastviewedPorductList!!.indexOf(
-                            product
-                        )
+                        lastviewedPorductList!!.indexOf(product)
                     )
                 }
             }
@@ -711,6 +762,24 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
                 }
             }
         }
+
+        // for closing soon
+        lifecycleScope.launch(Dispatchers.IO) {
+            var selectedClosingSoon: Product? = null
+            for (product in (closingSoonList ?: arrayListOf())) {
+                if (product.id == productId) {
+                    product.isFavourite = productFavStatusKey
+                    selectedClosingSoon = product
+                    break
+                }
+            }
+            withContext(Dispatchers.Main) {
+                // update closing soon
+                selectedClosingSoon?.let { product ->
+                    closingSoonAdatper?.notifyItemChanged(closingSoonList!!.indexOf(product))
+                }
+            }
+        }
     }
 
     override fun onDestroyView() {
@@ -722,6 +791,7 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
         lastviewedPorductAdatper?.onDestroyHandler()
         lastviewedPorductAdatper = null
         lastviewedPorductList = null
+        closingSoonList = null
         categoryProductHomeList = null
         categoryPrductAdapter = null
     }
