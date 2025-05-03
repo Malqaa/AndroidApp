@@ -1399,5 +1399,6 @@
     <string name="featured">Featured</string>
     <string name="please_choose_a_card">Please choose a card</string>
     <string name="tax_15">Tax (15%)</string>
+  <string name="closing_soon">Closing Soon</string>
 
 </resources>

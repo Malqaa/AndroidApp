@@ -250,6 +250,10 @@ interface MalqaApiService {
         @Query("lang") language: String = ConstantObjects.currentLanguage
     ): Call<ProductListResp>
 
+    @GET("ListClosingSoonProducts?currentPage=1")
+    fun listClosingSoonProducts(
+        @Query("lang") language: String = ConstantObjects.currentLanguage
+    ): Call<ProductListResp>
 
     @POST("AddToLastView")
     fun addLastViewProduct(

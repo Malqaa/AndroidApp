@@ -25,6 +25,7 @@ class HomeViewModel : BaseViewModel() {
     var homeCategoryProductErrorResponseObserver: MutableLiveData<ErrorResponse> = MutableLiveData()
     var isLoadingAllCategory: MutableLiveData<Boolean> = MutableLiveData()
     var lastViewProductsObserver: MutableLiveData<ProductListResp> = MutableLiveData()
+    var closingSoonObserver: MutableLiveData<ProductListResp> = MutableLiveData()
     var languageObserver: MutableLiveData<AddFavResponse> = MutableLiveData()
     var searchProductListRespObserver: MutableLiveData<ProductListSearchResp> = MutableLiveData()
 
@@ -35,6 +36,7 @@ class HomeViewModel : BaseViewModel() {
     private var callAllCategories: Call<GeneralResponse>? = null
     private var callListHomeCategoryProduct: Call<HomeCategoryProductResp>? = null
     private var callLastViewedProduct: Call<ProductListResp>? = null
+    private var callClosingSoon: Call<ProductListResp>? = null
     private var changeLanguage: Call<AddFavResponse>? = null
 
     var unreadObserve: MutableLiveData<NotificationUnReadResp> = MutableLiveData()
@@ -300,6 +302,29 @@ class HomeViewModel : BaseViewModel() {
             })
     }
 
+    fun getClosingSoon() {
+        isLoadingAllCategory.value = true
+        callClosingSoon = getRetrofitBuilder().listClosingSoonProducts()
+        callApi(callClosingSoon!!,
+            onSuccess = {
+                isLoadingAllCategory.value = false
+                closingSoonObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoadingAllCategory.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    categoriesErrorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
+                }
+            },
+            goLogin = {
+                isLoadingAllCategory.value = false
+                needToLogin.value = true
+            })
+    }
+
     fun closeAllCall() {
         if (callSlider != null) {
             callSlider?.cancel()
@@ -318,6 +343,9 @@ class HomeViewModel : BaseViewModel() {
         }
         if (callLastViewedProduct != null) {
             callLastViewedProduct?.cancel()
+        }
+        if (callClosingSoon != null) {
+            callClosingSoon?.cancel()
         }
         if (changeLanguage != null) {
             changeLanguage?.cancel()
