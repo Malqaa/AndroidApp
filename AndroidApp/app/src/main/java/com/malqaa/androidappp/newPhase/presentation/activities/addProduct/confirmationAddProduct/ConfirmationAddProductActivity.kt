@@ -1633,6 +1633,11 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
                         itemBinding.editTextCvv.setText(
                             if (cvv != 0) cvv.toString() else ""
                         )
+
+                        // Enable/disable based on selection
+                        itemBinding.editTextCvv.isEnabled = element.isSelected
+                        itemBinding.editTextCvv.isFocusable = element.isSelected
+                        itemBinding.editTextCvv.isFocusableInTouchMode = element.isSelected
                     }
 
                     itemBinding.editTextCvv.addTextChangedListener(object : TextWatcher {
