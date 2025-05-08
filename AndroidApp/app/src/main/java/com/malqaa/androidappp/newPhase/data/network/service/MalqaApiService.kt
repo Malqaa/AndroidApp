@@ -80,6 +80,7 @@ import com.malqaa.androidappp.newPhase.domain.models.servicemodels.total_members
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.total_online_users.ModelGetTotalOnlineUsers
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.user.UserObject
 import com.malqaa.androidappp.newPhase.domain.models.shippingOptionsResp.ShippingOptionResp
+import com.malqaa.androidappp.newPhase.domain.models.showProductModel.ShowProductPriceResp
 import com.malqaa.androidappp.newPhase.domain.models.userAddressesResp.UserAddressesResp
 import com.malqaa.androidappp.newPhase.domain.models.userPointsDataResp.ConvertMoneyToPointResp
 import com.malqaa.androidappp.newPhase.domain.models.userPointsDataResp.UserPointDataResp
@@ -1124,4 +1125,8 @@ interface MalqaApiService {
 
     @POST("SetDefaultAddress")
     fun setDefaultAddress(@Query("addressId") addressId: Int): Call<GeneralResponse>
+
+    @GET("ShowProductPublishPrice")
+    fun showProductPublishPrice(
+    ): Call<ShowProductPriceResp>
 }

@@ -1059,40 +1059,52 @@
                 </LinearLayout>
 
                 <!-- ad publishing fees -->
-                <LinearLayout
-                    android:id="@+id/containerProductPublishPriceFee"
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_15sdp"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/madani_arabic_light"
-                        android:text="@string/ad_publishing_fees"
-                        android:textColor="@color/grey"
-                        android:textSize="@dimen/_10sdp" />
-
+                    android:layout_height="wrap_content">
                     <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                        android:id="@+id/containerProductPublishPriceFee"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/tvProductPublishPriceFee"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_5sdp"
-                            android:layout_marginEnd="@dimen/_15sdp"
+                            android:layout_marginStart="@dimen/_15sdp"
+                            android:layout_weight="1"
                             android:fontFamily="@font/madani_arabic_light"
-                            android:text="0"
+                            android:text="@string/ad_publishing_fees"
                             android:textColor="@color/grey"
-                            android:textSize="@dimen/_14sdp" />
+                            android:textSize="@dimen/_10sdp" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/tvProductPublishPriceFee"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:layout_marginEnd="@dimen/_15sdp"
+                                android:fontFamily="@font/madani_arabic_light"
+                                android:text="0"
+                                android:textColor="@color/grey"
+                                android:textSize="@dimen/_14sdp" />
+                        </LinearLayout>
                     </LinearLayout>
-                </LinearLayout>
+                    <View
+                        android:id="@+id/publishLine"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="5dp"
+                        android:visibility="gone"
+                        android:background="?android:attr/listDivider" />
+                </FrameLayout>
 
                 <!-- fixed sale price option fees -->
                 <LinearLayout
