@@ -1037,6 +1037,7 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
 
         // Step 3: Calculate Total with VAT
         val totalWithVat = subtotal + taxAmount
+        totalPrice = totalWithVat.toFloat()
 
         // Step 4: Display the values
         binding.tvSubtotal.text = String.format("%.2f", subtotal)  // e.g., "150.00"
