@@ -79,7 +79,7 @@ class CategoryProductAdapter(
     }
 
 
-    override fun onProductSelect(position: Int, productID: Int, categoryID: Int) {
+    override fun onProductSelect(position: Int,productID:Int,categoryID:Int,userId:String,providerId:String,businessAccountId:String) {
         setOnSelectedProductInCategory.onSelectedProductInCategory(position, productID, categoryID)
     }
 

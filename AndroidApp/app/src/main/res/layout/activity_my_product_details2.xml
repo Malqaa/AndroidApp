@@ -1135,6 +1135,22 @@
                     android:textSize="@dimen/_12sdp" />
 
                 <TextView
+                    android:id="@+id/manageProduct"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_14sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_14sdp"
+                    android:background="@drawable/button_curve_stroke_border_orange"
+                    android:fontFamily="@font/madani_arabic_semi_bold"
+                    android:padding="@dimen/_10sdp"
+                    android:text="@string/manage"
+                    android:textAlignment="center"
+                    android:textAllCaps="false"
+                    android:textColor="@color/orange"
+                    android:textSize="@dimen/_12sdp" />
+
+                <TextView
                     android:id="@+id/containerDeleteProduct"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

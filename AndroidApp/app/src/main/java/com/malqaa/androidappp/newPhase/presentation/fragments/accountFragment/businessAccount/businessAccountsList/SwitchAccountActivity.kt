@@ -191,6 +191,7 @@ class SwitchAccountActivity : BaseActivity<ActivitySwitchAccountBinding>(),
 
     override fun setOnSwitchAccount(position: Int) {
         businessAccountViewModel!!.changeBusinessAccount(accountList[position].id)
+        SharedPreferencesStaticClass.saveAccountId(accountList[position].id)
     }
 
     override fun onRefresh() {

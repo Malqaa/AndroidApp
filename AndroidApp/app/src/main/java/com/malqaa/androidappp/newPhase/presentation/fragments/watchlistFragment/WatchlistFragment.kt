@@ -180,7 +180,7 @@ class WatchlistFragment : Fragment(R.layout.fragment_watchlist),
         }
     }
 
-    override fun onProductSelect(position: Int, productID: Int, categoryID: Int) {
+    override fun onProductSelect(position: Int,productID:Int,categoryID:Int,userId:String,providerId:String,businessAccountId:String) {
         startActivity(
             Intent(requireActivity(), ProductDetailsActivity::class.java).apply {
                 putExtra(ConstantObjects.productIdKey, productID)

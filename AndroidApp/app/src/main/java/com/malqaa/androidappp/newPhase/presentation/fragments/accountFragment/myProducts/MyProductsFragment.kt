@@ -379,18 +379,22 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         binding.tvError.show()
         binding.tvError.text = message
     }
-
-    override fun onProductSelect(position: Int, productID: Int, categoryID: Int) {
+    override fun onProductSelect(
+        position: Int,productID: Int,categoryID: Int,userId: String,
+        providerId: String,businessAccountId: String) {
         startActivity(
             Intent(requireActivity(), MyProductDetailsActivity::class.java).apply {
                 putExtra(ConstantObjects.productIdKey, productID)
                 putExtra(ConstantObjects.isMyProduct, true)
+                putExtra(ConstantObjects.logged_userid, userId)
+                putExtra("providerIdKey", providerId)
+                putExtra("businessAccountIdKey", businessAccountId)
+
                 if (tapId == 1)
                     putExtra("isMyProductForSale", true)
                 else if (tapId == 3)
                     putExtra("isMyProductForSale", false)
-            })
-    }
+            })    }
 
     override fun onAddProductToFav(position: Int, productID: Int, categoryID: Int) {
         if (HelpFunctions.isUserLoggedIn()) {

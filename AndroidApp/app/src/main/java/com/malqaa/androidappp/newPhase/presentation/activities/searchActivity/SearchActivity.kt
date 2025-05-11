@@ -279,7 +279,7 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(),
             }
         }
 
-    override fun onProductSelect(position: Int, productID: Int, categoryID: Int) {
+    override fun onProductSelect(position: Int,productID:Int,categoryID:Int,userId:String,providerId:String,businessAccountId:String) {
         productDetailsLauncher.launch(Intent(this, ProductDetailsActivity::class.java).apply {
             putExtra(ConstantObjects.productIdKey, productArrayList[position].id)
             putExtra("Template", "")

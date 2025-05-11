@@ -12,6 +12,7 @@ import com.malqaa.androidappp.R
 import com.malqaa.androidappp.databinding.ProductItemRowBinding
 import com.malqaa.androidappp.newPhase.data.network.service.SetOnProductItemListeners
 import com.malqaa.androidappp.newPhase.domain.models.productResp.Product
+import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.Extension
 import com.malqaa.androidappp.newPhase.utils.Extension.decimalNumberFormat
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
@@ -93,7 +94,10 @@ class ProductViewHolder(
             setOnProductItemListeners.onProductSelect(
                 adapterPosition, // Use adapterPosition instead of position
                 requestItem.id,
-                requestItem.categoryId
+                requestItem.categoryId,
+                ConstantObjects.logged_userid,
+                requestItem.providerId.toString(),
+                requestItem.businessAccountId.toString()
             )
         }
 
