@@ -22,6 +22,7 @@ import com.malqaa.androidappp.newPhase.domain.models.productResp.ProductResp
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.AddProductResponse
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
 import com.malqaa.androidappp.newPhase.domain.models.shippingOptionsResp.ShippingOptionResp
+import com.malqaa.androidappp.newPhase.domain.models.showProductModel.ShowProductPriceResp
 import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.confirmationAddProduct.PaymentAccountType
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.Extension.requestBody
@@ -58,6 +59,8 @@ class AddProductViewModel : BaseViewModel() {
     var shippingOptionObserver: MutableLiveData<ShippingOptionResp> = MutableLiveData()
     var bankOptionObserver: MutableLiveData<AccountBankListResp> = MutableLiveData()
     var paymentOptionObserver: MutableLiveData<ShippingOptionResp> = MutableLiveData()
+    var showProductPriceResp: MutableLiveData<ShowProductPriceResp> = MutableLiveData()
+
 
 
     private var callSellerListProductOp: Call<ShippingOptionResp>? = null
@@ -297,6 +300,29 @@ class AddProductViewModel : BaseViewModel() {
                     isLoading.value = false
                     if (response.isSuccessful) {
                         pointsBalance.value = response.body()
+                    } else {
+                        errorResponseObserver.value =
+                            getErrorResponse(response.code(), response.errorBody())
+                    }
+                }
+            })
+    }
+    fun getShowProductPrice() {
+        isLoading.value = true
+        getRetrofitBuilder().showProductPublishPrice()
+            .enqueue(object : Callback<ShowProductPriceResp> {
+                override fun onFailure(call: Call<ShowProductPriceResp>, t: Throwable) {
+                    isNetworkFail.value = t !is HttpException
+                    isLoading.value = false
+                }
+
+                override fun onResponse(
+                    call: Call<ShowProductPriceResp>,
+                    response: Response<ShowProductPriceResp>
+                ) {
+                    isLoading.value = false
+                    if (response.isSuccessful) {
+                        showProductPriceResp.value = response.body()
                     } else {
                         errorResponseObserver.value =
                             getErrorResponse(response.code(), response.errorBody())

@@ -72,6 +72,7 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
     private var productDetails: Product? = null
     private var shippingOptionText: StringBuilder? = null
     private var pickup: StringBuilder? = null
+    private var showPublishPrice = true
 
     private var bottomSheetDialog: BottomSheetDialog? = null
     private lateinit var selectedPaymentType: PaymentAccountType
@@ -210,7 +211,12 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
                 binding.switchMyPointsPayment.isChecked = false
             }
         }
-
+        addProductViewModel.getShowProductPrice()
+        addProductViewModel.showProductPriceResp.observe(this) {
+            if (it.status_code == 200) {
+                showPublishPrice = it.data!!
+            }
+        }
 
         // Initialize view binding for the product details layout
         myProductDetailsBinding = MyProductDetailsBinding.inflate(layoutInflater)
@@ -680,15 +686,19 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
 
         selectedCategory = productDetails.categoryDto
         /**productPublishFeee**/
-        if (productDetails.categoryDto?.productPublishPrice?.toDouble() != 0.0) {
+        //implement here productPublishFeee and productPublishPrice
+        if(showPublishPrice){
             binding.containerProductPublishPriceFee.show()
+            binding.publishLine.hide()
             selectedCategory?.productPublishPrice =
                 productDetails.categoryDto?.productPublishPrice ?: 0f
             productPublishPriceFee = productDetails.categoryDto?.productPublishPrice ?: 0f
             binding.tvProductPublishPriceFee.text =
                 "$productPublishPriceFee ${getString(R.string.SAR)}"
-        } else {
-            binding.containerProductPublishPriceFee.hide()
+        }else{
+            binding.containerProductPublishPriceFee.show()
+            binding.publishLine.show()
+            productPublishPriceFee = 0f
         }
         /**package fee*/
         if (productDetails.selectedPacket != null) {
@@ -926,14 +936,17 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
         binding.containerVideoExtraFee.hide()
         binding.containerProductPublishPriceFee.hide()
 
-        if (selectedCategory?.productPublishPrice?.toDouble() != 0.0) {
+        if(showPublishPrice){
             binding.containerProductPublishPriceFee.show()
+            binding.publishLine.hide()
             productPublishPriceFee =
                 selectedCategory?.productPublishPrice ?: 0f
             binding.tvProductPublishPriceFee.text =
                 "$productPublishPriceFee ${getString(R.string.SAR)}"
-        } else {
-            binding.containerProductPublishPriceFee.hide()
+        }else{
+            binding.containerProductPublishPriceFee.show()
+            binding.publishLine.show()
+            productPublishPriceFee = 0f
         }
         /**package fee*/
         if (AddProductObjectData.selectedPakat != null) {
