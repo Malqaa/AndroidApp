@@ -416,6 +416,8 @@ class PricingActivity : BaseActivity<ActivityPricingPaymentBinding>() {
             binding.fixedPriceTypeRb1.isChecked = true
             binding.fixPriceL.isVisible = true
             binding.fixedPriceLayout.isVisible = true
+            binding.auctionOption.isVisible = true
+            binding.switchMustPickUp.isVisible = true
             binding.fixPriceL.setBackgroundResource(R.drawable.field_selection_border_enable)
             binding.fixedPriceTv.setTextColor(ContextCompat.getColor(this, R.color.bg))
             binding.buynowprice.setText(AddProductObjectData.priceFixed)
@@ -429,6 +431,8 @@ class PricingActivity : BaseActivity<ActivityPricingPaymentBinding>() {
             binding.AuctionLayout.isVisible = true
             binding.auctionTypeRb2.isChecked = true
             binding.auctionOption.isVisible = true
+            binding.fixPriceL.isVisible = true
+            binding.switchMustPickUp.isVisible = true
             binding.auctionOption.setBackgroundResource(R.drawable.field_selection_border_enable)
             binding.AuctionPriceTv.setTextColor(ContextCompat.getColor(this, R.color.bg))
             binding.startprice.setText(AddProductObjectData.auctionStartPrice)
@@ -438,6 +442,8 @@ class PricingActivity : BaseActivity<ActivityPricingPaymentBinding>() {
             binding.buynowprice.setText(AddProductObjectData.priceFixed)
             binding.priceNegotiableRb3.isChecked = true
             binding.switchMustPickUp.isVisible = true
+            binding.fixPriceL.isVisible = true
+            binding.auctionOption.isVisible = true
             binding.switchMustPickUp.setBackgroundResource(R.drawable.field_selection_border_enable)
             binding.tvMustPickUp.setTextColor(ContextCompat.getColor(this, R.color.bg))
         }
