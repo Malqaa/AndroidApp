@@ -215,6 +215,7 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
         addProductViewModel.showProductPriceResp.observe(this) {
             if (it.status_code == 200) {
                 showPublishPrice = it.data!!
+                setSummeryData()
             }
         }
 
@@ -230,7 +231,7 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
             addProductViewModel.getProductShippingOptions(intent.getIntExtra("productID", 0))
             addProductViewModel.getProductBankAccounts(intent.getIntExtra("productID", 0))
             addProductViewModel.getProductDetailsById(intent.getIntExtra("productID", 0))
-        } else setSummeryData()
+        }/* else setSummeryData()*/
     }
 
     @SuppressLint("SetTextI18n")
@@ -687,6 +688,7 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
         selectedCategory = productDetails.categoryDto
         /**productPublishFeee**/
         //implement here productPublishFeee and productPublishPrice
+        val text = productDetails.categoryDto?.productPublishPrice.toString()
         if(showPublishPrice){
             binding.containerProductPublishPriceFee.show()
             binding.publishLine.hide()
@@ -699,6 +701,8 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
             binding.containerProductPublishPriceFee.show()
             binding.publishLine.show()
             productPublishPriceFee = 0f
+            binding.tvProductPublishPriceFee.text =
+                "$text ${getString(R.string.SAR)}"
         }
         /**package fee*/
         if (productDetails.selectedPacket != null) {
@@ -936,6 +940,7 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
         binding.containerVideoExtraFee.hide()
         binding.containerProductPublishPriceFee.hide()
 
+        val text = selectedCategory?.productPublishPrice.toString()
         if(showPublishPrice){
             binding.containerProductPublishPriceFee.show()
             binding.publishLine.hide()
@@ -947,6 +952,8 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
             binding.containerProductPublishPriceFee.show()
             binding.publishLine.show()
             productPublishPriceFee = 0f
+            binding.tvProductPublishPriceFee.text =
+                "$text ${getString(R.string.SAR)}"
         }
         /**package fee*/
         if (AddProductObjectData.selectedPakat != null) {
