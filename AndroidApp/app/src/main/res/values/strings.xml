@@ -1400,5 +1400,7 @@
     <string name="please_choose_a_card">Please choose a card</string>
     <string name="tax_15">Tax (15%)</string>
   <string name="closing_soon">Closing Soon</string>
+  <string name="there_are_no_cards_saved">There are no cards saved، \n Please add a new card by clicking the (Add new card) button or choose another payment method</string>
+  <string name="choose_card">Choose card</string>
 
 </resources>

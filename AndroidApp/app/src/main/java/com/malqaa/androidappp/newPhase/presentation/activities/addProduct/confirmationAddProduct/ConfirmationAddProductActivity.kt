@@ -1365,6 +1365,13 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
             adapter = adapterList
         }
 
+        if (adapterList.itemCount>0){
+            allCardsLayoutBinding.recyclerViewAllCards.show()
+            allCardsLayoutBinding.descText.hide()
+        }else{
+            allCardsLayoutBinding.recyclerViewAllCards.hide()
+            allCardsLayoutBinding.descText.show()
+        }
         // Flag to check if Done was clicked
         var isDoneButtonClicked = false
 

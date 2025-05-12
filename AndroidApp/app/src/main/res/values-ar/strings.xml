@@ -1190,4 +1190,6 @@
     <string name="please_choose_a_card">الرجاء اختيار بطاقة</string>
     <string name="tax_15">الضريبة (15 ٪)</string>
     <string name="closing_soon">سيغلق قريبا</string>
+    <string name="there_are_no_cards_saved">لا يوجد بطاقات محفوظة،\n يرجى اضافة بطاقة جديدة بالضغط على زر أضف بطاقة جديدةاو اختيار طريقة دفع اخرى</string>
+    <string name="choose_card">Choose card</string>
 </resources>
