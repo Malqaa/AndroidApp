@@ -69,8 +69,12 @@ class ProductHorizontalAdapter(
         // Handle visibility of free delivery and merchant buttons
         holder.viewBinding.btnFreeDelivery.visibility =
             if (product.isFreeDelivery) View.VISIBLE else View.GONE
-        holder.viewBinding.btnMerchant.visibility =
-            if (product.isMerchant) View.VISIBLE else View.GONE
+        if (product.isMerchant){
+            holder.viewBinding.btnMerchant.visibility = View.VISIBLE
+        }
+        else{
+            holder.viewBinding.btnMerchant.visibility = View.GONE
+        }
 
         holder.viewBinding.linearLayoutFeatured.visibility =
             if (product.isFeatured) View.VISIBLE else View.GONE
