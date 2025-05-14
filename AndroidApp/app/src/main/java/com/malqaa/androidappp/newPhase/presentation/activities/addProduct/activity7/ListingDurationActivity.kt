@@ -44,10 +44,15 @@ class ListingDurationActivity : BaseActivity<ActivityListingDurationBinding>(),
     var isEdit: Boolean = false
     val allWeeks: ArrayList<TimeAuctionSelection> = ArrayList()
     val pickUpOptionList: ArrayList<ShippingOptionObject> = ArrayList()
+    val pickUpOneOptionList: ArrayList<ShippingOptionObject> = ArrayList()
     val shippingOptionList: ArrayList<ShippingOptionObject> = ArrayList()
     var shippingAdapter: ShippingAdapter? = null
     var pickUpOption: Int = 0
     private lateinit var shippingViewModel: ShippingViewModel
+    var cashed = 0
+    var hasAdded = false
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,6 +65,7 @@ class ListingDurationActivity : BaseActivity<ActivityListingDurationBinding>(),
 
         binding.toolbarListduration.toolbarTitle.text = getString(R.string.shipping)
         isEdit = intent.getBooleanExtra(ConstantObjects.isEditKey, false)
+        cashed = intent.getIntExtra("cashed", 0)
         setVieClickListeners()
         shippingAdapter = ShippingAdapter(arrayListOf(), this)
         binding.containerPickUpOption.hide()
@@ -366,6 +372,52 @@ class ListingDurationActivity : BaseActivity<ActivityListingDurationBinding>(),
         }
     }
 
+    private fun pickOneUpOptionAdapter(list: ArrayList<ShippingOptionObject>, rcv: RecyclerView) {
+        rcv.adapter = object : GenericListAdapter<ShippingOptionObject>(
+            R.layout.shipping_option,
+            bind = { element, holder, itemCount, position ->
+
+                // Use ViewBinding to bind the view for the current item
+                val binding = ShippingOptionBinding.bind(holder.view)
+
+                // Bind the data using ViewBinding
+                binding.run {
+                    element.run {
+                        shippingOptTv.text = list[position].shippingOptionName
+
+                        // Set the selected state
+                        if (selected) {
+                            rvSelected.setImageResource(R.drawable.ic_radio_button_checked)
+                        } else {
+                            rvSelected.setImageResource(R.drawable.ic_radio_button_unchecked)
+                        }
+
+                        // Handle the selection click
+                        shippingOptionLayout.setOnClickListener {
+                            list.forEach { item -> item.selected = false }
+                            list[position].selected = true
+
+                            AddProductObjectData.pickUpOption = list[0].id
+
+                            rcv.post { rcv.adapter?.notifyDataSetChanged() }
+                        }
+
+                        // Mirror the click for the selected image
+                        rvSelected.setOnClickListener {
+                            shippingOptionLayout.performClick()
+                        }
+                    }
+                }
+            }
+        ) {
+            override fun getFilter(): Filter {
+                TODO("Not yet implemented")
+            }
+        }.apply {
+            submitList(list)
+        }
+    }
+
     private fun goNextActivity() {
         if (isEdit) {
             startActivity(Intent(this, ConfirmationAddProductActivity::class.java).apply {
@@ -384,11 +436,20 @@ class ListingDurationActivity : BaseActivity<ActivityListingDurationBinding>(),
         if (shippingItem.selected) {
             AddProductObjectData.shippingOptionSelections?.add(shippingItem.id)
             AddProductObjectData.shippingOption = shippingItem.id
-            if (shippingItem.id != 1) {
+            if (shippingItem.id == 3||(shippingItem.id == 2&&cashed==0)) {
                 pickUpOption = shippingItem.id
                 binding.containerPickUpOption.show()
                 pickUpOptionAdapter(pickUpOptionList, binding.rvShippingOption)
-            } else {
+            }
+             else if (shippingItem.id == 2&&cashed==1) {
+                pickUpOption = shippingItem.id
+                binding.containerPickUpOption.show()
+                if (!hasAdded) {
+                    pickUpOneOptionList.add(pickUpOptionList[2])
+                    hasAdded = true
+                }
+                pickOneUpOptionAdapter(pickUpOneOptionList, binding.rvShippingOption)
+            }else {
                 pickUpOption = shippingItem.id
                 binding.containerPickUpOption.hide()
             }
