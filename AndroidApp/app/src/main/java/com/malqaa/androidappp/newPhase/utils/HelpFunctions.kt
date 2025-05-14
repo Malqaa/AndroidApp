@@ -24,6 +24,7 @@ import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.DrawableRes
 import androidx.annotation.RequiresApi
 import androidx.loader.content.CursorLoader
 import com.bumptech.glide.Glide
@@ -148,7 +149,7 @@ class HelpFunctions {
         fun ShowAlert(
             context: Context?,
             alertTitle: String,
-            showFailedMessage: Boolean,
+            @DrawableRes icon: Int?,
             alertMessage: String
         ) {
             if (context != null) {
@@ -157,11 +158,16 @@ class HelpFunctions {
 
                 // Use View Binding
                 val binding = AlertpopupBinding.inflate(inflater)
-                binding.imageFailedMessage.visibility = if (showFailedMessage) View.VISIBLE else View.GONE
+                icon?.let {
+                    binding.imageFailedMessage.setImageResource(it)
+                    binding.imageFailedMessage.visibility = View.VISIBLE
+                }
 
                 // Set title and message
                 if (alertTitle.isNotEmpty()) {
                     binding.LblALertTitle.text = alertTitle
+                } else {
+                    binding.LblALertTitle.visibility = View.GONE
                 }
                 binding.LblAlertMessage.text = alertMessage
 

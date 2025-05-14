@@ -126,6 +126,7 @@ class MyOrdersFragment : Fragment(R.layout.fragment_my_orders),
                 Intent(requireContext(), AddressPaymentActivity::class.java).apply {
                     putExtra("flagTypeSale", false)
                     putExtra("fromNegotiation", true)
+                    putExtra("comeFromMyOrders", true) // or false, based on your condition
                     putExtra(ConstantObjects.orderNumberKey, orderId)
                 }
             } else {

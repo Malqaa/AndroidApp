@@ -226,7 +226,9 @@ class CartActivity : BaseActivity<ActivityCartBinding>(), CartAdapter.SetProduct
 
 
     private fun gotToNextCartActivity() {
-        startActivity(Intent(this, AddressPaymentActivity::class.java))
+        val intent = Intent(this, AddressPaymentActivity::class.java)
+        intent.putExtra("comeFromCart", true) // or false, based on your condition
+        startActivity(intent)
     }
 
     override fun onIncreaseQuantityProduct(position: Int) {

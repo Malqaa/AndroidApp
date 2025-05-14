@@ -22,7 +22,8 @@ import com.malqaa.androidappp.newPhase.domain.models.productResp.ProductResp
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.AddProductResponse
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
 import com.malqaa.androidappp.newPhase.domain.models.shippingOptionsResp.ShippingOptionResp
-import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.confirmationAddProduct.PaymentAccountType
+import com.malqaa.androidappp.newPhase.domain.models.walletBalance.GetWalletBalanceResponse
+import com.malqaa.androidappp.newPhase.domain.enums.PaymentAccountType
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.Extension.requestBody
 import com.malqaa.androidappp.newPhase.utils.getMonth
@@ -50,6 +51,7 @@ class AddProductViewModel : BaseViewModel() {
     var confirmAddPorductRespObserver: MutableLiveData<AddProductResponse> = MutableLiveData()
     var addBackAccountObserver: MutableLiveData<GeneralResponse> = MutableLiveData()
     var pointsBalance: MutableLiveData<GetPointsBalanceResponse> = MutableLiveData()
+    var walletBalance: MutableLiveData<GetWalletBalanceResponse> = MutableLiveData()
     var listBackAccountObserver: MutableLiveData<AccountBankListResp> = MutableLiveData()
     var isLoadingBackAccountList: MutableLiveData<Boolean> = MutableLiveData()
     var cartPriceSummeryObserver: MutableLiveData<CartPriceSummeryResp> = MutableLiveData()
@@ -297,6 +299,30 @@ class AddProductViewModel : BaseViewModel() {
                     isLoading.value = false
                     if (response.isSuccessful) {
                         pointsBalance.value = response.body()
+                    } else {
+                        errorResponseObserver.value =
+                            getErrorResponse(response.code(), response.errorBody())
+                    }
+                }
+            })
+    }
+
+    fun getWalletBalance() {
+        isLoading.value = true
+        getRetrofitBuilder().getWalletBalance()
+            .enqueue(object : Callback<GetWalletBalanceResponse> {
+                override fun onFailure(call: Call<GetWalletBalanceResponse>, t: Throwable) {
+                    isNetworkFail.value = t !is HttpException
+                    isLoading.value = false
+                }
+
+                override fun onResponse(
+                    call: Call<GetWalletBalanceResponse>,
+                    response: Response<GetWalletBalanceResponse>
+                ) {
+                    isLoading.value = false
+                    if (response.isSuccessful) {
+                        walletBalance.value = response.body()
                     } else {
                         errorResponseObserver.value =
                             getErrorResponse(response.code(), response.errorBody())

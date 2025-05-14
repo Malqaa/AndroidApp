@@ -81,7 +81,6 @@ import org.joda.time.DateTime
 import org.joda.time.Duration
 import org.joda.time.format.DateTimeFormat
 import java.util.Date
-import java.util.regex.Pattern
 
 @SuppressLint("SetTextI18n")
 class ProductDetailsActivity : BaseActivity<ActivityProductDetails2Binding>(),
@@ -179,8 +178,8 @@ class ProductDetailsActivity : BaseActivity<ActivityProductDetails2Binding>(),
         setupViewAdapters()
 
 //        if (HelpFunctions.isUserLoggedIn()) {
-            userData = Paper.book().read<LoginUser>(SharedPreferencesStaticClass.user_object)
-            productDetialsViewModel.addLastViewedProduct(productId)
+        userData = Paper.book().read<LoginUser>(SharedPreferencesStaticClass.user_object)
+        productDetialsViewModel.addLastViewedProduct(productId)
 //        }
 
         onRefresh()
@@ -579,7 +578,8 @@ class ProductDetailsActivity : BaseActivity<ActivityProductDetails2Binding>(),
     private fun openBidPrice() {
         if (HelpFunctions.isUserLoggedIn()) {
             productDetails?.let {
-                val auctionDialog = AuctionDialog(this,
+                val auctionDialog = AuctionDialog(
+                    this,
                     productId,
                     it.auctionStartPrice,
                     it.auctionMinimumPrice,
@@ -757,9 +757,7 @@ class ProductDetailsActivity : BaseActivity<ActivityProductDetails2Binding>(),
 
         productDetialsViewModel.getMasterFromBuyNow.observe(this) {
             SharedPreferencesStaticClass.saveMasterCartId(it.data)
-            startActivity(Intent(this, AddressPaymentActivity::class.java).apply {
-            })
-
+            gotToAddressPaymentActivity()
         }
         productDetialsViewModel.errorResponseObserverProductToFav.observe(this) {
             if (it.status != null && it.status == "409") {
@@ -1156,7 +1154,8 @@ class ProductDetailsActivity : BaseActivity<ActivityProductDetails2Binding>(),
 
     private fun setupProductImagesAdapter() {
         productImagesList = ArrayList()
-        productImagesAdapter = ProductImagesAdapter(productImagesList,
+        productImagesAdapter = ProductImagesAdapter(
+            productImagesList,
             object : ProductImagesAdapter.SetOnSelectedImage {
                 override fun onSelectImage(position: Int) {
                     urlImg = productImagesList[position].url
@@ -1641,7 +1640,8 @@ class ProductDetailsActivity : BaseActivity<ActivityProductDetails2Binding>(),
 
     override fun onSelectQuestion(position: Int) {
         if (isMyProduct) {
-            val answerDialog = AnswerQuestionDialog(productDetialsViewModel,
+            val answerDialog = AnswerQuestionDialog(
+                productDetialsViewModel,
                 this,
                 questionsList[position],
                 position,
@@ -1674,4 +1674,11 @@ class ProductDetailsActivity : BaseActivity<ActivityProductDetails2Binding>(),
         intent.putExtra("UrlImg", url)
         startActivity(intent)
     }
+
+    private fun gotToAddressPaymentActivity() {
+        val intent = Intent(this, AddressPaymentActivity::class.java)
+        intent.putExtra("comeFromProductDetails", true) // or false, based on your condition
+        startActivity(intent)
+    }
+
 }

@@ -237,23 +237,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_10sdp"
             android:gravity="center"
-
             android:text="@string/delivery_options"
             app:viewType="text" />
-
-
-        <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
-            android:id="@+id/payment_option_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginEnd="@dimen/_10sdp"
-            android:layout_marginBottom="@dimen/_13sdp"
-            android:gravity="center"
-            android:text="@string/payment_options"
-            app:viewType="text" />
-
-
     </LinearLayout>
 
 

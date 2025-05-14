@@ -7,6 +7,7 @@ import com.malqaa.androidappp.R
 import com.malqaa.androidappp.databinding.ActivitySuccessOrderBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
 import com.malqaa.androidappp.newPhase.presentation.MainActivity
+import com.malqaa.androidappp.newPhase.domain.enums.PaymentMethod
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 
 class SuccessOrderActivity : BaseActivity<ActivitySuccessOrderBinding>() {
@@ -59,6 +60,14 @@ class SuccessOrderActivity : BaseActivity<ActivitySuccessOrderBinding>() {
                 .equals("Auction".lowercase())
         ) {
             binding.txtRequest.text = getString(R.string.auction)
+        }
+
+        val paymentMethod = intent.getIntExtra("payment_method_key", 0)
+        val fromValue = PaymentMethod.fromValue(value = paymentMethod)
+        when (fromValue) {
+            PaymentMethod.BankTransfer -> {
+                binding.textViewPaymentMethod.visibility = View.VISIBLE
+            }
         }
 
         binding.totalOrderTv.text =

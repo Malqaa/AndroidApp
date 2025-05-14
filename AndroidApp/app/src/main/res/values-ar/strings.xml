@@ -689,6 +689,7 @@
     <string name="save_later">حفظ للأستخدام في وقت لاحق</string>
     <string name="add_account">اضافة الحساب</string>
     <string name="Rayal">ريال</string>
+    <string name="rayal">ر.س</string>
     <string name="Please_choose_catgeory">الرجاء اختيار الفئة</string>
     <string name="order_status">حالة الطلب</string>
     <string name="sar">ر.س</string>
@@ -1177,7 +1178,9 @@
     <string name="choose_another_card">اختر بطاقة أخرى</string>
     <string name="please_enter_cvv">يرجى إدخال رمز التحقق</string>
     <string name="the_points_balance_equals">رصيد النقاط يساوي %1$s</string>
+    <string name="the_wallet_balance_equals">رصيد المحفظة يساوي %1$s</string>
     <string name="please_activate_at_least_one_payment_method">يرجى تفعيل وسيلة دفع واحدة على الأقل</string>
+    <string name="please_activate_at_least_one_payment_options">يرجى تفعيل وسيلة دفع واحدة على الأقل</string>
     <string name="mm_yyyy">الشهر/السنة</string>
     <string name="expiry_date_passed">تاريخ الانتهاء قد مضى</string>
     <string name="invalid_date_format">تنسيق التاريخ غير صالح (شهر/سنة، الأشهر من 01 إلى 12)</string>
@@ -1189,4 +1192,10 @@
     <string name="featured">متميز</string>
     <string name="please_choose_a_card">الرجاء اختيار بطاقة</string>
     <string name="tax_15">الضريبة (15 ٪)</string>
+    <string name="a_fee_of_riyals_will_be_added_for_the_cash_payment_service">سيتم إضافة رسوم قدرها %1$s ريال لخدمة الدفع النقدي.</string>
+    <string name="cash_payment_fees">رسوم الدفع النقدي</string>
+    <string name="cash">دفع نقدي</string>
+    <string name="complete_payment_instruction">
+    يرجى إكمال عملية الدفع عن طريق تحميل إيصال التحويل المصرفي عن طريق النقر على زر "تتبع الطلبات الخاصة بي".
+</string>
 </resources>

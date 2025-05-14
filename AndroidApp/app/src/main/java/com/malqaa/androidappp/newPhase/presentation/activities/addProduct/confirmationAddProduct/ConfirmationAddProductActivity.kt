@@ -24,6 +24,7 @@ import com.malqaa.androidappp.databinding.AllCardsLayoutBinding
 import com.malqaa.androidappp.databinding.ItemCardBinding
 import com.malqaa.androidappp.databinding.MyProductDetailsBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
+import com.malqaa.androidappp.newPhase.domain.enums.PaymentAccountType
 import com.malqaa.androidappp.newPhase.domain.models.ImageSelectModel
 import com.malqaa.androidappp.newPhase.domain.models.accountBackListResp.AccountDetails
 import com.malqaa.androidappp.newPhase.domain.models.addProductToCartResp.AddProductObjectData
@@ -194,7 +195,7 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
                         ShowAlert(
                             context = this,
                             alertTitle = getString(R.string.my_points),
-                            showFailedMessage = true,
+                            icon = R.drawable.failed_message,
                             alertMessage = finalMessage
                         )
                     }
