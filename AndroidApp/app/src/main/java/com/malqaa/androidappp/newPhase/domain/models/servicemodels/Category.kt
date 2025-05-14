@@ -38,4 +38,5 @@ data class Category(
     var enableFixedPriceSaleFee: Float,
     var enableAuctionFee:Float,
     var enableNegotiationFee:Float,
+    var isAuctionClosingTimeFixed :Boolean =false
 )

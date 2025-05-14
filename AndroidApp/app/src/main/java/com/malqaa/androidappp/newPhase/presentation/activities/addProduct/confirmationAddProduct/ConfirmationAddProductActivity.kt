@@ -83,6 +83,7 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
 
 
     var pakatId = ""
+    var closed = false
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
@@ -103,6 +104,7 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
         binding = ActivityConfirmationAddProductBinding.inflate(layoutInflater)
         setContentView(binding.root)
         _binding = binding
+        closed = intent.getBooleanExtra("closed", false)
 
         setupAdapter()
 
@@ -976,7 +978,11 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
         /**AuctionFee fee*/
         if (AddProductObjectData.auctionOption && selectedCategory?.enableAuctionFee != 0f) {
             binding.containerAuctionFee.show()
-            auctionEnableFee = selectedCategory?.enableAuctionFee ?: 0f
+            auctionEnableFee = if (closed){
+                selectedCategory?.enableAuctionFee!! + selectedCategory?.auctionClosingTimeFee!!
+            } else {
+                selectedCategory?.enableAuctionFee ?: 0f
+            }
             binding.tvAuctionFee.text = "$auctionEnableFee ${getString(R.string.SAR)}"
         }
         /**negotiation fee*/

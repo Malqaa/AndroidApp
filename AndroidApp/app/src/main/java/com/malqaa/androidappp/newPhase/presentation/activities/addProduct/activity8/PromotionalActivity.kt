@@ -28,10 +28,12 @@ class PromotionalActivity : BaseActivity<ActivityPromotionalBinding>(),
     lateinit var packagesAdapter: PackagesAdapter
     var pakatList: ArrayList<PakatDetails> = ArrayList()
     private lateinit var addProductViewModel: AddProductViewModel
+    var closed = false
     override fun onBackPressed() {
         if (isEdit) {
             startActivity(Intent(this, ConfirmationAddProductActivity::class.java).apply {
                 putExtra("whereCome", "Add")
+                putExtra("closed", closed)
             })
             finish()
         } else {
@@ -49,6 +51,7 @@ class PromotionalActivity : BaseActivity<ActivityPromotionalBinding>(),
 
         binding.toolbarPromotional.toolbarTitle.text = getString(R.string.distinguish_your_product)
         isEdit = intent.getBooleanExtra(ConstantObjects.isEditKey, false)
+        closed = intent.getBooleanExtra("closed", false)
 
         setClickViewListeners()
         setPromotionalAdaptor2()
@@ -253,6 +256,7 @@ class PromotionalActivity : BaseActivity<ActivityPromotionalBinding>(),
     private fun goNextActivity() {
         startActivity(Intent(this, ConfirmationAddProductActivity::class.java).apply {
             putExtra("whereCome", "Add")
+            putExtra("closed", closed)
         })
     }
 
@@ -266,6 +270,7 @@ class PromotionalActivity : BaseActivity<ActivityPromotionalBinding>(),
             if (isEdit) {
                 startActivity(Intent(this, ConfirmationAddProductActivity::class.java).apply {
                     putExtra("whereCome", "Add")
+                    putExtra("closed", closed)
                     finish()
                 })
             } else {

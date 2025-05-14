@@ -51,6 +51,7 @@ class ListingDurationActivity : BaseActivity<ActivityListingDurationBinding>(),
     private lateinit var shippingViewModel: ShippingViewModel
     var cashed = 0
     var hasAdded = false
+    var closed = false
 
 
 
@@ -66,6 +67,8 @@ class ListingDurationActivity : BaseActivity<ActivityListingDurationBinding>(),
         binding.toolbarListduration.toolbarTitle.text = getString(R.string.shipping)
         isEdit = intent.getBooleanExtra(ConstantObjects.isEditKey, false)
         cashed = intent.getIntExtra("cashed", 0)
+        closed = intent.getBooleanExtra("closed", false)
+
         setVieClickListeners()
         shippingAdapter = ShippingAdapter(arrayListOf(), this)
         binding.containerPickUpOption.hide()
@@ -426,6 +429,8 @@ class ListingDurationActivity : BaseActivity<ActivityListingDurationBinding>(),
             })
         } else {
             startActivity(Intent(this, PromotionalActivity::class.java).apply {
+                putExtra("closed", closed)
+                finish()
             })
 
         }

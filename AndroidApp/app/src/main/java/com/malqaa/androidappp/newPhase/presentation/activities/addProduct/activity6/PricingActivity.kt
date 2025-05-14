@@ -51,6 +51,7 @@ class PricingActivity : BaseActivity<ActivityPricingPaymentBinding>() {
     val allWeeks: ArrayList<TimeAuctionSelection> = ArrayList()
     var fixlenghtselected: TimeAuctionSelection? = null
     var cashed = 0
+    var closed = false
 
 
     val adapterList = object : GenericListAdapter<AccountDetails>(
@@ -751,6 +752,7 @@ class PricingActivity : BaseActivity<ActivityPricingPaymentBinding>() {
             startActivity(Intent(this, ListingDurationActivity::class.java).apply {
                 putExtra(ConstantObjects.isEditKey, isEdit)
                 putExtra("cashed", cashed)
+                putExtra("closed", closed)
                 finish()
             })
         }
@@ -930,6 +932,7 @@ class PricingActivity : BaseActivity<ActivityPricingPaymentBinding>() {
         }
         binding.btnRadioClosingAuctionOption2.setOnCheckedChangeListener { compoundButton, b ->
             if (b) {
+                closed = true
                 binding.closingAuctionOption2.performClick()
             }
         }
