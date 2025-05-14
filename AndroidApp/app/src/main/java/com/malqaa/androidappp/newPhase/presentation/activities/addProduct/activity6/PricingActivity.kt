@@ -50,6 +50,7 @@ class PricingActivity : BaseActivity<ActivityPricingPaymentBinding>() {
     private var fm: FragmentManager? = null
     val allWeeks: ArrayList<TimeAuctionSelection> = ArrayList()
     var fixlenghtselected: TimeAuctionSelection? = null
+    var cashed = 0
 
 
     val adapterList = object : GenericListAdapter<AccountDetails>(
@@ -518,7 +519,7 @@ class PricingActivity : BaseActivity<ActivityPricingPaymentBinding>() {
                 binding.layoutCashPayment.background =
                     ContextCompat.getDrawable(this, R.drawable.field_selection_border_enable)
                 binding.tvCashPayment.setTextColor(ContextCompat.getColor(this, R.color.bg))
-
+                cashed = 1
             } else {
                 binding.layoutCashPayment.background =
                     ContextCompat.getDrawable(this, R.drawable.edittext_bg)
@@ -749,6 +750,7 @@ class PricingActivity : BaseActivity<ActivityPricingPaymentBinding>() {
                 binding.priceNegotiableRb3.isChecked
             startActivity(Intent(this, ListingDurationActivity::class.java).apply {
                 putExtra(ConstantObjects.isEditKey, isEdit)
+                putExtra("cashed", cashed)
                 finish()
             })
         }
