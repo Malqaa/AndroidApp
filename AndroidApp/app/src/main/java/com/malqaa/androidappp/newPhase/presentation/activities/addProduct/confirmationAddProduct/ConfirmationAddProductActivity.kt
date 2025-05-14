@@ -569,6 +569,7 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
                 if (discount != 0f) {
                     binding.tvTotal.text =
                         "${cartSummery.priceSummery.totalPriceBeforeCoupon} ${getString(R.string.Rayal)}"
+                    totalPrice = cartSummery.priceSummery.totalPriceBeforeCoupon
                 } else {
                     binding.tvTotal.text =
                         "${cartSummery.priceSummery.totalPriceAfterCoupon} ${getString(R.string.Rayal)}"
@@ -814,6 +815,8 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
         binding.tvSubtotal.text = String.format("%.2f", subtotal)  // e.g., "150.00"
         binding.tvVat.text = String.format("%.2f", taxAmount)       // e.g., "22.50"
         binding.tvTotal.text = "${String.format("%.2f", totalWithVat)} ${getString(R.string.SAR)}"
+        totalPrice = totalWithVat.toFloat()
+
 
         AddProductObjectData.productCondition = productDetails.status
 
