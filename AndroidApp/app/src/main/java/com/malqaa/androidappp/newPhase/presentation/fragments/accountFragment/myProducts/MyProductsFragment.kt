@@ -21,6 +21,7 @@ import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.confir
 import com.malqaa.androidappp.newPhase.presentation.activities.loginScreen.SignInActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.myOrderDetails.MyOrderDetailsRequestedFromMeActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.productDetailsActivity.MyProductDetailsActivity
+import com.malqaa.androidappp.newPhase.presentation.adapterShared.DidNotSaleAdapter
 import com.malqaa.androidappp.newPhase.presentation.adapterShared.ProductHorizontalAdapter
 import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.myOrderFragment.adapter.MyOrdersAdapter
 import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.myProducts.dialog.AddDiscountDialog
@@ -42,7 +43,10 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
     private var lastPriceDiscount: Float = 0f
     private lateinit var myProductsViewModel: MyProductViewModel
     private lateinit var myProductForSaleListAdapter: ProductHorizontalAdapter
+    private lateinit var myProductForNotSaleListAdapter: DidNotSaleAdapter
     private lateinit var productList: ArrayList<Product>
+    private lateinit var notForSaleList: ArrayList<Product>
+
     private var lastUpdateIndex = -1
     private lateinit var expireHoursList: ArrayList<Float>
 
@@ -74,6 +78,7 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         setViewClickListeners()
         setAdapterForSaleAdapter()
         setUpSoldOutAdapter()
+        setAdapterForNotSaleAdapter()
 
         binding.soldOutRcv.hide()
         binding.didNotSaleRcv.hide()
@@ -132,6 +137,17 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         }
     }
 
+    private fun setAdapterForNotSaleAdapter() {
+        notForSaleList = ArrayList()
+        myProductForNotSaleListAdapter = DidNotSaleAdapter(notForSaleList, this, 0, false,
+            isMyProduct = true
+        )
+        binding.didNotSaleRcv.apply {
+            adapter = myProductForNotSaleListAdapter
+            layoutManager = GridLayoutManager(requireActivity(), 2)
+        }
+    }
+
 
     private fun setViewClickListeners() {
         binding.toolbar.backBtn.setOnClickListener {
@@ -140,6 +156,7 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         binding.forSale.setOnClickListener {
             tapId = 1
             binding.soldOutRcv.hide()
+            binding.didNotSaleRcv.hide()
             binding.forSaleRecycler.show()
             binding.forSale.setBackgroundResource(R.drawable.round_btn)
             binding.forSale.setTextColor(ContextCompat.getColor(requireActivity(), R.color.white))
@@ -153,7 +170,7 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
             tapId = 2
             binding.soldOutRcv.show()
             binding.forSaleRecycler.hide()
-
+            binding.didNotSaleRcv.hide()
             binding.forSale.setBackgroundResource(R.drawable.edittext_bg)
             binding.forSale.setTextColor(ContextCompat.getColor(requireActivity(), R.color.gray))
             binding.soldOut.setBackgroundResource(R.drawable.round_btn)
@@ -165,7 +182,8 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         binding.didNotSell.setOnClickListener {
             tapId = 3
             binding.soldOutRcv.hide()
-            binding.forSaleRecycler.show()
+            binding.didNotSaleRcv.show()
+            binding.forSaleRecycler.hide()
             binding.forSale.setBackgroundResource(R.drawable.edittext_bg)
             binding.forSale.setTextColor(ContextCompat.getColor(requireActivity(), R.color.gray))
             binding.soldOut.setBackgroundResource(R.drawable.edittext_bg)
@@ -237,9 +255,9 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         myProductsViewModel.notForSaleProductRespObserver.observe(this) { productListResp ->
             if (productListResp.status_code == 200) {
                 if (!productListResp.productList.isNullOrEmpty()) {
-                    productList.clear()
-                    productList.addAll(productListResp.productList)
-                    myProductForSaleListAdapter.notifyDataSetChanged()
+                    notForSaleList.clear()
+                    notForSaleList.addAll(productListResp.productList)
+                    myProductForNotSaleListAdapter.notifyDataSetChanged()
 
                 } else {
                     showProductApiError(getString(R.string.noProductsAdded))
@@ -367,8 +385,8 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
             }
 
             3 -> {
-                productList.clear()
-                myProductForSaleListAdapter.notifyDataSetChanged()
+                notForSaleList.clear()
+                myProductForNotSaleListAdapter.notifyDataSetChanged()
                 myProductsViewModel.getForDidNotSaleProducts()
             }
         }
