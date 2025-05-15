@@ -76,8 +76,14 @@ class ProductHorizontalAdapter(
             holder.viewBinding.btnMerchant.visibility = View.GONE
         }
 
-        holder.viewBinding.linearLayoutFeatured.visibility =
-            if (product.isFeatured) View.VISIBLE else View.GONE
+        if (product.isFeatured){
+            holder.viewBinding.linearLayoutFeatured.visibility = View.VISIBLE
+            holder.viewBinding.borderId.setBackgroundResource(R.drawable.orange_border) // أو null
+        }
+        else{
+            holder.viewBinding.linearLayoutFeatured.visibility = View.GONE
+            holder.viewBinding.borderId.background = null
+        }
 
         holder.viewBinding.imageViewShare.setOnClickListener {
             context.shared(shareBody = "http://advdev-001-site1.dtempurl.com/Home/GetProductById?id=${product.id}")
