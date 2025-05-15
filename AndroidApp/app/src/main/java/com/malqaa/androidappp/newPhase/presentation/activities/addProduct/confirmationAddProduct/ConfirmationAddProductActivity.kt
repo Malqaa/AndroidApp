@@ -60,6 +60,7 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
     private var pakagePrice = 0f
     private var fixedPriceFee = 0f
     private var auctionEnableFee = 0f
+    private var closingAuctionEnableFee = 0f
     private var negotiationFee = 0f
     private var subTitleFee = 0f
     private var extraImageFee = 0f
@@ -683,6 +684,8 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
         binding.containerImageExtraFee.hide()
         binding.containerVideoExtraFee.hide()
         binding.containerProductPublishPriceFee.hide()
+        binding.containerClosingAuctionFee.hide()
+
 
         AddProductObjectData.selectedCategoryId = productDetails.categoryId
         AddProductObjectData.selectedCategoryName = productDetails.category.toString()
@@ -741,6 +744,15 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
             auctionEnableFee = selectedCategory?.enableAuctionFee ?: 0f
             binding.tvAuctionFee.text =
                 "${productDetails.auctionStartPrice} ${getString(R.string.SAR)}"
+        }
+        /**AuctionClosingFee*/
+        if (closed) {
+            selectedCategory?.auctionClosingTimeFee =
+                productDetails.categoryDto?.auctionClosingTimeFee ?: 0f
+            binding.containerClosingAuctionFee.show()
+            var closeText = selectedCategory?.auctionClosingTimeFee
+            closingAuctionEnableFee = selectedCategory?.auctionClosingTimeFee ?: 0f
+            binding.tvClosingAuctionFee.text = "$closeText ${getString(R.string.SAR)}"
         }
         /**negotiation fee*/
         if (productDetails.isNegotiationEnabled && productDetails.auctionNegotiatePrice != 0f) {
@@ -803,7 +815,7 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
 
         // Step 1: Calculate Subtotal
         val subtotal = pakagePrice + fixedPriceFee + auctionEnableFee + negotiationFee +
-                subTitleFee + extraImageFee + extraVideoFee + productPublishPriceFee
+                subTitleFee + extraImageFee + extraVideoFee + productPublishPriceFee +closingAuctionEnableFee
 
         // Step 2: Calculate Tax (15%)
         val taxAmount = subtotal * 0.15
@@ -944,6 +956,8 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
         binding.containerImageExtraFee.hide()
         binding.containerVideoExtraFee.hide()
         binding.containerProductPublishPriceFee.hide()
+        binding.containerClosingAuctionFee.hide()
+
 
         val text = selectedCategory?.productPublishPrice.toString()
         if(showPublishPrice){
@@ -981,12 +995,15 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
         /**AuctionFee fee*/
         if (AddProductObjectData.auctionOption && selectedCategory?.enableAuctionFee != 0f) {
             binding.containerAuctionFee.show()
-            auctionEnableFee = if (closed){
-                selectedCategory?.enableAuctionFee!! + selectedCategory?.auctionClosingTimeFee!!
-            } else {
-                selectedCategory?.enableAuctionFee ?: 0f
-            }
+            auctionEnableFee=selectedCategory?.enableAuctionFee ?: 0f
             binding.tvAuctionFee.text = "$auctionEnableFee ${getString(R.string.SAR)}"
+        }
+        /**AuctionClosingFee*/
+        if (closed) {
+            binding.containerClosingAuctionFee.show()
+            var closeText = selectedCategory?.auctionClosingTimeFee
+            closingAuctionEnableFee = selectedCategory?.auctionClosingTimeFee ?: 0f
+            binding.tvClosingAuctionFee.text = "$closeText ${getString(R.string.SAR)}"
         }
         /**negotiation fee*/
         if (AddProductObjectData.isNegotiablePrice && selectedCategory?.enableNegotiationFee != 0f) {
@@ -1046,7 +1063,7 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
 
         // Step 1: Calculate Subtotal
         val subtotal = pakagePrice + fixedPriceFee + auctionEnableFee + negotiationFee +
-                subTitleFee + extraImageFee + extraVideoFee + productPublishPriceFee
+                subTitleFee + extraImageFee + extraVideoFee + productPublishPriceFee + closingAuctionEnableFee
 
         // Step 2: Calculate Tax (15%)
         val taxAmount = subtotal * 0.15

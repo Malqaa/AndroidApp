@@ -1008,6 +1008,7 @@
     <string name="fixed_sale_price_option_fees">رسوم "خيار سعر البيع الثابت"</string>
     <string name="auctionFee">رسوم المزاد</string>
     <string name="public_auction_option_fees">رسوم "خيار المزاد العلنى"</string>
+    <string name="auction_closing_option_fees">رسوم "خيار وقت اغلاق المزاد"</string>
     <string name="negotiationFee">رسوم التفاوض</string>
     <string name="negotiable_price_option_fees">رسوم "خيار السعر قابل للتفاوض"</string>
     <string name="SubTitleFee">رسوم العنوان الفرعي</string>

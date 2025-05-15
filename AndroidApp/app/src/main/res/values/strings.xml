@@ -1212,6 +1212,7 @@
     <string name="fixed_sale_price_option_fees">Fixed Sale Price Option Fees</string>
     <string name="auctionFee">Auction Fee</string>
     <string name="public_auction_option_fees">Public Auction Option Fees</string>
+  <string name="auction_closing_option_fees">Auction Closing Time Option Fees</string>
     <string name="negotiationFee">Negotiation Fee</string>
     <string name="negotiable_price_option_fees">Negotiable Price Option Fees</string>
     <string name="imageExtraFee">Extra Images Fee</string>
