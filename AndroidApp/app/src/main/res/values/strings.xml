@@ -991,7 +991,7 @@
     <string name="membership_number">Membership Number</string>
     <string name="seller_information">Seller information</string>
     <string name="card_holder_s_name">Card holder\'s name</string>
-    <string name="cvv">CVV</string>
+    <string name="cvv">Valid CVV code</string>
     <string name="pay_by_card">Pay by card</string>
     <string name="order_completed_successfully">Order completed successfully</string>
     <string name="track_your_order">Follow up my order</string>
@@ -1386,7 +1386,7 @@
     <string name="card_holders_name">Card Holder’s Name</string>
     <string name="card_number">Card Number</string>
     <string name="choose_another_card">choose another card</string>
-    <string name="please_enter_cvv">Please enter CVV</string>
+    <string name="please_enter_cvv">Please enter valid  CVV code</string>
     <string name="the_points_balance_equals">The Points balance equals %1$s</string>
     <string name="please_activate_at_least_one_payment_method">Please activate at least one payment method</string>
     <string name="mm_yyyy">MM/YYYY</string>
