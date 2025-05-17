@@ -1010,8 +1010,8 @@
     <string name="a_security_deposit_has_been_added_to_the_losing_auction">A security deposit has been added to the losing auction</string>
     <string name="share_the_invite_code">Share the invite code</string>
     <string name="and_get_100_points_for_every_new_store">And get 100 points for every new store</string>
-    <string name="convert_points_into_credit">Convert points into credit</string>
-    <string name="every_100_points_for_10_riyals">Every 100 points for 10 riyals</string>
+    <string name="convert_wallet_into_points">Convert credit wallet into points</string>
+    <string name="every_100_points_for_10_riyals">Every 1 points for 1 riyals</string>
     <string name="conversion">Conversion</string>
     <string name="_100_points_have_been_converted_into_10_riyals_to_your_wallet">100 points have been converted into 10 riyals to your wallet</string>
     <string name="membership_no">Membership No</string>
@@ -1403,5 +1403,6 @@
   <string name="closing_soon">Closing Soon</string>
   <string name="there_are_no_cards_saved">There are no cards saved، \n Please add a new card by clicking the (Add new card) button or choose another payment method</string>
   <string name="choose_card">Choose card</string>
+    <string name="convert_to_points">Convert credit</string>
 
 </resources>

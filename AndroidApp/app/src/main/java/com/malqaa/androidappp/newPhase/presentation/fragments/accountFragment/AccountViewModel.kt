@@ -16,6 +16,7 @@ import com.malqaa.androidappp.newPhase.domain.models.servicemodels.GeneralRespon
 import com.malqaa.androidappp.newPhase.domain.models.userPointsDataResp.ConvertMoneyToPointResp
 import com.malqaa.androidappp.newPhase.domain.models.userPointsDataResp.UserPointDataResp
 import com.malqaa.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.ValidateAndGenerateOTPResp
+import com.malqaa.androidappp.newPhase.domain.models.walletDetailsResp.TransactionPointsAmountRes
 import com.malqaa.androidappp.newPhase.domain.models.walletDetailsResp.WalletDetailsResp
 import com.malqaa.androidappp.newPhase.utils.Extension.requestBody
 import okhttp3.MultipartBody
@@ -51,6 +52,9 @@ class AccountViewModel : BaseViewModel() {
         MutableLiveData()
     var logoutObserver: MutableLiveData<LogoutResp> = MutableLiveData()
 
+    var transferWalletToPointsObserver: MutableLiveData<TransactionPointsAmountRes> = MutableLiveData()
+
+
     private var callEditProfile: Call<GeneralResponse>? = null
     private var callAccountInfo: Call<AccountInfo>? = null
     private var callWalletDetails: Call<WalletDetailsResp>? = null
@@ -68,6 +72,8 @@ class AccountViewModel : BaseViewModel() {
     private var callUpdateMobile: Call<GeneralResponse>? = null
     private var callUpdateAccountProfile: Call<EditProfileResp>? = null
     private var callLogout: Call<LogoutResp>? = null
+    private var callTransferWalletToPoints: Call<TransactionPointsAmountRes>? = null
+
 
     fun closeAllCall() {
         if (callEditProfile != null) {
@@ -78,6 +84,9 @@ class AccountViewModel : BaseViewModel() {
         }
         if (callWalletDetails != null) {
             callWalletDetails?.cancel()
+        }
+        if (callTransferWalletToPoints != null) {
+            callTransferWalletToPoints?.cancel()
         }
         if (callAddWallet != null) {
             callAddWallet?.cancel()
@@ -197,6 +206,31 @@ class AccountViewModel : BaseViewModel() {
             onSuccess = {
                 isLoading.value = false
                 walletDetailsObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoading.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
+                }
+            },
+            goLogin = {
+                isLoading.value = false
+                needToLogin.value = true
+            })
+
+    }
+
+    fun getTransferWalletToPoints(amount:Int) {
+        isLoading.value = true
+        callTransferWalletToPoints = getRetrofitBuilder().transferWalletToPoints(amount)
+
+        callApi(callTransferWalletToPoints!!,
+            onSuccess = {
+                isLoading.value = false
+                transferWalletToPointsObserver.value = it
             },
             onFailure = { throwable, statusCode, errorBody ->
                 isLoading.value = false

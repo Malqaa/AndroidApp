@@ -86,6 +86,7 @@ import com.malqaa.androidappp.newPhase.domain.models.userPointsDataResp.ConvertM
 import com.malqaa.androidappp.newPhase.domain.models.userPointsDataResp.UserPointDataResp
 import com.malqaa.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.UserVerifiedResp
 import com.malqaa.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.ValidateAndGenerateOTPResp
+import com.malqaa.androidappp.newPhase.domain.models.walletDetailsResp.TransactionPointsAmountRes
 import com.malqaa.androidappp.newPhase.domain.models.walletDetailsResp.WalletDetailsResp
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import okhttp3.MultipartBody
@@ -1129,4 +1130,8 @@ interface MalqaApiService {
     @GET("ShowProductPublishPrice")
     fun showProductPublishPrice(
     ): Call<ShowProductPriceResp>
+
+    @POST("TransferWalletToPoints")
+    fun transferWalletToPoints(@Query("transactionPointsAmount") transactionPointsAmount: Int):
+            Call<TransactionPointsAmountRes>
 }

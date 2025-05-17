@@ -188,7 +188,7 @@ class AccountFragment : Fragment(R.layout.fragment_account),
             if (walletDetailsResp.status_code == 200) {
                 AccountObject.walletDetails = walletDetailsResp.walletDetails
                 walletDetailsResp.walletDetails?.let {
-//                    tvWalletTotalBalance.text = "${it.walletBalance} ${getString(R.string.Rayal)}"
+                    //binding.tvWalletTotalBalance.text = "${it.walletBalance} ${getString(R.string.Rayal)}"
                 }
 
             }

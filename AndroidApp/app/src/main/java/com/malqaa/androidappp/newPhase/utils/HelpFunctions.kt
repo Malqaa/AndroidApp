@@ -30,6 +30,7 @@ import com.bumptech.glide.Glide
 import com.malqaa.androidappp.R
 import com.malqaa.androidappp.databinding.AlertpopupBinding
 import com.malqaa.androidappp.databinding.ProgressBarBinding
+import com.malqaa.androidappp.databinding.SucessPopupBinding
 import com.malqaa.androidappp.newPhase.data.network.callApi
 import com.malqaa.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malqaa.androidappp.newPhase.domain.models.loginResp.LoginUser
@@ -157,6 +158,37 @@ class HelpFunctions {
 
                 // Use View Binding
                 val binding = AlertpopupBinding.inflate(inflater)
+                binding.imageFailedMessage.visibility = if (showFailedMessage) View.VISIBLE else View.GONE
+
+                // Set title and message
+                if (alertTitle.isNotEmpty()) {
+                    binding.LblALertTitle.text = alertTitle
+                }
+                binding.LblAlertMessage.text = alertMessage
+
+                dialogBuilder.setView(binding.root)
+                val alertDialog = dialogBuilder.create()
+                alertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                alertDialog.show()
+
+                binding.btnAlertclose.setOnClickListener {
+                    alertDialog.dismiss()
+                }
+            }
+        }
+
+        fun ShowSucessAlert(
+            context: Context?,
+            alertTitle: String,
+            showFailedMessage: Boolean,
+            alertMessage: String
+        ) {
+            if (context != null) {
+                val dialogBuilder = AlertDialog.Builder(context)
+                val inflater = LayoutInflater.from(context)
+
+                // Use View Binding
+                val binding = SucessPopupBinding.inflate(inflater)
                 binding.imageFailedMessage.visibility = if (showFailedMessage) View.VISIBLE else View.GONE
 
                 // Set title and message

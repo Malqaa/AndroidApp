@@ -18,6 +18,7 @@ import com.malqaa.androidappp.newPhase.domain.models.walletDetailsResp.WalletTra
 import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.AccountViewModel
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
+import com.malqaa.androidappp.newPhase.utils.HelpFunctions.Companion.ShowAlert
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.show
 
@@ -87,6 +88,22 @@ class MyWalletFragment : Fragment(R.layout.fragment_my_wallet_fragment),
                     addWalletTransaction.message ?: getString(R.string.serverError),
                     requireActivity()
                 )
+            }
+        }
+        accountViewModel.transferWalletToPointsObserver.observe(viewLifecycleOwner) { transferWalletToPoints ->
+            if (transferWalletToPoints.status_code == 200) {
+                HelpFunctions.ShowSucessAlert(
+                    context = requireActivity(),
+                    alertTitle = getString(R.string.convert_to_points),
+                    showFailedMessage = true,
+                    alertMessage = "${transferWalletToPoints.data.transactionAmount.toString()} ${"converted successfully to points"}"
+                )
+                binding.walletBalance.text = null
+                binding.tvTotalBalance.text = transferWalletToPoints.data.totalWalletBalance.toString()
+                onRefresh()
+            }
+            else{
+                HelpFunctions.ShowLongToast(getString(R.string.serverError), requireActivity())
             }
         }
     }
@@ -168,6 +185,14 @@ class MyWalletFragment : Fragment(R.layout.fragment_my_wallet_fragment),
                         binding.etAmount.text.toString().trim()
                     )
                 }
+            }
+        }
+        binding.btnConvertion.setOnClickListener {
+            if (binding.walletBalance.text.toString().trim().isEmpty()) {
+                binding.walletBalance.error = getString(R.string.enterAmount)
+            }
+            else{
+                accountViewModel.getTransferWalletToPoints(binding.walletBalance.text.toString().toInt())
             }
         }
     }

@@ -815,8 +815,8 @@
     <string name="a_security_deposit_has_been_added_to_the_losing_auction">تم إضافة مبلغ تأمينى للمزاد الضائع</string>
     <string name="share_the_invite_code">شارك كود الدعوة</string>
     <string name="and_get_100_points_for_every_new_store">واحصل على 100 نقطة على كل متجر جديد</string>
-    <string name="convert_points_into_credit">تحويل النقاط الى رصيد</string>
-    <string name="every_100_points_for_10_riyals">كل 100 نقطة بـ 10 ريال</string>
+    <string name="convert_wallet_into_points">تحويل رصيد المحفظة الى نقاط</string>
+    <string name="every_100_points_for_10_riyals">كل 1 نقطة بـ 1 ريال</string>
     <string name="conversion">تحويل</string>
     <string name="_100_points_have_been_converted_into_10_riyals_to_your_wallet">تم تحويل 100 نقطة الى 10 ريال لمحفظتك</string>
     <string name="membership_no">رقم العضوية</string>
@@ -1193,4 +1193,5 @@
     <string name="closing_soon">سيغلق قريبا</string>
     <string name="there_are_no_cards_saved">لا يوجد بطاقات محفوظة،\n يرجى اضافة بطاقة جديدة بالضغط على زر أضف بطاقة جديدةاو اختيار طريقة دفع اخرى</string>
     <string name="choose_card">Choose card</string>
+    <string name="convert_to_points">Convert credit</string>
 </resources>
