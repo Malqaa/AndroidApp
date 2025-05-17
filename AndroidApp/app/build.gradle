@@ -7,7 +7,9 @@ plugins {
     id 'androidx.navigation.safeargs'
     id 'com.google.gms.google-services'
     id 'com.google.firebase.crashlytics'
+    id 'com.google.firebase.appdistribution'
 }
+
 android {
     compileSdkVersion 34
 
@@ -20,11 +22,30 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        release {
+            storeFile file("/Users/abdelazizdaoud/Documents/keystore/onruf_keystore")
+            storePassword "malqaa&12345"
+            keyAlias "onruf"
+            keyPassword "malqaa&12345"
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
+            signingConfig signingConfigs.getByName("release")
+
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            // Firebase App Distribution configuration
+            firebaseAppDistribution {
+                releaseNotesFile = "release_notes/releasenotes.txt"
+                testers = "abdelaz9z@icloud.com"
+                groups = "android-dev, external-testers, internal-testers"
+            }
         }
+
         applicationVariants.all { variant ->
             variant.outputs.all { output ->
                 def project = "Onruf"
@@ -55,6 +76,36 @@ android {
     }
     viewBinding {
         enabled = true
+    }
+}
+
+// Task to find and upload the release APK dynamically
+tasks.register("uploadReleaseToFirebase") {
+    group = "distribution"
+    description = "Builds the release APK and uploads it to Firebase App Distribution."
+
+    dependsOn("assembleRelease")
+
+    doLast {
+        // Absolute path to gradlew
+        def gradlewPath = "${project.rootDir}/gradlew"
+        def releaseDir = layout.buildDirectory.dir("outputs/apk/release").get().asFile
+        def apkFiles = releaseDir.listFiles()?.findAll { it.name.endsWith(".apk") }
+
+        if (apkFiles == null || apkFiles.isEmpty()) {
+            throw new GradleException("No APK file found in $releaseDir")
+        }
+
+        def releaseApkPath = apkFiles.first().absolutePath
+        println "Found release APK: $releaseApkPath"
+
+        println "Uploading release APK to Firebase App Distribution..."
+        exec {
+            commandLine gradlewPath,
+                    "appDistributionUploadRelease",
+                    "-PfirebaseAppDistributionFile=${releaseApkPath}"
+        }
+        println "Release successfully uploaded to Firebase App Distribution!"
     }
 }
 

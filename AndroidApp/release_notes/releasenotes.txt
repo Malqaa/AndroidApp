@@ -1,0 +1,7 @@
+Release Notes for Version 1.0.0
+
+- New Features:
+    - Add app distribution with (Firebase).
+
+Important Notes:
+- Improve the way the app is submitted for testing.
