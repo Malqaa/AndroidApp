@@ -1,10 +1,12 @@
 package com.malqaa.androidappp.newPhase.presentation.activities.searchProductListActivity
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -18,6 +20,8 @@ import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions.Companion.getDifference
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.show
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.Date
 
 class ProductRowFullAdapter(
@@ -37,6 +41,7 @@ class ProductRowFullAdapter(
         return ProductViewHolder(itemBinding, categoryId, setOnProductItemListeners)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
         holder.bind(mItemsList[position])
     }
@@ -69,6 +74,7 @@ class ProductViewHolder(
 
     private var requestItem: Product? = null
 
+    @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("SetTextI18n")
     fun bind(requestItem: Product) {
         this.requestItem = requestItem
@@ -131,13 +137,28 @@ class ProductViewHolder(
 
         if (requestItem.isFreeDelivery) itemBinding.btnFreeDelivery.show() else itemBinding.btnFreeDelivery.hide()
         if (requestItem.isMerchant) itemBinding.btnMerchant.show() else itemBinding.btnMerchant.hide()
-
+        if (requestItem.isFeatured){
+            itemBinding.linearLayoutFeatured.visibility = View.VISIBLE
+            itemBinding.borderId.setBackgroundResource(R.drawable.orange_border) // أو null
+        }
+        else{
+            itemBinding.linearLayoutFeatured.visibility = View.GONE
+            itemBinding.borderId.background = null
+        }
         // Handle auction closing time countdown
-        if (!requestItem.auctionClosingTime.isNullOrEmpty() && !requestItem.auctionClosingTime.contains(
-                "T00:00:00"
-            )
-        ) {
-            startCountdown(requestItem.auctionClosingTime)
+        if (!requestItem.auctionClosingTime.isNullOrEmpty() && !requestItem.auctionClosingTime.contains("T00:00:00")) {
+            val dateTime = LocalDateTime.parse(requestItem.auctionClosingTime, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+
+
+            val day = dateTime.dayOfMonth.toString().padStart(2, '0')
+            val hour = dateTime.hour.toString().padStart(2, '0')
+            val minute = dateTime.minute.toString().padStart(2, '0')
+            val second = dateTime.second.toString().padStart(2, '0')
+
+            itemBinding.daysTv.text = day
+            itemBinding.hoursTv.text = hour
+            itemBinding.minutesTv.text = minute
+            itemBinding.secondsTv.text = second
         } else {
             itemBinding.containerTimeBar.hide()
             onDestroyHandler() // Stop handler if the countdown is not needed

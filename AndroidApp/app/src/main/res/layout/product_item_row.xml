@@ -7,6 +7,14 @@
         name="vmItem"
         type="com.malqaa.androidappp.newPhase.domain.models.productResp.Product" />
 </data>
+    <FrameLayout
+        android:id="@+id/border_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/orange_border"
+        android:padding="4dp"
+        android:layout_margin="8dp">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:id="@+id/ivSetting"
@@ -52,13 +60,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginTop="@dimen/_8sdp"
-                    android:background="@drawable/product_attribute_bg1_ar"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/product_attribute_bg1_en"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:padding="@dimen/_2sdp"
-                    app:layout_constraintEnd_toEndOf="@+id/productimg"
-                    app:layout_constraintTop_toTopOf="@id/product_image">
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayoutFeatured">
 
                     <TextView
                         android:id="@+id/titleDay"
@@ -136,6 +144,34 @@
 
 
                 </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearLayoutFeatured"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/product_attribute_bg1_en"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="16dp"
+                    android:paddingTop="@dimen/_2sdp"
+                    android:paddingBottom="@dimen/_2sdp"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:visibility="visible">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/_15sdp"
+                        android:gravity="center"
+                        android:text="@string/featured"
+                        android:textColor="@color/bg"
+                        android:textSize="@dimen/_9sdp" />
+
+                </LinearLayout>
+
 
                 <ProgressBar
                     android:id="@+id/loader"
@@ -287,4 +323,5 @@
 
         </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
 </layout>

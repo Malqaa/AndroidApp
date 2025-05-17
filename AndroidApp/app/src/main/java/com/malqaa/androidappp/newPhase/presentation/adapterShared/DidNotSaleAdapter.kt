@@ -3,10 +3,12 @@ package com.malqaa.androidappp.newPhase.presentation.adapterShared
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Paint
+import android.os.Build
 import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.malqaa.androidappp.R
@@ -22,6 +24,8 @@ import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.isValidPrice
 import com.malqaa.androidappp.newPhase.utils.show
 import com.yariksoffice.lingver.Lingver
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class DidNotSaleAdapter
     (var productList: List<Product>,
@@ -54,6 +58,7 @@ class DidNotSaleAdapter
 
     override fun getItemCount(): Int = productList.size
 
+    @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: SellerProductViewHolder, position: Int) {
         val product = productList[position]
@@ -71,8 +76,25 @@ class DidNotSaleAdapter
         holder.viewBinding.btnMerchant.visibility =
             if (product.isMerchant) View.VISIBLE else View.GONE
 
-        holder.viewBinding.linearLayoutFeatured.visibility =
-            if (product.isFeatured) View.VISIBLE else View.GONE
+        if (product.isFeatured){
+            holder.viewBinding.linearLayoutFeatured.visibility = View.VISIBLE
+            holder.viewBinding.borderId.setBackgroundResource(R.drawable.orange_border) // أو null
+        }
+        else{
+            holder.viewBinding.linearLayoutFeatured.visibility = View.GONE
+            holder.viewBinding.borderId.background = null
+        }
+
+        if (product.createdAt!!.isEmpty()){
+            holder.viewBinding.dateTv.visibility = View.GONE
+        }
+        else{
+            holder.viewBinding.dateTv.visibility = View.VISIBLE
+            val outputFormatter = DateTimeFormatter.ofPattern("d/MM/yyyy")
+            val dateTime = LocalDateTime.parse(product.createdAt.toString(), DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+
+            holder.viewBinding.dateTv.text = dateTime.format(outputFormatter).toString()
+        }
 
         holder.viewBinding.imageViewShare.setOnClickListener {
             context.shared(shareBody = "http://advdev-001-site1.dtempurl.com/Home/GetProductById?id=${product.id}")
@@ -195,7 +217,18 @@ class DidNotSaleAdapter
 
         // Auction countdown logic
         if (!product.auctionClosingTime.isNullOrEmpty() && !product.auctionClosingTime.contains("T00:00:00")) {
-            startCountdown(holder, product.auctionClosingTime)
+            val dateTime = LocalDateTime.parse(product.auctionClosingTime, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+
+
+            val day = dateTime.dayOfMonth.toString().padStart(2, '0')
+            val hour = dateTime.hour.toString().padStart(2, '0')
+            val minute = dateTime.minute.toString().padStart(2, '0')
+            val second = dateTime.second.toString().padStart(2, '0')
+
+            holder.viewBinding.daysTv.text = day
+            holder.viewBinding.hoursTv.text = hour
+            holder.viewBinding.minutesTv.text = minute
+            holder.viewBinding.secondsTv.text = second
         } else {
             holder.viewBinding.containerTimeBar.visibility = View.GONE
             onDestroyHandler() // Stop handler if the countdown is not needed

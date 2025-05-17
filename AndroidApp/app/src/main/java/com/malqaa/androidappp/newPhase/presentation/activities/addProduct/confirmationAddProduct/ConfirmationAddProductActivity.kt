@@ -1610,8 +1610,7 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
 
         if (cvv.isEmpty()||cvv.length<3) {
             readyToAdd = false
-            binding.cvvTv.error =
-                "${getString(R.string.enter)} ${getString(R.string.cvv)}"
+            binding.cvvTv.error = getString(R.string.please_enter_cvv)
         }
 
         if (readyToAdd) {
