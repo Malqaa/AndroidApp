@@ -1,7 +1,8 @@
 package com.malqaa.androidappp.newPhase.domain.models.accountBackListResp
 
 import com.google.gson.annotations.SerializedName
-import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.confirmationAddProduct.PaymentAccountType
+import com.malqaa.androidappp.newPhase.domain.enums.PaymentAccountType
+import com.malqaa.androidappp.newPhase.domain.enums.PaymentMethod
 
 data class AccountBankListResp(
     val code: String? = null,
@@ -26,7 +27,8 @@ data class AccountDetails(
     var saveForLaterUse: String? = null,
     var isSelected: Boolean,
     var cvv: Int,
-    var paymentAccountType: PaymentAccountType? = null
+    var paymentAccountType: PaymentAccountType? = null,
+    var paymentMethod: PaymentMethod? = null
 )
 
 data class BankAccountRequest(

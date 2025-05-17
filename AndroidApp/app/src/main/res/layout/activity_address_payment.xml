@@ -224,13 +224,49 @@
 
                     </LinearLayout>
 
+                    <!-- cash payment fees -->
+                    <LinearLayout
+                        android:id="@+id/linearLayoutCashPaymentFees"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_15sdp"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/madani_arabic_light"
+                            android:text="@string/cash_payment_fees"
+                            android:textColor="@color/grey"
+                            android:textSize="@dimen/_10sdp" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/textViewCashPaymentFees"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:layout_marginEnd="@dimen/_15sdp"
+                                android:fontFamily="@font/madani_arabic_light"
+                                android:text="0"
+                                android:textColor="@color/grey"
+                                android:textSize="@dimen/_14sdp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_5sdp"
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
-
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -246,9 +282,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content">
 
-
                             <TextView
-
                                 android:id="@+id/discount_tv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -258,11 +292,7 @@
                                 android:text="0"
                                 android:textColor="@color/grey"
                                 android:textSize="@dimen/_14sdp" />
-
-
                         </LinearLayout>
-
-
                     </LinearLayout>
 
                     <LinearLayout
@@ -271,7 +301,6 @@
                         android:layout_marginTop="@dimen/_5sdp"
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
-
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -287,9 +316,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content">
 
-
                             <TextView
-
                                 android:id="@+id/total_tv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -299,14 +326,231 @@
                                 android:text="0"
                                 android:textColor="@color/grey"
                                 android:textSize="@dimen/_14sdp" />
-
                         </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
 
+                <View
+                    android:id="@+id/divider2"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_weight="1"
+                    android:background="?android:attr/listDivider" />
+
+                <!-- =========================================================================== -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:layout_marginBottom="@dimen/_15sdp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:fontFamily="@font/madani_arabic_medium"
+                            android:text="@string/payment_options"
+                            android:textColor="#293241"
+                            android:textSize="@dimen/_14sdp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_2sdp"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:fontFamily="@font/madani_arabic_medium"
+                            android:text="*"
+                            android:textColor="@color/Red"
+                            android:textSize="@dimen/_14sdp" />
+                    </LinearLayout>
+
+                    <!-- visa-credit, card -->
+                    <LinearLayout
+                        android:id="@+id/layoutVisaCreditCard"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:background="@drawable/edittext_bg"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_5sdp"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/tvVisaCreditCard"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/madani_arabic_light"
+                            android:gravity="center_vertical"
+                            android:text="@string/visa_credit_card"
+                            android:textColor="@color/grey"
+                            android:textSize="@dimen/_12sdp" />
+
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/switchVisaCreditCard"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1" />
 
                     </LinearLayout>
 
-                </LinearLayout>
+                    <include
+                        android:id="@+id/selectedVisaCreditCard"
+                        layout="@layout/selected_payment_option"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp" />
 
+                    <!-- mada payment -->
+                    <LinearLayout
+                        android:id="@+id/layoutMadaPayment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:background="@drawable/edittext_bg"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_5sdp"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/tvMadaPayment"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/madani_arabic_light"
+                            android:gravity="center_vertical"
+                            android:text="@string/MadaPayment"
+                            android:textColor="@color/grey"
+                            android:textSize="@dimen/_12sdp" />
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/switchMadaPayment"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1" />
+
+                    </LinearLayout>
+
+                    <include
+                        android:id="@+id/selectedMada"
+                        layout="@layout/selected_payment_option"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp" />
+
+                    <!-- cash-->
+                    <LinearLayout
+                        android:id="@+id/layoutCashPayment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:background="@drawable/edittext_bg"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_5sdp"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/tvCashPayment"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/madani_arabic_light"
+                            android:gravity="center_vertical"
+                            android:text="@string/cash"
+                            android:textColor="@color/grey"
+                            android:textSize="@dimen/_12sdp" />
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/switchCashPayment"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1" />
+                    </LinearLayout>
+
+                    <!-- bank transfer -->
+                    <LinearLayout
+                        android:id="@+id/layoutBankTransferPayment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:background="@drawable/edittext_bg"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_5sdp"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/tvBankTransferPayment"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/madani_arabic_light"
+                            android:gravity="center_vertical"
+                            android:text="@string/bank_transfer"
+                            android:textColor="@color/grey"
+                            android:textSize="@dimen/_12sdp" />
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/switchBankTransferPayment"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1" />
+                    </LinearLayout>
+
+                    <!-- my wallet payment-->
+                    <LinearLayout
+                        android:id="@+id/layoutMyWalletPayment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:background="@drawable/edittext_bg"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_5sdp"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/tvMyWalletPayment"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/madani_arabic_light"
+                            android:gravity="center_vertical"
+                            android:text="@string/my_wallet"
+                            android:textColor="@color/grey"
+                            android:textSize="@dimen/_12sdp" />
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/switchMyWalletPayment"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1" />
+                    </LinearLayout>
+
+                    <include
+                        android:id="@+id/selectedMyWallet"
+                        layout="@layout/selected_my_points_option"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp" />
+                </LinearLayout>
+                <!-- =========================================================================== -->
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_confirm_details"

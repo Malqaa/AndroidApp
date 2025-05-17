@@ -854,6 +854,7 @@
     <string name="waiting_for_confirmation">Waiting for confirmation</string>
     <string name="sar" translatable="false">SAR</string>
     <string name="Rayal">Rayal</string>
+    <string name="rayal">S.R</string>
     <string name="shopping_basket">Your cart</string>
     <string name="your_favorite_merchant_added_a_product">Your favorite merchant added a product</string>
     <string name="new_product_has_been_added">New product has been added</string>
@@ -991,7 +992,7 @@
     <string name="membership_number">Membership Number</string>
     <string name="seller_information">Seller information</string>
     <string name="card_holder_s_name">Card holder\'s name</string>
-    <string name="cvv">Valid CVV code</string>
+    <string name="cvv">CVV</string>
     <string name="pay_by_card">Pay by card</string>
     <string name="order_completed_successfully">Order completed successfully</string>
     <string name="track_your_order">Follow up my order</string>
@@ -1010,8 +1011,8 @@
     <string name="a_security_deposit_has_been_added_to_the_losing_auction">A security deposit has been added to the losing auction</string>
     <string name="share_the_invite_code">Share the invite code</string>
     <string name="and_get_100_points_for_every_new_store">And get 100 points for every new store</string>
-    <string name="convert_wallet_into_points">Convert credit wallet into points</string>
-    <string name="every_100_points_for_10_riyals">Every 1 points for 1 riyals</string>
+    <string name="convert_points_into_credit">Convert points into credit</string>
+    <string name="every_100_points_for_10_riyals">Every 100 points for 10 riyals</string>
     <string name="conversion">Conversion</string>
     <string name="_100_points_have_been_converted_into_10_riyals_to_your_wallet">100 points have been converted into 10 riyals to your wallet</string>
     <string name="membership_no">Membership No</string>
@@ -1212,7 +1213,6 @@
     <string name="fixed_sale_price_option_fees">Fixed Sale Price Option Fees</string>
     <string name="auctionFee">Auction Fee</string>
     <string name="public_auction_option_fees">Public Auction Option Fees</string>
-  <string name="auction_closing_option_fees">Auction Closing Time Option Fees</string>
     <string name="negotiationFee">Negotiation Fee</string>
     <string name="negotiable_price_option_fees">Negotiable Price Option Fees</string>
     <string name="imageExtraFee">Extra Images Fee</string>
@@ -1386,9 +1386,11 @@
     <string name="card_holders_name">Card Holder’s Name</string>
     <string name="card_number">Card Number</string>
     <string name="choose_another_card">choose another card</string>
-    <string name="please_enter_cvv">Please enter valid  CVV code</string>
+    <string name="please_enter_cvv">Please enter CVV</string>
     <string name="the_points_balance_equals">The Points balance equals %1$s</string>
+    <string name="the_wallet_balance_equals">The wallet balance equals %1$s</string>
     <string name="please_activate_at_least_one_payment_method">Please activate at least one payment method</string>
+    <string name="please_activate_at_least_one_payment_options">Please activate at least one payment options</string>
     <string name="mm_yyyy">MM/YYYY</string>
     <string name="expiry_date_passed">Expiry date has passed</string>
     <string name="invalid_date_format">Invalid date format (MM/YYYY, months from 01 to 12)</string>
@@ -1400,6 +1402,13 @@
     <string name="featured">Featured</string>
     <string name="please_choose_a_card">Please choose a card</string>
     <string name="tax_15">Tax (15%)</string>
+    <string name="a_fee_of_riyals_will_be_added_for_the_cash_payment_service">A fee of %1$s riyals will be added for the cash payment service.</string>
+  <string name="cash_payment_fees">Cash Payment Fees</string>
+  <string name="cash">Cash</string>
+  <string name="complete_payment_instruction">
+    Please complete the payment process by uploading the bank transfer receipt by clicking on the "Track My Orders" button.
+</string>
+
   <string name="closing_soon">Closing Soon</string>
   <string name="there_are_no_cards_saved">There are no cards saved، \n Please add a new card by clicking the (Add new card) button or choose another payment method</string>
   <string name="choose_card">Choose card</string>

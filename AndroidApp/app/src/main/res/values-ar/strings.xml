@@ -662,7 +662,7 @@
     <string name="package_cost">تكلفة الباقة</string>
     <string name="additional_package_price">سعر الباقة الاضافية</string>
     <string name="added_tax">الضريبة المضافة</string>
-    <string name="total">مجموع</string>
+    <string name="total">الاجمالى</string>
     <string name="complete_the_order">إتمام الطلب</string>
     <string name="auction_options">خيارات المزاد</string>
     <string name="your_order_is_now_being_delivered">طلبك قيد التوصيل الان !</string>
@@ -689,6 +689,7 @@
     <string name="save_later">حفظ للأستخدام في وقت لاحق</string>
     <string name="add_account">اضافة الحساب</string>
     <string name="Rayal">ريال</string>
+    <string name="rayal">ر.س</string>
     <string name="Please_choose_catgeory">الرجاء اختيار الفئة</string>
     <string name="order_status">حالة الطلب</string>
     <string name="sar">ر.س</string>
@@ -815,8 +816,8 @@
     <string name="a_security_deposit_has_been_added_to_the_losing_auction">تم إضافة مبلغ تأمينى للمزاد الضائع</string>
     <string name="share_the_invite_code">شارك كود الدعوة</string>
     <string name="and_get_100_points_for_every_new_store">واحصل على 100 نقطة على كل متجر جديد</string>
-    <string name="convert_wallet_into_points">تحويل رصيد المحفظة الى نقاط</string>
-    <string name="every_100_points_for_10_riyals">كل 1 نقطة بـ 1 ريال</string>
+    <string name="convert_points_into_credit">تحويل النقاط الى رصيد</string>
+    <string name="every_100_points_for_10_riyals">كل 100 نقطة بـ 10 ريال</string>
     <string name="conversion">تحويل</string>
     <string name="_100_points_have_been_converted_into_10_riyals_to_your_wallet">تم تحويل 100 نقطة الى 10 ريال لمحفظتك</string>
     <string name="membership_no">رقم العضوية</string>
@@ -1008,7 +1009,6 @@
     <string name="fixed_sale_price_option_fees">رسوم "خيار سعر البيع الثابت"</string>
     <string name="auctionFee">رسوم المزاد</string>
     <string name="public_auction_option_fees">رسوم "خيار المزاد العلنى"</string>
-    <string name="auction_closing_option_fees">رسوم "خيار وقت اغلاق المزاد"</string>
     <string name="negotiationFee">رسوم التفاوض</string>
     <string name="negotiable_price_option_fees">رسوم "خيار السعر قابل للتفاوض"</string>
     <string name="SubTitleFee">رسوم العنوان الفرعي</string>
@@ -1176,9 +1176,11 @@
     <string name="card_holders_name">اسم حامل البطاقة</string>
     <string name="card_number">رقم البطاقة</string>
     <string name="choose_another_card">اختر بطاقة أخرى</string>
-    <string name="please_enter_cvv"> الرجاء ادخال رمز امان صالح</string>
+    <string name="please_enter_cvv">يرجى إدخال رمز التحقق</string>
     <string name="the_points_balance_equals">رصيد النقاط يساوي %1$s</string>
+    <string name="the_wallet_balance_equals">رصيد المحفظة يساوي %1$s</string>
     <string name="please_activate_at_least_one_payment_method">يرجى تفعيل وسيلة دفع واحدة على الأقل</string>
+    <string name="please_activate_at_least_one_payment_options">يرجى تفعيل وسيلة دفع واحدة على الأقل</string>
     <string name="mm_yyyy">الشهر/السنة</string>
     <string name="expiry_date_passed">تاريخ الانتهاء قد مضى</string>
     <string name="invalid_date_format">تنسيق التاريخ غير صالح (شهر/سنة، الأشهر من 01 إلى 12)</string>
@@ -1190,6 +1192,12 @@
     <string name="featured">متميز</string>
     <string name="please_choose_a_card">الرجاء اختيار بطاقة</string>
     <string name="tax_15">الضريبة (15 ٪)</string>
+    <string name="a_fee_of_riyals_will_be_added_for_the_cash_payment_service">سيتم إضافة رسوم قدرها %1$s ريال لخدمة الدفع النقدي.</string>
+    <string name="cash_payment_fees">رسوم الدفع النقدي</string>
+    <string name="cash">دفع نقدي</string>
+    <string name="complete_payment_instruction">
+    يرجى إكمال عملية الدفع عن طريق تحميل إيصال التحويل المصرفي عن طريق النقر على زر "تتبع الطلبات الخاصة بي".
+</string>
     <string name="closing_soon">سيغلق قريبا</string>
     <string name="there_are_no_cards_saved">لا يوجد بطاقات محفوظة،\n يرجى اضافة بطاقة جديدة بالضغط على زر أضف بطاقة جديدةاو اختيار طريقة دفع اخرى</string>
     <string name="choose_card">Choose card</string>

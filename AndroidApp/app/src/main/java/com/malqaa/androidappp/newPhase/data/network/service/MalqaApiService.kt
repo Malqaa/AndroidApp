@@ -86,6 +86,7 @@ import com.malqaa.androidappp.newPhase.domain.models.userPointsDataResp.ConvertM
 import com.malqaa.androidappp.newPhase.domain.models.userPointsDataResp.UserPointDataResp
 import com.malqaa.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.UserVerifiedResp
 import com.malqaa.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.ValidateAndGenerateOTPResp
+import com.malqaa.androidappp.newPhase.domain.models.walletBalance.GetWalletBalanceResponse
 import com.malqaa.androidappp.newPhase.domain.models.walletDetailsResp.TransactionPointsAmountRes
 import com.malqaa.androidappp.newPhase.domain.models.walletDetailsResp.WalletDetailsResp
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
@@ -844,6 +845,9 @@ interface MalqaApiService {
 
     @POST("GetPointsBalance")
     fun getPointsBalance(): Call<GetPointsBalanceResponse>
+
+    @GET("GetWalletBalance")
+    fun getWalletBalance(): Call<GetWalletBalanceResponse>
 
     @GET("BankTransfersList")
     fun getAllBanksAccount(

@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.malqaa.androidappp.R
 import com.malqaa.androidappp.databinding.ItemCartSellNewBinding
-import com.malqaa.androidappp.newPhase.domain.enums.PaymentType
 import com.malqaa.androidappp.newPhase.domain.enums.ShippingType
 import com.malqaa.androidappp.newPhase.domain.models.cartListResp.ProductCartItem
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.Selection
@@ -170,54 +169,6 @@ class DetailCartAdapter(
                 }
             }
         }
-
-
-        holder.viewBinding.paymentOptionBtn.setOnClickListener {
-            if (listProduct[position].paymentOptions.isNotEmpty()) {
-                val paymentList: ArrayList<Selection> =
-                    listProduct[position].paymentOptions.map { ship ->
-                        Selection(id = ship.id, name = ship.paymentOptionId.toString())
-                    }.toCollection(ArrayList())
-
-                paymentList.forEachIndexed { index, element ->
-                    when (element.name) {
-                        PaymentType.Cash.value.toString() -> {
-                            paymentList[index].name = PaymentType.Cash.name
-                        }
-
-                        PaymentType.BankTransfer.value.toString() -> {
-                            paymentList[index].name =
-                                PaymentType.BankTransfer.name
-                        }
-
-                        PaymentType.CreditCard.value.toString() -> {
-                            paymentList[index].name =
-                                PaymentType.CreditCard.name
-                        }
-
-                        PaymentType.Mada.value.toString() -> {
-                            paymentList[index].name = PaymentType.Mada.name
-                        }
-                    }
-
-                }
-
-                paymentMethodList.apply {
-                    clear()
-                    addAll(paymentList)
-                }
-
-                CommonBottomSheet().commonSelctinDialog(
-                    context,
-                    paymentMethodList, context.getString(R.string.PaymentOptions)
-                ) {
-                    holder.viewBinding.paymentOptionBtn.text = it.name
-                    setProductCartListeners.onSelectPayment(listProduct[position].id, it.id)
-
-                }
-            }
-        }
-
     }
 
     interface SetProductCartListeners {

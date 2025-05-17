@@ -31,6 +31,7 @@ object RetrofitBuilder {
             httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
             httpClient.addInterceptor(httpLoggingInterceptor)
             httpClient.addInterceptor(authenticationInterceptor)
+            httpClient.addInterceptor(CurlLoggingInterceptor())
             httpClient.hostnameVerifier(hostnameVerifier)
             httpClient.readTimeout(1, TimeUnit.MINUTES)
             httpClient.writeTimeout(2, TimeUnit.MINUTES)
