@@ -1200,6 +1200,8 @@
 </string>
     <string name="closing_soon">سيغلق قريبا</string>
     <string name="there_are_no_cards_saved">لا يوجد بطاقات محفوظة،\n يرجى اضافة بطاقة جديدة بالضغط على زر أضف بطاقة جديدةاو اختيار طريقة دفع اخرى</string>
-    <string name="choose_card">Choose card</string>
-    <string name="convert_to_points">Convert credit</string>
+    <string name="choose_card">اختر البطاقة</string>
+    <string name="convert_to_points">تحويل الائتمان</string>
+    <string name="convert_wallet_into_points">تحويل رصيد المحفظة الى نقاط</string>
+    <string name="auction_closing_option_fees">رسوم "خيار وقت اغلاق المزاد"</string>
 </resources>

@@ -23,7 +23,6 @@ import com.malqaa.androidappp.newPhase.domain.models.servicemodels.AddProductRes
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
 import com.malqaa.androidappp.newPhase.domain.models.shippingOptionsResp.ShippingOptionResp
 import com.malqaa.androidappp.newPhase.domain.models.showProductModel.ShowProductPriceResp
-import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.confirmationAddProduct.PaymentAccountType
 import com.malqaa.androidappp.newPhase.domain.models.walletBalance.GetWalletBalanceResponse
 import com.malqaa.androidappp.newPhase.domain.enums.PaymentAccountType
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
