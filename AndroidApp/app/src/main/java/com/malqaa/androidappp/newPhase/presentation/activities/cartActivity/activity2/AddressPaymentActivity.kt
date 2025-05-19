@@ -49,6 +49,7 @@ import com.malqaa.androidappp.newPhase.presentation.activities.myOrderDetails.ad
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions.Companion.ShowAlert
+import com.malqaa.androidappp.newPhase.utils.HelpFunctions.Companion.ShowDoneAlert
 import com.malqaa.androidappp.newPhase.utils.formatAsCardNumber
 import com.malqaa.androidappp.newPhase.utils.helper.shared_preferences.SharedPreferencesStaticClass
 import com.malqaa.androidappp.newPhase.utils.helper.widgets.rcv.GenericListAdapter
@@ -296,7 +297,7 @@ class AddressPaymentActivity : BaseActivity<ActivityAddressPaymentBinding>(),
                 binding.layoutMadaPayment.background =
                     ContextCompat.getDrawable(this, R.drawable.field_selection_border_enable)
                 binding.tvMadaPayment.setTextColor(ContextCompat.getColor(this, R.color.bg))
-                allCardsBottomSheetDialog()
+                madaCardsBottomSheetDialog()
                 addProductViewModel.getBankAccountsList(paymentAccountType = PaymentMethod.Mada.paymentCardType)
                 selectedPaymentMethod = PaymentMethod.Mada
 
@@ -323,14 +324,15 @@ class AddressPaymentActivity : BaseActivity<ActivityAddressPaymentBinding>(),
 
                 // show dialog for cash payment
                 val cashPaymentFees = 10
-                ShowAlert(
+                ShowDoneAlert(
                     context = this,
                     alertTitle = "",
                     icon = R.drawable.info,
                     alertMessage = getString(
                         R.string.a_fee_of_riyals_will_be_added_for_the_cash_payment_service,
                         cashPaymentFees.toString()
-                    )
+                    ),
+                    button = getString(R.string.done)
                 )
                 // show cash payment fees
                 binding.linearLayoutCashPaymentFees.visibility = View.VISIBLE
@@ -1004,7 +1006,103 @@ class AddressPaymentActivity : BaseActivity<ActivityAddressPaymentBinding>(),
             layoutManager = LinearLayoutManager(this@AddressPaymentActivity)
             adapter = adapterList
         }
+        if (adapterList.itemCount>0){
+            allCardsLayoutBinding.recyclerViewAllCards.show()
+            allCardsLayoutBinding.descText.hide()
+        }else{
+            allCardsLayoutBinding.recyclerViewAllCards.hide()
+            allCardsLayoutBinding.descText.show()
+        }
+        // Flag to check if Done was clicked
+        var isDoneButtonClicked = false
 
+        allCardsLayoutBinding.apply {
+            buttonAddNew.setOnClickListener { addCardBottomSheetDialog() }
+
+            buttonDone.setOnClickListener {
+                val cvv = accountDetails?.cvv
+
+                if (accountDetails == null) {
+                    HelpFunctions.ShowLongToast(
+                        getString(R.string.please_choose_a_card),
+                        context = this@AddressPaymentActivity
+                    )
+                    return@setOnClickListener
+                } else if (cvv.toString().length !in 3..4) {
+                    HelpFunctions.ShowLongToast(
+                        getString(R.string.please_enter_cvv),
+                        context = this@AddressPaymentActivity
+                    )
+                    return@setOnClickListener
+                }
+
+                isDoneButtonClicked = true // Mark as completed
+                allCardsBottomSheetDialog.dismiss()
+
+                when (selectedPaymentMethod) {
+                    PaymentMethod.CreditCard -> {
+                        _binding.selectedVisaCreditCard.linearLayoutSelectedPaymentOptions.visibility =
+                            View.VISIBLE
+
+                        _binding.selectedVisaCreditCard.apply {
+                            textCardHoldersName.text = accountDetails?.bankHolderName
+                            textCardNumber.text = accountDetails?.accountNumber.formatAsCardNumber()
+                            textExpiryDate.text = accountDetails?.expiaryDate
+                        }
+                    }
+
+                    PaymentMethod.Mada -> {
+                        _binding.selectedMada.linearLayoutSelectedPaymentOptions.visibility =
+                            View.VISIBLE
+
+                        _binding.selectedMada.apply {
+                            textCardHoldersName.text = accountDetails?.bankHolderName
+                            textCardNumber.text = accountDetails?.accountNumber.formatAsCardNumber()
+                            textExpiryDate.text = accountDetails?.expiaryDate
+                        }
+                    }
+                }
+            }
+        }
+
+        addProductViewModel.isLoadingBackAccountList.observe(this) {
+            if (it) {
+                allCardsLayoutBinding.progressBarAllCards.show()
+            } else {
+                allCardsLayoutBinding.progressBarAllCards.hide()
+            }
+        }
+
+        // Set background to transparent
+        allCardsBottomSheetDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        // 🔥 Set a dismiss listener to run command if nothing was selected
+        allCardsBottomSheetDialog.setOnDismissListener {
+            if (!isDoneButtonClicked && (accountDetails?.cvv ?: 0) == 0) {
+                handleBottomSheetDismissedWithoutAction()
+            }
+        }
+
+        // Show the dialog
+        allCardsBottomSheetDialog.show()
+    }
+
+    private fun madaCardsBottomSheetDialog() {
+        allCardsLayoutBinding = AllCardsLayoutBinding.inflate(layoutInflater)
+        allCardsBottomSheetDialog = BottomSheetDialog(this)
+        allCardsBottomSheetDialog.setContentView(allCardsLayoutBinding.root)
+
+        allCardsLayoutBinding.recyclerViewAllCards.apply {
+            layoutManager = LinearLayoutManager(this@AddressPaymentActivity)
+            adapter = adapterList
+        }
+        if (adapterList.itemCount>0){
+            allCardsLayoutBinding.recyclerViewAllCards.show()
+            allCardsLayoutBinding.descText.hide()
+        }else{
+            allCardsLayoutBinding.recyclerViewAllCards.hide()
+            allCardsLayoutBinding.descText.show()
+        }
         // Flag to check if Done was clicked
         var isDoneButtonClicked = false
 
@@ -1215,10 +1313,9 @@ class AddressPaymentActivity : BaseActivity<ActivityAddressPaymentBinding>(),
             }
         }
 
-        if (cvv.isEmpty()) {
+        if (cvv.isEmpty()||cvv.length<3) {
             readyToAdd = false
-            binding.cvvTv.error =
-                "${getString(R.string.enter)} ${getString(R.string.cvv)}"
+            binding.cvvTv.error = getString(R.string.please_enter_cvv)
         }
 
         if (readyToAdd) {

@@ -1405,7 +1405,8 @@
     <string name="a_fee_of_riyals_will_be_added_for_the_cash_payment_service">A fee of %1$s riyals will be added for the cash payment service.</string>
     <string name="cash_payment_fees">Cash Payment Fees</string>
     <string name="cash">Cash</string>
-    <string name="complete_payment_instruction">
+  <string name="done">Done</string>
+  <string name="complete_payment_instruction">
     Please complete the payment process by uploading the bank transfer receipt by clicking on the "Track My Orders" button.
 </string>
 

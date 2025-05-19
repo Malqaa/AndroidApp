@@ -183,6 +183,44 @@ class HelpFunctions {
             }
         }
 
+        fun ShowDoneAlert(
+            context: Context?,
+            alertTitle: String,
+            @DrawableRes icon: Int?,
+            alertMessage: String,
+            button:String
+        ) {
+            if (context != null) {
+                val dialogBuilder = AlertDialog.Builder(context)
+                val inflater = LayoutInflater.from(context)
+
+                // Use View Binding
+                val binding = AlertpopupBinding.inflate(inflater)
+                icon?.let {
+                    binding.imageFailedMessage.setImageResource(it)
+                    binding.imageFailedMessage.visibility = View.VISIBLE
+                }
+
+                // Set title and message
+                if (alertTitle.isNotEmpty()) {
+                    binding.LblALertTitle.text = alertTitle
+                } else {
+                    binding.LblALertTitle.visibility = View.GONE
+                }
+                binding.LblAlertMessage.text = alertMessage
+                binding.btnAlertclose.text=button
+
+                dialogBuilder.setView(binding.root)
+                val alertDialog = dialogBuilder.create()
+                alertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                alertDialog.show()
+
+                binding.btnAlertclose.setOnClickListener {
+                    alertDialog.dismiss()
+                }
+            }
+        }
+
         fun ShowSucessAlert(
             context: Context?,
             alertTitle: String,
