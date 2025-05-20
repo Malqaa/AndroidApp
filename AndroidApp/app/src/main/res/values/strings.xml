@@ -1413,7 +1413,6 @@
     Please complete the payment process by uploading the bank transfer receipt by clicking on the "Track My Orders" button.
 </string>
 
-    <string name="closing_soon">Closing Soon</string>
     <string name="there_are_no_cards_saved">There are no cards saved، \n Please add a new card by clicking the (Add new card) button or choose another payment method</string>
     <string name="choose_card">Choose card</string>
     <string name="convert_to_points">Convert credit</string>

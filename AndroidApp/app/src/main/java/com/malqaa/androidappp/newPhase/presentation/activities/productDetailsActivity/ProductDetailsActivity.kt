@@ -697,7 +697,7 @@ class ProductDetailsActivity : BaseActivity<ActivityProductDetails2Binding>(),
             Log.i("ProductDetailsActivity", "businessAccountId: $businessAccountId")
             Log.i("ProductDetailsActivity", "providerId: $providerId")
 
-            if (businessAccountId != null && providerId == ConstantObjects.logged_userid) {
+            if (businessAccountId == null && providerId == ConstantObjects.logged_userid) {
                 startActivity(
                     Intent(this, MyProductDetailsActivity::class.java).apply {
                         putExtra(ConstantObjects.productIdKey, productId)
@@ -1498,6 +1498,13 @@ class ProductDetailsActivity : BaseActivity<ActivityProductDetails2Binding>(),
             }
         } else {
             binding.containerBuyNow.hide()
+        }
+
+        if (productDetails?.businessAccountId==null&&productDetails?.providerId != ConstantObjects.logged_userid) {
+            binding.containerBuyButtons.show()
+        }
+        else if (productDetails?.businessAccountId==null&&productDetails?.providerId == ConstantObjects.logged_userid){
+
         }
     }
 

@@ -209,7 +209,7 @@ class DidNotSaleAdapter
 
         // Click listeners for product item and favorite icon
         holder.viewBinding.fullview.setOnClickListener {
-            setOnProductItemListeners.onProductSelect(position, product.id, categoryId)
+            setOnProductItemListeners.onProductSelect(position, product.id, categoryId,ConstantObjects.logged_userid,product.providerId.toString(),product.businessAccountId.toString())
         }
         holder.viewBinding.ivFav.setOnClickListener {
             setOnProductItemListeners.onAddProductToFav(position, product.id, categoryId)

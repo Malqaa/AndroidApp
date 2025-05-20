@@ -153,21 +153,20 @@ class MyProductDetailsActivity : BaseActivity<MyProductDetailsBinding>(),
             myProductDetails2Binding.discountProduct.hide()
         }
 
-        when {
-            businessID == null && providerID== ConstantObjects.logged_userid -> {
-                myProductDetails2Binding.manageProduct.hide()
-                myProductDetails2Binding.editProduct.show()
-                myProductDetails2Binding.layInfo.show()
-                myProductDetails2Binding.discountProduct.show()
-            }
-            businessID != null && providerID == ConstantObjects.logged_userid -> {
+
+        if (businessID != null && providerID == ConstantObjects.logged_userid)  {
                 myProductDetails2Binding.layInfo.hide()
                 myProductDetails2Binding.editProduct.hide()
                 myProductDetails2Binding.discountProduct.hide()
                 myProductDetails2Binding.manageProduct.show()
-
             }
+        else{
+            myProductDetails2Binding.layInfo.show()
+            myProductDetails2Binding.editProduct.show()
+            myProductDetails2Binding.discountProduct.show()
+            myProductDetails2Binding.manageProduct.hide()
         }
+
         myProductDetails2Binding.editProduct.setOnClickListener {
             ConstantObjects.isModify = true
             ConstantObjects.isRepost = false
