@@ -1178,9 +1178,7 @@
     <string name="choose_another_card">اختر بطاقة أخرى</string>
     <string name="please_enter_cvv">يرجى إدخال رمز التحقق</string>
     <string name="the_points_balance_equals">رصيد النقاط يساوي %1$s</string>
-    <string name="the_wallet_balance_equals">رصيد المحفظة يساوي %1$s</string>
     <string name="please_activate_at_least_one_payment_method">يرجى تفعيل وسيلة دفع واحدة على الأقل</string>
-    <string name="please_activate_at_least_one_payment_options">يرجى تفعيل وسيلة دفع واحدة على الأقل</string>
     <string name="mm_yyyy">الشهر/السنة</string>
     <string name="expiry_date_passed">تاريخ الانتهاء قد مضى</string>
     <string name="invalid_date_format">تنسيق التاريخ غير صالح (شهر/سنة، الأشهر من 01 إلى 12)</string>
@@ -1201,9 +1199,4 @@
 </string>
     <string name="closing_soon">سيغلق قريبا</string>
     <string name="manage">إدارة الإعلان</string>
-    <string name="there_are_no_cards_saved">لا يوجد بطاقات محفوظة،\n يرجى اضافة بطاقة جديدة بالضغط على زر أضف بطاقة جديدةاو اختيار طريقة دفع اخرى</string>
-    <string name="choose_card">اختر البطاقة</string>
-    <string name="convert_to_points">تحويل الائتمان</string>
-    <string name="convert_wallet_into_points">تحويل رصيد المحفظة الى نقاط</string>
-    <string name="auction_closing_option_fees">رسوم "خيار وقت اغلاق المزاد"</string>
 </resources>
