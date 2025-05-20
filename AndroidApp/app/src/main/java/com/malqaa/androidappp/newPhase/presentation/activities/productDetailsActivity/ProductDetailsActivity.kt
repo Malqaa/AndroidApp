@@ -1240,7 +1240,7 @@ class ProductDetailsActivity : BaseActivity<ActivityProductDetails2Binding>(),
         sellerSimilerProductList = ArrayList()
         sellerProductAdapter =
             ProductHorizontalAdapter(sellerSimilerProductList, object : SetOnProductItemListeners {
-                override fun onProductSelect(position: Int, productID: Int, categoryID: Int) {
+                override fun onProductSelect(position: Int,productID:Int,categoryID:Int,userId:String,providerId:String,businessAccountId:String) {
                     goToProductDetails(productID)
                 }
 

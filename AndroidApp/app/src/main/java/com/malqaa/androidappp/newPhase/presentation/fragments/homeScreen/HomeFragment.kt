@@ -630,8 +630,8 @@ class HomeFragment : Fragment(R.layout.fragment_homee), AdapterAllCategories.OnI
         }
     }
 
-    override fun onProductSelect(position: Int, productId: Int, categoryID: Int) {
-        goToProductDetails(productId)
+    override fun onProductSelect(position: Int,productID:Int,categoryID:Int,userId:String,providerId:String,businessAccountId:String) {
+        goToProductDetails(productID)
 
     }
 

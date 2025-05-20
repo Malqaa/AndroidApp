@@ -10,6 +10,7 @@ import com.malqaa.androidappp.newPhase.data.network.service.ListenerCallBack
 import com.malqaa.androidappp.newPhase.domain.models.addProductToCartResp.AddProductToCartResp
 import com.malqaa.androidappp.newPhase.domain.models.addRateResp.AddRateResp
 import com.malqaa.androidappp.newPhase.domain.models.bidPersonsResp.BidPersonsResp
+import com.malqaa.androidappp.newPhase.domain.models.bussinessAccountsListResp.ChangeBusinessAccountResp
 import com.malqaa.androidappp.newPhase.domain.models.orderRateResp.BuyerRateResp
 import com.malqaa.androidappp.newPhase.domain.models.productResp.ProductListResp
 import com.malqaa.androidappp.newPhase.domain.models.productResp.ProductResp
@@ -59,8 +60,10 @@ class ProductDetailsViewModel : BaseViewModel() {
     var sellerLoading: MutableLiveData<Boolean> = MutableLiveData()
     var addSellerToFavObserver: MutableLiveData<GeneralResponse> = MutableLiveData()
     var removeSellerToFavObserver: MutableLiveData<GeneralResponse> = MutableLiveData()
+    var changeBusinessAccountObserver: MutableLiveData<ChangeBusinessAccountResp> =
+        MutableLiveData<ChangeBusinessAccountResp>()
 
-
+    private var callChangeBusinessAccount: Call<ChangeBusinessAccountResp>? = null
     private var callRemoveProduct: Call<GeneralResponse>? = null
     private var callRemoveSellerToFav: Call<GeneralResponse>? = null
     private var callSellerListProduct: Call<ProductListResp>? = null
@@ -236,6 +239,29 @@ class ProductDetailsViewModel : BaseViewModel() {
             onFailure = { throwable, statusCode, errorBody ->
             },
             goLogin = {
+                needToLogin.value = true
+            })
+    }
+
+    fun changeBusinessAccount(id: Int) {
+        isLoading.value = true
+        callChangeBusinessAccount = getRetrofitBuilder().changeBusinessAccount(id)
+        callApi(callChangeBusinessAccount!!,
+            onSuccess = {
+                isLoading.value = false
+                changeBusinessAccountObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoading.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
+                }
+            },
+            goLogin = {
+                isLoading.value = false
                 needToLogin.value = true
             })
     }

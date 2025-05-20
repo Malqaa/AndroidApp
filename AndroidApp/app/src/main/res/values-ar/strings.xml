@@ -1200,6 +1200,7 @@
     يرجى إكمال عملية الدفع عن طريق تحميل إيصال التحويل المصرفي عن طريق النقر على زر "تتبع الطلبات الخاصة بي".
 </string>
     <string name="closing_soon">سيغلق قريبا</string>
+    <string name="manage">إدارة الإعلان</string>
     <string name="there_are_no_cards_saved">لا يوجد بطاقات محفوظة،\n يرجى اضافة بطاقة جديدة بالضغط على زر أضف بطاقة جديدةاو اختيار طريقة دفع اخرى</string>
     <string name="choose_card">اختر البطاقة</string>
     <string name="convert_to_points">تحويل الائتمان</string>

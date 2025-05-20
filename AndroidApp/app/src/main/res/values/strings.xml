@@ -1402,6 +1402,9 @@
     <string name="featured">Featured</string>
     <string name="please_choose_a_card">Please choose a card</string>
     <string name="tax_15">Tax (15%)</string>
+  <string name="closing_soon">Closing Soon</string>
+  <string name="manage">Manage</string>
+
     <string name="a_fee_of_riyals_will_be_added_for_the_cash_payment_service">A fee of %1$s riyals will be added for the cash payment service.</string>
     <string name="cash_payment_fees">Cash Payment Fees</string>
     <string name="cash">Cash</string>

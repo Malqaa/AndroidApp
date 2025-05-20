@@ -134,7 +134,7 @@ class ProductsLostFragment : Fragment(R.layout.fragment_lost), SetOnProductItemL
             }
         }
 
-    override fun onProductSelect(position: Int, productID: Int, categoryID: Int) {
+    override fun onProductSelect(position: Int,productID:Int,categoryID:Int,userId:String,providerId:String,businessAccountId:String) {
         productDetailsLauncher.launch(
             Intent(
                 requireActivity(),

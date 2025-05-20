@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.provider.Browser
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -101,6 +102,9 @@ class MyProductDetailsActivity : BaseActivity<MyProductDetailsBinding>(),
     private var userData: LoginUser? = null
     var isMyProduct = false
     var isMyProductForSale = false
+    var providerID = ""
+    var businessID = ""
+
     lateinit var priceNegotiationDialog: PriceNegotiationDialog
     var productPrice: Float = 0f
 
@@ -125,6 +129,8 @@ class MyProductDetailsActivity : BaseActivity<MyProductDetailsBinding>(),
 
         isMyProduct = intent.getBooleanExtra(ConstantObjects.isMyProduct, false)
         isMyProductForSale = intent.getBooleanExtra("isMyProductForSale", false)
+        providerID = intent.getStringExtra("providerIdKey").toString()
+        businessID = intent.getStringExtra("businessAccountIdKey").toString()
 
         setViewChanges()
         setProductDetailsViewModel()
@@ -146,6 +152,22 @@ class MyProductDetailsActivity : BaseActivity<MyProductDetailsBinding>(),
             myProductDetails2Binding.editProduct.hide()
             myProductDetails2Binding.discountProduct.hide()
         }
+
+        when {
+            businessID == null && providerID== ConstantObjects.logged_userid -> {
+                myProductDetails2Binding.manageProduct.hide()
+                myProductDetails2Binding.editProduct.show()
+                myProductDetails2Binding.layInfo.show()
+                myProductDetails2Binding.discountProduct.show()
+            }
+            businessID != null && providerID == ConstantObjects.logged_userid -> {
+                myProductDetails2Binding.layInfo.hide()
+                myProductDetails2Binding.editProduct.hide()
+                myProductDetails2Binding.discountProduct.hide()
+                myProductDetails2Binding.manageProduct.show()
+
+            }
+        }
         myProductDetails2Binding.editProduct.setOnClickListener {
             ConstantObjects.isModify = true
             ConstantObjects.isRepost = false
@@ -163,7 +185,9 @@ class MyProductDetailsActivity : BaseActivity<MyProductDetailsBinding>(),
         myProductDetails2Binding.discountProduct.setOnClickListener {
             openDiscountDialog(productId)
         }
-
+        myProductDetails2Binding.manageProduct.setOnClickListener {
+            productDetialsViewModel.changeBusinessAccount(SharedPreferencesStaticClass.getAccountId())
+        }
     }
 
     private fun openDiscountDialog(productID: Int) {
@@ -636,6 +660,23 @@ class MyProductDetailsActivity : BaseActivity<MyProductDetailsBinding>(),
             }
         }
 
+        productDetialsViewModel.changeBusinessAccountObserver.observe(this) {
+            if (it.status_code == 200 && it.businessAccount != null) {
+                if (it.businessAccount.chanegeAccountUrl != null && it.businessAccount.chanegeAccountUrl != "")
+                    openExternalLInk(
+                        it.businessAccount.chanegeAccountUrl,
+                        it.businessAccount.token ?: ""
+                    )
+            } else {
+                if (it.message != null) {
+                    HelpFunctions.ShowLongToast(it.message, this)
+                } else {
+                    HelpFunctions.ShowLongToast(getString(R.string.serverError), this)
+
+                }
+            }
+        }
+
     }
 
     private fun setupViewAdapters() {
@@ -989,7 +1030,7 @@ class MyProductDetailsActivity : BaseActivity<MyProductDetailsBinding>(),
     }
 
 
-    override fun onProductSelect(position: Int, productID: Int, categoryID: Int) {
+    override fun onProductSelect(position: Int,productID:Int,categoryID:Int,userId:String,providerId:String,businessAccountId:String){
         goToProductDetails(productID)
     }
 
@@ -1076,5 +1117,22 @@ class MyProductDetailsActivity : BaseActivity<MyProductDetailsBinding>(),
     override fun onClickImage(url: String) {
 
     }
+    private fun openExternalLInk(
+        chanegeAccountUrl: String,
+        token: String
+    ) {
+        try {
+            val i = Intent(Intent.ACTION_VIEW)
+            i.data = Uri.parse(chanegeAccountUrl)
+            val bundle = Bundle()
+            bundle.putString("Authorization", "Bearer $token")
+            i.putExtra(Browser.EXTRA_HEADERS, bundle)
+            startActivity(i)
+        } catch (e: java.lang.Exception) {
+            HelpFunctions.ShowLongToast(getString(R.string.serverError), this)
+        }
+
+    }
+
 }
 

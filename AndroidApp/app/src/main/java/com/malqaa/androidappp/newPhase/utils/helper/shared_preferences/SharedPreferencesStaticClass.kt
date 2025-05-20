@@ -20,7 +20,12 @@ class SharedPreferencesStaticClass {
         fun getFcmToken(): String {
             return Paper.book().read<String>("fcmToken") ?: ""
         }
-
+        fun saveAccountId(id:Int){
+            Paper.book().write("accountId", id)
+        }
+        fun getAccountId(): Int {
+            return Paper.book().read<Int>("accountId") ?: 1
+        }
         fun saveSwitchNotify(notifyEnable: Boolean) {
             Paper.book().write(isNotifyEnable, notifyEnable)
         }
